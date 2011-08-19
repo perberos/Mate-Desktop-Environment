@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Configuring MateComponent Activation</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="up" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="prev" href="checklist.html" title="Checklist">
+<link rel="next" href="architecture.html" title="MateComponent Activation Architecture">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="checklist.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td> </td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateComponent Activation API Reference Manual</th>
+<td><a accesskey="n" href="architecture.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="chapter">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="configuring"></a>Configuring MateComponent Activation</h2></div></div></div>
+<div class="toc"><dl><dt><span class="sect1"><a href="configuring.html#id2714081"><code class="filename">.server</code> search path.</a></span></dt></dl></div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="id2714081"></a><code class="filename">.server</code> search path.</h2></div></div></div>
+<p>
+      To know the list of available <a href="http://foldoc.org/CORBA"><span class="acronym">CORBA</span></a> servers on your
+      local machine, the MateComponent Activation daemon searches a number of
+      directories for <code class="filename">.server</code> <a href="http://foldoc.org/XML"><span class="acronym">XML</span></a>
+      files which contain the description of the services offered by these
+      servers.
+
+      By default, MateComponent Activation will try to find them in 
+      <code class="filename">${prefix}/lib/matecomponent/servers</code> which may be a problem
+      if users install other applications using MateComponent Activation in different
+      prefixes.
+    </p>
+<p>
+      To work around this problem, MateComponent Activation will parse a number of
+      other directories.
+      It will parse the directories listed in the 
+      <code class="envar">MATECOMPONENT_ACTIVATION_PATH</code> environment variable.
+      It will parse the prefixes listed in the <code class="envar">MATE2_PATH</code>
+      environment variable.
+
+      If, for example,
+      <span class="emphasis"><em>MATECOMPONENT_ACTIVATION_PATH=/opt/mate2/lib/matecomponent/servers:/opt/mate2/matecomponent-activation/lib/matecomponent/servers</em></span>,
+      MateComponent Activation will parse
+      <span class="emphasis"><em>/opt/mate2/lib/matecomponent/servers</em></span> and 
+      <span class="emphasis"><em>/opt/mate2/matecomponent-activation/lib/matecomponent/servers</em></span>
+
+      If <span class="emphasis"><em>MATE2_PATH=/opt/mate2:/opt/mate2/matecomponent-activation</em></span>,
+      MateComponent Activation will parse
+      <span class="emphasis"><em>/opt/mate2/lib/matecomponent/servers</em></span> and
+      <span class="emphasis"><em>/opt/mate2/matecomponent-activation/lib/matecomponent/servers</em></span>.
+    </p>
+<p>
+      The above environment variables are kept to ease development with
+      MateComponent Activation and for <a href="http://foldoc.org/MATE"><span class="acronym">MATE</span></a> integration.
+      MateComponent Activation has a much nicer configuration file which allows 
+      you to control which directories are parsed by MateComponent Activation.
+      This <a href="http://foldoc.org/XML"><span class="acronym">XML</span></a> configuration file is located in
+      <code class="filename">/etc/matecomponent-activation/matecomponent-activation-config.xml</code>
+      or
+      <code class="filename">${prefix}/etc/matecomponent-activation/matecomponent-activation-config.xml</code>.
+      An empty <code class="filename">matecomponent-activation-config.xml</code> and a sample
+      <code class="filename">matecomponent-activation-config.xml.sample</code> file should be
+      installed on your system.
+    </p>
+<p>
+      It is recommended to use the
+      <span class="command"><strong>matecomponent-activation-sysconf</strong></span> command-line
+      configuration tool to edit this file. However, here is an example of its
+      format.
+    </p>
+<pre class="programlisting">
+&lt;?xml version="1.0"?&gt;
+
+&lt;oafconfig&gt;
+
+&lt;searchpath&gt;
+&lt;item&gt;/opt/mate2/lib/matecomponent/servers&lt;/item&gt;
+&lt;item&gt;/usr/local/mate2/lib/matecomponent/servers&lt;/item&gt;
+&lt;item&gt;/usr/local/lib/matecomponent/servers&lt;/item&gt;
+&lt;item&gt;/opt/mate2/matecomponent-activation/lib/matecomponent/servers&lt;/item&gt;
+&lt;/searchpath&gt;
+
+&lt;searchpath&gt;
+&lt;item&gt;/opt/mate2/matecomponent-activation/lib/matecomponent/servers&lt;/item&gt;
+&lt;/searchpath&gt;
+
+&lt;/oafconfig&gt;</pre>
+<p>
+      There can be any number of <code class="sgmltag-element">item</code> tags in a
+      <code class="sgmltag-element">searchpath</code> tag and any number of
+      <code class="sgmltag-element">searchpath</code> tags in the <code class="sgmltag-element">oafconfig</code>
+      tag.
+    </p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

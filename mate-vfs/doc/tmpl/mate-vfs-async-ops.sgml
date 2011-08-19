@@ -1,0 +1,570 @@
+<!-- ##### SECTION Title ##### -->
+Asynchronous File Operations
+
+<!-- ##### SECTION Short_Description ##### -->
+
+POSIX-style file operations that run outside your main loop
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+  When executing an asynchornous operation on a file the program does not 
+  block waiting for the operation to finish, instead it keeps on running, 
+  which means that the process and the I/O operation can be both running
+  concurrently. Once the I/O operation has been completed the process is
+  notified using a callback.
+</para>
+
+<para>
+  Asynchronous operations are particularly good when long I/O operations 
+  are expected, in this case the program can continue normaly, the I/O
+  will be performed in the background. On the other hand when operations
+  are expected to be short (creating a file, writing/reading small amounts
+  of data, etc.) synchronous operations are prefered.
+</para>
+
+<para>
+  Within a graphical desktop asynchornous I/O operations can be used to
+  avoid blocking the UI (User Interface) during a long operation, and 
+  to be able to provide some kind of feedback to the user.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO MATE_VFS_PRIORITY_MIN ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO MATE_VFS_PRIORITY_MAX ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO MATE_VFS_PRIORITY_DEFAULT ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### TYPEDEF MateVFSAsyncHandle ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncOpenCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncOpenAsChannelCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@channel: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncCreateCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncCreateAsChannelCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@channel: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncCloseCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncReadCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@buffer: 
+@bytes_requested: 
+@bytes_read: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncWriteCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@buffer: 
+@bytes_requested: 
+@bytes_written: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncSeekCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncGetFileInfoCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@results: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncSetFileInfoCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@file_info: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncFileControlCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@operation_data: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncDirectoryLoadCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@result: 
+@list: 
+@entries_read: 
+@callback_data: 
+
+
+<!-- ##### USER_FUNCTION MateVFSAsyncFindDirectoryCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@results: 
+@data: 
+
+
+<!-- ##### STRUCT MateVFSFindDirectoryResult ##### -->
+<para>
+
+</para>
+
+@uri: 
+@result: 
+
+<!-- ##### USER_FUNCTION MateVFSAsyncXferProgressCallback ##### -->
+<para>
+
+</para>
+
+@handle: 
+@info: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### TYPEDEF MateVFSCancellation ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### TYPEDEF MateVFSContext ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION mate_vfs_async_set_job_limit ##### -->
+<para>
+
+</para>
+
+@limit: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_get_job_limit ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_cancel ##### -->
+<para>
+
+</para>
+
+@handle: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_open ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@text_uri: 
+@open_mode: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_open_uri ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@open_mode: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_open_as_channel ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@text_uri: 
+@open_mode: 
+@advised_block_size: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_open_uri_as_channel ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@open_mode: 
+@advised_block_size: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_create ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@text_uri: 
+@open_mode: 
+@exclusive: 
+@perm: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_create_uri ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@open_mode: 
+@exclusive: 
+@perm: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_create_symbolic_link ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@uri_reference: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_create_as_channel ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@text_uri: 
+@open_mode: 
+@exclusive: 
+@perm: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_create_uri_as_channel ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@open_mode: 
+@exclusive: 
+@perm: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_close ##### -->
+<para>
+
+</para>
+
+@handle: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_read ##### -->
+<para>
+
+</para>
+
+@handle: 
+@buffer: 
+@bytes: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_write ##### -->
+<para>
+
+</para>
+
+@handle: 
+@buffer: 
+@bytes: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_seek ##### -->
+<para>
+
+</para>
+
+@handle: 
+@whence: 
+@offset: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_get_file_info ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri_list: 
+@options: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_set_file_info ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@info: 
+@mask: 
+@options: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_load_directory ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@text_uri: 
+@options: 
+@items_per_notification: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_load_directory_uri ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@uri: 
+@options: 
+@items_per_notification: 
+@priority: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_xfer ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@source_uri_list: 
+@target_uri_list: 
+@xfer_options: 
+@error_mode: 
+@overwrite_mode: 
+@priority: 
+@progress_update_callback: 
+@update_callback_data: 
+@progress_sync_callback: 
+@sync_callback_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_find_directory ##### -->
+<para>
+
+</para>
+
+@handle_return: 
+@near_uri_list: 
+@kind: 
+@create_if_needed: 
+@find_if_needed: 
+@permissions: 
+@priority: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_async_file_control ##### -->
+<para>
+
+</para>
+
+@handle: 
+@operation: 
+@operation_data: 
+@operation_data_destroy_func: 
+@callback: 
+@callback_data: 
+
+
+<!-- ##### FUNCTION mate_vfs_find_directory_result_dup ##### -->
+<para>
+
+</para>
+
+@result: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_vfs_find_directory_result_free ##### -->
+<para>
+
+</para>
+
+@result: 
+
+

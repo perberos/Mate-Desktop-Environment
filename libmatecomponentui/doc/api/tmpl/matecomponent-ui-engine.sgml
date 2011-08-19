@@ -1,0 +1,680 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentUIEngine
+
+<!-- ##### SECTION Short_Description ##### -->
+The guts of the UI handler
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The MateComponent UI code as exposed through the #MateComponentWindow,
+#MateComponentUIComponent and #MateComponentUIContainer API's use the
+MateComponentUIEngine. The Engine effectively maintains a
+#MateComponentUIXml tree internaly, and a list of #MateComponentUISync
+synchronizers that, when the tree changes are used to
+re-sync the associated widgets with the XML model.
+</para>
+
+<para>
+The Engine can be tweaked by getting its pointer from an
+associated MateComponentWindow eg. this can be useful for setting
+the configuration path. To allow a MateComponentWindow to be
+configurable you need to do:
+  <example>
+    <title>How to make your UI user configurable</title>
+    <programlisting>
+matecomponent_ui_engine_config_set_path (
+	matecomponent_window_get_ui_engine (win),
+	"/my-application-name/UIConfig/kvps");
+    </programlisting>
+  </example>
+  where "UIConfig/kvps" is some convenient path into your
+mate_config file.
+</para>
+<para>
+Key value pairs (kvps) are stored in
+this, mangled into a comma delimited string and these are
+used to clobber the XML on merges, eg.
+  <example>
+    <title>User configuration format</title>
+    <programlisting>
+[UIConfig]
+kvps=/Toolbar:look:both
+    </programlisting>
+  </example>
+  inside your ~/.mate/my-application-name file, will
+ensure that whenever the item with path '/Toolbar' is
+modified the 'look="both"' attribute will be stamped
+onto it, effecively forcing a certain look.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentUIEngine ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL MateComponentUIEngine::add-hint ##### -->
+<para>
+
+</para>
+
+@matecomponentuiengine: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL MateComponentUIEngine::destroy ##### -->
+<para>
+
+</para>
+
+@matecomponentuiengine: the object which received the signal.
+
+<!-- ##### SIGNAL MateComponentUIEngine::emit-event-on ##### -->
+<para>
+
+</para>
+
+@matecomponentuiengine: the object which received the signal.
+@arg1: 
+@arg2: 
+
+<!-- ##### SIGNAL MateComponentUIEngine::emit-verb-on ##### -->
+<para>
+
+</para>
+
+@matecomponentuiengine: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL MateComponentUIEngine::remove-hint ##### -->
+<para>
+
+</para>
+
+@matecomponentuiengine: the object which received the signal.
+
+<!-- ##### FUNCTION matecomponent_ui_engine_deregister_dead_components ##### -->
+<para>
+
+</para>
+
+@engine: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_deregister_component_by_ref ##### -->
+<para>
+
+</para>
+
+@engine: 
+@ref: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_deregister_component ##### -->
+<para>
+
+</para>
+
+@engine: 
+@name: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_register_component ##### -->
+<para>
+
+</para>
+
+@engine: 
+@name: 
+@component: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_component_names ##### -->
+<para>
+
+</para>
+
+@engine: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_component ##### -->
+<para>
+
+</para>
+
+@engine: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_config_set_path ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_config_get_path ##### -->
+<para>
+
+</para>
+
+@engine: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_set_ui_container ##### -->
+<para>
+
+</para>
+
+@engine: 
+@ui_container: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_ui_container ##### -->
+<para>
+
+</para>
+
+@engine: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_freeze ##### -->
+<para>
+
+</para>
+
+@engine: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_thaw ##### -->
+<para>
+
+</para>
+
+@engine: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_update ##### -->
+<para>
+
+</para>
+
+@engine: 
+
+
+<!-- ##### ENUM MateComponentUIError ##### -->
+<para>
+
+</para>
+
+@MATECOMPONENT_UI_ERROR_OK: 
+@MATECOMPONENT_UI_ERROR_BAD_PARAM: 
+@MATECOMPONENT_UI_ERROR_INVALID_PATH: 
+@MATECOMPONENT_UI_ERROR_INVALID_XML: 
+
+<!-- ##### STRUCT MateComponentUIEnginePrivate ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT MateComponentUIEngineClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+@add_hint: 
+@remove_hint: 
+@emit_verb_on: 
+@emit_event_on: 
+@destroy: 
+
+<!-- ##### FUNCTION matecomponent_ui_engine_construct ##### -->
+<para>
+
+</para>
+
+@engine: 
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_new ##### -->
+<para>
+
+</para>
+
+@view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_view ##### -->
+<para>
+
+</para>
+
+@engine: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_add_sync ##### -->
+<para>
+
+</para>
+
+@engine: 
+@sync: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_remove_sync ##### -->
+<para>
+
+</para>
+
+@engine: 
+@sync: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_syncs ##### -->
+<para>
+
+</para>
+
+@engine: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_update_node ##### -->
+<para>
+
+</para>
+
+@engine: 
+@sync: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_queue_update ##### -->
+<para>
+
+</para>
+
+@engine: 
+@widget: 
+@node: 
+@cmd_node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_build_control ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_widget_get_node ##### -->
+<para>
+
+</para>
+
+@widget: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_widget_set_node ##### -->
+<para>
+
+</para>
+
+@engine: 
+@widget: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_xml_set_prop ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@property: 
+@value: 
+@component: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_xml_get_prop ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@prop: 
+@invalid_path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_prune_widget_info ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@save_custom: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_path ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_dirty_tree ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_clean_tree ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_dump ##### -->
+<para>
+
+</para>
+
+@engine: 
+@out: 
+@msg: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_node_get_object ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_node_is_dirty ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_node_get_widget ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_node_get_id ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_cmd_node ##### -->
+<para>
+
+</para>
+
+@engine: 
+@from_node: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_node_set_dirty ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@dirty: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_stamp_custom ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_widget_set ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@widget: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_stamp_root ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@widget: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_add_hint ##### -->
+<para>
+
+</para>
+
+@engine: 
+@str: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_remove_hint ##### -->
+<para>
+
+</para>
+
+@engine: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_emit_verb_on ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_emit_event_on ##### -->
+<para>
+
+</para>
+
+@engine: 
+@node: 
+@state: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_emit_verb_on_w ##### -->
+<para>
+
+</para>
+
+@engine: 
+@widget: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_emit_event_on_w ##### -->
+<para>
+
+</para>
+
+@engine: 
+@widget: 
+@state: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_get_attr ##### -->
+<para>
+
+</para>
+
+@node: 
+@cmd_node: 
+@attr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_widget_attach_node ##### -->
+<para>
+
+</para>
+
+@widget: 
+@node: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_xml_get ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@node_only: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_xml_node_exists ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_xml_merge_tree ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@tree: 
+@component: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_xml_rm ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@by_component: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_object_set ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@object: 
+@ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_object_get ##### -->
+<para>
+
+</para>
+
+@engine: 
+@path: 
+@object: 
+@ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_exec_verb ##### -->
+<para>
+
+</para>
+
+@engine: 
+@cname: 
+@ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_engine_ui_event ##### -->
+<para>
+
+</para>
+
+@engine: 
+@id: 
+@type: 
+@state: 
+@ev: 
+
+

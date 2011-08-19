@@ -1,0 +1,146 @@
+diff -uri caja-open-terminal-0.9/src/caja-open-terminal.c caja-open-terminal-0.9-gio/src/caja-open-terminal.c
+--- caja-open-terminal-0.9/src/caja-open-terminal.c	2008-02-28 00:03:34.000000000 +0100
++++ caja-open-terminal-0.9-gio/src/caja-open-terminal.c	2008-04-14 00:32:12.000000000 +0200
+@@ -35,12 +35,13 @@
+ #include <gtk/gtkmain.h>
+ #include <mateconf/mateconf-client.h>
+ #include <libmate/mate-desktop-item.h>
+-#include <libmatevfs/mate-vfs-utils.h>
++#include <gio/gio.h>
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <string.h> /* for strcmp */
++#include <string.h> /* for strcmp, strdup, ... */
+ #include <unistd.h> /* for chdir */
++#include <stdlib.h> /* for atoi */
+ #include <sys/stat.h>
+ 
+ #define SSH_DEFAULT_PORT 22
+@@ -66,7 +67,8 @@
+ 	g_assert (file_info);
+ 
+ 	uri_scheme = caja_file_info_get_activation_uri (file_info);
+-	if (p = strchr (uri_scheme, ':')) {
++	p = strchr (uri_scheme, ':');
++	if (p) {
+ 		*p = 0;
+ 	}
+ 
+@@ -143,31 +145,75 @@
+ #endif
+ 
+ static void
++parse_sftp_uri (GFile *file, char **host, guint *port, char **user,
++		char **path)
++{
++	char *uri = g_file_get_uri (file);
++	char *u, *h, *s, *p;
++	char *h_end;
++
++	g_assert (uri != NULL);
++
++	u = strchr(uri, ':');
++	g_assert (u != NULL);
++	u+=2;
++
++	p = strchr (u, '/');
++
++	h = strchr(u, '@');
++
++	if (h && (p == NULL || h < p)) {
++		*h='\0';
++		h++;
++	} else {
++		h = u;
++		u = NULL;
++	}
++
++	s = strchr(h, ':');
++
++	if (s && (p == NULL || s < p)) {
++		h_end = s-1;
++		*s = '\0';
++		s++;
++	} else {
++		h_end = p;
++		s = NULL;
++	}
++
++	if (h_end == NULL) {
++		h_end = h + strlen(h);
++	}
++
++	*user = strdup(u);
++	*port = s == NULL ? 0 : atoi(s); /* FIXME: getservbyname ? */
++	*path = g_uri_unescape_string (p, "/");
++	*h_end = '\0';
++	*host = strdup(h);
++
++	g_free (uri);
++}
++
++static void
+ append_sftp_info (char **terminal_exec,
+ 		  CajaFileInfo *file_info)
+ {
+-	MateVFSURI *vfs_uri;
+-	const char *host_name, *path, *user_name;
+-	char *uri, *user_host, *cmd, *quoted_cmd, *unescaped_path;
++	GFile *vfs_uri;
++	char *host_name, *path, *user_name;
++	char *user_host, *cmd, *quoted_cmd;
+ 	guint host_port;
+ 
+ 	g_assert (terminal_exec != NULL);
+ 	g_assert (file_info != NULL);
+ 
+-	uri = caja_file_info_get_activation_uri (file_info);
+-	g_assert (uri != NULL);
+-	g_assert (strncmp (uri, "sftp", strlen ("sftp")) == 0 ||
+-		  strncmp (uri, "ssh", strlen ("ssh")) == 0);
+-
+-	vfs_uri = mate_vfs_uri_new (uri);
++	
++	vfs_uri = g_file_new_for_uri (caja_file_info_get_activation_uri (file_info));
+ 	g_assert (vfs_uri != NULL);
+ 
+-	host_name = mate_vfs_uri_get_host_name (vfs_uri);
+-	host_port = mate_vfs_uri_get_host_port (vfs_uri);
+-	user_name = mate_vfs_uri_get_user_name (vfs_uri);
+-	path = mate_vfs_uri_get_path (vfs_uri);
+-	/* FIXME to we have to consider the remote file encoding? */
+-	unescaped_path = mate_vfs_unescape_string (path, NULL);
++	g_assert (g_file_has_uri_scheme(vfs_uri, "sftp")==TRUE ||
++		  g_file_has_uri_scheme(vfs_uri, "ssh")==TRUE);
++
++	parse_sftp_uri (vfs_uri, &host_name, &host_port, &user_name, &path);
+ 
+ 	if (host_port == 0) {
+ 		host_port = SSH_DEFAULT_PORT;
+@@ -179,7 +225,7 @@
+ 		user_host = g_strdup (host_name);
+ 	}
+ 
+-	cmd = g_strdup_printf ("ssh %s -p %d -t \"cd \'%s\' && $SHELL -l\"", user_host, host_port, unescaped_path);
++	cmd = g_strdup_printf ("ssh %s -p %d -t \"cd \'%s\' && $SHELL -l\"", user_host, host_port, path);
+ 	quoted_cmd = g_shell_quote (cmd);
+ 	g_free (cmd);
+ 
+@@ -187,11 +233,13 @@
+ 	strcpy (*terminal_exec + strlen (*terminal_exec), " -e ");
+ 	strcpy (*terminal_exec + strlen (*terminal_exec), quoted_cmd);
+ 
++	g_free (host_name);
++	g_free (user_name);
++	g_free (path);
++
+ 	g_free (quoted_cmd);
+ 	g_free (user_host);
+-	g_free (unescaped_path);
+-	g_free (uri);
+-	mate_vfs_uri_unref (vfs_uri);
++	g_object_unref (vfs_uri);
+ }
+ 
+ static void

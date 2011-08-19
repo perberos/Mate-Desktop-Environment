@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Unified bufferd network I/O</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="networking.html" title="Networking">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-socket.html" title="Unified network I/O">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-inet-connection.html" title="Internet connection">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-socket.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="networking.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-inet-connection.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-socket-buffer.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-socket-buffer.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-socket-buffer"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-socket-buffer.top_of_page"></a>Unified bufferd network I/O</span></h2>
+<p>Unified bufferd network I/O — Posix style buffered network input/output.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-socket-buffer.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer">MateVFSSocketBuffer</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="returnvalue">MateVFSSocketBuffer</span></a> *  <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-new" title="mate_vfs_socket_buffer_new ()">mate_vfs_socket_buffer_new</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="type">MateVFSSocket</span></a> *socket</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-destroy" title="mate_vfs_socket_buffer_destroy ()">mate_vfs_socket_buffer_destroy</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> close_socket</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-read" title="mate_vfs_socket_buffer_read ()">mate_vfs_socket_buffer_read</a>        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_read</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-peekc" title="mate_vfs_socket_buffer_peekc ()">mate_vfs_socket_buffer_peekc</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *character</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-write" title="mate_vfs_socket_buffer_write ()">mate_vfs_socket_buffer_write</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_written</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-flush" title="mate_vfs_socket_buffer_flush ()">mate_vfs_socket_buffer_flush</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-read-until" title="mate_vfs_socket_buffer_read_until ()">mate_vfs_socket_buffer_read_until</a>  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> boundary</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> boundary_len</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_read</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *got_boundary</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-socket-buffer.description"></a><h2>Description</h2>
+<p>
+The MateVFSSocketBuffer functions are very similar to the MateVFSSocket
+ones. The only difference is that all input/output is done through an internally
+managed buffer. This might increase I/O performance as well as give you the
+possibility to use some convenient functions like <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-peekc" title="mate_vfs_socket_buffer_peekc ()"><span class="type">mate_vfs_socket_buffer_peekc</span></a>
+and <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-read-until" title="mate_vfs_socket_buffer_read_until ()"><span class="type">mate_vfs_socket_buffer_read_until</span></a>.
+</p>
+<p>
+</p>
+<p>
+You can manually force all internally buffered data to get written with
+<a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-flush" title="mate_vfs_socket_buffer_flush ()"><span class="type">mate_vfs_socket_buffer_flush</span></a>.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-socket-buffer.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSSocketBuffer"></a><h3>MateVFSSocketBuffer</h3>
+<pre class="programlisting">typedef struct MateVFSSocketBuffer MateVFSSocketBuffer;
+</pre>
+<p>
+A handle to a socket buffer. A socket buffer is a temporary in-memory storage for data
+that is read from or written to a <a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="type">MateVFSSocket</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-new"></a><h3>mate_vfs_socket_buffer_new ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="returnvalue">MateVFSSocketBuffer</span></a> *  mate_vfs_socket_buffer_new     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="type">MateVFSSocket</span></a> *socket</code></em>);</pre>
+<p>
+Create a socket buffer around <em class="parameter"><code>socket</code></em>. A buffered
+socket allows data to be poked at without reading it
+as it will be buffered. A future read will retrieve
+the data again.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket</code></em> :</span></p></td>
+<td>socket to be buffered.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-destroy"></a><h3>mate_vfs_socket_buffer_destroy ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_socket_buffer_destroy     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> close_socket</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Free the socket buffer.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket_buffer</code></em> :</span></p></td>
+<td>buffered socket to destroy.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>close_socket</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, the socket being buffered will be closed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-read"></a><h3>mate_vfs_socket_buffer_read ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_socket_buffer_read        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_read</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Read <em class="parameter"><code>bytes</code></em> bytes of data from the <em class="parameter"><code>socket</code></em> into <em class="parameter"><code>socket_buffer</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket_buffer</code></em> :</span></p></td>
+<td>buffered socket to read data from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>allocated buffer of at least <em class="parameter"><code>bytes</code></em> bytes to be read into.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>number of bytes to read from <em class="parameter"><code>socket_buffer</code></em> into <em class="parameter"><code>buffer</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_read</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a>, will contain
+the number of bytes actually read from the <em class="parameter"><code>socket_buffer</code></em> on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-peekc"></a><h3>mate_vfs_socket_buffer_peekc ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_socket_buffer_peekc       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *character</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Peek at the next character in <em class="parameter"><code>socket_buffer</code></em> without actually reading
+the character in. The next read will retrieve <em class="parameter"><code>c</code></em> (as well as any following
+data if requested).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket_buffer</code></em> :</span></p></td>
+<td>the socket buffer to read from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>character</code></em> :</span></p></td>
+<td>pointer to a char, will contain a character on return from
+a successful "peek".
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-write"></a><h3>mate_vfs_socket_buffer_write ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_socket_buffer_write       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_written</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Write <em class="parameter"><code>bytes</code></em> bytes of data from <em class="parameter"><code>buffer</code></em> to <em class="parameter"><code>socket_buffer</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket_buffer</code></em> :</span></p></td>
+<td>buffered socket to write data to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>data to write to the <em class="parameter"><code>socket_buffer</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>number of bytes to write from <em class="parameter"><code>buffer</code></em> to <em class="parameter"><code>socket_buffer</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_written</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a>, will contain
+the number of bytes actually written to the <em class="parameter"><code>socket_buffer</code></em> on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-flush"></a><h3>mate_vfs_socket_buffer_flush ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_socket_buffer_flush       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Write all outstanding data to <em class="parameter"><code>socket_buffer</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket_buffer</code></em> :</span></p></td>
+<td>buffer to flush.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-socket-buffer-read-until"></a><h3>mate_vfs_socket_buffer_read_until ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_socket_buffer_read_until  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> *socket_buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> boundary</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> boundary_len</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_read</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *got_boundary</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Read up to <em class="parameter"><code>bytes</code></em> bytes of data from the <em class="parameter"><code>socket_buffer</code></em> into <em class="parameter"><code>buffer</code></em> 
+until boundary is reached. <em class="parameter"><code>got_boundary</code></em> will be set accordingly.
+</p>
+<p>
+Note that if <em class="parameter"><code>bytes</code></em> is smaller than <em class="parameter"><code>boundary_len</code></em> there is no way
+to detected the boundary! So if you want to make sure that every boundary
+is found (in a loop maybe) assure that <em class="parameter"><code>bytes</code></em> is at least as big as 
+<em class="parameter"><code>boundary_len</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>socket_buffer</code></em> :</span></p></td>
+<td>buffered socket to read data from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>allocated buffer of at least <em class="parameter"><code>bytes</code></em> bytes to be read into.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>maximum number of bytes to read from <em class="parameter"><code>socket_buffer</code></em> into <em class="parameter"><code>buffer</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>boundary</code></em> :</span></p></td>
+<td>the boundary until which is read.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>boundary_len</code></em> :</span></p></td>
+<td>the length of the <em class="parameter"><code>boundary</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_read</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a>, will contain
+the number of bytes actually read from the <em class="parameter"><code>socket_buffer</code></em> on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>got_boundary</code></em> :</span></p></td>
+<td>pointer to a <span class="type">gboolean</span>  which will be <code class="literal">TRUE</code> if the boundary
+was found or <code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.8</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

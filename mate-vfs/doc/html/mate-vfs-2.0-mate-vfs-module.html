@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-vfs-module</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="modules.html" title="Filesystem Modules">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-method.html" title="mate-vfs-method">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-module-shared.html" title="mate-vfs-module-shared">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-method.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="modules.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-module-shared.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-module.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-module.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-module"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-module.top_of_page"></a>mate-vfs-module</span></h2>
+<p>mate-vfs-module</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-module.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">MateVFSMethod</span> *    <a class="link" href="mate-vfs-2.0-mate-vfs-module.html#vfs-module-init" title="vfs_module_init ()">vfs_module_init</a>                     (<em class="parameter"><code>const <span class="type">char</span> *method_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *args</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform" title="MateVFSTransform"><span class="returnvalue">MateVFSTransform</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-module.html#vfs-module-transform" title="vfs_module_transform ()">vfs_module_transform</a>                (<em class="parameter"><code>const <span class="type">char</span> *method_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module.html#vfs-module-shutdown" title="vfs_module_shutdown ()">vfs_module_shutdown</a>                 (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-module.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-module.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="vfs-module-init"></a><h3>vfs_module_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateVFSMethod</span> *    vfs_module_init                     (<em class="parameter"><code>const <span class="type">char</span> *method_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *args</code></em>);</pre>
+<p>
+Standard extern call implemented by each filesystem module. This is called
+to initialize the module and setup any basic structures / connections the
+method requires. It also allows the module to identify the URI method it is
+associated with in this instance.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method_name</code></em> :</span></p></td>
+<td>name of the method that invoked this module (e.g. "http", "ftp", "file").
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>not used by most modules, but potential arguments for creating the module (could
+be a file to point at, for example)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the module symbol table, pointing to the appropriate calls for
+this module.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="vfs-module-transform"></a><h3>vfs_module_transform ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform" title="MateVFSTransform"><span class="returnvalue">MateVFSTransform</span></a> * vfs_module_transform                (<em class="parameter"><code>const <span class="type">char</span> *method_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *args</code></em>);</pre>
+<p>
+Shift an already instanced module to a new method name. This call is not implemented
+by most modules and is optional.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method_name</code></em> :</span></p></td>
+<td>name of the method that invoked this module (e.g. "http", "ftp", "file").
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>not used by most modules, but potential arguments for creating the module (could
+be a file to point at, for example)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the module symbol table, pointing to the appropriate calls for
+this module.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="vfs-module-shutdown"></a><h3>vfs_module_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                vfs_module_shutdown                 (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>);</pre>
+<p>
+Called to tell a module to end any active operations, free all used memory,
+and close any connections (as appropriate) or resources.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>method</code></em> :</span></p></td>
+<td>the symbol table of the module being shut down
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

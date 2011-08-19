@@ -1,0 +1,897 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateComponentPropertyBag</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="property-bags.html" title="Property Bags, Events, Listeners">
+<link rel="prev" href="libmatecomponent-matecomponent-listener.html" title="matecomponent-listener">
+<link rel="next" href="libmatecomponent-matecomponent-arg.html" title="matecomponent-arg">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmatecomponent-matecomponent-listener.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="property-bags.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-arg.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponent-matecomponent-property-bag.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-property-bag.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponent-matecomponent-property-bag"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponent-matecomponent-property-bag.top_of_page"></a>MateComponentPropertyBag</span></h2>
+<p>MateComponentPropertyBag — Implements a generic property storage interface</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponent-matecomponent-property-bag.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">                    <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBagClass" title="MateComponentPropertyBagClass">MateComponentPropertyBagClass</a>;
+                    <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag">MateComponentPropertyBag</a>;
+#define             <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-READABLE:CAPS" title="MATECOMPONENT_PROPERTY_READABLE">MATECOMPONENT_PROPERTY_READABLE</a>
+#define             <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-WRITEABLE:CAPS" title="MATECOMPONENT_PROPERTY_WRITEABLE">MATECOMPONENT_PROPERTY_WRITEABLE</a>
+#define             <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-WRITABLE:CAPS" title="MATECOMPONENT_PROPERTY_WRITABLE">MATECOMPONENT_PROPERTY_WRITABLE</a>
+#define             <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-NO-LISTENING:CAPS" title="MATECOMPONENT_PROPERTY_NO_LISTENING">MATECOMPONENT_PROPERTY_NO_LISTENING</a>
+#define             <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-NO-AUTONOTIFY:CAPS" title="MATECOMPONENT_PROPERTY_NO_AUTONOTIFY">MATECOMPONENT_PROPERTY_NO_AUTONOTIFY</a>
+                    <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentProperty" title="MateComponentProperty">MateComponentProperty</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyGetFn" title="MateComponentPropertyGetFn ()">*MateComponentPropertyGetFn</a>)              (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *bag</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *arg</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> arg_id</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertySetFn" title="MateComponentPropertySetFn ()">*MateComponentPropertySetFn</a>)              (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *bag</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *arg</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> arg_id</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-new" title="matecomponent_property_bag_new ()">matecomponent_property_bag_new</a>             (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyGetFn" title="MateComponentPropertyGetFn ()"><span class="type">MateComponentPropertyGetFn</span></a> get_prop_cb</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertySetFn" title="MateComponentPropertySetFn ()"><span class="type">MateComponentPropertySetFn</span></a> set_prop_cb</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-new-closure" title="matecomponent_property_bag_new_closure ()">matecomponent_property_bag_new_closure</a>     (<em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-new-full" title="matecomponent_property_bag_new_full ()">matecomponent_property_bag_new_full</a>        (<em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentEventSource</span> *es</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-construct" title="matecomponent_property_bag_construct ()">matecomponent_property_bag_construct</a>       (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentEventSource</span> *es</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-add" title="matecomponent_property_bag_add ()">matecomponent_property_bag_add</a>             (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArgType" title="MateComponentArgType"><span class="type">MateComponentArgType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *default_value</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *doctitle</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_PropertyFlags</span> flags</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-add-full" title="matecomponent_property_bag_add_full ()">matecomponent_property_bag_add_full</a>        (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArgType" title="MateComponentArgType"><span class="type">MateComponentArgType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *default_value</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *doctitle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *docstring</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_PropertyFlags</span> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-remove" title="matecomponent_property_bag_remove ()">matecomponent_property_bag_remove</a>          (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-map-params" title="matecomponent_property_bag_map_params ()">matecomponent_property_bag_map_params</a>      (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"><span class="type">GObject</span></a> *on_instance</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gobject/unstable/gobject-GParamSpec.html#GParamSpec"><span class="type">GParamSpec</span></a> **pspecs</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> n_params</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-get-prop-list" title="matecomponent_property_bag_get_prop_list ()">matecomponent_property_bag_get_prop_list</a>   (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-property-bag.description"></a><h2>Description</h2>
+<p>
+The PropertyBag is used for many things, particularly for
+the customization of controls. The important thing to
+remember about the MateComponentPropertyBag implementation is that
+no live data is stored in the bag. ie. the Model for the
+properties is your code.
+</p>
+<p>
+Consequently when someone requests a properties value,
+or sets a property the callbacks you supply at bag
+construction time are called, and the code therein must
+supply the property. Similarly, when a property changes
+value inside your object you need to notify the property
+bag's listeners that it has changed with a call to
+<code class="function">matecomponent_event_source_notify_listeners_full</code>.
+</p>
+<p>
+Here is a simple example use of the property bag:
+  </p>
+<div class="example">
+<a name="id3110124"></a><p class="title"><b>Example 11. PropertyBag Callbacks</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">enum</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">    PROP_RUNNING</span><span class="symbol">,</span>
+<span class="normal">    PROP_COLOUR</span>
+<span class="cbracket">}</span><span class="normal"> MyArgs</span><span class="symbol">;</span>
+<span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">get_prop</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPropertyBag</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">bag</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">MateComponentArg</span><span class="normal">         </span><span class="symbol">*</span><span class="normal">arg</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">guint</span><span class="normal">              arg_id</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">gpointer</span><span class="normal">           user_data</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">GtkObject</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">clock </span><span class="symbol">=</span><span class="normal"> user_data</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">switch</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg_id</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">    </span><span class="keyword">case</span><span class="normal"> PROP_RUNNING</span><span class="symbol">:</span>
+<span class="normal">        </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-SET-BOOLEAN:CAPS">MATECOMPONENT_ARG_SET_BOOLEAN</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg</span><span class="symbol">,</span><span class="normal"> clock</span><span class="symbol">-&gt;</span><span class="normal">is_running</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">break</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">case</span><span class="normal"> PROP_COLOUR</span><span class="symbol">:</span>
+<span class="normal">        </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-SET-STRING:CAPS">MATECOMPONENT_ARG_SET_STRING</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg</span><span class="symbol">,</span><span class="normal"> clock</span><span class="symbol">-&gt;</span><span class="normal">color</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">break</span><span class="symbol">;</span>
+<span class="label">    default:</span>
+<span class="normal">        </span><span class="function"><a href="libmatecomponent-matecomponent-exception.html#matecomponent-exception-set">matecomponent_exception_set</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">ev</span><span class="symbol">,</span><span class="normal"> ex_MateComponent_PropertyBag_NotFound</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">break</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+<span class="cbracket">}</span>
+<span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">set_prop</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPropertyBag</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">bag</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">MateComponentArg</span><span class="normal">   </span><span class="symbol">*</span><span class="normal">arg</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">guint</span><span class="normal">              arg_id</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">,</span>
+<span class="normal">      </span><span class="usertype">gpointer</span><span class="normal">           user_data</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">GtkClock</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">clock </span><span class="symbol">=</span><span class="normal"> user_data</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">switch</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg_id</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">    </span><span class="keyword">case</span><span class="normal"> PROP_RUNNING</span><span class="symbol">:</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="usertype">guint</span><span class="normal"> i </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-GET-BOOLEAN:CAPS">MATECOMPONENT_ARG_GET_BOOLEAN</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">i</span><span class="symbol">)</span>
+<span class="normal">            </span><span class="function">gtk_clock_start</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">clock</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">else</span>
+<span class="normal">            </span><span class="function">gtk_clock_stop</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">clock</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">break</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+<span class="normal">    </span><span class="keyword">case</span><span class="normal"> PROP_COLOUR</span><span class="symbol">:</span>
+<span class="normal">        </span><span class="function">gtk_clock_set_color</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">clock</span><span class="symbol">,</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-GET-STRING:CAPS">MATECOMPONENT_ARG_GET_STRING</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg</span><span class="symbol">));</span>
+<span class="label">    default:</span>
+<span class="normal">        </span><span class="function"><a href="libmatecomponent-matecomponent-exception.html#matecomponent-exception-set">matecomponent_exception_set</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">ev</span><span class="symbol">,</span><span class="normal"> ex_MateComponent_PropertyBag_NotFound</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">break</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+<p>
+Then to instantiate the property bag interface and associate it with
+a control perhaps we do:
+  </p>
+<div class="example">
+<a name="id3110158"></a><p class="title"><b>Example 12. Adding a PropertyBag to a control</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="usertype">MateComponentPropertyBag</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pb</span><span class="symbol">;</span>
+<span class="normal">pb </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-new">matecomponent_property_bag_new</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">get_prop</span><span class="symbol">,</span><span class="normal"> set_prop</span><span class="symbol">,</span><span class="normal"> clock</span><span class="symbol">);</span>
+<span class="function">matecomponent_control_set_properties</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">control</span><span class="symbol">,</span><span class="normal"> pb</span><span class="symbol">);</span>
+<span class="function"><a href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-add">matecomponent_property_bag_add</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pb</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"running"</span><span class="symbol">,</span><span class="normal"> PROP_RUNNING</span><span class="symbol">,</span>
+<span class="normal">             <a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-BOOLEAN:CAPS">MATECOMPONENT_ARG_BOOLEAN</a></span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">,</span>
+<span class="normal">             </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-I18N.html#gettext-macro">_</a></span><span class="symbol">(</span><span class="string">"Whether or not the clock is running"</span><span class="symbol">),</span>
+<span class="normal">             </span><span class="number">0</span><span class="symbol">);</span>
+<span class="function"><a href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-add">matecomponent_property_bag_add</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pb</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"colour"</span><span class="symbol">,</span><span class="normal"> PROP_COLOUR</span><span class="symbol">,</span>
+<span class="normal">             <a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-STRING:CAPS">MATECOMPONENT_ARG_STRING</a></span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">,</span>
+<span class="normal">             </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-I18N.html#gettext-macro">_</a></span><span class="symbol">(</span><span class="string">"The colour of the clock face"</span><span class="symbol">),</span>
+<span class="normal">             </span><span class="number">0</span><span class="symbol">);</span>
+<span class="function"><a href="libmatecomponent-matecomponent-object.html#matecomponent-object-unref">matecomponent_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function">MATECOMPONENT_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pb</span><span class="symbol">));</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+And finally we need to notify listeners of changes in various properties
+so we could perhaps do:
+  </p>
+<div class="example">
+<a name="id3110188"></a><p class="title"><b>Example 13. Notifying proterty bag listeners</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">signal_handler</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">GtkClock</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">clock</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">MateComponentPropertyBag</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pb</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">MateComponentArg</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">arg </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#matecomponent-arg-new">matecomponent_arg_new</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">TC_string</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#MATECOMPONENT-ARG-SET-STRING:CAPS">MATECOMPONENT_ARG_SET_STRING</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg</span><span class="symbol">,</span><span class="normal"> </span><span class="function">gtk_clock_get_color</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">clock</span><span class="symbol">));</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-notify-listeners-full">matecomponent_event_source_notify_listeners_full</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pb</span><span class="symbol">-&gt;</span><span class="normal">es</span><span class="symbol">,</span>
+<span class="normal">                               </span><span class="string">"MateComponent/Property"</span><span class="symbol">,</span>
+<span class="normal">                               </span><span class="string">"change"</span><span class="symbol">,</span>
+<span class="normal">                           </span><span class="string">"colour"</span><span class="symbol">,</span>
+<span class="normal">                               arg</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-arg.html#matecomponent-arg-release">matecomponent_arg_release</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">arg</span><span class="symbol">);</span>
+<span class="cbracket">}</span>
+<span class="symbol">...</span>
+<span class="normal">    </span><span class="function">gtk_signal_connect</span><span class="normal"> </span><span class="symbol">(</span><span class="function">GTK_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">clock</span><span class="symbol">),</span><span class="normal"> </span><span class="string">"color_changed"</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="function">GTK_SIGNAL_FUNC</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">signal_handler</span><span class="symbol">),</span><span class="normal"> pb</span><span class="symbol">);</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+  See also <a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a>.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-property-bag.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateComponentPropertyBagClass"></a><h3>MateComponentPropertyBagClass</h3>
+<pre class="programlisting">typedef struct {
+	MateComponentObjectClass        parent;
+
+	POA_MateComponent_PropertyBag__epv epv;
+} MateComponentPropertyBagClass;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentPropertyBag"></a><h3>MateComponentPropertyBag</h3>
+<pre class="programlisting">typedef struct {
+	MateComponentObject             parent;
+	MateComponentPropertyBagPrivate *priv;
+	MateComponentEventSource        *es;
+} MateComponentPropertyBag;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-PROPERTY-READABLE:CAPS"></a><h3>MATECOMPONENT_PROPERTY_READABLE</h3>
+<pre class="programlisting">#define MATECOMPONENT_PROPERTY_READABLE      MateComponent_PROPERTY_READABLE
+</pre>
+<p>
+    If this flag is set, the property allows consulting its value.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-PROPERTY-WRITEABLE:CAPS"></a><h3>MATECOMPONENT_PROPERTY_WRITEABLE</h3>
+<pre class="programlisting">#define MATECOMPONENT_PROPERTY_WRITEABLE     MateComponent_PROPERTY_WRITEABLE
+</pre>
+<p>
+    If this flag is set, the property supports modification of its value.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-PROPERTY-WRITABLE:CAPS"></a><h3>MATECOMPONENT_PROPERTY_WRITABLE</h3>
+<pre class="programlisting">#define MATECOMPONENT_PROPERTY_WRITABLE      MateComponent_PROPERTY_WRITEABLE
+</pre>
+<p>
+    Misspelling of <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-WRITEABLE:CAPS" title="MATECOMPONENT_PROPERTY_WRITEABLE"><span class="type">MATECOMPONENT_PROPERTY_WRITEABLE</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-PROPERTY-NO-LISTENING:CAPS"></a><h3>MATECOMPONENT_PROPERTY_NO_LISTENING</h3>
+<pre class="programlisting">#define MATECOMPONENT_PROPERTY_NO_LISTENING  MateComponent_PROPERTY_NO_LISTENING 
+</pre>
+<p>
+    If this flag set, when the property changes its value its
+    listeners will *not* be notified.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-PROPERTY-NO-AUTONOTIFY:CAPS"></a><h3>MATECOMPONENT_PROPERTY_NO_AUTONOTIFY</h3>
+<pre class="programlisting">#define MATECOMPONENT_PROPERTY_NO_AUTONOTIFY MateComponent_PROPERTY_NO_AUTONOTIFY 
+</pre>
+<p>
+    If this flag set, when the property changes its value its
+    listeners will *not* be notified.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentProperty"></a><h3>MateComponentProperty</h3>
+<pre class="programlisting">typedef struct {
+	char		      *name;
+	int                    idx;
+	MateComponentArgType          type;
+	MateComponentArg             *default_value;
+	char		      *doctitle;
+	char		      *docstring;
+	MateComponent_PropertyFlags   flags;
+
+	MateComponentPropertyPrivate *priv;
+} MateComponentProperty;
+</pre>
+<p>
+Structure that holds information about a property in a <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateComponentProperty.name"></a>name</code></em>;</span></p></td>
+<td>the canonic name of the property
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">int</span> <em class="structfield"><code><a name="MateComponentProperty.idx"></a>idx</code></em>;</span></p></td>
+<td>unique numeric identifier of the property within the property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArgType" title="MateComponentArgType"><span class="type">MateComponentArgType</span></a> <em class="structfield"><code><a name="MateComponentProperty.type"></a>type</code></em>;</span></p></td>
+<td>type of value contained by this property
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *<em class="structfield"><code><a name="MateComponentProperty.default-value"></a>default_value</code></em>;</span></p></td>
+<td>the default value
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateComponentProperty.doctitle"></a>doctitle</code></em>;</span></p></td>
+<td>documentation string title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateComponentProperty.docstring"></a>docstring</code></em>;</span></p></td>
+<td>documentation string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">MateComponent_PropertyFlags</span> <em class="structfield"><code><a name="MateComponentProperty.flags"></a>flags</code></em>;</span></p></td>
+<td>property flags (read/write, etc.)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">MateComponentPropertyPrivate</span> *<em class="structfield"><code><a name="MateComponentProperty.priv"></a>priv</code></em>;</span></p></td>
+<td>implementation private data
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentPropertyGetFn"></a><h3>MateComponentPropertyGetFn ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateComponentPropertyGetFn)              (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *bag</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *arg</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> arg_id</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Property getter function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bag</code></em> :</span></p></td>
+<td>the property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg</code></em> :</span></p></td>
+<td>output parameter; the caller must place here the property value
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg_id</code></em> :</span></p></td>
+<td>unique numeric identifier of the property within the property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>the relevant CORBA environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentPropertySetFn"></a><h3>MateComponentPropertySetFn ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateComponentPropertySetFn)              (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *bag</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *arg</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> arg_id</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Property setter function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bag</code></em> :</span></p></td>
+<td>the property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg</code></em> :</span></p></td>
+<td>the new property value to be set
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg_id</code></em> :</span></p></td>
+<td>unique numeric identifier of the property within the property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>the relevant CORBA environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-new"></a><h3>matecomponent_property_bag_new ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * matecomponent_property_bag_new             (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyGetFn" title="MateComponentPropertyGetFn ()"><span class="type">MateComponentPropertyGetFn</span></a> get_prop_cb</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertySetFn" title="MateComponentPropertySetFn ()"><span class="type">MateComponentPropertySetFn</span></a> set_prop_cb</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Creates a new property bag with the specified callbacks.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>get_prop_cb</code></em> :</span></p></td>
+<td>the property get callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>set_prop_cb</code></em> :</span></p></td>
+<td>the property set callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data for the callbacks
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A new <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-new-closure"></a><h3>matecomponent_property_bag_new_closure ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * matecomponent_property_bag_new_closure     (<em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>);</pre>
+<p>
+Creates a new property bag with the specified callbacks.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>get_prop</code></em> :</span></p></td>
+<td>the property get closure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>set_prop</code></em> :</span></p></td>
+<td>the property set closure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A new <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-new-full"></a><h3>matecomponent_property_bag_new_full ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * matecomponent_property_bag_new_full        (<em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentEventSource</span> *es</code></em>);</pre>
+<p>
+Creates a new property bag with the specified callbacks.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>get_prop</code></em> :</span></p></td>
+<td>the property get closure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>set_prop</code></em> :</span></p></td>
+<td>the property set closure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>es</code></em> :</span></p></td>
+<td>an event source to aggregate
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A new <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-construct"></a><h3>matecomponent_property_bag_construct ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="returnvalue">MateComponentPropertyBag</span></a> * matecomponent_property_bag_construct       (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentEventSource</span> *es</code></em>);</pre>
+<p>
+Constructor, only for use in wrappers and object derivation, please
+refer to the <a class="link" href="libmatecomponent-matecomponent-property-bag.html#matecomponent-property-bag-new" title="matecomponent_property_bag_new ()"><span class="type">matecomponent_property_bag_new</span></a> for normal use.
+</p>
+<p>
+This function returns <em class="parameter"><code>pb</code></em>, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> in case of error.  If it returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>,
+the passed in <em class="parameter"><code>pb</code></em> is unrefed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>
+<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> to construct
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>get_prop</code></em> :</span></p></td>
+<td>the property get closure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>set_prop</code></em> :</span></p></td>
+<td>the property set closure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>es</code></em> :</span></p></td>
+<td>an event source to aggregate
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>  <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> pointer or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-add"></a><h3>matecomponent_property_bag_add ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_property_bag_add             (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArgType" title="MateComponentArgType"><span class="type">MateComponentArgType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *default_value</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *doctitle</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_PropertyFlags</span> flags</code></em>);</pre>
+<p>
+Adds a property to the property bag.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>property bag to add to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of new property
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>integer index for fast callback switch statement
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>the CORBA type eg. TC_long
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>default_value</code></em> :</span></p></td>
+<td>the default value or NULL
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>doctitle</code></em> :</span></p></td>
+<td>the translated documentation string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>various flags
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-add-full"></a><h3>matecomponent_property_bag_add_full ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_property_bag_add_full        (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArgType" title="MateComponentArgType"><span class="type">MateComponentArgType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a> *default_value</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *doctitle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *docstring</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_PropertyFlags</span> flags</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *get_prop</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *set_prop</code></em>);</pre>
+<p>
+This adds a property to <em class="parameter"><code>pb</code></em> at the full tilt of complexity.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>property bag to add to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of new property
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>integer index for fast callback switch statement
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>the CORBA type eg. TC_long
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>default_value</code></em> :</span></p></td>
+<td>the default value or NULL
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>doctitle</code></em> :</span></p></td>
+<td>the translated documentation title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>docstring</code></em> :</span></p></td>
+<td>the translated documentation string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>various flags
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>get_prop</code></em> :</span></p></td>
+<td>a per property get callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>set_prop</code></em> :</span></p></td>
+<td>a per property set callback
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-remove"></a><h3>matecomponent_property_bag_remove ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_property_bag_remove          (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>);</pre>
+<p>
+removes the property with <em class="parameter"><code>name</code></em> from <em class="parameter"><code>b</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>the property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of property to remove.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-map-params"></a><h3>matecomponent_property_bag_map_params ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_property_bag_map_params      (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"><span class="type">GObject</span></a> *on_instance</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gobject/unstable/gobject-GParamSpec.html#GParamSpec"><span class="type">GParamSpec</span></a> **pspecs</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> n_params</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>on_instance</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pspecs</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n_params</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-property-bag-get-prop-list"></a><h3>matecomponent_property_bag_get_prop_list ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             matecomponent_property_bag_get_prop_list   (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a> *pb</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentPropertyBag" title="MateComponentPropertyBag"><span class="type">MateComponentPropertyBag</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentProperty" title="MateComponentProperty"><span class="type">MateComponentProperty</span></a> structures.  This function is
+private and should only be used internally, or in a PropertyBag
+persistence implementation.  You should not touch the
+<a class="link" href="libmatecomponent-matecomponent-property-bag.html#MateComponentProperty" title="MateComponentProperty"><span class="type">MateComponentProperty</span></a> structure unless you know what you're doing.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

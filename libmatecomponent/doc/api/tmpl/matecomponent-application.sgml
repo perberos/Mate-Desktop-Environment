@@ -1,0 +1,195 @@
+<!-- ##### SECTION Title ##### -->
+matecomponent-application
+
+<!-- ##### SECTION Short_Description ##### -->
+a framework for unique application instance and automation
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### USER_FUNCTION MateComponentAppHookFunc ##### -->
+<para>
+
+</para>
+
+@app: 
+@data: 
+
+
+<!-- ##### FUNCTION matecomponent_application_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_application_register_message ##### -->
+<para>
+When @opt_closure is provided (and is non-%NULL) it takes care of calling the
+callback function with the same arguments as registered for the message.  On
+the other hand if @opt_closure is %NULL, the function arguments are provided in
+a #GValueArray.  This enables defining functions that accept variable number of
+arguments, but is perhaps a little more tedious to implement.
+</para>
+
+<para>
+<example>
+<title>Function with a closure</title>
+<programlisting>
+static void
+message_open_url_cb (MateComponentApplication *app, const char *url, gboolean new_win)
+{
+	...
+}
+...
+closure = g_cclosure_new (G_CALLBACK (message_open_url_cb), NULL, NULL);
+g_closure_set_marshal (closure, my_marshal_VOID__STRING_BOOLEAN);
+matecomponent_application_register_message (app, "open-url", "Opens a new URL in the browser."
+                                     " Parameters: url(string), open-in-new-window(boolean)",
+                                     closure, G_TYPE_NONE, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_NONE);
+</programlisting>
+</example>
+</para>
+
+<para>
+<example>
+<title>Function accepting variable number of arguments</title>
+<programlisting>
+static GValue *
+message_open_url_cb (MateComponentApplication *app, const char *message, GValueArray *args)
+{
+	const char *url;
+	gboolean    new_win = TRUE;
+
+	g_return_val_if_fail (strcmp (message, "open-url") == 0, NULL);
+	g_return_val_if_fail (args->n_values > 0, NULL);
+	g_return_val_if_fail (G_VALUE_HOLDS_STRING (&amp;args->values[0]), NULL);
+
+	url = g_value_get_string (&amp;args->values[0]);
+	if (args->n_values > 1)
+	{
+		g_return_val_if_fail (G_VALUE_HOLDS_BOOLEAN (&amp;args->values[1]), NULL);
+		new_win = g_value_get_boolean (&amp;args->values[1]);
+	}
+
+	...
+
+	return NULL;
+}
+...
+matecomponent_application_register_message (app, "open-url", "Opens a new URL in the browser."
+                                     " Parameters: url(string) [, open-in-new-window(boolean)]",
+                                     NULL, G_TYPE_NONE, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_NONE);
+
+g_signal_connect (app, "message::open-url", G_CALLBACK (message_open_url_cb), NULL);
+</programlisting>
+</example>
+</para>
+
+<para>
+<note>You are not required to register any messages for your application.
+However, only registered functions are included in the list returned by
+matecomponent_app_client_msg_list()</note>
+</para>
+
+@app: 
+@name: 
+@description: 
+@opt_closure: 
+@return_type: 
+@first_arg_type: 
+@Varargs: 
+
+
+<!-- ##### FUNCTION matecomponent_application_register_message_v ##### -->
+<para>
+
+</para>
+
+@app: 
+@name: 
+@description: 
+@opt_closure: 
+@return_type: 
+@arg_types: 
+
+
+<!-- ##### FUNCTION matecomponent_application_register_message_va ##### -->
+<para>
+
+</para>
+
+@app: 
+@name: 
+@description: 
+@opt_closure: 
+@return_type: 
+@first_arg_type: 
+@var_args: 
+
+
+<!-- ##### FUNCTION matecomponent_application_new_instance ##### -->
+<para>
+
+</para>
+
+@app: 
+@argc: 
+@argv: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_application_create_serverinfo ##### -->
+<para>
+
+</para>
+
+@app: 
+@envp: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_application_register_unique ##### -->
+<para>
+
+</para>
+
+@app: 
+@serverinfo: 
+@client: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_application_add_hook ##### -->
+<para>
+
+</para>
+
+@func: 
+@data: 
+
+
+<!-- ##### FUNCTION matecomponent_application_remove_hook ##### -->
+<para>
+
+</para>
+
+@func: 
+@data: 
+
+

@@ -1,0 +1,456 @@
+<!-- ##### SECTION Title ##### -->
+MateCanvas
+
+<!-- ##### SECTION Short_Description ##### -->
+Main canvas widget
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The #MateCanvas is an engine for structured graphics that offers a
+rich imaging model, high performance rendering, and a powerful,
+high level API. It offers a choice of two rendering back-ends,
+one based on Xlib for extremely fast display, and another based on
+Libart, a sophisticated, antialiased, alpha-compositing engine.
+This widget can be used for flexible display of graphics and for
+creating interactive user interface elements.
+</para>
+
+<para>
+To create a new #MateCanvas widget call mate_canvas_new() or
+mate_canvas_new_aa() for an anti-aliased mode canvas.
+</para>
+
+<para>
+A #MateCanvas widget contains one or more #MateCanvasItem
+objects. Items consist of graphing elements like lines, ellipses,
+polygons, images, text, and curves. These items are organized using
+#MateCanvasGroup objects, which are themselves derived from
+#MateCanvasItem. Since a group is an item it can be contained within
+other groups, forming a tree of canvas items. Certain operations, like
+translating and scaling, can be performed on all items in a group.
+</para>
+
+<para>
+There is a special root group created by a #MateCanvas. This is the top
+level group under which all items in a canvas are contained. To get the root
+group from a canvas call mate_canvas_root(). To clear a canvas you can
+simply walk through the item_list member of the #MateCanvasGroup and call
+gtk_object_destroy() on each one.
+</para>
+
+<para>
+There are several different coordinate systems used by #MateCanvas
+widgets. The primary system is a logical, abstract coordinate space
+called world coordinates. World coordinates are expressed as unbounded
+double floating point numbers. When it comes to rendering to a screen
+the canvas pixel coordinate system (also referred to as just canvas
+coordinates) is used. This system uses integers to specify screen
+pixel positions. A user defined scaling factor and offset are used to
+convert between world coordinates and canvas coordinates. Each item in
+a canvas has its own coordinate system called item coordinates. This
+system is specified in world coordinates but they are relative to an
+item (0.0, 0.0 would be the top left corner of the item). The final
+coordinate system of interest is window coordinates. These are like
+canvas coordinates but are offsets from within a window a canvas is
+displayed in. This last system is rarely used, but is useful when
+manually handling GDK events (such as drag and drop) which are 
+specified in window coordinates (the events processed by the canvas
+are already converted for you).
+</para>
+
+<para>
+Along with different coordinate systems comes functions to convert
+between them. mate_canvas_w2c() converts world to canvas pixel
+coordinates and mate_canvas_c2w() converts from canvas to
+world. mate_canvas_w2c_d() is like mate_canvas_w2c() but returns the
+pixel coordinates as doubles which is useful to avoid precision loss
+from integer rounding. To get the affine transform matrix for converting
+from world coordinates to canvas coordinates call mate_canvas_w2c_affine().
+mate_canvas_window_to_world() converts from window to world
+coordinates and mate_canvas_world_to_window() converts in the other
+direction. There are no functions for converting between canvas and
+window coordinates, since this is just a matter of subtracting the
+canvas scrolling offset. To convert to/from item coordinates use the
+functions defined for #MateCanvasItem objects.
+</para>
+
+<para>
+To set the canvas zoom factor (canvas pixels per world unit, the
+scaling factor) call mate_canvas_set_pixels_per_unit(), setting this
+to 1.0 will cause the two coordinate systems to correspond (e.g., [5, 6]
+in pixel units would be [5.0, 6.0] in world units).
+</para>
+
+<para>
+Defining the scrollable area of a canvas widget is done by calling
+mate_canvas_set_scroll_region() and to get the current region
+mate_canvas_get_scroll_region() can be used. If the window is
+larger than the canvas scrolling region it can optionally be centered
+in the window.  Use mate_canvas_set_center_scroll_region() to enable or
+disable this behavior. To scroll to a particular canvas pixel coordinate
+use mate_canvas_scroll_to() (typically not used since scrollbars are
+usually set up to handle the scrolling), and to get the current canvas pixel
+scroll offset call mate_canvas_get_scroll_offsets().
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateCanvas ##### -->
+<para>
+This should not be accessed directly. Use the accessor functions as described
+below.
+</para>
+
+
+<!-- ##### SIGNAL MateCanvas::draw-background ##### -->
+<para>
+This signal is emitted to draw the background for non-antialiased mode
+canvas widgets. The default method uses the canvas widget's style to
+draw the background.
+</para>
+
+@canvas: the object which received the signal.
+@arg1: GdkDrawable to draw to
+@arg2: Leftmost X coordinate of area to draw to
+@arg3: Top Y coordinate of area to draw to
+@arg4: Width of area
+@arg5: Height of area
+
+<!-- ##### SIGNAL MateCanvas::render-background ##### -->
+<para>
+This signal is emitted for antialiased mode canvas widgets to render
+the background. The buf data structure contains both a pointer to a
+packed 24-bit RGB array and the coordinates.
+</para>
+
+@canvas: the object which received the signal.
+@arg1: #MateCanvasBuf to render to
+
+<!-- ##### ARG MateCanvas:aa ##### -->
+<para>
+Enable anti-aliasing mode?
+</para>
+
+<para>
+Note that this parameter can only be set at the time of object
+construction. The same effect can be achieved by calling
+mate_canvas_new() to create new non-aa canvas or
+mate_canvas_new_aa() for an anti-aliased canvas.
+</para>
+
+<!-- ##### ARG MateCanvas:focused-item ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO MATE_CANVAS_EPSILON ##### -->
+<para>
+A tiny value used by internal canvas operations.
+</para>
+
+
+
+<!-- ##### MACRO MATE_CANVAS_COLOR ##### -->
+<para>
+Macro for creating a canvas 32 bit RGBA color from red, green and blue
+components.
+</para>
+
+@r: Red value (0-255)
+@g: Green value (0-255)
+@b: Blue value (0-255)
+@Returns: A 32 bit integer of the format 0xRRGGBBAA with the alpha "AA"
+component set to 0xFF (fully visible, no transparency) and the other bytes
+set to the input parameters.
+
+
+<!-- ##### MACRO MATE_CANVAS_COLOR_A ##### -->
+<para>
+Macro for creating a canvas 32 bit RGBA color from red, green, blue and
+alpha components.
+</para>
+
+@r: Red value (0-255)
+@g: Green value (0-255)
+@b: Blue value (0-255)
+@a: Alpha value (0-255, 0=completely transparent, 255=opaque)
+@Returns: A 32 bit integer of the format 0xRRGGBBAA created from the input
+parameters.
+
+
+<!-- ##### STRUCT MateCanvasBuf ##### -->
+<para>
+A buffer used for rendering for antialiased mode canvas widgets.
+</para>
+
+@buf: 
+@rect: 
+@buf_rowstride: 
+@bg_color: 
+@is_bg: 
+@is_buf: 
+
+<!-- ##### FUNCTION mate_canvas_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_new_aa ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_root ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_set_scroll_region ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@x1: 
+@y1: 
+@x2: 
+@y2: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_scroll_region ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@x1: 
+@y1: 
+@x2: 
+@y2: 
+
+
+<!-- ##### FUNCTION mate_canvas_set_center_scroll_region ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@center_scroll_region: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_center_scroll_region ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_set_pixels_per_unit ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@n: 
+
+
+<!-- ##### FUNCTION mate_canvas_scroll_to ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@cx: 
+@cy: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_scroll_offsets ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@cx: 
+@cy: 
+
+
+<!-- ##### FUNCTION mate_canvas_update_now ##### -->
+<para>
+
+</para>
+
+@canvas: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_item_at ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_request_redraw_uta ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@uta: 
+
+
+<!-- ##### FUNCTION mate_canvas_request_redraw ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@x1: 
+@y1: 
+@x2: 
+@y2: 
+
+
+<!-- ##### FUNCTION mate_canvas_w2c_affine ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@affine: 
+
+
+<!-- ##### FUNCTION mate_canvas_w2c ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@wx: 
+@wy: 
+@cx: 
+@cy: 
+
+
+<!-- ##### FUNCTION mate_canvas_w2c_d ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@wx: 
+@wy: 
+@cx: 
+@cy: 
+
+
+<!-- ##### FUNCTION mate_canvas_c2w ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@cx: 
+@cy: 
+@wx: 
+@wy: 
+
+
+<!-- ##### FUNCTION mate_canvas_window_to_world ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@winx: 
+@winy: 
+@worldx: 
+@worldy: 
+
+
+<!-- ##### FUNCTION mate_canvas_world_to_window ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@worldx: 
+@worldy: 
+@winx: 
+@winy: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_color ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@spec: 
+@color: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_color_pixel ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@rgba: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mate_canvas_set_stipple_origin ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@gc: 
+
+
+<!-- ##### FUNCTION mate_canvas_set_dither ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@dither: 
+
+
+<!-- ##### FUNCTION mate_canvas_get_dither ##### -->
+<para>
+
+</para>
+
+@canvas: 
+@Returns: 
+
+

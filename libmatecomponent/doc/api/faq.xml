@@ -1,0 +1,736 @@
+<!-- -*- xml-lite -*- -->
+<refentry id="libmatecomponent-faq" revision="1 Jan 2003">
+    <refmeta>
+	<refentrytitle>Common Questions</refentrytitle>
+	<manvolnum>3</manvolnum>
+	<refmiscinfo>Common Questions</refmiscinfo>
+    </refmeta>
+    
+    <refnamediv>
+	<refname>Common Questions</refname>
+	<refpurpose>
+	    Find answers to common questions in the libmatecomponent manual
+	</refpurpose>
+    </refnamediv>
+
+    <refsect1>
+	<title>Questions and Answers</title>
+
+	<para>Miguel de Icaza (miguel@helixcode.com)</para>
+
+	<para>This is a work in progress.  Please mail me before
+	    making any changes to this document.</para>
+
+	<qandaset>
+
+	    <qandaentry>
+		<question><para>What is MateComponent?</para></question>
+		
+		<answer><para> MateComponent is a component architecture for creating reusable
+		    and distributed software components.  These software components
+		    interact with each other through well defined interfaces which are
+		    specified in the CORBA Interface Definition Language. </para>
+		    
+		    <para> We distinguish between `MateComponent' the name of the component
+			architecture, and `matecomponent' which is the C-based easy to use
+			implemenatation of the MateComponent component architecture.</para>
+		    
+		    <para>The matecomponent distribution consists of the following pieces:
+			
+			<itemizedlist>
+			    <listitem><para> The MateComponent interface definition files: these
+				establish the standard interfaces used by MateComponent-based
+				applications. </para> </listitem>
+			    
+			    <listitem><para>The core MateComponent runtime: MateComponent
+				contains a rich API for dealing MateComponent Objects
+				(activation for example).</para></listitem>
+			    
+			    <listitem><para> The GObject-Based (and hence C-based) MateComponent
+				framework for creating new MateComponent::Unknown derived
+				interfaces.  These are used to simplify the development of
+				CORBA-servers using the C language binding.</para>
+				
+				<para>Each derivative of a
+				    <classname>MateComponentObject</classname> implements an
+				    interface derived from
+				    <literal>IDL:MateComponent/Unknown:1.0</literal>.</para>
+			    </listitem>
+			    
+			    <listitem> <para>A set of ready-to-use
+				<classname>MateComponentObject</classname>s derivatives that can
+				be used in a variety of situations.  These are considered
+				developer "sugar", although not required, they greatly
+				simplify the development of MateComponent-based
+				applications. </para> </listitem>
+			    
+			    <listitem> <para> A set of "sugar" functions for
+				manipulating client-side objects. </para>
+			    </listitem>
+			    
+			</itemizedlist>
+		    </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> What is CORBA? </para> </question>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> What is a component? </para> </question>
+		<answer> <para> A component is a ( preferably small ), re-usable piece of
+		    software, with well defined interfaces and interactions. In this
+		    context these interfaces are described in IDL and the interactions
+		    via. CORBA.  </para></answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> Is it possible to use MateComponent components in
+		    my favorite language? </para></question>
+		
+		<answer> <para>You will need your favorite language to support
+		    CORBA.</para>
+		    
+		    <para> There are various CORBA implementations with a
+			different degree of completness that you can use:
+			<itemizedlist>
+			    
+			    <listitem><para>Owen Taylor has written Perl
+				bindings for CORBA using MateCORBA. </para>
+			    </listitem>
+			    
+			    <listitem> <para> James Henstridge
+				has written Python binding for CORBA. </para>
+			    </listitem>
+			    
+			    <listitem> <para> Dan Barlow has written Common
+				Lisp bindings for CORBA. </para> </listitem>
+			    
+			    <listitem> <para> C++ has piles of language
+				bindings. </para> </listitem>
+			</itemizedlist>
+		    </para>
+		    
+		    <para> You need your CORBA implementation to at least let you invoke
+			methods on other CORBA objects as well as allowing you to
+			implement CORBA objects.  MateComponent uses in various places callback
+			mechanisms and these require the later functionality.  For
+			instance, there is an old Emacs Lisp implementation that did not
+			allow you to create CORBA object servers. </para> </answer>
+	    </qandaentry>
+	    
+	    <qandaentry>
+		<question><para>Are there other implementations of
+		    MateComponent?</para></question>
+
+		<answer> <para> There is a work in progress to implement MateComponent in other
+		    languages, although most languages will want to reuse parts of the
+		    core runtime to avoid duplicating a large piece of code that is better
+		    kept centralized and reused.</para>
+		    
+		    <para> FIXME: include a detailed list of the things that are
+			conveniently not wrapped. </para> </answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> Is it possible to implement MateComponent components in language X?
+		    </para> </question>
+		<answer>
+		    <para>Yes.</para>
+		    
+		    <para> First of all, it is important that your language has CORBA
+			bindings, or that a suitable CORBA implementation is available for
+			you.  You want if possible to get a CORBA 2.2 implementation, but this
+			is not required. </para>
+		    
+		    <para> It does not matter what language you are using, you can implement
+			MateComponent Components by implementing the interface that your component
+			wants to support. </para>
+		    
+		    <para> Depending on your language, you will want to wrap
+			some bits from MateComponent (for instance, the core runtime)
+			or you will want to provide an alternate
+			implementation or no implementation at all. </para> </answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>What is MateCORBA?</para></question>
+		<answer> <para> MateCORBA is a CORBA implementation with a C mapping of
+		    the CORBA 2.2 specification mostly written by Elliot Lee and Dick
+		    Porter. </para> <para> You can find more about MateCORBA <ulink
+									     url="http://www.labs.redhat.com/matecorba"> here </ulink> </para>
+		    <para> MateCORBA is designed to be a small CORBA implementation that can
+			be embedded in most applications on the desktop.  It also happens
+			to be one of the fastest CORBA implementations in existance.  It
+			supports a number of CORBA features:
+			<itemizedlist>
+			    <listitem> <para> C Language mapping. </para> </listitem>
+			    <listitem> <para> A full POA implementation. </para> </listitem>
+			    <listitem> <para> The Dynamic Invocation Interface. </para> </listitem>
+			    <listitem> <para> The Dynamic Skeleton Interface. </para> </listitem>
+			    <listitem> <para> CORBA Any values. </para> </listitem>
+			    <listitem> <para> Typecodes. </para> </listitem>
+			</itemizedlist>
+		    </para>
+		    <para> And it comes with a number of libraries that implement a few of
+			the CORBA services (Cos) </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question> <para> I am interested in CORBA, where can I learn more?
+		    </para> </question>
+		<answer> <para> CORBA is a standard published by the Object Management
+		    Group, you can download various of their specifications from their
+		    <ulink url="http://www.omg.org"> web site </ulink> </para>
+		    <para>See, for example, the <ulink url="http://www.omg.org/technology/documents/formal/c_language_mapping.htm">C Language Mapping</ulink>.</para>
+		    <para>FIXME: include pointers to more relevant documents.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry> <question> <para> What can I do with `matecomponent'? </para>
+		</question></qandaentry>
+
+	    <qandaentry>
+		<question><para>What is an OAFID?</para></question>
+		<answer> <para>The OAFID is a unique identifier for a specific object
+		    implementation and it is used to resolve uniquely.  This ID is used to
+		    activate CORBA servers implementations. </para>
+		    <para> For example, this OAFID represents the Gnumeric workbook
+			factory object:
+			<para><literal>OAFIID:MATE_Gnumeric_WorkbookFactory</literal>
+			</para>
+		    </para>	    
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question> <para> What is a Factory? </para> </question>
+		<answer>
+		    <para> A factory is an object that makes other
+			objects. eg. a Gnumeric factory might make Workbook
+			objects.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question> <para> Where does the OAFID come from? </para>
+		</question></qandaentry>
+
+	    <qandaentry>
+		<question> <para> What is a Control? </para> </question>
+		<answer>
+		    <para> A Control is a 'componentized' version of a
+			Widget. ie. A Control is a (single view) Graphical
+			component. </para>
+		    <para> In the Gtk+ implementation a Control contains a
+			GtkWidget, it also has associated 'properties',
+			providing an easy way to customize basic features of
+			the control without creating an idl interface. </para>
+		    <para> A control is often used inside a MateComponentWidget,
+			which acts as a container of Controls. The
+			MateComponentWidget is a normal GtkWidget that can be
+			inserted into a GtkContainer. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question> <para> What is a PropertyBag, What is a Property? </para></question>
+		<answer> <para> See <xref linkend="properties"/>. </para> </answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question> <para> What are the activation methods in MateComponent? </para> </question>
+
+		<answer> <para> The prefered method of activating objects is through the
+		    <function>matecomponent_get_object</function> function.  This one does
+		    moniker based activation.  Like this: </para>
+		    <para> For example this activates gnumeric and returns a
+			<classname>MATE::Gnumeric::Worbook</classname> CORBA
+			object reference:</para>
+		    <programlisting>
+matecomponent_get_object ("OAFIID:MATE_Gnumeric_Workbook", "MATE/Gnumeric/Workbook");
+		    </programlisting>
+		    <para> The following launches an image handler: </para>
+		    <programlisting>
+matecomponent_get_object ("file:image.jpeg", "MateComponent/Control")
+		    </programlisting>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> Does MateComponent support in-proc components? </para></question>
+		<answer>
+		    <para> Yes, this depends on how you setup your component, however
+			currently there are very few in-proc mate components, due to
+			various debugging problems. </para>
+		</answer>
+	    </qandaentry>
+
+<!-- It seems the examples are no longer available; maybe they're in libmatecomponentui?...
+@Q: How can I embed a simple control in my application?
+
+	The following example shows how to embed the HTML Editor
+	component in a window:
+
+@BEGIN_EXAMPLE:
+Sources:
+	embed-control/embed-control.c
+Makefile:
+	embed-control/Makefile
+@END_EXAMPLE
+-->
+
+	    <qandaentry><question><para>
+		What is that long string of identifiers.</para></question></qandaentry>
+
+	    <qandaentry><question><para>
+		Can you show me a simple MateComponent component?</para></question></qandaentry>
+
+	    <qandaentry><question><para>
+		How can I write user interfaces with Glade?</para></question></qandaentry>
+
+	    <qandaentry><question><para>
+		I want to pack a widget using MateComponent.</para></question></qandaentry>
+
+	    <!-- @Q: What are properties? -->
+	    <!-- @Q: How can I use properties? -->
+
+	    <qandaentry>
+		<question><para>Can I write GUI-less MateComponent components?</para></question>
+		<answer>
+		    <para> Yes, you can.  MateComponent is in no way tied to the X11
+			environment, although it fully supports it. </para>
+		    <para> The C implementation of MateComponent uses
+			<classname>GObject</classname>s as its base class, and hence you
+			need to link against the glib-object libraries
+
+			<!-- obsolete -->
+			<!--(do not worry, this is taken care of for you by the
+			     mate-config scripts), and you do need to call the
+			     gtk_type_init() function at the beginning of your program-->.
+		    </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> How can I write a configure script that detects MateComponent?
+		    </para></question>
+		<answer>
+		    <!-- The original answer is obsoleted by pkg-config -->
+		    <programlisting>
+PKG_CHECK_MODULES(MATECOMPONENT, libmatecomponent-2.0)
+		    </programlisting>
+		    <para> See <literal>pkg-config(1)</literal> for more details.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>How do I compile and link a sample MateComponent application?
+		    </para></question>
+		<answer>
+		    <para> If your source file is in the file component.c, you
+			can compile it by using the following command line:</para>
+		    <command><literal>cc `pkg-config --cflags libmatecomponent-2.0` -c component.c</literal></command>
+		    <para> To link, you use the command line:</para>
+		    <command><literal>cc `pkg-config --libs libmatecomponent-2.0` component.o</literal></command>
+		    
+		    <para> You would replace <literal>libmatecomponent-2.0</literal>
+			for <literal>libmatecomponentui-2.0</literal> if you are
+			using the GUI/Gtk+ features of MateComponent and include
+			<literal>libmateprint-2.0</literal> if you are using
+			any of the printing facilities for components.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> Where can I find examples of MateComponent use? </para></question>
+		<answer>
+		    <para> There are various sample programs in the MateComponent distribution
+			and they are mostly intended to either excercise a part of MateComponent
+			or to show how a specific feature in MateComponent is
+			implemented. </para>
+		    <para> You can find the sample programs in matecomponent/samples; A few
+			simple components are in matecomponent/components; There are various
+			other test programs shipped with MateComponent as well (like gshell)
+		    </para>
+		    <para> For more advanced uses of MateComponent, you might want to look into
+			Gnumeric, Nautilus or Evolution. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> I noticed the lack of an IDispatch-like interface in
+		    MateComponent, how do you cope with this problem? </para> </question>
+		<answer>
+		    <para> CORBA provides a better solution to IDispatch at the CORBA
+			level which obviates the need to have something like that. </para>
+		    <para> CORBA supports a mechanism on the client side called the
+			Dynamic Invocation Interface (DII) which allows programmers to
+			build their own CORBA request to a server. </para>
+		    <para> On the server side CORBA supports the Dynamic Skeleton (or
+			Server? FIXME) Interface which allows applications to decode
+			arbitrary incoming CORBA requests. </para>
+		    <para> Scripting languages would typically implement some sort of
+			support for DII and DSI.  This enables scripting languages to talk
+			to an arbitrary CORBA server or to implement any kind of CORBA
+			interface. </para>
+		    <para> Some CORBA bindings for scripting languages (like Owen Taylor's
+			MateCORBA support for Perl) use the ORBs internals, as they are
+			sometime easier to use than DII/DSI. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>Can I write components in any language?</para></question>
+		<answer>
+		    <para>You can write components in any language that has a CORBA
+			binding or a CORBA implementation.  The only requirement is that
+			your components implement one or more of the MateComponent
+			interfaces.</para>
+		    <para> The runtime for your language might want to reuse some of the C
+			implementation features (like object activation, moniker
+			activation and a few other utility functions).</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>Is MateComponent tied to the Gtk toolkit?</para></question>
+		<answer>
+		    <para>No, it is not.  The `matecomponent' implementation is tied to Gtk+, but
+			another binding for another language and another toolkit should be
+			simple to write.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>Is MateComponent tied to the MateCORBA implementation?</para></question>
+		<answer>
+		    <para> We do not believe that MateComponent is tied to MateCORBA in any aspect,
+			and there is even an implementation of MateComponent written in Java by
+			Cactus (Gergo Erdi) called Monkeybeans that uses the Java
+			ORB. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>What is a Moniker?</para></question>
+		<answer>
+		    <para>Monikers are used to name objects, they effectively
+			implement an object naming space. The naming space is
+			extremely abstract.
+			<!-- FIXME: I can't find doc/Monikers anywhere! -->
+			Read doc/Monikers for a more in-depth explanation.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>Why are you so excited about Monikers?</para></question>
+		<answer>
+		    <para>Please read the matecomponent/doc/Monikers document while I prepare
+			the full answer.</para>
+		</answer>
+	    </qandaentry>
+	    
+	    <qandaentry><question><para>
+		How can I write my own moniker? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		Show me some examples. </para></question></qandaentry>
+	    <qandaentry><question><para>
+		What is the POA? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		Should I use the MateComponent "base classes"? </para></question></qandaentry>
+	    <qandaentry><question><para> The memory management issues seem complex.
+		What are the differences? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		What does OAF do? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		What is a name server? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		Why would I want to use a Name Server? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		I have my own needs for a name server,
+		can I use it instead of yours? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		Where are component properties stored? </para></question></qandaentry>
+	    <qandaentry><question><para>
+		What are the component properties? </para></question></qandaentry>
+
+	    <qandaentry>
+		<question><para> What kind of authentication system does MateComponent use for
+		    its objects? </para></question>
+		<answer>
+		    <para> Every CORBA object created by MateCORBA currently has a long and
+			unique id created from a random sequence.  To contact this object
+			it is necessary to have the full object reference in order to
+			dispatch a request to it (typically the object reference is
+			obtained from the name server, or you can get it in a stringified
+			version as an IOR). </para>
+		    <para> In the past, we used a cookie system that was attached to the
+			object profile list (in a fully CORBA standard way) and this was
+			used to authenticate the client and the server. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> I notice that a port is open in my computer
+		    for every application that creates CORBA object; is that
+		    insecure?</para></question>
+		<answer>
+		    <para>That port is created by MateCORBA to accept CORBA requests.  Before
+			any request is processed by the ORB, the connection is
+			authenticated (either by the use of the cookie mechanism, or
+			because the IOR encodes a valid object reference). </para>
+		    <para> There are no known holes or exploits known on the incoming
+			request handler in MateCORBA and if you know of anyone, we would love
+			to fix that problem. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> Are communications between components in
+		    MateComponent encrypted? </para></question>
+		<answer>
+		    <para> We depend on the MateCORBA layer to do any kind of encryption of
+			the data.  The current version of MateCORBA does not use SSL or any
+			other secure transports, although patches for it are
+			available. </para>
+		    <para> FIXME: where are these patches available from? </para>
+		    <para> The current version of MateCORBA (MateCORBA2) uses OpenSSL to provide
+			encryption services. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> If communications are not encrypted, why do you support
+		    them? </para></question>
+		<answer>
+		    <para> We guarantee that communications on the destkop are going to be
+			secure, as nobody on the network will be able to sniff on your
+			connections.  When you go over the network, then traffic is not
+			encrypted and it might be subject to sniffing. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>What is the problem with the standard C++ CORBA
+		    binding?</para></question>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>What naming scheme should I use for my CORBA interfaces?
+		    </para></question>
+		<answer>
+		    <para>If you are a MATE/ project you need to register your
+			MATE/MyProject/ namespace, see matecomponent/doc/NAMESPACE to see how
+			these are allocated.</para>
+		    <para>Otherwise, you should use a Java like namespacing scheme based
+			on the DNS.</para>
+		    <programlisting>
+	module Com {
+		module MyCompany {
+			module MyProduct {
+				interface MyInterface {
+				};
+			};
+		};
+	};
+		    </programlisting> 
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> How should I create unique OAFIIDs for components?
+		    </para></question>
+		<answer>
+		    <para>There are two ways to do this. Firstly, those projects with a
+			defined namespace that implement new interfaces. To create an
+			OAFIID simply take your namespace, and with delimiting '_' create
+			an IID within your own defined space eg.</para>
+		    <para><literal>OAFIID:MATE_Evolution_Calendar_iTip_Factory</literal></para>
+		    <para><literal>OAFIID:Com_MyCompany_MyProduct_Control</literal></para>
+		    <para> A suffix of the main function of the instance eg. _Control,
+			_Factory, _Embeddable etc. is encouraged for clarity. </para>
+		    <para> The second method for generating OAFIIDs is appropriate for
+			small components that implement no new interfaces, and hence need
+			no special namespace co-ordination. Namespace the initial portion
+			as a category grouping eg. </para>
+		    <para><literal>OAFIID:MATE_Panel_Applet_yetanotherclock:</literal></para>
+		    <para> and add a UUID generated from the uuidgen application at the
+			end to garentee uniqueness. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> What should I call my oaf / UI / IDL file ? </para></question>
+		<answer>
+		    <para>The name of your oaf file should be based on your portion of the
+			namespace, eg.</para>
+		    <para><literal>MATE_Evolution_Calendar.oaf</literal></para>
+		    <para><literal>Com_MyCompany_MyProduct.oaf</literal></para>
+		    <para>This ensures that there will be no conflicts installing oaf
+			files into a common directory.</para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para>How should I name my CORBA methods ?</para></question>
+		<answer>
+		    <para>CORBA methods should be named using mixed caps, following a
+			convention similar to that of Java convention. ie. method names
+			should be verbs or verb phrases in mixed case with the first leter
+			lowercase and the first letter of any further words
+			capitalized.</para>
+		    <programlisting>
+interface MyInterface {
+
+	long  getLength ();
+	void  setLength (in long l);
+
+	/* the ByName qualifier is a useful disambiguator */
+	long  getValueByName (in string name);
+
+	/* Factory methods should be named createWhatever */
+	MateComponent::Unknown createObject ();
+
+	/* Methods that test boolean conditions */
+	boolean isDirty ();
+	boolean hasLongLegs ();
+
+	/* Mutator methods */	
+	string toString ();
+	double toDouble ();
+
+	/* Signals */
+	oneway void notifyRename ();
+
+	/* Calculate a number of types */
+	long countObjects (in Type t);
+};
+		    </programlisting>
+		    <para> With acroyms we fully capitalize eg. <literal>getURI</literal>,
+			with abbreviations and contractions we capitalize the first letter
+			eg. <literal>setDoc</literal> <literal>setId</literal>. cf.
+			<ulink
+			    url="http://java.sun.com/docs/books/jls/html/6.doc.html#11186"/>
+		    </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> How should I name attributes and structure members?
+		    </para></question>
+		<answer>
+		    <para> Again, use a Java-like convention eg.</para>
+		    <programlisting>
+struct MyStructure {
+	string theName;
+	long   heightInInches;
+};
+		    </programlisting>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> Why when I do a gtk_widget_show_all does my Control not
+		    show up? </para></question>
+		<answer>
+		    <para> The gtk_widget_show_all should not propagate over the plug /
+			socket boundary, you need to ensure that you do a gtk_widget_show
+			on your control. You can of course do shows / hides on the
+			MateComponentWidget ( the server side ) to show or hide the
+			control. </para>
+		    <para> This also means that as a component author, you are protected
+			from people messing with your internal show / hide logic. </para>
+		</answer>
+	    </qandaentry>
+<!--
+@Q: Support Transactions?
+@Q: A GUI for defining component properties?
+
+CORBA:
+
+	Is CORBA slow?
+
+	Is CORBA bloated?
+
+	I heard CORBA is unstable.
+
+	What is better?  COM or CORBA?
+
+	
+	Why not use the XX binding/The C binding is ugly.
+
+	I do not want to check for errors.
+
+	What is wrong with:
+		check_connection(server_handle);
+		do_remote_op (server_handle);
+
+	MEmorymanagement of CORBA object references.
+
+	Is there a CORBA implementation for language XXX?
+
+General:
+
+	What is reference counting?
+
+Tips and Hints:
+
+	Designing interfaces: local vs remote.  Just enough encapsulation.
+-->
+	    <qandaentry>
+		<question><para> Aren't Monikers just a re-implementation of the MATE
+		    VFS?  Why not use the MATE VFS? </para></question>
+		<answer>
+		    <para> For a storage backend you can always use something like
+			matecomponent_storage_new ("mate-vfs") and get away with life. </para>
+		    <para> The main difference between the mate-vfs, and monikers is that
+			monikers are used to implement an object-based name space, while
+			the mate-vfs is a fine abstraction for naming files and
+			directories.  The moniker space goes well beyond this. </para>
+		    <para> When Ettore, Nat and I designed the MATE VFS in Paris Ettore
+			had a grander vision than Nat and I had.  Nat and I wanted exactly
+			what the MATE VFS is: an asyncronous, pluggable virtual file
+			system implementation.  Ettore wanted something more general,
+			something that would implement an object name space.  And some of
+			the design decisions in the core of the mate-vfs reflect some of
+			this thinking, but the API and the infrastructure was limited to
+			handling files. </para>
+		    <para> Various months later, we finally understood completely the
+			moniker system, and we realized that monikers were an object
+			naming space, and that if done correctly monikers would be able to
+			implement Ettore's initial vision for having an object-based
+			naming space. </para>
+		</answer>
+	    </qandaentry>
+
+	    <qandaentry>
+		<question><para> When I run my program loads of daemons start and don't
+		    stop, why? </para></question>
+		<answer>
+		    <para> When you activate a MateComponent server the oaf daemon starts, this
+			parses all your oafinfo files and then can respond to activation
+			requests and queries. </para>
+		    <para> The first access latency in this case is relatively high, the
+			second access is extremely quick, consequently it is advantageous
+			to leave the oafd process running on a MATE system. Eventualy
+			many of the MATE desktop services will be using oaf regularly,
+			making unloading it wasteful. </para>
+		    <para> Most people are happy to have many daemons running on their
+			machine - kswapd for example, or perhaps umpteen idle copies of
+			mingetty - these are left running for performance reasons, and
+			have a negligable impact on system performance. </para>
+		    <para> Finally, patches are welcome to add a _user configurable_
+			timeout and die option for those that begrudge the couple of Mb (
+			including all dependant shlibs ) to oafd. The command oaf-slay can
+			be used to kill all oaf servers at any time and one can profitably
+			look for memory savings elsewhere. </para>
+		</answer>
+	    </qandaentry>
+
+	</qandaset>
+    </refsect1>
+</refentry>
+

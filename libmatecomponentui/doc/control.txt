@@ -1,0 +1,190 @@
+A discussion of a control's lifecycle - 0.1
+  Michael Meeks <michael@ximian.com>
+
+* Overview
+
+	With a control we have a relatively complicated situation,
+with several MateComponent and Gtk objects all associated loosely. It is
+important to codify carefuly what is involved in the various
+interactions:
+
+        ControlFrame <-> Socket
+             ^             ^
+             |             |
+           CORBA           X
+             |             |
+             v             v
+        Control <------> Plug
+
+* Creation interaction (A)
+
+** Out of proc.
+
+	1. Control creation
+	2. Passes it's reference
+        3.                       _control_frame_new
+	4.			 creates ControlFrame
+	5.			 creates Socket
+	6.			 _control_frame_bind_to_control
+	7.			 takes a C. Control ref.
+	8.			 Control->setFrame
+	9. takes a C. control_frame ref
+	10. -- socket realize -- Control->setWindowId
+
+** In proc
+
+	1. Control creation
+	2. Passes it's reference
+        3.                       _control_frame_new
+	4.			 creates ControlFrame
+	5.			 creates Socket
+	6.			 _control_frame_bind_to_control
+	7.			 takes a C. Control ref.
+	8.			 Control->setFrame
+	9. takes a C. control_frame ref
+	10. Sets up in-proc references to each other.
+	11. -- socket realize -- Control->setWindowId
+
+
+* Steady state referencing
+
+        ControlFrame: GObject ref -> Socket
+	Socket: MateComponent ref -> ControlFrame
+
+	ControlFrame: MateComponent ref -> Control
+	----------------------------------
+	Control: CORBA ref -> ControlFrame
+
+	Control: GObject ref -> Plug
+	Plug: MateComponent ref -> Control
+
+	NB. The plug only holds it's matecomponent ref on the control when
+it's realized.
+
+
+* Destruction interaction (B1)
+
+
+** Out of proc
+
+	Toplevel gtk_widget_destroy.
+
+	1.                       Socket dispose
+	2.			 unset control (B. unref)
+	3.			 MateComponent unref Control 
+
+	4. got unref            <--.
+and:			           | interchangeable
+	5. X connection broken  <--'
+	6. Instantiate glib mainloop idle handler: Note 1.
+...
+	7. unref plug -> dispose
+	8. plug unset control frame
+	9. plug C. unref ControlFrame
+
+** Note 1.
+	  As Darin points out, the connection broken signal
+	can occur 'inside' or during a CORBA method leading
+	to some confusion. Thus it is best to delay the actual
+	destruction invocations until the glib mainloop is hit.
+
+** In proc
+
+	Toplevel gtk_widget_destroy.
+
+	1.                       Socket dispose
+	2.			 unset control (B. unref)
+	3.			 MateComponent. unref Control
+if we have a plug:
+	4.                       gtk_widget_destroy plug
+	5. plug unset control frame
+	6. plug B. unref ControlFrame
+else:
+	4.			 B. unref Control
+
+Leaves:
+	unref Control, [ finalized plug ]
+	finalized socket, unref ControlFrame
+
+
+* Destruction interaction (B2)
+
+	Fatal error: ControlFrame dies.
+
+	1. Fatal ControlFrame error;
+
+	B1 - 4,5,6,7,8,9
+
+Leaves:
+	finalized plug, unref Control
+	finalized socket, unref ControlFrame
+
+* Destruction interaction (B3)
+
+	Fatal error: Control dies.
+
+	[ don't destroy socket, it holds our place
+	  in the widget hierarchy for any re-started
+	  control ].
+
+	1. Fatal Control error;
+	2.                       connection broken    <--.
+and:			   interchangeable Note 3.       | 
+	3.                       X connection broken  <--'
+
+
+** Note 3.
+	  X connection broken yields no signal.
+	  CORBA connection broken invokes 'broken' on
+	control->connection
+	  When we have both - track in the ControlFrame; unref socket.
+
+
+* Destruction interaction (B4)
+
+	Client remove of Control (?)
+
+	Minority usefuleness; FIXME - work out.
+
+
+* Size request interaction (CX)
+* Size request interaction (CB)
+* Sensitivity interaction ()
+
+* CORBA connection 'broken' signal
+
+	This signal is totaly unaffected by CORBA reference counting,
+and will happily leave an object with a broken connection - but we'll
+get a nice signal.
+
+	We only get this signal quickly using Unix Domain Sockets,
+this manifests itself as a HUP under Linux and a POLL_IN + 0 length or
+erroneous read under Solaris / others.
+
+
+* FIXME:
+
+	Consider the effect of extraneous MateComponent or CORBA refs on both
+the Control and ControlFrame references - and their affect on the
+destruction sequence.
+
+	Consider the local case - are there any obvious optimizations
+possible / neccessary here; we don't get a 'broken' signal, but we get
+Gtk+ signals instead. We can reliably detect this by a lack of
+connection on the MateComponent_Unknown references though. [ unless we have
+invoked an async method on them ]. But also possibly from
+plug->socket_window and socket->plug_window [ these may race ].
+
+	Consider the 'activation' side of it all; what does activation
+entail, and what happens in failure modes.
+
+	Consider how a MateComponentWidget might correctly hold onto a child
+widget, and possibly it's control frame ?
+
+	* Work out what to do if we die without having had our
+	  X11 ID set, we need to kill ourselves if the connection
+	  dies; _but_ what if we're local anyway ? how can we
+	  tell ? - we need to have local hacks - and have a
+	  reference to the MateComponentControlFrame inside our
+	  MateComponentControl etc.
+

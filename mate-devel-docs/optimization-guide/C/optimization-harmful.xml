@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter>
+    <title>Disk Seeks Considered Harmful</title>
+
+    <para>
+        Disk seeks are one of the most expensive operations you can possibly perform. You might not know this from looking at how many of them we perform, but trust me, they are. Consequently, please refrain from the following suboptimal behavior:
+    </para>
+    <itemizedlist>
+        <listitem>
+            <para>
+                Placing lots of small files all over the disk.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Opening, stating, and reading lots of files all over the disk
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Doing the above on files that are laid out at different times, so as to ensure that they are fragmented and cause even more seeking.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Doing the above on files that are in different directories, so as to ensure that they are in different cylinder groups and and cause even more seeking.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Repeatedly doing the above when it only needs to be done once.
+            </para>
+        </listitem>
+    </itemizedlist>
+    <para>
+        Ways in which you can optimize your code to be seek-friendly:
+    </para>
+    <itemizedlist>
+        <listitem>
+            <para>
+                Consolidate data into a single file.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Keep data together in the same directory.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Cache data so as to not need to reread constantly.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Share data so as not to have to reread it from disk when each application loads.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Consider caching all of the data in a single binary file that is properly aligned and can be mmaped.
+            </para>
+        </listitem>
+    </itemizedlist>
+    <para>
+        The trouble with disk seeks are compounded for reads, which is unfortunately what we are doing.  Remember, reads are generally synchronous while writes are asynchronous.  This only compounds the problem, serializing each read, and contributing to program latency.
+    </para>
+</chapter>

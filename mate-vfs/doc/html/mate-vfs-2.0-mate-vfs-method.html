@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-vfs-method</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="modules.html" title="Filesystem Modules">
+<link rel="prev" href="mate-vfs-writing-modules.html" title="Writing Modules">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-module.html" title="mate-vfs-module">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-writing-modules.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="modules.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-module.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-method.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-method.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-method"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-method.top_of_page"></a>mate-vfs-method</span></h2>
+<p>mate-vfs-method</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-method.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">MateVFSMethod</span> *    (<a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodInitFunc" title="MateVFSMethodInitFunc ()">*MateVFSMethodInitFunc</a>)           (<em class="parameter"><code>const <span class="type">char</span> *method_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *config_args</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodShutdownFunc" title="MateVFSMethodShutdownFunc ()">*MateVFSMethodShutdownFunc</a>)       (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      (<a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodTruncateFunc" title="MateVFSMethodTruncateFunc ()">*MateVFSMethodTruncateFunc</a>)       (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *context</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      (<a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodTruncateHandleFunc" title="MateVFSMethodTruncateHandleFunc ()">*MateVFSMethodTruncateHandleFunc</a>) (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateVFSMethodHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *context</code></em>);
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-method.html#VFS-METHOD-HAS-FUNC:CAPS" title="VFS_METHOD_HAS_FUNC()">VFS_METHOD_HAS_FUNC</a>                 (method,
+                                                         func)
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-method.html#mate-vfs-method-init" title="mate_vfs_method_init ()">mate_vfs_method_init</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">MateVFSMethod</span> *    <a class="link" href="mate-vfs-2.0-mate-vfs-method.html#mate-vfs-method-get" title="mate_vfs_method_get ()">mate_vfs_method_get</a>                (<em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);
+typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform" title="MateVFSTransform">MateVFSTransform</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform" title="MateVFSTransform"><span class="returnvalue">MateVFSTransform</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-method.html#mate-vfs-transform-get" title="mate_vfs_transform_get ()">mate_vfs_transform_get</a>             (<em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-method.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-method.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSMethodInitFunc"></a><h3>MateVFSMethodInitFunc ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateVFSMethod</span> *    (*MateVFSMethodInitFunc)           (<em class="parameter"><code>const <span class="type">char</span> *method_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *config_args</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>config_args</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSMethodShutdownFunc"></a><h3>MateVFSMethodShutdownFunc ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSMethodShutdownFunc)       (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>method</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSMethodTruncateFunc"></a><h3>MateVFSMethodTruncateFunc ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      (*MateVFSMethodTruncateFunc)       (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *context</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSMethodTruncateHandleFunc"></a><h3>MateVFSMethodTruncateHandleFunc ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      (*MateVFSMethodTruncateHandleFunc) (<em class="parameter"><code><span class="type">MateVFSMethod</span> *method</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateVFSMethodHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *context</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="VFS-METHOD-HAS-FUNC:CAPS"></a><h3>VFS_METHOD_HAS_FUNC()</h3>
+<pre class="programlisting">#define VFS_METHOD_HAS_FUNC(method,func) ((((char *)&amp;((method)-&gt;func)) - ((char *)(method)) &lt; (method)-&gt;method_table_size) &amp;&amp; method-&gt;func != NULL)
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-method-init"></a><h3>mate_vfs_method_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_method_init               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Initializes the mate-vfs methods. If already initialized then will simply return
+<code class="literal">TRUE</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Returns <code class="literal">TRUE</code>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-method-get"></a><h3>mate_vfs_method_get ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateVFSMethod</span> *    mate_vfs_method_get                (<em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of the protocol.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the method handle for the given protocol <em class="parameter"><code>name</code></em>. <em class="parameter"><code>name</code></em> could be any protocol
+which mate-vfs implements. Like ftp, http, smb etc..
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSTransform"></a><h3>MateVFSTransform</h3>
+<pre class="programlisting">typedef struct MateVFSTransform MateVFSTransform;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-transform-get"></a><h3>mate_vfs_transform_get ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform" title="MateVFSTransform"><span class="returnvalue">MateVFSTransform</span></a> * mate_vfs_transform_get             (<em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);</pre>
+<p>
+Get the transform for the method <em class="parameter"><code>name</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of the method to get the transform of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform" title="MateVFSTransform"><span class="type">MateVFSTransform</span></a> handle for <em class="parameter"><code>name</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

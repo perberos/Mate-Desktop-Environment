@@ -1,0 +1,985 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MIME Database</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mime-registry.html" title="MIME Registry">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-mime-utils.html" title="mate-vfs-mime-utils">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-mime-monitor.html" title="mate-vfs-mime-monitor">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-mime-utils.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mime-registry.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-mime-monitor.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-mime-database.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-mime-database.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-mime-database"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-mime-database.top_of_page"></a>MIME Database</span></h2>
+<p>MIME Database — functions for getting information about applications and components associated with MIME types.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-mime-database.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">                    <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication">MateVFSMimeApplication</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-application" title="mate_vfs_mime_get_default_application ()">mate_vfs_mime_get_default_application</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-application-for-uri" title="mate_vfs_mime_get_default_application_for_uri ()">mate_vfs_mime_get_default_application_for_uri</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">GList</span> *                   <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-applications" title="mate_vfs_mime_get_all_applications ()">mate_vfs_mime_get_all_applications</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">GList</span> *			          <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-applications-for-uri" title="mate_vfs_mime_get_all_applications_for_uri ()">mate_vfs_mime_get_all_applications_for_uri</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-desktop-entries" title="mate_vfs_mime_get_all_desktop_entries ()">mate_vfs_mime_get_all_desktop_entries</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-desktop-entry" title="mate_vfs_mime_get_default_desktop_entry ()">mate_vfs_mime_get_default_desktop_entry</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">MateComponent_ServerInfo</span> * <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-component" title="mate_vfs_mime_get_default_component ()">mate_vfs_mime_get_default_component</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-components" title="mate_vfs_mime_get_all_components ()">mate_vfs_mime_get_all_components</a>   (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-icon" title="mate_vfs_mime_get_icon ()">mate_vfs_mime_get_icon</a>             (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-description" title="mate_vfs_mime_get_description ()">mate_vfs_mime_get_description</a>      (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-can-be-executable" title="mate_vfs_mime_can_be_executable ()">mate_vfs_mime_can_be_executable</a>    (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-new-from-desktop-id" title="mate_vfs_mime_application_new_from_desktop_id ()">mate_vfs_mime_application_new_from_desktop_id</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *id</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-launch" title="mate_vfs_mime_application_launch ()">mate_vfs_mime_application_launch</a>   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *uris</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-launch-with-env" title="mate_vfs_mime_application_launch_with_env ()">mate_vfs_mime_application_launch_with_env</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *uris</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **envp</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-desktop-id" title="mate_vfs_mime_application_get_desktop_id ()">mate_vfs_mime_application_get_desktop_id</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-desktop-file-path" title="mate_vfs_mime_application_get_desktop_file_path ()">mate_vfs_mime_application_get_desktop_file_path</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-name" title="mate_vfs_mime_application_get_name ()">mate_vfs_mime_application_get_name</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-generic-name" title="mate_vfs_mime_application_get_generic_name ()">mate_vfs_mime_application_get_generic_name</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-icon" title="mate_vfs_mime_application_get_icon ()">mate_vfs_mime_application_get_icon</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-exec" title="mate_vfs_mime_application_get_exec ()">mate_vfs_mime_application_get_exec</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-binary-name" title="mate_vfs_mime_application_get_binary_name ()">mate_vfs_mime_application_get_binary_name</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-requires-terminal" title="mate_vfs_mime_application_requires_terminal ()">mate_vfs_mime_application_requires_terminal</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-supports-uris" title="mate_vfs_mime_application_supports_uris ()">mate_vfs_mime_application_supports_uris</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-supports-startup-notification" title="mate_vfs_mime_application_supports_startup_notification ()">mate_vfs_mime_application_supports_startup_notification</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-startup-wm-class" title="mate_vfs_mime_application_get_startup_wm_class ()">mate_vfs_mime_application_get_startup_wm_class</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-equal" title="mate_vfs_mime_application_equal ()">mate_vfs_mime_application_equal</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app_a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app_b</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-copy" title="mate_vfs_mime_application_copy ()">mate_vfs_mime_application_copy</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-free" title="mate_vfs_mime_application_free ()">mate_vfs_mime_application_free</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-list-free" title="mate_vfs_mime_application_list_free ()">mate_vfs_mime_application_list_free</a>
+                                                        (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-component-list-free" title="mate_vfs_mime_component_list_free ()">mate_vfs_mime_component_list_free</a>  (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-mime-database.description"></a><h2>Description</h2>
+<p>
+This API can be used to query the applications and components associated with particular MIME types,
+and to collect extra information about them, and also provides a convenience function for launching
+them.
+Applications can register themselves for particular MIME types by adhering to the
+<a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/latest" target="_top">
+Freedesktop.Org Desktop Entry Specification</a>.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-mime-database.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSMimeApplication"></a><h3>MateVFSMimeApplication</h3>
+<pre class="programlisting">typedef struct {
+	char *id;
+	char *name;
+} MateVFSMimeApplication;
+</pre>
+<p>
+A struct encapsulating information about an
+application known to the MIME database.
+</p>
+<p>
+Only very few fields of this information are actually
+public, most of them must be queried using the
+<code class="literal">mate_vfs_mime_application_*()</code>
+API.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateVFSMimeApplication.id"></a>id</code></em>;</span></p></td>
+<td>The desktop ID of the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateVFSMimeApplication.name"></a>name</code></em>;</span></p></td>
+<td>The user-visible name of the application.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-default-application"></a><h3>mate_vfs_mime_get_default_application ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * mate_vfs_mime_get_default_application
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Query the MIME database for the application to be executed on files of MIME type
+<em class="parameter"><code>mime_type</code></em> by default.
+</p>
+<p>
+If you know the actual uri of the file you should use mate_vfs_mime_get_default_application_for_uri
+instead, as it will then be able to pick a better app. For instance it won't pick
+an app that claims to only handle local files for a remote uri.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a mime type, e.g. "image/png".
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> representing the default handler of <em class="parameter"><code>mime_type</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-default-application-for-uri"></a><h3>mate_vfs_mime_get_default_application_for_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * mate_vfs_mime_get_default_application_for_uri
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-all-applications"></a><h3>mate_vfs_mime_get_all_applications ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *                   mate_vfs_mime_get_all_applications
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Return an alphabetically sorted list of <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>
+data structures representing all applications in the MIME database registered
+to handle files of MIME type <em class="parameter"><code>mime_type</code></em> (and supertypes).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a mime type, e.g. "image/png".
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">GList</span> * where the elements are <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *
+representing applications that handle MIME type <em class="parameter"><code>mime_type</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-all-applications-for-uri"></a><h3>mate_vfs_mime_get_all_applications_for_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *			          mate_vfs_mime_get_all_applications_for_uri
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Return an alphabetically sorted list of <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>
+data structures representing all applications in the MIME database able
+to handle the file identified by <em class="parameter"><code>uri</code></em> of <em class="parameter"><code>mime_type</code></em> (and supertypes).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a stringified uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a mime type, e.g. "application/x-php".
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">GList</span> * where the elements are <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *
+representing all possible handlers
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-all-desktop-entries"></a><h3>mate_vfs_mime_get_all_desktop_entries ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_mime_get_all_desktop_entries
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_get_all_desktop_entries</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Returns all the desktop filenames for <em class="parameter"><code>mime_type</code></em>. The desktop files
+are listed in an order so that default applications are listed before
+non-default ones, and handlers for inherited mimetypes are listed
+after the base ones.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a mime type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">GList</span> containing the desktop filenames containing the
+<em class="parameter"><code>mime_type</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-default-desktop-entry"></a><h3>mate_vfs_mime_get_default_desktop_entry ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_vfs_mime_get_default_desktop_entry
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_get_default_desktop_entry</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Returns the default desktop filename for <em class="parameter"><code>mime_type</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a mime type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the default desktop filename for <em class="parameter"><code>mime_type</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-default-component"></a><h3>mate_vfs_mime_get_default_component ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_ServerInfo</span> * mate_vfs_mime_get_default_component
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_get_default_component</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-all-components"></a><h3>mate_vfs_mime_get_all_components ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_mime_get_all_components   (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_get_all_components</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-icon"></a><h3>mate_vfs_mime_get_icon ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_get_icon             (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_get_icon</code> is deprecated and should not be used in newly-written code. Use <code class="function">mate_icon_lookup()</code> function in libmateui instead.</p>
+</div>
+<p>
+Query the MIME database for an icon representing the <em class="parameter"><code>mime_type</code></em>.
+</p>
+<p>
+It usually returns a filename without path information, e.g. "i-chardev.png", and sometimes
+does not have an extension, e.g. "i-regular" if the icon is supposed to be image
+type agnostic between icon themes. Icons are generic and not theme specific. These
+will not necessarily match with the icons a user sees in Caja, you have been warned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a  MIME type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The filename of the icon as listed in the MIME database.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-get-description"></a><h3>mate_vfs_mime_get_description ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_get_description      (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Query the MIME database for a description of the <em class="parameter"><code>mime_type</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>the mime type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> description of MIME type <em class="parameter"><code>mime_type</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-can-be-executable"></a><h3>mate_vfs_mime_can_be_executable ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_mime_can_be_executable    (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Check whether files of <em class="parameter"><code>mime_type</code></em> might conceivably be executable.
+Default for known types if <code class="literal">FALSE</code>. Default for unknown types is <code class="literal">TRUE</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a mime type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if files of <em class="parameter"><code>mime_type</code></em>
+can be executable, <code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-new-from-desktop-id"></a><h3>mate_vfs_mime_application_new_from_desktop_id ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * mate_vfs_mime_application_new_from_desktop_id
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *id</code></em>);</pre>
+<p>
+Returns a new <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> for the <em class="parameter"><code>id</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>the identifier of a desktop entry.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-launch"></a><h3>mate_vfs_mime_application_launch ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_mime_application_launch   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *uris</code></em>);</pre>
+<p>
+Launches the given mime application with the given parameters.
+Command line parameters will be expanded as required by the
+application. The application will also be launched in a terminal
+if that is required. If the application only supports one argument 
+per instance then multiple instances of the application will be 
+launched.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> to launch.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uris</code></em> :</span></p></td>
+<td>parameters for the <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> 
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the application was launched.
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-SUPPORTED:CAPS"><code class="literal">MATE_VFS_ERROR_NOT_SUPPORTED</code></a> if the uri protocol is not
+supported by the application.
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-PARSE:CAPS"><code class="literal">MATE_VFS_ERROR_PARSE</code></a> if the application command can not
+be parsed.
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-LAUNCH:CAPS"><code class="literal">MATE_VFS_ERROR_LAUNCH</code></a> if the application command can not
+be launched.
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INTERNAL:CAPS"><code class="literal">MATE_VFS_ERROR_INTERNAL</code></a> for other internal and MateConf errors.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-launch-with-env"></a><h3>mate_vfs_mime_application_launch_with_env ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_mime_application_launch_with_env
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *uris</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **envp</code></em>);</pre>
+<p>
+Same as <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-launch" title="mate_vfs_mime_application_launch ()"><code class="function">mate_vfs_mime_application_launch()</code></a> except that
+the application will be launched with the given environment.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> to launch.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uris</code></em> :</span></p></td>
+<td>parameters for the <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>envp</code></em> :</span></p></td>
+<td>the environment to use for the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> same as <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-launch" title="mate_vfs_mime_application_launch ()"><code class="function">mate_vfs_mime_application_launch()</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-desktop-id"></a><h3>mate_vfs_mime_application_get_desktop_id ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_desktop_id
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the identifier of the desktop entry.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the identifier of the desktop entry.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-desktop-file-path"></a><h3>mate_vfs_mime_application_get_desktop_file_path ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_desktop_file_path
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the path of the desktop entry, a configuration
+file describing the properties of a particular program like
+it's name, how it is to be launched, how it appears in menus.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the path of the .desktop file.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-name"></a><h3>mate_vfs_mime_application_get_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_name (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the name of the application <em class="parameter"><code>app</code></em>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the name of the application.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-generic-name"></a><h3>mate_vfs_mime_application_get_generic_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_generic_name
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the generic name of the application.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the generic name of the application.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-icon"></a><h3>mate_vfs_mime_application_get_icon ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_icon (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns an icon representing the specified application.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the filename of the icon usually without path information,
+e.g. "gedit-icon.png", and sometimes does not have an extension,
+e.g. "mate-pdf" if the icon is supposed to be image type agnostic between
+icon themes. Icons are generic, and not theme specific.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-exec"></a><h3>mate_vfs_mime_application_get_exec ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_exec (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the program to execute, possibly with arguments
+and parameter variables, as specified by the
+<a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/" target="_top">
+Desktop Entry Specification</a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the command line to execute.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-binary-name"></a><h3>mate_vfs_mime_application_get_binary_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_binary_name
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the binary name of the specified application.
+Useful to implement startup notification.
+Note that this only provides partial information about
+application execution, it misses arguments and macros.
+DO NOT USE it to launch the application.
+Use mate_vfs_mime_application_launch or
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-exec" title="mate_vfs_mime_application_get_exec ()"><code class="function">mate_vfs_mime_application_get_exec()</code></a> if you really
+need to write a custom launcher.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the application's binary name.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-requires-terminal"></a><h3>mate_vfs_mime_application_requires_terminal ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_mime_application_requires_terminal
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns whether the application runs in a terminal window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the application runs in a terminal.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-supports-uris"></a><h3>mate_vfs_mime_application_supports_uris ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_mime_application_supports_uris
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns whether the application accept uris as command
+lines arguments.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the application can handle uris.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-supports-startup-notification"></a><h3>mate_vfs_mime_application_supports_startup_notification ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_mime_application_supports_startup_notification
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns whether the application supports startup notification.
+If true, it is KNOWN that the application will send a
+"remove" message when started with the DESKTOP_LAUNCH_ID
+environment variable set.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the application supports startup notification.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-get-startup-wm-class"></a><h3>mate_vfs_mime_application_get_startup_wm_class ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_application_get_startup_wm_class
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app</code></em>);</pre>
+<p>
+Returns the WM class of the main window of the application.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The WM class of the application's window
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-equal"></a><h3>mate_vfs_mime_application_equal ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_mime_application_equal    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app_a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *app_b</code></em>);</pre>
+<p>
+Compare <em class="parameter"><code>app_a</code></em> and <em class="parameter"><code>app_b</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_a</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_b</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>app_a</code></em> and <em class="parameter"><code>app_b</code></em> are equal, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-copy"></a><h3>mate_vfs_mime_application_copy ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * mate_vfs_mime_application_copy
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);</pre>
+<p>
+Creates a newly referenced copy of a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> object.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> to be duplicated.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a copy of <em class="parameter"><code>application</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-free"></a><h3>mate_vfs_mime_application_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_mime_application_free     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);</pre>
+<p>
+Frees a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> to be freed.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-application-list-free"></a><h3>mate_vfs_mime_application_list_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_mime_application_list_free
+                                                        (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Frees lists of <span class="type">MateVFSApplications</span>, as returned from functions such
+as <code class="function">mate_vfs_get_all_applications()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>a <span class="type">GList</span> of <span class="type">MateVFSApplication</span> * to be freed.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-component-list-free"></a><h3>mate_vfs_mime_component_list_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_mime_component_list_free  (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_component_list_free</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

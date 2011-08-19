@@ -1,0 +1,627 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateApp</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="application-mgmt.html" title="Application Management">
+<link rel="prev" href="application-mgmt.html" title="Application Management">
+<link rel="next" href="libmateui-mate-appbar.html" title="MateAppBar">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="application-mgmt.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="application-mgmt.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="libmateui-mate-appbar.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmateui-mate-app.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmateui-mate-app.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmateui-mate-app.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libmateui-mate-app.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#libmateui-mate-app.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmateui-mate-app"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmateui-mate-app.top_of_page"></a>MateApp</span></h2>
+<p>MateApp — The main application widget.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmateui-mate-app.synopsis"></a><h2>Synopsis</h2>
+<a name="MateApp"></a><pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+#define             <a class="link" href="libmateui-mate-app.html#MATE-APP-MENUBAR-NAME:CAPS" title="MATE_APP_MENUBAR_NAME">MATE_APP_MENUBAR_NAME</a>
+#define             <a class="link" href="libmateui-mate-app.html#MATE-APP-TOOLBAR-NAME:CAPS" title="MATE_APP_TOOLBAR_NAME">MATE_APP_TOOLBAR_NAME</a>
+struct              <a class="link" href="libmateui-mate-app.html#MateApp-struct" title="struct MateApp">MateApp</a>;
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-app.html#mate-app-new" title="mate_app_new ()">mate_app_new</a>                       (<em class="parameter"><code>const <span class="type">gchar</span> *appname</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-construct" title="mate_app_construct ()">mate_app_construct</a>                 (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *appname</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-set-menus" title="mate_app_set_menus ()">mate_app_set_menus</a>                 (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuBar</span> *menubar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-set-toolbar" title="mate_app_set_toolbar ()">mate_app_set_toolbar</a>               (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkToolbar</span> *toolbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-set-statusbar" title="mate_app_set_statusbar ()">mate_app_set_statusbar</a>             (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *statusbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-set-statusbar-custom" title="mate_app_set_statusbar_custom ()">mate_app_set_statusbar_custom</a>      (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *container</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *statusbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-set-contents" title="mate_app_set_contents ()">mate_app_set_contents</a>              (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *contents</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-add-toolbar" title="mate_app_add_toolbar ()">mate_app_add_toolbar</a>               (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkToolbar</span> *toolbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockItemBehavior</span> behavior</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockPlacement</span> placement</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_num</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_position</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> offset</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-app.html#mate-app-add-docked" title="mate_app_add_docked ()">mate_app_add_docked</a>                (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockItemBehavior</span> behavior</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockPlacement</span> placement</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_num</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_position</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> offset</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-add-dock-item" title="mate_app_add_dock_item ()">mate_app_add_dock_item</a>             (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockItem</span> *item</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockPlacement</span> placement</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_num</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_position</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> offset</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-app.html#mate-app-enable-layout-config" title="mate_app_enable_layout_config ()">mate_app_enable_layout_config</a>      (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> enable</code></em>);
+<span class="returnvalue">MateComponentDock</span> *        <a class="link" href="libmateui-mate-app.html#mate-app-get-dock" title="mate_app_get_dock ()">mate_app_get_dock</a>                  (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>);
+<span class="returnvalue">MateComponentDockItem</span> *    <a class="link" href="libmateui-mate-app.html#mate-app-get-dock-item-by-name" title="mate_app_get_dock_item_by_name ()">mate_app_get_dock_item_by_name</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-app.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----GInitiallyUnowned
+         +----GtkObject
+               +----GtkWidget
+                     +----GtkContainer
+                           +----GtkBin
+                                 +----GtkWindow
+                                       +----MateApp
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-app.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+MateApp implements
+ AtkImplementorIface and  GtkBuildable.</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-app.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmateui-mate-app.html#MateApp--app-id" title='The "app-id" property'>app-id</a>"                   <span class="type">gchar</span>*                : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-app.description"></a><h2>Description</h2>
+<p>
+The <em class="parameter"><code>MateApp</code></em> widget and associated functions provides the easiest way to
+create an almost complete MATE application in libmateui. Simple create an
+instance of the widget, append any menus, toolbar(s) and a status bar, as
+required (this will probably be done with some functions from the following
+pages). Then fill in the main contents with a call to <a class="link" href="libmateui-mate-app.html#mate-app-set-contents" title="mate_app_set_contents ()"><code class="function">mate_app_set_contents()</code></a>
+and start the main loop (with <code class="function">gtk_main()</code>).
+</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-app.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MATE-APP-MENUBAR-NAME:CAPS"></a><h3>MATE_APP_MENUBAR_NAME</h3>
+<pre class="programlisting">#define MATE_APP_MENUBAR_NAME "Menubar"
+</pre>
+<p>
+The name of the menubar as it is passed to libmatecomponent.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-APP-TOOLBAR-NAME:CAPS"></a><h3>MATE_APP_TOOLBAR_NAME</h3>
+<pre class="programlisting">#define MATE_APP_TOOLBAR_NAME "Toolbar"
+</pre>
+<p>
+The name of the default toolbar that is added to the application widget by
+default.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateApp-struct"></a><h3>struct MateApp</h3>
+<pre class="programlisting">struct MateApp;</pre>
+<p>
+A widget representing an entire MATE application, including the main window,
+menus, toolbar(s) and status bar.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-new"></a><h3>mate_app_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_app_new                       (<em class="parameter"><code>const <span class="type">gchar</span> *appname</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>);</pre>
+<p>
+Create a new (empty) application window. You must specify the <em class="parameter"><code>appname</code></em> (used
+internally as an identifier).  The <em class="parameter"><code>title</code></em> param can be left as NULL, in
+which case the window's title will not be set.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appname</code></em> :</span></p></td>
+<td>Name of program, used in file names and paths.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>Window title for application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Pointer to new <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-construct"></a><h3>mate_app_construct ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_construct                 (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *appname</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>);</pre>
+<p>
+Constructor for language bindings; you don't normally need this.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A newly created <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appname</code></em> :</span></p></td>
+<td>Name of program, using in file names and paths.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>Window title for application.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-set-menus"></a><h3>mate_app_set_menus ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_set_menus                 (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuBar</span> *menubar</code></em>);</pre>
+<p>
+Sets the menu bar of the application window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>menubar</code></em> :</span></p></td>
+<td>Menu bar widget for main application window.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-set-toolbar"></a><h3>mate_app_set_toolbar ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_set_toolbar               (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkToolbar</span> *toolbar</code></em>);</pre>
+<p>
+Sets the main toolbar of the application window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>toolbar</code></em> :</span></p></td>
+<td>Toolbar widget for main app window.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-set-statusbar"></a><h3>mate_app_set_statusbar ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_set_statusbar             (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *statusbar</code></em>);</pre>
+<p>
+Sets the status bar of the application window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>statusbar</code></em> :</span></p></td>
+<td>Statusbar widget for main app window
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-set-statusbar-custom"></a><h3>mate_app_set_statusbar_custom ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_set_statusbar_custom      (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *container</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *statusbar</code></em>);</pre>
+<p>
+Sets the status bar of the application window, but use <em class="parameter"><code>container</code></em>
+as its container.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>container</code></em> :</span></p></td>
+<td>container widget containing the statusbar
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>statusbar</code></em> :</span></p></td>
+<td>Statusbar widget for main app window
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-set-contents"></a><h3>mate_app_set_contents ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_set_contents              (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *contents</code></em>);</pre>
+<p>
+Sets the content area of the main window of <em class="parameter"><code>app</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>contents</code></em> :</span></p></td>
+<td>Widget to be application content area.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-add-toolbar"></a><h3>mate_app_add_toolbar ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_add_toolbar               (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkToolbar</span> *toolbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockItemBehavior</span> behavior</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockPlacement</span> placement</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_num</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_position</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> offset</code></em>);</pre>
+<p>
+Create a new <span class="type">MateComponentDockItem</span> widget containing <em class="parameter"><code>toolbar</code></em>, and add it
+to <em class="parameter"><code>app</code></em>'s dock with the specified layout information.  Notice that,
+if automatic layout configuration is enabled, the layout is
+overridden by the saved configuration, if any.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> widget
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>toolbar</code></em> :</span></p></td>
+<td>Toolbar to be added to <em class="parameter"><code>app</code></em>'s dock
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>Name for the dock item that will contain <em class="parameter"><code>toolbar</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>behavior</code></em> :</span></p></td>
+<td>Behavior for the new dock item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>placement</code></em> :</span></p></td>
+<td>Placement for the new dock item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>band_num</code></em> :</span></p></td>
+<td>Number of the band where the dock item should be placed
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>band_position</code></em> :</span></p></td>
+<td>Position of the new dock item in band <em class="parameter"><code>band_num</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>Offset from the previous dock item in the band; if there is
+no previous item, offset from the beginning of the band.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-add-docked"></a><h3>mate_app_add_docked ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_app_add_docked                (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockItemBehavior</span> behavior</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockPlacement</span> placement</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_num</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_position</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> offset</code></em>);</pre>
+<p>
+Add <em class="parameter"><code>widget</code></em> as a dock item according to the specified layout
+information.  Notice that, if automatic layout configuration is
+enabled, the layout is overridden by the saved configuration, if
+any.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>Widget to be added to the <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>Name for the new dock item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>behavior</code></em> :</span></p></td>
+<td>Behavior for the new dock item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>placement</code></em> :</span></p></td>
+<td>Placement for the new dock item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>band_num</code></em> :</span></p></td>
+<td>Number of the band where the dock item should be placed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>band_position</code></em> :</span></p></td>
+<td>Position of the new dock item in band <em class="parameter"><code>band_num</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>Offset from the previous dock item in the band; if there is
+no previous item, offset from the beginning of the band.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The dock item used to contain the widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-add-dock-item"></a><h3>mate_app_add_dock_item ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_add_dock_item             (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockItem</span> *item</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponentDockPlacement</span> placement</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_num</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> band_position</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> offset</code></em>);</pre>
+<p>
+Add <em class="parameter"><code>item</code></em> according to the specified layout information.  Notice
+that, if automatic layout configuration is enabled, the layout is
+overridden by the saved configuration, if any.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>Dock item to be added to <em class="parameter"><code>app</code></em>'s dock.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>placement</code></em> :</span></p></td>
+<td>Placement for the dock item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>band_num</code></em> :</span></p></td>
+<td>Number of the band where the dock item should be placed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>band_position</code></em> :</span></p></td>
+<td>Position of the dock item in band <em class="parameter"><code>band_num</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>Offset from the previous dock item in the band; if there is
+no previous item, offset from the beginning of the band.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-enable-layout-config"></a><h3>mate_app_enable_layout_config ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_app_enable_layout_config      (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> enable</code></em>);</pre>
+<p>
+Specify whether <em class="parameter"><code>app</code></em> should automatically save the dock's
+layout configuration via mate-config whenever it changes or not.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>enable</code></em> :</span></p></td>
+<td>Boolean specifying whether automatic configuration saving
+is enabled.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-get-dock"></a><h3>mate_app_get_dock ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponentDock</span> *        mate_app_get_dock                  (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>);</pre>
+<p>
+Retrieves the <span class="type">MateComponentDock</span> widget contained in <em class="parameter"><code>app</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> widget
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The relevant <span class="type">MateComponentDock</span> widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-app-get-dock-item-by-name"></a><h3>mate_app_get_dock_item_by_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponentDockItem</span> *    mate_app_get_dock_item_by_name     (<em class="parameter"><code><a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> *app</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);</pre>
+<p>
+Retrieve the dock item whose name matches <em class="parameter"><code>name</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app.html#MateApp"><span class="type">MateApp</span></a> widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>Name of the dock item to retrieve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The retrieved dock item.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-app.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="MateApp--app-id"></a><h3>The <code class="literal">"app-id"</code> property</h3>
+<pre class="programlisting">  "app-id"                   <span class="type">gchar</span>*                : Read / Write / Construct</pre>
+<p>The application ID string.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

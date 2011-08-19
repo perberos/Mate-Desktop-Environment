@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateComponentPersistFile</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="persist.html" title="Persistency">
+<link rel="prev" href="libmatecomponent-matecomponent-persist.html" title="MateComponentPersist">
+<link rel="next" href="libmatecomponent-matecomponent-persist-stream.html" title="MateComponentPersistStream">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmatecomponent-matecomponent-persist.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="persist.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-persist-stream.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponent-matecomponent-persist-file.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-persist-file.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-persist-file.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponent-matecomponent-persist-file"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponent-matecomponent-persist-file.top_of_page"></a>MateComponentPersistFile</span></h2>
+<p>MateComponentPersistFile — Interface for anything that can save / load itself from a file.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponent-matecomponent-persist-file.synopsis"></a><h2>Synopsis</h2>
+<a name="MateComponentPersistFile"></a><pre class="synopsis">                    <a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile-struct" title="MateComponentPersistFile">MateComponentPersistFile</a>;
+<span class="returnvalue">int</span>                 (<a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()">*MateComponentPersistFileIOFn</a>)            (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="type">MateComponentPersistFile</span></a> *pf</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><span class="type">void</span> *closure</code></em>);
+                    <a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileClass" title="MateComponentPersistFileClass">MateComponentPersistFileClass</a>;
+<a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="returnvalue">MateComponentPersistFile</span></a> * <a class="link" href="libmatecomponent-matecomponent-persist-file.html#matecomponent-persist-file-new" title="matecomponent_persist_file_new ()">matecomponent_persist_file_new</a>             (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> load_fn</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> save_fn</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iid</code></em>,
+                                                         <em class="parameter"><code><span class="type">void</span> *closure</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="returnvalue">MateComponentPersistFile</span></a> * <a class="link" href="libmatecomponent-matecomponent-persist-file.html#matecomponent-persist-file-construct" title="matecomponent_persist_file_construct ()">matecomponent_persist_file_construct</a>       (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="type">MateComponentPersistFile</span></a> *pf</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> load_fn</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> save_fn</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iid</code></em>,
+                                                         <em class="parameter"><code><span class="type">void</span> *closure</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-persist-file.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a class="link" href="libmatecomponent-matecomponent-object.html#MateComponentObject">MateComponentObject</a>
+         +----<a class="link" href="libmatecomponent-matecomponent-persist.html#MateComponentPersist">MateComponentPersist</a>
+               +----MateComponentPersistFile
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-persist-file.description"></a><h2>Description</h2>
+<p>
+The PersistFile interface is a useful interface for MateComponentizing
+legacy applications, however, for new / correct applications it
+is far preferable to implement the <a class="link" href="libmatecomponent-matecomponent-persist-stream.html#MateComponentPersistStream"><span class="type">MateComponentPersistStream</span></a> interface,
+since this will not only result in a nice clean to your application
+architecture, but also allow the transparent use of local, remote,
+and synthetic streams.
+</p>
+<p>
+This interface works by connecting callbacks to the methods, in
+a pretty deprecated fashion, it is probably better nowadays to
+simply sub-class the MateComponentXObject and override the epv methods.
+Either way, after all the caveats here is an example use:
+  </p>
+<div class="example">
+<a name="id3180858"></a><p class="title"><b>Example 25. Persist file implementation</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint">gint</a></span>
+<span class="function">load_from_file</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPersistFile</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pf</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">  </span><span class="symbol">*</span><span class="normal">filename</span><span class="symbol">,</span>
+<span class="normal">        </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="type">void</span><span class="normal">              </span><span class="symbol">*</span><span class="normal">closure</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">EogImageData</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">image_data </span><span class="symbol">=</span><span class="normal"> closure</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-warning">g_warning</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Load from '%s'"</span><span class="symbol">,</span><span class="normal"> filename</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span><span class="normal"> </span><span class="comment">/* Return 0 on success */</span>
+<span class="cbracket">}</span>
+<span class="keyword">static</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint">gint</a></span>
+<span class="function">save_to_file</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPersistFile</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pf</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">  </span><span class="symbol">*</span><span class="normal">filename</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="type">void</span><span class="normal">              </span><span class="symbol">*</span><span class="normal">closure</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">EogImageData</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">image_data </span><span class="symbol">=</span><span class="normal"> closure</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-warning">g_warning</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Save to '%s'"</span><span class="symbol">,</span><span class="normal"> filename</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span><span class="normal"> </span><span class="comment">/* Return 0 on success */</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+Having implemented the callbacks we then have to register them
+and aggregate the interface to our object:
+  </p>
+<div class="example">
+<a name="id3180882"></a><p class="title"><b>Example 26. Aggregating a new PersistFile</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="normal">EogImageData </span><span class="symbol">*</span>
+<span class="function">eog_image_data_construct</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">EogImageData</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">image_data</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">MateComponentObject</span><span class="normal">        </span><span class="symbol">*</span><span class="normal">retval</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="usertype">MateComponentPersistFile</span><span class="normal">   </span><span class="symbol">*</span><span class="normal">file</span><span class="symbol">;</span>
+<span class="normal">    file </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-persist-file.html#matecomponent-persist-file-new">matecomponent_persist_file_new</a></span><span class="normal"> </span><span class="symbol">(</span>
+<span class="normal">        load_from_file</span><span class="symbol">,</span><span class="normal"> save_to_file</span><span class="symbol">,</span><span class="normal"> image_data</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">file </span><span class="symbol">==</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="function"><a href="libmatecomponent-matecomponent-object.html#matecomponent-object-unref">matecomponent_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function">MATECOMPONENT_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">image_data</span><span class="symbol">));</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-object.html#matecomponent-object-add-interface">matecomponent_object_add_interface</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function">MATECOMPONENT_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">image_data</span><span class="symbol">),</span>
+<span class="normal">                     </span><span class="function">MATECOMPONENT_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">file</span><span class="symbol">));</span>
+<span class="normal">    </span><span class="keyword">return</span><span class="normal"> image_data</span><span class="symbol">;</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+Note again, that you should be writing a MateComponentPersistStream
+interface, however if you have already done this you might like
+to just have hooks through so that old apps can use the PersistFile
+interface:
+  </p>
+<div class="example">
+<a name="id3180905"></a><p class="title"><b>Example 27. Chaining to a <span class="type">PersistStream</span> implementation</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint">gint</a></span>
+<span class="function">load_from_file</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPersistFile</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pf</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">  </span><span class="symbol">*</span><span class="normal">filename</span><span class="symbol">,</span>
+<span class="normal">        </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="type">void</span><span class="normal">              </span><span class="symbol">*</span><span class="normal">closure</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">MateComponent_PersistStream</span><span class="normal"> ps </span><span class="symbol">=</span><span class="normal"> closure</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="usertype">MateComponentStream</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">stream</span><span class="symbol">;</span>
+<span class="normal">    stream </span><span class="symbol">=</span><span class="normal"> </span><span class="function">matecomponent_stream_open</span><span class="normal"> </span><span class="symbol">(</span>
+<span class="normal">        MATECOMPONENT_IO_DRIVER_FS</span><span class="symbol">,</span>
+<span class="normal">        filename</span><span class="symbol">,</span><span class="normal"> MateComponent_STORAGE_READ</span><span class="symbol">,</span>
+<span class="normal">        </span><span class="number">0</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(!</span><span class="normal">stream</span><span class="symbol">)</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="symbol">..</span><span class="normal"> extract content type </span><span class="usertype">from</span><span class="normal"> file </span><span class="symbol">...</span>
+<span class="normal">    </span><span class="function">MateComponent_PersistStream_load</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">ps</span><span class="symbol">,</span><span class="normal"> type</span><span class="symbol">,</span><span class="normal"> ev</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span><span class="normal"> </span><span class="comment">/* Return 0 on success */</span>
+<span class="cbracket">}</span>
+<span class="keyword">static</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint">gint</a></span>
+<span class="function">save_to_file</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPersistFile</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pf</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">  </span><span class="symbol">*</span><span class="normal">filename</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="type">void</span><span class="normal">              </span><span class="symbol">*</span><span class="normal">closure</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">MateComponent_PersistStream</span><span class="normal"> ps </span><span class="symbol">=</span><span class="normal"> closure</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="usertype">MateComponentStream</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">stream</span><span class="symbol">;</span>
+<span class="normal">    stream </span><span class="symbol">=</span><span class="normal"> </span><span class="function">matecomponent_stream_open</span><span class="normal"> </span><span class="symbol">(</span>
+<span class="normal">        MATECOMPONENT_IO_DRIVER_FS</span><span class="symbol">,</span>
+<span class="normal">        filename</span><span class="symbol">,</span><span class="normal"> MateComponent_STORAGE_WRITE </span><span class="symbol">|</span><span class="normal"> MateComponent_STORAGE_CREATE</span><span class="symbol">,</span>
+<span class="normal">        S_IRUSR </span><span class="symbol">|</span><span class="normal"> S_IWUSR </span><span class="symbol">|</span><span class="normal"> S_IRGRP</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(!</span><span class="normal">stream</span><span class="symbol">)</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="symbol">..</span><span class="normal"> work out content type we want </span><span class="usertype">to</span><span class="normal"> save </span><span class="symbol">...</span>
+<span class="normal">    </span><span class="function">MateComponent_PersistStream_save</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">ps</span><span class="symbol">,</span><span class="normal"> type</span><span class="symbol">,</span><span class="normal"> ev</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">return</span><span class="normal"> </span><span class="number">0</span><span class="symbol">;</span><span class="normal"> </span><span class="comment">/* Return 0 on success */</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+  The mime type data can be extracted from mate-vfs or mate-mime.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-persist-file.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateComponentPersistFile-struct"></a><h3>MateComponentPersistFile</h3>
+<pre class="programlisting">typedef struct _MateComponentPersistFile MateComponentPersistFile;</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateComponentPersistFile</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentPersistFileIOFn"></a><h3>MateComponentPersistFileIOFn ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 (*MateComponentPersistFileIOFn)            (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="type">MateComponentPersistFile</span></a> *pf</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><span class="type">void</span> *closure</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateComponentPersistFileIOFn</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pf</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>closure</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentPersistFileClass"></a><h3>MateComponentPersistFileClass</h3>
+<pre class="programlisting">typedef struct {
+	MateComponentPersistClass parent_class;
+
+	POA_MateComponent_PersistFile__epv epv;
+
+	/* methods */
+	int   (*load)             (MateComponentPersistFile *ps,
+				   const CORBA_char  *uri,
+				   CORBA_Environment *ev);
+
+	int   (*save)             (MateComponentPersistFile *ps,
+				   const CORBA_char  *uri,
+				   CORBA_Environment *ev);
+
+	char *(*get_current_file) (MateComponentPersistFile *ps,
+				   CORBA_Environment *ev);
+} MateComponentPersistFileClass;
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateComponentPersistFileClass</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-persist-file-new"></a><h3>matecomponent_persist_file_new ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="returnvalue">MateComponentPersistFile</span></a> * matecomponent_persist_file_new             (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> load_fn</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> save_fn</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iid</code></em>,
+                                                         <em class="parameter"><code><span class="type">void</span> *closure</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_persist_file_new</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Creates a MateComponentPersistFile object.  The <em class="parameter"><code>load_fn</code></em> and <em class="parameter"><code>save_fn</code></em>
+parameters might be NULL.  If this is the case, the load and save 
+operations are performed by the class load and save methods
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>load_fn</code></em> :</span></p></td>
+<td>Loading routine
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>save_fn</code></em> :</span></p></td>
+<td>Saving routine
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iid</code></em> :</span></p></td>
+<td>OAF IID of the object this interface is aggregated to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>closure</code></em> :</span></p></td>
+<td>Data passed to IO routines.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="type">MateComponentPersistFile</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-persist-file-construct"></a><h3>matecomponent_persist_file_construct ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="returnvalue">MateComponentPersistFile</span></a> * matecomponent_persist_file_construct       (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="type">MateComponentPersistFile</span></a> *pf</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> load_fn</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFileIOFn" title="MateComponentPersistFileIOFn ()"><span class="type">MateComponentPersistFileIOFn</span></a> save_fn</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iid</code></em>,
+                                                         <em class="parameter"><code><span class="type">void</span> *closure</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_persist_file_construct</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Initializes the MateComponentPersistFile object.  The <em class="parameter"><code>load_fn</code></em> and <em class="parameter"><code>save_fn</code></em>
+parameters might be NULL.  If this is the case, the load and save 
+operations are performed by the class load and save methods
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pf</code></em> :</span></p></td>
+<td>A MateComponentPersistFile
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>load_fn</code></em> :</span></p></td>
+<td>Loading routine
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>save_fn</code></em> :</span></p></td>
+<td>Saving routine
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iid</code></em> :</span></p></td>
+<td>OAF IID of the object this interface is aggregated to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>closure</code></em> :</span></p></td>
+<td>Data passed to IO routines.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="libmatecomponent-matecomponent-persist-file.html#MateComponentPersistFile"><span class="type">MateComponentPersistFile</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-persist-file.see-also"></a><h2>See Also</h2>
+<p>
+<a class="link" href="libmatecomponent-matecomponent-persist-stream.html#MateComponentPersistStream"><span class="type">MateComponentPersistStream</span></a>, <a class="link" href="libmatecomponent-matecomponent-persist.html#MateComponentPersist"><span class="type">MateComponentPersist</span></a>
+</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

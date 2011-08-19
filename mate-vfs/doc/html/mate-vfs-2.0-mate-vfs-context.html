@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateVFSContext</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="modules.html" title="Filesystem Modules">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-module-callback-module-api.html" title="mate-vfs-module-callback-module-api">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-transform.html" title="mate-vfs-transform">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-module-callback-module-api.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="modules.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-transform.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-context.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-context.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-context"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-context.top_of_page"></a>MateVFSContext</span></h2>
+<p>MateVFSContext — contexts allows modules to track thread usage and cancellation properly</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-context.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="returnvalue">MateVFSContext</span></a> *   <a class="link" href="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-new" title="mate_vfs_context_new ()">mate_vfs_context_new</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-free" title="mate_vfs_context_free ()">mate_vfs_context_free</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *ctx</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="returnvalue">MateVFSCancellation</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-get-cancellation" title="mate_vfs_context_get_cancellation ()">mate_vfs_context_get_cancellation</a>
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *ctx</code></em>);
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-check-cancellation" title="mate_vfs_context_check_cancellation()">mate_vfs_context_check_cancellation</a>(x)
+const <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="returnvalue">MateVFSContext</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-peek-current" title="mate_vfs_context_peek_current ()">mate_vfs_context_peek_current</a>  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-check-cancellation-current" title="mate_vfs_context_check_cancellation_current ()">mate_vfs_context_check_cancellation_current</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-context.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-context.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-context-new"></a><h3>mate_vfs_context_new ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="returnvalue">MateVFSContext</span></a> *   mate_vfs_context_new               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new context and cancellation object. Must be called
+from the main glib event loop.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-context-free"></a><h3>mate_vfs_context_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_context_free              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *ctx</code></em>);</pre>
+<p>
+Free <em class="parameter"><code>ctx</code></em> and destroy the associated <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
+<td>context to be freed.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-context-get-cancellation"></a><h3>mate_vfs_context_get_cancellation ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="returnvalue">MateVFSCancellation</span></a> * mate_vfs_context_get_cancellation
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a> *ctx</code></em>);</pre>
+<p>
+Retrieve the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> associated with <em class="parameter"><code>ctx</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
+<td>context to get the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>ctx</code></em> 's <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-context-check-cancellation"></a><h3>mate_vfs_context_check_cancellation()</h3>
+<pre class="programlisting">#define             mate_vfs_context_check_cancellation(x)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-context-peek-current"></a><h3>mate_vfs_context_peek_current ()</h3>
+<pre class="programlisting">const <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="returnvalue">MateVFSContext</span></a> * mate_vfs_context_peek_current  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Get the currently active context. It shouldn't be
+manipulated but can be compared to contexts module
+holds to determine whether they are active.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the currently active <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext"><span class="type">MateVFSContext</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-context-check-cancellation-current"></a><h3>mate_vfs_context_check_cancellation_current ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_context_check_cancellation_current
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Check to see if the currently active context has been cancelled.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the currently active context has been cancelled, otherwise <code class="literal">FALSE</code>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

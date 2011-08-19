@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-score</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Library Reference Manual">
+<link rel="up" href="ch06.html" title="Deprecated Modules">
+<link rel="prev" href="libmate-mate-i18n.html" title="mate-i18n">
+<link rel="next" href="ix01.html" title="Index">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmate-mate-i18n.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch06.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Library Reference Manual</th>
+<td><a accesskey="n" href="ix01.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmate-mate-score.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmate-mate-score.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmate-mate-score"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmate-mate-score.top_of_page"></a>mate-score</span></h2>
+<p>mate-score — Tracking best scores for games</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmate-mate-score.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmate/libmate.h&gt;
+
+<span class="returnvalue">gint</span>                <a class="link" href="libmate-mate-score.html#mate-score-init" title="mate_score_init ()">mate_score_init</a>                    (<em class="parameter"><code>const <span class="type">gchar</span> *gamename</code></em>);
+<span class="returnvalue">gint</span>                <a class="link" href="libmate-mate-score.html#mate-score-log" title="mate_score_log ()">mate_score_log</a>                     (<em class="parameter"><code><span class="type">gfloat</span> score</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *level</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> higher_to_lower_score_order</code></em>);
+<span class="returnvalue">gint</span>                <a class="link" href="libmate-mate-score.html#mate-score-get-notable" title="mate_score_get_notable ()">mate_score_get_notable</a>             (<em class="parameter"><code>const <span class="type">gchar</span> *gamename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *level</code></em>,
+                                                         <em class="parameter"><code><span class="type">gchar</span> ***names</code></em>,
+                                                         <em class="parameter"><code><span class="type">gfloat</span> **scores</code></em>,
+                                                         <em class="parameter"><code><span class="type">time_t</span> **scoretimes</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-score.description"></a><h2>Description</h2>
+<p>
+The routines in this module provide a simple way to keep track of users' scores
+in a game.
+</p>
+<p>
+In order to acommodate file ownership permissions, the game application should
+be installed setgid <em class="wordasword">games</em> and the scoretable should
+only be writable by the <em class="wordasword">games</em> group. The program
+should call <a class="link" href="libmate-mate-score.html#mate-score-init" title="mate_score_init ()"><code class="function">mate_score_init()</code></a> as soon as possible inside the <code class="function">main()</code> routine.
+This will open a pair of pipes to a child process which can read and write the
+score table and then will drop the group privileges of the main program back to
+the user's normal group id.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-score.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-score-init"></a><h3>mate_score_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_score_init                    (<em class="parameter"><code>const <span class="type">gchar</span> *gamename</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_score_init</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+MATE games should call this routine as the first statement
+in <code class="function">main()</code> if they have been installed setgid to the "games" group. It
+performs the intialization required to later record information in the
+scores table and then drops the groups privileges.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gamename</code></em> :</span></p></td>
+<td>Identifies the game name.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">0</code> on success, returns <code class="literal">-1</code> on failure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-score-log"></a><h3>mate_score_log ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_score_log                     (<em class="parameter"><code><span class="type">gfloat</span> score</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *level</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> higher_to_lower_score_order</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_score_log</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Logs a score entry for the user. You should call this every time a game
+ends.  This function takes care of working out whether the user's score made
+it into the ten best scores and, if so, records it in the table.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>score</code></em> :</span></p></td>
+<td>The score achieved by the user in this game
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>level</code></em> :</span></p></td>
+<td>The level on which the score was obtained
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>higher_to_lower_score_order</code></em> :</span></p></td>
+<td>Set to <code class="literal">TRUE</code> if high scores are better than
+low scores.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">0</code> on failure and the number of bytes written otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-score-get-notable"></a><h3>mate_score_get_notable ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_score_get_notable             (<em class="parameter"><code>const <span class="type">gchar</span> *gamename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *level</code></em>,
+                                                         <em class="parameter"><code><span class="type">gchar</span> ***names</code></em>,
+                                                         <em class="parameter"><code><span class="type">gfloat</span> **scores</code></em>,
+                                                         <em class="parameter"><code><span class="type">time_t</span> **scoretimes</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_score_get_notable</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Fetches the most notable players on <em class="parameter"><code>gamename</code></em> at level <em class="parameter"><code>level</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gamename</code></em> :</span></p></td>
+<td>The name of the game we want to fetch information from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>level</code></em> :</span></p></td>
+<td>The level for which we want to pull information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>names</code></em> :</span></p></td>
+<td>An array of strings is returned at the address pointed here
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scores</code></em> :</span></p></td>
+<td>An array of gfloats is returned at the address pointed here
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scoretimes</code></em> :</span></p></td>
+<td>An array of time_t is returned at the address pointed here
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of scores returned.  The <em class="parameter"><code>names</code></em>, <em class="parameter"><code>scores</code></em> and <em class="parameter"><code>scoretime</code></em>
+pointers point to regions that were allocated with <code class="function">g_malloc()</code> with the
+contents.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

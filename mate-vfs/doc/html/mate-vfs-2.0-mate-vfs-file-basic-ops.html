@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Basic File Operations</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-basic-file-ops.html" title="File Operations">
+<link rel="prev" href="mate-vfs-basic-file-ops.html" title="File Operations">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html" title="Reading and Writing Files">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-basic-file-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-basic-file-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-file-basic-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-file-basic-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-file-basic-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-file-basic-ops.top_of_page"></a>Basic File Operations</span></h2>
+<p>Basic File Operations — Essential VFS operations. This includes creating, moving and deleting files, opening and closing file handles.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-file-basic-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode">MateVFSOpenMode</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-create" title="mate_vfs_create ()">mate_vfs_create</a>                    (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-create-uri" title="mate_vfs_create_uri ()">mate_vfs_create_uri</a>                (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-open" title="mate_vfs_open ()">mate_vfs_open</a>                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-open-uri" title="mate_vfs_open_uri ()">mate_vfs_open_uri</a>                  (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-close" title="mate_vfs_close ()">mate_vfs_close</a>                     (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-unlink" title="mate_vfs_unlink ()">mate_vfs_unlink</a>                    (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-unlink-from-uri" title="mate_vfs_unlink_from_uri ()">mate_vfs_unlink_from_uri</a>           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-move-uri" title="mate_vfs_move_uri ()">mate_vfs_move_uri</a>                  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *old_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *new_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> force_replace</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-move" title="mate_vfs_move ()">mate_vfs_move</a>                      (<em class="parameter"><code>const <span class="type">gchar</span> *old_text_uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *new_text_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> force_replace</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-check-same-fs-uris" title="mate_vfs_check_same_fs_uris ()">mate_vfs_check_same_fs_uris</a>        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *source_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *target_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *same_fs_return</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-check-same-fs" title="mate_vfs_check_same_fs ()">mate_vfs_check_same_fs</a>             (<em class="parameter"><code>const <span class="type">gchar</span> *source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *target</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *same_fs_return</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-uri-exists" title="mate_vfs_uri_exists ()">mate_vfs_uri_exists</a>                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-create-symbolic-link" title="mate_vfs_create_symbolic_link ()">mate_vfs_create_symbolic_link</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *target_reference</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-basic-ops.description"></a><h2>Description</h2>
+<p>
+MateVFS file operations are, for the most part, patterned after
+their POSIX equivalents, with the systematic difference that they
+accept URIs rather than paths on the local filesystem. This makes
+them easy to learn as if you are already familiar with basic commands
+such as <code class="function">open()</code>, <code class="function">seek()</code>, <code class="function">write()</code>, etc you will feel right at home
+with MateVFS after learning a little about URIs.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-basic-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSOpenMode"></a><h3>enum MateVFSOpenMode</h3>
+<pre class="programlisting">typedef enum {
+        MATE_VFS_OPEN_NONE = 0,
+        MATE_VFS_OPEN_READ = 1 &lt;&lt; 0,
+        MATE_VFS_OPEN_WRITE = 1 &lt;&lt; 1,
+        MATE_VFS_OPEN_RANDOM = 1 &lt;&lt; 2,
+	MATE_VFS_OPEN_TRUNCATE = 1 &lt;&lt; 3
+} MateVFSOpenMode;
+</pre>
+<p>
+Mode in which files are opened. If MATE_VFS_OPEN_RANDOM is not used, the
+file will be have to be accessed sequentially.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-OPEN-NONE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_OPEN_NONE</code></span></p></td>
+<td>No access.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-OPEN-READ:CAPS"></a><span class="term"><code class="literal">MATE_VFS_OPEN_READ</code></span></p></td>
+<td>Read access.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-OPEN-WRITE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_OPEN_WRITE</code></span></p></td>
+<td>Write access.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-OPEN-RANDOM:CAPS"></a><span class="term"><code class="literal">MATE_VFS_OPEN_RANDOM</code></span></p></td>
+<td>Random access.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-OPEN-TRUNCATE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_OPEN_TRUNCATE</code></span></p></td>
+<td>Truncate file before accessing it, i.e. delete its contents.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-create"></a><h3>mate_vfs_create ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_create                    (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>);</pre>
+<p>
+Create <em class="parameter"><code>text_uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>.  On return, <em class="parameter"><code>handle</code></em> will then
+contain a pointer to a handle for the open file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri to create.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>mode to leave the file opened in after creation (or <code class="literal">MATE_VFS_OPEN_MODE_NONE</code>
+to leave the file closed after creation).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exclusive</code></em> :</span></p></td>
+<td>whether the file should be created in "exclusive" mode.
+i.e. if this flag is nonzero, operation will fail if a file with the
+same name already exists.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>perm</code></em> :</span></p></td>
+<td>bitmap representing the permissions for the newly created file
+(Unix style).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-create-uri"></a><h3>mate_vfs_create_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_create_uri                (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>);</pre>
+<p>
+Create <em class="parameter"><code>uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>.  On return, <em class="parameter"><code>handle</code></em> will then
+contain a pointer to a handle for the open file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri for the file to create.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exclusive</code></em> :</span></p></td>
+<td>whether the file should be created in "exclusive" mode.
+i.e. if this flag is nonzero, operation will fail if a file with the
+same name already exists.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>perm</code></em> :</span></p></td>
+<td>bitmap representing the permissions for the newly created file
+(Unix style).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-open"></a><h3>mate_vfs_open ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_open                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>);</pre>
+<p>
+Open <em class="parameter"><code>text_uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>.  On return, <em class="parameter"><code>handle</code></em> will then
+contain a pointer to a handle for the open file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri to open.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-open-uri"></a><h3>mate_vfs_open_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_open_uri                  (<em class="parameter"><code><span class="type">MateVFSHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>);</pre>
+<p>
+Open <em class="parameter"><code>uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>.  On return, <em class="parameter"><code>handle</code></em> will then
+contain a pointer to a handle for the open file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to open.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-close"></a><h3>mate_vfs_close ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_close                     (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>);</pre>
+<p>
+Close file associated with <em class="parameter"><code>handle</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-unlink"></a><h3>mate_vfs_unlink ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_unlink                    (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>);</pre>
+<p>
+Unlink <em class="parameter"><code>text_uri</code></em> (i.e. delete the file).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>uri of the file to be unlinked.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-unlink-from-uri"></a><h3>mate_vfs_unlink_from_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_unlink_from_uri           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Unlink <em class="parameter"><code>uri</code></em> (i.e. delete the file).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri of the file to be unlinked.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-move-uri"></a><h3>mate_vfs_move_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_move_uri                  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *old_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *new_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> force_replace</code></em>);</pre>
+<p>
+Move a file from uri <em class="parameter"><code>old_uri</code></em> to <em class="parameter"><code>new_uri</code></em>.  This will only work if <em class="parameter"><code>old_uri</code></em> 
+and <em class="parameter"><code>new_uri</code></em> are on the same file system.  Otherwise, it is necessary 
+to use the more general <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a> function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>old_uri</code></em> :</span></p></td>
+<td>source uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>new_uri</code></em> :</span></p></td>
+<td>destination uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>force_replace</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, move <em class="parameter"><code>old_uri</code></em> to <em class="parameter"><code>new_uri</code></em> even if there 
+is already a file at <em class="parameter"><code>new_uri</code></em>. If there is a file, it will be discarded.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-move"></a><h3>mate_vfs_move ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_move                      (<em class="parameter"><code>const <span class="type">gchar</span> *old_text_uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *new_text_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> force_replace</code></em>);</pre>
+<p>
+Move a file from <em class="parameter"><code>old_text_uri</code></em> to <em class="parameter"><code>new_text_uri</code></em>.  This will only work 
+if <em class="parameter"><code>old_text_uri</code></em> and <em class="parameter"><code>new_text_uri</code></em> are on the same file system.  Otherwise,
+it is necessary to use the more general <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a> function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>old_text_uri</code></em> :</span></p></td>
+<td>string representing the source file location.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>new_text_uri</code></em> :</span></p></td>
+<td>string representing the destination file location.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>force_replace</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, perform the operation even if it unlinks an existing
+file at <em class="parameter"><code>new_text_uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-check-same-fs-uris"></a><h3>mate_vfs_check_same_fs_uris ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_check_same_fs_uris        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *source_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *target_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *same_fs_return</code></em>);</pre>
+<p>
+Check if <em class="parameter"><code>source_uri</code></em> and <em class="parameter"><code>target_uri</code></em> are on the same file system.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source_uri</code></em> :</span></p></td>
+<td>a uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target_uri</code></em> :</span></p></td>
+<td>another uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>same_fs_return</code></em> :</span></p></td>
+<td>pointer to a boolean variable which will be set to <code class="literal">TRUE</code>
+on return if <em class="parameter"><code>source_uri</code></em> and <em class="parameter"><code>target_uri</code></em> are on the same file system.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-check-same-fs"></a><h3>mate_vfs_check_same_fs ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_check_same_fs             (<em class="parameter"><code>const <span class="type">gchar</span> *source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *target</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *same_fs_return</code></em>);</pre>
+<p>
+Check if <em class="parameter"><code>source</code></em> and <em class="parameter"><code>target</code></em> are on the same file system.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source</code></em> :</span></p></td>
+<td>path to a file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target</code></em> :</span></p></td>
+<td>path to another file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>same_fs_return</code></em> :</span></p></td>
+<td>pointer to a boolean variable which will be set to <code class="literal">TRUE</code>
+on return if <em class="parameter"><code>source</code></em> and <em class="parameter"><code>target</code></em> are on the same file system.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-exists"></a><h3>mate_vfs_uri_exists ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_uri_exists                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Check if the uri points to an existing entity.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if uri exists.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-create-symbolic-link"></a><h3>mate_vfs_create_symbolic_link ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_create_symbolic_link      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *target_reference</code></em>);</pre>
+<p>
+Creates a symbolic link, or eventually, a uri link (as necessary) 
+at <em class="parameter"><code>uri</code></em> pointing to <em class="parameter"><code>target_reference</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to create a link at.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target_reference</code></em> :</span></p></td>
+<td>uri "reference" to point the link to (uri or relative path).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

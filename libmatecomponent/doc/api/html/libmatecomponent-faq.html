@@ -1,0 +1,935 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Common Questions</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="misc.html" title="Miscellaneous">
+<link rel="prev" href="debugging.html" title="Debugging">
+<link rel="next" href="libmatecomponent-matecomponent-config-database.html" title="matecomponent-config-database">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="debugging.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="misc.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-config-database.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="libmatecomponent-faq"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle">Common Questions</span></h2>
+<p>Common Questions — 
+	    Find answers to common questions in the libmatecomponent manual
+	</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="id3186760"></a><h2>Questions and Answers</h2>
+<p>Miguel de Icaza (miguel@helixcode.com)</p>
+<p>This is a work in progress.  Please mail me before
+	    making any changes to this document.</p>
+<div class="qandaset">
+<a name="id3187589"></a><table border="0" width="100%" summary="Q and A Set">
+<col align="left" width="1%">
+<col>
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187591"></a><a name="id3187593"></a><p><b>1.</b></p>
+</td>
+<td align="left" valign="top"><p>What is MateComponent?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> MateComponent is a component architecture for creating reusable
+		    and distributed software components.  These software components
+		    interact with each other through well defined interfaces which are
+		    specified in the CORBA Interface Definition Language. </p>
+<p> We distinguish between `MateComponent' the name of the component
+			architecture, and `matecomponent' which is the C-based easy to use
+			implemenatation of the MateComponent component architecture.</p>
+<p>The matecomponent distribution consists of the following pieces:
+			
+			</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p> The MateComponent interface definition files: these
+				establish the standard interfaces used by MateComponent-based
+				applications. </p></li>
+<li class="listitem"><p>The core MateComponent runtime: MateComponent
+				contains a rich API for dealing MateComponent Objects
+				(activation for example).</p></li>
+<li class="listitem">
+<p> The GObject-Based (and hence C-based) MateComponent
+				framework for creating new MateComponent::Unknown derived
+				interfaces.  These are used to simplify the development of
+				CORBA-servers using the C language binding.</p>
+<p>Each derivative of a
+				    <code class="classname">MateComponentObject</code> implements an
+				    interface derived from
+				    <code class="literal">IDL:MateComponent/Unknown:1.0</code>.</p>
+</li>
+<li class="listitem"><p>A set of ready-to-use
+				<code class="classname">MateComponentObject</code>s derivatives that can
+				be used in a variety of situations.  These are considered
+				developer "sugar", although not required, they greatly
+				simplify the development of MateComponent-based
+				applications. </p></li>
+<li class="listitem"><p> A set of "sugar" functions for
+				manipulating client-side objects. </p></li>
+</ul></div>
+<p>
+		    </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187685"></a><a name="id3187687"></a><p><b>2.</b></p>
+</td>
+<td align="left" valign="top"><p> What is CORBA? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187694"></a><a name="id3187696"></a><p><b>3.</b></p>
+</td>
+<td align="left" valign="top"><p> What is a component? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p> A component is a ( preferably small ), re-usable piece of
+		    software, with well defined interfaces and interactions. In this
+		    context these interfaces are described in IDL and the interactions
+		    via. CORBA.  </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187712"></a><a name="id3187714"></a><p><b>4.</b></p>
+</td>
+<td align="left" valign="top"><p> Is it possible to use MateComponent components in
+		    my favorite language? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>You will need your favorite language to support
+		    CORBA.</p>
+<p> There are various CORBA implementations with a
+			different degree of completness that you can use:
+			</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>Owen Taylor has written Perl
+				bindings for CORBA using MateCORBA. </p></li>
+<li class="listitem"><p> James Henstridge
+				has written Python binding for CORBA. </p></li>
+<li class="listitem"><p> Dan Barlow has written Common
+				Lisp bindings for CORBA. </p></li>
+<li class="listitem"><p> C++ has piles of language
+				bindings. </p></li>
+</ul></div>
+<p>
+		    </p>
+<p> You need your CORBA implementation to at least let you invoke
+			methods on other CORBA objects as well as allowing you to
+			implement CORBA objects.  MateComponent uses in various places callback
+			mechanisms and these require the later functionality.  For
+			instance, there is an old Emacs Lisp implementation that did not
+			allow you to create CORBA object servers. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187774"></a><a name="id3187776"></a><p><b>5.</b></p>
+</td>
+<td align="left" valign="top"><p>Are there other implementations of
+		    MateComponent?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> There is a work in progress to implement MateComponent in other
+		    languages, although most languages will want to reuse parts of the
+		    core runtime to avoid duplicating a large piece of code that is better
+		    kept centralized and reused.</p>
+<p> FIXME: include a detailed list of the things that are
+			conveniently not wrapped. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187798"></a><a name="id3187800"></a><p><b>6.</b></p>
+</td>
+<td align="left" valign="top"><p> Is it possible to implement MateComponent components in language X?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>Yes.</p>
+<p> First of all, it is important that your language has CORBA
+			bindings, or that a suitable CORBA implementation is available for
+			you.  You want if possible to get a CORBA 2.2 implementation, but this
+			is not required. </p>
+<p> It does not matter what language you are using, you can implement
+			MateComponent Components by implementing the interface that your component
+			wants to support. </p>
+<p> Depending on your language, you will want to wrap
+			some bits from MateComponent (for instance, the core runtime)
+			or you will want to provide an alternate
+			implementation or no implementation at all. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187834"></a><a name="id3187836"></a><p><b>7.</b></p>
+</td>
+<td align="left" valign="top"><p>What is MateCORBA?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> MateCORBA is a CORBA implementation with a C mapping of
+		    the CORBA 2.2 specification mostly written by Elliot Lee and Dick
+		    Porter. </p>
+<p> You can find more about MateCORBA <a class="ulink" href="http://www.labs.redhat.com/matecorba" target="_top"> here </a> </p>
+<p> MateCORBA is designed to be a small CORBA implementation that can
+			be embedded in most applications on the desktop.  It also happens
+			to be one of the fastest CORBA implementations in existance.  It
+			supports a number of CORBA features:
+			</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p> C Language mapping. </p></li>
+<li class="listitem"><p> A full POA implementation. </p></li>
+<li class="listitem"><p> The Dynamic Invocation Interface. </p></li>
+<li class="listitem"><p> The Dynamic Skeleton Interface. </p></li>
+<li class="listitem"><p> CORBA Any values. </p></li>
+<li class="listitem"><p> Typecodes. </p></li>
+</ul></div>
+<p>
+		    </p>
+<p> And it comes with a number of libraries that implement a few of
+			the CORBA services (Cos) </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187918"></a><a name="id3187920"></a><p><b>8.</b></p>
+</td>
+<td align="left" valign="top"><p> I am interested in CORBA, where can I learn more?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> CORBA is a standard published by the Object Management
+		    Group, you can download various of their specifications from their
+		    <a class="ulink" href="http://www.omg.org" target="_top"> web site </a> </p>
+<p>See, for example, the <a class="ulink" href="http://www.omg.org/technology/documents/formal/c_language_mapping.htm" target="_top">C Language Mapping</a>.</p>
+<p>FIXME: include pointers to more relevant documents.</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187958"></a><a name="id3187960"></a><p><b>9.</b></p>
+</td>
+<td align="left" valign="top"><p> What can I do with `matecomponent'? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187967"></a><a name="id3187969"></a><p><b>10.</b></p>
+</td>
+<td align="left" valign="top"><p>What is an OAFID?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>The OAFID is a unique identifier for a specific object
+		    implementation and it is used to resolve uniquely.  This ID is used to
+		    activate CORBA servers implementations. </p>
+<p> For example, this OAFID represents the Gnumeric workbook
+			factory object:
+			</p>
+<p><code class="literal">OAFIID:MATE_Gnumeric_WorkbookFactory</code>
+			</p>
+<p>
+		    </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3187997"></a><a name="id3187999"></a><p><b>11.</b></p>
+</td>
+<td align="left" valign="top"><p> What is a Factory? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p> A factory is an object that makes other
+			objects. eg. a Gnumeric factory might make Workbook
+			objects.</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188016"></a><a name="id3188018"></a><p><b>12.</b></p>
+</td>
+<td align="left" valign="top"><p> Where does the OAFID come from? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188025"></a><a name="id3188027"></a><p><b>13.</b></p>
+</td>
+<td align="left" valign="top"><p> What is a Control? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> A Control is a 'componentized' version of a
+			Widget. ie. A Control is a (single view) Graphical
+			component. </p>
+<p> In the Gtk+ implementation a Control contains a
+			GtkWidget, it also has associated 'properties',
+			providing an easy way to customize basic features of
+			the control without creating an idl interface. </p>
+<p> A control is often used inside a MateComponentWidget,
+			which acts as a container of Controls. The
+			MateComponentWidget is a normal GtkWidget that can be
+			inserted into a GtkContainer. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188056"></a><a name="id3188059"></a><p><b>14.</b></p>
+</td>
+<td align="left" valign="top"><p> What is a PropertyBag, What is a Property? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p> See <a class="xref" href="properties.html" title="Properties"><span class="refentrytitle">Properties</span></a>. </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188080"></a><a name="id3188082"></a><p><b>15.</b></p>
+</td>
+<td align="left" valign="top"><p> What are the activation methods in MateComponent? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> The prefered method of activating objects is through the
+		    <code class="function">matecomponent_get_object</code> function.  This one does
+		    moniker based activation.  Like this: </p>
+<p> For example this activates gnumeric and returns a
+			<code class="classname">MATE::Gnumeric::Worbook</code> CORBA
+			object reference:</p>
+<pre class="programlisting">
+matecomponent_get_object ("OAFIID:MATE_Gnumeric_Workbook", "MATE/Gnumeric/Workbook");
+		    </pre>
+<p> The following launches an image handler: </p>
+<pre class="programlisting">
+matecomponent_get_object ("file:image.jpeg", "MateComponent/Control")
+		    </pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188131"></a><a name="id3188133"></a><p><b>16.</b></p>
+</td>
+<td align="left" valign="top"><p> Does MateComponent support in-proc components? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p> Yes, this depends on how you setup your component, however
+			currently there are very few in-proc mate components, due to
+			various debugging problems. </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188150"></a><a name="id3188151"></a><p><b>17.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		What is that long string of identifiers.</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188164"></a><a name="id3188165"></a><p><b>18.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		Can you show me a simple MateComponent component?</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188170"></a><a name="id3188171"></a><p><b>19.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		How can I write user interfaces with Glade?</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188176"></a><a name="id3188177"></a><p><b>20.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		I want to pack a widget using MateComponent.</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188189"></a><a name="id3188191"></a><p><b>21.</b></p>
+</td>
+<td align="left" valign="top"><p>Can I write GUI-less MateComponent components?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> Yes, you can.  MateComponent is in no way tied to the X11
+			environment, although it fully supports it. </p>
+<p> The C implementation of MateComponent uses
+			<code class="classname">GObject</code>s as its base class, and hence you
+			need to link against the glib-object libraries
+
+			
+			.
+		    </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188218"></a><a name="id3188225"></a><p><b>22.</b></p>
+</td>
+<td align="left" valign="top"><p> How can I write a configure script that detects MateComponent?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<pre class="programlisting">
+PKG_CHECK_MODULES(MATECOMPONENT, libmatecomponent-2.0)
+		    </pre>
+<p> See <code class="literal">pkg-config(1)</code> for more details.</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188254"></a><a name="id3188256"></a><p><b>23.</b></p>
+</td>
+<td align="left" valign="top"><p>How do I compile and link a sample MateComponent application?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> If your source file is in the file component.c, you
+			can compile it by using the following command line:</p>
+<span class="command"><strong><code class="literal">cc `pkg-config --cflags libmatecomponent-2.0` -c component.c</code></strong></span><p> To link, you use the command line:</p>
+<span class="command"><strong><code class="literal">cc `pkg-config --libs libmatecomponent-2.0` component.o</code></strong></span><p> You would replace <code class="literal">libmatecomponent-2.0</code>
+			for <code class="literal">libmatecomponentui-2.0</code> if you are
+			using the GUI/Gtk+ features of MateComponent and include
+			<code class="literal">libmateprint-2.0</code> if you are using
+			any of the printing facilities for components.</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188318"></a><a name="id3188320"></a><p><b>24.</b></p>
+</td>
+<td align="left" valign="top"><p> Where can I find examples of MateComponent use? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> There are various sample programs in the MateComponent distribution
+			and they are mostly intended to either excercise a part of MateComponent
+			or to show how a specific feature in MateComponent is
+			implemented. </p>
+<p> You can find the sample programs in matecomponent/samples; A few
+			simple components are in matecomponent/components; There are various
+			other test programs shipped with MateComponent as well (like gshell)
+		    </p>
+<p> For more advanced uses of MateComponent, you might want to look into
+			Gnumeric, Nautilus or Evolution. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188347"></a><a name="id3188350"></a><p><b>25.</b></p>
+</td>
+<td align="left" valign="top"><p> I noticed the lack of an IDispatch-like interface in
+		    MateComponent, how do you cope with this problem? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> CORBA provides a better solution to IDispatch at the CORBA
+			level which obviates the need to have something like that. </p>
+<p> CORBA supports a mechanism on the client side called the
+			Dynamic Invocation Interface (DII) which allows programmers to
+			build their own CORBA request to a server. </p>
+<p> On the server side CORBA supports the Dynamic Skeleton (or
+			Server? FIXME) Interface which allows applications to decode
+			arbitrary incoming CORBA requests. </p>
+<p> Scripting languages would typically implement some sort of
+			support for DII and DSI.  This enables scripting languages to talk
+			to an arbitrary CORBA server or to implement any kind of CORBA
+			interface. </p>
+<p> Some CORBA bindings for scripting languages (like Owen Taylor's
+			MateCORBA support for Perl) use the ORBs internals, as they are
+			sometime easier to use than DII/DSI. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188391"></a><a name="id3188394"></a><p><b>26.</b></p>
+</td>
+<td align="left" valign="top"><p>Can I write components in any language?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>You can write components in any language that has a CORBA
+			binding or a CORBA implementation.  The only requirement is that
+			your components implement one or more of the MateComponent
+			interfaces.</p>
+<p> The runtime for your language might want to reuse some of the C
+			implementation features (like object activation, moniker
+			activation and a few other utility functions).</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188416"></a><a name="id3188418"></a><p><b>27.</b></p>
+</td>
+<td align="left" valign="top"><p>Is MateComponent tied to the Gtk toolkit?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p>No, it is not.  The `matecomponent' implementation is tied to Gtk+, but
+			another binding for another language and another toolkit should be
+			simple to write.</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188433"></a><a name="id3188435"></a><p><b>28.</b></p>
+</td>
+<td align="left" valign="top"><p>Is MateComponent tied to the MateCORBA implementation?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p> We do not believe that MateComponent is tied to MateCORBA in any aspect,
+			and there is even an implementation of MateComponent written in Java by
+			Cactus (Gergo Erdi) called Monkeybeans that uses the Java
+			ORB. </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188451"></a><a name="id3188453"></a><p><b>29.</b></p>
+</td>
+<td align="left" valign="top"><p>What is a Moniker?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p>Monikers are used to name objects, they effectively
+			implement an object naming space. The naming space is
+			extremely abstract.
+			
+			Read doc/Monikers for a more in-depth explanation.</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188473"></a><a name="id3188475"></a><p><b>30.</b></p>
+</td>
+<td align="left" valign="top"><p>Why are you so excited about Monikers?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p>Please read the matecomponent/doc/Monikers document while I prepare
+			the full answer.</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188489"></a><a name="id3188490"></a><p><b>31.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		How can I write my own moniker? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188495"></a><a name="id3188496"></a><p><b>32.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		Show me some examples. </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188500"></a><a name="id3188501"></a><p><b>33.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		What is the POA? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188506"></a><a name="id3188507"></a><p><b>34.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		Should I use the MateComponent "base classes"? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188512"></a><a name="id3188513"></a><p><b>35.</b></p>
+</td>
+<td align="left" valign="top"><p> The memory management issues seem complex.
+		What are the differences? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188519"></a><a name="id3188520"></a><p><b>36.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		What does OAF do? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188525"></a><a name="id3188526"></a><p><b>37.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		What is a name server? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188531"></a><a name="id3188532"></a><p><b>38.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		Why would I want to use a Name Server? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188537"></a><a name="id3188538"></a><p><b>39.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		I have my own needs for a name server,
+		can I use it instead of yours? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188543"></a><a name="id3188544"></a><p><b>40.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		Where are component properties stored? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188550"></a><a name="id3188551"></a><p><b>41.</b></p>
+</td>
+<td align="left" valign="top"><p>
+		What are the component properties? </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188556"></a><a name="id3188558"></a><p><b>42.</b></p>
+</td>
+<td align="left" valign="top"><p> What kind of authentication system does MateComponent use for
+		    its objects? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> Every CORBA object created by MateCORBA currently has a long and
+			unique id created from a random sequence.  To contact this object
+			it is necessary to have the full object reference in order to
+			dispatch a request to it (typically the object reference is
+			obtained from the name server, or you can get it in a stringified
+			version as an IOR). </p>
+<p> In the past, we used a cookie system that was attached to the
+			object profile list (in a fully CORBA standard way) and this was
+			used to authenticate the client and the server. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188583"></a><a name="id3188585"></a><p><b>43.</b></p>
+</td>
+<td align="left" valign="top"><p> I notice that a port is open in my computer
+		    for every application that creates CORBA object; is that
+		    insecure?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>That port is created by MateCORBA to accept CORBA requests.  Before
+			any request is processed by the ORB, the connection is
+			authenticated (either by the use of the cookie mechanism, or
+			because the IOR encodes a valid object reference). </p>
+<p> There are no known holes or exploits known on the incoming
+			request handler in MateCORBA and if you know of anyone, we would love
+			to fix that problem. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188609"></a><a name="id3188611"></a><p><b>44.</b></p>
+</td>
+<td align="left" valign="top"><p> Are communications between components in
+		    MateComponent encrypted? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> We depend on the MateCORBA layer to do any kind of encryption of
+			the data.  The current version of MateCORBA does not use SSL or any
+			other secure transports, although patches for it are
+			available. </p>
+<p> FIXME: where are these patches available from? </p>
+<p> The current version of MateCORBA (MateCORBA2) uses OpenSSL to provide
+			encryption services. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188636"></a><a name="id3188638"></a><p><b>45.</b></p>
+</td>
+<td align="left" valign="top"><p> If communications are not encrypted, why do you support
+		    them? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p> We guarantee that communications on the destkop are going to be
+			secure, as nobody on the network will be able to sniff on your
+			connections.  When you go over the network, then traffic is not
+			encrypted and it might be subject to sniffing. </p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188655"></a><a name="id3188657"></a><p><b>46.</b></p>
+</td>
+<td align="left" valign="top"><p>What is the problem with the standard C++ CORBA
+		    binding?</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188664"></a><a name="id3188666"></a><p><b>47.</b></p>
+</td>
+<td align="left" valign="top"><p>What naming scheme should I use for my CORBA interfaces?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>If you are a MATE/ project you need to register your
+			MATE/MyProject/ namespace, see matecomponent/doc/NAMESPACE to see how
+			these are allocated.</p>
+<p>Otherwise, you should use a Java like namespacing scheme based
+			on the DNS.</p>
+<pre class="programlisting">
+	module Com {
+		module MyCompany {
+			module MyProduct {
+				interface MyInterface {
+				};
+			};
+		};
+	};
+		    </pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188694"></a><a name="id3188696"></a><p><b>48.</b></p>
+</td>
+<td align="left" valign="top"><p> How should I create unique OAFIIDs for components?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>There are two ways to do this. Firstly, those projects with a
+			defined namespace that implement new interfaces. To create an
+			OAFIID simply take your namespace, and with delimiting '_' create
+			an IID within your own defined space eg.</p>
+<p><code class="literal">OAFIID:MATE_Evolution_Calendar_iTip_Factory</code></p>
+<p><code class="literal">OAFIID:Com_MyCompany_MyProduct_Control</code></p>
+<p> A suffix of the main function of the instance eg. _Control,
+			_Factory, _Embeddable etc. is encouraged for clarity. </p>
+<p> The second method for generating OAFIIDs is appropriate for
+			small components that implement no new interfaces, and hence need
+			no special namespace co-ordination. Namespace the initial portion
+			as a category grouping eg. </p>
+<p><code class="literal">OAFIID:MATE_Panel_Applet_yetanotherclock:</code></p>
+<p> and add a UUID generated from the uuidgen application at the
+			end to garentee uniqueness. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188753"></a><a name="id3188755"></a><p><b>49.</b></p>
+</td>
+<td align="left" valign="top"><p> What should I call my oaf / UI / IDL file ? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>The name of your oaf file should be based on your portion of the
+			namespace, eg.</p>
+<p><code class="literal">MATE_Evolution_Calendar.oaf</code></p>
+<p><code class="literal">Com_MyCompany_MyProduct.oaf</code></p>
+<p>This ensures that there will be no conflicts installing oaf
+			files into a common directory.</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188788"></a><a name="id3188790"></a><p><b>50.</b></p>
+</td>
+<td align="left" valign="top"><p>How should I name my CORBA methods ?</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>CORBA methods should be named using mixed caps, following a
+			convention similar to that of Java convention. ie. method names
+			should be verbs or verb phrases in mixed case with the first leter
+			lowercase and the first letter of any further words
+			capitalized.</p>
+<pre class="programlisting">
+interface MyInterface {
+
+	long  getLength ();
+	void  setLength (in long l);
+
+	/* the ByName qualifier is a useful disambiguator */
+	long  getValueByName (in string name);
+
+	/* Factory methods should be named createWhatever */
+	MateComponent::Unknown createObject ();
+
+	/* Methods that test boolean conditions */
+	boolean isDirty ();
+	boolean hasLongLegs ();
+
+	/* Mutator methods */	
+	string toString ();
+	double toDouble ();
+
+	/* Signals */
+	oneway void notifyRename ();
+
+	/* Calculate a number of types */
+	long countObjects (in Type t);
+};
+		    </pre>
+<p> With acroyms we fully capitalize eg. <code class="literal">getURI</code>,
+			with abbreviations and contractions we capitalize the first letter
+			eg. <code class="literal">setDoc</code> <code class="literal">setId</code>. cf.
+			<a class="ulink" href="http://java.sun.com/docs/books/jls/html/6.doc.html#11186" target="_top">http://java.sun.com/docs/books/jls/html/6.doc.html#11186</a>
+		    </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188850"></a><a name="id3188853"></a><p><b>51.</b></p>
+</td>
+<td align="left" valign="top"><p> How should I name attributes and structure members?
+		    </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> Again, use a Java-like convention eg.</p>
+<pre class="programlisting">
+struct MyStructure {
+	string theName;
+	long   heightInInches;
+};
+		    </pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188873"></a><a name="id3188875"></a><p><b>52.</b></p>
+</td>
+<td align="left" valign="top"><p> Why when I do a gtk_widget_show_all does my Control not
+		    show up? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> The gtk_widget_show_all should not propagate over the plug /
+			socket boundary, you need to ensure that you do a gtk_widget_show
+			on your control. You can of course do shows / hides on the
+			MateComponentWidget ( the server side ) to show or hide the
+			control. </p>
+<p> This also means that as a component author, you are protected
+			from people messing with your internal show / hide logic. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188900"></a><a name="id3188902"></a><p><b>53.</b></p>
+</td>
+<td align="left" valign="top"><p> Aren't Monikers just a re-implementation of the MATE
+		    VFS?  Why not use the MATE VFS? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> For a storage backend you can always use something like
+			matecomponent_storage_new ("mate-vfs") and get away with life. </p>
+<p> The main difference between the mate-vfs, and monikers is that
+			monikers are used to implement an object-based name space, while
+			the mate-vfs is a fine abstraction for naming files and
+			directories.  The moniker space goes well beyond this. </p>
+<p> When Ettore, Nat and I designed the MATE VFS in Paris Ettore
+			had a grander vision than Nat and I had.  Nat and I wanted exactly
+			what the MATE VFS is: an asyncronous, pluggable virtual file
+			system implementation.  Ettore wanted something more general,
+			something that would implement an object name space.  And some of
+			the design decisions in the core of the mate-vfs reflect some of
+			this thinking, but the API and the infrastructure was limited to
+			handling files. </p>
+<p> Various months later, we finally understood completely the
+			moniker system, and we realized that monikers were an object
+			naming space, and that if done correctly monikers would be able to
+			implement Ettore's initial vision for having an object-based
+			naming space. </p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="id3188956"></a><a name="id3188958"></a><p><b>54.</b></p>
+</td>
+<td align="left" valign="top"><p> When I run my program loads of daemons start and don't
+		    stop, why? </p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p> When you activate a MateComponent server the oaf daemon starts, this
+			parses all your oafinfo files and then can respond to activation
+			requests and queries. </p>
+<p> The first access latency in this case is relatively high, the
+			second access is extremely quick, consequently it is advantageous
+			to leave the oafd process running on a MATE system. Eventualy
+			many of the MATE desktop services will be using oaf regularly,
+			making unloading it wasteful. </p>
+<p> Most people are happy to have many daemons running on their
+			machine - kswapd for example, or perhaps umpteen idle copies of
+			mingetty - these are left running for performance reasons, and
+			have a negligable impact on system performance. </p>
+<p> Finally, patches are welcome to add a _user configurable_
+			timeout and die option for those that begrudge the couple of Mb (
+			including all dependant shlibs ) to oafd. The command oaf-slay can
+			be used to kill all oaf servers at any time and one can profitably
+			look for memory savings elsewhere. </p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

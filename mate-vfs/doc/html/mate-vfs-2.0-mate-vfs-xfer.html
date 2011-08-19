@@ -1,0 +1,1060 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>File Transfers</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-file-and-dirs-ops.html" title="Advanced File/Directory Operations">
+<link rel="prev" href="mate-vfs-file-and-dirs-ops.html" title="Advanced File/Directory Operations">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-monitor.html" title="Monitoring">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-file-and-dirs-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-file-and-dirs-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-monitor.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-xfer.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-xfer.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-xfer"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-xfer.top_of_page"></a>File Transfers</span></h2>
+<p>File Transfers — Conveniently copy/move/delete files en masse</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-xfer.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions">MateVFSXferOptions</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus">MateVFSXferProgressStatus</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode">MateVFSXferOverwriteMode</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteAction" title="enum MateVFSXferOverwriteAction">MateVFSXferOverwriteAction</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode">MateVFSXferErrorMode</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorAction" title="enum MateVFSXferErrorAction">MateVFSXferErrorAction</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferPhase" title="enum MateVFSXferPhase">MateVFSXferPhase</a>;
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo">MateVFSXferProgressInfo</a>;
+<span class="returnvalue">gint</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()">*MateVFSXferProgressCallback</a>)     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()">mate_vfs_xfer_uri_list</a>             (<em class="parameter"><code>const <span class="type">GList</span> *source_uri_list</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">GList</span> *target_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> overwrite_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()">mate_vfs_xfer_uri</a>                  (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *source_uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *target_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> overwrite_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()">mate_vfs_xfer_delete_list</a>          (<em class="parameter"><code>const <span class="type">GList</span> *source_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-xfer.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-xfer.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSXferOptions"></a><h3>enum MateVFSXferOptions</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_DEFAULT = 0,
+	MATE_VFS_XFER_UNUSED_1 = 1 &lt;&lt; 0,
+	MATE_VFS_XFER_FOLLOW_LINKS = 1 &lt;&lt; 1,
+	MATE_VFS_XFER_UNUSED_2 = 1 &lt;&lt; 2,
+	MATE_VFS_XFER_RECURSIVE = 1 &lt;&lt; 3,
+	MATE_VFS_XFER_SAMEFS = 1 &lt;&lt; 4,
+	MATE_VFS_XFER_DELETE_ITEMS = 1 &lt;&lt; 5,
+	MATE_VFS_XFER_EMPTY_DIRECTORIES = 1 &lt;&lt; 6,
+	MATE_VFS_XFER_NEW_UNIQUE_DIRECTORY = 1 &lt;&lt; 7,
+	MATE_VFS_XFER_REMOVESOURCE = 1 &lt;&lt; 8,
+	MATE_VFS_XFER_USE_UNIQUE_NAMES = 1 &lt;&lt; 9,
+	MATE_VFS_XFER_LINK_ITEMS = 1 &lt;&lt; 10,
+	MATE_VFS_XFER_FOLLOW_LINKS_RECURSIVE = 1 &lt;&lt; 11,
+	MATE_VFS_XFER_TARGET_DEFAULT_PERMS = 1 &lt;&lt; 12
+} MateVFSXferOptions;
+</pre>
+<p>
+These options control the way <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>,
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()"><code class="function">mate_vfs_xfer_delete_list()</code></a> and <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a> work.
+</p>
+<p>
+At a first glance the <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> semantics are not very intuitive.
+</p>
+<p>
+There are two types of <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a>: Those that define an operation,
+i.e. describe what to do, and those that influence how to execute the
+operation.
+</p>
+<p>
+</p>
+<div class="table">
+<a name="id2626854"></a><p class="title"><b>Table 1. Operation Selection</b></p>
+<div class="table-contents"><table summary="Operation Selection" border="0">
+<colgroup>
+<col align="left">
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> entry</th>
+<th align="left">Operation</th>
+<th align="left">UNIX equivalent</th>
+<th align="left">Comments</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DEFAULT:CAPS"><span class="type">MATE_VFS_XFER_DEFAULT</span></a></td>
+<td align="left">Copy</td>
+<td align="left"><code class="literal">cp</code></td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-REMOVESOURCE:CAPS"><span class="type">MATE_VFS_XFER_REMOVESOURCE</span></a></td>
+<td align="left">Move</td>
+<td align="left"><code class="literal">mv</code></td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-LINK-ITEMS:CAPS"><span class="type">MATE_VFS_XFER_LINK_ITEMS</span></a></td>
+<td align="left">Link</td>
+<td align="left"><code class="literal">ln -s</code></td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-NEW-UNIQUE-DIRECTORY:CAPS"><span class="type">MATE_VFS_XFER_NEW_UNIQUE_DIRECTORY</span></a></td>
+<td align="left">Make Unique Directory</td>
+<td align="left"><code class="literal">mkdir</code></td>
+<td align="left">implies <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-USE-UNIQUE-NAMES:CAPS"><span class="type">MATE_VFS_XFER_USE_UNIQUE_NAMES</span></a>
+</td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DELETE-ITEMS:CAPS"><span class="type">MATE_VFS_XFER_DELETE_ITEMS</span></a></td>
+<td align="left">Remove</td>
+<td align="left"><code class="literal">rm -r</code></td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-EMPTY-DIRECTORIES:CAPS"><span class="type">MATE_VFS_XFER_EMPTY_DIRECTORIES</span></a></td>
+<td align="left">Remove Directory Contents</td>
+<td align="left">foreach file: <code class="literal">( cd file &amp;&amp; rm -rf * )</code>
+</td>
+<td align="left">used to empty trash</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<p>
+   Because <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DEFAULT:CAPS"><span class="type">MATE_VFS_XFER_DEFAULT</span></a> maps to <code class="literal">0</code>, it will always be present.
+   Thus, not explicitly specifying any operation at all, or just specifying
+   <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DEFAULT:CAPS"><span class="type">MATE_VFS_XFER_DEFAULT</span></a> will both execute a copy.
+ </p>
+<p>
+   If an operation other than <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DEFAULT:CAPS"><span class="type">MATE_VFS_XFER_DEFAULT</span></a> is
+   specified, it will override the copy operation, but you may only specify
+   <span class="emphasis"><em>one</em></span> of the other operations at a time.
+ </p>
+<p>
+   This unintuitive operation selection unfortunately poses an API weakness
+   and an obstacle in client development, and will be modified in a later
+   revision of this API.
+ </p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-DEFAULT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_DEFAULT</code></span></p></td>
+<td>Default behavior, which is to do a straight one to one copy.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-UNUSED-1:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_UNUSED_1</code></span></p></td>
+<td>Unused.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-FOLLOW-LINKS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_FOLLOW_LINKS</code></span></p></td>
+<td>Follow symbolic links when copying or moving, i.e.
+				 the target of symbolic links are copied
+				 rather than the symbolic links themselves.
+				 Note that this just refers to top-level items.
+				 If you also want to follow symbolic links inside
+				 directories you operate on, you also have to specify
+				 <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-FOLLOW-LINKS-RECURSIVE:CAPS"><span class="type">MATE_VFS_XFER_FOLLOW_LINKS_RECURSIVE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-UNUSED-2:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_UNUSED_2</code></span></p></td>
+<td>Unused.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-RECURSIVE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_RECURSIVE</code></span></p></td>
+<td>Recursively copy source directories to the target. 
+			      Equivalent to the cp -r option in GNU cp.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-SAMEFS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_SAMEFS</code></span></p></td>
+<td>When copying recursively, this only picks up items on the same file
+			   system the same filesystem as their parent directory.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-DELETE-ITEMS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_DELETE_ITEMS</code></span></p></td>
+<td>This is equivalent to an <code class="function">rmdir()</code> for source directories,
+				 and an <code class="function">unlink()</code> operation for all source files.
+				 Requires <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> target URIs.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-EMPTY-DIRECTORIES:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_EMPTY_DIRECTORIES</code></span></p></td>
+<td>Remove the whole contents of the passed-in source
+				      directories. Requires <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> target URIs.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-NEW-UNIQUE-DIRECTORY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_NEW_UNIQUE_DIRECTORY</code></span></p></td>
+<td>This will create a directory if it doesn't exist
+					 in the destination area (i.e. <code class="function">mkdir()</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-REMOVESOURCE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_REMOVESOURCE</code></span></p></td>
+<td>This makes a copy operation equivalent to a mv, i.e. the
+				 files will be moved rather than copied. If applicable, this
+				 will use <code class="function">rename()</code>, otherwise (i.e. across file systems),
+				 it will fall back to a copy operation followed by a source
+				 file deletion.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-USE-UNIQUE-NAMES:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_USE_UNIQUE_NAMES</code></span></p></td>
+<td>When this option is present, and a name collisions on
+				     the target occurs, the progress callback will be asked
+				     for a new name, until the newly provided name doesn't
+				     conflict or the request callback transfer cancellation.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-LINK-ITEMS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_LINK_ITEMS</code></span></p></td>
+<td>Executes a symlink operation for each of the source/target URI pairs,
+			       i.e. similar to GNU ln -s source target.
+			       NB: The symlink target has to be specified as source URI,
+			       	   and the symlink itself as target URI.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-FOLLOW-LINKS-RECURSIVE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_FOLLOW_LINKS_RECURSIVE</code></span></p></td>
+<td>This means that when doing a copy operation, symbolic
+					   links in subdirectories are dereferenced. This is
+					   typically used together with <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-FOLLOW-LINKS-RECURSIVE:CAPS"><span class="type">MATE_VFS_XFER_FOLLOW_LINKS_RECURSIVE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-TARGET-DEFAULT-PERMS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_TARGET_DEFAULT_PERMS</code></span></p></td>
+<td>This means that the target file will not have the same
+					 permissions as the source file, but will instead have
+					 the default permissions of the destination location.
+					 This is useful when copying from read-only locations (CDs).
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferProgressStatus"></a><h3>enum MateVFSXferProgressStatus</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_PROGRESS_STATUS_OK = 0,
+	MATE_VFS_XFER_PROGRESS_STATUS_VFSERROR = 1,
+	MATE_VFS_XFER_PROGRESS_STATUS_OVERWRITE = 2,
+	MATE_VFS_XFER_PROGRESS_STATUS_DUPLICATE = 3
+} MateVFSXferProgressStatus;
+</pre>
+<p>
+The difference between <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OVERWRITE:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_OVERWRITE</span></a> and
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-DUPLICATE:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_DUPLICATE</span></a> is that they will be issued
+at different occassions, and that the return value will be interpreted
+differently. For details, see <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_OK</code></span></p></td>
+<td>The file transfer is progressing normally.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PROGRESS-STATUS-VFSERROR:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_VFSERROR</code></span></p></td>
+<td>A VFS error was detected.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PROGRESS-STATUS-OVERWRITE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_OVERWRITE</code></span></p></td>
+<td>The current target file specified by the
+					      <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a>'s <code class="literal">target_name</code>
+					      field already exists.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PROGRESS-STATUS-DUPLICATE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_DUPLICATE</code></span></p></td>
+<td>The current target file specified by the
+					      <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a>'s <code class="literal">target_name</code>
+					      field already exists, and the progress
+					      callback is asked to supply a new unique name.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferOverwriteMode"></a><h3>enum MateVFSXferOverwriteMode</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_OVERWRITE_MODE_ABORT = 0,
+	MATE_VFS_XFER_OVERWRITE_MODE_QUERY = 1,
+	MATE_VFS_XFER_OVERWRITE_MODE_REPLACE = 2,
+	MATE_VFS_XFER_OVERWRITE_MODE_SKIP = 3
+} MateVFSXferOverwriteMode;
+</pre>
+<p>
+This is passed to <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>,
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()"><code class="function">mate_vfs_xfer_delete_list()</code></a> and <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a> and specifies
+what action should be taken when a target file already exists.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-MODE-ABORT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_MODE_ABORT</code></span></p></td>
+<td>Abort the transfer when a target file already exists,
+					 returning the error <span class="type">MATE_VFS_ERROR_FILEEXISTS</span>.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-MODE-QUERY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_MODE_QUERY</code></span></p></td>
+<td>Query the progress callback with the
+					 <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a>'s status field
+					 set to <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-VFSERROR:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_VFSERROR</span></a> when
+					 a target file already exists.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-MODE-REPLACE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_MODE_REPLACE</code></span></p></td>
+<td>Replace existing target files silently.
+					   Don't worry be happy.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-MODE-SKIP:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_MODE_SKIP</code></span></p></td>
+<td>Skip source files when its target already exists.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferOverwriteAction"></a><h3>enum MateVFSXferOverwriteAction</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_OVERWRITE_ACTION_ABORT = 0,
+	MATE_VFS_XFER_OVERWRITE_ACTION_REPLACE = 1,
+	MATE_VFS_XFER_OVERWRITE_ACTION_REPLACE_ALL = 2,
+	MATE_VFS_XFER_OVERWRITE_ACTION_SKIP = 3,
+	MATE_VFS_XFER_OVERWRITE_ACTION_SKIP_ALL = 4
+} MateVFSXferOverwriteAction;
+</pre>
+<p>
+This defines the actions to perform before a file is being overwritten
+(i.e., these are the answers that can be given to a replace query).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-ACTION-ABORT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_ACTION_ABORT</code></span></p></td>
+<td>abort the transfer
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-ACTION-REPLACE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_ACTION_REPLACE</code></span></p></td>
+<td>replace the existing file
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-ACTION-REPLACE-ALL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_ACTION_REPLACE_ALL</code></span></p></td>
+<td>replace the existing file, and all future files
+without prompting the callback.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-ACTION-SKIP:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_ACTION_SKIP</code></span></p></td>
+<td>don't copy over the existing file
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-OVERWRITE-ACTION-SKIP-ALL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_OVERWRITE_ACTION_SKIP_ALL</code></span></p></td>
+<td>don't copy over the existing file, and all future
+files without prompting the callback.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferErrorMode"></a><h3>enum MateVFSXferErrorMode</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_ERROR_MODE_ABORT = 0,
+	MATE_VFS_XFER_ERROR_MODE_QUERY = 1
+} MateVFSXferErrorMode;
+</pre>
+<p>
+This is passed to <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>,
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()"><code class="function">mate_vfs_xfer_delete_list()</code></a> and <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a> and specifies
+what action should be taken when transfer errors are detected.
+</p>
+<p>
+The progress callback is either a <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> for synchronous
+Xfer operations, or a <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()"><span class="type">MateVFSAsyncXferProgressCallback</span></a> for asynchronous operations.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-ERROR-MODE-ABORT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_ERROR_MODE_ABORT</code></span></p></td>
+<td>abort the transfer when an error occurs
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-ERROR-MODE-QUERY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_ERROR_MODE_QUERY</code></span></p></td>
+<td>query the progress callback with the
+				     <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a>'s status field
+				     set to <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-VFSERROR:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_VFSERROR</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferErrorAction"></a><h3>enum MateVFSXferErrorAction</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_ERROR_ACTION_ABORT = 0,
+	MATE_VFS_XFER_ERROR_ACTION_RETRY = 1,
+	MATE_VFS_XFER_ERROR_ACTION_SKIP = 2
+} MateVFSXferErrorAction;
+</pre>
+<p>
+This defines the possible actions to be performed after a VFS error has occurred, i.e.
+when a MateVFS file operation issued during the transfer returned a result that is not
+equal to <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><span class="type">MATE_VFS_OK</span></a>.
+</p>
+<p>
+It is returned by the progress callback which is either a <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a>
+for synchronous Xfer operations, or a <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()"><span class="type">MateVFSAsyncXferProgressCallback</span></a> for asynchronous
+operations.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-ERROR-ACTION-ABORT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_ERROR_ACTION_ABORT</code></span></p></td>
+<td>interrupt Xfer and return <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INTERRUPTED:CAPS"><code class="literal">MATE_VFS_ERROR_INTERRUPTED</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-ERROR-ACTION-RETRY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_ERROR_ACTION_RETRY</code></span></p></td>
+<td>retry the failed operation.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-ERROR-ACTION-SKIP:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_ERROR_ACTION_SKIP</code></span></p></td>
+<td>skip the failed operation, and continue Xfer normally.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferPhase"></a><h3>enum MateVFSXferPhase</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_XFER_PHASE_INITIAL,
+	MATE_VFS_XFER_CHECKING_DESTINATION,
+	MATE_VFS_XFER_PHASE_COLLECTING,
+	MATE_VFS_XFER_PHASE_READYTOGO,
+	MATE_VFS_XFER_PHASE_OPENSOURCE,
+	MATE_VFS_XFER_PHASE_OPENTARGET,
+	MATE_VFS_XFER_PHASE_COPYING,
+	MATE_VFS_XFER_PHASE_MOVING,
+	MATE_VFS_XFER_PHASE_READSOURCE,
+	MATE_VFS_XFER_PHASE_WRITETARGET,
+	MATE_VFS_XFER_PHASE_CLOSESOURCE,
+	MATE_VFS_XFER_PHASE_CLOSETARGET,
+	MATE_VFS_XFER_PHASE_DELETESOURCE,
+	MATE_VFS_XFER_PHASE_SETATTRIBUTES,
+	MATE_VFS_XFER_PHASE_FILECOMPLETED,
+	MATE_VFS_XFER_PHASE_CLEANUP,
+	MATE_VFS_XFER_PHASE_COMPLETED,
+	MATE_VFS_XFER_NUM_PHASES
+} MateVFSXferPhase;
+</pre>
+<p>
+Specifies the current phase of an Xfer operation that was
+initiated using <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>,
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()"><code class="function">mate_vfs_xfer_delete_list()</code></a> or <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a>.
+</p>
+<p>
+Whenever the Xfer phase is in a phase that is highlighted with a
+(*), the <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> respectively
+<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()"><span class="type">MateVFSAsyncXferProgressCallback</span></a> is never invoked with a
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus"><span class="type">MateVFSXferProgressStatus</span></a> other than <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_OK</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-INITIAL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_INITIAL</code></span></p></td>
+<td>initial phase.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-CHECKING-DESTINATION:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_CHECKING_DESTINATION</code></span></p></td>
+<td>destination is checked for being able to handle copy/move.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-COLLECTING:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_COLLECTING</code></span></p></td>
+<td>source file list is collected.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-READYTOGO:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_READYTOGO</code></span></p></td>
+<td>source file list has been collected (*).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-OPENSOURCE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_OPENSOURCE</code></span></p></td>
+<td>source file is opened for reading.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-OPENTARGET:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_OPENTARGET</code></span></p></td>
+<td>target file, directory or symlink is created, or opened for copying.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-COPYING:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_COPYING</code></span></p></td>
+<td>data is copied from source file to target file (*).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-MOVING:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_MOVING</code></span></p></td>
+<td>source file is moved to target (M).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-READSOURCE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_READSOURCE</code></span></p></td>
+<td>data is read from a source file, when copying.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-WRITETARGET:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_WRITETARGET</code></span></p></td>
+<td>data is written to a target file, when copying.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-CLOSESOURCE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_CLOSESOURCE</code></span></p></td>
+<td>source file is closed, when copying
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-CLOSETARGET:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_CLOSETARGET</code></span></p></td>
+<td>target file is closed, when copying.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-DELETESOURCE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_DELETESOURCE</code></span></p></td>
+<td>source file is deleted.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-SETATTRIBUTES:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_SETATTRIBUTES</code></span></p></td>
+<td>target file attributes are set.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-FILECOMPLETED:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_FILECOMPLETED</code></span></p></td>
+<td>one file was completed, ready for next file.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-CLEANUP:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_CLEANUP</code></span></p></td>
+<td>cleanup after moving (i.e. source files deletion).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-PHASE-COMPLETED:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_PHASE_COMPLETED</code></span></p></td>
+<td>operation finished (*).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-XFER-NUM-PHASES:CAPS"></a><span class="term"><code class="literal">MATE_VFS_XFER_NUM_PHASES</code></span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferProgressInfo"></a><h3>MateVFSXferProgressInfo</h3>
+<pre class="programlisting">typedef struct {
+	MateVFSXferProgressStatus status;
+
+	MateVFSResult vfs_status;
+
+	MateVFSXferPhase phase;
+
+	/* Source URI. FIXME bugzilla.eazel.com 1206: change name? */
+	gchar *source_name;
+
+	/* Destination URI. FIXME bugzilla.eazel.com 1206: change name? */
+	gchar *target_name;
+
+	gulong file_index;
+
+	gulong files_total;
+
+	MateVFSFileSize bytes_total;
+
+	MateVFSFileSize file_size;
+
+	MateVFSFileSize bytes_copied;
+
+	MateVFSFileSize total_bytes_copied;
+
+	gchar *duplicate_name;
+
+	int duplicate_count;
+
+	gboolean top_level_item;
+
+	/* Reserved for future expansions to MateVFSXferProgressInfo
+	 * without having to break ABI compatibility */
+} MateVFSXferProgressInfo;
+</pre>
+<p>
+Provides progress information for the transfer operation.
+This is especially useful for interactive programs.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus"><span class="type">MateVFSXferProgressStatus</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.status"></a>status</code></em>;</span></p></td>
+<td>A <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus"><span class="type">MateVFSXferProgressStatus</span></a> describing the current status.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.vfs-status"></a>vfs_status</code></em>;</span></p></td>
+<td>A <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> describing the current VFS status.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferPhase" title="enum MateVFSXferPhase"><span class="type">MateVFSXferPhase</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.phase"></a>phase</code></em>;</span></p></td>
+<td>A <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferPhase" title="enum MateVFSXferPhase"><span class="type">MateVFSXferPhase</span></a> describing the current transfer phase.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSXferProgressInfo.source-name"></a>source_name</code></em>;</span></p></td>
+<td>The Currently processed source URI.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSXferProgressInfo.target-name"></a>target_name</code></em>;</span></p></td>
+<td>The Currently processed target URI.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gulong</span> <em class="structfield"><code><a name="MateVFSXferProgressInfo.file-index"></a>file_index</code></em>;</span></p></td>
+<td>The index of the currently processed file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gulong</span> <em class="structfield"><code><a name="MateVFSXferProgressInfo.files-total"></a>files_total</code></em>;</span></p></td>
+<td>The total number of processed files.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.bytes-total"></a>bytes_total</code></em>;</span></p></td>
+<td>The total size of all files to transfer in bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.file-size"></a>file_size</code></em>;</span></p></td>
+<td>The size of the currently processed file in bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.bytes-copied"></a>bytes_copied</code></em>;</span></p></td>
+<td>The number of bytes that has been transferred
+		  from the current file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> <em class="structfield"><code><a name="MateVFSXferProgressInfo.total-bytes-copied"></a>total_bytes_copied</code></em>;</span></p></td>
+<td>The total number of bytes that has been transferred.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSXferProgressInfo.duplicate-name"></a>duplicate_name</code></em>;</span></p></td>
+<td>The name specifying a duplicate filename.
+		    It acts as pointer to both input and output
+		    data. It is only valid input data if <em class="parameter"><code>status</code></em> is
+		    MATE_VFS_XFER_PROGRESS_STATUS_DUPLICATE,
+		    in which case <em class="parameter"><code>duplicate_count</code></em> and <em class="parameter"><code>duplicate_name</code></em>
+		    should be used by the <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a>
+		    to pick a new unique target name.
+		    If the callback wants to retry with a new unique name
+		    it is supposed to free the old <em class="parameter"><code>duplicate_name</code></em>
+		    set it to a valid string describing the new file name.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">int</span> <em class="structfield"><code><a name="MateVFSXferProgressInfo.duplicate-count"></a>duplicate_count</code></em>;</span></p></td>
+<td>The number of conflicts that ocurred when the
+		     current <em class="parameter"><code>duplicate_name</code></em> was set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gboolean</span> <em class="structfield"><code><a name="MateVFSXferProgressInfo.top-level-item"></a>top_level_item</code></em>;</span></p></td>
+<td>This flag signals that the currently
+		    processed file is a top level item.
+		    If it is <code class="literal">TRUE</code>, one of the files passed to
+		    <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>,
+		    <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()"><code class="function">mate_vfs_xfer_delete_list()</code></a> or <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a>
+		    is currently processed.
+		    If it is <code class="literal">FALSE</code>, a file or directory that is inside
+		    a directory specified by the passed in source list
+		    is currently processed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSXferProgressCallback"></a><h3>MateVFSXferProgressCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                (*MateVFSXferProgressCallback)     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+This is the prototype for functions called during a transfer operation to
+report progress.
+</p>
+<p>
+The interpretation of the return value of the callback depends on the
+MateVFSXferProgressStaus <code class="literal">status</code> field of MateVFSXferProgressInfo,
+some status/return value combinations require modification of
+particular <em class="parameter"><code>info</code></em> fields.
+</p>
+<p>
+</p>
+<div class="table">
+<a name="id2629661"></a><p class="title"><b>Table 2. Status/Return Value Overview</b></p>
+<div class="table-contents"><table summary="Status/Return Value Overview" border="0">
+<colgroup>
+<col align="left">
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus"><span class="type">MateVFSXferProgressStatus</span></a> status</th>
+<th align="left">Status</th>
+<th align="left">Only If</th>
+<th align="left">Return Value Interpretation</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_OK</span></a></td>
+<td align="left">OK</td>
+<td align="left"> </td>
+<td align="left">
+<code class="literal">0</code>: abort, otherwise continue</td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-VFSERROR:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_VFSERROR</span></a></td>
+<td align="left">VFS Error Ocurred</td>
+<td align="left">
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> is <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-ERROR-MODE-QUERY:CAPS"><span class="type">MATE_VFS_XFER_ERROR_MODE_QUERY</span></a>
+</td>
+<td align="left">MateVFSXferErrorAction</td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OVERWRITE:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_OVERWRITE</span></a></td>
+<td align="left">Conflict Ocurred, Overwrite?</td>
+<td align="left">
+           <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> is <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-MODE-QUERY:CAPS"><span class="type">MATE_VFS_XFER_OVERWRITE_MODE_QUERY</span></a>,
+           <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> does not have <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-USE-UNIQUE-NAMES:CAPS"><span class="type">MATE_VFS_XFER_USE_UNIQUE_NAMES</span></a>.
+    </td>
+<td align="left">MateVFSXferOverwriteAction</td>
+</tr>
+<tr>
+<td align="left"><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-DUPLICATE:CAPS"><span class="type">MATE_VFS_XFER_PROGRESS_STATUS_DUPLICATE</span></a></td>
+<td align="left">Conflict Ocurred, New Target Name?</td>
+<td align="left">
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> does have <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-USE-UNIQUE-NAMES:CAPS"><span class="type">MATE_VFS_XFER_USE_UNIQUE_NAMES</span></a>.</td>
+<td align="left">
+<code class="literal">0</code>: abort, otherwise retry with new <code class="literal">duplicate_name</code> in <em class="parameter"><code>info</code></em> (free the old one!).</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+Each <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus"><span class="type">MateVFSXferProgressStatus</span></a> provides one value signalling abortion that maps to <code class="literal">0</code>.
+Therefore, returning <code class="literal">0</code> will always abort the Xfer. On abortion, if the <em class="parameter"><code>info</code></em>'s <code class="literal">vfs_status</code>
+is <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><span class="type">MATE_VFS_OK</span></a>, the Xfer operation result will be set to <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INTERRUPTED:CAPS"><span class="type">MATE_VFS_ERROR_INTERRUPTED</span></a>,
+otherwise the operation result will be set to <code class="literal">vfs_status</code> to distinguish completely
+user-driven aborts from those involving a problem during the Xfer.
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a> associated with this transfer operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>The user data passed to <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri" title="mate_vfs_xfer_uri ()"><code class="function">mate_vfs_xfer_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>,
+	       <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list" title="mate_vfs_xfer_delete_list ()"><code class="function">mate_vfs_xfer_delete_list()</code></a> or <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Whether the process should be aborted, or whether a special action should be taken.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-xfer-uri-list"></a><h3>mate_vfs_xfer_uri_list ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_xfer_uri_list             (<em class="parameter"><code>const <span class="type">GList</span> *source_uri_list</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">GList</span> *target_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> overwrite_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+This function will transfer multiple files to multiple targets, given
+source URIs and destination URIs. If you want to do asynchronous
+file transfers, you have to use <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a> instead.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source_uri_list</code></em> :</span></p></td>
+<td>A <span class="type">GList</span> of source <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target_uri_list</code></em> :</span></p></td>
+<td>A <span class="type">GList</span> of target <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a>, each corresponding to one URI in
+<em class="parameter"><code>source_uri_list</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>xfer_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> defining the desired operation and parameters.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error_mode</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSErrorMode</span> specifying how to proceed if a VFS error occurs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>overwrite_mode</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSOverwriteMode</span> specifying how to proceed if a file is being overwritten.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
+<td>This <span class="type">MateVFSProgressCallback</span> is used to inform the user about
+the progress of a transfer, and to request further input from him if a problem occurs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>Data to be passed back in callbacks from the xfer engine.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> If all goes well it returns <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>.  Check <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> for
+other values.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-xfer-uri"></a><h3>mate_vfs_xfer_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_xfer_uri                  (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *source_uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *target_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> overwrite_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+This function works exactly like <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>, and is a
+convenience wrapper for only acting on one source/target URI pair.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source_uri</code></em> :</span></p></td>
+<td>A source <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target_uri</code></em> :</span></p></td>
+<td>A target <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>xfer_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> defining the desired operation and parameters.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error_mode</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSErrorMode</span> specifying how to proceed if a VFS error occurs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>overwrite_mode</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSOverwriteMode</span> specifying how to proceed if a file is being overwritten.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
+<td>This <span class="type">MateVFSProgressCallback</span> is used to inform the user about
+the progress of a transfer, and to request further input from him if a problem occurs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>Data to be passed back in callbacks from the xfer engine.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-xfer-delete-list"></a><h3>mate_vfs_xfer_delete_list ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_xfer_delete_list          (<em class="parameter"><code>const <span class="type">GList</span> *source_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+Unlinks items in the <em class="parameter"><code>source_uri_list</code></em> from their filesystems.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source_uri_list</code></em> :</span></p></td>
+<td>This is a list containing uris.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error_mode</code></em> :</span></p></td>
+<td>Decide how you want to deal with interruptions.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>xfer_options</code></em> :</span></p></td>
+<td>Set whatever transfer options you need.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
+<td>Callback to check on progress of transfer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>Data to be passed back in callbacks from the xfer engine.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if successful, or the appropriate error code otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

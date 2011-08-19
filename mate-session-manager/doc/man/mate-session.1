@@ -1,0 +1,79 @@
+.\"
+.\" mate-session manual page.
+.\" (C) 2000 Miguel de Icaza (miguel@helixcode.com)
+.\" (C) 2009-2010 Vincent Untz (vuntz@mate.org)
+.\"
+.TH MATE-SESSION 1 "MATE"
+.SH NAME
+mate-session \- Start the MATE desktop environment
+.SH SYNOPSIS
+.B mate-session [\-\-autostart=DIR] [\-\-default-session-key=KEY] [\-\-failsafe|\-f] [\-\-debug]
+.SH DESCRIPTION
+The \fImate-session\fP program starts up the MATE desktop
+environment. This command is typically executed by your login manager
+(either gdm, xdm, or from your X startup scripts). It will load
+either your saved session, or it will provide a default session for the
+user as defined by the system administrator (or the default MATE
+installation on your system).
+.PP
+The default session is defined in the MateConf keys under
+\fB/desktop/mate/session\fP.
+When saving a session, \fImate-session\fP saves the currently running
+applications in the \fB$XDG_CONFIG_HOME/mate-session/saved-session\fP
+directory.
+.PP
+\fImate-session\fP is an X11R6 session manager. It can manage MATE
+applications as well as any X11R6 SM compliant.
+.SH OPTIONS
+The following options are supported:
+.TP
+.I "--autostart=DIR"
+Start all applications defined in \fIDIR\fP, instead of starting the
+applications defined in \fB/desktop/mate/session/default_session\fP,
+or via the \fI--default-session-key\fP option. Multiple
+\fI--autostart\fP options can be passed.
+.TP
+.I "--default-session-key=KEY"
+Set the MateConf key from which applications running a default session
+should be read to \fIKEY\fP. If not specificed,
+\fB/desktop/mate/session/default_session\fP will be used.
+.TP
+.I "--failsafe"
+Run in fail-safe mode. User-specified applications will not be started.
+.TP
+.I "--debug"
+Enable debugging code.
+.SH ENVIRONMENT
+\fImate-session\fP sets several environment variables for the use of
+its child processes:
+.PP
+.B SESSION_MANAGER
+.IP
+This variable is used by session-manager aware clients to contact
+mate-session.
+.PP
+.B DISPLAY
+.IP
+This variable is set to the X display being used by
+\fImate-session\fP. Note that if the --display option is used
+this might be different from the setting of the environment variable
+when mate-session is invoked.
+.SH FILES
+.PP
+.B $XDG_CONFIG_HOME/config/autostart
+.B $XDG_CONFIG_DIRS/config/autostart
+.B /usr/share/mate/autostart
+.IP
+The applications defined in those directories will be started on login.
+\fImate-session-properties(1)\fP can be used to easily configure them.
+.PP
+.B $XDG_CONFIG_HOME/mate-session/saved-session
+.IP
+This directory contains the list of applications of the saved session.
+.SH BUGS
+If you find bugs in the \fImate-session\fP program, please report
+these on https://bugzilla.mate.org.
+.SH SEE ALSO
+.BR mate-session-properties(1)
+.BR mate-session-save(1)
+.BR mate-wm(1)

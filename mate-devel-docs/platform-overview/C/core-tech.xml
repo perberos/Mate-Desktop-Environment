@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='utf-8'?><!-- -*- indent-tabs-mode: nil -*- -->
+
+<chapter id="core-tech">
+  <title>Core Technologies</title>
+
+<section id="graphics">
+  <title>Graphical Interfaces</title>
+
+  <para>Most applications will need to provide a graphical interface to
+  interact with users.  Graphical interfaces can create an intuitive and
+  discoverable medium for people to interact with software, and users expect
+  applications to provide usable and attractive user interfaces.</para>
+
+  <para>The MATE Platform features sophisticated graphics and user interface
+  technology, from standard user interface controls to an API for drawing
+  high-quality graphics to the screen.  Using the graphics technologies in
+  MATE allows you to create applications that are consistent, intuitive,
+  and aesthetically pleasing.</para>
+
+  <figure>
+    <title>Layered Look at Graphics Libraries</title>
+    <mediaobject>
+      <imageobject>
+        <imagedata format="PNG" fileref="figures/graphics.png"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <section id="gtk">
+    <title>GTK+</title>
+
+    <para>GTK+ is the primary library used to construct user interfaces
+    in MATE.  It provides all the user interface controls, or widgets,
+    used in a common graphical application.  Its modern, object-oriented
+    API allows you to construct attractive and sophisticated user
+    interfaces without dealing with the low-level details of drawing and
+    device interaction.</para>
+
+    <para>In addition to basic widgets, such as buttons, check boxes,
+    and text entries, GTK+ also provides powerful Model-View-Controller
+    (MVC) APIs for tree views, multi-line text fields, and menu and
+    toolbar actions.</para>
+
+    <para>Widgets in GTK+ are placed on windows using a box-packing model.
+    Programmers specify only how to pack widgets together in container
+    boxes, rather than position them directly with absolute coordinates.
+    GTK+ ensures that windows are sized correctly to fit their contents,
+    and it automatically handles window resizing.</para>
+
+    <para>Because GTK+ offers a flexible API, developing additional widgets
+    for use in GTK+ applications is easy.  A number of third-party libraries
+    exist which provide additional widgets, and many developers have created
+    custom, special-purpose widgets for their applications.</para>
+
+    <para>GTK+ handles the difficult details of user interfaces and user
+    interaction, and provides a simple yet powerful API which allows you
+    to focus on the details of your application.  Applications developed
+    with GTK+ will automatically follow the user's theme and font settings,
+    will interact properly with accessibility technologies, and will behave
+    as users expect.</para>
+
+    <para>For more information on GTK+, see the
+    <ulink url="http://library.mate.org/devel/gtk/stable/">GTK+ Reference
+    Manual</ulink> or visit
+    <ulink url="http://gtk.org/">the GTK+ web site</ulink>.</para>
+  </section> <!-- gtk -->
+
+  <section id="libglade">
+    <title>Libglade</title>
+    <note><para><note><para>Note that Libglade has been deprecated in favor of
+    <ulink url="http://library.mate.org/devel/gtk/stable/GtkBuilder.html">GtkBuilder</ulink>.
+    Newly written code should use GtkBuilder instead.</para></note></para></note>
+
+    <para>Libglade is a library for constructing user interfaces dynamically
+    from XML descriptions.  You can use a graphical interface builder like
+    <application>Glade</application> to construct your user interface,
+    and then import the interface description into your application.  This
+    makes it easy to construct complex layouts and adjust layout details.</para>
+
+    <para>Libglade allows programmers to focus their code on the logic of
+    their applications, keeping it uncluttered by the actual construction
+    of the interface.  Graphical interface builders also make it easy for
+    dedicated interface designers to construct the interfaces without having
+    to know how to program.</para>
+
+    <para>For more information on Libglade, see the <ulink
+    url="http://library.mate.org/devel/libglade/stable/">Libglade
+    Reference Manual</ulink>.</para>
+  </section>
+
+  <section id="pango">
+    <title>Pango</title>
+
+    <para>Pango is the core text and font handling library in the MATE
+    platform.  It is responsible for laying out and rendering text, and
+    is used throughout GTK+.<footnote>
+    <para>The Pango layout engine can be used with different font
+    backends and drawing backends.  On most MATE systems, Pango
+    will use FreeType, fontconfig, and Cairo to access fonts and
+    render text.  On other systems, Pango will use the native font
+    systems, such as Uniscribe on Microsoft Windows and ATSUI on
+    MacOS</para></footnote></para>
+ 
+    <para>Pango has extensive support for the various writing systems
+    used throughout the world.  Many of the writing systems used for
+    languages have complex rules for laying out glyphs and composing
+    characters.  With Pango, nearly all languages can be written and
+    displayed correctly, allowing users everywhere to view text in their
+    native languages.  Pango support for multiple writing systems is
+    automatic; application developers do not have to write any special
+    code to support other languages.</para>
+
+    <figure>
+      <title>Displaying Multiple Languages With Pango</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata format="PNG" fileref="figures/pango.png"/>
+          </imageobject>
+          <textobject><para>Screenshot of the <application>gedit</application>
+          text editor displaying phrases from multiple languages and writing
+          systems.</para></textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>Pango supports the text styling used in typical documents
+    and interfaces, including italics, font weights, and underlines.
+    Pango uses a simple XML-like vocabulary called PangoMarkup which
+    enables you to set font size, color, styles, and other text
+    attributes.  Using PangoMarkup, you can specify inline styles
+    without manually iterating over text blocks.  PangoMarkup can
+    be used directly from GTK+, enabling you to style text in your
+    graphical interfaces easily.</para>
+
+    <para>You should use Pango directly whenever you need to lay
+    text out on the screen or on a different medium.  Using Pango
+    will allow your text layout to work seamlessly with GTK+ and
+    the rest of the MATE platform.  It will help you create
+    portable code, and most importantly, it will ensure that your
+    application can render text correctly in hundreds of different
+    languages.</para>
+
+    <para>For more information on Pango, see the
+    <ulink url="http://library.mate.org/devel/pango/stable/">Pango
+    Reference Manual</ulink>.</para>
+  </section> <!-- pango -->
+
+  <section id="gdk">
+    <title>GDK</title>
+
+    <para>GDK is the low-level library used by GTK+ to interact with the
+    system for graphics and input devices.  Although you will rarely use
+    GDK directly in application code, it contains all the necessary
+    functionality to draw objects and text to the screen and to interact
+    with the user with various input devices.<footnote>
+    <para>GDK runs on a number of different platforms, including the X Window
+    System, Microsoft Windows, DirectFB, and Quartz.  On any platform, GDK
+    provides the same consistent API, allowing GTK+ and GTK+ applications to
+    run unmodified.</para></footnote></para>
+
+    <para>GDK features a graphics context and drawing primitives that are
+    suitable for drawing simple objects and rendering images on the screen.
+    Since a more extensive drawing system is provided by Cairo, GDK provides
+    hooks to use Cairo contexts within GDK.</para>
+
+    <para>GDK enables you to access events from keyboards, mice, and other
+    input devices, rather than connect to the high-level signals used in
+    GTK+.  GDK also provides low-level routines to access drag and drop
+    and clipboard data from the system.  When implementing custom controls,
+    you may need to access these features to implement proper user interaction
+    behavior.</para>
+
+    <para>GDK provides other functionality which is needed to implement
+    a complete graphical toolkit like GTK+.  Since GDK acts as a platform
+    abstraction, allowing GTK+ to run under multiple environments, it
+    provides an API for all of the system functionality needed by GTK+.
+    This includes information about multi-head displays, resolution and
+    color depth, colormaps, and cursors.</para>
+
+    <para>You should use GDK whenever you need low-level access to the
+    underlying windowing system, including low-level access to events,
+    windows, and the clipboard.  Using GDK for these tasks ensures that
+    your code is portable and integrates with the rest of your GTK+ code.
+    The simple drawing routines in GDK should generally not be used.
+    Instead, you should use the extensive functionality provide by
+    Cairo.</para>
+
+    <para>For more information on GDK, see the
+    <ulink url="http://library.mate.org/devel/gdk/stable/">GDK Reference
+    Manual</ulink>.</para>
+  </section> <!-- gdk -->
+
+  <section id="cairo">
+    <title>Cairo</title>
+
+    <para>Cairo is a 2D graphics library featuring a sophisticated API for
+    drawing vector graphics, compositing images, and rendering anti-aliased
+    text.  Cairo provides support for multiple output devices, including the
+    X Window System, Microsoft Windows, and image buffers, allowing you to
+    write platform-independent code to draw graphics on different media.</para>
+
+    <para>The Cairo drawing model is similar to those provided by PostScript
+    and PDF.  The Cairo API provides such drawing operations as stroking and
+    filling cubic Bézier splines, compositing images, and performing affine
+    transformations.  These vector operations allow for rich, anti-aliased
+    graphics without using expensive pixel-based drawing in your application
+    code.</para>
+
+    <para>Cairo's rich drawing model allows for high-quality rendering to
+    multiple media.  The same API can be used to create stunning on-screen
+    graphics and text, to render images, or create crisp output suitable
+    for printing.</para>
+
+    <para>You should use Cairo whenever you need to draw graphics in your
+    application beyond the widgets provided by GTK+.  Much of the drawing
+    inside GTK+ is done using Cairo.  Using Cairo for your custom drawing
+    will allow your application to have high-quality, anti-aliased, and
+    resolution-independent graphics.</para>
+
+    <para>For more information on Cairo, see <ulink
+    url="http://www.cairographics.org/manual/">Cairo: A Vector Graphics
+    Library</ulink>.</para>
+  </section> <!-- cairo -->
+</section> <!-- graphics -->
+
+<section id="gio">
+  <title>Virtual File System</title>
+
+  <para>GIO, a part of GLib, is the core library used for file and folder
+  operations in MATE applications.  GIO provides a unified file system
+  abstraction layer with pluggable backends.  In MATE, the GVFS library
+  provides a GIO backend implementing multiple network and local protocols.
+  Using GIO with GVFS allows your application to work with files on remote
+  machines as easily as local files.</para>
+  
+  <para>GIO can provide extensive information about files and folders, including
+  the MIME type and icon of a file and which applications can be used to open
+  a file.  Since the GVFS uses the standard from <ulink
+  url="http://www.freedesktop.org/">freedesktop.org</ulink> to determine
+  file types and associations, it works correctly on different free desktop
+  environments, helping independent software developers create
+  software that can be run in different environments.</para>
+
+  <para>GIO is used throughout the MATE desktop.  The file manager,
+  <application>Caja</application>, uses GIO to display folders on local
+  and remote systems.  For the user, this means that network servers act just
+  like local folders: They can drag and drop files between them, view the files'
+  properties, and open the file with an application.  Using GIO will allow your
+  application to open all the files that users can access on their desktop.</para>
+
+  <para>For more information on GIO, see the <ulink
+  url="http://library.mate.org/devel/gio/stable/">GIO Reference Manual</ulink>.</para>
+
+  <anchor id="mate-vfs"/>
+
+  <para>In previous versions of MATE, the MateVFS library was used for
+  access to files and folders.  While MateVFS provided many of the same
+  features, including transparent access to remote folders, it had a number
+  of limitations which have been addressed in GIO.  MateVFS is deprecated
+  and should not be used in newly written code, although it will continue
+  to be supported throughout the MATE 2 lifetime.  For information on
+  MateVFS, see <ulink
+  url="http://library.mate.org/devel/mate-vfs-2.0/stable/">MateVFS -
+  Filesystem Abstraction Library</ulink>.</para>
+</section> <!-- gio -->
+
+<section id="mateconf">
+  <title>Configuration and Lockdown</title>
+
+  <para>MateConf is the system for storing and retrieving configuration settings
+  in MATE.  MateConf consists of two parts: a client library for accessing
+  settings, and a session daemon which is responsible for the details of
+  storing and retrieving those settings.  Using a daemon allows MateConf to
+  use different storage backends, validate input, and provide simultaneous
+  access to different applications.</para>
+
+  <para>Settings stored in MateConf are stored and retrieved using a unique
+  key, or identifier string.  Keys use a simple hierarchical namespace to
+  avoid collision among settings for applications and the desktop.  You
+  can provide a schema file to detail your configuration keys.  This allows
+  MateConf to validate the type of the input, and to show localized documentation
+  about the key.  This helps systems administrators, who can set multiple
+  settings at once without having to navigate preference dialogs.</para>
+
+  <para>MateConf can look up settings from different settings at once, typically
+  from different locations on the file system.  By having appropriate system
+  sources configured, MateConf enables systems administrators to provide both
+  default and mandatory settings for all users.  Tools such as MATE's
+  <application>Configuration Editor</application> and
+  <application>Sabayon</application> make it easy to deploy fully
+  configured systems using MateConf.</para>
+
+  <para>The MateConf client library provides notifications of changes to
+  settings, making it easy to provide instant-apply settings in your
+  application, regardless if settings are changed from within your
+  application or using another tool.  Setting the value of a key will
+  notify all interested applications, allowing desktop-wide and other
+  cross-application settings to work instantly and effortlessly.</para>
+
+  <para>MateConf makes it easy to lock down systems by setting particular
+  keys read-only, preventing users from changing their values.  In
+  addition, MATE provides a number of high-level keys that can be used
+  to disable actions such as saving to disk and changing the panel layout.
+  Tools such as <application>Pessulus</application> make it easy for
+  administrators to find and lock down important keys.</para>
+
+  <para>You should use MateConf to store all user preferences in your
+  application.  Using MateConf will make it easy to provide instant-apply
+  preferences, and it will make your settings accessible to systems
+  administrators and configuration and backup tools.</para>
+
+  <para>For more information on MateConf, see the <ulink
+  url="http://library.mate.org/devel/mateconf/stable/">MateConf
+  Reference Manual</ulink>.</para>
+</section> <!-- mateconf -->
+
+<section id="i18n">
+  <title>Internationalization</title>
+  <para>The MATE Desktop and Developer Platform provides full support for
+  internationalizing and localizing applications.  Internationalization is
+  the process of ensuring your application can be localized, including
+  marking all strings for translations, using numbers and format strings
+  correctly, and making adjustments for variations in conventions for
+  times and dates, units, and formatting.</para>
+
+  <para>MATE uses the standard gettext and related routines for accessing
+  localizations.  Support for localization using gettext is built into
+  every component of the MATE platform.  Your source code can be scanned
+  for specially-marked tools by automated tools.  Those strings are then
+  placed in PO files to allow translators to track their translations.
+  Using gettext, you can easily and efficiently access translated versions
+  of all user-visible strings in your application from translation domains
+  installed along with your application.</para>
+
+  <para>These translation domains can be created using PO files, which
+  can be used by translators to track string changes and update their
+  translations accordingly.  MATE ships with intltool, a tool for
+  managing translations in PO files.  Using intltool, translators can
+  use PO files to translate not only the strings in your application,
+  but also other types of files that you use, such as MateConf schema
+  files, desktop entry files, and XML files.</para>
+
+  <para>MATE also provides the xml2po tool as part of the mate-doc-utils
+  package.  This tool allows translators to use PO files to create
+  translated versions of documentation written in various XML formats,
+  including XHTML and DocBook.</para>
+
+  <para>Internationalization involves more than just allowing strings
+  to be translated, and MATE supports your application development
+  at every step of the process.  GTK+ will automatically adjust its
+  presentation for languages that are read right-to-left, and Pango
+  has complete support for rendering bidirectional text and text in
+  various different writing systems. GTK+ supports multiple input
+  methods, allowing users from all language to input text efficiently
+  with their keyboards.  The entire MATE platform uses the UTF-8
+  encoding of Unicode natively, providing access to the characters
+  and writing systems of the entire world.</para>
+
+  <figure>
+    <title><application>Gnumeric</application> in Multiple Languages</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata format="PNG" fileref="figures/i18n.png"/>
+        </imageobject>
+        <textobject><para>Screenshots of the <application>Gnumeric</application>
+        spreadsheet application running in Hebrew, Japanese, and Serbian.</para>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>Internationalizing your application helps make it available
+  to many more users across the world.  While skilled translators
+  must provide translations for any language, programmers must ensure
+  the application is properly internationalized before it can be fully
+  localized.</para>
+
+  <!-- FIXME: where is danilo's awesome guide? -->
+  <para>For more information on internationalization in MATE, see <ulink
+  url="http://www.mate.org/~malcolm/i18n/">Internationalizing MATE
+  Applications</ulink>.</para>
+</section> <!-- i18n -->
+
+<section id="a11y">
+  <title>Accessibility</title>
+
+  <para>Accessibility is the process of ensuring your application can be
+  used by people with various disabilities.  Disabilities come in many forms:
+  visual impairments, movement impairments, hearing impairments, cognitive
+  and language impairments, and seizure disorders.  Many people have some
+  sort of disability, and making your application accessibility will allow
+  more people to use your application effectively.</para>
+
+  <para>MATE provides support for accessibility devices using the ATK
+  framework.  This framework defines a set of interfaces to which graphical
+  interface components adhere.  This allows, for instance, screen readers
+  to read the text of an interface and interact with its controls.  ATK
+  support is built into GTK+ and the rest of the MATE platform using the
+  GAIL library, so any application using GTK+ will have reasonable
+  accessibility support for free.</para>
+
+  <para>Nonetheless, you should be aware of accessibility issues when
+  when developing your applications.  Although GTK+ interfaces provide
+  reasonable accessibility by default, you can often improve how well
+  your program behaves with accessibility tools by providing additional
+  information to ATK.  If you develop custom widgets, you should ensure
+  that they expose their properties to ATK.  You should also avoid using
+  sound, graphics, or color as the sole means of conveying information
+  to the user.</para>
+
+  <para>The MATE desktop ships with a number of accessibility tools
+  which enable users with disabilities to take full advantage of their
+  desktop and applications.  Applications that fully implement ATK will
+  be able to work with the accessibility tools.  MATE's accessibility
+  tools include a screen reader, a screen magnifier, an on-screen
+  keyboard, and <application>Dasher</application>, an innovative
+  predictive text entry tool.</para>
+
+  <para>For extensive recommendations on accessibility, see <ulink
+  url="http://developer.mate.org/projects/gap/guide/gad/index.html">MATE
+  Accessibility for Developers</ulink>.  See also <ulink
+  url="http://library.mate.org/devel/atk/stable/">ATK -
+  Accessibility Toolkit</ulink> and the <ulink
+  url="http://library.mate.org/devel/gail-libgail-util/stable/">GAIL
+  Reference Manual</ulink>.</para>
+</section> <!-- a11y -->
+
+<section id="multimedia">
+  <title>Multimedia</title>
+
+  <para>GStreamer is a powerful multimedia library for playing, creating,
+  and manipulating sound, video, and other media.  You can use GStreamer
+  to provide sound and video playback, record input from multiple sources,
+  and edit multimedia content.  GStreamer supports encoding and decoding
+  numerous formats by default, and support for additional formats can be
+  added with plug-ins.</para>
+
+  <para>GStreamer provides a flexible architecture wherein media is
+  processed through a pipeline of elements.  Each element may apply
+  filters to the content, such as encoding or decoding, combining
+  multiple sources, or transforming the multimedia content.  This
+  architecture allows for an arbitrary arrangement of elements,
+  so that you can accomplish virtually any effect using GStreamer.
+  Furthermore, GStreamer is designed to have low overhead, so it
+  can be used in applications with high demands on latency.</para>
+
+  <para>While GStreamer provides a powerful API for manipulating
+  multimedia, it also provides convenient routines for simple
+  playback.  GStreamer can automatically construct a pipeline to
+  read and playback files in any supported format, allowing you
+  to use sound and video in your application easily.</para>
+
+  <para>The GStreamer architecture allows plugins to add encoders,
+  decoders, and all sorts of content filters.  Third-party developers
+  can provide GStreamer plugins which will be automatically available
+  to other applications using GStreamer.  Plugins can provide support
+  for other multimedia formats or provide additional functionality
+  and effects.</para>
+
+  <para>You should use GStreamer whenever you need to read or play
+  multimedia content in your application, or if your application
+  needs to manipulate sound or video.  Using GStreamer makes your
+  application development easy, and it provides you well-tested
+  elements for many of your needs.</para>
+
+  <para>For comprehensive information on GStreamer, see <ulink
+  url="http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/index.html">The
+  GStreamer Application Development Manual</ulink>, <ulink
+  url="http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/">The
+  GStreamer 0.10 Core Reference Manual</ulink>, and <ulink
+  url="http://gstreamer.freedesktop.org/documentation/">the
+  GStreamer documentation page</ulink>.</para>
+</section> <!-- multimedia -->
+
+<section id="printing">
+  <title>Printing</title>
+
+  <para>Most applications need to provide support for printing.  Users expect
+  to be able to print the contents they can view on-screen.  The MATE platform
+  provides libraries to help you add support for high-quality printing to your
+  application.</para>
+
+  <section id="mateprint">
+    <title>MATE Print</title>
+
+    <note><para>Note that this section is outdated and that libmateprint and
+    libmateprintui have been deprecated in favor of <ulink
+    url="http://library.mate.org/devel/gtk/stable/Printing.html">GtkPrint</ulink>.
+    Printing has been integrated directly into GTK+ 2.10 and later versions,
+    providing a cross-platform print API that all applications can use.
+    API and ABI stability guarantees ensures that Mateprint will continue to
+    be functional and supported throughout the MATE 2 lifecycle.</para></note>
+
+    <para>The MATE print framework consists of two libraries which help
+    you provide high-quality printing with a consistent interface in your
+    application.  At the core of the printing framework is libmateprint,
+    a library for creating PostScript output to send to printers.  On top
+    of that is libmateprintui, which provides standard print controls for
+    your user interface.</para>
+
+    <para>The libmateprint library implements the PostScript imaging model,
+    which is used by most printers.  Printers which do not support PostScript
+    can still be supported through CUPS, described below.  In addition to the
+    standard PostScript imaging, libmateprint also features alpha channel
+    support and anti-aliasing.</para>
+
+    <para>The libmateprintui library provides a standard print dialog, a print
+    preview dialog, and various other controls and functionality required to
+    build printing into an intuitive user interface.  The MATE print framework
+    handles the details of locating printers and spooling print jobs, and also
+    provides PostScript and PDF export directly in the print dialog.</para>
+
+    <para>You should use libmateprint whenever you need to render content to
+    PostScript for printing.  You should use libmateprintui to construct your
+    printing user interface, even if your rendered output comes from another
+    source.  Using the MATE print framework provides your users a consistent
+    user interface with the features they expect of printing appliations.</para>
+  </section>
+
+  <section id="cups">
+    <title>CUPS</title>
+
+    <para>On most MATE systems, CUPS (Common UNIX Printing System) acts as
+    the low-level printing system.  CUPS provides a modern, feature-rich
+    architecture for printer discovery, printer option access, and spooling
+    print jobs to different types of printers.</para>
+
+    <para>CUPS provides a set of utilities for automatically discovering
+    printers locally and on the network.  This allows users not only to see
+    all available printers, but to use different types of printers without
+    manual configuration.</para>
+
+    <para>CUPS provides a unified interface for printing, regardless of the
+    location or type of the printer.  Multiple print protocols are handled
+    seamlessly by CUPS by automatically applying filters to content sent to
+    the printers.  Applications can simply provide PostScript output, and
+    CUPS will automatically convert it for printers that do not support
+    PostScript natively.</para>
+
+    <para>CUPS also provides printer configuration options in the form of
+    PostScript Printer Description (PPD) files.  PPD configurations allow
+    applications to expose the capabilities of individual printers to the
+    users with a consistent user interface.  For instance, PPD allows you
+    to detect whether a printer can collate and staple print jobs, and to
+    provide an option in your user interface.</para>
+
+    <para>In most cases, you will not need to interface directly with CUPS
+    in your applications.  By using the MATE print framework, you have
+    access to the power and flexibility of CUPS automatically.  Having CUPS
+    underneath means a better user experience with less programming.</para>
+  </section>
+</section> <!-- printing -->
+
+</chapter>

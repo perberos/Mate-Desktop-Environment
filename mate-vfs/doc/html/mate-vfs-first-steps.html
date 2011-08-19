@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>A Gentle Programming Primer</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="about.html" title="Introduction to MateVFS">
+<link rel="prev" href="about.html" title="Introduction to MateVFS">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-init.html" title="Initialization/Shutdown">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="about.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="about.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-init.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mate-vfs-first-steps"></a>A Gentle Programming Primer</h2></div></div></div>
+<p>
+      Using MateVFS in an existing application, or writing a new application
+      with it, is actually very simple since MateVFS tries to mimic POSIX
+      file access syntax and semantics. That means that most "standard unix calls" 
+      have a MateVFS equivalent that operates in a fairly similar manner. There are
+      a few differences to keep in mind. 
+
+      </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+	    The most obvious is probably that all I/O operations return a <span class="type">MateVFSResult</span>
+	    indicating the success or failure of the operation. More on this later.
+	  </p></li>
+<li class="listitem"><p>
+	    The types may be slightly different (but still parallel), for example rather than using an 
+	    <span class="type">int</span> for a file-descriptor, MateVFS uses <span class="type">MateVFSHandle</span>, a handle
+	    to a particular URI.
+	  </p></li>
+<li class="listitem"><p>
+	    Most operations come in Handle (think file descriptor) and URI form. The URI form may be
+	    more convenient if you do not want to track handles, etc, but just be aware that both are
+	    at your disposal and may be used interchangably. For example <code class="function">mate_vfs_open</code>
+	    and <code class="function">mate_vfs_open_uri</code>.
+	  </p></li>
+</ul></div>
+<p>
+    </p>
+<p>
+      By way of example, consider the basic read command:
+      </p>
+<pre class="programlisting">
+	ssize_t read (int fd, void *buf, size_t count);
+      </pre>
+<p>
+    </p>
+<p>
+      The MateVFS equivalent is very similar, but you will notice slightly different data types. The
+      consistent returning of a MateVFSResult also necessitated moving the return value of read into
+      a pass-back-value pointer <em class="parameter"><code>bytes_read</code></em>:
+      </p>
+<pre class="programlisting">
+	MateVFSResult mate_vfs_read (MateVFSHandle *handle,
+	                               gpointer buffer,
+                                       MateVFSFileSize bytes,
+                                       MateVFSFileSize *bytes_read);
+      </pre>
+<p>
+    </p>
+<p>
+      So <code class="function">mate_vfs_read</code> takes a <span class="type">MateVFSHandle</span>, which functions
+      like a file descriptor, and attempts to read <em class="parameter"><code>bytes</code></em> bytes out of
+      <em class="parameter"><code>handle</code></em> into <em class="parameter"><code>buffer</code></em>. The number of bytes succesfully
+      read into <em class="parameter"><code>buffer</code></em> is returned in the pointer <em class="parameter"><code>bytes_read</code></em>.
+      The return value of the function, a <span class="type">MateVFSResult</span> indicates the success of the
+      operation or any errors that might have occurred (for example, permission denied).
+      <span class="type">MateVFSResult</span> is just an enumeration.
+    </p>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2515146"></a>Simple Sample Program</h3></div></div></div>
+<p>
+	Now lets write a simple program to copy a fixed number of bytes from one file and append
+	it to another file.
+      </p>
+<p>
+	</p>
+<pre class="programlisting">
+
+#include &lt;stdio.h&gt;
+#include &lt;libmatevfs/mate-vfs.h&gt;
+#include &lt;libmatevfs/mate-vfs-utils.h&gt;
+
+#define BYTES_TO_PROCESS 256
+
+int print_error (MateVFSResult result, const char *uri_string);
+
+int
+main (int argc, char **argv)
+{
+  MateVFSHandle *read_handle, *write_handle;
+  char *input_uri_string;
+  char *output_uri_string = argv[2];
+  MateVFSFileSize bytes_read, bytes_written;
+  guint buffer[BYTES_TO_PROCESS];
+  MateVFSResult result;
+
+  /* remember to initialize MateVFS! */
+  if (!mate_vfs_init ()) {
+    printf ("Could not initialize MateVFS\n");
+    return 1;
+  }
+
+  /* Convert the user supplied filenames into proper MateVFS URIs */
+  input_uri_string = mate_vfs_make_uri_from_shell_arg (argv[1]);
+  output_uri_string = mate_vfs_make_uri_from_shell_arg (argv[2]);
+
+  /* open the input file for read access */
+  result = mate_vfs_open (&amp;read_handle, input_uri_string, MATE_VFS_OPEN_READ);
+  /* if the operation was not successful, print the error and abort */
+  if (result != MATE_VFS_OK) return print_error (result, input_uri_string);
+
+  /* we use create instead of open, because open will not create the file if it does
+     not already exist. The last argument is the permissions to use if the file is created,
+     the second to last tells MateVFS that its ok if the file already exists, and just open it */
+  result = mate_vfs_create (&amp;write_handle, output_uri_string, MATE_VFS_OPEN_WRITE, FALSE, 0777);
+  if (result != MATE_VFS_OK) return print_error (result, output_uri_string);
+
+  /* read data from the input uri */
+  result = mate_vfs_read (read_handle, buffer, BYTES_TO_PROCESS, &amp;bytes_read);
+  if (result != MATE_VFS_OK) return print_error (result, input_uri_string);
+
+  /* seek to the end of the output uri so we will append rather than overwrite */
+  /* therefore, we seek 0 bytes relative to the end of the file */
+  result = mate_vfs_seek (write_handle, MATE_VFS_SEEK_END, 0);
+
+  /* now write the data we read out to the output uri */
+  result = mate_vfs_write (write_handle, buffer, bytes_read, &amp;bytes_written);
+  if (result != MATE_VFS_OK) return print_error (result, output_uri_string);
+
+  g_free (input_uri_string);
+  g_free (output_uri_string);
+
+  return 0;
+}
+
+int
+print_error (MateVFSResult result, const char *uri_string)
+{
+  const char *error_string;
+  /* get the string corresponding to this MateVFSResult value */
+  error_string = mate_vfs_result_to_string (result);
+  printf ("Error %s occured opening location %s\n", error_string, uri_string);
+  return 1;
+}
+
+	</pre>
+<p>
+</p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2522134"></a>Conversion of a Sample Code Block</h3></div></div></div>
+<p>
+	</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

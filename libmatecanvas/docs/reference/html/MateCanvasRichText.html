@@ -1,0 +1,515 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateCanvasRichText</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Canvas Library Reference Manual">
+<link rel="up" href="ch02.html" title="MATE Canvas Library (libmatecanvas)">
+<link rel="prev" href="MateCanvasRect.html" title="MateCanvasRect">
+<link rel="next" href="MateCanvasShape.html" title="MateCanvasShape">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="MateCanvasRect.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Canvas Library Reference Manual</th>
+<td><a accesskey="n" href="MateCanvasShape.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#MateCanvasRichText.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#MateCanvasRichText.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#MateCanvasRichText.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#MateCanvasRichText.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#MateCanvasRichText.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="MateCanvasRichText"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="MateCanvasRichText.top_of_page"></a>MateCanvasRichText</span></h2>
+<p>MateCanvasRichText — Rich text canvas item</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="MateCanvasRichText.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmatecanvas/libmatecanvas.h&gt;
+
+struct              <a class="link" href="MateCanvasRichText.html#MateCanvasRichText-struct" title="struct MateCanvasRichText">MateCanvasRichText</a>;
+<span class="returnvalue">void</span>                <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-cut-clipboard" title="mate_canvas_rich_text_cut_clipboard ()">mate_canvas_rich_text_cut_clipboard</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-copy-clipboard" title="mate_canvas_rich_text_copy_clipboard ()">mate_canvas_rich_text_copy_clipboard</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-paste-clipboard" title="mate_canvas_rich_text_paste_clipboard ()">mate_canvas_rich_text_paste_clipboard</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-set-buffer" title="mate_canvas_rich_text_set_buffer ()">mate_canvas_rich_text_set_buffer</a>   (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkTextBuffer</span> *buffer</code></em>);
+<span class="returnvalue">GtkTextBuffer</span> *     <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-get-buffer" title="mate_canvas_rich_text_get_buffer ()">mate_canvas_rich_text_get_buffer</a>   (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-get-iter-location" title="mate_canvas_rich_text_get_iter_location ()">mate_canvas_rich_text_get_iter_location</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">GtkTextIter</span> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkRectangle</span> *location</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCanvasRichText.html#mate-canvas-rich-text-get-iter-at-location" title="mate_canvas_rich_text_get_iter_at_location ()">mate_canvas_rich_text_get_iter_at_location</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkTextIter</span> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> y</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----GInitiallyUnowned
+         +----GtkObject
+               +----<a class="link" href="MateCanvasItem.html" title="MateCanvasItem">MateCanvasItem</a>
+                     +----MateCanvasRichText
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--anchor" title='The "anchor" property'>anchor</a>"                   <span class="type">GtkAnchorType</span>         : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--cursor-blink" title='The "cursor-blink" property'>cursor-blink</a>"             <span class="type">gboolean</span>              : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--cursor-visible" title='The "cursor-visible" property'>cursor-visible</a>"           <span class="type">gboolean</span>              : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--direction" title='The "direction" property'>direction</a>"                <span class="type">GtkDirectionType</span>      : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--editable" title='The "editable" property'>editable</a>"                 <span class="type">gboolean</span>              : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--grow-height" title='The "grow-height" property'>grow-height</a>"              <span class="type">gboolean</span>              : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--height" title='The "height" property'>height</a>"                   <span class="type">gdouble</span>               : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--indent" title='The "indent" property'>indent</a>"                   <span class="type">gint</span>                  : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--justification" title='The "justification" property'>justification</a>"            <span class="type">GtkJustification</span>      : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--left-margin" title='The "left-margin" property'>left-margin</a>"              <span class="type">gint</span>                  : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--pixels-above-lines" title='The "pixels-above-lines" property'>pixels-above-lines</a>"       <span class="type">gint</span>                  : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--pixels-below-lines" title='The "pixels-below-lines" property'>pixels-below-lines</a>"       <span class="type">gint</span>                  : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--pixels-inside-wrap" title='The "pixels-inside-wrap" property'>pixels-inside-wrap</a>"       <span class="type">gint</span>                  : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--right-margin" title='The "right-margin" property'>right-margin</a>"             <span class="type">gint</span>                  : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--text" title='The "text" property'>text</a>"                     <span class="type">gchar</span>*                : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--visible" title='The "visible" property'>visible</a>"                  <span class="type">gboolean</span>              : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--width" title='The "width" property'>width</a>"                    <span class="type">gdouble</span>               : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--wrap-mode" title='The "wrap-mode" property'>wrap-mode</a>"                <span class="type">GtkWrapMode</span>           : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--x" title='The "x" property'>x</a>"                        <span class="type">gdouble</span>               : Read / Write
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText--y" title='The "y" property'>y</a>"                        <span class="type">gdouble</span>               : Read / Write
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="MateCanvasRichText.html#MateCanvasRichText-tag-changed" title='The "tag-changed" signal'>tag-changed</a>"                                    : <code class="literal">Run Last</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.description"></a><h2>Description</h2>
+<p>
+A canvas item that displays a GtkTextBuffer which is a flexible text display
+and editing widget. Consult GtkTextBuffer info in the GTK+ Reference
+documentation for more details.
+</p>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateCanvasRichText-struct"></a><h3>struct MateCanvasRichText</h3>
+<pre class="programlisting">struct MateCanvasRichText;</pre>
+<p>
+This structure should not be accessed directly. Use the object's properties
+and functions for querying or changing its parameters.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-cut-clipboard"></a><h3>mate_canvas_rich_text_cut_clipboard ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_canvas_rich_text_cut_clipboard
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);</pre>
+<p>
+Copies the currently selected <em class="parameter"><code>text</code></em> to clipboard, then deletes said text
+if it's editable.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-copy-clipboard"></a><h3>mate_canvas_rich_text_copy_clipboard ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_canvas_rich_text_copy_clipboard
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);</pre>
+<p>
+Copies the currently selected <em class="parameter"><code>text</code></em> to clipboard.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-paste-clipboard"></a><h3>mate_canvas_rich_text_paste_clipboard ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_canvas_rich_text_paste_clipboard
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);</pre>
+<p>
+Pastes the contents of the clipboard at the insertion point.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-set-buffer"></a><h3>mate_canvas_rich_text_set_buffer ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_canvas_rich_text_set_buffer   (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkTextBuffer</span> *buffer</code></em>);</pre>
+<p>
+Sets the buffer field of the <em class="parameter"><code>text</code></em> to <em class="parameter"><code>buffer</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>a <span class="type">GtkTextBuffer</span>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-get-buffer"></a><h3>mate_canvas_rich_text_get_buffer ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkTextBuffer</span> *     mate_canvas_rich_text_get_buffer   (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>);</pre>
+<p>
+Returns a <span class="type">GtkTextBuffer</span> associated with the <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+This function creates a new <span class="type">GtkTextBuffer</span> if the text buffer is NULL.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <span class="type">GtkTextBuffer</span>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-get-iter-location"></a><h3>mate_canvas_rich_text_get_iter_location ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_canvas_rich_text_get_iter_location
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">GtkTextIter</span> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkRectangle</span> *location</code></em>);</pre>
+<p>
+Gets a rectangle which roughly contains the character at <em class="parameter"><code>iter</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <span class="type">GtkTextIter</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>location</code></em> :</span></p></td>
+<td>a <span class="type">GdkRectangle</span> containing the bounds of the character at <em class="parameter"><code>iter</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-canvas-rich-text-get-iter-at-location"></a><h3>mate_canvas_rich_text_get_iter_at_location ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_canvas_rich_text_get_iter_at_location
+                                                        (<em class="parameter"><code><a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkTextIter</span> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> y</code></em>);</pre>
+<p>
+Retrieves the iterator at the buffer coordinates x and y.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a <a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <span class="type">GtkTextIter</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>x position, in buffer coordinates.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>y position, in buffer coordinates.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="MateCanvasRichText--anchor"></a><h3>The <code class="literal">"anchor"</code> property</h3>
+<pre class="programlisting">  "anchor"                   <span class="type">GtkAnchorType</span>         : Read / Write</pre>
+<p>
+Anchor point for text.
+</p>
+<p>Default value: GTK_ANCHOR_NORTH_WEST</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--cursor-blink"></a><h3>The <code class="literal">"cursor-blink"</code> property</h3>
+<pre class="programlisting">  "cursor-blink"             <span class="type">gboolean</span>              : Read / Write</pre>
+<p>
+Does the cursor blink in this rich text item?
+</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--cursor-visible"></a><h3>The <code class="literal">"cursor-visible"</code> property</h3>
+<pre class="programlisting">  "cursor-visible"           <span class="type">gboolean</span>              : Read / Write</pre>
+<p>
+Is the cursor visible?
+</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--direction"></a><h3>The <code class="literal">"direction"</code> property</h3>
+<pre class="programlisting">  "direction"                <span class="type">GtkDirectionType</span>      : Read / Write</pre>
+<p>
+Direction of displayed rich text.
+</p>
+<p>Default value: GTK_DIR_TAB_BACKWARD</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--editable"></a><h3>The <code class="literal">"editable"</code> property</h3>
+<pre class="programlisting">  "editable"                 <span class="type">gboolean</span>              : Read / Write</pre>
+<p>
+Is this rich text item editable?
+</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--grow-height"></a><h3>The <code class="literal">"grow-height"</code> property</h3>
+<pre class="programlisting">  "grow-height"              <span class="type">gboolean</span>              : Read / Write</pre>
+<p>
+Should the text box height grow if the text does not fit?
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--height"></a><h3>The <code class="literal">"height"</code> property</h3>
+<pre class="programlisting">  "height"                   <span class="type">gdouble</span>               : Read / Write</pre>
+<p>
+Height for text box.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--indent"></a><h3>The <code class="literal">"indent"</code> property</h3>
+<pre class="programlisting">  "indent"                   <span class="type">gint</span>                  : Read / Write</pre>
+<p>
+Number of pixels for indentation.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--justification"></a><h3>The <code class="literal">"justification"</code> property</h3>
+<pre class="programlisting">  "justification"            <span class="type">GtkJustification</span>      : Read / Write</pre>
+<p>
+Justification mode.
+</p>
+<p>Default value: GTK_JUSTIFY_LEFT</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--left-margin"></a><h3>The <code class="literal">"left-margin"</code> property</h3>
+<pre class="programlisting">  "left-margin"              <span class="type">gint</span>                  : Read / Write</pre>
+<p>
+Number of pixels in the left margin.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--pixels-above-lines"></a><h3>The <code class="literal">"pixels-above-lines"</code> property</h3>
+<pre class="programlisting">  "pixels-above-lines"       <span class="type">gint</span>                  : Read / Write</pre>
+<p>
+Number of pixels to put above lines.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--pixels-below-lines"></a><h3>The <code class="literal">"pixels-below-lines"</code> property</h3>
+<pre class="programlisting">  "pixels-below-lines"       <span class="type">gint</span>                  : Read / Write</pre>
+<p>
+Number of pixels to put below lines.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--pixels-inside-wrap"></a><h3>The <code class="literal">"pixels-inside-wrap"</code> property</h3>
+<pre class="programlisting">  "pixels-inside-wrap"       <span class="type">gint</span>                  : Read / Write</pre>
+<p>
+Number of pixels to put inside the wrap.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--right-margin"></a><h3>The <code class="literal">"right-margin"</code> property</h3>
+<pre class="programlisting">  "right-margin"             <span class="type">gint</span>                  : Read / Write</pre>
+<p>
+Number of pixels in the right margin.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--text"></a><h3>The <code class="literal">"text"</code> property</h3>
+<pre class="programlisting">  "text"                     <span class="type">gchar</span>*                : Read / Write</pre>
+<p>
+Text to display.
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--visible"></a><h3>The <code class="literal">"visible"</code> property</h3>
+<pre class="programlisting">  "visible"                  <span class="type">gboolean</span>              : Read / Write</pre>
+<p>
+Is this rich text item visible?
+</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--width"></a><h3>The <code class="literal">"width"</code> property</h3>
+<pre class="programlisting">  "width"                    <span class="type">gdouble</span>               : Read / Write</pre>
+<p>
+Width for text box.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--wrap-mode"></a><h3>The <code class="literal">"wrap-mode"</code> property</h3>
+<pre class="programlisting">  "wrap-mode"                <span class="type">GtkWrapMode</span>           : Read / Write</pre>
+<p>
+Wrap mode for multiline text.
+</p>
+<p>Default value: GTK_WRAP_WORD</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--x"></a><h3>The <code class="literal">"x"</code> property</h3>
+<pre class="programlisting">  "x"                        <span class="type">gdouble</span>               : Read / Write</pre>
+<p>
+X position.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCanvasRichText--y"></a><h3>The <code class="literal">"y"</code> property</h3>
+<pre class="programlisting">  "y"                        <span class="type">gdouble</span>               : Read / Write</pre>
+<p>
+Y position.
+</p>
+<p>Default value: 0</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="MateCanvasRichText.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateCanvasRichText-tag-changed"></a><h3>The <code class="literal">"tag-changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="MateCanvasRichText.html" title="MateCanvasRichText"><span class="type">MateCanvasRichText</span></a> *canvasrichtext,
+                                                        <span class="type">GObject</span>             *arg1,
+                                                        <span class="type">gpointer</span>             user_data)           : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>canvasrichtext</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

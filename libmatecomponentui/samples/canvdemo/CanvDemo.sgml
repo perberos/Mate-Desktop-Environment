@@ -1,0 +1,523 @@
+<!DOCTYPE ARTICLE PUBLIC "-//OASIS//DTD DocBook V4.1//EN"[
+<!ENTITY flow SYSTEM "flow.png" NDATA JPG>
+]>
+<article id="matecomponent-canvas-demo">
+  <articleinfo>
+      <title>MateComponent Canvas Component Demo</title>
+      <author>
+      <firstname>Robert</firstname>
+      <surname>Gibbs</surname>
+      </author>
+
+      <revhistory>
+        <revision>
+            <revnumber>0.0.0</revnumber>
+            <date>April, 2003</date>
+            <revremark>Draft</revremark>
+         </revision>
+        </revhistory>
+      </articleinfo>
+   <abstract>
+   <para>
+
+        The Mate Canvas widget provides an abstraction layer between drawing
+        objects and a drawing area. Using the Mate Canvas object abstraction
+        alone it is possible to build a large scale graphical application with
+        minimal coupling between objects.  The MateComponent Canvas Component takes the
+        canvas abstraction one step further by allowing individual canvas groups
+        or items to be set up as Corba servers. Using the canvas component
+        abstraction it is possible to actual break up the job of rendering to
+        canvas into separate programs such that the only coupling between the
+        programs is at the IDL level.
+
+   </para>
+
+   </abstract>
+
+   <sect1 id="introduction">
+      <title>Introduction</title>
+      <para>
+
+        This is a simple demonstration program to show how MateComponent Canvas
+        Components can be used. A circle process and a square process are
+        factory servers of canvas items to a client main program canvas. The
+        demonstration shows how the item can be updated from the client side via
+        click and drag or from the server side via a periodic update loop. In a
+        more extreme case it shows how one server can be used to simultaneously
+        update the canvas items on multiple clients.
+
+      </para>
+  </sect1>
+  <sect1 id="square">
+      <title>The Square Server</title>
+      <para>
+
+      The square program simply adds a Mate Canvas Rectangle item to the
+      canvas. It sets up signal handler for drag and drop events and sets up a
+      timeout for moving on its own.  A push button is used to start and
+      stop the timeout, and a spin button is used to change the timeout speed.
+
+      </para>
+      <para>
+
+      Looking at the code you can see the difference in implementing the
+      square program with and without MateComponent.
+     
+      <example><title>Square Set Up Code</title><programlisting>
+#ifdef WITH_MATECOMPONENT
+
+typedef struct
+{
+        int state;
+        int dragging;
+        int timer;
+        double pos;
+        double inc;
+        double last_x;
+        double last_y;
+        const char *color;
+        GtkWidget *button;
+        MateCanvasItem *item;
+} ObjectData;
+
+static MateComponentObject *
+control_factory (MateComponentGenericFactory *this,
+                 const char           *object_id,
+                 GSList               **list)
+{
+   ...
+        li = g_slist_last(*list);
+
+        if (li) {
+                object = (ObjectData*)li->data;
+        }
+
+        if (!object || object->button) {
+                object = g_new0(ObjectData, 1);
+                *list = g_slist_append(*list, object);
+        }
+
+        widget = square_control_new (object);
+        gtk_widget_show_all(widget);
+        control = matecomponent_control_new (widget);
+        matecomponent_control_life_instrument (control);
+   ...
+}
+
+static MateComponentCanvasComponent *
+item_factory(MateCanvas *canvas, gpointer data)
+{
+   ...
+        li = g_slist_last(*list);
+
+        if (li) {
+                object = (ObjectData*)li->data;
+        }
+
+        if (!object || object->button) {
+                object = g_new0(ObjectData, 1);
+                *list = g_slist_append(*list, object);
+        }
+
+        item = canvas_item_new(canvas, object);
+        return matecomponent_canvas_component_new(item);
+}
+
+static MateComponentObject *
+matecomponent_item_factory (MateComponentGenericFactory *factory, const char *component,
+                     gpointer data)
+{
+   ...
+        object = MATECOMPONENT_OBJECT(
+                   matecomponent_canvas_component_factory_new (
+                      item_factory, data));
+   ... 
+}
+
+int
+main (int argc, char *argv [])
+{
+        GSList *list = NULL;
+  ...
+
+        iid = matecomponent_activation_make_registration_id (
+                "OAFIID:SquareItem_Factory",
+                gdk_display_get_name (gdk_display_get_default()));
+
+        iid2 = matecomponent_activation_make_registration_id (
+                        5B
+                "OAFIID:Square_ControllerFactory",
+                gdk_display_get_name (gdk_display_get_default()));
+
+        factory = MATECOMPONENT_OBJECT(matecomponent_generic_factory_new
+                        (iid,
+                         matecomponent_item_factory, &amp:list));
+        if (factory) {
+                matecomponent_running_context_auto_exit_unref(factory);
+        }
+
+        retval = matecomponent_generic_factory_main (iid,
+                        (MateComponentFactoryCallback)control_factory, &amp:list);
+
+   ...
+}
+
+#else
+
+static gboolean
+quit_cb (GtkWidget *widget, GdkEventAny *event, gpointer dummy)
+{
+        ...
+}
+
+int
+main (int argc, char *argv[])
+{
+	GtkWidget *app, *canvas, *box, *hbox, *control; 
+        ObjectData object;
+  ...
+
+        canvas = mate_canvas_new();
+        gtk_box_pack_start_defaults (GTK_BOX (box), canvas);
+        canvas_item_new(MATE_CANVAS(canvas), object);
+  ...
+        control = square_control_new(&amp:object);
+  ...
+}
+
+#endif
+      </programlisting></example>
+      </para>
+      <para>
+
+      There are two main programs. If you comment the #define WITH_MATECOMPONENT
+      preprocessing command, the program will build as a Mate Canvas
+      demonstration; otherwise, it builds a MateComponent Canvas Component program.
+      The Mate Canvas version creates a top level window with a canvas and the
+      control components then adds the square canvas item to it.  The primary
+      difference with the MateComponent version is that because it is a server, it must
+      be able to handle requests from multiple clients.  It is up to the
+      implementer whether it can refuse to serve more than one client or it can
+      serve all requesting clients.
+      
+      </para>
+      <para>
+
+      The ObjectData structure has all information needed keep track of the
+      square: where it is on the canvas, how fast it is moving, is it being
+      dragged, etc. In the non-MateComponent program, a single instance of the
+      ObjectData structure is declared at the top of the main program.  In the
+      MateComponent version, a GSList linked list is declared at the top of the main
+      program.  The linked list is used to keep track of multiple squares that
+      could be served to multiple requestors. (Note, this program leaks objects
+      and memory when clients disconnect. Sorry.)
+
+
+      </para>
+  </sect1>
+  <sect1 id="circle">
+      <title>The Circle Server</title>
+      <para>
+
+      The circle server program is almost exactly the same as the square server.
+      Aside from the obvious difference that is serves an ellipse item instead
+      of a rectangle item, it does something different with its linked list.
+      Rather than having a linked list of ObjectData structures, the circle
+      server has a single CommonData structure.   The CommonData structure has a
+      linked list of ObjectData structures that contain the served canvas items
+      and widget references to the canvas items controls.
+
+      <example><title>Circle Data Structures</title><programlisting>
+typedef struct
+{
+        int state;
+        int dragging;
+        int timer;
+        double speed;
+        double pos;
+        double inc;
+        double last_x;
+        double last_y;
+        const char *color;
+        GSList *list;
+} CommonData;
+
+typedef struct
+{
+        GtkWidget *button;
+        GtkAdjustment *adj;
+        MateCanvasItem *item;
+} ObjectData;
+      </programlisting></example>
+      </para>
+      <para>
+
+      You can imagine what happens here. Any change to one circle will cause all
+      the other circles to update to reflect the change assuming all of the
+      events are handled properly in the circle program.
+      
+      </para>
+   </sect1>
+  <sect1 id="main">
+      <title>Running it Altogether</title>
+      <para>
+
+      To see it in action, make sure you build square.c with the #define
+      WITH_MATECOMPONENT directive in place.  If you don't want to install the
+      CanvDemo.server oaf file, just run the ./square and ./circle from a
+      terminal.  From another terminal run 1 or more copies of the main program
+      ./main&.  Press the stop button for the circle.  You'll see all the
+      circles stop.  Now click and drag the circle as fast as you can. Try
+      increasing the speed to 1000 for all the controls.  A speed of 1000
+      translates to 100 updates per second per canvas item.  You shouldn't have
+      any trouble driving your CPU usage up to 100%. 
+
+      </para>
+      <para>
+
+      Ok this looks kind of cool, but what use is it? I'm still trying to figure
+      this out myself. Here's my situation:  I have to maintain a 30,000 line
+      program that has to plot lots of information from various obscure data
+      sources. Not only is the job of getting the data non-trivial, but
+      converting the data into some form for which it can be plotted is also
+      complex. I suspect that breaking the program down by data source into a
+      bunch of smaller programs may simplify maintenance and may make it easier
+      for inexperienced programmers to navigate through the code.
+      
+      </para>
+   </sect1>
+   <sect1 id="howworks">
+      <title>How Canvas Components Work</title>
+      <para>
+
+      I recently spent some time debugging some of the this code so I figure
+      this is a good time to document what I have learned.  The canvas component
+      code is not yet perfect (if you can believe it.) This documentation only
+      describes the parts of the logic that gave me the most trouble. Hopefully
+      by writing this, I'll give the next person who needs to debug it a little
+      bit of a head start.
+      
+      </para>
+      <para>
+
+      To really understand how this interface works knowledge of how the Mate
+      Canvas is required first.  I don't yet have this knowledge, but I can
+      suggest some places to start: <ulink
+      url="http://developer.mate.org/doc/books/WGA/index.html">
+      http://developer.mate.org/doc/books/WGA/index.html</ulink>, <ulink
+      url="http://developer.mate.org/doc/GGAD/ggad.html">
+      http://developer.mate.org/doc/GGAD/ggad.html</ulink>, and of course the
+      mate-canvas.c source code itself.
+
+      </para>
+      <para>
+
+      By far the most complex part of the interface is the request and do update
+      logic.  The Mate Canvas conserves processing by separating its
+      calculation task from it graphics rendering task as the graphics rendering
+      tends to be repeated more often due to expose events. In the do_update
+      calculation task the sorted vector path is determined.  In the draw task
+      the graphics are sent to the screen. As a result of user interaction or a
+      change at its data source, the canvas item may make an update request at
+      anytime. When the request is made, a flag is set in the canvas item and
+      the canvas sets up an idle callback.  During the idle callback the canvas
+      runs the do_update routine. During the do_update the canvas is
+      manipulating the NEED_UPDATE flags on its item tree and it cannot allow
+      any item to change its NEED_UPDATE status while it is in this loop.
+
+      </para>
+      <para>
+
+      For the non-MateComponent case, items are prevented from requesting updates by
+      calling GDK_THREADS_ENTER().  This invokes a semaphore locking scheme. For
+      a single process, multi-threaded program this works fine. In the MateComponent
+      case, there are two or more processes communicating, so even if
+      each process is single threaded, the application as a whole will behave as
+      if it is multi-threaded and the GDK thread support will not work because
+      GDK has no knowledge about other processes that are communicating through
+      MateComponent.
+      
+      </para>
+      <para>
+
+      In the MateComponent canvas component model, there are two entry points that can
+      inititiate a canvas item update request.  The component side may change a
+      property of its canvas item due to a change in a database or some other
+      data representation.  The container side may request an update due to an
+      expose or resize event. In either case the communication flow is roughly
+      the same.
+
+      </para>
+      <para>
+
+      The flow diagram for an update requested by the component is shown in the
+      diagram below.  When the component changes a property, a NEED_UPDATE flag
+      is set internal to the canvas item.  Sometime later the component's
+      component canvas idle_handler is called.  The initiates the rih_update.
+
+
+      <figure><title>MateComponent Canvas Component Update Flow Diagram</title>
+      <graphic entityref=flow></figure>
+
+      </para>
+      <para>
+
+      The rih_update from the component sets up another idle callback for the
+      canvas item in the container. When the container's idle handler is
+      invoked, invoke_update is finally called on the component side and the
+      component item is updated.
+
+      </para>
+      <para>
+
+      When the update is requested from the conatainer side there is less
+      processing.  The flow starts out on the right in the diagram above.  Once
+      invoke_update is called at the component side, this is the end of the
+      update. 
+
+      </para>
+      <para>
+
+      The logic can break down if both the container and component request an
+      update at approximately the same time. Lets say the container makes an
+      update request on one if its canvas components.  It would set up an
+      idle_handler and proceed to call do_update from within the idle_handler.
+      Just before do_update gets called on the container side, the component
+      makes a request_update call. Next the container starts to process
+      do_update. From somewhere within the do_update procedure, the container
+      calls MateComponent_Canvas_Component_update on the component side.  At this time
+      the component processes the update call, but also requires that the
+      container process the components request_update. But, the container cannot
+      process the component's request_update without corrupting its NEED_UPDATE
+      flags. One answer to this problem (the one implemented presently) is to
+      have the container set up its own idle callback to process the component's
+      update request as soon as it finishes with its do_update.
+
+      </para>
+      <para>
+      
+      For a case where there are multiple components and multiple containers
+      where a change to one component may effect all others the problem gets
+      even more interesting.  In the circle.c example program changing one
+      circle component at the server causes all other circle components to
+      change. Here we have a case where an event signal from one component might
+      trigger a request_update for a component that is a member of a different
+      canvas.  This case is described below:
+
+      <example><title>Canvas NEED_UPDATE Synchronization
+      Problem</title><programlisting>
+
+      Process 1 (component), 2 (canvas), and 3 (canvas).
+      Object A and B.
+
+      1 is a component factory.  2 and 3 are canvas's.  Each canvas activates an
+      object from process 1 such that object A belongs to 2 and object B belongs
+      to 3.
+
+      For object A: 1 rih_update() -> 2 requestUpdate().
+
+      For object B: 3 gbi_event() -> 1 event().
+      </programlisting></example>
+
+      </para>
+      <para>
+
+        The process 1 stack trace shows event() gets called at 1 prior to
+        returning from rih_update(). The second call was waiting in the
+        queue.  It is as if calling requestUpdate() causes event() to be called.
+        I suspect this has to happen because if event() had actually come from 2
+        then the processes would otherwise be in a deadlock. Of course the Corba
+        ORB doesn't necessarily know what would cause a deadlock and what
+        wouldn't.
+
+      <example><title>A Deadlock Problem</title><programlisting>
+        For object A: 1 rih_update() -> 2 requestUpdate().
+
+        For object B: 2 gbi_event() -> 1 event(). 
+      </programlisting></example>
+
+      </para>
+      <para>
+
+        Or maybe the return value just goes on the queue and we have to peel
+        everything away until we get to the return value we need.
+        What would happen if process 1 called 2 and waited for a return value.
+        When 2 gets called, it needs to call 1 to finish, but 1 is busy waiting
+        for 2 to return something. 
+
+      </para>
+      <para>
+
+
+      </para>
+      <para>
+
+      Cases where canvas in danger of getting out of sync are limited to
+      whatever is called when either the component canvas or the container
+      canvas are in do_update.  For the component this is during rih_update
+      where MateComponent_Canvas_ComponentProxy_requestUpdate is called.  For the
+      container this is limited to gbi_update where
+      MateComponent_Canvas_Component_update is called. During each of these time
+      periods on either process we need to ensure that a method call coming from
+      the stack does not indirectly cause a canvas_item_request_update to be
+      called. All of the methods in the idl need to be looked at to assess the
+      possibility of any of them triggering the request.
+
+      </para>
+      <para>
+
+      <example><title>All Procedures Possible During do_update
+      </title><programlisting>
+      Component:
+      update - not an issue. This trace will stay internal to the component and
+      canvas.
+
+      realize, unrealize, map, unmap - all internal.
+
+      draw - danger - restore_state could request an update if
+      MATE_CANVAS_ITEM_NEED_AFFINE is set. It may be necessary to always set
+      this to 0 if we are inside do_update. also could be handled with an idle
+      since there is no return value. I think it is OK to request an update on
+      the canvas root item even when inside do_update.
+
+      render - internal no issue.
+
+      contains - internal.
+
+      bounds - danger: Same issue as draw. This at the moment appears to be
+      unused.
+
+      event - danger: this gets passes to the application - who knows what
+      happens from there.
+
+      setCanvasSize - no problem.
+
+      setBounds - sends a gtk bounds event out. - application could request
+      updates but I think is highly unlikely.
+
+      Container:
+      requestUpdate - problem but handled w/idle handler since has void return
+      value.
+
+      grabFocus, ungrabFocus - internal
+      getUIContainer - no issue.
+      </programlisting></example>
+
+      </para>
+      <para>
+
+      Possible ramifications of dropping return value for emit_event: If
+      container has the component attached to a group created on the container
+      side and the component needs to decide whether it or its container should
+      handle the event for its canvas item, there may be cases where the results
+      will not get there.  If someone is trying to do this, it is probably an
+      unhealthy coupling anyway.  The interface will not guarantee the correct
+      return value sent by the component. For someone to be doing this, they
+      would have a very tight coupling case.  I suspect they would have much
+      bigger problems then this return value.
+
+
+      </para>
+      </sect1>
+</article>
+

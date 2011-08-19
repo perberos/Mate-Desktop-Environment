@@ -1,0 +1,228 @@
+<refentry id="refcounting">
+    <refmeta>
+	<refentrytitle>Reference Counting</refentrytitle>
+<!--	<manvolnum>3</manvolnum> -->
+	<refmiscinfo>LIBMATECOMPONENT Library</refmiscinfo>
+    </refmeta>
+
+    <refsect1>
+	<title>Reference Counting</title>
+	
+	<para>
+	    MateComponent component reference counting, version 0.1
+	    by  Michael Meeks &lt;mmeeks@gnu.org&gt;
+	    and Mike Fleming &lt;mfleming@eazel.com&gt;
+	</para>
+	
+	<refsect2><title>MateComponent Objects</title>
+
+	    <para>
+		A matecomponent object is a glib object that implements an
+		CORBA interface, it also contains a pointer to the
+		MateComponentAggregateObject that it is part of. A matecomponent
+		object has two reference counts; the first is a
+		GObject reference count on the object. This should
+		be 1 at all times except pre-finalization. The main
+		reference count for the aggregate is stored in
+		the</para>
+	    <programlisting>
+typedef struct {
+	int   ref_count;
+	GList *objs;
+} MateComponentAggregateObject;
+	    </programlisting>
+	    <para>structure. Also in this structure is a list of all
+		the objects implementing other interfaces in this
+		aggregate. Clearly an object is always in its own
+		aggregate hence:</para>
+	    <programlisting>
+g_assert (g_list_find (object-&gt;priv-&gt;ao-&gt;objs, object) == object);
+	    </programlisting>
+
+	    <para>Is always true. The
+		<structfield>object-&gt;priv-&gt;ao</structfield>
+		dereference is merely a nice way of encapsulating this
+		information inside
+		<filename>matecomponent-object.c</filename> and ensuring that
+		it can't be fiddled with elsewhere.</para>
+
+	</refsect2>
+
+	<refsect2><title>Ref counting</title>
+
+	    <para> The only ref count to manipulate is that on the
+		aggregate obejct, this is done via the
+		<function>matecomponent_object_ref / unref</function> pair,
+		it is also done remotely via the
+		<function>MateComponent_Object_ref / unref</function> CORBA
+		stubs. There is no 'destroy' method, if you want this
+		method you are probably confused about how GObject
+		deals with allocation.</para>
+
+	    <para>
+		Some people try to use <function>g_object_ref /
+		unref</function> on
+		<classname>MateComponentObjects</classname>; sadly this will
+		cause very serious grief. This if you
+		<function>g_object_unref</function> a matecomponent object,
+		then that object will be destroyed without consulting
+		the aggregate ref-count, and without sorting out the
+		aggregate. The net effect of this is that the
+		aggregate is left including a finalized object. This
+		is a very bad move indeed.</para>
+	</refsect2>
+
+	<refsect2><title>Reference leaks</title>
+
+	    <para>
+		Catching reference leaks is evily difficult. The first
+		approach is to set environment variable
+		<envar>MATECOMPONENT_DEBUG_FLAGS</envar> to a colon separated
+		list of a subset of {object, running, aggregate,
+		lifecycle, refs}. This will enable debugging output in
+		certain parts of libmatecomponent. The output will be written
+		to stdout or, alternatively, if you set
+		<envar>MATECOMPONENT_DEBUG_DIR</envar> to a directory path,
+		to a file named
+		<filename>matecomponent-debug-&lt;pid&gt;</filename> in that
+		directory. This combined with a call to
+	<!-- FIXME: Shouldn't this be matecomponent_debug_shutdown()??? -->
+		<function>matecomponent_shutdown ()</function> before exiting
+		your program should provide a dump of all object
+		references floating in your code.</para>
+
+	    <para>Another good way of catching leaks---having guessed
+		which object is not getting freed---is to fire up
+		container and component in gdb, break in
+		eg. matecomponent_embeddable_new and insert a hardware watch
+		point on the ref count [ see also <xref
+		linkend="debugging"/> ]:</para>
+
+	    <programlisting>
+(gdb) p &amp;((MateComponentObject *)embeddable)-&gt;priv-&gt;ao-&gt;ref_count
+$N = (int *) 0x80808102
+(gdb) watch *0x80808102
+(gdb) cont
+	    </programlisting>
+
+	    <para>
+		This will result in gdb giving you control each time
+		the ref count is changed. At this point halt the other
+		end of the CORBA link and start logging traces at both
+		ends. By the time the program exits you should have
+		worked out where the reference went astray.</para>
+	</refsect2>
+
+	<refsect2><title>Ref Counting Conventions</title>
+	    <para>And now for the important stuff:</para>
+
+	    <refsect3><title>MateComponent Ref Counting</title>
+		
+		<para>The MateComponent ref count convention is as follows.
+		    (Mild rewording; same meaning as before)</para>
+		<orderedlist>
+
+		    <listitem><para> A function returning an object,
+			either as the return value or by-reference,
+			must always add a reference before returning.
+			(Alternately: the callee must create a
+			reference to the returned object that the
+			caller owns)</para></listitem>
+
+		    <listitem><para> A function that accepts a matecomponent
+			object as an in/out parameter must unreference
+			the originally passed object once if the
+			function wishes to change the value of the
+			in/out parameter.  (The function must ref()
+			new objects returned via this in/out in
+			accordance with [1]) </para></listitem>
+
+		    <listitem><para> An object passed into a function
+			needs only be ref()'d if the ifunction wishes
+			to retain a reference to the object beyond the
+			scope of the function call.</para></listitem>
+
+		</orderedlist>
+
+		<para>In addition, there's a consensus that interface
+		    designers should be advised against designing
+		    methods with in/out parameters.  In/out parameters
+		    can obscure the lifetime of the passed argument to
+		    casual code observers, and thus may cause hidden
+		    side-effects.</para>
+
+	    </refsect3>
+
+	    <refsect3><title>CORBA Ref-counting</title>
+
+		<para>Since the ORB also maintains reference counts
+		    per interface handle, should you be returning a
+		    reference to an object it is imperative to</para>
+		<programlisting>
+MateComponent_Unknown_ref (corba_object, ev);
+return CORBA_Object_duplicate (corba_object, ev);
+		</programlisting>
+		<para> To assist with this there are two functions:</para>
+		<synopsis>
+MateComponent_Unknown matecomponent_object_dup_ref       (MateComponent_Unknown     object,
+                                            CORBA_Environment *ev);
+void           matecomponent_object_release_unref (MateComponent_Unknown     object,
+                                            CORBA_Environment *ev);
+		</synopsis>
+
+		<para>
+		    So to return an Unknown from a impl you can simply:</para>
+		<programlisting>
+return matecomponent_object_dup_ref (corba_object, ev);</programlisting>
+
+		<warning>
+		    <para>there is a caveat with this approach which is this:</para>
+
+		    <para>If you construct a MateComponentObject in an impl_
+			whose reference you wish to hand back to the
+			caller then the situation is slightly
+			different. In this case you have an object
+			with the following:</para>
+		    <para>MateComponent_Unknown: ref 1</para>
+		    <para>MateComponentObject:   ref 1</para>
+
+		    <para>
+			You want to hand a CORBA reference to this
+			object to the client, without incrementing the
+			MateComponentObject reference. To do this you must
+			do:</para>
+		    <programlisting>
+return CORBA_Object_duplicate (MATECOMPONENT_OBJREF (myobject));
+		    </programlisting>
+
+		    <para>The mirror of this is that if you want to
+			hand a ref to an impl you will need to
+			CORBA_Object_duplicate the value before
+			inserting it into a MateComponentObjectClient.</para>
+		</warning>
+
+	    </refsect3>
+
+	    <refsect3><title>Ref counting and one-way methods</title>
+
+		<para>While the ORB has built in support for correct
+		    referencing on 1 way methods, the MateComponent reference
+		    count does not; hence if you wish to hand a matecomponent
+		    reference to several listeners you need to do
+		    something like:</para>
+		
+		<programlisting>
+ref = MateComponent_Unknown_ref (MATECOMPONENT_OBJREF (obj), ev);
+MateComponent_Sample_executeOnewayMethod (foo, ref, ev);
+		</programlisting>
+		
+		<para>And at the other end in executeOnewayMethod the
+		    reference needs to be released.</para>
+
+	    </refsect3>
+
+	</refsect2>
+
+    </refsect1>
+</refentry>
+

@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Callbacks</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="mate-keyring Reference Manual">
+<link rel="up" href="ch01.html" title="mate-keyring API Reference">
+<link rel="prev" href="mate-keyring-Daemon-Management-Functions.html" title="Daemon Management Functions">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-keyring-Daemon-Management-Functions.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">mate-keyring Reference Manual</th>
+<td> </td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-keyring-Callbacks.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-keyring-Callbacks.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="Callbacks">
+<a name="mate-keyring-Callbacks"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-keyring-Callbacks.top_of_page"></a>Callbacks</span></h2>
+<p>Callbacks — Different callbacks for retrieving async results</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="mate-keyring-Callbacks.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">void</span>                (<a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()">*MateKeyringOperationDoneCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetIntCallback" title="MateKeyringOperationGetIntCallback ()">*MateKeyringOperationGetIntCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> val</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetListCallback" title="MateKeyringOperationGetListCallback ()">*MateKeyringOperationGetListCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *list</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetStringCallback" title="MateKeyringOperationGetStringCallback ()">*MateKeyringOperationGetStringCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *string</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="mate-keyring-Callbacks.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1" title="Details">
+<a name="mate-keyring-Callbacks.details"></a><h2>Details</h2>
+<div class="refsect2" title="MateKeyringOperationDoneCallback ()">
+<a name="MateKeyringOperationDoneCallback"></a><h3>MateKeyringOperationDoneCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateKeyringOperationDoneCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="MateKeyringOperationGetIntCallback ()">
+<a name="MateKeyringOperationGetIntCallback"></a><h3>MateKeyringOperationGetIntCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateKeyringOperationGetIntCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> val</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="MateKeyringOperationGetListCallback ()">
+<a name="MateKeyringOperationGetListCallback"></a><h3>MateKeyringOperationGetListCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateKeyringOperationGetListCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *list</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="MateKeyringOperationGetStringCallback ()">
+<a name="MateKeyringOperationGetStringCallback"></a><h3>MateKeyringOperationGetStringCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateKeyringOperationGetStringCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *string</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>string</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

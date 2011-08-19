@@ -1,0 +1,110 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
+/*
+ *  MateComponent_ObjectDirectory.idl:
+ *
+ *  Copyright (C) 1999, 2000 Red Hat, Inc.
+ *  Copyright (C) 1999, 2000 Eazel, Inc.
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation; either version 2 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  Authors: Elliot Lee <sopwith@redhat.com>,
+ *           Maciej Stachowiak <mjs@noisehavoc.org>
+ *
+ */
+
+#ifndef __MATECOMPONENT_OBJECT_DIRECTORY_IDL__
+#define __MATECOMPONENT_OBJECT_DIRECTORY_IDL__
+
+#ifndef __MateComponent_ObjectDirectory_COMPILATION
+#ifdef  __MATECORBA_IDL__
+%{
+#pragma include_defs matecomponent-activation/MateComponent_ObjectDirectory.h
+%}
+#pragma inhibit push
+#endif
+#endif
+
+#include <MateComponent_Unknown.idl>
+#include <MateComponent_Activation_types.idl>
+
+/* ActivationContext needs a forward declaration of ObjectDirectory */
+module MateComponent {
+        interface ObjectDirectory;
+};
+
+#include <MateComponent_ActivationContext.idl>
+
+module MateComponent {
+        typedef long long CacheTime;
+
+        union ServerInfoListCache switch (boolean) {
+        case TRUE:
+                ServerInfoList server_list;
+        };
+
+        union ServerStateCache switch (boolean) {
+        case TRUE:
+                sequence<ImplementationID> active_servers;
+        };
+
+        interface ObjectDirectory : MateComponent :: Unknown {
+                exception NotRegistered {};
+
+                ServerInfoListCache get_servers        (in CacheTime only_if_newer);
+                ServerStateCache    get_active_servers (in CacheTime only_if_newer);
+                
+                readonly attribute string username, hostname;
+
+                Object activate (in ImplementationID              iid,
+                                 in ActivationContext             ac,
+                                 in MateComponent::ActivationEnvironment environment,
+                                 in ActivationFlags               flags,
+                                 in ActivationClient              client)
+                        context ("username", "hostname");
+
+                RegistrationResult register_new (in  ImplementationID              iid,
+                                                 in  MateComponent::ActivationEnvironment environment,
+                                                 in  Object                        obj,
+						 in  RegistrationFlags             flags,
+                                                 in  string                        description,
+                                                 out Object                        existing);
+                RegistrationResult register_new_full (in  ImplementationID              iid,
+                                                      in  MateComponent::ActivationEnvironment environment,
+                                                      in  Object                        obj,
+                                                      in  RegistrationFlags             flags,
+                                                      in  string                        description,
+                                                      out Object                        existing,
+                                                      in ActivationClient               client);
+                void               unregister   (in ImplementationID              iid,
+                                                 in Object                        obj)
+                        raises (NotRegistered);
+
+                DynamicPathLoadResult dynamic_add_path (in string add_path);
+                DynamicPathLoadResult dynamic_remove_path (in string remove_path);
+
+                void addClientEnv (in ActivationClient client,
+                                   in StringList       env);
+        };
+
+};
+
+
+#ifndef __MateComponent_ObjectDirectory_COMPILATION
+#ifdef  __MATECORBA_IDL__
+#pragma inhibit pop
+#endif
+#endif
+
+#endif

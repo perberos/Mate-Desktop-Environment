@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Build zipfiles for libmatecomponent on Win32. Separate runtime and
+# developer ones. Run after make install.
+
+ZIP=/tmp/libmatecomponent-@VERSION@.zip
+DEVZIP=/tmp/libmatecomponent-dev-@VERSION@.zip
+
+cd @prefix@
+rm $ZIP
+
+zip $ZIP -@ <<EOF
+COPYING
+COPYING.LIB-2
+bin/activation-client.exe
+bin/matecomponent-activation-sysconf.exe
+bin/libmatecomponent-2-0.dll
+bin/libmatecomponent-activation-4.dll
+etc/matecomponent-activation/matecomponent-activation-config.xml
+lib/matecomponent/monikers/libmoniker_std_2.dll
+lib/matecomponent/servers/MateComponent_CosNaming_NamingContext.server
+lib/matecomponent/servers/MateComponent_Moniker_std.server
+lib/matecorba-2.0/MateComponent_module.dll
+libexec/matecomponent-activation-server.exe
+sbin/matecomponent-activation-sysconf.exe
+EOF
+
+if [ -f share/locale/de/LC_MESSAGES/libmatecomponent-2.0.mo ]; then
+  zip $ZIP share/locale/*/LC_MESSAGES/libmatecomponent-2.0.mo
+else
+  zip $ZIP lib/locale/*/LC_MESSAGES/libmatecomponent-2.0.mo
+fi
+
+rm $DEVZIP
+zip -r $DEVZIP -@ <<EOF
+bin/matecomponent-activation-run-query.exe
+bin/echo-client-2.exe
+include/matecomponent-activation-2.0
+include/libmatecomponent-2.0
+lib/matecomponent-2.0/samples/matecomponent-echo-2.exe
+lib/matecomponent/servers/MateComponent_Sample_Echo.server
+lib/libmatecomponent-2.dll.a
+lib/libmatecomponent-activation.dll.a
+lib/pkgconfig/matecomponent-activation-2.0.pc
+lib/pkgconfig/libmatecomponent-2.0.pc
+man/man1/matecomponent-activation-server.1
+share/gtk-doc/html/matecomponent-activation
+share/gtk-doc/html/libmatecomponent
+share/idl/matecomponent-2.0
+share/idl/matecomponent-activation-2.0
+EOF

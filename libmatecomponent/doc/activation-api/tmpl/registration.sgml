@@ -1,0 +1,165 @@
+<!-- ##### SECTION Title ##### -->
+Registration
+
+<!-- ##### SECTION Short_Description ##### -->
+Registering CORBA objects to MateComponent Activation.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+When writing a component which can be activated through
+MateComponent Activation by clients, you need to be register your component
+to MateComponent Activation once it is created.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### ENUM MateComponent_RegistrationResult ##### -->
+<para>
+
+</para>
+
+@MateComponent_ACTIVATION_REG_SUCCESS: 
+@MateComponent_ACTIVATION_REG_NOT_LISTED: 
+@MateComponent_ACTIVATION_REG_ALREADY_ACTIVE: 
+@MateComponent_ACTIVATION_REG_ERROR: 
+
+<!-- ##### FUNCTION matecomponent_activation_unregister_active_server ##### -->
+<para>
+
+</para>
+
+@iid: 
+@obj: 
+
+
+<!-- ##### FUNCTION matecomponent_activation_registration_env_free ##### -->
+<para>
+
+</para>
+
+@reg_env: 
+
+
+<!-- ##### FUNCTION matecomponent_activation_registration_env_set ##### -->
+<para>
+
+</para>
+
+@reg_env: 
+@name: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_activation_registration_env_set_global ##### -->
+<para>
+
+</para>
+
+@reg_env: 
+@append_if_existing: 
+
+
+<!-- ##### FUNCTION matecomponent_activation_register_active_server ##### -->
+<para>
+
+</para>
+
+@iid: 
+@obj: 
+@reg_env: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_activation_iid_get ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### STRUCT MateComponentActivationPlugin ##### -->
+<para>
+Components which want to be activated as 
+shared libraries must export an MateComponentActivationPlugin
+structure of name <structname>MateComponent_Plugin_info</structname>.
+An exmaple of how to use it folows:
+<programlisting>
+static CORBA_Object
+hi_shlib_make_object (PortableServer_POA poa,
+                      const char *iid,
+                      gpointer impl_ptr,
+                      CORBA_Environment *ev)
+{
+        CORBA_Object object_ref;
+
+        object_ref = impl_Hi__create (poa, ev);
+        if (object_ref == CORBA_OBJECT_NIL 
+            || ev->_major != CORBA_NO_EXCEPTION) {
+                printf ("Server cannot get objref\n");
+                return CORBA_OBJECT_NIL;
+        }
+
+        matecomponent_activation_plugin_use (poa, impl_ptr);
+
+        return object_ref;
+}
+
+static const MateComponentActivationPluginObject hi_plugin_list[] = {
+        {
+                "OAFIID:Hi:20000923",
+                hi_shlib_make_object
+        },
+        {
+                NULL
+  	}
+};
+
+const MateComponentActivationPlugin MateComponent_Plugin_info = {
+        hi_plugin_list,
+        "Hi example"
+};
+</programlisting>
+</para>
+
+@plugin_object_list: 
+@description: 
+@dummy: 
+
+<!-- ##### STRUCT MateComponentActivationPluginObject ##### -->
+<para>
+
+</para>
+
+@iid: 
+@activate: 
+@dummy: 
+
+<!-- ##### FUNCTION matecomponent_activation_plugin_use ##### -->
+<para>
+
+</para>
+
+@servant: 
+@impl_ptr: 
+
+
+<!-- ##### FUNCTION matecomponent_activation_plugin_unuse ##### -->
+<para>
+
+</para>
+
+@impl_ptr: 
+
+

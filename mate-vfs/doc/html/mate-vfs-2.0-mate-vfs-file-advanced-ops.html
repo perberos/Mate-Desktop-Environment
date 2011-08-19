@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Backend-Specific Operations</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-file-and-dirs-ops.html" title="Advanced File/Directory Operations">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-monitor.html" title="Monitoring">
+<link rel="next" href="mate-vfs-file-async-ops.html" title="Asynchronous Operations">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-monitor.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-file-and-dirs-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-file-async-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-file-advanced-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-file-advanced-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-file-advanced-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-file-advanced-ops.top_of_page"></a>Backend-Specific Operations</span></h2>
+<p>Backend-Specific Operations — Execute backend-specific operations</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-file-advanced-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-advanced-ops.html#mate-vfs-file-control" title="mate_vfs_file_control ()">mate_vfs_file_control</a>              (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *operation</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> operation_data</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-advanced-ops.description"></a><h2>Description</h2>
+<p>
+  Advanced file operations allow you to execute backend-specific commands.
+  Currently, none of the <span class="type">MateVFSModules</span> shipped with MateVFS includes
+  useful operations, but they allow sophisticated module-specific code
+  that can not be added to MateVFS because it would break abstraction.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-advanced-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-file-control"></a><h3>mate_vfs_file_control ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_file_control              (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *operation</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> operation_data</code></em>);</pre>
+<p>
+Execute a backend dependent operation specified by the string <em class="parameter"><code>operation</code></em>.
+This is typically used for specialized vfs backends that need additional
+operations that mate-vfs doesn't have. Compare it to the unix call <code class="function">ioctl()</code>.
+The format of <em class="parameter"><code>operation_data</code></em> depends on the operation. Operation that are
+backend specific are normally namespaced by their module name.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the file to affect.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>operation</code></em> :</span></p></td>
+<td>operation to execute.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>operation_data</code></em> :</span></p></td>
+<td>data needed to execute the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

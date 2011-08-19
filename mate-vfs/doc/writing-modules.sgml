@@ -1,0 +1,687 @@
+<refentry id="mate-vfs-writing-modules" revision="16 Apr 2004">
+<refmeta>
+<refentrytitle>Writing Modules</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>MATE-VFS Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>Writing Modules</refname><refpurpose>basic mate-vfs module concepts</refpurpose>
+</refnamediv>
+
+  <refsect1 id="Introduction">
+    <title>Introduction</title>
+
+    <para>This section will introduce the basic concepts that are
+      needed for writing MATE Virtual File System modules.</para>
+
+    <refsect2 id="uris">
+      <title>MATE VFS URIs (Uniform Resource Identifiers)</title>
+
+      <para>The MATE Virtual file system uses URIs similiar to the
+        standard WWW URIs.  The basic difference between a VFS URI and
+        WWW URI is that, while with WWW URIs you can only use a single
+        protocol for accessing a certain file, with MATE VFS URIs you
+        can combine different access methods in sequence.</para>
+
+      <para>For example, suppose you want to access file
+        <filename>hello.c</filename> in a <filename>tar.gz</filename>
+        file which is in turn accessible through FTP from a remote
+        machine.  In order to access this file, you would need to:</para>
+
+      <orderedlist>
+        <listitem><para>Connect to the FTP site.</para></listitem>
+        
+        <listitem><para>Fetch the <filename>tar.gz</filename>
+        file.</para></listitem>
+        
+        <listitem><para>Decompress the <filename>tar.gz</filename> file using
+          GZIP.</para></listitem>
+
+        <listitem><para>Extract <filename>hello.c</filename> from the resulting
+          uncompressed <filename>tar</filename> file.</para></listitem>
+      </orderedlist>
+
+      <para>The MATE Virtual File System lets you express this by
+        combining the three access methods (i.e. tar, GZIP and FTP)
+        into a single URI.  Access methods are combined in the URI by
+        using the `#' character, followed by the name for the access
+        method and the subpath for that specific access method.  The
+        subpath can be omitted for those storage methods that do not
+        need a path to retrieve the file.  (For example, a GZIP file
+        always contains a single uncompressed file, so no path is
+        needed to locate the uncompressed file within the GZIP file.
+        But on the other hand, the TAR method requires a path to
+        locate a specific file or directory.)</para>
+
+      <para>For example, in the case we outlined above, the URI would
+        look something like:</para>
+
+      <!-- FixMe what should I use here instead of programlisting? -->
+      <programlisting>
+
+        ftp://username:password@host.net/path/to/file.tar.gz#gzip:#tar:/path/to/hello.c</programlisting>
+
+      <para>Each method/subpath couple is called a <firstterm>URI
+      element</firstterm>.  When URI elements are combined like this,
+      each URI element uses the previous one to access a base resource
+      into which it will look up a file, using the subpath
+      information.  For this reason, we will say that each element is
+      the <firstterm>parent</firstterm> element for the following one.</para>
+
+      <para>The first URI element, the one which has no parent, is
+      called the <firstterm>toplevel element</firstterm>.  It does not
+      use the `#' character; instead, it uses the standard syntax of
+      WWW URIs: </para>
+
+      <programlisting>
+
+        method://user:password@host/path/to/file</programlisting>
+
+      <para>This way, normal WWW URIs can be used with the MATE Virtual
+      File System.</para>
+
+      <para>Toplevel elements are also special because they let users
+        specify user names, passwords and host names, while
+        non-toplevel elements don't.</para>
+    </refsect2>
+
+    <refsect2>
+      <title>The <structname>MateVFSURI</structname> type</title>
+
+      <para>Within the MATE Virtual File System library, URI elements
+      are represented by a special type,
+      <structname>MateVFSURI</structname>, which is meant to represent
+      user-provided URIs in a machine-optimized way.  </para>
+
+      <para>Every <structname>MateVFSURI</structname> contains the
+      following information:</para>
+
+      <itemizedlist>
+        <listitem><para>A reference counter</para></listitem>
+      
+        <listitem><para>A pointer to the parent
+        <structname>MateVFSURI</structname> URI element.</para></listitem>
+      
+        <listitem><para>The subpath.</para></listitem>
+      
+        <listitem><para>The name of the access method.</para></listitem>
+      
+        <listitem><para>A pointer to a
+        <structname>MateVFSMethod</structname> object, describing the
+        access method (see below).</para></listitem>
+      </itemizedlist>
+
+    </refsect2>
+
+  </refsect1>
+
+  <refsect1>
+    <title>MATE Virtual File System access method implementation</title>
+
+    <para>In the MATE Virtual File System, the implementations for
+    all the access methods are loaded at runtime, as shared library
+    modules.  The modules are loaded during parsing of the string URI.
+    If the parser encounters an access method for which no
+    implementation is currently loaded, it retrieves the corresponding
+    library file, dynamically links it into the executable, and
+    initializes it.</para>
+
+    <para>After initialization, the module returns a special
+    <structname>MateVFSMethod</structname> object that contains
+    pointers to the various implementation functions for that specific
+    method.  By storing a pointer to this object into the
+    <structname>MateVFSURI</structname> type, the VFS library is then
+    able to use these functions for file access.</para>
+
+    <refsect2>
+      <title>How file access is performed</title>
+
+      <para>When the VFS library needs to perform some file operation,
+      it performs the following steps:</para>
+
+      <itemizedlist>
+
+        <listitem><para>If the URI is given in textual form (i.e. as a
+        string), it parses it and activates the necessary access method
+        modules.</para></listitem>
+
+        <listitem><para>It retrieves a pointer to the lowmost
+        level URI element.</para></listitem>
+
+        <listitem><para>It retrieves a pointer to the
+        <structname>MateVFSMethod</structname> object that corresponds
+        to the access method for that URI element.</para></listitem>
+        
+        <listitem><para>It retrieves a pointer to the implementation
+        function for that operation from the
+        <structname>MateVFSMethod</structname>object.</para></listitem>
+
+        <listitem><para>It invokes that implementation function
+        passing the pointer to the lowmost level URI
+        element.</para></listitem>
+        
+      </itemizedlist>
+
+      <para>Combining the access methods is always done within the
+      method implementation.  If the method implementation needs to do
+      some file operation on the the parent URI element, it can do so
+      by simply invoking the corresponding VFS function, by using
+      the parent pointer in the <structname>MateVFSURI</structname>
+      object. </para>
+
+      <para>For example, suppose you have to read a simple URI like
+      the following:</para>
+
+      <!-- FixMe what should I use here instead of programlisting? -->
+      <programlisting>
+
+        file:/home/ettore/file.gz#gzip:</programlisting>
+
+      <para>In this case, the GZIP method will be invoked with a
+      pointer to the <structname>MateVFSURI</structname> describing the
+      `gzip' part. The GZIP method will be able to read
+      <filename>file.gz</filename> by just invoking the corresponding
+      MATE VFS library function on its parent and decompressing it on
+      the fly. </para>
+
+    </refsect2>
+
+  </refsect1>
+
+  <refsect1>
+    <title>Implementing an access method in practice</title>
+
+    <para>Implementing a new access method is really not difficult at
+    all.  This section explains how this is done.</para>
+
+    <refsect2>
+      <title>Using shared libraries</title>
+
+      <para>Every module must be compiled as a shared library (i.e. a
+      <filename>.so</filename> file).</para>
+
+      <para>The current way for accessing the right module for the
+      right method is very simple, and is based on file names.  In
+      practice, a module implementing an access method named
+      <filename>foo</filename> must be named
+      <filename>libfoo.so</filename>.  For example, the module
+      implementing the <filename>ftp:</filename> access method is
+      called <filename>libftp.so</filename>, the module implementing
+      <filename>#gzip:</filename> access is called
+      <filename>libgzip.so</filename> and so on.</para>
+
+      <para>This might change in the future.</para>
+
+    </refsect2>
+
+    <refsect2>
+      <title>The initialization/shutdown functions</title>
+
+      <para>Every shared library module must provide two functions:</para>
+
+      <programlisting role="c">
+
+MateVFSMethod *vfs_module_init (const char *method_name, const char *args);
+void vfs_module_shutdown (MateVFSMethod *method);</programlisting>
+
+      <para>These are the only functions that the VFS library will
+      access directly.  All the other symbols (i.e. functions and
+      variables) in the module should be made static. </para>
+
+      <para><function>vfs_module_init()</function> is called
+      as soon as the module is loaded in memory.  It will have to
+      return a pointer to a <structname>MateVFSMethod</structname>
+      object that will contain the pointers to the method's
+      implementation functions.  We will describe this later. </para>
+
+      <para><function>vfs_module_shutdown</function>, instead,
+      is called before the module is unloaded or the program that uses
+      it dies.  This functions should:</para>
+
+      <itemizedlist>
+
+        <listitem><para>Deallocate all the memory allocated by the
+        module.</para></listitem>
+
+        <listitem><para>Close all the file descriptors associated with
+        the module.</para></listitem>
+
+        <listitem><para>Kill any external process spawned by the
+        module.</para></listitem>
+
+        <listitem><para>In general, make sure that any operation that
+        was going on before this function was called will be
+        interrupted correctly, as soon as possible and without any
+        leaks.</para></listitem>
+
+      </itemizedlist>
+
+    </refsect2>
+
+    <refsect2>
+      <title>The <structname>MateVFSMethod</structname> object</title>
+
+      <para>This object contains pointers to the module
+      implementation functions.</para>
+
+      <para>A method can choose itself which functions to implement. However, it
+      must at least provide a <type>MateVFSMethodOpenFunc</type> and
+      <type>MateVFSMethodIsLocalFunc</type> implementation.</para>
+      
+
+      <programlisting role="c">
+struct MateVFSMethod {
+	gsize method_table_size;			/* Used for versioning */
+	MateVFSMethodOpenFunc open;
+	MateVFSMethodCreateFunc create;
+	MateVFSMethodCloseFunc close;
+	MateVFSMethodReadFunc read;
+	MateVFSMethodWriteFunc write;
+	MateVFSMethodSeekFunc seek;
+	MateVFSMethodTellFunc tell;
+	MateVFSMethodTruncateHandleFunc truncate_handle;
+	MateVFSMethodOpenDirectoryFunc open_directory;
+	MateVFSMethodCloseDirectoryFunc close_directory;
+	MateVFSMethodReadDirectoryFunc read_directory;
+	MateVFSMethodGetFileInfoFunc get_file_info;
+	MateVFSMethodGetFileInfoFromHandleFunc get_file_info_from_handle;
+	MateVFSMethodIsLocalFunc is_local;
+	MateVFSMethodMakeDirectoryFunc make_directory;
+	MateVFSMethodRemoveDirectoryFunc remove_directory;
+	MateVFSMethodMoveFunc move;
+	MateVFSMethodUnlinkFunc unlink;
+	MateVFSMethodCheckSameFSFunc check_same_fs;
+	MateVFSMethodSetFileInfo set_file_info;
+	MateVFSMethodTruncateFunc truncate;
+	MateVFSMethodFindDirectoryFunc find_directory;
+	MateVFSMethodCreateSymbolicLinkFunc create_symbolic_link;
+	MateVFSMethodMonitorAddFunc monitor_add;
+	MateVFSMethodMonitorCancelFunc monitor_cancel;
+	MateVFSMethodFileControlFunc file_control;
+	MateVFSMethodForgetCacheFunc forget_cache;
+	MateVFSMethodGetVolumeFreeSpaceFunc get_volume_free_space;
+};
+</programlisting>
+
+      <programlisting role="c">
+typedef MateVFSResult (* MateVFSMethodOpenFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle
+			       	 	**method_handle_return,
+					 MateVFSURI *uri,
+					 MateVFSOpenMode mode,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodCreateFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle
+			       	 	**method_handle_return,
+					 MateVFSURI *uri,
+					 MateVFSOpenMode mode,
+					 gboolean exclusive,
+					 guint perm,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodCloseFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodReadFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 gpointer buffer,
+					 MateVFSFileSize num_bytes,
+					 MateVFSFileSize *bytes_read_return,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodWriteFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 gconstpointer buffer,
+					 MateVFSFileSize num_bytes,
+					 MateVFSFileSize *bytes_written_return,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodSeekFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 MateVFSSeekPosition  whence,
+					 MateVFSFileOffset    offset,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodTellFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 MateVFSFileSize *offset_return);
+
+typedef MateVFSResult (* MateVFSMethodOpenDirectoryFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle **method_handle,
+					 MateVFSURI *uri,
+					 MateVFSFileInfoOptions options,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodCloseDirectoryFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodReadDirectoryFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 MateVFSFileInfo *file_info,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodGetFileInfoFunc)
+					(MateVFSMethod *method,
+					 MateVFSURI *uri,
+					 MateVFSFileInfo *file_info,
+					 MateVFSFileInfoOptions options,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodGetFileInfoFromHandleFunc)
+					(MateVFSMethod *method,
+					 MateVFSMethodHandle *method_handle,
+					 MateVFSFileInfo *file_info,
+					 MateVFSFileInfoOptions options,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodTruncateFunc) (MateVFSMethod *method,
+						       MateVFSURI *uri,
+						       MateVFSFileSize length,
+						       MateVFSContext *context);
+typedef MateVFSResult (* MateVFSMethodTruncateHandleFunc) (MateVFSMethod *method,
+							     MateVFSMethodHandle *handle,
+							     MateVFSFileSize length,
+							     MateVFSContext *context);
+
+typedef gboolean       (* MateVFSMethodIsLocalFunc)
+					(MateVFSMethod *method,
+					 const MateVFSURI *uri);
+
+typedef MateVFSResult (* MateVFSMethodMakeDirectoryFunc)
+					(MateVFSMethod *method,
+					 MateVFSURI *uri,
+					 guint perm,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodFindDirectoryFunc)
+					(MateVFSMethod *method,
+					 MateVFSURI *find_near_uri,
+					 MateVFSFindDirectoryKind kind,
+					 MateVFSURI **result_uri,
+					 gboolean create_if_needed,
+					 gboolean find_if_needed,
+					 guint perm,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodRemoveDirectoryFunc)
+					(MateVFSMethod *method,
+					 MateVFSURI *uri,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodMoveFunc)
+					(MateVFSMethod *method,
+					 MateVFSURI *old_uri,
+					 MateVFSURI *new_uri,
+					 gboolean force_replace,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodUnlinkFunc)
+                                        (MateVFSMethod *method,
+					 MateVFSURI *uri,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodCheckSameFSFunc)
+					(MateVFSMethod *method,
+					 MateVFSURI *a,
+					 MateVFSURI *b,
+					 gboolean *same_fs_return,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodSetFileInfo)
+					(MateVFSMethod *method,
+					 MateVFSURI *a,
+					 const MateVFSFileInfo *info,
+					 MateVFSSetFileInfoMask mask,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodCreateSymbolicLinkFunc)
+                                        (MateVFSMethod *method,
+                                         MateVFSURI *uri,
+                                         const gchar *target_reference,
+                                         MateVFSContext *context);
+typedef MateVFSResult (* MateVFSMethodMonitorAddFunc)
+     					(MateVFSMethod *method,
+      					 MateVFSMethodHandle **method_handle_return,
+      					 MateVFSURI *uri,
+      					 MateVFSMonitorType monitor_type);
+
+typedef MateVFSResult (* MateVFSMethodMonitorCancelFunc)
+     					(MateVFSMethod *method,
+      					 MateVFSMethodHandle *handle);
+
+typedef MateVFSResult (* MateVFSMethodFileControlFunc)
+     					(MateVFSMethod *method,
+      					 MateVFSMethodHandle *method_handle,
+					 const char *operation,
+					 gpointer operation_data,
+					 MateVFSContext *context);
+
+typedef MateVFSResult (* MateVFSMethodForgetCacheFunc)
+     					(MateVFSMethod *method,
+      					 MateVFSMethodHandle *method_handle,
+					 MateVFSFileOffset offset,
+					 MateVFSFileSize size);
+
+typedef MateVFSResult (* MateVFSMethodGetVolumeFreeSpaceFunc)
+     					(MateVFSMethod *method,
+					 const MateVFSURI *uri,
+				 	 MateVFSFileSize *free_space);
+</programlisting>
+
+    </refsect2>
+
+  </refsect1>
+
+  <refsect1>
+    <title>Handling cancellation</title>
+
+    <para>As VFS operations might take very long to complete, especially in the
+    case of transient errors (such as a network server that has gone down),
+    the MATE Virtual File System Library provides a standard way to
+    handle the cancellation of VFS operations.</para>
+
+    <refsect2>
+      <title>The <structname>MateVFSCancellation</structname> object</title>
+    
+      <para>The object that encapsulates this functionality is
+      <structname>MateVFSCancellation</structname>.  Most
+      implementation functions get a pointer to such an object, and are
+      expected to use this object to recognize when an operation should
+      be interrupted.</para>
+  
+      <para>The most simple way to check for a cancellation request is
+      to poll the object with
+      <function>mate_vfs_cancellation_check()</function>:</para>
+  
+      <programlisting role="c">
+  
+gboolean mate_vfs_cancellation_check (MateVFSCancellation *cancellation);</programlisting>
+  
+      <para>This function will return a nonzero value if the current
+      operation should be cancelled.</para>
+  
+      <para>Notice that cancellation is an asynchronous operation that
+      might happen outside your function, in parallel with the code that
+      you are writing.  For example, in the case of threads, the request
+      will be set in the master thread; in the case of slave
+      CORBA-driven processes, the request will be activated by a Unix
+      signal.  So you can expect a cancellation request to happen (and
+      consequently be signalled in
+      <structname>MateVFSCancellation</structname>) at any time.</para>
+
+      <para>For this reason, you should be calling this function
+      periodically, whenever you are going to perform several
+      iterations of the same task, or execute a single expensive task.
+      When the function returns a nonzero value, the correct way to
+      react is:</para>
+
+      <orderedlist>
+        <listitem><para>Clean things up so that the result of the
+        operations that have been performed are all
+        cancelled.</para></listitem>
+        <listitem><para>Return the
+        <symbol>MATE_VFS_ERROR_CANCELLED</symbol> error
+        code.</para></listitem>
+      </orderedlist>
+
+      <para>Note, there are some other situations in which you want to
+      be able to interrupt an I/O operation when a cancellation request
+      is performed.  In such cases, polling is not a viable option.</para>
+
+      <para>For this reason,
+      <structname>MateVFSCancellation</structname> provides an
+      alternative way of sending notifications, using a file
+      descriptor.  To use this feature, you should use the following
+      function:</para>
+
+      <programlisting>
+
+gint mate_vfs_cancellation_get_fd (MateVFSCancellation *cancellation); </programlisting>
+
+      <para>When this function is called, it will return an open file
+      descriptor, which is the read-side of a pipe.  The pipe will be
+      given a character from the write side as soon as a cancellation
+      request is sent.  You can check for a cancellation by using the 
+      <function>select()</function> system call with this file descriptor.
+      As soon as <function>select</function> reports that some
+      data is available on this file descriptor, you know that a
+      cancellation is being requested.</para>
+
+      <para>For example, if you are reading from a file descriptor and
+      you want to check for a pending cancellation at the same time,
+      you can set up <function>select</function>for checking if data
+      is available on both the cancellation file descriptor and the
+      file descriptor you are reading from.</para>
+    </refsect2>
+
+    <refsect2>
+      <title>Dealing with <symbol>EINTR</symbol></title>
+
+      <para>In order to maximize the chance of cancelling an operation
+      immediately, the MATE Virtual File System can sends a signal to
+      the asynchronous thread or process.  This does not happen on all
+      the systems and setups, though.</para>
+
+      <para>The result of this is that, if a process is in the middle
+      of a Unix system call while receiving this signal, the system
+      call might be interrupted and return a <symbol>EINTR</symbol>
+      error.</para>
+
+      <para>For this reason, when you receive <symbol>EINTR</symbol>
+      you should check if a cancellation request is pending, using
+      <function>mate_vfs_cancellation_check()</function> on the
+      <structname>MateVFSCancellation</structname> object that the
+      implementation function received:</para>
+
+      <itemizedlist>
+        <listitem><para>If a cancellation is indeed pending
+        (<function>mate_vfs_cancellation_check()</function> returns a
+        nonzero value), you should cancel the operation, cleaning up
+        all the effects, and return
+        <symbol>MATE_VFS_ERROR_INTERRUPTED</symbol> or
+        <symbol>MATE_VFS_ERROR_CANCELLED</symbol></para></listitem>
+
+        <listitem><para>Otherwise, retry the system call as you would
+        normally do.</para></listitem>
+      </itemizedlist>
+    </refsect2>
+
+  </refsect1>
+
+  <refsect1>
+    <title>Basic guidelines for writing a module</title>
+
+    <para>Writing MATE VFS modules is easy, but there are a few
+    things that you must keep in mind when hacking them:</para>
+
+    <itemizedlist>
+      <listitem><para>All of the code must be completely thread safe.
+      The reason for this is that the asynchronous MATE VFS engine
+      will use threads when available; if you don't make sure that the
+      code is thread-safe, every kind of weird and unexpected errors
+      will happen.  As debugging these problems can be very hard, it's
+      important to write the code with threads in mind right from the
+      start.</para></listitem>
+
+      <listitem><para>Use the special
+      <function>mate_vfs_*_cancellable()</function> VFS functions
+      instead of the standard non-cancellable ones, passing them the
+      same <structname>MateVFSCancellation</structname> object you
+      are given, so that the operation can always be interrrupted at
+      any time.</para></listitem>
+
+      <listitem><para>The code should respect the basic MATE
+      guidelines for source code indentation and
+      style.</para></listitem>
+    </itemizedlist>
+
+    <refsect2>
+      <title>How to make the code thread safe</title>
+
+      <para>Although it might sound scary at first, making the code
+      for the modules thread safe is not complicated at all.</para>
+
+      <para>First of all, make sure the amount of global variables is
+      kept to the bare minimum.  If possible, you should avoid them at
+      all cost.</para>
+
+      <para>For those cases where globals are inevitable (such as
+      caches, connection pools or things like that), you have to make
+      sure every variable is properly associated with a mutex, and
+      that the mutex is locked before every access to this variable
+      and released afterwards.  You can also use
+      <function>G_LOCK_DEFINE_STATIC</function>,
+      <function>G_LOCK</function> and <function>G_UNLOCK</function>
+      for this.
+      </para>
+
+      <para>Generally speaking, if you are going to dynamically
+      allocate structures that are shared by more than one
+      operation/file, you should provide all of them with their nice
+      mutex locks.</para>
+
+      <para>Finally, make sure mutexes are used only if they are
+      available.  One way to do so is to use macros like the
+      following:</para>
+
+      <programlisting>
+
+#ifdef G_THREADS_ENABLED
+#define MUTEX_NEW()     g_mutex_new ()
+#define MUTEX_FREE(a)   g_mutex_free (a)
+#define MUTEX_LOCK(a)   if ((a) != NULL) g_mutex_lock (a)
+#define MUTEX_UNLOCK(a) if ((a) != NULL) g_mutex_unlock (a)
+#else
+#define MUTEX_NEW()     NULL
+#define MUTEX_FREE(a)
+#define MUTEX_LOCK(a)
+#define MUTEX_UNLOCK(a)
+#endif</programlisting>
+
+      <para><function>G_LOCK_DEFINE_STATIC</function>,
+      <function>G_LOCK</function> and <function>G_UNLOCK</function> in
+      GLib are always safe to use, as they are already defined to be
+      nothing when thread support is not available.</para>
+
+      <para>(Probably it would be a good idea to have something in the
+      private MATE VFS API that does this stuff for all the
+      modules.)</para>
+
+    </refsect2>
+  </refsect1>
+
+</refentry>

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>.server file format reference</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="up" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="prev" href="query-syntax.html" title="Syntax">
+<link rel="next" href="attribute-tag.html" title="The oaf_attribute tag">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="query-syntax.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td> </td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateComponent Activation API Reference Manual</th>
+<td><a accesskey="n" href="attribute-tag.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="chapter">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="server-xml-reference"></a><code class="filename">.server</code> file format reference</h2></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect1"><a href="server-xml-reference.html#server-tag">The <code class="sgmltag-element">oaf_server</code> tag</a></span></dt>
+<dt><span class="sect1"><a href="attribute-tag.html">The <code class="sgmltag-element">oaf_attribute</code> tag</a></span></dt>
+</dl></div>
+<p>
+    This section describes the format of the <code class="filename">.server</code> files
+    used by applications to tell the MateComponent Activation daemon about the
+    interfaces they support.
+  </p>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="server-tag"></a>The <code class="sgmltag-element">oaf_server</code> tag</h2></div></div></div>
+<p>
+      Here follows a simple example of a minimalist
+      <code class="filename">.server</code> file.
+
+      </p>
+<pre class="programlisting">
+&lt;oaf_info&gt;
+  &lt;oaf_server iid="OAFIID:MateComponent_CosNaming_NamingContext"
+	      type="exe"
+              location="/usr/lib/matecomponent-activation/matecomponent-activation-server"&gt;
+  &lt;/oaf_server&gt;
+&lt;/oaf_info&gt;</pre>
+<p>
+
+      Each <code class="sgmltag-element">oaf_server</code> entry conventionally has three mandatory
+      properties:
+      <span class="emphasis"><em>iid</em></span> (the FAQ of the MateComponent API reference manual
+      explains how to create an iid), 
+      <span class="emphasis"><em>type</em></span> (can be <span class="emphasis"><em>exe,</em></span> 
+      <span class="emphasis"><em>factory,</em></span> or <span class="emphasis"><em>shlib</em></span>) and
+      <span class="emphasis"><em>location</em></span>.
+    </p>
+<p>
+      If the type is <span class="emphasis"><em>exe,</em></span> <span class="emphasis"><em>location</em></span> is
+      the name of the executable which creates the CORBA interfaces associated to
+      this entry and registers them to MateComponent Activation.
+      If the type is <span class="emphasis"><em>factory,</em></span> <span class="emphasis"><em>location</em></span>
+      is the iid of the component which can create the corresponding CORBA
+      server.
+      If the type is <span class="emphasis"><em>shlib,</em></span> <span class="emphasis"><em>location</em></span> is
+      the name of the library the code is in: <code class="filename">libgmf</code>
+      for example.
+    </p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Portability Note</h3>
+<p>
+        Don't include the <code class="filename">.so</code> suffix common on Linux
+        systems in the <span class="emphasis"><em>location</em></span> of a
+        <span class="emphasis"><em>shlib</em></span> component.
+      </p>
+</div>
+<p>
+      Here follows a simple example of a component activated through a factory:
+
+      </p>
+<pre class="programlisting">
+&lt;oaf_info&gt;
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo_Factory" type="exe"
+	      location="/usr/lib/matecomponent-2.0/samples/matecomponent-echo-2"&gt;
+  &lt;/oaf_server&gt;
+
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo" type="factory"
+	      location="OAFIID:MateComponent_Sample_Echo_Factory"&gt;
+  &lt;/oaf_server&gt;
+&lt;/oaf_info&gt;</pre>
+<p>
+
+      If you ask MateComponent Activation to activate the
+      <code class="classname">OAFIID:MateComponent_Sample_Echo</code> component,
+      MateComponent Activation will first check if it is a factory, make sure the
+      corresponding factory compoenent is running (by activating it. Here,
+      activating the factory component is a matter of launching the executable)
+      and call <code class="function">create</code> on the factory.
+      It will return you that object.
+    </p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

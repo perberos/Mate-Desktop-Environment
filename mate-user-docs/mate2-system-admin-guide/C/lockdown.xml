@@ -1,0 +1,481 @@
+<chapter id="lockdown-0">
+  <title>Disabling MATE Desktop Features</title>
+  <highlights>
+    <para>This chapter describes how to disable particular features
+of the MATE Desktop.</para>
+  </highlights>
+  <sect1 id="lockdown-1">
+    <title>Introduction to Disabling MATE Desktop Features</title>
+    <indexterm>
+      <primary>disabling features</primary>
+      <secondary>introduction</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>lockdown</primary>
+      <see>disabling features</see>
+    </indexterm>
+    <para>The MATE Desktop includes features that you can use
+to restrict access to certain functions in the MATE Desktop. The disable
+features are useful in various situations where you want to restrict the actions
+that users can perform on a computer. For example, you might want to prevent
+command line operations on a computer that is for public use at a trade show.
+The disable features are also known as <emphasis>lockdown</emphasis> features.</para>
+    <para>You set <application>MateConf</application> keys to disable features. For
+information about how to set <application>MateConf</application> keys, see <xref linkend="mateconf-0"/>. You can also use the <application>Configuration Editor</application> application to set <application>MateConf</application> keys in
+a user configuration source. For more information about the <application>Configuration Editor</application> application, see the <citetitle>MateConf Editor
+Manual</citetitle>.</para>
+  </sect1>
+  <sect1 id="lockdown-manual">
+    <title>Locking Down Setting Manually</title>
+    <sect2 id="lockdown-2">
+      <title>To Disable Lock Screen and Log Out</title>
+      <indexterm>
+        <primary>disabling features</primary>
+        <secondary>lock screen</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>disabling features</primary>
+        <secondary>log
+  out</secondary>
+      </indexterm>
+      <para>To disable the lock screen and log out functions, set the <literal>/apps/panel/global/disable_lock_screen</literal> key and the <literal>/apps/panel/global/disable_log_out</literal> key to <literal>true</literal>.</para>
+      <para>When you disable
+  the lock screen and log out functions, the following items are removed from
+  the panels:</para>
+      <itemizedlist>
+        <listitem>
+          <para><guimenuitem>Lock Screen</guimenuitem> and <guimenuitem>Log
+  Out <replaceable>user</replaceable></guimenuitem> menu items from the <guimenu>Main Menu</guimenu>.</para>
+        </listitem>
+        <listitem>
+          <para><guimenuitem>Lock</guimenuitem> and <guimenuitem>Log Out</guimenuitem>
+  menu items from the <menuchoice><guimenu>Add to Panel</guimenu><guimenuitem>Actions</guimenuitem></menuchoice> menu. To open this menu, right-click on
+  a vacant space on a panel, then choose <menuchoice><guimenu>Add to Panel</guimenu><guimenuitem>Actions</guimenuitem></menuchoice>.</para>
+        </listitem>
+        <listitem>
+          <para><guimenuitem>Lock Screen</guimenuitem> and <guimenuitem>Log
+  Out <replaceable>user</replaceable></guimenuitem> menu items from the <guimenu>Actions</guimenu> menu in the <application>Menu Bar</application> applet.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Also, any <guibutton>Lock Screen</guibutton> buttons and <guibutton>Log Out</guibutton> buttons on panels are disabled.</para>
+    </sect2>
+    <sect2 id="lockdown-12">
+      <title>To Disable Command Line Operations</title>
+      <indexterm>
+        <primary>disabling features</primary>
+        <secondary>command line</secondary>
+      </indexterm>
+      <para>To disable operations from a command line, set the <literal>/desktop/mate/lockdown/disable_command_line</literal> key to <literal>true</literal>.</para>
+      <para>When you disable command line operations, the following
+  changes occur in the user interface:</para>
+      <itemizedlist>
+        <listitem>
+          <para>The <guimenuitem>Run Application</guimenuitem> menu item is
+  removed from the following menus:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <guimenu>Main Menu</guimenu>
+              </para>
+            </listitem>
+            <listitem>
+              <para><guimenu>Actions</guimenu> submenu in the <guimenu>Add to
+  Panel</guimenu> menu</para>
+            </listitem>
+            <listitem>
+              <para><guimenu>Actions</guimenu> menu in the <application>Menu Bar</application> applet</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>Any <guibutton>Run</guibutton> buttons on panels are disabled.</para>
+        </listitem>
+      </itemizedlist>
+      <para>To disable command line operations, you must also remove menu items
+  that start terminal applications. For example, you might want to remove menu
+  items that contain the following commands from the menus:</para>
+      <itemizedlist>
+        <listitem>
+          <para><application>MATE Terminal</application> command, that is <command>/usr/bin/mate-terminal</command></para>
+        </listitem>
+        <listitem>
+          <para>
+            <command>/usr/bin/xterm</command>
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <command>/usr/bin/setterm</command>
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>The items are removed from the following menus:</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            <guimenu>Main Menu</guimenu>
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <menuchoice>
+              <guimenu>Add to Panel</guimenu>
+              <guimenuitem>Launcher from menu</guimenuitem>
+            </menuchoice>
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>To disable command line operations, you must also disable the <application>Command Line</application> applet. To disable the <application>Command Line</application> applet, add the applet to the <literal>/apps/panel/global/disabled_applets</literal> key. When you disable the <application>Command Line</application>
+  applet, the <application>Command Line</application> applet is removed from
+  the <guimenu>Main Menu</guimenu> and the <menuchoice><guimenu>Add to Panel</guimenu><guimenuitem>Utility</guimenuitem></menuchoice> menu. </para>
+    </sect2>
+    <sect2 id="lockdown-11">
+      <title>To Disable Panel Configuration</title>
+      <indexterm>
+        <primary>disabling features</primary>
+        <secondary>panel configuration</secondary>
+      </indexterm>
+      <para>To disable panel configuration, set the <literal>/apps/panel/global/locked_down</literal> key to <literal>true</literal>.</para>
+      <para>When you disable
+  panel configuration, the following changes occur in the user interface:</para>
+      <itemizedlist>
+        <listitem>
+          <para>The following items are removed from the panel popup menu,
+  and from the drawer popup menu:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <guimenuitem>Add to Panel</guimenuitem>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <guimenuitem>Delete This Panel</guimenuitem>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <guimenuitem>Properties</guimenuitem>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <guimenuitem>New Panel</guimenuitem>
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>The launcher popup menu is disabled.</para>
+        </listitem>
+        <listitem>
+          <para>The following items are removed from the applet popup menu:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <guimenuitem>Remove From Panel</guimenuitem>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <guimenuitem>Lock</guimenuitem>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <guimenuitem>Move</guimenuitem>
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>The <guimenu>Main Menu</guimenu> popup menu is disabled. </para>
+        </listitem>
+        <listitem>
+          <para>The launcher drag feature is disabled, so that users cannot
+  drag launchers to, or from, panels.</para>
+        </listitem>
+        <listitem>
+          <para>The panel drag feature is disabled, so that users cannot drag
+  panels to new locations.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+  <sect1 id="lockdown">
+    <title>Lockdown Editor</title>
+  
+    <para>As of MATE 2.14, a graphical lockdown editor called
+    <application>Pessulus</application> has been included to ease the task of
+    disabling desktop settings.</para>
+  
+    <sect2 id="lockdown-start">
+      <title>Getting Started</title>
+  
+      <para>To run the lockdown editor:</para>
+  
+      <itemizedlist>
+        <listitem>
+          <para>Click the <menuchoice>
+              <guimenu>System</guimenu>
+  
+              <guisubmenu>Administration</guisubmenu>
+  
+              <guimenuitem>Lockdown Editor</guimenuitem>
+            </menuchoice></para>
+        </listitem>
+  
+        <listitem>
+          <para>Run the <command>pessulus</command> command in a terminal
+          window.</para>
+        </listitem>
+      </itemizedlist>
+  
+      <para>You will see a window with several different tabs. Each of the tabs
+      represents a different category of desktop settings that can be disabled.
+      In the next section, we will discuss each category and provide a brief
+      description for each setting that can be disabled.</para>
+    </sect2>
+  
+    <sect2 id="lockdown-disabling">
+      <title>Disabling Features</title>
+  
+      <para>To disable a setting, make sure the checkbox next to the setting's
+      description is checked. Most settings will take effect immediately,
+      however some settings will require that the application be restarted in
+      order to take effect.</para>
+  
+      <para>When <application>pessulus</application> starts, it will try to get
+      a connection to the MateConf mandatory configuration source. This address for
+      this configuration source is
+      <literal>xml:merged:<replaceable>$prefix</replaceable>/etc/mateconf/mateconf.xml.mandatory</literal>.
+      If the user that is running <application>pessulus</application> has access
+      to this configuration source, then a lock icon will be displayed next to
+      the checkbox for each setting. Clicking the lock will toggle whether or
+      not the setting is mandatory. If the setting is mandatory, then regular
+      users will not be able to change or override the setting. If the user
+      running pessulus does not have access to the mandatory configuration
+      source, then the lock icon will not appear. In this case, all disabled
+      settings will simply be stored in the user's default configuration source
+      and can be modified later using other tools such as
+      <application>mateconf-editor</application> or
+      <application>mateconftool-2</application>. For more information on MateConf and
+      mandatory configuration sources, see <xref linkend="mateconf-26" />.</para>
+  
+      <para>The following subsections will give a brief description of the
+      settings that can be disabled for each category.</para>
+  
+      <note>
+        <para>Depending on the applications you have installed, you may see
+        fewer categories than those described in this section.</para>
+      </note>
+  
+      <sect3 id="lockdown-disabling-general">
+        <title>General</title>
+  
+        <variablelist>
+          <varlistentry>
+            <term>Disable command line</term>
+  
+            <listitem>
+              <para>Prevent the user from accessing the terminal or specifying a
+              command line to be executed. For example, this would disable
+              access to the panel's "Run Application" dialog.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable printing</term>
+  
+            <listitem>
+              <para>Prevent the user from printing. For example, this would
+              disable access to all applications' "Print" dialogs.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable print setup</term>
+  
+            <listitem>
+              <para>Prevent the user from modifying print settings. For example,
+              this would disable access to all applications' "Print Setup"
+              dialogs.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable save to disk</term>
+  
+            <listitem>
+              <para> Prevent the user from saving files to disk. For example,
+              this would disable access to all applications' "Save as"
+              dialogs.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+  
+      <sect3 id="lockdown-disabling-panel">
+        <title>Panel</title>
+  
+        <variablelist>
+          <varlistentry>
+            <term>Lock down the panels</term>
+  
+            <listitem>
+              <para>If true, the panel will not allow any changes to the
+              configuration of the panel. Individual applets may need to be
+              locked down separately however. The panel must be restarted for
+              this to take effect.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable force quit</term>
+  
+            <listitem>
+              <para>If true, the panel will not allow a user to force an
+              application to quit by removing access to the force quit
+              button.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable lock screen</term>
+  
+            <listitem>
+              <para>If true, the panel will not allow a user to lock their
+              screen, by removing access to the lock screen menu entries.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable log out</term>
+  
+            <listitem>
+              <para>If true, the panel will not allow a user to log out, by
+              removing access to the log out menu entries.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+  
+      <sect3 id="lockdown-disabling-browser">
+        <title>Epiphany Web Browser</title>
+  
+        <variablelist>
+          <varlistentry>
+            <term>Disable quit</term>
+  
+            <listitem>
+              <para>User is not allowed to close Epiphany.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable arbitrary URL</term>
+  
+            <listitem>
+              <para>Disable the user's ability to type in a URL to
+              Epiphany.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable bookmark editing</term>
+  
+            <listitem>
+              <para>Disable the user's ability to add or edit bookmarks.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable history</term>
+  
+            <listitem>
+              <para>Disable all historical information by disabling back and
+              forward navigation, not allowing the history dialog and hiding the
+              most used bookmarks list.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable javascript chrome</term>
+  
+            <listitem>
+              <para>Disable JavaScript's control over window chrome.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable toolbar editing</term>
+  
+            <listitem>
+              <para>Disable the user's ability to edit toolbars.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Force fullscreen mode</term>
+  
+            <listitem>
+              <para>Locks Epiphany in fullscreen mode.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Hide menubar</term>
+  
+            <listitem>
+              <para>Hide the menubar by default. The menubar can still be
+              accessed using F10.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Disable unsafe protocols</term>
+  
+            <listitem>
+              <para>Disables loading of content from unsafe protocols. Safe
+              protocols are http and https.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+  
+      <sect3 id="lockdown-disabling-screensaver">
+        <title>MATE Screensaver</title>
+  
+        <variablelist>
+          <varlistentry>
+            <term>Lock on activation</term>
+  
+            <listitem>
+              <para>Set this to TRUE to lock the screen when the screensaver
+              goes active.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Allow log out</term>
+  
+            <listitem>
+              <para>Set this to TRUE to offer an option in unlock dialog to
+              logging out after a delay. The Delay is specified in the
+              "logout_delay" key.</para>
+            </listitem>
+          </varlistentry>
+  
+          <varlistentry>
+            <term>Allow user switching</term>
+  
+            <listitem>
+              <para>Set this to TRUE to offer an option in the unlock dialog to
+              switch to a different user account.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+    </sect2>
+  </sect1>
+</chapter>

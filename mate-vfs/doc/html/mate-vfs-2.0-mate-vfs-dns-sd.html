@@ -1,0 +1,656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Zeroconf networking support</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="networking.html" title="Networking">
+<link rel="prev" href="networking.html" title="Networking">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-resolve.html" title="DNS Resolution">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="networking.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="networking.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-resolve.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-dns-sd.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-dns-sd.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-dns-sd"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-dns-sd.top_of_page"></a>Zeroconf networking support</span></h2>
+<p>Zeroconf networking support — Gets information about available Zeroconf (aka <span class="trademark">RendezVous</span>™) services on a local network.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-dns-sd.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDResolveCallback" title="MateVFSDNSSDResolveCallback ()">*MateVFSDNSSDResolveCallback</a>)     (<em class="parameter"><code><span class="type">MateVFSDNSSDResolveHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> *service</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *host</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> port</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">GHashTable</span> *text</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> text_raw_len</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text_raw</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDServiceStatus" title="enum MateVFSDNSSDServiceStatus">MateVFSDNSSDServiceStatus</a>;
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService">MateVFSDNSSDService</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDBrowseCallback" title="MateVFSDNSSDBrowseCallback ()">*MateVFSDNSSDBrowseCallback</a>)      (<em class="parameter"><code><span class="type">MateVFSDNSSDBrowseHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDServiceStatus" title="enum MateVFSDNSSDServiceStatus"><span class="type">MateVFSDNSSDServiceStatus</span></a> status</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> *service</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()">mate_vfs_dns_sd_browse</a>             (<em class="parameter"><code><span class="type">MateVFSDNSSDBrowseHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDBrowseCallback" title="MateVFSDNSSDBrowseCallback ()"><span class="type">MateVFSDNSSDBrowseCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> callback_data_destroy_func</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-stop-browse" title="mate_vfs_dns_sd_stop_browse ()">mate_vfs_dns_sd_stop_browse</a>        (<em class="parameter"><code><span class="type">MateVFSDNSSDBrowseHandle</span> *handle</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve" title="mate_vfs_dns_sd_resolve ()">mate_vfs_dns_sd_resolve</a>            (<em class="parameter"><code><span class="type">MateVFSDNSSDResolveHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDResolveCallback" title="MateVFSDNSSDResolveCallback ()"><span class="type">MateVFSDNSSDResolveCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> callback_data_destroy_func</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-cancel-resolve" title="mate_vfs_dns_sd_cancel_resolve ()">mate_vfs_dns_sd_cancel_resolve</a>     (<em class="parameter"><code><span class="type">MateVFSDNSSDResolveHandle</span> *handle</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse-sync" title="mate_vfs_dns_sd_browse_sync ()">mate_vfs_dns_sd_browse_sync</a>        (<em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout_msec</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *n_services</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> **services</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve-sync" title="mate_vfs_dns_sd_resolve_sync ()">mate_vfs_dns_sd_resolve_sync</a>       (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout_msec</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **host</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *port</code></em>,
+                                                         <em class="parameter"><code><span class="type">GHashTable</span> **text</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *text_raw_len_out</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **text_raw_out</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-service-list-free" title="mate_vfs_dns_sd_service_list_free ()">mate_vfs_dns_sd_service_list_free</a>  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> *services</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> n_services</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-list-browse-domains-sync" title="mate_vfs_dns_sd_list_browse_domains_sync ()">mate_vfs_dns_sd_list_browse_domains_sync</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout_msec</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> **domains</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-get-default-browse-domains" title="mate_vfs_get_default_browse_domains ()">mate_vfs_get_default_browse_domains</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-dns-sd.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-dns-sd.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSDNSSDResolveCallback"></a><h3>MateVFSDNSSDResolveCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSDNSSDResolveCallback)     (<em class="parameter"><code><span class="type">MateVFSDNSSDResolveHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> *service</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *host</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> port</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">GHashTable</span> *text</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> text_raw_len</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text_raw</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve" title="mate_vfs_dns_sd_resolve ()"><code class="function">mate_vfs_dns_sd_resolve()</code></a> function that is called
+when a service has been resolved.
+</p>
+<p>
+The <em class="parameter"><code>host</code></em> and <em class="parameter"><code>port</code></em> can be used to contact the requested service, and
+<em class="parameter"><code>text</code></em> contains additional options as defined for the type requested.
+</p>
+<p>
+To check for options being set in <em class="parameter"><code>text</code></em> without any value ("key" as
+opposed to "key=value") you must use <code class="function">g_hash_table_lookup_extended()</code>, since
+they are stored in the hash table with a NULL value, and <code class="function">g_hash_table_lookup()</code>
+can't tell that from the case where the key is not in the hash table.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>whether the resolve succeeded or not
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>service</code></em> :</span></p></td>
+<td>the service that was resolved
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host</code></em> :</span></p></td>
+<td>the host name or ip of the host hosting the service
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>port</code></em> :</span></p></td>
+<td>the port number to use for the service
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>a hash table giving additional options about the service
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_raw_len</code></em> :</span></p></td>
+<td>length of <em class="parameter"><code>text_raw</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_raw</code></em> :</span></p></td>
+<td>raw version of the additional options in <em class="parameter"><code>text</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDNSSDServiceStatus"></a><h3>enum MateVFSDNSSDServiceStatus</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_DNS_SD_SERVICE_ADDED,
+	MATE_VFS_DNS_SD_SERVICE_REMOVED
+} MateVFSDNSSDServiceStatus;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDNSSDService"></a><h3>MateVFSDNSSDService</h3>
+<pre class="programlisting">typedef struct {
+	char *name;
+	char *type;
+	char *domain;
+} MateVFSDNSSDService;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDNSSDBrowseCallback"></a><h3>MateVFSDNSSDBrowseCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSDNSSDBrowseCallback)      (<em class="parameter"><code><span class="type">MateVFSDNSSDBrowseHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDServiceStatus" title="enum MateVFSDNSSDServiceStatus"><span class="type">MateVFSDNSSDServiceStatus</span></a> status</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> *service</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a> function that informs
+the user of services that are added or removed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>status</code></em> :</span></p></td>
+<td>whether a service addition or removal was detected
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>service</code></em> :</span></p></td>
+<td>the service that was discovered or removed
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-browse"></a><h3>mate_vfs_dns_sd_browse ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_browse             (<em class="parameter"><code><span class="type">MateVFSDNSSDBrowseHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDBrowseCallback" title="MateVFSDNSSDBrowseCallback ()"><span class="type">MateVFSDNSSDBrowseCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> callback_data_destroy_func</code></em>);</pre>
+<p>
+Browses <em class="parameter"><code>domain</code></em> for service of the type <em class="parameter"><code>type</code></em>, calling <em class="parameter"><code>callback</code></em> whenever
+a new one is found or removed.
+</p>
+<p>
+The domain to use can be "local" for multicast dns on the local network
+(known as mDNS), or it can be the domain of the current host. You can also
+use <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-list-browse-domains-sync" title="mate_vfs_dns_sd_list_browse_domains_sync ()"><code class="function">mate_vfs_dns_sd_list_browse_domains_sync()</code></a> to get a list of domains
+that are interested in a particular domain.
+</p>
+<p>
+The type is a string of the form "_type._tcp" or "_type._udp", where type
+is a service type registered at http://www.dns-sd.org/ServiceTypes.html.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSDNSSDBrowseHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>dns domain to browse, or "local" for multicast DNS.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>type of service to browse for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when service is discovered.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data_destroy_func</code></em> :</span></p></td>
+<td>optional destructor function for <em class="parameter"><code>callback_data</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-stop-browse"></a><h3>mate_vfs_dns_sd_stop_browse ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_stop_browse        (<em class="parameter"><code><span class="type">MateVFSDNSSDBrowseHandle</span> *handle</code></em>);</pre>
+<p>
+Stops browsing a domain started with <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the browse operation to be stopped.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-resolve"></a><h3>mate_vfs_dns_sd_resolve ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_resolve            (<em class="parameter"><code><span class="type">MateVFSDNSSDResolveHandle</span> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDResolveCallback" title="MateVFSDNSSDResolveCallback ()"><span class="type">MateVFSDNSSDResolveCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> callback_data_destroy_func</code></em>);</pre>
+<p>
+Tries to resolve a specific service (typically recieved from
+<a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a>) into a hostname/ip, port number and additional
+options.
+</p>
+<p>
+If you ever have to save a reference to a service you should store the
+unresolved name/type/domain tripplet, because the actual host for the
+service can change.
+</p>
+<p>
+The <em class="parameter"><code>timeout</code></em> argument is primarily useful for local resolves, since the
+host owning the service might no longer be around to answer.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSDNSSDResolveHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of the service to resolve in UTF-8 encoding.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>type of the service to resolve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>dns domain of the service to resolve, or "local" for multicast DNS.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timeout</code></em> :</span></p></td>
+<td>maximum time (in milliseconds) to try to resolve, or zero if no maximum.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the service has been resolved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data_destroy_func</code></em> :</span></p></td>
+<td>optional destructor function for <em class="parameter"><code>callback_data</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-cancel-resolve"></a><h3>mate_vfs_dns_sd_cancel_resolve ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_cancel_resolve     (<em class="parameter"><code><span class="type">MateVFSDNSSDResolveHandle</span> *handle</code></em>);</pre>
+<p>
+Cancels resolving a service started with <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve" title="mate_vfs_dns_sd_resolve ()"><code class="function">mate_vfs_dns_sd_resolve()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the resolve operation to be cancelled.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-browse-sync"></a><h3>mate_vfs_dns_sd_browse_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_browse_sync        (<em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout_msec</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *n_services</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> **services</code></em>);</pre>
+<p>
+Browses <em class="parameter"><code>domain</code></em> for service of the type <em class="parameter"><code>type</code></em>, returning the result
+after blocking for the duration of the browse. For details about <em class="parameter"><code>domain</code></em>
+and <em class="parameter"><code>type</code></em>, see <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a>.
+</p>
+<p>
+<em class="parameter"><code>timeout</code></em> is essential for the "local" domain, since you can never really
+know when you've gotten the full set of return values when using multicast.
+</p>
+<p>
+The returned list can be freed with <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-service-list-free" title="mate_vfs_dns_sd_service_list_free ()"><code class="function">mate_vfs_dns_sd_service_list_free()</code></a>.
+</p>
+<p>
+This is a synchronous version of <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a>, see that for
+more details.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>The dns domain to browse, or "local" for multicast DNS.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>type of the service to browse for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timeout_msec</code></em> :</span></p></td>
+<td>maximum time to browse, in milliseconds.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n_services</code></em> :</span></p></td>
+<td>pointer to location to store number of returned services.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>services</code></em> :</span></p></td>
+<td>pointer to location to store returned services.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-resolve-sync"></a><h3>mate_vfs_dns_sd_resolve_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_resolve_sync       (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout_msec</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **host</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *port</code></em>,
+                                                         <em class="parameter"><code><span class="type">GHashTable</span> **text</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *text_raw_len_out</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **text_raw_out</code></em>);</pre>
+<p>
+Tries to resolve a specific service (typically recieved from
+<a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a>) into a hostname/ip, port number and additional
+options.
+</p>
+<p>
+This is a synchronous version of <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve" title="mate_vfs_dns_sd_resolve ()"><code class="function">mate_vfs_dns_sd_resolve()</code></a>, see that (and
+its callback <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDResolveCallback" title="MateVFSDNSSDResolveCallback ()"><code class="function">MateVFSDNSSDResolveCallback()</code></a>) for more details.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>name of the service to resolve in UTF-8 encoding.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>type of the service to resolve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>dns domain of the service to resolve, or "local" for multicast DNS.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timeout_msec</code></em> :</span></p></td>
+<td>maximum time(in milliseconds) to try to resolve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host</code></em> :</span></p></td>
+<td>location to store the host name or ip of the host hosting the service.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>port</code></em> :</span></p></td>
+<td>location to store the port number to use for the service.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>location to store a hash table giving additional options about the service.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_raw_len_out</code></em> :</span></p></td>
+<td>location to store length of <em class="parameter"><code>text_raw_out</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_raw_out</code></em> :</span></p></td>
+<td>location to store raw version of the additional options in <em class="parameter"><code>text</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-service-list-free"></a><h3>mate_vfs_dns_sd_service_list_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_dns_sd_service_list_free  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService" title="MateVFSDNSSDService"><span class="type">MateVFSDNSSDService</span></a> *services</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> n_services</code></em>);</pre>
+<p>
+Frees a list of services as returned by <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse-sync" title="mate_vfs_dns_sd_browse_sync ()"><code class="function">mate_vfs_dns_sd_browse_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>services</code></em> :</span></p></td>
+<td>the list of services to free.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n_services</code></em> :</span></p></td>
+<td>the number of services to free.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-dns-sd-list-browse-domains-sync"></a><h3>mate_vfs_dns_sd_list_browse_domains_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_dns_sd_list_browse_domains_sync
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *domain</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> timeout_msec</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> **domains</code></em>);</pre>
+<p>
+Lists the recommended browsing domains for a specific dns domain.
+This can be used to find interesting domains for the domain
+you are currently in. These can then be browsed with <a class="link" href="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse" title="mate_vfs_dns_sd_browse ()"><code class="function">mate_vfs_dns_sd_browse()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>the domain to list browsable domains in.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timeout_msec</code></em> :</span></p></td>
+<td>maximum time to run, in milliseconds.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domains</code></em> :</span></p></td>
+<td>location to store the returned list of domain names strings.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-default-browse-domains"></a><h3>mate_vfs_get_default_browse_domains ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_get_default_browse_domains
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Returns a list of domain names that is useful to
+browse for standard services. The list is generated
+by contacting the dns server of the domain part the
+hostname and asking for the list of browse domains.
+Then extra domains from a mateconf setting is added.
+</p>
+<p>
+The "local" domain is not normally returned by this.
+Care should be taken with local services so that its
+obvious that they are local, and cannot be confused
+with non-local services.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">GList</span> of domain name strings.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

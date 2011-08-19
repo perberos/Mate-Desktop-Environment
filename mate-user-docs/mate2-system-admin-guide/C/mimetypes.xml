@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="mimetypes-0">
+  <title>MIME Types</title>
+  <anchor id="mimetypes-TBL-3"/>
+  <anchor id="mimetypes-TBL-6"/>
+  <anchor id="mimetypes-TBL-8"/>
+
+  <highlights>
+    <para>This chapter describes how applications detect MIME types, how to
+    register MIME types, and how to add applications to the MATE
+    Desktop.</para>
+  </highlights>
+
+  <para>The purpose of this chapter is to make it easy for an administrator to
+  understand how to configure different parts of the MIME database and give an
+  general overview of the MIME system. Therefore we will
+  <emphasis>not</emphasis> attempt to go into details where it is not
+  necessary. For the gory details, it is recommended that you refer to the
+  <ulink url="http://www.freedesktop.org/Standards/shared-mime-info-spec">XDG
+  shared mime info specification</ulink>.</para>
+
+  <sect1 id="mimetypes-intro">
+    <title>Introduction to MIME Types</title>
+    <anchor id="mimetypes-1"/>
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>introduction</secondary>
+    </indexterm>
+
+    <para>A <firstterm>Multipurpose Internet Mail Extension</firstterm>
+    [<acronym>MIME</acronym>] type identifies the format of a file.
+    Applications such as Internet browsers and email applications use the MIME
+    type of a file to decide which actions to perform on it. For example, an
+    email application can use the MIME type to detect the format of an
+    attachment and choose an appropriate viewer for the file, such as opening
+    a text document with <application>gedit</application>.</para>
+
+    <para>As another example, the <application>Caja</application> file
+    manager needs to know the MIME type of a file to perform the following
+    tasks:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Open the file in an appropriate application.</para>
+      </listitem>
+
+      <listitem>
+        <para>Display a string that describes the type of file.</para>
+      </listitem>
+
+      <listitem>
+        <para>Display an appropriate icon to represent the file.</para>
+      </listitem>
+
+      <listitem>
+        <para>Display a list of other applications that can open the
+        file.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>MIME types were originally proposed as a standard for identifying
+    the message body of an e-mail message. Now, many systems use MIME types to
+    identify the format of arbitrary files on the file system. MIME types are
+    composed of a top-level <emphasis>media type</emphasis> followed by a
+    <emphasis>subtype identifier</emphasis>, separated by a forward slash
+    character, <quote><literal>/</literal></quote>. One example of a MIME type
+    is <literal>image/jpeg</literal>. The media type in this example is
+    <quote><literal>image</literal></quote> and the subtype identifier is
+    <quote><literal>jpeg</literal></quote>. The top-level media type is meant
+    to be a general categorization about the content of the file, while the
+    subtype identifer is meant to specifically identify the format of the
+    file.</para>
+
+    <para>There are eight media types currently blessed by the
+    <acronym>IANA</acronym> [Internet Assigned Naming Authority]. These eight
+    media types are <simplelist type="inline">
+        <member>application</member>
+
+        <member>audio</member>
+
+        <member>image</member>
+
+        <member>message</member>
+
+        <member>model</member>
+
+        <member>multipart</member>
+
+        <member>text</member>
+
+        <member>video</member>
+      </simplelist>. Many subtypes exist for each media type; for more
+    information, see <ulink
+    url="http://www.iana.org/assignments/media-types/">MIME Media
+    Types</ulink> at the <ulink url="http://www.iana.org/">IANA</ulink> web
+    site.</para>
+
+    <para>Implementation of MIME types in MATE follows the <ulink
+    url="http://www.freedesktop.org/Standards/shared-mime-info-spec">XDG
+    shared mime info specification</ulink>. This specification provides the
+    following advantages:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Standard locations for all MIME related files.</para>
+      </listitem>
+
+      <listitem>
+        <para>A standard way for applications to register information about a
+        new MIME type.</para>
+      </listitem>
+
+      <listitem>
+        <para>A standard way to retrieve the MIME type for a file.</para>
+      </listitem>
+
+      <listitem>
+        <para>A standard way to retrieve information about a MIME type.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The rest of the chapter describes the files and directories that
+    make up the MIME database, details about source XML files, how to create
+    or modify MIME types, how to register applications as handlers for certain
+    MIME types and finally, how to add an application to the MATE
+    desktop.</para>
+  </sect1>
+
+  <sect1 id="mimetypes-database">
+    <title>The MIME Database</title>
+    <anchor id="mimetypes-4"/>
+    <anchor id="mimetypes-5"/>
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>database</secondary>
+    </indexterm>
+
+    <para>The MIME database is a collection of files that make up:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>The set of known MIME types</para>
+      </listitem>
+
+      <listitem>
+        <para>The method for determing the MIME type of a file</para>
+      </listitem>
+
+      <listitem>
+        <para>Meta information regarding a MIME type, such as a human readable
+        description to use when displaying files of this type.</para>
+      </listitem>
+    </itemizedlist>
+
+    <sect2 id="mimetypes-location">
+      <title>Location</title>
+
+      <para>As an administrator, the most important and basic step to
+      understanding the MIME system is learning the locations where these
+      files are stored. Since the <ulink
+      url="http://www.freedesktop.org/Standards/shared-mime-info-spec">XDG
+      shared mime info specification</ulink> was drafted by the X Desktop
+      Group, it also makes use of the <ulink
+      url="http://www.freedesktop.org/wiki/Standards/basedir-spec">XDG base
+      directory specification</ulink>. It is highly recommended that you
+      familiarize yourself with this specification, as it is also important
+      for other system administration tasks such as editing menus. A brief
+      summary of the directory locations as pertaining to the MIME
+      specification is given below.</para>
+
+      <para>The MIME database is created from the set of files located in the
+      <filename>$XDG_DATA_HOME/mime</filename> and
+      <filename>$XDG_DATA_DIRS/mime</filename> directories. If
+      these environment variables are unset, then they default to the values
+      <filename>~/.local/share</filename> and
+      <filename>/usr/local/share:/usr/share</filename> respectively. As can be
+      seen from the default value for <envar>$XDG_DATA_DIRS</envar> , each
+      environment variable is actually a colon separated list of directories.
+      The user's database at
+      <filename>$XDG_DATA_HOME/mime</filename> has precedence
+      over the system database at
+      <filename>$XDG_DATA_DIRS/mime</filename> when conflicting
+      definitions are encountered. Similar to the <citetitle>XDG shared mime
+      specification</citetitle>, we will refer to this set of directories as
+      <literal>&lt;MIME&gt;</literal> in the rest of this document.</para>
+
+      <para>For example, assuming default paths for the environment variables,
+      <quote>Load
+      <filename>&lt;MIME&gt;/text/plain.xml</filename></quote>
+      means to load the following files:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><filename>~/.local/share/mime/text/plain.xml</filename></para>
+        </listitem>
+
+        <listitem>
+          <para><filename>/usr/local/share/mime/text/plain.xml</filename></para>
+        </listitem>
+
+        <listitem>
+          <para><filename>/usr/share/mime/text/plain.xml</filename></para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2 id="mimetypes-contents">
+      <title>Contents</title>
+
+      <para>The following is a list of directories and files that are found
+      inside the MIME database along with brief descriptions:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/packages/</filename></term>
+
+          <listitem>
+            <para>This directory contains any number of XML files, each of
+            which describe a collection of MIME types. By default, the
+            <filename>freedesktop.org.xml</filename> file is installed in the
+            <filename>/usr/share/mime/packages</filename> directory. This file
+            contains all the default MIME types that are widely used and
+            recognized.</para>
+
+            <para>Applications which provide information about new MIME types
+            are to install a <emphasis>single</emphasis> new XML file here.
+            Depending on the prefix where the application is installed, it
+            will create the file in the <filename>/mime/package</filename>
+            subdirectory of one of the directories in
+            <envar>$XDG_DATA_HOME:$XDG_DATA_DIRS</envar>. For example, an
+            application installed to <filename>/usr/bin</filename> should
+            install a new source XML file to the
+            <filename>/usr/share/mime/packages</filename> directory. For more
+            information about the XML files in the
+            <filename>packages</filename> directory, please see <xref linkend="mimetypes-source-xml"/>.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/<replaceable>MEDIA</replaceable>/<replaceable>SUBTYPE</replaceable>.xml</filename></term>
+
+          <listitem>
+            <para>These directories and files are automatically generated from
+            the collection of source XML files in the
+            <filename>&lt;MIME&gt;/packages/</filename> subdirectory by the
+            <application>update-mime-database</application> application. For
+            example, for each <literal>mime-type</literal> element in the
+            <filename>/usr/share/mime/packages/freedesktop.org.xml</filename>
+            file, a directory is created at
+            <filename>/usr/share/mime/</filename> with the <emphasis>media
+            type</emphasis> of the MIME type. An XML file is created in that
+            directory with the <emphasis>subtype identifier</emphasis> of that
+            MIME type as well. The contents of the created XML file include
+            comments (and translations for them), subclasses designations and
+            aliases.</para>
+
+            <example>
+              <title>Example:
+              <filename>/usr/share/mime/text/plain.xml</filename> file</title>
+
+              <para><programlisting>&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="text/plain"&gt;
+&lt;!--Created automatically by update-mime-database. DO NOT EDIT!--&gt;
+  &lt;comment&gt;plain text document&lt;/comment&gt;
+  &lt;!-- possibly more translations --&gt;
+  &lt;comment xml:lang="es"&gt;documento de texto sencillo&lt;/comment&gt;
+  &lt;comment xml:lang="eu"&gt;testu soileko dokumentua&lt;/comment&gt;
+  &lt;comment xml:lang="fi"&gt;perustekstiasiakirja&lt;/comment&gt;
+  &lt;comment xml:lang="fr"&gt;document plein texte&lt;/comment&gt;
+  &lt;!-- possibly more translations --&gt;
+&lt;/mime-type&gt;
+</programlisting>This file is generated by the
+              <application>update-mime-database</application> application,
+              using the default source XML file
+              <filename>freedesktop.org.xml</filename>.</para>
+            </example>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/globs</filename></term>
+
+          <listitem>
+            <para>Contains one line with a MIME type and a glob pattern,
+            separated by a colon. Files which match the glob pattern are
+            resolved to the MIME type specified before the colon. There are
+            special rules about how filenames are matched by the glob pattern;
+            for more details see the <citetitle>XDG shared mime
+            specification</citetitle>.</para>
+
+            <para>This file is also generated by the
+            <application>update-mime-database</application> application, using
+            the default source XML file
+            <filename>freedesktop.org.xml</filename>.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/magic</filename></term>
+
+          <listitem>
+            <para>A binary file which contains information on how to resolve
+            MIME types by <quote>sniffing</quote> the content of the file.
+            This is generally a set of one or more rules such as <quote>check
+            for the string <literal>%PDF- </literal>at byte offset 0 in the
+            file; if found, assign it the MIME type
+            <literal>application/pdf</literal></quote>.</para>
+
+            <para>This file is also generated by the
+            <application>update-mime-database</application>
+            application.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/XMLnamespaces</filename></term>
+
+          <listitem>
+            <para>Contains a mapping of XML namespaces to MIME types. Each
+            line contains three fields, the namespace, the localName and the
+            MIME type. Each field is separated by a space. If the localName is
+            empty, then there are two spaces between the namespace and the
+            MIME type.</para>
+
+            <para>This file is also generated by the
+            <application>update-mime-database</application>
+            application.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/aliases</filename></term>
+
+          <listitem>
+            <para>Contains a list of aliases for each MIME type. An alias is
+            simply a MIME type that is sometimes known as another type. For
+            each line in this file there are two fields: the first field is
+            the alias name, and the second field is the MIME type. The fields
+            are separated by a space.</para>
+
+            <para>This file is also generated by the
+            <application>update-mime-database</application>
+            application.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>&lt;MIME&gt;/subclasses</filename></term>
+
+          <listitem>
+            <para>Contains a list of subclassed MIME types and their
+            <quote>parent</quote> MIME type. From the <citetitle>XDG shared
+            mime specification:</citetitle><blockquote>
+                <para>A type is a subclass of another type if any instance of
+                the first type is also an instance of the second. For example,
+                all image/svg files are also text/xml, text/plain and
+                application/octet-stream files. Subclassing is about the
+                format, rather than the catagory of the data (for example,
+                there is no 'generic spreadsheet' class that all spreadsheets
+                inherit from).</para>
+              </blockquote>The format of this file is similar to the
+            <filename>aliases</filename> file. Each line contains two fields,
+            where the first field is the subclassed MIME type and the second
+            field is the parent MIME type. Each field is separated by a
+            space.</para>
+
+            <para>This file is also generated by the
+            <application>update-mime-database</application>
+            application.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="mimetypes-refresh">
+      <title>Refreshing the MIME Database</title>
+
+      <para>Understanding how to refresh the MIME database is important for
+      administrators who wish to add new MIME types to the system, or
+      otherwise modify information about a MIME type. The application
+      <application>update-mime-database</application> is intended for this
+      purpose.</para>
+
+      <para>For example, if an application installs information about a new
+      MIME type to <filename>/usr/share/mime/packages/diff.xml</filename>,
+      then <application>update-mime-database</application> must be called with
+      the parameter <filename>/usr/share/mime</filename>.</para>
+
+      <screen><prompt>#</prompt> <userinput>update-mime-database /usr/share/mime</userinput>
+<computeroutput>***
+* Updating MIME database in /usr/share/mime...
+***
+</computeroutput></screen>
+
+      <para>The MIME database is refreshed by scanning all the source XML
+      files in the directory
+      <filename>&lt;MIME&gt;/packages</filename>.</para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="mimetypes-source-xml">
+    <title>The source XML files</title>
+    <anchor id="mimetypes-11" />
+    <anchor id="mimetypes-12" />
+    <anchor id="mimetypes-2" />
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>source XML files</secondary>
+    </indexterm>
+
+    <para>Located in the <filename>&lt;MIME&gt;/packages</filename> directory,
+    these XML files provide all the information regarding MIME types that is
+    installed into the database by the
+    <application>update-mime-database</application> application. There are a
+    few rules about the XML file itself:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>It must specify the namespace as
+        <quote><literal>http://www.freedesktop.org/standards/shared-mime-info</literal></quote></para>
+      </listitem>
+
+      <listitem>
+        <para>The root element must be <literal>mime-info</literal></para>
+      </listitem>
+
+      <listitem>
+        <para>Zero or more <literal>mime-type</literal> elements can be
+        specified as children of the <literal>mime-info</literal> element. The
+        <literal>type</literal> attribute is used to specify the MIME type
+        that is being defined.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>By default, the <filename>freedesktop.org.xml</filename> file is
+    installed to the <filename>packages</filename> directory in one of the
+    <filename>&lt;MIME&gt;</filename> paths (usually
+    <filename>/usr/share/mime/packages</filename>).</para>
+
+    <para><xref linkend="mimetypes-mimeinfo-elements" /> gives a brief
+    description for each of the elements that can occur as children to the
+    <literal>mime-type</literal> element.</para>
+
+    <table frame="topbot" id="mimetypes-mimeinfo-elements">
+      <title>Child elements of <literal>&lt;mime-type&gt;</literal></title>
+
+      <tgroup cols="2" colsep="0" rowsep="0">
+        <colspec colwidth="44.90*" />
+
+        <colspec colwidth="59.10*" />
+
+        <thead>
+          <row rowsep="1">
+            <entry>Element (and attributes)</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry><literal>&lt;glob
+            pattern="<replaceable>*.xyz</replaceable>"&gt;</literal></entry>
+
+            <entry>This element specifies a glob pattern against filenames. If
+            the filename matches, then it is assigned the MIME type of the
+            parent <literal>mime-type</literal> element. The
+            <literal>pattern</literal> attribute is mandatory.</entry>
+          </row>
+
+          <row>
+            <entry><literal>&lt;magic
+            priority="<replaceable>50</replaceable>"&gt;</literal></entry>
+
+            <entry>This element contains a list of <literal>match</literal>
+            elements as its children. The <literal>priority</literal>
+            attribute is optional, and specifies a priority between 0 and 100,
+            with 100 being the highest matching priority. Each child
+            <literal>match</literal> element has three required attributes:
+            <simplelist type="inline">
+                <member><literal>type</literal></member>
+
+                <member><literal>offset</literal></member>
+
+                <member><literal>value</literal></member>
+              </simplelist> and a fourth optional attribute,
+            <literal>mask</literal>. For details on these attributes, see the
+            <ulink
+            url="http://www.freedesktop.org/Standards/shared-mime-info-spec">XDG
+            shared mime info specification</ulink>.</entry>
+          </row>
+
+          <row>
+            <entry><literal>&lt;alias
+            type="<replaceable>media</replaceable>/<replaceable>subtype</replaceable>"&gt;</literal></entry>
+
+            <entry>This element defines an alias for the parent
+            <literal>mime-type</literal> element. An alias is simply a MIME
+            type that is sometimes known as another type. For example,
+            <literal>application/x-pdf</literal> is an alias for the MIME type
+            <literal>application/pdf</literal>.</entry>
+          </row>
+
+          <row>
+            <entry><literal>&lt;sub-class-of
+            type="<replaceable>media</replaceable>/<replaceable>subtype</replaceable>"&gt;</literal></entry>
+
+            <entry>This element defines the parent
+            <literal>mime-type</literal> element as a subclass of the MIME
+            type specified in the <literal>type</literal> attribute. For
+            example, <literal>image/svg</literal> is a sub class of the MIME
+            type <literal>text/xml</literal>, <literal>text/plain</literal>,
+            and <literal>application/octet-stream</literal>.</entry>
+          </row>
+
+          <row>
+            <entry><literal>&lt;comment
+            xml:lang="<replaceable>locale</replaceable>"&gt;</literal></entry>
+
+            <entry>This element provides a human readable description for the
+            MIME type. There can be zero or more occurrences of this element
+            as long as each one contains a unique value for the
+            <literal>xml:lang</literal> attribute.</entry>
+          </row>
+
+          <row>
+            <entry><literal>&lt;root-XML
+            namespaceURI="<replaceable>namespace</replaceable>"
+            localName=""&gt;</literal></entry>
+
+            <entry>If a file is determined to an XML file, then this element
+            helps to further classify it through the use of the
+            <literal>namespaceURI</literal> and <literal>localName</literal>
+            attributes, both of which are required. The attribute
+            <literal>namespaceURI</literal> is the namespace of the document,
+            and <literal>localName</literal> is the name of the root element
+            for the document. If <literal>localName</literal> is present but
+            its value is empty, then the root element may have any name, but
+            the namespace must still match.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>The easiest way to understand these files is to take a look at an
+    example. Borrowing from the <citetitle>XDG shared mime
+    specification</citetitle>, <xref linkend="mimetypes-source-xml-example" />
+    displays the contents of a source XML file called
+    <filename>diff.xml</filename>. This example defines the MIME type
+    <literal>text/x-diff</literal>. There are multiple
+    <literal>comment</literal> elements which give a human readable name to
+    the MIME type in a number of different languages. This MIME type has both
+    rules for matching through glob patterns <emphasis>and</emphasis> through
+    the use of content <quote>sniffing</quote> (better known as
+    <filename>magic</filename> rules). Any file with the extension
+    <literal>.diff</literal> or <filename>.patch</filename> will resolve to
+    this MIME type. Additionally any file whose contents start with the
+    strings specified in the <literal>value</literal> attributes of the
+    <literal>match</literal> element, will resolve to the
+    <literal>text/x-diff</literal> MIME type.</para>
+
+    <para>The order in which glob patterns and magic rules apply is beyond the
+    scope of this document. For details on this, see the <ulink
+    url="http://www.freedesktop.org/Standards/shared-mime-info-spec">XDG
+    shared mime info specification</ulink>.</para>
+
+    <example id="mimetypes-source-xml-example">
+      <title>Example of a source XML file:
+      <filename>diff.xml</filename></title>
+
+      <programlisting>&lt;?xml version='1.0'?&gt;
+&lt;mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'&gt;
+  &lt;mime-type type="text/x-diff"&gt;
+    &lt;comment&gt;Differences between files&lt;/comment&gt;
+    &lt;comment xml:lang="af"&gt;verskille tussen lêers&lt;/comment&gt;
+    &lt;!-- more translated comment elements --&gt;
+    &lt;magic priority="50"&gt;
+      &lt;match type="string" offset="0" value="diff\t"/&gt;
+      &lt;match type="string" offset="0" value="***\t"/&gt;
+      &lt;match type="string" offset="0" value="Common subdirectories: "/&gt;
+    &lt;/magic&gt;
+    &lt;glob pattern="*.diff"/&gt;
+    &lt;glob pattern="*.patch"/&gt;
+  &lt;/mime-type&gt;
+&lt;/mime-info&gt;</programlisting>
+    </example>
+  </sect1>
+
+  <sect1 id="mimetypes-modifying">
+    <title>Modifying MIME types</title>
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>verifying changes</secondary>
+    </indexterm>
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>modifying</secondary>
+    </indexterm>
+
+    <para>You should never directly modify the source XML files that are
+    installed to the <filename>&lt;MIME&gt;/packages</filename> directory by
+    applications. Instead, modify the <filename>Overrides.xml</filename> file.
+    This file has precedence over all other source XML files installed into
+    the same <filename>packages</filename> directory. If you are an
+    application author, then this rule does not apply. You should create a new
+    source XML file and place it in the proper
+    <filename>&lt;MIME&gt;/packages</filename> directory (your
+    <filename>Makefile</filename> will take care of this, of course).</para>
+
+    <para>You can modify the MIME database for all users on the system or for
+    a particular user depending on the location of the file you change. To
+    modify the database for all users, make changes to the file
+    <filename>Overrides.xml</filename> in the
+    <filename>$XDG_DATA_DIRS/mime/packages</filename>
+    directory. To modify the database for a single user, make changes to the
+    file <filename>Overrides.xml</filename> in the
+    <filename>$XDG_DATA_HOME/mime/packages</filename>
+    directory.</para>
+
+    <para>After changes are made, you must always run the
+    <application>update-mime-database</application> application, with the
+    directory location of the MIME database as the first parameter.</para>
+
+    <sect2 id="mimetypes-addmodify">
+      <title>Adding or Modifying MIME types</title>
+
+      <para>To add one or more MIME types for all users:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Create or modify an existing
+          <filename>Overrides.xml</filename> source XML file, containing the
+          definitions for the MIME types. For more information, see <xref
+          linkend="mimetypes-source-xml" />.</para>
+        </listitem>
+
+        <listitem>
+          <para>Place the <filename>Overrides.xml</filename> file in the
+          <filename>/usr/share/mime/packages</filename> directory.</para>
+        </listitem>
+
+        <listitem>
+          <para>Update the MIME database by running
+          <application>update-mime-database</application> using the system
+          account.<screen><userinput>update-mime-database /usr/share/mime</userinput></screen></para>
+        </listitem>
+      </orderedlist>
+
+      <para>To add one or more MIME types for a single user, follow the same
+      steps, except place your <filename>Overrides.xml</filename> file in the
+      <filename>~/.local/share/mime/packages</filename> directory.
+      Additionally, call <application>update-mime-database</application> with
+      <filename>~/.local/share/mime/packages</filename> as the first
+      parameter.</para>
+    </sect2>
+
+    <sect2 id="mimetypes-verifying">
+      <title>Verifying Changes</title>
+      <anchor id="mimetypes-10"/>
+
+      <para>After you have made a change to the MIME database and refreshed
+      its contents, you can verify that the change has taken effect using the
+      <application>matevfs-info</application> application. This application
+      prints the MIME type and other useful information about a file.</para>
+
+      <para>Running <application>matevfs-info</application> on a SVG file
+      gives you the output shown below. You'll notice the default application
+      for this MIME type is <filename>eog.desktop</filename>; We will discuss
+      default applications in <xref linkend="mimetypes-registering" />.</para>
+
+      <screen><prompt>$</prompt> <userinput>matevfs-info mime-diagram.svg</userinput>
+<computeroutput>Name              : mime-diagram.svg
+Type              : Regular
+MIME type         : image/svg+xml
+Default app       : eog.desktop
+Size              : 14869
+Blocks            : 32
+I/O block size    : 4096
+Local             : YES
+SUID              : NO
+SGID              : NO
+Sticky            : NO
+Permissions       : 600644
+Link count        : 1
+UID               : 1000
+GID               : 100
+Access time       : Wed Feb 22 18:24:47 2006
+Modification time : Wed Feb 22 18:24:42 2006
+Change time       : Wed Feb 22 18:24:42 2006
+Device #          : 775
+Inode #           : 297252
+Readable          : YES
+Writable          : YES
+Executable        : NO</computeroutput>
+<prompt>$</prompt>
+</screen>
+
+      <para><xref linkend="mimetypes-newtype-example" /> walks through the steps of
+      creating a new MIME type and then verifying the changes using
+      <application>matevfs-info</application>.</para>
+    </sect2>
+
+    <sect2 id="mimetypes-newtype-example">
+      <title><literal>application/x-newtype</literal> Example</title>
+
+      <para>To create (or override) a MIME type and verify the changes:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Make a new, empty file in your home directory called
+          <filename>testing.xyz</filename>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Use <application>matevfs-info</application> on the file to
+          find out the MIME type.The MIME type for this file should be
+          detected as <literal>text/plain</literal> because there are not any
+          glob patterns or magic rules that match it<footnote>
+              <para>When no glob patterns or magic rules match a file, then it
+              is resolved to the MIME type <literal>text/plain</literal> if it
+              contains textual data or
+              <literal>application/octet-stream</literal> for binary data. If
+              the file is empty, then it defaults to
+              <literal>text/plain</literal>.</para>
+            </footnote>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Create (or modify) the <filename>Overrides.xml</filename> file
+          as described in <xref linkend="mimetypes-addmodify" /> with the
+          contents given in <xref linkend="mimetypes-overrides-xml" />.</para>
+        </listitem>
+
+        <listitem>
+          <para>Refresh the database using
+          <application>update-mime-database</application>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Use <application>matevfs-info</application> to verify that
+          your change has taken effect. You should see the MIME type for the
+          <filename>testing.xyz</filename> file resolved as
+          <literal>application/x-newtype</literal>.</para>
+
+          <screen><prompt>$</prompt> <userinput>matevfs-info testing.xyz | grep MIME
+</userinput><computeroutput>MIME type         : application/x-newtype
+</computeroutput><prompt>$</prompt></screen>
+        </listitem>
+      </orderedlist>
+
+      <example id="mimetypes-overrides-xml">
+        <title><filename>Overrides.xml</filename> file</title>
+
+        <programlisting>&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info"&gt;
+  &lt;mime-type type="application/x-newtype"&gt;&lt;comment&gt;new mime type&lt;/comment&gt;&lt;glob pattern="*.xyz"/&gt;&lt;/mime-type&gt;
+&lt;/mime-info&gt;</programlisting>
+      </example>
+    </sect2>
+  </sect1>
+
+  <sect1 id="mimetypes-registering">
+    <title>Registering Applications for MIME Types</title>
+
+    <anchor id="mimetypes-7" />
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>registering applications for</secondary>
+    </indexterm>
+
+    <indexterm>
+      <primary>applications</primary>
+
+      <secondary>registry</secondary>
+    </indexterm>
+
+    <para>Registering applications to handle MIME types is fairly
+    straightforward. Applications are registered by creating a
+    <literal>MimeType</literal> key in their <filename>.desktop</filename>
+    entry file and listing each MIME type separated by a semicolon. The
+    <literal>MimeType</literal> key should only be used in
+    <filename>.desktop</filename> files whose <literal>Type</literal> key has
+    the value <quote><literal>Application</literal></quote>. For more
+    information on <filename>.desktop</filename> files, see <xref
+    linkend="menustructure-desktopentry" />.</para>
+
+    <para>After creating or modifying a <filename>.desktop</filename> entry
+    file, you must update the application database using the
+    <application>update-desktop-database</application> application (very
+    similar to <application>update-mime-database</application>, except it does not take a
+    parameter). This will create a
+    <filename>mimeinfo.cache</filename> file in the
+    <filename>applications</filename> subdirectory for each directory in
+    <filename>$XDG_DATA_HOME:$XDG_DATA_DIRS</filename>.
+    The cache file is necessary so that all the <filename>.desktop</filename>
+    files do not need to be scanned for just the <literal>MimeType</literal>
+    key, as this causes unnecessary disk I/O.</para>
+
+    <para>Default applications to use for specific MIME types should be
+    specified in a file called <filename>defaults.list</filename>. This file
+    is located in the <filename>applications</filename> subdirectory for each
+    directory in <envar>$XDG_DATA_HOME</envar> and
+    <envar>$XDG_DATA_DIRS</envar>. The format for this file consists of the
+    MIME type, the <literal>=</literal> symbol and the Desktop File ID (which
+    is the filename for the desktop entry file). <xref
+    linkend="mimetypes-registering-example" /> is a short example of a
+    <filename>defaults.list</filename> file in a user's
+    <filename>~/.local/share/applications</filename> directory.</para>
+
+    <example id="mimetypes-registering-example">
+      <title>A User's <filename>defaults.list</filename> file</title>
+
+      <programlisting>[Default Applications]
+application/pdf=evince.desktop
+text/html=epiphany.desktop
+text/plain=gedit.desktop
+image/jpeg=eog.desktop
+image/png=eog.desktop
+text/xml=gedit.desktop
+</programlisting>
+    </example>
+
+    <note>
+      <title>XDG Desktop Entry Specification</title>
+
+      <para>How to register MIME types for applications is part of the <ulink
+      url="http://www.freedesktop.org/wiki/Standards/desktop-entry-spec">XDG desktop entry specification</ulink>, rather than the
+      <ulink
+      url="http://www.freedesktop.org/Standards/shared-mime-info-spec">XDG
+      shared mime info specification</ulink>.</para>
+    </note>
+  </sect1>
+
+  <sect1 id="mimetypes-9">
+    <title>Adding an Application to the MATE Desktop</title>
+
+    <indexterm>
+      <primary>MIME types</primary>
+
+      <secondary>adding applications</secondary>
+    </indexterm>
+
+    <indexterm>
+      <primary>applications</primary>
+
+      <secondary>adding</secondary>
+    </indexterm>
+
+    <para>To add an application to the MATE Desktop, perform the following
+    steps:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Add a menu item for the application. For more information on how
+        to add an item to a menu, see <xref
+        linkend="menustructure-2" />.</para>
+      </listitem>
+
+      <listitem>
+        <para>Add an icon for the application to
+        <filename>/usr/share/icons/<replaceable>theme-name</replaceable>/<replaceable>icon-size</replaceable>/apps</filename>.
+        For more information on icons and themes, see <xref
+        linkend="themes-11" />.</para>
+      </listitem>
+
+      <listitem>
+        <para>If the application uses a new MIME type, add a source XML file
+        to the MIME database. For more information, see <xref
+        linkend="mimetypes-modifying" />.</para>
+      </listitem>
+
+      <listitem>
+        <para>If the application uses a new MIME type, add an icon for the
+        MIME type to
+        <filename>/usr/share/icons/<replaceable>theme-name</replaceable>/<replaceable>icon-size</replaceable>/mimetypes</filename>.
+        For more information on icons and themes, see <xref
+        linkend="themes-0" />.</para>
+      </listitem>
+
+      <listitem>
+        <para>To associate the application with a MIME type, include a
+        <literal>MimeType</literal> key in your <filename>.desktop</filename>
+        file. For more information, see <xref
+        linkend="mimetypes-registering" />.</para>
+      </listitem>
+    </orderedlist>
+  </sect1>
+</chapter>

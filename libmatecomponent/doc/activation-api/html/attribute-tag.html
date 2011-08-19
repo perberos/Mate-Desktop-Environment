@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>The oaf_attribute tag</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="up" href="server-xml-reference.html" title=".server file format reference">
+<link rel="prev" href="server-xml-reference.html" title=".server file format reference">
+<link rel="next" href="migrating.html" title="Migrating from gnorba to MateComponent-activation">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="server-xml-reference.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="server-xml-reference.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateComponent Activation API Reference Manual</th>
+<td><a accesskey="n" href="migrating.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="attribute-tag"></a>The <code class="sgmltag-element">oaf_attribute</code> tag</h2></div></div></div>
+<p>
+      Defining servers is useful (that is what <code class="filename">.goad</code> files
+      did light-years ago) but to use all the power of MateComponent Activation
+      (<abbr class="abbrev">i.e.</abbr> queries ;-), you have to define
+      <span class="emphasis"><em><code class="sgmltag-element">oaf_attribute</code>s</em></span> for each of those
+      <code class="sgmltag-element">oaf_server</code> entries.
+      An example is worth all words.
+
+      </p>
+<pre class="programlisting">
+&lt;oaf_info&gt;
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo_Factory" type="exe"
+	      location="/usr/lib/matecomponent-2.0/samples/matecomponent-echo-2"&gt;
+    &lt;oaf_attribute name="repo_ids" type="stringv"&gt;
+      &lt;item value="IDL:MateComponent/GenericFactory:1.0"/&gt;
+    &lt;/oaf_attribute&gt;
+    &lt;oaf_attribute name="name" type="string" value="Echo component factory"/&gt;
+    &lt;oaf_attribute name="description" type="string"
+                   value="MateComponent Echo server factory"/&gt;
+  &lt;/oaf_server&gt;
+
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo" type="factory"
+	      location="OAFIID:MateComponent_Sample_Echo_Factory"&gt;
+    &lt;oaf_attribute name="repo_ids" type="stringv"&gt;
+      &lt;item value="IDL:Demo/Echo:1.0"/&gt;
+    &lt;/oaf_attribute&gt;
+    &lt;oaf_attribute name="name" type="string" value="Echo component"/&gt;
+    &lt;oaf_attribute name="description" type="string"
+                   value="MateComponent Echo server sample program"/&gt;
+  &lt;/oaf_server&gt;
+&lt;/oaf_info&gt;</pre>
+<p>
+
+      Each <code class="sgmltag-element">oaf_server</code> entry defines a set of attributes.
+      Each attribute has a given <span class="emphasis"><em>name,</em></span>
+      <span class="emphasis"><em>type,</em></span> and <span class="emphasis"><em>value.</em></span> The types of the
+      attributes are those defined in the MateComponent Activation query langage reference
+      (<a class="xref" href="query-syntax.html#oaf-query-ref-types" title="Constants">the section called “Constants”</a>).
+      Type name should be non-caps.
+    </p>
+<p>
+      Values of type <span class="emphasis"><em>stringv</em></span> are represented as follows:
+
+      </p>
+<pre class="programlisting">
+&lt;oaf_attribute name="repo_ids" type="stringv"&gt;
+  &lt;item value="IDL:MateComponent/Unknown:1.0"/&gt;
+  &lt;item value="IDL:MateComponent/Control:1.0"/&gt;
+&lt;/oaf_attribute&gt;</pre>
+<p>
+
+      All other types' values are simply in the <span class="emphasis"><em>value</em></span> field.
+    </p>
+<p>
+      A certain number of attributes have been normalized for MATE.
+      If a component uses any attribute from the list, it ought to have the
+      meaning described here.
+      Their list follows.
+
+      
+      </p>
+<div class="table">
+<a name="id2765514"></a><p class="title"><b>Table 6. Normalized attributes</b></p>
+<div class="table-contents"><table summary="Normalized attributes" border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+<col align="left">
+<col>
+</colgroup>
+<thead><tr>
+<th align="left">Attribute name</th>
+<th align="left">Type</th>
+<th align="left">Signification</th>
+<td class="auto-generated"> </td>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">repo_ids</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">
+		the list of all <a href="http://foldoc.org/IDL"><span class="acronym">IDL</span></a> interfaces this component
+                implements, including inherited interfaces.
+		If <code class="classname">MateComponent::Unknown</code> is one of the
+		interfaces, the list should include all interfaces for which a
+		<code class="function">queryInterface</code> operation on the component
+                will succeed.
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">description</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">
+		a human readable string describing what the component can do
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">name</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">
+		a short name for the component, suitable for display to the
+		end user, <abbr class="abbrev">e.g.</abbr> in a menu.
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">matecomponent:editable</td>
+<td align="left"><span class="type">boolean</span></td>
+<td align="left">if the component allows editing of its content</td>
+<td>no</td>
+</tr>
+<tr>
+<td align="left">matecomponent:supported_uri_schemes</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">a list of protocols this component knows how to handle.
+		This only really makes sense if the component implements one
+		of the following interfaces:
+		<code class="classname">MateComponent::PersistFile</code> or
+		<code class="classname">Nautilus::View</code>
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">matecomponent:supported_mime_types</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">a list of <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a> types this component
+                understands as input.
+		In addition to specific <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a> types, it is
+                possible to include supertypes (<abbr class="abbrev">e.g.</abbr>
+                <span class="quote">“<span class="quote">image/*</span>”</span> or <span class="quote">“<span class="quote">text/*</span>”</span>) or
+                <span class="quote">“<span class="quote">*/*</span>”</span> to indicate the component can display any
+                <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a> type.
+		Specifying <span class="quote">“<span class="quote">*/*</span>”</span> is only necessary if neither
+                <span class="emphasis"><em>supported_uri_schemes</em></span> nor
+                <span class="emphasis"><em>additional_uri_schemes</em></span> is not specified,
+                otherwise <span class="quote">“<span class="quote">*/*</span>”</span> is assumed.
+		This only really makes sense if the component implements one
+		of the following interfaces:
+		<code class="classname">MateComponent::PersistStream</code>,
+		<code class="classname">MateComponent::PersistFile</code>,
+		or <code class="classname">Nautilus::View</code>.
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">matecomponent:additional_uri_schemes</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">a list of protocols this component knows how to handle.
+                The component is applicable to any <a href="http://foldoc.org/URI"><span class="acronym">URI</span></a> which
+                uses such a protocol, even if its <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a> type is
+                not among <span class="emphasis"><em>supported_mime_types.</em></span>
+		This only really makes sense if the component implements one
+		of the following interfaces:
+		<code class="classname">MateComponent::PersistFile</code> or
+		<code class="classname">Nautilus::View</code>
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">matecomponent:moniker</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">FIXME
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">matecomponent:moniker_extender</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">FIXME
+              </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">matecomponent:environment</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">List of environment variables that must have the
+              same values in both activator (client) and component.
+              This is useful for exe type factories.  If there is
+              already a running process serving the component being
+              activated, its environment variables are compared to the
+              ones in the activator.  If they match, a new reference
+              from that process is returned.  If not, a new process is
+              started, which receives an evironment modified to match
+              the one in the activator for the environment keys
+              specified in this property.
+              </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:view_as_name</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">a suitable name for use as a <span class="emphasis"><em>View as</em></span>
+                name. Several labels in Nautilus will be built from this value,
+                see the following attributes.
+		This must be present for any MateComponent Controls that can be
+		used as Nautilus views.
+                
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:view_as_label</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">a label (without keyboard mnemonic) for the component's menu
+                item in Nautilus' <span class="emphasis"><em>View as</em></span> list (next to the
+                zoom control) as well as for its entry in the
+                <span class="emphasis"><em>Open with Other Viewer</em></span> window.
+                It defaults to
+                <span class="quote">“<span class="quote">View as <em class="replaceable"><code>name</code></em></span>”</span> where
+                <em class="replaceable"><code>name</code></em> is the value of the
+                <span class="emphasis"><em>view_as_name</em></span> attribute.
+		It is discouraged to rely on this fallback because it makes
+		correct translation impossible for some languages.
+              </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:view_as_label_with_mnemonic</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">a label (with keyboard mnemonic) for the component's menu
+                item in Nautilus' <span class="guimenu">View</span> menu.
+                Thus the mnemonic must not clash with one from a built-in menu
+                item.
+                If omitted, the value of <span class="emphasis"><em>view_as_label</em></span> will
+                be used instead.
+              </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:viewer_label</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">a label for the component's menu item in the
+                <span class="guimenu">Open With</span> submenu of Nautilus'  context menu
+                for files and the <span class="guimenu">File</span> menu.
+                It defaults to
+                <span class="quote">“<span class="quote"><em class="replaceable"><code>name</code></em> Viewer</span>”</span> where
+                <em class="replaceable"><code>name</code></em> is the value of the
+                <span class="emphasis"><em>view_as_name</em></span> attribute.
+		It is discouraged to rely on this fallback because it makes
+		correct translation impossible for some languages.
+              </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:required_directory_content_mime_types</td>
+<td align="left"><span class="type">stringv</span></td>
+<td align="left">if the component is to be activated on a
+		<a href="http://foldoc.org/URI"><span class="acronym">URI</span></a> with <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a> type
+                <span class="quote">“<span class="quote">special/directory</span>”</span>, it is only really applicable
+                if the directory contains a file with one of the
+                <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a> types listed in this attribute.
+		As before, supertypes like <span class="quote">“<span class="quote">audio/*</span>”</span> are allowed.
+		If this attribute is omitted, <span class="quote">“<span class="quote">*/*</span>”</span> is assumed.
+	      </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:sidebar_panel_name</td>
+<td align="left"><span class="type">string</span></td>
+<td align="left">a suitable name for use as a sidebar panel label name.
+                This must be implemented by any MateComponent Controls that can be
+                used as a Nautilus sidebar view.
+              </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:context_menu_handler</td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:can_handle_multiple_files</td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilus:property_page_name</td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+</tr>
+<tr>
+<td align="left">nautilusverb:<em class="replaceable"><code>verbname</code></em>
+</td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+    </p>
+<p>
+      If <span class="emphasis"><em>matecomponent:supported_uri_schemes</em></span> or
+      <span class="emphasis"><em>matecomponent:additional_uri_schemes</em></span> is specified but
+      <span class="emphasis"><em>matecomponent:supported_mime_types</em></span> is not, it is assumed the
+      component can handle any type of data that might come via that protocol.
+
+      Some schemes may not even have an associated <a href="http://foldoc.org/MIME"><span class="acronym">MIME</span></a>
+      type for any given URI, for instance <code class="filename">irc:</code> or
+      <code class="filename">news:</code>
+    </p>
+<p>
+      If <span class="emphasis"><em>matecomponent:supported_mime_types</em></span> is specified but
+      <span class="emphasis"><em>matecomponent:supported_uri_schemes</em></span> is not, the component
+      is assumed to be able to handle all common URI schemes (possible
+      definition: anything mate-vfs can handle).
+    </p>
+<p>
+      If neither <span class="emphasis"><em>matecomponent:supported_uri_schemes</em></span> nor
+      <span class="emphasis"><em>matecomponent:additional_uri_schemes</em></span> nor
+      <span class="emphasis"><em>matecomponent:supported_mime_types</em></span> is specified, it is
+      assumed the component cannot handle any data at all in a general way
+      and should never be generically selected for such purposes.
+    </p>
+<p>
+      Nautilus considers a component as a view if it can handle the data
+      from a URI and implements the <code class="classname">Nautilus::View</code>
+      interface or <code class="classname">MateComponent::Control</code> and
+      <code class="classname">MateComponent::PersistStream</code> or
+      <code class="classname">MateComponent::PersistFile</code>.
+    </p>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>matecomponent-main</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="general.html" title="General">
+<link rel="prev" href="general.html" title="General">
+<link rel="next" href="libmatecomponent-matecomponent-running-context.html" title="MateComponentRunningContext">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="general.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="general.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-running-context.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponent-matecomponent-main.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-main.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponent-matecomponent-main"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponent-matecomponent-main.top_of_page"></a>matecomponent-main</span></h2>
+<p>matecomponent-main — MateComponent initialization.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponent-matecomponent-main.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-is-initialized" title="matecomponent_is_initialized ()">matecomponent_is_initialized</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-init" title="matecomponent_init ()">matecomponent_init</a>                         (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **argv</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-init-full" title="matecomponent_init_full ()">matecomponent_init_full</a>                    (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **argv</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_ORB</span> opt_orb</code></em>,
+                                                         <em class="parameter"><code><span class="type">PortableServer_POA</span> opt_poa</code></em>,
+                                                         <em class="parameter"><code><span class="type">PortableServer_POAManager</span> opt_manager</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-debug-init" title="matecomponent_debug_init ()">matecomponent_debug_init</a>                   (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-debug-print" title="matecomponent_debug_print ()">matecomponent_debug_print</a>                  (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *fmt</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-debug-shutdown" title="matecomponent_debug_shutdown ()">matecomponent_debug_shutdown</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-main" title="matecomponent_main ()">matecomponent_main</a>                         (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-main-quit" title="matecomponent_main_quit ()">matecomponent_main_quit</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-main-level" title="matecomponent_main_level ()">matecomponent_main_level</a>                   (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-activate" title="matecomponent_activate ()">matecomponent_activate</a>                     (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-setup-x-error-handler" title="matecomponent_setup_x_error_handler ()">matecomponent_setup_x_error_handler</a>        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">CORBA_ORB</span>           <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-orb" title="matecomponent_orb ()">matecomponent_orb</a>                          (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">PortableServer_POA</span>  <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-poa" title="matecomponent_poa ()">matecomponent_poa</a>                          (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">PortableServer_POAManager</span>  <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-poa-manager" title="matecomponent_poa_manager ()">matecomponent_poa_manager</a>           (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">PortableServer_POA</span>  <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-poa-get-threaded" title="matecomponent_poa_get_threaded ()">matecomponent_poa_get_threaded</a>             (<em class="parameter"><code><span class="type">MateCORBAThreadHint</span> hint</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-main.description"></a><h2>Description</h2>
+<p>
+  Initialization functions for MateComponent applications.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-main.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="matecomponent-is-initialized"></a><h3>matecomponent_is_initialized ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            matecomponent_is_initialized               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This allows you to protect against double
+initialization in your code.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> whether the ORB is initialized
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-init"></a><h3>matecomponent_init ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            matecomponent_init                         (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **argv</code></em>);</pre>
+<p>
+Initializes the matecomponent component model.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>argc</code></em> :</span></p></td>
+<td>a pointer to the number of arguments or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>argv</code></em> :</span></p></td>
+<td>the array of arguments or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> on failure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-init-full"></a><h3>matecomponent_init_full ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            matecomponent_init_full                    (<em class="parameter"><code><span class="type">int</span> *argc</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **argv</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_ORB</span> opt_orb</code></em>,
+                                                         <em class="parameter"><code><span class="type">PortableServer_POA</span> opt_poa</code></em>,
+                                                         <em class="parameter"><code><span class="type">PortableServer_POAManager</span> opt_manager</code></em>);</pre>
+<p>
+Initializes the matecomponent document model.  It requires at least
+the value for <em class="parameter"><code>orb</code></em>.  If <em class="parameter"><code>poa</code></em> is CORBA_OBJECT_NIL, then the
+RootPOA will be used, in this case <em class="parameter"><code>manager</code></em> should be CORBA_OBJECT_NIL.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>argc</code></em> :</span></p></td>
+<td>a pointer to the number of arguments
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>argv</code></em> :</span></p></td>
+<td>the array of arguments
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_orb</code></em> :</span></p></td>
+<td>the ORB in which we run
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_poa</code></em> :</span></p></td>
+<td>optional, a POA
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_manager</code></em> :</span></p></td>
+<td>optional, a POA Manager
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> on failure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-debug-init"></a><h3>matecomponent_debug_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_debug_init                   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-debug-print"></a><h3>matecomponent_debug_print ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_debug_print                  (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *fmt</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fmt</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-debug-shutdown"></a><h3>matecomponent_debug_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 matecomponent_debug_shutdown               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This shuts down the ORB and any other matecomponent related
+resources.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> whether the shutdown was clean, a good
+value to return from 'main'.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-main"></a><h3>matecomponent_main ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_main                         (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Activates the MateComponent POA Manager and enters the main event loop.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-main-quit"></a><h3>matecomponent_main_quit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_main_quit                    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Quits the main event loop.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-main-level"></a><h3>matecomponent_main_level ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               matecomponent_main_level                   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Determines the number of times the matecomponent main loop has been entered (minus
+the number of exits from the main loop).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of main loops currently running (0 if no main loops are
+running).
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activate"></a><h3>matecomponent_activate ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            matecomponent_activate                     (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Activates the MateComponent POA manager registered by matecomponent_init.
+This should be called at the end of application initialization.
+You do not need to call this function if you use <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-main" title="matecomponent_main ()"><code class="function">matecomponent_main()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> on failure.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-setup-x-error-handler"></a><h3>matecomponent_setup_x_error_handler ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_setup_x_error_handler        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-orb"></a><h3>matecomponent_orb ()</h3>
+<pre class="programlisting"><span class="returnvalue">CORBA_ORB</span>           matecomponent_orb                          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The ORB used for this MateComponent application.  The ORB
+is created in <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-init" title="matecomponent_init ()"><code class="function">matecomponent_init()</code></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-poa"></a><h3>matecomponent_poa ()</h3>
+<pre class="programlisting"><span class="returnvalue">PortableServer_POA</span>  matecomponent_poa                          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The POA used for this MateComponent application.  The POA
+is created when <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-init" title="matecomponent_init ()"><code class="function">matecomponent_init()</code></a> is called.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-poa-manager"></a><h3>matecomponent_poa_manager ()</h3>
+<pre class="programlisting"><span class="returnvalue">PortableServer_POAManager</span>  matecomponent_poa_manager           (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The POA Manager used for this MateComponent application.  The POA
+Manager is created when <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-init" title="matecomponent_init ()"><code class="function">matecomponent_init()</code></a> is called, but it is not
+activated until <a class="link" href="libmatecomponent-matecomponent-main.html#matecomponent-main" title="matecomponent_main ()"><code class="function">matecomponent_main()</code></a> is called.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-poa-get-threaded"></a><h3>matecomponent_poa_get_threaded ()</h3>
+<pre class="programlisting"><span class="returnvalue">PortableServer_POA</span>  matecomponent_poa_get_threaded             (<em class="parameter"><code><span class="type">MateCORBAThreadHint</span> hint</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+Get a predefined POA for a given threading policy/hint.  The
+returned POA can be passed as the "poa" constructor property of a
+<span class="type">MateComponentOject</span>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hint</code></em> :</span></p></td>
+<td>the desired thread hint
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the requested POA.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

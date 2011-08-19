@@ -1,0 +1,638 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Listing Directory Contents</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-directory-ops.html" title="Directory-Specific Operations">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-directory-basic-ops.html" title="Basic Directory Operations">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-directory-find-ops.html" title="Locating Standard Directories">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-directory-basic-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-directory-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-directory-find-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-directory-list-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-directory-list-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-directory-list-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-directory-list-ops.top_of_page"></a>Listing Directory Contents</span></h2>
+<p>Listing Directory Contents — Listing the contents of directories.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-directory-list-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle">MateVFSDirectoryHandle</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions">MateVFSDirectoryVisitOptions</a>;
+<span class="returnvalue">gboolean</span>            (<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()">*MateVFSDirectoryVisitFunc</a>)       (<em class="parameter"><code>const <span class="type">gchar</span> *rel_path</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> recursing_will_loop</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *recurse</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-open" title="mate_vfs_directory_open ()">mate_vfs_directory_open</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-open-from-uri" title="mate_vfs_directory_open_from_uri ()">mate_vfs_directory_open_from_uri</a>   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> **handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-read-next" title="mate_vfs_directory_read_next ()">mate_vfs_directory_read_next</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *file_info</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-close" title="mate_vfs_directory_close ()">mate_vfs_directory_close</a>           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> *handle</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit" title="mate_vfs_directory_visit ()">mate_vfs_directory_visit</a>           (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()">mate_vfs_directory_visit_uri</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files" title="mate_vfs_directory_visit_files ()">mate_vfs_directory_visit_files</a>     (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *file_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri" title="mate_vfs_directory_visit_files_at_uri ()">mate_vfs_directory_visit_files_at_uri</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *file_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-list-load" title="mate_vfs_directory_list_load ()">mate_vfs_directory_list_load</a>       (<em class="parameter"><code><span class="type">GList</span> **list</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-directory-list-ops.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-directory-list-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSDirectoryHandle"></a><h3>MateVFSDirectoryHandle</h3>
+<pre class="programlisting">typedef struct MateVFSDirectoryHandle MateVFSDirectoryHandle;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDirectoryVisitOptions"></a><h3>enum MateVFSDirectoryVisitOptions</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_DIRECTORY_VISIT_DEFAULT = 0,
+	MATE_VFS_DIRECTORY_VISIT_SAMEFS = 1 &lt;&lt; 0,
+	MATE_VFS_DIRECTORY_VISIT_LOOPCHECK = 1 &lt;&lt; 1,
+	MATE_VFS_DIRECTORY_VISIT_IGNORE_RECURSE_ERROR = 1 &lt;&lt; 2
+} MateVFSDirectoryVisitOptions;
+</pre>
+<p>
+These options control the way in which directories are visited. They are
+passed to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit" title="mate_vfs_directory_visit ()"><code class="function">mate_vfs_directory_visit()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()"><code class="function">mate_vfs_directory_visit_uri()</code></a>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files" title="mate_vfs_directory_visit_files ()"><code class="function">mate_vfs_directory_visit_files()</code></a> and
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri" title="mate_vfs_directory_visit_files_at_uri ()"><code class="function">mate_vfs_directory_visit_files_at_uri()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-DIRECTORY-VISIT-DEFAULT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DIRECTORY_VISIT_DEFAULT</code></span></p></td>
+<td>Default options, i.e. call 
+the specified <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> for each file.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DIRECTORY-VISIT-SAMEFS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DIRECTORY_VISIT_SAMEFS</code></span></p></td>
+<td>Visit only directories on the same 
+file system as the parent
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DIRECTORY-VISIT-LOOPCHECK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DIRECTORY_VISIT_LOOPCHECK</code></span></p></td>
+<td>Loop prevention. If this
+is set, and a file is found to be a directory referencing a prefiously 
+found directory inode (i.e. already used for one of it's parents), this
+is considered a recursion loop, and <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> will
+be notified using its <em class="parameter"><code>recursing_will_loop</code></em> parameter. If this is not
+set, the <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a>'s <em class="parameter"><code>recursing_will_loop</code></em> parameter
+will always be set to <code class="literal">FALSE</code>.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DIRECTORY-VISIT-IGNORE-RECURSE-ERROR:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DIRECTORY_VISIT_IGNORE_RECURSE_ERROR</code></span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDirectoryVisitFunc"></a><h3>MateVFSDirectoryVisitFunc ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            (*MateVFSDirectoryVisitFunc)       (<em class="parameter"><code>const <span class="type">gchar</span> *rel_path</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> recursing_will_loop</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *recurse</code></em>);</pre>
+<p>
+This function is passed to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit" title="mate_vfs_directory_visit ()"><code class="function">mate_vfs_directory_visit()</code></a>,
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()"><code class="function">mate_vfs_directory_visit_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files" title="mate_vfs_directory_visit_files ()"><code class="function">mate_vfs_directory_visit_files()</code></a> and
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri" title="mate_vfs_directory_visit_files_at_uri ()"><code class="function">mate_vfs_directory_visit_files_at_uri()</code></a>, and is called for each
+file in the specified directory.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+ When a recursive visit was requested for a particular directory, errors
+ during the child visit will lead to a cancellation of the overall visit.
+ Thus, you must ensure that the user has sufficient access rights to visit
+ a directory before requesting a recursion.
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rel_path</code></em> :</span></p></td>
+<td>A char * specifying the path of the currently visited
+	      file relative to the base directory for the visit.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> of the currently visited file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>recursing_will_loop</code></em> :</span></p></td>
+<td>Whether setting *<em class="parameter"><code>recurse</code></em> to <code class="literal">TRUE</code> will cause
+			 a loop, i.e. whether this is a link
+			 pointing to a parent directory.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>The user data passed to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit" title="mate_vfs_directory_visit ()"><code class="function">mate_vfs_directory_visit()</code></a>,
+	       <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()"><code class="function">mate_vfs_directory_visit_uri()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files" title="mate_vfs_directory_visit_files ()"><code class="function">mate_vfs_directory_visit_files()</code></a> or
+	       <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri" title="mate_vfs_directory_visit_files_at_uri ()"><code class="function">mate_vfs_directory_visit_files_at_uri()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>recurse</code></em> :</span></p></td>
+<td>A valid pointer to a <span class="type">gboolean</span>, which points to <code class="literal">FALSE</code> by
+	     default and can be modified to point to <code class="literal">TRUE</code>, which indicates that
+	     the currently considered file should be visited recursively.
+	     The recursive visit will only be actually done if <em class="parameter"><code>info</code></em> refers to a directory,
+	     *<em class="parameter"><code>recurse</code></em> is <code class="literal">TRUE</code> and the return value of the <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> is <code class="literal">TRUE</code>.
+	     *<em class="parameter"><code>recurse</code></em> should usually not be set to <code class="literal">TRUE</code> if <em class="parameter"><code>recursing_will_loop</code></em> is <code class="literal">TRUE</code>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if visit should be continued, <code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-open"></a><h3>mate_vfs_directory_open ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_open            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);</pre>
+<p>
+Open directory <em class="parameter"><code>text_uri</code></em> for reading.  On return, @*handle will point to
+a <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> object which can be used to read the directory
+entries one by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri to open.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>options for reading file information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-open-from-uri"></a><h3>mate_vfs_directory_open_from_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_open_from_uri   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> **handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);</pre>
+<p>
+Open directory <em class="parameter"><code>text_uri</code></em> for reading.  On return, @*handle will point to
+a <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> object which can be used to read the directory
+entries one by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>pointer to a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to open.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>options for reading file information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-read-next"></a><h3>mate_vfs_directory_read_next ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_read_next       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *file_info</code></em>);</pre>
+<p>
+Read the next directory entry from <em class="parameter"><code>handle</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>a directory handle.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file_info</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct where the data about
+the directory at <em class="parameter"><code>handle</code></em> will be stored.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer value representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-close"></a><h3>mate_vfs_directory_close ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_close           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle" title="MateVFSDirectoryHandle"><span class="type">MateVFSDirectoryHandle</span></a> *handle</code></em>);</pre>
+<p>
+Close <em class="parameter"><code>handle</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>a directory handle.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-visit"></a><h3>mate_vfs_directory_visit ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_visit           (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+Visit <em class="parameter"><code>text_uri</code></em>, retrieving information as specified by <em class="parameter"><code>info_options</code></em>.
+</p>
+<p>
+This function is identical to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()"><code class="function">mate_vfs_directory_visit_uri()</code></a>, except
+that it takes a text URI instead of a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>uri string representation of a directory to visit the files in.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> specifying what kind of file information must be
+retrieved about the contents of the directory referenced by <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>visit_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> controlling e.g. loop prevention,
+and filesystem checks. These affect the way visiting is done.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback to be called for every visited file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>data to be passed to <em class="parameter"><code>callback</code></em> at each iteration.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-visit-uri"></a><h3>mate_vfs_directory_visit_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_visit_uri       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+Visit <em class="parameter"><code>uri</code></em>, retrieving information as specified by <em class="parameter"><code>info_options</code></em>. 
+</p>
+<p>
+This function is identical to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit" title="mate_vfs_directory_visit ()"><code class="function">mate_vfs_directory_visit()</code></a>, except
+that it takes a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> instead of a text URI.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> of a directory to visit the files in.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> specifying what kind of file information must be
+retrieved about the contents of the directory referenced by <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>visit_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> controlling e.g. loop prevention,
+and filesystem checks. These affect the way visiting is done.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback to be called for every visited file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>data to be passed to <em class="parameter"><code>callback</code></em> at each iteration.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating whether the operation succeeded.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-visit-files"></a><h3>mate_vfs_directory_visit_files ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_visit_files     (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *file_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+Fetches information about a list of files in a base uri <em class="parameter"><code>uri</code></em>.
+</p>
+<p>
+If any of the files refers to a directory, and the <em class="parameter"><code>callback</code></em> requests
+recursion for the specified file, <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()"><code class="function">mate_vfs_directory_visit_uri()</code></a> will
+be called for the directory.
+</p>
+<p>
+This function is identical to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri" title="mate_vfs_directory_visit_files_at_uri ()"><code class="function">mate_vfs_directory_visit_files_at_uri()</code></a>,
+except that it takes a text URI instead of a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri of a directory to visit the files in.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file_list</code></em> :</span></p></td>
+<td>
+<span class="type">GList</span> of char *s of file names in <em class="parameter"><code>uri</code></em> to visit.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info_options</code></em> :</span></p></td>
+<td>bitmask controlling the type of information to fetch.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>visit_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> controlling e.g. loop prevention,
+and filesystem checks. These affect the way visiting is done.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback to call with the file info structs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-visit-files-at-uri"></a><h3>mate_vfs_directory_visit_files_at_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_visit_files_at_uri
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *file_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> info_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> visit_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+Fetches information about a list of files in a base uri <em class="parameter"><code>uri</code></em>.
+</p>
+<p>
+This function is identical to <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri" title="mate_vfs_directory_visit_files_at_uri ()"><code class="function">mate_vfs_directory_visit_files_at_uri()</code></a>,
+except that it takes a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> instead of a text URI.
+</p>
+<p>
+If any of the files refers to a directory, and the <em class="parameter"><code>callback</code></em> requests
+recursion for the specified file, <a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri" title="mate_vfs_directory_visit_uri ()"><code class="function">mate_vfs_directory_visit_uri()</code></a> will
+be called for the directory.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> of a directory to visit the files in.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file_list</code></em> :</span></p></td>
+<td>
+<span class="type">GList</span> of char *s of file names in <em class="parameter"><code>uri</code></em> to visit.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> specifying what kind of file information must be
+retrieved about the contents of the directory referenced by <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>visit_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions" title="enum MateVFSDirectoryVisitOptions"><span class="type">MateVFSDirectoryVisitOptions</span></a> controlling e.g. loop prevention,
+and filesystem checks. These affect the way visiting is done.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc" title="MateVFSDirectoryVisitFunc ()"><span class="type">MateVFSDirectoryVisitFunc</span></a> callback to call with the file info structs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-directory-list-load"></a><h3>mate_vfs_directory_list_load ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_directory_list_load       (<em class="parameter"><code><span class="type">GList</span> **list</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);</pre>
+<p>
+Load a directory from <em class="parameter"><code>text_uri</code></em> with the specified <em class="parameter"><code>options</code></em>
+into a list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>address of a pointer to a list of <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>a string representing the uri of the directory.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>options for loading the directory.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateAuthentication</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="application-mgmt.html" title="Application Management">
+<link rel="prev" href="libmateui-MateMultiScreen.html" title="MateMultiScreen">
+<link rel="next" href="libmateui-MatePassword.html" title="MatePassword">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmateui-MateMultiScreen.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="application-mgmt.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="libmateui-MatePassword.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmateui-MateAuthentication.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmateui-MateAuthentication.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmateui-MateAuthentication"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmateui-MateAuthentication.top_of_page"></a>MateAuthentication</span></h2>
+<p>MateAuthentication</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmateui-MateAuthentication.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-MateAuthentication.html#mate-authentication-manager-init" title="mate_authentication_manager_init ()">mate_authentication_manager_init</a>   (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmateui-MateAuthentication.html#mate-authentication-manager-dialog-is-visible" title="mate_authentication_manager_dialog_is_visible ()">mate_authentication_manager_dialog_is_visible</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-MateAuthentication.html#mate-authentication-manager-pop-async" title="mate_authentication_manager_pop_async ()">mate_authentication_manager_pop_async</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-MateAuthentication.html#mate-authentication-manager-pop-sync" title="mate_authentication_manager_pop_sync ()">mate_authentication_manager_pop_sync</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-MateAuthentication.html#mate-authentication-manager-push-async" title="mate_authentication_manager_push_async ()">mate_authentication_manager_push_async</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-MateAuthentication.html#mate-authentication-manager-push-sync" title="mate_authentication_manager_push_sync ()">mate_authentication_manager_push_sync</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-MateAuthentication.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-MateAuthentication.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-authentication-manager-init"></a><h3>mate_authentication_manager_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_authentication_manager_init   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This function checks for thread support and does a thread initialisation, if the support 
+is available. Also sets the default sync and async mate-vfs callbacks for various types
+of authentication.
+</p>
+<p>
+Note: If you call this, and you use threads with gtk+, you must never
+hold the gdk lock while doing synchronous mate-vfs calls. Otherwise
+an authentication callback presenting a dialog could try to grab the
+already held gdk lock, causing a deadlock.
+</p>
+<p class="since">Since 2.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-authentication-manager-dialog-is-visible"></a><h3>mate_authentication_manager_dialog_is_visible ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_authentication_manager_dialog_is_visible
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This function checks whether there are any references on the authentication dialog and returns a 
+a gboolean value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if there are any references on the authentication dialog, FALSE otherwise.
+
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.8</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-authentication-manager-pop-async"></a><h3>mate_authentication_manager_pop_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_authentication_manager_pop_async
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This function calls <code class="function">mate_vfs_async_module_callback_pop()</code> to remove all the temporary async 
+mate-vfs callbacks associated with various types of authentication.
+</p>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-authentication-manager-pop-sync"></a><h3>mate_authentication_manager_pop_sync ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_authentication_manager_pop_sync
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This function calls <code class="function">mate_vfs_module_callback_pop()</code> to remove all the mate-vfs sync handlers associated
+with various types of authentication.
+</p>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-authentication-manager-push-async"></a><h3>mate_authentication_manager_push_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_authentication_manager_push_async
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This function calls <code class="function">mate_vfs_async_module_callback_push()</code> to set temporary async handlers for 
+the various types of authentication.
+</p>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-authentication-manager-push-sync"></a><h3>mate_authentication_manager_push_sync ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_authentication_manager_push_sync
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+This function calls <code class="function">mate_vfs_module_callback_push()</code> to set temperory handlers for 
+various types of authentication.
+</p>
+<p class="since">Since 2.6</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

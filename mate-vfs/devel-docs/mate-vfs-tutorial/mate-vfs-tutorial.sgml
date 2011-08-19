@@ -1,0 +1,3752 @@
+<!doctype book PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<book id="index">
+<bookinfo>
+<title>Application Programming Using the MATE Libraries</title>
+<authorgroup>
+  <author>
+    <firstname>George</firstname>
+    <surname>Lebl</surname>
+    <affiliation>
+      <orgname>The MATE Project</orgname>
+      <address>
+        <email>jirka@5z.com</email>
+      </address>
+    </affiliation>
+  </author>
+</authorgroup>
+<copyright>
+  <year>1999</year>
+  <holder>George Lebl</holder>
+</copyright>
+
+<abstract>
+<para>
+In this tutorial, you will receive an overview of the MATE libraries.
+You will learn how to speed up development of applications by using the
+many utility routines and objects available through the MATE libraries,
+and how to make the GUI more consistent by using standard MATE UI
+components. Focus will also be given to C applications using the GTK+
+toolkit.</para>
+</abstract>
+</bookinfo>
+
+<preface>
+<title>Credits, Copyrights and Other Such Informations</title>
+
+<para>
+All of the code given in this tutorial is under the GNU General
+Public License or the GNU Library General Public License. It
+was written by me or the rest of the Mate core team.</para>
+
+<para>
+Also I would like to apologize if some of my English is not
+correct, as English is not my first language. I hope that
+my C is better then my English.</para></preface>
+
+<chapter id="mate-libraries-overview">
+<title>MATE Libraries Overview</title>
+
+<sect1 id="where-mate-libraries-fit">
+<title>Where do MATE Libraries Fit</title>
+
+<para>
+Before going into the specifics of the MATE libraries, it is important
+to see where do they fit in the picture of all the different libraries
+that are used in a MATE application. The MATE libraries are the most
+high level. GTK+ with it's two parts, GTK and GDK, comes next.
+GTK level provides an object model for C and a UI toolkit with the basic
+widgets to provide the generic basis for a GUI. GTK depends on GDK, which
+is a low-level wrapper around Xlib, the library directly talking to the
+X server. Everything (except for Xlib) depends on GLib which is a very
+useful C library with many utility and portability functions as well as
+a range of easy to use containers for C.
+
+<figure>
+<title>MATE application library hierarchy</title>
+<graphic fileref="mate-arch" format="GIF"></graphic>
+</figure>
+
+</para>
+
+</sect1>
+
+<sect1 id="structure-of-mate-libraries">
+<title>Structure of MATE Libraries</title>
+
+<para>
+We now look at the structure of the MATE libraries to
+see what they can offer. Here is a listing of the different libraries
+that are present in the mate-libs package:
+
+<variablelist>
+<varlistentry>
+<term>libmate</term>
+<listitem>
+<para>Toolkit independent utility library</para>
+</listitem></varlistentry>
+<varlistentry>
+<term>libmateui</term>
+<listitem>
+<para>Toolkit dependent library</para>
+</listitem></varlistentry>
+<varlistentry>
+<term>libgnorba</term>
+<listitem>
+<para>Library for using MateCORBA corba implementation with mate</para>
+</listitem></varlistentry>
+<varlistentry>
+<term>gtk-xmhtml</term>
+<listitem>
+<para>xmHTML widget ported to gtk, used in the help browser</para>
+</listitem></varlistentry>
+<varlistentry>
+<term>zvt</term>
+<listitem>
+<para>A very lean and mean terminal emulator widget</para>
+</listitem></varlistentry>
+<varlistentry>
+<term>libvfs</term>
+<listitem>
+<para>A virtual file-system library used in Midnight Commander</para>
+</listitem></varlistentry>
+<varlistentry>
+<term>libart_lgpl</term>
+<listitem>
+<para>A library used for nice anti-aliased graphics</para>
+</listitem></varlistentry>
+</variablelist></para>
+
+<para>
+We will not cover gtk-xmhtml,
+zvt, libvfs, libart_lgpl and libgnorba as they are mostly specialty
+libraries and some, notably the libvfs and gtk-xmhtml will most likely
+be phased out and replaced by better components.</para>
+
+<para>
+We can see a clear division between the <emphasis>libmate</emphasis>
+and <emphasis>libmateui</emphasis>
+libraries. The former is used in a toolkit independent fashion and could
+even be used for command line programs that never use X. The latter is
+the library which supplies the standard widgets and an application framework
+for applications written using <emphasis>GTK+</emphasis>. It is
+conceivable to write applications with other toolkits, but nobody as of
+yet has written a <emphasis>libmateui</emphasis> with a different
+toolkit, and I doubt it will happen
+soon, as GTK+ is a really great toolkit.</para>
+</sect1>
+</chapter>
+
+<chapter id="gtk-programming">
+<title>GTK+ Programming</title>
+<sect1 id="gtk-overview">
+<title>Overview</title>
+
+<para>
+GTK+ is a C based toolkit for programming graphical applications in X
+windows. It is highly object oriented and has bindings to many popular
+languages, such as C++, Objective C, Perl, TOM, Guile, Python, etc ...
+GTK+ also uses GLib, which is a very useful C library, and includes
+things to help porting to different architectures, and containers
+such as a linked list or a hash.  If you are already familiar with GTK+,
+you are now free to get bored.</para></sect1>
+
+<sect1 id="glib">
+<title>GLib</title>
+<sect2>
+<title>Naming Conventions</title>
+
+<para>
+GLib is a utility library which is heavily used in GTK+ and most of MATE.
+GLib's functions are named starting with <emphasis>g_</emphasis> (such as
+<emphasis>g_strdup</emphasis>), GLib's typedefs for common types are just
+prefixed with a <emphasis>g</emphasis> (such as <emphasis>gint32</emphasis>),
+and GLib's structures are capitalized and start with <emphasis>G</emphasis>
+(such as <emphasis>GHashTable</emphasis>).</para></sect2>
+
+<sect2>
+<title>Typedefs</title>
+
+<para>
+GLib provides some typedefs for portability, simplification of code,
+clarity of code and yet others just to keep consistent. The
+following table lists these typedefs. If the
+<emphasis>Equivalent</emphasis>, field is blank, there is no platform
+independent equivalent.
+
+<table>
+<title>
+GLib typedefs
+</title>
+
+<tgroup cols=3>
+<thead>
+<row>
+<entry>Name</entry>
+<entry>Equivalent</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>gint8</entry><entry></entry>
+<entry>8bit wide signed integer</entry></row>
+<row><entry>guint8</entry><entry></entry>
+<entry>8bit wide unsigned integer</entry></row>
+
+<row><entry>gint16</entry><entry></entry>
+<entry>16bit wide signed integer</entry></row>
+<row><entry>guint16</entry><entry></entry>
+<entry>16bit wide unsigned integer</entry></row>
+
+<row><entry>gint32</entry><entry></entry>
+<entry>32bit wide signed integer</entry></row>
+<row><entry>guint32</entry><entry></entry>
+<entry>32bit wide unsigned integer</entry></row>
+
+<row><entry>gint64</entry><entry></entry>
+<entry>64bit wide signed integer (see note below)</entry></row>
+<row><entry>guint64</entry><entry></entry>
+<entry>64bit wide unsigned integer (see note below)</entry></row>
+
+<row><entry>gchar</entry><entry>char</entry>
+<entry>Standard character value</entry></row>
+<row><entry>guchar</entry><entry>unsigned char</entry>
+<entry>Standard unsigned character value</entry></row>
+<row><entry>gshort</entry><entry>short</entry>
+<entry>Standard short integer</entry></row>
+<row><entry>gushort</entry><entry>unsigned short</entry>
+<entry>Standard unsigned short integer</entry></row>
+<row><entry>glong</entry><entry>long</entry>
+<entry>Standard long integer</entry></row>
+<row><entry>gulong</entry><entry>unsigned long</entry>
+<entry>Standard unsigned long integer</entry></row>
+<row><entry>gint</entry><entry>int</entry>
+<entry>Standard integer</entry></row>
+<row><entry>guint</entry><entry>unsigned int</entry>
+<entry>Standard unsigned integer</entry></row>
+
+<row><entry>gfloat</entry><entry>float</entry>
+<entry>Standard float number type</entry></row>
+
+<row><entry>gdouble</entry><entry>double</entry>
+<entry>Standard float number type</entry></row>
+
+<row><entry>gboolean</entry><entry>int</entry>
+<entry>Type for storing TRUE/FALSE values</entry></row>
+
+<row><entry>gpointer</entry><entry>void *</entry>
+<entry>Type for storing pointers to arbitrary objects</entry></row>
+
+<row><entry>gconstpointer</entry><entry>const void *</entry>
+<entry>Type for storing pointers to arbitrary immutable objects</entry></row>
+</tbody>
+</tgroup>
+</table>
+</para>
+
+<para>It should be noted that <emphasis>gint64</emphasis> and
+<emphasis>guint64</emphasis> might not be available on all platforms. You can
+check for this in your code by checking to see if the macro
+<emphasis>G_HAVE_GINT64</emphasis> is defined.
+</para>
+
+<para>As you can see, some of the typedefs such as <emphasis>gint</emphasis>
+seem to have no other meaning in life then that of having a 'g' prefix and
+looking the same as the other typedefs. The logic behind this is to make the
+code look more consistent and clear. While it is no crime not to use these
+typedefs, you should really be consistent in your code. Some of the typedefs
+such as <emphasis>gboolean</emphasis> are only for improving code clarity
+and you could just as well use <emphasis>int</emphasis> to do exactly the
+same thing, but the former method clearly indicates that you are talking
+about a value that can only take TRUE or FALSE.
+</para>
+</sect2>
+
+<sect2>
+<title>Portability and Utility Functions</title>
+
+<para>
+There are some functions that have different implementations across
+different systems or are not extremely safe, or don't exist at all on some
+systems, so GLib provides it's own implementations or wrappers that have a
+constant behavior and usually check their arguments.</para>
+
+<para>Here are some of the more useful functions that fit this category.
+Note that the prototype is more of an informative one, as some of these
+might be macros in reality.
+
+<table>
+<title>
+Few GLib Portability Functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>gchar * g_strdup (const gchar *)</entry>
+<entry>Returns a newly allocated string which is a copy of the argument,
+if the argument is NULL, NULL is returned</entry></row>
+<row><entry>gpointer g_malloc (int size)</entry>
+<entry>Returns a newly region of memory with 'size' bytes</entry></row>
+<row><entry>void g_free (gpointer p)</entry>
+<entry>Frees memory pointed to by 'p', and only returns if 'p' is
+NULL</entry></row>
+<row><entry>gint g_snprintf (gchar *string, gulong n, gchar const *format, ...)
+</entry>
+<entry>Works just like sprintf by printing the arguments according to the
+'format' into string, however it will only use 'n' bytes of the string and
+will thus truncate the result if it needed more. It returns the number
+of bytes actually printed into 'string'</entry></row>
+
+<row><entry>void g_usleep (gulong count)</entry>
+<entry>Suspend execution for at least 'count' microseconds</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<para>And there are also some utility functions and macros that are not
+really found in the normal c library. Here is a very short list of some
+of the more important and useful ones.
+
+<table>
+<title>
+Few GLib Utility Functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>g_new (type,count)</entry>
+<entry>A macro which will allocate new memory for 'count' items
+of type 'type' and cast the result to 'type'. It is equivalent to
+'(type) g_malloc(count * sizeof(type))'</entry></row>
+
+<row><entry>g_new0 (type,count)</entry>
+<entry>Same semantics as g_new, except that the returned memory will
+be set to all zeros. Note that you should not assume that setting the
+memory to zeros will zero out floating point types</entry></row>
+
+<row><entry>gchar * g_strconcat (const gchar *str, ...)</entry>
+<entry>When passed any number of arguments of the type (const char *) and
+a NULL after the last argument, it will return a newly allocated string
+that results by concatenation of all the arguments.</entry></row>
+
+<row><entry>gchar * g_strdup_printf (const gchar *format, ...)</entry>
+<entry>A printf like function that will return a newly allocated string
+with the result of the printf operation</entry></row>
+
+<row><entry>gchar * g_strstrip (gchar *string)</entry>
+<entry>Will strip leading and trailing whitespace from the string. It will
+not allocate new memory, but will modify the original string and return
+a pointer to it. If you wish to allocate new memory use a construction such as:
+'string2 = g_strstrip(g_strdup(string1));'</entry></row>
+
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<para>
+There are many other useful methods in GLib, and I urge you to study GLib
+documentation and the GLib header file (<emphasis>glib.h</emphasis>), and
+you may be able to save a lot of time by not re-implementing some basic
+functionality.</para>
+</sect2>
+
+<sect2>
+<title>Containers</title>
+
+<para>
+Probably the best part of GLib are its containers. Here's a list of
+GLib's containers.
+
+<table>
+<title>
+Common GLib containers
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Name</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>GList</entry>
+<entry>Doubly linked list</entry></row>
+<row><entry>GSList</entry>
+<entry>Singly linked list</entry></row>
+<row><entry>GHashTable</entry>
+<entry>Hash table</entry></row>
+<row><entry>GCache</entry>
+<entry>Cache</entry></row>
+<row><entry>GTree</entry>
+<entry>Balanced binary tree</entry></row>
+<row><entry>GNode</entry>
+<entry>n-ary tree</entry></row>
+<row><entry>GString</entry>
+<entry>Dynamically sized string</entry></row>
+<row><entry>GArray</entry>
+<entry>Dynamically sized array</entry></row>
+<row><entry>GPtrArray</entry>
+<entry>Dynamically sized array of pointers</entry></row>
+<row><entry>GByteArray</entry>
+<entry>Dynamically sized array of bytes (guint8)</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<sect3>
+<title>GList</title>
+
+<para>
+The easiest to use are <emphasis>GList</emphasis>'s.
+The basic <emphasis>GList</emphasis> structure is just a single node
+of the linked list and you can put your data into the data pointer
+in the <emphasis>GList</emphasis>
+structure. To store a linked list you just store a pointer to the
+first node of the list. Here is the list of functions that operate on
+a GList. The functions usually take in a pointer and return the new
+pointer of the list, since the first node could now be a different one.
+
+<table>
+<title>
+Most important GList functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>GList* g_list_append (GList *list, gpointer data)</entry>
+<entry>Append 'data' to a list. 'list' can be NULL to make a new list.</entry></row>
+
+<row><entry>GList* g_list_prepend (GList *list, gpointer data)</entry>
+<entry>Prepend 'data' to a list. 'list' can be NULL to make a new list.</entry></row>
+
+<row><entry>GList* g_list_remove (GList *list, gpointer data)</entry>
+<entry>Remove the node containing 'data' from the list.</entry></row>
+
+<row><entry>GList* g_list_find (GList *list, gpointer data)</entry>
+<entry>Find the GList node that contains the 'data'</entry></row>
+
+<row><entry>GList* g_list_next (GList *list)</entry>
+<entry>A macro that returns a pointer to the next node</entry></row>
+
+<row><entry>GList* g_list_previous (GList *list)</entry>
+<entry>A macro that returns a pointer to the next node</entry></row>
+
+<row><entry>void g_list_free(GList *list)</entry>
+<entry>Free the entire list.</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<para>
+To access the data from a particular <emphasis>GList</emphasis> node
+You look at the <emphasis>data</emphasis> member in the
+<emphasis>GList</emphasis> structure.
+So code that would create a linked list of
+two elements which are strdup'ed strings, and later free that list
+and the strings would look like:
+
+<informalexample><programlisting>
+GList *list = NULL; /*the actual list pointer*/
+GList *li; /*just a temporary pointer to a node used for iterating
+             over the list*/
+...
+/*here we add two strings to the list*/
+list = g_list_append(list,g_strdup("String 1"));
+list = g_list_append(list,g_strdup("String 2"));
+...
+/*here we loop though the list, freeing all the strings and then
+  we free the list itself*/
+for(li = list; li!= NULL; li = g_list_next(li)) {
+        char *string = li-&gt;data;
+        g_free(string);
+}
+g_list_free(list);
+</programlisting></informalexample></para>
+</sect3>
+
+<sect3>
+<title>GString</title>
+
+<para>Another simple to use and useful container is the
+<emphasis>GString</emphasis> container.
+It's a dynamically sized string container for the times when you don't
+know how large the string you will need will be. Here's a list of the
+most important functions.
+
+<table>
+<title>
+Most important GString functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>GString* g_string_new (const gchar *init)</entry>
+<entry>Create a new GString with initial value of 'init'</entry></row>
+
+<row><entry>void g_string_free (GString *string, int free_segment)</entry>
+<entry>Free the GString structure and optionally also the string data segment</entry></row>
+
+<row><entry>GString* g_string_append (GString *string, const gchar *val)</entry>
+<entry>Append 'val' to 'string'</entry></row>
+
+<row><entry>GString* g_string_prepend (GString *string, const gchar *val)</entry>
+<entry>Prepend 'val' to 'string'</entry></row>
+
+<row><entry>void g_string_sprintf (GString *string, const gchar *format, ...)</entry>
+<entry>A sprintf like function for GString</entry></row>
+
+<row><entry>void g_string_sprintfa (GString *string, const gchar *format, ...)</entry>
+<entry>A sprintf like function for GString, but appends the string instead of overwriting it</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<para>
+To access the string data for use as a <emphasis>char *</emphasis>, just
+access the <emphasis>str</emphasis> element of the
+<emphasis>GString</emphasis> structure. You can actually free the
+<emphasis>GString</emphasis> structure without freeing this data segment.
+This is useful if you want to create a normal C string. The following example
+is a function that takes an array of integers and sprintfs them into a string
+and returns a <emphasis>char *</emphasis>.
+
+<informalexample><programlisting>
+char *
+create_number_list(int array[], int array_len)
+{
+        int i;           /* the array iterator */
+        GString *string; /* the GString */
+        char *ret;       /* the return value */
+
+        /* make a new GString that is empty */
+        string = g_string_new("");
+
+        /* iterate over the integer array */
+        for(i=0; i&lt;array_len; i++) {
+                /* append the number to the string in parenthesis */
+                g_string_sprintfa(string, "(%d)", array[i]);
+        }
+
+        /* setup the return value */
+        ret = string-&gt;str;
+
+        /* free the GString structure, but not the data */
+        g_string_free(string,FALSE);
+
+        /* return the string */
+        return ret;
+}
+</programlisting></informalexample></para>
+
+</sect3>
+
+<sect3>
+<title>GHashTable</title>
+
+<para>
+Though less often used then GList's and GString's. The hash table container
+is a very useful one. Usually by a hash table one would mean an object
+(in GLib's terms a <emphasis>gpointer</emphasis>) would have a string
+key, by which we could recall the object at a later time. GLib takes this
+a step further, making the key a <emphasis>gpointer</emphasis> as well,
+and letting you provide a hashing and a comparison function yourself.
+While this makes <emphasis>GHashTable</emphasis> much more flexible, it
+can lead to some confusion with respect to memory allocation for the
+keys. Let's give some important functions and deal with the details
+later:
+
+<table>
+<title>
+Most important GHashTable functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>GHashTable* g_hash_table_new (GHashFunc hash_func,
+GCompareFunc key_compare_func)</entry>
+<entry>Creates a new hash table using the specified hash function and
+comparison function</entry></row>
+
+<row><entry>void g_hash_table_destroy (GHashTable *hash_table)</entry>
+<entry>Destroy the hash table and free memory. This does not however free
+neither the data, nor the keys, you have to do this
+yourself</entry></row>
+
+<row><entry>void g_hash_table_insert (GHashTable *hash_table, gpointer
+key, gpointer value)</entry>
+<entry>Insert a new 'value' with a key of 'key'.</entry></row>
+
+<row><entry>void g_hash_table_remove (GHashTable *hash_table,
+gconstpointer key)</entry>
+<entry>Remove the value with the key of 'key' from the table. Doesn't
+free neither the key nor the value.</entry></row>
+
+<row><entry>gpointer g_hash_table_lookup (GHashTable *hash_table,
+gconstpointer key)</entry>
+<entry>Fetch the pointer of the value, with the key of 'key'. Returns
+NULL if it isn't found</entry></row>
+
+
+<row><entry>gboolean g_hash_table_lookup_extended (GHashTable *hash_table,
+gconstpointer lookup_key, gpointer *orig_key, gpointer *value)</entry>
+<entry>Lookup the data with the key of 'value_key', store the original
+key pointer in 'orig_key' and the value in 'value'. Returns TRUE if the
+lookup was successful else it returns FALSE. You should use this
+function when removing an item to get rid of the original key in memory.
+</entry></row>
+
+<row><entry>void g_hash_table_foreach (GHashTable *hash_table, GHFunc
+func, gpointer user_data)</entry>
+<entry>Run a function for each data stored in the hash table. The
+'user_data' will be passed to the function as the last argument. The
+GHFunc prototype follows.</entry></row>
+
+<row><entry>void (*GHFunc) (gpointer key, gpointer value, gpointer
+user_data)</entry>
+<entry>This is the function prototype that you will use for the function
+that is passed to g_hash_table_foreach. It gets passed the key, the value
+and the user_data specified in the g_hash_table_foreach
+call.</entry></row>
+
+<row><entry>guint g_str_hash (gconstpointer v)</entry>
+<entry>A standard string hash function for string hash
+tables</entry></row>
+
+<row><entry>gint g_str_equal (gconstpointer v, gconstpointer v2)</entry>
+<entry>A standard string compare function for string hash tables</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<para>
+To create a hash table, you pass the hash and key compare functions
+to <emphasis>g_hash_table_new</emphasis>. There are standard functions
+defined for strings (<emphasis>g_str_hash</emphasis> and
+<emphasis>g_str_equal</emphasis>) and others. However
+if you pass NULL as the hash and compare functions, you will get a direct
+pointer hash, where pointers will be actually themselves used as keys.
+</para>
+
+<para>
+The problem of memory allocation becomes apparent when we start using
+string hashes. <emphasis>GHashTable</emphasis> doesn't store the string,
+all it stores is a pointer. Therefore, when inserting a value into the
+hash, you have to create a new copy of the key for that value.
+This is an important thing to remember as otherwise things are not going
+to behave really nice for you. The other problem is how to then get rid
+of the key. If you do a <emphasis>g_hash_table_remove</emphasis>, you
+give as a key a string with the same contents as the original key, but
+not the same memory location. After then a pointer to the original key 
+would be lost and unless you stored a pointer to it somewhere, you just
+created a memory leak. What you need to do instead is to do a
+<emphasis>g_hash_table_lookup_extended</emphasis> first to get both
+the value and the original key pointer and then do the
+<emphasis>g_hash_table_remove</emphasis>.
+</para>
+
+<para>
+The following example will make a new string hash, insert a couple of strings
+into it, retrieve them, and then destroy the hash and the values stored
+in it:
+
+<informalexample><programlisting>
+/* function we use for freeing the keys and data in the hash before
+   we destroy the hash */
+static void
+free_key_value(gpointer key, gpointer value, gpointer user_data)
+{
+        g_free(key);
+        g_free(value);
+}
+
+...
+
+/* somewhere else in the code */
+
+GHashTable *ht;
+
+/* create a new hash table with strings as keys */
+ht = g_hash_table_new(g_str_hash, g_str_equal);
+
+/* insert a couple of strings (say colors keyed by shape) */
+g_hash_table_insert(ht, g_strdup("triangle"), g_strdup("green"));
+g_hash_table_insert(ht, g_strdup("square"), g_strdup("red"));
+g_hash_table_insert(ht, g_strdup("circle"), g_strdup("blue"));
+
+/* again, somewhere else in the code */
+...
+/* now here we wish to print out the color of a square */
+char *color;
+
+/* get the color of a square */
+color = g_hash_table_lookup(ht, "square");
+
+printf("The color of a square is: %s\n",color);
+
+/* yet again somewhere else */
+...
+/* Now here we just want to destroy the hash table and free all the
+ * memory associated with it. We use the free_key_value function and
+ * have it run over all the values in the hash table. */
+g_hash_foreach(ht, free_key_value, NULL);
+
+/* now we can destroy the actual hash table */
+g_hash_table_destroy(ht);
+</programlisting></informalexample></para>
+
+</sect3>
+
+</sect2>
+
+
+<sect2>
+<title>More GLib information</title>
+<para>
+For more information look at the <emphasis>glib.h</emphasis> header file and at
+the documentation on the <ulink url="http://www.gtk.org/">www.gtk.org</ulink>
+web site.</para></sect2></sect1>
+
+<sect1 id="gtk">
+<title>GTK+</title>
+<sect2>
+<title>GUI Basics</title>
+
+<para>
+Writing a GTK+ based GUI application is in essence extremely simple, and
+we'll use the Hello World example from Ian Main's excellent GTK+ tutorial,
+which is a very useful guide to writing mate applications. But first we'll
+talk about the basic philosophy behind GTK+.</para>
+
+<para>
+GTK+ is a container based toolkit, meaning you don't specify where the
+widget is, but you specify in what container it is. Some widgets,
+such as a window or a frame or a button, are containers that hold only
+one other widget. For example a button with a label is actually a button
+into which we added a label widget. If you need to put more widgets into
+that container, you will need to add another container into them, one
+that holds more then one widget such as a horizontal box.</para>
+
+<para>
+In fact most layout of windows is usually done with containers such as
+horizontal boxes, vertical boxes and tables, those are the most important
+to learn. A horizontal box is a widget that you can add several widgets
+into and they will be added in a horizontal row. The height of the
+horizontal box is the height of the highest widget added, and the
+length is the length of all widgets combined. Vertical box behaves exactly
+the same, except that it's vertical instead of horizontal. A table
+can take in widgets at different rows and columns.
+
+<figure>
+<title>Example window hierarchy</title>
+<graphic fileref="gtkhierarchy" format="GIF"></graphic>
+</figure>
+
+</para></sect2>
+
+<sect2>
+<title>GTK+ Object Model</title>
+
+<para>
+Gtk's object model is an object oriented framework for C. It includes
+singular object inheritance, virtual methods, signals, runtime object
+modification, runtime type checking, and other goodies. While writing
+a GTK+ object is more involved then say writing an object in something
+like Java, it does have many advantages. GTK+ is an object model which
+doesn't require inheritance for most things you do with objects. For one,
+since methods are just functions that take the pointer to the object
+as the first argument, it's easy to write more methods in your own code,
+which are missing in the original object.</para></sect2>
+
+<sect2>
+<title>Data on Objects</title>
+
+<para>
+There is a way to store arbitrary named data in objects to extend the object.
+This is done with the method, <emphasis>gtk_object_set_data</emphasis> (or
+<emphasis>gtk_object_set_user_data</emphasis> for a single unnamed pointer). To
+retrieve data, one uses <emphasis>gtk_object_get_data</emphasis>. Example:
+
+<informalexample><programlisting>
+GtkObject *obj;
+void *some_pointer;
+...
+/*here we set "some_data" data on obj to point to some_pointer*/
+gtk_object_set_data(obj,"some_data",some_pointer);
+...
+/*retrieve pointer to some_data from obj and store it in
+  some_pointer*/
+some_pointer = gtk_object_get_data(obj,"some_data");
+</programlisting></informalexample>
+The pointer can be a pointer to anything since it's manipulated as a (void *).</para></sect2>
+
+<sect2>
+<title>GTK+/MATE Naming Conventions</title>
+
+<para>
+Both GTK+ and MATE use the same naming convention when naming objects and
+functions. GTK+ uses a prefix of <emphasis>gtk_</emphasis> for functions, and
+<emphasis>Gtk</emphasis> for objects, and MATE uses
+<emphasis>mate_</emphasis> and <emphasis>Mate</emphasis>. When a function is
+a method for an object, the name (lower case) is appended to the prefix.  For
+example the button object is named <emphasis>GtkButton</emphasis> (that is the
+name of the C struct holding the data for the object), and say the
+"<emphasis>new</emphasis>" method for <emphasis>GtkButton</emphasis> is then
+called <emphasis>gtk_button_new</emphasis>. Macros associated with objects use
+the same naming convention as functions, but are all capitalized. For example a
+macro that casts an object to a <emphasis>GtkButton</emphasis> is called
+<emphasis>GTK_BUTTON</emphasis>. There are exceptions, notably the type
+checking macro, which is called <emphasis>GTK_IS_BUTTON</emphasis> for
+<emphasis>GtkButton</emphasis>.</para></sect2>
+
+<sect2>
+<title>Using GTK+ Methods</title>
+
+<para>
+Since GTK+ is object oriented, it uses inheritance for it's widgets. For
+example <emphasis>GtkHBox</emphasis> and <emphasis>GtkVBox</emphasis> are
+derived from <emphasis>GtkBox</emphasis>.  And thus you can use any
+<emphasis>GtkBox</emphasis> method on a <emphasis>GtkVBox</emphasis> or
+<emphasis>GtkHBox</emphasis>. However you need to cast the
+<emphasis>GtkVBox</emphasis> object to <emphasis>GtkBox</emphasis> before you
+call the function. This could be done with standard C casts such as:
+
+<informalexample><programlisting>
+GtkVBox *vbox;
+...
+gtk_box_pack_start((GtkBox *)vbox, ...);
+...
+</programlisting></informalexample>
+This would work, however it is unsafe. GTK+ provides a mechanism of checking
+the types, so that it can warn you if you are casting an object which
+does not derive from the object you are casting to, or if you try to
+cast a NULL pointer. The macro is all capital name of the widget. For example
+the above code snippet would be
+
+<informalexample><programlisting>
+GtkVBox *vbox;
+...
+gtk_box_pack_start(GTK_BOX(vbox), ...);
+...
+</programlisting></informalexample></para>
+
+<para>
+MATE uses the exact same form so anything you learn about GTK+ can be used
+for MATE widgets, you just replace the GTK prefix with MATE.</para></sect2>
+
+<sect2>
+<title>Example Hello World Program</title>
+
+<para>
+Here is the promised example code for the hello world program.
+It doesn't use any advanced containers, just a window and a button
+onto which a label is added. It illustrates the basic workings
+of a GUI program written in GTK+. Don't be scared by it's size,
+it's mostly comments.
+
+<informalexample><programlisting>
+/* example-start helloworld helloworld.c */
+
+#include &lt;gtk/gtk.h&gt;
+
+/* this is a callback function. the data arguments are ignored in
+ * this example.. More on callbacks below. */
+void
+hello (GtkWidget *widget, gpointer data)
+{
+        g_print ("Hello World\n");
+}
+
+gint
+delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+        g_print ("delete event occurred\n");
+        /* if you return FALSE in the "delete_event" signal
+         * handler, GTK will emit the "destroy" signal.
+         * Returning TRUE means you don't want the window
+         * to be destroyed. This is useful for popping up
+         * 'are you sure you want to quit ?' type dialogs. */
+
+        /* Change TRUE to FALSE and the main window will
+         * be destroyed with a "delete_event". */
+
+        return (TRUE);
+}
+
+/* another callback */
+void
+destroy (GtkWidget *widget, gpointer data)
+{
+        gtk_main_quit ();
+}
+
+int
+main (int argc, char *argv[])
+{
+        /* GtkWidget is the storage type for widgets */
+        GtkWidget *window;
+        GtkWidget *button;
+
+        /* this is called in all GTK applications.
+         * arguments are parsed from the command line and
+         * are returned to the application. */
+        gtk_init (&amp;argc, &amp;argv);
+
+        /* create a new window */
+        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+        /* when the window is given the "delete_event" signal
+         * (this is given by the window manager, usually by
+         * the 'close' option, or on the titlebar), we ask
+         * it to call the delete_event () function as defined
+         * above.  The data passed to the callback function
+         * is NULL and is ignored in the callback function. */
+        gtk_signal_connect (GTK_OBJECT (window), "delete_event",
+                            GTK_SIGNAL_FUNC (delete_event), NULL);
+
+        /* here we connect the "destroy" event to a signal
+         * handler. This event occurs when we call
+         * gtk_widget_destroy() on the window, or if we
+         * return 'FALSE' in the "delete_event" callback. */
+        gtk_signal_connect (GTK_OBJECT (window), "destroy",
+                            GTK_SIGNAL_FUNC (destroy), NULL);
+
+        /* sets the border width of the window. */
+        gtk_container_border_width (GTK_CONTAINER (window), 10);
+
+        /* creates a new button with the label "Hello World". */
+        button = gtk_button_new_with_label ("Hello World");
+
+        /* When the button receives the "clicked" signal, it
+         * will call the function hello() passing it NULL as
+         * it's argument.  The hello() function is defined
+         * above. */
+        gtk_signal_connect (GTK_OBJECT (button), "clicked",
+                            GTK_SIGNAL_FUNC (hello), NULL);
+
+        /* This will cause the window to be destroyed by
+         * calling gtk_widget_destroy(window) when "clicked".
+         * Again, the destroy signal could come from here,
+         * or the window manager. */
+        gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+                                   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+                                   GTK_OBJECT (window));
+
+        /* this packs the button into the window
+         * (a gtk container). */
+        gtk_container_add (GTK_CONTAINER (window), button);
+
+        /* the final step is to display this newly created
+         * widget... */
+        gtk_widget_show (button);
+
+        /* and the window */
+        gtk_widget_show (window);
+
+        /* all GTK applications must have a gtk_main().
+         * Control ends here and waits for an event to occur
+         * (like a key press or mouse event). */
+        gtk_main ();
+
+        return 0;
+}
+/* example-end */
+</programlisting></informalexample></para>
+
+<para>
+For more information look at the header files in &lt;prefix&gt;/include/gtk/
+and &lt;prefix&gt;/include/gdk/ and at the documentation on the
+<ulink url="http://www.gtk.org/">www.gtk.org</ulink> web site.
+</para></sect2></sect1></chapter>
+
+<chapter id="mate-programming">
+<title>MATE Programming</title>
+<sect1 id="mate-introduction">
+<title>Introduction</title>
+<sect2>
+<title>What Is a MATE Program</title>
+
+<para>
+A MATE program is a GTK+ GUI application, which makes use of the
+MATE libraries. The MATE libraries make it possible to have similar
+look and feel among applications, and to make simple things, simple
+to program. Plus the MATE libraries add a whole bunch of widgets that
+simply don't fit into GTK+.
+</para>
+</sect2>
+
+<sect2>
+<title>Very Basic MATE Program</title>
+
+<para>
+The following program creates a basic mate window and adds a horizontal box
+into which it packs two buttons, which (when pressed) print a string onto the
+stdout of the terminal you started the application from. The semantics and
+structure of a MATE program is very similar to a pure GTK+ program.
+
+<informalexample><programlisting>
+/*
+ * A simple Mate program, outside of MATE tree, not using i18n
+ * buttons.c
+ */
+/* the very basic mate include */
+#include &lt;mate.h&gt;
+
+/* a callback for the buttons */
+static void
+button_clicked(GtkWidget *button, gpointer data)
+{
+        /* the string to print is passed though the data field
+           (which is a void *) */
+        char *string = data;
+        /* print a string on the standard output */
+        g_print(string);
+}
+
+/* called when the user closes the window */
+static gint
+delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+        /* signal the main loop to quit */
+        gtk_main_quit();
+        /* return FALSE to continue closing the window */
+        return FALSE;
+}
+
+int
+main(int argc, char *argv[])
+{
+        GtkWidget *app;
+        GtkWidget *button;
+        GtkWidget *hbox;
+
+        /* Initialize MATE, this is very similar to gtk_init */
+        mate_init ("buttons-basic-example", "0.1", argc, argv);
+        
+        /* Create a Mate app widget, which sets up a basic window
+           for your application */
+        app = mate_app_new ("buttons-basic-example",
+                             "Basic MATE Application");
+
+        /* bind "delete_event", which is the event we get when
+           the user closes the window with the window manager,
+           to gtk_main_quit, which is a function that causes
+           the gtk_main loop to exit, and consequently to quit
+           the application */
+        gtk_signal_connect (GTK_OBJECT (app), "delete_event",
+                            GTK_SIGNAL_FUNC (delete_event),
+                            NULL);
+
+        /* create a horizontal box for the buttons and add it
+           into the app widget */
+        hbox = gtk_hbox_new (FALSE,5);
+        mate_app_set_contents (MATE_APP (app), hbox);
+
+        /* make a button and add it into the horizontal box,
+           and bind the clicked event to call button_clicked */
+        button = gtk_button_new_with_label("Button 1");
+        gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
+        gtk_signal_connect (GTK_OBJECT (button), "clicked",
+                            GTK_SIGNAL_FUNC (button_clicked),
+                            "Button 1\n");
+
+        /* and another button */
+        button = gtk_button_new_with_label("Button 2");
+        gtk_box_pack_start (GTK_BOX(hbox), button, FALSE, FALSE, 0);
+        gtk_signal_connect (GTK_OBJECT (button), "clicked",
+                            GTK_SIGNAL_FUNC (button_clicked),
+                            "Button 2\n");
+        
+        /* show everything inside this app widget and the app
+           widget itself */
+        gtk_widget_show_all(app);
+        
+        /* enter the main loop */
+        gtk_main ();
+        
+        return 0;
+}
+</programlisting></informalexample></para>
+
+<para>
+Please note the use of <emphasis>mate_init</emphasis> instead of
+<emphasis>gtk_init</emphasis>, and <emphasis>MateApp</emphasis> widget instead
+of just a regular <emphasis>GtkWindow</emphasis>. We will go into detail of
+these later.
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="mate-overview">
+<title>Overview</title>
+
+<para>
+OK now we look at what the different libraries that we are going to cover do.
+First we look at the <emphasis>libmate</emphasis> library and it's
+functionality, then we'll cover <emphasis>libmateui</emphasis> to complete all
+the basic functionality of a mate program. We will take a look at the
+<emphasis>mate-canvas</emphasis> in detail, as it is extremely powerful and
+useful widget. We'll also say a few things about drag and drop.
+</para>
+</sect1>
+
+<sect1 id="using-the-libmate-library">
+<title>Using the libmate Library</title>
+
+<para>
+The <emphasis>libmate</emphasis> library is the non-toolkit specific utility
+library for MATE applications, and includes things like configuration file
+reading, .desktop file handling, special GLib like utility routines, getting
+the standard file locations for MATE, handling mime types, handling meta-data
+on files, sound, "triggers", and other useful things one could want to use.
+Also say that you are writing an application in say motif, but you want your
+app to be more MATE friendly. Then you could use this library to make your
+application work well with other MATE programs.</para>
+
+<sect2>
+<title>Configuration Files</title>
+
+<para>
+The <emphasis>mate-config</emphasis> routines provide an easy way to store
+configuration info in files. To see a full list of the routines, look in the
+<emphasis>libmate/mate-config.h</emphasis> header file.</para>
+
+<para>
+The routines all working with a path. The path is a Unix like path, but the
+root is set to the <emphasis>~/.mate/</emphasis> directory. So
+<emphasis>/some/config/path/file/sectionA/keyB</emphasis>, refers to the file
+<emphasis>~/.mate/some/config/path/file</emphasis>, and inside the file using
+section <emphasis>sectionA</emphasis> and key <emphasis>keyB</emphasis>.</para>
+
+<sect3>
+<title>Reading Configuration Info</title>
+
+<para>
+To read configuration information <emphasis>mate_config_get_*</emphasis>
+functions are used. the <emphasis>*</emphasis> is replaced by the type of the
+data, it can be <emphasis>int</emphasis>, <emphasis>float</emphasis>,
+<emphasis>string</emphasis>, <emphasis>bool</emphasis> and
+<emphasis>vector</emphasis>.  The <emphasis>int</emphasis> functions work with
+<emphasis>gint</emphasis>, <emphasis>float</emphasis> functions work with
+<emphasis>gdouble</emphasis>, <emphasis>string</emphasis> functions work with
+<emphasis>gchar *</emphasis>, <emphasis>bool</emphasis> functions work with
+<emphasis>gboolean</emphasis> and <emphasis>vector</emphasis> work with an argc
+like array of strings (<emphasis>gint</emphasis> and <emphasis>gchar
+**</emphasis>). For the <emphasis>mate_config_get_*</emphasis> functions, the
+default to be returned if the file section or key are not found can be appended
+to the path after an equals sign. If you need to know if the default was used,
+you can append <emphasis>_with_default</emphasis> to the function name and add
+a parameter which is a <emphasis>gboolean *</emphasis>, though which the
+function returns whether it used the default or if it actually found a real
+value. Example follows:
+
+<informalexample><programlisting>
+int counter;
+char *text;
+gboolean def;
+...
+counter = mate_config_get_int_with_default("/example/section/counter=1",
+                                            &amp;def);
+if(def) g_print("Default used for counter!\n");
+text = mate_config_get_string("/example/section/text=TEXT");
+...
+g_free(text);
+</programlisting></informalexample>
+Note that the string returned by <emphasis>mate_config_get_string</emphasis>
+should be freed with <emphasis>g_free</emphasis>, the vector from
+<emphasis>mate_config_get_vector</emphasis> should also be freed with
+<emphasis>g_free</emphasis>.
+</para>
+</sect3>
+
+<sect3>
+<title>Writing Configuration Info</title>
+
+<para>
+To write configuration info to files, the
+<emphasis>mate_config_set_*</emphasis> functions are used. The use is very
+similar to above to the <emphasis>mate_config_get_*</emphasis> functions. The
+types used are exactly the same. Except with the "set" functions, you pass the
+data you want to store after the path, and there is no default inside the path.
+If the directory in the path doesn't exist it will get created when the
+functions are written to disk. After you set all your data, you need to call
+<emphasis>mate_config_sync</emphasis> to actually write your data to file. The
+library will not write the data to file immediately for efficiency reasons.
+Example follows:
+
+<informalexample><programlisting>
+char *text;
+int counter;
+...
+/*after we have set text and counter to some values we can
+  write them to our config location*/
+mate_config_set_int("/example/section/counter",counter);
+mate_config_set_string("/example/section/text",text);
+mate_config_sync();
+</programlisting></informalexample></para></sect3>
+
+<sect3>
+<title>Privacy Functions</title>
+
+<para>
+If you want to store sensitive data, that other users should not read, use the
+<emphasis>mate_config_private_*</emphasis> functions, which have exactly the
+same behavior as the above functions, with the exception of
+<emphasis>mate_config_sync</emphasis> (and a few others) which doesn't have a
+private equivalent since it works for both. The difference is that these
+functions write to a directory called <emphasis>~/.mate_private</emphasis> on
+which 0700 permissions are enforced. This is not extremely secure, but because
+of the highly brain-dead US export restrictions, we can't really use
+encryption.
+</para>
+</sect3>
+
+<sect3>
+<title>Using mate-config for Arbitrary Files</title>
+
+<para>
+If you wish to use <emphasis>mate-config</emphasis> for reading and writing of
+arbitrary files on the file-system (as long as those files are in the
+<emphasis>mate-config</emphasis> format), you can just prepend
+<emphasis>'='</emphasis> to the beginning of the path and another
+<emphasis>'='</emphasis> to the end of the file name. Example follows:
+
+<informalexample><programlisting>
+char buf[256];
+...
+/*write some bogus data to a temporary file*/
+g_snprintf(buf,256,"=%s=/section/key",tmpnam(tmpnam));
+mate_config_set_int(buf,999);
+mate_config_sync();
+</programlisting></informalexample>
+Note that it doesn't really make sense to use the private versions when
+using an arbitrary absolute path, as there will be absolutely no difference
+between the two.</para></sect3>
+
+<sect3>
+<title>Automatic Prefixes</title>
+
+<para>
+Sometime, especially if you have a long path, would be much easier to say have
+the config automatically prefix the path with a given string.  This is what
+<emphasis>mate_config_push_prefix</emphasis> and
+<emphasis>mate_config_pop_prefix</emphasis> are for. You pass the string you
+want to prefix to <emphasis>mate_config_push_prefix</emphasis> and call
+<emphasis>mate_config_pop_prefix</emphasis> when you are done. Note that these
+functions are common between private and normal config functions. Example:
+
+<informalexample><programlisting>
+mate_config_push_prefix("/file/section/");
+mate_config_set_int("key1",1);
+mate_config_set_int("key2",2);
+mate_config_set_int("key3",-88);
+mate_config_pop_prefix();
+</programlisting></informalexample></para></sect3>
+
+<sect3>
+<title>Misc mate-config Stuff</title>
+
+<para>
+If you need to remove a file in your configuration file, you will use
+<emphasis>mate_config_clean_file</emphasis>. This function will schedule that
+file to be deleted on the next <emphasis>mate_config_sync</emphasis>. You can
+do a <emphasis>mate_config_clean_file</emphasis> and then use the file and
+then do <emphasis>mate_config_sync</emphasis>, and it will have the expected
+behavior.
+</para>
+
+<para>
+If you have written to a file or read from a file and want
+<emphasis>mate-config</emphasis> to drop it from memory, use
+<emphasis>mate_config_drop_file</emphasis>. This is used if you want to forget
+changes done to that file, or to simply conserve memory, since
+<emphasis>mate-config</emphasis> will otherwise keep a copy of the data in
+memory for faster access.
+</para>
+</sect3>
+</sect2>
+
+<sect2>
+<title>.desktop Files</title>
+
+<para>
+The <emphasis>.desktop</emphasis> files are the files that contain information about
+programs. The files are in the <emphasis>mate-config</emphasis> format and are internally
+read using <emphasis>mate-config</emphasis>. Your app definitely needs one of these
+files installed in the system menu paths if it wants to be added to the menu.</para>
+
+<para>
+You can use <emphasis>mate_desktop_entry_*</emphasis> functions to manipulate these files.
+These functions work with a structure called <emphasis>MateDesktopEntry</emphasis> and
+you should look at the <emphasis>libmate/mate-dentry.h</emphasis> header file for the format
+of this structure.</para>
+
+<para>
+The basic functions that you use to manipulate these files are
+<emphasis>mate_desktop_entry_load</emphasis> which returns a newly allocated
+<emphasis>MateDesktopEntry</emphasis> structure, <emphasis>mate_desktop_entry_launch</emphasis>
+which takes the <emphasis>MateDesktopEntry</emphasis> structure as an argument and
+launches the program it describes and <emphasis>mate_desktop_entry_free</emphasis>
+which frees the allocated memory with the structure.</para>
+
+<para>
+An example .desktop file for your app might look like:
+
+<informalexample><programlisting>
+[Desktop Entry]
+Name=Clock
+Name[cz]=Hodiny
+Comment=Digital Clock
+Comment[cz]=Digitalni Hodiny
+Exec=digital-clock
+Icon=clock.png
+Terminal=0
+Type=Application
+</programlisting></informalexample>
+You will notice that there are translations for Name and Comment
+fields in Czech. For mate programs to notice your .desktop file,
+it is usually located somewhere under <emphasis>&lt;prefix&gt;/share/apps/</emphasis>, which
+contains the hierarchy of the system menus. For the system to find
+your icon, your icon should be placed inside the
+<emphasis>&lt;prefix&gt;/share/pixmaps</emphasis> directory. Note that the prefix refers
+to the location where MATE was installed.</para></sect2>
+
+<sect2>
+<title>Utility and Files</title>
+<sect3>
+<title>Files</title>
+
+<para>
+There is a standard way to find files that belong to mate installation,
+you shouldn't really be using your own logic to find them and you should
+use these functions to get filenames for icons, sounds or other data.
+Also these functions are only for finding files that were installed with
+the MATE libraries. There is not at this time functions to deal with
+data installed by your application. The functions are:
+
+<table>
+<title>
+File finding functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>char *mate_libdir_file (const char *filename)</entry>
+<entry>Get a full path of a file in the library directory or NULL if the file doesn't exist</entry></row>
+<row><entry>char *mate_unconditional_libdir_file (const char *filename)</entry>
+<entry>Get a full path of a file in the library directory</entry></row>
+
+<row><entry>char *mate_datadir_file (const char *filename)</entry>
+<entry>Get a full path of a file in the data director or NULL if the file doesn't exist</entry></row>
+<row><entry>char *mate_unconditional_datadir_file (const char *filename)</entry>
+<entry>Get a full path of a file in the data director</entry></row>
+ 
+<row><entry>char *mate_sound_file (const char *filename)</entry>
+<entry>Get a full path of a file in the sound directory or NULL if the file doesn't exist</entry></row>
+<row><entry>char *mate_unconditional_sound_file (const char *filename)</entry>
+<entry>Get a full path of a file in the sound directory</entry></row>
+
+<row><entry>char *mate_pixmap_file (const char *filename)</entry>
+<entry>Get a full path of a file in the pixmap directory or NULL if the file doesn't exist</entry></row>
+<row><entry>char *mate_unconditional_pixmap_file (const char *filename)</entry>
+<entry>Get a full path of a file in the pixmap directory</entry></row>
+
+<row><entry>char *mate_config_file (const char *filename)</entry>
+<entry>Get a full path of a file in the config directory or NULL if the file doesn't exist</entry></row>
+<row><entry>char *mate_unconditional_config_file (const char *filename)</entry>
+<entry>Get a full path of a file in the config directory</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+</para>
+
+<para>
+These functions return a newly <emphasis>g_malloc</emphasis>ed string and you
+should use <emphasis>g_free</emphasis> on the string when you are done. The
+<emphasis>mate_unconditional_*</emphasis> functions don't check if the file
+actually exist and will just return a file name. The normal functions will
+check and return <emphasis>NULL</emphasis> if the file doesn't exist. So you
+shouldn't use those functions when you will do saving. As an example we want to
+get a pixmap from the standard pixmap directory, for example we need to get the
+"mate-help.png" icon:
+
+<informalexample><programlisting>
+char *name;
+...
+name = mate_pixmap_file("mate-help.png");
+if(!name) {
+        g_warning("mate-help.png doesn't exist!");
+} else {
+        /*here we use the file*/
+        ...
+        g_free(name);
+}
+</programlisting></informalexample></para>
+
+<para>
+Also of interest are the functions (actually macros)
+<emphasis>mate_util_home_file</emphasis> and
+<emphasis>mate_util_user_home</emphasis>.
+<emphasis>mate_util_home_file</emphasis> takes one argument (string) and
+returns a newly allocated string with the home directory and .mate prepended
+to the file. So for example if you pass it say
+<emphasis>someconfigfile</emphasis>, it would return
+<emphasis>/home/jirka/.mate/someconfigfile</emphasis>.  Similar is the
+<emphasis>mate_util_user_home</emphasis>, it takes one argument and returns
+the file with just the home directory added. So if you pass it
+<emphasis>.dotfile</emphasis>, it would return
+<emphasis>/home/jirka/.dotfile</emphasis>.</para></sect3>
+
+<sect3>
+<title>Utility</title>
+
+<para>
+There are also a number of GLib like named functions to make your life easier,
+of note would be <emphasis>g_file_exists</emphasis> which takes a filename and
+returns <emphasis>TRUE</emphasis> if it exists or <emphasis>FALSE</emphasis> if
+it doesn't, or <emphasis>g_concat_dir_and_file</emphasis> which takes a
+directory name and a file name, and takes care of the <emphasis>'/'</emphasis>
+issue, this is useful when working with strings where you don't want to check
+for the '/', you just want to append a directory to some file, or another
+directory. Note that you should <emphasis>g_free</emphasis> the string you get
+as usual. For more utility functions, look into
+<emphasis>libmate/mate-util.h</emphasis>, it is well
+commented.
+</para>
+</sect3>
+</sect2>
+
+<sect2>
+<title>Mime Types</title>
+
+<para>
+Sometimes it's useful to know the mime-type of a file. You can do this by using
+the <emphasis>mate_mime_type_or_default</emphasis> function, which takes two
+arguments, the filename and a default mime-type string which it will return if
+it can't figure out the mime type from the filename.  This call doesn't
+actually look into the file, it tries to guess the type by looking at the
+filename itself. Also the string it returns is a pointer to it's internal
+database and you should not free it as that would likely result in a segfault
+later on. You can also use <emphasis>mate_mime_type</emphasis> which will
+return NULL if it can't guess the mime-type.</para>
+
+<para>
+It is also possible to work with URI lists, such as the ones used sometimes in
+Drag and Drop. Usually from an URI list you want to extract a list of filenames
+that you just received. For that you use the
+<emphasis>mate_uri_list_extract_filenames</emphasis> function, which takes the
+URI list as a string argument, and returns a <emphasis>GList *</emphasis> of
+newly allocated strings. Once you are done with the files, you should free the
+strings and the list. You can use the utility routine
+<emphasis>mate_uri_list_free_strings</emphasis> to do this for you.
+</para>
+
+<para>
+In the following example I write a drag and drop handler
+that takes the files and finds out their mime information, then you
+could just write code that can do things based on the mime type
+of the files.
+
+<informalexample><programlisting>
+/*this is the handler for the drag_data_receive signal, assuming our
+  widget only accepts the "text/uri-list" mime type of data, drag and
+  drop is a more complicated topic and you should read up on GTK+
+  documentation for better treatment*/
+static void
+dnd_drop_internal (GtkWidget        *widget,
+                   GdkDragContext   *context,
+                   gint              x,
+                   gint              y,
+                   GtkSelectionData *selection_data,
+                   guint             info,
+                   guint             time)
+{
+        GList *files, *li;
+
+        /*here we extract the filenames from the URI-list we received*/
+        files = mate_uri_list_extract_filenames(selection_data-&gt;data);
+
+        /*here we loop though the files and get their mime-type*/
+        for(li = files; li!=NULL ; li = g_list_next(li)) {
+                  char *mimetype;
+                  char *filename = li-&gt;data;
+
+                  /*guess the mime type of the file*/
+                  mimetype = mate_mime_type(filename);
+
+                  /*if we can't guess it, just loop to the
+                    next filename*/
+                  if(!mimetype) continue;
+
+                  /*here comes code that can actually do something
+                    based on the mime-type of the file we received*/
+                  ...
+        }
+        /*free the list of files we got*/
+        mate_uri_list_free_strings (files);
+}
+</programlisting></informalexample>
+Note how easy it is to find out what files you got, and what type
+they are. You would just need to add some code instead of the three
+dots that actually compares the mime strings you got to some you have
+to figure out what you can do with the files.</para></sect2>
+
+<sect2>
+<title>Meta Data</title>
+
+<para>
+Sometimes it is useful to store some information along with a filename, this
+can be done easily with the <emphasis>mate-metadata</emphasis>. It is a set of
+functions to manage this data. Since Unix doesn't natively support meta-data,
+you have to help it yourself. For example if your app copies, renames or
+deletes files, use the following functions.
+
+<table>
+<title>
+Metadata functions
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Prototype</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>int mate_metadata_rename (const char *from, const char *to)</entry>
+<entry>Notify the metadata database that a file has been renamed</entry></row>
+
+<row><entry>int mate_metadata_copy (const char *from, const char *to)</entry>
+<entry>Notify the metadata database that a file has been copied</entry></row>
+
+<row><entry>int mate_metadata_delete (const char *file)</entry>
+<entry>Notify the metadata database that a file has been deleted</entry></row>
+
+<row><entry>int mate_metadata_set (const char *file, const char *name, int size, const char *data)</entry>
+<entry>Set data associated with the file 'file', and key 'name'. The data is
+pointed to by 'data' and is 'size' bytes long. MATE_METADATA_OK is returned on success.</entry></row>
+
+<row><entry>int mate_metadata_get (const char *file, const char *name, int *size, char **buffer)</entry>
+<entry>Get data associated with file 'file' and key 'name'. Data will be copied to a buffer and 'buffer' will be set to point to it, and 'size' will be set to the size of the buffer. MATE_METADATA_OK is returned on success.</entry></row>
+
+<row><entry>char **mate_metadata_list (const char *file)</entry>
+<entry>Get a list of the keys for which there is some data set on 'file'. The list will be a newly allocated, NULL terminated string vector and should be freed with g_strfreev</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+<table>
+<title>
+Metadata return values
+</title>
+
+<tgroup cols=2>
+<thead>
+<row>
+<entry>Name</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row><entry>MATE_METADATA_OK</entry><entry>No error (this is actually 0)</entry></row>
+<row><entry>MATE_METADATA_IO_ERROR</entry><entry>IO or other low-level communications/storage error.</entry></row>
+<row><entry>MATE_METADATA_NOT_FOUND</entry><entry>Information not found.</entry></row>
+
+</tbody>
+</tgroup>
+</table>
+
+
+</para>
+
+<para>
+These functions don't actually do the operations on the files, they just
+change the meta-data accordingly. So if your app does any of these
+operations, it is nicer towards other apps, that it notifies the
+meta-data database of the changes. You shouldn't rely on the data
+being stored. Only non-critical data should be stored in the
+meta-data, since apps that do not notify the database with these
+functions will make you loose your data for the file. These functions will
+return 0 or <emphasis>MATE_METADATA_OK</emphasis> if there was no error,
+or an error-code (described above).</para>
+
+<para>
+Now if you actually want to use the meta-data to store information about files,
+you will most likely use the functions <emphasis>mate_metadata_set</emphasis>,
+<emphasis>mate_metadata_remove</emphasis> and
+<emphasis>mate_metadata_get</emphasis>. Again these functions return an
+integer, which is <emphasis>MATE_METADATA_OK</emphasis> in case there was no
+error, or they use the same error codes as the previous functions.</para>
+
+<para>
+The functions work with a a key string for which they store a piece of data.
+The data is represented by a size integer and a character pointer.
+<emphasis>mate_metadata_set</emphasis> takes the filename as the first
+argument, the name or key of the data as the second argument, the size as the
+third and the pointer to the actual data as the forth argument. This function
+just sets that data for that file and key.
+<emphasis>mate_metadata_remove</emphasis> will clear a particular data item on
+a file, so it takes a file and then the key name as the second argument.
+<emphasis>mate_metadata_get</emphasis> takes the filename as the first
+argument and the key name as the second, then it returns data size though an
+integer pointer you pass though the third argument and the actual data though a
+pointer to a pointer you pass as the fourth argument. The data returned is
+newly allocated and should be freed after use. Small example follows (in real
+life you should also check the return of the functions for errors):
+
+<informalexample><programlisting>
+int size;
+char *data;
+...
+/*set some bogus data on a file*/
+mate_metadata_set("/some/file/name","bogus",5,"BLAH");
+...
+/*retrieve the data back*/
+mate_metadata_get("/some/file/name","bogus",&amp;size,&amp;data);
+</programlisting></informalexample>
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="using-the-libmateui-library">
+<title>Using the libmateui Library</title>
+
+<para>
+The libmateui library is the library you'll be using most, it includes
+the basic UI framework of your application and other X and GTK+ specific
+things, such as session management, and many utility widgets. It also
+contains the MateCanvas widget, which deserves separate treatment.
+This is the library that makes the programmers life easy. With
+plain GTK+ you have to do a lot of things by yourself, reinventing
+the wheel every time, but this library takes care of the UI setup for
+you and still allows the user to configure that behavior and have it
+be consistent over different applications.</para>
+
+<sect2>
+<title>MateApp Widget Basics</title>
+<sect3>
+<title>Overview</title>
+
+<para>
+<emphasis>MateApp</emphasis> is the basic widget behind each app. It is the main window of
+the application, containing the document being worked on and the applications
+menus, tool-bars and status bars. It also remembers the docked positions
+of menu bars and tool-bars and such for you so that the user gets the window
+the way he left it when he left the application last time.</para></sect3>
+
+<sect3>
+<title>Creating</title>
+
+<para>
+Creating a new <emphasis>MateApp</emphasis> widget is as easy as calling
+<emphasis>mate_app_new</emphasis> with the application name, which is usually the name
+of the executable or something else that is unique to your application and
+the title of the main window. Then you create the content of the main window
+and add it to the <emphasis>MateApp</emphasis> widget by calling <emphasis>mate_app_set_contents</emphasis>
+with your contents as the argument.</para>
+
+<para>
+Adding menu-bars, tool-bars and status-bars is equally easy, you call
+<emphasis>mate_app_set_toolbar</emphasis>, <emphasis>mate_app_set_menus</emphasis> or
+<emphasis>mate_app_set_statusbar</emphasis>. <emphasis>mate_app_set_toolbar</emphasis> is for simple
+applications that have only one tool-bar, for more complicated applications
+you need to use <emphasis>mate_app_add_toolbar</emphasis>, which allows you to add as
+many docked tool-bars as you need.</para></sect3>
+
+<sect3>
+<title>Menu and Tool-bar Creation</title>
+
+<sect4>
+<title>Automatic Menu and Tool-bar Creation</title>
+
+<para>
+Most of the time, you don't really want to create your menu-bars
+and tool-bars by yourself. You can use functions from
+<emphasis>libmateui/mate-app-helper.h</emphasis> to construct menus and tool-bars for you.
+All you need is to fill in a couple of structures with the your
+information, and call <emphasis>mate_app_create_menus</emphasis> or
+<emphasis>mate_app_create_toolbar</emphasis> with that structure and voila,
+your application has menus and tool-bars. Sometimes you wish to pass
+a data pointer to all the callbacks from those structures to work with,
+then you'd use the <emphasis>mate_app_create_toolbar_with_data</emphasis> and
+<emphasis>mate_app_create_menus_with_data</emphasis>, and pass an extra parameter which
+will be passed in the data field of the callbacks.</para></sect4>
+
+
+<sect4>
+<title>MateUIInfo Structure Definition</title>
+
+<para>
+Here is the definition of
+the structure you need to fill (actually you fill in an array of
+such structures). Also note I included the enums that you will need
+to fill that structure.
+
+<informalexample><programlisting>
+/* These values identify the type of pixmap used in an item */
+typedef enum {
+        MATE_APP_PIXMAP_NONE,          /* No pixmap specified */
+        MATE_APP_PIXMAP_STOCK,         /* Use a stock pixmap
+                                           (MateStock) */
+        MATE_APP_PIXMAP_DATA,          /* Use a pixmap from inline
+                                           xpm data */
+        MATE_APP_PIXMAP_FILENAME       /* Use a pixmap from the
+                                           specified filename */
+} MateUIPixmapType;
+
+/* This is the structure that defines an item in a menu bar
+ * or tool-bar.  The idea is to create an array of such
+ * structures with the information needed to create menus or
+ * tool-bars.  The most convenient way to create such a structure
+ * is to use the MATEUIINFO_* macros provided below. */
+typedef struct {
+        MateUIInfoType type;           /* Type of item */
+        gchar *label;                   /* String to use in the label */
+        gchar *hint;                    /* For tool-bar items, the
+                                           tool-tip. For menu items, the
+                                           status bar message */
+        gpointer moreinfo;              /* For an item, toggle-item, or 
+                                           radio-item, this is a pointer
+                                           to the function to call when
+                                           the item is activated. For
+                                           a subtree, a pointer to
+                                           another array of MateUIInfo 
+                                           structures. For a radio-item
+                                           lead entry, a pointer to an
+                                           array of MateUIInfo
+                                           structures for the radio 
+                                           item group. For a help item, 
+                                           specifies the help node to
+                                           load (i.e. the application's
+                                           identifier) or NULL for the
+                                           main program's name.  For
+                                           builder data, points to the 
+                                           MateUIBuilderData structure
+                                           for the following items */
+        gpointer user_data;             /* Data pointer to pass to
+                                           callbacks */
+        gpointer unused_data;           /* Reserved for future expansion, 
+                                           should be NULL */
+        MateUIPixmapType pixmap_type;  /* Type of pixmap for the item */
+        gpointer pixmap_info;           /* Pointer to the pixmap
+                                         * information:
+                                         *
+                                         * For MATE_APP_PIXMAP_STOCK, a 
+                                         * pointer to the stock icon name.
+                                         *
+                                         * For MATE_APP_PIXMAP_DATA, a 
+                                         * pointer to the inline xpm data.
+                                         *
+                                         * For MATE_APP_PIXMAP_FILENAME, a 
+                                         * pointer to the filename string.
+                                         */
+        guint accelerator_key;          /* Accelerator key, or 0 for none */
+        GdkModifierType ac_mods;        /* Mask of modifier keys for the 
+                                           accelerator */
+
+        GtkWidget *widget;              /* Filled in by mate_app_create*,
+                                           you can use this to tweak the
+                                           widgets once they have been
+                                           created */
+} MateUIInfo;
+</programlisting></informalexample>
+Don't worry if you don't know all the items or what they mean. If you don't
+know what it is, just leave it NULL or 0. Most of the time, it's easiest
+to copy the menu's from another app and just modify them for your
+needs, that way you will also know much better what does what then
+by just looking at the structure.</para></sect4>
+
+<sect4>
+<title>Helper Macros</title>
+
+<para>
+Most of the time, menu entries are very simple, so one can just use one
+of the simple macros provided. For example, for the end of a menu,
+one would use the <emphasis>MATEUIINFO_END</emphasis> macro, for a separator one uses the
+<emphasis>MATEUIINFO_SEPARATOR</emphasis> macro. Now for the actual items there
+are also macros, which require you to fill in less info. For example
+if you have an item that you provide an xpm format data for, you can 
+use the <emphasis>MATEUIINFO_ITEM(label, tooltip, callback, xpm_data)</emphasis>
+macro, where label is the text of the label, tool-tip is the tool-tip
+that the user gets when he goes over that item (or it can be <emphasis>NULL</emphasis>),
+callback is the function that gets called when the user presses that item,
+and the xpm_data is a pointer to an xpm data you want to use as the
+icon. If you have no icon you can just use the
+<emphasis>MATEUIINFO_ITEM_NONE(label, tooltip, callback)</emphasis> macro. If what you
+are adding is a standard item for which there is a stock icon (we'll talk
+about those next), you can use the
+<emphasis>MATEUIINFO_ITEM_STOCK(label, tooltip, callback, stock_id)</emphasis> macro
+where the stock_id is the id of the stock icon you want to use.
+Then for your
+main menu bar, or to put sub-menus inside your menus, you can use
+<emphasis>MATEUIINFO_SUBTREE(label, tree)</emphasis> and
+<emphasis>MATEUIINFO_SUBTREE_STOCK(label, tree, stock_id)</emphasis>, where the
+tree is the array of <emphasis>MateUIInfo</emphasis> structures that you want to use as
+that sub-menu. There are a few other macros, but most of the time you will
+get by with just these macros, so you don't need to learn the entire
+structure of the <emphasis>MateUIInfo</emphasis>.
+</para></sect4>
+
+<sect4>
+<title>Standard Menu Item Macros</title>
+
+<para>
+Just about all application contain a couple of standard menu items, so to
+keep things more consistent there are a bunch of macros that fill in
+everything for you except for the callback function and the data. The
+advantage of using the macros is consistency across applications, user
+customization, and translation.</para>
+
+<sect5>
+<title>Menu Items</title>
+
+<para>
+Most of these macros have the form:
+<emphasis>MATEUIINFO_MENU_&lt;name&gt;_ITEM (callback, data)</emphasis>.
+However, there is an exception, the "New xxx" item. The MATE style guide
+Requires that you put what the "New" thing is into the item name. Not to
+mention that it will have a different hint as well. So the "New xxx" item
+has the structure of:
+<emphasis>MATEUIINFO_MENU_NEW_ITEM(label, hint, callback, data)</emphasis>.
+The "label" should start with "New ". Also note that if you have more new
+items, you need to use the "New" subtree macro, which is explained later.
+</para>
+
+<para>
+<variablelist>
+<title>the File menu</title>
+<varlistentry>
+<term>MATEUIINFO_MENU_NEW_ITEM(label, hint, cb, data)</term>
+<listitem><para>"New" menu item (you need to provide label and hint
+yourself here)</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_OPEN_ITEM(cb, data)</term>
+<listitem><para>"Open" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_SAVE_ITEM(cb, data)</term>
+<listitem><para>"Save" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_SAVE_AS_ITEM(cb, data)</term>
+<listitem><para>"Save as..." menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_REVERT_ITEM(cb, data)</term>
+<listitem><para>"Revert" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_PRINT_ITEM(cb, data)</term>
+<listitem><para>"Print" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_PRINT_SETUP_ITEM(cb, data)</term>
+<listitem><para>"Print Setup" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_CLOSE_ITEM(cb, data)</term>
+<listitem><para>"Close" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_EXIT_ITEM(cb, data)</term>
+<listitem><para>"Exit" menu item</para></listitem></varlistentry>
+</variablelist></para>
+
+
+<para>
+<variablelist>
+<title>the Edit menu</title>
+<varlistentry>
+<term>MATEUIINFO_MENU_CUT_ITEM(cb, data)</term>
+<listitem><para>"Cut" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_COPY_ITEM(cb, data)</term>
+<listitem><para>"Copy" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_PASTE_ITEM(cb, data)</term>
+<listitem><para>"Paste" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_SELECT_ALL_ITEM(cb, data)</term>
+<listitem><para>"Select" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_CLEAR_ITEM(cb, data)</term>
+<listitem><para>"Clear" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_UNDO_ITEM(cb, data)</term>
+<listitem><para>"Undo" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_REDO_ITEM(cb, data)</term>
+<listitem><para>"Redo" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_FIND_ITEM(cb, data)</term>
+<listitem><para>"Find" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_FIND_AGAIN_ITEM(cb, data)</term>
+<listitem><para>"Find Again" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_REPLACE_ITEM(cb, data)</term>
+<listitem><para>"Replace" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_PROPERTIES_ITEM(cb, data)</term>
+<listitem><para>"Properties" menu item</para></listitem></varlistentry>
+</variablelist></para>
+
+<para>
+<variablelist>
+<title>the Settings menu</title>
+<varlistentry>
+<term>MATEUIINFO_MENU_PREFERENCES_ITEM(cb, data)</term>
+<listitem><para>"Preferences" menu item</para></listitem></varlistentry>
+</variablelist></para>
+
+<para>
+<variablelist>
+<title>the Windows menu</title>
+<varlistentry>
+<term>MATEUIINFO_MENU_NEW_WINDOW_ITEM(cb, data)</term>
+<listitem><para>"New window" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_CLOSE_WINDOW_ITEM(cb, data)</term>
+<listitem><para>"Close window" menu item</para></listitem></varlistentry>
+</variablelist></para>
+
+<para>
+<variablelist>
+<title>the Help menu</title>
+<varlistentry>
+<term>MATEUIINFO_MENU_ABOUT_ITEM(cb, data)</term>
+<listitem><para>"About" menu item</para></listitem></varlistentry>
+</variablelist></para>
+
+<para>
+<variablelist>
+<title>the Game menu</title>
+<varlistentry>
+<term>MATEUIINFO_MENU_NEW_GAME_ITEM(cb, data)</term>
+<listitem><para>"New game" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_PAUSE_GAME_ITEM(cb, data)</term>
+<listitem><para>"Pause game" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_RESTART_GAME_ITEM(cb, data)</term>
+<listitem><para>"Restart game" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_UNDO_MOVE_ITEM(cb, data)</term>
+<listitem><para>"Undo move" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_REDO_MOVE_ITEM(cb, data)</term>
+<listitem><para>"Redo move" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_HINT_ITEM(cb, data)</term>
+<listitem><para>"Hint" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_SCORES_ITEM(cb, data)</term>
+<listitem><para>"Scores" menu item</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_END_GAME_ITEM(cb, data)</term>
+<listitem><para>"End game" menu item</para></listitem></varlistentry>
+</variablelist></para></sect5>
+
+<sect5>
+<title>Menu trees and subtrees</title>
+
+<para>
+We have already mentioned a "New" subtree. For this you should use the
+<emphasis>MATEUIINFO_MENU_NEW_SUBTREE (tree)</emphasis> macro, where
+the tree argument is another MateUIInfo structure array of the different
+new items.</para>
+
+<para>
+There are also the standard top level menus. Again you pass the array of
+MateUIInfo structures to the macro.
+
+<variablelist>
+<varlistentry>
+<term>MATEUIINFO_MENU_FILE_TREE (tree)</term>
+<listitem><para>"File" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_EDIT_TREE (tree)</term>
+<listitem><para>"Edit" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_VIEW_TREE (tree)</term>
+<listitem><para>"View" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_SETTINGS_TREE (tree)</term>
+<listitem><para>"Settings" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_FILES_TREE (tree)</term>
+<listitem><para>"Files" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_WINDOWS_TREE (tree)</term>
+<listitem><para>"Windows" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_HELP_TREE (tree)</term>
+<listitem><para>"Help" menu</para></listitem></varlistentry>
+<varlistentry>
+<term>MATEUIINFO_MENU_GAME_TREE (tree)</term>
+<listitem><para>"Game" menu</para></listitem></varlistentry>
+</variablelist></para>
+
+<para>
+Sometimes you may want to refer to menu path of these menus, such as
+for adding items to a "Windows" menu. For this you should use the macros
+of the form <emphasis>MATE_MENU_&lt;name&gt;_STRING</emphasis> and
+<emphasis>MATE_MENU_&lt;name&gt;_PATH</emphasis>. These will expand to the
+appropriate string. The macro ending with <emphasis>_STRING</emphasis>
+will expand to just the menu name, and the macro ending with
+<emphasis>_PATH</emphasis> to the menu name followed by a "/". The 
+&lt;name&gt; can be one of the following: FILE, EDIT, VIEW, SETTINGS,
+NEW, FILES or WINDOWS.
+</para></sect5></sect4>
+
+<sect4>
+<title>Help menu</title>
+
+<para>
+Your application should contain a help menu, the help menu can be defined
+as:
+
+<informalexample><programlisting>
+     MATEUIINFO_HELP("app_name"),
+     MATEUIINFO_MENU_ABOUT_ITEM(callback, data),
+     MATEUIINFO_END
+</programlisting></informalexample>
+
+The MATEUIINFO_HELP macro takes the name of your application and expects
+the help files to be installed as per normal mate procedures.
+<emphasis>FixMe: we need to add some section on help files and stuff
+</emphasis>
+</para>
+</sect4>
+
+<sect4>
+<title>Example</title>
+
+<para>
+Here is a very simple application that makes use of these:
+
+<informalexample><programlisting>
+/*
+ * A simple Mate program, outside of MATE tree, not using i18n
+ * uiinfo.c
+ */
+/* the very basic mate include */
+#include &lt;mate.h&gt;
+
+/* a callback for the buttons */
+static void
+a_callback(GtkWidget *button, gpointer data)
+{
+        /*just print a string so that we know we got there*/
+        g_print("Inside Callback\n");
+}
+
+MateUIInfo file_menu[] = {
+        MATEUIINFO_MENU_EXIT_ITEM(gtk_main_quit,NULL),
+        MATEUIINFO_END
+};
+
+MateUIInfo some_menu[] = {
+        MATEUIINFO_ITEM_NONE("_Menuitem","Just a menuitem",
+                              a_callback),
+        MATEUIINFO_SEPARATOR,
+        MATEUIINFO_ITEM_NONE("M_enuitem2","Just a menuitem",
+                              a_callback),
+        MATEUIINFO_END
+};
+
+MateUIInfo menubar[] = {
+        MATEUIINFO_MENU_FILE_TREE(file_menu),
+        MATEUIINFO_SUBTREE("_Some menu",some_menu),
+        MATEUIINFO_END
+};
+
+MateUIInfo toolbar[] = {
+        MATEUIINFO_ITEM_STOCK("Exit","Exit the application",
+                               gtk_main_quit,
+                               MATE_STOCK_PIXMAP_EXIT),
+        MATEUIINFO_END
+};
+
+int
+main(int argc, char *argv[])
+{
+        GtkWidget *app;
+        GtkWidget *button;
+        GtkWidget *hbox;
+        GtkWidget *label;
+
+        /* Initialize MATE, this is very similar to gtk_init */
+        mate_init ("menu-basic-example", "0.1", argc, argv);
+        
+        /* Create a Mate app widget, which sets up a basic
+           window for your application */
+        app = mate_app_new ("menu-basic-example",
+                             "Basic MATE Application");
+
+        /* bind "delete_event", which is the event we get when
+           the user closes the window with the window manager,
+           to gtk_main_quit, which is a function that causes
+           the gtk_main loop to exit, and consequently to quit
+           the application */
+        gtk_signal_connect (GTK_OBJECT (app), "delete_event",
+                            GTK_SIGNAL_FUNC (gtk_main_quit),
+                            NULL);
+
+        /*make a label as the contents*/
+        label = gtk_label_new("BLAH BLAH BLAH BLAH BLAH");
+
+        /*add the label as contents of the window*/
+        mate_app_set_contents (MATE_APP (app), label);
+
+        /*create the menus for the application*/
+        mate_app_create_menus (MATE_APP (app), menubar);
+
+        /*create the tool-bar for the application*/
+        mate_app_create_toolbar (MATE_APP (app), toolbar);
+
+        /* show everything inside this app widget and the app
+           widget itself */
+        gtk_widget_show_all(app);
+        
+        /* enter the main loop */
+        gtk_main ();
+        
+        return 0;
+}
+</programlisting></informalexample>
+Voila, an application with a menu and a tool-bar. As you see, adding
+extra menu items is just adding extra definitions to the MateUIInfo
+structure array.</para></sect4></sect3>
+
+<sect3>
+<title>Accelerator keys</title>
+
+<para>
+You have probably noticed the underlines in the labels for the menu items,
+these specify the accelerators for that menu. That's really all you need
+to do to add accelerators for menu items. The way accelerators work
+is very similar to the other windowing systems out there, <emphasis>alt-&lt;key&gt;</emphasis>
+if you are not browsing the menus or just the <emphasis>&lt;key&gt;</emphasis> if you have the
+menu open.</para></sect3></sect2>
+
+<sect2>
+<title>Stock Icons</title>
+
+<para>
+Since most of the time you will want to use standard buttons and menu items
+(such as <emphasis>Open</emphasis> or <emphasis>Save as...</emphasis>), and you want to provide icons
+with the menu items or tool-bar buttons or just dialog buttons, to make
+it easier to navigate, you can use some of the predefined icons from
+<emphasis>mate-libs</emphasis>. These are called <emphasis>Stock Icons</emphasis>. You have already
+seen an example of how to use stock menu icons and regular stock icons
+in menus and tool-bars (you just use the proper define from
+<emphasis>libmateui/mate-stock.h</emphasis>). There are also stock buttons, where
+you can get back a button widget based on a stock description.</para>
+
+<para>
+Here is a list of the <emphasis>normal</emphasis> mate stock icons, these are regular
+sized for use in tool-bars and other places where you need a normal sized
+icon. They are given as defines of string constants and their meaning
+should be obvious.
+
+<informalexample><programlisting>
+#define MATE_STOCK_PIXMAP_NEW         "New"
+#define MATE_STOCK_PIXMAP_OPEN        "Open"
+#define MATE_STOCK_PIXMAP_CLOSE       "Close"
+#define MATE_STOCK_PIXMAP_REVERT      "Revert"
+#define MATE_STOCK_PIXMAP_SAVE        "Save"
+#define MATE_STOCK_PIXMAP_SAVE_AS     "Save As"
+#define MATE_STOCK_PIXMAP_CUT         "Cut"
+#define MATE_STOCK_PIXMAP_COPY        "Copy"
+#define MATE_STOCK_PIXMAP_PASTE       "Paste"
+#define MATE_STOCK_PIXMAP_PROPERTIES  "Properties"
+#define MATE_STOCK_PIXMAP_PREFERENCES "Preferences"
+#define MATE_STOCK_PIXMAP_HELP        "Help"
+#define MATE_STOCK_PIXMAP_SCORES      "Scores"
+#define MATE_STOCK_PIXMAP_PRINT       "Print"
+#define MATE_STOCK_PIXMAP_SEARCH      "Search"
+#define MATE_STOCK_PIXMAP_SRCHRPL     "Search/Replace"
+#define MATE_STOCK_PIXMAP_BACK        "Back"
+#define MATE_STOCK_PIXMAP_FORWARD     "Forward"
+#define MATE_STOCK_PIXMAP_FIRST       "First"
+#define MATE_STOCK_PIXMAP_LAST        "Last"
+#define MATE_STOCK_PIXMAP_HOME        "Home"
+#define MATE_STOCK_PIXMAP_STOP        "Stop"
+#define MATE_STOCK_PIXMAP_REFRESH     "Refresh"
+#define MATE_STOCK_PIXMAP_UNDO        "Undo"
+#define MATE_STOCK_PIXMAP_REDO        "Redo"
+#define MATE_STOCK_PIXMAP_TIMER       "Timer"
+#define MATE_STOCK_PIXMAP_TIMER_STOP  "Timer Stopped"
+#define MATE_STOCK_PIXMAP_MAIL        "Mail"
+#define MATE_STOCK_PIXMAP_MAIL_RCV    "Receive Mail"
+#define MATE_STOCK_PIXMAP_MAIL_SND    "Send Mail"
+#define MATE_STOCK_PIXMAP_MAIL_RPL    "Reply to Mail"
+#define MATE_STOCK_PIXMAP_MAIL_FWD    "Forward Mail"
+#define MATE_STOCK_PIXMAP_MAIL_NEW    "New Mail"
+#define MATE_STOCK_PIXMAP_TRASH       "Trash"
+#define MATE_STOCK_PIXMAP_TRASH_FULL  "Trash Full"
+#define MATE_STOCK_PIXMAP_UNDELETE    "Undelete"
+#define MATE_STOCK_PIXMAP_SPELLCHECK  "Spellchecker"
+#define MATE_STOCK_PIXMAP_MIC         "Microphone"
+#define MATE_STOCK_PIXMAP_LINE_IN     "Line In"
+#define MATE_STOCK_PIXMAP_CDROM       "Cdrom"
+#define MATE_STOCK_PIXMAP_VOLUME      "Volume"
+#define MATE_STOCK_PIXMAP_BOOK_RED    "Book Red"
+#define MATE_STOCK_PIXMAP_BOOK_GREEN  "Book Green"
+#define MATE_STOCK_PIXMAP_BOOK_BLUE   "Book Blue"
+#define MATE_STOCK_PIXMAP_BOOK_YELLOW "Book Yellow"
+#define MATE_STOCK_PIXMAP_BOOK_OPEN   "Book Open"
+#define MATE_STOCK_PIXMAP_ABOUT       "About"
+#define MATE_STOCK_PIXMAP_QUIT        "Quit"
+#define MATE_STOCK_PIXMAP_MULTIPLE    "Multiple"
+#define MATE_STOCK_PIXMAP_NOT         "Not"
+#define MATE_STOCK_PIXMAP_CONVERT     "Convert"
+#define MATE_STOCK_PIXMAP_JUMP_TO     "Jump To"
+#define MATE_STOCK_PIXMAP_UP          "Up"
+#define MATE_STOCK_PIXMAP_DOWN        "Down"
+#define MATE_STOCK_PIXMAP_TOP         "Top"
+#define MATE_STOCK_PIXMAP_BOTTOM      "Bottom"
+#define MATE_STOCK_PIXMAP_ATTACH      "Attach"
+#define MATE_STOCK_PIXMAP_INDEX       "Index"
+#define MATE_STOCK_PIXMAP_FONT        "Font"
+#define MATE_STOCK_PIXMAP_EXEC        "Exec"
+
+#define MATE_STOCK_PIXMAP_ALIGN_LEFT  "Left"
+#define MATE_STOCK_PIXMAP_ALIGN_RIGHT "Right"
+#define MATE_STOCK_PIXMAP_ALIGN_CENTER "Center"
+#define MATE_STOCK_PIXMAP_ALIGN_JUSTIFY "Justify"
+
+#define MATE_STOCK_PIXMAP_TEXT_BOLD    "Bold"
+#define MATE_STOCK_PIXMAP_TEXT_ITALIC  "Italic"
+#define MATE_STOCK_PIXMAP_TEXT_UNDERLINE "Underline"
+#define MATE_STOCK_PIXMAP_TEXT_STRIKEOUT "Strikeout"
+
+#define MATE_STOCK_PIXMAP_EXIT        MATE_STOCK_PIXMAP_QUIT
+</programlisting></informalexample>
+If you need to use these outside of <emphasis>MateUIInfo</emphasis>, you need
+to get the widget with the pixmap. What you do is you call the
+<emphasis>mate_stock_pixmap_widget</emphasis> function with your main window
+as the first argument (so that it can copy it's style) and
+the icon name (one of the above defines) as the second argument.
+It returns a new widget which you can just use as a pixmap.</para>
+
+<para>
+For menus you want to use the <emphasis>_MENU_</emphasis> variety of the stock
+pixmaps. These are smaller and these should be the ones you use
+for the stock menu items in your <emphasis>MateUIInfo</emphasis> definitions.
+
+<informalexample><programlisting>
+#define MATE_STOCK_MENU_BLANK        "Menu_"
+#define MATE_STOCK_MENU_NEW          "Menu_New"
+#define MATE_STOCK_MENU_SAVE         "Menu_Save"
+#define MATE_STOCK_MENU_SAVE_AS      "Menu_Save As"
+#define MATE_STOCK_MENU_REVERT       "Menu_Revert"
+#define MATE_STOCK_MENU_OPEN         "Menu_Open"
+#define MATE_STOCK_MENU_CLOSE        "Menu_Close"
+#define MATE_STOCK_MENU_QUIT         "Menu_Quit"
+#define MATE_STOCK_MENU_CUT          "Menu_Cut"
+#define MATE_STOCK_MENU_COPY         "Menu_Copy"
+#define MATE_STOCK_MENU_PASTE        "Menu_Paste"
+#define MATE_STOCK_MENU_PROP         "Menu_Properties"
+#define MATE_STOCK_MENU_PREF         "Menu_Preferences"
+#define MATE_STOCK_MENU_ABOUT        "Menu_About"
+#define MATE_STOCK_MENU_SCORES       "Menu_Scores"
+#define MATE_STOCK_MENU_UNDO         "Menu_Undo"
+#define MATE_STOCK_MENU_REDO         "Menu_Redo"
+#define MATE_STOCK_MENU_PRINT        "Menu_Print"
+#define MATE_STOCK_MENU_SEARCH       "Menu_Search"
+#define MATE_STOCK_MENU_SRCHRPL      "Menu_Search/Replace"
+#define MATE_STOCK_MENU_BACK         "Menu_Back"
+#define MATE_STOCK_MENU_FORWARD      "Menu_Forward"
+#define MATE_STOCK_MENU_FIRST        "Menu_First"
+#define MATE_STOCK_MENU_LAST         "Menu_Last"
+#define MATE_STOCK_MENU_HOME         "Menu_Home"
+#define MATE_STOCK_MENU_STOP         "Menu_Stop"
+#define MATE_STOCK_MENU_REFRESH      "Menu_Refresh"
+#define MATE_STOCK_MENU_MAIL         "Menu_Mail"
+#define MATE_STOCK_MENU_MAIL_RCV     "Menu_Receive Mail"
+#define MATE_STOCK_MENU_MAIL_SND     "Menu_Send Mail"
+#define MATE_STOCK_MENU_MAIL_RPL     "Menu_Reply to Mail"
+#define MATE_STOCK_MENU_MAIL_FWD     "Menu_Forward Mail"
+#define MATE_STOCK_MENU_MAIL_NEW     "Menu_New Mail"
+#define MATE_STOCK_MENU_TRASH        "Menu_Trash"
+#define MATE_STOCK_MENU_TRASH_FULL   "Menu_Trash Full"
+#define MATE_STOCK_MENU_UNDELETE     "Menu_Undelete"
+#define MATE_STOCK_MENU_TIMER        "Menu_Timer"
+#define MATE_STOCK_MENU_TIMER_STOP   "Menu_Timer Stopped"
+#define MATE_STOCK_MENU_SPELLCHECK   "Menu_Spellchecker"
+#define MATE_STOCK_MENU_MIC          "Menu_Microphone"
+#define MATE_STOCK_MENU_LINE_IN      "Menu_Line In"
+#define MATE_STOCK_MENU_CDROM        "Menu_Cdrom"
+#define MATE_STOCK_MENU_VOLUME       "Menu_Volume"
+#define MATE_STOCK_MENU_BOOK_RED     "Menu_Book Red"
+#define MATE_STOCK_MENU_BOOK_GREEN   "Menu_Book Green"
+#define MATE_STOCK_MENU_BOOK_BLUE    "Menu_Book Blue"
+#define MATE_STOCK_MENU_BOOK_YELLOW  "Menu_Book Yellow"
+#define MATE_STOCK_MENU_BOOK_OPEN    "Menu_Book Open"
+#define MATE_STOCK_MENU_CONVERT      "Menu_Convert"
+#define MATE_STOCK_MENU_JUMP_TO      "Menu_Jump To"
+#define MATE_STOCK_MENU_UP           "Menu_Up"
+#define MATE_STOCK_MENU_DOWN         "Menu_Down"
+#define MATE_STOCK_MENU_TOP          "Menu_Top"
+#define MATE_STOCK_MENU_BOTTOM       "Menu_Bottom"
+#define MATE_STOCK_MENU_ATTACH       "Menu_Attach"
+#define MATE_STOCK_MENU_INDEX        "Menu_Index"
+#define MATE_STOCK_MENU_FONT         "Menu_Font"
+#define MATE_STOCK_MENU_EXEC         "Menu_Exec"
+
+#define MATE_STOCK_MENU_ALIGN_LEFT     "Menu_Left"
+#define MATE_STOCK_MENU_ALIGN_RIGHT    "Menu_Right"
+#define MATE_STOCK_MENU_ALIGN_CENTER   "Menu_Center"
+#define MATE_STOCK_MENU_ALIGN_JUSTIFY  "Menu_Justify"
+
+#define MATE_STOCK_MENU_TEXT_BOLD      "Menu_Bold"
+#define MATE_STOCK_MENU_TEXT_ITALIC    "Menu_Italic"
+#define MATE_STOCK_MENU_TEXT_UNDERLINE "Menu_Underline"
+#define MATE_STOCK_MENU_TEXT_STRIKEOUT "Menu_Strikeout"
+
+#define MATE_STOCK_MENU_EXIT     MATE_STOCK_MENU_QUIT
+</programlisting></informalexample>
+If you are building the menu yourself and just want to get a menu-item
+that's built with the stock icon and a label, you can use the
+<emphasis>mate_stock_menu_item</emphasis> convenience routine. It takes the stock
+icon type (one of the defines above) as the first argument, and the menu
+text as the second argument, and it returns a newly created menu-item
+widget.</para>
+
+<para>
+Then there are stock buttons. These are for use in your dialogs (see the next
+section).
+
+<informalexample><programlisting>
+#define MATE_STOCK_BUTTON_OK     "Button_Ok"
+#define MATE_STOCK_BUTTON_CANCEL "Button_Cancel"
+#define MATE_STOCK_BUTTON_YES    "Button_Yes"
+#define MATE_STOCK_BUTTON_NO     "Button_No"
+#define MATE_STOCK_BUTTON_CLOSE  "Button_Close"
+#define MATE_STOCK_BUTTON_APPLY  "Button_Apply"
+#define MATE_STOCK_BUTTON_HELP   "Button_Help"
+#define MATE_STOCK_BUTTON_NEXT   "Button_Next"
+#define MATE_STOCK_BUTTON_PREV   "Button_Prev"
+#define MATE_STOCK_BUTTON_UP     "Button_Up"
+#define MATE_STOCK_BUTTON_DOWN   "Button_Down"
+#define MATE_STOCK_BUTTON_FONT   "Button_Font"
+</programlisting></informalexample>
+To get a button widget with the stock icon and text, you can just use the
+function <emphasis>mate_stock_button</emphasis> with the button type (one of the above
+defines) as the argument. Now sometimes you want to create a mixture of
+stock or ordinary buttons, what you can do is call the 
+<emphasis>mate_stock_or_ordinary_button</emphasis> function with either the type of
+a stock button or just a text for the button label. The function checks
+if it is one of the above strings, and if it's not it creates an
+ordinary button widget with the text as the label.</para></sect2>
+
+<sect2>
+<title>Dialogs</title>
+<sect3 id="testtest">
+<title>Generic Dialogs</title>
+
+<para>
+If you need to create you own custom dialog, <emphasis>mate-dialog</emphasis> is the 
+way to do it. It can handle both modal and non-modal dialogs, although,
+it's definitely much more friendly to the users of your program if
+you use a non-modal dialog box, if at all possible, although non-modal
+dialog boxes tend to have problems associated with them, and sometimes 
+can cause strange bugs, for example if a non-modal dialog box is associated
+with a window, you'd better bind the <emphasis>destroy</emphasis> signal of the window
+and set it to destroy the dialog box as well, since otherwise it could
+hang around even though the window or document it was supposed to act on
+is already dead. However modal dialogs (while definitely easier to program)
+are usually pretty annoying to use, so avoid them if you at all can.</para>
+
+<para>
+To make a new <emphasis>MateDialog</emphasis> widget, just use the <emphasis>mate_dialog_new</emphasis>
+function. You pass the title of the dialog as the first argument, and then
+multiple arguments as the button titles terminated by a NULL. The button
+titles can also be the <emphasis>MATE_STOCK_BUTTON_*</emphasis> definitions if you want
+stock buttons on your dialog. Then you need to add content to the dialog,
+the dialog is created with a vertical box (<emphasis>GtkVBox</emphasis>) for you to use,
+just by using <emphasis>MATE_DIALOG(dialog)-&gt;vbox</emphasis>. Into that you add your
+content. At this point you have to decide if you want to do a modal dialog
+or a non-modal dialog.</para>
+
+<para>
+In case you want to do a modal dialog, all you need to do is to call
+<emphasis>mate_dialog_run_and_close</emphasis> function and it will run the dialog,
+wait for a user to press a button or close the dialog, and then close
+the dialog. This function will return the number of the button that was
+pressed or -1 if the dialog was just closed. In case you don't want to
+close the dialog when just any button is pressed, you use the
+<emphasis>mate_dialog_run</emphasis> function, and after you get a result, do what you
+need to do for that particular button press. Then if you want to run
+the dialog more, you just loop back to <emphasis>mate_dialog_run</emphasis>, and if
+you want to close, you run <emphasis>mate_dialog_close</emphasis>. Here's an example
+of the second scheme.
+
+<informalexample><programlisting>
+GtkWidget *dlg;
+int i;
+...
+/*create a new dialog, DON'T forget the NULL on the end,
+  it is very important!*/
+dlg = mate_dialog_new("A Dialog",
+                       MATE_STOCK_BUTTON_OK,
+                       MATE_STOCK_BUTTON_APPLY,
+                       MATE_STOCK_BUTTON_CLOSE,
+                       NULL);
+...
+/*add some content to the dialog here*/
+...
+/*set up an infinite loop*/
+for(;;) {
+        i = mate_dialog_run(MATE_DIALOG(dlg));
+        if(i == 0 || i == 2) {
+                /*the user pressed OK or close, so we will get
+                  out of the loop and close the dialog, or the
+                  user pressed */
+                mate_dialog_close(MATE_DIALOG(dlg));
+                break;
+        } else if(i &lt; 0) {
+                /*the user closed the dialog from the window
+                  manager*/
+                break;
+        } else if(i == 1) {
+                /*user pressed apply we don't want to close*/
+                ...
+        }
+}
+</programlisting></informalexample>
+By default the dialog is destroyed when closed, so you don't have to worry
+about it's destruction. You can change this behavior if you wish though.</para>
+
+<para>
+If you are doing a non-modal dialog box, things get a little more complicated.
+You create the dialog as above, but then you bind the <emphasis>clicked</emphasis> signal
+of the <emphasis>MateDialog</emphasis> widget. That signal has as it's second argument
+the button number that was pressed. After that you should use the
+<emphasis>mate_dialog_set_close</emphasis> function to tell <emphasis>MateDialog</emphasis> that
+we want to close the dialog when the user first presses any button, if
+you want that behavior, otherwise you'll have to do <emphasis>mate_dialog_close</emphasis>
+in the <emphasis>clicked</emphasis> signal handler for the buttons you want to close on.
+After that is set up you just <emphasis>gtk_widget_show</emphasis> the dialog. An
+example follows:
+
+<informalexample><programlisting>
+/*the clicked signal handler*/
+static void
+dialog_clicked(MateDialog *dlg, int button, gpointer data)
+{
+        switch(button) {
+        case 1:
+                /*user pressed apply*/
+                ...
+                return;
+        case 0:
+                /*user pressed OK*/
+                ...
+                /*fall though to close*/
+        case 2:
+                /*user pressed close*/
+                mate_dialog_close(dlg);
+                break;
+        }
+}
+
+/*somewhere else in the source file*/
+...
+GtkWidget *dlg;
+...
+/*create a new dialog, DON'T forget the NULL on the end, it
+  is very important!*/
+dlg = mate_dialog_new("A Dialog",
+                       MATE_STOCK_BUTTON_OK,
+                       MATE_STOCK_BUTTON_APPLY,
+                       MATE_STOCK_BUTTON_CLOSE,
+                       NULL);
+...
+/*add some content to the dialog here*/
+...
+/*bind the clicked handler*/
+gtk_signal_connect(GTK_OBJECT(dlg),"clicked",
+                   GTK_SIGNAL_FUNC(dialog_clicked),
+                   NULL);
+/*show the dialog, note that this is not a modal dialog,
+  so the program doesn't block here, but continues*/
+gtk_widget_show(dlg);
+</programlisting></informalexample>
+This implements the same dialog as the modal example above, only non modal.</para></sect3>
+
+<sect3>
+<title>Message Box</title>
+
+<para>
+<emphasis>MateMessageBox</emphasis> is an object derived from <emphasis>MateDialog</emphasis>. As such
+you use it in the exact same manner, the only difference here is that
+it automatically sets up the insides of the dialog to be a single label
+and an icon of the selected message box type. The message box types are
+as follows:
+
+<informalexample><programlisting>
+#define MATE_MESSAGE_BOX_INFO      "info"
+#define MATE_MESSAGE_BOX_WARNING   "warning"
+#define MATE_MESSAGE_BOX_ERROR     "error"
+#define MATE_MESSAGE_BOX_QUESTION  "question"
+#define MATE_MESSAGE_BOX_GENERIC   "generic"
+</programlisting></informalexample>
+To create a message box, you use the function <emphasis>mate_message_box_new</emphasis>
+with the first argument being the message text, the second argument being the
+type of the message box (one of the defines above), and then any number
+of buttons terminated by a NULL exactly as in the <emphasis>MateDialog</emphasis>'s case.
+After created it is again used exactly the same as <emphasis>MateDialog</emphasis>.</para></sect3>
+
+<sect3>
+<title>Property Dialogs</title>
+
+<para>
+If you have some properties to set in your application, you should use
+a <emphasis>MatePropertyBox</emphasis> dialog for the preferences to make the
+applications more consistent. Again this object is derived from
+<emphasis>MateDialog</emphasis> so it's use is similar. But <emphasis>MatePropertyBox</emphasis>
+defines some new signals, namely <emphasis>apply</emphasis> and <emphasis>help</emphasis>. They both
+get passed the page number as the second argument. For help you should
+use this to display the proper help page, however for apply, this was
+created for adding a per-page apply button, which was not realized yet,
+so you should ignore any <emphasis>apply</emphasis> signal with the page number other
+then -1, which is the <emphasis>global</emphasis> apply. This can be done with a simple
+if statement at the top of your apply routine. You can choose to be
+per-page apply <emphasis>ready</emphasis>, by doing a per-page apply in your code, but
+it is not sure if this code will ever get completed. It should be
+safe to do just the global apply as that is the only thing implemented
+in <emphasis>mate-libs 1.0</emphasis>.</para>
+
+<para>
+To use property dialogs, you call <emphasis>mate_property_box_new</emphasis>,
+which will create a completely new dialog for you with a notebook and the four
+buttons.  <emphasis>OK</emphasis>, which will call your apply handler for all
+pages and then for the -1 page, and then it will close the dialog,
+<emphasis>Apply</emphasis>, which will call the apply handler for all pages and
+then for the -1 page, <emphasis>Close</emphasis>, which will just close the
+dialog, and <emphasis>Help</emphasis> which will call your help handler if you
+bound it. You then connect the <emphasis>apply</emphasis> signal to your apply
+handler, and most likely the <emphasis>destroy</emphasis> signal on the
+property box to destroy the data associated with the property box when it
+closes. You then create the different pages for your property box and add them
+with, <emphasis>mate_property_box_append_page</emphasis>, which takes your
+page as the second argument and a label as the third (usually this will be just
+a <emphasis>GtkLabel</emphasis>). You also want to connect the different
+signals for the widgets on your pages, to mark the property box as changed
+(otherwise the Apply and OK buttons will not be sensitive). You do this by
+calling <emphasis>mate_property_box_changed</emphasis> every time the user
+changed something with the widgets. For example on entry (and derived) widgets
+you connect to the <emphasis>changed</emphasis> signal. Example follows:
+
+<informalexample><programlisting>
+/*apply handler*/
+static void
+property_apply(MatePropertyBox *box, int page_num, gpointer data)
+{
+        /*ignore page numbers other then -1*/
+        if(page_num!=-1)
+                return;
+        /*do your apply routine here*/
+        ...
+}
+...
+/*somewhere else in the source file*/
+GtkWidget *pbox;
+GtkWidget *widget;
+...
+pbox = mate_property_box_new();
+gtk_signal_connect(GTK_OBJECT(pbox),"apply",
+                   GTK_SIGNAL_FUNC(property_apply),NULL);
+...
+/*you create a page for the property box and added it to the
+  container called widget*/
+mate_property_box_append_page(MATE_PROPERTY_BOX(pbox),
+                               widget,
+                               gtk_label_new("SomePage"));
+/*then add other pages in similar manner*/
+...
+/*we show the dialog box*/
+gtk_widget_show_all(pbox);
+</programlisting></informalexample></para></sect3>
+
+<sect3>
+<title>File Picking Dialog</title>
+
+<para>
+Mate doesn't have it's own file picking dialog, although this is planned for
+the future, for now you need to use the regular <emphasis>GTK+</emphasis> file
+dialog.</para>
+
+<para>
+Use of the file dialog is very simple. You create the dialog with
+<emphasis>gtk_file_selection_new</emphasis>, passing it the title of the dialog
+box as the argument. After this you bind the clicked signal on the
+<emphasis>OK</emphasis> and <emphasis>Cancel</emphasis> buttons. For example
+for a loading dialog box, you could check that the file is of the correct type
+when the user presses OK and if so then close the dialog (usually with
+<emphasis>gtk_widget_destroy</emphasis>). Or for saving dialog, you could ask
+if the file exists. File selection dialog boxes are usually safe and simple to
+do non-modal. Just make sure you'd destroy the file dialog box when the object
+or window it's supposed to work with. Here's the routine that invokes the save
+as dialog for <emphasis>Achtung</emphasis>, which is a presentation program
+we're working on.
+
+<informalexample><programlisting>
+void
+presentation_save_as (AchtungPresentation *p)
+{
+        GtkFileSelection *fsel;
+        
+        g_return_if_fail (p != NULL);
+        g_return_if_fail (p-&gt;doc != NULL);
+
+        fsel = (GtkFileSelection *)
+                gtk_file_selection_new (_("Save presentation as"));
+        if (p-&gt;real_file &amp;&amp; p-&gt;filename)
+                gtk_file_selection_set_filename (fsel, p-&gt;filename);
+
+        gtk_object_set_data(GTK_OBJECT(fsel),"p",p);
+        
+        /* Connect the signals for Ok and Cancel */
+        gtk_signal_connect (GTK_OBJECT (fsel-&gt;ok_button), "clicked",
+                            GTK_SIGNAL_FUNC (save_ok), fsel);
+        gtk_signal_connect_object
+                (GTK_OBJECT (fsel-&gt;cancel_button), "clicked",
+                 GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+                 GTK_OBJECT(fsel));
+
+        gtk_window_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
+
+        /*if the presentation dies so do it's dialogs*/
+        gtk_signal_connect_object_while_alive
+                (GTK_OBJECT (p), "destroy",
+                 GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+                 GTK_OBJECT(fsel));
+
+        gtk_widget_show (GTK_WIDGET (fsel));
+}
+</programlisting></informalexample>
+This is actually a save_as method for <emphasis>AchtungPresentation</emphasis>
+object in object oriented speak.  <emphasis>AchtungPresentation</emphasis> is a
+GtkObject we use for storing all the presentation data (This is a nice example
+of how to use GtkObject for things not directly related to widgets or GUI
+programming). First we check the arguments to the function with
+<emphasis>g_return_if_fail</emphasis> which is for debugging purposes. Then we
+create a new <emphasis>GtkFileSelection</emphasis> with a title of "Save
+presentation as". Ignore the <emphasis>_()</emphasis> macro around the string
+for now, it's used for internationalization.  Afterwards we check if the
+presentation already has a filename associated with it, and if so we set the
+filename on the file selection dialog to that. After that we connect the the
+<emphasis>OK</emphasis> button to a routine called <emphasis>save_ok</emphasis>
+defined elsewhere in the file and pass the file selection dialog as a data
+argument. Then we use <emphasis>connect_object</emphasis> to bind the
+<emphasis>Cancel</emphasis> button to destroying the file selection dialog. The
+<emphasis>connect_object</emphasis> method is similar to regular
+<emphasis>connect</emphasis> but when it calls the function itself it will pass
+the object from the data field as the first argument of the function. So
+connecting to <emphasis>gtk_widget_destroy</emphasis> will destroy the object
+passed in the data field, which is the file selection dialog. Then we position
+the dialog near the mouse button. In the future when this dialog is derived
+from <emphasis>MateDialog</emphasis>, you will not need to and actually should
+not do that, as that will be done according to use preferences as for all the
+other mate dialogs. After this we use yet another signal connection method ...
+this time <emphasis>gtk_signal_connect_object_while_alive</emphasis>, which is
+similar to <emphasis>connect_object</emphasis>, but has a nice twist to it. The
+signal will be disconnected when the object passed in the data field dies. This
+needs to happen as the file dialog will most likely be destroyed before the the
+presentation itself is, then when the presentation is destroyed itself, it
+would try to destroy an already non-existent file selection dialog and most
+likely cause a segmentation fault and crash. This way it is safe and if the
+file selection dialog is still around when the presentation is destroyed, it is
+destroyed with it.</para></sect3></sect2>
+
+<sect2>
+<title>Entries</title>
+
+<para>
+Sometimes, especially in properties dialogs, you want fields for entering
+text, files, pixmaps, icons or double precision numbers. This is what the
+<emphasis>mate-*entry</emphasis> widgets do.</para>
+
+<sect3>
+<title>MateEntry</title>
+
+<para>
+This is an entry for regular text, but it includes history of previously
+entered values. Note that this widget is not derived from
+<emphasis>GtkEntry</emphasis>, but owns such a widget. This means that you
+can't use <emphasis>GtkEntry</emphasis> methods on this object directly, but
+you need to get a pointer to the <emphasis>GtkEntry</emphasis> object inside
+<emphasis>MateEntry</emphasis>. When you call
+<emphasis>mate_entry_new</emphasis>, you pass a
+<emphasis>history_id</emphasis> string to it. This is a unique identifier to
+identify this entry, or this type of entries in your application. All the
+entries that share this <emphasis>history_id</emphasis> will have common
+history of values. After you create a <emphasis>MateEntry</emphasis> you use
+the <emphasis>mate_entry_gtk_entry</emphasis> function to get a pointer to the
+<emphasis>GtkEntry</emphasis> object inside and bind any signals or manipulate
+text with that instead. Here is an example:
+
+<informalexample><programlisting>
+GtkWidget *mate_e;
+GtkWidget *gtk_e;
+...
+mate_entry_new("text1");
+gtk_e = mate_entry_gtk_entry(MATE_ENTRY(mate_e));
+gtk_signal_connect(GTK_OBJECT(gtk_e),"changed",
+                   GTK_SIGNAL_FUNC(entry_changed), NULL);
+</programlisting></informalexample></para></sect3>
+
+<sect3>
+<title>MateFileEntry</title>
+
+<para>
+<emphasis>MateEntry</emphasis> is a basis for
+<emphasis>MateFileEntry</emphasis>. Again it is not derived, but
+<emphasis>MateEntry</emphasis> is owned by
+<emphasis>MateFileEntry</emphasis>. This type of hierarchy is throughout all
+the mate entry widgets. <emphasis>MateFileEntry</emphasis> adds a browse
+button on the right side of the entry, and also accepts file drops from the
+file manager for example. It's use is extremely similar to
+<emphasis>MateEntry</emphasis>.  You create the entry with
+<emphasis>mate_file_entry_new</emphasis>. The first argument is the
+<emphasis>history_id</emphasis> of the <emphasis>MateEntry</emphasis>, and the
+second argument is the title of the browse dialog box. To get the
+<emphasis>GtkEntry</emphasis>, you again use the gtk_entry method, named
+<emphasis>mate_file_entry_gtk_entry</emphasis>.  To finally get the filename,
+you can get the exact text from the <emphasis>GtkEntry</emphasis>, or you might
+use a convenience method, <emphasis>mate_file_entry_get_full_path</emphasis>,
+which takes a flag <emphasis>file_must_exist</emphasis> as it's second
+argument. If this flag is set, the function returns NULL if the file doesn't
+exists. If the flag is not set or the file does exist, the function returns the
+full path to the file.</para></sect3>
+
+<sect3>
+<title>MatePixmapEntry</title>
+
+<para>
+This is an entry for entering pixmaps (Images) of any size. It again includes
+(not derives from) <emphasis>MateFileEntry</emphasis>, so it can do everything
+the file entry can (including accepting drops). However this entry adds a
+preview box for the pixmap above the entry. Also it's file selection dialog
+includes a preview box to the right side of the file list.  It's use is again
+very similar to the entries above. You call
+<emphasis>mate_pixmap_entry_new</emphasis> with the same arguments as
+<emphasis>MateFileEntry</emphasis>, with an added flag,
+<emphasis>do_preview</emphasis>. This flag specifies if the preview box is
+visible or not. But be careful, it doesn't save memory not to show the preview,
+it just saves space. Again you use a
+<emphasis>mate_pixmap_entry_gtk_entry</emphasis> to get the
+<emphasis>GtkEntry</emphasis> widget.  To get a filename of the the pixmap, if
+it could be loaded as an image for the preview (using imlib), you can use
+<emphasis>mate_pixmap_entry_get_filename</emphasis>, which returns NULL if the
+pixmap files doesn't exist or could not be loaded, and the full filename
+otherwise.
+</para>
+</sect3>
+
+<sect3>
+<title>MateIconEntry</title>
+
+<para>
+The icon entry is very similar to the <emphasis>MatePixmapEntry</emphasis>,
+but it is meant for images in the standard 48x48 icon size. Also instead of the
+preview box, there is a button with the image scaled to 48x48. If you press the
+button you get a listing of images from the same directory as the current icon.
+To create an icon entry use <emphasis>mate_icon_entry_new</emphasis> with
+<emphasis>history_id</emphasis> and <emphasis>browse_dialog_title</emphasis>
+string arguments. Once you need an existing icon that is a real image, you use
+<emphasis>mate_icon_entry_get_filename</emphasis> which works just like
+<emphasis>mate_pixmap_entry_get_filename</emphasis>. You can also get the
+<emphasis>GtkEntry</emphasis> by using
+<emphasis>mate_icon_entry_gtk_entry</emphasis>.
+</para>
+</sect3>
+
+<sect3>
+<title>MateNumberEntry</title>
+
+<para>
+<emphasis>MateNumberEntry</emphasis> is an entry widget for entering double
+precision numbers with a calculator. Most of the time for number entries you
+want to use the <emphasis>GtkSpinButton</emphasis> widget, however for
+applications such as mortgage calculators, or finance programs, where
+calculations are necessary, you will want to use this entry type. Basically
+it's a <emphasis>MateEntry</emphasis> widget with a button on the right side
+of it which calls up a dialog with a calculator. The user can use the
+calculator and press OK and the number entry is updated to what it was on the
+calculator. To create a number entry widget, just use
+<emphasis>mate_number_entry_new</emphasis>, passing it the
+<emphasis>history_id</emphasis> as the first argument and the title of the
+calculator dialog as the second argument. To get the
+<emphasis>GtkEntry</emphasis> widget just use
+<emphasis>mate_number_entry_gtk_entry</emphasis>. To get the number as a
+<emphasis>double</emphasis> value, use
+<emphasis>mate_number_entry_get_number</emphasis>
+method.
+</para>
+</sect3>
+</sect2>
+
+<sect2>
+<title>Using Images</title>
+
+<para>
+When you need to use images in your apps, most likely you'll want the
+<emphasis>MatePixmap</emphasis> widget. It's advantage is that it makes using
+images much easier without having to learn imlib, which is the image library
+used by this widget.</para>
+
+<para>
+There are numerous <emphasis>new</emphasis> functions for
+<emphasis>MatePixmap</emphasis>, depending on the source of the pixmap. The
+most used will probably be <emphasis>mate_pixmap_new_from_file</emphasis>
+which takes a filename which is an image loadable by imlib and creates a pixmap
+widget for you.  There is also
+<emphasis>mate_pixmap_new_from_file_at_size</emphasis> to which you pass also
+the size to which the image should be scaled. If you have already loaded the
+image with imlib (in case you wanted to do other things to the pixmap first),
+you can use <emphasis>mate_pixmap_new_from_imlib</emphasis> and
+<emphasis>mate_pixmap_new_from_imlib_at_size</emphasis>. Which take a
+<emphasis>GdkImlibImage</emphasis> as the first argument. If you already have a
+pixmap widget and want to change the image inside it, you can use the
+<emphasis>mate_pixmap_load_*</emphasis> which have almost the same syntax as
+the new functions, except that you pass the <emphasis>MatePixmap</emphasis> as
+the first argument, and then the rest of the arguments as above, and of course
+replace the _new_from_ for _load_.</para>
+
+<para>
+Here's an example of it's use:
+
+<informalexample><programlisting>
+GtkWidget *pix;
+...
+/*load somefile.png and scale it to 48x48*/
+pix = mate_pixmap_new_from_file_at_size("somefile.png",48,48);
+/*now you can pack pix somewhere just like any other widget*/
+...
+/*now we want to change the files to otherfile.png and do no
+  scaling*/
+mate_pixmap_load_file(MATE_PIXMAP(pix),"otherfile.png");
+</programlisting></informalexample></para></sect2>
+
+<sect2>
+<title>Session Management</title>
+
+<para>
+Your app should be able to save it's settings and restore them when the user
+restarts your application, it should also be able to do this for several
+different sessions. For instance the user might have a normal session, but
+sometimes log into a special session where he has different settings in
+applications. <emphasis>mate-libs</emphasis> actually hides the ugly details
+of this. For the most part you do not need to worry about the real details of
+session management, unless you wish to do something very clever or if your app
+does some complicated state saving. To do simple session saving all you need is
+the following code (mostly taken from mate-hello-4-SM example program):
+
+<informalexample><programlisting>
+/*the save_yourself handler, you can safely ignore most of the
+  parameters, and just save your session and return TRUE*/
+static int 
+save_yourself(MateClient *client, int phase,
+              MateSaveStyle save_style, int shutdown,
+              MateInteractStyle interact_style, int fast,
+              gpointer client_data)
+{
+        /*get the prefix for our config*/
+        char *prefix= mate_client_get_config_prefix (client);
+
+        /*this is a "discard" command for discarding data from
+          a saved session, usually this will work*/
+        char *argv[]= { "rm", "-r", NULL };
+
+        /* Save the state using mate-config stuff. */
+        mate_config_push_prefix (prefix);
+
+        mate_config_set_int("Section/Key",some_value);
+        ...
+        mate_config_pop_prefix ();
+        mate_config_sync();
+
+        /* Here is the real SM code. We set the argv to the
+           parameters needed to restart/discard the session that
+           we've just saved and call the
+           mate_session_set_*_command to tell the session
+           manager it. */
+        argv[2]= mate_config_get_real_path (prefix);
+        mate_client_set_discard_command (client, 3, argv);
+
+        /* Set commands to clone and restart this application.
+           Note that we use the same values for both -- the
+           session management code will automatically add
+           whatever magic option is required to set the session
+           id on startup. The client_data was set to the
+           command used to start this application when
+           save_yourself handler was connected. */
+        argv[0]= (gchar*) client_data;
+        mate_client_set_clone_command (client, 1, argv);
+        mate_client_set_restart_command (client, 1, argv);
+        
+        return TRUE;
+}
+
+static void
+die (MateClient *client, gpointer client_data)
+{
+        /* Just exit in a friendly way.  We don't need to
+           save any state here, because the session manager
+           should have sent us a save_yourself-message
+           before.  */
+        gtk_exit (0);
+}
+
+...
+MateClient *client;
+...
+/*this is somewhere in your main function presumably.
+  make sure this is done AFTER the mate_init call!*/
+
+/* Get the master client, that was hopefully connected to the
+   session manager int the 'mate_init' call.  All communication
+   to the session manager will be done with this master client. */
+client = mate_master_client ();
+
+/* Arrange to be told when something interesting happens.  */
+gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
+                    GTK_SIGNAL_FUNC (save_yourself),
+                    (gpointer) argv[0]);
+gtk_signal_connect (GTK_OBJECT (client), "die",
+                    GTK_SIGNAL_FUNC (die), NULL);
+
+/*check if we are connected to a session manager*/
+if (MATE_CLIENT_CONNECTED (client)) {
+        /*we are connected, we will get the prefix under which
+          we saved our session last time and load up our data*/
+        mate_config_push_prefix
+                (mate_client_get_config_prefix (client));
+
+        some_value = mate_config_get_int("Section/Key=0");
+
+        mate_config_pop_prefix ();
+} else {
+        /*we are not connected to any session manager, here you
+          will just initialize your session like you normally
+          do without a session manager*/
+        ...
+}
+</programlisting></informalexample>
+This is a very simple session management which will be enough for most
+programs, for more information on session management, you should consult the
+mate developer documentation which should be available by now.</para></sect2>
+
+<sect2>
+<title>Multiple Document Interface</title>
+<sect3>
+<title>The Main MDI Window</title>
+
+<para>
+If your app handles documents, most likely you will want it to handle multiple
+documents at one time. Mate provides an MDI model that is customizable by the
+user and simple to use. They can use three models of the document display.
+Either a notebook style which is the most useful one, where documents can be
+docked in notebooks, and can be dragged out into separate windows if desired.
+Or a toplevel style where each document is a separate toplevel window. Or
+finally a modal style where there is only one window and the documents must be
+switched though a menu. (Note that the examples here are taken from the
+<emphasis>mate-hello-7-mdi</emphasis> example app in
+<emphasis>mate-libs</emphasis>, slightly modified)</para>
+
+<para>
+To use the MDI features. You basically replace the the
+<emphasis>mate_app_new</emphasis> call with <emphasis>mate_mdi_new</emphasis>
+with the same arguments as <emphasis>mate_app_new</emphasis>.  To add menus
+and tool-bar, you use <emphasis>mate_mdi_set_menubar_template</emphasis> and
+<emphasis>mate_mdi_set_toolbar_template</emphasis> with the MateUIInfo as the
+argument.  For MDI, these aren't the actual menus, as it will add it's own
+items to the menus of each child. After this you set where the menu additions
+take place. You call <emphasis>mate_mdi_set_child_menu_path</emphasis> to the
+toplevel menu name after which the child's own menus are inserted. This is the
+"File" menu in most cases. Then you want to specify the path (menu name) to the
+menu into which you want to insert a list of the children, you do this by
+calling <emphasis>mate_mdi_set_child_list_path</emphasis> with the name of the
+menu and add a '/' on the end of it to specify that you want to insert those
+items into the menu, not after the menu. Example:
+
+<informalexample><programlisting>
+GtkWidget *mdi;
+...
+mdi = mate_mdi_new("mate-hello-7-mdi", "MATE MDI Hello");
+...
+/*main_menu and toolbar_info are the menu and tool-bar
+  descriptions*/
+mate_mdi_set_menubar_template(mdi, main_menu);
+mate_mdi_set_toolbar_template(mdi, toolbar_info);
+
+/* and document menu and document list paths (see
+   mate-app-helper menu insertion routines for details)  */
+mate_mdi_set_child_menu_path(MATE_MDI(mdi), "File");
+mate_mdi_set_child_list_path(MATE_MDI(mdi), "Children/");
+</programlisting></informalexample>
+In our MateUIInfo structures we have defined a menu named "File" and a
+menu named "Children". The children menu was not given any items, it's
+just an empty menu.</para>
+
+<para>
+Then you should open the main toplevel window with
+<emphasis>mate_mdi_open_toplevel</emphasis>. This will open a toplevel window
+without any children. If you wish to use MDI's session management
+functionality, you can define a function that creates a child given it's name.
+This is done with the <emphasis>mate_mdi_restore_state</emphasis> method,
+which takes the config path as the second argument and a function pointer to a
+function which takes a string and returns a new
+<emphasis>MateMDIChild</emphasis> widget (a widget sub-classed from
+<emphasis>MateMDIChild</emphasis> actually). Say for example you are using the
+session management shown above, so you could use:
+
+<informalexample><programlisting>
+mate_config_push_prefix (mate_client_get_config_prefix (client));
+restart_ok = mate_mdi_restore_state(MATE_MDI(mdi), "MDI Session",
+                                     my_child_new_from_config);
+mate_config_pop_prefix ();
+</programlisting></informalexample>
+The restart_ok is a boolean value telling you if the loading actually loaded
+all the data correctly.</para>
+
+<para>
+You should also bind the <emphasis>destroy</emphasis> signal of the mdi object
+to do <emphasis>gtk_main_quit</emphasis> when the mdi is
+destroyed.</para></sect3>
+
+<sect3>
+<title>The MDI Children</title>
+
+<para>
+For complicated apps, all children should be derived from the virtual
+<emphasis>MateMDIChild</emphasis> object. For simple apps, you don't need to
+derive a new object, you can just use the
+<emphasis>MateMDIGenericChild</emphasis>, and use the fact that you can store
+arbitrary data on arbitrary <emphasis>GtkObject</emphasis>s to store your own
+data on the object.</para>
+
+<para>
+To use the generic child object, you create it with
+<emphasis>mate_mdi_generic_child_new</emphasis> to which you pass the name of
+the child. When you get the object, you will need to set it up for your use.
+First you add a function for creating new views of the same data.  A view is
+just a different window displaying the same file or data.  This is done with a
+call to <emphasis>mate_mdi_generic_child_set_view_creator</emphasis> to which
+you pass a pointer to a creator function which takes the child widget and a
+data pointer as arguments and returns a data widget, which is not the actual
+child widget, but actually the child of the
+<emphasis>MateMDIGenericChild</emphasis> widget. After this you set the
+template for the child's menus with
+<emphasis>mate_mdi_child_set_menu_template</emphasis>, to which you pass the
+<emphasis>MateUIInfo</emphasis> array pointer of the child menu definitions.
+Then you should call
+<emphasis>mate_mdi_generic_child_set_config_func</emphasis> to set a function
+which returns a newly allocated string to save in the config file. This string
+will be used to load up the child next time you start and do the
+<emphasis>mate_mdi_restore_state</emphasis> call. It should probably be a
+filename of the document, or some string from which you can completely recreate
+that window/document. Then you need to call
+<emphasis>mate_mdi_generic_child_set_label_func</emphasis> with a pointer to a
+function that takes the <emphasis>MateMDIGenericChild</emphasis> as the first
+argument, the old label widget pointer as the second argument, which would be
+null if no label widget was yet set, and a data argument. This function can
+either create a new label and destroy the old one, or just set the label if the
+label exists. The label can be any widget, for example the
+<emphasis>mate-hello-7-mdi</emphasis> example code uses a horizontal box
+widget into which it adds a pixmap and a gtk label. After this if you need to
+add the child to the mdi yourself, if you are loading a new file for example,
+you use <emphasis>mate_mdi_add_child</emphasis> and
+<emphasis>mate_mdi_add_view</emphasis>, to add a new child and a new view to
+the mdi. If you are creating a new child from the
+<emphasis>mate_mdi_restore_state</emphasis> function, you should just return
+the child, the mdi will take care of adding it and adding the appropriate
+views.  You also probably want to set some data on the child widget at this
+time to store your data with the object.</para>
+
+<para>
+Here's a short example of creating a new child, for a more complete example
+you should look at the <emphasis>mate-hello-7-mdi</emphasis> included with
+the mate-libs distribution.
+
+<informalexample><programlisting>
+MateMDI *mdi;
+...     
+MateMDIGenericChild *child;
+...     
+/*create a new child named 'name'*/
+if((child = mate_mdi_generic_child_new(name)) != NULL) {
+        /*creator of a view*/
+        mate_mdi_generic_child_set_view_creator
+                (child, my_child_create_view, NULL);
+        /*set a menu template for child menu*/
+        mate_mdi_child_set_menu_template
+                (MATE_MDI_CHILD(child), main_child_menu);
+        /*set function to get config string*/
+        mate_mdi_generic_child_set_config_func
+                (child, my_child_get_config_string, NULL);
+        /*set function that sets or creates a label*/
+        mate_mdi_generic_child_set_label_func
+                (child, my_child_set_label, NULL);
+
+        /* add the child to MDI */
+        mate_mdi_add_child(mdi, MATE_MDI_CHILD(child));
+
+        /* and add a new view of the child */
+        mate_mdi_add_view(mdi, MATE_MDI_CHILD(child));
+}
+</programlisting></informalexample></para></sect3></sect2></sect1>
+
+<sect1 id="matecanvas-widget">
+<title>MateCanvas Widget</title>
+
+<para>
+While <emphasis>MateCanvas</emphasis> widget is inside the libmateui library,
+it definitely deserves a separate chapter. The canvas is a very high level high
+performance graphics drawing widget and on top of that it's easy to use. It
+includes support for both Xlib drawn graphics, which is faster especially over
+the network, and anti-aliased drawing for better looking results.</para>
+
+<sect2>
+<title>Creating a Canvas Widget</title>
+
+<para>
+To create a mate canvas widget, you call the
+<emphasis>mate_canvas_new</emphasis>. You need to make sure that the canvas is
+created with a proper visual and colormap. For example if you wish to draw
+imlib images inside it, you should do this:
+
+<informalexample><programlisting>
+GtkWidget *canvas;
+...
+gtk_widget_push_visual(gdk_imlib_get_visual());
+gtk_widget_push_colormap(gdk_imlib_get_colormap());
+canvas = mate_canvas_new();
+gtk_widget_pop_visual();
+gtk_widget_pop_colormap();
+</programlisting></informalexample>
+After this you also want to call
+<emphasis>mate_canvas_set_pixels_per_unit</emphasis> to set the scale of the
+canvas. You can then do <emphasis>gtk_widget_set_usize</emphasis> to set the
+size of the widget, and <emphasis>mate_canvas_set_scroll_region</emphasis> to
+set the region in which you can scroll around in, this is given in (x1, y1, x2,
+y2). Basically it's the outer limits of your drawing. So once the canvas was
+created, you could do:
+
+<informalexample><programlisting>
+MateCanvas *canvas;
+...
+/*already created a canvas, now set it up*/
+mate_canvas_set_pixels_per_unit(canvas,10);
+mate_canvas_set_scroll_region(canvas,0.0,0.0,50.0,50.0);
+</programlisting></informalexample></para></sect2>
+
+<sect2>
+<title>Groups and Items</title>
+
+<para>
+In the canvas there are items, the actual objects that are on the canvas, and
+groups, which are just groupings of items. A group is actually derived from a
+base <emphasis>MateCanvasItem</emphasis> object, this is useful to applying
+functions to all the items inside the group. Such as moving or hiding the
+entire group. There is also one default group, the root group.  You can get
+this group by calling <emphasis>mate_canvas_root</emphasis>.
+</para>
+</sect2>
+
+<sect2>
+<title>Creating Items</title>
+
+<para>
+Creating items is slightly different usual. It's using the standard
+GTK+ object model argument mechanism. Basically you call
+<emphasis>mate_canvas_item</emphasis>, with the parent canvas group as the first argument,
+the type of object as the second argument, and then arguments given in
+pairs (argument, value), terminated with a NULL. This is best illustrated by
+an example:
+
+<informalexample><programlisting>
+MateCanvas *canvas;
+MateCanvasItem *item;
+...
+item = mate_canvas_item_new(mate_canvas_root(canvas),
+                             MATE_TYPE_CANVAS_RECT,
+                             "x1", 1.0,
+                             "y1", 1.0,
+                             "x2", 23.0,
+                             "y2", 20.0,
+                             "fill_color", "black",
+                             NULL);
+</programlisting></informalexample>
+Note that it's extremely important that the value be the exact type, since
+the compiler won't do the cast for you. If you're doing any calculations and
+aren't sure that you get the right type, just cast it. I believe most if not
+all numbers for canvas items are doubles.</para>
+
+<para>
+To find out the arguments that each item takes, consult the mate documentation
+or look into the <emphasis>libmateui/mate-canvas*.h</emphasis> header files.
+They contain a table at the top of the file just like the one that follows
+(which was taken from
+<emphasis>libmateui/mate-canvas-rect-ellipse.h</emphasis>).
+</para>
+
+<para>
+For example here are arguments for rectangle (MATE_TYPE_CANVAS_RECT) and
+ellipse (MATE_TYPE_CANVAS_ELLIPSE):
+
+<table>
+<title>
+Arguments for rectangle and ellipse canvas items
+</title>
+
+<tgroup cols=4>
+<thead>
+<row>
+<entry>Name</entry>
+<entry>Type</entry>
+<entry>Read/Write</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+
+<row>
+<entry>x1</entry>
+<entry>double</entry>
+<entry>RW</entry>
+<entry>
+Leftmost coordinate of rectangle or ellipse
+</entry>
+</row>
+
+<row>
+<entry>y1</entry>
+<entry>double</entry>
+<entry>RW</entry>
+<entry>
+Topmost coordinate of rectangle or ellipse
+</entry>
+</row>
+
+<row>
+<entry>x2</entry>
+<entry>double</entry>
+<entry>RW</entry>
+<entry>
+Rightmost coordinate of rectangle or ellipse
+</entry>
+</row>
+
+<row>
+<entry>y2</entry>
+<entry>double</entry>
+<entry>RW</entry>
+<entry>
+Bottommost coordinate of rectangle or ellipse
+</entry>
+</row>
+
+<row>
+<entry>fill_color</entry>
+<entry>string</entry>
+<entry>W</entry>
+<entry>
+X color specification for fill color, or NULL pointer for
+no color (transparent)
+</entry>
+</row>
+
+<row>
+<entry>fill_color_gdk</entry>
+<entry>GdkColor*</entry>
+<entry>RW</entry>
+<entry>
+Allocated GdkColor for fill
+</entry>
+</row>
+
+<row>
+<entry>outline_color</entry>
+<entry>string</entry>
+<entry>W</entry>
+<entry>
+X color specification for outline color, or NULL pointer for
+no color (transparent)
+</entry>
+</row>
+
+<row>
+<entry>outline_color_gdk</entry>
+<entry>GdkColor*</entry>
+<entry>RW</entry>
+<entry>
+Allocated GdkColor for outline
+</entry>
+</row>
+
+<row>
+<entry>fill_stipple</entry>
+<entry>GdkBitmap*</entry>
+<entry>RW</entry>
+<entry>
+Stipple pattern for fill
+</entry>
+</row>
+
+<row>
+<entry>outline_stipple</entry>
+<entry>GdkBitmap*</entry>
+<entry>RW</entry>
+<entry>
+Stipple pattern for outline
+</entry>
+</row>
+
+<row>
+<entry>width_pixels</entry>
+<entry>uint</entry>
+<entry>RW</entry>
+<entry>
+Width of the outline in pixels.  The outline will not be scaled
+when the canvas zoom factor is changed.
+</entry>
+</row>
+
+<row>
+<entry>width_units</entry>
+<entry>double</entry>
+<entry>RW</entry>
+<entry>
+Width of the outline in canvas units.  The outline will be scaled
+when the canvas zoom factor is changed.
+</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</para>
+
+<para>
+Now suppose we want to change some of these properties. This is done with a
+call to <emphasis>mate_canvas_item_set</emphasis>. The first argument to this
+function is the canvas item object pointer. The next arguments are the same
+argument pairs as above when creating a new canvas object. For example if we
+want to set the color to red on the rectangle we created above, we can do this:
+
+<informalexample><programlisting>
+MateCanvas *canvas;
+MateCanvasItem *item;
+...
+mate_canvas_item_set(item
+                      "fill_color", "red",
+                      NULL);
+</programlisting></informalexample></para>
+
+<para>
+Then there are item methods for other operations on items. For example the
+<emphasis>mate_canvas_item_move</emphasis> method will take the x and y as
+second and third argument, and will move the item relative to it's current
+position by x and y. Or the <emphasis>mate_canvas_item_hide</emphasis> and
+<emphasis>mate_canvas_item_show</emphasis>, which hide and show the item,
+respectively. To control the z order of the items, you can use the methods
+<emphasis>mate_canvas_item_raise_to_top</emphasis> and
+<emphasis>mate_canvas_item_lower_to_bottom</emphasis> to raise or lower the
+item to the top or bottom of it's parent group's z order. To have finer control
+over z order you can use the <emphasis>mate_canvas_item_raise</emphasis> and
+<emphasis>mate_canvas_item_lower</emphasis> methods which take an extra
+integer argument which is 1 or larger, and specifies the number of levels the
+item should move in the z order.
+</para>
+</sect2>
+
+<sect2>
+<title>Anti-aliasing canvas</title>
+
+<para>
+To create a canvas which uses anti aliasing for rendering of it's items,
+instead of <emphasis>mate_canvas_new</emphasis> function, you should use the
+<emphasis>mate_canvas_new_aa</emphasis>. You should also use the <emphasis>GdkRgb</emphasis>
+visual and colormap. So you would do this to create a new anti-aliased
+canvas:
+
+<informalexample><programlisting>
+GtkWidget *canvas;
+...
+gtk_widget_push_visual (gdk_rgb_get_visual ());
+gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+canvas = mate_canvas_new_aa ();
+gtk_widget_pop_colormap ();
+gtk_widget_pop_visual ();
+</programlisting></informalexample>
+After this you can use the canvas in exactly the same manner as the normal
+canvas.</para>
+
+<para>
+Anti-aliased canvas items can generally do more then normal canvas items.
+This is because of limitations of Xlib as a graphics library. It can for
+example do any kind of affine transformation on it's objects, where on
+and Xlib canvas you can only do affine transformations on some objects.</para></sect2></sect1>
+
+<sect1 id="drag-and-drop">
+<title>Drag and Drop</title>
+
+<para>
+While drag and drop belongs into GTK+ itself, I thought it would be better
+to cover it after some parts of MATE were discussed.</para>
+
+<sect2>
+<title>Accepting Drops</title>
+
+<para>
+You have already seen one drop handler back when we were discussing the
+mime types. Basically, to accept drops, you have to decide which
+mime type of data you want to be able to receive. You have already seen
+one for "text/uri-list". Basically your handler will only receive data
+of those mime types that you specify, so you only need to know how to
+decode those.</para>
+
+<para>
+To specify the mime types you want to receive, you create an array of
+<emphasis>GtkTargetEntry</emphasis> structures, where the first element is a string
+of mime type, the second is an integer flag and the third is an integer
+info. You can leave the flags at 0. The info field can be used if you
+have several entries you are accepting, as the info integer will be passed
+to your drop handler, so you can create a switch statement to handle
+the different types of data. If you have only one type, just leave this
+at 0.</para>
+
+<para>
+After this you need to set up the widget for dragging. You do this by calling
+the <emphasis>gtk_drag_dest_set</emphasis> function. The first argument is the
+widget you want to set up, the second is a flags argument for setting up which
+types of default drag behavior to use, you can leave this at
+<emphasis>GTK_DEST_DEFAULT_ALL</emphasis>. The next argument is the array of
+<emphasis>GtkTargetEntry</emphasis> structures, the next argument is the number
+of items in that array. The last argument is the type of action that you
+accept.  The types can be any of the following ORed together:
+<emphasis>GDK_ACTION_DEFAULT</emphasis>, <emphasis>GDK_ACTION_COPY</emphasis>,
+<emphasis>GDK_ACTION_MOVE</emphasis>, <emphasis>GDK_ACTION_LINK</emphasis>,
+<emphasis>GDK_ACTION_PRIVATE</emphasis> and
+<emphasis>GDK_ACTION_ASK</emphasis>.  The most useful are
+<emphasis>GDK_ACTION_COPY</emphasis> and <emphasis>GDK_ACTION_MOVE</emphasis>.
+If you are for example passing around strings or other data, you will most
+likely use <emphasis>GDK_ACTION_COPY</emphasis> only.</para>
+
+<para>
+Then you need to set up and bind the drop handler. The drop handler
+should have the following prototype:
+
+<informalexample><programlisting>
+void  
+target_drag_data_received  (GtkWidget          *widget,
+                            GdkDragContext     *context,
+                            gint                x,
+                            gint                y,
+                            GtkSelectionData   *data,
+                            guint               info,
+                            guint               time);
+</programlisting></informalexample>
+The data you have is in the structure <emphasis>GtkSelectionData</emphasis>,
+in the <emphasis>data</emphasis> field. That's all you need to do for normal
+DND. Here's and example:
+
+<informalexample><programlisting>
+static void  
+target_drag_data_received  (GtkWidget          *widget,
+                            GdkDragContext     *context,
+                            gint                x,
+                            gint                y,
+                            GtkSelectionData   *data,
+                            guint               info,
+                            guint               time)
+{
+        g_print("Got: %s\n",data-&gt;data);
+}
+...
+static GtkTargetEntry target_table[] = {
+        { "text/plain", 0, 0 }
+}
+...
+gtk_drag_dest_set (widget,
+                   GTK_DEST_DEFAULT_ALL,
+                   target_table, 1,
+                   GDK_ACTION_COPY);
+gtk_signal_connect (GTK_OBJECT (widget), "drag_data_received",
+                    GTK_SIGNAL_FUNC (target_drag_data_received),
+                    NULL);
+</programlisting></informalexample></para>
+
+<para>
+For more information about drag and drop, you should see
+<emphasis>GTK+</emphasis> documentation at <ulink
+url="http://www.gtk.org/">www.gtk.org</ulink>.
+</para>
+</sect2>
+
+<sect2>
+<title>Allowing Drags</title>
+
+<para>
+Now let's look at the source side of DND. You set up the
+<emphasis>GtkTargetEntry</emphasis> array, in the same manner as above. Then
+instead of the <emphasis>flags</emphasis> argument you substitute a mask for
+the start mouse button of the drag. This could be <emphasis>GDK_BUTTON1_MASK |
+GDK_BUTTON3_MASK</emphasis> for 1st and 3rd mouse buttons. Then you need to
+bind the <emphasis>drag_data_get</emphasis> signal that will send the data for
+the drag on it's way, and <emphasis>drag_data_delete</emphasis> if the action
+is <emphasis>GDK_ACTION_MOVE</emphasis>, to delete the data since the move was
+successful.  Here's a simple example that will work with the above code snippet
+for drop:
+
+<informalexample><programlisting>
+static void  
+source_drag_data_get  (GtkWidget          *widget,
+                       GdkDragContext     *context,
+                       GtkSelectionData   *selection_data,
+                       guint               info,
+                       guint               time,
+                       gpointer            data)
+{
+        char string[] = "Some String!";
+        gtk_selection_data_set (selection_data,
+                                selection_data-&gt;target,
+                                8, string, sizeof(string));
+}
+...
+static GtkTargetEntry target_table[] = {
+        { "text/plain", 0, 0 }
+};
+...
+gtk_drag_source_set (widget,
+                     GDK_BUTTON1_MASK|GDK_BUTTON3_MASK,
+                     target_table, 1,
+                     GDK_ACTION_COPY);
+gtk_signal_connect (GTK_OBJECT (widget), "drag_data_get",
+                    GTK_SIGNAL_FUNC (source_drag_data_get),
+                    NULL);
+</programlisting></informalexample>
+The <emphasis>gtk_selection_data_set</emphasis> function copies the data into the selection
+data, which is used for the transfer.</para></sect2></sect1></chapter>
+
+<chapter id="building-mate-apps">
+<title>Building MATE Apps</title>
+<sect1 id="using-a-simple-makefile">
+<title>Using a Simple Makefile</title>
+
+<para>
+Using a simple makefile is the fastest way to compile a small MATE
+application. If you require a more sophisticated build environment, 
+you should use an autoconf/automake setup, which I will briefly talk about
+later.
+</para>
+
+<sect2>
+<title>The mate-config Script</title>
+
+<para>
+The command line to the C compiler for building a MATE application can be
+quite long and would be hard to figure out by hand. So mate-libs installs a
+script to simplify this. It is called <emphasis>mate-config</emphasis> and
+it takes two options, <emphasis>--cflags</emphasis> and
+<emphasis>--libs</emphasis>. The --cflags option will give you the compiler
+flags, needed for the compilation step, and --libs will give you the
+libraries you need to pass to the linker. You also need to pass another
+set of arguments to mate-config. It needs to know what libraries you wish
+to use. For our purposes, this is <emphasis>mate</emphasis> and
+<emphasis>mateui</emphasis>. So for example to get the compiler flags
+for some program using the standard mate and mateui libraries, you would
+call "mate-config --cflags mate mateui".
+</para>
+
+</sect2>
+
+<sect2>
+<title>A Simple Example Makefile</title>
+
+<para>
+Now to build a simple makefile, you can use variables
+<emphasis>CFLAGS</emphasis> and <emphasis>LDFLAGS</emphasis> and the implicit
+rules that at least GNU make supports (others probably do as well, but I'm
+not familiar with other makes). So for example let's say you have an
+application that has a main.c, main.h, extra.c and extra.h and the executable
+is called mate-foo.Now let's build a small Makefile for this app.
+<informalexample><programlisting>
+CFLAGS=-g -Wall `mate-config --cflags mate mateui`
+LDFLAGS=`mate-config --libs mate mateui`
+
+all: mate-foo
+
+mate-foo: main.o extra.o
+main.o: main.c main.h extra.h
+extra.o: extra.c extra.h
+
+clean:
+        rm -f core *.o mate-foo
+</programlisting></informalexample>
+This is an extremely simple makefile, but it should get you started.
+</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="using-autoconf-automake">
+<title>Using automake/autoconf</title>
+
+<para>
+Using automake and autoconf is really beyond the scope of this document,
+but you should go read manuals online at
+<ulink url="http://www.gnu.org/manual/manual.html">
+http://www.gnu.org/manual/manual.html</ulink>, or read the info pages if
+you have them installed with mate-help-browser.
+</para>
+
+<para>
+There is now an example application which can help you get started with
+autoconf/automake, the internationalization setup, and other build issues,
+as well as serve as a good hello world example. You can get it at
+any mate ftp site mirror (go to
+<ulink url="http://www.mate.org/ftpmirrors.shtml">
+http://www.mate.org/ftpmirrors.shtml</ulink> for a list of mirrors) in the
+<emphasis>sources/MateHello/</emphasis> directory.
+</para>
+
+</sect1>
+</chapter>
+
+
+<chapter id="conclusion">
+<title>Conclusion</title>
+<sect1 id="getting-further-help">
+<title>Getting Further Help</title>
+
+<para>
+One of the best ways to get help with programming in mate is probably
+to first read the available documentation at
+<ulink url="http://www.mate.org/">www.mate.org</ulink>, or the developer
+web site at <ulink url="http://developer.mate.org/">developer.mate.org
+</ulink>. You should also subscribe to the
+<ulink url="mailto:mate-devel-list@mate.org">mate-devel-list@mate.org
+</ulink>, to subscribe, send a message with <emphasis>subscribe</emphasis>
+in the subject line to <ulink url="mailto:mate-devel-list-request@mate.org">
+mate-devel-list-request@mate.org</ulink>. To reduce the traffic on the
+list you should first consult the documentation before asking a question.
+Also look at <ulink url="http://www.mate.org/mailing-lists/">
+www.mate.org/mailing-lists/</ulink> for a list of all MATE relevant
+mailing lists, including the <emphasis>GTK+</emphasis> list.</para>
+
+<para>
+However I still consider the header files for the libraries most helpful.
+This is mostly as there isn't yet as much documentation out there as there
+should be, but also the header files will always contain all of the
+definitions and they will be up to date with the current version,
+which a manual might not be. Most GTK+ and MATE function names are very
+descriptive and it's easy to figure out what they do. I use the header files
+only. It's much easier to just look at the function prototype and figure out
+what it does, then to hunt around in a reference manual. Then again you
+usually have to know what header file to look at, which is not all
+that hard, given that the header files are named by the objects or modules
+they represent. For example the header file for <emphasis>mate-config</emphasis> is
+<emphasis>libmate/mate-config.h</emphasis>. The header file for <emphasis>MateCanvas</emphasis>
+is <emphasis>libmateui/mate-canvas.h</emphasis>.</para></sect1>
+
+<sect1 id="future-mate-library-developments">
+<title>Future MATE Library Developments</title>
+
+<para>
+This tutorial covers programming with version 1.0 of the mate libraries.
+But of course there is life after 1.0. There are many things still planned
+for the libraries. But don't worry, we will try to keep as much compatibility
+with the 1.0 version as humanely possible.</para>
+
+<para>
+Here's a short list of things that will be or currently is worked on.
+
+
+<variablelist>
+<varlistentry><term></term>
+<listitem><para>
+More common dialogs, such as a native mate file picker dialog.</para></listitem></varlistentry>
+<varlistentry><term></term>
+<listitem><para>
+More corba integration of the entire desktop. This is including much
+more corba support from the core libraries.</para></listitem></varlistentry>
+<varlistentry><term></term>
+<listitem><para>
+Better canvas, including better alpha channel support and printing directly
+from the canvas.</para></listitem></varlistentry>
+<varlistentry><term></term>
+<listitem><para>
+Rewrite of the configuration setup.</para></listitem></varlistentry>
+<varlistentry><term></term>
+<listitem><para>
+Much much more! ... Stuff we haven't even thought of yet!</para></listitem></varlistentry>
+</variablelist></para></sect1></chapter>
+
+</book>

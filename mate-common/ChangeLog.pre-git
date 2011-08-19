@@ -1,0 +1,860 @@
+2009-03-28  Rodney Dawes  <dobey@mate.org>
+
+	* macros2/mate-autogen.sh:
+	Only pass --enable-maintainer-mode when AM_MAINTAINER_MODE is present
+
+	FIxes #577037
+
+2008-11-25  Vincent Untz  <vuntz@mate.org>
+
+	* macros2/mate-common.m4: add -DWNCK_DISABLE_DEPRECATED
+	-DLIBSOUP_DISABLE_DEPRECATED to DISABLE_DEPRECATED
+
+2008-09-22  Christian Persch  <chpe@mate.org>
+
+	=== Release 2.24.0 ===
+
+	* Makefile.am:
+	* configure.in: Version 2.24.0.
+
+2007-12-21  Sven Herzberg  <herzi@mate-de.org>
+
+	Reviewed by: Christian Persch
+
+	Abort when the first dependency fails. Fixes bug 469115.
+
+	* macros2/mate-autogen.sh: don't use the DIE variable anymore and
+	abort on the first dependency failure
+
+2007-06-08  Christian Persch  <chpe@mate.org>
+
+	* macros2/mate-autogen.sh: Don't print extra newlines when /bin/sh
+	isn't bash. Bug #130346.
+
+2007-06-08  Christian Persch  <chpe@mate.org>
+
+	* macros2/mate-autogen.sh: Don't print warning about missing
+	arguments if we're not going to run configure. Bug #445584, patch by
+	"Cygwin Ports maintainer" (yselkowitz%40users.sourceforge.net).
+
+2007-06-06  Christian Persch  <chpe@mate.org>
+
+	* doc-build/mate-doc-common.in: Add datarootdir substitution.
+
+2007-04-09  Christian Persch  <chpe@mate.org>
+
+	* configure.in: Bump version to 2.19.0.
+
+2007-04-09  Christian Persch  <chpe@mate.org>
+
+	=== Release 2.18.0 ===
+
+	* autogen.sh: Use automake 1.9.
+	* configure.in: Bump version. Dist as .tar.bz2.
+
+2007-01-29  Mariano Suárez-Alvarez  <mariano@mate.org>
+
+	Bug 377185 – Hide cmp output in autogen.sh
+
+	* macros2/mate-autogen.sh: Do not show cmp's output.
+
+2007-01-29  Christian Persch  <chpe@svn.mate.org>
+
+    	* Add -Wno-portability to automake invocation. Bug #529120, patch by Philip
+	Van Hoof.
+
+2007-01-29  Christian Persch  <chpe@svn.mate.org>
+
+	* macros2/mate-compiler-flags.m4:
+	Fix --enable-cxx-warnings checks. Bug #360693.
+
+2007-01-12  Shaun McCance  <shaunm@mate.org>
+
+	* macros2/mate-autogen.sh:
+	- Fix for #377175 by skipping NO-AUTO-GEN directories, by Christian Persch
+
+2007-01-11  Christian Persch  <chpe@svn.mate.org>
+
+	* macros2/mate-autogen.sh: Default to AM 1.9. Bug #323868, patch by
+	Christian Kirbach.
+
+2007-01-11  Christian Persch  <chpe@svn.mate.org>
+
+	* macros2/mate-common.m4: Define more deprecation symbols.
+	Bug #343441.
+
+2006-12-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* macros2/mate-autogen.sh: Make automake 1.10 work too.
+
+2006-10-20  Bastien Nocera  <hadess@hadess.net>
+
+	* macros2/mate-autogen.sh: exit from the check_m4macros function as
+	soon as we have detected some undefined macros, rather than leaving
+	the developer wondering what the problem is
+
+2006-05-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* mate-common.spec.in: Fix a typo.
+
+2006-03-10  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh (configure_files): skip directories
+	called "_darcs", similar to the handling of other VCS metadata
+	dirs.  Fixes bug #321860.
+
+2005-10-24  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh (configure_files): update find
+	expression to not exclude ".." from search.  Fixes non-srcdir
+	builds (where $srcdir might be "..").  Fixes bug #319496.
+
+2005-09-20  Stepan Kasal  <kasal@ucw.cz>
+
+	* macros2/mate-autogen.sh: Prefer newer versions of Automake.
+	From bug #305641.
+
+2005-09-20  James Henstridge  <james@jamesh.id.au>
+
+	* configure.in: bump version to 2.12.0
+
+	* macros2/mate-autogen.sh (configure_files): when searching for
+	configure.in files, skip directories starting with a dot.  This
+	avoids Bzr, Quilt and Subversion bookkeeping directories among
+	others.  Fixes bug #311951.
+
+2005-08-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* macros2/mate-autogen.sh (add_to_cm_macrodirs): New function,
+	prevents duplicates in $cm_macrodirs.
+	(check_m4macros): Use it.  Read the dirlist file, if it is supported
+	by the version of Automake actually in use.
+
+2005-08-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* macros2/mate-autogen.sh (version_check): Set $variable_VERSION
+	  to the actual version number of the tool.
+
+2005-08-17  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh: pass --force to mate-doc-prepare to
+	match other tools.  Fixes bug #311775.
+
+	* macros2/mate-autogen.sh: don't use syntax that non-GNU greps
+	don't understand.  Fixes bug #313531.
+
+2005-08-16  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh: add checks for mate-common macro
+	names, and call require_m4macro for the appropriate names.  This
+	can help detect $ACLOCAL_FLAGS problems earlier.  Addresses bug
+	#312125.
+
+2005-07-25  James Henstridge  <james@jamesh.id.au>
+
+	* configure.in: bump release number.
+
+2005-07-19  Shaun McCance  <shaunm@mate.org>
+
+	* macros2/mate-autogen.sh:
+	- Bumped up the default required version of mate-doc-utils
+
+2005-07-18  Christian Persch  <chpe@cvs.mate.org>
+
+	* macros2/mate-autogen.sh:
+
+	When configure.{in,ac} contains MATE_DOC_INIT, actually call
+	mate-doc-prepare.
+
+2005-03-21  Sven Herzberg  <herzi@mate-de.org>
+
+	* macros2/mate-autogen.sh: added support for the mate-doc-utils
+
+2005-03-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* macros2/ChangeLog: Removed; the contents merged into the main one.
+
+2005-02-11  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh: preserve COPYING and INSTALL files over
+	the "automake --force" call.  Fixes bug #161916.
+
+2005-01-22  Rodney Dawes  <dobey@novell.com>
+
+	* macros2/mate-autogen.sh: Fix the (AC|IT)_PROG_INTLTOOL support
+	for both places where we grep for it
+	(version_check): If we are checking for automake = 1.4, then make
+	sure we error out with that error when we find it, and not >= 1.4
+	since we don't actually check for >= 1.4
+
+	Fixes #129903
+
+2005-01-03  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-common.m4 (MATE_COMMON_INIT): add some code to
+	add the directory given to AC_CONFIG_MACRO_DIR to ACLOCAL_FLAGS.
+
+	* doc-build/xmldocs.make (clean-local-doc): add rule to clean up
+	copied entities if srcdir!=builddir.
+
+2004-11-24  Mariano Suárez-Alvarez <mariano@mate.org>
+
+	* macros2/mate-autogen.sh: grep wants basic regexps, not extended
+	ones: fix the regular expression for INTLTOOL.
+
+2004-11-24  Rodney Dawes  <dobey@novell.com>
+
+	* macros2/mate-autogen.sh: Add support for IT_PROG_INTLTOOL which
+	deprecates AC_PROG_INTLTOOL
+
+2004-11-09  Jordi Mallach  <jordi@sindominio.net>
+
+	* macros2/mate-autogen.sh: Workaround automake-1.4 limitations by
+	just using --force if $REQUIRED_AUTOMAKE_VERSION != 1.4. This avoids
+	Louie's wrath too. :)
+
+2004-11-09  Jordi Mallach  <jordi@sindominio.net>
+
+	* macros2/mate-autogen.sh: Call all the bootstrap programs
+	(libtoolize, intltoolize, gtkdocize, automake) using --force and
+	--copy consistently.
+
+2004-10-28  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh: get rid of the code that modified PATH,
+	ACLOCAL_FLAGS and LD_LIBRARY_PATH based on $MATE2_PATH, since
+	this was broken.  It could cause configure tests to pass, when the
+	subsequent build would fail due to path problems.  For more
+	details, see bug #140210.
+
+	* macros2/mate-autogen.sh: if the directory is read only, skip it.
+	This helps in cases where a directory from a failed "make distcheck"
+	is lying around.  Should fix bug #136093.
+
+	* macros2/mate-autogen.sh (m4dir): fix up the AC_CONFIG_MACRO_DIR
+	check to work with sub-package configure.in's.
+
+2004-10-27  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh (ACLOCAL): if AC_CONFIG_MACRO_DIR() is
+	used in configure.ac, pass that directory to aclocal.
+	Run libtoolize if the configure.ac file calls LT_INIT (the new
+	name for AC_PROG_LIBTOOL in libtool-2.0).
+
+2004-10-06  James Henstridge  <james@jamesh.id.au>
+
+	* doc-build/omf.make (uninstall-local-omf): use $(DESTDIR) in
+	uninstall rule.  This is needed to allow packages to distcheck
+	with newer versions of automake.
+
+2004-09-14  James Henstridge  <james@jamesh.id.au>
+
+	* configure.in: bump version number to 2.8.0
+
+2004-08-30  James Henstridge  <james@jamesh.id.au>
+
+	* macros2/mate-autogen.sh: fix up error message when a required
+	M4 file isn't found.  Fixes bug #147417.
+
+	* macros2/mate-autogen.sh: Revert Rodney's changes, since
+	glib-gettextize has been fixed on the HEAD and 2.4 branches.
+
+2004-08-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* macros2/mate-autogen.sh: Add some foo to handle automake-1.9.x too.
+
+2004-06-10  Rodney Dawes  <dobey@ximian.com>
+
+	* macros2/mate-autogen.sh: Add code to check for mkinstalldirs in
+	the shared automake files directory, and copy it in if we are using
+	AM_GLIB_GNU_GETTEXT
+
+	Fixes #144069
+
+2004-05-26  James Henstridge  <james@daa.com.au>
+
+	* macros2/mate-common.m4 (MATE_COMMON_INIT): since caching is
+	turned off in all recent Autoconfs, it doesn't make sense to use
+	it.  Change implementation to instead make sure ${ACLOCAL_FLAGS}
+	gets passed to aclocal when called from the makefile.
+
+	* macros2/Makefile.am: alter installation so that it puts the
+	macros directly into $(datadir)/aclocal instead of
+	$(datadir)/aclocal/mate2-macros
+
+	* autogen.sh (REQUIRED_AUTOMAKE_VERSION): use a modern version of
+	automake.
+
+	* macros2/mate-compiler-flags.m4: move from compiler-flags.m4 to
+	reduce chance of collisions; some small cleanups.
+
+	* macros2/mate-autogen.sh: move from autogen.sh
+
+	* Makefile.am (SUBDIRS): don't build bin/ and macros/ directories.
+
+	* configure.in: don't create makefiles for bin/ and macros/
+	directories.
+	Since we don't actually build the support/ directory (since 2001),
+	remove the matching parts from the configure script.
+
+2004-05-13  James Henstridge  <james@daa.com.au>
+
+	* mate-common.spec.in: simplify and update spec file.
+
+2004-05-13  James Henstridge  <james@daa.com.au>
+
+	* macros2/autogen.sh: Change the order the various tools are called
+	in to match that of autoconf's autoupdate tool.  See bug 138584.
+
+2004-02-27  Sven Herzberg  <herzi@abi02.de>
+
+	* macros2/autogen.sh: fix #135557
+
+2004-02-17  Mark McLoughlin  <mark@skynet.ie>
+
+	* doc-build/xmldocs.make: fix one last occurrence of
+	not using $(DESTDIR).
+
+2004-01-31  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Use automake-1.8 if available. Patch from
+	alexander.winston@comcast.net (Alexander Winston). Bug #132966.
+
+2004-01-25  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Deprecate the use of MATE2_DIR and allow the
+	use of MATE2_PATH (bug #130516).
+
+2004-01-02  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Run intltoolize after automake, since
+	intltoolize wants mkinstalldirs now.
+	Should fix bugs #130309 and #130366.
+
+2003-12-13  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Change the use of head to be 'head -n -1',
+	since the GNU version of head appears to have changed behaviour
+	between version 5.0 and 5.0.9 somewhere. This should be portable
+	across all versions now. Fixed bug #128867.
+
+2003-12-08  Rodney Dawes  <dobey@free.fr>
+
+	* macros2/autogen.sh: Update automake checks to check incremental
+	versions in the correct order, Fixes #128691
+
+2003-11-19  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Replace use of -or in a find command with -o.
+	Makes things work for people with less functional versions of
+	find. Fixes bug #127354 reported by Rolf Sponsel.
+
+2003-11-03    <clahey@ximian.com>
+
+	* macros2/mate-common.m4: Removed ENABLE_WERROR and changed name
+	to MATE_MAINTAINER_MODE_DEFINES.
+
+2003-11-01  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Make version checking work, as pointed out by
+	Michael H Schimek in bug #125818.
+
+2003-10-31    <clahey@ximian.com>
+
+	* macros2/mate-common.m4: Changed name of new macro to
+	AM_MAINTAINER_MODE_DEFINES and added definition for ENABLE_WERROR.
+
+2003-10-31    <clahey@ximian.com>
+
+	* macros2/mate-common.m4: New macro to disable deprecated
+	functions and widgets when maintainer mode is on.
+
+=== mate-common 2.4.0 ===
+
+2003-10-02  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* doc-build/Makefile.am: Distribute README in place of the
+	non-existent ChangeLog. Doh!
+
+	* autogen.sh: Use the MATE 2 autogen.sh script by default.
+	* configure.in: Version number bumped.
+
+2003-08-23  Marco Pesenti Gritti  <marco@mate.org>
+
+	* macros2/compiler-flags.m4: Define WARN_CXXFLAGS instead of
+	overwriting CXXFLAGS (like WARN_FLAGS).
+
+2003-08-10  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Show the version found for the various build
+	tools like automake, autoconf, libtool, etc.
+	Patch from Steve Chaplin (bug #119533).
+
+2003-08-05  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/compiler-flags.m4: Continuing to try and get the flags
+	passed to g++ in MATE_CXX_WARNINGS correct. Based on our best
+	attempts, the current set should work for the widest range of
+	g++ versions (see bug #118987 for the discussion).
+
+2003-08-03  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/compiler-flags.m4: Simplify MATE_CXX_WARNINGS.
+	Fixes bug #118987.
+
+2003-07-28  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/compiler-flags.m4: Default setting in the
+	MATE_COMPILE_WARNINGS macro is now "yes". This fixes bug
+	#118479 (another good bit of debugging from Steve Chaplin).
+
+2003-07-20  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/compiler-flags.m4: Remove some redundant options as
+	suggested by Steve Chaplin in bug #115475. The warnings list looks
+	simpler now, but is no less functional.
+
+2003-07-15  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Fix a typo when reporting "forbidden" m4 macros.
+
+2003-07-04  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* macros2/compiler-flags.m4: don't use -Wsign-promo, it is 
+	C++ only and causes warnings with gcc 3.3 when used on C.
+
+2003-06-24  Marco Pesenti Gritti  <marco@it.mate.org>
+
+	* macros2/autogen.sh:
+
+	Remove --enable-compile-warnings from the default arguments
+	passed to configure because it break MATE_COMPILE_WARNINGS
+	macro.
+
+2003-06-20  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Fix some strangeness in the mate-doc-common test.
+
+2003-06-19  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* macros2/autogen.sh: Inserted missing "cd $dirname" to effectively
+	process subdirectories, since all it was doing was to process the
+	toplevel dir multiple times.
+
+	[Editor's note: also reported with patch by Elijah Newren in bug
+	#115481.]
+
+2003-05-24  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* MAINTAINERS: Put myself in as maintainer.
+
+	* configure.in: Bump the version number to 2.3.0
+
+	* configure.in, Makefile.am, macros2/autogen.sh, doc-build/*:
+	Add in the infrastructure to allow user documentatin to be built
+	from some common files. This will not affect existing packages.
+	The changes required to use this are given in doc-build/README.
+
+2003-05-21  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* macros2/autogen.sh: Ignore {arch} subdirectories. Fixes bug #113327.
+
+2003-05-04  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	
+	* macros2/autogen.sh:
+	- Make this portable to Bourne-like shells. Fixes the problems
+	  pointed out by Morten Welinder in bug #110177.
+	- Extend the check_m4macros() function to handle Cygwin
+	  environments. Fixes bug #110947.
+
+2003-04-10  Ross Burton  <ross@burtonini.com>
+
+	* macros2/autogen.sh: Fix a typo in the glib-gettext checks.
+
+2003-03-07  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	
+	* macros2/autogen.sh: Replace PACKAGE with PKG_NAME, since PKG_NAME
+	is what is defined by the various applications' autogen.sh. Also,
+	call autopoint rather than gettextize when appropriate (when
+	AM_GNU_GETTEXT_VERSION is present).
+
+2003-02-27  Mark McLoughlin  <mark@skynet.ie>
+
+	* macros2/compiler-flags.m4: fix mixed up order of arguments to
+	AC_ARG_ENABLE that made --enable-compile-warnings not work
+	as expected.
+
+2003-02-26  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* macros2/autogen.sh: set WANT_AUTOCONF_2_5 variable to tell 
+	Mandrake autoconf wrapper we want to check if autoconf 2.5x is here..
+
+2003-02-24  James Henstridge  <james@daa.com.au>
+
+	* macros2/autogen.sh (forbid_m4macro): add function to forbid m4
+	macros.  Forbid mate-cxx-check.m4, to try and catch setups where
+	stale macros are left on the system.
+
+2003-02-21  James Henstridge  <james@daa.com.au>
+
+	* macros2/autogen.sh (version_check): if $variable is set, then
+	assume it is correct and skip the version check.
+	(autoconf): check for autoconf2.50 first, so we don't trigger
+	Debian's sometimes broken autoconf version sniffer.
+
+2003-02-19  James Henstridge  <james@daa.com.au>
+
+	* macros2/Makefile.am (MATE2_MACROS): remove check-utmp.m4 (copied
+	it to libzvt, which is the only thing using it).
+
+	* macros2/mate-deprecated-macros.m4(MATE_CHECK_CXX): AC_REQUIRE
+	does not work within AU_DEFUN, so change to a simple call to
+	AC_PROG_CXX.
+
+2003-02-18  James Henstridge  <james@daa.com.au>
+
+	* macros2/autogen.sh (topdir): check to see if
+	mate-deprecated-macros.m4 ended up in aclocal.m4, and warn if so.
+
+	* macros2/mate-platform.m4: kill this too (with a deprecation warning).
+
+	* macros2/mate-cxx-check.m4: move to mate-deprecated-macros.m4
+
+	* macros2/mate-pkgconfig.m4: remove, and add a deprecation warning
+	in its place.
+
+	* macros2/mate-x-checks.m4: remove, and add an AU_DEFUN in its place
+	telling people not to use it.
+
+	* macros2/linger.m4: removed outright.
+
+	* macros2/mate-common.m4: remove MATE_GTKDOC_CHECK, deprecated in
+	favour of GTK_DOC_CHECK.
+
+	* macros2/mate-gettext.m4: remove file (people should be using
+	gettextize or glib-gettextize).
+
+	* macros2/mate-deprecated-macros.m4: new file to hold deprecated
+	macros.
+
+2003-02-18  Jody Goldberg <jody@mate.org>
+
+	* configure.in: Don't depend on a file that James just deleted
+
+2003-02-14  Kalpesh Shah <kalpesh.shah@sun.com>
+
+	* macros2/check-utmp.m4: initialize UTMP structure properly. 
+	Fixes Bug#93774.
+	Patch reviewed by Andersca <andersca@gnu.org>
+
+2002-12-12  Jody Goldberg <jody@mate.org>
+
+	* macros2/mate-common.m4 (MATE_DEBUG_CHECK): now that autoconf-2.52
+	  is a prereq for things the build broke on the use of
+	      AC_DEFINE(MATE_ENABLE_DEBUG) 
+	  without the additional arguments.
+
+2002-09-23  Bastien Nocera  <hadess@hadess.net>
+
+	* macros2/autogen.sh: exit if aclocal, autoheader, automake or
+	autoconf fails to run without warnings. Usually compilation would
+	fail afterwards with funky errors.
+	This is more anal than the version committed to the mate-2-0 branch.
+
+2002-08-18  Havoc Pennington  <hp@pobox.com>
+
+	* macros2/autogen.sh: hardcode aclocal-1.4/automake-1.4 so that users
+	with both automake 1.6 and 1.4 installed get the right automake. Means
+	compilation from CVS will now require the latest automake 1.4
+	release, or manually creating symlinks called "automake-1.4" and
+	"aclocal-1.4"
+
+Mon Aug 12 23:49:41 2002  HideToshi Tajima  <hidetoshi.tajima@sun.com>
+
+	* macros2/autogen.sh: use portable -o instead of GNU-ish -or for
+	  find test.
+
+2002-08-10  Miles Lane  <miles_lane@yahoo.com>
+
+	* macros2/autogen.sh: fix the "find" test so that the presence of
+	  configure.in is reporteded.  Each expression requires its own
+	  -print flag.
+
+2002-08-10  Sebastian Rittau  <srittau@jroger.in-berlin.de>
+
+	* macros2/autogen.sh: support for configure.ac
+
+2002-05-10  Chema Celorio  <chema@celorio.com>
+
+	* macros2/compiler-flags.m4: fix MATE_COMPILE_WARNINGS to work when
+	  a parameter is passed.  The arguments to AC_ARG_ENABLE were swapped.
+
+2002-04-01  jacob berkman  <jacob@ximian.com>
+
+	* macros2/mate-x-checks.m4 (MATE2_X_CHECKS): kill bogus clearing
+	  of LDFLAGS
+
+2001-12-11  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Up to 1.2.4.
+
+2001-10-29  jacob berkman  <jacob@ximian.com>
+
+	* macros2/autogen.sh: add check for glib-gettextize
+
+2001-10-15  Bastien Nocera  <hadess@hadess.net>
+
+	* macros2/Makefile.am, curses.m4: added curses.m4 (copied from
+	  the mate1 macros.  this file is needed to gdialog
+
+2001-10-02  Darin Adler  <darin@bentspoon.com>
+
+	* macros2/autogen.sh: Complete intltool support.
+
+2001-10-02  Darin Adler  <darin@bentspoon.com>
+
+	* macros2/autogen.sh: Add intltool support.
+
+2001-09-20 Glynn Foster <glynn.foster@sun.com>
+
+	* macros2/mate-x-checks.m4: replaced  
+	MATE_PKGCONFIG_CHECK_MODULES with  PKG_CHECK_MODULES
+
+2001-09-04  Frank Belew  <frb@ximian.com>
+
+	* macros2/autogen.sh: change gettext regexp to work with non-gnu grep
+
+2001-08-18  Darin Adler  <darin@bentspoon.com>
+
+	* macros2/autogen.sh: Don't ask people to ignore xml-i18n-tools
+	  messages.
+
+2001-08-04  Darin Adler  <darin@bentspoon.com>
+
+	* macros2/autogen.sh: Update gettext logic to allow anything that
+	starts with AM and ends with gettext. This makes it work with
+	AM_GLIB_GNU_GETTEXT, which is what libmatecomponent is now using.
+
+2001-08-03  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-pkgconfig.m4 (MATE_PKGCONFIG_CHECK_VERSION): Removed.
+	(MATE_PKGCONFIG_CHECK_CFLAG): Removed.
+	(MATE_PKGCONFIG_ACLOCALFLAGS): Removed.
+	(MATE_PKGCONFIG_CHECK_OPTIONAL_MODULES): Removed.
+	(MATE_PKGCONFIG_CHECK_MODULES): Removed.
+	(MATE_CHECK_PKGCONFIG): Use $PKG_CONFIG --atleast-pkgconfig-version
+	to check for the pkg-config version.
+
+2001-08-02  Michael Meeks  <michael@ximian.com>
+
+	* Version 1.2.3
+
+2001-07-26  Darin Adler  <darin@bentspoon.com>
+
+	* configure.in: Point to the new home of pkgconfig at
+	www.freedesktop.org instead of "sourceforce.net" [sic].
+
+2001-07-26  Darin Adler  <darin@bentspoon.com>
+
+	* doc/usage.txt: Point to the new home of pkgconfig at
+	www.freedesktop.org.
+
+2001-07-20  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-pkgconfig.m4: Require pkg-config 0.8.0.
+
+2001-07-12  Darin Adler  <darin@bentspoon.com>
+
+	* configure.in: Remove AC_ARG_PROGRAM, because AM_INIT_AUTOMAKE
+	already takes care of that.
+
+2001-06-29  Laszlo Peter <laca@ireland.sun.com>
+
+	* macros2/mate-pkgconfig.m4 (MATE_PKGCONFIG_CHECK_VERSION): Fix
+	  the regexp to process all 6 version numbers.
+
+2001-06-22  Elliot Lee  <sopwith@redhat.com>
+
+	* macros2/mate-gettext.m4: N'sync with the mate1 version,
+	  bye bye buggies.
+
+2001-06-13  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-pkgconfig.m4 (MATE_CHECK_PKGCONFIG): Require
+	  pkg-config 0.7.0 and fix download URL.
+
+	* macros2/mate-platform.m4: Require pkgconfig on the MATE 2.0
+	  platform.
+
+2001-06-01  Peter Williams  <peterw@ximian.com>
+
+	* macros2/autogen.sh: s,Mate,$PKG_NAME,g
+
+2001-05-22  Darin Adler  <darin@eazel.com>
+
+	* hack-macros/mate.m4: Add BUILD_INCLUDED_LIBINTL for
+	compatibility with the new gettext.
+	
+2001-04-16  Darin Adler  <darin@eazel.com>
+
+	* mate-common.spec.in: A cut at updating the spec file now that
+	the pkgconfig stuff and support stuff has gone away.
+
+2001-04-14  Martin Baulig  <baulig@suse.de>
+
+	* mate-common.pc.in, mate-common-2.0.pc.in: Removed.
+
+	* configure.in: Set version number to 1.2.2.
+	(--enable-platform-mate-2): Removed this command line argument;
+	this package is now the same for MATE 1.x and MATE 2.0.
+
+	* acinclude.m4: Removed.
+	* acconfig.h: Removed.
+
+	* support/: We don't build this directory anymore; the MATE 1.x
+	version of it is in mate-libs/support and the MATE 2.0 one is in
+	libmatebase/libmatesupport.
+
+2001-04-13  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-pkgconfig.m4 (MATE_PKGCONFIG_CHECK_OPTIONAL_MODULES):
+	Set variable `have_<name>' to yes or no depending on whether the
+	module was found or not; allows you to define automake conditionals
+	for optional modules.
+
+2001-03-26  Robin * Slomkowski  <rslomkow@eazel.com>
+
+	* Makefile.am: added mate-common.spec.in to EXTRA_DISTS
+	* configure.in: added mate-common.spec.in
+	* mate-common.spec: removed from repository as it appeared
+                             generic
+	* mate-common.spec.in: new spec file using Martin's suggestions
+
+2001-03-24  Martin Baulig  <baulig@suse.de>
+
+	* macros2/autogen.sh: Add the xml-i18n-tools stuff here.
+
+2000-12-01  Martin Baulig  <baulig@suse.de>
+
+	Released mate-common 1.2.1.
+
+2000-12-01  Martin Baulig  <baulig@suse.de>
+
+	* macros2/compiler-flags.m4: Improved compile warnings check; the
+	--enable-compile-warnings parameter now takes 5 different
+	values (no/minimum/yes/maximum/error). AC_SUBST(WARN_CFLAGS).
+
+2000-11-29  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate.m4, mate-gnorba-check.m4, mate-fileutils.m4: Removed.
+
+2000-11-26  Martin Baulig  <martin@home-of-linux.org>
+
+	* macros2/mate-x-checks.m4 (MATE2_X_CHECKS): Use
+	MATE_PKGCONFIG_CHECK_MODULES.
+
+	* macros2/mate-pkgconfig.m4 (MATE_PKGCONFIG_CHECK_VERSION): Don't
+	AC_REQUIRE([MATE_REQUIRE_PKGCONFIG]).
+	(MATE_CHECK_PKGCONFIG): Check for pkg-config >= 0.4.1.
+
+2000-11-22  Martin Baulig  <martin@home-of-linux.org>
+
+	* macros2/mate-pkgconfig.m4: Added MATE_PKGCONFIG_CHECK_OPTIONAL_MODULES
+	to check for a list of optional modules.
+
+	* macros2/mate-platform.m4: Require MATE_REQUIRE_PKGCONFIG.
+
+2000-11-22  Martin Baulig  <martin@home-of-linux.org>
+
+	* macros2/mate-platform.m4: New file. This defines
+	MATE_PLATFORM_MATE_2.
+
+	* macros2/mate-pkgconfig.m4: Disable the --extra-flags argument to
+	pkg-config, this doesn't exist anymore.
+
+2000-11-22  Martin Baulig  <martin@home-of-linux.org>
+
+	* macros2/mate-pkgconfig.m4: New file. This defines
+	MATE_CHECK_PKGCONFIG, MATE_REQUIRE_PKGCONFIG and
+	MATE_PKGCONFIG_* macros from pkg-config.
+
+2000-11-21  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-support.m4, need-declaration.m4: Removed.
+
+2000-11-21  Martin Baulig  <martin@home-of-linux.org>
+
+	* configure.in: Set version number to 1.2.1.
+
+	* configure.in (--enable-platform-mate-2): New configure
+	command line argument to enable support for the MATE 2.x
+	platform.
+	(PLATFORM_MATE_2): New automake conditional.
+	* Do the MATE_SUPPORT_CHECKS here if we're on the MATE 2.x
+	platform.
+
+	* Makefile.am (SUBDIRS): Conditionally add support for the
+	MATE 2.x platform.
+
+	* acinclude.m4: New file. Put stuff from mate-support.m4
+	and need-declaration.m4 here.
+
+2000-09-30  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-x-checks.m4: Switch to pkg-config to check for GTK+ 2.0.
+	  Removed all `mate_cv_passdown_x_*' variables and `USE_DEVGTK'.
+
+	* macros2/mate-common.m4 (MATE_COMMON_INIT): Added the always-false
+	  INSIDE_MATE_COMMON automake conditional.
+	(MATE_GTKDOC_CHECK): New macro.
+	(MATE_DEBUG_CHECK): New macro.
+
+Thu Aug 24 02:28:57 2000  George Lebl <jirka@5z.com>
+
+	* macros2/mate-x-checks.m4: use the correct name in AC_PROVIDE
+
+2000-08-06  Martin Baulig  <baulig@suse.de>
+
+	* macros2/mate-x-checks.m4 (MATE_X_CHECKS): Renamed
+	  to MATE2_X_CHECKS.
+
+2000-07-24  Martin Baulig  <martin@home-of-linux.org>
+
+	* macros2/autogen.sh: Removed some old crap in it.
+	* macros2/aclocal-include.m4: Removed.
+
+	* macros2/mate-x-checks.m4: Check for GTK+ 2.0.
+
+2000-07-24  Martin Baulig  <baulig@suse.de>
+
+	* macros2/autogen.sh: Make it work with AM_MATE2_GETTEXT.
+	* macros2/check-utmp.m4: New file.
+
+2000-07-24  Martin Baulig  <baulig@suse.de>
+
+	Synced with mate-libs/mate-data.
+
+2000-06-09  Martin Baulig  <martin@home-of-linux.org>
+
+	* macros2/mate-common.m4: We need this here as well.
+
+2000-05-29  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Set version number to 1.2.0.
+
+2000-05-29  Martin Baulig  <baulig@suse.de>
+
+	* macros2/Makefile.am: New file. Install this stuff into
+	  `$(datadir)/aclocal/mate2-macros'.
+
+	* macros2/mate.m4: New file. Copied from `hack-macros' dir.
+
+	* macros2/autogen.sh: New file. Copied from `macros' dir.
+
+1998-02-19  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* autogen.sh: New sample file.
+	* configure.in: Likewise.
+	* Makefile.am: Likewise.
+	* README: Likewise.
+

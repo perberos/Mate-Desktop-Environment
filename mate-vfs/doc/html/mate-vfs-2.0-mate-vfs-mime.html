@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MIME typing</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mime-registry.html" title="MIME Registry">
+<link rel="prev" href="mime-registry.html" title="MIME Registry">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-mime-utils.html" title="mate-vfs-mime-utils">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mime-registry.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mime-registry.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-mime-utils.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-mime.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-mime.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-mime"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-mime.top_of_page"></a>MIME typing</span></h2>
+<p>MIME typing — functions to get a mime-type for a file using its name or its content</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-mime.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-type-from-name" title="mate_vfs_mime_type_from_name ()">mate_vfs_mime_type_from_name</a>       (<em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-type-from-name-or-default" title="mate_vfs_mime_type_from_name_or_default ()">mate_vfs_mime_type_from_name_or_default</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *defaultv</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-mime-type-common" title="mate_vfs_get_mime_type_common ()">mate_vfs_get_mime_type_common</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-mime-type-from-uri" title="mate_vfs_get_mime_type_from_uri ()">mate_vfs_get_mime_type_from_uri</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-mime-type-from-file-data" title="mate_vfs_get_mime_type_from_file_data ()">mate_vfs_get_mime_type_from_file_data</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-file-mime-type-fast" title="mate_vfs_get_file_mime_type_fast ()">mate_vfs_get_file_mime_type_fast</a>   (<em class="parameter"><code>const <span class="type">char</span> *path</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">struct stat</span> *optional_stat_info</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-file-mime-type" title="mate_vfs_get_file_mime_type ()">mate_vfs_get_file_mime_type</a>        (<em class="parameter"><code>const <span class="type">char</span> *path</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">struct stat</span> *optional_stat_info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> suffix_only</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-type-is-supertype" title="mate_vfs_mime_type_is_supertype ()">mate_vfs_mime_type_is_supertype</a>    (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-supertype-from-mime-type" title="mate_vfs_get_supertype_from_mime_type ()">mate_vfs_get_supertype_from_mime_type</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-info-cache-reload" title="mate_vfs_mime_info_cache_reload ()">mate_vfs_mime_info_cache_reload</a>    (<em class="parameter"><code>const <span class="type">char</span> *dir</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-reload" title="mate_vfs_mime_reload ()">mate_vfs_mime_reload</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-shutdown" title="mate_vfs_mime_shutdown ()">mate_vfs_mime_shutdown</a>             (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-mime.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-mime.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-mime-type-from-name"></a><h3>mate_vfs_mime_type_from_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_type_from_name       (<em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_type_from_name</code> is deprecated and should not be used in newly-written code. This function is deprecated, use
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-get-mime-type-for-name" title="mate_vfs_get_mime_type_for_name ()"><code class="function">mate_vfs_get_mime_type_for_name()</code></a> instead.</p>
+</div>
+<p>
+Determine the mime type for <em class="parameter"><code>filename</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>a filename (the file does not necessarily exist).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type for this filename. Will return
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-utils.html#MATE-VFS-MIME-TYPE-UNKNOWN:CAPS" title="MATE_VFS_MIME_TYPE_UNKNOWN"><code class="literal">MATE_VFS_MIME_TYPE_UNKNOWN</code></a> if mime-type could not be found.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-type-from-name-or-default"></a><h3>mate_vfs_mime_type_from_name_or_default ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_mime_type_from_name_or_default
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *defaultv</code></em>);</pre>
+<p>
+This routine tries to determine the mime-type of the filename
+only by looking at the filename from the MATE database of mime-types.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>a filename (the file does not necessarily exist).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>defaultv</code></em> :</span></p></td>
+<td>a default value to be returned if no match is found.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type of the <em class="parameter"><code>filename</code></em>.  If no value could be
+determined, it will return <em class="parameter"><code>defaultv</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-mime-type-common"></a><h3>mate_vfs_get_mime_type_common ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_get_mime_type_common      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Tries to guess the mime type of the file represented by <em class="parameter"><code>uri</code></em>.
+Favors using the file data to the <em class="parameter"><code>uri</code></em> extension.
+Handles <em class="parameter"><code>uri</code></em> of a non-existent file by falling back
+on returning a type based on the extension. If cant find the mime-type based on the 
+extension also then returns 'application/octet-stream'.
+</p>
+<p>
+FIXME: This function will not necessarily return the same mime type as doing a
+get file info on the text uri.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a real file or a non-existent uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type for <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-mime-type-from-uri"></a><h3>mate_vfs_get_mime_type_from_uri ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_get_mime_type_from_uri    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Tries to guess the mime type of the file <em class="parameter"><code>uri</code></em> by
+checking the file name extension. Works on non-existent
+files.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a file uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type for file at <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-mime-type-from-file-data"></a><h3>mate_vfs_get_mime_type_from_file_data ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_get_mime_type_from_file_data
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_get_mime_type_from_file_data</code> is deprecated and should not be used in newly-written code. </p>
+</div>
+<p>
+Tries to guess the mime type of the file <em class="parameter"><code>uri</code></em> by
+checking the file data using the magic patterns. Does not handle text files properly.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a file uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type for this filename.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-file-mime-type-fast"></a><h3>mate_vfs_get_file_mime_type_fast ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_get_file_mime_type_fast   (<em class="parameter"><code>const <span class="type">char</span> *path</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">struct stat</span> *optional_stat_info</code></em>);</pre>
+<p>
+Tries to guess the mime type of the file represented by <em class="parameter"><code>path</code></em>.
+It uses extention/name detection first, and if that fails
+it falls back to mime-magic based lookup. This is faster
+than always doing mime-magic but doesn't always produce
+the right answer, so for important decisions 
+you should use <a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-file-mime-type" title="mate_vfs_get_file_mime_type ()"><code class="function">mate_vfs_get_file_mime_type()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em> :</span></p></td>
+<td>path of the file whose mime type is to be found out.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>optional_stat_info</code></em> :</span></p></td>
+<td>optional stat buffer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type for file at <em class="parameter"><code>path</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-file-mime-type"></a><h3>mate_vfs_get_file_mime_type ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_get_file_mime_type        (<em class="parameter"><code>const <span class="type">char</span> *path</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">struct stat</span> *optional_stat_info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> suffix_only</code></em>);</pre>
+<p>
+Tries to guess the mime type of the file represented by <em class="parameter"><code>path</code></em>.
+If <em class="parameter"><code>suffix_only</code></em> is false, uses the mime-magic based lookup first.
+Handles <em class="parameter"><code>path</code></em> of a non-existent file by falling back
+on returning a type based on the extension.
+</p>
+<p>
+If you need a faster, less accurate version, use
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-file-mime-type-fast" title="mate_vfs_get_file_mime_type_fast ()"><code class="function">mate_vfs_get_file_mime_type_fast()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em> :</span></p></td>
+<td>path of a file whose mime type is to be found out.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>optional_stat_info</code></em> :</span></p></td>
+<td>optional stat buffer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>suffix_only</code></em> :</span></p></td>
+<td>whether or not to do a magic-based lookup.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the mime-type for file at <em class="parameter"><code>path</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-type-is-supertype"></a><h3>mate_vfs_mime_type_is_supertype ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_mime_type_is_supertype    (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * identifying a mime type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Whether <em class="parameter"><code>mime_type</code></em> is of the form "foo<code class="literal">/</code>*".
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-supertype-from-mime-type"></a><h3>mate_vfs_get_supertype_from_mime_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_get_supertype_from_mime_type
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>mime type to get the supertype for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The supertype for <em class="parameter"><code>mime_type</code></em>, allocating new memory.
+
+The supertype of an application is computed by removing its
+suffix, and replacing it with "*". Thus, "foo/bar" will be
+converted to "foo<code class="literal">/</code>*".
+
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+If this function is called on a supertype, it will return a copy of the supertype.
+</div>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-info-cache-reload"></a><h3>mate_vfs_mime_info_cache_reload ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_mime_info_cache_reload    (<em class="parameter"><code>const <span class="type">char</span> *dir</code></em>);</pre>
+<p>
+Reload the mime information for the <em class="parameter"><code>dir</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em> :</span></p></td>
+<td>directory path which needs reloading.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-reload"></a><h3>mate_vfs_mime_reload ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_mime_reload               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Reload the MIME database.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-mime-shutdown"></a><h3>mate_vfs_mime_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_mime_shutdown             (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_mime_shutdown</code> is deprecated and should not be used in newly-written code. This function doesn't have to be called as the
+operating system automatically cleans up resources when exiting.
+</p>
+<p>
+Unload the MIME database from memory.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

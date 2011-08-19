@@ -1,0 +1,99 @@
+<chapter id="configuring">
+  <title>Configuring MateComponent Activation</title>
+
+  <sect1>
+    <title><filename>.server</filename> search path.</title>
+    <para>
+      To know the list of available <acronym>CORBA</acronym> servers on your
+      local machine, the MateComponent Activation daemon searches a number of
+      directories for <filename>.server</filename> <acronym>XML</acronym>
+      files which contain the description of the services offered by these
+      servers.
+
+      By default, MateComponent Activation will try to find them in 
+      <filename>${prefix}/lib/matecomponent/servers</filename> which may be a problem
+      if users install other applications using MateComponent Activation in different
+      prefixes.
+    </para>
+
+    <para>
+      To work around this problem, MateComponent Activation will parse a number of
+      other directories.
+      It will parse the directories listed in the 
+      <envar>MATECOMPONENT_ACTIVATION_PATH</envar> environment variable.
+      It will parse the prefixes listed in the <envar>MATE2_PATH</envar>
+      environment variable.
+
+      If, for example,
+      <emphasis>MATECOMPONENT_ACTIVATION_PATH=/opt/mate2/lib/matecomponent/servers:/opt/mate2/matecomponent-activation/lib/matecomponent/servers</emphasis>,
+      MateComponent Activation will parse
+      <emphasis>/opt/mate2/lib/matecomponent/servers</emphasis> and 
+      <emphasis>/opt/mate2/matecomponent-activation/lib/matecomponent/servers</emphasis>
+
+      If <emphasis>MATE2_PATH=/opt/mate2:/opt/mate2/matecomponent-activation</emphasis>,
+      MateComponent Activation will parse
+      <emphasis>/opt/mate2/lib/matecomponent/servers</emphasis> and
+      <emphasis>/opt/mate2/matecomponent-activation/lib/matecomponent/servers</emphasis>.
+    </para>
+
+    <!-- FIXME in which order does it search exactly
+         (question on IRC on 2003-05-06) -->
+
+    <para>
+      The above environment variables are kept to ease development with
+      MateComponent Activation and for <acronym>MATE</acronym> integration.
+      MateComponent Activation has a much nicer configuration file which allows 
+      you to control which directories are parsed by MateComponent Activation.
+      This <acronym>XML</acronym> configuration file is located in
+      <filename>/etc/matecomponent-activation/matecomponent-activation-config.xml</filename>
+      or
+      <filename>${prefix}/etc/matecomponent-activation/matecomponent-activation-config.xml</filename>.
+      An empty <filename>matecomponent-activation-config.xml</filename> and a sample
+      <filename>matecomponent-activation-config.xml.sample</filename> file should be
+      installed on your system.
+    </para>
+
+    <para>
+      It is recommended to use the
+      <command>matecomponent-activation-sysconf</command> command-line
+      configuration tool to edit this file. However, here is an example of its
+      format.
+    </para>
+
+    <programlisting>
+&lt;?xml version="1.0"?>
+
+&lt;oafconfig>
+
+&lt;searchpath>
+&lt;item>/opt/mate2/lib/matecomponent/servers&lt;/item>
+&lt;item>/usr/local/mate2/lib/matecomponent/servers&lt;/item>
+&lt;item>/usr/local/lib/matecomponent/servers&lt;/item>
+&lt;item>/opt/mate2/matecomponent-activation/lib/matecomponent/servers&lt;/item>
+&lt;/searchpath>
+
+&lt;searchpath>
+&lt;item>/opt/mate2/matecomponent-activation/lib/matecomponent/servers&lt;/item>
+&lt;/searchpath>
+
+&lt;/oafconfig></programlisting>
+
+    <para>
+      There can be any number of <sgmltag>item</sgmltag> tags in a
+      <sgmltag>searchpath</sgmltag> tag and any number of
+      <sgmltag>searchpath</sgmltag> tags in the <sgmltag>oafconfig</sgmltag>
+      tag.
+    </para>
+
+  </sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: xml
+sgml-namecase-general: t
+sgml-general-insert-case: lower
+sgml-parent-document: ("matecomponent-activation-docs.sgml" "BOOK" "CHAPTER")
+End:
+-->

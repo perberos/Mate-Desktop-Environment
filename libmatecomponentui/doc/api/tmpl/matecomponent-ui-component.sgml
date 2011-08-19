@@ -1,0 +1,619 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentUIComponent
+
+<!-- ##### SECTION Short_Description ##### -->
+A UI interface that handles UI merging for a component
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The MateComponentUIComponent is the client side portion of the UI merging scheme.
+It should be implemented by any component that wishes to merge menus / UI.
+The Component object is neccessary to receive notifications from the
+associated #MateComponentUIContainer. Notifications come in two forms - verbs and
+events. Verbs have an associated ( non translated ) name that is used to
+match them with callbacks. Events have an associated ( non translated ) id
+that does the same thing. Events pass a state string. Events are used for
+eg. toggle buttons, Verbs are used for eg. Menu items.
+</para>
+
+<para>
+Mostly you don't need to bother with creating your own MateComponentUIComponent,
+if you implement a Control eg. a MateComponentUIComponent is created at Control
+construction time and can be accessed thus:
+  <example>
+    <title>Using the UI Component associated with a control</title>
+    <programlisting>
+/*
+ * For the format of the XML see matecomponent/doc/xml-ui.txt
+ * For a standard template to base your UI on see matecomponent/doc/std-ui.xml
+ */
+const char my_ui_elements [] =
+	"&gt;placeholder name=\"FileOps\"&lt;"
+	"	&gt;menuitem name=\"Foo\" verb=\"FileFoo\" _label=\"Foo!\""
+	"	 _tip=\"do some foo thing\"/&lt;"
+	"&gt;/placeholder&lt;";
+
+static void
+control_activate_cb (MateComponentControl *object,
+                     gboolean       state,
+ 		     gpointer       user_data)
+{
+	MateComponentUIComponent *ui_component;
+
+	/* Get UIComponent from control */
+	ui_component = matecomponent_control_get_ui_component (control);
+
+	if (state) /* Activate */
+		matecomponent_ui_component_set_translate (
+			ui_component, "/menu/File", my_ui_elements, NULL);
+
+	else /* De-activate */
+		matecomponent_ui_component_unset_container (ui_component);
+}
+
+static void
+verb_foo_cb (MateComponentUIComponent *ui_container,
+             gpointer           user_data,
+	     const              char *cname)
+{
+	MateComponentControl *control = user_data;
+
+	g_print ("FileFoo !\n");
+}
+
+static MateComponentUIVerb my_ui_verbs[] = {
+	MATECOMPONENT_UI_VERB ("FileFoo", verb_foo_cb),
+	MATECOMPONENT_UI_VERB_END
+};
+
+MateComponentObject *
+create_ui_control (void)
+{
+	MateComponentControl     *control;
+	MateComponentUIComponent *ui_component;
+	GtkWidget         *widget;
+
+	control = matecomponent_control_new ((widget = gtk_widget_new_label ("Hello World")));
+
+	/* Automaticaly associate the remote UIContainer for us on activate */
+	matecomponent_control_set_automerge (control, TRUE);
+
+	ui_component = matecomponent_control_get_ui_component (control);
+
+	/* Register the verbs with the UI Component */
+	matecomponent_ui_component_add_verb_list_with_data (
+		ui_component, my_ui_verbs, control);
+
+	gtk_signal_connect (GTK_OBJECT (control), "activate",
+	                    GTK_SIGNAL_FUNC (control_activate_cb), NULL);
+	gtk_widget_show (widget);
+
+	return MATECOMPONENT_OBJECT (control);
+}
+    </programlisting>
+  </example>
+This sets up the UI, associates a 'FileFoo' verb with a callback, and
+on control activation merges the UI elements into a standard path
+in the file menu.
+</para>
+
+<para>
+There are several standard placeholders that it is important for
+containers to implement, basing your UI on the doc/std-ui.xml is
+a very good starting point. Also in the above example the _label
+and _tip are not cmd / widget separated - for more information read
+doc/ui-xml.txt.
+</para>
+
+<para>
+Most applications will should not use the MateComponentUIComponent in this
+way, there is a <function>matecomponent_ui_util_set_ui</function> that does
+the translation, help menu build, insertion etc. from an installed
+XML file. The above example is complete except for translation, which
+is extremely important. Here is a better activate function:
+  <example>
+    <title>A better way to create your UI</title>
+    <programlisting>
+static void
+control_activate_cb (MateComponentControl *object,
+                     gboolean       state,
+		     gpointer       user_data)
+{
+	MateComponentUIComponent *ui_component;
+
+	/* Get UIComponent from control */
+	ui_component = matecomponent_control_get_ui_component (control);
+
+	if (state) /* Activate */
+		/*
+		 * Use a helper function to setup your UI from a file:
+		 */
+		matecomponent_ui_util_set_ui (
+			ui_component, MY_COMPILE_TIME_PREFIX,
+			"MATE_MyApp.ui", "my-app");
+	else /* De-activate */
+		matecomponent_ui_component_unset_container (ui_component);
+}
+    </programlisting>
+  </example>
+  In this example "MATE_MyApp.ui" is the correctly namespaced UI
+xml filename, ( see doc/NAMESPACE to register your name ), and
+"my-app" is the mate application name, from which a path to your
+installed help files can be deduced.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+#MateComponentUIContainer, <xref linkend="libmatecomponentui-matecomponent-ui-util"/>, #MateComponentControl
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentUIComponent ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL MateComponentUIComponent::exec-verb ##### -->
+<para>
+
+</para>
+
+@matecomponentuicomponent: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL MateComponentUIComponent::ui-event ##### -->
+<para>
+
+</para>
+
+@matecomponentuicomponent: the object which received the signal.
+@arg1: 
+@arg2: 
+@arg3: 
+
+<!-- ##### STRUCT MateComponentUIComponentPrivate ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION MateComponentUIListenerFn ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@type: 
+@state: 
+@user_data: 
+
+
+<!-- ##### USER_FUNCTION MateComponentUIVerbFn ##### -->
+<para>
+
+</para>
+
+@component: 
+@user_data: 
+@cname: 
+
+
+<!-- ##### STRUCT MateComponentUIComponentClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+@epv: 
+@dummy: 
+@exec_verb: 
+@ui_event: 
+@freeze: 
+@thaw: 
+@xml_set: 
+@xml_get: 
+@xml_rm: 
+@set_prop: 
+@get_prop: 
+@exists: 
+
+<!-- ##### FUNCTION matecomponent_ui_component_construct ##### -->
+<para>
+
+</para>
+
+@component: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_new_default ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set_name ##### -->
+<para>
+
+</para>
+
+@component: 
+@name: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_get_name ##### -->
+<para>
+
+</para>
+
+@component: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set_container ##### -->
+<para>
+
+</para>
+
+@component: 
+@container: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_unset_container ##### -->
+<para>
+
+</para>
+
+@component: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_get_container ##### -->
+<para>
+
+</para>
+
+@component: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_add_verb ##### -->
+<para>
+
+</para>
+
+@component: 
+@cname: 
+@fn: 
+@user_data: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_add_verb_full ##### -->
+<para>
+
+</para>
+
+@component: 
+@cname: 
+@closure: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_remove_verb ##### -->
+<para>
+
+</para>
+
+@component: 
+@cname: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_remove_verb_by_closure ##### -->
+<para>
+
+</para>
+
+@component: 
+@closure: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_add_listener ##### -->
+<para>
+
+</para>
+
+@component: 
+@id: 
+@fn: 
+@user_data: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_add_listener_full ##### -->
+<para>
+
+</para>
+
+@component: 
+@id: 
+@closure: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_remove_listener ##### -->
+<para>
+
+</para>
+
+@component: 
+@cname: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_remove_listener_by_closure ##### -->
+<para>
+
+</para>
+
+@component: 
+@closure: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@xml: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set_translate ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@xml: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set_tree ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@node: 
+@ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_rm ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_path_exists ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_get ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@recurse: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_get_tree ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@recurse: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_object_set ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@control: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_object_get ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_widget_set ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@widget: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_freeze ##### -->
+<para>
+
+</para>
+
+@component: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_thaw ##### -->
+<para>
+
+</para>
+
+@component: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set_prop ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@prop: 
+@value: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_get_prop ##### -->
+<para>
+
+</para>
+
+@component: 
+@path: 
+@prop: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_set_status ##### -->
+<para>
+
+</para>
+
+@component: 
+@text: 
+@opt_ev: 
+
+
+<!-- ##### STRUCT MateComponentUIVerb ##### -->
+<para>
+
+</para>
+
+@cname: 
+@cb: 
+@user_data: 
+@dummy: 
+
+<!-- ##### MACRO MATECOMPONENT_UI_VERB ##### -->
+<para>
+This declares and fills a MateComponentUIVerb structure suitable for
+use in constructing a lost of verbs to add with
+matecomponent_ui_component_add_verb_list_with_data.
+</para>
+
+@name: the verb name
+@cb: the callback function.
+
+
+<!-- ##### MACRO MATECOMPONENT_UI_VERB_DATA ##### -->
+<para>
+This declares and fills a MateComponentUIVerb structure suitable for
+use in constructing a lost of verbs to add with
+matecomponent_ui_component_add_verb_list.
+</para>
+
+@name: the verb name
+@cb: the callback function
+@data: some associated user_data
+
+
+<!-- ##### MACRO MATECOMPONENT_UI_UNSAFE_VERB ##### -->
+<para>
+As MATECOMPONENT_UI_VERB, but unsafely casts @cb to the correct type
+</para>
+
+@name: the verb name
+@cb: the callback function.
+
+
+<!-- ##### MACRO MATECOMPONENT_UI_UNSAFE_VERB_DATA ##### -->
+<para>
+As MATECOMPONENT_UI_VERB_DATA, but unsafely casts @cb to the correct type
+</para>
+
+@name: the verb name
+@cb: the callback function
+@data: some associated user_data
+
+
+<!-- ##### MACRO MATECOMPONENT_UI_VERB_END ##### -->
+<para>
+The terminator MateComponentUIVerb structure for a list of MateComponentUIVerbs.
+</para>
+
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_add_verb_list ##### -->
+<para>
+
+</para>
+
+@component: 
+@list: 
+
+
+<!-- ##### FUNCTION matecomponent_ui_component_add_verb_list_with_data ##### -->
+<para>
+
+</para>
+
+@component: 
+@list: 
+@user_data: 
+
+

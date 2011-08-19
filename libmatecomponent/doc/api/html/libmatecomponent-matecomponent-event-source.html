@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>matecomponent-event-source</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="property-bags.html" title="Property Bags, Events, Listeners">
+<link rel="prev" href="properties.html" title="Properties">
+<link rel="next" href="libmatecomponent-matecomponent-listener.html" title="matecomponent-listener">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="properties.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="property-bags.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-listener.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponent-matecomponent-event-source.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-event-source.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponent-matecomponent-event-source"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponent-matecomponent-event-source.top_of_page"></a>matecomponent-event-source</span></h2>
+<p>matecomponent-event-source — An Event Source where clients can connect to listen to events.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponent-matecomponent-event-source.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">MateComponentEventSource</span> * <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-new" title="matecomponent_event_source_new ()">matecomponent_event_source_new</a>             (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-notify-listeners" title="matecomponent_event_source_notify_listeners ()">matecomponent_event_source_notify_listeners</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *event_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_any</span> *opt_value</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-notify-listeners-full" title="matecomponent_event_source_notify_listeners_full ()">matecomponent_event_source_notify_listeners_full</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *path</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *subtype</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_any</span> *opt_value</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-client-remove-listener" title="matecomponent_event_source_client_remove_listener ()">matecomponent_event_source_client_remove_listener</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_Listener</span> listener</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-client-add-listener" title="matecomponent_event_source_client_add_listener ()">matecomponent_event_source_client_add_listener</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-listener.html#MateComponentListenerCallbackFn" title="MateComponentListenerCallbackFn ()"><span class="type">MateComponentListenerCallbackFn</span></a> event_callback</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *opt_mask</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-has-listener" title="matecomponent_event_source_has_listener ()">matecomponent_event_source_has_listener</a>    (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *event_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-client-add-listener-closure" title="matecomponent_event_source_client_add_listener_closure ()">matecomponent_event_source_client_add_listener_closure</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *callback</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *opt_mask</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">MateComponent_Listener</span>     <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-client-add-listener-full" title="matecomponent_event_source_client_add_listener_full ()">matecomponent_event_source_client_add_listener_full</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *callback</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *opt_mask</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-ignore-listeners" title="matecomponent_event_source_ignore_listeners ()">matecomponent_event_source_ignore_listeners</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-event-source.description"></a><h2>Description</h2>
+<p>
+An event source object is responsible for channeling the emission
+of signals on an object to the appropriate attached listeners.
+The API is extremely simple and allows implementations to notify
+their listeners of a new event occuring.
+</p>
+<p>
+To notify a listener, you need to construct a textual string,
+this is done by the <code class="function">matecomponent_event</code> functions
+( see <a class="link" href="libmatecomponent-matecomponent-listener.html#MateComponentListener"><span class="type">MateComponentListener</span></a> ) ':' delimiting the fields. It is reccommended
+that the IDL module path of the interface be used as the first
+part of the string. This is because many interfaces can be aggregated
+together and need to share the same event namespace without conflicts.
+So for example the matecomponent property bag notification code
+uses the IDL path "MateComponent/Property" the "change" kind and sets the
+sub-type to the property name:
+  </p>
+<div class="example">
+<a name="id3102157"></a><p class="title"><b>Example 9. An example event source notification</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">notify_listeners</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentPropertyBag</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pb</span><span class="symbol">,</span>
+<span class="normal">          </span><span class="usertype">MateComponentProperty</span><span class="normal">    </span><span class="symbol">*</span><span class="normal">prop</span><span class="symbol">,</span>
+<span class="normal">          </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">MateComponentArg</span><span class="normal">   </span><span class="symbol">*</span><span class="normal">new_value</span><span class="symbol">,</span>
+<span class="normal">          </span><span class="usertype">CORBA_Environment</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">opt_ev</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">prop</span><span class="symbol">-&gt;</span><span class="normal">flags </span><span class="symbol">&amp;</span><span class="normal"> <a href="libmatecomponent-matecomponent-property-bag.html#MATECOMPONENT-PROPERTY-NO-LISTENING:CAPS">MATECOMPONENT_PROPERTY_NO_LISTENING</a></span><span class="symbol">)</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-notify-listeners-full">matecomponent_event_source_notify_listeners_full</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pb</span><span class="symbol">-&gt;</span><span class="normal">es</span><span class="symbol">,</span>
+<span class="normal">                           </span><span class="string">"MateComponent/Property"</span><span class="symbol">,</span>
+<span class="normal">                           </span><span class="string">"change"</span><span class="symbol">,</span><span class="normal"> prop</span><span class="symbol">-&gt;</span><span class="normal">name</span><span class="symbol">,</span>
+<span class="normal">                           new_value</span><span class="symbol">,</span><span class="normal"> opt_ev</span><span class="symbol">);</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+  Of course, you need to notify the listener with a valid
+MateComponentArg containing the event data, this could easily contain
+a structure. eg.
+  </p>
+<div class="example">
+<a name="id3102189"></a><p class="title"><b>Example 10. Passing a structure in an event</b></p>
+<div class="example-contents">
+<pre class="programlisting">
+module MATE {
+	module Foo {
+		struct BaaEvent {
+			double a;
+			string b;
+			long   c;
+		};
+	};
+};
+     </pre>
+<pre class="programlisting">
+static void
+fire_event (MateComponentEventSource *on_source,
+            double             a_double,
+	    char              *a_string,
+	    long               a_float,
+	    CORBA_Environment *opt_ev)
+{
+	CORBA_any any;
+	MATE_Foo_BaaEvent e;
+	e.a = a_double;
+	e.b = a_string;
+	e.c = a_float;
+	any-&gt;_type = TC_MATE_Foo_BaaEvent;
+	any-&gt;_data = &amp;e;
+	matecomponent_event_source_notify_listeners_full (
+	   on_source, "MATE/Foo", "event", NULL,
+	   &amp;any, opt_ev);
+}
+     </pre>
+</div>
+</div>
+<p><br class="example-break">
+  NB. it is reccommended that you make it clear that the event
+structure is intended for use with the <span class="type">MateComponentEventSource</span> /
+<a class="link" href="libmatecomponent-matecomponent-listener.html#MateComponentListener"><span class="type">MateComponentListener</span></a> by naming it XYZEvent, ie. with the 'Event'
+suffix.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-event-source.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="matecomponent-event-source-new"></a><h3>matecomponent_event_source_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponentEventSource</span> * matecomponent_event_source_new             (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new MateComponentEventSource object.  Typically this
+object will be exposed to clients through CORBA and they
+will register and unregister functions to be notified
+of events that this EventSource generates.
+</p>
+<p>
+To notify clients of an event, use the <a class="link" href="libmatecomponent-matecomponent-event-source.html#matecomponent-event-source-notify-listeners" title="matecomponent_event_source_notify_listeners ()"><code class="function">matecomponent_event_source_notify_listeners()</code></a>
+function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A new <span class="type">MateComponentEventSource</span> server object.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-notify-listeners"></a><h3>matecomponent_event_source_notify_listeners ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_event_source_notify_listeners
+                                                        (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *event_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_any</span> *opt_value</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+This will notify all clients that have registered with this EventSource
+(through the addListener or addListenerWithMask methods) of the availability
+of the event named <em class="parameter"><code>event_name</code></em>.  The <em class="parameter"><code>value</code></em> CORBA::any value is passed to
+all listeners.
+</p>
+<p>
+<em class="parameter"><code>event_name</code></em> can not contain comma separators, as commas are used to
+separate the various event names.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_source</code></em> :</span></p></td>
+<td>the Event Source that will emit the event.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_name</code></em> :</span></p></td>
+<td>Name of the event being emitted
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_value</code></em> :</span></p></td>
+<td>A CORBA_any value that contains the data that is passed
+to interested clients, or NULL for an empty value
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>A CORBA_Environment where a failure code can be returned, can be NULL.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-notify-listeners-full"></a><h3>matecomponent_event_source_notify_listeners_full ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_event_source_notify_listeners_full
+                                                        (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *path</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *subtype</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_any</span> *opt_value</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_source</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>subtype</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-client-remove-listener"></a><h3>matecomponent_event_source_client_remove_listener ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_event_source_client_remove_listener
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_Listener</span> listener</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listener</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-client-add-listener"></a><h3>matecomponent_event_source_client_add_listener ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_event_source_client_add_listener
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-listener.html#MateComponentListenerCallbackFn" title="MateComponentListenerCallbackFn ()"><span class="type">MateComponentListenerCallbackFn</span></a> event_callback</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *opt_mask</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_callback</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_mask</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-has-listener"></a><h3>matecomponent_event_source_has_listener ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            matecomponent_event_source_has_listener    (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *event_name</code></em>);</pre>
+<p>
+This method determines if there are any listeners for
+the event to be broadcast. This can be used to detect
+whether it is worth constructing a potentialy expensive
+state update, before sending it to no-one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_source</code></em> :</span></p></td>
+<td>the Event Source that will emit the event.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_name</code></em> :</span></p></td>
+<td>Name of the event being emitted
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if it's worth sending, else FALSE
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-client-add-listener-closure"></a><h3>matecomponent_event_source_client_add_listener_closure ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_event_source_client_add_listener_closure
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *callback</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *opt_mask</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_mask</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-client-add-listener-full"></a><h3>matecomponent_event_source_client_add_listener_full ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_Listener</span>     matecomponent_event_source_client_add_listener_full
+                                                        (<em class="parameter"><code><span class="type">MateComponent_Unknown</span> object</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#GClosure"><span class="type">GClosure</span></a> *callback</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *opt_mask</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_mask</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-event-source-ignore-listeners"></a><h3>matecomponent_event_source_ignore_listeners ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_event_source_ignore_listeners
+                                                        (<em class="parameter"><code><span class="type">MateComponentEventSource</span> *event_source</code></em>);</pre>
+<p>
+Instructs the event source to de-register any listeners
+that are added from the global running context.
+</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-event-source.see-also"></a><h2>See Also</h2>
+<p>
+  <a class="link" href="libmatecomponent-matecomponent-listener.html#MateComponentListener"><span class="type">MateComponentListener</span></a> <a class="link" href="libmatecomponent-matecomponent-arg.html#MateComponentArg" title="MateComponentArg"><span class="type">MateComponentArg</span></a>
+</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

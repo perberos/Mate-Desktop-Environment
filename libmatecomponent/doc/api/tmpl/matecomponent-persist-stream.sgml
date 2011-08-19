@@ -1,0 +1,167 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentPersistStream
+
+<!-- ##### SECTION Short_Description ##### -->
+Interface for anything that can save / load itself from a MateComponent stream.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The PersistStream interface is the interface to use for all new
+components that are able to load and save themselves to a stream.
+It should be associated with any #MateComponentEmbeddable for use by the
+container in creating a compound document.
+</para>
+
+<para>
+This interface works by connecting callbacks to the methods, in
+a somewhat deprecated fashion, it is probably better nowadays to
+simply sub-class the MateComponentXObject and override the epv methods.
+Either way, after all the caveats here is an example use:
+</para>
+
+<para>
+  <example>
+    <title>Implementing the PersistStream callbacks</title>
+    <programlisting>
+static void
+load_from_stream (MateComponentPersistStream        *ps,
+                  const MateComponent_Stream         stream,
+                  MateComponent_Persist_ContentType  type,
+                  void                       *closure,
+                  CORBA_Environment          *ev)
+{
+	EogImageData *image_data = closure;
+
+	g_warning ("Load content from stream of type '%s'", type);
+}
+
+static gint
+save_to_stream (MateComponentPersistStream        *ps,
+                const MateComponent_Stream         stream,
+                MateComponent_Persist_ContentType  type,
+                void                       *closure,
+                CORBA_Environment          *ev)
+{
+	EogImageData *image_data = closure;
+
+	g_warning ("Save content to stream with type '%s'", type);
+}
+
+static MateComponent_Persist_ContentTypeList *
+get_supported_types (MateComponentPersistStream *ps,
+                     void                *closure,
+                     CORBA_Environment   *ev)
+{
+	return matecomponent_persist_generate_content_types (
+		2, "text/plain", "text/html");
+}
+    </programlisting>
+  </example>
+Having implemented the callbacks we then have to register them
+and aggregate the interface to our object:
+  <example>
+     <title>Aggregating a new PersistStream</title>
+    <programlisting>
+EogImageData *
+eog_image_data_construct (EogImageData *image_data)
+{
+	MateComponentObject        *retval;
+	MateComponentPersistStream *ps;
+
+	ps = matecomponent_persist_stream_new (
+		load_from_stream, save_to_stream,
+		get_supported_types, NULL,
+		image_data);
+
+	if (ps == NULL) {
+		matecomponent_object_unref (MATECOMPONENT_OBJECT (image_data));
+		return NULL;
+	}
+
+	matecomponent_object_add_interface (MATECOMPONENT_OBJECT (image_data),
+				     MATECOMPONENT_OBJECT (ps));
+
+	return image_data;
+}
+    </programlisting>
+  </example>
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentPersistStream ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT MateComponentPersistStreamClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+@epv: 
+@load: 
+@save: 
+@get_content_types: 
+
+<!-- ##### USER_FUNCTION MateComponentPersistStreamIOFn ##### -->
+<para>
+
+</para>
+
+@ps: 
+@stream: 
+@type: 
+@closure: 
+@ev: 
+
+
+<!-- ##### USER_FUNCTION MateComponentPersistStreamTypesFn ##### -->
+<para>
+
+</para>
+
+@ps: 
+@closure: 
+@ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_persist_stream_new ##### -->
+<para>
+
+</para>
+
+@load_fn: 
+@save_fn: 
+@types_fn: 
+@iid: 
+@closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_persist_stream_construct ##### -->
+<para>
+
+</para>
+
+@ps: 
+@load_fn: 
+@save_fn: 
+@types_fn: 
+@iid: 
+@closure: 
+@Returns: 
+
+

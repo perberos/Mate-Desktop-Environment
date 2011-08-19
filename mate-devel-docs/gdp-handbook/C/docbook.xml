@@ -1,0 +1,1156 @@
+<?xml version="1.0"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+
+<!-- ################# DocBook Basics ############### -->
+
+<sect1 id="docbook">
+  <title>DocBook Basics </title>  
+<!-- ####### DocBook Basics | Introduction to DocBook ####### -->
+
+  <sect2 id="docbook-introtodocbook">
+    <title>Introduction to DocBook</title>
+    <para>
+      To understand DocBook, a basic understanding of SGML and XML
+      is helpful.
+    </para>
+    <para>
+      SGML stands for Standard Generalized Markup Language and is
+      one of the first markup languages ever created.  A
+      different, but similar markup language is XML which stands
+      for Extended Markup Langauge.  XML extends and structures
+      SGML in ways which were optional using SGML.  Both use what
+      are called Document Type Definitions (DTD) to define
+      document structural types such as HTML and DocBook. A DTD
+      specifies document <emphasis>elements</emphasis> which are
+      delimited by angle brackets, &lt; and &gt;, and document text
+      is then marked by both beginning and ending elements. Using
+      the DocBook DTD, for example, one marks up a title with
+      <sgmltag>&lt;title&gt;</sgmltag>The
+      Title<sgmltag>&lt;/title&gt;</sgmltag>.  The DTD (in the case
+      of the GDP, DocBook) also defines rules for how the elements
+      can be used. For example, if one element can only be used
+      when embedded within another, this is defined in the DTD.
+    </para>
+    <para> 
+      A XML file is just a plain ASCII file containing the
+      text with the markup specified above. To convert it to some
+      easily readable format, you need special tools. The GDP uses
+      <emphasis>xsltproc</emphasis>, a free converter which
+      converts the DocBook file into browser readable HTML using
+      XSL stylesheets.  <application>Yelp</application> is used to
+      run <application>xsltproc</application> and then display the
+      resulting HTML in a user friendly format.  You can read more
+      about DocBook in <xref linkend="usingdocbook"/>.
+    </para>
+    <para>
+      The final appearance of the output (e.g. PostScript or HTML) is
+      determined by a <emphasis>stylesheet</emphasis>. Stylesheets are
+      files, written in a special language (XSL &mdash; Extended
+      Specification Language or DSSSL &mdash; Document Style Semantics
+      and Specification Language), which specify the appearance of
+      various DocBook elements, for example, what fonts to use for
+      titles and various inline elements, page numbering style, and
+      much more. You need to install a common collection of
+      stylesheets in <xref linkend="installingdocbook"/> (Norman
+      Walsh's modular stylesheets). The MATE Documentation Project
+      uses a customized set of stylesheets on top of Norman Walsh's
+      version.
+    </para>
+    <para>
+      The advantage of specifying the <emphasis>structure</emphasis>
+      of a document with XML instead of specifying the
+      <emphasis>appearance</emphasis> of the document with a typical
+      word processor, or with HTML, is that the resulting document can
+      be processed in a variety of ways using the structural
+      information.  Whereas formatting a document for appearance
+      assumes a medium (typically written text on a standard-sized
+      piece of paper), XML can be processed to produce output for a
+      large variety of media such as text, postscript, HTML, Braille,
+      audio, and potentially many other formats.  This assumption of a
+      specific media makes translating documents not written in XML
+      very difficult.
+    </para>
+    <para>
+      Using elements contained in a document to structure the text
+      of that same document also allows search engines to make use
+      of that information. For example, if you are searching for
+      all documents written by the author <quote>Susie</quote>
+      your search engine could be made smart enough to only search
+      &lt;author&gt; elements, making for a faster and more
+      accurate search.
+    </para>
+    <para>
+      Using a stylesheet to determine the overall appearance of
+      the output, rather than the DTD or the XML document, allows
+      everyone in the project to create documents with the same
+      look just by using the same stylesheet. It also allows the
+      look to be updated just by modifying that one stylesheet.
+    </para>
+    <para>
+      As stated before, the GDP uses the DocBook DTD.  For a list
+      of introductory and reference resources on DocBook, see
+      <xref linkend="resources"/>.  The following sections also
+      provide convenient instructions on which markup tags to use
+      in various circumstances.  Be sure to read <xref
+	linkend="guidelines"/> for GDP documentation-specific
+      guidelines.
+    </para>
+  </sect2>
+  
+ <!-- ######  DocBook Basics | XML and SGML       ########--> 
+
+<!--
+  <sect2 id="xml">
+      <title>Differences Between XML and SGML</title>
+
+      <para> 
+        In the not so distant future MATE Documentation Project
+        will migrate from SGML to XML, a subset of SGML. This
+        transition should be relatively painless: (almost) all DocBook
+        tags will remain the same. However, XML has stricter syntax
+        rules than SGML; thus, some constructions which are valid in
+        SGML will not be valid in XML. Therefore, to be ready for this
+        transition, it is <emphasis>strongly advised</emphasis> that
+        the documentation writers conform to XML syntax rules. Here
+        are most important differences:
+      </para>
+	
+      <variablelist>
+	  <varlistentry>
+	    <term> <emphasis>Minimization</emphasis></term> 
+	    <listitem>
+	    
+	    <para>
+	      It is possible with some implementations of SGML to use
+	      minimizations to close elements in a document by using
+	      &lt;/&gt;, for example:
+	      <literal><sgmltag>&lt;title&gt;</sgmltag>The
+		Title<sgmltag>&lt;/&gt;</sgmltag></literal>. This is not
+              allowed in XML. You can use <command>sgmlnorm</command> command,
+              included in DocBook Tools package, to expand minimized tags;
+              if you are using <application>Emacs</application> with psgml
+              mode, you can also use the menu command
+          <menuchoice>
+             <guimenu>Modify</guimenu>
+             <guimenuitem>Normalize</guimenuitem>
+          </menuchoice>.
+         </para> 
+	    </listitem>
+	    </varlistentry>
+	  <varlistentry>
+	    <term> <emphasis>Self-closing tags</emphasis></term> 
+	    <listitem>
+          <para>
+            Some SGML tags are not allowed to have closing
+            tags.  For example, it is legal in SGML for
+            <sgmltag>&lt;xref&gt;</sgmltag> not to have a closing tag:
+            <literal><sgmltag>&lt;xref
+            linkend=&quot;someid&quot;&gt;</sgmltag></literal>. In
+            XML, it is illegal; instead, you should use
+            <literal><sgmltag>&lt;xref
+            linkend=&quot;someid&quot;/&gt;</sgmltag></literal> (note
+            the slash!).  </para>
+  </listitem>
+  </varlistentry>
+
+	<varlistentry>
+	    <term> <emphasis>Case sensitive tags</emphasis></term> 
+	    <listitem>
+	    <para>
+	      In XML, unlike SGML, tags are case-senstive
+	      <sgmltag>&lt;title&gt;</sgmltag> and
+	      <sgmltag>&lt;TITLE&gt;</sgmltag> are different tags!
+	      Therefore, please always use lowercase tags (except for
+	      things like <literal>DOCTYPE, CDATA</literal> and
+	      <literal>ENTITY</literal>, which are not DocBook tags).
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+
+
+</variablelist> 
+</sect2>
+-->
+
+
+    <!-- ####### DocBook Basics | Starting a Document ####### -->
+
+    
+  <sect2 id="docbook-begin"> 
+    <title>Starting a Document</title>
+
+    <para>
+      DocBook can be used to write many different documents.
+      Glossaries, FAQs, indexes, books, and articles are some of the
+      documents which can be written.  To start the type of document
+      you will need to enclose the document in the appropriate tag.
+      You will be able to tell the type of document from the first
+      tag.  For books you will enclose the document in the
+      <sgmltag>&lt;book&gt;</sgmltag> tag and for articles you will
+      enclose the document in the <sgmltag>&lt;article&gt;</sgmltag>
+      tag.
+    </para>
+
+    <para>
+      DocBook documents contain meta data, data which describes the
+      document, typically at the beginning of the document.  This meta
+      data will include copyright notices, author information,
+      revision history, and release information.  The meta data is
+      enclosed within the info tags.  For books you will enclose the
+      meta data with the <sgmltag>&lt;bookinfo&gt;</sgmltag> tag and
+      for articles you will enclose the meta data in the
+      <sgmltag>&lt;articleinfo&gt;</sgmltag> tag.
+    </para>
+
+    <para>
+      Throughout this chapter a full article will be produced showing
+      you how to write a full article in DocBook.  So far we have
+      <programlisting>
+<![CDATA[
+<article>
+  <articleinfo>
+  This will contain some information about the document.
+  </articleinfo>
+  This is the body of the document.
+</article>
+]]>
+      </programlisting>
+      as our document.  As you continue to learn more about DocBook
+      the article will grow.
+    </para>
+    
+    <sect3 id="docbook-section">
+      <title>Sections and Paragraphs</title>
+      <para>
+	DocBook has sections for structuring your document up to 5
+	sections deep.  Also paragraphs must be enclosed with the
+	<sgmltag>&lt;para&gt;</sgmltag> tag.
+	The top-level element of a book body is 
+	<sgmltag>&lt;chapter&gt;</sgmltag>; it may contain one or more
+	<sgmltag>&lt;sect1&gt;</sgmltag>, each of them may contain
+	<sgmltag>&lt;sect2&gt;</sgmltag> and so on up to
+	<sgmltag>&lt;sect5&gt;</sgmltag>. The top-level element of an
+	article body is always
+	<sgmltag>&lt;sect1&gt;</sgmltag>. Regardless of which elements
+	you use, give each structural element an unique id, see <xref
+	  linkend="guidelines-sectids"/>.
+      </para>
+      <para> 
+	Please try to avoid using deeply nested sections. For
+	most situations, <sgmltag>&lt;sect1&gt;</sgmltag> and
+	<sgmltag>&lt;sect2&gt;</sgmltag> should be sufficient. If
+	not, you probably should split your
+	<sgmltag>&lt;sect1&gt;</sgmltag> into several smaller ones.
+	For splitting large sections into smaller ones, see the
+	<!--<xref/>???-->MATE Documentation Style Guide.
+      </para>
+      <para>
+	Each section needs to contain a title.  The title is a concise
+	description of the content of a section.  The
+	<sgmltag>&lt;title&gt;</sgmltag> tag encloses the title of
+	each section.  The title is placed right after the section
+	tags but before the body of the section.  For help on writing
+	good titles, see the MATE Documentation Style Guide.
+      </para>
+      <para> 
+	Use the tag <sgmltag>&lt;para&gt;</sgmltag> for
+	paragraphs.  If there is only one paragraph in a section you
+	still need to use the <sgmltag>para</sgmltag> tag.
+	You need to close the tag at the end of the all paragraphs.
+	If the paragraph is only one line you should place the
+	<sgmltag>para</sgmltag> tags on the same line.  If the
+	paragraph is multiple lines the <sgmltag>para</sgmltag> tags
+	should be placed on separate lines as shown in the example below.
+      </para>
+      <para>
+	The most basic section of DocBook is made up of three parts.
+	The section tags define where each section of text begins and
+	ends, the title tags give a concise description of each
+	section and the paragraph tags surround the text.  So for our
+	article document looks like:
+	<programlisting>
+<![CDATA[
+<article>
+  <articleinfo>
+  This will contain some information about the document.
+  </articleinfo>
+
+  <sect1>
+    <title>DocBook Example</title>
+    <para>
+      This is an example of using DocBook for the most basic type of
+      document.  The article just has one section and one paragraph.
+    </para>
+  </sect1>
+</article>
+]]>
+	</programlisting>
+	This is a very basic document with only one section and no
+	meta data.
+      </para>
+    </sect3>
+
+    <sect3 id="docbook-info">
+      <title>DocBook Meta Data</title>
+
+      <para>
+	The meta data of a document is put in 
+	<sgmltag>&lt;articleinfo&gt;</sgmltag> or
+	<sgmltag>&lt;bookinfo&gt;</sgmltag> tags.  The title of the
+	entire document is put in the meta data.  It is enclosed in
+	the <sgmltag>&lt;title&gt;</sgmltag> tag.  The copyright
+	information is enclosed in the
+	<sgmltag>&lt;copyright&gt;</sgmltag> tags.  The copyright
+	years are put inside the <sgmltag>&lt;year&gt;</sgmltag> tag
+	and the copyright holder is put inside the
+	<sgmltag>lt;holder&gt;</sgmltag> tag.  For example:
+	<programlisting>
+<![CDATA[
+<copyright>
+  <year>2002</year>
+  <holder>Eric Baudais</holder>
+</copyright>
+]]>
+	</programlisting>
+	is how the copyright information should look like inside articleinfo.
+      </para>
+
+      <para>
+	The author information contains the author's name, their
+	address, and any affiliation.  The authors of a document are
+	enclosed in the <sgmltag>&lt;authorgroup&gt;</sgmltag> tag.
+	The individual author's information is put inside the
+	<sgmltag>&lt;author&gt;</sgmltag> tag.  If there is only one
+	author of the document you do not need the authorgroup tag.
+	The author's name is divided into their firstname and surname
+	with the two tags <sgmltag>&lt;firstname&gt;</sgmltag> and
+	<sgmltag>&lt;surname&gt;</sgmltag>.  The author's affiliation
+	is put inside the <sgmltag>&lt;affiliation&gt;</sgmltag> tag.
+	The address can be the author's email address or a physical
+	address where they can be contacted through regular mail.
+	For example:
+	<programlisting>
+<![CDATA[
+<authorgroup>
+  <author>
+    <firstname>Eric</firstname>
+    <surname>Baudais</surname>
+    <affiliation>
+      <orgname>MATE Documentation Project</orgname>
+      <address>
+        <email>baudais@kkpsi.org</email>
+      </address>
+    </affiliation>
+  </author>
+
+  <author>
+    <firstname>John</firstname>
+    <surname>Doe</surname>
+    <affiliation>
+      <orgname>Free Software Foundation</orgname>
+      <address>
+        59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+        <email>john.doe@gnu.org</email>
+      </address>
+    </affiliation
+  </author>
+</authorgroup>
+]]>
+	</programlisting>
+	is how the author information should look inside the
+	articleinfo.  There are more information you can include
+	inside the author tag.  This is just the basics of how to
+	construct the meta data.
+      </para>
+
+      <para>
+	The last meta data for a document is any legal statements such
+	as the license of the document or any disclaimers or any
+	warranties and the release information.  The legal information
+	about the document is enclosed in the
+	<sgmltag>&lt;legalnotice&gt;</sgmltag> tag.  You can have a
+	title for the legalnotice using the
+	<sgmltag>&lt;title&gt;</sgmltag> tag.  The legalnotice should
+	be treated as a section of the articleinfo.  All paragraphs
+	should be enclosed with the <sgmltag>&lt;para&gt;</sgmltag>
+	tag.  The release information is enclosed in the
+	<sgmltag>&lt;releaseinfo&gt;</sgmltag> tag.  This is different
+	from the legalnotice because the release information is
+	entered without any paragraph tags.  For example:
+	<programlisting>
+<![CDATA[
+<legalnotice>
+  <title>Legal Notices</title>
+
+  <para>
+    Permission is granted to copy, distribute and/or modify this
+    document under the terms of the GNU Free Documentation
+    License (GFDL), Version 1.1 or any later version published
+    by the Free Software Foundation with no Invariant Sections,
+    no Front-Cover Texts, and no Back-Cover Texts.  You can find
+    a copy of the GFDL at this <ulink type="help"
+    url="ghelp:fdl">link</ulink> or in the file COPYING-DOCS
+    distributed with this manual.
+  </para>
+</legalnotice>
+
+<releaseinfo>
+  This is version 1.0.0 of DocBook Basics documenting version 4.1.2 of
+  DocBook XML.
+</releaseinfo>
+]]>
+	</programlisting>
+	is the other information included in the meta data.  There are
+	more information about the document you can include, but this
+	is a good beginning for a basic document.
+      </para>
+
+      <para>
+	The document created so far includes the meta data and the
+	body of the documentation.  Our article document now looks
+	like:
+	<programlisting>
+<![CDATA[
+<article>
+  <articleinfo>
+
+    <copyright>
+      <year>2002</year>
+      <holder>Eric Baudais</holder>
+    </copyright>
+
+    <authorgroup>
+      <author>
+        <firstname>Eric</firstname>
+        <surname>Baudais</surname>
+        <affiliation>
+          <orgname>MATE Documentation Project</orgname>
+          <address>
+            <email>baudais@kkpsi.org</email>
+          </address>
+        </affiliation>
+      </author>
+
+      <author>
+        <firstname>John</firstname>
+        <surname>Doe</surname>
+          <affiliation>
+          <orgname>Free Software Foundation</orgname>
+          <address>
+            59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+            <email>john.doe@gnu.org</email>
+          </address>
+        </affiliation
+      </author>
+    </authorgroup>
+
+    <legalnotice>
+      <title>Legal Notices</title>
+
+      <para>
+        Permission is granted to copy, distribute and/or modify this
+        document under the terms of the GNU Free Documentation
+        License (GFDL), Version 1.1 or any later version published
+        by the Free Software Foundation with no Invariant Sections,
+        no Front-Cover Texts, and no Back-Cover Texts.  You can find
+        a copy of the GFDL at this <ulink type="help"
+        url="ghelp:fdl">link</ulink> or in the file COPYING-DOCS
+        distributed with this manual.
+      </para>
+    </legalnotice>
+
+    <releaseinfo>
+      This is version 1.0.0 of DocBook Basics documenting version 4.1.2 of
+      DocBook XML.
+    </releaseinfo>
+
+  </articleinfo>
+
+  <sect1>
+    <title>DocBook Example</title>
+    <para>
+      This is an example of using DocBook for the most basic type of
+      document.  The article just has one section and one paragraph.
+    </para>
+  </sect1>
+</article>
+]]>
+	</programlisting>
+	The document is still very basic with not much content.  Yet
+	there is lots of meta data information about the document.  As
+	you learn more about the DocBook tags your documents will
+	become more complex.  However, the basic structure of the
+	document is done and all that is left is to write the
+	document.
+      </para>
+    </sect3>
+  </sect2>
+
+    <!-- ####### DocBook Basics | Structural Elements ####### -->
+
+  <sect2 id="docbook-structure">
+    <title>Structural Elements</title>
+
+    <para>
+      DocBook has many other tags to structure a document than
+      sections and paragraph.  Notes, figures, lists, and tables can
+      all be included into a document and are as much a part of the
+      way a document is structured as sections and paragraphs.  An
+      explanatory figure or table in the right place will enlighten
+      the reader and enhance the appearance and readability of the
+      document.  The MATE Documentation Style Guide talks more about
+      when and where to use these effectively.  Some of these are easy
+      to use with DocBook while others take a while to master.
+    </para>
+
+    <sect3 id="docbook-notes">
+      <title>Notes, Warnings, and Tips</title>
+      <para>
+	For notes, tips, warnings, and important information, called
+	admonitions, should be set apart from the main text (usually
+	as a paragraph with some warning sign on the margin).  A title
+	is usually a good idea as it tells the reader what information
+	you are trying to set off, but is entirely optional.  Use the
+	tags <sgmltag>&lt;note&gt;</sgmltag>,
+	<sgmltag>&lt;tip&gt;</sgmltag>,
+	<sgmltag>&lt;warning&gt;</sgmltag>,
+	<sgmltag>&lt;important&gt;</sgmltag> respectively. For
+	example:
+	<programlisting>
+<![CDATA[
+<tip>
+<title>DocBook Validation Tip</title>
+  <para>
+    To validate DocBook without displaying the document, add the
+    argument <parameter class="option">--noout</programlisting> to the
+    <application>xmllint</programlisting> command.
+  </para>
+</tip>]]> </programlisting>  produces
+      </para>
+      <tip id="docbook-extip">
+	<title>DocBook Validation Tip</title>
+	<para>
+	  To validate DocBook without displaying the document, add the
+	  argument <parameter class="option">--noout</parameter>
+	  to the <application>xmllint</application> command.
+	</para>
+      </tip>
+      <note>
+        <para>
+          The <sgmltag>&lt;tip&gt;</sgmltag> tag should not be inside
+	  a <sgmltag>&lt;para&gt;</sgmltag> tag but between
+	  paragraphs.
+        </para>
+      </note>
+    </sect3>
+    <sect3 id="docbook-figures">
+      <title> Screenshots and other Figures</title>
+      <para>
+	To include screenshots and other figures, use the following
+	tags:
+	
+	<programlisting>
+<![CDATA[
+<figure id="app-FIG-shot1">
+ <title>Screenshot</title>
+ <screenshot>
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="figures/example_screenshot.png" format="PNG"/>
+   </imageobject>
+   <textobject>
+     <phrase>Shows the application screenshot with several buttons.</phrase>
+   </textobject>
+   <caption>
+    <para>Screenshot of a program</para>
+   </caption>
+  </mediaobject>
+ </screenshot>
+</figure>]]>
+	</programlisting>
+	replacing <filename>example_screenshot</filename> with the
+	actual file name (without extension). The result will look like this:
+	
+	<figure id="docbook-FIG-shot1">
+	  <title>Screenshot</title>
+	  <screenshot>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/example_screenshot.png" format="PNG"/>
+	      </imageobject>
+	      <textobject>
+		<phrase>Shows the application screenshot with several buttons.</phrase>
+	      </textobject>
+	      <caption>
+		<para>Screenshot of a program</para>
+	      </caption>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+	
+      </para>
+    </sect3>
+    <sect3 id="docbook-screenshottools">
+      <title>Screenshot Tools</title>
+      <para>
+	There are many tools for taking screenshots in
+	MATE/Linux. Perhaps the most convenient is the
+	<application>Take a Screen Shot</application> tool located in 
+	<menuchoice>
+	  <guimenu>Actions</guimenu>
+	  <guisubmenu>Take a Screen Shot</guisubmenu>
+	</menuchoice>.  Just choose whether you want to save the screenshot 
+	to a file or on the desktop and click <guibutton>Okay</guibutton>.  
+	When you click the <guibutton>Okay</guibutton> button the tool will 
+	take a screenshot in a second.  If you want a window in focus you 
+	will need to focus the window in the second from when you click 
+	the <guibutton>Okay</guibutton> button to when the tool takes a 
+	screen shot.  For applets in a <interface>Panel</interface>,
+	<application>GIMP</application> can be used to crop the
+	screenshot to only include the relevant portion of the
+	<interface>Panel</interface>. Note that
+	<application>GIMP</application> can both be used for taking
+	screenshots, cropping screenshots, and converting image
+	formats.  If you need to convert an image to PNG from another 
+	format make sure you use compression liberally.  A high compression 
+	level will usually look fine in <application>Yelp</application>.
+      </para>
+    </sect3>
+    
+ 
+    <include href="screenshot_procedure.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+    <include href="callout_procedure.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+    <sect3 id="docbook-listing">
+      <title>Program Listings and Terminal Session</title> 
+      <para>
+	To show a file fragment&mdash;for example, program
+	listing&mdash;use <sgmltag>&lt;programlisting&gt;</sgmltag> tag:
+	<programlisting>
+<![CDATA[
+<programlisting>
+[Desktop Entry] 
+Name=Gnumeric spreadsheet
+Exec=gnumeric 
+Icon=mate-gnumeric.png 
+Terminal=0
+Type=Application
+</programlisting>]]>
+	</programlisting>
+	which produces
+	<programlisting>
+[Desktop Entry] 
+Name=Gnumeric spreadsheet 
+Exec=gnumeric
+Icon=mate-gnumeric.png 
+Terminal=0 
+Type=Application
+	</programlisting>
+	As a matter of fact, all examples in this document were
+	produced using <sgmltag>&lt;programlisting&gt;</sgmltag>.
+      </para>
+      <para>
+	To show a record of a terminal session (i.e. sequence of
+	commands entered at the command line) use the 
+	<sgmltag>&lt;screen&gt;</sgmltag> tag:
+	<programlisting>
+<![CDATA[
+<screen>
+<prompt>bash$</prompt><userinput>make love</userinput> 
+make: *** No rule to make target `love'. Stop.
+</screen>]]>
+	</programlisting>
+	which produces
+	<screen>
+<prompt>bash$</prompt><userinput>make love</userinput>  
+make: *** No rule to make target `love'.  Stop.
+	</screen>
+	Observe the use of tags <sgmltag>&lt;prompt&gt;</sgmltag> and
+	<sgmltag>&lt;userinput&gt;</sgmltag> for marking system prompt
+	and commands entered by user.
+	<note>
+	  <title>Note</title>
+	  <para>
+	    Note that both <sgmltag>&lt;programlisting&gt;</sgmltag>
+	    and <sgmltag>&lt;screen&gt;</sgmltag> preserve linebreaks,
+	    but interpret XML tags (unlike LaTeX
+	    <markup>verbatim</markup> environment). Take a look at
+	    the source of this document to see how you can have XML
+	    tags literally shown but not interpreted,
+	  </para>
+	</note>
+      </para>
+    </sect3>
+    <sect3 id="docbook-lists">
+      <title> Lists</title>
+      <para>
+	The most common list types  in DocBook are
+	<sgmltag>&lt;itemizedlist&gt;</sgmltag>,
+	<sgmltag>&lt;orderedlist&gt;</sgmltag>, and 
+	<sgmltag>&lt;variablelist&gt;</sgmltag>.
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term> <sgmltag>&lt;itemizedlist&gt;</sgmltag></term> 
+	  <listitem><para> 
+	      This is the simplest unnumbered list, parallel to
+	      <sgmltag>&lt;ul&gt;</sgmltag> in HTML. Here is an example: 
+	      <programlisting>
+<![CDATA[
+<itemizedlist>
+  <listitem>
+    <para>
+      <guilabel>Show backup files</guilabel> &mdash; This will
+      show any backup file that might be on your system.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      <guilabel>Show hidden files</guilabel> &mdash; This will
+      show all "dot files" or files that begin with a dot.  Those
+      files typically include configuration files and directories.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      <guilabel>Mix files and directories</guilabel> &mdash; This
+      option will  display files and directories in the order you
+      sort them instead of 
+      always having directories shown above files.
+    </para>
+   </listitem>
+</itemizedlist> 
+]]>
+	      </programlisting>
+	      and output:
+	    </para>
+	    <itemizedlist>
+	      <listitem>
+		<para>
+		  <guilabel>Show backup files</guilabel> &mdash;
+		  This will show any backup file that might be on
+		  your system.
+		</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>
+		  <guilabel>Show hidden files</guilabel> &mdash;
+		  This will show all "dot files" or files that
+		  begin with a dot.  Those files typically include
+		  configuration files and directories.
+		</para>
+	      </listitem>
+	      
+	      <listitem>
+		<para>
+		  <guilabel>Mix files and directories</guilabel>
+		  &mdash; This option will display files and
+		  directories in the order you sort them instead
+		  of always having directories shown above files.
+		</para>
+	      </listitem>
+	    </itemizedlist>
+	    <para> Note the use of the character entity
+              <sgmltag>&amp;mdash;</sgmltag> for a long dash (see
+              <xref linkend="docbook-specsymb" />). Also, please note
+              that the result looks much nicer because the terms being
+              explained (<guilabel>Show backup files</guilabel>, etc.)
+              are set in a different font. In this case, it was
+              achieved by using <link
+              linkend="docbook-gui"><sgmltag>&lt;guilabel&gt;</sgmltag></link>
+              tag. In other cases, use appropriate tags such as <link
+              linkend="docbook-gui"><sgmltag>&lt;guimenuitem&gt;</sgmltag></link>, 
+              <link
+              linkend="docbook-filenames"><sgmltag>&lt;command&gt;</sgmltag></link>,
+              or &mdash; if none of this applies &mdash; use <link
+              linkend="docbook-gui"><sgmltag>&lt;emphasis&gt;</sgmltag></link>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term> <sgmltag>&lt;orderedlist&gt;</sgmltag></term> 
+	  <listitem><para>
+	      This list is completely analogous to
+	      <sgmltag>&lt;itemizedlist&gt;</sgmltag> and has the same
+	      syntax, but it produces numbered list. By default,
+	      this list uses Arabic numerals for numbering entries;
+	      you can override this using <sgmltag>numeration</sgmltag>,
+	      for example <sgmltag>&lt;orderedlist
+		numeration=&quot;lowerroman&quot;&gt;</sgmltag>. Possible values 
+	      of the numeration attribute are <sgmltag>arabic</sgmltag>,
+	      <sgmltag>upperalpha</sgmltag>,
+	      <sgmltag>loweralpha</sgmltag>,
+	      <sgmltag>upperroman</sgmltag>, and 
+	      <sgmltag>lowerroman</sgmltag>.
+	    </para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term> <sgmltag>&lt;variablelist&gt;</sgmltag></term>
+	  <listitem><para> This list is used when each entry is
+	      rather long, so it should be formatted as a block of text
+	      with some subtitle, like a small subsection.  The
+	      <sgmltag>&lt;variablelist&gt;</sgmltag> is more complicated
+	      than itemizedlists, but for larger blocks of text, or when
+	      you're explaining or defining something, it's best to use
+	      them.  Their greatest advantage is that it's easier for a
+	      computer to search.  The lines you are reading now were
+	      produced by <sgmltag>&lt;variablelist&gt;</sgmltag>. The
+	      source looked liked this:
+	      <programlisting>
+<![CDATA[
+<variablelist>
+  <varlistentry>
+    <term> <sgmltag>&lt;itemizedlist&gt;</sgmltag></term> 
+    <listitem><para> 
+	This is the simplest unnumbered list, parallel to
+        <sgmltag>&lt;ul&gt;</sgmltag> in HTML. Here is an example:...
+    </para></listitem>
+    </varlistentry>
+    <varlistentry>		 
+	<term> <sgmltag>&lt;orderedlist&gt;</sgmltag></term>
+     <listitem><para>	
+	This list is completely analogous to
+	<sgmltag>&lt;itemizedlist&gt;</sgmltag> 
+    </para></listitem>
+    </varlistentry>
+    <varlistentry>		 
+	<term> <sgmltag>&lt;variablelist&gt;</sgmltag></term>
+     <listitem><para>	
+		This list is used when each entry is rather long,...
+    </para></listitem>
+    </varlistentry>
+</variablelist>        
+]]>
+	      </programlisting>		
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      <para>
+	Lists can be nested; in this case, the stylesheets
+	are smart enough to change the numeration (for
+	<sgmltag>&lt;orderedlist&gt;</sgmltag>) or marks of each entry
+	(in  <sgmltag>&lt;itemizedlist&gt;</sgmltag>) for sub-lists
+      </para>
+    </sect3>
+    
+  </sect2>
+  
+<!-- ####### DocBook Basics | Inline Elements ####### -->
+
+  <sect2 id="docbook-inline">
+    <title>Inline Elements</title>
+    
+    <sect3 id="docbook-gui">
+      <title>GUI elements</title>
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;guibutton&gt;</sgmltag> &mdash; used for
+	    clickable buttons in the user interface
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;guimenu&gt;</sgmltag>, 
+	    <sgmltag>&lt;guisubmenu&gt;</sgmltag> &mdash;used for 
+	    top-level menus and submenus
+	    respectively, for example <literal><![CDATA[
+              <guisubmenu>Utilities</guisubmenu> submenu of the
+              <guimenu>Main Menu</guimenu>]]></literal>
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;guimenuitem&gt;</sgmltag>&mdash;an entry in a
+	    menu
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;guiicon&gt;</sgmltag>&mdash;an icon
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;guilabel&gt;</sgmltag>&mdash;for items which have
+	    labels, like tabs, bounding boxes, or radio buttons.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;interface&gt;</sgmltag>&mdash; for most everything
+	    else... a window, a dialog box, the Panel, etc.
+	  </para>
+	</listitem>
+      </itemizedlist>
+      <para>
+	If you need to refer to a sequence of menu choices, such as
+	<menuchoice>
+	  <guimenu>Main Menu</guimenu>
+	  <guisubmenu>Utilities</guisubmenu> <guimenuitem>MATE
+            terminal</guimenuitem>
+	</menuchoice>
+	there is a special construction for this, too:
+	<programlisting>
+<![CDATA[
+<menuchoice>
+  <guimenu>Main Menu</guimenu> <guisubmenu>Utilities</guisubmenu>
+  <guimenuitem>MATE terminal</guimenuitem> </menuchoice>]]>
+	</programlisting>
+      </para>
+    </sect3>
+    
+    <sect3 id="docbook-links">
+      <title>Links and References</title>
+      <para>
+	To refer to another place in the same document, you can use
+	tags <sgmltag>&lt;xref&gt;</sgmltag> and
+	<sgmltag>&lt;link&gt;</sgmltag>. The first of them
+	automatically inserts the full name of the element you refer
+	to (section, figure, etc.), while the second just creates a
+	link (in HTML output). Here is an example:
+	<programlisting>
+<![CDATA[
+An example of a <link linkend="app-extip">tip</link> was given in
+<xref linkend="notes" />.
+]]>
+	</programlisting>
+	which produces: 
+	<programlisting>An example of a <link
+          linkend="docbook-extip">tip</link> was given in  <xref
+          linkend="docbook-notes" />.</programlisting>
+      </para>
+      <para>
+	Here <sgmltag>notes</sgmltag> is the id attribute of 
+	<xref linkend="docbook-notes" /> and <sgmltag>extip</sgmltag> is the id 
+	attribute of the section about tips.
+      </para>
+      <para>  To produce a link  to an external source, such as a
+	Web page or a local file, use the <sgmltag>&lt;ulink&gt;</sgmltag>
+	tag, for example:
+	<programlisting>
+<![CDATA[
+To find more about MATE, please visit the <ulink type="http"
+url="http://www.mate.org">MATE Web Site</ulink>
+]]>
+	</programlisting>
+	which produces:
+	<programlisting>To find more about MATE, please visit the <ulink type="http" url="http://www.mate.org">MATE Web Site</ulink></programlisting>
+      </para>
+      <para>You can use any of the standard URL types, such
+	as <literal>http, ftp, file, telnet, mailto</literal> (in
+	most cases, however, use of <literal>mailto</literal> is
+	unnecessary&mdash;see <link linkend="docbook-email">discussion of
+          <sgmltag>&lt;email&gt;</sgmltag> tag</link>).
+      </para>
+      <para>For more on this topic, see <xref linkend="refering"/>.</para>
+    </sect3>
+    
+    <sect3 id="docbook-filenames">  
+      <title>Filenames, commands, and other computer-related things</title>
+      <para>
+	Here are some tags used to describe operating system-related
+	things:  
+      </para>
+      <itemizedlist>
+	<listitem>
+	  <para>  <sgmltag>&lt;filename&gt;</sgmltag> &mdash; used
+	    for filenames,
+	    e.g.<sgmltag>&lt;filename&gt;</sgmltag>
+	    foo.sgml
+	    <sgmltag>&lt;/filename&gt;</sgmltag> 
+	    produces: <filename>foo.sgml</filename>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>  <sgmltag>&lt;filename
+              class=&quot;directory&quot;&gt;</sgmltag> &mdash; used for
+	    directories, e.g.<sgmltag>&lt;filename
+              class=&quot;directory&quot;&gt;</sgmltag>/usr/bin
+	    <sgmltag>&lt;/filename&gt;</sgmltag>
+	    produces: <filename
+              class="directory">/usr/bin</filename>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;application&gt;</sgmltag> &mdash; used for
+	    application names,
+	    e.g. <sgmltag>&lt;application&gt;</sgmltag>Gnumeric
+	    <sgmltag>&lt;/application&gt;</sgmltag> produces:
+	    <application>Gnumeric</application>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;envar&gt;</sgmltag> &mdash; used for
+	    environment variables, e.g. 
+	    <sgmltag>&lt;envar&gt;</sgmltag>PATH<sgmltag>&lt;/envar&gt;
+	    </sgmltag> produces :
+	    <envar>PATH</envar>
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;command&gt;</sgmltag> &mdash; used for
+	    commands entered on command line, e.g.
+	    <sgmltag>&lt;command&gt;</sgmltag>make install
+	    <sgmltag>&lt;/command&gt;</sgmltag> produces:
+	    <command>make install</command>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;parameter&gt;</sgmltag> &mdash; used for
+	    options or arguments passed to a system call or command,
+	    e.g.
+	    <sgmltag>&lt;parameter&gt;</sgmltag>--version
+	    <sgmltag>&lt;/parameter&gt;</sgmltag> produces:
+	    <parameter>--version</parameter>.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    <sgmltag>&lt;replaceable&gt;</sgmltag> &mdash; used for
+	    replaceable text, e.g.
+	    <sgmltag>&lt;command&gt;</sgmltag>db2html<sgmltag>&lt;replaceable&gt;</sgmltag>
+	    foo.sgml
+	    <sgmltag>&lt;/replaceable&gt;</sgmltag><sgmltag>&lt;/command&gt;</sgmltag>
+	    produces: <command>db2html
+              <replaceable>foo.sgml</replaceable></command>.
+	  </para>
+	</listitem>
+      </itemizedlist>  
+    </sect3>
+    
+    <sect3 id="docbook-keys">   
+      <title>Keyboard Input</title> 
+      <para> To mark up text input by the user, use
+        <sgmltag>&lt;userinput&gt;</sgmltag>.
+      </para>
+      <para>  To mark keystrokes such as shortcuts and other
+	commands, use <sgmltag>&lt;keycap&gt;</sgmltag>. 
+	This is used for marking up what is printed on the top 
+	of the physical key on the keyboard. There are a couple of
+	other tags for keys, too: <sgmltag>&lt;keysym&gt;</sgmltag>
+	and <sgmltag>&lt;keycode&gt;</sgmltag>. However you are
+	unlikely to need these for most documentation. For reference,
+	<sgmltag>&lt;keysym&gt;</sgmltag> is for the <quote>symbolic
+          name</quote> of a key. <sgmltag>&lt;keycode&gt;</sgmltag> is
+	for the <quote>scan code</quote> of a key. These are not
+	terms commonly required in <acronym>MATE</acronym> documentation,
+	although <sgmltag>&lt;keysym&gt;</sgmltag> is useful for marking
+	up control codes.
+      </para>
+      <para>
+	To mark up a combination of keystrokes, use the
+	<sgmltag>&lt;keycombo&gt;</sgmltag> wrapper:
+	<programlisting>
+<![CDATA[
+<keycombo>
+ <keycap>Ctrl</keycap>
+ <keycap>Alt</keycap>
+ <keycap>F1</keycap>
+</keycombo>]]>
+	</programlisting>
+      </para>
+      <para>
+	Finally, if you want to show a shortcut for some menu
+	command, here are the appropriate tags (rather long):
+	<programlisting>
+<![CDATA[
+<menuchoice>
+ <shortcut>
+  <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+ </shortcut> 
+ <guimenuitem> Quit</guimenuitem> 
+</menuchoice>]]>
+	</programlisting>
+	which produces simply
+	<menuchoice>
+	  <shortcut>   <keysym>Ctrl-q</keysym> </shortcut>
+	  <guimenuitem> Quit</guimenuitem>
+	</menuchoice>
+      </para>
+    </sect3>
+
+    <sect3 id="docbook-email">
+      <title>E-mail Addresses</title> <para>  To mark up e-mail
+        address, use <sgmltag>&lt;email&gt;</sgmltag>:
+	<programlisting>
+<![CDATA[ The easiest way to get in touch with me is by e-mail
+(<email>me@mydomain.com</email>)]]>
+	</programlisting>
+	which produces: The easiest way to get in touch with me is
+	by e-mail  (<email>me@mydomain.com</email>) Note that
+	<sgmltag>&lt;email&gt;</sgmltag> automatically produces a link
+	in the HTML version.
+      </para>
+    </sect3>
+    
+    <sect3 id="docbook-specsymb">
+      <title> Special Symbols </title>
+      <para> 
+	DocBook also provides special means for entering
+	typographic symbols which can not be entered directly
+	form the keyboard (such as copyright sign). This is done using
+	<emphasis>character entities</emphasis>, which ii the XML analogue of
+	macros, or commands, of LaTeX. They generally have the form 
+	<sgmltag>&amp;entityname;</sgmltag>. Note that the semicolon
+	is required. 
+      </para>
+      <para>
+	here is partial list of most commonly used enitites:
+      </para>
+      <itemizedlist>
+	<listitem><para>
+	    <sgmltag>&amp;amp;</sgmltag> &mdash; ampersend (&amp;)
+	  </para></listitem>
+	<listitem><para>
+	    <sgmltag>&amp;lt;</sgmltag> &mdash; left angle bracket (&lt;)
+	  </para></listitem>
+	<listitem><para>
+	    <sgmltag>&amp;gt;</sgmltag> &mdash; right angle bracket (&gt;)
+	  </para></listitem>
+	<listitem><para>
+	    <sgmltag>&amp;copy;</sgmltag> &mdash; copyright sign (&copy;)
+	  </para></listitem>
+	<listitem><para>
+	    <sgmltag>&amp;mdash;</sgmltag> &mdash; long dash (&mdash;)
+	  </para></listitem>
+	<listitem><para>
+	    <sgmltag>&amp;hellip;</sgmltag> &mdash; ellipsis (&hellip;)
+	  </para></listitem>
+      </itemizedlist>
+      <para>
+	Note that the actual look of the resulting symbols depends
+	on the fonts used by your browser; for example, it might
+	happen that long dash (<sgmltag>&amp;mdash;</sgmltag>) looks
+	exactly like the usual dash (-). However, in the PostScript
+	(and thus, in print) the output will look markedly better if
+	you use appropriate tags. 
+      </para>
+    </sect3>
+  </sect2>
+  
+<!-- ####### DocBook Basics | Indexing ####### -->
+
+  <sect2 id="docbook-indexing">
+    <title>Indexing</title>
+    
+    <para>
+    </para>
+    
+  </sect2>
+</sect1>

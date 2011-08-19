@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Initialization/Shutdown</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="prev" href="mate-vfs-first-steps.html" title="A Gentle Programming Primer">
+<link rel="next" href="data-types.html" title="Basic Data Types">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-first-steps.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td> </td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="data-types.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-init.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-init.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-init"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-init.top_of_page"></a>Initialization/Shutdown</span></h2>
+<p>Initialization/Shutdown</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-init.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-init" title="mate_vfs_init ()">mate_vfs_init</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-initialized" title="mate_vfs_initialized ()">mate_vfs_initialized</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-shutdown" title="mate_vfs_shutdown ()">mate_vfs_shutdown</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-loadinit" title="mate_vfs_loadinit ()">mate_vfs_loadinit</a>                  (<em class="parameter"><code><span class="type">gpointer</span> app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> modinfo</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-preinit" title="mate_vfs_preinit ()">mate_vfs_preinit</a>                   (<em class="parameter"><code><span class="type">gpointer</span> app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> modinfo</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-postinit" title="mate_vfs_postinit ()">mate_vfs_postinit</a>                  (<em class="parameter"><code><span class="type">gpointer</span> app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> modinfo</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-init.description"></a><h2>Description</h2>
+<p>
+Starting MateVFS up and shutting it down. Usually when using the whole
+MATE framework this library is initialized and shutdown automatically
+when calling mate_init.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-init.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-init"></a><h3>mate_vfs_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_init                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+If mate-vfs is not already initialized, initialize it. This must be
+called prior to performing any other mate-vfs operations, and may
+be called multiple times without error.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if mate-vfs is successfully initialized (or was
+already initialized).
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-initialized"></a><h3>mate_vfs_initialized ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_initialized               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Detects if mate-vfs has already been initialized (mate-vfs must be
+initialized prior to using any methods or operations).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if mate-vfs has already been initialized.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-shutdown"></a><h3>mate_vfs_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_shutdown                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Cease all active mate-vfs operations and unload the MIME
+database from memory.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-loadinit"></a><h3>mate_vfs_loadinit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_loadinit                  (<em class="parameter"><code><span class="type">gpointer</span> app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> modinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_loadinit</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>modinfo</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-preinit"></a><h3>mate_vfs_preinit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_preinit                   (<em class="parameter"><code><span class="type">gpointer</span> app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> modinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_preinit</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>modinfo</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-postinit"></a><h3>mate_vfs_postinit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_postinit                  (<em class="parameter"><code><span class="type">gpointer</span> app</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> modinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_postinit</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>modinfo</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+include $(top_srcdir)/mate-doc-utils.make
+dist-hook: doc-dist-hook
+
+DOC_MODULE = gdp-style-guide
+DOC_ENTITIES =			\
+	Authorlist.xml		\
+	accessibility.xml	\
+	fundamentals.xml	\
+	grammar_usage.xml	\
+	gui.xml			\
+	improving.xml		\
+	indexing.xml		\
+	infoblocks.xml		\
+	infodesign.xml		\
+	language.xml		\
+	legal.xml		\
+	legal_issues.xml	\
+	locale.xml		\
+	preface.xml		\
+	screenshot.xml		\
+	units.xml		\
+	usability.xml		\
+	wordlist.xml
+DOC_FIGURES =					\
+	figures/applet_popup_menu.png		\
+	figures/arrow_button1.png		\
+	figures/arrow_button2.png		\
+	figures/callout_notflow.png		\
+	figures/check_box.png			\
+	figures/color_selector_button.png	\
+	figures/color_wheel1.png		\
+	figures/color_wheel2.png		\
+	figures/column_heading.png		\
+	figures/command_button.png		\
+	figures/desktop_background_menu.png	\
+	figures/desktop_elements.png		\
+	figures/dropdown_combination_box.png	\
+	figures/dropdown_list_box.png		\
+	figures/dropdown_section1.png		\
+	figures/dropdown_section2.png		\
+	figures/field.png			\
+	figures/font_selector_button.png	\
+	figures/footprint_icon.png		\
+	figures/mate_menu.png			\
+	figures/group_box.png			\
+	figures/icon_selector_button1.png	\
+	figures/icon_selector_button2.png	\
+	figures/launcher_popup_menu.png		\
+	figures/list_box.png			\
+	figures/panel_elements.png		\
+	figures/panel_object_popup_menu.png	\
+	figures/panel_popup_menu.png		\
+	figures/radio_button.png		\
+	figures/sample_anno_panel.png		\
+	figures/scrollbar.png			\
+	figures/slider.png			\
+	figures/spin_box.png			\
+	figures/tabbed_section.png		\
+	figures/table.png			\
+	figures/tabs.png			\
+	figures/text_box.png			\
+	figures/toggle_button.png		\
+	figures/toolbar_button.png		\
+	figures/window_elements.png		\
+	figures/window_frame_button.png		\
+	figures/window_list_button.png		\
+	figures/window_menu.png			\
+	figures/window_panes.png		\
+	figures/window_titlebar_elements.png
+DOC_LINGUAS =

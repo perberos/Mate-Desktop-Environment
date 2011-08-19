@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-i18n</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Library Reference Manual">
+<link rel="up" href="ch06.html" title="Deprecated Modules">
+<link rel="prev" href="libmate-mate-config.html" title="mate-config">
+<link rel="next" href="libmate-mate-score.html" title="mate-score">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmate-mate-config.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch06.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Library Reference Manual</th>
+<td><a accesskey="n" href="libmate-mate-score.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmate-mate-i18n.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmate-mate-i18n.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmate-mate-i18n"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmate-mate-i18n.top_of_page"></a>mate-i18n</span></h2>
+<p>mate-i18n — Support for localization and internationalization.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmate-mate-i18n.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmate/libmate.h&gt;
+
+const <span class="returnvalue">GList</span> *	      <a class="link" href="libmate-mate-i18n.html#mate-i18n-get-language-list" title="mate_i18n_get_language_list ()">mate_i18n_get_language_list</a>        (<em class="parameter"><code>const <span class="type">gchar</span> *category_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmate-mate-i18n.html#mate-i18n-push-c-numeric-locale" title="mate_i18n_push_c_numeric_locale ()">mate_i18n_push_c_numeric_locale</a>    (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmate-mate-i18n.html#mate-i18n-pop-c-numeric-locale" title="mate_i18n_pop_c_numeric_locale ()">mate_i18n_pop_c_numeric_locale</a>     (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-i18n.description"></a><h2>Description</h2>
+<p>
+This module allows the programmer to internationalize his application by
+providing functions to retrieve the preferred languages of the user as well as
+temporarily move back to the C locale for performing locale independent
+operations.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<p>
+  A lot of the internationalization functions which were in this module in
+  MATE 1 have now moved to libmatecomponent for MATE 2 (<code class="function">_()</code>, <code class="function">textdomain()</code>,
+  <code class="function">gettext()</code>, etc).
+  </p>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-i18n.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-i18n-get-language-list"></a><h3>mate_i18n_get_language_list ()</h3>
+<pre class="programlisting">const <span class="returnvalue">GList</span> *	      mate_i18n_get_language_list        (<em class="parameter"><code>const <span class="type">gchar</span> *category_name</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_i18n_get_language_list</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This function is deprecated. You should be using <code class="function">g_get_language_names()</code> instead.
+</p>
+<p>
+This computes a list of language strings that the user wants.  It searches in
+the standard environment variables to find the list, which is sorted in order
+from most desirable to least desirable.  The `C' locale is appended to the
+list if it does not already appear (other routines depend on this
+behaviour).
+</p>
+<p>
+The <em class="parameter"><code>ignored</code></em> argument used to be the category name to use, but this was
+removed since there is only one useful thing to pass here. For further
+details, see http://bugzilla.mate.org/show_bug.cgi?id=168948
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>category_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the list of languages, this list should not be freed as it is
+owned by mate-i18n.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-i18n-push-c-numeric-locale"></a><h3>mate_i18n_push_c_numeric_locale ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_i18n_push_c_numeric_locale    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_i18n_push_c_numeric_locale</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Saves the current LC_NUMERIC locale and sets it to "C"
+This way you can safely read write floating point numbers all in the
+same format.  You should make sure that code between
+<a class="link" href="libmate-mate-i18n.html#mate-i18n-push-c-numeric-locale" title="mate_i18n_push_c_numeric_locale ()"><code class="function">mate_i18n_push_c_numeric_locale()</code></a> and <a class="link" href="libmate-mate-i18n.html#mate-i18n-pop-c-numeric-locale" title="mate_i18n_pop_c_numeric_locale ()"><code class="function">mate_i18n_pop_c_numeric_locale()</code></a>
+doesn't do any setlocale calls or locale may end up in a strange setting.
+Also make sure to always pop the c numeric locale after you've pushed it.
+The calls can be nested.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-i18n-pop-c-numeric-locale"></a><h3>mate_i18n_pop_c_numeric_locale ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_i18n_pop_c_numeric_locale     (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_i18n_pop_c_numeric_locale</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Restores the LC_NUMERIC locale to what it was
+before the matching <a class="link" href="libmate-mate-i18n.html#mate-i18n-push-c-numeric-locale" title="mate_i18n_push_c_numeric_locale ()"><code class="function">mate_i18n_push_c_numeric_locale()</code></a>. If these calls
+were nested, then this is a no-op until we get to the most outermost
+layer. Code in between these should not do any setlocale calls
+to change the LC_NUMERIC locale or things may come out very strange.
+</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

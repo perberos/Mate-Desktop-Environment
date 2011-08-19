@@ -1,0 +1,1372 @@
+AC_INIT(libmatevfs/mate-vfs.h)
+
+# Making releases:
+#   LIBMATEVFS_MICRO_VERSION += 1;
+#   LIBMATEVFS_INTERFACE_AGE += 1;
+# if any functions have been added, set LIBMATEVFS_INTERFACE_AGE to 0.
+# if backwards compatibility has been broken,
+# set LIBMATEVFS_BINARY_AGE and LIBMATEVFS_INTERFACE_AGE to 0.
+#
+LIBMATEVFS_MAJOR_VERSION=2
+LIBMATEVFS_MINOR_VERSION=24
+LIBMATEVFS_MICRO_VERSION=4
+LIBMATEVFS_INTERFACE_AGE=4
+# If you need a modifier for the version number. 
+# Normally empty, but can be used to make "fixup" releases.
+LIBMATEVFS_EXTRAVERSION=
+
+dnl libtool versioning from libmate
+
+LIBMATEVFS_CURRENT=`expr 100 '*' $LIBMATEVFS_MINOR_VERSION + $LIBMATEVFS_MICRO_VERSION - $LIBMATEVFS_INTERFACE_AGE`
+LIBMATEVFS_BINARY_AGE=`expr 100 '*' $LIBMATEVFS_MINOR_VERSION + $LIBMATEVFS_MICRO_VERSION`
+LIBMATEVFS_REVISION=$LIBMATEVFS_INTERFACE_AGE
+LIBMATEVFS_AGE=`expr $LIBMATEVFS_BINARY_AGE - $LIBMATEVFS_INTERFACE_AGE`
+LIBMATEVFS_VERSION=$LIBMATEVFS_MAJOR_VERSION.$LIBMATEVFS_MINOR_VERSION.$LIBMATEVFS_MICRO_VERSION$LIBMATEVFS_EXTRAVERSION
+
+AC_SUBST(LIBMATEVFS_MAJOR_VERSION)
+AC_SUBST(LIBMATEVFS_MINOR_VERSION)
+AC_SUBST(LIBMATEVFS_MICRO_VERSION)
+AC_SUBST(LIBMATEVFS_INTERFACE_AGE)
+AC_SUBST(LIBMATEVFS_BINARY_AGE)
+AC_SUBST(LIBMATEVFS_CURRENT)
+AC_SUBST(LIBMATEVFS_REVISION)
+AC_SUBST(LIBMATEVFS_AGE)
+AC_SUBST(LIBMATEVFS_VERSION)
+	
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(mate-vfs, $LIBMATEVFS_VERSION)
+
+dnl make sure we keep ACLOCAL_FLAGS around for maintainer builds to work
+AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS")
+
+AM_MAINTAINER_MODE
+
+MATE_COMMON_INIT
+
+dnl touch NOINST_GOB
+dnl AC_CONFIG_SUBDIRS(gob)
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_AWK
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
+IT_PROG_INTLTOOL([0.35.0])
+
+dnl Check for Win32
+case $host in
+  *-*-mingw*)
+    os_win32=yes
+    # We do have getaddrinfo
+    # But only on XP, so don't use it as Win2000 is still widespread
+    # AC_CACHE_VAL(ac_cv_func_getaddrinfo, [ac_cv_func_getaddrinfo=yes])
+
+    # No dbus on Win32 (yet, at least)
+    dbus_requirement=""
+
+    # Thus also no mate-vfs-daemon on Win32
+    enable_daemon_default=no
+    ;;
+  *)
+    os_win32=no
+    dbus_requirement="dbus-glib-1 >= 0.60"
+    enable_daemon_default=yes
+    ;;
+esac
+AM_CONDITIONAL(OS_WIN32, [test "$os_win32" = "yes"])
+
+dnl Globally define_GNU_SOURCE and therefore enable the GNU extensions
+AC_DEFINE(_GNU_SOURCE, 1, [Enable GNU Extensions])
+
+dnl Versions shared with the .spec file.
+MATECONF_REQUIRED=1.1.1
+GLIB_REQUIRED=2.9.3
+XML_REQUIRED=2.6.0
+
+AC_SUBST(MATECONF_REQUIRED)
+AC_SUBST(GLIB_REQUIRED)
+AC_SUBST(XML_REQUIRED)
+
+LIBTOOL_EXPORT_OPTIONS='-export-symbols-regex "^[[^_]].*"'
+AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
+
+PKG_CHECK_MODULES(MODULES_XML, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED libxml-2.0 >= $XML_REQUIRED)
+AC_SUBST(MODULES_XML_CFLAGS)
+AC_SUBST(MODULES_XML_LIBS)
+	
+PKG_CHECK_MODULES(MODULES, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED)
+AC_SUBST(MODULES_LIBS)
+AC_SUBST(MODULES_CFLAGS)
+
+PKG_CHECK_MODULES(MODULES_FILE, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED mateconf-2.0 >= $MATECONF_REQUIRED)
+AC_SUBST(MODULES_FILE_LIBS)
+AC_SUBST(MODULES_FILE_CFLAGS)
+
+PKG_CHECK_MODULES(MODULES_MATECONF, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED mateconf-2.0 >= $MATECONF_REQUIRED)
+AC_SUBST(MODULES_MATECONF_CFLAGS)
+AC_SUBST(MODULES_MATECONF_LIBS)
+
+PKG_CHECK_MODULES(MODULES_XML_MATECONF, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED libxml-2.0 >= $XML_REQUIRED mateconf-2.0 >= $MATECONF_REQUIRED)
+AC_SUBST(MODULES_XML_MATECONF_CFLAGS)
+AC_SUBST(MODULES_XML_MATECONF_LIBS)
+
+PKG_CHECK_MODULES(TEST, mateconf-2.0 >= $MATECONF_REQUIRED gthread-2.0 >= $GLIB_REQUIRED)
+AC_SUBST(TEST_LIBS)
+AC_SUBST(TEST_CFLAGS)
+
+cflags_set=yes
+MATE_COMPILE_WARNINGS
+VFS_CFLAGS="$warnCFLAGS $complCFLAGS"
+
+dnl semaphore functions are in librt.so on solaris
+AC_SEARCH_LIBS(sem_wait, rt)
+dnl and in libsem.so on systems that use libsem
+AC_SEARCH_LIBS(sem_wait, sem)
+
+dnl Don't blindly #define them if they're typedef'ed in <sys/types.h>
+AM_MATE_SIZE_T
+AM_MATE_OFF_T
+
+AC_CACHE_CHECK([for off64_t],
+	ac_cv_have_off64_t,
+	AC_TRY_COMPILE([
+#		define _LARGEFILE64_SOURCE
+#		include <sys/types.h>],
+		[off64_t testoffset],
+	ac_cv_have_off64_t=yes,
+	ac_cv_have_off64_t=no))
+if test x"$ac_cv_have_off64_t" = "xyes" ; then
+	AC_DEFINE(HAVE_OFF64_T, 1, [Whether off64_t type is available])
+fi
+
+GETTEXT_PACKAGE=mate-vfs-2.0
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Name of the gettext package])
+
+AM_GLIB_GNU_GETTEXT
+
+
+AC_CHECK_FUNCS(ngettext, have_ngettext=yes, [AC_CHECK_LIB(intl,ngettext,have_ngettext=yes)])
+
+if test x"$have_ngettext" != "xyes"; then
+	AC_MSG_ERROR([Your Gettext installation doesn't seem to support ngettext to handle translation of plural forms. Please install GNU Gettext])
+fi;
+
+AC_SEARCH_LIBS(gethostent, nsl)
+AC_SEARCH_LIBS(setsockopt, socket)
+AC_SEARCH_LIBS(login_tty, util, [AC_DEFINE([HAVE_LOGIN_TTY],[],[Whether login_tty is available])])
+
+AC_FUNC_ALLOCA
+AC_CHECK_FUNCS(getdtablesize open64 lseek64 statfs statvfs seteuid setegid setresuid setresgid readdir_r mbrtowc inet_pton getdelim sysctlbyname poll posix_fadvise fchmod atoll mmap)
+AC_CHECK_MEMBERS([struct stat.st_blksize, struct stat.st_rdev])
+AC_STRUCT_ST_BLOCKS
+
+dnl Volume monitor stuff			     
+AC_CHECK_FUNCS(setmntent endmntent hasmntopt getmntinfo)
+AC_CHECK_HEADERS(mntent.h sys/mnttab.h sys/vfstab.h sys/cdio.h sys/mount.h sys/mntctl.h sys/vfs.h sys/vmount.h sys/sysctl.h fstab.h fnmatch.h util.h sys/sysmacros.h)
+
+
+AC_PATH_PROG(MATECONFTOOL, mateconftool-2, no)
+
+if test x"$MATECONFTOOL" = xno; then
+  AC_MSG_ERROR([mateconftool-2 executable not found in your path - should be installed with MateConf])
+fi
+
+AM_MATECONF_SOURCE_2
+
+VFS_SIZE="guint64"
+VFS_OFFSET="gint64"
+VFS_SIZE_IS="UNSIGNED_LONG_LONG"
+VFS_OFFSET_IS="LONG_LONG"
+
+AC_SUBST(VFS_SIZE)
+AC_SUBST(VFS_OFFSET)
+AC_SUBST(VFS_SIZE_IS)
+AC_SUBST(VFS_OFFSET_IS)
+
+AC_CHECK_HEADERS(sys/param.h sys/resource.h sys/vfs.h sys/mount.h sys/statfs.h sys/statvfs.h sys/param.h wctype.h sys/poll.h poll.h)
+
+dnl
+dnl file system type member in statfs struct
+dnl
+AC_CHECK_MEMBERS([struct statfs.f_type], ,[
+  AC_CHECK_MEMBERS([struct statfs.f_fstyp], , , [#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+#ifdef HAVE_SYS_VFS_H
+#include <sys/vfs.h>
+#endif
+#ifdef HAVE_SYS_MOUNT_H
+#include <sys/mount.h>
+#endif
+#ifdef HAVE_SYS_STATFS_H
+#include <sys/statfs.h>
+#endif])], [#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+#ifdef HAVE_SYS_VFS_H
+#include <sys/vfs.h>
+#endif
+#ifdef HAVE_SYS_MOUNT_H
+#include <sys/mount.h>
+#endif
+#ifdef HAVE_SYS_STATFS_H
+#include <sys/statfs.h>
+#endif])
+ 
+dnl
+dnl if statfs() takes 2 arguments or 4 (Solaris)
+dnl
+if test "$ac_cv_func_statfs" = yes ; then
+  AC_MSG_CHECKING([number of arguments to statfs()])
+  AC_TRY_COMPILE([#include <unistd.h>
+  #ifdef HAVE_SYS_PARAM_H
+  #include <sys/param.h>
+  #endif
+  #ifdef HAVE_SYS_VFS_H
+  #include <sys/vfs.h>
+  #endif
+  #ifdef HAVE_SYS_MOUNT_H
+  #include <sys/mount.h>
+  #endif
+  #ifdef HAVE_SYS_STATFS_H
+  #include <sys/statfs.h>
+  #endif], [struct statfs st;
+  statfs(NULL, &st);],[
+    AC_MSG_RESULT([2])
+    AC_DEFINE(STATFS_ARGS, 2, [Number of arguments to statfs()])],[
+    AC_TRY_COMPILE([#include <unistd.h>
+  #ifdef HAVE_SYS_PARAM_H
+  #include <sys/param.h>
+  #endif
+  #ifdef HAVE_SYS_VFS_H
+  #include <sys/vfs.h>
+  #endif
+  #ifdef HAVE_SYS_MOUNT_H
+  #include <sys/mount.h>
+  #endif
+  #ifdef HAVE_SYS_STATFS_H
+  #include <sys/statfs.h>
+  #endif], [struct statfs st;
+  statfs(NULL, &st, sizeof (st), 0);],[
+      AC_MSG_RESULT([4])
+      AC_DEFINE(STATFS_ARGS, 4, [Number of arguments to statfs()])],[
+      AC_MSG_RESULT(unknown)
+      AC_MSG_ERROR([unable to determine number of arguments to statfs()])])])
+fi dnl test "$ac_cv_func_statfs" = yes
+
+AC_TYPE_MBSTATE_T
+
+AC_CHECK_FUNCS(dirname, [AC_CHECK_HEADERS(libgen.h)] ,[
+  AC_SEARCH_LIBS(dirname, [gen])])
+
+
+dnl ====================================
+dnl =
+dnl = Profiling support
+dnl =
+dnl ====================================
+ENABLE_PROFILER=
+AC_ARG_ENABLE(profiler,
+[  --enable-profiler		Enable profiler],
+[ENABLE_PROFILER=1
+AC_DEFINE(ENABLE_PROFILER, 1, [Whether to enable profiler support])
+])
+if test "$ENABLE_PROFILER" = 1; then
+	CFLAGS="-g -O -gdwarf-2 -finstrument-functions -D__NO_STRING_INLINES"
+	LDFLAGS="/mate/PROFILE/lib/libprofiler.so -lpthread"
+fi
+
+AC_SUBST(ENABLE_PROFILER)
+AM_CONDITIONAL(ENABLE_PROFILER, test "$ENABLE_PROFILER" = 1)
+dnl ====================================
+
+dnl turn warnings into errors to enforce clean code for cvs users (not in tarball)
+
+AC_ARG_ENABLE(more-warnings,
+[  --enable-more-warnings  Maximum compiler warnings],
+set_more_warnings="$enableval",[
+if test -f $srcdir/CVSVERSION; then
+	set_more_warnings=yes
+else
+	set_more_warnings=no
+fi
+])
+
+if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
+	echo "enable compile warnings = $set_more_warnings"
+	VFS_CFLAGS="-Wall  \
+	-Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes \
+	-Wnested-externs -Wpointer-arith"
+
+	for option in -fno-strict-aliasing -Wno-strict-aliasing -Wno-sign-compare; do
+		SAVE_CFLAGS="$CFLAGS"
+		CFLAGS="$VFS_CFLAGS $option $CFLAGS"
+		AC_MSG_CHECKING([whether gcc understands $option])
+		AC_TRY_COMPILE([], [],
+			has_option=yes,
+			has_option=no,)
+		CFLAGS="$SAVE_CFLAGS"
+		if test $has_option = yes; then
+		  VFS_CFLAGS="$VFS_CFLAGS $option"
+		fi
+		AC_MSG_RESULT($has_option)
+		unset has_option
+		unset SAVE_CFLAGS
+	done
+	unset option
+fi
+AC_SUBST(VFS_CFLAGS)
+
+dnl
+dnl mate vfs Documentation
+dnl 
+MATE_VFS_DIR=`(cd $srcdir; pwd)`
+AC_SUBST(MATE_VFS_DIR)
+
+VFS_LIBS="-lmatevfs $VFS_GLIB_LIBS"
+VFS_LIBDIR='-L${libdir}'
+VFS_INCLUDEDIR='-I${includedir} -I${libdir}/vfs/include'" $VFS_GLIB_CFLAGS"
+AC_SUBST(VFS_LIBDIR)
+AC_SUBST(VFS_INCLUDEDIR)
+AC_SUBST(VFS_LIBS)
+
+dnl
+dnl efs-method.c
+dnl
+
+dnl if test "x$libefs_disabled" = xyes; then 
+dnl     LIBEFS_CONFIG=no
+dnl else
+dnl     AC_PATH_PROG(LIBEFS_CONFIG, libefs-config, no)
+dnl fi
+dnl 
+dnl if test "x$LIBEFS_CONFIG" != xno; then
+dnl 	LIBEFS_LIBS=`$LIBEFS_CONFIG --libs`
+dnl 	LIBEFS_CFLAGS=`$LIBEFS_CONFIG --cflags`
+dnl fi
+dnl 
+
+AM_CONDITIONAL(HAVE_LIBEFS, false) 
+LIBEFS_LIBS=""
+LIBEFS_CFLAGS=""
+AC_SUBST(LIBEFS_LIBS)
+AC_SUBST(LIBEFS_CFLAGS)
+
+dnl
+dnl ftp-method.c
+dnl
+AC_DEFUN([AC_STRUCT_LINGER], [
+av_struct_linger=no
+AC_MSG_CHECKING(struct linger is available)
+AC_TRY_RUN([
+#include <sys/types.h>
+#include <sys/socket.h>
+
+struct linger li;
+
+main ()
+{
+    li.l_onoff = 1;
+    li.l_linger = 120;
+    exit (0);
+}
+],[
+AC_DEFINE(HAVE_STRUCT_LINGER, 1, [Define to 1 if struct linger is available])
+av_struct_linger=yes
+],[
+av_struct_linger=no
+],[
+av_struct_linger=no
+])
+AC_MSG_RESULT($av_struct_linger)
+])
+
+have_socket=no
+AC_CHECK_FUNCS(socket, have_socket=yes)
+if test $have_socket = no; then
+  # socket is not in the default libraries.  See if it's in some other.
+  for lib in bsd socket inet; do
+    AC_CHECK_LIB($lib, socket, [
+	  LIBS="$LIBS -l$lib"
+	  have_socket=yes
+	  AC_DEFINE(HAVE_SOCKET, 1, [Whether we have socket])
+	  break])
+  done
+fi
+
+AC_CHECK_FUNCS(inet_ntop)	   
+
+AC_CHECK_LIB(bz2, bzCompressInit, AC_DEFINE(HAVE_OLDER_BZIP2, 1, [Define to 1 if older bzip2 version is used]))
+AC_CHECK_HEADERS(bzlib.h,
+	BZ2_LIBS="$BZ2_LIBS -lbz2",
+	AC_MSG_ERROR([Mate-vfs requires libbz2 to compile.])
+	)
+AC_SUBST(BZ2_LIBS)
+
+if test $have_socket = yes; then
+    AC_STRUCT_LINGER
+fi
+
+dnl modules/cdda
+have_cdda=no
+AC_ARG_ENABLE(cdda,
+[  --enable-cdda		Enable cdda module (not recommended)],
+[
+  if test "x$enable_cdda" != "xno"; then
+    AC_CHECK_HEADERS(cdda_interface.h cdda_paranoia.h, [
+	CDDA_LIBS="$CDDA_LIBS -lcdda_paranoia -lcdda_interface"
+	have_cdda=yes
+    ])
+
+    if test "$have_cdda" = yes; then
+      dnl FreeBSD applies some patches to cdparanoia to support their libcam
+      dnl library.  We need to detect if those ara available because the
+      dnl cdrom_drive structure changes internally.
+      AC_MSG_CHECKING([whether cdparanoia uses FreeBSD's libcam])
+      AC_COMPILE_IFELSE([#include <cdda_interface.h>
+int
+main(void)
+{
+    struct cdrom_drive cd;
+    void *v = (void *) cd.dev;
+    return 0;
+}],
+        [AC_DEFINE(HAVE_CDDA_WITH_LIBCAM, 1,
+          [Define to 1 if cdparanoia contains FreeBSD-specific libcam support])
+         cdda_with_libcam=yes],
+        [cdda_with_libcam=no
+      ])
+      AC_MSG_RESULT($cdda_with_libcam)
+    fi
+  fi
+])
+AM_CONDITIONAL(HAVE_CDDA, test $have_cdda = yes)
+AC_SUBST(CDDA_LIBS)
+
+dnl GSSAPI
+dnl Check for Kerberos installation
+have_gssapi=no
+AC_PATH_PROG([KRB5_CONFIG], krb5-config, none, $PATH:/usr/kerberos/bin)
+					   
+if test "x$KRB5_CONFIG" != "xnone"; then
+   GSSAPI_LIBS="`${KRB5_CONFIG} --libs gssapi`"
+   GSSAPI_CFLAGS="`${KRB5_CONFIG} --cflags gssapi`"
+   
+   saved_CPPFLAGS="$CPPFLAGS"
+   saved_LIBS="$LIBS"
+   LIBS="$LIBS $GSSAPI_LIBS"
+   CPPFLAGS="$CPPFLAGS $GSSAPI_CFLAGS"
+   # MIT and Heimdal put gssapi.h in different places
+   AC_CHECK_HEADERS(gssapi/gssapi.h gssapi.h, [
+       AC_CHECK_FUNCS(gss_init_sec_context, [
+           AC_MSG_NOTICE([GSSAPI authentication support enabled])
+           AC_DEFINE(HAVE_GSSAPI, 1, [Define if GSSAPI support is enabled])
+           AC_CHECK_HEADERS(gssapi/gssapi_generic.h)
+		 have_gssapi=yes
+	 
+       # MIT Kerberos lacks GSS_C_NT_HOSTBASED_SERVICE
+       AC_CHECK_DECL([GSS_C_NT_HOSTBASED_SERVICE],,
+          [AC_DEFINE([GSS_C_NT_HOSTBASED_SERVICE], gss_nt_service_name, 
+             [Define if GSS_C_NT_HOSTBASED_SERVICE is not defined otherwise])
+		], [
+		    #ifdef HAVE_GSSAPI_GSSAPI_H
+		    #include <gssapi/gssapi.h>
+		    #else	   
+		    #include <gssapi.h>
+		    #endif
+		])
+	  ])
+     break
+   ])
+   LIBS="$saved_LIBS" 
+   CPPFLAGS="$saved_CPPFLAGS" 
+fi   
+AC_SUBST(GSSAPI_LIBS)
+AC_SUBST(GSSAPI_CFLAGS)
+	   
+dnl ******************************
+dnl http-method (neon checks)
+dnl ******************************
+VFS_NEON_BUNDLED(imported/neon)
+
+AC_ARG_ENABLE(http-debug,
+	[AS_HELP_STRING([--enable-http-debug],[Enable HTTP method debugging])],
+	[],[enable_http_debug=no])
+
+if test "$enable_http_debug" = "yes"; then
+ AC_DEFINE([DEBUG_HTTP_ENABLE], 1, [Indicates http debugging status])
+ AC_MSG_NOTICE([HTTP module debugging ENABLED])
+fi
+
+dnl modules/cdemenu-desktop
+
+AC_MSG_CHECKING(for Solaris platform)
+case $host in
+        *solaris*) build_cdemenu_module=yes ;;
+        *) build_cdemenu_module=no ;;
+esac
+AC_MSG_RESULT([$build_cdemenu_module])
+AM_CONDITIONAL(BUILD_CDEMENU_MODULE, test "$build_cdemenu_module" = "yes")
+
+dnl ******************************
+dnl Samba 3.0
+dnl ******************************
+
+AC_ARG_ENABLE(samba, [  --disable-samba       build without samba support])
+msg_samba="no"
+if test "x$enable_samba" != "xno"; then
+  AC_ARG_WITH(samba-includes, [  --with-samba-includes=PREFIX     Location of samba includes.],
+	      with_samba_includes="$withval", with_samba_includes="/usr/include")
+  have_samba_includes="no"
+  if test "x${with_samba_includes}" != "xno"; then
+	CPPFLAGS_save="$CPPFLAGS"
+
+	echo "before test, samba_includes: ${samba_includes}"
+
+	CPPFLAGS="$CPPFLAGS -I$with_samba_includes"
+	AC_CHECK_HEADER(libsmbclient.h, [ samba_includes="yes" ])
+	CPPFLAGS="$CPPFLAGS_save"
+	
+	if test "x{samba_includes}" != "xno" -a "x${samba_includes}" != "x"; then
+		have_samba_includes="yes"
+		if test "${with_samba_includes}" != "/usr/include" ; then
+			SAMBA_CFLAGS="-I$with_samba_includes"
+		else
+			SAMBA_CFLAGS=""
+		fi
+		
+		CPPFLAGS="$CPPFLAGS -I$with_samba_includes"
+		AC_CHECK_MEMBER(SMBCCTX.flags,
+				[AC_DEFINE(HAVE_SAMBA_FLAGS,, [Defined if flags availible in SMBCCTXT])],,
+				[#include <libsmbclient.h>])
+		AC_CHECK_MEMBER(SMBCCTX.close,
+				[AC_DEFINE(HAVE_SAMBA_OLD_CLOSE, , [Defined if old close is available in SMBCCTXT])],,
+				[#include <libsmbclient.h>])
+		CPPFLAGS="$CPPFLAGS_save"
+	else
+		SAMBA_CFLAGS=""
+	fi
+  fi
+  echo "have_samba_includes: ${have_samba_includes}"
+  AC_ARG_WITH(samba-libs, [  --with-samba-libs=PREFIX     	Location of Samba libs.],
+	      with_samba_libs="$withval", with_samba_libs="/usr/lib")
+  if test "x${with_samba_libs}" != "xno" -a "x${have_samba_includes}" != "xno"; then
+	LDFLAGS_save="$LDFLAGS"
+	
+	LDFLAGS="$LDFLAGS -L$with_samba_libs"
+	AC_CHECK_LIB(smbclient, smbc_new_context,samba_libs="yes", samba_libs="no")
+	LDFLAGS="$LDFLAGS_save"
+	if test "x${samba_libs}" != "xno"; then
+		AC_DEFINE(HAVE_SAMBA,, [Define to 1 if you have the samba 3.0 libraries])
+		msg_samba="yes"
+                if test x$with_samba_libs != x/usr/lib; then
+                        SAMBA_LIBS="-L$with_samba_libs -lsmbclient"
+                else
+                	SAMBA_LIBS="-lsmbclient"
+                fi
+	else
+		SAMBA_CFLAGS=""
+		SAMBA_LIBS=""
+	fi
+  fi
+  AC_MSG_CHECKING(for Samba 3.0 libraries)
+  AC_MSG_RESULT($msg_samba)
+fi
+AM_CONDITIONAL(HAVE_SAMBA, test $msg_samba = yes)
+AC_SUBST(SAMBA_CFLAGS)
+AC_SUBST(SAMBA_LIBS)
+
+dnl ***************************************************************************
+dnl SSL support
+dnl ***************************************************************************
+have_ssl=false
+
+dnl ******************************
+dnl OpenSSL
+dnl ******************************
+
+AC_ARG_ENABLE(openssl, [  --disable-openssl       build without openssl support])
+if test "x$enable_openssl" != "xno"; then
+  PKG_CHECK_MODULES(OPENSSL, openssl, [have_ssl=true
+				       AC_DEFINE(HAVE_OPENSSL, 1, [Define to 1 if OpenSSL is available])
+	                               ],[
+  AC_ARG_WITH(openssl-includes, [  --with-openssl-includes=PREFIX     Location of OpenSSL includes.],
+	      with_openssl_includes="$withval", with_openssl_includes="/usr/include")
+  have_openssl_includes="no"
+  if test "x${with_openssl_includes}" != "xno"; then
+	CPPFLAGS_save="$CPPFLAGS"
+	
+	AC_MSG_CHECKING(for OpenSSL includes)
+	AC_MSG_RESULT("")
+	
+	CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
+	AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
+	CPPFLAGS="$CPPFLAGS_save"
+	
+	if test "x${openssl_includes}" != "xno" -a "x${openssl_includes}" != "x"; then
+		have_openssl_includes="yes"
+		if test "${with_openssl_includes}" != "/usr/include" ; then
+			OPENSSL_CFLAGS="-I$with_openssl_includes"
+		else
+			OPENSSL_CFLAGS=""
+		fi
+	else
+		OPENSSL_CFLAGS=""
+	fi
+  else
+	AC_MSG_CHECKING(for OpenSSL includes)
+	AC_MSG_RESULT(no)
+	have_ssl=false
+  fi
+
+  AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
+	      with_openssl_libs="$withval", with_openssl_libs="/usr/lib")
+  msg_openssl="no"
+  if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
+	LDFLAGS_save="$LDFLAGS"
+	
+	AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
+	[
+dnl How can we test to see if we need to link to libld for sure?? 
+dnl RedHat 6.2 seems to need to but Debian Woody doesn't
+		LDFLAGS="$LDFLAGS -L$with_openssl_libs -lssl -lcrypto -ldl"
+		AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
+		LDFLAGS="$LDFLAGS_save"
+	])
+	if test "x${openssl_libs}" != "xno"; then
+		AC_DEFINE(HAVE_OPENSSL, 1, [Define to 1 if OpenSSL is available])
+		msg_openssl="yes"
+                if test x$with_openssl_libs != x/usr/lib; then
+                        OPENSSL_LIBS="-L$with_openssl_libs -lssl -lcrypto"
+                else
+                	OPENSSL_LIBS="-lssl -lcrypto"
+                fi
+		have_ssl=true
+		AC_DEFINE(HAVE_OPENSSL, 1, [Define to 1 if OpenSSL is available])
+	else
+		OPENSSL_CFLAGS=""
+		OPENSSL_LIBS=""
+		have_ssl=false
+	fi
+  else
+	AC_MSG_CHECKING(for OpenSSL libraries)
+	AC_MSG_RESULT(no)
+  fi
+  ])
+  dnl end of PKG_CHECK_MODULES(openssl)
+fi
+
+dnl ****************************
+dnl GNUTLS
+dnl ****************************
+
+AC_ARG_ENABLE(gnutls, [  --enable-gnutls         build with gnutls support])
+if test "x$enable_gnutls" = "xyes"; then
+  if test "x${OPENSSL_LIBS}" != "x"; then
+    AC_MSG_ERROR([*** Can't use both openssl and gnutls at the same time. Please pick one only. ***])
+  else
+    AC_CHECK_HEADER(gcrypt.h,, AC_MSG_ERROR([*** Need gcrypt.h to compile with GnuTLS support ***]))
+    AM_PATH_LIBGNUTLS(1.0.0, [AC_DEFINE(HAVE_GNUTLS, 1, [Define to 1 if GnuTLS is available])
+			      have_ssl=true])
+
+    if test "x${LIBGNUTLS_LIBS}" = "x"; then
+      AM_PATH_LIBGNUTLS(0.5.1, [AC_DEFINE(HAVE_GNUTLS, 1, [Define to 1 if GnuTLS is available])
+                                 AC_DEFINE(GNUTLS_COMPAT, 1, [FIXME])
+				 have_ssl=true],
+                                 AC_MSG_ERROR([Unable to find GNUTLS]))
+    fi
+  fi
+fi
+
+if test x$have_ssl = xtrue; then
+	msg_ssl="yes"
+else
+	msg_ssl="no"
+fi
+
+AM_CONDITIONAL(HAVE_SSL, test x$have_ssl = xtrue)
+
+dnl ****************************
+dnl DNS-SD implementations
+dnl ****************************
+AM_CONDITIONAL(HAVE_AVAHI, false)
+AM_CONDITIONAL(HAVE_HOWL, false)
+			  
+AC_ARG_ENABLE(avahi, [  --disable-avahi     build without avahi support])
+msg_avahi=no
+if test "x$enable_avahi" != "xno"; then
+	PKG_CHECK_MODULES(AVAHI, avahi-glib >= 0.6 avahi-client >= 0.6,
+		  	[AM_CONDITIONAL(HAVE_AVAHI, true)
+		   	AC_DEFINE(HAVE_AVAHI, [], [Set if we can use avahi])]
+                        msg_avahi=yes,
+	          	[AM_CONDITIONAL(HAVE_AVAHI, false)])
+	AC_SUBST(AVAHI_CFLAGS)
+	AC_SUBST(AVAHI_LIBS)
+fi
+			  
+AC_ARG_ENABLE(howl, [  --disable-howl     build without howl support])
+msg_howl=no
+if test "x$msg_avahi" = "xno" -a "x$enable_howl" != "xno"; then
+	PKG_CHECK_MODULES(HOWL, howl >= 0.9.6,
+		  	[AM_CONDITIONAL(HAVE_HOWL, true)
+		   	AC_DEFINE(HAVE_HOWL, [], [Set if we can use howl])]
+                        msg_howl=yes,
+	          	[AM_CONDITIONAL(HAVE_HOWL, false)])
+	AC_SUBST(HOWL_CFLAGS)
+	AC_SUBST(HOWL_LIBS)
+fi
+
+dnl ****************************
+dnl Enable the daemon?
+dnl ****************************
+
+msg_daemon=no
+AC_ARG_ENABLE(daemon,
+AC_HELP_STRING([--enable-daemon],[enable mate-vfs-daemon]),
+[case $enableval in
+yes) if test "$os_win32" = "yes"; then
+	AC_MSG_ERROR([can't enable mate-vfs-daemon on Win32])
+     fi
+     ENABLE_DAEMON=yes ;;
+no)  ENABLE_DAEMON=no ;;
+*) AC_MSG_ERROR(bad value $enableval for --enable-daemon) ;;
+esac],
+[ENABLE_DAEMON=$enable_daemon_default]) dnl Default value
+
+if test "$ENABLE_DAEMON" = "yes"; then
+	AC_DEFINE(USE_DAEMON, 1, [defined if we have mate-vfs-daemon])
+	msg_daemon=yes
+fi
+
+AM_CONDITIONAL(USE_DAEMON, test "$ENABLE_DAEMON" = "yes")
+
+dnl ****************************
+dnl HAL stuff
+dnl ****************************
+msg_hal=no
+AC_ARG_ENABLE(hal,
+AC_HELP_STRING([--enable-hal],[use hal, if available]),
+[case $enableval in
+yes) ENABLE_HAL=yes ;;
+no)  ENABLE_HAL=no ;;
+*) AC_MSG_ERROR(bad value $enableval for --enable-hal) ;;
+esac],
+[ENABLE_HAL=yes]) dnl Default value
+
+if test "$ENABLE_HAL" = "yes"; then
+	PKG_CHECK_MODULES(HAL, hal >= 0.5.7,
+		[ USE_HAL="hal >= 0.5.7, hal-storage >= 0.5.7, dbus-1 >= 0.32, dbus-glib-1 >= 0.32"
+		  AC_DEFINE(USE_HAL, 1, [defined if using libhal])
+		  msg_hal=yes],
+		[ USE_HAL=""])
+else
+	USE_HAL=""
+fi
+
+if test "$USE_HAL" != ""; then
+  AC_ARG_WITH(hal-mount,  [  --with-hal-mount=PROGRAM     Program for mounting filesystems known to HAL (not used if mate-mount is installed)],
+	      with_hal_mount="$withval", with_hal_mount="none")
+  if test "x$with_hal_mount" != "xnone"; then
+    AC_DEFINE_UNQUOTED(HAL_MOUNT, "$with_hal_mount", [Path to program for mounting filesystems known to HAL (not used if mate-mount is installed)])
+  fi
+  AC_ARG_WITH(hal-umount, [  --with-hal-umount=PROGRAM    Program for unmounting filesystems known to HAL (not used if mate-mount is installed)],
+	      with_hal_umount="$withval", with_hal_umount="none")
+  if test "x$with_hal_umount" != "xnone"; then
+    AC_DEFINE_UNQUOTED(HAL_UMOUNT, "$with_hal_umount", [Path to program for unmounting filesystems known to HAL (not used if mate-mount is installed)])
+  fi
+  AC_ARG_WITH(hal-eject,  [  --with-hal-eject=PROGRAM     Program for ejecting filesystems known to HAL (not used if mate-mount is installed)],
+	      with_hal_eject="$withval", with_hal_eject="none")
+  if test "x$with_hal_eject" != "xnone"; then
+    AC_DEFINE_UNQUOTED(HAL_EJECT, "$with_hal_eject", [Path to program for ejecting filesystems known to HAL (not used if mate-mount is installed)])
+  fi
+fi
+
+
+dnl ==============================================================================
+dnl Check for a supported resolver functions
+dnl ==============================================================================
+dnl This is just a mix of the old code and new one taken from the gnet library and
+dnl evolution. 
+
+need_lib_resolve=no
+dnl need libresolv for dns-sd stuff			 
+AC_MSG_CHECKING(for res_search)
+AC_TRY_LINK_FUNC(res_search, AC_MSG_RESULT(yes),
+	[ AC_MSG_RESULT(no)
+	saved_LIBS="$LIBS"
+	LIBS="$LIBS -lresolv"
+	AC_MSG_CHECKING(for res_search in -lresolv)
+	AC_LINK_IFELSE([[
+		#include <resolv.h>
+		int main()
+		{
+			res_search (0, 0, 0, 0, 0);
+			return 0;
+		}
+	]],[ 
+	  RESOLVER_LIBS="-lresolv"
+	  need_lib_resolve=yes
+	  AC_MSG_RESULT(yes)
+	],[ 
+	  AC_MSG_RESULT(no)
+	])
+	  LIBS="$saved_LIBS" 
+])
+
+
+dnl check for res_ninit (thread-safe version of res_init)
+dnl this detection code comes from Mozilla
+AC_CACHE_CHECK([for res_ninit()], have_res_ninit,
+	[AC_TRY_LINK([
+        	  #ifdef linux
+        	  #define _BSD_SOURCE 1
+        	  #endif
+        	  #include <resolv.h>
+        ], [
+		int foo = res_ninit (&_res);
+	], [
+		have_res_ninit=yes
+	], [
+		have_res_ninit=no
+	])
+])
+
+if test "x$have_res_ninit" = "xyes"; then
+    AC_DEFINE([HAVE_RES_NINIT], 1, [Indicates if res_ninit is available])
+else
+    AC_CHECK_LIB(bind, res_ninit, 
+    	[AC_DEFINE(HAVE_RES_NINIT, 1, [Indicates if res_ninit is available])
+	 RESOLVER_LIBS="-lbind",
+    	 AC_CHECK_LIB(resolv, res_ninit, 
+		[AC_DEFINE(HAVE_RES_NINIT, 1, [Indicates if res_ninit is available])
+		 if test "x$need_lib_resolv" = "xno"; then
+			RESOLVER_LIBS="-lresolv"
+		 fi
+		])
+	])
+fi
+
+
+have_getaddrinfo=no
+have_resolver=no
+AC_CHECK_FUNC(getaddrinfo, have_getaddrinfo=yes; have_resolver=yes)
+if test "x$have_getaddrinfo" != "xyes"; then
+
+    # getaddrinfo is not in the default libraries.  See if it's in some other.
+    for lib in bsd socket inet; do
+        AC_CHECK_LIB($lib, getaddrinfo, [
+					  LIBS="$LIBS -l$lib"
+					  have_getaddrinfo=yes
+					  have_resolver=yes
+					  break
+	   ])
+    done
+fi
+
+if test "x$have_getaddrinfo" = "xyes"; then
+	AC_DEFINE(USE_GETADDRINFO, 1, [Define to 1 if getaddrinfo is used for name resolution])
+	AC_DEFINE(HAVE_GETADDRINFO, 1, [Define to 1 getaddrinfo is present on this system])
+	AC_TRY_COMPILE([
+		#include "confdefs.h"
+		#include <sys/types.h>
+		#include <sys/socket.h>
+		#include <netinet/in.h>
+		#include <netdb.h>
+
+	],[
+		struct addrinfo hints;
+		
+		hints.ai_flags = AI_ADDRCONFIG;
+	],[
+		AC_DEFINE(HAVE_AI_ADDRCONFIG, 1,
+				[Define if the system defines the AI_ADDRCONFIG flag for getaddrinfo])
+	])
+fi
+
+if test "x$have_resolver" = "xno"; then
+dnl looks like we dont have getaddrinfo try gethostbyname_r
+AC_CHECK_FUNC(gethostbyname_r, [
+	   dnl  First check for the glibc variant of gethostbyname_r
+	   
+	   AC_MSG_CHECKING(for glibc gethostbyname_r)
+	   AC_TRY_LINK([
+			 #include <netdb.h>
+	   ], [
+			 struct hostent result_buf;
+			 char buf[1024];
+			 struct hostent* result;
+			 int h_errnop;
+
+			 gethostbyname_r ("localhost",
+						   &result_buf,
+						   buf,
+						   sizeof(buf),
+						   &result,
+						   &h_errnop);
+	   ], [
+
+			 dnl Have glibc gethostbyname_r
+
+			 AC_MSG_RESULT(yes)
+			 AC_DEFINE(HAVE_GETHOSTBYNAME_R_GLIBC, 1,
+				[Define if you have a glibc-style gethostbyname_r()])
+			 AC_DEFINE(USE_GETHOSTBYNAME_R, 1,
+			     [Define to 1 if gethostbyname_r is used for name resolution])
+			 have_resolver=yes
+
+	   ], [
+			 AC_MSG_RESULT(no)
+        				
+
+	   dnl  If we don't have glibc gethostbyname_r, check
+	   dnl  for Solaris/Irix gethostbyname_r
+
+
+	   AC_MSG_CHECKING(for Solaris/Irix gethostbyname_r)
+	   AC_TRY_LINK([
+			 #include <netdb.h>
+	   ], [
+			 struct hostent result;
+			 char buf[1024];
+			 int h_errnop;
+
+			 gethostbyname_r ("localhost",
+						    &result,
+						    buf,
+						    sizeof(buf),
+						    &h_errnop);
+
+	   ], [
+
+			 dnl Have Solaris/Irix gethostbyname_r
+
+			 AC_MSG_RESULT(yes)
+			 AC_DEFINE(HAVE_GETHOSTBYNAME_R_SOLARIS, 1,
+					 [Define if you have a Solaris-style gethostbyname_r()])
+			 AC_DEFINE(USE_GETHOSTBYNAME_R, 1,
+			     [Define to 1 if gethostbyname_r is used for name resolution])
+		      have_resolver=yes
+
+	  ], [
+
+	           AC_MSG_RESULT(no)
+	  
+	   dnl  If don't have Solaris/Irix gethostbyname_r, check
+	   dnl  for HP-UX gethostbyname_r
+
+	   AC_MSG_CHECKING(for HP-UX gethostbyname_r)
+
+	   AC_TRY_LINK([
+			 #include <netdb.h>
+	   ], [
+			 struct hostent result;
+
+			 char buf[1024];
+			 gethostbyname_r ("localhost",
+						   &result,
+						   buf);
+	   ], [
+        
+			 dnl Have HP-UX gethostbyname_r
+
+			 AC_MSG_RESULT(yes)
+			 AC_DEFINE(HAVE_GETHOSTBYNAME_R_HPUX, 1,
+					 [Define if you have an HP-UX-style gethostbyname_r()])
+			 AC_DEFINE(USE_GETHOSTBYNAME_R, 1,
+			     [Define to 1 if gethostbyname_r is used for name resolution])
+			 have_resolver=yes
+			 
+	   ], [
+			 AC_MSG_RESULT(no)
+	   ] #hpux
+     )] #solaris
+  )] #glibc
+)]) #check func
+    
+fi
+
+if test x$have_resolver = "xno" ; then
+   have_gethostbyname=no
+
+   AC_CHECK_FUNC(gethostbyname, have_gethostbyname=yes)
+
+   if test $have_gethostbyname = no; then
+	 # gethostbyname is not in the default libraries.  See if it's in some other.
+	 for lib in bsd socket inet; do
+		AC_CHECK_LIB($lib, gethostbyname, [
+					    LIBS="$LIBS -l$lib"
+					    have_gethostbyname=yes
+					    have_resolver=yes
+
+					    AC_DEFINE(USE_GETHOSTBYNAME, 1,
+							 [Define if gethostbyname is used for name resolution])
+					    break
+		])
+      done
+   fi
+fi
+    
+dnl ==============================================================================
+dnl End of resolver functions check
+dnl ==============================================================================
+
+dnl ====================================================================
+dnl Code for checking whether IPv6 is enabled on the system....
+dnl ====================================================================
+AC_MSG_CHECKING([whether to enable ipv6])
+AC_ARG_ENABLE(ipv6, [ --enable-ipv6 enable IPv6 extensions], ,enable_ipv6=yes)
+if test $enable_ipv6 = yes; then
+  save_libs=$LIBS
+
+
+  AC_TRY_COMPILE([ 
+		#ifdef _WIN32
+		#include <winsock2.h>
+		#include <ws2tcpip.h>
+		#else
+		#include <sys/types.h>
+		#include <sys/socket.h>
+		#endif
+    ], [
+	     socket(AF_INET6, SOCK_STREAM, 0)
+    ], [
+          have_ipv6=yes
+		AC_DEFINE(ENABLE_IPV6, [], [Define to enable IPv6 support])
+    ], have_ipv6=no
+  )
+  
+  AC_MSG_RESULT($have_ipv6)
+
+fi
+dnl ==============================================================================
+dnl End of IPv6 checks
+dnl ==============================================================================
+
+PKG_CHECK_MODULES(LIBMATEVFS, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED mateconf-2.0 >= $MATECONF_REQUIRED libxml-2.0 >= $XML_REQUIRED mate-mime-data-2.0 $dbus_requirement)
+LIBMATEVFS_CFLAGS="$LIBMATEVFS_CFLAGS $OPENSSL_CFLAGS $LIBGNUTLS_CFLAGS $HOWL_CFLAGS $AVAHI_CFLAGS"
+LIBMATEVFS_LIBS="$LIBMATEVFS_LIBS $OPENSSL_LIBS $LIBGNUTLS_LIBS $HOWL_LIBS $AVAHI_LIBS $RESOLVER_LIBS"
+AC_SUBST(LIBMATEVFS_CFLAGS)
+AC_SUBST(LIBMATEVFS_LIBS)
+
+PKG_CHECK_MODULES(LIBMATEVFSDAEMON, glib-2.0 $USE_HAL)
+AC_SUBST(LIBMATEVFSDAEMON_CFLAGS)
+AC_SUBST(LIBMATEVFSDAEMON_LIBS)
+
+AC_ARG_WITH(dbus_service_dir, [  --with-dbus-service-dir=PATH choose directory for dbus service files, [default=PREFIX/share/dbus-1/services]], with_dbus_service_dir="$withval", with_dbus_service_dir=$datadir/dbus-1/services)
+DBUS_SERVICE_DIR=$with_dbus_service_dir
+AC_SUBST(DBUS_SERVICE_DIR)
+						       	
+dnl ****************************
+dnl *** Checks for pty stuff ***
+dnl ****************************
+
+AC_CHECK_HEADERS(sys/un.h stropts.h termios.h utmp.h)
+
+# Check for PTY handling functions.
+AC_CHECK_FUNCS(getpt posix_openpt grantpt unlockpt ptsname ptsname_r)
+
+# Pull in the right libraries for various functions which might not be
+# bundled into an exploded libc.
+AC_CHECK_FUNC(socketpair,[have_socketpair=1],AC_CHECK_LIB(socket,socketpair,[have_socketpair=1; LIBS="$LIBS -lsocket"]))
+if test x$have_socketpair = x1 ; then
+	AC_DEFINE(HAVE_SOCKETPAIR,1,[Define if you have the socketpair function.])
+fi
+
+dnl =====================
+dnl ACL checks
+dnl =====================
+acl_backends=""
+ACL_LIBS=""
+
+AC_CHECK_LIB(attr,getxattr,[ACL_LIBS="$ACL_LIBS -lattr"])
+AC_CHECK_LIB(acl,acl_get_file,[ACL_LIBS="$ACL_LIBS -lacl"])
+AC_CHECK_LIB(sec,acl,[ACL_LIBS="$ACL_LIBS -lsec"])
+
+AC_CACHE_CHECK([for Solaris ACL], gvfs_cv_HAVE_SOLARIS_ACLS,[
+		acl_LIBS=$LIBS
+		LIBS="$LIBS -lsec"
+		AC_TRY_LINK([#include <sys/types.h>
+#include <sys/acl.h>],
+[ return acl ("/", GETACL, 0, NULL);],
+gvfs_cv_HAVE_SOLARIS_ACLS=yes, gvfs_cv_HAVE_SOLARIS_ACLS=no)
+		LIBS=$acl_LIBS])
+
+AC_CACHE_CHECK([for POSIX ACL], gvfs_cv_HAVE_POSIX_ACLS,[
+		acl_LIBS=$LIBS
+		LIBS="$LIBS -lacl"
+		AC_TRY_LINK([#include <sys/types.h>
+#include <sys/acl.h>],
+[ acl_t acl; int entry_id; acl_entry_t *entry_p; return acl_get_entry (acl, entry_id, entry_p);],
+gvfs_cv_HAVE_POSIX_ACLS=yes, gvfs_cv_HAVE_POSIX_ACLS=no)
+		LIBS=$acl_LIBS])
+
+if test x"$gvfs_cv_HAVE_SOLARIS_ACLS" = x"yes" ; then
+    have_solaris_acl_support=yes
+    acl_backends="solaris"
+
+    AC_DEFINE(HAVE_SOLARIS_ACL,1,[Have Solaris ACLs])
+    AC_CHECK_HEADERS([pwd.h grp.h])
+fi
+
+if test x"$gvfs_cv_HAVE_POSIX_ACLS" = x"yes" ; then
+    have_posix_acl_support=yes
+    acl_backends="posix"
+
+    AC_DEFINE(HAVE_POSIX_ACL,1,[Have POSIX ACLs])
+    AC_CHECK_FUNCS(acl_extended_file)
+    
+    AC_CHECK_HEADERS([pwd.h])
+    if test "$ac_cv_header_pwd_h" = "yes"; then
+	 	AC_CACHE_CHECK([for posix getpwuid_r],
+			ac_cv_func_posix_getpwuid_r,
+			[AC_TRY_RUN([
+#include <errno.h>
+#include <pwd.h>
+int main () { 
+    char buffer[10000];
+    struct passwd pwd, *pwptr = &pwd;
+    int error;
+    errno = 0;
+    error = getpwuid_r (0, &pwd, buffer, 
+                        sizeof (buffer), &pwptr);
+   return (error < 0 && errno == ENOSYS) 
+	   || error == ENOSYS; 
+}                               ],
+				[ac_cv_func_posix_getpwuid_r=yes],
+				[ac_cv_func_posix_getpwuid_r=no])])
+		dnl GLIB_ASSERT_SET(ac_cv_func_posix_getpwuid_r)
+		if test "$ac_cv_func_posix_getpwuid_r" = yes; then
+			AC_DEFINE(HAVE_POSIX_GETPWUID_R,1,
+				[Have POSIX function getpwuid_r])
+		else
+	 		AC_CACHE_CHECK([for nonposix getpwuid_r],
+				ac_cv_func_nonposix_getpwuid_r,
+				[AC_TRY_LINK([#include <pwd.h>],
+                                	[char buffer[10000];
+                                	struct passwd pwd;
+                                	getpwuid_r (0, &pwd, buffer, 
+                                        		sizeof (buffer));],
+					[ac_cv_func_nonposix_getpwuid_r=yes],
+					[ac_cv_func_nonposix_getpwuid_r=no])])
+			dnl GLIB_ASSERT_SET(ac_cv_func_nonposix_getpwuid_r)
+			if test "$ac_cv_func_nonposix_getpwuid_r" = yes; then
+				AC_DEFINE(HAVE_NONPOSIX_GETPWUID_R,1,
+					[Have non-POSIX function getpwuid_r])
+			fi
+		fi
+	fi 
+
+	AC_CHECK_HEADERS([grp.h])
+
+	AC_CHECK_FUNCS(getgrgid_r)
+	AC_CHECK_FUNCS(getgrnam_r)
+	AC_CHECK_FUNCS(getpwnam_r)
+	
+fi
+
+AC_SUBST(ACL_LIBS)
+AM_CONDITIONAL(HAVE_POSIX_ACL, test x"$have_posix_acl_support" = x"yes")
+AM_CONDITIONAL(HAVE_SOLARIS_ACL, test x"$have_solaris_acl_support" = x"yes")
+
+dnl =====================
+dnl File system monitors
+dnl =====================
+fs_monitor_backends=""
+
+dnl **********************
+dnl *** inotify***
+dnl **********************
+
+inotify_support=no
+AC_CHECK_HEADERS([sys/inotify.h],
+		 [
+		 inotify_support=yes
+		 ])
+
+AM_CONDITIONAL(HAVE_INOTIFY, [test "$inotify_support" = "yes"]) 
+
+if test "$inotify_support" = "yes"; then
+  fs_monitor_backends="inotify "
+fi
+
+dnl **********************
+dnl *** Checks for FAM ***
+dnl **********************
+
+should_disable_fam=no
+
+AC_ARG_ENABLE(fam, [  --disable-fam          build without enabling fam for file system monitoring],
+			 [
+				if test "x$enable_fam" = "xno"; then
+					should_disable_fam=yes
+					echo "Not building FAM support"
+				fi
+			 ]
+			 )
+FAM_MISSING_WARNING="Mate-vfs depends on FAM to provide notification when files are altered (either through filesystem polling, or a kernel notification mechanism). If Mate-vfs is built without FAM support, directories viewed with Caja or other applications will not remain in synch with the actual filesystem when they are altered by external processes. Particularly if you are a distributor please compile Caja with FAM support. FAM is available from http://oss.sgi.com/projects/fam/. A patch to add Linux Kernel 2.4 directory notify support to FAM (highly desirable) is available from http://people.redhat.com/alexl/files/"
+FAM_LIBS=
+if test "x$should_disable_fam" = "xno"; then
+AC_CHECK_LIB(fam, FAMOpen,
+  [AC_CHECK_HEADERS(fam.h,
+    [AC_DEFINE(HAVE_FAM, [], [Define if we have FAM])
+     FAM_LIBS="-lfam"]
+     fs_monitor_backends="${fs_monitor_backends}fam",
+    AC_MSG_WARN(*** FAM support will not be built (header files not found) $FAM_MISSING_WARNING ***))],
+  AC_MSG_WARN(*** FAM support will not be built (FAM library not found) $FAM_MISSING_WARNING ***))
+AC_SUBST(FAM_LIBS)
+fi
+
+dnl ****************************
+dnl *** Check for libselinux ***
+dnl ****************************
+AC_ARG_ENABLE(selinux, [  --disable-selinux       build without selinux support])
+msg_selinux=no
+SELINUX_LIBS=
+if test "x$enable_selinux" != "xno"; then
+
+ AC_CHECK_LIB(selinux, is_selinux_enabled,
+   [AC_CHECK_HEADERS(selinux/selinux.h,
+     [AC_SEARCH_LIBS(lgetfilecon_raw, selinux, 
+       [AC_DEFINE(HAVE_SELINUX, 1, [Define to 1 if libselinux is available])
+        SELINUX_LIBS="-lselinux"
+        msg_selinux=yes])
+     ])
+   ])
+fi
+AC_SUBST(SELINUX_LIBS)
+
+dnl **************************
+dnl *** Checks for gtk-doc ***
+dnl **************************
+
+GTK_DOC_CHECK([1.0])
+
+dnl ******************************
+dnl *** End checks for gtk-doc ***
+dnl ******************************
+
+
+dnl borrowed from gnu findutils
+dnl and relicensed as LGPL by the FSF
+
+AC_ARG_WITH(afs,
+[  --with-afs              support -fstype afs],
+[  AC_DEFINE(AFS, [], [Define if you have the Andrew File System])
+  CPPFLAGS="$CPPFLAGS -I/usr/afsws/include"
+  LIBS="$LIBS -L/usr/afsws/lib -L/usr/afsws/lib/afs -lsys -lrx -llwp"])
+
+AC_MSG_CHECKING(how to get filesystem type)
+fstype=no
+# The order of these tests is important.
+AC_TRY_CPP([#include <sys/statvfs.h>
+#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_STATVFS, [],
+							[Define to use SVR4 statvfs to get filesystem type]) fstype=SVR4)
+if test $fstype = no; then
+AC_TRY_CPP([#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+#include <sys/statfs.h>
+#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_USG_STATFS, [],
+							[Define to use SVR3.2 statfs to get filesystem type]) fstype=SVR3)
+fi
+if test $fstype = no; then
+AC_TRY_CPP([#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+#include <sys/statfs.h>
+#include <sys/vmount.h>], AC_DEFINE(FSTYPE_AIX_STATFS, [],
+							 [Define to use AIX3 statfs to get filesystem type]) fstype=AIX)
+fi
+if test $fstype = no; then  
+AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT, [],
+						    [Define to use 4.3BSD getmntent to get filesystem typ]) fstype=4.3BSD)
+fi
+if test $fstype = no; then  
+AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS, [],
+							   [Define to use 4.4BSD and OSF1 statfs to get filesystem typ]) fstype=4.4BSD/OSF1)
+fi
+if test $fstype = no; then  
+AC_TRY_CPP([#include <sys/mount.h>
+#include <sys/fs_types.h>], AC_DEFINE(FSTYPE_GETMNT, [],
+							   [Define to use Ultrix getmnt to get filesystem typ]) fstype=Ultrix)
+fi
+AC_MSG_RESULT($fstype)
+
+dnl Final touch
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+dnl This is needed by `test/vfs-run.in'
+TOP_BUILDDIR="`pwd`"
+AC_SUBST(TOP_BUILDDIR)
+    
+
+dnl Disable rebuild of glib-mkenum -generated source code:
+AC_ARG_ENABLE(rebuilds, [  --disable-rebuilds      disable all source autogeneration rules],,enable_rebuilds=yes)
+
+# define a MAINT-like variable REBUILD which is set if Perl
+# is found, so autogenerated sources can be rebuilt
+AC_CHECK_PROGS(PERL, perl5 perl)
+
+AC_PATH_PROG(SSH_PROGRAM, ssh, "ssh")
+
+REBUILD=\#
+if test "x$enable_rebuilds" = "xyes" && \
+     test -n "$PERL" && \
+     $PERL -e 'exit !($] >= 5.002)' > /dev/null 2>&1 ; then
+  REBUILD=
+fi
+AC_SUBST(REBUILD)
+
+
+AC_OUTPUT([
+Makefile
+mate-vfs.spec
+mate-vfs-zip
+libmatevfs/mate-vfs-file-size.h
+libmatevfs/mate-vfs-version.h
+libmatevfs/Makefile
+imported/Makefile
+imported/fnmatch/Makefile
+imported/neon/Makefile
+modules/Makefile
+daemon/Makefile
+schemas/Makefile
+devel-docs/Makefile
+devel-docs/mate-vfs-tutorial/Makefile
+po/Makefile.in
+programs/Makefile
+test/Makefile
+test/vfs-run
+doc/Makefile
+doc/version.xml
+mate-vfs-2.0.pc
+mate-vfs-module-2.0.pc
+])
+
+chmod u+x test/vfs-run
+
+dnl <= Configuration summary =>
+profiler_enabled=no
+test "$ENABLE_PROFILER" = 1 && profiler_enabled=yes
+echo 
+echo "Mate VFS configuration summary:"
+echo "
+	IPv6 support:                $have_ipv6
+	SSL support:                 $msg_ssl
+      	Avahi support:		     $msg_avahi
+      	Howl support:		     $msg_howl
+	HAL  support:                $msg_hal
+	Enable mate-vfs-daemon:     $msg_daemon
+	SELinux  support:            $msg_selinux
+	File ACL backends:           $acl_backends
+	Gtk Doc:                     $enable_gtk_doc
+	FS monitor backends:         $fs_monitor_backends
+	Samba method:		     $msg_samba
+	CDDA method:		     $have_cdda
+	Enable profiler:             $profiler_enabled
+"

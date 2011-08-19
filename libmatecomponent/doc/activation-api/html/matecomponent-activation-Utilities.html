@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Utilities</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="up" href="api-reference.html" title="API Reference">
+<link rel="prev" href="matecomponent-activation-Query-and-Activation.html" title="Query and Activation">
+<link rel="next" href="matecomponent-activation-Registration.html" title="Registration">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="matecomponent-activation-Query-and-Activation.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="api-reference.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateComponent Activation API Reference Manual</th>
+<td><a accesskey="n" href="matecomponent-activation-Registration.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#matecomponent-activation-Utilities.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#matecomponent-activation-Utilities.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="matecomponent-activation-Utilities"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="matecomponent-activation-Utilities.top_of_page"></a>Utilities</span></h2>
+<p>Utilities — Random misc utilities to manipulate MateComponent_ServerInfo structures.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="matecomponent-activation-Utilities.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;matecomponent-activation/matecomponent-activation.h&gt;
+
+enum                <a class="link" href="matecomponent-activation-Utilities.html#MateComponent-ActivationPropertyType" title="enum MateComponent_ActivationPropertyType">MateComponent_ActivationPropertyType</a>;
+<span class="returnvalue">MateComponent_ActivationProperty</span> * <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-server-info-prop-find" title="matecomponent_server_info_prop_find ()">matecomponent_server_info_prop_find</a>
+                                                        (<em class="parameter"><code><span class="type">MateComponent_ServerInfo</span> *server</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *prop_name</code></em>);
+<a class="link" href="matecomponent-activation-Query-and-Activation.html#MateComponent-ActivationID" title="MateComponent_ActivationID"><span class="returnvalue">MateComponent_ActivationID</span></a>  <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-info-stringify" title="matecomponent_activation_info_stringify ()">matecomponent_activation_info_stringify</a>   (<em class="parameter"><code>const <span class="type">MateComponentActivationInfo</span> *actinfo</code></em>);
+<span class="returnvalue">MateComponentActivationInfo</span> * <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-servinfo-to-actinfo" title="matecomponent_activation_servinfo_to_actinfo ()">matecomponent_activation_servinfo_to_actinfo</a>
+                                                        (<em class="parameter"><code>const <span class="type">MateComponent_ServerInfo</span> *servinfo</code></em>);
+<span class="returnvalue">MateComponentActivationInfo</span> * <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-id-parse" title="matecomponent_activation_id_parse ()">matecomponent_activation_id_parse</a>       (<em class="parameter"><code>const <span class="type">CORBA_char</span> *actid</code></em>);
+<span class="returnvalue">MateComponentActivationInfo</span> * <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-info-new" title="matecomponent_activation_info_new ()">matecomponent_activation_info_new</a>       (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-info-free" title="matecomponent_activation_info_free ()">matecomponent_activation_info_free</a>         (<em class="parameter"><code><span class="type">MateComponentActivationInfo</span> *actinfo</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-server-info-prop-lookup" title="matecomponent_server_info_prop_lookup ()">matecomponent_server_info_prop_lookup</a>      (<em class="parameter"><code><span class="type">MateComponent_ServerInfo</span> *server</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *prop_name</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *i18n_languages</code></em>);
+typedef             <a class="link" href="matecomponent-activation-Utilities.html#MateComponent-ServerInfoList" title="MateComponent_ServerInfoList">MateComponent_ServerInfoList</a>;
+<span class="returnvalue">MateComponent_ServerInfo</span> * <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-get-default-component-for-mime-type" title="matecomponent_activation_get_default_component_for_mime_type ()">matecomponent_activation_get_default_component_for_mime_type</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="matecomponent-activation-Utilities.html#matecomponent-activation-get-all-components-for-mime-type" title="matecomponent_activation_get_all_components_for_mime_type ()">matecomponent_activation_get_all_components_for_mime_type</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="matecomponent-activation-Utilities.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="matecomponent-activation-Utilities.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateComponent-ActivationPropertyType"></a><h3>enum MateComponent_ActivationPropertyType</h3>
+<pre class="programlisting">typedef enum {
+  MateComponent_ACTIVATION_P_STRING,
+  MateComponent_ACTIVATION_P_NUMBER,
+  MateComponent_ACTIVATION_P_BOOLEAN,
+  MateComponent_ACTIVATION_P_STRINGV
+} MateComponent_ActivationPropertyType;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-server-info-prop-find"></a><h3>matecomponent_server_info_prop_find ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_ActivationProperty</span> * matecomponent_server_info_prop_find
+                                                        (<em class="parameter"><code><span class="type">MateComponent_ServerInfo</span> *server</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *prop_name</code></em>);</pre>
+<p>
+Tries to find a server with the given property. Returns
+NULL if not found.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>server</code></em> :</span></p></td>
+<td>the server where to seek the data.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>prop_name</code></em> :</span></p></td>
+<td>the data to seek in the server.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the <code class="literal">MateComponent_ActivationProperty</code> structure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-info-stringify"></a><h3>matecomponent_activation_info_stringify ()</h3>
+<pre class="programlisting"><a class="link" href="matecomponent-activation-Query-and-Activation.html#MateComponent-ActivationID" title="MateComponent_ActivationID"><span class="returnvalue">MateComponent_ActivationID</span></a>  matecomponent_activation_info_stringify   (<em class="parameter"><code>const <span class="type">MateComponentActivationInfo</span> *actinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_activation_info_stringify</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Serializes <em class="parameter"><code>actinfo</code></em> into a char *. Should be freed with <a href="http://library.mate.org/devel/glib/unstable/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>actinfo</code></em> :</span></p></td>
+<td>the <code class="literal">MateComponentActivationInfo</code> to flatten.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the serialized version of <em class="parameter"><code>actinfo</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-servinfo-to-actinfo"></a><h3>matecomponent_activation_servinfo_to_actinfo ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponentActivationInfo</span> * matecomponent_activation_servinfo_to_actinfo
+                                                        (<em class="parameter"><code>const <span class="type">MateComponent_ServerInfo</span> *servinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_activation_servinfo_to_actinfo</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This function converts a <code class="literal">MateComponent_ServerInfo</code> structure to a
+<code class="literal">MateComponentActivationInfo</code> structure. The returned structure should
+be freed with matecomponent_activation_info_free.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>servinfo</code></em> :</span></p></td>
+<td>An array of <code class="literal">MateComponent_ServerInfo</code> structures.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated initialized <code class="literal">MateComponentActivationInfo</code> structure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-id-parse"></a><h3>matecomponent_activation_id_parse ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponentActivationInfo</span> * matecomponent_activation_id_parse       (<em class="parameter"><code>const <span class="type">CORBA_char</span> *actid</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_activation_id_parse</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Returns a pointer to a newly allocated <code class="literal">MateComponentActivationInfo</code>
+structure (to be freed with matecomponent_activation_info_free) initialized 
+with the data of <em class="parameter"><code>actid</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>actid</code></em> :</span></p></td>
+<td>the activation id structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <code class="literal">MateComponentActivationInfo</code> corresponding to <em class="parameter"><code>actid</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-info-new"></a><h3>matecomponent_activation_info_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponentActivationInfo</span> * matecomponent_activation_info_new       (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_activation_info_new</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This function allocates a <code class="literal">MateComponentActicationInfo</code> structure and returns it.
+Should NOT be called from outside of this code.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated non-initialized <code class="literal">MateComponentActicationInfo</code> structure.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-info-free"></a><h3>matecomponent_activation_info_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_activation_info_free         (<em class="parameter"><code><span class="type">MateComponentActivationInfo</span> *actinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">matecomponent_activation_info_free</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Frees <em class="parameter"><code>actinfo</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>actinfo</code></em> :</span></p></td>
+<td>the <code class="literal">MateComponentActivationInfo</code> structure to free.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-server-info-prop-lookup"></a><h3>matecomponent_server_info_prop_lookup ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        matecomponent_server_info_prop_lookup      (<em class="parameter"><code><span class="type">MateComponent_ServerInfo</span> *server</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *prop_name</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *i18n_languages</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> 
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponent-ServerInfoList"></a><h3>MateComponent_ServerInfoList</h3>
+<pre class="programlisting">typedef CORBA_sequence_MateComponent_ServerInfo MateComponent_ServerInfoList;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-get-default-component-for-mime-type"></a><h3>matecomponent_activation_get_default_component_for_mime_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_ServerInfo</span> * matecomponent_activation_get_default_component_for_mime_type
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Query the MIME database for the default MateComponent component to be activated to 
+view files of MIME type <em class="parameter"><code>mime_type</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a mime type, e.g. "image/png".
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">MateComponent_ServerInfo</span> * representing the OAF server to be activated
+to get a reference to the proper component.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.16.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-activation-get-all-components-for-mime-type"></a><h3>matecomponent_activation_get_all_components_for_mime_type ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             matecomponent_activation_get_all_components_for_mime_type
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+Return an alphabetically sorted list of <span class="type">MateComponent_ServerInfo</span>
+data structures representing all MateComponent components registered
+to handle files of <em class="parameter"><code>mime_type</code></em> (and supertypes).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>a const char * containing a mime type, e.g. "image/png".
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> * where the elements are <span class="type">MateComponent_ServerInfo</span> *
+representing components that can handle <em class="parameter"><code>mime_type</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.16.0</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

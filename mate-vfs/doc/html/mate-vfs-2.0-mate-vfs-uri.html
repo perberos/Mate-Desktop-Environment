@@ -1,0 +1,1381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateVFSURI</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="data-types.html" title="Basic Data Types">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-result.html" title="MateVFSResult">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-utils.html" title="mate-vfs-utils">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-result.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="data-types.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-utils.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-uri.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-uri.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-uri"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-uri.top_of_page"></a>MateVFSURI</span></h2>
+<p>MateVFSURI — A uniform resource identifier.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-uri.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">                    <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI">MateVFSURI</a>;
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSToplevelURI" title="MateVFSToplevelURI">MateVFSToplevelURI</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURIHideOptions" title="enum MateVFSURIHideOptions">MateVFSURIHideOptions</a>;
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-MAGIC-CHR:CAPS" title="MATE_VFS_URI_MAGIC_CHR">MATE_VFS_URI_MAGIC_CHR</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-MAGIC-STR:CAPS" title="MATE_VFS_URI_MAGIC_STR">MATE_VFS_URI_MAGIC_STR</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-CHR:CAPS" title="MATE_VFS_URI_PATH_CHR">MATE_VFS_URI_PATH_CHR</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-STR:CAPS" title="MATE_VFS_URI_PATH_STR">MATE_VFS_URI_PATH_STR</a>
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new" title="mate_vfs_uri_new ()">mate_vfs_uri_new</a>                   (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-resolve-relative" title="mate_vfs_uri_resolve_relative ()">mate_vfs_uri_resolve_relative</a>      (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *base</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *relative_reference</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-resolve-symbolic-link" title="mate_vfs_uri_resolve_symbolic_link ()">mate_vfs_uri_resolve_symbolic_link</a> (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *base</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *relative_reference</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-ref" title="mate_vfs_uri_ref ()">mate_vfs_uri_ref</a>                   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-unref" title="mate_vfs_uri_unref ()">mate_vfs_uri_unref</a>                 (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-string" title="mate_vfs_uri_append_string ()">mate_vfs_uri_append_string</a>         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri_fragment</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-path" title="mate_vfs_uri_append_path ()">mate_vfs_uri_append_path</a>           (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *path</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-file-name" title="mate_vfs_uri_append_file_name ()">mate_vfs_uri_append_file_name</a>      (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *filename</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-to-string" title="mate_vfs_uri_to_string ()">mate_vfs_uri_to_string</a>             (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURIHideOptions" title="enum MateVFSURIHideOptions"><span class="type">MateVFSURIHideOptions</span></a> hide_options</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-dup" title="mate_vfs_uri_dup ()">mate_vfs_uri_dup</a>                   (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-is-local" title="mate_vfs_uri_is_local ()">mate_vfs_uri_is_local</a>              (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-has-parent" title="mate_vfs_uri_has_parent ()">mate_vfs_uri_has_parent</a>            (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-parent" title="mate_vfs_uri_get_parent ()">mate_vfs_uri_get_parent</a>            (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSToplevelURI" title="MateVFSToplevelURI"><span class="returnvalue">MateVFSToplevelURI</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-toplevel" title="mate_vfs_uri_get_toplevel ()">mate_vfs_uri_get_toplevel</a>        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-host-name" title="mate_vfs_uri_get_host_name ()">mate_vfs_uri_get_host_name</a>         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-scheme" title="mate_vfs_uri_get_scheme ()">mate_vfs_uri_get_scheme</a>            (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">guint</span>               <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-host-port" title="mate_vfs_uri_get_host_port ()">mate_vfs_uri_get_host_port</a>         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-user-name" title="mate_vfs_uri_get_user_name ()">mate_vfs_uri_get_user_name</a>         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-password" title="mate_vfs_uri_get_password ()">mate_vfs_uri_get_password</a>          (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-host-name" title="mate_vfs_uri_set_host_name ()">mate_vfs_uri_set_host_name</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *host_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-host-port" title="mate_vfs_uri_set_host_port ()">mate_vfs_uri_set_host_port</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> host_port</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-user-name" title="mate_vfs_uri_set_user_name ()">mate_vfs_uri_set_user_name</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *user_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-password" title="mate_vfs_uri_set_password ()">mate_vfs_uri_set_password</a>          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *password</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-equal" title="mate_vfs_uri_equal ()">mate_vfs_uri_equal</a>                 (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *a</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *b</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-is-parent" title="mate_vfs_uri_is_parent ()">mate_vfs_uri_is_parent</a>             (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *possible_parent</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *possible_child</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> recursive</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-path" title="mate_vfs_uri_get_path ()">mate_vfs_uri_get_path</a>              (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-fragment-identifier" title="mate_vfs_uri_get_fragment_identifier ()">mate_vfs_uri_get_fragment_identifier</a>
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-dirname" title="mate_vfs_uri_extract_dirname ()">mate_vfs_uri_extract_dirname</a>       (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-short-name" title="mate_vfs_uri_extract_short_name ()">mate_vfs_uri_extract_short_name</a>    (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-short-path-name" title="mate_vfs_uri_extract_short_path_name ()">mate_vfs_uri_extract_short_path_name</a>
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);
+<span class="returnvalue">gint</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-hequal" title="mate_vfs_uri_hequal ()">mate_vfs_uri_hequal</a>                (<em class="parameter"><code><span class="type">gconstpointer</span> a</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> b</code></em>);
+<span class="returnvalue">guint</span>               <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-hash" title="mate_vfs_uri_hash ()">mate_vfs_uri_hash</a>                  (<em class="parameter"><code><span class="type">gconstpointer</span> p</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-parse" title="mate_vfs_uri_list_parse ()">mate_vfs_uri_list_parse</a>            (<em class="parameter"><code>const <span class="type">gchar</span> *uri_list</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-ref" title="mate_vfs_uri_list_ref ()">mate_vfs_uri_list_ref</a>              (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-unref" title="mate_vfs_uri_list_unref ()">mate_vfs_uri_list_unref</a>            (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-copy" title="mate_vfs_uri_list_copy ()">mate_vfs_uri_list_copy</a>             (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-free" title="mate_vfs_uri_list_free ()">mate_vfs_uri_list_free</a>             (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-make-full-from-relative" title="mate_vfs_uri_make_full_from_relative ()">mate_vfs_uri_make_full_from_relative</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *base_uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *relative_uri</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-uri.description"></a><h2>Description</h2>
+<p>
+  A <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> is a semi-textual representation
+  of a uniform resource identifier. It contains the
+  information about a resource location encoded
+  as canononicalized text, but also holds extra
+  information about the context in which the
+  URI is used.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-uri.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSURI"></a><h3>MateVFSURI</h3>
+<pre class="programlisting">typedef struct {
+	guint ref_count;
+
+	gchar *text;
+	gchar *fragment_id;
+
+	gchar *method_string;
+	struct MateVFSMethod *method;
+
+	struct MateVFSURI *parent;
+} MateVFSURI;
+</pre>
+<p>
+Holds information about the location of a particular resource.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSURI.ref-count"></a>ref_count</code></em>;</span></p></td>
+<td>Reference count. The URI is freed when it drops to zero.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSURI.text"></a>text</code></em>;</span></p></td>
+<td>A canonical representation of the path associated with this resource.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSURI.fragment-id"></a>fragment_id</code></em>;</span></p></td>
+<td>Extra data identifying this resource.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSURI.method-string"></a>method_string</code></em>;</span></p></td>
+<td>The <em class="parameter"><code>method</code></em>'s method associated with this resource.
+One <span class="type">MateVFSMethod</span> can be used for multiple method strings.
+</td>
+</tr>
+<tr>
+<td><p><span class="term">struct <span class="type">MateVFSMethod</span> *<em class="structfield"><code><a name="MateVFSURI.method"></a>method</code></em>;</span></p></td>
+<td>The <span class="type">MateVFSMethod</span> associated with this resource.
+</td>
+</tr>
+<tr>
+<td><p><span class="term">struct <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *<em class="structfield"><code><a name="MateVFSURI.parent"></a>parent</code></em>;</span></p></td>
+<td>Pointer to the parent element, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> for <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> that
+have no enclosing <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>. The process of encapsulating one
+URI in another one is called URI chaining.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSToplevelURI"></a><h3>MateVFSToplevelURI</h3>
+<pre class="programlisting">typedef struct {
+	MateVFSURI uri;
+
+	gchar *host_name;
+	guint host_port;
+
+	gchar *user_name;
+	gchar *password;
+
+	gchar *urn;
+} MateVFSToplevelURI;
+</pre>
+<p>
+This is the toplevel URI element used to access ressources stored on
+a remote server. Toplevel method implementations should cast the <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>
+argument to this type to get the additional host and authentication information.
+</p>
+<p>
+If any of the elements is 0 respectively <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>, it is unspecified.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> <em class="structfield"><code><a name="MateVFSToplevelURI.uri"></a>uri</code></em>;</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSToplevelURI.host-name"></a>host_name</code></em>;</span></p></td>
+<td>The name of the host used to access this resource, o <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSToplevelURI.host-port"></a>host_port</code></em>;</span></p></td>
+<td>The port used to access this resource, or <code class="literal">0</code>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSToplevelURI.user-name"></a>user_name</code></em>;</span></p></td>
+<td>Unescaped user name used to access this resource, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSToplevelURI.password"></a>password</code></em>;</span></p></td>
+<td>Unescaped password used to access this resource, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">gchar</span> *<em class="structfield"><code><a name="MateVFSToplevelURI.urn"></a>urn</code></em>;</span></p></td>
+<td>The parent URN, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if it doesn't exist.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSURIHideOptions"></a><h3>enum MateVFSURIHideOptions</h3>
+<pre class="programlisting">typedef enum
+{
+	MATE_VFS_URI_HIDE_NONE = 0,
+	MATE_VFS_URI_HIDE_USER_NAME = 1 &lt;&lt; 0,
+	MATE_VFS_URI_HIDE_PASSWORD = 1 &lt;&lt; 1,
+	MATE_VFS_URI_HIDE_HOST_NAME = 1 &lt;&lt; 2,
+	MATE_VFS_URI_HIDE_HOST_PORT = 1 &lt;&lt; 3,
+	MATE_VFS_URI_HIDE_TOPLEVEL_METHOD = 1 &lt;&lt; 4,
+	MATE_VFS_URI_HIDE_FRAGMENT_IDENTIFIER = 1 &lt;&lt; 8
+} MateVFSURIHideOptions; 
+</pre>
+<p>
+Packed boolean bitfield controlling hiding of various elements
+of a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> when it is converted to a string using
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-to-string" title="mate_vfs_uri_to_string ()"><code class="function">mate_vfs_uri_to_string()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-NONE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_NONE</code></span></p></td>
+<td>don't hide anything
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-USER-NAME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_USER_NAME</code></span></p></td>
+<td>hide the user name
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-PASSWORD:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_PASSWORD</code></span></p></td>
+<td>hide the password
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-HOST-NAME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_HOST_NAME</code></span></p></td>
+<td>hide the host name
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-HOST-PORT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_HOST_PORT</code></span></p></td>
+<td>hide the port
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-TOPLEVEL-METHOD:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_TOPLEVEL_METHOD</code></span></p></td>
+<td>hide the method (e.g. http, file)
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-URI-HIDE-FRAGMENT-IDENTIFIER:CAPS"></a><span class="term"><code class="literal">MATE_VFS_URI_HIDE_FRAGMENT_IDENTIFIER</code></span></p></td>
+<td>hide the fragment identifier
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-URI-MAGIC-CHR:CAPS"></a><h3>MATE_VFS_URI_MAGIC_CHR</h3>
+<pre class="programlisting">#define MATE_VFS_URI_MAGIC_CHR '#'
+</pre>
+<p>
+The character used to divide location from
+extra "arguments" passed to the method.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-URI-MAGIC-STR:CAPS"></a><h3>MATE_VFS_URI_MAGIC_STR</h3>
+<pre class="programlisting">#define MATE_VFS_URI_MAGIC_STR "#"
+</pre>
+<p>
+The character used to divide location from
+extra "arguments" passed to the method.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-URI-PATH-CHR:CAPS"></a><h3>MATE_VFS_URI_PATH_CHR</h3>
+<pre class="programlisting">#define MATE_VFS_URI_PATH_CHR '/'
+</pre>
+<p>
+Defines the path seperator character.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-URI-PATH-STR:CAPS"></a><h3>MATE_VFS_URI_PATH_STR</h3>
+<pre class="programlisting">#define MATE_VFS_URI_PATH_STR "/"
+</pre>
+<p>
+Defines the path seperator string.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-new"></a><h3>mate_vfs_uri_new ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_new                   (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>);</pre>
+<p>
+Create a new uri from <em class="parameter"><code>text_uri</code></em>. Unsupported and unsafe methods
+are not allowed and will result in <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> being returned. URL
+transforms are allowed.
+</p>
+<p>
+The <em class="parameter"><code>a</code></em> text_uri must be an escaped URI string such as returned by 
+<a class="link" href="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-get-uri-from-local-path" title="mate_vfs_get_uri_from_local_path ()"><code class="function">mate_vfs_get_uri_from_local_path()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-from-input" title="mate_vfs_make_uri_from_input ()"><code class="function">mate_vfs_make_uri_from_input()</code></a>, 
+or <code class="function">gtk_file_chooser_get_uri()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>an escaped string representing a uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The new uri.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-resolve-relative"></a><h3>mate_vfs_uri_resolve_relative ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_resolve_relative      (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *base</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *relative_reference</code></em>);</pre>
+<p>
+Create a new uri from <em class="parameter"><code>relative_reference</code></em>, relative to <em class="parameter"><code>base</code></em>. The resolution
+algorithm in some aspects follows <a class="ulink" href="http://www.ietf.org/rfc/rfc2396.txt" target="_top">RFC
+2396</a>, section 5.2, but is not identical due to some extra assumptions MateVFS
+makes about URIs.
+</p>
+<p>
+If <em class="parameter"><code>relative_reference</code></em> begins with a valid scheme identifier followed by ':',
+it is assumed to refer to an absolute URI, and a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> is created from
+it using <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new" title="mate_vfs_uri_new ()"><code class="function">mate_vfs_uri_new()</code></a>. 
+</p>
+<p>
+Otherwise, depending on its precise syntax, it inherits some aspects of the parent URI,
+but the parents' fragment and query components are ignored.
+</p>
+<p>
+If <em class="parameter"><code>relative_reference</code></em> begins with "//", it only inherits the <em class="parameter"><code>base</code></em> scheme,
+if it begins with '/' (i.e. is an absolute path reference), it inherits everything
+ecxept the <em class="parameter"><code>base</code></em> path. Otherwise, it replaces the part of <em class="parameter"><code>base</code></em> after the last '/'.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+ This function should not be used by application authors unless they expect very
+ distinct semantics. Instead, authors should use <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-file-name" title="mate_vfs_uri_append_file_name ()"><code class="function">mate_vfs_uri_append_file_name()</code></a>,
+ <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-path" title="mate_vfs_uri_append_path ()"><code class="function">mate_vfs_uri_append_path()</code></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-string" title="mate_vfs_uri_append_string ()"><code class="function">mate_vfs_uri_append_string()</code></a> or
+ <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-resolve-symbolic-link" title="mate_vfs_uri_resolve_symbolic_link ()"><code class="function">mate_vfs_uri_resolve_symbolic_link()</code></a>.
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>base</code></em> :</span></p></td>
+<td>base uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>relative_reference</code></em> :</span></p></td>
+<td>a string representing a possibly relative uri reference.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> referring to <em class="parameter"><code>relative_reference</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>
+if <em class="parameter"><code>relative_reference</code></em> was malformed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-resolve-symbolic-link"></a><h3>mate_vfs_uri_resolve_symbolic_link ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_resolve_symbolic_link (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *base</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *relative_reference</code></em>);</pre>
+<p>
+Create a new uri from <em class="parameter"><code>symbolic_link</code></em>, relative to <em class="parameter"><code>base</code></em>.
+</p>
+<p>
+If <em class="parameter"><code>symbolic_link</code></em> begins with a '/', it replaces the path of <em class="parameter"><code>base</code></em>,
+otherwise it is appended after the last '/' character of <em class="parameter"><code>base</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>base</code></em> :</span></p></td>
+<td>base uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>relative_reference</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A new <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> referring to <em class="parameter"><code>symbolic_link</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.16</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-ref"></a><h3>mate_vfs_uri_ref ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_ref                   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Increment <em class="parameter"><code>uri</code></em>'s reference count.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-unref"></a><h3>mate_vfs_uri_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_uri_unref                 (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Decrement <em class="parameter"><code>uri</code></em>'s reference count.  If the reference count reaches zero,
+<em class="parameter"><code>uri</code></em> is destroyed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-append-string"></a><h3>mate_vfs_uri_append_string ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_append_string         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri_fragment</code></em>);</pre>
+<p>
+Create a new uri obtained by appending <em class="parameter"><code>uri_fragment</code></em> to <em class="parameter"><code>uri</code></em>.  This will take care
+of adding an appropriate directory separator between the end of <em class="parameter"><code>uri</code></em> and
+the start of <em class="parameter"><code>uri_fragment</code></em> if necessary.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri_fragment</code></em> :</span></p></td>
+<td>a piece of a uri (ie a fully escaped partial path).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The new uri obtained by combining <em class="parameter"><code>uri</code></em> and <em class="parameter"><code>uri_fragment</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-append-path"></a><h3>mate_vfs_uri_append_path ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_append_path           (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *path</code></em>);</pre>
+<p>
+Create a new uri obtained by appending <em class="parameter"><code>path</code></em> to <em class="parameter"><code>uri</code></em>.  This will take care
+of adding an appropriate directory separator between the end of <em class="parameter"><code>uri</code></em> and
+the start of <em class="parameter"><code>path</code></em> if necessary as well as escaping <em class="parameter"><code>path</code></em> as necessary.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em> :</span></p></td>
+<td>a non-escaped file path.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The new uri obtained by combining <em class="parameter"><code>uri</code></em> and <em class="parameter"><code>path</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-append-file-name"></a><h3>mate_vfs_uri_append_file_name ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_append_file_name      (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *filename</code></em>);</pre>
+<p>
+Create a new uri obtained by appending <em class="parameter"><code>file_name</code></em> to <em class="parameter"><code>uri</code></em>.  This will take care
+of adding an appropriate directory separator between the end of <em class="parameter"><code>uri</code></em> and
+the start of <em class="parameter"><code>file_name</code></em> if necessary. <em class="parameter"><code>file_name</code></em> might, for instance, be the 
+result of a call to <code class="function">g_dir_read_name()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>any "regular" file name (can include #, /, etc) in the file system encoding. This is not an escaped URI.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The new uri obtained by combining <em class="parameter"><code>uri</code></em> and <em class="parameter"><code>path</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-to-string"></a><h3>mate_vfs_uri_to_string ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_vfs_uri_to_string             (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURIHideOptions" title="enum MateVFSURIHideOptions"><span class="type">MateVFSURIHideOptions</span></a> hide_options</code></em>);</pre>
+<p>
+Translate <em class="parameter"><code>uri</code></em> into a printable string.  The string will not
+contain the uri elements specified by <em class="parameter"><code>hide_options</code></em>.
+</p>
+<p>
+A file: URI on Win32 might look like file:///x:/foo/bar.txt. Note
+that the part after file:// is not a legal file name, you need to
+remove the / in front of the drive letter. This function does that
+automatically if <em class="parameter"><code>hide_options</code></em> specifies that the toplevel method,
+user name, password, host name and host port should be hidden.
+</p>
+<p>
+On the other hand, a file: URI for a UNC path looks like
+file:////server/share/foo/bar.txt, and in that case the part after
+file:// is the correct file name.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hide_options</code></em> :</span></p></td>
+<td>bitmask specifying what uri elements (e.g. password,
+user name etc.) should not be represented in the returned string.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a malloc'd printable string representing <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-dup"></a><h3>mate_vfs_uri_dup ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_dup                   (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Duplicate <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to a new uri that is exactly the same as <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-is-local"></a><h3>mate_vfs_uri_is_local ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_uri_is_local              (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Check if <em class="parameter"><code>uri</code></em> is a local URI. Note that the return value of this
+function entirely depends on the <span class="type">MateVFSMethod</span> associated with the
+URI. It is up to the method author to distinguish between remote URIs
+add URIs referring to entities on the local computer.
+</p>
+<p>
+Warning, this can be slow, as it does i/o to detect things like NFS mounts.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>uri</code></em> refers to a local entity, <code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-has-parent"></a><h3>mate_vfs_uri_has_parent ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_uri_has_parent            (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Check if uri has a parent or not.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>uri</code></em> has a parent, <code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-parent"></a><h3>mate_vfs_uri_get_parent ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="returnvalue">MateVFSURI</span></a> *       mate_vfs_uri_get_parent            (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve <em class="parameter"><code>uri</code></em>'s parent uri.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to <em class="parameter"><code>uri</code></em>'s parent uri.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-toplevel"></a><h3>mate_vfs_uri_get_toplevel ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSToplevelURI" title="MateVFSToplevelURI"><span class="returnvalue">MateVFSToplevelURI</span></a> * mate_vfs_uri_get_toplevel        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve the toplevel uri in <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the toplevel uri object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-host-name"></a><h3>mate_vfs_uri_get_host_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_vfs_uri_get_host_name         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve the host name for <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a string representing the host name.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-scheme"></a><h3>mate_vfs_uri_get_scheme ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_vfs_uri_get_scheme            (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve the scheme used for <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a string representing the scheme.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-host-port"></a><h3>mate_vfs_uri_get_host_port ()</h3>
+<pre class="programlisting"><span class="returnvalue">guint</span>               mate_vfs_uri_get_host_port         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve the host port number in <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The host port number used by <em class="parameter"><code>uri</code></em>.  If the value is zero, the
+default port value for the specified toplevel access method is used.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-user-name"></a><h3>mate_vfs_uri_get_user_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_vfs_uri_get_user_name         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve the user name in <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a string representing the user name in <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-password"></a><h3>mate_vfs_uri_get_password ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_vfs_uri_get_password          (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve the password for <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The password for <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-set-host-name"></a><h3>mate_vfs_uri_set_host_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_uri_set_host_name         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *host_name</code></em>);</pre>
+<p>
+Set <em class="parameter"><code>host_name</code></em> as the host name accessed by <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host_name</code></em> :</span></p></td>
+<td>a string representing a host name.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-set-host-port"></a><h3>mate_vfs_uri_set_host_port ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_uri_set_host_port         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> host_port</code></em>);</pre>
+<p>
+Set the host port number in <em class="parameter"><code>uri</code></em>.  If <em class="parameter"><code>host_port</code></em> is zero, the default port
+for <em class="parameter"><code>uri</code></em>'s toplevel access method is used.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host_port</code></em> :</span></p></td>
+<td>a TCP/IP port number.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-set-user-name"></a><h3>mate_vfs_uri_set_user_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_uri_set_user_name         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *user_name</code></em>);</pre>
+<p>
+Set <em class="parameter"><code>user_name</code></em> as the user name for <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_name</code></em> :</span></p></td>
+<td>a string representing a user name on the host accessed by <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-set-password"></a><h3>mate_vfs_uri_set_password ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_uri_set_password          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *password</code></em>);</pre>
+<p>
+Set <em class="parameter"><code>password</code></em> as the password for <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>password</code></em> :</span></p></td>
+<td>a password string.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-equal"></a><h3>mate_vfs_uri_equal ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_uri_equal                 (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *a</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *b</code></em>);</pre>
+<p>
+Compare <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em>.
+</p>
+<p>
+FIXME: This comparison should take into account the possiblity
+that unreserved characters may be escaped.
+...or perhaps <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new" title="mate_vfs_uri_new ()"><code class="function">mate_vfs_uri_new()</code></a> should unescape unreserved characters?
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em> are equal, <code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-is-parent"></a><h3>mate_vfs_uri_is_parent ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_uri_is_parent             (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *possible_parent</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *possible_child</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> recursive</code></em>);</pre>
+<p>
+Check if <em class="parameter"><code>possible_child</code></em> is contained by <em class="parameter"><code>possible_parent</code></em>.
+If <em class="parameter"><code>recursive</code></em> is <code class="literal">FALSE</code>, just try the immediate parent directory, else
+search up through the hierarchy.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>possible_parent</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>possible_child</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>recursive</code></em> :</span></p></td>
+<td>a flag to turn recursive check on.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>possible_child</code></em> is contained in  <em class="parameter"><code>possible_parent</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-path"></a><h3>mate_vfs_uri_get_path ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_vfs_uri_get_path              (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve full path name for <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the full path name in <em class="parameter"><code>uri</code></em>.  Notice that the
+pointer points to the path name stored in <em class="parameter"><code>uri</code></em>, so the path name returned must not
+be modified nor freed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-get-fragment-identifier"></a><h3>mate_vfs_uri_get_fragment_identifier ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_vfs_uri_get_fragment_identifier
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-extract-dirname"></a><h3>mate_vfs_uri_extract_dirname ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_vfs_uri_extract_dirname       (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Extract the name of the directory in which the file pointed to by <em class="parameter"><code>uri</code></em> is
+stored as a newly allocated string.  The string will end with a
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-CHR:CAPS" title="MATE_VFS_URI_PATH_CHR"><code class="literal">MATE_VFS_URI_PATH_CHR</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the newly allocated string representing the
+parent directory.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-extract-short-name"></a><h3>mate_vfs_uri_extract_short_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_vfs_uri_extract_short_name    (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve base file name for <em class="parameter"><code>uri</code></em>, ignoring any trailing path separators.
+This matches the XPG definition of basename, but not g_basename. This is
+often useful when you want the name of something that's pointed to by a
+uri, and don't care whether the uri has a directory or file form.
+If <em class="parameter"><code>uri</code></em> points to the root of a domain, returns the host name. If there's
+no host name, returns <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-STR:CAPS" title="MATE_VFS_URI_PATH_STR"><code class="literal">MATE_VFS_URI_PATH_STR</code></a>.
+</p>
+<p>
+See also: <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-short-path-name" title="mate_vfs_uri_extract_short_path_name ()"><code class="function">mate_vfs_uri_extract_short_path_name()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the newly allocated string representing the
+unescaped short form of the name.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-extract-short-path-name"></a><h3>mate_vfs_uri_extract_short_path_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_vfs_uri_extract_short_path_name
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>);</pre>
+<p>
+Retrieve base file name for <em class="parameter"><code>uri</code></em>, ignoring any trailing path separators.
+This matches the XPG definition of basename, but not g_basename. This is
+often useful when you want the name of something that's pointed to by a
+uri, and don't care whether the uri has a directory or file form.
+If <em class="parameter"><code>uri</code></em> points to the root (including the root of any domain),
+returns <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-STR:CAPS" title="MATE_VFS_URI_PATH_STR"><code class="literal">MATE_VFS_URI_PATH_STR</code></a>.
+</p>
+<p>
+See also: <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-short-name" title="mate_vfs_uri_extract_short_name ()"><code class="function">mate_vfs_uri_extract_short_name()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the newly allocated string representing the
+escaped short form of the name.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-hequal"></a><h3>mate_vfs_uri_hequal ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_vfs_uri_hequal                (<em class="parameter"><code><span class="type">gconstpointer</span> a</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> b</code></em>);</pre>
+<p>
+Function intended for use as a hash table "are these two items
+the same" comparison. Useful for creating a hash table of uris.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the uris are the same.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-hash"></a><h3>mate_vfs_uri_hash ()</h3>
+<pre class="programlisting"><span class="returnvalue">guint</span>               mate_vfs_uri_hash                  (<em class="parameter"><code><span class="type">gconstpointer</span> p</code></em>);</pre>
+<p>
+Creates an integer value from a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>, appropriate
+for using as the key to a hash table entry.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>p</code></em> :</span></p></td>
+<td>a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a hash key corresponding to <em class="parameter"><code>p</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-list-parse"></a><h3>mate_vfs_uri_list_parse ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_uri_list_parse            (<em class="parameter"><code>const <span class="type">gchar</span> *uri_list</code></em>);</pre>
+<p>
+Extracts a list of <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> objects from a standard text/uri-list,
+such as one you would get on a drop operation.  Use
+<a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-free" title="mate_vfs_uri_list_free ()"><code class="function">mate_vfs_uri_list_free()</code></a> when you are done with the list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri_list</code></em> :</span></p></td>
+<td>string consists of <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a> and/or paths seperated by newline character.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">GList</span> of <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-list-ref"></a><h3>mate_vfs_uri_list_ref ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_uri_list_ref              (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Increments the reference count of the items in <em class="parameter"><code>list</code></em> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>list</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-list-unref"></a><h3>mate_vfs_uri_list_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_uri_list_unref            (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Decrements the reference count of the items in <em class="parameter"><code>list</code></em> by one.
+Note that the list is *not freed* even if each member of the list
+is freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>list</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-list-copy"></a><h3>mate_vfs_uri_list_copy ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_uri_list_copy             (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Creates a duplicate of <em class="parameter"><code>list</code></em>, and references each member of
+that list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly referenced duplicate of <em class="parameter"><code>list</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-list-free"></a><h3>mate_vfs_uri_list_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_uri_list_free             (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Decrements the reference count of each member of <em class="parameter"><code>list</code></em> by one,
+and frees the list itself.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> elements.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-uri-make-full-from-relative"></a><h3>mate_vfs_uri_make_full_from_relative ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_uri_make_full_from_relative
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *base_uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *relative_uri</code></em>);</pre>
+<p>
+Returns a full uri given a full base uri, and a secondary uri which may
+be relative.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>base_uri</code></em> :</span></p></td>
+<td>a string representing the base uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>relative_uri</code></em> :</span></p></td>
+<td>a uri fragment/reference to be appended to <em class="parameter"><code>base_uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string containing the uri 
+(<a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> for some bad errors).
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

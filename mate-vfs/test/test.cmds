@@ -1,0 +1,55 @@
+# setup the environment
+
+mkdir /tmp/test
+cp test.input /tmp/test/test.input
+cd /tmp/test
+
+# simple tests on the file filing system
+
+cp test.input t
+mv t t2
+cp t2 t
+open #1 t
+read #1 16
+seek #1 0
+read #1 16
+open #2 t2
+read #2 16
+close #1
+close #2
+rm t
+rm t2
+
+# gzip as far as it goes ( no where )
+
+# cd /tmp/test
+# cp test.input /tmp/test/t.gz#gzip:
+# open #1 /tmp/test/t.gz#gzip:
+# read #1 16
+# close #1
+# rm t.gz
+
+# efs
+
+cd /tmp/test
+mkdir /tmp/test/t.efs#efs:/
+cp test.input /tmp/test/t.efs#efs:/t
+cp /tmp/test/test.input /tmp/test/t.efs#efs:/t2
+cd /tmp/test/t.efs#efs:/
+open #1 t
+ls
+open #2 t2
+read #1 16
+read #2 16
+ls
+close #1
+close #2
+cd /tmp/test
+rm t.efs
+
+# cleanup
+
+rm /tmp/test/test.input
+rmdir /tmp/test
+quit
+

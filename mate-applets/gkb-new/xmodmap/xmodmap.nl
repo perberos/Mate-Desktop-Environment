@@ -1,0 +1,114 @@
+! Converted keytable file to xmodmap file
+! with mk_modmap by root@chanae.alphanet.ch vie nov 27 02:12:06 CET 1998
+clear Mod1
+clear Mod2
+!  Nederland Keyboard
+!charset "iso-8859-1"
+keycode   9 = Escape
+keycode  10 = 1 exclam onesuperior
+keycode  11 = 2 quotedbl twosuperior
+keycode  12 = 3 numbersign threesuperior
+keycode  13 = 4 dollar onequarter
+keycode  14 = 5 percent onehalf
+keycode  15 = 6 ampersand threequarters
+keycode  16 = 7 underscore sterling
+keycode  17 = 8 parenleft braceleft
+keycode  18 = 9 parenright braceright
+keycode  19 = 0 apostrophe
+keycode  20 = slash question backslash
+keycode  21 = degree dead_tilde dead_cedilla
+keycode  22 = BackSpace Delete
+keycode  23 = Tab Tab
+keycode  24 = q
+keycode  25 = w
+keycode  26 = e E eacute Eacute
+keycode  27 = r R paragraph registered
+keycode  28 = t T thorn THORN
+keycode  29 = y Y ydiaeresis yen
+keycode  30 = u U udiaeresis Udiaeresis
+keycode  31 = i I idiaeresis Idiaeresis
+keycode  32 = o O ograve Ograve
+keycode  33 = p P paragraph
+keycode  34 = dead_diaeresis dead_tilde asciitilde asciicircum
+keycode  35 = asterisk bar
+keycode  36 = Return
+keycode  37 = Control_L
+keycode  38 = a A aacute Aacute
+keycode  39 = s S ssharp
+keycode  40 = d D eth ETH
+keycode  41 = f F ordfeminine ordfeminine
+keycode  42 = g
+keycode  43 = h
+keycode  44 = j
+keycode  45 = k
+keycode  46 = l
+keycode  47 = plus plusminus
+keycode  48 = apostrophe grave dead_acute dead_grave
+keycode  49 = at section notsign
+keycode  50 = Shift_L
+keycode  51 = less greater
+keycode  52 = z Z guillemotleft
+keycode  53 = x X guillemotright
+keycode  54 = c C cent copyright
+keycode  55 = v
+keycode  56 = b
+keycode  57 = n N ntilde Ntilde
+keycode  58 = m M Greek_mu masculine
+keycode  59 = comma semicolon cedilla guillemotleft
+keycode  60 = period colon periodcentered guillemotright
+keycode  61 = minus equal hyphen
+keycode  62 = Shift_R
+keycode  63 = KP_Multiply
+keycode  64 = Alt_L Meta_L
+keycode  65 = space space nobreakspace nobreakspace
+keycode  66 = Caps_Lock
+keycode  67 = F1 F11
+keycode  68 = F2 F12
+keycode  69 = F3 F13
+keycode  70 = F4 F14
+keycode  71 = F5 F15
+keycode  72 = F6 F16
+keycode  73 = F7 F17
+keycode  74 = F8 F18
+keycode  75 = F9 F19
+keycode  76 = F10 F20
+keycode  77 = Num_Lock
+keycode  78 = Scroll_Lock
+keycode  79 = KP_7
+keycode  80 = KP_8
+keycode  81 = KP_9
+keycode  82 = KP_Subtract
+keycode  83 = KP_4
+keycode  84 = KP_5
+keycode  85 = KP_6
+keycode  86 = KP_Add
+keycode  87 = KP_1
+keycode  88 = KP_2
+keycode  89 = KP_3
+keycode  90 = KP_0
+keycode  91 = KP_Decimal
+keycode  94 = bracketleft bracketright bar
+keycode  95 = F11 F11
+keycode  96 = F12 F12
+keycode 108 = KP_Enter
+keycode 109 = Control_R
+keycode 112 = KP_Divide
+keycode 113 = Mode_switch
+keycode 114 = Break
+keycode 110 = Find
+keycode  98 = Up
+keycode  99 = Prior
+keycode 100 = Left
+keycode 102 = Right
+keycode 115 = Select
+keycode 104 = Down
+keycode 105 = Next
+keycode 106 = Insert
+! right windows-logo key
+! in "windows" keyboards the postion of the key is annoying, is where AltGr
+! usually resides, so go definie it as AltGr
+keycode 116 = Mode_switch
+! right windows-menu key, redefined as Compose key
+keycode 117 = Multi_key
+add Mod1 = Alt_L
+add Mod2 = Mode_switch

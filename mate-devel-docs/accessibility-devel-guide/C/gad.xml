@@ -1,0 +1,1494 @@
+<chapter id="gad" status="draft">
+<title>What is Accessibility?</title>
+<para>
+Accessibility means helping people with disabilities to participate in substantial life activities. That includes work, and the use of services, products, and information. MATE includes libraries and a support framework that allow people with disabilities to utilize all of the functionality of the MATE user environment.
+</para>
+<para>
+In conjunction with assistive technologies if necessary - voice interfaces, screen readers, alternate input devices, and so on - people with permanent or temporary disabilities can therefore use the MATE desktop and applications. Assistive technologies are also useful for people using computers outside their home or office. For example, if you're stuck in traffic, you might use voice input and output to check your email.
+</para>
+<para>
+Assistive technologies receive information from applications via the Accessibility Toolkit (ATK) API, which you can find in the atk module in the MATE repositories. Because support for the accessibility API is built into the MATE widgets, your MATE program should function reasonably well with assistive technologies with no extra work on your part. For example, assistive technologies can automatically read the widget labels that you would normally set in your program anyway (e.g. with GTK function calls such as <function>gtk_label_set_text()</function> or <function>gtk_button_new_with_label()</function>). They can also find out if there is any tooltip text associated with a widget, and use that to describe the widget to the user.
+</para>
+<para>
+With a little extra effort, however, you can make your program function even more smoothly with assistive technologies. Besides helping individual users, this will also make your product more attractive to government and education markets, many of which now require their applications to be accessible by law.
+</para>
+
+<section>
+<title>Types of Disability</title>
+<para>
+In the US alone, there are an estimated 30,000,000 people whose ability to use computers may be compromised by inaccessible design. Globally, around 8% of the people who use the worldwide web have some sort of disability. Disabilities fall into one of these categories:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<emphasis>Visual Impairments</emphasis> - these
+can range from low-vision (including dim or hazy vision, extreme far- or near-sightedness, color-blindness, and tunnel vision, amongst others) to complete blindness. Poor choice of text size and color, and tasks that involve good
+hand-eye coordination (such as moving the mouse) can cause problems for these users.
+</para>
+</listitem>
+<listitem>
+<para>
+<emphasis>Movement Impairments</emphasis> - users with poor muscle control or weaknesses can find it hard to use a standard keyboard or mouse. For example, they may be unable to hold down two keys simultaneously, or they may be more likely to strike keys accidentally.
+</para>
+</listitem>
+<listitem>
+<para>
+<emphasis>Hearing Impairments</emphasis> - these can range from being able to hear some sounds but not distinguish spoken words, to profound deafness. Applications that convey important information by sound alone will cause problems for these users.
+</para>
+</listitem>
+<listitem>
+<para>
+<emphasis>Cognitive and Language Impairments</emphasis> - these can range from dyslexia to difficulties remembering things, solving problems or comprehending and using spoken or written language. Complex or inconsistent displays, or poor choice of words can make using computers difficult for these users.
+</para>
+</listitem>
+<listitem>
+<para>
+<emphasis>Seizure disorders</emphasis> - certain light or sound patterns can cause epileptic seizures in some susceptible users.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section id="gad-how-it-works">
+<title>How Accessibility Works in MATE</title>
+<para>
+The Accessibility Toolkit (ATK) describes a set of interfaces that need to be implemented by GUI components to make them accessible. The interfaces are toolkit-independent - implementations could be written for any widget set, such as GTK, Motif or Qt.
+</para>
+<para>
+The implementation for the GTK widgets is in a module called	GAIL (MATE Accessbility Implementation Library), which is dynamically loadable at runtime by a GTK application. Once
+loaded, those parts of your application that use standard GTK widgets will have a basic level of accessibility, without you having to modify your application at all. If GAIL is not
+loaded, GTK widgets will have a default accessibility implementation that essentially returns no information, though it nominally conforms to the ATK API. Applications which use
+MateComponent controls, particularly out-of-process ones, also load accessibility support code from module libgail-mate. Whether or not applications on the MATE desktop automatically load these accessibility support libraries depends on the value of a <application>mateconf</application> key, "/desktop/mate/interface/accessibility"; a boolean value of "true" enables support for assistive technologies and applications which call mate_program_init will automatically load the appropriate accessibility libraries at runtime. "Pure GTK+ applications", e.g. those that use gtk+ but do not link to libmate, rely on the value of the GTK_MODULES environment variable, which must be set to "gail:atk-bridge" in order to enable assistive technology support.
+</para>
+<para>
+Most assistive technologies running on other desktops have historically found it necessary to maintain a complex off-screen model of
+the desktop applications, based on snooping of OS events, use of unsupported OS and application features and API, and other highly
+non-portable techniques. This has made assistive technology support somewhat "brittle" and highly OS- and application-specific, even application-version specific. In contrast, on the MATE Desktop, all the information required by the ATs is provided by the running applications, via the MATE Accessibility Framework, to a toolkit-independent Service Provider Interface (SPI). The SPI provides a means for UNIX-based ATs, such as screen readers and screen magnifiers, to obtain accessibility information from running applications via a consistent, stable API, and can eliminate the need for an off-screen model in many cases. Accessibility support for applications is "built in" to application toolkits via toolkit-appropriate APIs (for instance, ATK for most native C applications and the Java Accessibility API for Java apps), and exported to the common "AT-SPI" interface via the relevant "bridge" (see diagram below).
+</para>
+<figure id="gad-architecture">
+<title>MATE Accessibility Architecture</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/MATE_desktop_Accessibility.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Diagram of MATE's accessibility architecture</phrase>
+</textobject>
+</mediaobject>
+</figure>
+<para>
+MATE's built-in accessibility support means that applications created using stock MATE widgets get support for assistive technologies "for free", provided the widgets are not used in unusual ways which conflict with this built-in support.
+</para>
+<para>
+A gtk+/MATE widget is accessible if its use follows the general accessibility guidelines elsewhere in this document, and it implements the ATK interfaces appropriate to its role in the	user interface. ATK implementations are provided for the "stock" MATE toolkit widgets (i.e. non-deprecated gtk+ and MATE widgets), and in many cases new widgets which derive
+trivially from existing GTK+ or MATE widgets will also inherit suitable accessibility support.
+</para>
+<para>
+Though MATE's built-in accessibility support provides significant functionality without any accessibility-specific code changes on the part of the application, applications can often improve on the default descriptions provided for some of the widgets, and tailor them to that widget's specific purpose in your application, via straightforward calls to ATK methods in the application. For instance, in most cases applications should add or change the textual descriptions for these widgets with the appropriate ATK function call, so that an assisitive technology can describe their purpose or state to the user. See <link linkend="gad-coding-guidelines">Coding Guidelines for Supporting Accessibility</link> for more information.
+</para>
+<para>
+If your application uses custom widgets, you may have to do some work to expose those widgets' properties to assistive technologies. See <link linkend="gad-custom">Making Custom Components Accessible</link> and <link linkend="gad-api-examples">Examples that Use the Accessibility API</link> for more information.
+</para>
+<para>
+For additional, in-depth information regarding GTK/GTK+, see the <ulink url="http://library.mate.org/devel/gtk">GTK+ Reference Manual</ulink>, <ulink url="http://live.mate.org/GAP/AtkGuide/Gtk">the GTK section of the ATK Guide</ulink>, the MATE-hosted <ulink url="http://library.mate.org/devel/gtk-tutorial/stable/">GTK+ 2.0 Tutorial</ulink> and the official <ulink url="http://library.mate.org/devel/gtk-faq/stable/">GTK+ FAQ</ulink>.
+</para>
+</section>
+
+<section id="dev-start">
+<title>Developer Quick Start</title>
+<para>
+Here are some common starting points:
+</para>
+
+<section id="dev-start-1">
+<title>How do I check to see if my application is accessible or not?</title>
+<para>
+To start right in, see <link linkend="gad-overview">Making a MATE Application Accessible - Overview</link>. For a pre-codng perspective, see <link linkend="gad-ui-guidelines">User Interface Guidelines for Supporting Accessibility</link> or <link linkend="gad-coding-guidelines">Coding Guidelines for Supporting Accessibility</link>. For a checklist of post-design test items, see <link linkend="gad-checklist">User Interface Checklist</link>.
+</para>
+</section>
+
+<section id="dev-start-2">
+<title>What are the common pitfalls?</title>
+<para>
+The <link linkend="gad-checklist">User Interface Checklist</link> covers all the areas that sometimes get overlooked in the design stage.
+</para>
+</section>
+
+<section id="dev-start-3">
+<title>How do I do common ATK things?</title>
+<para>
+An abbreviated listing of common ATK calls can be found <link linkend="gad-api">here</link>.
+</para>
+</section>
+
+<section id="dev-start-4">
+<title>How do I do more complex ATK things?</title>
+<para>
+See <link linkend="gad-custom">Making Custom Components Accessible</link> and <link linkend="gad-api-examples">Examples that Use the Accessibility API</link> for more information.
+</para>
+</section>
+
+<section id="dev-start-5">
+<title>Introducing ATK, AT-SPI, GAIL and GTK+</title>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/gaa.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>
+MATE Accessibility Architecture
+</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+<para>
+ATK is the toolkit that MATE uses to enable accessibility for users needing extra support to make the most of their computers. ATK is used by tools such as screen readers, magnifiers, and input devices to permit a rich interaction with the desktop through alternative means. See <ulink url="http://java-mate.sourceforge.net/4.0/doc/api/org/mate/atk/package-summary.html">the ATK SourceForge Project</ulink> and <ulink url="http://library.mate.org/devel/atk/stable/atk.html">the ATK Library</ulink> for more information.
+</para>
+<para>
+AT-SPI is the primary service interface by which assistive technologies query and receive notifications from running applications. The full API can be explored <ulink url="http://library.mate.org/devel/at-spi-cspi/stable/">here</ulink>. Additional material is available from <ulink url="http://accessibility.kde.org/developer/atk.php#coreclasses">the KDE Accessibility Development Community</ulink>.
+</para>
+<para>
+GAIL (MATE Accessibility Implementation Library) is an implementation of the accessibility interfaces defined by ATK. GTK is a toolkit which is already mapped to ATK by the GAIL module. License, download and other information can be found <ulink url="http://www.t2-project.org/packages/gail.html">here</ulink>. The <ulink url="ftp://ftp.mate.org/pub/MATE/sources/gail/">GAIL source code</ulink> also serves as an excellent tutorial for advanced ATK usage. In addition, you may be interested in the <ulink url="http://library.mate.org/devel/gail-libgail-util/stable/">GAIL Reference Manual</ulink>.
+</para>
+<para>
+GTK+ is a library for creating graphical user interfaces. It works on many UNIX-like platforms, Windows, and on framebuffer devices. GTK+ is released under the GNU Library General Public License (GNU LGPL), which allows for flexible licensing of client applications. GTK+ has a C-based object-oriented architecture that allows for maximum flexibility. Bindings for other languages have been written, including C++, Objective-C, Guile/Scheme, Perl, Python, TOM, Ada95, Free Pascal, and Eiffel.
+</para>
+<para>
+For additional, in-depth information regarding GTK/GTK+, see the <ulink url="http://library.mate.org/devel/gtk">GTK+ Reference Manual</ulink>, <ulink url="http://live.mate.org/GAP/AtkGuide/Gtk">the GTK section of the ATK Guide</ulink>, the MATE-hosted <ulink url="http://library.mate.org/devel/gtk-tutorial/stable/">GTK+ 2.0 Tutorial</ulink> and the official <ulink url="http://library.mate.org/devel/gtk-faq/stable/">GTK+ FAQ</ulink>.
+</para>
+</section>
+</section>
+
+<section id="gad-overview">
+<title>Making a MATE Application Accessible - Overview</title>
+<para>
+If your application only uses standard GTK widgets, you will probably have to do little or nothing to make your application (reasonably) accessible. But do watch out for objects in your GUI that don't have a textual description associated with them, such as graphical buttons or status indicators that don't have labels or tooltips.
+</para>
+<para>
+You can probably also improve on the default descriptions provided for some of the widgets, and tailor them to that widget's specific purpose in your application. You should add or change the textual descriptions for these widgets with the appropriate ATK function call, so that an assisitive technology can describe their purpose or state to the user. See <link linkend="gad-coding-guidelines">Coding Guidelines for Supporting Accessibility</link> for more information.
+</para>
+<para>
+If your application uses custom widgets, you may have to do some work to expose those widgets' properties to assistive technologies.  See <link linkend="gad-custom">Making Custom Components Accessible</link> and <link linkend="gad-api-examples">Examples that Use the Accessibility API</link> for more information. Additional detailed information can be found in Marc Mulcahy's 2002 GUADEC presentation, <ulink url="http://developer.mate.org/projects/gap/presentations/GUAD3C/making-apps-accessible/start.html">"Making MATE Applications Accessible".</ulink>
+</para>
+</section>
+
+<section id="gad-coding-guidelines">
+<title>Coding Guidelines for Supporting Accessibility</title>
+<para>
+Here are some things you can do in your code to make your program work as well as possible with assistive technologies. (You can find a list of things to consider when designing your GUI in the <link linkend="gad-ui-guidelines">User Interface Guidelines for Supporting Accessibility</link> section later in this document):
+</para>
+<itemizedlist>
+<listitem>
+<para>
+For components that don't display a short string (such as a graphical button), specify a name for it with <function>atk_object_set_name()</function>. You might want to do this for image-only buttons, panels that provide logical groupings, text areas, and so on.
+</para>
+</listitem>
+<listitem>
+<para>
+If you can't provide a tooltip for a component, use <function>atk_object_set_description()</function> instead to provide a description that assistive technologies can give the user. For example, to provide an accessible description for a <guibutton>Close</guibutton> button:
+</para>
+<example>
+<title>Providing an accessible description for a GtkButton</title>
+<programlisting>
+{
+  AtkObject *obj;
+  obj = gtk_widget_get_accessible(button);
+  atk_object_set_description(obj,_("Closes the window"));
+}
+</programlisting>
+</example>
+</listitem>
+<listitem>
+<para>
+Use <function>atk_image_set_description()</function> to provide a text description for all images and icons in your program.
+</para>
+</listitem>
+<listitem>
+<para>
+If several components form a logical group, try to put them in one container.
+</para>
+</listitem>
+<listitem>
+<para>
+Whenever you have a label that describes another component, use <function>atk_relation_set_add_relation()</function> so that assistive technologies can find the component with which the label is associated. (If you associate the label with the component using <function>gtk_label_set_mnemonic_widget()</function>, the <constant>ATK_RELATION_LABEL_FOR</constant> relation is generated automatically, so the following code would not be necessary):
+</para>
+<example>
+<title>Relating a GtkLabel to a GtkWidget</title>
+<programlisting>
+{
+  GtkWidget *widget;
+  GtkLabel *label;
+
+  AtkObject *atk_widget, *atk_label;
+  AtkRelationSet *relation_set;
+  AtkRelation *relation;
+  AtkObject *targets[1];
+
+  atk_widget = gtk_widget_get_accessible(widget);
+  atk_label = gtk_widget_get_accessible (GTK_WIDGET(label));
+
+  relation_set = atk_object_ref_relation_set (atk_label);
+  targets[0] = atk_widget;
+
+  relation = atk_relation_new(targets,1, ATK_RELATION_LABEL_FOR);
+  atk_relation_set_add(relation_set,relation);
+  g_object_unref(G_OBJECT(relation));
+}
+</programlisting>
+</example>
+</listitem>
+<listitem>
+<para>
+If you create a custom widget, make sure it supports accessibility. Custom components that are descendants of other GTK widgets should override inherited accessibility information as necessary. For more information, see <link linkend="gad-custom">Making Custom Components Accessible</link>.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't break what you get for free! If your GUI has an inaccessible container, any components inside that container may become inaccessible.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section id="gad-api">
+<title>The Accessibility API</title>
+<para>
+Here are a few of the basic API calls you may need to use in your application to ensure it works well with assistive technologies. The full accessibility API is extensive, to allow you to write your own accessible custom widgets, for example.
+</para>
+<table frame="all">
+<title>Commonly used ATK API calls</title>
+<tgroup cols="2" align="left">
+<thead>
+<row>
+<entry>API</entry>
+<entry>Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>
+<para>
+<function>AtkObject* gtk_widget_get_accessible (GtkWidget*)</function>
+</para>
+</entry>
+<entry>
+<para>
+Returns the accessible object that describes the specified GTK widget to an assistive technology.
+</para>
+</entry>
+</row>
+<row>
+<entry>
+<para>
+<function>void atk_object_set_name (AtkObject*, const gchar*)</function>
+</para>
+</entry>
+<entry>
+<para>
+Sets the name of the accessible object. For example, if the object is a graphical button that quits the application when pressed, the name might be "Quit".
+</para>
+</entry>
+</row>
+<row>
+<entry>
+<para>
+<function>void atk_object_set_description (AtkObject*, const gchar*)</function>
+</para>
+</entry>
+<entry>
+<para>
+Sets the textual description of the accessible object. For example, if the object is a graphical "Close" button, the description might be "Closes the window".
+</para>
+</entry>
+</row>
+<row>
+<entry>
+<para>
+<function>AtkRelation* atk_relation_new (AtkObject**, gint, AtkRelationType)</function>
+</para>
+</entry>
+<entry>
+<para>
+Creates a new relation between the specified key and the specified list of target objects.  A relationship normally indicates to the assistive technology that one widget is somehow related to another. For example, that a particular GtkLabel widget is the caption for a GtkTreeView in the same window.
+</para>
+</entry>
+</row>
+<row>
+<entry>
+<para>
+<function>void atk_image_set_description (AtkImage*, const gchar*)</function>
+</para>
+</entry>
+<entry>
+<para>
+Sets the textual description of the accessible image object. For example, if the object is a thumbnail of a virtual desktop in a panel applet, the description might be "Image showing window arrangement on desktop 1".
+</para>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</section>
+
+<section id="gad-api-examples">
+<title>Examples that Use the Accessibility API</title>
+<para>
+As noted earlier, you should have little or no work to do to make your application accessible if you use the GTK widget set, or any other widget library that implements the ATK interfaces. The two most common things you may have to do in this case are:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+provide descriptions of some controls and images using <function>atk_object_set_description()</function> or <function>atk_image_set_description():</function>
+</para>
+<example>
+<title>Setting the accessible description for a button</title>
+<programlisting>
+{
+   AtkObject *obj;
+   obj = gtk_widget_get_accessible(button);
+   atk_object_set_description(obj,_("Opens Preferences dialog"));
+}
+</programlisting>
+</example>
+<para>
+</para>
+</listitem>
+<listitem>
+<para>
+Specify relationships between any unusual groupings of widgets using <function>atk_relation_new()</function> and <function>atk_relation_set_add()</function>:
+</para>
+<example>
+<title>Specifying accessible relationship between two controls</title>
+<programlisting>
+{
+  GtkWidget *widget;
+  GtkLabel *label;
+
+  AtkObject *atk_widget, *atk_label;
+  AtkRelationSet *relation_set;
+  AtkRelation *relation;
+  AtkObject *targets[1];
+
+  atk_widget = gtk_widget_get_accessible (widget);
+  atk_label = gtk_widget_get_accessible (GTK_WIDGET(label));
+
+  relation_set = atk_object_ref_relation_set (atk_label);
+  targets[0] = atk_widget;
+
+  relation = atk_relation_new(targets,1, ATK_RELATION_LABEL_FOR);
+  atk_relation_set_add(relation_set,relation);
+  g_object_unref(G_OBJECT(relation));
+}
+</programlisting>
+</example>
+</listitem>
+</itemizedlist>
+<para>
+The examples in the rest of this section are mostly to give you a flavor of the scope of the ATK. They cover techniques that you may never need to use as an application developer, although they may be of interest if you are writing your own custom widgets (see <link linkend="gad-custom">Making Custom Components Accessible</link>) or if you want to write an assistive technology application. Whatever the purpose, the <ulink url="ftp://ftp.mate.org/pub/MATE/sources/gail/">GAIL source code</ulink> serves as an excellent tutorial for advanced ATK usage. 
+</para>
+
+<section>
+<title>Gtk Modules</title>
+<para>
+Programs that make use of GAIL (the accessibility implementation library for GTK widgets) are written as GTK modules. GTK modules are loaded into the program space if the <varname>GTK_MODULES</varname> environment variable specifies the module library name(s). If there are multiple module libraries, separate them with colons. For example:
+</para>
+<para>
+<userinput>setenv GTK_MODULES "libgail:libtestprops"</userinput>
+</para>
+<para>
+All GTK modules have a <function>gtk_module_init()</function> function. 
+</para>
+</section>
+
+<section>
+<title>Gathering accessibility information from an application</title>
+<para>
+A program that wishes to make use of ATK calls would likely need to do one (or more) of the following things:
+</para>
+<orderedlist>
+<listitem>
+<para>
+Create an event watcher, for example with the <function>atk_add_focus_tracker()</function> function:
+</para>
+<programlisting>atk_add_focus_tracker (_my_focus_tracker);</programlisting>
+<para>
+where <function>_my_focus_tracker()</function> is a function with this prototype:
+</para>
+<programlisting>void _my_focus_tracker (AtkObject *aobject);</programlisting>
+</listitem>
+<listitem>
+<para>
+Set up a global event listener, with atk_add_global_event_listener():
+</para>
+<programlisting>
+mouse_watcher_focus_id =   atk_add_global_event_listener(_my_global_listener,"Gtk:GtkWidget:enter_notify_event");
+</programlisting>
+<para>
+where <function>_my_global_listener</function> has the prototype of a Glib <type>GSignalEmissionHook</type>. This example would cause the <function>_my_global_listener()</function> to be called whenever an enter_notify_even signal occurs on a <type>GtkWidget</type> object.
+</para>
+</listitem>
+<listitem>
+<para>
+Access the ATK top-level object with the following function call.
+</para>
+<programlisting>AtkObject *root_obj = atk_get_root();</programlisting>
+<para>
+This returns an <type>AtkObject</type> which contains all toplevel windows in the currently running program. The user could then navigate through the object heirarchy by accessing the root object's children, which corresponds to the toplevel windows.
+</para>
+</listitem>
+</orderedlist>
+</section>
+
+<section>
+<title>Querying an <type>AtkObject</type>'s Interfaces</title>
+<para>
+Having located the <type>AtkObject</type> associated with an object in the application (e.g. by using <function>gtk_widget_get_accessible()</function>), you can find out what interfaces it implements in various ways:
+</para>
+<orderedlist>
+<listitem>
+<para>
+Use the supplied <function>ATK_IS_...</function> macros, for example:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+<function>ATK_IS_ACTION(atkobj)</function>
+</para>
+</listitem>
+<listitem>
+<para>
+<function>ATK_IS_COMPONENT(atkobj)</function>
+</para>
+</listitem>
+<listitem>
+<para>
+etc. (there is one for each interface)
+</para>
+</listitem>
+</itemizedlist>
+<para>
+If the macro returns <function>TRUE</function>, the interface calls can safely be made on that ATK object.
+</para>
+</listitem>
+<listitem>
+<para>
+Test the role of the <type>AtkObject</type> by calling <function>atk_object_get_role()</function>. Any given role implements a specific number of ATK APIs.
+</para>
+</listitem>
+</orderedlist>
+</section>
+
+<section>
+<title>Setting up an ATK Signal Handler</title>
+<para>
+Using the <constant>column_inserted</constant> signal as an example:
+</para>
+<programlisting>
+table_column_inserted_id = g_signal_connect_closure_by_id(my_atk_obj, 
+g_signal_lookup("column_inserted", G_OBJECT_TYPE(my_atk_obj)),0,g_cclosure_new(G_CALLBACK (_my_table_column_inserted_func),NULL,NULL), FALSE);
+</programlisting>
+<para>This will cause <function>_my_table_column_inserted_func()</function> to be called whenever a column_inserted signal is emitted on the <type>AtkObject</type> <varname>my_atk_object</varname>.
+</para>
+<para>
+Connecting to a signal is slightly different if the signal supports detail. The <constant>children_changed</constant> signal supports the <parameter>add</parameter> detail. To connect to a signal when the <parameter>add</parameter> detail is also specified, this technique is used:
+</para>
+<programlisting>
+child_added_id = g_signal_connect_closure (my_atk_obj,"children_changed::add",   g_cclosure_new (G_CALLBACK(_my_children_changed_func),NULL,NULL),FALSE); 
+</programlisting>
+<para>
+This will cause <function>_my_children_changed_func()</function> to be called whenever a <constant>children_changed</constant> signal with the <parameter>add</parameter> detail is emitted on the <type>AtkObject</type> <varname>my_atk_obj</varname>.
+</para>
+</section>
+
+<section>
+<title>Implementing an ATK Object</title>
+<para>
+You will need to implement your own ATK objects for any widgets that do not already have an accessible implementation in GAIL (or the equivalent library for other widget sets).  This should be implemented as a GTK module, which, as before, should be included in the <envar>GTK_MODULES</envar> environment variable so it is loaded at runtime.
+</para>
+
+<section>
+<title>Registry</title>
+<para>
+For this example we will assume there is an object called GTK_TYPE_MYTYPE. The ATK implementation will be called <type>MYATKIMP_TYPE_MYTYPE</type>. A factory will be needed which will be called <type>MYATKIMP_TYPE_MYTYPE_FACTORY</type>.
+</para>
+<para>
+To register an ATK implementation of a GTK object, these steps must be followed in the module's <function>gtk_module_init()</function> function:
+</para>
+<orderedlist>
+<listitem>
+<para>
+Access the default registry:
+</para>
+<programlisting>
+default_registry = atk_get_default_registry();
+</programlisting>
+</listitem>
+<listitem><para>Register the ATK object in the <function>gtk_module_init()</function> function of this module by making this function call:
+</para>
+<programlisting>
+atk_registry_set_factory_type (default_registry, GTK_TYPE_MYTYPE, MYATKIMP_TYPE_MYTYPE_FACTORY); 
+</programlisting>
+</listitem>
+</orderedlist>
+<para>
+This will register the AtkObject implementation of <type>GTK_TYPE_MYTYPE</type> to <type>MYATKIMP_TYPE_MYTYPE_FACTORY</type>. This factory will be implemented so that it knows how to build objects of type <type>MYATKIMP_TYPE_MYTYPE</type>.
+</para>
+</section>
+
+<section>
+<title>Factory</title>
+<para>
+The factory must be implemented as a child of class type <type>ATK_TYPE_OBJECT_FACTORY</type> and must implement the function <function>create_accessible()</function>. This function must create an appropriate <type>AtkObject</type>. A factory can be used to create more than one type of object, in which case its <function>create_accessible()</function> function will need to be smart enough to build and return the correct <type>AtkObject</type>.
+</para>
+</section>
+
+<section>
+<title>ATK Implemetation for a Specific Object</title>
+<para>
+All <type>GObject</type>s implement a <function>get_type()</function> function.  Using the above example the naming convention for this function name would be <function>myatkimp_mytype_get_type()</function>.
+</para>
+<para>
+In this function, you specify which interfaces your object implements. If the following logic were included in this <function>get_type()</function> function, this object would implement the <type>ATK_TEXT</type> interface:
+</para>
+<example>
+<title>Sample <function>get_type()</function> function</title>
+<programlisting>
+static const GInterfaceInfo atk_text_info = 
+{ 
+   (GInterfaceInitFunc) atk_text_interface_init, 
+   (GInterfaceFinalizeFunc) NULL, 
+   NULL 
+}; 
+
+g_type_add_interface_static (type, ATK_TYPE_TEXT, 
+                             &amp;atk_text_info); 
+</programlisting>
+</example>
+<para>
+The function <function>atk_text_interface_init()</function>, which has the following prototype, would need to be implemented:
+</para>
+<programlisting>
+void atk_text_interface_init (AtkTextIface *iface); 
+</programlisting>
+<para>
+This function would connect the interface function calls to the specific implementation as follows:
+</para>
+<example>
+<title>Connecting custom interface calls to an AtkObject implementation</title>
+<programlisting>
+void 
+atk_text_interface_init (AtkTextIface *iface) 
+{ 
+   g_return_if_fail (iface != NULL); 
+   iface->get_text = myatkimp_mytype_get_text; 
+   iface->get_character_at_offset = myatkimp_mytype_get_character_at_offset; 
+   ... 
+}
+</programlisting>
+</example>
+<para>
+Then the functions <function>myatkimp_mytype_get_text()</function>, <function>myatkimp_mytype_get_character_at_offset()</function>, and the rest of the <type>ATK_TEXT</type> interface functions would need to be implemented.
+</para>
+</section>
+
+<section>
+<title><type>AtkObject</type> Implementation</title>
+<para>
+<type>AtkObject</type>s are <type>GObjects</type>, and all <type>GObject</type>s need to specify the <function>get_type()</function> function. Here is an example that sets up a class and instance initializer. This <function>get_type()</function> function also specifies that the object implements <type>ATK_TEXT</type> and specifies the parent object to be <type>MYATKIMP_MYPARENTTYPE</type>.
+</para>
+<example>
+<title>Sample <function>get_type()</function> implementation</title>
+<programlisting>
+GType 
+myatkimp_mytype_get_type (void) 
+{ 
+   static GType type = 0; 
+
+   if (!type) 
+   { 
+      static const GTypeInfo tinfo = 
+      { 
+         sizeof (GailLabelClass), 
+         (GBaseInitFunc) NULL,                              /* base init */ 
+         (GBaseFinalizeFunc) NULL,                          /* base finalize */
+         (GClassInitFunc) myatkimp_mytype_class_init,       /* class init */ 
+         (GClassFinalizeFunc) NULL,                         /* class finalize */ 
+         NULL,                                              /* class data */ 
+         sizeof (GailLabel),                                /* instance size */ 
+         0,                                                 /* nb preallocs */ 
+         (GInstanceInitFunc) myatkimp_mytype_instance_init, /* instance init */ 
+         NULL                                               /* value table */ 
+      }; 
+
+      /* Set up atk_text_info structure used below */ 
+      static const GInterfaceInfo atk_text_info = 
+      { 
+         (GInterfaceInitFunc) atk_text_interface_init, 
+         (GInterfaceFinalizeFunc) NULL, 
+         NULL 
+      }; 
+
+      /* Set up typename and specify parent type */ 
+      type = g_type_register_static (MYATKIMP_MYPARENTTYPE, 
+            "MyatkimpMytype", &amp;tinfo, 0); 
+
+      /* This class implements interface ATK_TYPE_TEXT */ 
+      g_type_add_interface_static (type, ATK_TYPE_TEXT, 
+                                   &amp;atk_text_info); 
+   } 
+   return type; 
+} 
+</programlisting>
+</example>
+</section>
+
+<section>
+<title>Class/Instance Initializers</title>
+<para>
+You will have to set up a class initializer for the <type>GObject</type> if your <type>AtkObject</type> implementation either:
+</para>
+<orderedlist>
+<listitem>
+<para>
+Redefines any function calls defined by the object's parent. This is typically necessary when an object needs to implement a function like <function>atk_object_get_n_accessible_children()</function>.  This is necessary if the object has children, but they are not represented with widgets.
+</para>
+<para>
+For example, if your ATK implementation needs to over-ride the <type>AtkObject</type> function <function>get_name()</function>, then the class initializer would look like:
+</para>
+<example>
+<title>Class initializer that overrides parent's <function>get_name()</function> function</title>
+<programlisting>
+myatkimp_mytype_class_init (GailLabelClass *klass) 
+{ 
+  AtkObjectClass *class = ATK_OBJECT_CLASS (klass); 
+  class->get_name = myatkimp_mytype_get_name; 
+} 
+</programlisting>
+</example>
+</listitem>
+<listitem><para>Requires a <function>parent->init</function>, <function>parent->notify_gtk</function>, or <function>parent->finalize</function> function. This example defines all three:
+</para>
+<example>
+<title>Class initializer that defines its own <function>init()</function>, <function>notify_gtk()</function> and <function>finalize()</function> functions</title>
+<programlisting>
+static ParentObjectType *parent_class = NULL; 
+
+myatkimp_mytype_class_init (GailLabelClass *klass) 
+{ 
+   ParentObjectType *parent_class = (ParentObjectType*)klass; 
+
+   /* 
+    * Caching the parent_class is necessary if the init, 
+    * notify_gtk, or finalize functions are set up. 
+    */ 
+    parent_class = g_type_class_ref (MYATKIMP_TYPE_PARENT); 
+
+    parent_class->init = myatkimp_mytype_widget_init; 
+    parent_class->notify_gtk = myatkimp_mytype_real_notify_gtk; 
+    parent_class->finalize = myatkimp_mytype_finalize; 
+}
+</programlisting>
+</example>
+<orderedlist>
+<listitem>
+<para>
+parent->init
+</para>
+<para>
+A <function>parent->init()</function> function may be necessary if the ATK implementation needs to do either of the following:
+</para> 
+<orderedlist>
+<listitem>
+<para>
+Cache any data obtained from a backing GTK widget.
+</para>
+</listitem>
+<listitem>
+<para>
+Listen to any signals from the backing GTK widget.
+</para>
+</listitem>
+</orderedlist>
+<para>
+Here is an example of both:
+</para>
+<example>
+<title>A custom <function>init()</function> function</title>
+<programlisting>
+void 
+gail_tree_view_widget_init (MyatkimpMytype  *mytype, 
+                            GtkWidget       *gtk_widget) 
+{ 
+   /* Make sure to call the parent's init function */ 
+   parent_class->init (widget, gtk_widget); 
+   
+   /* Cache a value in the ATK implementation */ 
+   mytype->cached_value = gtk_widget_function_call(); 
+
+   /* Listen to a signal */ 
+   gtk_signal_connect (GTK_OBJECT (gtk_widget), 
+                       "signal-type", 
+                       GTK_SIGNAL_FUNC (_myatkimp_mytype_signal_type), 
+                       NULL); 
+} 
+</programlisting>
+</example>
+<para>
+In this example, if the specified <type>signal-type</type> signal were generated on the backing <varname>gtk_widget</varname>, then the <function>_myatkimp_mytype_signal_type()</function> function would be called.
+</para>
+</listitem>
+<listitem>
+<para>
+parent->notify_gtk
+</para>
+<para>
+If the ATK implementation needs to listen to any property notifications on the backing GTK object, a <function>parent->notify_gtk()</function> function may be necessary. For example:
+</para>
+<example>
+<title>A custom <function>notify_gtk()</function> function</title>
+<programlisting>
+void 
+myatkimp_mytype_real_notify_gtk (GObject    *obj, 
+                                 GParamSpec *pspec) 
+{ 
+   GtkWidget *widget = GTK_WIDGET (obj); 
+   AtkObject* atk_obj = gtk_widget_get_accessible (widget); 
+
+   if (strcmp (pspec->name, "property-of-interest") == 0) 
+   { 
+      /* Handle the property change. */ 
+   } 
+   else 
+   { 
+      parent_class->notify_gtk (obj, pspec); 
+   } 
+} 
+</programlisting>
+</example>
+</listitem>
+<listitem>
+<para>
+parent->finalize
+</para>
+<para>
+If it is necessary to free any data when a <type>GObject</type> instance is destroyed, then a <function>finalize()</function> function is needed to free the memory.  For example:
+</para>
+<example>
+<title>A custom <function>finalize()</function> function</title>
+<programlisting>
+void 
+myatkimp_mytype_finalize (GObject *object) 
+{ 
+   MyAtkimpMyType *my_type = MYATKIMP_MYTYPE (object); 
+
+   g_object_unref (my_type->cached_value); 
+   G_OBJECT_CLASS (parent_class)->finalize (object); 
+} 
+</programlisting>
+</example>
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</section>
+</section>
+</section>
+
+<section id="gad-custom">
+<title>Making Custom Components Accessible</title>
+<para>
+Adding ATK support to your custom widget will assure its cooperation with the accessibility infrastructure. These are the general steps that are required:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+assess a custom widget according to the applicable <link linkend="gad-ui-guidelines">User Interface Guidelines</link>;
+</para>
+</listitem>
+<listitem>
+<para>
+determine which <ulink url="http://library.mate.org/devel/atk/stable/atk.html">ATK interfaces</ulink> a custom widget should implement, according to the widget's feature set and function;
+</para>
+</listitem>
+<listitem>
+<para>
+assess which <ulink url="http://library.mate.org/devel/atk/stable/atk.html">ATK interfaces</ulink> can be inherited from the parent widget class;
+</para>
+</listitem>
+<listitem>
+<para>
+implement the appropriate ATK interfaces for the widget class in one of two ways:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+directly by the custom widget, or
+</para>
+</listitem>
+<listitem>
+<para>
+in an <ulink url="http://library.mate.org/devel/atk/stable/AtkObject.html"><type>AtkObject</type></ulink> subtype created by a new <ulink url="http://library.mate.org/devel/atk/stable/AtkObjectFactory.html"><type>AtkObjectFactory</type></ulink> subclass
+</para>
+</listitem>
+</itemizedlist>
+<para>
+If the second method is used, the appropriate factory type must be registered with the <type>AtkObjectFactoryRegistry</type> at runtime.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+The <ulink url="ftp://ftp.mate.org/pub/MATE/sources/gail/">GAIL source code</ulink> serves as an excellent tutorial for advanced ATK usage. 
+</para>
+</section>
+
+<section id="gad-ui-guidelines">
+<title>User Interface Guidelines for Supporting Accessibility</title>
+<para>
+When designing your application's GUI, there are a number of simple guidelines you should follow to ensure that it can be used by as wide an audience as possible, whether in conjunction with assistive technologies or not. Don't be fooled into thinking that this is just a case of "making your GUI usable by people with disabilities", though, and that you shouldn't bother if you know a disabled person is never going to use your application. Following these guidelines will improve the overall usability of your application for everyone who uses it - including you!
+</para>
+
+<section>
+<title>General</title>
+<para>
+We all get frustrated if we can't find a feature in an application, or make a mistake from which it takes a couple of minutes to recover, if it's possible to recover at all.  If you have some sort of disability, the chances are the effort and time penalties involved will be several times worse. Following a few basic guidelines can help prevent these sorts of situations for all users.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Provide Undo for every action that changes the user's data or the application's settings. If possible, provide more than one level of undo and redo, and a history list to allow preview of what actions will be undone.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide commands to restore default settings. If a particular setting could make the application completely unusable for an individual, e.g. by making the fonts very small, it would be useful to provide an option to restore the default settings outside the application itself. This could be done using a command line switch, for example.
+</para>
+</listitem>
+<listitem>
+<para>
+Help prevent users from doing the wrong thing. This is particularly important for actions that could be done by accident (e.g. mouse actions) or that cannot easily be undone (e.g. overwriting a file). Consider using confirmation dialogs or forcing the user to go into a particular mode to perform potentially destructive actions.
+</para>
+</listitem>
+<listitem>
+<para>
+Minimize users' memory load. For example, let the user view multiple documents at the same time, and ensure online help or other instructions can remain visible while they carry out the procedure being described. Allow them to copy any information that is displayed, and paste it anywhere that data can be entered.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't make users insert disks. Depending on a user's particular disability, they may find it difficult to physically insert or change a disk, or they may find it hard to identify the correct disk in the first place. If your application is installed from CD-ROM, provide an option to copy all the files that will be required onto the user's hard drive.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't place frequently used functions deep in a menu structure. Whether you're using a mouse, keyboard or some other input device, deeply-nested menu items are best avoided. As well as the burden of remembering where to find them, they are always more difficult and time-consuming to access.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't lead users through unnecessary steps. For example, wizards are useful for users who have trouble handling large numbers of options at one time, but other users may need to minimize the amount of time or keystrokes they use.  Such users benefit from being able to skip unnecessary steps or go directly to the one they need. Consider providing a <guibutton>Finish</guibutton> button in wizards that skips right to the end and assumes default responses for the intermediate steps. If the process has many steps, consider asking the user at the start if they want to run through all the steps, or just the most commonly-used ones.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Keyboard Navigation</title>
+<para>
+A well-designed keyboard user interface plays a key role when you are designing accessible software. Blind users can navigate software more effectively using the keyboard, because using the mouse depends on visual feedback of the mouse pointer location. Also, mobility impairments can prevent a user from successfully navigating using the mouse, because of the fine motor control skills required.
+</para>
+<para>
+It is therefore important to make all mouse actions available from the keyboard, and include keyboard access to all toolbars, menus, links and buttons. Every function your application provides should be available using the keyboard alone. Hide your mouse while you're testing your application if you have to!
+</para>
+<para>
+Most functionality should be easy to make accessible by using keyboard mnemonics and accelerators, and the toolkit's built-in navigation features. However, operations that rely on drag-and-drop, for example, may require more thought.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Provide efficient keyboard access to all application features. Some users may be unable to use a mouse, and many "power-users" prefer to use the keyboard anyway. Also, some specialized assistive technology input devices may simulate keyboard events rather than mouse events. Since typing is difficult or even painful for some users, it is important to provide a keyboard interface that minimizes the number of keystrokes required for any given task.
+</para>
+</listitem>
+<listitem>
+<para>
+Use a logical keyboard navigation order. When navigating around a window with the <keycap>Tab</keycap> key, keyboard focus should move between controls in a predictable order.  In Western locales, this is normally left to right and top to bottom.
+</para>
+</listitem>
+<listitem>
+<para>
+Ensure correct tab order for controls whose enabled state is dependent on checkbox, radio button or toggle button state. When such a button is selected, all its dependent controls should be enabled, and all the dependent controls of any other button in the group should be disabled. When the user selects a checkbox, radio button or toggle button that has dependent controls, do not automatically give focus to the first dependent control, but instead leave the focus on the button.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't override existing system-level accessibility features. For example, <ulink url="http://www.rehab.uiuc.edu/accessx/overview.html">AccessX</ulink> is an Xserver extension that has been supported since X11R6. The MouseKeys feature of this extension allows mouse movement and button clicks to be simulated using the keypad. Therefore you should not add features to your application that can only be accessed by pressing keys on the keypad, as users relying on the MouseKeys feature will not be able to use them.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide more than one method to perform keyboard tasks where possible. Some users may find some keys and key combinations easier to use than others.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide both keyboard and mouse access to functions where possible. Some users may only be able to use either the mouse or the keyboard, but not both.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't assign awkward reaches to frequently performed keyboard operations. Some people may only be able to use one hand on the keyboard, so shortcuts that can be easily used with one hand are preferable for common operations. In any case, having to frequently perform long or difficult reaches on the keyboard can increase muscle strain for all users, increasing the risk of pain or injury.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't require repetitive use of simultaneous keypresses. Some users are only able to press and hold one key at a time. Assistive technologies such as AccessX may allow users to press the keys sequentially rather than simultaneously, but this of course means the operation will take longer for them.
+</para>
+</listitem>
+<listitem>
+<para>
+Ensure that any text that can be selected with the mouse can also be selected with the keyboard. This is a convenience for all users, but especially for those for whom fine control of the mouse is difficult.
+</para>
+</listitem>
+<listitem>
+<para>
+Ensure that objects that can be resized or moved by drag and drop can also be resized or moved with the keyboard. For example, icons and windows on the desktop. Where precision sizing and placement is potentially important, e.g. shapes in a diagram, also consider providing a dialog into which you can type co-ordinates, or a means of snapping objects to a user-definable grid.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't use general navigation functions to trigger operations. For example, do not use basic <keycap>Tab</keycap> keyboard navigation in a dialog to activate any actions associated with a control.
+</para>
+</listitem>
+<listitem>
+<para>
+Show keyboard-invoked menus, windows and tooltips near the object they relate to. In MATE 2.0, users can call up popup menus with <keycombo><keycap>Shift</keycap><keycap>F10</keycap></keycombo>, and tooltips with <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo>. Do not completely hide or obscure the object to which the menu or tooltip refers, however.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Mouse Interaction</title>
+<para>
+Remember that not everybody can use a mouse with equal dexterity, and that some users may have difficulty seeing or following the mouse pointer.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't depend on input from mouse button 2 or button 3. As well as being physically more difficult to click, some pointing devices and many assistive technology devices only support button 1. Some assistive technologies may not emulate the mouse at all, but generate keyboard events instead.
+</para>
+</listitem>
+<listitem>
+<para>
+Allow all mouse operations to be cancelled. Pressing the <keycap>Esc</keycap> key should cancel any mouse operation in progress, such as dragging and dropping a file in a file manager, or drawing a shape in a drawing program.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide visual feedback throughout a drag and drop operation. As the mouse passes over valid targets, highlight them and change the mouse pointer. Use the "no drop" mouse pointer when passing over invalid drop targets. See <link linkend="gad-mouse-examples">Mouse Interaction Examples</link>.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't warp the mouse pointer, or restrict mouse movement to part of the screen. This can interfere with assistive technologies, and is usually confusing even for users who don't rely on ATs.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't make mouse targets too small. In general, mouse targets should be at least the size of the "hot area" around the resizable window border in the current window manager/theme - bearing in mind that a user with impaired dexterity or vision may be using a window manager with larger areas than the default.
+</para>
+</listitem>
+</itemizedlist>
+
+<section id="gad-mouse-examples">
+<title>Mouse Interaction Examples</title>
+<figure>
+<title>Example of "no-drop" pointer from CDE/Motif</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/nodrop.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Example of an "invalid drop target" pointer shape</phrase>
+</textobject>
+</mediaobject>
+</figure>
+</section>
+</section>
+
+<section>
+<title>Graphical Elements</title>
+<para>
+Provide options to customize the presentation of all the important graphical elements in your application. This will make it easier for people with visual or cognitive impairments to use.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't hard-code graphic attributes such as line, border or shadow thickness. These elements should ideally be read from the GTK or window manager theme. If this is not possible, provide options within your application to change them.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide descriptive names for all interface components. The GAIL library provides default accessible descriptions for many GTK widgets, but you will still need to add your own in some cases, such as for widgets that use graphics instead of text (e.g. a well in a color palette, or an icon without a label). Consider overriding the defaults with more helpful or application-specific descriptions where possible.
+</para>
+</listitem>
+<listitem>
+<para>
+Allow multi-color graphical elements (e.g. toolbar icons) to be shown in monochrome only, if possible. These monochrome images should be shown in the system foreground and background colors, which the user will have chosen for themselves (by their choice of GTK theme) for maximum legibility.
+</para>
+</listitem>
+<listitem>
+<para>
+Make interactive GUI elements easily identifiable. For example, do not make the user hover the mouse over an object to determine whether it is clickable or not. Leave sufficient space between objects and clearly delineate object boundaries. Don't show GUI elements that look pretty but don't actually do anything, unless you also provide an option to switch them off.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide an option to hide graphics that don't convey essential information. Graphical images can be distracting to users with some cognitive disorders. The icons on the MATE foot menu, for example, can be switched off whilst still leaving the menus fully functional.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Fonts and Text</title>
+<para>
+Even to a user with normal vision, textual output provides the majority of the information and feedback in most applications. It is therefore critical to choose and position text carefully on the screen, and leave the choice of font and size to the user, to ensure that people with vision impaiments can also use your application effectively.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't hard-code font styles and sizes. The user should be able to adjust all sizes and typefaces. If for some reason you cannot make this functionality available, never hardcode any font sizes smaller than 10 points.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide options to turn off any graphical backdrops or "watermarks" behind text. Such images interfere with the contrast between the text and its background, which can cause difficulty for users with visual impairments.
+</para>
+</listitem>
+<listitem>
+<para>
+Label objects with names that make sense when taken out of context. Users relying on screen readers or similar assistive technologies will not necessarily be able to immediately understand the relationship between a control and those surrounding it.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't use the same label more than once in the same window. If you use the same label in different windows, it will help if it means the same thing in both windows. Also, don't use labels that are spelled differently but sound the same, e.g. "Read" and "Red", as this could be confusing for users relying on screen-readers.
+</para>
+</listitem>
+<listitem>
+<para>
+Position labels consistently throughout your application. This normally means immediately below large icons, immediately to the right of small icons, and immediately above or to the left of other controls. See <link linkend="gad-font-examples">Fonts and Text Examples</link>.
+</para>
+</listitem>
+<listitem>
+<para>
+When you use static text to label a control, end the label with a colon. For example, <guilabel>Username:</guilabel> to label a text field into which the user should type their username. This helps identify it as a control's label rather than an independent item of text.
+</para>
+</listitem>
+<listitem>
+<para>
+When you use static text to label a control, ensure that the label immediately precedes that control in the Tab order. This will ensure that the mnemonic (underlined character) you assign to the label will move focus to or activate the correct control when pressed.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide alternatives to WYSIWYG. Some users may need to print text in a small font but edit in a larger screen font, for example. Possible alternatives include displaying all text in the same font and size (both of which are chosen by the user); a "wrap-to-window" option that allows you to read all the text in a window without scrolling horizontally; a single column view that shows the window's contents in a single column even if they will be printed in multiple columns; and a text-only view, where graphics are shown as placeholders or text descriptions. If the application has panels with child controls, consider allowing the panels to resize along with the parent window.
+</para>
+</listitem>
+</itemizedlist>
+
+<section id="gad-font-examples">
+<title>Fonts and Text Examples</title>
+<figure id="label-placement-example">
+<title>Correct label placement for various GUI elements</title>
+<informaltable frame="all">
+<tgroup cols="3" align="center">
+<tbody>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/label_above.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>List control with label above</phrase>
+</textobject>
+</mediaobject>
+List control with label above
+</entry>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/label_below.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Large file manager icon with label underneath</phrase>
+</textobject>
+</mediaobject>
+Large file manager icon with label underneath
+</entry>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/label_right.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Small toolbar icon with label to its right</phrase>
+</textobject>
+</mediaobject>
+Small toolbar icon with label to its right
+</entry>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/label_left.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Spinbox control with label to its left</phrase>
+</textobject>
+</mediaobject>
+Spinbox control with label to its left
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+</section>
+</section>
+
+<section>
+<title>Color and Contrast</title>      
+<para>
+Poor choice of colors on the screen can cause problems for users with color blindness (for whom hue is important) or low-vision (for whom brightness/contrast is important). Generally, you should allow the user to customize the colors in any part of your application that conveys important information.
+</para>
+<para>
+Users with visual impairments may require a high level of contrast between the background and text colors. Often a black background and white text is used to prevent the background from "bleeding" over. These settings are critical for users with visual impairments.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't hard-code application colors. Some users need to use particular combinations of colors and levels of contrast to be able to read the screen comfortably. Therefore all the main colors you use in your MATE application should be taken from the GTK theme, so the user can set the colors for all their applications to something legible just by changing the theme. If for some reason you do need to use colors that are not available in the theme, ensure they are customizable within the application itself.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't use color as the only means to distinguish items of information. All such information should be provided by at least one other method, such as shape, position or textual description. See <link linkend="gad-color-examples">Color and Contrast Examples</link>.
+</para>
+</listitem>
+<listitem>
+<para>
+Support all the high contrast MATE themes.  Ensure that when one of these themes is selected, all the text in your application appears in the high contrast foreground and background colors specified by the theme.
+</para>
+</listitem>
+<listitem>
+<para>
+Ensure your application is not dependent on a particular high-contrast theme. Test it with different high-contrast themes to ensure your application respects the settings.
+</para>
+</listitem>
+</itemizedlist>
+
+<section id="gad-color-examples">
+<title>Color and Contrast Examples</title>
+<example>
+<title>Example illustrating redundant use of color</title>
+<informaltable frame="all">
+<tgroup cols="2">
+<tbody>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/color_only.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Example showing changes in stock price using color only</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+This display could cause problems for a red-green color-blind user (color-blindness affects as many as 1 in 7 males in some parts of the world). The lack of contrast between the red text and black background would also make it hard to read for a user with low vision, even with a screen magnifier.
+</entry>
+</row>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/color_and_arrows.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Example showing changes in stock price using both color and arrows</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+This display reinforces the color-coding with arrows to show the stock price movement, and uses darker shades of green and red on a lighter background to provide higher contrast.  This needn't be the default color scheme if testing were to show it to be too distracting for the majority of users, but it should be possible to customize it in this way either by theming or via the application's <guilabel>Preferences</guilabel> dialog.
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</example>
+</section>
+</section>
+
+<section>
+<title>Magnification</title>
+<para>
+Many users, even those not visually impaired, benefit from magnification of text and graphics. However, without magnification, a visually impaired user may not be able to access and use the program at all.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Provide the ability for the user to magnify the work area.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide options in the application to scale the work area. Users need to have an option to magnify the work area 150% to 400% or more.  Test the application to confirm the object you are viewing is not affected by changing the magnification settings.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Audio</title>
+<para>
+People who have difficulty hearing, as well as those who work with the sound on their computers turned off, will be disadvantaged if your application relies on sound to convey information. In general, make sure that the user is able to have any audible information conveyed in other ways.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't assume that a user will hear audio information. This applies as much to users with broken soundcards as it does to those with hearing impairments!
+</para>
+</listitem>
+<listitem>
+<para>
+Don't use audio as the only means of conveying information. Give the user the option to have all audio information provided in a visual way as well. This includes providing closed captioning or transcripts for any important spoken sound clips.
+</para>
+</listitem>
+<listitem>
+<para>
+Allow users to configure frequency and volume of all warning beeps and other sounds. This includes being able to turn off sound altogether.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Animation</title>
+<para>
+Used sparingly, animation can be useful for drawing attention to important information in your application - and it can look cool, too. However, it can be problematic for some users, so make sure they can turn it off.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't use flashing or blinking elements having a frequency greater than 2 Hz and lower than 55 Hz. This includes text as well as any graphical objects. Anything in this frequency range may cause particular problems for users susceptible to visually-induced seizures. Note that there is no "safe" frequency, though. If flashing is essential, you should use the system's cursor blink frequency (which should itself be customizable), or allow users to configure the frequency themselves.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't flash or blink large areas of the screen. Small areas are less likely to trigger seizures in those susceptible to them.
+</para>
+</listitem>
+<listitem>
+<para>
+Make all animations optional. The animated information should be available in at least one non-animated format, at the user's request.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Keyboard Focus</title>
+<para>
+Showing the keyboard focus position clearly at all times is important, both for users with vision impairments as well as "power-users" who prefer to use the keyboard rather than the mouse. There should never be any confusion as to which control on the desktop has focus at any given time. You ought to be able to leave your computer with the focus on any widget in your application, then go off and phone your girlfriend or walk the dog until you've forgotten which widget you left it on. When you return, you should be able to tell straight away exactly which widget it was.
+</para>
+<para>
+A visual focus indicator is an audio representation of the cursor position relative to the other objects on the desktop. This allows the user to move among objects interactively as the focus changes. The visual focus must be programatically exposed to assistive technologies. Note that in most cases, this is handled automatically by the ATK, without requiring you to do any additional work. However, you will need to be aware of this requirement when writing your own custom widgets, for example.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Start focus at the most commonly used control. If no control in a window is deemed to be the "most" useful, start the focus at the first control in the window when that window is opened. Focus should not be started on the <guilabel>OK</guilabel> or <guilabel>Cancel</guilabel> buttons of a dialog even if they are the most commonly used controls, as they can always be activated immediately by pressing <keycap>Enter</keycap> or <keycap>Escape</keycap>.
+</para>
+</listitem>
+<listitem>
+<para>
+Show current input focus clearly at all times.  Remember that in controls that include a scrolling element, it is not always sufficient to highlight just the selected element inside that scrolling area, as it may not be visible. See <link linkend="gad-focus-examples">Keyboard Focus Examples</link>.
+</para>
+</listitem>
+<listitem>
+<para>
+Show input focus only in the active window. Hide all primary visual focus indicators in all windows that do not have the focus and activation. If a single window has separate panes, only one pane should have the focus indicator, and focus indicators should be hidden in all other panes. If it's important to continue showing which item in an unfocused list is selected, for example, use a secondary focus indicator. See <link linkend="gad-focus-examples">Keyboard Focus Examples</link>.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide appropriate feedback when the user attempts to navigate past the end of a group of related objects. When navigating a list, for example, stopping with audio feedback is usually preferable to moving the focus back to the first object in the list. Otherwise, users who are blind or have low vision may not realize they have returned to the beginning. In the case of a text search in a document, a dialog may pop up to indicate that the end of the document has been reached, and ask if you want to resume the search at the start of the document.
+</para>
+</listitem>
+<listitem>
+<para>
+Play the system default audio or visual warning signal when the user presses an inappropriate key, or when a navigation key fails to move the focus. For example, when the focus is on the first character in a text field and the user presses left arrow key, or the user tries to perform multiple selection in a single selection dialog. (Note that users with hearing difficulties should be able to configure a system-wide visual equivalent to the default warning sound.)
+</para>
+</listitem>
+</itemizedlist>
+
+<section id="gad-focus-examples">
+<title>Keyboard Focus Examples</title>
+<example><title>Example illustrating need to show focus clearly</title>
+<informaltable frame="all">
+<tgroup cols="2">
+<tbody>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/badfocus1.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The focused item in this window cannot be seen because it has been scrolled off-screen</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+One of the controls in this window has focus, but it's impossible to tell which...
+</entry>
+</row>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/badfocus2.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The focused item in the list has been brought into view by scrolling the list</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+...until you scroll the list, which reveals that one of its items is currently selected.
+</entry>
+</row>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/goodfocus.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The list control in this example has a solid border indicating focus, whether its selected item is currently visible or not</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+If the list control itself is given a "focused" border, it's easy to tell it has focus even when the currently-selected item isn't visible.
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</example>
+<example>
+<title>Example illustrating use of secondary focus</title>
+<informaltable frame="all">
+<tgroup cols="2">
+<tbody>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/badfocus3.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Split-paned window in which both panes seem to have focus</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+In this example, it's impossible to tell just by looking which of the two panes actually has keyboard focus.
+</entry>
+</row>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/goodfocus3.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Split-pane window in which secondary highlighting is used to show which pane has focus</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+By using a secondary selection highlight color in the inactive pane, it's immediately obvious that the tree control has focus here...
+</entry>
+</row>
+<row>
+<entry valign="middle">
+<mediaobject>
+<imageobject>
+<imagedata fileref="figures/goodfocus2.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Split-pane window in which secondary highlighting is used to show which pane has focus</phrase>
+</textobject>
+</mediaobject>
+</entry>
+<entry>
+...and that the list control has focus here.
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</example>
+</section>
+</section>
+
+<section>
+<title>Timing</title>
+<para>
+Interfaces in which things appear, disappear or happen according to some hard-coded time limit are often a hindrance to accessibility. Some users may read, type or react very slowly in comparison to others. If information they require is hidden before they are finished with it, or obscured by other information popping up which they didn't explicitly request, then your application will become very frustrating or even impossible to use.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Don't hard-code timeouts or other time-based features. Examples include automatic scrolling when dragging an object towards the edge of a window, holding down a scrollbar button, or automatically expanding a tree node when an object is dragged over it and held for a short time. These should either be customizable in the application, the MATE control center, or at worst, manually editable from the command line via a configuration file or MateConf entry.
+</para>
+</listitem>
+<listitem>
+<para>
+Don't briefly show or hide information based on the movement of the mouse pointer. (Exception: system-provided features such as tooltips, which the user can configure on a system-wide level). If you must provide such features, make them optional so users can turn them off when a screen-review utility is installed.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<title>Documentation</title>
+<para>
+People with disabilities cannot use the application effectively if they do not have access to the required manuals and help files.  Of particular importance is keyboard navigation, since this is the only way many users can navigate the application.
+</para>
+<itemizedlist>
+<listitem>
+<para>
+Provide all documentation in an accessible format. ASCII text and HTML are both excellent formats for assistive technologies.
+</para>
+</listitem>
+<listitem>
+<para>
+Provide alternative text descriptions for all graphics in the documentation.
+</para>
+</listitem>
+<listitem>
+<para>
+Document all your application's accessibility features. Keyboard navigation and shortcuts are particularly important to document. Include an accessibility section in your documentation, where information on all the accessibility features can be found.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+</chapter>

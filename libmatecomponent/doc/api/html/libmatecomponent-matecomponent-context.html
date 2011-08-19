@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>matecomponent-context</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="general.html" title="General">
+<link rel="prev" href="libmatecomponent-matecomponent-types.html" title="matecomponent-types">
+<link rel="next" href="libmatecomponent-matecomponent-exception.html" title="matecomponent-exception">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmatecomponent-matecomponent-types.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="general.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-exception.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponent-matecomponent-context.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-context.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponent-matecomponent-context"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponent-matecomponent-context.top_of_page"></a>matecomponent-context</span></h2>
+<p>matecomponent-context — Extensible runtime service interface</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponent-matecomponent-context.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">MateComponent_Unknown</span>      <a class="link" href="libmatecomponent-matecomponent-context.html#matecomponent-context-get" title="matecomponent_context_get ()">matecomponent_context_get</a>                  (<em class="parameter"><code>const <span class="type">CORBA_char</span> *context_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-context.html#matecomponent-context-add" title="matecomponent_context_add ()">matecomponent_context_add</a>                  (<em class="parameter"><code>const <span class="type">CORBA_char</span> *context_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_Unknown</span> context</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-object.html#MateComponentObject"><span class="returnvalue">MateComponentObject</span></a> *      <a class="link" href="libmatecomponent-matecomponent-context.html#matecomponent-context-running-get" title="matecomponent_context_running_get ()">matecomponent_context_running_get</a>          (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponent-matecomponent-context.html#matecomponent-running-context-auto-exit-unref" title="matecomponent_running_context_auto_exit_unref ()">matecomponent_running_context_auto_exit_unref</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-object.html#MateComponentObject"><span class="type">MateComponentObject</span></a> *object</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-context.description"></a><h2>Description</h2>
+<p>
+The matecomponent-context code is designed to provide a way to
+expose CORBA contexts through a single C interface. This
+is so that language bindings can get away with wrapping
+a single function, and yet have access to the whole
+MateComponent service framework. Two examples of this are the
+MonikerContext and the RunningContext ( see
+MateComponent_Context.idl ).
+</p>
+<p>
+  </p>
+<div class="example">
+<a name="id3069009"></a><p class="title"><b>Example 1. Getting and using the moniker context</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="usertype">MateComponent_MonikerContext</span><span class="normal"> context</span><span class="symbol">;</span>
+<span class="usertype">MateComponent_Unknown</span><span class="normal">        object</span><span class="symbol">;</span>
+<span class="normal">context </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-context.html#matecomponent-context-get">matecomponent_context_get</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Activation"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">context </span><span class="symbol">==</span><span class="normal"> CORBA_OBJECT_NIL</span><span class="symbol">)</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-error">g_error</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-I18N.html#gettext-macro">_</a></span><span class="symbol">(</span><span class="string">"Internal error, no activation context"</span><span class="symbol">));</span>
+<span class="normal">object </span><span class="symbol">=</span><span class="normal"> </span><span class="function">MateComponent_MonikerContext_getObject</span><span class="normal"> </span><span class="symbol">(</span>
+<span class="normal">    </span><span class="string">"file:/demo/a.jpeg"</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"MateComponent/Control"</span><span class="symbol">,</span><span class="normal"> ev</span><span class="symbol">);</span>
+<span class="symbol">...</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+<p>
+The list of contexts is open and may be expanded in the future,
+currently there are the following:
+  </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+        Activation - MateComponent/MonikerContext
+      </p></li>
+<li class="listitem"><p>
+        Running - MateComponent/RunningContext
+      </p></li>
+</ul></div>
+<p>
+</p>
+<p>
+The running context is particularly useful for ensuring that
+server processes exit cleanly when all their objects and
+derived objects are dead. To do this we can simply do the
+following:
+</p>
+<p>
+  </p>
+<div class="example">
+<a name="id3069059"></a><p class="title"><b>Example 2. How to get a factory to quit when it is idle</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">last_unref_exit_cb</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">gpointer</span><span class="normal">      context</span><span class="symbol">,</span>
+<span class="normal">            </span><span class="usertype">MateComponentObject</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">factory</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">        </span><span class="function"><a href="libmatecomponent-matecomponent-object.html#matecomponent-object-unref">matecomponent_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">factory</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function">gtk_main_quit</span><span class="normal"> </span><span class="symbol">();</span>
+<span class="cbracket">}</span>
+<span class="symbol">...</span>
+<span class="type">int</span><span class="normal"> </span><span class="function">main</span><span class="normal"> </span><span class="symbol">(</span><span class="type">int</span><span class="normal"> argc</span><span class="symbol">,</span><span class="normal"> </span><span class="type">char</span><span class="normal"> </span><span class="symbol">**</span><span class="normal">argv</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="symbol">...</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-running-context.html#matecomponent-running-context-ignore-object">matecomponent_running_context_ignore_object</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="libmatecomponent-matecomponent-object.html#MATECOMPONENT-OBJREF:CAPS">MATECOMPONENT_OBJREF</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">object</span><span class="symbol">));</span>
+<span class="normal">    </span><span class="function">gtk_signal_connect</span><span class="normal"> </span><span class="symbol">(</span><span class="function">GTK_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="libmatecomponent-matecomponent-context.html#matecomponent-context-running-get">matecomponent_context_running_get</a></span><span class="normal"> </span><span class="symbol">()),</span>
+<span class="normal">                </span><span class="string">"last_unref"</span><span class="symbol">,</span><span class="normal"> last_unref_exit_cb</span><span class="symbol">,</span><span class="normal"> factory</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="symbol">...</span>
+<span class="normal">    </span><span class="function"><a href="libmatecomponent-matecomponent-main.html#matecomponent-main">matecomponent_main</a></span><span class="normal"> </span><span class="symbol">();</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+<p>
+  Since this is a commonly used thing there is a helper to make this
+easier:
+  </p>
+<div class="example">
+<a name="id3069084"></a><p class="title"><b>Example 3. How to get a factory to quit when it is idle</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="function"><a href="libmatecomponent-matecomponent-context.html#matecomponent-running-context-auto-exit-unref">matecomponent_running_context_auto_exit_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">factory</span><span class="symbol">)</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-context.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="matecomponent-context-get"></a><h3>matecomponent_context_get ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_Unknown</span>      matecomponent_context_get                  (<em class="parameter"><code>const <span class="type">CORBA_char</span> *context_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+The most useful context is named 'Activation' and returns
+the IDL:MateComponent/ActivationContext:1.0 interface.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context_name</code></em> :</span></p></td>
+<td>the name of the context
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>optional Environment, or NULL
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new reference to a global MateComponent context or CORBA_OBJECT_NIL
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-context-add"></a><h3>matecomponent_context_add ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_context_add                  (<em class="parameter"><code>const <span class="type">CORBA_char</span> *context_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_Unknown</span> context</code></em>);</pre>
+<p>
+This function adds a new context to the context system
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context_name</code></em> :</span></p></td>
+<td>the name to refer to the context by
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>The MateComponent_Unknown; a ref. is taken on this.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-context-running-get"></a><h3>matecomponent_context_running_get ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-object.html#MateComponentObject"><span class="returnvalue">MateComponentObject</span></a> *      matecomponent_context_running_get          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-running-context-auto-exit-unref"></a><h3>matecomponent_running_context_auto_exit_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_running_context_auto_exit_unref
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-object.html#MateComponentObject"><span class="type">MateComponentObject</span></a> *object</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

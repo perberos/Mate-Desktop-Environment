@@ -1,0 +1,173 @@
+Significant:
+
+	No effort to keep compatibility with MateComponentObject, only
+MateComponentXObject, thus, poking at elements inside MateComponentObject will
+fail in future.
+
+C:
+
+matecomponent-stream.[ch]:
+	converted to MateComponentXObject, removed all internals - this
+	is totaly obsoleted by MateComponentXObject.
+		  removed matecomponent_stream_get_epv
+		  removed matecomponent_stream_corba_object_create
+	removed matecomponent_stream_open
+	renamed matecomponent_stream_open_full to matecomponent_stream_open
+	moved matecomponent_stream_open into matecomponent_storage
+
+matecomponent-storage-plugin.[ch]:
+	Removed - we use monikers instead now for all storage and stream
+	naming and access.
+
+matecomponent-storage.[ch]:
+	removed matecomponent_stream_open
+	removed matecomponent_storage_open
+	removed matecomponent_storage_open_full
+	Use monikers (matecomponent_get_object) instead.
+	Remove this nasty chunk of 'wrapper' code obsoleted by
+	MateComponentObject. Whole API dead - use MateComponentObject. Only API
+	left is matecomponent_storage_copy_to - the only impl. in there.
+	NB. return values from openStream, openStorage need their
+	own CORBA_Object_duplicate on return.
+
+matecomponent-object.[ch]:
+	Deprecate in favour of MateComponentXObject
+		removed matecomponent_object_get_epv
+		removed matecomponent_object_construct
+		removed matecomponent_object_new_from_servant
+		removed matecomponent_object_bind_to_servant
+		removed matecomponent_object_activate_servant
+		removed matecomponent_object_activate_servant_full
+	"query_interface" is a virtual method and no long a signal.
+	matecomponent_object_query_interface: added optional ev.
+	matecomponent_unknown_ping: add optional ev.
+
+matecomponent-event-source.[ch]
+	matecomponent_event_source_client_add_listener: no longer returns an id
+	use the listener object reference to manage the listener.
+	matecomponent_event_source_client_add_listener_full: this now returns
+	a MateComponent_Listener CORBA reference that you need to _release, but
+	can be used to identify the listener - if neccessary [ seldom is ].
+	matecomponent_event_source_client_remove_listener: similary now takes
+	a listener instead of an id.
+
+
+matecomponent-generic-factory.[ch]:
+matecomponent-shlib-factory.[ch]:
+	A very broken module
+		removed matecomponent_generic_factory_corba_object_create
+
+	Unified multi/simple factories -- every factory is a multi
+		factory now. _MULTI macros are provided for
+		compatibility but please consider migrating to
+		_MULTI-less macros. Migrating simple factories is
+		easy: just add a const gchar * argument to your
+		factory callback function.
+	Privatization
+	removed matecomponent_generic_factory_set
+		
+matecomponent-property-bag-xml.[ch]:
+	Removed, use matecomponent-conf or soap support code instead
+		 removed matecomponent_property_bag_xml_encode_any
+		 removed matecomponent_property_bag_xml_decode_any
+
+matecomponent-main.[ch]:
+	matecomponent_init: added argc, argv, since this now initializes
+	oaf for you.
+
+matecomponent-object-client.[ch]:
+	totaly removed, was a terrible idea - use the CORBA handle
+	directly instead.
+
+matecomponent-moniker.[ch]:
+	remove specious virtualization of get_parent, set_parent,
+	get_name, set_name, resolve, equal. If you need to override
+	these then do it by overriding the CORBA method on your
+	inherited epv.
+
+matecomponent-moniker-util.[ch]:
+	Removed matecomponent_moniker_client_resolve_client_default: it used
+	MateComponentObjectClient, use matecomponent_moniker_client_resolve_default intead.
+	The async methods no longer take a timeout - since we can detect when
+	a connection dies, and there's no point.
+
+matecomponent-progressive.[ch]:
+	Removed entirely - unused & stale.
+
+matecomponent-property-bag-client.[ch]
+	Added more functions to access property bag data. The new functions are
+	named matecomponent_bpclient_* instead of matecomponent_property_bag_client_*
+	Add a matecomponent_pbclient_set / matecomponent_pbclient_get nice vararg wrapper
+	to make it easier to set properties.
+	Change the way varrag wrappers work, to be name / type / value
+	triplets instead of type-unsafe name / value pairs.
+
+matecomponent-property-bag.[ch]:
+	matecomponent_property_bag_add_gtk_args is now called
+	matecomponent_property_bag_map_params and changed sig.
+
+matecomponent-object-directory.[ch]:
+	matecomponent_directory_*: remove, deprecated by oaf,
+	use the liboaf functions instead.
+
+matecomponent-print.[ch],
+matecomponent-print-client.[ch]:
+	These now live in libmateprint-matecomponent.h and have been renamed
+	to the MatePrintMateComponent namespace.
+
+matecomponent-arg.[ch]:
+	matecomponent_arg_from/to_gtk -> matecomponent_arg_from/to_gvalue
+	matecomponent_arg_type_to/from_gtk -> matecomponent_arg_type_to/from_gtype
+
+
+
+IDL:
+
+MateComponent_Property.idl:
+	remove the Property interface and extended the PropertyBag interface
+	instead. included the ConfigDatabase interface.
+
+MateComponent_Storage.idl:
+	remove copyTo
+
+MateComponent_Persist:
+	Promoted isDirty to the base class and removed it from all the 
+	subclasses.
+	New getIId method to get the OAF IID necessary to re-create the
+	component owning the MateComponent::Perist interface
+
+MateComponent_PersistStream:
+	remove getMaxSize: use the stream interface for this
+
+MateComponent_PersistStorage:
+	remove initNew: use the stream context for this.
+
+MateComponent_Listener:
+	remove the 'id' concept on the EventSource - it was badly
+	broken and unneccesary.
+
+MateComponent_ClientSite:
+MateComponent_Embeddable:
+MateComponent_View:
+MateComponent_ViewFrame:
+	killed: use the new ControlFactory and CanvasComponentFactory
+	interfaces to create compound document view objects.  
+
+MateComponent_ControlFactory:
+	new: use to expose control based compound-doc view support.
+
+MateComponent_CanvasComponentFactory:
+	new: use to expose canvas based compound-doc view support.
+
+MateComponent/ActivationContext:
+	renamed to MateComponent/MonikerContext to avoid clash with oaf
+	and better reflect it's use.
+
+Removed:
+	MateComponent_Advise.idl:          unused,
+	MateComponent_ProgressiveDataSink: unused & stale
+	MateComponent_DesktopWindow:       deprecated
+	
+
+
+Insignificant:

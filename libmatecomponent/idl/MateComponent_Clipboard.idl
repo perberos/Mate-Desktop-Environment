@@ -1,0 +1,88 @@
+/*
+ * MateComponent::Clipboard: interface for a general clipboard supporting
+ * both embedding (storing the pasted data inside the container) and
+ * linking (storing only a reference to the pasted data inside the
+ * container, with the possibility to refresh it later)
+ * 
+ * MateComponent::ClipboardStore: interface for implementing clipboard
+ * persistency externally. Use this if you don't want to implement
+ * funky clipboard data persistency in your application.
+ *
+ * Author:
+ *    ÉRDI Gergõ <cactus@cactus.rulez.org>
+ *
+ * Copyright (C) 2001 Gergõ Érdi
+ */
+
+#ifndef MATECOMPONENT_CLIPBOARD_IDL
+#define MATECOMPONENT_CLIPBOARD_IDL
+
+#include "MateComponent_Unknown.idl"
+#include "MateComponent_Persist.idl"
+#include "MateComponent_Moniker.idl"
+
+module MateComponent {
+
+	interface Clipboard : Unknown {
+	
+		/**
+		 * setClipboard:
+		 * @pasting_moniker:
+		 * @linking_moniker:
+		 *
+		 * Set the curent clipboard state. The clipboard
+		 * server will own a new reference on the monikers.
+		 * Three events will also be fired by the aggregated
+		 * EventSource:
+		 *      MateComponent/Clipboard:changed (void)
+		 *      MateComponent/Clipboard:changed:pasting (pasting_moniker)
+		 *      MateComponent/Clipboard:changed:linking (linking_moniker)
+		 */
+		void setClipboard (in Moniker pasting_moniker,
+				   in Moniker linking_moniker);
+
+		/**
+		 * paste:
+		 *
+		 * Get the current pasteing moniker. The returned
+		 * moniker is already ref'd.
+		 */
+		Moniker paste ();
+
+		/**
+		 * link:
+		 *
+		 * Get the current linking moniker. The returned
+		 * moniker is already ref'd.
+		 */		
+		Moniker link ();
+
+		void unImplemented1 ();
+		void unImplemented2 ();
+		void unImplemented3 ();
+		void unImplemented4 ();
+	};	
+
+	interface ClipboardStore : Unknown {
+		
+		/**
+		 * fetchStream:
+		 */
+		void fetchStream (in PersistStream source,
+				  in Moniker       linking_moniker);
+
+		
+		/**
+		 * fetchStorage:
+		 */
+		void fetchStorage (in PersistStorage source,
+				   in Moniker        linking_moniker);
+
+		void unImplemented1 ();
+		void unImplemented2 ();
+		void unImplemented3 ();
+		void unImplemented4 ();
+	};
+};
+
+#endif /* !MATECOMPONENT_CLIPBOARD_IDL */

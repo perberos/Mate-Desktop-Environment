@@ -1,0 +1,187 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentCanvasComponent
+
+<!-- ##### SECTION Short_Description ##### -->
+Class for exporting MateComponentCanvasItems through MateComponentEmbeddables to
+other applications.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+  The MateComponentCanvasComponent objects are used to wrap MateCanvasItems
+  and export them to container applications.  Typically the
+  matecomponent_component_canvas_new() function will be invoked in a callback
+  from a MateComponentEmbeddable object.
+</para>
+
+<para>
+  Here is an example of how to export Mate Canvas Items in a simple
+  way.  
+  <example>
+    <title>Wrapping a Mate Canvas Item</title>
+    <programlisting>
+
+/*
+ * Here is where the MateCanvasItem (in this case an ellipse)
+ * is created and wrapped in a MateComponentCanvasComponent.
+ *
+ * This function is invoked on demand on the embeddable
+ * argument.  Embeddables are the document model, and the
+ * items returned are the views.  
+ */
+MateComponentCanvasComponent *
+my_item_creator (MateComponentEmbeddable *embeddable,
+                 MateCanvas      *canvas,
+                 void             *data)
+{
+        MateCanvasItem *item = mate_canvas_item_new (
+		mate_canvas_root (canvas),
+                mate_canvas_ellipse_get_type (),
+                "x1", 5.0,  "y1", 5.0,
+                "x2", 95.0, "y2", 95.0,
+                "fill_color", "white",
+                "outline_color", "black",
+                NULL);
+
+        return matecomponent_canvas_component_new (item);
+}
+
+/*
+ * This is a routine that creates a MateComponentEmbeddable that
+ * uses CanvasItems.
+ */
+MateComponentEmbeddable *make_embeddable (void)
+{
+       return matecomponent_embeddable_new_canvas_item (my_item_creator, NULL);
+}
+    </programlisting>
+  </example>
+</para>
+
+<para>
+  Applications that do not use the base #MateComponentEmbeddable class, but
+  use their own types derived from the #MateComponentEmbeddable can use the
+  matecomponent_embeddable_construct() during their construction phase. 
+</para>
+
+<para>
+  On the client side (the application that will embed this component)
+  an object of the type #MateComponentCanvasItem is used.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+  #MateComponentEmbeddable, #MateComponentCanvasItem
+</para>
+
+<!-- ##### STRUCT MateComponentCanvasComponentPrivate ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT MateComponentCanvasComponent ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### TYPEDEF MateComponentCanvasComponentClass ##### -->
+<para>
+  
+</para>
+
+
+<!-- ##### FUNCTION matecomponent_canvas_component_construct ##### -->
+<para>
+
+</para>
+
+@comp: 
+@item: 
+@Returns: 
+<!-- # Unused Parameters # -->
+@corba_canvas_comp: 
+@ccomp: 
+
+
+<!-- ##### FUNCTION matecomponent_canvas_component_new ##### -->
+<para>
+
+</para>
+
+@item: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_canvas_component_get_item ##### -->
+<para>
+
+</para>
+
+@comp: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_canvas_component_grab ##### -->
+<para>
+
+</para>
+
+@comp: 
+@mask: 
+@cursor: 
+@time: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_canvas_component_ungrab ##### -->
+<para>
+
+</para>
+
+@comp: 
+@time: 
+@opt_ev: 
+
+
+<!-- ##### FUNCTION matecomponent_canvas_component_get_ui_container ##### -->
+<para>
+
+</para>
+
+@comp: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_canvas_new ##### -->
+<para>
+
+</para>
+
+@is_aa: 
+@proxy: 
+@Returns: 
+
+
+<!-- ##### SIGNAL MateComponentCanvasComponent::event ##### -->
+<para>
+
+</para>
+
+@matecomponentcanvascomponent: the object which received the signal.
+@arg1: 
+@Returns: 
+
+<!-- ##### SIGNAL MateComponentCanvasComponent::set-bounds ##### -->
+<para>
+
+</para>
+
+@matecomponentcanvascomponent: the object which received the signal.
+@arg1: 
+@arg2: 
+<!-- # Unused Parameters # -->
+@bbox: The bounding box.
+@ev: CORBA Environment to return errors on.
+

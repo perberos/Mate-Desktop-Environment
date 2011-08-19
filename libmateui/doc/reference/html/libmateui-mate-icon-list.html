@@ -1,0 +1,1602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateIconList</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="deprecated.html" title="Deprecated Modules">
+<link rel="prev" href="libmateui-mate-font-picker.html" title="MateFontPicker">
+<link rel="next" href="MateIconTextItem.html" title="MateIconTextItem">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmateui-mate-font-picker.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="deprecated.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="MateIconTextItem.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmateui-mate-icon-list.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmateui-mate-icon-list.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmateui-mate-icon-list.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libmateui-mate-icon-list.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#libmateui-mate-icon-list.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmateui-mate-icon-list"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmateui-mate-icon-list.top_of_page"></a>MateIconList</span></h2>
+<p>MateIconList</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmateui-mate-icon-list.synopsis"></a><h2>Synopsis</h2>
+<a name="MateIconList"></a><pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+enum                <a class="link" href="libmateui-mate-icon-list.html#MateIconListMode" title="enum MateIconListMode">MateIconListMode</a>;
+struct              <a class="link" href="libmateui-mate-icon-list.html#MateIconList-struct" title="struct MateIconList">MateIconList</a>;
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-new" title="mate_icon_list_new ()">mate_icon_list_new</a>                 (<em class="parameter"><code><span class="type">guint</span> icon_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *adj</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> flags</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-construct" title="mate_icon_list_construct ()">mate_icon_list_construct</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> icon_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *adj</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> flags</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-hadjustment" title="mate_icon_list_set_hadjustment ()">mate_icon_list_set_hadjustment</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *hadj</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-vadjustment" title="mate_icon_list_set_vadjustment ()">mate_icon_list_set_vadjustment</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *vadj</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-freeze" title="mate_icon_list_freeze ()">mate_icon_list_freeze</a>              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-thaw" title="mate_icon_list_thaw ()">mate_icon_list_thaw</a>                (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-insert" title="mate_icon_list_insert ()">mate_icon_list_insert</a>              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-insert-pixbuf" title="mate_icon_list_insert_pixbuf ()">mate_icon_list_insert_pixbuf</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkPixbuf</span> *im</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-append" title="mate_icon_list_append ()">mate_icon_list_append</a>              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-append-pixbuf" title="mate_icon_list_append_pixbuf ()">mate_icon_list_append_pixbuf</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkPixbuf</span> *im</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-clear" title="mate_icon_list_clear ()">mate_icon_list_clear</a>               (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-remove" title="mate_icon_list_remove ()">mate_icon_list_remove</a>              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);
+<span class="returnvalue">guint</span>               <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-num-icons" title="mate_icon_list_get_num_icons ()">mate_icon_list_get_num_icons</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">GtkSelectionMode</span>    <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-selection-mode" title="mate_icon_list_get_selection_mode ()">mate_icon_list_get_selection_mode</a>  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-selection-mode" title="mate_icon_list_set_selection_mode ()">mate_icon_list_set_selection_mode</a>  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkSelectionMode</span> mode</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-select-icon" title="mate_icon_list_select_icon ()">mate_icon_list_select_icon</a>         (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-select-all" title="mate_icon_list_select_all ()">mate_icon_list_select_all</a>          (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-unselect-icon" title="mate_icon_list_unselect_icon ()">mate_icon_list_unselect_icon</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-unselect-all" title="mate_icon_list_unselect_all ()">mate_icon_list_unselect_all</a>        (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-selection" title="mate_icon_list_get_selection ()">mate_icon_list_get_selection</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-focus-icon" title="mate_icon_list_focus_icon ()">mate_icon_list_focus_icon</a>          (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> idx</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-icon-width" title="mate_icon_list_set_icon_width ()">mate_icon_list_set_icon_width</a>      (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> w</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-row-spacing" title="mate_icon_list_set_row_spacing ()">mate_icon_list_set_row_spacing</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-col-spacing" title="mate_icon_list_set_col_spacing ()">mate_icon_list_set_col_spacing</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-text-spacing" title="mate_icon_list_set_text_spacing ()">mate_icon_list_set_text_spacing</a>    (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-icon-border" title="mate_icon_list_set_icon_border ()">mate_icon_list_set_icon_border</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-separators" title="mate_icon_list_set_separators ()">mate_icon_list_set_separators</a>      (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *sep</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-icon-filename" title="mate_icon_list_get_icon_filename ()">mate_icon_list_get_icon_filename</a>   (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-find-icon-from-filename" title="mate_icon_list_find_icon_from_filename ()">mate_icon_list_find_icon_from_filename</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-icon-data" title="mate_icon_list_set_icon_data ()">mate_icon_list_set_icon_data</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-set-icon-data-full" title="mate_icon_list_set_icon_data_full ()">mate_icon_list_set_icon_data_full</a>  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-find-icon-from-data" title="mate_icon_list_find_icon_from_data ()">mate_icon_list_find_icon_from_data</a> (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<span class="returnvalue">gpointer</span>            <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-icon-data" title="mate_icon_list_get_icon_data ()">mate_icon_list_get_icon_data</a>       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-moveto" title="mate_icon_list_moveto ()">mate_icon_list_moveto</a>              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> yalign</code></em>);
+<span class="returnvalue">GtkVisibility</span>       <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-icon-is-visible" title="mate_icon_list_icon_is_visible ()">mate_icon_list_icon_is_visible</a>     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-icon-at" title="mate_icon_list_get_icon_at ()">mate_icon_list_get_icon_at</a>         (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> y</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-items-per-line" title="mate_icon_list_get_items_per_line ()">mate_icon_list_get_items_per_line</a>  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);
+<a class="link" href="MateIconTextItem.html" title="MateIconTextItem"><span class="returnvalue">MateIconTextItem</span></a> * <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-icon-text-item" title="mate_icon_list_get_icon_text_item ()">mate_icon_list_get_icon_text_item</a>  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>);
+<span class="returnvalue">MateCanvasPixbuf</span> * <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-get-icon-pixbuf-item" title="mate_icon_list_get_icon_pixbuf_item ()">mate_icon_list_get_icon_pixbuf_item</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-icon-list.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----GInitiallyUnowned
+         +----GtkObject
+               +----GtkWidget
+                     +----GtkContainer
+                           +----GtkLayout
+                                 +----MateCanvas
+                                       +----MateIconList
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-icon-list.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+MateIconList implements
+ AtkImplementorIface and  GtkBuildable.</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-icon-list.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmateui-mate-icon-list.html#MateIconList-focus-icon" title='The "focus-icon" signal'>focus-icon</a>"                                     : <code class="literal">Run First</code>
+  "<a class="link" href="libmateui-mate-icon-list.html#MateIconList-move-cursor" title='The "move-cursor" signal'>move-cursor</a>"                                    : <code class="literal">Action</code>
+  "<a class="link" href="libmateui-mate-icon-list.html#MateIconList-select-icon" title='The "select-icon" signal'>select-icon</a>"                                    : <code class="literal">Run First</code>
+  "<a class="link" href="libmateui-mate-icon-list.html#MateIconList-text-changed" title='The "text-changed" signal'>text-changed</a>"                                   : <code class="literal">Run Last</code>
+  "<a class="link" href="libmateui-mate-icon-list.html#MateIconList-toggle-cursor-selection" title='The "toggle-cursor-selection" signal'>toggle-cursor-selection</a>"                        : <code class="literal">Action</code>
+  "<a class="link" href="libmateui-mate-icon-list.html#MateIconList-unselect-icon" title='The "unselect-icon" signal'>unselect-icon</a>"                                  : <code class="literal">Run First</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-icon-list.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-icon-list.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateIconListMode"></a><h3>enum MateIconListMode</h3>
+<pre class="programlisting">typedef enum {
+	MATE_ICON_LIST_ICONS,
+	MATE_ICON_LIST_TEXT_BELOW,
+	MATE_ICON_LIST_TEXT_RIGHT
+} MateIconListMode;
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateIconListMode</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateIconList-struct"></a><h3>struct MateIconList</h3>
+<pre class="programlisting">struct MateIconList;</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateIconList</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-new"></a><h3>mate_icon_list_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_icon_list_new                 (<em class="parameter"><code><span class="type">guint</span> icon_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *adj</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> flags</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_new</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon_width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>adj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-construct"></a><h3>mate_icon_list_construct ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_construct           (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> icon_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *adj</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> flags</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_construct</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Constructor for the icon list, to be used by derived classes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon_width</code></em> :</span></p></td>
+<td>Width for the icon columns.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>A combination of <code class="literal">MATE_ICON_LIST_IS_EDITABLE</code> and <code class="literal">MATE_ICON_LIST_STATIC_TEXT</code>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-hadjustment"></a><h3>mate_icon_list_set_hadjustment ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_hadjustment     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *hadj</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_hadjustment</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the adjustment to be used for horizontal scrolling.  This is normally
+not required, as the icon list can be simply inserted in a &amp;GtkScrolledWindow
+and scrolling will be handled automatically.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hadj</code></em> :</span></p></td>
+<td>Adjustment to be used for horizontal scrolling.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-vadjustment"></a><h3>mate_icon_list_set_vadjustment ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_vadjustment     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAdjustment</span> *vadj</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_vadjustment</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the adjustment to be used for vertical scrolling.  This is normally not
+required, as the icon list can be simply inserted in a &amp;GtkScrolledWindow and
+scrolling will be handled automatically.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>vadj</code></em> :</span></p></td>
+<td>Adjustment to be used for horizontal scrolling.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-freeze"></a><h3>mate_icon_list_freeze ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_freeze              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_freeze</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Freezes an icon list so that any changes made to it will not be
+reflected on the screen until it is thawed with <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-thaw" title="mate_icon_list_thaw ()"><code class="function">mate_icon_list_thaw()</code></a>.
+It is recommended to freeze the icon list before inserting or deleting
+many icons, for example, so that the layout process will only be executed
+once, when the icon list is finally thawed.
+</p>
+<p>
+You can call this function multiple times, but it must be balanced with the
+same number of calls to <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-thaw" title="mate_icon_list_thaw ()"><code class="function">mate_icon_list_thaw()</code></a> before the changes will take
+effect.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-thaw"></a><h3>mate_icon_list_thaw ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_thaw                (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_thaw</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Thaws the icon list and performs any pending layout operations.  This
+is to be used in conjunction with <a class="link" href="libmateui-mate-icon-list.html#mate-icon-list-freeze" title="mate_icon_list_freeze ()"><code class="function">mate_icon_list_freeze()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-insert"></a><h3>mate_icon_list_insert ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_insert              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_insert</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Inserts an icon in the specified icon list.  The icon's image is loaded
+from the specified file, and it is inserted at the <em class="parameter"><code>pos</code></em> index.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Position at which the new icon should be inserted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon_filename</code></em> :</span></p></td>
+<td>Name of the file that holds the icon's image.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>Text to be used for the icon's caption.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-insert-pixbuf"></a><h3>mate_icon_list_insert_pixbuf ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_insert_pixbuf       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkPixbuf</span> *im</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_insert_pixbuf</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Inserts an icon in the specified icon list.  The icon is created from the
+specified Imlib image, and it is inserted at the <em class="parameter"><code>pos</code></em> index.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Position at which the new icon should be inserted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>im</code></em> :</span></p></td>
+<td>Pixbuf image with the icon image.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon_filename</code></em> :</span></p></td>
+<td>Filename of the image file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>Text to be used for the icon's caption.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-append"></a><h3>mate_icon_list_append ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_append              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_append</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Appends an icon to the specified icon list.  The icon's image is loaded from
+the specified file, and it is inserted at the <em class="parameter"><code>pos</code></em> index.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon_filename</code></em> :</span></p></td>
+<td>Name of the file that holds the icon's image.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>Text to be used for the icon's caption.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-append-pixbuf"></a><h3>mate_icon_list_append_pixbuf ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_append_pixbuf       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkPixbuf</span> *im</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon_filename</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *text</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_append_pixbuf</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Appends an icon to the specified icon list.  The icon is created from
+the specified Imlib image.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>im</code></em> :</span></p></td>
+<td>Pixbuf image with the icon image.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon_filename</code></em> :</span></p></td>
+<td>Filename of the image file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>Text to be used for the icon's caption.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-clear"></a><h3>mate_icon_list_clear ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_clear               (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_clear</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Clears the contents for the icon list by removing all the icons.  If destroy
+handlers were specified for any of the icons, they will be called with the
+appropriate data.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-remove"></a><h3>mate_icon_list_remove ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_remove              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_remove</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Removes the icon at index position <em class="parameter"><code>pos</code></em>.  If a destroy handler was specified
+for that icon, it will be called with the appropriate data.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of the icon that should be removed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-num-icons"></a><h3>mate_icon_list_get_num_icons ()</h3>
+<pre class="programlisting"><span class="returnvalue">guint</span>               mate_icon_list_get_num_icons       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_num_icons</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of icons in the icon list.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-selection-mode"></a><h3>mate_icon_list_get_selection_mode ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkSelectionMode</span>    mate_icon_list_get_selection_mode  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_selection_mode</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The current selection mode for an icon list.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-selection-mode"></a><h3>mate_icon_list_set_selection_mode ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_selection_mode  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkSelectionMode</span> mode</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_selection_mode</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the selection mode for an icon list.  The <code class="literal">GTK_SELECTION_MULTIPLE</code> and
+<code class="literal">GTK_SELECTION_EXTENDED</code> modes are considered equivalent.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mode</code></em> :</span></p></td>
+<td>New selection mode.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-select-icon"></a><h3>mate_icon_list_select_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_select_icon         (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_select_icon</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Selects the icon at the index specified by <em class="parameter"><code>pos</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of the icon to be selected.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-select-all"></a><h3>mate_icon_list_select_all ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_select_all          (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_select_all</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-unselect-icon"></a><h3>mate_icon_list_unselect_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_unselect_icon       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_unselect_icon</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Unselects the icon at the index specified by <em class="parameter"><code>pos</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of the icon to be unselected.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-unselect-all"></a><h3>mate_icon_list_unselect_all ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_unselect_all        (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_unselect_all</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of icons in the icon list
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-selection"></a><h3>mate_icon_list_get_selection ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_icon_list_get_selection       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_selection</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A list of integers with the indices of the currently selected icons.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-focus-icon"></a><h3>mate_icon_list_focus_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_focus_icon          (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> idx</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_focus_icon</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-icon-width"></a><h3>mate_icon_list_set_icon_width ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_icon_width      (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> w</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_icon_width</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the amount of horizontal space allocated to the icons, i.e. the column
+width of the icon list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>w</code></em> :</span></p></td>
+<td>New width for the icon columns.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-row-spacing"></a><h3>mate_icon_list_set_row_spacing ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_row_spacing     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_row_spacing</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the spacing to be used between rows of icons.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixels</code></em> :</span></p></td>
+<td>Number of pixels for inter-row spacing.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-col-spacing"></a><h3>mate_icon_list_set_col_spacing ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_col_spacing     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_col_spacing</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the spacing to be used between columns of icons.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixels</code></em> :</span></p></td>
+<td>Number of pixels for inter-column spacing.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-text-spacing"></a><h3>mate_icon_list_set_text_spacing ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_text_spacing    (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_text_spacing</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the spacing to be used between an icon's image and its text caption.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixels</code></em> :</span></p></td>
+<td>Number of pixels between an icon's image and its caption.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-icon-border"></a><h3>mate_icon_list_set_icon_border ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_icon_border     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pixels</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_icon_border</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the width of the border to be displayed around an icon's image.  This is
+currently not implemented.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixels</code></em> :</span></p></td>
+<td>Number of border pixels to be used around an icon's image.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-separators"></a><h3>mate_icon_list_set_separators ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_separators      (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *sep</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_separators</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Sets the characters that can be used as word separators when doing
+word-wrapping in the icon text captions.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sep</code></em> :</span></p></td>
+<td>String with characters to be used as word separators.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-icon-filename"></a><h3>mate_icon_list_get_icon_filename ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_icon_list_get_icon_filename   (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_icon_filename</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>Index of an <em class="parameter"><code>icon</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The filename of the icon with index <em class="parameter"><code>idx</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-find-icon-from-filename"></a><h3>mate_icon_list_find_icon_from_filename ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_find_icon_from_filename
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_find_icon_from_filename</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>Filename of an icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The index of the icon whose filename is <em class="parameter"><code>filename</code></em> or -1 if
+there is no icon with this filename.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-icon-data"></a><h3>mate_icon_list_set_icon_data ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_icon_data       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_icon_data</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-set-icon-data-full"></a><h3>mate_icon_list_set_icon_data_full ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_set_icon_data_full  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_set_icon_data_full</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Associates the <em class="parameter"><code>data</code></em> pointer to the icon at the index specified by <em class="parameter"><code>pos</code></em>.  The
+<em class="parameter"><code>destroy</code></em> argument points to a function that will be called when the icon is
+destroyed, or NULL if no function is to be called when this happens.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of an icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>User data to set on the icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy</code></em> :</span></p></td>
+<td>Destroy notification handler for the icon.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-find-icon-from-data"></a><h3>mate_icon_list_find_icon_from_data ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_find_icon_from_data (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_find_icon_from_data</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>Data pointer associated to an icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The index of the icon whose user data has been set to <em class="parameter"><code>data</code></em>,
+or -1 if no icon has this data associated to it.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-icon-data"></a><h3>mate_icon_list_get_icon_data ()</h3>
+<pre class="programlisting"><span class="returnvalue">gpointer</span>            mate_icon_list_get_icon_data       (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_icon_data</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of an icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The user data pointer associated to the icon at the index specified
+by <em class="parameter"><code>pos</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-moveto"></a><h3>mate_icon_list_moveto ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_icon_list_moveto              (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> yalign</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_moveto</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Makes the icon whose index is <em class="parameter"><code>pos</code></em> be visible on the screen.  The icon list
+gets scrolled so that the icon is visible.  An alignment of 0.0 represents
+the top of the visible part of the icon list, and 1.0 represents the bottom.
+An icon can be centered on the icon list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of an icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>yalign</code></em> :</span></p></td>
+<td>Vertical alignment of the icon.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-icon-is-visible"></a><h3>mate_icon_list_icon_is_visible ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkVisibility</span>       mate_icon_list_icon_is_visible     (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> pos</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_icon_is_visible</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>Index of an icon.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Whether the icon at the index specified by <em class="parameter"><code>pos</code></em> is visible.  This
+will be <code class="literal">GTK_VISIBILITY_NONE</code> if the icon is not visible at all,
+<code class="literal">GTK_VISIBILITY_PARTIAL</code> if the icon is at least partially shown, and
+<code class="literal">GTK_VISIBILITY_FULL</code> if the icon is fully visible.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-icon-at"></a><h3>mate_icon_list_get_icon_at ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_get_icon_at         (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> y</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_icon_at</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>X position in the icon list window.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>Y position in the icon list window.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The index of the icon that is under the specified coordinates, which
+are relative to the icon list's window.  If there is no icon in that
+position, -1 is returned.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-items-per-line"></a><h3>mate_icon_list_get_items_per_line ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_icon_list_get_items_per_line  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_items_per_line</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>An icon list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of icons that fit in a line or row.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-icon-text-item"></a><h3>mate_icon_list_get_icon_text_item ()</h3>
+<pre class="programlisting"><a class="link" href="MateIconTextItem.html" title="MateIconTextItem"><span class="returnvalue">MateIconTextItem</span></a> * mate_icon_list_get_icon_text_item  (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_icon_text_item</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-icon-list-get-icon-pixbuf-item"></a><h3>mate_icon_list_get_icon_pixbuf_item ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateCanvasPixbuf</span> * mate_icon_list_get_icon_pixbuf_item
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *gil</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> idx</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_icon_list_get_icon_pixbuf_item</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gil</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-icon-list.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateIconList-focus-icon"></a><h3>The <code class="literal">"focus-icon"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *iconlist,
+                                                        <span class="type">gint</span>           arg1,
+                                                        <span class="type">gpointer</span>       user_data)      : <code class="literal">Run First</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iconlist</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateIconList-move-cursor"></a><h3>The <code class="literal">"move-cursor"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a>   *iconlist,
+                                                        <span class="type">GtkDirectionType</span> arg1,
+                                                        <span class="type">gboolean</span>         arg2,
+                                                        <span class="type">gpointer</span>         user_data)      : <code class="literal">Action</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iconlist</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateIconList-select-icon"></a><h3>The <code class="literal">"select-icon"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *iconlist,
+                                                        <span class="type">gint</span>           arg1,
+                                                        <span class="type">GdkEvent</span>      *event,
+                                                        <span class="type">gpointer</span>       user_data)      : <code class="literal">Run First</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iconlist</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateIconList-text-changed"></a><h3>The <code class="literal">"text-changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            user_function                      (<a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *iconlist,
+                                                        <span class="type">gint</span>           arg1,
+                                                        <span class="type">gchar</span>         *arg2,
+                                                        <span class="type">gpointer</span>       user_data)      : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iconlist</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateIconList-toggle-cursor-selection"></a><h3>The <code class="literal">"toggle-cursor-selection"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *iconlist,
+                                                        <span class="type">gpointer</span>       user_data)      : <code class="literal">Action</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iconlist</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateIconList-unselect-icon"></a><h3>The <code class="literal">"unselect-icon"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-icon-list.html#MateIconList"><span class="type">MateIconList</span></a> *iconlist,
+                                                        <span class="type">gint</span>           arg1,
+                                                        <span class="type">GdkEvent</span>      *event,
+                                                        <span class="type">gpointer</span>       user_data)      : <code class="literal">Run First</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iconlist</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

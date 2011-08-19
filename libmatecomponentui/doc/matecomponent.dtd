@@ -1,0 +1,122 @@
+<!-- DTD for matecomponent UI files -->
+
+<!-- root node -->
+<!ELEMENT Root        ((keybindings|popups|commands|menu|dockitem|status)*)>
+<!ELEMENT commands    (cmd*)>
+<!ELEMENT menu        ((submenu|placeholder)*)>
+<!ELEMENT dockitem    ((control|placeholder|toolitem|separator)*)>
+<!ELEMENT status      ((item|control)*)>
+<!ELEMENT cmd         EMPTY>
+<!ELEMENT placeholder EMPTY>
+<!ELEMENT separator   EMPTY>
+<!ELEMENT keybindings (accel*)>
+<!ELEMENT item        (#PCDATA)>
+<!ELEMENT accel       EMPTY>
+<!ELEMENT control     EMPTY>
+<!ELEMENT menuitem    EMPTY>
+<!ELEMENT toolitem    EMPTY>
+<!ELEMENT popups      (popup*)>
+<!ELEMENT popup       ((submenu|menuitem|placeholder|separator)*)>
+<!ELEMENT submenu     ((submenu|menuitem|placeholder|separator)*)>
+
+<!-- Every element has these attributes  -->
+<!ENTITY % baseattrs
+	"name CDATA #IMPLIED
+	id CDATA #IMPLIED"
+>
+
+<!-- Attributes for the icons -->
+<!ENTITY % iconattrs
+	"pixtype (stock|filename|pixbuf) #IMPLIED
+	 pixbuf  CDATA #IMPLIED 
+	 pixname  CDATA #IMPLIED "
+>
+
+<!-- Attributes for user visible strings -->
+<!ENTITY % labelattrs
+	"_label CDATA #IMPLIED
+	label CDATA #IMPLIED
+	_tip  CDATA #IMPLIED
+	tip  CDATA #IMPLIED
+	_accel  CDATA #IMPLIED
+	accel  CDATA #IMPLIED
+	_descr CDATA #IMPLIED "
+>
+
+<!ATTLIST cmd
+	%baseattrs;
+	%iconattrs;
+	%labelattrs;
+	priority CDATA #IMPLIED
+	type  CDATA #IMPLIED
+	hidden CDATA #IMPLIED
+	sensitive CDATA #IMPLIED
+	state CDATA #IMPLIED
+>
+
+<!ATTLIST popup
+	%baseattrs;
+	tearoff CDATA #IMPLIED
+>
+
+<!ATTLIST submenu
+	%baseattrs;
+	%iconattrs;
+	%labelattrs;
+	hidden CDATA #IMPLIED
+	tearoff CDATA #IMPLIED
+>
+
+<!ATTLIST dockitem
+	%baseattrs;
+	_tip  CDATA #IMPLIED
+	band_num CDATA #IMPLIED
+	position CDATA #IMPLIED
+	relief CDATA #IMPLIED
+	behavior CDATA #IMPLIED
+	hlook CDATA #IMPLIED
+	vlook CDATA #IMPLIED
+	in_new_band CDATA #IMPLIED
+>
+
+<!ATTLIST toolitem
+	%baseattrs;
+	%iconattrs;
+	%labelattrs;
+	verb CDATA #REQUIRED
+	type (radio|toggle) #IMPLIED
+	priority CDATA #IMPLIED
+	behavior CDATA #IMPLIED
+>
+
+<!ATTLIST menuitem
+	%baseattrs;
+	%iconattrs;
+	%labelattrs;
+	verb CDATA #IMPLIED
+	type (radio|toggle) #IMPLIED
+	group CDATA #IMPLIED
+	pos CDATA #IMPLIED
+	behavior CDATA #IMPLIED
+>
+
+<!ATTLIST placeholder
+	%baseattrs;
+	delimit CDATA #IMPLIED
+>
+
+<!ATTLIST accel
+	name CDATA #IMPLIED
+	verb CDATA #IMPLIED
+>
+
+<!ATTLIST control
+	%baseattrs;
+	%iconattrs;
+	vdisplay CDATA #IMPLIED
+	hdisplay CDATA #IMPLIED
+>
+
+<!ATTLIST item
+	%baseattrs;
+>

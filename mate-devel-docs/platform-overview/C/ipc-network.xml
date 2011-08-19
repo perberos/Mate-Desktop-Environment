@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='utf-8'?><!-- -*- indent-tabs-mode: nil -*- -->
+
+<chapter id="ipc-network">
+  <title>IPC and Networking</title>
+
+<section id="clipboard">
+  <title>Clipboards and Drag and Drop</title>
+
+  <para>As users work with more and more types of data in different
+  applications, they have an increasing need to share objects and data
+  between their applications.  MATE supports two related methods for
+  transfering data between applications: using drag and drop operations,
+  and copying to and pasting from a system-wide clipboard.  Both the
+  clipboard and drag and drop work across multiple applications,
+  including those not developed with MATE.</para>
+
+  <para>The clipboard is used when a user explicitly copies data in an
+  application.  The application then claims ownership of the clipboard.
+  When the user pastes the data into another application, that application
+  requests the clipboard data from the first application.  Clipboard
+  operations are fully supported in GTK+.</para>
+
+  <para>Drag and drop operations are similar, but they require the pointer
+  to be tracked and updated as the user moves across potential drop targets.
+  When an application is notified a pointer is moving over it during an
+  active drag, it must update the cursor to indicate whether or not it can
+  accept the drop.  GTK+ provides drag and drop support with a sophisticated
+  API that makes it easy to manage drop targets in your applications.</para>
+
+  <para>Both the clipboard and drag and drop operations support content
+  negotation.  When an application has data to offer, it advertises which
+  formats are available for that data.  Receiving applications can request
+  the most suitable formats.  For instance, if a user copies text from a
+  web browser, a word processor can maintain formatting by requesting the
+  data in HTML, while a plain text editor can receive the text without
+  formatting.</para>
+
+  <para>You should provide clipboard and drag and drop functionality for
+  any data your application operates on.  The clipboard and drag and drop
+  are useful for more than just text: files, graphics, and sound clips are
+  all examples of data that can be transferred between applications.  When
+  you use GTK+, you automatically get clipboard and drag and drop support
+  for text areas, color buttons, file choosers, and other built-in user
+  interface controls.  You should use the APIs in GTK+ to provide support
+  for any other data in your application.</para>
+
+  <para>For more information, see <ulink
+  url="http://www.newplanetsoftware.com/xdnd/">Drag-and-Drop Protocol for
+  the X Window System</ulink>, <ulink
+  url="http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt">X
+  Clipboard Explanation</ulink>, and <ulink
+  url="http://freedesktop.org/wiki/ClipboardManager">The
+  Clipboard Manager Specification</ulink>.</para>
+</section>
+
+<section id="dbus">
+  <title>D-BUS Messaging</title>
+
+  <para>D-Bus is a cross-desktop message bus for sending events between
+  various applications, the desktop, and low-level components of the system.
+  D-Bus provides a simple API for sending messages to particular services
+  and for broadcasting messages to all interested services.  D-Bus enables
+  different types of applications to communicate and integrate with each
+  other and with the desktop, providing better interaction and a richer
+  experience for the user.</para>
+
+  <para>D-Bus provides a session and a system bus.  The session bus is
+  used by applications in a single user session, allowing them to share
+  data and event notifications and to integrate into the user's desktop.
+  For example, movie players can send a D-Bus message to prevent the
+  screensaver from activating when the user is watching a movie.</para>
+
+  <para>The system bus is a single message bus which runs independently of
+  any user sessions.  It can communicate with applications in any session,
+  enabling those applications to interact with system components without
+  dealing with low-level system details.  The system bus is used to provide
+  important functionality that users expect to work on their systems.  For
+  example, the system bus is used to monitor when network interfaces go up
+  or down, when external drives get plugged in, and when laptop batteries
+  are low.</para>
+
+  <para>D-Bus is developed jointly on <ulink
+  url="http://www.freedesktop.org/">freedesktop.org</ulink>, so you can
+  use it with different desktop environments and applications.  Because
+  D-Bus is a cross-desktop project, you use it to create portable and
+  versatile software that seamlessly integrates with the user's desktop,
+  regardless of which desktop it is.</para>
+
+  <para>For more information on D-Bus, see <ulink
+  url="http://dbus.freedesktop.org/doc/dbus-tutorial.html">The D-BUS
+  Tutorial</ulink> and <ulink
+  url="http://dbus.freedesktop.org/doc/dbus-specification.html">The
+  D-BUS Specification</ulink>.</para>
+</section>
+
+<section id="matecomponent-corba">
+  <title>MateComponent and CORBA</title>
+
+  <note><para>Note that MateComponent, libIDL and MateCORBA have been deprecated in 
+  favor of D-Bus and other technologies. See above.</para></note>
+
+  <para>MateComponent is a framework for creating reusable components for use
+  in applications.  Built on top of the industry-standard Common Object
+  Request Broker Architecture (CORBA), MateComponent provides all the common
+  interfaces needed to create and use well-behaved components in MATE
+  applications.</para>
+
+  <para>MateComponent components can be used in a variety of situations, and can
+  help create flexible and extensible software.  For example, a component
+  to display multimedia content could be embedded inside a word processor,
+  effectively adding multimedia support to the word processor without the
+  word processor working directly with it.  MateComponent components are also used
+  to embed the applets in the MATE panel.  Using MateComponent enables the applets
+  to communicate effectively with the panel, affording users a consistent
+  interface.</para>
+
+  <para>MateComponent components are not limited to graphical controls.  MateComponent was
+  used by Evolution, MATE's email and groupware suite, to provide access
+  to users' addressbook and calendar.  This allows users to keep all their
+  information in one place, where all applications can access it.</para>
+
+  <para>MateComponent is built off of CORBA, allowing components to run in seperate
+  processes.  Components can be written in different languages and run on top
+  of different runtimes; they need only adhere to an interface specified with
+  the Interface Definition Language (IDL).  CORBA's flexible design even allows
+  components to run on seperate machines over a network.</para>
+
+  <para>MATE provides its own fast and lightweight CORBA implementation with
+  MateCORBA.  The tools and libraries supplied with MATE even allow components
+  to be written effectively in C, a language often excluded by other CORBA
+  implementations.  MateCORBA is an incredibly fast CORBA implementation.</para>
+
+  <para>MateComponent helps fill the gaps in CORBA, providing the additional
+  interfaces and specifications needed to support consistent components.
+  Although you will rarely need to use CORBA without MateComponent, it can be
+  used directly.  For instance, MATE's accessibility infastructure uses
+  CORBA to allow assistive tools to inspect and interact with running
+  applications.</para>
+
+  <para>You may wish to use MateComponent to provide complex graphical components
+  that can be embedded into applications.  For most IPC needs, however,
+  MATE is moving towards D-Bus, as integrating D-Bus into applications
+  is considerably easier.</para>
+
+  <para>For more information on MateComponent, see the <ulink
+  url="http://library.mate.org/devel/libmatecomponent/stable/">Libmatecomponent
+  Reference Manual</ulink> and the <ulink
+  url="http://library.mate.org/devel/libmatecomponentui/stable/">LibmatecomponentUI
+  Reference Manual</ulink>.  For information on MateCORBA, MATE's
+  CORBA implementation, see the <ulink
+  url="http://library.mate.org/devel/MateCORBA2/stable/">MateCORBA2
+  Reference Manual</ulink>.</para>
+</section>
+
+<section id="dns-sd">
+  <title>Service Discovery</title>
+
+  <para>DNS Service Discovery, or Zeroconf, is a technology for automatically
+  locating available services on a network.  Zeroconf allows users to access
+  network resources without having to provide explicit addresses or configure
+  their applications manually.</para>
+
+  <para>DNS Service Discovery is already used in numerous places throughout
+  MATE, and further support will be added in the future.  For example,
+  <application>Caja</application>, the MATE file manager, uses DNS
+  Service Discovery to locate various file servers on the local network.
+  <application>Ekiga</application>, the videoconferencing and telephony
+  application in MATE, can locate and publish the user's presence and
+  locate other users on a local network using DNS Service Discovery.</para>
+
+  <para>Full DNS Service Discovery support is provided by the Avahi library.
+  For more information on Avahi, visit <ulink url="http://avahi.org/">the
+  Avahi web site</ulink>.</para>
+</section>
+
+<section id="xml-web-services">
+  <title>XML and Web Services</title>
+
+  <para>In our increasingly inter-connected world, more and more applications
+  need to provide support for various web services.  Sometimes web services
+  simply provide added functionality, while other times they are the core
+  purpose of the application.  Even applications that have been providing
+  a standalone user experience for years have found innovative new uses for
+  web services.</para>
+
+  <para>The MATE Platform provides support for using web services from
+  within your application, as well as comprehensive libraries for consuming,
+  managing, and transforming XML, the language of the web.</para>
+
+  <section id="libsoup">
+    <title>SOAP</title>
+
+    <para>With the libsoup library, MATE provides support for the SOAP,
+    a widely-used protocol for passing XML messages over HTTP.  SOAP allows
+    developers to expose an interface over the web, which can then be used
+    by applications to retrieve information, send data, make transactions,
+    or use any number of other services provided.</para>
+
+    <para>SOAP can be used to search and retrieve information, to interact
+    with an online store, to manage users' accounts on other systems, or for
+    many other purposes.  Web services are being used more and more to provide
+    essential functionality for users, and applications using SOAP can provide
+    a more integrated and featureful user experience.</para>
+
+    <para>The libsoup library contains an HTTP implementation and a set of
+    API for constructing and consuming SOAP messages.  It also allows for
+    secure authentication, so you can use web services to access private
+    accounts over a secure connection. Using libsoup makes it easy to use
+    web services without manually parsing and interpreting the messages
+    sent through SOAP.</para>
+
+    <para>For more information on libsoup, see the <ulink
+    url="http://library.mate.org/devel/libsoup/stable/">libsoup
+    Reference Manual</ulink>.</para>
+  </section>
+
+  <section id="libxml2">
+    <title>XML Processing</title>
+
+    <para>Since its formal introduction in 1998, XML (eXtensible Markup
+    Langauge) has been used in increasingly more applications.  It is used
+    for a wide variety of purposes, from document formats like XHMTL and
+    DocBook to internet protocols like SOAP and Jabber.  XML provides a
+    clean and simple base syntax, allowing applications to focus on their
+    particular needs.</para>
+
+    <para>MATE ships with the libxml2 library, and uses it extensively
+    throughout the desktop.  The libxml2 library is a fast and fully
+    standards-compliant XML processing library, providing everything you
+    need to use XML in your application.</para>
+
+    <para>The libxml2 library provides a number of different APIs for
+    working with XML, so you can use whatever best suits your application
+    development needs.  In addition to a native tree API, libxml2 also
+    provides the callback-based SAX2 API, streaming XML reader and writer
+    interfaces, and complete support for XPath.</para>
+
+    <para>In addition to DTD support, libxml2 also provides full support
+    for validing documents using RELAX NG, which allows a more flexible
+    validation model while remaining simple to use.  There is also partial
+    support for XML Schema, the new schema language produced by W3C.</para>
+
+    <para>You should use libxml2 whenever you need to work directly with
+    XML in your application.  Using libxml2 ensures that you have fully
+    standards-compliant parsing, processing, and XML output.  This means
+    developers can stop worrying about incompatibilities between
+    applications.</para>
+
+    <para>For more information on libxml2, see <ulink
+    url="http://xmlsoft.org/tutorial/index.html">The Libxml Tutorial</ulink>
+    and <ulink url="http://xmlsoft.org/html/libxml-lib.html">The Reference
+    Manual for libxml2</ulink>.</para>
+  </section>
+
+  <section id="libxslt">
+    <title>Transforming XML with XSLT</title>
+
+    <para>XSLT is an XML-based language for transforming XML into other
+    formats.  XSLT is a template-based language, allowing you to match
+    particular types of XML elements and create output accordingly.
+    Based on XML and XPath, XSLT enables developers to create clean and
+    modularized templates to convert an XML dialect into another format
+    more suitable for the application.</para>
+
+    <para>MATE ships with the libxslt library, a complete implementation of
+    XSLT.  The libxslt library is built on top of the XML and XPath support
+    in libxml2, allowing it to be fast and fully standards-compliant.</para>
+
+    <para>You should use libxslt if you need to transform XML documents.
+    Although XSLT is not always the right solution for XML processing, it
+    can often simplify development.  Since libxslt allows you to add extension
+    elements and extension functions, you can customize it to fit your
+    application.</para>
+
+    <para>For more information on libxslt, see <ulink
+    url="http://xmlsoft.org/XSLT/html/index.html">The XSLT C library for
+    Mate</ulink>.</para>
+  </section>
+</section>
+
+</chapter>

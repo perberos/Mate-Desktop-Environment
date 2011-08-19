@@ -1,0 +1,570 @@
+<chapter id="performance-0">
+  <title>Improving Performance</title>
+  <highlights>
+    <para>This chapter describes how to improve the performance of
+the MATE Desktop.</para>
+  </highlights>
+  <sect1 id="performance-1">
+    <title>Introduction to Improving Performance</title>
+    <indexterm>
+      <primary>performance, improving</primary>
+      <secondary>introduction</secondary>
+    </indexterm>
+    <para>This chapter lists several preferences whose
+settings you can change to improve the performance of the MATE Desktop. You
+can use the <command>mateconftool-2</command> command to set values for preferences
+for users. The example commands in this chapter show how to set values in
+the user configuration source.</para>
+    <para>You can also use the <literal>--direct</literal> and <literal>--config-source</literal> options to set mandatory values or default values for preferences.
+You can also use the <command>mateconftool-2</command> command in a script to
+set the values of many preferences. For more information on the  <command>mateconftool-2</command> command and the options that are  available with the
+command, see <xref linkend="mateconf-0"/>.</para>
+  </sect1>
+  <sect1 id="performance-8">
+    <title>Reducing CPU Usage</title>
+    <indexterm>
+      <primary>performance, improving</primary>
+      <secondary>reducing CPU
+usage</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>reducing</primary>
+      <secondary>CPU usage</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>CPU usage</primary>
+      <secondary>reducing</secondary>
+    </indexterm>
+    <para>This section describes preferences that
+you can set to reduce CPU usage by the MATE Desktop. </para>
+    <sect2 id="performance-3">
+      <title>To Use Theme Options Which Require Less CPU Resources</title>
+      <indexterm>
+        <primary>themes</primary>
+        <secondary>window frame options</secondary>
+        <tertiary>and CPU usage</tertiary>
+      </indexterm>
+      <indexterm>
+        <primary>themes</primary>
+        <secondary>and CPU usage</secondary>
+      </indexterm>
+      <para>Some window frame theme
+options load image files to draw the window frame. Other options use simpler
+techniques to draw the window frame.</para>
+      <para>The Crux window frame option loads image files, and can be slow on systems
+with limited CPU resources. To reduce CPU usage, use one of the following
+window frame options: </para>
+      <itemizedlist>
+        <listitem>
+          <para>Atlanta</para>
+        </listitem>
+        <listitem>
+          <para>Esco</para>
+        </listitem>
+      </itemizedlist>
+      <para>The following window frame options also use less CPU resources than
+Crux:</para>
+      <itemizedlist>
+        <listitem>
+          <para>AgingGorilla</para>
+        </listitem>
+        <listitem>
+          <para>Bright</para>
+        </listitem>
+        <listitem>
+          <para>Metabox</para>
+        </listitem>
+      </itemizedlist>
+      <note>
+        <para>Metabox does not work well with inverse controls options such
+as HighContrastInverse. Use Atlanta with inverse controls options.</para>
+      </note>
+      <para><indexterm><primary>themes</primary><secondary>window frame options</secondary><tertiary>changing</tertiary></indexterm>To change the window
+frame theme option, run the following command: </para>
+      <screen><userinput>mateconftool-2 \
+--type string \
+--set /apps/marco/general/theme <replaceable>option-name</replaceable></userinput></screen>
+      <para>For example, to use Atlanta, run the following command:</para>
+      <screen><userinput>mateconftool-2 \
+--type string \
+--set /apps/marco/general/theme Atlanta</userinput></screen>
+      <para>Alternatively, users can use the <application>Theme</application> preference
+tool to select the appropriate option.</para>
+      <tip>
+        <para>You can use the <application>Marco Theme Viewer</application>
+to measure the performance of a window frame option, and to preview the option.
+To start <application>Marco Theme Viewer</application>, use the following
+command:</para>
+        <screen><userinput>marco-theme-viewer <replaceable>option-name</replaceable></userinput></screen>
+        <para>For example, to measure the performance of Atlanta and preview Atlanta,
+run the following command: </para>
+        <screen><userinput>marco-theme-viewer Atlanta</userinput></screen>
+      </tip>
+    </sect2>
+    <sect2 id="performance-2">
+      <title>To Reduce CPU Usage by Turning Off Display of Icons in Menus</title>
+      <indexterm>
+        <primary>icons, in menus</primary>
+        <see>menu icons</see>
+      </indexterm>
+      <indexterm>
+        <primary>menu icons</primary>
+        <secondary>and CPU usage</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>menu icons</primary>
+        <secondary>turning off</secondary>
+      </indexterm>
+      <para>Some items in menus display an icon beside the
+item. To turn off this feature, run the following command: </para>
+      <screen><userinput>mateconftool-2 \
+--type bool \
+--set /desktop/mate/interface/menus_have_icons false</userinput></screen>
+      <para>Alternatively, users can use the <application>Menus &amp; Toolbars</application>
+preference tool to deselect the <guilabel>Show icons in menus</guilabel> option.</para>
+    </sect2>
+    <sect2 id="performance-6">
+      <title>To Reduce CPU Usage by Turning Off the Splash Screen</title>
+      <indexterm>
+        <primary>splash screen</primary>
+        <secondary>and CPU usage</secondary>
+      </indexterm>
+      <para>By default, when users log in to the desktop environment,
+a splash screen is displayed. Icons are displayed on the splash screen while
+the user logs in. You can turn off the splash screen to reduce CPU usage during
+login. </para>
+      <para><indexterm><primary>splash screen</primary><secondary>turning off</secondary></indexterm>To turn off the splash screen, run the following command:</para>
+      <screen><userinput>mateconftool-2 \
+--type bool \
+--set /apps/mate-session/options/show_splash_screen false</userinput></screen>
+      <para>Alternatively, users can use the <application>Sessions</application>
+preference tool to deselect the <guilabel>Show splash screen on login</guilabel>
+option.</para>
+    </sect2>
+    <sect2 id="performance-4">
+      <title>To Reduce CPU Usage by Turning Off Panel Animation</title>
+      <indexterm>
+        <primary>panels</primary>
+        <secondary>animation, turning off</secondary>
+      </indexterm>
+      <para>When users show or hide panels, the panels can show or hide
+in an animated style. To turn off panel animation, run the following command: </para>
+      <screen><userinput>mateconftool-2 \
+--type bool \
+--set /apps/panel/global/enable_animations false</userinput></screen>
+      <para>Alternatively, users can use the <application>Panel</application> preference
+tool to deselect the <guilabel>Drawer and panel animation</guilabel> option.</para>
+    </sect2>
+    <sect2 id="performance-7">
+      <title>Improving File Manager Performance</title>
+      <indexterm>
+        <primary>Caja</primary>
+        <see>file manager</see>
+      </indexterm>
+      <para>The <application>Caja</application> file manager includes some features
+that you can modify to improve performance.</para>
+      <sect3 id="performance-9">
+        <title>To Modify Performance Preferences</title>
+        <indexterm>
+          <primary>file manager</primary>
+          <secondary>modifying performance
+preferences</secondary>
+        </indexterm>
+        <para>The file manager includes performance-related
+preferences. Each performance preference can take one of three values. The
+values are described in the following table:</para>
+        <informaltable frame="topbot">
+          <tgroup cols="2" colsep="0" rowsep="0">
+            <colspec colwidth="34.46*"/>
+            <colspec colwidth="65.54*"/>
+            <thead>
+              <row rowsep="1">
+                <entry>
+                  <para>Value</para>
+                </entry>
+                <entry>
+                  <para>Description</para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>always</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Performs the action for both local files, and files on
+other file systems.</para>
+                </entry>
+              </row>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>local_only</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Performs the action for local files only. When you
+set a performance preference to <literal>local_only</literal>, the CPU usage
+is reduced.</para>
+                </entry>
+              </row>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>never</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Never performs the action. When you set a performance preference
+to never, the CPU usage and the network traffic are reduced.</para>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <para>The following table describes the performance preferences for the file
+manager. For the fastest performance, set the value of the preferences to <literal>never</literal>.</para>
+        <informaltable frame="topbot">
+          <tgroup cols="2" colsep="0" rowsep="0">
+            <colspec colwidth="43.34*"/>
+            <colspec colwidth="56.66*"/>
+            <thead>
+              <row rowsep="1">
+                <entry>
+                  <para>Preference</para>
+                </entry>
+                <entry>
+                  <para>Description</para>
+                </entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>show_icon_text</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Specifies when to preview the content of text files
+in the icon that represents the file. To never preview the content of text
+files, run the following command: </para>
+                  <screen><userinput>mateconftool-2 \
+--type string \
+--set /apps/caja/preferences/show_icon_text never</userinput></screen>
+                  <para>Alternatively, users can perform
+the following steps:</para>
+                  <orderedlist>
+                    <listitem>
+                      <para>Choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice> from a file manager window, then choose <guilabel>Preview</guilabel>.</para>
+                    </listitem>
+                    <listitem>
+                      <para>Select an option for the <guilabel>Show text in icons</guilabel>
+preference.</para>
+                    </listitem>
+                  </orderedlist>
+                </entry>
+              </row>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>show_directory_item_counts</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Specifies when to show the number of items in folders.
+To never show the number of items in folders, run the following command:</para>
+                  <screen><userinput>mateconftool-2 \
+--type string \
+--set /apps/caja/preferences/show_directory_item_counts never</userinput></screen>
+                  <para>Alternatively, users can perform the following steps:</para>
+                  <orderedlist>
+                    <listitem>
+                      <para>Choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice> from a file manager window, then choose <guilabel>Preview</guilabel>.</para>
+                    </listitem>
+                    <listitem>
+                      <para>Select an option for the <guilabel>Count number of items</guilabel>
+preference.</para>
+                    </listitem>
+                  </orderedlist>
+                </entry>
+              </row>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>show_image_thumbnails</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Specifies when to show thumbnails of image files.
+To never show thumbnails, run the following command:</para>
+                  <screen><userinput>mateconftool-2 \
+--type string \
+--set /apps/caja/preferences/show_image_thumbnails never</userinput></screen>
+                  <para>Alternatively, users can perform the following steps:</para>
+                  <orderedlist>
+                    <listitem>
+                      <para>Choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice> from a file manager window, then choose <guilabel>Preview</guilabel>.</para>
+                    </listitem>
+                    <listitem>
+                      <para>Select an option for the <guilabel>Show thumbnails</guilabel>
+preference.</para>
+                    </listitem>
+                  </orderedlist>
+                </entry>
+              </row>
+              <row>
+                <entry valign="top">
+                  <para>
+                    <literal>preview_sound</literal>
+                  </para>
+                </entry>
+                <entry valign="top">
+                  <para>Specifies when to preview the content of sound files.
+To never preview the content of sound files, run the following command:</para>
+                  <screen><userinput>mateconftool-2 \
+--type string \
+--set /apps/caja/preferences/preview_sound never</userinput></screen>
+                  <para>Alternatively, users can perform the following
+steps:</para>
+                  <orderedlist>
+                    <listitem>
+                      <para>Choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice> from a file manager window, then choose <guilabel>Preview</guilabel>.</para>
+                    </listitem>
+                    <listitem>
+                      <para>Select an option for the <guilabel>Preview sound files</guilabel>
+preference.</para>
+                    </listitem>
+                  </orderedlist>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+      </sect3>
+      <sect3 id="performance-10">
+        <title>To Turn Off the Side Pane, Toolbar, and Location Bar</title>
+        <indexterm>
+          <primary>file manager</primary>
+          <secondary>side pane, turning off</secondary>
+        </indexterm>
+        <para>The file manager includes preferences that enable
+you to turn off the side pane and the toolbar. To improve file manager performance,
+turn off the side pane and the toolbar.</para>
+        <para>To turn off the side pane, run the following command: </para>
+        <screen><userinput>mateconftool-2 \
+--type bool \
+--set /apps/caja/preferences/start_with_sidebar false</userinput></screen>
+        <para><indexterm><primary>file manager</primary><secondary>toolbar, turning
+off</secondary></indexterm>To turn off the toolbar, run the following command: </para>
+        <screen><userinput>mateconftool-2 \
+--type bool \
+--set /apps/caja/preferences/start_with_toolbar false</userinput></screen>
+        <para>You can also turn off the location bar. Users can use the <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo> keyboard shortcut to display a location bar
+when required.  </para>
+        <para><indexterm><primary>file manager</primary><secondary>location bar, turning
+off</secondary></indexterm>To turn off the location bar, run the following
+command:</para>
+        <screen><userinput>mateconftool-2 \
+--type bool \
+--set /apps/caja/preferences/start_with_location_bar false</userinput></screen>
+      </sect3>
+      <sect3 id="performance-11">
+        <title>To Turn Off the Desktop</title>
+        <indexterm>
+          <primary>file manager</primary>
+          <secondary>desktop, turning off</secondary>
+        </indexterm>
+        <indexterm>
+          <primary>desktop</primary>
+          <secondary>turning
+off</secondary>
+        </indexterm>
+        <para>The file manager contains a preference that
+enables users to use <application>Caja</application> to manage the desktop.
+You can disable the desktop to improve performance. However, if you disable
+the desktop, you cannot do the following:</para>
+        <itemizedlist>
+          <listitem>
+            <para>Use the file manager to change the pattern or color of the
+desktop background. </para>
+          </listitem>
+          <listitem>
+            <para>Use the desktop objects, such as <guilabel>Trash</guilabel>.
+The desktop objects are not displayed on the desktop. </para>
+          </listitem>
+        </itemizedlist>
+        <para>To disable the desktop, run the following command: </para>
+        <screen><userinput>mateconftool-2 \
+--type bool \
+--set /apps/caja/preferences/show_desktop false</userinput></screen>
+      </sect3>
+    </sect2>
+  </sect1>
+  <sect1 id="performance-12">
+    <title>Reducing X Window System Network Traffic</title>
+    <indexterm>
+      <primary>reducing</primary>
+      <secondary>X Window System network traffic</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>X Window System network traffic,
+reducing</primary>
+    </indexterm>
+    <indexterm>
+      <primary>network traffic, reducing</primary>
+    </indexterm>
+    <para>This section describes preferences that you can
+set to reduce X Window System network traffic on the MATE Desktop. </para>
+    <sect2 id="performance-14">
+      <title>To Use Theme Options Which Create Less Network Traffic</title>
+      <indexterm>
+        <primary>themes</primary>
+        <secondary>window frame options</secondary>
+        <tertiary>and network traffic</tertiary>
+      </indexterm>
+      <indexterm>
+        <primary>themes</primary>
+        <secondary>and network traffic</secondary>
+      </indexterm>
+      <para>Remote
+display protocols do not transfer every pixel in a block of pixels if all
+pixels in the block are the same color.</para>
+      <para>To reduce X Window System network traffic, use a window frame theme
+option that uses solid colors. That is, use one of the following window frame
+options:</para>
+      <itemizedlist>
+        <listitem>
+          <para>Atlanta</para>
+        </listitem>
+        <listitem>
+          <para>Esco</para>
+        </listitem>
+      </itemizedlist>
+      <para>For information on how to change theme options, see <xref linkend="performance-3"/>.</para>
+    </sect2>
+    <sect2 id="performance-15">
+      <title>To Reduce Network Traffic by Turning Off Display of Icons in Menus</title>
+      <indexterm>
+        <primary>menu icons</primary>
+        <secondary>and network traffic</secondary>
+      </indexterm>
+      <para>Some items in menus display an icon beside the item. If
+the icon is located on another file system, this feature can increase X Window
+System network traffic. This feature can also increase X Window System network
+traffic if the panels are displayed on a remote host. </para>
+      <para>For information on how to turn off this feature, see <xref linkend="performance-2"/>.</para>
+    </sect2>
+  </sect1>
+  <sect1 id="performance-17">
+    <title>Reducing Color Usage and Improving Display Quality</title>
+    <indexterm>
+      <primary>reducing</primary>
+      <secondary>color usage</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>color usage</primary>
+      <secondary>reducing</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>display quality, improving</primary>
+    </indexterm>
+    <para>Many modern computer systems support 24-bit color, that is, 16,777,216 colors.
+However, many users still use systems that support 8-bit color, that is, 256
+colors. </para>
+    <para>The MATE Desktop uses the <firstterm>websafe color palette</firstterm>.
+This palette is a general-purpose palette of 216 colors, which is designed
+to optimize the use of color on systems that support 8-bit color. However,
+some visual components of the MATE Desktop are designed for systems that
+support 24-bit color.</para>
+    <para>The following display problems might occur on systems that support 8-bit
+color:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Windows, icons, and background images might appear grainy.
+ Many themes, background images, and icons use colors that are not in the
+websafe color palette. The colors that are not in the palette are replaced
+with the nearest equivalent or a dithered approximation. This use of replacement
+colors causes the grainy appearance.</para>
+      </listitem>
+      <listitem>
+        <para>Applications that do not use the websafe color palette have
+less colors available. Color errors might occur. Some colors might not appear
+in the user interface of the application. Some applications might crash if
+the application cannot allocate colors.</para>
+      </listitem>
+      <listitem>
+        <para>Color flashing might occur when users switch between applications
+that use the websafe color palette, and applications that do not use this
+palette. The applications that do not use the websafe color palette might
+use a custom colormap. When the custom colormap is used, other visual components
+might lose colors, then become unviewable.</para>
+      </listitem>
+    </itemizedlist>
+    <para>The following sections describe how to optimize the appearance of the
+MATE Desktop for systems that support 8-bit color. </para>
+    <sect2 id="performance-20">
+      <title>To Use Theme Options That Use the Websafe Color Palette</title>
+      <indexterm>
+        <primary>themes</primary>
+        <secondary>window frame options</secondary>
+        <tertiary>and color usage</tertiary>
+      </indexterm>
+      <indexterm>
+        <primary>themes</primary>
+        <secondary>and color usage</secondary>
+      </indexterm>
+      <para>Some window
+frame theme options use colors that are in the websafe color palette. Bright
+and Esco use colors from the websafe color palette. Bright and Esco do not
+have the grainy appearance of other window frame options on 8-bit color displays.
+Use Bright or Esco for the best color display on 8-bit visual modes. </para>
+      <para>For information on how to change theme options, see <xref linkend="performance-3"/>.</para>
+    </sect2>
+    <sect2 id="performance-21">
+      <title>To Reduce Color Usage by Turning Off Display of Icons in Menus</title>
+      <indexterm>
+        <primary>menu icons</primary>
+        <secondary>and color usage</secondary>
+      </indexterm>
+      <para>Some items in menus display an icon beside the item. If
+the icon contains colors that are not in the websafe color palette, this feature
+can increase the number of colors used.</para>
+      <para>For information on how to turn off this feature, see <xref linkend="performance-2"/>.</para>
+    </sect2>
+    <sect2 id="performance-18">
+      <title>To Reduce Color Usage by Turning Off the Splash Screen</title>
+      <indexterm>
+        <primary>splash screen</primary>
+        <secondary>and color usage</secondary>
+      </indexterm>
+      <para>You can turn off the splash screen to make more colors available
+for the MATE Desktop and for applications.</para>
+      <para>For information on how to turn off the splash screen, see <xref linkend="performance-6"/>.</para>
+    </sect2>
+    <sect2 id="performance-19">
+      <title>To Reduce Color Usage by Using a Solid Color for the Background</title>
+      <indexterm>
+        <primary>background</primary>
+        <secondary>using solid color</secondary>
+      </indexterm>
+      <para>Use a solid color for the desktop background. Use of a solid
+color reduces the number of colors used by the MATE Desktop. </para>
+      <para>To set a solid color for the background, run the following commands: </para>
+      <screen><userinput>mateconftool-2 \
+--type string \
+--set /desktop/mate/background/picture_options none</userinput></screen>
+      <screen><userinput>mateconftool-2 \
+--type string \
+--set /desktop/mate/background/color_shading_type solid</userinput></screen>
+      <screen><userinput>mateconftool-2 \
+--type string \
+--set /desktop/mate/background/primary_color #<replaceable>hexadecimal-color</replaceable></userinput></screen>
+      <para>Alternatively, users can use the <application>Background</application>
+preference tool to choose a solid color for the background.</para>
+    </sect2>
+  </sect1>
+</chapter>

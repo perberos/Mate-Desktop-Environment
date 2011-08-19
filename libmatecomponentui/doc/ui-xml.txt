@@ -1,0 +1,186 @@
+
+A discussion of the UI Handler's XML decription, version 0.1
+by Havoc Pennington <hp@redhat.com> and Michael Meeks <michael@helixcode.com>
+
+* Translation
+
+Any attribute prefixed with _ will be translated during parsing, the 
+_ will be removed, and the translated text will go in the UITree.
+An element name prefixed with _ results in similar treatment for the
+element contents. This provides a nice generic mechanism for translation.
+
+* Path strategy:
+
+Every node is addressed by a path; the path is constructed by first
+examining the "name" attribute on each child node for a match and then
+falling back to the node name. eg. to address 'MyItem'
+
+	<menu>
+		<menuitem name="MyItem"/>
+	</menu>
+
+	the path would be /menu/MyItem
+
+* Generic attributes
+
+  All of these attributes can be applied to the cmd, indeed this is
+most often the best place to put labels, tips, pixmaps, state etc.
+since then a GUI editor can be used to display the available
+options.
+
+** Shared attributes for <submenu>, <menuitem>, <toolitem>:
+
+ label="bar"          - user-visible name
+ pixtype	      - an optional attribute specifying the type of an associated
+		        pixmap either 'stock', 'filename' or 'pixbuf'
+ pixname              - the name of the stock pixmap or a filename NB. for a pixbuf
+		        this contains an encoded pixmap.
+
+** Shared attributes for <menuitem>, <toolitem>, <cmd>:
+
+ tip="Help on this" - tooltip
+
+ menuitem / toolitem also have type, sensitive, and group attributes
+ right now, but this is just a compatibility hack to support the
+ old UIHandler.
+
+** Shared attributes for anything in a dockitem (<toolitem>, <control>):
+
+ behavior is a comma-delimited set of phrases that match the features
+ of MateComponentUIToolbarItem
+ "expandable" - expand to fill entire toolbar (useful with exclusive dockitem)
+
+* Reserved names
+
+Verbs starting with "MateComponent" are reserved for use by the component
+model. Currently the following verbs are builtin:
+
+       MateComponentCustomize
+       MateComponentUIDump
+
+A placeholder named "BuiltMenuItems" automatically gets filled in
+with help menu items based on the code in mate-help.h.
+
+Verbs starting with "Help" are reserved if you use "BuiltMenuItems".
+
+
+* Verbs
+
+Verbs are actions to be taken when an item is activated.
+
+<cmd> - element describing a verb 
+ name="VerbName"  - name used to refer to the verb
+ sensitive="0"    - 0 or 1, whether the verb is currently invocable
+ state="whatever" - state for the command. Depends on command type;
+                    0/1 for toggle items, for example
+
+* Controls
+
+<control name="Foo"> - a control inserted from the containee using
+		       matecomponent_ui_container_object_set, both the 'control'
+		       node and the object_set are neccessary to establish
+		       the control.
+ hidden="0"          - whether the control is visible.
+ hdisplay="control"  - show a control in the horizontal case
+ vdisplay="button"   - show a button in the vertical case ( docked to L/R HS )
+		       can also be "none"
+ 
+* Menus and Toolbars
+
+** Shared for <menuitem>, <toolitem>:
+ verb="VerbName"    - verb invoked on activation. If the empty string is
+ 		      specified, verb name is the same as node name. If
+ 		      verb is not mentioned at all, there is no verb
+ 		      associated with this item.
+ pos="top"          - optional force the location of the item at insertion
+		      time to be at the top of the placeholder or group.
+		      Normaly items are at the bottom.
+ hidden="1"	    - whether the item is hidden or shown.
+ type="toggle"      - the type, if omitted a standard menu / toolbar item
+                      is used, can be 'toggle' or 'radio'
+
+<separator/>        - a separator
+
+<menu>              - a set of menu items to appear as a child of <Root>
+		      <menu> has <menuitem> nodes as children
+ hidden="0"         - whether the menu is hidden
+
+<menuitem>          - a menu item within a <submenu> or <menu>
+
+<submenu>	    - a sub menu item
+ tearoff="1/0"	    - whether we insert a tearoff item on creation,
+		      defaults to global mate preference or none for popup.
+
+<dockitem>             - a dock item in a MateDock with a toolbar in it
+ name="Foo"            - name to refer to dock item
+ look="icon"           - lets you choose a toolbar style (both/icon/text/both_horiz)
+ relief="none"         - button relief
+ hidden="1/0"	       - whether the dockitem is hidden
+* The following items have effect only at dockitem creation.
+ placement="top"       - where to put the band; top, bottom, right,
+			 left, floating
+ tips="1/0"            - whether we show tooltips default 1
+ config="1/0"	       - whether to allow basic right click
+			 config default 1.
+ priority="1/0"        - whether the label should be shown in 'Priority text' mode.
+
+ behavior is a comma-delimited set of phrases that match the features
+ in MateDockItem. The supported values are:
+ "detachable"	       - force user detachable (overrides mate preference)
+ "exclusive"	       - one dockitem per row (fills entire row of dock)
+ "never vertical"      - prevent dockitem from ever becoming vertical
+ "never horizontal"    - prevent dockitem from ever becoming horizontal
+ "never floating"      - prevent dockitem from ever becoming floating
+ 
+ e.g. behavior = "detachable,exclusive,never vertical"
+
+ band_num="1"	       - band number
+ position="0"          - set the dockitem position
+ offset="0"	       - offset into band
+ in_new_band="1"       - whether to create a new band
+ 
+
+<toolitem>          - a toolbar button
+
+<placeholder>       - a virtual 'directory' in which to insert items, this
+		      allows the items to be delimited variously if present
+		      or not at all by default.
+ delimit="top"	    - this flag asks that the placeholder should be visible
+		      as a separator when it contains visible items, otherwise
+		      it should not be visible. With a "none" delimit setting
+		      a placeholder is never visible.
+
+* Status bar
+
+Most toplevel windows will provide a statusbar widget conventionally
+named Main which is simply a normal GtkStatusbar. To set the text of
+this statusbar you override the /status/Main node.
+
+Example:
+   <status>
+    <item name="Main">Text to appear in statusbar</item>
+    <control name="Foo"/> 
+   </status>
+
+<status>            - encloses stuff to go in statusbar
+
+<item>              - a plain text statusbar; contents of node are the text to display
+ name="main"        - name of the standard statusbar 
+ resize_grip="1"    - 0 or 1, whether a resize grip should be visible or not.
+
+<control>           - a control to be inserted into the status area. If name="main" 
+		      it overrides the standard bar. Otherwise it gets packed
+	              into the right side of the status area.
+ name="Foo"         - name of control
+ behavior="..."     - Possible options pack-start, fill, expand change packing of
+                      control in statusbar. Example is behavior="pack-start,expand".
+
+* Key bindings
+
+<keybindings>       - contains a bunch of <accel>
+
+<accel>
+ name="*Control*S"  - ItemFactory format for an accelerator name. Note that non-alpha
+ 		      characters are specified symbolically, e.g. "*Control*equal".
+ verb="VerbName"    - verb accelerator is bound to
+

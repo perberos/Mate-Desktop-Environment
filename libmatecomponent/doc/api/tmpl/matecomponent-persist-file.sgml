@@ -1,0 +1,201 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentPersistFile
+
+<!-- ##### SECTION Short_Description ##### -->
+Interface for anything that can save / load itself from a file.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The PersistFile interface is a useful interface for MateComponentizing
+legacy applications, however, for new / correct applications it
+is far preferable to implement the #MateComponentPersistStream interface,
+since this will not only result in a nice clean to your application
+architecture, but also allow the transparent use of local, remote,
+and synthetic streams.
+</para>
+
+<para>
+This interface works by connecting callbacks to the methods, in
+a pretty deprecated fashion, it is probably better nowadays to
+simply sub-class the MateComponentXObject and override the epv methods.
+Either way, after all the caveats here is an example use:
+  <example>
+    <title>Persist file implementation</title>
+    <programlisting>
+static gint
+load_from_file (MateComponentPersistFile *pf,
+                const CORBA_char  *filename,
+		CORBA_Environment *ev,
+                void              *closure)
+{
+	EogImageData *image_data = closure;
+
+	g_warning ("Load from '%s'", filename);
+
+	return 0; /* Return 0 on success */
+}
+
+static gint
+save_to_file (MateComponentPersistFile *pf,
+              const CORBA_char  *filename,
+              CORBA_Environment *ev,
+              void              *closure)
+{
+	EogImageData *image_data = closure;
+
+	g_warning ("Save to '%s'", filename);
+
+	return 0; /* Return 0 on success */
+}
+    </programlisting>
+  </example>
+Having implemented the callbacks we then have to register them
+and aggregate the interface to our object:
+  <example>
+     <title>Aggregating a new PersistFile</title>
+    <programlisting>
+EogImageData *
+eog_image_data_construct (EogImageData *image_data)
+{
+	MateComponentObject        *retval;
+	MateComponentPersistFile   *file;
+
+	file = matecomponent_persist_file_new (
+		load_from_file, save_to_file, image_data);
+
+	if (file == NULL) {
+		matecomponent_object_unref (MATECOMPONENT_OBJECT (image_data));
+		return NULL;
+	}
+
+	matecomponent_object_add_interface (MATECOMPONENT_OBJECT (image_data),
+				     MATECOMPONENT_OBJECT (file));
+
+	return image_data;
+}
+    </programlisting>
+  </example>
+Note again, that you should be writing a MateComponentPersistStream
+interface, however if you have already done this you might like
+to just have hooks through so that old apps can use the PersistFile
+interface:
+  <example>
+     <title>Chaining to a #PersistStream implementation</title>
+     <programlisting>
+static gint
+load_from_file (MateComponentPersistFile *pf,
+                const CORBA_char  *filename,
+		CORBA_Environment *ev,
+                void              *closure)
+{
+	MateComponent_PersistStream ps = closure;
+	MateComponentStream *stream;
+	
+	stream = matecomponent_stream_open (
+		MATECOMPONENT_IO_DRIVER_FS,
+		filename, MateComponent_STORAGE_READ,
+		0);
+
+	if (!stream)
+		return 0;
+
+	.. extract content type from file ...
+
+	MateComponent_PersistStream_load (ps, type, ev);
+
+	return 0; /* Return 0 on success */
+}
+
+static gint
+save_to_file (MateComponentPersistFile *pf,
+              const CORBA_char  *filename,
+              CORBA_Environment *ev,
+              void              *closure)
+{
+	MateComponent_PersistStream ps = closure;
+	MateComponentStream *stream;
+	
+	stream = matecomponent_stream_open (
+		MATECOMPONENT_IO_DRIVER_FS,
+		filename, MateComponent_STORAGE_WRITE | MateComponent_STORAGE_CREATE,
+		S_IRUSR | S_IWUSR | S_IRGRP);
+
+	if (!stream)
+		return 0;
+
+	.. work out content type we want to save ...
+
+	MateComponent_PersistStream_save (ps, type, ev);
+
+	return 0; /* Return 0 on success */
+}
+     </programlisting>
+  </example>
+  The mime type data can be extracted from mate-vfs or mate-mime.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+#MateComponentPersistStream, #MateComponentPersist
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentPersistFile ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION MateComponentPersistFileIOFn ##### -->
+<para>
+
+</para>
+
+@pf: 
+@uri: 
+@ev: 
+@closure: 
+@Returns: 
+
+
+<!-- ##### STRUCT MateComponentPersistFileClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+@epv: 
+@load: 
+@save: 
+@get_current_file: 
+
+<!-- ##### FUNCTION matecomponent_persist_file_new ##### -->
+<para>
+
+</para>
+
+@load_fn: 
+@save_fn: 
+@iid: 
+@closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_persist_file_construct ##### -->
+<para>
+
+</para>
+
+@pf: 
+@load_fn: 
+@save_fn: 
+@iid: 
+@closure: 
+@Returns: 
+
+

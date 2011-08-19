@@ -1,0 +1,3913 @@
+2008-08-03  C de-Avillez <hggdh2@ubuntu.com>
+
+	* plugins/mouse/gsd-mouse-manager.c: add '-k' to syndaemon
+	call, in order to ignore modifier keys when monitoring keyboard.
+	Thanks to Dag Asheim for spotting this, and proposing a patch.
+
+2008-07-01  Sergey Udaltsov <svu@mate.org>
+
+	* configure.ac, plugins/keyboard/gsd-keyboard-xkb.c: depend on
+	libxklavier 4.0, updated API
+
+2009-06-01  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/housekeeping/gsd-disk-space.c: include config.h so the
+	notifications stuff can actually be built (bug #584217)
+
+2009-05-06  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(make_menu_item_for_output_title): Make the menu item label
+	explicitly black.  We don't want to follow the theme's colors, as
+	the label is always shown against a light pastel background ---
+	using the theme's colors makes the label hard to read on "inverse"
+	themes.  Fixes the mate-settings-daemon part of bug #556050.
+
+2009-04-15  Thomas H.P. Andersen  <phomes@gmail.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (status_icon_start):
+	* configure.ac: Replace deprecated gtk symbol gtk_status_icon_set_tooltip.
+	Bump required gtk to 2.16. (bug #578480)
+
+2009-04-14  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (print_countdown_text): use
+	ngettext for the reset dialog (bug #575409)
+
+==================== 2.26.1 ====================
+
+2009-04-14  Jens Granseuer  <jensgr@gmx.net>
+
+	* NEWS:
+	* configure.ac: release 2.26.1
+
+2009-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(gsd_keybindings_manager_start): move the lookup of allowed keys
+	after the directory has been cached in callback registration to avoid
+	MateConf roundtrip (bug #578539)
+
+2009-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(start_keyboard_idle_cb): preload MateConf keyboard directory recursively
+	to avoid roundtrips (bug #578542)
+
+2009-04-08  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (user_says_things_are_ok):
+	Use 30 seconds for the confirmation timeout, so that monitors can
+	settle down and the user will have a chance to read the message.
+
+2009-04-03  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: <yselkowitz@users.sourceforge.net>
+
+	* plugins/media-keys/Makefile.am: don't install the plugin
+	descriptor if the plugin isn't installed (bug #577815)
+
+2009-04-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(numlock_mateconf_state_key): use info level instead of warning for
+	the "NumLock remembering disabled" message (bug #577578)
+
+2009-03-28  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (sanitize),
+	(generate_fn_f7_configs): if the sanitized array ends up having no
+	members at all return a NULL configuration since the following code
+	assumes it has at least one valid setup if it's not NULL. Fixes a
+	crash when closing the lid on some laptops (bug #576875)
+
+2009-03-27  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(on_notification_closed), (on_slow_keys_action),
+	(on_sticky_keys_action), (ax_slowkeys_warning_post_bubble),
+	(ax_stickykeys_warning_post_bubble),
+	(gsd_a11y_keyboard_manager_stop): fix crash when closing the a11y
+	notification bubble caused by incompatible changes in libmatenotify API
+	(bug #576535). Also remove workarounds for bugs in libmatenotify < 0.4.5
+
+2009-03-27  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c:
+	(restore_backup_configuration),
+	(try_to_apply_intended_configuration): remove unused variables
+
+2009-03-26  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(ensure_current_configuration_is_saved): New helper function.
+	Ensures that a monitors.xml exists with the current/unchanged
+	configuration, so that a latter mate_rr_config_save() will create
+	a backup file out of *that* original configuration.  This lets the
+	"revert" function from mate-display-properties work properly on
+	an initial login, even when there is no monitors.xml already
+	present.
+
+2009-03-25  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(restore_backup_configuration): Handle the case where no backup
+	file was created for monitors.xml, because *that* file didn't
+	exist (such as on a first-time login).
+
+2009-03-25  Federico Mena Quintero  <federico@novell.com>
+
+	Centralize the handling of MATE_RR_ERROR_NO_MATCHING_CONFIG, as
+	that is not really an error.
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(apply_configuration_from_filename): New helper function;
+	centralizes the handling of mate_rr_config_apply_from_filename()
+	and ignores MATE_RR_ERROR_NO_MATCHING_CONFIG.  That is not
+	actually an error; it just means that the user probably changed
+	his monitors and the stored set of configurations doesn't have a
+	config that is usable for the new monitors.
+	(restore_backup_configuration): Use apply_configuration_from_filename().
+	(try_to_apply_intended_configuration): Likewise.
+	(apply_intended_configuration): Likewise.
+	(apply_stored_configuration_at_startup): Likewise.
+
+2009-03-19  Federico Mena Quintero  <federico@novell.com>
+
+	http://bugzilla.mate.org/show_bug.cgi?id=576006 - The
+	confirmation dialog from the RANDR plugin can appear behind the
+	window from mate-display-properties.  This also depends on a
+	change to mate-control-center.
+
+	* plugins/xrandr/gsd-xrandr-manager.xml: Add an
+	org.mate.SettingsDaemon.XRANDR_2 interface
+	in addition to the old XRANDR one, with an ApplyConfiguration
+	method that also takes a parent window ID and a timestamp.
+
+	* plugins/xrandr/gsd-xrandr-manager.c (gsd_xrandr_manager_2_apply_configuration):
+	Implement the new DBus method with the parent window and
+	timestamp.
+	(user_says_things_are_ok): Use the parent window.
+
+2009-03-19  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (user_says_things_are_ok):
+	Revert the use of g_timeout_add_seconds(), since we actually care
+	that the user sees real second ticks in the dialog.  This isn't a
+	neverending timeout anyway.
+
+2009-03-18  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/Makefile.am:
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/background/Makefile.am:
+	* plugins/clipboard/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/font/Makefile.am:
+	* plugins/housekeeping/Makefile.am:
+	* plugins/keybindings/Makefile.am:
+	* plugins/keyboard/Makefile.am:
+	* plugins/media-keys/Makefile.am:
+	* plugins/mouse/Makefile.am:
+	* plugins/screensaver/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/typing-break/Makefile.am:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xsettings/Makefile.am: revert build patch from r763
+
+==================== 2.26.0 ====================
+
+2009-03-16  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: release 2.26.0
+
+2009-03-07  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on patch by: Christopher Taylor <christophth@tiscali.it>
+
+	* mate-settings-daemon/Makefile.am:
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/background/Makefile.am:
+	* plugins/clipboard/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/font/Makefile.am:
+	* plugins/housekeeping/Makefile.am:
+	* plugins/keybindings/Makefile.am:
+	* plugins/keyboard/Makefile.am:
+	* plugins/media-keys/Makefile.am:
+	* plugins/mouse/Makefile.am:
+	* plugins/screensaver/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/typing-break/Makefile.am:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xsettings/Makefile.am: make build work with -Wl,-z,defs
+	linker options (bug #574452)
+
+==================== 2.25.92 ====================
+
+2009-03-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* NEWS:
+	* configure.ac: release 2.25.92
+
+2009-03-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/Makefile.am: also install the plugin header
+	file because it is needed for custom plugins (bug #573610)
+
+2009-02-23  Jens Granseuer  <jensgr@gmx.net>
+
+	* data/mate-settings-daemon.schemas.in: add missing keys for a11y
+	shortcut names (bug #572807)
+
+2009-02-22  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (user_says_things_are_ok): use
+	g_timeout_add_seconds instead of g_timeout_add
+
+2009-02-21  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (timeout_response_cb):
+	revert the screen resolution change if the user closes the window
+	or hits escape (bug #571492)
+
+2009-02-21  Jens Granseuer  <jensgr@gmx.net>
+
+	Fix compiler warnings.
+
+	* plugins/housekeeping/gsd-disk-space.c: add missing include
+	* plugins/housekeeping/gsd-housekeeping-manager.c: ditto
+	* plugins/housekeeping/gsd-disk-space.h: don't declare public
+	functions static
+
+2009-02-20  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c: (parse_binding),
+	(bindings_get_entry): don't output a warning for disabled shortcuts
+
+2009-02-15  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Leo Iannacone <leo.iannacone@gmail.com>
+
+	* plugins/media-keys/gsd-media-keys-window.c: (on_expose_event): fix
+	alignment of the composited media window (bug #567249)
+
+2009-02-15  Luca Ferretti  <elle.uca@libero.it>
+
+	reviewed by: Jens Granseuer
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(ax_slowkeys_warning_post_dialog),
+	(ax_stickykeys_warning_post_dialog):
+	* plugins/mouse/gsd-mouse-manager.c: (set_mousetweaks_daemon):
+	Don't use legacy icons for keyboard and mouse (bug #571823)
+
+2009-02-15  Luca Ferretti  <elle.uca@libero.it>
+
+	reviewed by: Jens Granseuer
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (user_says_things_are_ok):
+	HIG fix for button labels (bug #571819)
+
+2009-02-15  Luca Ferretti  <elle.uca@libero.it>
+
+	reviewed by: Jens Granseuer
+
+	* plugins/keyboard/modmap-dialog.glade:
+	Fix label for "Don't show this message again" checkbox, isn't a 
+	`string change` due to reusing a yet available label (bug #571821)
+
+2009-02-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/common/eggaccelerators.c:
+	(egg_accelerator_parse_virtual): don't return TRUE if we can't parse
+	the accelerator at all; fixes crash with invalid keyboard shortuts
+	(bug #571329)
+
+2009-02-11  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 570590 – a11y plugin warning
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c: Avoid warnings
+	due to notifications on nonexisting statusicons.
+
+2009-02-08  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
+
+	* configure.ac: add --without-libmatenotify to disable notifications
+	(bug #570885)
+
+2009-02-06  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 570743 – restart on crash
+
+	* data/mate-settings-daemon.desktop.in.in: Have mate-session
+	restart g-s-d if it crashes (heaven forbid!).
+
+2009-02-04  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.25.91
+
+==================== 2.25.90 ====================
+
+2009-02-04  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: version 2.25.90
+
+2009-02-04  Vincent Untz  <vuntz@mate.org>
+
+	* data/Makefile.am: fix distcheck
+
+2009-02-03  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(restore_backup_configuration): Use
+	mate_rr_config_apply_from_filename(), as that's the new,
+	non-deprecated API.
+	(try_to_apply_intended_configuration): Likewise.
+	(apply_intended_configuration): Likewise.
+	(apply_stored_configuration_at_startup): Likewise.
+
+2009-02-01  Frederic Peters  <fpeters@0d.be>
+
+	* plugins/housekeeping/Makefile.am:
+	* plugins/housekeeping/gsd-disk-space.c: add low diskspace checker
+	files to housekeeping plug-in Makefile.am; and make its clean and
+	setup methods available are made available.  (bug #570132)
+
+2009-01-31  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* plugins/media-keys/Makefile.am:  Fix include paths for
+	non-source-dir builds.  (bug #569955)
+
+2009-01-28  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: require mate-desktop 2.25.6 due to recent changes
+
+2009-01-27  Federico Mena Quintero  <federico@novell.com>
+
+	http://bugzilla.mate.org/show_bug.cgi?id=545115 - Ask for
+	confirmation, with a timeout, after changing the RANDR
+	configuration for if we leave the user with an unusable display.
+	This also handles the case where the machine may crash after
+	changing the configuration; the old/known-good configuration will
+	be restored when the user restarts his session.
+
+	Refactor:
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(apply_stored_configuration_at_startup): Factor out the logic to
+	apply the stored configuration at startup.
+	(gsd_xrandr_manager_start): Use the function above.
+
+	During startup, restore the backup configuration if it existed, to
+	recover from the case when the machine crashes while applying an
+	intended configuration.
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(apply_stored_configuration_at_startup): First see if we have a
+	backup configuration; if so, it means the machine or g-s-d crashed
+	while changing the RANDR parameters.  If there is no backup
+	configuration, then we have a known-good configuration which we
+	can use.
+	(apply_intended_configuration): New function, used to load the
+	intended configuration (i.e. the non-backup one).
+	(restore_backup_configuration): Utility function to overwrite the
+	known-bad configuration with the known-good backup one.
+
+	Use a timeout-confirmation dialog after changing the display
+	configuration:
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(try_to_apply_intended_configuration): New function; applies the
+	intended configuration, restores the backup configuration if that
+	fails, or asks the user to confirm if the intended configuration
+	is usable.
+	(gsd_xrandr_manager_apply_configuration): Use
+	try_to_apply_intended_configuration() in the implementation of the
+	D-Bus method to apply RANDR configurations.  This way all apps
+	which use this D-Bus method will get confirmation for free.
+	(output_rotation_item_activate_cb): Use
+	try_to_apply_intended_configuration() so that the RANDR tray-icon
+	also uses the confirmation/backup logic.
+	(restore_backup_configuration): Restore the screen configuration
+	itself in addition to restoring the file on disk from the backup.
+	(user_says_things_are_ok): New utility function to handle a
+	timeout-confirmation dialog.
+
+	Fix error reporting at startup:
+
+	* plugins/xrandr/gsd-xrandr-manager.c (error_message): Handle the
+	case where the status_icon is not created yet; this happens during
+	startup or when the status_icon is disabled by the user.
+
+	Handle the case where there is no matching configuration at
+	startup; this is not an error:
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(apply_intended_configuration): "no matching configuration" is not
+	an error when looking for a suitable configuration in
+	monitors.xml; it simply means that the user has a different set of
+	monitors than the ones that are available in that file.
+
+2009-01-24  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Andres Freund <andres@anarazel.de>
+
+	Fix possible crash when pressing Fn-F7 (bug #568713)
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (handle_fn_f7): only try to
+	dereference the error when it was actually set
+
+2009-01-27  Federico Mena Quintero  <federico@novell.com>
+
+	http://bugzilla.mate.org/show_bug.cgi?id=545115 - Ask for
+	confirmation, with a timeout, after changing the RANDR
+	configuration for if we leave the user with an unusable display.
+	This also handles the case where the machine may crash after
+	changing the configuration; the old/known-good configuration will
+	be restored when the user restarts his session.
+
+	Refactor:
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(apply_stored_configuration_at_startup): Factor out the logic to
+	apply the stored configuration at startup.
+	(gsd_xrandr_manager_start): Use the function above.
+
+2009-01-26  Ray Strode  <rstrode@redhat.com>
+
+	Delay drawing the background until SessionRunning.
+
+	* plugins/background/gsd-background-manager.c:
+	(queue_draw_background): Cancel queued draw if caja
+	is now running.
+	(on_bus_message), (draw_background_after_session_loads),
+	(gsd_background_manager_start): wait for SessionRunning
+	and then queue background draw
+	(gsd_background_manager_stop): remove message filter
+
+2009-01-24  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Andres Freund <andres@anarazel.de>
+
+	Fix possible crash when pressing Fn-F7 (bug #568713)
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (handle_fn_f7): only try to
+	dereference the error when it was actually set
+
+2009-01-22  Bastien Nocera  <hadess@hadess.net>
+
+	* data/apps_mate_settings_daemon_keybindings.schemas.in:
+	KEY_FILE maps to XF86Explorer, so use that to launch the
+	file manager in the user's home directory
+
+2009-01-19  Ray Strode  <rstrode@redhat.com>
+
+	Add crossfade transition when switching bgs
+	(bug 552857)
+
+	* plugins/background/gsd-background-manager.c
+	(draw_background): Add use_crossfade argument
+	that initiates the fade if TRUE.
+	(on_bg_changed): call draw_background with crossfade.
+	(on_bg_transitioned): new function that calls
+	draw_background without crossfade during slide show
+	transitioning.
+	(setup_bg): set up transitioned signal handler.
+	(queue_draw_background): draw_background without
+	crossfade after 8 second timeout waiting for
+	caja.
+
+2009-01-19  Ray Strode  <rstrode@redhat.com>
+
+	* plugins/background/gsd-background-manager.c
+	(gsd_background_manager_start): Don't draw_background
+	immediately when caja is disabled.
+	mate_bg_load_from_preferences forces a "changed" signal
+	to get emitted which will queue a draw anyway
+
+2009-01-18  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/Makefile.am: fix automake warning
+
+2009-01-18  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: fix build with PulseAudio, too (bug #568179)
+
+2009-01-17  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/Makefile.am: fix build without PulseAudio
+	(bug #568015)
+
+2009-01-15  Bastien Nocera  <hadess@hadess.net>
+
+	* plugins/media-keys/cut-n-paste/*:
+	Cut'n'paste code from the PulseAudio enabled code in
+	mate-media's mate-volume-control
+
+	* plugins/media-keys/actions/acme-volume-*.[ch]:
+	Remove the old AcmeVolume code
+
+	* plugins/media-keys/actions/acme.glade:
+	* plugins/media-keys/actions/acme.h: Move to plugins/media-keys/
+
+	* configure.ac: Tell config.h when PulseAudio support is disabled
+
+	* plugins/media-keys/gsd-media-keys-manager.c (update_dialog),
+	(on_stream_event_notify), (do_sound_action), (update_default_sink),
+	(on_control_ready), (on_control_default_sink_changed), (do_action),
+	(gsd_media_keys_manager_start), (gsd_media_keys_manager_stop):
+	Use PulseAudio directly to change the volume. It will automatically
+	change the volume of the default audio output for the machine
+	(Closes: #567177)
+
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/actions/Makefile.am: Changes for the above
+
+2009-01-15  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(binding_unregister_keys), (gsd_keybindings_manager_stop): also ungrab
+	keys when this module is disabled
+
+2009-01-15  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c:
+	(gsd_media_keys_manager_stop): ungrab shortcut keys when the plugin
+	is disabled (bug #567867)
+
+2009-01-14  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (gsd_xrandr_manager_start):
+	If there was no file with a stored configuration, don't pop up an
+	error message --- this is not an error when the daemon starts up.
+	Fixes https://bugzilla.novell.com/show_bug.cgi?id=465968
+
+2009-01-10  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/sound/gsd-sound-manager.c (register_config_callback):
+	Fix typo.
+
+2009-01-08  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Lennart Poettering <lennart@poettering.net>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/sound/gsd-sound-manager.c:
+	* plugins/sound/gsd-sound-plugin.h:
+	* plugins/sound/sound.mate-settings-plugin.in:
+	Add a new sound plugin that tells PulseAudio to drop its sample
+	cache when the sound theme changes (bug #545386).
+
+2009-01-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c:
+	(gsd_media_keys_manager_grab_media_player_keys),
+	(gsd_media_keys_manager_release_media_player_keys): add a little
+	debugging output when de/registering media players (bug #564433)
+
+2009-01-05  Bastien Nocera  <hadess@hadess.net>
+
+	* plugins/xrdb/gsd-xrdb-manager.c (apply_settings): Quiet xrdb
+	when there are duplicate rules in the .ad files (Closes: #566610)
+
+2008-12-30  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 565310 – support hotkeys for a11y tools
+
+	* configure.ac: Set MATE_KEYBINDINGS_KEYSDIR.
+
+	* data/mate-settings-daemon.schemas.in: Add missing schemas for
+	the keys in /destkop/mate/applications/at, and also add new
+	schemas for keys in /desktop/mate/keybindings that define 
+	global keybindings for turning ATs on and off. Todo: There are no
+	default key combinations in the schema yet.
+
+	* data/50-accessibility.xml.in: Keybinding file to group the
+	new keybindings in an "Accessibility" section in the keybinding
+	capplet.
+
+	* data/Makefile.am: Install the keybinding file in the proper
+	location.
+	
+	* po/POTFILES.in: Add 50-accessibility.xml.in.
+
+2008-12-31  Rodrigo Moya <rodrigo@mate-db.org>
+
+	Patch by Vincent Untz from openSUSE package (bug #557647)
+
+	* configure.ac: require giounix for diskspace checker
+
+	* Makefile.am:
+	* plugins/housekeeping/gsd-disk-space.[ch]: add low diskspace
+	checker to housekeeping plugin.
+
+	* plugins/housekeeping/gsd-housekeeping-manager.c
+	(gsd_housekeeping_manager_start, gsd_housekeeping_manager_stop):
+	start/stop the low diskspace checker.
+
+	* plugins/housekeeping/housekeeping.mate-settings-plugin.in: add new
+	plugin capability to description
+
+	* po/POTFILES.in: add new files
+
+2008-12-28  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/screensaver/gsd-screensaver-manager.c:
+	(start_screensaver_cb), (gsd_screensaver_manager_start): spawn
+	screensaver after a 30 second timeout instead of when idle so that
+	it doesn't compete with other processes when the session starts
+	(bug #564059). Also plug a few small leaks.
+
+2008-12-28  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on patch by: Jasper Lievisse Adriaanse <jasper@humppa.nl>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (do_eject_action),
+	(do_action): better support for Eject and Sleep actions on OpenBSD
+	and FreeBSD (bug #565472)
+
+2008-12-28  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Jasper Lievisse Adriaanse <jasper@humppa.nl>
+
+	* plugins/typing-break/gsd-typing-break-manager.c: include signal.h to
+	fix build on OpenBSD (bug #565470)
+
+2008-12-28  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Frederic Peters <fpeters@0d.be>
+
+	* mate-settings-daemon/main.c: (main): initialize thread system since
+	MateCORBA no longer does it for us (#565515)
+
+==================== 2.25.3 ====================
+
+2008-12-18  Bastien Nocera  <hadess@hadess.net>
+
+	* NEWS: upd
+	* configure.ac: 2.25.3
+	update mate-desktop requirements for the new MateRR API
+	* plugins/xrandr/Makefile.am: Fix distcheck
+
+2008-12-07  Ray Strode  <rstrode@redhat.com>
+
+	Restore AccessX bits to original values on exit
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(struct GsdA11yKeyboardManagerPrivate): add new
+	field to cache original AccessX bits.
+	(start_a11y_keyboard_idle_cb): save bits.
+	(restore_server_xkb_config),
+	(gsd_a11y_keyboard_manager_stop): restore bits
+	when stopping.
+
+2008-12-07  Ray Strode  <rstrode@redhat.com>
+
+	Shutdown properly when bus goes away.  Previously
+	we were just letting libdbus call exit(1) for us.
+
+	* mate-settings-daemon/main.c (get_session_bus):
+	Set up a filter function to catch disconection
+	events.
+	(bus_message_handler): quit event loop when
+	disconnected from bus.
+
+2008-12-07  Ray Strode  <rstrode@redhat.com>
+
+	Shutdown properly when killed.
+
+	* mate-settings-daemon/main.c (on_term_signal):
+	top half of signal handling code. close a pipe
+	when getting SIGTERM.
+	(on_term_signal_pipe_closed),
+	(watch_for_term_signal),
+	(set_session_over_handler): bottom half.  Quit
+	event loop when term pipe gets closed.
+
+2008-12-07  Ray Strode  <rstrode@redhat.com>
+
+	* mate-settings-daemon/main.c: Rename pipefds to
+	daemon_pipe_fds.  This fits the naming style of the
+	surrounding code better.  Also, we're going to need
+	another pipe, so better to use a specific name here.
+
+2008-12-09  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Pedro Fragoso <ember@ubuntu.com>
+
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.h:
+	* plugins/common/eggaccelerators.c:
+	* plugins/common/eggaccelerators.h:
+	* plugins/mouse/gsd-locate-pointer.h: only use top-level headers for
+	glib and GTK+ (bug #563796)
+
+2008-12-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (error_message): make libmatenotify
+	optional again (bug #563226)
+	(handle_fn_f7): fix memory leak, use g_debug instead of g_print
+
+2008-12-07  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (daemon_detach): Don't call umask (bug
+	#563543)
+
+2008-12-04  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/mouse/gsd-mouse-manager.c: (set_devicepresence_handler):
+	fix crash with X servers that don't provide XInput (bug #562977)
+
+2008-12-02  Federico Mena Quintero  <federico@novell.com>
+
+	Use a DBus interface to tell the XRANDR manager to apply the
+	stored configuration, instead of an X client message, so that we
+	can pass errors back to the caller.
+
+	* plugins/xrandr/gsd-xrandr-manager.xml: Trivial DBus interface to
+	tell the XRANDR manager to apply the stored configuration.
+
+	* plugins/xrandr/gsd-xrandr-manager.c
+	(gsd_xrandr_manager_apply_configuration): Moved from
+	on_client_message().  Now we are a DBus-Glib method, so that we
+	can pass back errors to the remote caller.
+
+	* plugins/xrandr/Makefile.am: Add the machinery to generate DBus
+	glue.
+
+2008-12-02  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (error_message): Renamed
+	from error_dialog(); use libmatenotify instead of ugly dialogs for
+	error messages.
+	(gsd_xrandr_manager_start):  Proxy the error from
+	mate_rr_screen_new() to our caller.
+	(gsd_xrandr_manager_start): Display an error if we cannot apply
+	the initially-loaded configuration.
+	(generate_fn_f7_configs, get_allowed_rotations_for_output): Pass
+	GError arguments to the mate_rr_*() functions.
+	(handle_fn_f7): Display an error if we cannot refresh the screen
+	configuration or apply the new one.
+	(output_rotation_item_activate_cb): Display an error if the
+	rotation cannot be applied.
+
+Tue Dec  2 15:37:21 2008  Søren Sandmann  <sandmann@redhat.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: Add support for fn-F7 type
+	keys. 
+
+==================== 2.25.2 ====================
+
+2008-12-01  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.25.2 release.
+
+2008-11-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: (gsd_keyboard_xkb_init): fix
+	check for xklavier device discovery
+
+2008-11-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: fix checks for various X11 libraries (bug #562661)
+
+	* plugins/mouse/gsd-mouse-manager.c: (set_left_handed),
+	(gsd_mouse_manager_idle_cb), (gsd_mouse_manager_stop):
+	* plugins/xrandr/gsd-xrandr-manager.c: adapt ifdefs accordingly
+
+2008-11-27  Sergey Udaltsov <svu@mate.org>
+
+	* configure.ac, plugins/keyboard/gsd-keyboard-xkb.c: introduce
+	dependency on libxklavier 3.8. Use "new device" notification to reload
+	XKB configuration when new keyboard is plugged in
+
+2008-11-24  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (parse_args), (main): Fix --no-daemon 
+	(bug #562175)
+
+2008-11-24  Jens Granseuer  <jensgr@gmx.net>
+
+	When multiple keys (keycodes) were mapped to the same keysym, g-s-d
+	would only accept the first of those keycodes in the keymap as a
+	valid shortcut. To fix this, instead of checking against a single
+	keycode, we need to grab all keycodes that match the respective
+	keysym (bug #561275).
+
+	With thanks to Mario Limonciello <mario_limonciello@dell.com>
+
+	* plugins/common/eggaccelerators.c:
+	(egg_accelerator_parse_virtual):
+	* plugins/common/eggaccelerators.h: possibly return multiple keycodes
+	* plugins/common/gsd-keygrab.c: (grab_key_unsafe),
+	(key_uses_keycode), (match_key): grab all matching keys
+	* plugins/common/gsd-keygrab.h:
+	* plugins/keybindings/gsd-keybindings-manager.c: (parse_binding),
+	(bindings_get_entry), (same_keycode), (same_key),
+	(key_already_used), (binding_register_keys),
+	(gsd_keybindings_manager_stop):
+	* plugins/media-keys/gsd-media-keys-manager.c: (update_kbd_cb),
+	(init_kbd), (gsd_media_keys_manager_stop): update to handle changes
+	in data structures
+
+2008-11-23  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: <dmacks@netspace.org>
+
+	* configure.ac: add bundle_loader linker flag to fix compilation on
+	MacOS X (bug #522673)
+
+2008-11-20  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (find_by_time),
+	(gsd_media_keys_manager_grab_media_player_keys): fix handling of
+	time = GDK_CURRENT_TIME. Previously, apps that registered with
+	GDK_CURRENT_TIME would be trumped by any app that registered with
+	time != 0 (bug #559797) 
+
+2008-11-20  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/mouse/gsd-mouse-manager.c: (set_devicepresence_handler):
+	trap X errors so we don't crash on X servers that don't support
+	DevicePresence (bug #560618)
+
+2008-11-13  Jens Granseuer  <jensgr@gmx.net>
+
+	* data/desktop_mate_keybindings.schemas.in: fix typo
+
+2008-11-11  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 553434 – lockdown in the keybinding plugin
+
+	* data/Makefile.am: Install the new schema file.
+
+	* data/desktop_mate_keybindings.schemas.in: Add schema for
+	/desktop/mate/keybindings/allowed_keys.
+
+	* plugins/keybindings/gsd-keybinding-manager.c: Support locking
+	down keybindings with a list of allowed keys.
+
+2008-11-10  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (daemon_start): Check return value of
+	pipe().
+
+2008-11-10  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (daemon_start), (daemon_detach),
+	(daemon_terminate_parent), (main): Fork before gtk_init (bug #559695)
+
+2008-11-09  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (do_sound_action):
+	add debugging output for volume_step
+
+2008-11-08  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: William Grant <wgrant@ubuntu.com>
+
+	* plugins/mouse/gsd-mouse-manager.c: (devicepresence_filter): listen
+	for DeviceEnabled instead of DeviceAdded so we can be sure it has been
+	initialized (bug #559827)
+
+2008-11-06  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/background/gsd-background-manager.c (setup_bg),
+	(queue_draw_background), (gsd_background_manager_start):
+	Delay constructing the MateBg object until we need it.  This avoids
+	unneeded change triggers caused by a bug in mate-screensaver (fixed
+	in trunk it seems). (bug #559639)
+
+2008-11-06  Behdad Esfahbod  <behdad@mate.org>
+
+	* data/mate-settings-daemon.schemas.in: Reshuffle plugin priorities a
+	bit.  Now that we do many of the plugins in idle callback, those can
+	be put at the end.
+
+2008-11-06  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(maybe_show_status_icon), (ax_slowkeys_warning_post_bubble),
+	(ax_stickykeys_warning_post_bubble),
+	(gsd_a11y_keyboard_manager_stop),
+	(gsd_a11y_keyboard_manager_ensure_status_icon),
+	(gsd_a11y_keyboard_manager_init):
+	Init status icon only when needed (bug #559558)
+
+2008-11-06  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(start_a11y_keyboard_idle_cb), (gsd_a11y_keyboard_manager_start):
+	Start manager in idle callback (bug #559564)
+
+	* plugins/media-keys/gsd-media-keys-manager.c
+	(start_media_keys_idle_cb), (gsd_media_keys_manager_start):
+	Start manager in idle callback (bug #559564).  Leave the acme
+	initialization in the main start function to force gstreamer
+	cache up to date check before we let other applications start.
+
+2008-11-06  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(get_xkb_desc_rec):
+	* plugins/common/gsd-keygrab.c (have_xkb):
+	Remove more unnecessary X error traps and synchs (bug #559562)
+
+2008-11-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c: (xkb_enabled),
+	(gsd_a11y_keyboard_manager_start): remove unnecessary X error traps
+	(bug #559562)
+
+2008-11-05  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/xsettings/fontconfig-monitor.c (fontconfig_cache_init):
+	* plugins/xsettings/fontconfig-monitor.h:
+	* plugins/xsettings/gsd-xsettings-manager.c
+	(start_fontconfig_monitor):  Only initialize fontconfig when starting
+	up.  A cache update is redundant there. (bug #559550)
+
+2008-11-05  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/keyboard/gsd-keyboard-manager.c (start_keyboard_idle_cb),
+	(gsd_keyboard_manager_start): Start manager in idle callback (bug
+	#559482)
+
+2008-11-05  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c (gsd_keyboard_xkb_init): Add
+	some performance logging annotations around libxklavier calls.
+
+2008-11-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-manager.c: (numlock_xkb_init):
+	XkbQueryExtension and friends shouldn't cause errors, so no need to
+	try and trap them (bug #559346)
+
+==================== 2.25.1 ====================
+
+2008-11-04  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.25.1 release
+
+2008-11-04  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (daemonize), (main): Use a pipe
+	to communicate between child and parent process instead of a
+	signal.  Signals are not queued, so if the child tried to signal
+	the parent before the parent got a chance to wait for it, the signal
+	would be lost and parent wait indefinitely for a signal that would
+	never arrive.
+
+2008-11-04  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (daemonize): Don't close stderr.
+	Otherwise we just lose all our warnings that will not end up
+	in ~/.xsession-errors.
+
+	Also fix indentation.
+
+2008-11-03  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: add missing include
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/main.c (daemonize), (main):
+	Make parent wait for initialization in children to finish before
+	returning.  This makes mate-session to wait for initialization
+	to be done before spawning other processes.  This way, apps
+	start up with the right xsettings and other settings, and don't
+	have to handle change signals right after starting up. (bug #559168)
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/mate-settings-manager.c (_load_file),
+	(mate_settings_manager_start), (mate_settings_manager_stop):
+	* mate-settings-daemon/mate-settings-plugin-info.c
+	(mate_settings_plugin_info_set_enabled_key_name):
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(register_config_callback):
+	* plugins/keybindings/gsd-keybindings-manager.c
+	(register_config_callback), (gsd_keybindings_manager_start):
+	* plugins/keyboard/gsd-keyboard-manager.c
+	(gsd_keyboard_manager_start):
+	* plugins/keyboard/gsd-keyboard-xkb.c (register_config_callback):
+	* plugins/mouse/gsd-mouse-manager.c (register_config_callback):
+	* plugins/typing-break/gsd-typing-break-manager.c
+	(gsd_typing_break_manager_start):
+	* plugins/xrandr/gsd-xrandr-manager.c (gsd_xrandr_manager_start):
+	* plugins/xsettings/gsd-xsettings-manager.c
+	(register_config_callback), (mate_xsettings_manager_start):
+	Preload mateconf dirs when feasible (bug #559167)
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/clipboard/gsd-clipboard-manager.c
+	(start_clipboard_idle_cb), (gsd_clipboard_manager_start):
+	Start manager in idle callback (bug #559166)
+
+	* plugins/mouse/gsd-mouse-manager.c (gsd_mouse_manager_idle_cb),
+	(gsd_mouse_manager_start):
+	Start manager in idle callback (bug #559166)
+
+	* plugins/xsettings/fontconfig-monitor.c (fontconfig_cache_update),
+	(update):
+	* plugins/xsettings/fontconfig-monitor.h:
+	* plugins/xsettings/gsd-xsettings-manager.c
+	(start_fontconfig_monitor_idle_cb), (start_fontconfig_monitor),
+	(stop_fontconfig_monitor):
+	Start fontconfig monitors in idle callback.  However, make sure
+	fontconfig caches are up to date during initialization (bug #559166)
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/mouse/gsd-mouse-manager.c (set_mousetweaks_daemon):
+	Don't run "mousetweaks -s" at startup time (#559165)
+
+	All "mousetweaks -s" does is shutdown the already-running daemon.
+	When g-s-d starts, there is no daemon running.  So, remember that and
+	do not try to shut the non-existing daemon down.
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/common/gsd-keygrab.c (setup_modifiers), (grab_key_real),
+	(grab_key_unsafe):
+	* plugins/common/gsd-keygrab.h:
+	* plugins/keybindings/gsd-keybindings-manager.c
+	(binding_register_keys):
+	* plugins/media-keys/gsd-media-keys-manager.c (update_kbd_cb),
+	(init_kbd):
+	Don't trap errors around grab_key (bug #559164)
+
+	Such that we can do a single gdk_flush for multiple keys.
+	The only downside is that we cannot write out in the warning
+	which key is being accessed by another app.  Not that we really
+	care.
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* plugins/font/gsd-font-manager.c (setup_dir), (empty_check_dir),
+	(setup_font_dir), (setup_cursor_dir), (load_font_paths),
+	(gsd_font_manager_start): Cleanup font module (bug #559163)
+
+	The old code had several flaws:
+
+	- It tried to create directories in user's home even if we didn't have
+	  any use for them.
+
+	- It called mkfontdir and XSync even if there was no fonts installed.
+
+	The new code does the following:
+
+	- Only call mkfontdir and XSync if there's actually any fonts in the
+	  relevant dirs.
+
+	- Remove the ~/.mate2/share/fonts and/or ~/.mate2/share/cursor-fonts
+	  if they are empty and no cursor font is set.
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* mate-settings-daemon/mate-settings-manager.c (_load_file):
+	* mate-settings-daemon/mate-settings-plugin-info.c
+	(mate_settings_plugin_info_fill_from_file), (load_plugin_module):
+	* plugins/font/gsd-font-manager.c (child_watch_cb),
+	(spawn_with_input):
+	* plugins/keyboard/gsd-keyboard-xkb.c (gsd_keyboard_xkb_init):
+	* plugins/xrandr/gsd-xrandr-manager.c (gsd_xrandr_manager_start):
+	* plugins/xsettings/gsd-xsettings-manager.c (child_watch_cb),
+	(spawn_with_input), (start_fontconfig_monitor),
+	(stop_fontconfig_monitor), (mate_xsettings_manager_start),
+	(mate_xsettings_manager_stop):
+	Improve performance logging annotations (bug #559162)
+
+2008-11-03  Behdad Esfahbod  <behdad@mate.org>
+
+	* data/mate-settings-daemon.schemas.in: Disable xrdb plugin by
+	default (#bug #557807)
+
+2008-11-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: remove AM_MAINTAINER_MODE because it is deprecated
+	and supposedly unsafe (bug #558503)
+
+2008-11-01  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: William Grant <wgrant@ubuntu.com>
+
+	* plugins/mouse/gsd-mouse-manager.c: (devicepresence_filter),
+	(set_devicepresence_handler), (set_mouse_settings),
+	(gsd_mouse_manager_start), (gsd_mouse_manager_stop): listen for
+	X device changes, and reconfigure the mouse if necessary so that the
+	settings aren't ignored when hotplugging (bug #549267)
+
+2008-10-29  Jens Granseuer  <jensgr@gmx.net>
+
+	Get rid of libmate (bug #557808).
+
+	* configure.ac: bump required gtk+ version to 2.13.1
+	* mate-settings-daemon/main.c: (main): don't use g_program_init
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(ax_response_callback), (ax_stickykeys_response),
+	(ax_slowkeys_response), (on_slow_keys_action),
+	(on_sticky_keys_action): replace mate_help_display_desktop with
+	gtk_show_uri
+
+2008-10-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/screensaver/gsd-screensaver-manager.c:
+	(gsd_screensaver_manager_start): fix plugin activation, too
+
+2008-10-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/screensaver/gsd-screensaver-manager.c:
+	(start_screensaver_idle_cb), (gsd_screensaver_manager_start): fix
+	broken changes to screensaver plugin
+
+2008-10-29  Jens Granseuer  <jensgr@gmx.net>
+
+	Remove ESD-based sound plugin (bug #557806). This means that g-s-d
+	will no longer start a sound server (esd or PulseAudio) at session
+	startup. This should be handled using the autostart mechanism of
+	mate-session instead.
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/sound/gsd-sound-manager.c:
+	* plugins/sound/gsd-sound-manager.h:
+	* plugins/sound/gsd-sound-plugin.c:
+	* plugins/sound/gsd-sound-plugin.h:
+	* plugins/sound/sound.mate-settings-plugin.in:
+	remove sound plugin
+
+2008-10-29  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* plugins/screensaver/gsd-screensaver-manager.c
+	(gsd_screensaver_manager_start): spawn screensaver process
+	in idle callback as it was before.
+
+2008-10-23  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Bogdan Butnaru <bogdanb@gmail.com>
+
+	* plugins/media-keys/gsd-media-keys-window.c: (draw_waves),
+	(draw_cross), (draw_action_volume): make the composited volume images
+	more clear: draw waves matching current volume and show a cross when
+	muted (bug #557307)
+
+2008-10-23  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/actions/acme-volume-gstreamer.c:
+	(acme_volume_gstreamer_finalize),
+	(acme_volume_gstreamer_close_real), (acme_volume_gstreamer_open),
+	(acme_volume_gstreamer_close), (acme_volume_gstreamer_init),
+	(acme_volume_gstreamer_class_init):
+	* plugins/media-keys/actions/acme-volume-gstreamer.h:
+	clean up Volume initialization so that we don't get non-functional
+	volume keys when the plugin starts up with an invalid configuration
+	initially, even if the configuration is fixed afterwards (bug #552383)
+
+2008-10-19 Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 556797 – support the Gtk/ButtonImages XSetting
+
+	* plugins/xsettings/gsd-xsettings-manager.c: Support the
+	Gtk/ButtonImages xsetting.
+
+2008-10-15 Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 556307 – show the shutdown dialog when the power button is pressed
+
+	* plugins/media-keys/gsd-media-keys-manager.c (do_exit_action): 
+	Show the shutdown dialog when the power button is pressed,
+	not the logout dialog.
+
+2008-10-12 Christian Persch <chpe@mate.org>
+
+	Bug 555553 – format not a string literal and no format arguments
+
+	* mate-settings-daemon/mate-settings-manager.c
+	* mate-settings-daemon/mate-settings-module.c
+	* mate-settings-daemon/main.c
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	* plugins/xrdb/gsd-xrdb-manager.c: Use printf safely.
+
+2008-10-06  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 555873 – fix gdm keyboard layout handling even more
+
+	* plugins/keyboard/gsd-keyboard-xkb.c (apply_xkb_settings): 
+	Try harder to handle initial-login situations correctly, while
+	not overwriting any user configuration.
+
+2008-10-06  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 554525 – fix the picking up of the gdm layout
+
+	* plugins/keyboard/gsd-keyboard-xkb.c (apply_xkb_settings): Active
+	a specific group only after activating the right keyboard
+	configuration. Because the other way around doesn't work.
+
+2008-10-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(set_server_from_mateconf): don't make togglekeys_enable depend on
+	global AccessX state (bug #555009)
+
+2008-10-04  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Eric Piel <e.a.b.piel@tudelft.nl>
+
+	* plugins/xrandr/gsd-xrandr-manager.c:
+	(output_rotation_item_activate_cb): ignore the "activate" signal for
+	deselected items so that the rotation setting doesn't reset when the
+	systray menu is opened (bug #554951)
+
+==================== 2.24.0 ====================
+
+2008-09-23  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.24.0 release.
+
+2008-09-22  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* plugins/housekeeping/gsd-housekeeping-manager.c:
+	Made the housekeeping plugin less aggressive by default (bug #552680).
+	Code freeze break approved by release team.
+
+2008-09-16  Matthias Clasen  <mclasen@redhat.com>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: Remove an accidentally
+	added debug printf.
+
+2008-09-12  Jens Granseuer  <jensgr@gmx.net>
+
+	Also allow linking the module state to other boolean keys by using a
+	string value that is the name of the key to use. Note that in this
+	case the state won't be updated at runtime due to MateConf limitations.
+
+	* plugins/xsettings/gsd-xsettings-manager.c: (get_gtk_modules):
+	enable linking to other keys
+
+2008-09-12  Jens Granseuer  <jensgr@gmx.net>
+
+	Specify GTK modules to load in a MateConf directory instead of the single
+	/desktop/mate/gtk-modules key. Apps can now easily install additional
+	modules by dropping a key with the name of the module and a boolean
+	value (enabled/disabled) into /apps/mate_settings_daemon/gtk-modules/
+	(bug #539840).
+
+	* plugins/xsettings/gsd-xsettings-manager.c: (get_gtk_modules),
+	(gtk_modules_callback), (mate_xsettings_manager_start),
+	(mate_xsettings_manager_stop): remove the old gtk-modules key in
+	favor of a MateConf directory
+
+2008-09-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* COPYING: add GPLv2 copyright notice explicitly so that newer
+	versions of autotools don't declare us GPLv3 (bug #551956)
+
+2008-09-11  Jens Granseuer  <jensgr@gmx.net>
+
+	Make the volume popup not crash when invoking it on any screen but the
+	first when using a compositing manager (bug #551677)
+
+	* plugins/media-keys/gsd-media-keys-window.c:
+	(gsd_media_keys_window_real_realize), (gsd_media_keys_window_init):
+	do not set the window colormap at init time where we'll only use the
+	colormap of the default screen. Instead, whenever the window is
+	realized, update the colormap to match the current screen.
+
+2008-09-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Simon Zheng <simon.zheng@sun.com>
+
+	* mate-settings-daemon/main.c: (main): fix the fix for read-only
+	home directories from bug #530975
+
+==================== 2.23.92 ====================
+
+2008-09-08  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS: prepare for 2.23.92 release.
+
+2008-09-06  Matthias Clasen  <mclasen@redhat.com>
+	
+	Bug 551062 – try harder to use the keyboard layout passed by gdm
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: Be tolerant of variants
+	when trying to match the gdm-provided keyboard layout to the
+	existing keyboard configuration.
+
+==================== 2.23.91 ====================
+
+2008-09-01  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.23.91 release.
+
+2008-08-28  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Belated post release version bump
+
+2008-08-27  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	(setup_xsettings_managers): use g_warning instead of g_error when
+	setup fails so we don't abort (bug #549483)
+
+2008-08-26  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.c
+	(dpi_from_pixels_and_mm), (get_dpi_from_x_server),
+	(config_get_large_print), (config_set_large_print):
+	* plugins/a11y-keyboard/test-a11y-preferences-dialog.c
+	(test_window), (main):
+	Use a scale factor instead of a fixed DPI.  Add a test
+	program.
+
+2008-08-22  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(on_notification_closed): Oops. Missing comma.
+
+2008-08-22  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c
+	(on_notification_closed):
+	Fix a crash due to an incorrect signal handler definition.
+
+2008-08-21  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: (apply_xkb_settings): fix a
+	constness warning
+
+2008-08-19  Claude Paroz  <claude@2xlibre.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.glade:
+	Removed the translatable property on stock gtk-close.
+
+==================== 2.23.90 ====================
+
+2008-08-18  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.23.90 release.
+
+2008-08-14  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.c
+	(get_dpi_from_x_server):
+	Use gdk api to get dpi.
+
+2008-08-13  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (status_icon_popup_menu):
+	Create the RANDR configuration and labeler before the menu items.
+
+2008-08-13  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (status_icon_popup_menu):
+	Add a separator to the menu before "Configure display settings".
+
+2008-08-13  Federico Mena Quintero  <federico@novell.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (status_icon_popup_menu):
+	When the menu comes up, create a MateRRLabeler so that the user
+	can identify which physical monitors we are talking about.  This
+	will actually be visible in the popup menu once we implement the
+	rotation commands.
+	(status_icon_popup_menu_selection_done_cb): Hide and destroy the
+	MateRRLabeler.
+	(struct GsdXrandrManagerPrivate): New field "labeler".
+
+2008-08-12  Federico Mena Quintero  <federico@novell.com>
+
+	* configure.ac: For LIBSOUNDS, check for libmateui, not just libmate.
+
+2008-08-12  Jens Granseuer  <jensgr@gmx.net>
+
+	Even if we can't properly remove a client message handler at least
+	make sure everything works as expected when enabling/disabling the
+	plugin at runtime
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (on_client_message),
+	(gsd_xrandr_manager_start): pass the manager as user data instead of
+	the screen because the manager will remain stable during the lifetime
+	of the daemon; also, don't filter messages when the plugin is disabled
+
+2008-08-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (status_icon_start): remove
+	obsolete comment
+
+2008-08-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: require mate-desktop 2.23.90
+	* plugins/xrandr/gsd-xrandr-manager.c: (gsd_xrandr_manager_start),
+	(gsd_xrandr_manager_stop), (gsd_xrandr_manager_init): try harder to
+	clean up in _stop so we can enable/disable the plugin on the fly;
+	not quite there, yet
+
+2008-08-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Matthias Clasen <mclasen@redhat.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (gsd_xrandr_manager_start):
+	fail on start if we couldn't set up xrandr (bug #546446)
+
+2008-08-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (gsd_xrandr_manager_init):
+	pass the manager as callback data so we don't crash with a NULL
+	pointer in on_randr_event
+
+2008-08-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (gsd_xrandr_manager_start):
+	remove warning that isn't
+
+2008-08-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: require glib >= 2.17.3
+
+	* plugins/xsettings/fontconfig-monitor.c: (monitor_files): use
+	g_file_monitor instead of g_file_monitor_file/directory (bug #546372)
+
+2008-08-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/font/gsd-font-manager.c: (gsd_font_manager_class_init),
+	(gsd_font_manager_init): remove some unneccessary boilerplate
+
+2008-08-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/Makefile.am: put the glade file where all the
+	others are
+
+2008-08-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: simplify libmatenotify check, fix fontconfig result
+	output
+
+2008-08-05  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac:
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c (get_int),
+	(set_clear), (maybe_show_status_icon), (on_notification_closed),
+	(on_slow_keys_action), (on_sticky_keys_action),
+	(ax_slowkeys_warning_post_bubble),
+	(ax_slowkeys_warning_post_dialog), (ax_slowkeys_warning_post),
+	(ax_stickykeys_warning_post_bubble),
+	(ax_stickykeys_warning_post_dialog), (ax_stickykeys_warning_post),
+	(set_mateconf_from_server), (keyboard_callback),
+	(gsd_a11y_keyboard_manager_start),
+	(gsd_a11y_keyboard_manager_stop), (on_preferences_dialog_response),
+	(on_status_icon_activate), (gsd_a11y_keyboard_manager_init):
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.c
+	(gsd_a11y_preferences_dialog_set_property),
+	(gsd_a11y_preferences_dialog_get_property),
+	(gsd_a11y_preferences_dialog_constructor),
+	(gsd_a11y_preferences_dialog_dispose),
+	(gsd_a11y_preferences_dialog_class_init), (on_response),
+	(config_get_string), (config_get_bool), (dpi_from_pixels_and_mm),
+	(get_dpi_from_x_server), (config_get_large_print),
+	(config_set_large_print), (config_get_high_contrast),
+	(config_set_high_contrast), (config_get_sticky_keys),
+	(config_set_sticky_keys), (config_get_bounce_keys),
+	(config_set_bounce_keys), (config_get_slow_keys),
+	(config_set_slow_keys), (config_have_at_mateconf_condition),
+	(config_get_at_screen_reader), (config_get_at_screen_keyboard),
+	(config_get_at_screen_magnifier), (config_set_at_screen_reader),
+	(config_set_at_screen_keyboard), (config_set_at_screen_magnifier),
+	(on_sticky_keys_checkbutton_toggled),
+	(on_bounce_keys_checkbutton_toggled),
+	(on_slow_keys_checkbutton_toggled),
+	(on_high_contrast_checkbutton_toggled),
+	(on_at_screen_reader_checkbutton_toggled),
+	(on_at_screen_keyboard_checkbutton_toggled),
+	(on_at_screen_magnifier_checkbutton_toggled),
+	(on_large_print_checkbutton_toggled), (ui_set_sticky_keys),
+	(ui_set_bounce_keys), (ui_set_slow_keys), (ui_set_high_contrast),
+	(ui_set_at_screen_reader), (ui_set_at_screen_keyboard),
+	(ui_set_at_screen_magnifier), (ui_set_large_print),
+	(key_changed_cb), (setup_dialog),
+	(gsd_a11y_preferences_dialog_init),
+	(gsd_a11y_preferences_dialog_finalize),
+	(gsd_a11y_preferences_dialog_new):
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.glade:
+	* plugins/a11y-keyboard/gsd-a11y-preferences-dialog.h:
+	Add status icon when a11y hotkeys are enabled.  Display
+	Universal Access Preferences when it is clicked.
+	Fixes #526070
+
+2008-08-04  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: fix PulseAudio check to not output "no" twice
+
+==================== 2.23.6 ====================
+
+2008-08-04  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.23.6 release.
+
+2008-08-03  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/common/gsd-keygrab.c: (setup_modifiers), (grab_key),
+	(match_key): resolve NumLock dynamically and make sure we ignore it
+	so using e.g. the media keys works even when NumLock is on (still
+	bug #165343)
+
+Tue Jul 29 01:09:46 2008  Søren Sandmann  <sandmann@redhat.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c (start_or_stop_icon): Make
+	the display notification icon configurable.
+
+2008-07-26  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 544733 – use standard icon names in the volume OSD, initially
+
+	* plugins/media-keys/actions/acme.glade: Use standard
+	icon names for the OSD. 
+
+2008-07-26  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* configure.ac:
+
+	Bump glib dependency to 2.15. Fixes bug #544737.
+
+2008-07-25  Rob Bradford  <rob@robster.org.uk>
+
+	* configure.ac:
+	libsounds needs to use gtk+-2.0 now libmateui is removed.
+
+2008-07-24  James Sharpe  <jsharpe@svn.mate.org>
+
+	* configure.ac:
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	* plugins/sound/gsd-sound-manager.c:
+	Remove libmateui. 
+	(bug #544347)
+
+==================== 2.23.5 ====================
+
+Thu Jul 24 14:48:04 2008  Søren Sandmann  <sandmann@redhat.com>
+
+	* Downgrade intltool requirement to 0.37.1. 
+
+	This bug
+	
+	     http://bugzilla.mate.org/show_bug.cgi?id=537352
+
+	says that's what I'm supposed to do. 
+
+	* Bump version number to 2.23.5
+
+	* NEWS: Update this file.
+	
+2008-07-22  Lennart Poettering  <lpoetter@redhat.com>
+
+	Fixes #539786
+
+	* plugins/xsettings/gsd-xsettings-manager.c: add three new
+	xsettings for event sounds.
+
+2008-07-16  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Damien Carbery <damien.carbery@sun.com>
+
+	* data/mate-settings-daemon-uninstalled.pc.in: fix include path for
+	building against the uninstalled package (bug #543289)
+
+2008-07-15  Gerd Kohlberger  <gerdk@svn.mate.org>
+
+	* plugins/mouse/gsd-mouse-manager.c: (set_mousetweaks_daemon):
+	Remove 'daemon' from the warning message (see bug #543095).
+
+2008-07-15  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/common/gsd-keygrab.c: (match_key): always remove Shift
+	from the consumed modifiers if we're matching the lowercase
+	symbol to make more shortcuts with Shift work (bug #542275)
+
+Wed Jul  9 11:48:02 2008  Søren Sandmann  <sandmann@redhat.com>
+
+	* plugins/xrandr/gsd-xrandr-manager.c: Call the new mate_rr
+	functions instead of the old ones.
+
+2008-06-28  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/common/gsd-keygrab.c: don't ignore any ModX modifiers.
+	This should finally make g-s-d recognize keybindings with Super
+	and Meta although we still don't handle the corresponding virtual
+	modifiers (bug #165343)
+
+2008-06-20  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/common/gsd-keygrab.c: (match_key): fix accel check so
+	that we don't match e.g. XF86RaiseVolume if <Alt> + XF86RaiseVolume
+	was pressed (bug #538699). Also fix build without XKB
+
+2008-06-18  Jens Granseuer  <jensgr@gmx.net>
+
+	* Makefile.am:
+	* configure.ac: require intltool >= 0.40
+
+2008-06-18  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: bump mate-desktop requirement to 2.23.5
+
+Tue Jun 17 19:41:55 2008  Søren Sandmann  <sandmann@redhat.com>
+
+	* Merge randr-12 branch into trunk
+
+Mon Jun 16 14:50:53 2008  Søren Sandmann  <sandmann@redhat.com>
+
+        * Port to new mate-desktop API
+
+Mon Jun 16 14:30:13 2008  Søren Sandmann  <sandmann@redhat.com>
+
+        * Merge from trunk.
+
+2008-06-17  Colin Walters <walters@verbum.org>
+
+	http://bugzilla.mate.org/show_bug.cgi?id=533198
+
+	* configure.ac: Detect PulseAudio at build time; if available,
+	default to always starting it (ignore the legacy esd MateConf
+	key /desktop/mate/sound/enable_esd).  If you're a system
+	administrator or OS builder and want to disable PulseAudio,
+	you should preferably figure out what the problem you have
+	with it is; but failing that, just remove it from the install
+	image.
+	* plugins/sound/gsd-sound-manager.c: If we're not compiled with
+	legacy sound pref, always start sound.
+
+==================== 2.23.4 ====================
+
+2008-06-17  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac:
+	* NEWS: update for 2.23.4 release.
+
+2008-06-14  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Brian Cameron <brian.cameron@sun.com>
+
+	* configure.ac:
+	* plugins/sound/Makefile.am:
+	* plugins/sound/gsd-sound-manager.c: (start_mate_sound): if
+	available use the esd_serverdir variable to locate the esd daemon
+	so it can be started even if it's not in the PATH (bug #531868)
+
+2008-06-13  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Bastien Nocera <hadess@hadess.net>
+
+	* plugins/common/gsd-keygrab.c: (match_key): properly match
+	keybindings that need Shift for resolving the keysym (bug #536581)
+
+2008-06-07  Behdad Esfahbod  <behdad@mate.org>
+
+	(Commit this again)
+
+	* configure.ac: Check for fontconfig instead of xft2.
+
+	* plugins/xsettings/Makefile.am:
+	* plugins/xsettings/gsd-xsettings-manager.c (fontconfig_callback),
+	(mate_xsettings_manager_start), (mate_xsettings_manager_stop):
+	Send a Fontconfig/Timestamp xsettings notification whenever
+	fontconfig configurations change. (bug #490374)
+
+	* plugins/xsettings/fontconfig-monitor.c:
+	* plugins/xsettings/fontconfig-monitor.h:
+	Monitor fontconfig configuration files using gio.
+
+==================== 2.23.3 ======================
+
+2008-06-03  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: use correct release number
+
+2008-06-03  Jens Granseuer  <jensgr@gmx.net>
+
+	* NEWS: Update for 2.23.3 release.
+
+2008-06-02  Behdad Esfahbod  <behdad@mate.org>
+
+	* configure.ac:
+	* plugins/xsettings/Makefile.am:
+	* plugins/xsettings/fontconfig-monitor.c:
+	* plugins/xsettings/fontconfig-monitor.h:
+	* plugins/xsettings/gsd-xsettings-manager.c
+	(mate_xsettings_manager_start), (mate_xsettings_manager_stop):
+	Revert previous change.  Working on a slightly different design.
+	(bug #490374)
+
+2008-06-02  Behdad Esfahbod  <behdad@mate.org>
+
+	* configure.ac: Check for fontconfig instead of xft2.
+
+	* plugins/xsettings/Makefile.am:
+	* plugins/xsettings/gsd-xsettings-manager.c (fontconfig_callback),
+	(mate_xsettings_manager_start), (mate_xsettings_manager_stop):
+	Send a Fontconfig/Timestamp xsettings notification whenever
+	fontconfig configurations change. (bug #490374)
+
+	* plugins/xsettings/fontconfig-monitor.c:
+	* plugins/xsettings/fontconfig-monitor.h:
+	Monitor fontconfig configuration files using gio.
+
+2008-06-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: do not add stuff to GST_LIBS when gstreamer is
+	disabled. Fixes build without gstreamer (bug #536177)
+
+2008-06-02  Gerd Kohlberger  <gerdk@svn.mate.org>
+
+	* plugins/mouse/gsd-locate-pointer.c: (timeline_frame_cb):
+	Keep animation centered below pointer. Bug #531665
+
+2008-05-30  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/font/gsd-font-manager.c: (load_xcursor_theme): fix a few
+	leaks
+
+2008-05-27  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/mate-settings-manager.c: (_unload_plugin),
+	(_unload_all): stop all plugins on shutdown
+
+2008-05-27  Lucas Rocha  <lucasr@mate.org>
+
+	* mate-settings-daemon/main.c (set_session_over_handler,
+	on_session_over, main): listen to "SessionOver" D-Bus signal from
+	Session Manager to know when to shutdown. Bug #522017.
+
+2008-05-14  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/mouse/gsd-mouse-manager.c (filter):
+	Bummer.  Revert part of last commit.
+
+2008-05-14  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/mouse/gsd-mouse-manager.c (filter):
+	Don't eat keypresses for multimedia key events
+	Patch by Bastien Nocera  <hadess@hadess.net>
+
+2008-05-13  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_start): reuse the MateConf client we already
+	have
+
+2008-05-13  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac:
+	* plugins/background/Makefile.am:
+	* plugins/background/gsd-background-manager.c (draw_background),
+	(queue_draw_background), (on_bg_changed), (mateconf_changed_callback),
+	(watch_bg_preferences), (gsd_background_manager_start),
+	(gsd_background_manager_stop):
+	Use new mate-desktop background preference loading api.
+	Drop use of libbackground.
+
+2008-05-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* plugins/media-keys/gsd-media-keys-window.c
+	(gsd_media_keys_window_real_realize): New function, sets a fully
+	transparent input shape, so that clicks go through the media keys
+	windows. Bug #531862.
+	(gsd_media_keys_window_class_init): The usual glue.
+
+2008-05-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* plugins/mouse/gsd-locate-pointer.c (set_transparent_shape): new
+	function, sets a fully transparent shape to the whole window.
+	(timeline_finished_cb) (gsd_locate_pointer): set the window
+	transparent once the animation is finished, and before it's shown for
+	the first time. The shape will be changed afterwards while running the
+	animation. This fixes some artifacts shown when showing/moving the
+	window, bug #531861.
+	(locate_pointer_expose): Plug a leak.
+
+2008-05-02  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Brian Cameron <brian.cameron@sun.com>
+
+	* mate-settings-daemon/main.c: (main): don't die when the
+	user's home directory is read-only (bug #530975)
+
+2008-05-02  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Matthias Clasen <mclasen@redhat.com>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: (apply_xkb_settings),
+	(gsd_keyboard_xkb_init): if the user set a keyboard layout from
+	the login screen, try to keep that setting (bug #531589)
+
+2008-05-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_start): add a comment explaining why we
+	are applying the prefs regardless of caja
+
+2008-05-02  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Matthias Clasen <mclasen@redhat.com>
+
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_start): eventually apply the settings
+	even if caja is supposed to be handling the background to make
+	people running without caja happy (bug #531487)
+
+2008-04-29  Bastien Nocera  <hadess@hadess.net>
+
+	* plugins/common/gsd-keygrab.c (have_xkb), (match_key):
+	When checking whether a key matches our key event, check
+	the keysym from the key event, to avoid triggering another
+	keybindings with the same keycode, but different keysym,
+	Fixes Eject being triggered when pressing the Stop key with the
+	default inet keymap (Closes: #530356)
+
+2008-04-23  Vincent Untz  <vuntz@mate.org>
+
+	* configure.ac: post release version bump.
+
+==================== 2.23.1.1 ====================
+
+2008-04-23  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in:
+	* NEWS: Update for 2.23.1.1 release.
+
+2008-04-21  Lucas Rocha  <lucasr@mate.org>
+
+	Install .desktop for mate-settings-daemon in a standard autostart
+	directory as required by new mate-session (bug #526984).
+
+	* configure.ac: expand $libexecdir to be used on .desktop file. 
+	* acinclude.m4: added new m4 macro (AS_AC_EXPAND) for expanding 
+	variables.
+	* data/Makefile.am, data/mate-settings-daemon.desktop.in.in: install 
+	g-s-d .desktop file.
+
+2008-04-21  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac: post release version bump.
+
+==== 2.23.1 ====
+
+2008-04-21  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.in:
+	* NEWS: Update for release.
+
+2008-04-20  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/actions/acme-volume-alsa.c:
+	(acme_volume_alsa_finalize), (acme_volume_alsa_class_init):
+	* plugins/media-keys/actions/acme-volume-dummy.c:
+	(acme_volume_dummy_finalize), (acme_volume_dummy_class_init):
+	* plugins/media-keys/actions/acme-volume-gstreamer.c:
+	(acme_volume_gstreamer_finalize),
+	(acme_volume_gstreamer_class_init):
+	* plugins/media-keys/actions/acme-volume-oss.c:
+	(acme_volume_oss_finalize), (acme_volume_oss_class_init):
+	* plugins/media-keys/actions/acme-volume.c:
+	(acme_volume_class_init): drop redundant GType stuff
+
+2008-04-19  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(bindings_get_entry): remove some code (and translatable strings) for
+	error that can never happen
+
+2008-04-18  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/mouse/gsd-mouse-manager.c: (set_mousetweaks_daemon): when we
+	can't launch the daemon reset the MateConf keys before showing the error
+	dialog. If we wait until after the dialog is closed, the user can
+	still toggle the settings while it's open
+
+2008-04-13  Jens Granseuer  <jensgr@gmx.net>
+
+	Extract some functionality used by several plugins into a separate
+	shared helper library (bug #525426).
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/common/Makefile.am:
+	* plugins/common/gsd-keygrab.c:
+	* plugins/common/gsd-keygrab.h:
+	* plugins/common/eggaccelerators.c:
+	* plugins/common/eggaccelerators.h: new shared components
+
+	* plugins/keybindings/Makefile.am:
+	* plugins/keybindings/eggaccelerators.c:
+	* plugins/keybindings/eggaccelerators.h:
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(binding_register_keys), (keybindings_filter):
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/actions/Makefile.am:
+	* plugins/media-keys/actions/acme.h:
+	* plugins/media-keys/eggaccelerators.c:
+	* plugins/media-keys/eggaccelerators.h:
+	* plugins/media-keys/gsd-media-keys-manager.c: (update_kbd_cb),
+	(init_kbd), (acme_filter_events):
+	make keybindings and media-keys plugins use the shared components
+
+2008-04-13  Sergey Udaltsov <svu@mate.org>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: dropped mateconf backup
+
+2008-04-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c: (do_grab):
+	* plugins/media-keys/gsd-media-keys-manager.c: (grab_key): make some
+	tiny optimizations and add some more comments on what's happening
+
+2008-04-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/main.c:
+	* plugins/media-keys/gsd-media-keys-manager.c: DBus API has been
+	stable for a while; don't define DBUS_API_SUBJECT_TO_CHANGE anymore
+
+2008-04-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/main.c: (acquire_name_on_proxy),
+	(bus_register), (main): fix a few small leaks
+
+2008-04-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (init_screens):
+	drop redundant code
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/main.c: turn into a daemon by default and
+	make --no-daemon work
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/sound/gsd-sound-plugin.c: (impl_deactivate): fix typo
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	Make xrandr, xrdb, and xsettings plugin deactivation work
+
+	* plugins/xrandr/gsd-xrandr-manager.c: (apply_settings): cleanup
+
+	* plugins/xrandr/gsd-xrandr-plugin.c: (impl_deactivate):
+	* plugins/xrdb/gsd-xrdb-plugin.c: (impl_deactivate):
+	* plugins/xsettings/gsd-xsettings-plugin.c: (impl_deactivate):
+	stop manager on deactivation
+
+	* plugins/xrdb/gsd-xrdb-manager.c: (gsd_xrdb_manager_start),
+	(gsd_xrdb_manager_stop):
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	(gsd_xsettings_error_quark), (find_translation_entry),
+	(xsettings_callback), (register_config_callback), (terminate_cb),
+	(setup_xsettings_managers), (mate_xsettings_manager_start),
+	(mate_xsettings_manager_stop), (mate_xsettings_manager_init):
+	clean up properly on stop
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	Make typing-break plugin deactivation work
+
+	* plugins/typing-break/gsd-typing-break-manager.c:
+	(register_config_callback), (gsd_typing_break_manager_start),
+	(gsd_typing_break_manager_stop): clean up properly on stop
+	* plugins/typing-break/gsd-typing-break-plugin.c:
+	(impl_deactivate): stop manager on deactivation
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	Make screensaver and sound plugin deactivation work (sort of). The
+	screensaver is currently not reaped when deactivating the plugin, but
+	since the plugin should go away anyway, it doesn't seem worth adding
+	that right now. For the sound plugin, esd is currently not reaped
+	when HAVE_ESD is set. Maybe we want to get rid of the esd API
+	altogether?
+
+	* plugins/sound/gsd-sound-manager.c: (apply_settings),
+	(register_config_callback), (gsd_sound_manager_start),
+	(gsd_sound_manager_stop): clean up a bit more on stop
+	* plugins/screensaver/gsd-screensaver-plugin.c: (impl_deactivate):
+	* plugins/sound/gsd-sound-plugin.c: (impl_deactivate): stop manager
+	on deactivation
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	Make mouse plugin deactivation work
+
+	* plugins/mouse/gsd-mouse-manager.c: (register_config_callback),
+	(gsd_mouse_manager_init), (gsd_mouse_manager_start),
+	(gsd_mouse_manager_stop): clean up properly on stop
+	* plugins/mouse/gsd-mouse-plugin.c: (impl_deactivate): stop manager on
+	deactivation
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c: (gsd_keyboard_xkb_shutdown):
+	clear the user callback data even if initialiation failed
+	* plugins/keyboard/gsd-xmodmap.c: (gsd_load_modmap_files):
+	properly NULL-terminate g_build_filename
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	Make media-keys plugin deactivation work
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (acme_error),
+	(dialog_init), (init_kbd), (gsd_media_keys_manager_stop),
+	(register_manager): clean up properly on stop
+	* plugins/media-keys/gsd-media-keys-plugin.c: (impl_deactivate):
+	stop manager on deactivation
+
+2008-04-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-xmodmap.c: (check_button_callback),
+	(gsd_load_modmap_files), (response_callback),
+	(remove_string_from_list), (remove_button_clicked_callback),
+	(load_button_clicked_callback), (gsd_modmap_dialog_call): fix
+	memory leaks
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Make keyboard plugin deactivation work
+
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(register_config_callback), (gsd_keyboard_manager_start),
+	(gsd_keyboard_manager_stop):
+	* plugins/keyboard/gsd-keyboard-xkb.c: (register_config_callback),
+	(gsd_keyboard_xkb_init), (gsd_keyboard_xkb_shutdown):
+	* plugins/keyboard/gsd-keyboard-xkb.h: clean up properly on stop
+	* plugins/keyboard/gsd-keyboard-plugin.c: (impl_deactivate): stop
+	manager on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Make keybinding plugin deactivation work
+
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(register_config_callback), (gsd_keybindings_manager_start),
+	(gsd_keybindings_manager_stop): clean up properly on stop
+	* plugins/keybindings/gsd-keybindings-plugin.c: (impl_deactivate):
+	stop manager on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/font/gsd-font-plugin.c: (impl_deactivate): stop manager on
+	deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/dummy/gsd-dummy-plugin.c: (impl_deactivate): stop manager
+	on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/clipboard/gsd-clipboard-plugin.c: (impl_deactivate): stop
+	manager on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Make background plugin deactivation work
+
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_start), (gsd_background_manager_stop):
+	clean up properly on stop
+	* plugins/background/gsd-background-plugin.c: (impl_deactivate):
+	stop manager on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(gsd_a11y_keyboard_manager_stop): also remove MateConf watch directory
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Make housekeeping plugin deactivation work
+
+	* plugins/housekeeping/gsd-housekeeping-manager.c:
+	(register_config_callback), (gsd_housekeeping_manager_start),
+	(gsd_housekeeping_manager_stop), (gsd_housekeeping_manager_init):
+	clean up properly on stop
+	* plugins/housekeeping/gsd-housekeeping-plugin.c:
+	(impl_deactivate): stop manager on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	Make a11y-keyboard plugin deactivation work
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(register_config_callback), (gsd_a11y_keyboard_manager_start),
+	(gsd_a11y_keyboard_manager_stop): properly clean up on _stop
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-plugin.c:
+	(impl_deactivate): stop manager on deactivation
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(get_xkb_desc_rec), (set_server_from_mateconf),
+	(ax_slowkeys_warning_dialog_post),
+	(ax_stickykeys_warning_dialog_post), (set_mateconf_from_server),
+	(cb_xkb_event_filter), (gsd_a11y_keyboard_manager_init): more
+	cleanup
+
+2008-04-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (grab_key_real):
+	remove excessive key grab logging
+
+2008-04-09  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-manager.c: (numlock_xkb_init),
+	(numlock_set_xkb_state), (numlock_mateconf_state_key),
+	(numlock_xkb_callback), (numlock_install_xkb_callback),
+	(apply_settings), (gsd_keyboard_manager_start): split XKB
+	initialization and calbback installation which allows us to get rid of
+	some more special-casing and yet another static variable
+
+2008-04-09  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c: (xkb_enabled),
+	(get_xkb_desc_rec), (gsd_a11y_keyboard_manager_start): don't install
+	any listeners or callbacks when XKB is not available
+
+2008-04-09  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* plugins/housekeeping/gsd-housekeeping-manager.c:
+	(gsd_housekeeping_manager_stop):
+	Purge thumbnail cache on shutdown if and only if the max size or
+	max age parameters have been set to zero (for paranoid people)
+	(bug #526999).
+
+2008-04-07  Jens Granseuer  <jensgr@gmx.net>
+
+	Currently, the percentage by which to lower or raise the volume when
+	hitting the multimedia keys is taken from MateConf, with 6 being the
+	default. We don't have any settings dialogs to actually change it,
+	though. If the user now selects a mixer that supports fewer volume
+	levels than the MateConf setting implies (100/6) it becomes impossible
+	to change the volume (without fiddling with the MateConf setting). This
+	patch adds a "threshold" property to the AcmeVolume class that denotes
+	the minimum percentage required to actually affect the volume. The
+	plugin now uses the step size read from MateConf or the mixer threshold,
+	depending on which one is bigger. (bug #441910)
+
+	* plugins/media-keys/actions/acme-volume-alsa.c:
+	(acme_volume_alsa_get_threshold), (acme_volume_alsa_class_init):
+	* plugins/media-keys/actions/acme-volume-dummy.c:
+	(acme_volume_dummy_get_threshold), (acme_volume_dummy_class_init):
+	* plugins/media-keys/actions/acme-volume-gstreamer.c:
+	(acme_volume_gstreamer_get_threshold),
+	(acme_volume_gstreamer_class_init):
+	* plugins/media-keys/actions/acme-volume-oss.c:
+	(acme_volume_oss_get_threshold), (acme_volume_oss_class_init),
+	(acme_volume_oss_mixer_check):
+	* plugins/media-keys/actions/acme-volume.c:
+	(acme_volume_get_threshold):
+	* plugins/media-keys/actions/acme-volume.h: add get_threshold method
+	* plugins/media-keys/gsd-media-keys-manager.c: (do_sound_action): use
+	mateconf value or threshold, depending on what's bigger
+
+2008-04-07  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (do_sound_action): only
+	use the built-in default for volume_step if we get an error from MateConf,
+	not just when the value is 0 which might be what the user wants (see
+	the discussion on the Thinkpad driver again)
+
+2008-04-07  Jens Granseuer  <jensgr@gmx.net>
+
+	Remove the Thinkpad driver again. See bug #524425 for some discussion.
+
+	* configure.ac:
+	* plugins/media-keys/actions/Makefile.am:
+	* plugins/media-keys/actions/acme-volume-thinkpad.c:
+	* plugins/media-keys/actions/acme-volume-thinkpad.h:
+	* plugins/media-keys/actions/acme-volume.c: (acme_volume_new): remove
+	extra Thinkpad support
+
+2008-04-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(gsd_keyboard_get_hostname_key), (numlock_set_xkb_state),
+	(numlock_mateconf_state_key), (numlock_get_mateconf_state),
+	(numlock_set_mateconf_state), (numlock_xkb_callback),
+	(numlock_install_xkb_callback), (apply_settings),
+	(gsd_keyboard_manager_start), (gsd_keyboard_manager_init):
+	* plugins/keyboard/gsd-keyboard-xkb.c: (gsd_keyboard_xkb_init):
+	* plugins/keyboard/gsd-keyboard-xkb.h: continued attempt at making XKB
+	setup and error handling a bit less arcane and crufty
+
+2008-04-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-xkb.c:
+	* plugins/keyboard/gsd-keyboard-xkb.h: initialize inited_ok or
+	behaviour is undefined when xkb setup fails; don't export XklEngine
+
+2008-04-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: (do_action): make "Home"
+	keybinding work again
+
+2008-04-05  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac:
+	* plugins/media-keys/actions/Makefile.am: hook up the Thinkpad support
+
+2008-04-05  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Lorne Applebaum <4lorne@gmail.com>
+
+	* plugins/media-keys/actions/acme-volume-thinkpad.c:
+	* plugins/media-keys/actions/acme-volume-thinkpad.h:
+	* plugins/media-keys/actions/acme-volume.c: (acme_volume_new): add a
+	special volume subclass for better support of IBM Thinkpad hardware
+	volume buttons (bug #524425)
+
+2008-04-05  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Lorne Applebaum <4lorne@gmail.com>
+
+	* plugins/media-keys/actions/acme-volume-dummy.h: fix TYPE macro and
+	remove an unimplemented prototype
+
+2008-04-01  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(gsd_keyboard_manager_start): apply keyboard settings on startup, too
+	(bug #525440)
+
+2008-03-31  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(bindings_get_entry): fix various leaks and other memory management
+	issues
+
+2008-03-31  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(bindings_get_entry), (binding_register_keys): remove trailing newlines
+	from messages since g_warning already takes care of those
+
+2008-03-31  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/gsd-keybindings-manager.c: (do_grab):
+	* plugins/media-keys/gsd-media-keys-manager.c: (grab_key): don't try to
+	add grabs with invalid modifiers
+
+2008-03-30  Gerd Kohlberger <gerdk@svn.mate.org>
+
+	* plugins/mouse/gsd-mouse-manager.c:
+	(set_mousetweaks_daemon): Set mateconf keys back to false,
+	if mousetweaks isn't installed. Bug #525042.
+
+2008-03-30  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xsettings/gsd-xsettings-manager.c: add mapping for
+	Gtk/Modules xsetting using MateConf path /desktop/mate/gtk-modules
+	(bug #507386)
+
+2008-03-30  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/housekeeping/gsd-housekeeping-manager.c: change data types to
+	match glib; avoid using time_t
+
+2008-03-30  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/actions/acme-volume-dummy.c:
+	(acme_volume_dummy_init), (acme_volume_dummy_class_init): change to use
+	G_DEFINE_TYPE instead of open-coding it
+
+2008-03-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: fix profiling to be off by default
+
+2008-03-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/main.c: mark string for translation
+
+2008-03-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/eggaccelerators.c:
+	(egg_accelerator_parse_virtual):
+	* plugins/media-keys/eggaccelerators.c:
+	(egg_accelerator_parse_virtual): readd a chunk that got lost in the
+	last commit. *sigh*. Why do we have several differing copies of those
+	files?
+
+2008-03-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/keybindings/eggaccelerators.c:
+	(egg_accelerator_parse_virtual), (egg_virtual_accelerator_name),
+	(egg_virtual_accelerator_label),
+	(egg_keymap_resolve_virtual_modifiers),
+	(egg_keymap_virtualize_modifiers), (reload_modmap),
+	(egg_keymap_get_modmap):
+	* plugins/keybindings/eggaccelerators.h: fix mismatched modifier
+	mapping between egg and GTK (so that e.g. <Super> works) and replace
+	some custom functionality with stock GTK
+
+2008-03-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/eggaccelerators.c:
+	(egg_accelerator_parse_virtual), (egg_virtual_accelerator_name),
+	(egg_virtual_accelerator_label),
+	(egg_keymap_resolve_virtual_modifiers),
+	(egg_keymap_virtualize_modifiers), (reload_modmap),
+	(egg_keymap_get_modmap):
+	* plugins/media-keys/eggaccelerators.h: fix mismatched modifier
+	mapping between egg and GTK (so that e.g. <Super> works) and replace
+	some custom functionality with stock GTK
+
+2008-03-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/housekeeping/gsd-housekeeping-manager.c:
+	(get_mateconf_int_with_default): rename to better reflect what it does,
+	and also use the default passed in if we don't get an int from MateConf,
+	or we'll end up with a value of 0 which is certainly not what we want
+
+	(purge_thumbnail_cache): update callers
+
+2008-03-28  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/housekeeping/Makefile.am:
+	* plugins/housekeeping/gsd-housekeeping-manager.c:
+	(thumb_data_free), (read_dir_for_purge), (purge_old_thumbnails),
+	(sort_file_mtime), (get_mateconf_int_with_nonzero_default),
+	(purge_thumbnail_cache), (do_cleanup), (do_cleanup_once),
+	(do_cleanup_soon), (bindings_callback), (register_config_callback),
+	(gsd_housekeeping_manager_start), (gsd_housekeeping_manager_stop),
+	(gsd_housekeeping_manager_class_init),
+	(gsd_housekeeping_manager_init), (gsd_housekeeping_manager_new):
+	* plugins/housekeeping/gsd-housekeeping-manager.h:
+	* plugins/housekeeping/gsd-housekeeping-plugin.c:
+	(gsd_housekeeping_plugin_init), (gsd_housekeeping_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_housekeeping_plugin_class_init):
+	* plugins/housekeeping/gsd-housekeeping-plugin.h:
+	* plugins/housekeeping/housekeeping.mate-settings-plugin.in:
+	Added a new "housekeeping" plugin to set limits on the size and
+	age of the thumbnail cache (bug #523159).
+
+2008-03-25  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Matthias Clasen <mclasen@redhat.com>
+
+	* plugins/mouse/gsd-mouse-manager.c: (filter): don't eat key events;
+	other plugins might need them as well (bug #523676)
+
+2008-03-24  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac:
+	Add some stuff to the configuration summary.
+
+	* plugins/media-keys/gsd-media-keys-manager.c:
+	(gsd_media_keys_manager_start):
+	Add a few more profiling points.
+
+2008-03-24  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/Makefile.am:
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(set_server_from_mateconf), (gsd_a11y_keyboard_manager_start):
+	* plugins/background/Makefile.am:
+	* plugins/background/gsd-background-manager.c: (apply_prefs),
+	(gsd_background_manager_start):
+	* plugins/clipboard/gsd-clipboard-manager.c:
+	(gsd_clipboard_manager_start):
+	* plugins/dummy/gsd-dummy-manager.c: (gsd_dummy_manager_start):
+	* plugins/font/gsd-font-manager.c: (load_xcursor_theme),
+	(load_cursor), (gsd_font_manager_start):
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(gsd_keybindings_manager_start):
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(gsd_keyboard_manager_start):
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/gsd-media-keys-manager.c: (init_kbd),
+	(gsd_media_keys_manager_start):
+	* plugins/mouse/gsd-mouse-manager.c: (gsd_mouse_manager_start):
+	* plugins/screensaver/gsd-screensaver-manager.c:
+	(gsd_screensaver_manager_start):
+	* plugins/sound/gsd-sound-manager.c: (start_mate_sound),
+	(reload_foreach_cb), (apply_settings), (gsd_sound_manager_start):
+	* plugins/typing-break/gsd-typing-break-manager.c:
+	(setup_typing_break), (gsd_typing_break_manager_start):
+	* plugins/xrandr/gsd-xrandr-manager.c: (apply_settings):
+	* plugins/xrdb/gsd-xrdb-manager.c: (apply_settings),
+	(gsd_xrdb_manager_start):
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	(xft_settings_set_xsettings), (xft_settings_set_xresources),
+	(update_xft_settings), (mate_xsettings_manager_start):
+	Add profiling points to plugins.
+
+2008-03-24  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/mate-settings-manager.c:
+	(compare_location), (_load_file), (_load_dir):
+	* mate-settings-daemon/mate-settings-plugin-info.c: (debug_info),
+	(mate_settings_plugin_info_fill_from_file),
+	(mate_settings_plugin_info_deactivate), (load_plugin_module),
+	(mate_settings_plugin_info_activate),
+	(mate_settings_plugin_info_is_active),
+	(mate_settings_plugin_info_get_enabled),
+	(mate_settings_plugin_info_is_available),
+	(mate_settings_plugin_info_get_name),
+	(mate_settings_plugin_info_get_description),
+	(mate_settings_plugin_info_get_authors),
+	(mate_settings_plugin_info_get_website),
+	(mate_settings_plugin_info_get_copyright),
+	(mate_settings_plugin_info_get_location),
+	(mate_settings_plugin_info_get_priority),
+	(mate_settings_plugin_info_set_priority):
+	Fix a refcounting bug.  Add a few more checks.  Fix up a leak.
+	Fixes #524183
+
+2008-03-24  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/media-keys/gsd-media-keys-manager.c:
+	(acme_filter_events):
+	* plugins/sound/gsd-sound-manager.c: (start_mate_sound):
+	Fix two compiler warnings.
+
+2008-03-24  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/mate-settings-manager.c:
+	(mate_settings_manager_start):
+	* mate-settings-daemon/mate-settings-profile.c:
+	(_mate_settings_profile_log):
+	* mate-settings-daemon/mate-settings-profile.h:
+	* mate-settings-daemon/main.c: (main):
+	Add missing files.  Add some more profiling points.
+
+2008-03-24  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac:
+	* mate-settings-daemon/Makefile.am:
+	* mate-settings-daemon/mate-settings-manager.c: (_load_file),
+	(_load_dir), (_load_all), (mate_settings_manager_start):
+	* mate-settings-daemon/mate-settings-plugin-info.c:
+	(mate_settings_plugin_info_fill_from_file), (load_plugin_module),
+	(_activate_plugin):
+	* mate-settings-daemon/main.c: (bus_register), (main):
+	Add some profiling code.  Must specify --enable-profiling to
+	configure.
+
+	Can now be profiled like so:
+	strace -ttt -f -o /tmp/logfile.strace mate-settings-daemon
+	python plot-timeline.py -o prettygraph.png /tmp/logfile.strace
+
+	See: http://www.mate.org/~federico/news-2006-03.html#09
+
+2008-03-24  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Alexey Shabalin <a.shabalin@gmail.com>
+
+	* plugins/sound/gsd-sound-manager.c: (apply_settings): now that
+	"starting esd" can mean either esd or PulseAudio, check the MateConf
+	setting for starting the sound server even when esd is disabled
+	(bug #523743)
+
+2008-03-24  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/dummy/Makefile.am: remove NULL definition so authors using
+	this as the base for their own plugins don't get strange ideas
+
+2008-03-20  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/gsd-media-keys-manager.c: (grab_key_real),
+	(init_kbd), (acme_filter_events), (gsd_media_keys_manager_start):
+	* plugins/media-keys/test-media-keys.c: (main):
+	Add a tool to test media keys.
+
+2008-03-16  William Jon McCann  <jmccann@redhat.com>
+
+	* plugins/sound/gsd-sound-manager.c: (reset_esd_pid),
+	(start_mate_sound), (wait_on_child), (stop_child),
+	(stop_mate_sound), (apply_settings), (gsd_sound_manager_dispose):
+	Fix handling of child process.
+
+2008-03-14  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-window.c:
+	(remove_hide_timeout): reset opacity when removing the timeout so that
+	the fadeout is restarted when media keys are pressed while the popup is
+	already fading out (bug #522499)
+
+2008-03-13  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/actions/acme.glade: remove unused properties (and,
+	in particular, an unused translated string)
+
+2008-03-13  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: Danny Baumann <dannybaumann@web.de>
+
+	* plugins/media-keys/gsd-media-keys-window.c:
+	(gsd_media_keys_window_new): set window type hint on the volume popup
+	(bug #522232)
+
+2008-03-11  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/typing-break/gsd-typing-break-manager.c:
+	(setup_typing_break): pass data to the timeout so shutting down the
+	typing monitor works instead of segfaulting (bug #521786)
+	(gsd_typing_break_manager_start): use g_timeout_add_seconds instead of
+	g_timeout_add
+
+2008-03-10  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac: Post release version bump
+
+==== 2.22.0 ====
+
+2008-03-10  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS: Update for release.
+
+2008-03-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* data/Makefile.am:
+	* data/apps_mate_settings_daemon_default_editor.schemas.in:
+	* data/mate-settings-daemon.schemas.in: remove obsolete settings for
+	the removed default editor plugin
+
+2008-03-01  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(ax_response_callback): don't pass the GError argument if we're
+	not going to use it. Also remove some unnecessary casting
+
+2008-02-29  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/main.c:
+	Disable debug by default again.
+
+2008-02-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac:
+	* plugins/mouse/Makefile.am: when building with XInput support,
+	actually link against libXi, or we'll fail to load the plugin due
+	to unresolved symbols (bug #519488)
+
+2008-02-29  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Post release version bump
+
+==== 2.21.92 ====
+
+2008-02-29  William Jon McCann  <jmccann@redhat.com>
+
+	* NEWS: Update for release.
+
+2008-02-29  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Remove Werror.
+
+2008-02-29  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/mate-settings-manager.c:
+	(register_manager), (mate_settings_manager_start): minor clean-up
+
+2008-02-28  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/mate-settings-manager.c:
+	(mate_settings_manager_error_quark), (_load_file),
+	(mate_settings_manager_awake), (mate_settings_manager_start),
+	(mate_settings_manager_start_with_settings_prefix),
+	(_set_settings_prefix), (mate_settings_manager_set_property),
+	(mate_settings_manager_get_property),
+	(mate_settings_manager_class_init),
+	(mate_settings_manager_finalize), (mate_settings_manager_new):
+	* mate-settings-daemon/mate-settings-manager.h:
+	* mate-settings-daemon/mate-settings-manager.xml:
+	* mate-settings-daemon/main.c: (main):
+	When dbus activated only load the plugins when requested
+	instead of at startup.  Add a new method to start and set
+	plugin settings prefix.  This allows gdm to use dbus
+	activation.  It also fixes cases where g-s-d is activated
+	and plugins are loaded unintentionally.
+
+2008-02-29  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* plugins/sound/gsd-sound-manager.c (apply_settings):
+
+	Add braces to fix amgiguous else. Avoids compiler
+	warnings.
+
+2008-02-28  Bastien Nocera  <hadess@hadess.net>
+
+	* plugins/sound/gsd-sound-manager.c (reset_esd_pid),
+	(start_mate_sound), (stop_mate_sound), (apply_settings),
+	(gsd_sound_manager_stop): Start the sound server ourselves,
+	as we need it to cache samples. If esd (or the PulseAudio
+	esd compat bits) isn't available, just print an error, and
+	don't try to cache the samples
+
+	If you use PulseAudio instead of esound in your distribution,
+	build with --disable-esd passed to configure
+
+	(Closes: #518075)
+
+2008-02-25  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/main.c: (gsd_log_default_handler), (main):
+	Add --debug command line option.
+	Only print DEBUG level messages if --debug is used.
+
+2008-02-25  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/mate-settings-plugin-info.c:
+	(mate_settings_plugin_info_fill_from_file):
+	Don't warn on missing priority since we don't recommend
+	that it be used.
+
+2008-02-22  William Jon McCann  <jmccann@redhat.com>
+
+	* data/mate-settings-daemon.schemas.in:
+	Take a stab at defining the default load priorities.
+	Fixes #518155
+
+2008-02-22  William Jon McCann  <jmccann@redhat.com>
+
+	* data/mate-settings-daemon.schemas.in:
+	* mate-settings-daemon/mate-settings-manager.c: (_load_file):
+	* mate-settings-daemon/mate-settings-plugin-info.c:
+	(mate_settings_plugin_info_set_priority):
+	* mate-settings-daemon/mate-settings-plugin-info.h:
+	Allow mateconf to override priorities.  Set sound plugin
+	priority to 1 (highest).
+	Fixes #515340
+
+2008-02-22  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/Makefile.am:
+	* mate-settings-daemon/mate-settings-manager.c: (_load_info),
+	(maybe_activate_plugin), (compare_location), (compare_priority),
+	(on_plugin_activated), (on_plugin_deactivated), (_load_file),
+	(_load_dir), (_load_all), (_unload_all),
+	(mate_settings_manager_start), (mate_settings_manager_stop),
+	(mate_settings_manager_constructor),
+	(mate_settings_manager_class_init),
+	(mate_settings_manager_finalize):
+	* mate-settings-daemon/mate-settings-manager.h:
+	* mate-settings-daemon/mate-settings-manager.xml:
+	* mate-settings-daemon/mate-settings-plugin-info.c:
+	(mate_settings_plugin_info_class_init),
+	(mate_settings_plugin_info_set_enabled_key_name),
+	(_deactivate_plugin), (_activate_plugin):
+	* mate-settings-daemon/mate-settings-plugin-info.h:
+	* mate-settings-daemon/mate-settings-plugins-engine.c:
+	* mate-settings-daemon/mate-settings-plugins-engine.h:
+	Merge PluginsEngine functionality into Manager.  Emit
+	signals when plugins are activated or deactivated.
+	Fixes #515341
+
+2008-02-22  William Jon McCann  <jmccann@redhat.com>
+
+	* mate-settings-daemon/Makefile.am:
+	* mate-settings-daemon/mate-settings-manager.c:
+	(mate_settings_manager_start), (mate_settings_manager_stop),
+	(mate_settings_manager_constructor),
+	(mate_settings_manager_finalize):
+	* mate-settings-daemon/mate-settings-plugin-info.c:
+	(mate_settings_plugin_info_finalize),
+	(mate_settings_plugin_info_class_init),
+	(mate_settings_plugin_info_init),
+	(mate_settings_plugin_info_fill_from_file), (plugin_enabled_cb),
+	(mate_settings_plugin_info_set_enabled_key_name),
+	(mate_settings_plugin_info_new_from_file), (_deactivate_plugin),
+	(mate_settings_plugin_info_deactivate), (load_plugin_module),
+	(_activate_plugin), (mate_settings_plugin_info_activate),
+	(mate_settings_plugin_info_is_active),
+	(mate_settings_plugin_info_get_enabled),
+	(mate_settings_plugin_info_is_available),
+	(mate_settings_plugin_info_get_name),
+	(mate_settings_plugin_info_get_description),
+	(mate_settings_plugin_info_get_authors),
+	(mate_settings_plugin_info_get_website),
+	(mate_settings_plugin_info_get_copyright),
+	(mate_settings_plugin_info_get_location),
+	(mate_settings_plugin_info_get_priority):
+	* mate-settings-daemon/mate-settings-plugin-info.h:
+	* mate-settings-daemon/mate-settings-plugins-engine.c:
+	(mate_settings_plugins_engine_load), (maybe_activate_plugin),
+	(compare_location), (compare_priority),
+	(mate_settings_plugins_engine_load_file),
+	(mate_settings_plugins_engine_load_dir),
+	(mate_settings_plugins_engine_load_all),
+	(mate_settings_plugins_engine_unload_all),
+	(mate_settings_plugins_engine_start),
+	(mate_settings_plugins_engine_garbage_collect),
+	(mate_settings_plugins_engine_stop),
+	(mate_settings_plugins_engine_get_plugins_list),
+	(_set_mateconf_prefix), (mate_settings_plugins_engine_set_property),
+	(mate_settings_plugins_engine_get_property),
+	(mate_settings_plugins_engine_class_init),
+	(mate_settings_plugins_engine_init),
+	(mate_settings_plugins_engine_finalize),
+	(mate_settings_plugins_engine_new):
+	* mate-settings-daemon/mate-settings-plugins-engine.h:
+	Refactor the PluginInfo structure into a class.  This
+	will facilitate fixing bug #515341
+
+2008-02-22  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.ac: Only enable ALSA and OSS support if we don't
+	have GStreamer support, as the media-keys code doesn't
+	have any fallbacks if GStreamer fails to load (see acme-volume.c's
+	_new ())
+
+2008-02-19  Vincent Untz  <vuntz@mate.org>
+
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(gsd_keyboard_get_hostname_key): escape the hostname before using it in
+	a mateconf path since it might contain invalid characters.
+	Fix bug #517259.
+
+2008-02-19  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: remove some unused stuff
+	* plugins/sound/Makefile.am: add missing ESD_CFLAGS/LIBS
+
+2008-02-19  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrandr/gsd-xrandr-manager.c:
+	(gsd_xrandr_manager_class_init), (gsd_xrandr_manager_init),
+	(gsd_xrandr_manager_finalize): build with XRandR if available, makes
+	setting screen geometry at login time work again (bug #517418)
+
+2008-02-16  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/main.c: mark string as translatable
+
+2008-02-14  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_start): at startup, don't apply background
+	prefs twice and don't check for caja running since we're usually
+	started first
+
+2008-02-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.ac: Fix for 515956. Build with Gio.
+
+==== 2.21.91 ====
+
+2008-02-11  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac:
+	* NEWS: prepare for 2.21.91.
+
+2008-02-11  Rodrigo Moya <rodrigo@mate-db.org>
+
+	Fixes bug #513990
+
+	* plugins/background/gsd-background-manager.c: use GIO instead of
+	mate-vfs.
+
+	* plugins/configure.ac:
+	* plugins/Makefile.am:
+	* plugins/default-editor/*: removed useless default editor plugin.
+
+2008-02-11  Rodrigo Moya <rodrigo@mate-db.org>
+
+	Patch by Wouter Bolsterlee <wbolster@mate.org>
+
+	* mate-settings-daemon/mate-settings-plugins-engine.c
+	(mate_settings_plugins_engine_load_all): assign return value from
+	g_slist_sort to the plugins list variable. (bug #515340)
+
+2008-02-10  Jens Granseuer  <jensgr@gmx.net>
+
+	* mate-settings-daemon/main.c: update the default MateConf prefix to
+	match the changes from r112 or bug #514411
+
+2008-02-09  Jens Granseuer  <jensgr@gmx.net>
+
+	Support for defining plugin start order got lost in the split from
+	mate-control-center, but it is essential for some plugins to work
+	correctly. With this change the "Priority" keyword can be used in the
+	".mate-settings-plugin" file to set plugin priorities. Priority can
+	take values from 1 upwards, with 1 being maximum priority and 100
+	being the default if nothing is specified by the plugin. For multiple
+	plugins with identical priority start order is undefined. (bug #515340)
+
+	* mate-settings-daemon/mate-settings-plugins-engine.c:
+	(mate_settings_plugins_engine_load), (activate_plugin),
+	(compare_location), (compare_priority),
+	(mate_settings_plugins_engine_load_file),
+	(mate_settings_plugins_engine_load_all),
+	(mate_settings_plugins_engine_init),
+	(mate_settings_plugins_engine_shutdown),
+	(mate_settings_plugins_engine_get_plugins_list),
+	(mate_settings_plugins_engine_get_plugin_copyright),
+	(mate_settings_plugins_engine_get_plugin_priority):
+	* mate-settings-daemon/mate-settings-plugins-engine.h: add back
+	support for defining plugin start order
+
+2008-02-09  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-manager.c:
+	(gsd_media_keys_manager_stop): declare variables at the beginning of
+	a block to make older compilers happy
+
+2008-02-09  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/clipboard/gsd-clipboard-manager.c:
+	(gsd_clipboard_error_quark): fix copy'n'paste error (bug #515426)
+
+2008-02-08  Sebastien Bacher  <seb128@ubuntu.com>
+
+	* configure.ac: check for xinput (bug #514942)
+
+2008-02-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_start), (gsd_background_manager_stop):
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(gsd_keybindings_manager_start):
+	* plugins/media-keys/gsd-media-keys-manager.c:
+	(gsd_media_keys_manager_stop): fix leaks
+
+	* plugins/default-editor/gsd-default-editor-manager.c:
+	(gsd_default_editor_manager_start): fix leak and pass the correct data
+	to the mime type callback
+
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	(mate_xsettings_manager_start): unref the MateConfClient only after
+	we're done with it
+
+2008-02-08  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/clipboard/gsd-clipboard-manager.c:
+	(gsd_kbd_a11y_error_quark), (gsd_clipboard_manager_start): make sure
+	we return a GError if initialization fails
+
+2008-02-08  Matthias Clasen  <mclasen@redhat.com>
+
+	* plugins/keyboard/gsd-keyboard-manager.c
+	(gsd_keyboard_manager_start): Load the XKB settings initially.
+	Fixes bug #511771.
+
+2008-02-07  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	(gsd_kbd_a11y_error_quark), (gsd_a11y_keyboard_manager_start): make
+	sure we return a GError if initialization fails (bug #514926)
+
+2008-02-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/media-keys/gsd-media-keys-window.c:
+	(volume_controls_set_visible), (window_set_icon_name),
+	(window_set_icon_file), (volume_level_changed),
+	(gsd_media_keys_window_class_init), (gsd_media_keys_window_init):
+	release the glade XML file as soon as possible and keep track of the
+	two widgets we need. This way we can also get rid of the custom
+	finalize method
+
+2008-02-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* data/mate-settings-daemon.schemas.in: use mate_settings_daemon for
+	the MateConf path. This is what the other g-s-d settings use as well, and
+	there is no good reason to use two separate paths (bug #514411)
+
+2008-02-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: add separate checks for libbackground
+	* plugins/background/libbackground/*: delete files and use the external
+	copy from mate-control-center to avoid duplication
+
+2008-02-05  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Damien Carberry <damien carberry@sun.com>
+
+	* configure.ac:
+	* data/mate-settings-daemon-uninstalled.pc.in: add uninstalled.pc
+	file for building against an uninstalled copy of g-s-d (bug #511820)
+
+2008-02-05  Jens Granseuer  <jensgr@gmx.net>
+
+	Based on a patch by: Damien Carberry <damien carberry@sun.com>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/background/Makefile.am:
+	* plugins/clipboard/Makefile.am:
+	* plugins/default-editor/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/font/Makefile.am:
+	* plugins/keybindings/Makefile.am:
+	* plugins/keyboard/Makefile.am:
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/actions/Makefile.am:
+	* plugins/mouse/Makefile.am:
+	* plugins/screensaver/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/typing-break/Makefile.am:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xsettings/Makefile.am:
+	* src: rename the src folder to mate-settings-daemon. This is needed
+	so we can supply an uninstalled.pc file for g-s-d (see discussion in
+	bug #511820)
+
+2008-02-04  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/screensaver/gsd-screensaver-manager.c:
+	(gsd_screensaver_manager_start): don't crash when running the
+	screensaver fails. The plugin relies on the GError it passes always
+	being filled in if we couldn't start the module, so set it up properly
+	in those cases (bug #514385)
+
+2008-02-04  Luca Ferretti  <elle.uca@libero.it>
+
+	reviewed by: Jens Granseuer
+
+	* data/apps_mate_settings_daemon_default_editor.schemas.in:
+	* data/apps_mate_settings_daemon_keybindings.schemas.in:
+	* data/apps_mate_settings_daemon_screensaver.schemas.in:
+	* data/desktop_mate_font_rendering.schemas.in:
+	* data/mate-settings-daemon.schemas.in:
+
+	Review short and long descriptions for MateConf keys, bug #514047.
+
+2008-02-02  Jens Granseuer  <jensgr@gmx.net>
+
+	* src/Makefile.am: remove duplicate CFLAGS (and NULL)
+
+2008-02-01  Christian Persch  <chpe@mate.org>
+
+	* configure.ac: Install the settings plugin to
+	$(libdir)/mate-settings-daemon-2.0. Fixes install with libdir ==
+	libexecdir, bug #504203.
+
+2008-02-01  Christian Persch  <chpe@mate.org>
+
+	Bug #513246.
+
+	* acinclude.m4:
+	* configure.ac:
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/background/Makefile.am:
+	* plugins/clipboard/Makefile.am:
+	* plugins/default-editor/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/font/Makefile.am:
+	* plugins/keybindings/Makefile.am:
+	* plugins/keyboard/Makefile.am:
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/actions/Makefile.am:
+	* plugins/mouse/Makefile.am:
+	* plugins/screensaver/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/typing-break/Makefile.am:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xsettings/Makefile.am: Use a flat directory instead of a
+	directory hierarchy to install the plugins into.
+	Install data files under $(pkgdatadir), not under $(libdir).
+
+	* src/Makefile.am:
+	* src/mate-settings-plugins-engine.c:
+	(mate_settings_plugin_info_free),
+	(mate_settings_plugins_engine_load),
+	(mate_settings_plugins_engine_load_file),
+	(mate_settings_plugins_engine_load_dir): Don't scan the plugins
+	directory recursively. Use GSlice for the plugin info struct.
+
+==== 2.21.90.2 ====
+
+2008-01-30  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.21.90.2.
+
+2008-01-30  Gabor Kelemen <kelemeng@mate.hu>
+
+	* data/apps_mate_settings_daemon_keybindings.schemas.in: Change 
+	E-mail schema's descriptions to be more verbose and sensible. Fix #512766.
+
+2008-01-30  Christian Persch  <chpe@mate.org>
+
+	* configure.ac:
+	* plugins/a11y-keyboard/Makefile.am:
+	* plugins/a11y-keyboard/a11y-keyboard.mate-settings-plugin.desktop
+	.in:
+	* plugins/background/Makefile.am:
+	* plugins/background/background.mate-settings-plugin.desktop.in:
+	* plugins/clipboard/Makefile.am:
+	* plugins/clipboard/clipboard.mate-settings-plugin.desktop.in:
+	* plugins/default-editor/Makefile.am:
+	* plugins/default-editor/default-editor.mate-settings-plugin.deskt
+	op.in:
+	* plugins/dummy/Makefile.am:
+	* plugins/dummy/dummy.mate-settings-plugin.desktop.in:
+	* plugins/font/Makefile.am:
+	* plugins/font/font.mate-settings-plugin.desktop.in:
+	* plugins/keybindings/Makefile.am:
+	* plugins/keybindings/keybindings.mate-settings-plugin.desktop.in:
+	* plugins/keyboard/Makefile.am:
+	* plugins/keyboard/keyboard.mate-settings-plugin.desktop.in:
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/media-keys.mate-settings-plugin.desktop.in:
+	* plugins/mouse/Makefile.am:
+	* plugins/mouse/mouse.mate-settings-plugin.desktop.in:
+	* plugins/screensaver/Makefile.am:
+	* plugins/screensaver/screensaver.mate-settings-plugin.desktop.in:
+	* plugins/sound/Makefile.am:
+	* plugins/sound/libsounds/Makefile.am:
+	* plugins/sound/sound.mate-settings-plugin.desktop.in:
+	* plugins/typing-break/Makefile.am:
+	* plugins/typing-break/typing-break.mate-settings-plugin.desktop.in:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrandr/xrandr.mate-settings-plugin.desktop.in:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xrdb/xrdb.mate-settings-plugin.desktop.in:
+	* plugins/xsettings/Makefile.am:
+	* plugins/xsettings/xsettings.mate-settings-plugin.desktop.in:
+	* po/POTFILES.in: No need to use weird naming of
+	.mate-settings-daemon.in files. Bug #512048.
+
+2008-01-29  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* data/org.mate.SettingsDaemon.service.in: use correct binary
+	path.
+
+==== 2.21.90.1 ====
+
+2008-01-29  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS:
+	* configure.ac: prepare for 2.21.90.1.
+
+2008-01-29  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* src/Makefile.am: use plain $libexecdir for g-s-d binary.
+
+==== 2.21.90 ====
+
+2008-01-28  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac:
+	* NEWS: prepare for 2.21.90.
+
+2008-01-28  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* data/Makefile.am:
+
+	Suppress verbose MateConf schema installation output.
+
+2008-01-28  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* src/Makefile.am:
+
+	Don't use weird autofu stuff to install
+	mate-settings-daemon into another directory, but define
+	gsddir and gsd_PROGRAMS instead. Fixes bug #504203.
+
+2008-01-28  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* data/org.mate.SettingsDaemon.service.in:
+	* src/Makefile.am:
+
+	Hopefully allow $(libdir) to be the same directory as
+	$(libexecdir) by installing the mate-settings-daemon
+	binary into a subdirectory of $(libexecdir), i.e.
+	$(libexecdir)/mate-settings-daemon/mate-settings-daemon.
+	Fixes bug #504203.
+
+2008-01-28  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* src/main.c: (main):
+
+	Don't leak the MateProgram instance.
+
+2008-01-28  Wouter Bolsterlee  <wbolster@svn.mate.org>
+
+	* configure.ac:
+	* src/main.c: (main):
+
+	Initialize MateProgram to avoid critical warnings from
+	libmate. Fixes bug #509770.
+
+2008-01-26  Jens Granseuer  <jensgr@gmx.net>
+
+	* data/mate-settings-daemon.pc.in: DBus API has been frozen for a
+	while now. No longer define DBUS_API_SUBJECT_TO_CHANGE
+
+2008-01-25  Soren Sandmann  <sandmann@redhat.com>
+
+	* plugins/background/gsd-background-manager.c
+	(MATE_DESKTOP_USE_UNSTABLE_API): Define this macro before
+	including mate-bg.h
+
+2008-01-25  Jens Granseuer  <jensgr@gmx.net>
+
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	(xft_settings_set_xresources): don't try to reference a non-existing
+	variable (left-over cruft from the patch for bug #505470)
+
+2008-01-25  Jens Granseuer  <jensgr@gmx.net>
+
+	* data/mate-settings-daemon.schemas.in: fix typo in typing break key.
+	Bug #510429.
+
+2008-01-25  Jens Granseuer  <jensgr@gmx.net>
+
+	Patch by: <dynamotwain@aim.com>
+
+	* configure.ac: readd check for XFT2 that got lost in the g-s-d split.
+	Bug #510925.
+
+2008-01-25  Christian Persch  <chpe@mate.org>
+
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	(xft_settings_set_xresources): Use g_ascii_dtostr instead of
+	setlocale. Bug #505470.
+
+2008-01-25  Christian Persch  <chpe@mate.org>
+
+	* plugins/media-keys/Makefile.am: Fix build with builddir != srcdir.
+	BUg #509142.
+
+2008-01-24  Jens Granseuer  <jensgr@gmx.net>
+
+	* configure.ac: quote function names in AC_DEFUN to fix "underquoted
+	definition" autoconf warning
+
+2008-01-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* plugins/mouse/gsd-locate-pointer.c: (timeline_frame_cb),
+	(timeline_finished_cb): Fix a couple typos that broke the build.
+
+2008-01-22  Carlos Garnacho  <carlosg@mate.org>
+
+	* plugins/mouse/gsd-locate-pointer.c: Reworked, add a more appealing
+	animation if there's a composite manager present, also use a similar
+	animation for the non-composite case, so most of the code is shared.
+	* plugins/mouse/gsd-timeline.[ch]: New files, object to control the
+	"locate pointer" animation.
+	* plugins/mouse/Makefile.am: Added these files to build.
+
+==== 2.21.5.2 ====
+
+2008-01-15  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac:
+	* NEWS: prepare for 2.21.5.2.
+
+2008-01-15  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* plugins/sound/Makefile.am:
+	* plugins/sound/libsounds/Makefile.am: use a libtool library for
+	x86_64 warnings.
+
+	* configure.ac: automake fixes for allowing long file names in tar.gz.
+
+==== 2.21.5.1 ====
+
+2008-01-15  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* configure.ac:
+	* NEWS: prepare for 2.21.5.1.
+
+==== 2.21.5 ====
+
+2008-01-15  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* NEWS: prepare for 2.21.5.
+
+2008-01-14  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* data/mate-settings-daemon.pc.in: reverted last patch.
+
+2008-01-14  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* data/mate-settings-daemon.pc.in: added dbusapidir variable, for
+	the mate-control-center module to access the .xml DBus interfaces file.
+
+2008-01-14  Denis Washington  <denisw@svn.mate.org>
+
+	* plugins/xrandr/Makefile.in: This was probably commited by
+	accident, remove it.
+
+2008-01-14  Denis Washington  <denisw@svn.mate.org>
+
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.c:
+	Only consider /desktop/mate/accessibility/keyboard/enable
+	as option for enabling keyboard a11y features from the keyboard,
+	not as global switch to turn all a11y features on/off.
+
+2008-01-14  Denis Washington  <denisw@svn.mate.org>
+
+	Patch from Gerd Kohlberger (bug #503547)
+
+	* plugins/mouse/gsd-mouse-manager.c:
+	Mousetweaks support.
+
+2008-01-14  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* plugins/media-keys/gsd-media-keys-manager.c: reverted patch from bug
+	#165343.
+
+2007-12-24  Christian Persch  <chpe@mate.org>
+
+	* plugins/xsettings/gsd-xsettings-manager.c: Add Gtk/IMModule XSetting.
+	Bug #504182, patch by Akira TAGOH.
+
+2007-12-22  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	use new setting from libmate to make toolbar
+	icon size setting work (bug #401030)
+	Merge from mate-control-center.
+
+2007-12-22  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/xsettings/Makefile.am:
+	* plugins/xsettings/mate-xsettings-manager.c:
+	* plugins/xsettings/mate-xsettings-manager.h:
+	* plugins/xsettings/mate-xsettings-plugin.c:
+	* plugins/xsettings/mate-xsettings-plugin.h:
+	* plugins/xsettings/gsd-xsettings-manager.c:
+	* plugins/xsettings/gsd-xsettings-plugin.c:
+	Rename files to be consistent with other plugins.
+
+2007-12-21  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/background/Makefile.am:
+	* plugins/background/background.mate-settings-plugin.desktop.in:
+	* plugins/background/gsd-background-manager.c:
+	(gsd_background_manager_init):
+	* plugins/background/test-background.c: (idle), (main):
+	Init mate-vfs and use the correct name in the desktop file.
+
+2007-12-21  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/background/gsd-background-manager.c:
+	(caja_is_running), (apply_prefs), (queue_apply),
+	(background_callback), (on_bg_changed),
+	(gsd_background_manager_start):
+	Merge g-c-c patch for animated backgrounds.
+	Require mate-desktop 2.21.4.
+	Patch from: Soeren Sandmann <sandmann@daimi.au.dk>
+
+2007-12-18  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac: Post release version bump
+
+==== 2.21.4 ====
+
+2007-12-18  William Jon McCann  <mccann@jhu.edu>
+
+	* NEWS: Update for release.
+
+2007-12-18  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac: Update version number.
+
+2007-12-18  William Jon McCann  <mccann@jhu.edu>
+
+	* src/mate-settings-manager.c: (mate_settings_manager_awake):
+	* src/main.c:
+	Turn off daemonizing for now since it confused D-Bus service
+	activation.
+
+2007-12-18  William Jon McCann  <mccann@jhu.edu>
+
+	* src/Makefile.am:
+	* src/mate-settings-manager.c: (mate_settings_manager_awake),
+	(register_manager), (mate_settings_manager_class_init),
+	(mate_settings_manager_new):
+	* src/mate-settings-manager.h:
+	* src/mate-settings-manager.xml:
+	Provide the awake method and install the dbus api header.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/background/Makefile.am:
+	* plugins/sound/Makefile.am:
+	Fix distcheck.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/Makefile.am:
+	* plugins/a11y-keyboard/a11y-keyboard.mate-settings-plugin.desktop
+	.in:
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-manager.h:
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-plugin.c:
+	(gsd_a11y_keyboard_plugin_init),
+	(gsd_a11y_keyboard_plugin_finalize), (impl_activate),
+	(impl_deactivate), (gsd_a11y_keyboard_plugin_class_init):
+	* plugins/a11y-keyboard/gsd-a11y-keyboard-plugin.h:
+	Add a11y keyboard plugin.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/typing-break/Makefile.am:
+	* plugins/typing-break/gsd-typing-break-manager.c:
+	(register_config_callback), (typing_break_timeout), (child_watch),
+	(setup_typing_break), (typing_break_callback),
+	(really_setup_typing_break), (gsd_typing_break_manager_start),
+	(gsd_typing_break_manager_stop),
+	(gsd_typing_break_manager_set_property),
+	(gsd_typing_break_manager_get_property),
+	(gsd_typing_break_manager_constructor),
+	(gsd_typing_break_manager_dispose),
+	(gsd_typing_break_manager_class_init),
+	(gsd_typing_break_manager_init),
+	(gsd_typing_break_manager_finalize),
+	(gsd_typing_break_manager_new):
+	* plugins/typing-break/gsd-typing-break-manager.h:
+	* plugins/typing-break/gsd-typing-break-plugin.c:
+	(gsd_typing_break_plugin_init), (gsd_typing_break_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_typing_break_plugin_class_init):
+	* plugins/typing-break/gsd-typing-break-plugin.h:
+	* plugins/typing-break/typing-break.mate-settings-plugin.desktop.in:
+	Add typing break plugin.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/sound/Makefile.am:
+	* plugins/sound/gsd-sound-manager.c: (start_mate_sound),
+	(stop_mate_sound), (reload_foreach_cb), (apply_settings),
+	(register_config_callback), (sound_callback),
+	(gsd_sound_manager_start), (gsd_sound_manager_stop),
+	(gsd_sound_manager_set_property), (gsd_sound_manager_get_property),
+	(gsd_sound_manager_constructor), (gsd_sound_manager_dispose),
+	(gsd_sound_manager_class_init), (gsd_sound_manager_init),
+	(gsd_sound_manager_finalize), (gsd_sound_manager_new):
+	* plugins/sound/gsd-sound-manager.h:
+	* plugins/sound/gsd-sound-plugin.c: (gsd_sound_plugin_init),
+	(gsd_sound_plugin_finalize), (impl_activate), (impl_deactivate),
+	(gsd_sound_plugin_class_init):
+	* plugins/sound/gsd-sound-plugin.h:
+	* plugins/sound/sound.mate-settings-plugin.desktop.in:
+	* plugins/xrandr/Makefile.in:
+	Add sound plugin
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* data/mate-settings-daemon.schemas.in:
+	Add schemas for media keys.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/dummy/gsd-dummy-manager.c:
+	* plugins/media-keys/Makefile.am:
+	* plugins/media-keys/actions/Makefile.am:
+	* plugins/media-keys/actions/acme-volume-alsa.c:
+	(acme_volume_alsa_finalize), (acme_volume_alsa_set_mute),
+	(acme_volume_alsa_get_mute), (acme_volume_alsa_get_volume),
+	(acme_volume_alsa_set_volume), (acme_volume_alsa_close_real),
+	(acme_volume_alsa_open), (acme_volume_alsa_close),
+	(acme_volume_alsa_init), (acme_volume_alsa_class_init):
+	* plugins/media-keys/actions/acme-volume-alsa.h:
+	* plugins/media-keys/actions/acme-volume-dummy.c:
+	(acme_volume_dummy_finalize), (acme_volume_dummy_set_mute),
+	(acme_volume_dummy_get_mute), (acme_volume_dummy_get_volume),
+	(acme_volume_dummy_set_volume), (acme_volume_dummy_init),
+	(acme_volume_dummy_class_init), (acme_volume_dummy_get_type):
+	* plugins/media-keys/actions/acme-volume-dummy.h:
+	* plugins/media-keys/actions/acme-volume-gstreamer.c:
+	(acme_volume_gstreamer_finalize), (acme_volume_gstreamer_set_mute),
+	(update_state), (acme_volume_gstreamer_get_mute),
+	(acme_volume_gstreamer_get_volume),
+	(acme_volume_gstreamer_set_volume),
+	(acme_volume_gstreamer_close_real), (_acme_set_mixer),
+	(acme_volume_gstreamer_open), (acme_volume_gstreamer_close),
+	(acme_volume_gstreamer_init), (acme_volume_gstreamer_class_init):
+	* plugins/media-keys/actions/acme-volume-gstreamer.h:
+	* plugins/media-keys/actions/acme-volume-oss.c:
+	(acme_volume_oss_finalize), (acme_volume_oss_vol_check),
+	(acme_volume_oss_set_mute), (acme_volume_oss_get_mute),
+	(acme_volume_oss_get_volume), (acme_volume_oss_set_volume),
+	(acme_volume_oss_init), (acme_volume_oss_class_init),
+	(acme_volume_oss_mixer_check):
+	* plugins/media-keys/actions/acme-volume-oss.h:
+	* plugins/media-keys/actions/acme-volume.c:
+	(acme_volume_class_init), (acme_volume_init),
+	(acme_volume_get_volume), (acme_volume_set_volume),
+	(acme_volume_get_mute), (acme_volume_set_mute),
+	(acme_volume_mute_toggle), (acme_volume_new):
+	* plugins/media-keys/actions/acme-volume.h:
+	* plugins/media-keys/actions/acme.glade:
+	* plugins/media-keys/actions/acme.h:
+	* plugins/media-keys/eggaccelerators.c: (is_alt), (is_ctl),
+	(is_modx), (is_ctrl), (is_shft), (is_shift), (is_control),
+	(is_release), (is_meta), (is_super), (is_hyper), (is_keycode),
+	(egg_accelerator_parse_virtual), (egg_virtual_accelerator_name),
+	(egg_keymap_resolve_virtual_modifiers),
+	(egg_keymap_virtualize_modifiers), (reload_modmap),
+	(egg_keymap_get_modmap):
+	* plugins/media-keys/eggaccelerators.h:
+	* plugins/media-keys/gsd-marshal.list:
+	* plugins/media-keys/gsd-media-keys-manager.c: (init_screens),
+	(acme_error), (get_term_command), (execute), (do_sleep_action),
+	(dialog_init), (grab_key_real), (grab_key), (is_valid_shortcut),
+	(update_kbd_cb), (init_kbd), (dialog_show), (do_unknown_action),
+	(do_help_action), (do_mail_action), (do_media_action),
+	(do_www_action), (do_exit_action), (do_eject_action),
+	(do_sound_action), (find_by_application), (find_by_time),
+	(gsd_media_keys_manager_grab_media_player_keys),
+	(gsd_media_keys_manager_release_media_player_keys),
+	(gsd_media_player_key_pressed), (do_multimedia_player_action),
+	(do_action), (acme_get_screen_from_event), (acme_filter_events),
+	(gsd_media_keys_manager_start), (gsd_media_keys_manager_stop),
+	(gsd_media_keys_manager_set_property),
+	(gsd_media_keys_manager_get_property),
+	(gsd_media_keys_manager_constructor),
+	(gsd_media_keys_manager_dispose),
+	(gsd_media_keys_manager_class_init), (gsd_media_keys_manager_init),
+	(gsd_media_keys_manager_finalize), (register_manager),
+	(gsd_media_keys_manager_new):
+	* plugins/media-keys/gsd-media-keys-manager.h:
+	* plugins/media-keys/gsd-media-keys-manager.xml:
+	* plugins/media-keys/gsd-media-keys-plugin.c:
+	(gsd_media_keys_plugin_init), (gsd_media_keys_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_media_keys_plugin_class_init):
+	* plugins/media-keys/gsd-media-keys-plugin.h:
+	* plugins/media-keys/gsd-media-keys-window.c: (fade_timeout),
+	(hide_timeout), (remove_hide_timeout), (add_hide_timeout),
+	(update_window), (volume_controls_set_visible),
+	(window_set_icon_name), (window_set_icon_file), (action_changed),
+	(volume_level_changed), (volume_muted_changed),
+	(gsd_media_keys_window_set_action),
+	(gsd_media_keys_window_set_volume_muted),
+	(gsd_media_keys_window_set_volume_level), (curved_rectangle),
+	(load_pixbuf), (render_eject), (draw_eject), (draw_action_eject),
+	(draw_waves), (draw_speaker), (render_speaker),
+	(draw_volume_boxes), (draw_action_volume), (draw_action),
+	(on_expose_event), (gsd_media_keys_window_real_show),
+	(gsd_media_keys_window_real_hide),
+	(gsd_media_keys_window_class_init),
+	(gsd_media_keys_window_is_valid), (initialize_alpha_mode),
+	(gsd_media_keys_window_init), (gsd_media_keys_window_finalize),
+	(gsd_media_keys_window_new):
+	* plugins/media-keys/gsd-media-keys-window.h:
+	* plugins/media-keys/media-keys.mate-settings-plugin.desktop.in:
+	* plugins/media-keys/test-media-window.c: (update_state),
+	(test_window), (main):
+	* plugins/xrandr/Makefile.in:
+	Add media keys plugin.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/Makefile.am:
+	* data/apps_mate_settings_daemon_default_editor.schemas.in:
+	* data/apps_mate_settings_daemon_keybindings.schemas.in:
+	* data/apps_mate_settings_daemon_screensaver.schemas.in:
+	* data/desktop_mate_font_rendering.schemas.in:
+	* plugins/default-editor/Makefile.am:
+	* plugins/default-editor/gsd-default-editor-manager.c:
+	(gsd_default_editor_manager_init):
+	* plugins/keyboard/Makefile.am:
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	* plugins/mouse/gsd-mouse-manager.c:
+	* plugins/screensaver/gsd-screensaver-manager.c:
+	(gsd_screensaver_manager_start):
+	* plugins/xrandr/Makefile.in:
+	* plugins/xrandr/gsd-xrandr-manager.c:
+	* plugins/xrdb/Makefile.am:
+	Add other schemas.  Fix some zero length private data.
+	Fix some install dirs.  Add libmatekbd deps.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/screensaver/Makefile.am:
+	* plugins/screensaver/gsd-screensaver-manager.c: (key_toggled_cb),
+	(gsd_screensaver_manager_start), (gsd_screensaver_manager_stop),
+	(gsd_screensaver_manager_set_property),
+	(gsd_screensaver_manager_get_property),
+	(gsd_screensaver_manager_constructor),
+	(gsd_screensaver_manager_dispose),
+	(gsd_screensaver_manager_class_init),
+	(gsd_screensaver_manager_init), (gsd_screensaver_manager_finalize),
+	(gsd_screensaver_manager_new):
+	* plugins/screensaver/gsd-screensaver-manager.h:
+	* plugins/screensaver/gsd-screensaver-plugin.c:
+	(gsd_screensaver_plugin_init), (gsd_screensaver_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_screensaver_plugin_class_init):
+	* plugins/screensaver/gsd-screensaver-plugin.h:
+	* plugins/screensaver/screensaver.mate-settings-plugin.desktop.in:
+	Add screensaver plugin.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/background/Makefile.am:
+	* plugins/clipboard/Makefile.am:
+	* plugins/default-editor/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/font/Makefile.am:
+	* plugins/keybindings/Makefile.am:
+	* plugins/mouse/Makefile.am:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrandr/Makefile.in:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xsettings/Makefile.am:
+	Install in subdirectories
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/keyboard/Makefile.am:
+	* plugins/keyboard/modmap-dialog.glade:
+	Add missing glade file.
+
+2007-12-17  William Jon McCann  <mccann@jhu.edu>
+
+	* plugins/font/gsd-font-manager.c:
+	* src/mate-settings-plugins-engine.c:
+	(mate_settings_plugins_engine_load_file),
+	(mate_settings_plugins_engine_activate_plugin),
+	(mate_settings_plugins_engine_deactivate_plugin):
+	Fix an extraneous / in mateconf path.  Add a dummy var
+	to pad out private data.
+
+2007-12-16  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/background/Makefile.am:
+	* plugins/background/background.mate-settings-plugin.desktop.in:
+	* plugins/background/gsd-background-manager.c: (applier_idle),
+	(background_callback), (gsd_background_manager_start),
+	(gsd_background_manager_stop),
+	(gsd_background_manager_set_property),
+	(gsd_background_manager_get_property),
+	(gsd_background_manager_constructor),
+	(gsd_background_manager_dispose),
+	(gsd_background_manager_class_init), (gsd_background_manager_init),
+	(gsd_background_manager_finalize), (gsd_background_manager_new):
+	* plugins/background/gsd-background-manager.h:
+	* plugins/background/gsd-background-plugin.c:
+	(gsd_background_plugin_init), (gsd_background_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_background_plugin_class_init):
+	* plugins/background/gsd-background-plugin.h:
+	Add background plugin.
+
+2007-12-16  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/default-editor/default-editor.mate-settings-plugin.deskt
+	op.in:
+	* plugins/keybindings/Makefile.am:
+	* plugins/keybindings/eggaccelerators.c: (is_alt), (is_ctl),
+	(is_modx), (is_ctrl), (is_shft), (is_shift), (is_control),
+	(is_release), (is_meta), (is_super), (is_hyper), (is_keycode),
+	(egg_accelerator_parse_virtual), (egg_virtual_accelerator_name),
+	(egg_keymap_resolve_virtual_modifiers),
+	(egg_keymap_virtualize_modifiers), (reload_modmap),
+	(egg_keymap_get_modmap):
+	* plugins/keybindings/eggaccelerators.h:
+	* plugins/keybindings/gsd-keybindings-manager.c:
+	(get_screens_list), (entry_get_string), (parse_binding),
+	(compare_bindings), (bindings_get_entry), (key_already_used),
+	(grab_key), (do_grab), (binding_register_keys),
+	(screen_exec_display_string), (get_exec_environment),
+	(keybindings_filter), (bindings_callback),
+	(register_config_callback), (gsd_keybindings_manager_start),
+	(gsd_keybindings_manager_stop),
+	(gsd_keybindings_manager_set_property),
+	(gsd_keybindings_manager_get_property),
+	(gsd_keybindings_manager_constructor),
+	(gsd_keybindings_manager_dispose),
+	(gsd_keybindings_manager_class_init),
+	(gsd_keybindings_manager_init), (gsd_keybindings_manager_finalize),
+	(gsd_keybindings_manager_new):
+	* plugins/keybindings/gsd-keybindings-manager.h:
+	* plugins/keybindings/gsd-keybindings-plugin.c:
+	(gsd_keybindings_plugin_init), (gsd_keybindings_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_keybindings_plugin_class_init):
+	* plugins/keybindings/gsd-keybindings-plugin.h:
+	* plugins/keybindings/keybindings.mate-settings-plugin.desktop.in:
+	* plugins/keyboard/keyboard.mate-settings-plugin.desktop.in:
+	* plugins/mouse/mouse.mate-settings-plugin.desktop.in:
+	Add keybindings plugin.
+
+2007-12-16  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/mouse/Makefile.am:
+	* plugins/mouse/gsd-locate-pointer.c: (locate_pointer_expose),
+	(setup_window), (create_window), (locate_pointer_timeout),
+	(gsd_locate_pointer):
+	* plugins/mouse/gsd-locate-pointer.h:
+	* plugins/mouse/gsd-mouse-manager.c: (gsd_mouse_manager_stop),
+	(gsd_mouse_manager_set_property), (gsd_mouse_manager_get_property),
+	(gsd_mouse_manager_constructor), (gsd_mouse_manager_dispose),
+	(gsd_mouse_manager_class_init), (supports_xinput_devices),
+	(configure_button_layout), (xinput_device_has_buttons),
+	(set_xinput_devices_left_handed), (set_left_handed),
+	(set_motion_acceleration), (set_motion_threshold), (filter),
+	(set_locate_pointer), (mouse_callback), (register_config_callback),
+	(gsd_mouse_manager_init), (gsd_mouse_manager_start),
+	(gsd_mouse_manager_finalize), (gsd_mouse_manager_new):
+	* plugins/mouse/gsd-mouse-manager.h:
+	* plugins/mouse/gsd-mouse-plugin.c: (gsd_mouse_plugin_init),
+	(gsd_mouse_plugin_finalize), (impl_activate), (impl_deactivate),
+	(gsd_mouse_plugin_class_init):
+	* plugins/mouse/gsd-mouse-plugin.h:
+	* plugins/mouse/mouse.mate-settings-plugin.desktop.in:
+	Add mouse plugin.
+
+2007-12-16  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/keyboard/Makefile.am:
+	* plugins/keyboard/delayed-dialog.c: (gsd_delayed_show_dialog),
+	(delayed_show_timeout), (message_filter):
+	* plugins/keyboard/delayed-dialog.h:
+	* plugins/keyboard/gsd-keyboard-manager.c:
+	(xfree86_set_keyboard_autorepeat_rate),
+	(xkb_set_keyboard_autorepeat_rate),
+	(gsd_keyboard_get_hostname_key), (numlock_NumLock_modifier_mask),
+	(numlock_set_xkb_state), (numlock_mateconf_state_key),
+	(numlock_get_mateconf_state), (numlock_set_mateconf_state),
+	(numlock_xkb_callback), (numlock_install_xkb_callback),
+	(apply_settings), (register_config_callback),
+	(gsd_keyboard_manager_start), (gsd_keyboard_manager_stop),
+	(gsd_keyboard_manager_set_property),
+	(gsd_keyboard_manager_get_property),
+	(gsd_keyboard_manager_constructor), (gsd_keyboard_manager_dispose),
+	(gsd_keyboard_manager_class_init), (gsd_keyboard_manager_init),
+	(gsd_keyboard_manager_finalize), (gsd_keyboard_manager_new):
+	* plugins/keyboard/gsd-keyboard-manager.h:
+	* plugins/keyboard/gsd-keyboard-plugin.c:
+	(gsd_keyboard_plugin_init), (gsd_keyboard_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_keyboard_plugin_class_init):
+	* plugins/keyboard/gsd-keyboard-plugin.h:
+	* plugins/keyboard/gsd-keyboard-xkb.c: (gsd_keyboard_log_appender),
+	(activation_error), (apply_settings), (apply_xkb_settings),
+	(gsd_keyboard_xkb_analyze_sysconfig), (gsd_chk_file_list),
+	(gsd_keyboard_xkb_chk_lcl_xmm),
+	(gsd_keyboard_xkb_set_post_activation_callback),
+	(gsd_keyboard_xkb_evt_filter), (register_config_callback),
+	(gsd_keyboard_xkb_init), (gsd_keyboard_xkb_load):
+	* plugins/keyboard/gsd-keyboard-xkb.h:
+	* plugins/keyboard/gsd-xmodmap.c: (check_button_callback),
+	(gsd_load_modmap_files), (response_callback),
+	(get_selected_files_func), (remove_string_from_list),
+	(remove_button_clicked_callback), (load_button_clicked_callback),
+	(gsd_modmap_dialog_call):
+	* plugins/keyboard/gsd-xmodmap.h:
+	* plugins/keyboard/keyboard.mate-settings-plugin.desktop.in:
+	* plugins/xrandr/Makefile.in:
+	Add the keyboard plugin.
+
+2007-12-16  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/default-editor/Makefile.am:
+	* plugins/default-editor/default-editor.mate-settings-plugin.deskt
+	op.in:
+	* plugins/default-editor/gsd-default-editor-manager.c:
+	(sync_changes_cb), (register_config_callback), (vfs_change_cb),
+	(gsd_default_editor_manager_start),
+	(gsd_default_editor_manager_stop),
+	(gsd_default_editor_manager_set_property),
+	(gsd_default_editor_manager_get_property),
+	(gsd_default_editor_manager_constructor),
+	(gsd_default_editor_manager_dispose),
+	(gsd_default_editor_manager_class_init),
+	(gsd_default_editor_manager_init),
+	(gsd_default_editor_manager_finalize),
+	(gsd_default_editor_manager_new):
+	* plugins/default-editor/gsd-default-editor-manager.h:
+	* plugins/default-editor/gsd-default-editor-plugin.c:
+	(gsd_default_editor_plugin_init),
+	(gsd_default_editor_plugin_finalize), (impl_activate),
+	(impl_deactivate), (gsd_default_editor_plugin_class_init):
+	* plugins/default-editor/gsd-default-editor-plugin.h:
+	* plugins/font/Makefile:
+	* plugins/font/Makefile.in:
+	Add default editor plugin
+
+2007-12-16  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/font/Makefile:
+	* plugins/font/Makefile.am:
+	* plugins/font/Makefile.in:
+	* plugins/font/delayed-dialog.c:
+	(mate_settings_delayed_show_dialog), (delayed_show_timeout),
+	(message_filter):
+	* plugins/font/delayed-dialog.h:
+	* plugins/font/font.mate-settings-plugin.desktop.in:
+	* plugins/font/gsd-font-manager.c: (write_all), (child_watch_cb),
+	(spawn_with_input), (load_xcursor_theme), (load_cursor),
+	(gsd_font_manager_start), (gsd_font_manager_stop),
+	(gsd_font_manager_set_property), (gsd_font_manager_get_property),
+	(gsd_font_manager_constructor), (gsd_font_manager_dispose),
+	(gsd_font_manager_class_init), (gsd_font_manager_init),
+	(gsd_font_manager_finalize), (gsd_font_manager_new):
+	* plugins/font/gsd-font-manager.h:
+	* plugins/font/gsd-font-plugin.c: (gsd_font_plugin_init),
+	(gsd_font_plugin_finalize), (impl_activate), (impl_deactivate),
+	(gsd_font_plugin_class_init):
+	* plugins/font/gsd-font-plugin.h:
+	Add font plugin
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* data/mate-settings-daemon.schemas.in:
+	Add schemas for clipboard and xrandr.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/clipboard/Makefile.am:
+	* plugins/clipboard/clipboard.mate-settings-plugin.desktop.in:
+	* plugins/clipboard/gsd-clipboard-manager.c: (target_data_ref),
+	(target_data_unref), (conversion_free), (send_selection_notify),
+	(finish_selection_request), (clipboard_bytes_per_item),
+	(save_targets), (find_content_target), (find_content_type),
+	(find_conversion_requestor), (get_property),
+	(receive_incrementally), (send_incrementally),
+	(convert_clipboard_manager), (convert_clipboard_target),
+	(collect_incremental), (convert_clipboard),
+	(clipboard_manager_process_event),
+	(clipboard_manager_event_filter), (clipboard_manager_watch_cb),
+	(gsd_clipboard_manager_start), (gsd_clipboard_manager_stop),
+	(gsd_clipboard_manager_set_property),
+	(gsd_clipboard_manager_get_property),
+	(gsd_clipboard_manager_constructor),
+	(gsd_clipboard_manager_dispose),
+	(gsd_clipboard_manager_class_init), (gsd_clipboard_manager_init),
+	(gsd_clipboard_manager_finalize), (gsd_clipboard_manager_new):
+	* plugins/clipboard/gsd-clipboard-manager.h:
+	* plugins/clipboard/gsd-clipboard-plugin.c:
+	(gsd_clipboard_plugin_init), (gsd_clipboard_plugin_finalize),
+	(impl_activate), (impl_deactivate),
+	(gsd_clipboard_plugin_class_init):
+	* plugins/clipboard/gsd-clipboard-plugin.h:
+	* plugins/clipboard/list.c: (list_foreach), (list_prepend),
+	(list_free), (list_find), (list_remove), (list_length),
+	(list_copy):
+	* plugins/clipboard/list.h:
+	* plugins/clipboard/xutils.c: (init_atoms), (timestamp_predicate),
+	(get_server_time):
+	* plugins/clipboard/xutils.h:
+	Port over the clipboard module.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xrdb/data/Editres.ad:
+	* plugins/xrdb/data/Emacs.ad:
+	* plugins/xrdb/data/General.ad:
+	* plugins/xrdb/data/Makefile.am:
+	* plugins/xrdb/data/Motif.ad:
+	* plugins/xrdb/data/Tk.ad:
+	* plugins/xrdb/data/Xaw.ad:
+	Add the .ad files.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/xrandr/Makefile.am:
+	* plugins/xrandr/Makefile.in:
+	* plugins/xrandr/gsd-xrandr-manager.c: (get_rotation),
+	(get_resolution), (get_rate), (find_closest_size),
+	(apply_settings), (gsd_xrandr_manager_start),
+	(gsd_xrandr_manager_stop), (gsd_xrandr_manager_set_property),
+	(gsd_xrandr_manager_get_property),
+	(gsd_xrandr_manager_constructor), (gsd_xrandr_manager_dispose),
+	(gsd_xrandr_manager_class_init), (gsd_xrandr_manager_init),
+	(gsd_xrandr_manager_finalize), (gsd_xrandr_manager_new):
+	* plugins/xrandr/gsd-xrandr-manager.h:
+	* plugins/xrandr/gsd-xrandr-plugin.c: (gsd_xrandr_plugin_init),
+	(gsd_xrandr_plugin_finalize), (impl_activate), (impl_deactivate),
+	(gsd_xrandr_plugin_class_init):
+	* plugins/xrandr/gsd-xrandr-plugin.h:
+	* plugins/xrandr/xrandr.mate-settings-plugin.desktop.in:
+	Add xrandr plugin.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* plugins/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/dummy/gsd-dummy-manager.c: (gsd_dummy_manager_start),
+	(gsd_dummy_manager_stop), (gsd_dummy_manager_set_property),
+	(gsd_dummy_manager_get_property), (gsd_dummy_manager_constructor),
+	(gsd_dummy_manager_dispose), (gsd_dummy_manager_class_init),
+	(gsd_dummy_manager_init), (gsd_dummy_manager_finalize),
+	(gsd_dummy_manager_new):
+	* plugins/dummy/gsd-dummy-manager.h:
+	* plugins/dummy/gsd-dummy-plugin.c: (impl_activate),
+	(impl_deactivate), (gsd_dummy_plugin_class_init):
+	* plugins/dummy/gsd-dummy-plugin.h:
+	Build the dummy.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac:
+	* data/mate-settings-daemon.schemas.in:
+	* plugins/Makefile.am:
+	* plugins/dummy/Makefile.am:
+	* plugins/dummy/dummy.mate-settings-plugin.desktop.in:
+	* plugins/dummy/gsd-dummy-manager.c: (gsd_xrdb_manager_start),
+	(gsd_xrdb_manager_stop), (gsd_xrdb_manager_set_property),
+	(gsd_xrdb_manager_get_property), (gsd_xrdb_manager_constructor),
+	(gsd_xrdb_manager_dispose), (gsd_xrdb_manager_class_init),
+	(gsd_xrdb_manager_init), (gsd_xrdb_manager_finalize),
+	(gsd_xrdb_manager_new):
+	* plugins/dummy/gsd-dummy-manager.h:
+	* plugins/dummy/gsd-dummy-plugin.c: (gsd_dummy_plugin_init),
+	(gsd_dummy_plugin_finalize), (impl_activate), (impl_deactivate),
+	(gsd_dummy_plugin_class_init):
+	* plugins/dummy/gsd-dummy-plugin.h:
+	* plugins/xrdb/Makefile.am:
+	* plugins/xrdb/gsd-xrdb-manager.c: (append_color_define),
+	(color_shade), (append_theme_colors), (scan_ad_directory),
+	(compare_basenames), (scan_for_files), (append_file),
+	(append_xresource_file), (write_all), (child_watch_cb),
+	(spawn_with_input), (apply_settings), (theme_changed),
+	(gsd_xrdb_manager_start), (gsd_xrdb_manager_stop),
+	(gsd_xrdb_manager_set_property), (gsd_xrdb_manager_get_property),
+	(gsd_xrdb_manager_constructor), (gsd_xrdb_manager_dispose),
+	(gsd_xrdb_manager_class_init), (gsd_xrdb_manager_init),
+	(gsd_xrdb_manager_finalize), (gsd_xrdb_manager_new):
+	* plugins/xrdb/gsd-xrdb-manager.h:
+	* plugins/xrdb/gsd-xrdb-plugin.c: (gsd_xrdb_plugin_init),
+	(gsd_xrdb_plugin_finalize), (impl_activate), (impl_deactivate),
+	(gsd_xrdb_plugin_class_init):
+	* plugins/xrdb/gsd-xrdb-plugin.h:
+	* plugins/xrdb/xrdb.mate-settings-plugin.desktop.in:
+	* plugins/xsettings/mate-xsettings-manager.h:
+	Port over the xrdb module.  Also add a skeleton plugin dir.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* MAINTAINERS:
+	* configure.ac:
+	* src/main.c: (get_bus_proxy), (acquire_name_on_proxy),
+	(get_session_bus), (bus_register), (main):
+	Grab a name on the session bus.
+
+2007-12-14  William Jon McCann  <mccann@jhu.edu>
+
+	* configure.ac, etc: Initial checkin.  Previously
+	lived in gdm module.
+

@@ -1,0 +1,48 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
+/*
+ * MateComponent_GenericFactory.idl: Basic object factory interface, based on CORBA
+ * LifeCycle version
+ */
+
+#ifndef __MATECOMPONENT_GENERIC_FACTORY_IDL__
+#define __MATECOMPONENT_GENERIC_FACTORY_IDL__
+
+#ifndef __MateComponent_GenericFactory_COMPILATION
+#ifdef __MATECORBA_IDL__
+%{
+#pragma include_defs matecomponent-activation/MateComponent_GenericFactory.h
+%}
+#pragma inhibit push
+#endif
+#endif
+
+#include <MateComponent_Unknown.idl>
+#include <MateComponent_Activation_types.idl>
+
+module MateComponent {
+	interface GenericFactory : MateComponent::Unknown {
+		exception CannotActivate { };
+
+
+		/**
+		 * createObject:
+		 * @iid: A string identifying an implementation.
+		 *
+		 * Returns: A newly created CORBA object of the
+                 * specified type, or raises the CannotActivate
+                 * exception.
+                 * 
+		 */
+		Object createObject (in string iid)
+			raises (CannotActivate);
+
+	};
+};
+
+#ifndef __MateComponent_GenericFactory_COMPILATION
+#ifdef __MATECORBA_IDL__
+#pragma inhibit pop
+#endif
+#endif
+
+#endif /* __MATECOMPONENT_GENERIC_FACTORY_IDL__ */

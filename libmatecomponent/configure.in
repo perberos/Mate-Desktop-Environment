@@ -1,0 +1,291 @@
+AC_PREREQ([2.59])
+
+m4_define([matecomponent_major_version],[2])
+m4_define([matecomponent_minor_version],[32])
+m4_define([matecomponent_micro_version],[0])
+m4_define([matecomponent_version],[matecomponent_major_version.matecomponent_minor_version.matecomponent_micro_version])
+
+AC_INIT([libmatecomponent],[matecomponent_version],[http://bugzilla.mate.org/enter_bug.cgi?product=matecomponent&component=libmatecomponent])
+
+AC_CONFIG_SRCDIR([matecomponent/matecomponent-moniker.h])
+AC_CONFIG_HEADERS([config.h])
+
+AM_INIT_AUTOMAKE([1.9 foreign no-dist-gzip dist-bzip2])
+
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
+MATECOMPONENT_MAJOR_VERSION=matecomponent_major_version
+MATECOMPONENT_MINOR_VERSION=matecomponent_minor_version
+MATECOMPONENT_MICRO_VERSION=matecomponent_micro_version
+AC_SUBST([MATECOMPONENT_MAJOR_VERSION])
+AC_SUBST([MATECOMPONENT_MINOR_VERSION])
+AC_SUBST([MATECOMPONENT_MICRO_VERSION])
+
+AM_MAINTAINER_MODE
+
+LIBMATECOMPONENT_LT_VERSION_INFO='-version-info 0:0:0'
+AC_SUBST(LIBMATECOMPONENT_LT_VERSION_INFO)
+MATECOMPONENT_ACTIVATION_LT_VERSION_INFO='-version-info 4:0:0'
+AC_SUBST(MATECOMPONENT_ACTIVATION_LT_VERSION_INFO)
+
+AC_CANONICAL_HOST
+case "$host" in
+  *-*-cygwin*)
+    os_win32=no
+    SOPREFIX=cyg
+    ;;
+  *-*-mingw*)
+    os_win32=yes
+    SOPREFIX=lib
+    # Autoconf also puts stuff in configure to set PATH_SEPARATOR, but
+    # if you run the configure script with a Cygwin shell, it gets set
+    # to ":" while we do want the semicolon here.
+    SEARCHPATHSEP=";"
+    ;;
+  *)
+    os_win32=no
+    SOPREFIX=lib
+    SEARCHPATHSEP=":"
+    AC_DEFINE(HAVE_DBUS, 1, [whether we have dbus])
+    ;;
+esac
+
+AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
+
+AC_SUBST(SOPREFIX)
+AC_SUBST(SEARCHPATHSEP)
+
+if test "$os_win32" = "yes"; then
+  if test x$enable_static = xyes -o x$enable_static = x; then
+    AC_MSG_WARN([Disabling static library build, must build as DLL on Windows.])
+    enable_static=no
+  fi
+  if test x$enable_shared = xno; then
+    AC_MSG_WARN([Enabling shared library build, must build as DLL on Windows.])
+  fi
+  enable_shared=yes
+fi
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_PROG_SED
+
+AM_PROG_LEX
+if [[ "$LEX" != "flex" ]]; then
+        AC_MSG_ERROR([flex is required to build matecomponent-activation])
+fi
+AC_SUBST(LFLAGS)
+AC_STDC_HEADERS
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
+AC_PROG_YACC
+AC_CHECK_FUNCS(bind_textdomain_codeset)
+
+# ****
+# i18n
+# ****
+
+IT_PROG_INTLTOOL([0.35.0])
+
+GETTEXT_PACKAGE=libmatecomponent-2.0
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[gettext package name])
+
+AM_GLIB_GNU_GETTEXT
+
+MATE_COMMON_INIT
+MATE_COMPILE_WARNINGS
+
+dnl Checks for library functions
+AC_CHECK_FUNCS(usleep nanosleep sigaction setsid)
+
+dnl Checks for headers
+AC_CHECK_HEADERS(sys/wait.h syslog.h)
+
+#
+# Start of pkg-config checks
+#
+MATECORBA_VERSION=2.11.2
+GLIB_VERSION=2.25.7
+
+PKG_CHECK_MODULES(LIBMATECOMPONENT, \
+	MateCORBA-2.0 >= $MATECORBA_VERSION \
+	MateCORBA-CosNaming-2.0 >= $MATECORBA_VERSION \
+	gmodule-2.0 >= 2.0.1 \
+	glib-2.0 >= $GLIB_VERSION \
+	gobject-2.0 >= $GLIB_VERSION \
+	gthread-2.0 >= $GLIB_VERSION \
+        gio-2.0 >= $GLIB_VERSION)
+AC_SUBST(LIBMATECOMPONENT_CFLAGS)
+AC_SUBST(LIBMATECOMPONENT_LIBS)
+
+PKG_CHECK_MODULES(SERVER, \
+	gmodule-2.0 >= 2.0.1 \
+	gio-2.0 >= 2.25.5 \
+	MateCORBA-2.0 >= 2.4.0 \
+	MateCORBA-CosNaming-2.0 >= 2.4.0 \
+	libxml-2.0 >= 2.4.20)
+AC_SUBST(SERVER_LIBS)
+AC_SUBST(SERVER_CFLAGS)
+
+if test "$enable_maintainer_mode" = "yes"; then
+	DISABLE_DEPRECATED_CFLAGS="-DG_DISABLE_DEPRECATED -DG_DISABLE_SINGLE_INCLUDES"
+	AC_SUBST(DISABLE_DEPRECATED_CFLAGS)
+fi
+
+# matecorba-idl
+test x$MATECORBA_IDL = x && MATECORBA_IDL="`$PKG_CONFIG --variable=matecorba_idl MateCORBA-2.0`"
+AC_SUBST(MATECORBA_IDL)
+
+AC_CHECK_HEADER(popt.h,,AC_MSG_ERROR([Failed to find popt.h - you may have to adjust your environment]))
+
+PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= $GLIB_VERSION)
+
+# checks for working GThread
+# Aware: "make check" fails with --disable-threads
+AC_ARG_ENABLE(threads,
+	      AS_HELP_STRING([--disable-threads],
+			     [Disable multithread support @<:@default=enabled@:>@]),
+	      enable_threads="$enableval", enable_threads=yes)
+
+if test x$enable_threads != xno; then
+  AC_MSG_CHECKING([for working gthread-2.0 support])
+  libmatecomponent_save_CFLAGS=$CFLAGS
+  libmatecomponent_save_LIBS=$LIBS
+  CFLAGS="$CFLAGS $GTHREAD_CFLAGS"
+  LIBS="$LIBS $GTHREAD_LIBS"
+  AC_TRY_RUN([#include <glib.h>
+		int main (void) {
+			if (!g_thread_supported()) g_thread_init(NULL);
+			return NULL == g_mutex_new(); }],
+	AC_MSG_RESULT(yes),[
+		AC_MSG_RESULT(no)
+		AC_MSG_ERROR(
+			[No working gthread-2.0 support found, using --disable-threads IS DISCOURAGED])
+	], [AC_MSG_RESULT(unknown)
+	    AC_MSG_WARN(
+	        [Couldn't check for working gthread-2.0 support while crosscompiling
+	])])
+  CFLAGS=$libmatecomponent_save_CFLAGS
+  LIBS=$libmatecomponent_save_LIBS
+  AC_DEFINE(HAVE_GTHREADS,,[whether we use gthreads])
+fi
+
+# Checks for Apple Darwin
+
+AC_CHECK_FUNC(_NSGetEnviron, have_ns_getenviron=yes)
+if test x$have_ns_getenviron = xyes; then
+  AC_DEFINE(HAVE_NSGETENVIRON, 1, [whether we have _NSGetEnviron])
+fi
+AC_CHECK_HEADER(crt_externs.h, have_crt_externs=yes)
+if test x$have_crt_externs = xyes; then
+  AC_DEFINE(HAVE_CRT_EXTERNS_H, 1, [whether we have crt_externs.h])
+fi
+
+# glib-genmarshal
+AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+
+GTK_DOC_CHECK([1.0])
+
+AC_ARG_ENABLE(debug,
+	      AS_HELP_STRING([--enable-debug],
+			     [Enable debugging code @<:@default=disabled@:>@]),
+	      enable_debug="$enableval", enable_debug=no)
+
+if test x$enable_debug = xyes; then
+  AC_DEFINE(G_ENABLE_DEBUG, 1, [Defined if debugging code should be compiled])
+fi
+
+AC_ARG_ENABLE(matecomponent-activation-debug,
+	      AS_HELP_STRING([--enable-matecomponent-activation-debug],
+			     [turn on debugging @<:@default=no@:>@]),
+	      enable_matecomponent_activation_debug=$enableval, enable_matecomponent_activation_debug=no)
+
+if test "x$enable_matecomponent_activation_debug" = "xyes"; then
+	AC_DEFINE(MATECOMPONENT_ACTIVATION_DEBUG, 1,
+                  [whether to compile with matecomponent activation debugging])
+fi
+
+AC_PATH_PROG(PERL_PATH, perl)
+if test -n "$PERL_PATH"; then
+	MATECOMPONENT_SLAY=matecomponent-slay
+	AC_PATH_PROG(PS_PATH, ps)
+	AC_CACHE_CHECK([for POSIX ps], ac_cv_prog_ps_posix, [
+		USER=${USER:-${LOGNAME:-`logname`}}
+		if $PS_PATH -U $USER -opid,args >/dev/null 2>&1; then
+			ac_cv_prog_ps_posix=yes
+		else
+			ac_cv_prog_ps_posix=no
+		fi
+	])
+	if test "$ac_cv_prog_ps_posix" = yes; then
+		IF_BSD_PS=#
+	else
+		IF_POSIX_PS=#
+	fi
+
+	case "$target_os" in
+		cygwin*)
+			IF_BSD_PS=#
+			IF_POSIX_PS=#
+			;;
+		*)
+			IF_CYGWIN_PS=#
+			;;
+	esac
+
+fi
+AC_SUBST(PERL_PATH)
+AC_SUBST(MATECOMPONENT_SLAY)
+AC_SUBST(PS_PATH)
+AC_SUBST(IF_BSD_PS)
+AC_SUBST(IF_POSIX_PS)
+AC_SUBST(IF_CYGWIN_PS)
+
+# *****************************************************************************
+# *****************************************************************************
+
+AC_CONFIG_FILES([
+Makefile
+libmatecomponent-zip
+po/Makefile.in
+idl/Makefile
+matecomponent/Makefile
+matecomponent/libmatecomponent-2.0.pc
+matecomponent/libmatecomponent-2.0-uninstalled.pc
+matecomponent-activation/Makefile
+matecomponent-activation/matecomponent-activation-2.0.pc
+matecomponent-activation/matecomponent-activation-2.0-uninstalled.pc
+matecomponent-activation/matecomponent-activation-version.h
+activation-server/Makefile
+monikers/Makefile
+samples/Makefile
+samples/echo/Makefile
+utils/Makefile
+utils/matecomponent-slay
+tests/Makefile
+tests/test-activation/Makefile
+tests/models/Makefile
+doc/Makefile
+doc/api/Makefile
+doc/api/figures/Makefile
+doc/activation/Makefile
+doc/activation-api/Makefile
+])
+
+AC_OUTPUT
+
+echo ""
+echo "matecomponent configuration summary:"
+echo "============================="
+echo ""
+
+echo "\
+	Threads                  : $enable_threads
+	Debug                    : $enable_debug
+	MateComponent activation debug  : $enable_matecomponent_activation_debug"
+
+echo ""

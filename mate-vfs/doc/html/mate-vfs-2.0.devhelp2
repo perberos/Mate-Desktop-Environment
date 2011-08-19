@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="MateVFS - Filesystem Abstraction library" link="index.html" author="Seth NickellChristophe FergeauChristian Neumair" name="mate-vfs-2.0" version="2" language="c">
+  <chapters>
+    <sub name="Introduction to MateVFS" link="about.html">
+      <sub name="Uses and Purpose" link="about.html#id2522041"/>
+      <sub name="A Gentle Programming Primer" link="mate-vfs-first-steps.html"/>
+    </sub>
+    <sub name="Initialization/Shutdown" link="mate-vfs-2.0-mate-vfs-init.html"/>
+    <sub name="Basic Data Types" link="data-types.html">
+      <sub name="MateVFSResult" link="mate-vfs-2.0-mate-vfs-result.html"/>
+      <sub name="MateVFSURI" link="mate-vfs-2.0-mate-vfs-uri.html"/>
+      <sub name="mate-vfs-utils" link="mate-vfs-2.0-mate-vfs-utils.html"/>
+      <sub name="MateVFSFileInfo" link="mate-vfs-2.0-mate-vfs-file-info.html"/>
+      <sub name="MateVFSFileSize" link="mate-vfs-2.0-mate-vfs-file-size.html"/>
+    </sub>
+    <sub name="File Operations" link="mate-vfs-basic-file-ops.html">
+      <sub name="Basic File Operations" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html"/>
+      <sub name="Reading and Writing Files" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html"/>
+      <sub name="Truncating Files" link="mate-vfs-2.0-mate-vfs-file-trunc-ops.html"/>
+      <sub name="Getting and Setting File Information" link="mate-vfs-2.0-mate-vfs-file-info-ops.html"/>
+    </sub>
+    <sub name="Directory-Specific Operations" link="mate-vfs-directory-ops.html">
+      <sub name="Basic Directory Operations" link="mate-vfs-2.0-mate-vfs-directory-basic-ops.html"/>
+      <sub name="Listing Directory Contents" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html"/>
+      <sub name="Locating Standard Directories" link="mate-vfs-2.0-mate-vfs-directory-find-ops.html"/>
+    </sub>
+    <sub name="Advanced File/Directory Operations" link="mate-vfs-file-and-dirs-ops.html">
+      <sub name="File Transfers" link="mate-vfs-2.0-mate-vfs-xfer.html"/>
+      <sub name="Monitoring" link="mate-vfs-2.0-mate-vfs-monitor.html"/>
+      <sub name="Backend-Specific Operations" link="mate-vfs-2.0-mate-vfs-file-advanced-ops.html"/>
+    </sub>
+    <sub name="Asynchronous Operations" link="mate-vfs-file-async-ops.html">
+      <sub name="Asynchronous File Operations" link="mate-vfs-2.0-mate-vfs-async-ops.html"/>
+      <sub name="Cancellation" link="mate-vfs-2.0-mate-vfs-cancellation.html"/>
+    </sub>
+    <sub name="Volumes and Drives Handling" link="volumes.html">
+      <sub name="MateVFSVolume" link="mate-vfs-2.0-mate-vfs-volume.html"/>
+      <sub name="MateVFSDrive" link="mate-vfs-2.0-mate-vfs-drive.html"/>
+      <sub name="MateVFSVolumeMonitor" link="mate-vfs-2.0-mate-vfs-volume-monitor.html"/>
+    </sub>
+    <sub name="Networking" link="networking.html">
+      <sub name="Zeroconf networking support" link="mate-vfs-2.0-mate-vfs-dns-sd.html"/>
+      <sub name="DNS Resolution" link="mate-vfs-2.0-mate-vfs-resolve.html"/>
+      <sub name="SSL support functions" link="mate-vfs-2.0-mate-vfs-ssl.html"/>
+      <sub name="Unified network I/O" link="mate-vfs-2.0-mate-vfs-socket.html"/>
+      <sub name="Unified bufferd network I/O" link="mate-vfs-2.0-mate-vfs-socket-buffer.html"/>
+      <sub name="Internet connection" link="mate-vfs-2.0-mate-vfs-inet-connection.html"/>
+    </sub>
+    <sub name="MIME Registry" link="mime-registry.html">
+      <sub name="MIME typing" link="mate-vfs-2.0-mate-vfs-mime.html"/>
+      <sub name="mate-vfs-mime-utils" link="mate-vfs-2.0-mate-vfs-mime-utils.html"/>
+      <sub name="MIME Database" link="mate-vfs-2.0-mate-vfs-mime-database.html"/>
+      <sub name="mate-vfs-mime-monitor" link="mate-vfs-2.0-mate-vfs-mime-monitor.html"/>
+      <sub name="mate-vfs-mime-database-deprecated" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html"/>
+      <sub name="Deprecated Application Registry API" link="mate-vfs-2.0-mate-vfs-application-registry.html"/>
+    </sub>
+    <sub name="Filesystem Modules" link="modules.html">
+      <sub name="Writing Modules" link="mate-vfs-writing-modules.html"/>
+      <sub name="mate-vfs-method" link="mate-vfs-2.0-mate-vfs-method.html"/>
+      <sub name="mate-vfs-module" link="mate-vfs-2.0-mate-vfs-module.html"/>
+      <sub name="mate-vfs-module-shared" link="mate-vfs-2.0-mate-vfs-module-shared.html"/>
+      <sub name="mate-vfs-module-callback-module-api" link="mate-vfs-2.0-mate-vfs-module-callback-module-api.html"/>
+      <sub name="MateVFSContext" link="mate-vfs-2.0-mate-vfs-context.html"/>
+      <sub name="mate-vfs-transform" link="mate-vfs-2.0-mate-vfs-transform.html"/>
+      <sub name="mate-vfs-parse-ls" link="mate-vfs-2.0-mate-vfs-parse-ls.html"/>
+      <sub name="mate-vfs-standard-callbacks" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html"/>
+      <sub name="mate-vfs-module-callback" link="mate-vfs-2.0-mate-vfs-module-callback.html"/>
+    </sub>
+  </chapters>
+  <functions>
+    <keyword type="function" name="mate_vfs_init ()" link="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-init"/>
+    <keyword type="function" name="mate_vfs_initialized ()" link="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-initialized"/>
+    <keyword type="function" name="mate_vfs_shutdown ()" link="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-shutdown"/>
+    <keyword type="function" name="mate_vfs_loadinit ()" link="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-loadinit" deprecated=""/>
+    <keyword type="function" name="mate_vfs_preinit ()" link="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-preinit" deprecated=""/>
+    <keyword type="function" name="mate_vfs_postinit ()" link="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-postinit" deprecated=""/>
+    <keyword type="enum" name="enum MateVFSResult" link="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult"/>
+    <keyword type="function" name="mate_vfs_result_to_string ()" link="mate-vfs-2.0-mate-vfs-result.html#mate-vfs-result-to-string"/>
+    <keyword type="function" name="mate_vfs_result_from_errno_code ()" link="mate-vfs-2.0-mate-vfs-result.html#mate-vfs-result-from-errno-code"/>
+    <keyword type="function" name="mate_vfs_result_from_errno ()" link="mate-vfs-2.0-mate-vfs-result.html#mate-vfs-result-from-errno"/>
+    <keyword type="function" name="mate_vfs_result_from_h_errno ()" link="mate-vfs-2.0-mate-vfs-result.html#mate-vfs-result-from-h-errno"/>
+    <keyword type="function" name="mate_vfs_result_from_h_errno_val ()" link="mate-vfs-2.0-mate-vfs-result.html#mate-vfs-result-from-h-errno-val"/>
+    <keyword type="struct" name="MateVFSURI" link="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"/>
+    <keyword type="struct" name="MateVFSToplevelURI" link="mate-vfs-2.0-mate-vfs-uri.html#MateVFSToplevelURI"/>
+    <keyword type="enum" name="enum MateVFSURIHideOptions" link="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURIHideOptions"/>
+    <keyword type="macro" name="MATE_VFS_URI_MAGIC_CHR" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-MAGIC-CHR:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_URI_MAGIC_STR" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-MAGIC-STR:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_URI_PATH_CHR" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-CHR:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_URI_PATH_STR" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-PATH-STR:CAPS"/>
+    <keyword type="function" name="mate_vfs_uri_new ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new"/>
+    <keyword type="function" name="mate_vfs_uri_resolve_relative ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-resolve-relative"/>
+    <keyword type="function" name="mate_vfs_uri_resolve_symbolic_link ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-resolve-symbolic-link" since="2.16"/>
+    <keyword type="function" name="mate_vfs_uri_ref ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-ref"/>
+    <keyword type="function" name="mate_vfs_uri_unref ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-unref"/>
+    <keyword type="function" name="mate_vfs_uri_append_string ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-string"/>
+    <keyword type="function" name="mate_vfs_uri_append_path ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-path"/>
+    <keyword type="function" name="mate_vfs_uri_append_file_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-append-file-name"/>
+    <keyword type="function" name="mate_vfs_uri_to_string ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-to-string"/>
+    <keyword type="function" name="mate_vfs_uri_dup ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-dup"/>
+    <keyword type="function" name="mate_vfs_uri_is_local ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-is-local"/>
+    <keyword type="function" name="mate_vfs_uri_has_parent ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-has-parent"/>
+    <keyword type="function" name="mate_vfs_uri_get_parent ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-parent"/>
+    <keyword type="function" name="mate_vfs_uri_get_toplevel ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-toplevel"/>
+    <keyword type="function" name="mate_vfs_uri_get_host_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-host-name"/>
+    <keyword type="function" name="mate_vfs_uri_get_scheme ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-scheme"/>
+    <keyword type="function" name="mate_vfs_uri_get_host_port ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-host-port"/>
+    <keyword type="function" name="mate_vfs_uri_get_user_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-user-name"/>
+    <keyword type="function" name="mate_vfs_uri_get_password ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-password"/>
+    <keyword type="function" name="mate_vfs_uri_set_host_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-host-name"/>
+    <keyword type="function" name="mate_vfs_uri_set_host_port ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-host-port"/>
+    <keyword type="function" name="mate_vfs_uri_set_user_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-user-name"/>
+    <keyword type="function" name="mate_vfs_uri_set_password ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-set-password"/>
+    <keyword type="function" name="mate_vfs_uri_equal ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-equal"/>
+    <keyword type="function" name="mate_vfs_uri_is_parent ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-is-parent"/>
+    <keyword type="function" name="mate_vfs_uri_get_path ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-path"/>
+    <keyword type="function" name="mate_vfs_uri_get_fragment_identifier ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-get-fragment-identifier"/>
+    <keyword type="function" name="mate_vfs_uri_extract_dirname ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-dirname"/>
+    <keyword type="function" name="mate_vfs_uri_extract_short_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-short-name"/>
+    <keyword type="function" name="mate_vfs_uri_extract_short_path_name ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-extract-short-path-name"/>
+    <keyword type="function" name="mate_vfs_uri_hequal ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-hequal"/>
+    <keyword type="function" name="mate_vfs_uri_hash ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-hash"/>
+    <keyword type="function" name="mate_vfs_uri_list_parse ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-parse"/>
+    <keyword type="function" name="mate_vfs_uri_list_ref ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-ref"/>
+    <keyword type="function" name="mate_vfs_uri_list_unref ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-unref"/>
+    <keyword type="function" name="mate_vfs_uri_list_copy ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-copy"/>
+    <keyword type="function" name="mate_vfs_uri_list_free ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-list-free"/>
+    <keyword type="function" name="mate_vfs_uri_make_full_from_relative ()" link="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-make-full-from-relative"/>
+    <keyword type="enum" name="enum MateVFSMakeURIDirs" link="mate-vfs-2.0-mate-vfs-utils.html#MateVFSMakeURIDirs"/>
+    <keyword type="function" name="mate_vfs_format_file_size_for_display ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-format-file-size-for-display"/>
+    <keyword type="function" name="mate_vfs_format_uri_for_display ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-format-uri-for-display" since="2.2"/>
+    <keyword type="function" name="mate_vfs_url_show ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-url-show" since="2.4"/>
+    <keyword type="function" name="mate_vfs_url_show_with_env ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-url-show-with-env" since="2.4"/>
+    <keyword type="function" name="mate_vfs_escape_string ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-escape-string"/>
+    <keyword type="function" name="mate_vfs_escape_path_string ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-escape-path-string"/>
+    <keyword type="function" name="mate_vfs_escape_host_and_path_string ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-escape-host-and-path-string"/>
+    <keyword type="function" name="mate_vfs_escape_slashes ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-escape-slashes"/>
+    <keyword type="function" name="mate_vfs_escape_set ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-escape-set"/>
+    <keyword type="function" name="mate_vfs_unescape_string ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-unescape-string"/>
+    <keyword type="function" name="mate_vfs_make_uri_canonical ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-canonical" since="2.2"/>
+    <keyword type="function" name="mate_vfs_make_uri_canonical_strip_fragment ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-canonical-strip-fragment" since="2.2"/>
+    <keyword type="function" name="mate_vfs_make_path_name_canonical ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-path-name-canonical"/>
+    <keyword type="function" name="mate_vfs_make_uri_from_input ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-from-input" since="2.2"/>
+    <keyword type="function" name="mate_vfs_make_uri_from_input_with_dirs ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-from-input-with-dirs" since="2.4"/>
+    <keyword type="function" name="mate_vfs_make_uri_from_shell_arg ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-from-shell-arg" since="2.2"/>
+    <keyword type="function" name="mate_vfs_make_uri_full_from_relative ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-make-uri-full-from-relative" deprecated="" since="2.2"/>
+    <keyword type="function" name="mate_vfs_expand_initial_tilde ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-expand-initial-tilde"/>
+    <keyword type="function" name="mate_vfs_unescape_string_for_display ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-unescape-string-for-display"/>
+    <keyword type="function" name="mate_vfs_get_local_path_from_uri ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-get-local-path-from-uri"/>
+    <keyword type="function" name="mate_vfs_get_uri_from_local_path ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-get-uri-from-local-path"/>
+    <keyword type="function" name="mate_vfs_is_executable_command_string ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-is-executable-command-string"/>
+    <keyword type="function" name="mate_vfs_list_deep_free ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-list-deep-free"/>
+    <keyword type="function" name="mate_vfs_get_volume_free_space ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-get-volume-free-space"/>
+    <keyword type="function" name="mate_vfs_icon_path_from_filename ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-icon-path-from-filename"/>
+    <keyword type="function" name="mate_vfs_is_primary_thread ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-is-primary-thread"/>
+    <keyword type="function" name="mate_vfs_get_uri_scheme ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-get-uri-scheme" since="2.2"/>
+    <keyword type="function" name="mate_vfs_uris_match ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-uris-match" since="2.2"/>
+    <keyword type="macro" name="MATE_VFS_ASSERT_PRIMARY_THREAD" link="mate-vfs-2.0-mate-vfs-utils.html#MATE-VFS-ASSERT-PRIMARY-THREAD:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_ASSERT_SECONDARY_THREAD" link="mate-vfs-2.0-mate-vfs-utils.html#MATE-VFS-ASSERT-SECONDARY-THREAD:CAPS"/>
+    <keyword type="function" name="mate_vfs_open_fd ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-open-fd"/>
+    <keyword type="function" name="mate_vfs_read_entire_file ()" link="mate-vfs-2.0-mate-vfs-utils.html#mate-vfs-read-entire-file" since="2.2"/>
+    <keyword type="enum" name="enum MateVFSFileFlags" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileFlags"/>
+    <keyword type="enum" name="enum MateVFSFileType" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileType"/>
+    <keyword type="enum" name="enum MateVFSFileInfoFields" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoFields"/>
+    <keyword type="enum" name="enum MateVFSFilePermissions" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFilePermissions"/>
+    <keyword type="enum" name="enum MateVFSFileInfoOptions" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions"/>
+    <keyword type="enum" name="enum MateVFSSetFileInfoMask" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask"/>
+    <keyword type="struct" name="MateVFSGetFileInfoResult" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult"/>
+    <keyword type="typedef" name="MateVFSInodeNumber" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSInodeNumber"/>
+    <keyword type="struct" name="MateVFSFileInfo" link="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SYMLINK()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SYMLINK:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SET_SYMLINK()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-SYMLINK:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_LOCAL()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-LOCAL:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SET_LOCAL()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-LOCAL:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SUID()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SUID:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SGID()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SGID:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_STICKY()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-STICKY:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SET_SUID()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-SUID:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SET_SGID()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-SGID:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_FILE_INFO_SET_STICKY()" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-STICKY:CAPS"/>
+    <keyword type="function" name="mate_vfs_file_info_new ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-new"/>
+    <keyword type="function" name="mate_vfs_file_info_unref ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-unref"/>
+    <keyword type="function" name="mate_vfs_file_info_ref ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-ref"/>
+    <keyword type="function" name="mate_vfs_file_info_clear ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-clear"/>
+    <keyword type="function" name="mate_vfs_file_info_get_mime_type ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-get-mime-type"/>
+    <keyword type="function" name="mate_vfs_file_info_copy ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-copy"/>
+    <keyword type="function" name="mate_vfs_file_info_dup ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-dup"/>
+    <keyword type="function" name="mate_vfs_file_info_matches ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-matches"/>
+    <keyword type="function" name="mate_vfs_file_info_list_ref ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-ref"/>
+    <keyword type="function" name="mate_vfs_file_info_list_unref ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-unref"/>
+    <keyword type="function" name="mate_vfs_file_info_list_copy ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-copy"/>
+    <keyword type="function" name="mate_vfs_file_info_list_free ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-free"/>
+    <keyword type="function" name="mate_vfs_get_file_info_result_dup ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-get-file-info-result-dup" since="2.12"/>
+    <keyword type="function" name="mate_vfs_get_file_info_result_free ()" link="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-get-file-info-result-free" since="2.12"/>
+    <keyword type="macro" name="MATE_VFS_OFFSET_IS_LONG_LONG" link="mate-vfs-2.0-mate-vfs-file-size.html#MATE-VFS-OFFSET-IS-LONG-LONG:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_SIZE_FORMAT_STR" link="mate-vfs-2.0-mate-vfs-file-size.html#MATE-VFS-SIZE-FORMAT-STR:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_OFFSET_FORMAT_STR" link="mate-vfs-2.0-mate-vfs-file-size.html#MATE-VFS-OFFSET-FORMAT-STR:CAPS"/>
+    <keyword type="typedef" name="MateVFSFileSize" link="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize"/>
+    <keyword type="typedef" name="MateVFSFileOffset" link="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset"/>
+    <keyword type="enum" name="enum MateVFSOpenMode" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode"/>
+    <keyword type="function" name="mate_vfs_create ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-create"/>
+    <keyword type="function" name="mate_vfs_create_uri ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-create-uri"/>
+    <keyword type="function" name="mate_vfs_open ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-open"/>
+    <keyword type="function" name="mate_vfs_open_uri ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-open-uri"/>
+    <keyword type="function" name="mate_vfs_close ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-close"/>
+    <keyword type="function" name="mate_vfs_unlink ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-unlink"/>
+    <keyword type="function" name="mate_vfs_unlink_from_uri ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-unlink-from-uri"/>
+    <keyword type="function" name="mate_vfs_move_uri ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-move-uri"/>
+    <keyword type="function" name="mate_vfs_move ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-move"/>
+    <keyword type="function" name="mate_vfs_check_same_fs_uris ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-check-same-fs-uris"/>
+    <keyword type="function" name="mate_vfs_check_same_fs ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-check-same-fs"/>
+    <keyword type="function" name="mate_vfs_uri_exists ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-uri-exists"/>
+    <keyword type="function" name="mate_vfs_create_symbolic_link ()" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#mate-vfs-create-symbolic-link"/>
+    <keyword type="enum" name="enum MateVFSSeekPosition" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MateVFSSeekPosition"/>
+    <keyword type="function" name="mate_vfs_read ()" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-read"/>
+    <keyword type="function" name="mate_vfs_write ()" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-write"/>
+    <keyword type="function" name="mate_vfs_seek ()" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-seek"/>
+    <keyword type="function" name="mate_vfs_tell ()" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-tell"/>
+    <keyword type="function" name="mate_vfs_forget_cache ()" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-forget-cache" since="2.12"/>
+    <keyword type="function" name="mate_vfs_truncate ()" link="mate-vfs-2.0-mate-vfs-file-trunc-ops.html#mate-vfs-truncate"/>
+    <keyword type="function" name="mate_vfs_truncate_uri ()" link="mate-vfs-2.0-mate-vfs-file-trunc-ops.html#mate-vfs-truncate-uri"/>
+    <keyword type="function" name="mate_vfs_truncate_handle ()" link="mate-vfs-2.0-mate-vfs-file-trunc-ops.html#mate-vfs-truncate-handle"/>
+    <keyword type="function" name="mate_vfs_get_file_info ()" link="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info"/>
+    <keyword type="function" name="mate_vfs_get_file_info_uri ()" link="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info-uri"/>
+    <keyword type="function" name="mate_vfs_get_file_info_from_handle ()" link="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info-from-handle"/>
+    <keyword type="function" name="mate_vfs_set_file_info_uri ()" link="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-set-file-info-uri"/>
+    <keyword type="function" name="mate_vfs_set_file_info ()" link="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-set-file-info"/>
+    <keyword type="function" name="mate_vfs_make_directory ()" link="mate-vfs-2.0-mate-vfs-directory-basic-ops.html#mate-vfs-make-directory"/>
+    <keyword type="function" name="mate_vfs_make_directory_for_uri ()" link="mate-vfs-2.0-mate-vfs-directory-basic-ops.html#mate-vfs-make-directory-for-uri"/>
+    <keyword type="function" name="mate_vfs_remove_directory ()" link="mate-vfs-2.0-mate-vfs-directory-basic-ops.html#mate-vfs-remove-directory"/>
+    <keyword type="function" name="mate_vfs_remove_directory_from_uri ()" link="mate-vfs-2.0-mate-vfs-directory-basic-ops.html#mate-vfs-remove-directory-from-uri"/>
+    <keyword type="typedef" name="MateVFSDirectoryHandle" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryHandle"/>
+    <keyword type="enum" name="enum MateVFSDirectoryVisitOptions" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitOptions"/>
+    <keyword type="function" name="MateVFSDirectoryVisitFunc ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MateVFSDirectoryVisitFunc"/>
+    <keyword type="function" name="mate_vfs_directory_open ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-open"/>
+    <keyword type="function" name="mate_vfs_directory_open_from_uri ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-open-from-uri"/>
+    <keyword type="function" name="mate_vfs_directory_read_next ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-read-next"/>
+    <keyword type="function" name="mate_vfs_directory_close ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-close"/>
+    <keyword type="function" name="mate_vfs_directory_visit ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit"/>
+    <keyword type="function" name="mate_vfs_directory_visit_uri ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-uri"/>
+    <keyword type="function" name="mate_vfs_directory_visit_files ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files"/>
+    <keyword type="function" name="mate_vfs_directory_visit_files_at_uri ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-visit-files-at-uri"/>
+    <keyword type="function" name="mate_vfs_directory_list_load ()" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#mate-vfs-directory-list-load"/>
+    <keyword type="enum" name="enum MateVFSFindDirectoryKind" link="mate-vfs-2.0-mate-vfs-directory-find-ops.html#MateVFSFindDirectoryKind"/>
+    <keyword type="function" name="mate_vfs_find_directory ()" link="mate-vfs-2.0-mate-vfs-directory-find-ops.html#mate-vfs-find-directory"/>
+    <keyword type="enum" name="enum MateVFSXferOptions" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions"/>
+    <keyword type="enum" name="enum MateVFSXferProgressStatus" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus"/>
+    <keyword type="enum" name="enum MateVFSXferOverwriteMode" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode"/>
+    <keyword type="enum" name="enum MateVFSXferOverwriteAction" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteAction"/>
+    <keyword type="enum" name="enum MateVFSXferErrorMode" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode"/>
+    <keyword type="enum" name="enum MateVFSXferErrorAction" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorAction"/>
+    <keyword type="enum" name="enum MateVFSXferPhase" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferPhase"/>
+    <keyword type="struct" name="MateVFSXferProgressInfo" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo"/>
+    <keyword type="function" name="MateVFSXferProgressCallback ()" link="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback"/>
+    <keyword type="function" name="mate_vfs_xfer_uri_list ()" link="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list"/>
+    <keyword type="function" name="mate_vfs_xfer_uri ()" link="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri"/>
+    <keyword type="function" name="mate_vfs_xfer_delete_list ()" link="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-delete-list"/>
+    <keyword type="typedef" name="MateVFSMonitorHandle" link="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle"/>
+    <keyword type="enum" name="enum MateVFSMonitorType" link="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorType"/>
+    <keyword type="enum" name="enum MateVFSMonitorEventType" link="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorEventType"/>
+    <keyword type="function" name="MateVFSMonitorCallback ()" link="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorCallback"/>
+    <keyword type="function" name="mate_vfs_monitor_add ()" link="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-add"/>
+    <keyword type="function" name="mate_vfs_monitor_cancel ()" link="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-cancel"/>
+    <keyword type="function" name="mate_vfs_monitor_callback ()" link="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-callback"/>
+    <keyword type="function" name="mate_vfs_file_control ()" link="mate-vfs-2.0-mate-vfs-file-advanced-ops.html#mate-vfs-file-control"/>
+    <keyword type="macro" name="MATE_VFS_PRIORITY_MIN" link="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_PRIORITY_MAX" link="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_PRIORITY_DEFAULT" link="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS"/>
+    <keyword type="typedef" name="MateVFSAsyncHandle" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle"/>
+    <keyword type="function" name="MateVFSAsyncCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCallback"/>
+    <keyword type="function" name="MateVFSAsyncOpenCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback"/>
+    <keyword type="function" name="MateVFSAsyncOpenAsChannelCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenAsChannelCallback" deprecated=""/>
+    <keyword type="function" name="MateVFSAsyncCreateCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateCallback"/>
+    <keyword type="function" name="MateVFSAsyncCreateAsChannelCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateAsChannelCallback" deprecated=""/>
+    <keyword type="function" name="MateVFSAsyncCloseCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCloseCallback"/>
+    <keyword type="function" name="MateVFSAsyncReadCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncReadCallback"/>
+    <keyword type="function" name="MateVFSAsyncWriteCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncWriteCallback"/>
+    <keyword type="function" name="MateVFSAsyncSeekCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSeekCallback"/>
+    <keyword type="function" name="MateVFSAsyncGetFileInfoCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncGetFileInfoCallback"/>
+    <keyword type="function" name="MateVFSAsyncSetFileInfoCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSetFileInfoCallback"/>
+    <keyword type="function" name="MateVFSAsyncFileControlCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFileControlCallback"/>
+    <keyword type="function" name="MateVFSAsyncDirectoryLoadCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncDirectoryLoadCallback"/>
+    <keyword type="function" name="MateVFSAsyncFindDirectoryCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFindDirectoryCallback"/>
+    <keyword type="struct" name="MateVFSFindDirectoryResult" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult"/>
+    <keyword type="function" name="MateVFSAsyncXferProgressCallback ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback"/>
+    <keyword type="typedef" name="MateVFSCancellation" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation"/>
+    <keyword type="typedef" name="MateVFSContext" link="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext"/>
+    <keyword type="function" name="mate_vfs_async_set_job_limit ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-set-job-limit"/>
+    <keyword type="function" name="mate_vfs_async_get_job_limit ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-get-job-limit"/>
+    <keyword type="function" name="mate_vfs_async_cancel ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-cancel"/>
+    <keyword type="function" name="mate_vfs_async_open ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open"/>
+    <keyword type="function" name="mate_vfs_async_open_uri ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-uri"/>
+    <keyword type="function" name="mate_vfs_async_open_as_channel ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-as-channel" deprecated=""/>
+    <keyword type="function" name="mate_vfs_async_open_uri_as_channel ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-uri-as-channel" deprecated=""/>
+    <keyword type="function" name="mate_vfs_async_create ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create"/>
+    <keyword type="function" name="mate_vfs_async_create_uri ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-uri"/>
+    <keyword type="function" name="mate_vfs_async_create_symbolic_link ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-symbolic-link"/>
+    <keyword type="function" name="mate_vfs_async_create_as_channel ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-as-channel" deprecated=""/>
+    <keyword type="function" name="mate_vfs_async_create_uri_as_channel ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-uri-as-channel" deprecated="" since="2.12"/>
+    <keyword type="function" name="mate_vfs_async_close ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-close"/>
+    <keyword type="function" name="mate_vfs_async_read ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-read"/>
+    <keyword type="function" name="mate_vfs_async_write ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-write"/>
+    <keyword type="function" name="mate_vfs_async_seek ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-seek"/>
+    <keyword type="function" name="mate_vfs_async_get_file_info ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-get-file-info"/>
+    <keyword type="function" name="mate_vfs_async_set_file_info ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-set-file-info"/>
+    <keyword type="function" name="mate_vfs_async_load_directory ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-load-directory"/>
+    <keyword type="function" name="mate_vfs_async_load_directory_uri ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-load-directory-uri"/>
+    <keyword type="function" name="mate_vfs_async_xfer ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer"/>
+    <keyword type="function" name="mate_vfs_async_find_directory ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-find-directory"/>
+    <keyword type="function" name="mate_vfs_async_file_control ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-file-control" since="2.2"/>
+    <keyword type="function" name="mate_vfs_find_directory_result_dup ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-find-directory-result-dup" since="2.12"/>
+    <keyword type="function" name="mate_vfs_find_directory_result_free ()" link="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-find-directory-result-free" since="2.12"/>
+    <keyword type="function" name="mate_vfs_cancellation_new ()" link="mate-vfs-2.0-mate-vfs-cancellation.html#mate-vfs-cancellation-new"/>
+    <keyword type="function" name="mate_vfs_cancellation_destroy ()" link="mate-vfs-2.0-mate-vfs-cancellation.html#mate-vfs-cancellation-destroy"/>
+    <keyword type="function" name="mate_vfs_cancellation_cancel ()" link="mate-vfs-2.0-mate-vfs-cancellation.html#mate-vfs-cancellation-cancel"/>
+    <keyword type="function" name="mate_vfs_cancellation_check ()" link="mate-vfs-2.0-mate-vfs-cancellation.html#mate-vfs-cancellation-check"/>
+    <keyword type="function" name="mate_vfs_cancellation_ack ()" link="mate-vfs-2.0-mate-vfs-cancellation.html#mate-vfs-cancellation-ack"/>
+    <keyword type="function" name="mate_vfs_cancellation_get_fd ()" link="mate-vfs-2.0-mate-vfs-cancellation.html#mate-vfs-cancellation-get-fd"/>
+    <keyword type="macro" name="MATE_IS_VFS_VOLUME()" link="mate-vfs-2.0-mate-vfs-volume.html#MATE-IS-VFS-VOLUME:CAPS"/>
+    <keyword type="macro" name="MATE_IS_VFS_VOLUME_CLASS()" link="mate-vfs-2.0-mate-vfs-volume.html#MATE-IS-VFS-VOLUME-CLASS:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_TYPE_VOLUME" link="mate-vfs-2.0-mate-vfs-volume.html#MATE-VFS-TYPE-VOLUME:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_VOLUME()" link="mate-vfs-2.0-mate-vfs-volume.html#MATE-VFS-VOLUME:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_VOLUME_CLASS()" link="mate-vfs-2.0-mate-vfs-volume.html#MATE-VFS-VOLUME-CLASS:CAPS"/>
+    <keyword type="struct" name="struct MateVFSVolume" link="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume-struct"/>
+    <keyword type="struct" name="struct MateVFSVolumeClass" link="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeClass"/>
+    <keyword type="function" name="MateVFSVolumeOpCallback ()" link="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" since="2.6"/>
+    <keyword type="enum" name="enum MateVFSVolumeType" link="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeType"/>
+    <keyword type="function" name="mate_vfs_volume_compare ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-compare" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_eject ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-eject" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_activation_uri ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-activation-uri" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_device_path ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-device-path" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_device_type ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-device-type" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_display_name ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-display-name" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_drive ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-drive" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_filesystem_type ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-filesystem-type" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_hal_udi ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-hal-udi" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_icon ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-icon" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_id ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-id" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_get_type ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-type"/>
+    <keyword type="function" name="mate_vfs_volume_get_volume_type ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-volume-type" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_handles_trash ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-handles-trash" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_is_mounted ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-mounted" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_is_read_only ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-read-only" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_is_user_visible ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-user-visible" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_ref ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-ref" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_type_get_type ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-type-get-type"/>
+    <keyword type="function" name="mate_vfs_volume_unmount ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unmount" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_unref ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unref" since="2.6"/>
+    <keyword type="function" name="mate_vfs_connect_to_server ()" link="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-connect-to-server" since="2.6"/>
+    <keyword type="enum" name="enum MateVFSDeviceType" link="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType"/>
+    <keyword type="struct" name="MateVFSDrive" link="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-struct"/>
+    <keyword type="struct" name="struct MateVFSDriveClass" link="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDriveClass"/>
+    <keyword type="macro" name="MATE_IS_VFS_DRIVE()" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-IS-VFS-DRIVE:CAPS"/>
+    <keyword type="macro" name="MATE_IS_VFS_DRIVE_CLASS()" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-IS-VFS-DRIVE-CLASS:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_TYPE_DRIVE" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-TYPE-DRIVE:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_DRIVE()" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DRIVE:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_DRIVE_CLASS()" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DRIVE-CLASS:CAPS"/>
+    <keyword type="function" name="mate_vfs_drive_compare ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-compare" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_eject ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-eject" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_activation_uri ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-activation-uri" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_device_path ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-device-path" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_device_type ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-device-type" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_display_name ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-display-name" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_hal_udi ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-hal-udi" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_icon ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-icon" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_id ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-id" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_mounted_volume ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volume" deprecated="Use mate_vfs_drive_get_mounted_volumes() instead." since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_get_mounted_volumes ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" since="2.8"/>
+    <keyword type="function" name="mate_vfs_drive_volume_list_free ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-volume-list-free" since="2.8"/>
+    <keyword type="function" name="mate_vfs_drive_get_type ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-type"/>
+    <keyword type="function" name="mate_vfs_drive_is_connected ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-is-connected" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_is_mounted ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-is-mounted" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_is_user_visible ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-is-user-visible" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_mount ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-mount" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_ref ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-ref" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_unmount ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unmount" since="2.6"/>
+    <keyword type="function" name="mate_vfs_drive_unref ()" link="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unref" since="2.6"/>
+    <keyword type="signal" name="The &quot;volume-mounted&quot; signal" link="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-volume-mounted"/>
+    <keyword type="signal" name="The &quot;volume-pre-unmount&quot; signal" link="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-volume-pre-unmount"/>
+    <keyword type="signal" name="The &quot;volume-unmounted&quot; signal" link="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-volume-unmounted"/>
+    <keyword type="macro" name="MATE_IS_VFS_VOLUME_MONITOR()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-IS-VFS-VOLUME-MONITOR:CAPS"/>
+    <keyword type="macro" name="MATE_IS_VFS_VOLUME_MONITOR_CLASS()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-IS-VFS-VOLUME-MONITOR-CLASS:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_TYPE_VOLUME_MONITOR" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-VFS-TYPE-VOLUME-MONITOR:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_VOLUME_MONITOR()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-VFS-VOLUME-MONITOR:CAPS"/>
+    <keyword type="macro" name="MATE_VFS_VOLUME_MONITOR_CLASS()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-VFS-VOLUME-MONITOR-CLASS:CAPS"/>
+    <keyword type="struct" name="struct MateVFSVolumeMonitor" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-struct"/>
+    <keyword type="struct" name="struct MateVFSVolumeMonitorClass" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitorClass"/>
+    <keyword type="function" name="mate_vfs_get_volume_monitor ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-get-volume-monitor" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_get_connected_drives ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-connected-drives" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_get_drive_by_id ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-drive-by-id" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_get_mounted_volumes ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_get_type ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-type"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_get_volume_by_id ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-volume-by-id" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_get_volume_for_path ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-volume-for-path" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_ref ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-ref" since="2.6"/>
+    <keyword type="function" name="mate_vfs_volume_monitor_unref ()" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-unref" since="2.6"/>
+    <keyword type="signal" name="The &quot;drive-connected&quot; signal" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-drive-connected"/>
+    <keyword type="signal" name="The &quot;drive-disconnected&quot; signal" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-drive-disconnected"/>
+    <keyword type="signal" name="The &quot;volume-mounted&quot; signal" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-volume-mounted"/>
+    <keyword type="signal" name="The &quot;volume-pre-unmount&quot; signal" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-volume-pre-unmount"/>
+    <keyword type="signal" name="The &quot;volume-unmounted&quot; signal" link="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-volume-unmounted"/>
+    <keyword type="function" name="MateVFSDNSSDResolveCallback ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDResolveCallback"/>
+    <keyword type="enum" name="enum MateVFSDNSSDServiceStatus" link="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDServiceStatus"/>
+    <keyword type="struct" name="MateVFSDNSSDService" link="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDService"/>
+    <keyword type="function" name="MateVFSDNSSDBrowseCallback ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#MateVFSDNSSDBrowseCallback"/>
+    <keyword type="function" name="mate_vfs_dns_sd_browse ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse"/>
+    <keyword type="function" name="mate_vfs_dns_sd_stop_browse ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-stop-browse"/>
+    <keyword type="function" name="mate_vfs_dns_sd_resolve ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve"/>
+    <keyword type="function" name="mate_vfs_dns_sd_cancel_resolve ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-cancel-resolve"/>
+    <keyword type="function" name="mate_vfs_dns_sd_browse_sync ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-browse-sync"/>
+    <keyword type="function" name="mate_vfs_dns_sd_resolve_sync ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-resolve-sync"/>
+    <keyword type="function" name="mate_vfs_dns_sd_service_list_free ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-service-list-free"/>
+    <keyword type="function" name="mate_vfs_dns_sd_list_browse_domains_sync ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-dns-sd-list-browse-domains-sync"/>
+    <keyword type="function" name="mate_vfs_get_default_browse_domains ()" link="mate-vfs-2.0-mate-vfs-dns-sd.html#mate-vfs-get-default-browse-domains"/>
+    <keyword type="function" name="mate_vfs_resolve ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-resolve" since="2.8"/>
+    <keyword type="function" name="mate_vfs_resolve_free ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-resolve-free" since="2.8"/>
+    <keyword type="function" name="mate_vfs_resolve_next_address ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-resolve-next-address" since="2.8"/>
+    <keyword type="function" name="mate_vfs_resolve_reset_to_beginning ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-resolve-reset-to-beginning" since="2.8"/>
+    <keyword type="struct" name="MateVFSAddress" link="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress"/>
+    <keyword type="function" name="mate_vfs_address_dup ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-dup" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_free ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-free" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_get_family_type ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-get-family-type" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_get_ipv4 ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-get-ipv4" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_get_type ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-get-type"/>
+    <keyword type="function" name="mate_vfs_address_new_from_ipv4 ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-new-from-ipv4" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_new_from_sockaddr ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-new-from-sockaddr" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_new_from_string ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-new-from-string" since="2.8"/>
+    <keyword type="function" name="mate_vfs_address_to_string ()" link="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-address-to-string" since="2.8"/>
+    <keyword type="typedef" name="MateVFSSSL" link="mate-vfs-2.0-mate-vfs-ssl.html#MateVFSSSL"/>
+    <keyword type="function" name="mate_vfs_ssl_enabled ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-enabled"/>
+    <keyword type="function" name="mate_vfs_ssl_create ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-create"/>
+    <keyword type="function" name="mate_vfs_ssl_create_from_fd ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-create-from-fd"/>
+    <keyword type="function" name="mate_vfs_ssl_read ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-read"/>
+    <keyword type="function" name="mate_vfs_ssl_write ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-write"/>
+    <keyword type="function" name="mate_vfs_ssl_destroy ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-destroy"/>
+    <keyword type="function" name="mate_vfs_ssl_to_socket ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-to-socket"/>
+    <keyword type="function" name="mate_vfs_ssl_set_timeout ()" link="mate-vfs-2.0-mate-vfs-ssl.html#mate-vfs-ssl-set-timeout" since="2.8"/>
+    <keyword type="typedef" name="MateVFSSocket" link="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket"/>
+    <keyword type="struct" name="MateVFSSocketImpl" link="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocketImpl"/>
+    <keyword type="function" name="MateVFSSocketReadFunc ()" link="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocketReadFunc"/>
+    <keyword type="function" name="MateVFSSocketWriteFunc ()" link="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocketWriteFunc"/>
+    <keyword type="function" name="MateVFSSocketCloseFunc ()" link="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocketCloseFunc"/>
+    <keyword type="function" name="MateVFSSocketSetTimeoutFunc ()" link="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocketSetTimeoutFunc"/>
+    <keyword type="function" name="mate_vfs_socket_new ()" link="mate-vfs-2.0-mate-vfs-socket.html#mate-vfs-socket-new"/>
+    <keyword type="function" name="mate_vfs_socket_write ()" link="mate-vfs-2.0-mate-vfs-socket.html#mate-vfs-socket-write"/>
+    <keyword type="function" name="mate_vfs_socket_close ()" link="mate-vfs-2.0-mate-vfs-socket.html#mate-vfs-socket-close"/>
+    <keyword type="function" name="mate_vfs_socket_read ()" link="mate-vfs-2.0-mate-vfs-socket.html#mate-vfs-socket-read"/>
+    <keyword type="function" name="mate_vfs_socket_free ()" link="mate-vfs-2.0-mate-vfs-socket.html#mate-vfs-socket-free" since="2.8"/>
+    <keyword type="function" name="mate_vfs_socket_set_timeout ()" link="mate-vfs-2.0-mate-vfs-socket.html#mate-vfs-socket-set-timeout" since="2.8"/>
+    <keyword type="typedef" name="MateVFSSocketBuffer" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_new ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-new"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_destroy ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-destroy"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_read ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-read"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_peekc ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-peekc"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_write ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-write"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_flush ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-flush"/>
+    <keyword type="function" name="mate_vfs_socket_buffer_read_until ()" link="mate-vfs-2.0-mate-vfs-socket-buffer.html#mate-vfs-socket-buffer-read-until" since="2.8"/>
+    <keyword type="typedef" name="MateVFSInetConnection" link="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection"/>
+    <keyword type="function" name="mate_vfs_inet_connection_create ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-create"/>
+    <keyword type="function" name="mate_vfs_inet_connection_destroy ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-destroy"/>
+    <keyword type="function" name="mate_vfs_inet_connection_free ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-free"/>
+    <keyword type="function" name="mate_vfs_inet_connection_to_socket ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-to-socket"/>
+    <keyword type="function" name="mate_vfs_inet_connection_to_socket_buffer ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-to-socket-buffer"/>
+    <keyword type="function" name="mate_vfs_inet_connection_get_fd ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-get-fd"/>
+    <keyword type="function" name="mate_vfs_inet_connection_create_from_address ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-create-from-address" since="2.8"/>
+    <keyword type="function" name="mate_vfs_inet_connection_get_address ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-get-address"/>
+    <keyword type="function" name="mate_vfs_inet_connection_get_ip ()" link="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-get-ip" since="2.8"/>
+    <keyword type="function" name="mate_vfs_mime_type_from_name ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-type-from-name" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_type_from_name_or_default ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-type-from-name-or-default"/>
+    <keyword type="function" name="mate_vfs_get_mime_type_common ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-mime-type-common"/>
+    <keyword type="function" name="mate_vfs_get_mime_type_from_uri ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-mime-type-from-uri"/>
+    <keyword type="function" name="mate_vfs_get_mime_type_from_file_data ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-mime-type-from-file-data" deprecated=""/>
+    <keyword type="function" name="mate_vfs_get_file_mime_type_fast ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-file-mime-type-fast"/>
+    <keyword type="function" name="mate_vfs_get_file_mime_type ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-file-mime-type"/>
+    <keyword type="function" name="mate_vfs_mime_type_is_supertype ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-type-is-supertype"/>
+    <keyword type="function" name="mate_vfs_get_supertype_from_mime_type ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-get-supertype-from-mime-type"/>
+    <keyword type="function" name="mate_vfs_mime_info_cache_reload ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-info-cache-reload"/>
+    <keyword type="function" name="mate_vfs_mime_reload ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-reload"/>
+    <keyword type="function" name="mate_vfs_mime_shutdown ()" link="mate-vfs-2.0-mate-vfs-mime.html#mate-vfs-mime-shutdown" deprecated=""/>
+    <keyword type="macro" name="MATE_VFS_MIME_TYPE_UNKNOWN" link="mate-vfs-2.0-mate-vfs-mime-utils.html#MATE-VFS-MIME-TYPE-UNKNOWN:CAPS"/>
+    <keyword type="enum" name="enum MateVFSMimeEquivalence" link="mate-vfs-2.0-mate-vfs-mime-utils.html#MateVFSMimeEquivalence"/>
+    <keyword type="function" name="mate_vfs_mime_type_get_equivalence ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-mime-type-get-equivalence"/>
+    <keyword type="function" name="mate_vfs_mime_type_is_equal ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-mime-type-is-equal"/>
+    <keyword type="function" name="mate_vfs_get_mime_type_for_name ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-get-mime-type-for-name" since="2.14"/>
+    <keyword type="function" name="mate_vfs_get_mime_type_for_data ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-get-mime-type-for-data"/>
+    <keyword type="function" name="mate_vfs_get_mime_type_for_name_and_data ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-get-mime-type-for-name-and-data" since="2.14"/>
+    <keyword type="function" name="mate_vfs_get_mime_type ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-get-mime-type"/>
+    <keyword type="function" name="mate_vfs_get_slow_mime_type ()" link="mate-vfs-2.0-mate-vfs-mime-utils.html#mate-vfs-get-slow-mime-type" since="2.14"/>
+    <keyword type="struct" name="MateVFSMimeApplication" link="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication"/>
+    <keyword type="function" name="mate_vfs_mime_get_default_application ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-application"/>
+    <keyword type="function" name="mate_vfs_mime_get_default_application_for_uri ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-application-for-uri"/>
+    <keyword type="function" name="mate_vfs_mime_get_all_applications ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-applications"/>
+    <keyword type="function" name="mate_vfs_mime_get_all_applications_for_uri ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-applications-for-uri" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_get_all_desktop_entries ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-desktop-entries" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_default_desktop_entry ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-desktop-entry" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_default_component ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-default-component" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_all_components ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-all-components" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_icon ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-icon" deprecated="Use mate_icon_lookup() function in libmateui instead."/>
+    <keyword type="function" name="mate_vfs_mime_get_description ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-get-description"/>
+    <keyword type="function" name="mate_vfs_mime_can_be_executable ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-can-be-executable"/>
+    <keyword type="function" name="mate_vfs_mime_application_new_from_desktop_id ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-new-from-desktop-id" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_launch ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-launch" since="2.4"/>
+    <keyword type="function" name="mate_vfs_mime_application_launch_with_env ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-launch-with-env" since="2.4"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_desktop_id ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-desktop-id" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_desktop_file_path ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-desktop-file-path" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_name ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-name" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_generic_name ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-generic-name" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_icon ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-icon" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_exec ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-exec" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_binary_name ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-binary-name" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_requires_terminal ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-requires-terminal" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_supports_uris ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-supports-uris" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_supports_startup_notification ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-supports-startup-notification" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_get_startup_wm_class ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-get-startup-wm-class" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_equal ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-equal" since="2.10"/>
+    <keyword type="function" name="mate_vfs_mime_application_copy ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-copy"/>
+    <keyword type="function" name="mate_vfs_mime_application_free ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-free"/>
+    <keyword type="function" name="mate_vfs_mime_application_list_free ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-application-list-free"/>
+    <keyword type="function" name="mate_vfs_mime_component_list_free ()" link="mate-vfs-2.0-mate-vfs-mime-database.html#mate-vfs-mime-component-list-free" deprecated=""/>
+    <keyword type="struct" name="MateVFSMIMEMonitor" link="mate-vfs-2.0-mate-vfs-mime-monitor.html#MateVFSMIMEMonitor"/>
+    <keyword type="function" name="mate_vfs_mime_monitor_get ()" link="mate-vfs-2.0-mate-vfs-mime-monitor.html#mate-vfs-mime-monitor-get"/>
+    <keyword type="enum" name="enum MateVFSMimeActionType" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#MateVFSMimeActionType" deprecated=""/>
+    <keyword type="enum" name="enum MateVFSMimeApplicationArgumentType" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#MateVFSMimeApplicationArgumentType"/>
+    <keyword type="struct" name="struct MateVFSMimeAction" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#MateVFSMimeAction" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_default_action_type ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-default-action-type" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_default_action ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-default-action" deprecated="Use mate_vfs_mime_get_default_application() instead."/>
+    <keyword type="function" name="mate_vfs_mime_get_short_list_applications ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-short-list-applications" deprecated="Use mate_vfs_mime_get_all_applications() instead."/>
+    <keyword type="function" name="mate_vfs_mime_get_short_list_components ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-short-list-components" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_set_default_action_type ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-default-action-type" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_set_icon ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-icon" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_set_description ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-description" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_set_can_be_executable ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-can-be-executable" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_set_short_list_applications ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-short-list-applications" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_set_short_list_components ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-short-list-components" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_add_application_to_short_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-add-application-to-short-list" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_remove_application_from_short_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-remove-application-from-short-list" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_add_component_to_short_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-add-component-to-short-list" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_remove_component_from_short_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-remove-component-from-short-list" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_set_default_application ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-default-application" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_set_default_component ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-default-component" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_add_extension ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-add-extension" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_remove_extension ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-remove-extension" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_extend_all_applications ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-extend-all-applications" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_remove_from_all_applications ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-remove-from-all-applications" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_application_new_from_id ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-application-new-from-id" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_action_launch ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-action-launch" deprecated="" since="2.4"/>
+    <keyword type="function" name="mate_vfs_mime_action_launch_with_env ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-action-launch-with-env" deprecated="" since="2.4"/>
+    <keyword type="function" name="mate_vfs_mime_action_free ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-action-free" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_id_in_application_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-id-in-application-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_id_in_component_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-id-in-component-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_remove_application_from_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-remove-application-from-list" deprecated="User modifications to the MIME database are no longer supported by mate-vfs."/>
+    <keyword type="function" name="mate_vfs_mime_remove_component_from_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-remove-component-from-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_id_list_from_component_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-id-list-from-component-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_id_list_from_application_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-id-list-from-application-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_freeze ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-freeze"/>
+    <keyword type="function" name="mate_vfs_mime_thaw ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-thaw"/>
+    <keyword type="function" name="mate_vfs_mime_info_reload ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-info-reload"/>
+    <keyword type="function" name="mate_vfs_mime_type_is_known ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-type-is-known"/>
+    <keyword type="function" name="mate_vfs_mime_get_value ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-value"/>
+    <keyword type="function" name="mate_vfs_mime_set_value ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-value" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_key_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-key-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_keys_list_free ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-keys-list-free" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_extensions_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-extensions-list"/>
+    <keyword type="function" name="mate_vfs_mime_extensions_list_free ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-extensions-list-free"/>
+    <keyword type="function" name="mate_vfs_mime_get_extensions_string ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-extensions-string" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_get_extensions_pretty_string ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-get-extensions-pretty-string" deprecated=""/>
+    <keyword type="function" name="mate_vfs_get_registered_mime_types ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-get-registered-mime-types" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_registered_mime_type_list_free ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-registered-mime-type-list-free" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_set_registered_type_key ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-registered-type-key"/>
+    <keyword type="function" name="mate_vfs_mime_set_extensions_list ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-set-extensions-list" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_registered_mime_type_delete ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-registered-mime-type-delete" deprecated=""/>
+    <keyword type="function" name="mate_vfs_mime_reset ()" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#mate-vfs-mime-reset" deprecated=""/>
+    <keyword type="macro" name="MATE_VFS_APPLICATION_REGISTRY_COMMAND" link="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-COMMAND:CAPS" deprecated=""/>
+    <keyword type="macro" name="MATE_VFS_APPLICATION_REGISTRY_NAME" link="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-NAME:CAPS" deprecated=""/>
+    <keyword type="macro" name="MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES" link="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-CAN-OPEN-MULTIPLE-FILES:CAPS" deprecated=""/>
+    <keyword type="macro" name="MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL" link="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-REQUIRES-TERMINAL:CAPS" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_exists ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-exists" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_get_keys ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-keys" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_peek_value ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-peek-value" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_get_bool_value ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-bool-value" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_remove_application ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-remove-application" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_set_value ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-set-value" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_set_bool_value ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-set-bool-value" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_unset_key ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-unset-key" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_get_applications ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-applications" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_get_mime_types ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-mime-types" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_supports_mime_type ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-supports-mime-type" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_supports_uri_scheme ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-supports-uri-scheme" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_is_user_owned_application ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-is-user-owned-application" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_clear_mime_types ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-clear-mime-types" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_add_mime_type ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-add-mime-type" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_remove_mime_type ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-remove-mime-type" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_sync ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-sync" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_shutdown ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-shutdown" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_reload ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-reload" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_get_mime_application ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-mime-application" deprecated=""/>
+    <keyword type="function" name="mate_vfs_application_registry_save_mime_application ()" link="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-save-mime-application" deprecated=""/>
+    <keyword type="" name="MATE VFS URIs (Uniform Resource Identifiers)" link="mate-vfs-writing-modules.html#uris"/>
+    <keyword type="" name="The MateVFSURI type" link="mate-vfs-writing-modules.html#id2765933"/>
+    <keyword type="" name="How file access is performed" link="mate-vfs-writing-modules.html#id2766030"/>
+    <keyword type="" name="Using shared libraries" link="mate-vfs-writing-modules.html#id2766141"/>
+    <keyword type="" name="The initialization/shutdown functions" link="mate-vfs-writing-modules.html#id2766206"/>
+    <keyword type="" name="The MateVFSMethod object" link="mate-vfs-writing-modules.html#id2766286"/>
+    <keyword type="" name="The MateVFSCancellation object" link="mate-vfs-writing-modules.html#id2766583"/>
+    <keyword type="" name="Dealing with EINTR" link="mate-vfs-writing-modules.html#id2766737"/>
+    <keyword type="" name="How to make the code thread safe" link="mate-vfs-writing-modules.html#id2766863"/>
+    <keyword type="function" name="MateVFSMethodInitFunc ()" link="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodInitFunc"/>
+    <keyword type="function" name="MateVFSMethodShutdownFunc ()" link="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodShutdownFunc"/>
+    <keyword type="function" name="MateVFSMethodTruncateFunc ()" link="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodTruncateFunc"/>
+    <keyword type="function" name="MateVFSMethodTruncateHandleFunc ()" link="mate-vfs-2.0-mate-vfs-method.html#MateVFSMethodTruncateHandleFunc"/>
+    <keyword type="macro" name="VFS_METHOD_HAS_FUNC()" link="mate-vfs-2.0-mate-vfs-method.html#VFS-METHOD-HAS-FUNC:CAPS"/>
+    <keyword type="function" name="mate_vfs_method_init ()" link="mate-vfs-2.0-mate-vfs-method.html#mate-vfs-method-init"/>
+    <keyword type="function" name="mate_vfs_method_get ()" link="mate-vfs-2.0-mate-vfs-method.html#mate-vfs-method-get"/>
+    <keyword type="typedef" name="MateVFSTransform" link="mate-vfs-2.0-mate-vfs-method.html#MateVFSTransform"/>
+    <keyword type="function" name="mate_vfs_transform_get ()" link="mate-vfs-2.0-mate-vfs-method.html#mate-vfs-transform-get"/>
+    <keyword type="function" name="vfs_module_init ()" link="mate-vfs-2.0-mate-vfs-module.html#vfs-module-init"/>
+    <keyword type="function" name="vfs_module_transform ()" link="mate-vfs-2.0-mate-vfs-module.html#vfs-module-transform"/>
+    <keyword type="function" name="vfs_module_shutdown ()" link="mate-vfs-2.0-mate-vfs-module.html#vfs-module-shutdown"/>
+    <keyword type="function" name="mate_vfs_mime_type_from_mode ()" link="mate-vfs-2.0-mate-vfs-module-shared.html#mate-vfs-mime-type-from-mode"/>
+    <keyword type="function" name="mate_vfs_mime_type_from_mode_or_default ()" link="mate-vfs-2.0-mate-vfs-module-shared.html#mate-vfs-mime-type-from-mode-or-default"/>
+    <keyword type="function" name="mate_vfs_stat_to_file_info ()" link="mate-vfs-2.0-mate-vfs-module-shared.html#mate-vfs-stat-to-file-info"/>
+    <keyword type="function" name="mate_vfs_set_meta ()" link="mate-vfs-2.0-mate-vfs-module-shared.html#mate-vfs-set-meta"/>
+    <keyword type="function" name="mate_vfs_set_meta_for_list ()" link="mate-vfs-2.0-mate-vfs-module-shared.html#mate-vfs-set-meta-for-list"/>
+    <keyword type="function" name="mate_vfs_get_special_mime_type ()" link="mate-vfs-2.0-mate-vfs-module-shared.html#mate-vfs-get-special-mime-type"/>
+    <keyword type="function" name="mate_vfs_module_callback_invoke ()" link="mate-vfs-2.0-mate-vfs-module-callback-module-api.html#mate-vfs-module-callback-invoke"/>
+    <keyword type="function" name="mate_vfs_context_new ()" link="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-new"/>
+    <keyword type="function" name="mate_vfs_context_free ()" link="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-free"/>
+    <keyword type="function" name="mate_vfs_context_get_cancellation ()" link="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-get-cancellation"/>
+    <keyword type="macro" name="mate_vfs_context_check_cancellation()" link="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-check-cancellation"/>
+    <keyword type="function" name="mate_vfs_context_peek_current ()" link="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-peek-current"/>
+    <keyword type="function" name="mate_vfs_context_check_cancellation_current ()" link="mate-vfs-2.0-mate-vfs-context.html#mate-vfs-context-check-cancellation-current"/>
+    <keyword type="function" name="MateVFSTransformInitFunc ()" link="mate-vfs-2.0-mate-vfs-transform.html#MateVFSTransformInitFunc"/>
+    <keyword type="function" name="MateVFSTransformFunc ()" link="mate-vfs-2.0-mate-vfs-transform.html#MateVFSTransformFunc"/>
+    <keyword type="function" name="mate_vfs_parse_ls_lga ()" link="mate-vfs-2.0-mate-vfs-parse-ls.html#mate-vfs-parse-ls-lga"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_FILL_AUTHENTICATION" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FILL-AUTHENTICATION:CAPS"/>
+    <keyword type="struct" name="MateVFSModuleCallbackFillAuthenticationIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackFillAuthenticationIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackFillAuthenticationOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackFillAuthenticationOut"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION:CAPS"/>
+    <keyword type="enum" name="enum MateVFSModuleCallbackFullAuthenticationFlags" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackFullAuthenticationFlags"/>
+    <keyword type="struct" name="MateVFSModuleCallbackFullAuthenticationIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackFullAuthenticationIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackFullAuthenticationOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackFullAuthenticationOut"/>
+    <keyword type="enum" name="enum MateVFSModuleCallbackFullAuthenticationOutFlags" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackFullAuthenticationOutFlags"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_SAVE_AUTHENTICATION" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-SAVE-AUTHENTICATION:CAPS"/>
+    <keyword type="struct" name="MateVFSModuleCallbackSaveAuthenticationIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackSaveAuthenticationIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackSaveAuthenticationOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackSaveAuthenticationOut"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_QUESTION" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-QUESTION:CAPS"/>
+    <keyword type="struct" name="MateVFSModuleCallbackQuestionIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackQuestionIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackQuestionOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackQuestionOut"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_STATUS_MESSAGE" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-STATUS-MESSAGE:CAPS"/>
+    <keyword type="struct" name="MateVFSModuleCallbackStatusMessageIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackStatusMessageIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackStatusMessageOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackStatusMessageOut"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_HTTP_SEND_ADDITIONAL_HEADERS" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-HTTP-SEND-ADDITIONAL-HEADERS:CAPS"/>
+    <keyword type="struct" name="MateVFSModuleCallbackAdditionalHeadersIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackAdditionalHeadersIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackAdditionalHeadersOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackAdditionalHeadersOut"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_HTTP_RECEIVED_HEADERS" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-HTTP-RECEIVED-HEADERS:CAPS"/>
+    <keyword type="struct" name="MateVFSModuleCallbackReceivedHeadersIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackReceivedHeadersIn"/>
+    <keyword type="struct" name="MateVFSModuleCallbackReceivedHeadersOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackReceivedHeadersOut"/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_AUTHENTICATION" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-AUTHENTICATION:CAPS" deprecated=""/>
+    <keyword type="macro" name="MATE_VFS_MODULE_CALLBACK_HTTP_PROXY_AUTHENTICATION" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-HTTP-PROXY-AUTHENTICATION:CAPS" deprecated="Proxy authentication now works desktop-wide through MateConf."/>
+    <keyword type="enum" name="enum MateVFSModuleCallbackAuthenticationAuthType" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackAuthenticationAuthType" deprecated=""/>
+    <keyword type="struct" name="MateVFSModuleCallbackAuthenticationIn" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackAuthenticationIn" deprecated=""/>
+    <keyword type="struct" name="MateVFSModuleCallbackAuthenticationOut" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MateVFSModuleCallbackAuthenticationOut" deprecated=""/>
+    <keyword type="function" name="MateVFSModuleCallback ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback"/>
+    <keyword type="function" name="MateVFSModuleCallbackResponse ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallbackResponse"/>
+    <keyword type="function" name="MateVFSAsyncModuleCallback ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback"/>
+    <keyword type="function" name="mate_vfs_module_callback_set_default ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-set-default"/>
+    <keyword type="function" name="mate_vfs_module_callback_push ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-push"/>
+    <keyword type="function" name="mate_vfs_module_callback_pop ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-pop"/>
+    <keyword type="function" name="mate_vfs_async_module_callback_set_default ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-set-default"/>
+    <keyword type="function" name="mate_vfs_async_module_callback_push ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-push"/>
+    <keyword type="function" name="mate_vfs_async_module_callback_pop ()" link="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-pop"/>
+    <keyword type="constant" name="MATE_VFS_OK" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_FOUND" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_GENERIC" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-GENERIC:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_INTERNAL" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INTERNAL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_BAD_PARAMETERS" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-BAD-PARAMETERS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_SUPPORTED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_IO" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-IO:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_CORRUPTED_DATA" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-CORRUPTED-DATA:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_WRONG_FORMAT" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-WRONG-FORMAT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_BAD_FILE" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-BAD-FILE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_TOO_BIG" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-TOO-BIG:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NO_SPACE" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NO-SPACE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_READ_ONLY" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-READ-ONLY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_INVALID_URI" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INVALID-URI:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_OPEN" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-OPEN:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_INVALID_OPEN_MODE" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INVALID-OPEN-MODE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_ACCESS_DENIED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-ACCESS-DENIED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_TOO_MANY_OPEN_FILES" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-TOO-MANY-OPEN-FILES:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_EOF" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-EOF:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_A_DIRECTORY" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-A-DIRECTORY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_IN_PROGRESS" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-IN-PROGRESS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_INTERRUPTED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INTERRUPTED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_FILE_EXISTS" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-FILE-EXISTS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_LOOP" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-LOOP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_PERMITTED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-PERMITTED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_IS_DIRECTORY" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-IS-DIRECTORY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NO_MEMORY" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NO-MEMORY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_HOST_NOT_FOUND" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-HOST-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_INVALID_HOST_NAME" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INVALID-HOST-NAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_HOST_HAS_NO_ADDRESS" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-HOST-HAS-NO-ADDRESS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_LOGIN_FAILED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-LOGIN-FAILED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_CANCELLED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-CANCELLED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_DIRECTORY_BUSY" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-DIRECTORY-BUSY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_DIRECTORY_NOT_EMPTY" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-DIRECTORY-NOT-EMPTY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_TOO_MANY_LINKS" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-TOO-MANY-LINKS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_READ_ONLY_FILE_SYSTEM" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-READ-ONLY-FILE-SYSTEM:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_SAME_FILE_SYSTEM" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-SAME-FILE-SYSTEM:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NAME_TOO_LONG" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NAME-TOO-LONG:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_SERVICE_NOT_AVAILABLE" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-SERVICE-NOT-AVAILABLE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_SERVICE_OBSOLETE" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-SERVICE-OBSOLETE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_PROTOCOL_ERROR" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-PROTOCOL-ERROR:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NO_MASTER_BROWSER" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NO-MASTER-BROWSER:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NO_DEFAULT" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NO-DEFAULT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NO_HANDLER" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NO-HANDLER:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_PARSE" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-PARSE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_LAUNCH" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-LAUNCH:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_TIMEOUT" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-TIMEOUT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NAMESERVER" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NAMESERVER:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_LOCKED" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-LOCKED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_DEPRECATED_FUNCTION" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-DEPRECATED-FUNCTION:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_INVALID_FILENAME" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-INVALID-FILENAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_ERROR_NOT_A_SYMBOLIC_LINK" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-NOT-A-SYMBOLIC-LINK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_NUM_ERRORS" link="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-NUM-ERRORS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_NONE" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_USER_NAME" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-USER-NAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_PASSWORD" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-PASSWORD:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_HOST_NAME" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-HOST-NAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_HOST_PORT" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-HOST-PORT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_TOPLEVEL_METHOD" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-TOPLEVEL-METHOD:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_URI_HIDE_FRAGMENT_IDENTIFIER" link="mate-vfs-2.0-mate-vfs-uri.html#MATE-VFS-URI-HIDE-FRAGMENT-IDENTIFIER:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MAKE_URI_DIR_NONE" link="mate-vfs-2.0-mate-vfs-utils.html#MATE-VFS-MAKE-URI-DIR-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MAKE_URI_DIR_HOMEDIR" link="mate-vfs-2.0-mate-vfs-utils.html#MATE-VFS-MAKE-URI-DIR-HOMEDIR:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MAKE_URI_DIR_CURRENT" link="mate-vfs-2.0-mate-vfs-utils.html#MATE-VFS-MAKE-URI-DIR-CURRENT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_FLAGS_NONE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-FLAGS-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_FLAGS_SYMLINK" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-FLAGS-SYMLINK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_FLAGS_LOCAL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-FLAGS-LOCAL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_UNKNOWN" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_REGULAR" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-REGULAR:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_DIRECTORY" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-DIRECTORY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_FIFO" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-FIFO:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_SOCKET" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-SOCKET:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_CHARACTER_DEVICE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-CHARACTER-DEVICE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_BLOCK_DEVICE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-BLOCK-DEVICE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_TYPE_SYMBOLIC_LINK" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-TYPE-SYMBOLIC-LINK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_NONE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_TYPE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-TYPE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_PERMISSIONS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-PERMISSIONS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_FLAGS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-FLAGS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_DEVICE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-DEVICE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_INODE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-INODE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_LINK_COUNT" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-LINK-COUNT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_SIZE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-SIZE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_BLOCK_COUNT" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-BLOCK-COUNT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_IO_BLOCK_SIZE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-IO-BLOCK-SIZE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_ATIME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-ATIME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_MTIME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-MTIME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_CTIME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-CTIME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_SYMLINK_NAME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-SYMLINK-NAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_MIME_TYPE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-MIME-TYPE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_ACCESS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-ACCESS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_IDS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-IDS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_ACL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-ACL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-SELINUX-CONTEXT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_SUID" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-SUID:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_SGID" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-SGID:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_STICKY" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-STICKY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_USER_READ" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-USER-READ:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_USER_WRITE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-USER-WRITE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_USER_EXEC" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-USER-EXEC:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_USER_ALL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-USER-ALL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_GROUP_READ" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-GROUP-READ:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_GROUP_WRITE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-GROUP-WRITE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_GROUP_EXEC" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-GROUP-EXEC:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_GROUP_ALL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-GROUP-ALL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_OTHER_READ" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-OTHER-READ:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_OTHER_WRITE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-OTHER-WRITE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_OTHER_EXEC" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-OTHER-EXEC:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_OTHER_ALL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-OTHER-ALL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_ACCESS_READABLE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-ACCESS-READABLE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_ACCESS_WRITABLE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-ACCESS-WRITABLE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_PERM_ACCESS_EXECUTABLE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-ACCESS-EXECUTABLE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_DEFAULT" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-DEFAULT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_GET_MIME_TYPE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-GET-MIME-TYPE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FORCE-FAST-MIME-TYPE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FORCE-SLOW-MIME-TYPE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_FOLLOW_LINKS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FOLLOW-LINKS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-GET-ACCESS-RIGHTS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_NAME_ONLY" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-NAME-ONLY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_GET_ACL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-GET-ACL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_FILE_INFO_GET_SELINUX_CONTEXT" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-GET-SELINUX-CONTEXT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_NONE" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_NAME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-NAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_PERMISSIONS" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-PERMISSIONS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_OWNER" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-OWNER:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_TIME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-TIME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_ACL" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-ACL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_SELINUX_CONTEXT" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-SELINUX-CONTEXT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SET_FILE_INFO_SYMLINK_NAME" link="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-SET-FILE-INFO-SYMLINK-NAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_OPEN_NONE" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MATE-VFS-OPEN-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_OPEN_READ" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MATE-VFS-OPEN-READ:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_OPEN_WRITE" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MATE-VFS-OPEN-WRITE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_OPEN_RANDOM" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MATE-VFS-OPEN-RANDOM:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_OPEN_TRUNCATE" link="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MATE-VFS-OPEN-TRUNCATE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SEEK_START" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MATE-VFS-SEEK-START:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SEEK_CURRENT" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MATE-VFS-SEEK-CURRENT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_SEEK_END" link="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MATE-VFS-SEEK-END:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DIRECTORY_VISIT_DEFAULT" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MATE-VFS-DIRECTORY-VISIT-DEFAULT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DIRECTORY_VISIT_SAMEFS" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MATE-VFS-DIRECTORY-VISIT-SAMEFS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DIRECTORY_VISIT_LOOPCHECK" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MATE-VFS-DIRECTORY-VISIT-LOOPCHECK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DIRECTORY_VISIT_IGNORE_RECURSE_ERROR" link="mate-vfs-2.0-mate-vfs-directory-list-ops.html#MATE-VFS-DIRECTORY-VISIT-IGNORE-RECURSE-ERROR:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DIRECTORY_KIND_DESKTOP" link="mate-vfs-2.0-mate-vfs-directory-find-ops.html#MATE-VFS-DIRECTORY-KIND-DESKTOP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DIRECTORY_KIND_TRASH" link="mate-vfs-2.0-mate-vfs-directory-find-ops.html#MATE-VFS-DIRECTORY-KIND-TRASH:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_DEFAULT" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DEFAULT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_UNUSED_1" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-UNUSED-1:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_FOLLOW_LINKS" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-FOLLOW-LINKS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_UNUSED_2" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-UNUSED-2:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_RECURSIVE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-RECURSIVE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_SAMEFS" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-SAMEFS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_DELETE_ITEMS" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-DELETE-ITEMS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_EMPTY_DIRECTORIES" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-EMPTY-DIRECTORIES:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_NEW_UNIQUE_DIRECTORY" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-NEW-UNIQUE-DIRECTORY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_REMOVESOURCE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-REMOVESOURCE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_USE_UNIQUE_NAMES" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-USE-UNIQUE-NAMES:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_LINK_ITEMS" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-LINK-ITEMS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_FOLLOW_LINKS_RECURSIVE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-FOLLOW-LINKS-RECURSIVE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_TARGET_DEFAULT_PERMS" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-TARGET-DEFAULT-PERMS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PROGRESS_STATUS_OK" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PROGRESS_STATUS_VFSERROR" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-VFSERROR:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PROGRESS_STATUS_OVERWRITE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OVERWRITE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PROGRESS_STATUS_DUPLICATE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-DUPLICATE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_MODE_ABORT" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-MODE-ABORT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_MODE_QUERY" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-MODE-QUERY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_MODE_REPLACE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-MODE-REPLACE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_MODE_SKIP" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-MODE-SKIP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_ACTION_ABORT" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-ACTION-ABORT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_ACTION_REPLACE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-ACTION-REPLACE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_ACTION_REPLACE_ALL" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-ACTION-REPLACE-ALL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_ACTION_SKIP" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-ACTION-SKIP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_OVERWRITE_ACTION_SKIP_ALL" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-OVERWRITE-ACTION-SKIP-ALL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_ERROR_MODE_ABORT" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-ERROR-MODE-ABORT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_ERROR_MODE_QUERY" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-ERROR-MODE-QUERY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_ERROR_ACTION_ABORT" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-ERROR-ACTION-ABORT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_ERROR_ACTION_RETRY" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-ERROR-ACTION-RETRY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_ERROR_ACTION_SKIP" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-ERROR-ACTION-SKIP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_INITIAL" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-INITIAL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_CHECKING_DESTINATION" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-CHECKING-DESTINATION:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_COLLECTING" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-COLLECTING:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_READYTOGO" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-READYTOGO:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_OPENSOURCE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-OPENSOURCE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_OPENTARGET" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-OPENTARGET:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_COPYING" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-COPYING:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_MOVING" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-MOVING:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_READSOURCE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-READSOURCE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_WRITETARGET" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-WRITETARGET:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_CLOSESOURCE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-CLOSESOURCE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_CLOSETARGET" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-CLOSETARGET:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_DELETESOURCE" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-DELETESOURCE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_SETATTRIBUTES" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-SETATTRIBUTES:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_FILECOMPLETED" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-FILECOMPLETED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_CLEANUP" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-CLEANUP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_PHASE_COMPLETED" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PHASE-COMPLETED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_XFER_NUM_PHASES" link="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-NUM-PHASES:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_FILE" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-FILE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_DIRECTORY" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-DIRECTORY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_EVENT_CHANGED" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-EVENT-CHANGED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_EVENT_DELETED" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-EVENT-DELETED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_EVENT_STARTEXECUTING" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-EVENT-STARTEXECUTING:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_EVENT_STOPEXECUTING" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-EVENT-STOPEXECUTING:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_EVENT_CREATED" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-EVENT-CREATED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MONITOR_EVENT_METADATA_CHANGED" link="mate-vfs-2.0-mate-vfs-monitor.html#MATE-VFS-MONITOR-EVENT-METADATA-CHANGED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_UNKNOWN" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_AUDIO_CD" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-AUDIO-CD:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_VIDEO_DVD" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-VIDEO-DVD:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_HARDDRIVE" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-HARDDRIVE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_CDROM" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-CDROM:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_FLOPPY" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-FLOPPY:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_ZIP" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-ZIP:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_JAZ" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-JAZ:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_NFS" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-NFS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_AUTOFS" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-AUTOFS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_CAMERA" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-CAMERA:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_MEMORY_STICK" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-MEMORY-STICK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_SMB" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-SMB:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_APPLE" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-APPLE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_MUSIC_PLAYER" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-MUSIC-PLAYER:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_WINDOWS" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-WINDOWS:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_LOOPBACK" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-LOOPBACK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_DEVICE_TYPE_NETWORK" link="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-NETWORK:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MIME_UNRELATED" link="mate-vfs-2.0-mate-vfs-mime-utils.html#MATE-VFS-MIME-UNRELATED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MIME_IDENTICAL" link="mate-vfs-2.0-mate-vfs-mime-utils.html#MATE-VFS-MIME-IDENTICAL:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MIME_PARENT" link="mate-vfs-2.0-mate-vfs-mime-utils.html#MATE-VFS-MIME-PARENT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MIME_ACTION_TYPE_NONE" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#MATE-VFS-MIME-ACTION-TYPE-NONE:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MIME_ACTION_TYPE_APPLICATION" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#MATE-VFS-MIME-ACTION-TYPE-APPLICATION:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MIME_ACTION_TYPE_COMPONENT" link="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html#MATE-VFS-MIME-ACTION-TYPE-COMPONENT:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_PREVIOUS_ATTEMPT_FAILED" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-PREVIOUS-ATTEMPT-FAILED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_NEED_PASSWORD" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-NEED-PASSWORD:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_NEED_USERNAME" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-NEED-USERNAME:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_NEED_DOMAIN" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-NEED-DOMAIN:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_SAVING_SUPPORTED" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-SAVING-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_ANON_SUPPORTED" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-ANON-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_OUT_ANON_SELECTED" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#MATE-VFS-MODULE-CALLBACK-FULL-AUTHENTICATION-OUT-ANON-SELECTED:CAPS"/>
+    <keyword type="constant" name="AuthTypeBasic" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#AuthTypeBasic"/>
+    <keyword type="constant" name="AuthTypeDigest" link="mate-vfs-2.0-mate-vfs-standard-callbacks.html#AuthTypeDigest"/>
+  </functions>
+</book>

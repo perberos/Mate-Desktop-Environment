@@ -1,0 +1,142 @@
+<!-- ##### SECTION Title ##### -->
+matecomponent-context
+
+<!-- ##### SECTION Short_Description ##### -->
+Extensible runtime service interface
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The matecomponent-context code is designed to provide a way to
+expose CORBA contexts through a single C interface. This
+is so that language bindings can get away with wrapping
+a single function, and yet have access to the whole
+MateComponent service framework. Two examples of this are the
+MonikerContext and the RunningContext ( see
+MateComponent_Context.idl ).
+</para>
+
+<para>
+  <example>
+     <title>Getting and using the moniker context</title>
+     <programlisting>
+MateComponent_MonikerContext context;
+MateComponent_Unknown        object;
+
+context = matecomponent_context_get ("Activation", NULL);
+
+if (context == CORBA_OBJECT_NIL)
+	g_error (_("Internal error, no activation context"));
+
+object = MateComponent_MonikerContext_getObject (
+	"file:/demo/a.jpeg", "MateComponent/Control", ev);
+...
+     </programlisting>
+  </example>
+</para>
+
+<para>
+The list of contexts is open and may be expanded in the future,
+currently there are the following:
+  <itemizedlist>
+    <listitem>
+      <para>
+        Activation - MateComponent/MonikerContext
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        Running - MateComponent/RunningContext
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
+
+<para>
+The running context is particularly useful for ensuring that
+server processes exit cleanly when all their objects and
+derived objects are dead. To do this we can simply do the
+following:
+</para>
+<para>
+  <example>
+    <title>How to get a factory to quit when it is idle</title>
+    <programlisting>
+static void
+last_unref_exit_cb (gpointer      context,
+		    MateComponentObject *factory)
+{
+        matecomponent_object_unref (factory);
+	gtk_main_quit ();
+}
+...
+int main (int argc, char **argv)
+{
+	...
+	matecomponent_running_context_ignore_object (MATECOMPONENT_OBJREF (object));
+
+	gtk_signal_connect (GTK_OBJECT (matecomponent_context_running_get ()),
+			    "last_unref", last_unref_exit_cb, factory);
+	...
+	matecomponent_main ();
+}
+    </programlisting>
+  </example>
+</para>
+<para>
+  Since this is a commonly used thing there is a helper to make this
+easier:
+  <example>
+    <title>How to get a factory to quit when it is idle</title>
+    <programlisting>
+matecomponent_running_context_auto_exit_unref (factory) 
+    </programlisting>
+  </example>
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### FUNCTION matecomponent_context_get ##### -->
+<para>
+
+</para>
+
+@context_name: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_context_add ##### -->
+<para>
+
+</para>
+
+@context_name: 
+@context: 
+
+
+<!-- ##### FUNCTION matecomponent_context_running_get ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_running_context_auto_exit_unref ##### -->
+<para>
+
+</para>
+
+@object: 
+
+

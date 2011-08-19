@@ -1,0 +1,958 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>matecorba2-small</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateCORBA2 Reference Manual">
+<link rel="up" href="general.html" title="API">
+<link rel="prev" href="MateCORBA2-matecorba2-allocators.html" title="Allocators">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="MateCORBA2-matecorba2-allocators.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="general.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateCORBA2 Reference Manual</th>
+<td> </td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#MateCORBA2-matecorba2-small.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#MateCORBA2-matecorba2-small.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="MateCORBA2-matecorba2-small"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="MateCORBA2-matecorba2-small.top_of_page"></a>matecorba2-small</span></h2>
+<p>matecorba2-small</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="MateCORBA2-matecorba2-small.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">                    <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-IModule" title="MateCORBA_IModule">MateCORBA_IModule</a>;
+const <span class="returnvalue">char</span> *        <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-get-safe-tmp" title="MateCORBA_get_safe_tmp ()">MateCORBA_get_safe_tmp</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gpointer</span>            <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-alloc" title="MateCORBA_small_alloc ()">MateCORBA_small_alloc</a>                   (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> tc</code></em>);
+<span class="returnvalue">gpointer</span>            <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-allocbuf" title="MateCORBA_small_allocbuf ()">MateCORBA_small_allocbuf</a>                (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> tc</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_unsigned_long</span> length</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-freekids" title="MateCORBA_small_freekids ()">MateCORBA_small_freekids</a>                (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> tc</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> p</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> d</code></em>);
+<span class="returnvalue">gpointer</span>            <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-sequence-alloc" title="MateCORBA_sequence_alloc ()">MateCORBA_sequence_alloc</a>                (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> sequence_tc</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_unsigned_long</span> length</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-sequence-append" title="MateCORBA_sequence_append ()">MateCORBA_sequence_append</a>               (<em class="parameter"><code><span class="type">gpointer</span> sequence</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> element</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-sequence-set-size" title="MateCORBA_sequence_set_size ()">MateCORBA_sequence_set_size</a>             (<em class="parameter"><code><span class="type">gpointer</span> sequence</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_unsigned_long</span> length</code></em>);
+#define             <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-sequence-index" title="MateCORBA_sequence_index()">MateCORBA_sequence_index</a>                (sequence,
+                                                         idx)
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-sequence-concat" title="MateCORBA_sequence_concat ()">MateCORBA_sequence_concat</a>               (<em class="parameter"><code><span class="type">gpointer</span> sequence</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> append</code></em>);
+enum                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus">MateCORBAConnectionStatus</a>;
+<span class="returnvalue">gpointer</span>            <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-servant" title="MateCORBA_small_get_servant ()">MateCORBA_small_get_servant</a>             (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);
+<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-connection-status" title="MateCORBA_small_get_connection_status ()">MateCORBA_small_get_connection_status</a>
+                                                        (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);
+<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-listen-for-broken" title="MateCORBA_small_listen_for_broken ()">MateCORBA_small_listen_for_broken</a>    (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> fn</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-unlisten-for-broken-full" title="MateCORBA_small_unlisten_for_broken_full ()">MateCORBA_small_unlisten_for_broken_full</a>
+                                                        (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> fn</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-unlisten-for-broken" title="MateCORBA_small_unlisten_for_broken ()">MateCORBA_small_unlisten_for_broken</a>  (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> fn</code></em>);
+                    <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection">MateCORBAConnection</a>;
+<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="returnvalue">MateCORBAConnection</span></a> *   <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-connection" title="MateCORBA_small_get_connection ()">MateCORBA_small_get_connection</a>          (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);
+<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="returnvalue">MateCORBAConnection</span></a> *   <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-connection-ref" title="MateCORBA_small_get_connection_ref ()">MateCORBA_small_get_connection_ref</a>      (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-connection-unref" title="MateCORBA_small_connection_unref ()">MateCORBA_small_connection_unref</a>        (<em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="type">MateCORBAConnection</span></a> *cnx</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-connection-set-max-buffer" title="MateCORBA_connection_set_max_buffer ()">MateCORBA_connection_set_max_buffer</a>     (<em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="type">MateCORBAConnection</span></a> *cnx</code></em>,
+                                                         <em class="parameter"><code><span class="type">gulong</span> max_buffer_bytes</code></em>);
+<span class="returnvalue">MateCORBA_IInterface</span> *  <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-iinterface" title="MateCORBA_small_get_iinterface ()">MateCORBA_small_get_iinterface</a>          (<em class="parameter"><code><span class="type">CORBA_Object</span> opt_object</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *repo_id</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+extern              int     <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-flags" title="MateCORBA_small_flags">MateCORBA_small_flags</a>;
+<span class="returnvalue">CORBA_sequence_MateCORBA_IInterface</span> * <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-iinterfaces" title="MateCORBA_small_get_iinterfaces ()">MateCORBA_small_get_iinterfaces</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>);
+                    <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncQueueEntry" title="MateCORBAAsyncQueueEntry">MateCORBAAsyncQueueEntry</a>;
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-invoke-stub-n" title="MateCORBA_small_invoke_stub_n ()">MateCORBA_small_invoke_stub_n</a>           (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethods</span> *methods</code></em>,
+                                                         <em class="parameter"><code><span class="type">glong</span> index</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> ret</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Context</span> ctx</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+<span class="returnvalue">CORBA_char</span> *        <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-type-id" title="MateCORBA_small_get_type_id ()">MateCORBA_small_get_type_id</a>             (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncInvokeFunc" title="MateCORBAAsyncInvokeFunc ()">*MateCORBAAsyncInvokeFunc</a>)             (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethod</span> *m_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncQueueEntry" title="MateCORBAAsyncQueueEntry"><span class="type">MateCORBAAsyncQueueEntry</span></a> *aqe</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-demarshal-async" title="MateCORBA_small_demarshal_async ()">MateCORBA_small_demarshal_async</a>         (<em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncQueueEntry" title="MateCORBAAsyncQueueEntry"><span class="type">MateCORBAAsyncQueueEntry</span></a> *aqe</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> ret</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-invoke-stub" title="MateCORBA_small_invoke_stub ()">MateCORBA_small_invoke_stub</a>             (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethod</span> *m_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> ret</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Context</span> ctx</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-invoke-async" title="MateCORBA_small_invoke_async ()">MateCORBA_small_invoke_async</a>            (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethod</span> *m_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncInvokeFunc" title="MateCORBAAsyncInvokeFunc ()"><span class="type">MateCORBAAsyncInvokeFunc</span></a> fn</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Context</span> ctx</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+#define             <a class="link" href="MateCORBA2-matecorba2-small.html#MATECORBA-SMALL-FAST-LOCALS:CAPS" title="MATECORBA_SMALL_FAST_LOCALS">MATECORBA_SMALL_FAST_LOCALS</a>
+#define             <a class="link" href="MateCORBA2-matecorba2-small.html#MATECORBA-SMALL-FORCE-GENERIC-MARSHAL:CAPS" title="MATECORBA_SMALL_FORCE_GENERIC_MARSHAL">MATECORBA_SMALL_FORCE_GENERIC_MARSHAL</a>
+<span class="returnvalue">CORBA_sequence_CORBA_TypeCode</span> * <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-get-types" title="MateCORBA_small_get_types ()">MateCORBA_small_get_types</a>   (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBA-small-load-typelib" title="MateCORBA_small_load_typelib ()">MateCORBA_small_load_typelib</a>            (<em class="parameter"><code>const <span class="type">char</span> *libname</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateCORBA2-matecorba2-small.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="MateCORBA2-matecorba2-small.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateCORBA-IModule"></a><h3>MateCORBA_IModule</h3>
+<pre class="programlisting">typedef struct {
+	CORBA_unsigned_long           version;
+	MateCORBA_IInterface            **interfaces;
+	CORBA_sequence_CORBA_TypeCode types;
+} MateCORBA_IModule;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-get-safe-tmp"></a><h3>MateCORBA_get_safe_tmp ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        MateCORBA_get_safe_tmp                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-alloc"></a><h3>MateCORBA_small_alloc ()</h3>
+<pre class="programlisting"><span class="returnvalue">gpointer</span>            MateCORBA_small_alloc                   (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> tc</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-allocbuf"></a><h3>MateCORBA_small_allocbuf ()</h3>
+<pre class="programlisting"><span class="returnvalue">gpointer</span>            MateCORBA_small_allocbuf                (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> tc</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_unsigned_long</span> length</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-freekids"></a><h3>MateCORBA_small_freekids ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_small_freekids                (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> tc</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> p</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> d</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>p</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-sequence-alloc"></a><h3>MateCORBA_sequence_alloc ()</h3>
+<pre class="programlisting"><span class="returnvalue">gpointer</span>            MateCORBA_sequence_alloc                (<em class="parameter"><code><span class="type">CORBA_TypeCode</span> sequence_tc</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_unsigned_long</span> length</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sequence_tc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-sequence-append"></a><h3>MateCORBA_sequence_append ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_sequence_append               (<em class="parameter"><code><span class="type">gpointer</span> sequence</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> element</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sequence</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>element</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-sequence-set-size"></a><h3>MateCORBA_sequence_set_size ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_sequence_set_size             (<em class="parameter"><code><span class="type">gpointer</span> sequence</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_unsigned_long</span> length</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sequence</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-sequence-index"></a><h3>MateCORBA_sequence_index()</h3>
+<pre class="programlisting">#define        MateCORBA_sequence_index(sequence,idx) (sequence)-&gt;_buffer[(idx)]
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sequence</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-sequence-concat"></a><h3>MateCORBA_sequence_concat ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_sequence_concat               (<em class="parameter"><code><span class="type">gpointer</span> sequence</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> append</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sequence</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>append</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBAConnectionStatus"></a><h3>enum MateCORBAConnectionStatus</h3>
+<pre class="programlisting">typedef enum {
+	MATECORBA_CONNECTION_CONNECTED,
+	MATECORBA_CONNECTION_CONNECTING,
+	MATECORBA_CONNECTION_DISCONNECTED,
+	MATECORBA_CONNECTION_IN_PROC
+} MateCORBAConnectionStatus;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-servant"></a><h3>MateCORBA_small_get_servant ()</h3>
+<pre class="programlisting"><span class="returnvalue">gpointer</span>            MateCORBA_small_get_servant             (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-connection-status"></a><h3>MateCORBA_small_get_connection_status ()</h3>
+<pre class="programlisting"><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  MateCORBA_small_get_connection_status
+                                                        (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-listen-for-broken"></a><h3>MateCORBA_small_listen_for_broken ()</h3>
+<pre class="programlisting"><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  MateCORBA_small_listen_for_broken    (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> fn</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fn</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-unlisten-for-broken-full"></a><h3>MateCORBA_small_unlisten_for_broken_full ()</h3>
+<pre class="programlisting"><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  MateCORBA_small_unlisten_for_broken_full
+                                                        (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> fn</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fn</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-unlisten-for-broken"></a><h3>MateCORBA_small_unlisten_for_broken ()</h3>
+<pre class="programlisting"><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnectionStatus" title="enum MateCORBAConnectionStatus"><span class="returnvalue">MateCORBAConnectionStatus</span></a>  MateCORBA_small_unlisten_for_broken  (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> fn</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fn</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBAConnection"></a><h3>MateCORBAConnection</h3>
+<pre class="programlisting">typedef struct _MateCORBAConnection MateCORBAConnection;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-connection"></a><h3>MateCORBA_small_get_connection ()</h3>
+<pre class="programlisting"><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="returnvalue">MateCORBAConnection</span></a> *   MateCORBA_small_get_connection          (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-connection-ref"></a><h3>MateCORBA_small_get_connection_ref ()</h3>
+<pre class="programlisting"><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="returnvalue">MateCORBAConnection</span></a> *   MateCORBA_small_get_connection_ref      (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-connection-unref"></a><h3>MateCORBA_small_connection_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_small_connection_unref        (<em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="type">MateCORBAConnection</span></a> *cnx</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>cnx</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-connection-set-max-buffer"></a><h3>MateCORBA_connection_set_max_buffer ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_connection_set_max_buffer     (<em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAConnection" title="MateCORBAConnection"><span class="type">MateCORBAConnection</span></a> *cnx</code></em>,
+                                                         <em class="parameter"><code><span class="type">gulong</span> max_buffer_bytes</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cnx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>max_buffer_bytes</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-iinterface"></a><h3>MateCORBA_small_get_iinterface ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateCORBA_IInterface</span> *  MateCORBA_small_get_iinterface          (<em class="parameter"><code><span class="type">CORBA_Object</span> opt_object</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *repo_id</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>repo_id</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-flags"></a><h3>MateCORBA_small_flags</h3>
+<pre class="programlisting">extern int     MateCORBA_small_flags;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-iinterfaces"></a><h3>MateCORBA_small_get_iinterfaces ()</h3>
+<pre class="programlisting"><span class="returnvalue">CORBA_sequence_MateCORBA_IInterface</span> * MateCORBA_small_get_iinterfaces
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBAAsyncQueueEntry"></a><h3>MateCORBAAsyncQueueEntry</h3>
+<pre class="programlisting">typedef struct _MateCORBAAsyncQueueEntry MateCORBAAsyncQueueEntry;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-invoke-stub-n"></a><h3>MateCORBA_small_invoke_stub_n ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_small_invoke_stub_n           (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethods</span> *methods</code></em>,
+                                                         <em class="parameter"><code><span class="type">glong</span> index</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> ret</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Context</span> ctx</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>methods</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>index</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-type-id"></a><h3>MateCORBA_small_get_type_id ()</h3>
+<pre class="programlisting"><span class="returnvalue">CORBA_char</span> *        MateCORBA_small_get_type_id             (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBAAsyncInvokeFunc"></a><h3>MateCORBAAsyncInvokeFunc ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateCORBAAsyncInvokeFunc)             (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethod</span> *m_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncQueueEntry" title="MateCORBAAsyncQueueEntry"><span class="type">MateCORBAAsyncQueueEntry</span></a> *aqe</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>m_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>aqe</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-demarshal-async"></a><h3>MateCORBA_small_demarshal_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_small_demarshal_async         (<em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncQueueEntry" title="MateCORBAAsyncQueueEntry"><span class="type">MateCORBAAsyncQueueEntry</span></a> *aqe</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> ret</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>aqe</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-invoke-stub"></a><h3>MateCORBA_small_invoke_stub ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_small_invoke_stub             (<em class="parameter"><code><span class="type">CORBA_Object</span> object</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethod</span> *m_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> ret</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Context</span> ctx</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>m_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-invoke-async"></a><h3>MateCORBA_small_invoke_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                MateCORBA_small_invoke_async            (<em class="parameter"><code><span class="type">CORBA_Object</span> obj</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateCORBA_IMethod</span> *m_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="MateCORBA2-matecorba2-small.html#MateCORBAAsyncInvokeFunc" title="MateCORBAAsyncInvokeFunc ()"><span class="type">MateCORBAAsyncInvokeFunc</span></a> fn</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> *args</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Context</span> ctx</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+This method is used to invoke a remote (or local) method
+asynchronously. <em class="parameter"><code>fn</code></em> is called back on return - either with an empty
+CORBA_Environment indicating success, or with the error.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECORBA-SMALL-FAST-LOCALS:CAPS"></a><h3>MATECORBA_SMALL_FAST_LOCALS</h3>
+<pre class="programlisting">#define MATECORBA_SMALL_FAST_LOCALS           1
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECORBA-SMALL-FORCE-GENERIC-MARSHAL:CAPS"></a><h3>MATECORBA_SMALL_FORCE_GENERIC_MARSHAL</h3>
+<pre class="programlisting">#define MATECORBA_SMALL_FORCE_GENERIC_MARSHAL 2
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-get-types"></a><h3>MateCORBA_small_get_types ()</h3>
+<pre class="programlisting"><span class="returnvalue">CORBA_sequence_CORBA_TypeCode</span> * MateCORBA_small_get_types   (<em class="parameter"><code>const <span class="type">char</span> *name</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateCORBA-small-load-typelib"></a><h3>MateCORBA_small_load_typelib ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            MateCORBA_small_load_typelib            (<em class="parameter"><code>const <span class="type">char</span> *libname</code></em>);</pre>
+<p>
+This method has security issues if you do not use
+an absolute path in <em class="parameter"><code>libname</code></em>. The environment variables
+MATECORBA_TYPELIB_PATH and MATE2_PATH are used to scan for
+type libraries.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>libname</code></em> :</span></p></td>
+<td>the name of the type library to load
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> FALSE if load failed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

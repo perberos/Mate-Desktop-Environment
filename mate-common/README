@@ -1,0 +1,36 @@
+This directory contains sample files that should be in pretty much every
+MATE application.
+
+-----------------------------------------------------------------------------
+
+To make this work both for MATE Applications inside and outside the
+MATE repository tree I did the following:
+
+* There is an `INSIDE_MATE_COMMON' automake conditional which is defined
+  in two places:
+
+  - macros/aclocal-includes.m4 defines this to always be false.
+
+  - mate-common/configure.in does not include anything from macros and
+    defines this to be true.
+
+* We use this automake conditional in the macros/Makefile.am to install
+  $(MACROS), autogen.sh, mate-common.m4 and a newly created mate-macros.dep
+  in `$(datadir)/aclocal/mate'.
+
+  Since aclocal doesn't look in subdirectories we can safely install them
+  there even when compiling from the repository.
+
+  Also, there is no need to make any change to any existing application
+  in the MATE repository tree - really fine...
+
+* When we're outside the MATE repository tree, we simply need to tell aclocal
+  that it should also look in `$(datadir)/aclocal/mate' and it will find all
+  the macros.
+
+  There is a `mate-skel' module in the repository that can be used as a
+  starting point when writing a new MATE application that should be used
+  outside the repository.
+
+February 4, 1999,
+Martin Baulig <martin@home-of-linux.org>

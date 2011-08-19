@@ -1,0 +1,223 @@
+/*
+ * matecomponent-property.idl: The MateComponent Property interfaces.
+ *
+ * Authors:
+ *   Nat Friedman   (nat@nat.org)
+ *   Michael Meeks  (michael@ximian.com)
+ *   Dietmar Maurer (dietmar@ximian.com)
+ *   Mike Kestner   (mkestner@ameritech.net)
+ *
+ * Copyright 1999, 2000, 2001 Ximian, Inc.
+ * Copyright 2000, Mike Kestner
+ */
+
+ /*
+  * Each PropertyBag is aggregated with an EventSource, so that it is
+  * possible to attach event listeners. The event name is composed
+  * of "MateComponent/Property", the type of the event and finally the property
+  * name - everything separated by colons. At the moment there is only one 
+  * type defined - "change". So if a property with name "autosave" changes
+  * its value, we emit an event with the name: 
+  * "MateComponent/Property:change:autosave"
+  */
+
+#ifndef MATECOMPONENT_PROPERTY_IDL
+#define MATECOMPONENT_PROPERTY_IDL
+
+#include "MateComponent_Unknown.idl"
+#include "MateComponent_Listener.idl"
+
+module MateComponent {
+
+struct Pair {
+	string name;
+	any    value;
+};
+
+typedef sequence<Pair> PropertySet;
+
+typedef sequence<string> KeyList;
+
+typedef long PropertyFlags;
+const PropertyFlags PROPERTY_READABLE        = 1;
+const PropertyFlags PROPERTY_WRITEABLE       = 2;
+const PropertyFlags PROPERTY_NO_LISTENING    = 4;
+const PropertyFlags PROPERTY_NO_AUTONOTIFY   = 8;
+const PropertyFlags PROPERTY_NO_PERSIST      = 16;
+
+interface PropertyBag : MateComponent::Unknown {
+
+	exception NotFound {};
+	exception InvalidType {};
+	exception _ReadOnly {};
+	exception BackendFailed {};
+
+	/**
+	 * getKeys:
+	 *
+	 * Returns: A list of keys matching @filter.
+	 */
+	KeyList         getKeys    (in string filter)
+		raises (NotFound, BackendFailed);
+ 
+	/**
+	 * getType:
+	 * 
+	 * Returns: The type of property @key.
+	 */
+#ifdef __MATECORBA_IDL__
+	TypeCode        getType     (in string key)
+#else
+	CORBA::TypeCode getType     (in string key)
+#endif
+		raises (NotFound, BackendFailed);
+
+
+	/**
+	 * getValue:
+	 *
+	 * Returns: The current value for property @key.
+	 */
+	any             getValue    (in string key)
+		raises (NotFound, BackendFailed);
+
+	/**
+	 * setValue:
+	 * 
+	 * Sets the value for property @key to @value
+	 */
+	void            setValue    (in string key, in any value)
+		raises (NotFound, InvalidType, ReadOnly, BackendFailed);
+  
+
+	/**
+	 * getValue:
+	 *
+	 * Returns: A list of properties matching @filter.
+	 */
+	PropertySet     getValues   (in string filter)
+ 		raises (NotFound, BackendFailed);
+	
+	/**
+	 * setValue:
+	 * 
+	 * Sets the values contained in @set. 
+	 */
+	void            setValues   (in PropertySet set)
+		raises (InvalidType, ReadOnly, BackendFailed);
+	
+	/**
+	 * getDefault:
+	 *
+	 * Returns: The default value for property @key.
+	 *
+	 * Property editors can use it to implement a "set property value to
+	 * default" mechanism.
+	 *
+	 */
+	any             getDefault  (in string key)
+		raises (NotFound, BackendFailed);
+                
+	/**
+	 * getDocTitle:
+	 *
+	 * Returns: A short string describing property @key.
+	 */	
+	string          getDocTitle (in string key)
+		raises (NotFound, BackendFailed);
+                
+	/**
+	 * getDoc:
+	 *
+	 * Returns: A verbose documentation describing property @key.
+	 */	
+	string          getDoc      (in string key)
+		raises (NotFound, BackendFailed);
+
+	/** 
+	 * getFlags:
+	 * 
+	 * Returns:
+	 */
+	PropertyFlags   getFlags    (in string key)
+		raises (NotFound, BackendFailed);
+
+	void unImplemented1 ();
+	void unImplemented2 ();
+	void unImplemented3 ();
+	void unImplemented4 ();
+};
+
+interface ConfigDatabase : PropertyBag {
+
+	enum DBFlags {
+		_DEFAULT,
+		WRITE,
+		MANDATORY
+	};
+
+	/** 
+	 * isWriteable:
+	 * 
+	 * indicates whether the database is writeable or not
+	 */
+	readonly attribute boolean isWriteable;
+	
+	/** 
+	 * getDirs:
+	 * 
+	 * Returns: A list of directory names.
+	 */
+	KeyList         getDirs     (in string dir)
+		raises (NotFound, BackendFailed);
+
+	/** 
+	 * hasDir:
+	 * 
+	 * Returns: TRUE if @dir exists. 
+	 */
+	boolean         hasDir      (in string dir)
+		raises (BackendFailed);
+		
+	/** 
+	 * removeValue:
+	 * 
+	 * Remove a value from the database.
+	 */
+	void            removeValue (in string key)
+		raises (BackendFailed);
+
+	/** 
+	 * removeDir:
+	 * 
+	 * Removes all values contained in directory.
+	 */
+	void            removeDir   (in string dir)
+		raises (BackendFailed);
+
+	/** 
+	 * addDatabase:
+	 * 
+	 * The added database will be used to lookup default values.
+	 */
+	void            addDatabase (in ConfigDatabase db, in string key, 
+				     in DBFlags flags)
+		raises (BackendFailed);
+
+	/** 
+	 * sync:
+	 * 
+	 * Flush all buffers 
+	 */
+	void            sync        ()
+		raises (BackendFailed);
+
+	void unImplemented5 ();
+	void unImplemented6 ();
+	void unImplemented7 ();
+	void unImplemented8 ();
+};
+
+};
+
+#endif /* MATECOMPONENT_PROPERTY_IDL */

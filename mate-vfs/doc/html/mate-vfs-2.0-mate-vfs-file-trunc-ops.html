@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Truncating Files</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-basic-file-ops.html" title="File Operations">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html" title="Reading and Writing Files">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-file-info-ops.html" title="Getting and Setting File Information">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-basic-file-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-file-info-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-file-trunc-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-file-trunc-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-file-trunc-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-file-trunc-ops.top_of_page"></a>Truncating Files</span></h2>
+<p>Truncating Files — Force files to a particular length</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-file-trunc-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html#mate-vfs-truncate" title="mate_vfs_truncate ()">mate_vfs_truncate</a>                  (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html#mate-vfs-truncate-uri" title="mate_vfs_truncate_uri ()">mate_vfs_truncate_uri</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html#mate-vfs-truncate-handle" title="mate_vfs_truncate_handle ()">mate_vfs_truncate_handle</a>           (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-trunc-ops.description"></a><h2>Description</h2>
+<p>
+Truncation of files is used to force them to a particular length.
+If a file longer than specified, the trailing bytes are discarded,
+if it is shorter than specified it is padded with zeros.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-trunc-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-truncate"></a><h3>mate_vfs_truncate ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_truncate                  (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>);</pre>
+<p>
+Truncate the file at <em class="parameter"><code>text_uri</code></em> to <em class="parameter"><code>length</code></em> bytes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the file to be truncated.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>length of the new file at <em class="parameter"><code>text_uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-truncate-uri"></a><h3>mate_vfs_truncate_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_truncate_uri              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>);</pre>
+<p>
+Truncate the file at <em class="parameter"><code>uri</code></em> to be only <em class="parameter"><code>length</code></em> bytes. Data past <em class="parameter"><code>length</code></em>
+bytes will be discarded.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri of the file to be truncated.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>length of the new file at <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-truncate-handle"></a><h3>mate_vfs_truncate_handle ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_truncate_handle           (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> length</code></em>);</pre>
+<p>
+Truncate the file pointed to by <em class="parameter"><code>handle</code></em> to be only <em class="parameter"><code>length</code></em> bytes. 
+Data past <em class="parameter"><code>length</code></em> bytes will be discarded.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>a handle to the file to be truncated.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>length</code></em> :</span></p></td>
+<td>length of the new file the handle is open to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

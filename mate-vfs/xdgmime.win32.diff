@@ -1,0 +1,400 @@
+Index: libmatevfs/xdgmime.c
+===================================================================
+--- libmatevfs/xdgmime.c	(revision 5502)
++++ libmatevfs/xdgmime.c	(working copy)
+@@ -63,7 +63,7 @@
+ XdgMimeCache **_caches = NULL;
+ static int n_caches = 0;
+ 
+-const char xdg_mime_type_unknown[] = "application/octet-stream";
++const char *xdg_mime_type_unknown = "application/octet-stream";
+ 
+ 
+ enum
+@@ -140,7 +140,7 @@
+ 
+   file_name = malloc (strlen (directory) + strlen ("/mime/mime.cache") + 1);
+   strcpy (file_name, directory); strcat (file_name, "/mime/mime.cache");
+-  if (stat (file_name, &st) == 0)
++  if (XDG_STAT (file_name, &st) == 0)
+     {
+       XdgMimeCache *cache = _xdg_mime_cache_new_from_file (file_name);
+ 
+@@ -160,7 +160,7 @@
+ 
+   file_name = malloc (strlen (directory) + strlen ("/mime/globs2") + 1);
+   strcpy (file_name, directory); strcat (file_name, "/mime/globs2");
+-  if (stat (file_name, &st) == 0)
++  if (XDG_STAT (file_name, &st) == 0)
+     {
+       _xdg_mime_glob_read_from_file (global_hash, file_name);
+       xdg_dir_time_list_add (file_name, st.st_mtime);
+@@ -170,7 +170,7 @@
+       free (file_name);
+       file_name = malloc (strlen (directory) + strlen ("/mime/globs") + 1);
+       strcpy (file_name, directory); strcat (file_name, "/mime/globs");
+-      if (stat (file_name, &st) == 0)
++      if (XDG_STAT (file_name, &st) == 0)
+         {
+           _xdg_mime_glob_read_from_file (global_hash, file_name);
+           xdg_dir_time_list_add (file_name, st.st_mtime);
+@@ -183,7 +183,7 @@
+ 
+   file_name = malloc (strlen (directory) + strlen ("/mime/magic") + 1);
+   strcpy (file_name, directory); strcat (file_name, "/mime/magic");
+-  if (stat (file_name, &st) == 0)
++  if (XDG_STAT (file_name, &st) == 0)
+     {
+       _xdg_mime_magic_read_from_file (global_magic, file_name);
+       xdg_dir_time_list_add (file_name, st.st_mtime);
+@@ -225,7 +225,7 @@
+   const char *xdg_data_dirs;
+   const char *ptr;
+ 
+-  xdg_data_home = getenv ("XDG_DATA_HOME");
++  xdg_data_home = XDG_GETENV ("XDG_DATA_HOME");
+   if (xdg_data_home)
+     {
+       if ((func) (xdg_data_home, user_data))
+@@ -235,7 +235,7 @@
+     {
+       const char *home;
+ 
+-      home = getenv ("HOME");
++      home = XDG_GET_HOME ();
+       if (home != NULL)
+ 	{
+ 	  char *guessed_xdg_home;
+@@ -252,9 +252,9 @@
+ 	}
+     }
+ 
+-  xdg_data_dirs = getenv ("XDG_DATA_DIRS");
++  xdg_data_dirs = XDG_GETENV ("XDG_DATA_DIRS");
+   if (xdg_data_dirs == NULL)
+-    xdg_data_dirs = "/usr/local/share/:/usr/share/";
++    xdg_data_dirs = XDG_DEFAULT_DATA_DIRS;
+ 
+   ptr = xdg_data_dirs;
+ 
+@@ -266,7 +266,7 @@
+       int stop_processing;
+ 
+       end_ptr = ptr;
+-      while (*end_ptr != ':' && *end_ptr != '\000')
++      while (*end_ptr != XDG_SEARCHPATH_SEPARATOR && *end_ptr != '\000')
+ 	end_ptr ++;
+ 
+       if (end_ptr == ptr)
+@@ -275,7 +275,7 @@
+ 	  continue;
+ 	}
+ 
+-      if (*end_ptr == ':')
++      if (*end_ptr == XDG_SEARCHPATH_SEPARATOR)
+ 	len = end_ptr - ptr;
+       else
+ 	len = end_ptr - ptr + 1;
+@@ -305,7 +305,7 @@
+   struct stat st;
+ 
+   /* If the file exists */
+-  if (stat (file_path, &st) == 0)
++  if (XDG_STAT (file_path, &st) == 0)
+     {
+       XdgDirTimeList *list;
+ 
+@@ -415,12 +415,10 @@
+ static int
+ xdg_check_time_and_dirs (void)
+ {
+-  struct timeval tv;
+   time_t current_time;
+   int retval = FALSE;
+ 
+-  gettimeofday (&tv, NULL);
+-  current_time = tv.tv_sec;
++  time (&current_time);
+ 
+   if (current_time >= last_stat_time + 5)
+     {
+@@ -512,7 +510,7 @@
+ 
+   if (!statbuf)
+     {
+-      if (stat (file_name, &buf) != 0)
++      if (XDG_STAT (file_name, &buf) != 0)
+ 	return XDG_MIME_TYPE_UNKNOWN;
+ 
+       statbuf = &buf;
+@@ -529,7 +527,7 @@
+   if (data == NULL)
+     return XDG_MIME_TYPE_UNKNOWN;
+         
+-  file = fopen (file_name, "r");
++  file = XDG_FOPEN (file_name, "r");
+   if (file == NULL)
+     {
+       free (data);
+Index: libmatevfs/xdgmime.h
+===================================================================
+--- libmatevfs/xdgmime.h	(revision 5502)
++++ libmatevfs/xdgmime.h	(working copy)
+@@ -76,7 +76,7 @@
+ #define _xdg_mime_unalias_mime_type           XDG_RESERVED_ENTRY(unalias_mime_type)  
+ #endif
+ 
+-extern const char xdg_mime_type_unknown[];
++extern const char *xdg_mime_type_unknown;
+ #define XDG_MIME_TYPE_UNKNOWN xdg_mime_type_unknown
+ 
+ const char  *xdg_mime_get_mime_type_for_data       (const void *data,
+Index: libmatevfs/xdgmimealias.c
+===================================================================
+--- libmatevfs/xdgmimealias.c	(revision 5502)
++++ libmatevfs/xdgmimealias.c	(working copy)
+@@ -35,16 +35,7 @@
+ #include <stdio.h>
+ #include <assert.h>
+ #include <string.h>
+-#include <fnmatch.h>
+ 
+-#ifndef	FALSE
+-#define	FALSE	(0)
+-#endif
+-
+-#ifndef	TRUE
+-#define	TRUE	(!FALSE)
+-#endif
+-
+ typedef struct XdgAlias XdgAlias;
+ 
+ struct XdgAlias 
+@@ -124,7 +115,7 @@
+   char line[255];
+   int alloc;
+ 
+-  file = fopen (file_name, "r");
++  file = XDG_FOPEN (file_name, "r");
+ 
+   if (file == NULL)
+     return;
+Index: libmatevfs/xdgmimecache.c
+===================================================================
+--- libmatevfs/xdgmimecache.c	(revision 5502)
++++ libmatevfs/xdgmimecache.c	(working copy)
+@@ -37,12 +37,15 @@
+ #include <fnmatch.h>
+ #include <assert.h>
+ 
++#ifdef _WIN32
++#include <winsock2.h> /* for ntohl/ntohs */
++#else
+ #include <netinet/in.h> /* for ntohl/ntohs */
++#endif
+ 
+ #ifdef HAVE_MMAP
+ #include <sys/mman.h>
+ #else
+-#warning Building xdgmime without MMAP support. Binary "mime.info" cache files will not be used.
+ #endif
+ 
+ #include <sys/stat.h>
+@@ -688,7 +692,7 @@
+ 
+   if (!statbuf)
+     {
+-      if (stat (file_name, &buf) != 0)
++      if (XDG_STAT (file_name, &buf) != 0)
+ 	return XDG_MIME_TYPE_UNKNOWN;
+ 
+       statbuf = &buf;
+@@ -705,7 +709,7 @@
+   if (data == NULL)
+     return XDG_MIME_TYPE_UNKNOWN;
+         
+-  file = fopen (file_name, "r");
++  file = XDG_FOPEN (file_name, "r");
+   if (file == NULL)
+     {
+       free (data);
+Index: libmatevfs/xdgmimeglob.c
+===================================================================
+--- libmatevfs/xdgmimeglob.c	(revision 5502)
++++ libmatevfs/xdgmimeglob.c	(working copy)
+@@ -37,14 +37,6 @@
+ #include <string.h>
+ #include <fnmatch.h>
+ 
+-#ifndef	FALSE
+-#define	FALSE	(0)
+-#endif
+-
+-#ifndef	TRUE
+-#define	TRUE	(!FALSE)
+-#endif
+-
+ typedef struct XdgGlobHashNode XdgGlobHashNode;
+ typedef struct XdgGlobList XdgGlobList;
+ 
+@@ -562,7 +554,7 @@
+   FILE *glob_file;
+   char line[255];
+ 
+-  glob_file = fopen (file_name, "r");
++  glob_file = XDG_FOPEN (file_name, "r");
+ 
+   if (glob_file == NULL)
+     return;
+Index: libmatevfs/xdgmimeint.c
+===================================================================
+--- libmatevfs/xdgmimeint.c	(revision 5502)
++++ libmatevfs/xdgmimeint.c	(working copy)
+@@ -33,14 +33,6 @@
+ #include <ctype.h>
+ #include <string.h>
+ 
+-#ifndef	FALSE
+-#define	FALSE	(0)
+-#endif
+-
+-#ifndef	TRUE
+-#define	TRUE	(!FALSE)
+-#endif
+-
+ static const char _xdg_utf8_skip_data[256] = {
+   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+@@ -52,7 +44,7 @@
+   3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,6,6,1,1
+ };
+ 
+-const char * const _xdg_utf8_skip = _xdg_utf8_skip_data;
++const char *_xdg_utf8_skip = _xdg_utf8_skip_data;
+ 
+ 
+ 
+@@ -153,6 +145,23 @@
+     return base_name + 1;
+ }
+ 
++#ifdef USE_GLIB
++
++const char *
++_xdg_get_default_data_dirs (void)
++{
++  GQuark quark;
++  const char * const *dirs = g_get_system_data_dirs ();
++  char *string = g_strjoinv (G_SEARCHPATH_SEPARATOR_S, (char **) dirs);
++
++  quark = g_quark_from_string (string);
++  g_free (string);
++
++  return g_quark_to_string (quark);
++}
++
++#endif
++
+ xdg_unichar_t *
+ _xdg_convert_to_ucs4 (const char *source, int *len)
+ {
+Index: libmatevfs/xdgmimeint.h
+===================================================================
+--- libmatevfs/xdgmimeint.h	(revision 5502)
++++ libmatevfs/xdgmimeint.h	(working copy)
+@@ -63,7 +63,7 @@
+ 					      (((xdg_uint32_t)(val) & 0x000000FFU) << 24))
+ /* UTF-8 utils
+  */
+-extern const char *const _xdg_utf8_skip;
++extern const char *_xdg_utf8_skip;
+ #define _xdg_utf8_next_char(p) (char *)((p) + _xdg_utf8_skip[*(unsigned char *)(p)])
+ #define _xdg_utf8_char_size(p) (int) (_xdg_utf8_skip[*(unsigned char *)(p)])
+ 
+@@ -74,4 +74,28 @@
+ void           _xdg_reverse_ucs4 (xdg_unichar_t *source, int len);
+ const char    *_xdg_get_base_name (const char    *file_name);
+ 
++#if defined (G_OS_WIN32) && defined (MATE_VFS_PREFIX)
++/* If building as part of mate-vfs on Win32 */
++#define USE_GLIB
++#endif
++
++#ifdef USE_GLIB
++#include <glib.h>
++#include <glib/gstdio.h>
++#define XDG_GETENV g_getenv
++#define XDG_STAT g_stat
++#define XDG_FOPEN g_fopen
++#define XDG_GET_HOME() g_get_home_dir ()
++const char *_xdg_get_default_data_dirs (void);
++#define XDG_DEFAULT_DATA_DIRS _xdg_get_default_data_dirs ()
++#define XDG_SEARCHPATH_SEPARATOR G_SEARCHPATH_SEPARATOR
++#else
++#define XDG_GETENV getenv
++#define XDG_STAT stat
++#define XDG_FOPEN fopen
++#define XDG_GET_HOME() getenv ("HOME")
++#define XDG_DEFAULT_DATA_DIRS "/usr/local/share/:/usr/share/"
++#define XDG_SEARCHPATH_SEPARATOR ':'
++#endif
++
+ #endif /* __XDG_MIME_INT_H__ */
+Index: libmatevfs/xdgmimemagic.c
+===================================================================
+--- libmatevfs/xdgmimemagic.c	(revision 5502)
++++ libmatevfs/xdgmimemagic.c	(working copy)
+@@ -39,12 +39,12 @@
+ #include <errno.h>
+ #include <limits.h>
+ 
+-#ifndef	FALSE
+-#define	FALSE	(0)
++#ifdef _WIN32
++#define LITTLE_ENDIAN 1
+ #endif
+ 
+-#ifndef	TRUE
+-#define	TRUE	(!FALSE)
++#ifndef _WIN32
++extern int errno;
+ #endif
+ 
+ #if !defined getc_unlocked && !defined HAVE_GETC_UNLOCKED
+@@ -798,7 +798,7 @@
+   FILE *magic_file;
+   char header[12];
+ 
+-  magic_file = fopen (file_name, "r");
++  magic_file = XDG_FOPEN (file_name, "r");
+ 
+   if (magic_file == NULL)
+     return;
+Index: libmatevfs/xdgmimeparent.c
+===================================================================
+--- libmatevfs/xdgmimeparent.c	(revision 5502)
++++ libmatevfs/xdgmimeparent.c	(working copy)
+@@ -37,14 +37,6 @@
+ #include <string.h>
+ #include <fnmatch.h>
+ 
+-#ifndef	FALSE
+-#define	FALSE	(0)
+-#endif
+-
+-#ifndef	TRUE
+-#define	TRUE	(!FALSE)
+-#endif
+-
+ typedef struct XdgMimeParents XdgMimeParents;
+ 
+ struct XdgMimeParents
+@@ -130,7 +122,7 @@
+   int i, alloc;
+   XdgMimeParents *entry;
+ 
+-  file = fopen (file_name, "r");
++  file = XDG_FOPEN (file_name, "r");
+ 
+   if (file == NULL)
+     return;

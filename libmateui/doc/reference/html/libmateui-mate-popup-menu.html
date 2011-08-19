@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-popup-menu</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="deprecated.html" title="Deprecated Modules">
+<link rel="prev" href="MatePixmapEntry.html" title="MatePixmapEntry">
+<link rel="next" href="MatePropertyBox.html" title="MatePropertyBox">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="MatePixmapEntry.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="deprecated.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="MatePropertyBox.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmateui-mate-popup-menu.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmateui-mate-popup-menu.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmateui-mate-popup-menu"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmateui-mate-popup-menu.top_of_page"></a>mate-popup-menu</span></h2>
+<p>mate-popup-menu — Create and display popup and context menus.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmateui-mate-popup-menu.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-new" title="mate_popup_menu_new ()">mate_popup_menu_new</a>                (<em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-new-with-accelgroup" title="mate_popup_menu_new_with_accelgroup ()">mate_popup_menu_new_with_accelgroup</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAccelGroup</span> *accelgroup</code></em>);
+<span class="returnvalue">GtkAccelGroup</span> *     <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-get-accel-group" title="mate_popup_menu_get_accel_group ()">mate_popup_menu_get_accel_group</a>    (<em class="parameter"><code><span class="type">GtkMenu</span> *menu</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-attach" title="mate_popup_menu_attach ()">mate_popup_menu_attach</a>             (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-do-popup" title="mate_popup_menu_do_popup ()">mate_popup_menu_do_popup</a>           (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuPositionFunc</span> pos_func</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> pos_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkEventButton</span> *event</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *for_widget</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-do-popup-modal" title="mate_popup_menu_do_popup_modal ()">mate_popup_menu_do_popup_modal</a>     (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuPositionFunc</span> pos_func</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> pos_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkEventButton</span> *event</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *for_widget</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-append" title="mate_popup_menu_append ()">mate_popup_menu_append</a>             (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-popup-menu.html#mate-gtk-widget-add-popup-items" title="mate_gtk_widget_add_popup_items ()">mate_gtk_widget_add_popup_items</a>    (<em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-popup-menu.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-popup-menu.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-popup-menu-new"></a><h3>mate_popup_menu_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_popup_menu_new                (<em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_new</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This function behaves just like
+<a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-new-with-accelgroup" title="mate_popup_menu_new_with_accelgroup ()"><code class="function">mate_popup_menu_new_with_accelgroup()</code></a>, except that it creates an
+accelgroup for you and attaches it to the menu object.  Use
+<a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-get-accel-group" title="mate_popup_menu_get_accel_group ()"><code class="function">mate_popup_menu_get_accel_group()</code></a> to get the accelgroup that is
+created.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uiinfo</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> array describing the new menu.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A menu widget.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-popup-menu-new-with-accelgroup"></a><h3>mate_popup_menu_new_with_accelgroup ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_popup_menu_new_with_accelgroup
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkAccelGroup</span> *accelgroup</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_new_with_accelgroup</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Creates a popup menu out of the specified <em class="parameter"><code>uiinfo</code></em> array.  Use
+<a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-do-popup" title="mate_popup_menu_do_popup ()"><code class="function">mate_popup_menu_do_popup()</code></a> to pop the menu up, or attach it to a
+window with <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-attach" title="mate_popup_menu_attach ()"><code class="function">mate_popup_menu_attach()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uiinfo</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> array describing the new menu.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>accelgroup</code></em> :</span></p></td>
+<td>A <span class="type">GtkAccelGroup</span> describing the accelerator key structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A menu widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-popup-menu-get-accel-group"></a><h3>mate_popup_menu_get_accel_group ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkAccelGroup</span> *     mate_popup_menu_get_accel_group    (<em class="parameter"><code><span class="type">GtkMenu</span> *menu</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_get_accel_group</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This function is used to retrieve the accelgroup that was created by
+<a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-new" title="mate_popup_menu_new ()"><code class="function">mate_popup_menu_new()</code></a>. If you want to specify the accelgroup that the popup
+menu accelerators use, then use <a class="link" href="libmateui-mate-popup-menu.html#mate-popup-menu-new-with-accelgroup" title="mate_popup_menu_new_with_accelgroup ()"><code class="function">mate_popup_menu_new_with_accelgroup()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>menu</code></em> :</span></p></td>
+<td>A menu widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The accelgroup associated with the specified <span class="type">GtkMenu</span>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-popup-menu-attach"></a><h3>mate_popup_menu_attach ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_popup_menu_attach             (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_attach</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Attaches the specified popup menu to the specified widget.  The
+menu can then be activated by pressing mouse button 3 over the
+widget.  When a menu item callback is invoked, the specified
+user_data will be passed to it.
+</p>
+<p>
+This function requires the widget to have its own window
+(i.e. GTK_WIDGET_NO_WINDOW (widget) == FALSE), This function will
+try to set the GDK_BUTTON_PRESS_MASK flag on the widget's event
+mask if it does not have it yet; if this is the case, then the
+widget must not be realized for it to work.
+</p>
+<p>
+The popup menu can be attached to different widgets at the same
+time.  A reference count is kept on the popup menu; when all the
+widgets it is attached to are destroyed, the popup menu will be
+destroyed as well.
+</p>
+<p>
+Under the current implementation, setting a popup menu for a NO_WINDOW
+widget and then reparenting that widget will cause Bad Things to happen.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>popup</code></em> :</span></p></td>
+<td>A menu widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>The widget to attach the popup menu to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>Application specific data passed to the callback.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-popup-menu-do-popup"></a><h3>mate_popup_menu_do_popup ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_popup_menu_do_popup           (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuPositionFunc</span> pos_func</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> pos_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkEventButton</span> *event</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *for_widget</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_do_popup</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+You can use this function to pop up a menu.  When a menu item
+callback is invoked, the specified user_data will be passed to it.
+</p>
+<p>
+The pos_func and pos_data parameters are the same as for
+<code class="function">gtk_menu_popup()</code>, i.e. you can use them to specify a function to
+position the menu explicitly.  If you want the default position
+(near the mouse), pass NULL for these parameters.
+</p>
+<p>
+The event parameter is needed to figure out the mouse button that
+activated the menu and the time at which this happened.  If you
+pass in NULL, then no button and the current time will be used as
+defaults.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>popup</code></em> :</span></p></td>
+<td>A menu widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos_func</code></em> :</span></p></td>
+<td>A user supplied function to position the menu or <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos_data</code></em> :</span></p></td>
+<td>User supplied data to pass to <em class="parameter"><code>pos_func</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
+<td>A <span class="type">GdkEventButton</span> structure containing the event that triggered the
+menu (or <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>Application specific data passed to the menu callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>for_widget</code></em> :</span></p></td>
+<td>The widget for which the popup was triggered.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-popup-menu-do-popup-modal"></a><h3>mate_popup_menu_do_popup_modal ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_popup_menu_do_popup_modal     (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuPositionFunc</span> pos_func</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> pos_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkEventButton</span> *event</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *for_widget</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_do_popup_modal</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Same as <code class="function">mate_popup_do_modal()</code>, but runs the popup menu modally.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>popup</code></em> :</span></p></td>
+<td>A menu widget.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos_func</code></em> :</span></p></td>
+<td>A user supplied function to position the menu or <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos_data</code></em> :</span></p></td>
+<td>User supplied data to pass to <em class="parameter"><code>pos_func</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
+<td>A <span class="type">GdkEventButton</span> structure containing the event that triggered the
+menu (or <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>Application specific data passed to the menu callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>for_widget</code></em> :</span></p></td>
+<td>The widget for which the popup was triggered.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The index of the selected item or -1 if no item selected.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-popup-menu-append"></a><h3>mate_popup_menu_append ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_popup_menu_append             (<em class="parameter"><code><span class="type">GtkWidget</span> *popup</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_popup_menu_append</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Appends the menu items in <em class="parameter"><code>uiinfo</code></em> the <em class="parameter"><code>popup</code></em> menu.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>popup</code></em> :</span></p></td>
+<td>An existing popup menu.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uiinfo</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> array describing new menu elements.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-gtk-widget-add-popup-items"></a><h3>mate_gtk_widget_add_popup_items ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_gtk_widget_add_popup_items    (<em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> *uiinfo</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_gtk_widget_add_popup_items</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This creates a new popup menu for <em class="parameter"><code>widget</code></em> if none exists, and then adds the
+items in <em class="parameter"><code>uiinfo</code></em> to the popup menu of <em class="parameter"><code>widget</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>The widget to append popup menu items for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uiinfo</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-app-helper.html#MateUIInfo" title="MateUIInfo"><span class="type">MateUIInfo</span></a> array describing new menu elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>The user_data to pass to the callbacks for the menu items.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

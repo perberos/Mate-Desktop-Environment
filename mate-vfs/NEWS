@@ -1,0 +1,1066 @@
+mate-vfs 2.24.4
+	  * Fix for non-writable home directory
+	  * Fix a crash on Solaris
+	  * Updated translations
+
+mate-vfs 2.24.3
+	  * Don't crash if we get a NULL symlink
+	  * Updated translations
+
+mate-vfs 2.24.2
+	  * Add some new filesystem names
+	  * Update to new shared mime info format
+
+mate-vfs 2.24.1
+	  * Fix memory leaks
+	  * Use single GLib includes
+	  * Updated translations.
+
+mate-vfs 2.24.0
+	  * Fixes for Windows
+	  * Avoid excessive warning spew if dbus is not availible
+	  
+mate-vfs 2.23.0
+          * Sync xdgmime with GIO
+
+mate-vfs 2.22.0
+          * Fix http seek handling so http is consistent with the other
+            backends
+
+mate-vfs 2.21.90
+	  * Fix memory leaks
+	  * Don't use deprecated glib APIs
+	  * Handle non-utf8 locales better in mate_vfs_make_uri_from_input
+	  * ftp: Handle links with spaces in them
+	  * actually use the mmap cache
+	  * webdav: Handle filenames with reserved char
+	  * use only system inotify headers
+	  * win32 fixes
+	  
+mate-vfs 2.20.1
+          * Fix dns-sd crash
+          
+mate-vfs 2.20.0
+	  * Translation updates
+	  
+mate-vfs 2.19.91
+	  * Fix build with recent glibc
+	  * Handle non-ascii workgroup names better
+	  
+mate-vfs 2.19.3
+	  * Export modules directory in pkg-config files
+	  * Fix crash in mate_vfs_xfer
+	  * Add MATE_VFS_DIRECTORY_VISIT_IGNORE_RECURSE_ERROR flag
+	  * Don't resolve non-mdns hosts when resolving mDNS service names
+	  * Workaround issue with mDNS and link-local ipv6 addresses
+	  
+mate-vfs 2.19.2
+	  * Handle avahi shutdown better
+	  * ftp: Handle filenames that look like years better
+	  * performance fix for some filesystems
+	  * Some inotify fixes
+	  
+mate-vfs 2.18.0.1
+	  * Revert the "better handling of filenames with : in it"
+	    change since that broke MateVFSUri for apps that use 
+	    non-matevfs known uris (i.e. yelp)
+
+mate-vfs 2.18.0
+	  * Build on win32 again
+	  * Handle filenames with : in them better in
+	    mate_vfs_make_uri_from_input
+	  
+mate-vfs 2.17.91
+	  * Support ENOTSUP errno
+	  * Handle dbus disconnects better
+	  * Fix namespace clashes with gtk+ in xdgmime
+	  * http: Add 30 sec timeout when connecting
+	  * Portability and build fixes
+	  
+mate-vfs 2.17.90
+	  * sftp: Allow changing username when authenticating
+	  * sftp: Don't use remote uid/gid to handle access rights
+	  * sftp: Fix keyring password saving
+	  * Handle desktop files with empty path keys
+	  * Various portability fixes
+	  * Workaround for http servers that don't send size on get_info
+
+mate-vfs 2.17.2
+	  * Fix daemon crash on authentication on 64bit machines
+	  * Use slow sniffing on smb
+
+mate-vfs 2.17.1
+	  * Fix daemon crash on apple
+	  
+mate-vfs 2.16.3
+	  * http: Fix crash on HTTP redirects
+	  * Support Path key in desktop files
+	  * Don't use deprecated dbus functions
+	  * Fix possible crash on shutdown
+
+mate-vfs 2.16.2
+	  * Add a "--replace" commandline argument to mate-vfs-daemon 
+	    to replace the current daemon. (Mostly for debugging use)
+	  * Make translations work in mate-vfs-daemon
+	  * Handle IPv6 addresses when creating dav uris (DNS-SD)
+	  * Don't crash if there is no session dbus
+	  * Support sun ssh server
+	  * Don't fail getting selinux context
+	  * Allow operations on file handles that were created in another
+	    DaemonConnection. (This fixes e.g. smb browsing)
+	  * Fixes to mate_vfs_xfer and monitoring
+
+mate-vfs 2.16.1
+	  * Fix some leaks
+	  * Upgrade to latest xdgmime version
+	  * Fix crash on shutdown in http module
+	  * Fix sftp crash
+
+mate-vfs 2.16.0
+	  * http: Fix crash on some redirects
+	  * http: Ignore fragment identifiers in URIs
+	  * support --disable-selinux
+	  * Fix mate_vfs_mime_type_is_equal
+	  * inotify monitoring fixes
+	  
+mate-vfs 2.15.92
+	  * Remove old unused code
+	  * Better sniffing of text files
+	  * Tweak xfer callbacks for better performance
+
+mate-vfs 2.15.91
+
+	* Avoid slow I/O looking for trash on remote shares
+	* Inotify updates to avoid polling as much.
+	* Build fix
+
+mate-vfs 2.15.90
+
+	* Don't use deprectated dbus calls
+	* Always dispatch monitor events
+	* Add mate_vfs_drive_needs_eject function.
+	* Add support for compile time version checking.
+	* Add MATE_VFS_ERROR_INVALID_FILENAME error
+	* Handle ENAMETOOLONG when converting from errno
+	* Initialize SSL lazily
+	* Fix error reporting in dns resolver code
+	* Robustness fixes
+	* Clean up code and fix warnings
+	* dav fixes
+	* ftp: fixes for IIS virtual directories
+	* sftp: Support setting symlinks
+	
+mate-vfs 2.15.3 'Kill the monkeys'
+	
+	Note: The moniker code was moved to a seperate module
+	called mate-vfs-monikers. We need to keep that in the
+	platform to be API/ABI compatible.
+	Also note that matecomponent mime related functions have been 
+	moved to libmatecomponent.
+	This relase is free of MateComponents :) 
+
+	* Replace matecomponent by DBus as IPC mechanism between clients 
+	  and the daemon: Remove all references and dependencies 
+          on matecomponent. (Initial work done by Richard Hult and Mikael 
+	  Hallendal from Imendio)
+
+	* Massive API documentation update.
+	* INotify: fixes for remote (i.e. NFS) filesystems
+	* INotify: Updates to the timers used (see ChangeLog)
+	* Convert all use of pop to GOption
+	* Fix non ACL file method build	
+	* OSX fix for MateVFSAddress	
+	* Handle %% escaping % in desktop files. (#343632)
+	* Check for later version of libselinux. (#344349)
+
+mate-vfs 2.15.2
+	* win32 fixes
+	* Don't hide smb shares that end with $
+	* ACL support
+	* Support for reading selinux context
+	* Fix bug in mate_vfs_uri_hash
+	
+mate-vfs 2.15.1
+	* Fix sftp symlink support
+	* Fix smb connecting many times to the server
+	* Add authentication to command line utils
+	* Escape "?" in paths, as this is a special char in uris
+	* Fix up symlink resolving in some cases
+	* Portability fixes for the cdda method
+	* Fix up locking around the xdg mime code where missing
+	* Better handling of existing files in create/makedir for ftp
+	* Shut down vfs backends on shutdown
+	* Handle ftp anon login failure better
+	* Handle more % expansions in Exec lines in desktop files
+	* Make MateVFSDrive user_visible only if it supports media check
+	* Fix ftp handling of large files
+	
+mate-vfs 2.14.1
+	* Some performance fixes for sftp
+	* Mark CD volumes as readonly (HAL)
+	* Portability and build fixes
+
+mate-vfs 2.14.0
+	* Fix circular dependency on mate-mount
+	* Fix some details in mate_vfs_xfer callbacks
+	* Avoid crash with symlinks that has ':' in them
+	* Update hal volume manager policies
+	* Fix leaks
+	* Better smb authentication code
+	* Fix permission reading bug introduced in 2.13.92
+
+mate-vfs 2.13.92
+	* Build fixes
+	* Fix memory leaks
+	* Some optimizations
+	* New readdir option MATE_VFS_FILE_INFO_NAME_ONLY that only returns
+	  filenames (not stat info).
+	* use pmount in /media if not using mate-mount or hal-mount
+	* Fixes for encrypted drives/volumes in hal backend
+	* Mime detection fix for multiple magic matches of same prio
+	* HAL volume operation fixes
+	* More robust mate_vfs_make_uri_from_input_internal
+	* Fix Avahi resolving of non-local hostnames
+	
+mate-vfs 2.13.91
+	* Eject fixes for volume manager
+	* Windows 2000 portability fixes
+	* Revert overwrite error dialog change that caused problems
+	* ssh fixes for newer BSD and OSX releases
+	
+mate-vfs 2.13.4
+	* Add support for mate-mount
+	* Re-add thread prioritizing
+	* Add mate_vfs_get_mime_type_for_name_and_data () and
+          mate_vfs_get_mime_type_for_name () 
+	* Deprecate mate_vfs_mime_type_from_name ()
+	* Skip attempts to overwrite a file onto itself in 
+          mate_vfs_xfer and friends.
+	* Retrun MATE_VFS_ERROR_INTERRUPTED when aborting transfers
+	* inotify: Fix various crashers and bugs
+	* ftp-method: Basic support for proxies
+	* http-method: Fix SSL support
+	* http-mehtod: Fix bugs introduced during the neon upgrade
+	* Various hal related volume fixes
+	* Hide some more private functions
+	* Some documentation updates
+	* Translation updates
+
+mate-vfs 2.13.3
+        * load modules with BIND_LOCAL
+	* inotify fix
+	
+mate-vfs 2.13.2
+	* Support Avahi 0.6
+	* Support passwords in mount
+	* Inotify support
+	* Update neon import to 0.25
+	* Leak fixes
+	* Win32 fixes
+	* Add MATE_VFS_FILE_INFO_FIELDS_IDS to see if uid/gid are valid
+	* Update to lates xdgmime
+	* Use the glib GThreadPool code instead of our own threadpool
+
+mate-vfs 2.13.1
+	* Support for recent samba
+	* Fix bug when resolving nested symlinks
+	* Sync to upstream xdg-mime code
+	* Various fixes to matevfs-* apps
+	* New functions mate_vfs_exists, mate_vfs_get_slow_mime
+	* Better ls parsing for ftp
+	* Return MATE_VFS_ERROR_CANCELLED when authentication is cancelled
+	* Add avahi support
+	* Fix problem when mounting cd multiple times
+	* Hide private symbols
+	* Better docs
+	* Fix metadata removal issue with deletion in Caja
+
+mate-vfs 2.12.1
+	* Fix mate_vfs_uri_resolve_all_symlinks in some cases
+	* win32 fixes
+	* add gobject-2.0 dependency to .pc file
+	
+mate-vfs 2.12
+	* Fix problem with trash dissapearing on some volumes when
+	  using HAL.
+	* Fix locking issue with xdg-mime code that could cause
+	  crashes.
+	* Fix wrong filenames sometimes displayed when copying files.
+	* Don't duplicate volumes both in HAL and fstab
+
+mate-vfs 2.11.91
+
+	* Honour hal's storage.eject_required flag.
+	* Make mate-vfs neon macros not confict with gobally
+	  installed ones
+	* Handle the drives that HAL doesn't detect media for 
+	  (e.g. IDE Zip drives, legacy x86 floppies)
+	* Don't link neon to libmatevfs
+
+mate-vfs 2.11.90
+	Note: The cdda method has been disabled. We don't
+	recommend shipping or using of it.
+	
+	* Avoid displaying "(null)" for non combo CD-ROM drives
+	* Howl (dns-sd): Pass text parameter in callback. 
+	* Handle escaped chars in username and password for MateVFSURI
+	* Fix trash handling for reiserfs 4
+	* file-method: Add unkown and autofs as local filesystems
+	* sftp-method: Fix error handling
+	* htt-neon-method: Fix infinit loop in auth code
+	* cdda-method: gcc4 compile fixes
+	* Various translation updates
+
+mate-vfs 2.11.4
+	* handle symlinks to mountpoints when finding trash dirs
+	* optionally don't preserve permissions when copying
+	* fixes to the HAL integration
+	* show default app in matevfs-info program
+
+mate-vfs 2.11.3
+	* Improvements to the hal-based volume/drive handling.	
+	* Common Internet File System now supports a trash 
+	  volume.
+	* xdgmime fixes (threading issues).
+
+mate-vfs 2.11.2
+	* smb authentication fix
+	* use the mateconf specified workgroup by default in the smb backend
+	* mark deprecated functions in the documentation
+	* Make the matevfs-* programs nicer to use
+	* only use extensions over sniffing for textfiles if the mimetype of
+	  the extension is a subclass of text/plain
+	* ftp method updates
+
+mate-vfs 2.11.1
+	
+	* Features: 
+	+ Win32 support!
+	+ Subclassing support for the MIME system.
+	+ Implement mate_vfs_async_create_uri_as_channel. (Note that the 
+	  _as_channel function family is marked as obsolete for now though)
+	+ Register MateVFSFindDirectoryResult and MateVFSGetFileInfoResult 
+	  as a boxed types in the GType system.
+	+ Added module support for mate_vfs_get_volume_free_space.
+	+ Synched with xdgmime HEAD.
+	+ Support for hal 0.5 API.
+	+ mate_vfs_forget_cache is now public API.
+	+ Detect empty files as "text/plain" so we can use them with caja.	
+	+ mate_vfs_make_uri_from_input_with_trailing_ws: new function.
+
+	* Bugs fixed:
+	+ Fix mate_vfs_get_special_mime_type to properly use MateVFSFileInfo.
+	+ Minor string fixes.
+	+ Properly expand "%s" occuring in arguments for mate_vfs_url_show.
+	+ Restore preservation of atime, mtime and permissions for the xfer family.
+	+ Build fixes for GNU/k*BSD  and DragonFly.
+	+ Cleanly build with gcc 4.0.
+	+ Use gmodule-no-export-2.0 instead of gmodule-2.0 to avoid 
+      using --export-dynamic.
+    + Fix borken logic in matevfs-copy.
+	+ Initialize gnu crypto library/gnutls to use gthread locking.
+	+ Remove mate-vfs-i18n.[hc] and use gi18n-lib.h. This fixes some 
+      some translation problems.
+	+ smb-method: Fix problems with prompting for authentication twice.
+    + smb-method: Fix caching problems with invalid logins.
+	+ http-neon-method: Plug various leaks.
+	+ Fix http proxy netmaks support.
+	+ Various doc fixes.	
+	+ Plugged various small leaks.
+
+	* Translation updates.
+
+mate-vfs 2.10.0
+    * Translation updates
+
+    Note: The handling of dav:// and http:// changed with this release.
+     If you use http:// the http-method will be in http-only 
+     mode and won't try to retrive file information through webdav.
+     Be sure to use dav:// and davs:// for webdav resources!
+    
+mate-vfs 2.9.93
+
+    * Bugs fixed:
+	+ smb-method: fix browsing of (non-domain) workgroups and
+                      browsing of Windows machines not on a domain
+
+mate-vfs 2.9.92
+
+    * Bugs fixed:
+	+ Fix some tests
+	+ smb-method: Fix crashes when user specified in uri
+	+ smb-method: Some authentication fixes
+	+ sftp-method: fix memory leaks
+	+ Make MateVFSSocket handle cancellation earlier
+	+ ftp-method: Fix access rights
+	+ Return OK on read/writes of 0 bytes, even at eof
+	+ Make mate_vfs_read_entire_file nul-terminate the string
+	  to fix some apps that depended on this
+	+ Get right mime description for folders.
+
+mate-vfs 2.9.91
+
+    Note: The handling of dav:// and http:// changed with this release.
+     If you use http:// the http-mehtod will be in http-only 
+     mode and won't try to retrive file information through webdav.
+     Be sure to use dav:// and davs:// for webdav resources!
+
+    * Features:
+	+ Browse for the new sftp-ssh service
+
+    * Bugs fixed:
+	+ fix matevfs-copy to have cp semantics so it 
+	  won't override directories
+	+ fix copying data to FAT 16 file systems
+	+ sftp-method: clear up closed ssh connections and processes
+	+ sftp-method: increased timeout for initiating connections 
+	+ http-method: work around broken icecast server
+	+ http-method: update to neon version 0.24.7
+	+ http-method: fix a possible crasher and plug a few leaks
+	+ ftp-method: fix directory listings for windows ftp servers
+	+ smb-method: fix connection cache lookups
+	+ fix mate_vfs_uri_extract_short_name to never return NULL
+	+ better default folder handler mechanism
+	+ fix bad grammar in http-proxy schema file
+	+ various doc and translation updates
+	+ build fixes
+
+mate-vfs 2.9.90
+
+    * Features:
+	+ support for joliet cdrom labels
+	+ allow eject of unmounted volumes
+	+ use posix_fadvice when doing large copies
+	  to avoid bad cache behaviour
+	+ Better smb authentication behaviour,
+	  now uses the same password on all the shares
+	  on a server.
+	+ Update to the API for no auto login that was
+	  commited to samba
+	+ Support setgid directories in mate-vfs-xfer
+    
+    * Bugs fixed:
+	+ sftp: fix crash
+	+ fix deadlock in mate-vfs daemon with hal enabled
+	
+mate-vfs 2.9.3
+
+    * Features:
+	+ matevfs-mv program added
+	+ Added MATE_VFS_OPEN_TRUNCATE open flag
+    
+    * Bugs fixed:
+	+ smb: New mechanism for handling authentication
+	
+	  NOTE: This should work a lot better then before, but unless
+	  you first apply the samba patch from
+	  https://bugzilla.samba.org/show_bug.cgi?id=2092
+	  there can be problems with logging in as a user on shares
+	  that support anonymous logins.
+	  
+	+ sftp: Honour force_replace flag in move
+	+ use right icon name field in mime files
+	+ fix mimetype detection for names with a dot in
+	+ build fixes on IA64
+    
+mate-vfs 2.9.2
+
+    * Features:
+	+ Deprecate parts of MateVFSMimeApplication structure
+	+ AIX support
+	+ Better mime detection
+	+ New HAL support for volumes/drives
+	
+    * Bugs fixed:
+	+ Fix memory leak
+	+ Detect mime data changed in mime monitor
+	+ Fix EOF problem in sftp method
+
+mate-vfs 2.9.1
+
+    * Features:
+        + removed the vfolder and cdemenu methods
+	+ Updated the mime handler APIs, deprecated some old APIs
+	
+    * Bugs fixed:
+        + Fixed bogus gcc warnings
+	+ 
+
+mate-vfs 2.8.3
+
+    * Bugs fixed:
+	+ Fix ftp upload corruptor
+	+ Handle several changes in mtab/fstab in the same second
+	+ Never set uri->text to NULL
+	+ Fix dvd+/-rw name unicode encoding
+	+ Some updates to desktop parser
+	+ Make duplication of symlinks work
+	+ Handle defaults.list files that have lists of desktop files
+	+ Handle new forms of filename encoding definitions
+	+ build fixes
+
+mate-vfs 2.8.2
+
+    * Bugs fixed:
+	+ performance increase in mate-vfs-volume-monitor
+	+ Update to latest eggdesktopentries.c, fixing leaks
+	+ Fix problem with http leak fix in last version
+	+ Fix leaks
+	+ Make folders open with components, to make run-dialog
+	  work for folders
+	+ Add support for additional headers to http backend
+	+ API docs updates
+	+ Default to the workgroup specified in smb.conf for network://
+	+ Fix queue handling for monitoring events
+	+ Add --disable-howl flag
+	+ Ignore smb files with empty names when enumerating
+    
+mate-vfs 2.8.1
+
+    * Bugs fixed:
+        + ftp-method: Don't ask for password if hostname wrong
+	+ fix detection of and build with kerberos
+	+ allow unref of the volume monitor after shutdown
+	+ Fix http issues with gtik
+	+ Fix leaks
+	+ Fix default application handling. Now user defaults
+	  override system defaults.
+	+ Don't keep re-reading /etc/fstab
+	+ Read the right fstab file on solaris
+	+ sftp-method: use password if in uri
+	+ http-method: fix seek to end of file
+	+ http-method: various webdav fixes
+	+ Handle empty but non-null http proxy hostname.
+	
+mate-vfs 2.8.0
+
+    * Bugs fixed:
+        + Fixed GnuTLS support
+	+ Recognize fstab names written by HAL
+	+ Fix crashers in webdav caused by redirect
+	+ Various build fixes
+	+ Fixed leak in eggdesktopentries
+	+ Don't use short list when selecting component
+	  for mimetype
+	+ Prioritize exact matches when generating
+	  component shortlist for mimetype
+	+ Fix crashers in defaults.list parsing
+	+ Fix symlink support in ftp method
+	+ Set right type for smb share directories
+	+ Added workaround for IceCast/ShoutCast in neon http method
+	+ Fix crasher when using proxy in the neon http method
+	+ Implement mate_vfs_mime_type_is_known and mate_vfs_mime_get_value
+	+ Re-fixed unique names for moving and linking files in mate_vfs_xfer
+	+ Added hack to make descriptions for folders right
+	+ distribute both http methods in tarball
+
+mate-vfs 2.7.92
+
+	Note: The HAL support (which is disabled by default) has some
+	      known issues where it doesn't detecte volumes for all
+	       mounted filesystems. This is known to cause some
+	       problems with for instance trash handling. 
+
+	* Bugs fixed:
+	       + mime data change is emitted in an idle, fixing some hangs
+	       + fixes to mime desktop parser
+	       + update HAL code to work with dbus 0.22
+	       + Added a workaround for --bind mounts in mtab
+	       + Fix some issues in the detection of unix mounts
+	       + Fix windows domain name parsing from smb uris
+	       + Don't check cdrom disk status if there is no disk in
+	       + Fix hang with dav directories with redirects
+	       + Fix scheme handling for default app selection
+	       + Prefer extensions to sniffing for xml files
+	       + Add back GnuTLS support
+	       + Try to get rid of unused items in thrash cache
+	       + code cleanups
+	       
+mate-vfs 2.7.91
+
+	* Bugs fixed:
+		+ Various build fixes and leak fixes
+		+ really add support for ssh.com ssh servers
+		+ fix deadlock in sftp support
+		+ update howl usage to the API in howl 0.9.6
+		+ fix mime type inheritance usage when listing all
+                  applications for a mimetype
+		+ change type of default application list
+                  you need to upgrade eel to handle this change
+		+ Remove extfs module. It had security issues and
+		  never worked well.
+		+ docs cleanup
+		+ added missing libgobject dependency to link line
+
+mate-vfs 2.7.90
+
+	* Bugs fixed:
+		+ Support for ssh.com ssh servers (William Jon McCann)
+		+ Properly reinitialize DNS resolver when needed 
+                  (Christian Kellner)
+		+ Renamed mate_vfs_next_address to 
+	          mate_vfs_resolve_next_address (Christian Kellner)
+		+ Various compilation fixes for gcc 3.4, Solaris, x86-64
+                  (Christophe Fergeau)
+
+	* Translation updates:
+		+ sq (Laurent Dhima), lt (Žygimantas Beručka), 
+                  bg (Alexander Shopov), da (Martin Willemoes Hansen), 
+		  no (Kjartan Maraas), eu (Iñaki Larrañaga), 
+		  en_CA (Adam Weinberger), es (Francisco Javier F. Serrador)
+
+mate-vfs 2.7.5
+
+	* Bugs fixed:
+	       + Put back symbols inadvertantly removed.
+	       + desktop file parser cleanups.
+	       + http method cleanups
+	       + search vfs methods case insensitively
+
+mate-vfs 2.7.4
+
+	* Bugs fixed:
+	       + Make move/copy merge directories instead of overwriting
+	         them when doing an xfer.
+	       + register MateVFSFileInfo in the glib GType system
+	       + 64 bit fixes from Josselin Mouette
+	       + misc doc fixes
+	       + misc bug fixes in backends, including:
+	         - fix crasher in tar:/// method
+	         - crasher in sftp method
+	         - smb fixes
+	* Features
+	       + Use HAL for volumes, if enabled.
+	       + Implement kerberos/gssapi support for the ftp and smb methods.
+	       + Introduce davs for ssl dav.
+	       + Move daemon-only code over to a helper library for the daemon.
+	       + Implemented a simple resolver API.
+	       + entirely new http backend that uses neon
+	       + implement new MIME spec.  This involves a total rewrite
+	         of the MIME backend, and involves desktop file parsers
+	         being installed.
+
+mate-vfs 2.7.3
+
+	* Bugs fixed:
+	       + FreeBSD portability fixes
+	       + DragonFly portability fixes
+	       + translate strings in daemon
+	       + made ngettext translations work
+	* Features
+	       + New function to list dns-sd browse domains
+	       + authentication in ftp backend
+	       + better performance in ftp backend
+	       
+mate-vfs 2.7.2
+
+	* Bugs fixed:
+	       + solaris umount fixes
+	       + matecomponent-storage fix
+	       + computer method volume name handling crash fixed
+	       + fix problem with buffer_write that caused ftp problems
+	* Features
+	       + DNS-SD api
+	       + mDNS and DNS-SD support in network://
+	       
+mate-vfs 2.7.1
+	* Bugs fixed:
+	        + fixed some mime issues (sync w/ upstream)
+		+ keyring support for sftp:
+		+ deprecate ssh: and alias it to sftp:
+		+ handle cdrom/floppy mountpoints outside /mnt
+		+ fix multiple file copies with ftp:
+		+ fix some sftp bugs
+		+ freebsd build fix
+		+ new ask callback, used to implement ssh host key
+		  questions
+		+ Work on making sockets cancellable
+		
+mate-vfs 2.6.0
+	* Bugs fixed:
+	        + Some doc fixes
+		+ Fixed potential buffer in ftp readdir
+		+ Fix up needs_terminal usage in schema for url handlers
+
+mate-vfs 2.5.91
+	* Bugs fixed:
+	        + build fixes
+		+ enable ssl if using gnu tls
+		+ handle host key changed in sftp method
+
+mate-vfs 2.5.90
+	* Bugs fixed:
+	        + fix some sftp bugs
+		+ fix ssl support (wasn't working at all)
+		+ better webdav support on some servers (including apache)
+		+ fix crash when monitoring invalid uris
+		+ handle fam crashing without using 100% cpu
+		+ fix caja crasher
+		+ better emission of pre_unmount when unmounting volumes
+		+ fixed some mime sniffing issues (need new shared-mime-info)
+		+ portability fixes
+		+ fix memleaks
+		+ some header changes needed for c++ binding
+
+mate-vfs 2.5.8
+	* Bugs fixed:
+	        + Text mimetype sniffing
+		+ portability fixes
+	* Features
+		+ Added gtk file chooser backend (experimental)
+		  Note that this introduces a circular build dependency.
+		  This will have to be fixed later, but isn't a huge
+		  problem atm since nothing is using the backend.
+mate-vfs 2.5.7
+	* Bugs fixed:
+	        + proxy mask parsing bug fixed
+		+ Eject code on freebsd
+		+ Fixed leaks
+		+ DESTDIR install fixes
+
+mate-vfs 2.5.6
+	* Features
+		+ mime sniffing default method changed
+	* Bugs fixed:
+	        + Portability fixes
+		+ Force volume reload after mount/unmount
+		+ handle 32bit linux device numbers
+		+ fix various mime detection bugs
+		+ don't confuse user_xattr mount option with user
+		+ move vfs daemon to libexec
+				 
+mate-vfs 2.5.5
+	* Features
+		+ Allow rename to case-different name 
+                  on case-insensitive filesystems (FAT)
+		+ Add smb support (requires samba 3.0)
+		+ Add sftp support
+		+ Use the xdg mime systems (requires shared-mime-data)
+		+ Initial network:// support
+		
+	* Bugs fixed:
+		+ Fix drive/volume casting macros
+		+ Added GPL headers to daemon
+
+mate-vfs 2.5.4
+	* Features
+		+ performance tweaking of copy block size
+		+ correct units for kilobytes according to HIG
+		+ some cleanups of the schemas texts
+		
+	* Bugs fixed:
+		+ fixed up daemon failure handling
+		+ cd name reading
+		+ g_object_new crasher
+		+ removed debug spew
+mate-vfs 2.5.3
+	* Features
+		+ New authentication callbacks, allowing
+		  more control and mate-keyring integration
+		+ New callback support for http backend
+		+ moved url handler schemas here
+		+ real gtypes for mate-vfs enumerations (Murray Cumming)
+		
+	* Bugs fixed:
+		+ Solaris fixes of the volume handling (Niall Powed, Padraig O'Brian)
+		
+mate-vfs 2.5.2
+	* Features
+		+ use ngettext
+	* Bugs fixed:
+	        + no more vfs-daemon zombies
+		+ fixed matevfs-ls escape bug
+		+ fixed some leaks
+		+ fixed some http issues
+		
+mate-vfs 2.5.1
+	* Features
+		+ volume monitor
+		+ computer location
+
+mate-vfs 2.5.0
+
+	* Features 
+		+ asynchronous seek implementation (Manuel Clos)
+		+ seek and tell support in the FTP method (Manuel Clos)
+
+	* Featurelets:
+		+ make the ssh method work with newer ssh (Mitch)
+
+mate-vfs 2.4.0
+
+	* Featurelets:
+		Updated translations
+		
+mate-vfs 2.3.90
+
+	* Bugs fixed:
+	       + Just emit one mime db changed signal per change
+
+mate-vfs 2.3.8
+
+	* Bugs fixed:
+	        + CDE menu fixes
+		+ IPV6 build fixes for non-linux
+		+ removed usage of ngettext (for now)
+		+ fix fam crash
+	* Featurelets:
+		+ add dav schema for webdav usage
+		+ Make mate_vfs_make_uri_from_input be smarter about
+		  when to make http: uris
+
+mate-vfs 2.3.7
+
+	* Bugs fixed:
+	        + Test fixes
+		+ translation fixes
+	* Featurelets:
+		+ ignore_hosts mateconf key for proxies
+
+mate-vfs 2.3.6
+
+	* Bugs fixed:
+		+ Fixes in CDE menu handling
+		+ Shrink default mate-vfs stack size
+		+ Small API doc updates
+		+ Properly read .mime and .keys file not ending with \n
+		+ Compilation fixes when using gcc 3.3
+		+ Compilation fixes for Solaris
+		+ Leak fixes in URI and mime-type handling
+		+ When an unknown app is added to a mime-type short list, 
+		  also add it to this mime-type global list
+
+	* Featurelets:
+		+ Added an Accessibility submenu in the Applications menu
+		+ Improve parsing of URIs (wrongly) containing UTF-8 chars
+		+ Translation updates
+
+mate-vfs 2.3.5:
+	* Features:
+		+ added a startup notification application registry key
+	* Bugs fixed:
+		+ Fix memory handling in mime handlers.
+		+ Make job_private static in mate-vfs-job.c
+		+ Fixed CDE menu crash
+
+mate-vfs 2.3.4:
+	* Bugs fixed:
+	       + Get Names of vfolder directories right
+	
+mate-vfs 2.3.3:
+	* Bugs fixed:
+	       + Fix potential crashes for uris with %2F in them
+	       + solaris libnsl/libsocket build fixes
+	       + Fix fam threadsafe issue
+	       + Handle fam connection going away better
+	       + Fixed doc building
+
+mate-vfs 2.3.2
+        * Features:
+	       + ipv6 uris supported
+	       + add some command line applications for mate-vfs
+
+	* Bugs fixed:
+	       + mp3 mimetype is audio/mpeg, not audio/x-mp3
+	       + build issues fixed
+	       + fix ncpfs filesystem
+	
+mate-vfs 2.3.1
+        * Features:
+	       + New API mate_vfs_url_show() and related calls
+	       + New function mate_vfs_make_uri_from_input_with_dirs
+	       + Cygwin port
+	       + IPV6 support
+	       
+	* Bugs fixed:
+	       + Some mime fixes
+	       + Correctly handle symlinks to symlinks
+	       + hpux fixes
+	       + CDE menu translation fixes
+	       + Webdav PROPFIND details
+	       + Fixed locale aliases handling
+	       + call bindtextlocale to get translation working
+	       + Fixes to mtab handling
+
+mate-vfs 2.2.4
+
+	* Bugs fixed:
+	       + Remove spew in destroy_notify (Dave Camp)
+	       + Throttle FAM change even rate to avoid applications
+	         using 100% cpu when a file is written
+	       + Don't silently fail whole operation when symlink copy
+	         fails
+	       + Fix for crash when canceling in bug-buddy
+	       + Fix bug in sample program (Murray Cumming)
+	       + Fix mate_vfs_get_volume_free_space to work on NFS mounts
+	       + Fix start directory on some ftp servers (Christophe Fergeau)
+	       + Look for user-installed modules in ~/.mate2/vfs/modules
+	         instead of ~/.mate/vfs/modules
+	* Featurelets
+	       + Some translation updates.
+
+mate-vfs 2.2.3
+
+	* Bugs fixed:
+	       + Fix Strange smb: crash with module callbacks
+	       + Fix for systems without readdir_r
+	       + Fix race in monitor code
+	       + Handle ogg files with id3 data in mp3 sniffer
+	       + Use cached data data for get_info_from_handle in the
+	         http method
+	       + Various ssh-method fixes (Bastien Nocera)
+	       + Fix memleak (Frederic Crozat)
+	* Featurelets
+	       + Try pkg-config to detect openssl if installed
+	       + add --enable-gnutls switch to allow you to enable the
+	         new gnutls code
+		 
+	
+mate-vfs 2.2.2
+
+	* Bugs fixed:
+	       + fixed memleak in monitors
+	       + fixed some ssh method problems
+	       + fixed some vfs moniker bugs
+
+mate-vfs 2.2.1
+
+	* Bugs fixed:
+	       + Fixed deadlock wrt fam while adding many monitors
+	       + fixed memleak
+
+mate-vfs 2.2.0
+
+	* Bugs fixed:
+	       + races and bugs in the GIOChannel support (Josh Parsons)
+	* Featurelets
+	       + Added (disabled for now) gnutls ssl lib (Andrew McDonald)
+	         This will be enabled later when its been tested more.
+
+mate-vfs 2.1.91
+
+	* Bugs fixed:
+	       + gzip header creation time
+	       + mate_vfs_uri_extract_dirname crash
+	       + mate_vfs_socket_buffer_peekc corrected
+
+mate-vfs 2.1.6
+
+	* Bugs fixed:
+	       + fixed -lpthreads build failure (Owen Taylor)
+	       + Handle directory moves overwriting themselves (Alex Larsson)
+	       + Correct libdir handling (Frederic Crozat)
+	* Featurelets
+	       + Deprecated mate_vfs_mime_shutdown, mate_vfs_loadinit,
+	         mate_vfs_preinit and mate_vfs_postinit. (Alex Larsson)
+	       + Lots of docs updates (Diego Gonzalez)
+	       + _ prefix internal functions. (Tim Janik)
+
+mate-vfs 2.1.5
+
+	* Featurelets
+		+ Added MATE_VFS_ERROR_NO_MASTER_BROWSER to MateVFSResult
+
+mate-vfs 2.1.4
+
+	* Featurelets
+		+ mate_vfs_open_fd() replaced console: method (Giovanni Corriga)
+	* Bugs fixed:
+	        + Avoid polling when user mime dir doesn't exist (Frederic Crozat)
+		+ Fix memleak in mime data directory handling (Frederic Crozat)
+
+mate-vfs 2.1.2,3
+
+	* Featurelets
+		+ vfolder re-write (Alex Graveley)
+		+ add access check API (Christophe Fergeau)
+		+ funky network: scheme (Bastien Nocera)
+		+ symlink following cp -R (Colin Walters)
+		+ async performance improvements (Brian Cameron)
+		+ favorites updates (Seth Nickell)
+		+ eel vfs utils merged (James Willcox)
+		+ 'uses_matevfs' in .application (Christophe Fergeau)
+		+ update docs (Ian McKellar)
+	* Bugs fixed
+		+ URI canonicalization (Frederic Crozat)
+		+ config source fix (Ian McKellar)
+		+ vfolder misc, lots. (Alex, Damon Chaplin)
+		+ turn off vfolder debug (Mark McLouglin)
+		+ CDE integration fixes (Stephen Browne,
+	 	  Arvind Samptur, HideToshi Tajima)
+		+ remove hard-coding (Seth)
+		+ ssh quoting fixes (Christophe)
+		+ several ERROR_EOF fixes (Christophe)
+		+ buffer overflow fix (Christophe)
+		+ http fd leak (Ghee Teo)
+		+ OP_XFER leak fix (Jody Goldberg)
+		+ fix trash locking, and IO (Michael Meeks)
+		+ g_memory management fix (Dave Camp)
+		+ newer findutils fixes (Federico Mena)
+		+ build fixes (Michael, Yanko Kaneti, Jacob Berkman)
+
+mate-vfs 2.0.2
+
+	* Bugs fixed
+		+ gcc 3.1 build (Frederic Crozat)
+		+ don't leak async pipes (Frederic)
+		+ kill 5 second bug (Jody Goldberg, Michael Meeks)
+		+ major locking re-hash (Jacob Berkman, Michael)
+		+ cancellation efficiency (Michael)
+		+ init threads earlier (Michael)
+		+ URI canonicalization (Frederic)
+		+ more trash security (Rohit R, Laavanya KR)
+		+ 40% MIME parsing speedup (Michael)
+		+ O_TRUNC fixage, UMR fix (Alex Larsson)
+		+ CDE desktop method updates (Stephen Browne)
+		+ async job map locking fixes (Damon Chaplin)
+		+ MIME file monitoring tracking (Jody)
+		+ configure cleans (Michael)
+		+ async job / dirinfo on cancel leaks (Michael)
+
+	* Featurelets
+		+ more / fixed auto-regression tests (Michael)
+		+ doc update (Dave Camp)
+
+mate-vfs 2.0.1
+
+	* Bugs fixed
+		+ monitor failure mode fix (Damon Chaplin)
+		+ i18n fix (Alex Graveley)
+		+ module link fixage (James Henstridge)
+		+ ~/.mate init fixes (Alex)
+		+ Trash security fix (Damon)
+
+	* Featurelets
+		+ ABI padding (Seth)
+
+mate-vfs 2.0.0
+---------------
+
+What's New:
+
+ * NNTP method for browsing network news
+ * "vfolder" method for handling the panel's virtual menu structure
+ * TAR method can read into tarballs
+ * Control Center now based on preferences module
+ * Support for file monitoring through FAM
+ * Support for Portuguese and Malay locales
+ * FreeBSD support
+
+What's Changed:
+
+ * Ported to the MATE 2 platform
+ * API cleanups and consistency fixes
+ * Split header files between module APIs and public APIs
+ * Better API coverage in documentation
+ * 64-bit clean
+ * Better Solaris support
+ * Don't leak memory!
+ * Trash doesn't cause performance problems on NFS
+ * Performance and memory improvements to the file & ftp modules
+ * Dramatic performance improvements to the ssh module
+ * Removed GDK dependency
+ * Split MIME data into a seperate module (mate-mime-data)
+ * Various bug fixes to the MIME database including loading much faster
+ * Authentication prompts less, caches better
+ * XFer more accurately reports progress throughout operations

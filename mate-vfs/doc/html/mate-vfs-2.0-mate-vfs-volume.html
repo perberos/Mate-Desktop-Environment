@@ -1,0 +1,1220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateVFSVolume</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="volumes.html" title="Volumes and Drives Handling">
+<link rel="prev" href="volumes.html" title="Volumes and Drives Handling">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-drive.html" title="MateVFSDrive">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="volumes.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="volumes.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-drive.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-volume.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-volume.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-volume.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-volume"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-volume.top_of_page"></a>MateVFSVolume</span></h2>
+<p>MateVFSVolume — Abstraction for a mounted file system or a network location.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-volume.synopsis"></a><h2>Synopsis</h2>
+<a name="MateVFSVolume"></a><pre class="synopsis">#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MATE-IS-VFS-VOLUME:CAPS" title="MATE_IS_VFS_VOLUME()">MATE_IS_VFS_VOLUME</a>                 (o)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MATE-IS-VFS-VOLUME-CLASS:CAPS" title="MATE_IS_VFS_VOLUME_CLASS()">MATE_IS_VFS_VOLUME_CLASS</a>           (k)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MATE-VFS-TYPE-VOLUME:CAPS" title="MATE_VFS_TYPE_VOLUME">MATE_VFS_TYPE_VOLUME</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MATE-VFS-VOLUME:CAPS" title="MATE_VFS_VOLUME()">MATE_VFS_VOLUME</a>                    (o)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MATE-VFS-VOLUME-CLASS:CAPS" title="MATE_VFS_VOLUME_CLASS()">MATE_VFS_VOLUME_CLASS</a>              (k)
+struct              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume-struct" title="struct MateVFSVolume">MateVFSVolume</a>;
+struct              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeClass" title="struct MateVFSVolumeClass">MateVFSVolumeClass</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()">*MateVFSVolumeOpCallback</a>)         (<em class="parameter"><code><span class="type">gboolean</span> succeeded</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *error</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *detailed_error</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeType" title="enum MateVFSVolumeType">MateVFSVolumeType</a>;
+<span class="returnvalue">gint</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-compare" title="mate_vfs_volume_compare ()">mate_vfs_volume_compare</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *b</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-eject" title="mate_vfs_volume_eject ()">mate_vfs_volume_eject</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-activation-uri" title="mate_vfs_volume_get_activation_uri ()">mate_vfs_volume_get_activation_uri</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-device-path" title="mate_vfs_volume_get_device_path ()">mate_vfs_volume_get_device_path</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType"><span class="returnvalue">MateVFSDeviceType</span></a>  <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-device-type" title="mate_vfs_volume_get_device_type ()">mate_vfs_volume_get_device_type</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-display-name" title="mate_vfs_volume_get_display_name ()">mate_vfs_volume_get_display_name</a>   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="returnvalue">MateVFSDrive</span></a> *     <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-drive" title="mate_vfs_volume_get_drive ()">mate_vfs_volume_get_drive</a>          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-filesystem-type" title="mate_vfs_volume_get_filesystem_type ()">mate_vfs_volume_get_filesystem_type</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-hal-udi" title="mate_vfs_volume_get_hal_udi ()">mate_vfs_volume_get_hal_udi</a>        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-icon" title="mate_vfs_volume_get_icon ()">mate_vfs_volume_get_icon</a>           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">gulong</span>              <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-id" title="mate_vfs_volume_get_id ()">mate_vfs_volume_get_id</a>             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-type" title="mate_vfs_volume_get_type ()">mate_vfs_volume_get_type</a>           (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeType" title="enum MateVFSVolumeType"><span class="returnvalue">MateVFSVolumeType</span></a>  <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-volume-type" title="mate_vfs_volume_get_volume_type ()">mate_vfs_volume_get_volume_type</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-handles-trash" title="mate_vfs_volume_handles_trash ()">mate_vfs_volume_handles_trash</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-mounted" title="mate_vfs_volume_is_mounted ()">mate_vfs_volume_is_mounted</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-read-only" title="mate_vfs_volume_is_read_only ()">mate_vfs_volume_is_read_only</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-user-visible" title="mate_vfs_volume_is_user_visible ()">mate_vfs_volume_is_user_visible</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-ref" title="mate_vfs_volume_ref ()">mate_vfs_volume_ref</a>                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-type-get-type" title="mate_vfs_volume_type_get_type ()">mate_vfs_volume_type_get_type</a>      (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unmount" title="mate_vfs_volume_unmount ()">mate_vfs_volume_unmount</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unref" title="mate_vfs_volume_unref ()">mate_vfs_volume_unref</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-connect-to-server" title="mate_vfs_connect_to_server ()">mate_vfs_connect_to_server</a>         (<em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----MateVFSVolume
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MATE-IS-VFS-VOLUME:CAPS"></a><h3>MATE_IS_VFS_VOLUME()</h3>
+<pre class="programlisting">#define MATE_IS_VFS_VOLUME(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MATE_VFS_TYPE_VOLUME))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>o</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-IS-VFS-VOLUME-CLASS:CAPS"></a><h3>MATE_IS_VFS_VOLUME_CLASS()</h3>
+<pre class="programlisting">#define MATE_IS_VFS_VOLUME_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MATE_VFS_TYPE_VOLUME))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-TYPE-VOLUME:CAPS"></a><h3>MATE_VFS_TYPE_VOLUME</h3>
+<pre class="programlisting">#define MATE_VFS_TYPE_VOLUME        (mate_vfs_volume_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-VOLUME:CAPS"></a><h3>MATE_VFS_VOLUME()</h3>
+<pre class="programlisting">#define MATE_VFS_VOLUME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_VOLUME, MateVFSVolume))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>o</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-VOLUME-CLASS:CAPS"></a><h3>MATE_VFS_VOLUME_CLASS()</h3>
+<pre class="programlisting">#define MATE_VFS_VOLUME_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), MATE_VFS_TYPE_VOLUME, MateVFSVolumeClass))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolume-struct"></a><h3>struct MateVFSVolume</h3>
+<pre class="programlisting">struct MateVFSVolume;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeClass"></a><h3>struct MateVFSVolumeClass</h3>
+<pre class="programlisting">struct MateVFSVolumeClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeOpCallback"></a><h3>MateVFSVolumeOpCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSVolumeOpCallback)         (<em class="parameter"><code><span class="type">gboolean</span> succeeded</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *error</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *detailed_error</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Note that if succeeded is FALSE and error, detailed_error are both
+empty strings the client is not supposed to display a dialog as an
+external mount/umount/eject helper will have done so.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>succeeded</code></em> :</span></p></td>
+<td>whether the volume operation succeeded
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>a string identifying the error that occurred, if
+<em class="parameter"><code>succeeded</code></em> is <code class="literal">FALSE</code>. Otherwise <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>detailed_error</code></em> :</span></p></td>
+<td>a string more specifically identifying
+the error that occurred, if <em class="parameter"><code>succeeded</code></em> is <code class="literal">FALSE</code>.
+Otherwise <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>the user data that was passed when registering
+the callback.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeType"></a><h3>enum MateVFSVolumeType</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_VOLUME_TYPE_MOUNTPOINT,
+	MATE_VFS_VOLUME_TYPE_VFS_MOUNT,
+	MATE_VFS_VOLUME_TYPE_CONNECTED_SERVER
+} MateVFSVolumeType;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-compare"></a><h3>mate_vfs_volume_compare ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_vfs_volume_compare            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *b</code></em>);</pre>
+<p>
+Compares two <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em>. Two
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects referring to different volumes
+are guaranteed to not return 0 when comparing them,
+if they refer to the same volume 0 is returned.
+</p>
+<p>
+The resulting <span class="type">gint</span> should be used to determine the
+order in which <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em> are displayed in graphical
+user interfces.
+</p>
+<p>
+The comparison algorithm first of all peeks the device
+type of <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em>, they will be sorted in the following
+order:
+</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>Magnetic and opto-magnetic volumes (ZIP, floppy)</p></li>
+<li class="listitem"><p>Optical volumes (CD, DVD)</p></li>
+<li class="listitem"><p>External volumes (USB sticks, music players)</p></li>
+<li class="listitem"><p>Mounted hard disks</p></li>
+<li class="listitem"><p>Network mounts</p></li>
+<li class="listitem"><p>Other volumes</p></li>
+</ul></div>
+<p>
+</p>
+<p>
+Afterwards, the display name of <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em> is compared
+using a locale-sensitive sorting algorithm, which
+involves <code class="function">g_utf8_collate_key()</code>.
+</p>
+<p>
+If two volumes have the same display name, their
+unique ID is compared which can be queried using
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-id" title="mate_vfs_volume_get_id ()"><code class="function">mate_vfs_volume_get_id()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> 0 if the volumes refer to the same <em class="parameter"><code>MateVFSVolume</code></em>,
+a negative value if <em class="parameter"><code>a</code></em> should be displayed before <em class="parameter"><code>b</code></em>,
+or a positive value if <em class="parameter"><code>a</code></em> should be displayed after <em class="parameter"><code>b</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-eject"></a><h3>mate_vfs_volume_eject ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_volume_eject              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Requests ejection of a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</p>
+<p>
+Before the unmount operation is executed, the
+<span class="type">"pre-unmount"</span> signal is emitted.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> is a mount point (its type is
+<span class="type">MATE_VFS_VOLUME_TYPE_MOUNTPOINT</span>), it is unmounted,
+and if it refers to a disc, it is also ejected.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> is a special VFS mount, i.e.
+its type is <span class="type">MATE_VFS_VOLUME_TYPE_VFS_MOUNT</span>, it
+is ejected.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> is a connected server, it
+is removed from the list of connected servers.
+</p>
+<p>
+Otherwise, no further action is done.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that should be ejected.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> that should be invoked after ejecting of <em class="parameter"><code>volume</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>the user data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-activation-uri"></a><h3>mate_vfs_volume_get_activation_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_volume_get_activation_uri (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the activation URI of a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</p>
+<p>
+The returned URI usually refers to a valid location. You can check the
+validity of the location by calling <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new" title="mate_vfs_uri_new ()"><code class="function">mate_vfs_uri_new()</code></a> with the URI,
+and checking whether the return value is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for activation uri of <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-device-path"></a><h3>mate_vfs_volume_get_device_path ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_volume_get_device_path    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the device path of a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</p>
+<p>
+For HAL volumes, this returns the value of the
+volume's "block.device" key. For UNIX mounts,
+it returns the <code class="literal">mntent</code>'s <code class="literal">mnt_fsname</code> entry.
+</p>
+<p>
+Otherwise, it returns <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for device path of <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-device-type"></a><h3>mate_vfs_volume_get_device_type ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType"><span class="returnvalue">MateVFSDeviceType</span></a>  mate_vfs_volume_get_device_type    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType"><span class="type">MateVFSDeviceType</span></a> of the <em class="parameter"><code>volume</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the device type for <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-display-name"></a><h3>mate_vfs_volume_get_display_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_volume_get_display_name   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the display name of the <em class="parameter"><code>volume</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for display name of <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-drive"></a><h3>mate_vfs_volume_get_drive ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="returnvalue">MateVFSDrive</span></a> *     mate_vfs_volume_get_drive          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the drive for the <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-filesystem-type"></a><h3>mate_vfs_volume_get_filesystem_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_volume_get_filesystem_type
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns a string describing the file system on <em class="parameter"><code>volume</code></em>,
+or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if no information on the underlying file system is
+available.
+</p>
+<p>
+The file system may be used to provide special functionality
+that depends on the file system type, for instance to determine
+whether trashing is supported (cf. <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-handles-trash" title="mate_vfs_volume_handles_trash ()"><code class="function">mate_vfs_volume_handles_trash()</code></a>).
+</p>
+<p>
+For HAL mounts, this returns the value of the "volume.fstype"
+key, for traditional UNIX mounts it is set to the <code class="literal">mntent</code>'s 
+<code class="literal">mnt_type</code> key, for connected servers, <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> is returned.
+</p>
+<p>
+As of MateVFS 2.15.4, the following file systems are recognized
+by MateVFS:
+</p>
+<p>
+</p>
+<div class="table">
+<a name="id2671344"></a><p class="title"><b>Table 3. Recognized File Systems</b></p>
+<div class="table-contents"><table summary="Recognized File Systems" border="0">
+<colgroup>
+<col align="left">
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">File System</th>
+<th align="left">Display Name</th>
+<th align="left">Supports Trash</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">affs</td>
+<td align="left">AFFS Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">afs</td>
+<td align="left">AFS Network Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">auto</td>
+<td align="left">Auto-detected Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">cd9660</td>
+<td align="left">CD-ROM Drive</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">cdda</td>
+<td align="left">CD Digital Audio</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">cdrom</td>
+<td align="left">CD-ROM Drive</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">devfs</td>
+<td align="left">Hardware Device Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">encfs</td>
+<td align="left">EncFS Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">ext2</td>
+<td align="left">Ext2 Linux Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">ext2fs</td>
+<td align="left">Ext2 Linux Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">ext3</td>
+<td align="left">Ext3 Linux Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">fat</td>
+<td align="left">MSDOS Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">ffs</td>
+<td align="left">BSD Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">fuse</td>
+<td align="left">FUSE Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">hfs</td>
+<td align="left">MacOS Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">hfsplus</td>
+<td align="left">MacOS Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">iso9660</td>
+<td align="left">CDROM Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">hsfs</td>
+<td align="left">Hsfs CDROM Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">jfs</td>
+<td align="left">JFS Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">hpfs</td>
+<td align="left">Windows NT Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">kernfs</td>
+<td align="left">System Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">lfs</td>
+<td align="left">BSD Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">linprocfs</td>
+<td align="left">System Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">mfs</td>
+<td align="left">Memory Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">minix</td>
+<td align="left">Minix Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">msdos</td>
+<td align="left">MSDOS Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">msdosfs</td>
+<td align="left">MSDOS Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">nfs</td>
+<td align="left">NFS Network Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">ntfs</td>
+<td align="left">Windows NT Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">nwfs</td>
+<td align="left">Netware Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">proc</td>
+<td align="left">System Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">procfs</td>
+<td align="left">System Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">ptyfs</td>
+<td align="left">System Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">reiser4</td>
+<td align="left">Reiser4 Linux Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">reiserfs</td>
+<td align="left">ReiserFS Linux Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">smbfs</td>
+<td align="left">Windows Shared Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">supermount</td>
+<td align="left">SuperMount Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">udf</td>
+<td align="left">DVD Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">ufs</td>
+<td align="left">Solaris/BSD Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">udfs</td>
+<td align="left">Udfs Solaris Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">pcfs</td>
+<td align="left">Pcfs Solaris Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">samfs</td>
+<td align="left">Sun SAM-QFS Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">tmpfs</td>
+<td align="left">Temporary Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">umsdos</td>
+<td align="left">Enhanced DOS Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">vfat</td>
+<td align="left">Windows VFAT Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">xenix</td>
+<td align="left">Xenix Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">xfs</td>
+<td align="left">XFS Linux Volume</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">xiafs</td>
+<td align="left">XIAFS Volume</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">cifs</td>
+<td align="left">CIFS Volume</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for filesystem type of <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-hal-udi"></a><h3>mate_vfs_volume_get_hal_udi ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_volume_get_hal_udi        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the HAL UDI of a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</p>
+<p>
+For HAL volumes, this matches the value of the "info.udi" key,
+for other volumes it is <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for unique device id of <em class="parameter"><code>volume</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-icon"></a><h3>mate_vfs_volume_get_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_volume_get_icon           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for the icon filename of <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-id"></a><h3>mate_vfs_volume_get_id ()</h3>
+<pre class="programlisting"><span class="returnvalue">gulong</span>              mate_vfs_volume_get_id             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the ID of the <em class="parameter"><code>volume</code></em>,
+</p>
+<p>
+Two <a href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolumes</span></a> are guaranteed to refer
+to the same volume if they have the same ID.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the id for the <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-type"></a><h3>mate_vfs_volume_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               mate_vfs_volume_get_type           (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-get-volume-type"></a><h3>mate_vfs_volume_get_volume_type ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeType" title="enum MateVFSVolumeType"><span class="returnvalue">MateVFSVolumeType</span></a>  mate_vfs_volume_get_volume_type    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeType" title="enum MateVFSVolumeType"><span class="type">MateVFSVolumeType</span></a> of the <em class="parameter"><code>volume</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the volume type for <em class="parameter"><code>volume</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-handles-trash"></a><h3>mate_vfs_volume_handles_trash ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_volume_handles_trash      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns whether the file system on a <em class="parameter"><code>volume</code></em> supports trashing of files.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> has an AutoFS file system (i.e. <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-device-type" title="mate_vfs_volume_get_device_type ()"><code class="function">mate_vfs_volume_get_device_type()</code></a>
+returns <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DEVICE-TYPE-AUTOFS:CAPS"><span class="type">MATE_VFS_DEVICE_TYPE_AUTOFS</span></a>), or if the <em class="parameter"><code>volume</code></em> is mounted read-only
+(<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-is-read-only" title="mate_vfs_volume_is_read_only ()"><code class="function">mate_vfs_volume_is_read_only()</code></a> returns <code class="literal">TRUE</code>), it is assumed
+to not support trashing of files.
+</p>
+<p>
+Otherwise, if the <em class="parameter"><code>volume</code></em> provides file system information, it is
+determined whether the file system supports trashing of files.
+See <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-get-filesystem-type" title="mate_vfs_volume_get_filesystem_type ()"><code class="function">mate_vfs_volume_get_filesystem_type()</code></a> for details which
+volumes provide file system information, and which file systems
+currently support a trash.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>volume</code></em> handles trash, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-is-mounted"></a><h3>mate_vfs_volume_is_mounted ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_volume_is_mounted         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns whether the file system on a <em class="parameter"><code>volume</code></em> is currently mounted.
+</p>
+<p>
+For HAL volumes, this reflects the value of the "volume.is_mounted"
+key, for traditional UNIX mounts and connected servers, <code class="literal">TRUE</code>
+is returned, because their existence implies that they are
+mounted.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the <em class="parameter"><code>volume</code></em> is mounted, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-is-read-only"></a><h3>mate_vfs_volume_is_read_only ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_volume_is_read_only       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns whether the file system on a <em class="parameter"><code>volume</code></em> is read-only.
+</p>
+<p>
+For HAL volumes, the "volume.is_mounted_read_only" key
+is authoritative, for traditional UNIX mounts it returns
+<code class="literal">TRUE</code> if the mount was done with the "ro" option.
+For servers, <code class="literal">FALSE</code> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the <em class="parameter"><code>volume</code></em> is read-only to the user, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-is-user-visible"></a><h3>mate_vfs_volume_is_user_visible ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_volume_is_user_visible    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Returns whether the <em class="parameter"><code>volume</code></em> is visible to the user. This
+should be used by applications to determine whether it
+is included in user interfaces listing available volumes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if <em class="parameter"><code>volume</code></em> is visible to the user, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-ref"></a><h3>mate_vfs_volume_ref ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    mate_vfs_volume_ref                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Increases the refcount of the <em class="parameter"><code>volume</code></em> by 1, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <em class="parameter"><code>volume</code></em> with its refcount increased by one,
+	    or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if <em class="parameter"><code>volume</code></em> is NULL.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-type-get-type"></a><h3>mate_vfs_volume_type_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               mate_vfs_volume_type_get_type      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-unmount"></a><h3>mate_vfs_volume_unmount ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_volume_unmount            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Note that <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unmount" title="mate_vfs_volume_unmount ()"><code class="function">mate_vfs_volume_unmount()</code></a> may also invoke <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-eject" title="mate_vfs_volume_eject ()"><code class="function">mate_vfs_volume_eject()</code></a>,
+if the <em class="parameter"><code>volume</code></em> signals that it should be ejected when it is unmounted.
+This may be true for CD-ROMs, USB sticks and other devices, depending on the
+backend providing the <em class="parameter"><code>volume</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that should be unmounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> that should be invoked after unmounting <em class="parameter"><code>volume</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>the user data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-unref"></a><h3>mate_vfs_volume_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_volume_unref              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume</code></em>);</pre>
+<p>
+Decreases the refcount of the <em class="parameter"><code>volume</code></em> by 1, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-connect-to-server"></a><h3>mate_vfs_connect_to_server ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_connect_to_server         (<em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>);</pre>
+<p>
+This function adds a server connection to the specified <em class="parameter"><code>uri</code></em>, which is displayed
+in user interfaces with the specified <em class="parameter"><code>display_name</code></em> and <em class="parameter"><code>icon</code></em>.
+</p>
+<p>
+If this function is invoked successfully, the created server shows up in the
+list of mounted volumes of the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>, which can be queried
+using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<p>
+This function does not have a return value. Hence, you can't easily detect
+whether the specified server was successfully created. The actual creation and
+consumption of the new server through the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> is done
+asynchronously.
+</p>
+<p>
+<em class="parameter"><code>uri</code></em>, <em class="parameter"><code>display_name</code></em>, and <em class="parameter"><code>icon</code></em> can be freely chosen, but should be meaningful:
+</p>
+<p>
+<em class="parameter"><code>uri</code></em> should refer to a valid location. You can check the validity of the
+location by calling <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new" title="mate_vfs_uri_new ()"><code class="function">mate_vfs_uri_new()</code></a> with <em class="parameter"><code>uri</code></em>, and checking whether
+the return value is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<p>
+The <em class="parameter"><code>display_name</code></em> should be queried from the user, and an empty string
+should not be considered valid.
+</p>
+<p>
+<em class="parameter"><code>icon</code></em> typically references an icon from the icon theme. Some
+implementations currently use <code class="literal">mate-fs-smb</code>,
+<code class="literal">mate-fs-ssh</code>, <code class="literal">mate-fs-ftp</code> and
+<code class="literal">mate-fs-share</code>, depending on the type of the server
+referenced by <em class="parameter"><code>uri</code></em>. The icon naming conventions might change in the
+future, though. Obeying the <a class="ulink" href="http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html" target="_top">
+freedesktop.org Icon Naming Specification</a> is suggested.
+</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>The string representation of the server to connect to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>The display name that is used to identify the server connection.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon</code></em> :</span></p></td>
+<td>The icon that is used to identify the server connection.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

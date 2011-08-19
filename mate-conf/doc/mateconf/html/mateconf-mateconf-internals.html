@@ -1,0 +1,854 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mateconf-internals</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-error.html" title="GError">
+<link rel="next" href="mateconf-mateconf-listeners.html" title="mateconf-listeners">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-error.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-listeners.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mateconf-mateconf-internals.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mateconf-mateconf-internals.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mateconf-mateconf-internals"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mateconf-mateconf-internals.top_of_page"></a>mateconf-internals</span></h2>
+<p>mateconf-internals</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mateconf-mateconf-internals.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="mateconf-mateconf-internals.html#mateconf-key-directory" title="mateconf_key_directory ()">mateconf_key_directory</a>                 (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="mateconf-mateconf-internals.html#mateconf-key-key" title="mateconf_key_key ()">mateconf_key_key</a>                       (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-from-corba-value" title="mateconf_value_from_corba_value ()">mateconf_value_from_corba_value</a>        (<em class="parameter"><code>const <span class="type">ConfigValue</span> *value</code></em>);
+<a class="link" href="mateconf-mateconf-schema.html#MateConfSchema" title="MateConfSchema"><span class="returnvalue">MateConfSchema</span></a> *       <a class="link" href="mateconf-mateconf-internals.html#mateconf-schema-from-corba-schema" title="mateconf_schema_from_corba_schema ()">mateconf_schema_from_corba_schema</a>      (<em class="parameter"><code>const <span class="type">ConfigSchema</span> *cs</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-type-to-string" title="mateconf_value_type_to_string ()">mateconf_value_type_to_string</a>          (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> type</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="returnvalue">MateConfValueType</span></a>      <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-type-from-string" title="mateconf_value_type_from_string ()">mateconf_value_type_from_string</a>        (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="returnvalue">GSList</span></a> *            <a class="link" href="mateconf-mateconf-internals.html#mateconf-load-source-path" title="mateconf_load_source_path ()">mateconf_load_source_path</a>              (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mateconf-mateconf-internals.html#mateconf-shutdown-daemon" title="mateconf_shutdown_daemon ()">mateconf_shutdown_daemon</a>               (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="mateconf-mateconf-internals.html#mateconf-ping-daemon" title="mateconf_ping_daemon ()">mateconf_ping_daemon</a>                   (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="mateconf-mateconf-internals.html#mateconf-spawn-daemon" title="mateconf_spawn_daemon ()">mateconf_spawn_daemon</a>                  (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gulong"><span class="returnvalue">gulong</span></a>              <a class="link" href="mateconf-mateconf-internals.html#mateconf-string-to-gulong" title="mateconf_string_to_gulong ()">mateconf_string_to_gulong</a>              (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="mateconf-mateconf-internals.html#mateconf-current-locale" title="mateconf_current_locale ()">mateconf_current_locale</a>                (<em class="parameter"><code><span class="type">void</span></code></em>);
+enum                <a class="link" href="mateconf-mateconf-internals.html#MateConfLogPriority" title="enum MateConfLogPriority">MateConfLogPriority</a>;
+<span class="returnvalue">void</span>                <a class="link" href="mateconf-mateconf-internals.html#mateconf-log" title="mateconf_log ()">mateconf_log</a>                           (<em class="parameter"><code><a class="link" href="mateconf-mateconf-internals.html#MateConfLogPriority" title="enum MateConfLogPriority"><span class="type">MateConfLogPriority</span></a> pri</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="mateconf-mateconf-internals.html#mateconf-key-check" title="mateconf_key_check ()">mateconf_key_check</a>                     (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-new-list-from-string" title="mateconf_value_new_list_from_string ()">mateconf_value_new_list_from_string</a>    (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> list_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-new-pair-from-string" title="mateconf_value_new_pair_from_string ()">mateconf_value_new_pair_from_string</a>    (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> car_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> cdr_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="mateconf-mateconf-internals.html#mateconf-quote-string" title="mateconf_quote_string ()">mateconf_quote_string</a>                  (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="mateconf-mateconf-internals.html#mateconf-unquote-string" title="mateconf_unquote_string ()">mateconf_unquote_string</a>                (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mateconf-mateconf-internals.html#mateconf-unquote-string-inplace" title="mateconf_unquote_string_inplace ()">mateconf_unquote_string_inplace</a>        (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-decode" title="mateconf_value_decode ()">mateconf_value_decode</a>                  (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *encoded</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-encode" title="mateconf_value_encode ()">mateconf_value_encode</a>                  (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="type">MateConfValue</span></a> *val</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-list-from-primitive-list" title="mateconf_value_list_from_primitive_list ()">mateconf_value_list_from_primitive_list</a>
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> list_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *list</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-pair-from-primitive-pair" title="mateconf_value_pair_from_primitive_pair ()">mateconf_value_pair_from_primitive_pair</a>
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> car_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> cdr_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gconstpointer"><span class="type">gconstpointer</span></a> address_of_car</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gconstpointer"><span class="type">gconstpointer</span></a> address_of_cdr</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="returnvalue">GSList</span></a> *            <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-list-to-primitive-list-destructive" title="mateconf_value_list_to_primitive_list_destructive ()">mateconf_value_list_to_primitive_list_destructive</a>
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="type">MateConfValue</span></a> *val</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> list_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-pair-to-primitive-pair-destructive" title="mateconf_value_pair_to_primitive_pair_destructive ()">mateconf_value_pair_to_primitive_pair_destructive</a>
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="type">MateConfValue</span></a> *val</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> car_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> cdr_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> car_retloc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> cdr_retloc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mateconf-mateconf-internals.html#mateconf-set-daemon-mode" title="mateconf_set_daemon_mode ()">mateconf_set_daemon_mode</a>               (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> setting</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="mateconf-mateconf-internals.html#mateconf-handle-oaf-exception" title="mateconf_handle_oaf_exception ()">mateconf_handle_oaf_exception</a>          (<em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mateconf-mateconf-internals.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mateconf-mateconf-internals.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mateconf-key-directory"></a><h3>mateconf_key_directory ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             mateconf_key_directory                 (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-key-key"></a><h3>mateconf_key_key ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       mateconf_key_key                       (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-from-corba-value"></a><h3>mateconf_value_from_corba_value ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        mateconf_value_from_corba_value        (<em class="parameter"><code>const <span class="type">ConfigValue</span> *value</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-schema-from-corba-schema"></a><h3>mateconf_schema_from_corba_schema ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-schema.html#MateConfSchema" title="MateConfSchema"><span class="returnvalue">MateConfSchema</span></a> *       mateconf_schema_from_corba_schema      (<em class="parameter"><code>const <span class="type">ConfigSchema</span> *cs</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-type-to-string"></a><h3>mateconf_value_type_to_string ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       mateconf_value_type_to_string          (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> type</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-type-from-string"></a><h3>mateconf_value_type_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="returnvalue">MateConfValueType</span></a>      mateconf_value_type_from_string        (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-load-source-path"></a><h3>mateconf_load_source_path ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="returnvalue">GSList</span></a> *            mateconf_load_source_path              (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-shutdown-daemon"></a><h3>mateconf_shutdown_daemon ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mateconf_shutdown_daemon               (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-ping-daemon"></a><h3>mateconf_ping_daemon ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            mateconf_ping_daemon                   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-spawn-daemon"></a><h3>mateconf_spawn_daemon ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            mateconf_spawn_daemon                  (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-string-to-gulong"></a><h3>mateconf_string_to_gulong ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gulong"><span class="returnvalue">gulong</span></a>              mateconf_string_to_gulong              (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-current-locale"></a><h3>mateconf_current_locale ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       mateconf_current_locale                (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateConfLogPriority"></a><h3>enum MateConfLogPriority</h3>
+<pre class="programlisting">typedef enum {
+  GCL_EMERG,
+  GCL_ALERT,
+  GCL_CRIT,
+  GCL_ERR,
+  GCL_WARNING,
+  GCL_NOTICE,
+  GCL_INFO,
+  GCL_DEBUG
+} MateConfLogPriority;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-log"></a><h3>mateconf_log ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mateconf_log                           (<em class="parameter"><code><a class="link" href="mateconf-mateconf-internals.html#MateConfLogPriority" title="enum MateConfLogPriority"><span class="type">MateConfLogPriority</span></a> pri</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *format</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-key-check"></a><h3>mateconf_key_check ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            mateconf_key_check                     (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-new-list-from-string"></a><h3>mateconf_value_new_list_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        mateconf_value_new_list_from_string    (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> list_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+This function does not work. Don't use it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-new-pair-from-string"></a><h3>mateconf_value_new_pair_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        mateconf_value_new_pair_from_string    (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> car_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> cdr_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+This function does not work. Don't use it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-quote-string"></a><h3>mateconf_quote_string ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             mateconf_quote_string                  (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-unquote-string"></a><h3>mateconf_unquote_string ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             mateconf_unquote_string                (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>end</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-unquote-string-inplace"></a><h3>mateconf_unquote_string_inplace ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mateconf_unquote_string_inplace        (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>end</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-decode"></a><h3>mateconf_value_decode ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        mateconf_value_decode                  (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *encoded</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoded</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-encode"></a><h3>mateconf_value_encode ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             mateconf_value_encode                  (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="type">MateConfValue</span></a> *val</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-list-from-primitive-list"></a><h3>mateconf_value_list_from_primitive_list ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        mateconf_value_list_from_primitive_list
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> list_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *list</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-pair-from-primitive-pair"></a><h3>mateconf_value_pair_from_primitive_pair ()</h3>
+<pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="returnvalue">MateConfValue</span></a> *        mateconf_value_pair_from_primitive_pair
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> car_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> cdr_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gconstpointer"><span class="type">gconstpointer</span></a> address_of_car</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gconstpointer"><span class="type">gconstpointer</span></a> address_of_cdr</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_car</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_cdr</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-list-to-primitive-list-destructive"></a><h3>mateconf_value_list_to_primitive_list_destructive ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="returnvalue">GSList</span></a> *            mateconf_value_list_to_primitive_list_destructive
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="type">MateConfValue</span></a> *val</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> list_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-value-pair-to-primitive-pair-destructive"></a><h3>mateconf_value_pair_to_primitive_pair_destructive ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            mateconf_value_pair_to_primitive_pair_destructive
+                                                        (<em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValue" title="MateConfValue"><span class="type">MateConfValue</span></a> *val</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> car_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mateconf-mateconf-value.html#MateConfValueType" title="enum MateConfValueType"><span class="type">MateConfValueType</span></a> cdr_type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> car_retloc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> cdr_retloc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_retloc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_retloc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-set-daemon-mode"></a><h3>mateconf_set_daemon_mode ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mateconf_set_daemon_mode               (<em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> setting</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mateconf-handle-oaf-exception"></a><h3>mateconf_handle_oaf_exception ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            mateconf_handle_oaf_exception          (<em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **err</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

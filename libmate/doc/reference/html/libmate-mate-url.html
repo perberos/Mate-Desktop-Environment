@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-url</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Library Reference Manual">
+<link rel="up" href="ch03.html" title="Displaying Help and External Info">
+<link rel="prev" href="libmate-mate-help.html" title="mate-help">
+<link rel="next" href="ch04.html" title="Miscellaneous">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmate-mate-help.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch03.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Library Reference Manual</th>
+<td><a accesskey="n" href="ch04.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmate-mate-url.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmate-mate-url.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmate-mate-url"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmate-mate-url.top_of_page"></a>mate-url</span></h2>
+<p>mate-url — Display urls using appropriate viewers.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmate-mate-url.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmate/libmate.h&gt;
+
+enum                <a class="link" href="libmate-mate-url.html#MateURLError" title="enum MateURLError">MateURLError</a>;
+#define             <a class="link" href="libmate-mate-url.html#MATE-URL-ERROR:CAPS" title="MATE_URL_ERROR">MATE_URL_ERROR</a>
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmate-mate-url.html#mate-url-show" title="mate_url_show ()">mate_url_show</a>                      (<em class="parameter"><code>const <span class="type">char</span> *url</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmate-mate-url.html#mate-url-show-with-env" title="mate_url_show_with_env ()">mate_url_show_with_env</a>             (<em class="parameter"><code>const <span class="type">char</span> *url</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **envp</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-url.description"></a><h2>Description</h2>
+<p>
+A MATE user can configure which viewers they wish to use to view certain
+protocols. Protocols can include http, ftp (where "view" might mean
+"download"), ghelp, etc. This module provides a means for application to
+display a url without having to worry about which viewer is going to ultimately
+handle the job.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-url.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateURLError"></a><h3>enum MateURLError</h3>
+<pre class="programlisting">typedef enum {
+  MATE_URL_ERROR_PARSE,
+  MATE_URL_ERROR_LAUNCH,
+  MATE_URL_ERROR_URL,
+  MATE_URL_ERROR_NO_DEFAULT,
+  MATE_URL_ERROR_NOT_SUPPORTED,
+  MATE_URL_ERROR_VFS,
+  MATE_URL_ERROR_CANCELLED
+} MateURLError;
+</pre>
+<p>
+The errors that can be returned due to bad parameters being pass to
+<a class="link" href="libmate-mate-url.html#mate-url-show" title="mate_url_show ()"><code class="function">mate_url_show()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-URL-ERROR-PARSE:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_PARSE</code></span></p></td>
+<td>The parsing of the handler failed.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-URL-ERROR-LAUNCH:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_LAUNCH</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-URL-ERROR-URL:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_URL</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-URL-ERROR-NO-DEFAULT:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_NO_DEFAULT</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-URL-ERROR-NOT-SUPPORTED:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_NOT_SUPPORTED</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-URL-ERROR-VFS:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_VFS</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-URL-ERROR-CANCELLED:CAPS"></a><span class="term"><code class="literal">MATE_URL_ERROR_CANCELLED</code></span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-URL-ERROR:CAPS"></a><h3>MATE_URL_ERROR</h3>
+<pre class="programlisting">#define MATE_URL_ERROR (mate_url_error_quark ())
+</pre>
+<p>
+The class (domain) of errors raised by this module.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-url-show"></a><h3>mate_url_show ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_url_show                      (<em class="parameter"><code>const <span class="type">char</span> *url</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Once the input has been converted into a fully qualified url this function
+calls mate_vfs_url_show. Any error codes returned by mate-vfs will be wrapped
+in the error parameter. All errors comes from the <a class="link" href="libmate-mate-url.html#MATE-URL-ERROR:CAPS" title="MATE_URL_ERROR"><code class="literal">MATE_URL_ERROR</code></a>% domain.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>url</code></em> :</span></p></td>
+<td>The url or path to display. The path can be relative to the current working
+directory or the user's home directory. This function will convert it into a fully
+qualified url using the mate_url_get_from_input function.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>Used to store any errors that result from trying to display the <em class="parameter"><code>url</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if everything went fine, <code class="literal">FALSE</code> otherwise (in which case
+<em class="parameter"><code>error</code></em> will contain the actual error).
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-url-show-with-env"></a><h3>mate_url_show_with_env ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_url_show_with_env             (<em class="parameter"><code>const <span class="type">char</span> *url</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **envp</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Like <a class="link" href="libmate-mate-url.html#mate-url-show" title="mate_url_show ()"><code class="function">mate_url_show()</code></a>, but mate_vfs_url_show_with_env
+will be called with the given envirnoment.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>url</code></em> :</span></p></td>
+<td>The url or path to display.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>envp</code></em> :</span></p></td>
+<td>child's environment, or <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> to inherit parent's.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>Used to store any errors that result from trying to display the <em class="parameter"><code>url</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if everything went fine, <code class="literal">FALSE</code> otherwise (in which case
+<em class="parameter"><code>error</code></em> will contain the actual error).
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.2</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

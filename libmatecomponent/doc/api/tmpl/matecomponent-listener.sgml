@@ -1,0 +1,189 @@
+<!-- ##### SECTION Title ##### -->
+matecomponent-listener
+
+<!-- ##### SECTION Short_Description ##### -->
+An Event Listener (an implementation of MateComponent::Listener)
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+   The MateComponentListener object is a CORBA server used to receive events
+   emitted by a remote MateComponent::EventSource server.  The combination
+   EventSource/Listener is used to notify one or more client
+   applications of events that happen in a component.    Think of the
+   EventSource/Listener as a notification/callback system that allows
+   multiple clients to be informed of events.
+</para>
+
+<para>
+   Once created, the MateComponentListener object needs to be attached to a
+   remote IDL:MateComponent/EventSource:1.0 server.  This is done by passing the
+   CORBA Object reference of the MateComponentListener to the addListener
+   method in the IDL:MateComponent/EventSource:1.0.  
+</para>
+
+<para>
+   The MateComponentListener object allows the user to specify a callback
+   function to be invoked when an event is emitted by the
+   IDL:MateComponent/EventSource:1.0 server.  The MateComponentListener object also
+   emits the "event_notify" Gtk+ signal, which allows you to connect
+   multiple code segments to the same event notification. 
+</para>
+
+<para>
+    Here is a sample client application that registers interest in
+    being notified of events from the fictional "Keyboard" event
+    source:
+
+    <informalexample>
+      <programlisting>
+MateComponentListener *keyboard_listener;
+
+my_listener_function (MateComponentListener *l, char *event_name,
+                      CORBA_any value, CORBA_Environment *ev,
+                      gpointer user_data)
+{
+	printf ("Received event named: %s\n", event_name);
+}
+
+connect_to_keyboard_source (MateComponent_EventSource *keyboard)
+{
+        MateComponent_Unknown reference;
+
+        /*
+         * First, create the listener MateComponent server.
+         */
+	keyboard_listener = matecomponent_listener_new (my_listener_function, NULL);
+
+        /*
+         * Now, register our listener with the EventSource
+         */
+        reference = matecomponent_object_corba_objref (keyboard_listener);
+        MateComponent_EventSource_addListener (keyboard, reference);
+}
+      </programlisting>
+    </informalexample>
+
+</para>
+
+<para>
+  The CORBA::any value passed to the listener function is defined by
+  the contract between the EventSource's event you are using and you.
+  To manipulate the value, you can use the CORBA DynamicAny interface
+  to introspect the value and extract the information you need. 
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+   #MateComponentEventSource #MateComponentArg
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentListener ##### -->
+<para>
+Implementents MateComponent::Listener.
+</para>
+
+
+<!-- ##### SIGNAL MateComponentListener::event-notify ##### -->
+<para>
+
+</para>
+
+@matecomponentlistener: the object which received the signal.
+@arg1: 
+@arg2: 
+@arg3: 
+
+<!-- ##### STRUCT MateComponentListenerClass ##### -->
+<para>
+#MateComponentListener's class
+</para>
+
+@parent_class: 
+@epv: 
+@event_notify: 
+
+<!-- ##### USER_FUNCTION MateComponentListenerCallbackFn ##### -->
+<para>
+   The signature for the callback function invoked when an event is
+   delivered to the MateComponentListener object.  
+</para>
+
+@listener: a pointer to the MateComponentListener.
+@event_name: the event name that was emitted.
+@any: The value (A CORBA Any) that was passed by the EventSource.
+@ev: Environment for returning CORBA errors.
+@user_data: the data pointer specified when you called matecomponent_listener_new
+
+
+<!-- ##### FUNCTION matecomponent_listener_new ##### -->
+<para>
+
+</para>
+
+@event_cb: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_listener_new_closure ##### -->
+<para>
+
+</para>
+
+@event_closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_event_make_name ##### -->
+<para>
+
+</para>
+
+@idl_path: 
+@kind: 
+@subtype: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_event_type ##### -->
+<para>
+
+</para>
+
+@event_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_event_subtype ##### -->
+<para>
+
+</para>
+
+@event_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_event_kind ##### -->
+<para>
+
+</para>
+
+@event_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_event_idl_path ##### -->
+<para>
+
+</para>
+
+@event_name: 
+@Returns: 
+
+

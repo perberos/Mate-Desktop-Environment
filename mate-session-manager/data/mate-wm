@@ -1,0 +1,160 @@
+#!/bin/sh
+
+# The user can specify his prefered WM by setting the WINDOW_MANAGER
+# environment variable.
+#
+# If this is not set, we search a list of known windowmanagers and use
+# the first one that is found in the users's PATH
+#
+# NOTE: DON'T USE THIS.  Please have your window manager install
+# a desktop file and change the mateconf key
+# /desktop/mate/session/required_components/windowmanager
+
+# sm-client-id value
+SMID=
+# default-wm value
+DEFWM=
+
+#read in the arguments
+GET=
+for n in "$@" ; do
+  case "$GET" in
+    smid)
+      SMID=$n
+      GET=
+      ;;
+    defwm)
+      DEFWM=$n
+      GET=
+      ;;
+    *)
+      case "$n" in
+        --sm-client-id)
+          GET=smid
+          ;;
+        --default-wm)
+          GET=defwm
+          ;;
+      esac
+      ;;
+  esac
+done
+
+# WINDOW_MANAGER overrides all
+if [ -z "$WINDOW_MANAGER" ] ; then
+    WINDOW_MANAGER=`mateconftool-2 --get /desktop/mate/session/required_components/windowmanager 2> /dev/null`
+fi
+
+# Migrate compiz to compiz-manager if possible and needed
+if [ "x$WINDOW_MANAGER" = "xcompiz" -o "x$DEFWM" = "xcompiz" ]; then
+  which compiz-manager > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    if [ "x$WINDOW_MANAGER" = "xcompiz" ]; then
+      WINDOW_MANAGER="compiz-manager"
+    fi
+    if [ "x$DEFWM" = "xcompiz" ]; then
+      DEFWM="compiz-manager"
+    fi
+  fi
+fi
+
+# Avoid looping if the session configuration tells us to use mate-wm or if
+# the user forces mate-wm via WINDOW_MANAGER
+if [ "x$WINDOW_MANAGER" = "xmate-wm" ]; then
+  WINDOW_MANAGER=""
+fi
+
+if [ -z "$WINDOW_MANAGER" ] ; then
+  # Create a list of window manager we can handle, trying to only use the
+  # compositing ones when it makes sense
+
+  xdpyinfo 2> /dev/null | grep -q "^ *Composite$" 2> /dev/null
+  IS_X_COMPOSITED=$?
+
+  KNOWN_WM="sawfish sawmill enlightenment icewm wmaker fvwm2 qvwm fvwm twm kwm"
+  if [ $IS_X_COMPOSITED -eq 0 ] ; then
+    KNOWN_WM="mutter compiz-manager compiz beryl $KNOWN_WM"
+  fi
+  # marco is still the default wm in MATE
+  KNOWN_WM="marco $KNOWN_WM"
+
+  OLDIFS=$IFS
+  if [ -z "$DEFWM" -o "x$DEFWM" = "xmate-wm" ]; then
+
+    for wm in $KNOWN_WM ; do
+      IFS=":"
+      for dir in $PATH ; do
+        if [ -x "$dir/$wm" ] ; then
+          WINDOW_MANAGER="$dir/$wm"
+          break 2
+        fi
+      done
+      IFS=$OLDIFS
+    done
+
+  else
+    WINDOW_MANAGER=$DEFWM
+  fi
+  IFS=$OLDIFS
+fi
+
+# If no window manager can be found, we default to xterm
+
+if [ -z "$WINDOW_MANAGER" ] ; then
+  echo "WARNING: No window manager can be found."
+  WINDOW_MANAGER=xterm
+fi
+
+# Now create options OPT1, OPT2 and OPT3 based on the windowmanager used
+OPT1=
+OPT2=
+OPT3=
+OPT4=
+if [ ! -z "$SMID" ] ; then
+  case `basename $WINDOW_MANAGER` in
+    sawfish|sawmill|marco|mutter)
+      OPT1=--sm-client-id=$SMID
+      ;;
+    openbox|enlightenment|e16)
+      OPT1=--sm-client-id
+      OPT2=$SMID
+      ;;
+    twm)
+      OPT1=-clientId
+      OPT2=$SMID
+      ;;
+    lwm)
+      OPT1=-s
+      OPT2=$SMID
+      ;;
+    fvwm)
+      OPT1=-i
+      OPT2=$SMID
+      ;;
+    compiz|compiz-manager)
+      OPT1=--sm-client-id
+      OPT2=$SMID
+      ;;
+    beryl)
+      OPT1=--sm-client-id
+      OPT2=$SMID
+      ;;
+    #FIXME: add all other windowmanagers here with their proper options
+  esac
+fi
+
+case `basename $WINDOW_MANAGER` in
+  compiz)
+    export LIBGL_ALWAYS_INDIRECT=1
+    gtk-window-decorator &
+    OPT3=glib
+    OPT4=mateconf
+    ;;
+  beryl)
+    emerald &
+    ;;
+esac
+
+exec $WINDOW_MANAGER $OPT1 $OPT2 $OPT3 $OPT4
+
+echo "ERROR: No window manager could run!"

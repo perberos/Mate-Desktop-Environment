@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Getting and Setting File Information</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-basic-file-ops.html" title="File Operations">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html" title="Truncating Files">
+<link rel="next" href="mate-vfs-directory-ops.html" title="Directory-Specific Operations">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-basic-file-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-directory-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-file-info-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-file-info-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-file-info-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-file-info-ops.top_of_page"></a>Getting and Setting File Information</span></h2>
+<p>Getting and Setting File Information — Convenient high-level abstraction for obtaining and setting file information, including ACLs.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-file-info-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info" title="mate_vfs_get_file_info ()">mate_vfs_get_file_info</a>             (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info-uri" title="mate_vfs_get_file_info_uri ()">mate_vfs_get_file_info_uri</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info-from-handle" title="mate_vfs_get_file_info_from_handle ()">mate_vfs_get_file_info_from_handle</a> (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-set-file-info-uri" title="mate_vfs_set_file_info_uri ()">mate_vfs_set_file_info_uri</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> mask</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-set-file-info" title="mate_vfs_set_file_info ()">mate_vfs_set_file_info</a>             (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> mask</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-info-ops.description"></a><h2>Description</h2>
+<p>
+    Applications can use the <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info" title="mate_vfs_get_file_info ()"><code class="function">mate_vfs_get_file_info()</code></a> family of operations to
+    retrieve file information, as this operation can be quite costly in
+    terms of time (specilly when sniffing the MIME type) applications can
+    specify which information need at any time, reducing the performance
+    impact.
+</p>
+<p>
+    All of these operations use a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> data structure that holds
+    the file information, there are several methods that can be used to
+    manipulate this information. See <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> for more information.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-info-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-get-file-info"></a><h3>mate_vfs_get_file_info ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_get_file_info             (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);</pre>
+<p>
+Retrieve information about <em class="parameter"><code>text_uri</code></em>.  The information will be stored in
+<em class="parameter"><code>info</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>uri of the file for which information will be retrieved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> object that will hold the information
+for the file on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>options for retrieving file information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-file-info-uri"></a><h3>mate_vfs_get_file_info_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_get_file_info_uri         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);</pre>
+<p>
+Retrieve information about <em class="parameter"><code>text_uri</code></em>.  The information will be stored in
+<em class="parameter"><code>info</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri of the file for which information will be retrieved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> object that will hold the information
+for the file on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>options for retrieving file information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-file-info-from-handle"></a><h3>mate_vfs_get_file_info_from_handle ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_get_file_info_from_handle (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>);</pre>
+<p>
+Retrieve information about an open file.  The information will be stored in
+<em class="parameter"><code>info</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the file for which information must be retrieved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> object that will hold the information
+for the file on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>options for retrieving file information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-set-file-info-uri"></a><h3>mate_vfs_set_file_info_uri ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_set_file_info_uri         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> mask</code></em>);</pre>
+<p>
+Set file information for <em class="parameter"><code>uri</code></em>; only the information for which the
+corresponding bit in <em class="parameter"><code>mask</code></em> is set is actually modified.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<em class="parameter"><code>info</code></em>'s <code class="literal">valid_fields</code> is not required to contain the
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoFields" title="enum MateVFSFileInfoFields"><span class="type">MateVFSFileInfoFields</span></a> corresponding to the specified 
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> fields of <em class="parameter"><code>mask</code></em>. It
+is assumed that the <em class="parameter"><code>info</code></em> fields referenced by <em class="parameter"><code>mask</code></em>
+are valid.
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>a uri.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>information that must be set for the file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mask</code></em> :</span></p></td>
+<td>bit mask representing which fields of <em class="parameter"><code>info</code></em> need to be set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-set-file-info"></a><h3>mate_vfs_set_file_info ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_set_file_info             (<em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> mask</code></em>);</pre>
+<p>
+Set file information for <em class="parameter"><code>uri</code></em>; only the information for which the
+corresponding bit in <em class="parameter"><code>mask</code></em> is set is actually modified.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<em class="parameter"><code>info</code></em>'s <code class="literal">valid_fields</code> is not required to contain the
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoFields" title="enum MateVFSFileInfoFields"><span class="type">MateVFSFileInfoFields</span></a> corresponding to the specified 
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> fields of <em class="parameter"><code>mask</code></em>. It
+is assumed that the <em class="parameter"><code>info</code></em> fields referenced by <em class="parameter"><code>mask</code></em>
+are valid.
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the file location.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>information that must be set for the file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mask</code></em> :</span></p></td>
+<td>bit mask representing which fields of <em class="parameter"><code>info</code></em> need to be set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-info-ops.see-also"></a><h2>See Also</h2>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a></span></p></td>
+<td></td>
+</tr></tbody>
+</table></div>
+<p>
+</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,1266 @@
+<refentry id="monikers-overview">
+    <refmeta>
+	<refentrytitle>Monikers in the MateComponent Component System</refentrytitle>
+	<refmiscinfo>LIBMATECOMPONENT Library</refmiscinfo>
+    </refmeta>
+    
+    <para>Monikers in the MateComponent Component System.</para>
+    <para>Miguel de Icaza (miguel@ximian.com)</para>
+
+
+    <refsect1>
+	<title>Monikers in the MateComponent Component System</title>
+
+	<refsect2>
+	    <title>Introduction</title>
+	    <para>
+		We recently reimplemented and fully revamped the the
+		Moniker support in MateComponent.  This work has opened a
+		wide range of possibilities: from unifying the object
+		naming space, to provide better integration in the
+		system. </para>
+
+	    <para> Note: on this document I have ommited exception
+		environments handling for the sake of explaining the
+		technology.</para>
+
+	</refsect2>
+
+	<refsect2><title>Monikers - a user perspective</title>
+
+	    <para>
+		Monikers are used to name objects, they effectively
+		implement an object naming space.  You can obtain
+		monikers either because you created the moniker
+		manually, or from a stringified representation of a
+		moniker.</para>
+	    
+	    <para>Here is a list of stringified monikers, and an
+		interpretation of it:</para>
+
+	    <variablelist termlength="0">
+
+		<varlistentry>
+		    <term><literal>
+		    file:quake-scores.gnumeric</literal></term>
+		    <listitem> <para>
+			    This would be a moniker that represents the
+			    file <filename>quake-scores.gnumeric</filename>
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+		    oafid:MATE:Gnumeric:WorkbookFactory:1.0</literal></term>
+		    <listitem> <para>
+			This moniker represents the Gnumeric Workbook
+			factory object.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			oafid:MATE:Gnumeric:WorkbookFactory:1.0:new:
+			</literal></term>
+		    <listitem> <para>
+			This moniker represents a Gnumeric Workbook instance. 
+			Notice that we are using the exact same OAFID
+			as the example before, but there is a "new:"
+			suffix at the end.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:/tmp/a.gz
+			</literal></term>
+		    <listitem> <para>
+			This represents the file
+			in <filename>/tmp/a.gz</filename>.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:/tmp/a.gz#gunzip
+			</literal></term>
+		    <listitem> <para>
+			This represents the decompressed stream of
+			data from <filename>a.gz</filename>.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:/tmp/a.gz#gunzip:streamcache
+			</literal></term>
+		    <listitem> <para>
+			This provides a cache on top of the
+			decompressed stream of data
+			for <filename>a.gz</filename> (the streamcache
+			moniker is an in-proc component).
+			</para>
+		    </listitem>
+		</varlistentry>
+
+
+
+		<varlistentry>
+		    <term><literal>
+			http://www.mate.org
+			</literal></term>
+		    <listitem> <para>
+			This one represents the MATE web site.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+
+		<varlistentry>
+		    <term><literal>
+			evolution:Mail/Inbox
+			</literal></term>
+		    <listitem> <para>
+			This represents the Evolution Mail/Inbox
+			folder.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:quake-scores.gnumeric!January
+			</literal></term>
+		    <listitem> <para>
+			This represents the January Sheet in the
+			<filename>quake-scores.gnumeric</filename> workbook.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:quake-scores.gnumeric!January!Winner
+			</literal></term>
+		    <listitem> <para>
+			This represents the cell whose name is
+			"Winner" in the January sheet in the
+			<filename>quake-scores.gnumeric</filename> workbook.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:quake-scores.gnumeric!January!Winner!Style!Font
+			</literal></term>
+		    <listitem> <para>
+			This represents the Font interface of the
+			Style attached to the Winner cell.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:quake-scores.gnumeric!Jannuary!Winner!Style!BackgroundColor
+			</literal></term>
+		    <listitem> <para>
+			This represents the background color for the cell.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			http://www.mate.org/index.html!title
+			</literal></term>
+		    <listitem> <para>
+			This represents the title element in the HTML
+			web page at <literal>www.mate.org</literal>.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:toyota.xml!cars/car/model/
+			</literal></term>
+		    <listitem> <para>
+			The "cars/car/model" is an XPath expression
+			that for locating a specific node in the
+			<filename>toyota.xml</filename> file.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			config:*/Session/Calendar
+			</literal></term>
+		    <listitem> <para>
+			This represents a PropertyBag for the MATE
+			Calendar using the Local configuration system
+			and using the settings stored in the Session
+			domain.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			oafid:Helix:Evolution:Wombat:1.0
+			</literal></term>
+		    <listitem> <para>
+			This represents the Evolution model server
+			that stores all the per-user information.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			queue:oafid:Helix:Evolution:Wombat
+			</literal></term>
+		    <listitem> <para>
+			This represents an interface that queues CORBA
+			requests to the Evoution Wombat: Any calls
+			issued will be queued: if the Wombat is busy
+			or not accepting connection, all the CORBA
+			method invocations will be queued without
+			stopping the execution of the client code.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			http://www.mate.org/index.html.gz#gunzip#html:title
+			</literal></term>
+		    <listitem> <para>
+			This will reutrn the title element of the
+			compressed HTML file at 
+			<literal>http://www.mate.org/index.html.gz</literal>
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			ftp://ftp.mate.org/mate-core-1.0.tar.gz#utar/mate-core-1.0/ChangeLog
+			</literal></term>
+		    <listitem> <para>
+			A reference to the ChangeLog file contained in
+			the compressed mate-core-1.0.tar.gz tar file
+			at <literal>ftp://ftp.mate.org</literal>.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			desktop:Backgound
+			</literal></term>
+		    <listitem> <para>
+			The background object for the user's desktop.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+
+		<varlistentry>
+		    <term><literal>
+			trashcan:
+			</literal></term>
+		    <listitem> <para>
+			The system trashcan.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:logo.png
+			</literal></term>
+		    <listitem> <para>
+			This represents the logo.png file.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			oafid:OAFIID:eog_viewer_factory:file:logo.png
+			</literal></term>
+		    <listitem> <para>
+			This specifies a specific image viewer to be
+			used to display the file "<literal>logo.png</literal>", in this
+			case the "EOG" program.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:logo.png!Zoom=2.0
+			</literal></term>
+		    <listitem> <para>
+			This represents
+			the <filename>logo.png</filename> file in EOG
+			at zoom level 2.0.
+			</para>
+		    </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		    <term><literal>
+			file:logo.png!Zoom=2.0,dither=max,notransparency
+			</literal></term>
+		    <listitem> <para>
+			The image logo.png is configured to be zoomed
+			at 2.0 factor, to do maximum dithering and not
+			use any transparency.
+			</para>
+		    </listitem>
+		</varlistentry>
+	    </variablelist>
+
+	    <para>
+		Now, what you saw above are some examples of
+		stringified representations of monikers.  This means
+		that they are not really monikers, it is the way a
+		Moniker is represented in string form.
+	    </para>
+	    <para>
+		Monikers typically are created either by using a
+		MateComponent API call that transforms the stringified
+		representation into an object (which exports the
+		<literal>IDL:MateComponent/Moniker:1.0</literal> interface),
+		like this:
+	    </para>
+	    <programlisting>
+	moniker = matecomponent_moniker_client_new_from_name (moniker_string);
+	    </programlisting>
+	    
+	    <para>
+		Now, a moniker is only interesting because it can
+		yield other objects when resolved.  During the
+		resolution process, you specify which interface you
+		are intersted on the moniker to return.  This is
+		achieved by invoking the ::resolve method on the
+		moniker and passing the repoid of the interface you
+		desire, like this:</para>
+	    <programlisting>
+	MateComponent::Unknown control;
+
+	control = moniker-&gt;resolve ("MateComponent/Control")
+	    </programlisting>
+	    
+	    <para> This would request the moniker to return an object
+		that implements the IDL:MateComponent/Control:1.0 interface.
+		This means that the object could be embedded as a
+		regular MateComponent control in applications.</para>
+	    <para> Maybe you do not want to get a control, but rather
+		to resolve the moniker against a different interface,
+		for instance a MateComponent::PropertyBag interface:</para>
+	    <programlisting>
+	properties = moniker-&gt;resolve ("MateComponent/PropertyBag");
+	    </programlisting>
+
+	    <para>The resolution process might yield completely different
+		objects.</para>
+	    <para>The parsing and resolution process is all
+		encapsulated into a single API call for your
+		convenience: the matecomponent_get_object function:</para>
+	    <programlisting>
+	MateComponent::Unknown matecomponent_object_get (char *moniker_string, char *interface);
+	    </programlisting>
+	    
+	    <para> Now, as I said, the resolution process might yield
+		very different objects depending on the interface
+		being requested, for example:</para>
+	    <programlisting>
+	x = matecomponent_object_get ("http://www.mate.org", "MateComponent/Control")
+	y = matecomponent_object_get ("http://www.mate.org", "MateComponent/Stream")
+	    </programlisting>
+
+	    <para>The "x" object might launch Mozilla which would in turn load
+		<literal>www.mate.org</literal>, and the returned
+		object can be used as a MateComponent Control, and used in
+		your application as a widget.</para>
+	    <para> The "y" object on the other hand does not need all
+		the power of Mozilla, we are only requesting the very
+		simple Stream interface, so we might be able to
+		implement this with a lightweight HTTP implementation:
+		maybe a wget-based matecomponent server, or a libghttp
+		server. </para>
+	    <para> Note that even if the stringified versions of the
+		monikers were the same (ie, "http://www.mate.org")
+		the resulting objects might differ wildely depending
+		on the interface being requested. </para>
+
+	</refsect2>
+
+	<refsect2><title>The Moniker parsing system</title>
+
+	    <para>During parsing the Moniker stringified, MateComponent will
+		use the colon-terminated prefix as the toplevel
+		moniker to be invoked for the resolution process.</para>
+
+	    <para>For the prefix "file:" the file moniker will be used;  For the
+		prefix "oafid", the oafid moniker will be used;  For the
+		"queue:" prefix, the queue moniker will be used.</para>
+
+	    <para>Once the moniker that handles a specific prefix has
+		been activated, the moniker will be requested to parse
+		the remaining of the string specification and return a
+		valid moniker.</para>
+
+	    <para>Each moniker typically will consume a number of
+		bytes up to the point where its domain stops, will
+		figure out what is the next moniker afterwards.  Then
+		it will activate the next moniker and pass the
+		remaining of the moniker stringified version until the
+		parsing is finished.</para>
+
+	    <para>Each moniker is free to define its own mechanism for parsing,
+		its special characters that are used to indicate the end of a
+		moniker space, and the beginning of a new one (like the "#"
+		and the "!" characters in some of the examples above).  This
+		flexibility is possible because each moniker gets to define
+		its rules (and this is important, as we want to integrate with
+		standards like http and file).</para>
+	</refsect2>
+
+	<refsect2><title>Monikers as an object naming scheme</title>
+
+	    <para>As you can see, monikers are used to implement a
+		naming system that can be used to reference and
+		manipulate objects.  As you might have noticed, the
+		::resolve method on the Moniker interface returns a
+		MateComponent::Unknown interface.  And by definition, the
+		matecomponent_get_object also returns a MateComponent::Unknown.</para>
+
+	    <para>This means that the resulting object from the
+		moniker resolution will always support ref, unref and
+		query_interface methods.</para>
+
+	    <para>The Moniker object naming scheme is:</para>
+	    <variablelist>
+		<varlistentry>
+		    <term>Extensible</term>
+		    <listitem> <para> A new entry point into the
+			object naming space can be created and
+			installed into the system.</para>
+		    </listitem>	</varlistentry>
+		<varlistentry>
+		    <term>Hierarchical</term>
+		    <listitem> <para> Monikers. <!--FIXME--></para>
+		    </listitem>
+		</varlistentry>
+	    </variablelist>
+	    
+	</refsect2>
+
+	<refsect2><title>Creating Monikers</title>
+
+	    <para>Monikers are created typically by API calls into the
+		MateComponent runtime or by your own classes that implement
+		monikers.</para>
+	    <!-- FIXME: more. -->
+	</refsect2>
+
+	<refsect2><title>Object Name Space</title>
+
+	    <refsect3><title>Comparing the Moniker name space with the
+		Unix Name Space</title>
+		
+		<para> Lets start simple.  A moniker is a reference to
+		    an object[1].  To actually use the object, you
+		    have to "resolve" the moniker.  The term used in
+		    the literature is "binding the object". </para>
+		
+		<para> The result of resolving the moniker is a
+		    <literal>MateComponent::Unknown</literal> object.</para>
+		
+		<para>Think of a moniker as a pathname.  And think of the
+		    binding process as the "open" system call on Unix.</para>
+
+		<para>Example:</para>
+
+		<informaltable frame="none">
+		    <tgroup cols="3">
+			<colspec colwidth="1*"/>
+			<colspec colwidth="1*"/>
+			<colspec colwidth="1*"/>
+			<tbody>
+			    <row>
+				<entry></entry>
+				<entry>Unix Files</entry>
+				<entry>Monikers</entry>
+			    </row>
+			    <row>
+				<entry>Object naming:</entry>
+				<entry>path name</entry>
+				<entry>moniker string representation</entry>
+			    </row>
+			    <row>
+				<entry>Binding function:</entry>
+				<entry>open(2)</entry>
+				<entry>matecomponent_get_object</entry>
+			    </row>
+			    <row>
+				<entry>Return value:</entry>
+				<entry>kernel file descriptor</entry>
+				<entry>MateComponent::Unknown CORBA reference</entry>
+			    </row>
+			    <row>
+				<entry>Binder:</entry>
+				<entry>Kernel VFS+each FS</entry>
+				<entry>matecomponent_get_object + MateComponent::Moniker</entry>
+			    </row>
+			    <row>
+				<entry>Persisting:</entry>
+				<entry>none</entry>
+				<entry>Moniker::QI(Persist)</entry>
+			    </row>
+			</tbody>
+		    </tgroup>
+		</informaltable>
+
+		<para>In the case of the file system, the kernel does
+		    the "resolution" of each path element by parsing
+		    one element of the file system, and the Virtual
+		    File System switch uses the current file system +
+		    mount points to resolve the ultimate file name.</para>
+	    </refsect3>
+	</refsect2>
+
+	<refsect2><title>File Linking</title>
+
+	    <para> Monikers were originally implemented as part of the
+		Microsoft OLE2 compound document system.  They can be
+		used effectively by applications during drag and drop
+		and cut and paste operations to pass objects that must
+		be linked by other applications.</para>
+
+	    <para>The source application would create a moniker for a
+		given object that would fully identify it, and pass it
+		through a drag and drop operation or a cut and paste
+		operation to the recipient application.</para>
+	
+	    <para>The recipient application then can resolve the
+		moniker against the interface required (in the MateComponent
+		case, MateComponent/Embeddable, or MateComponent/Control would be a
+		common choice).</para>
+
+	    <para>Applications do not need to store the entire
+		contents of linked information, they can just store a
+		stringified representation of the moniker, and resolve
+		it again at load time.</para>
+	</refsect2>
+
+	<refsect2><title>Instance initialization</title>
+
+	    <para>Monikers can be used to initialize objects, as a way
+		of passing arguments to your object.  This is coupled
+		with the MateComponent/ItemContainer interface and the Item
+		Moniker.</para>
+	    <para>The Item Moniker is covered later.</para>
+	</refsect2>
+
+	<refsect2><title>Resolution of a moniker against an interface</title>
+
+	    <para>A moniker can be resolved against different
+		interfaces.  The resulting object might be different
+		depending on the interface that is being resolved.  To
+		illustrate this, here is an example, lets say we have
+		the <literal>"http://www.helixcode.com"</literal>
+		string representation of a moniker.</para>
+
+	    <para>The string representation of the moniker can be resolved
+		against the "MateComponent/Control" interface:</para>
+	    <programlisting>
+	matecomponent_get_object ("http://www.helixcode.com", "MateComponent/Control");
+	    </programlisting>
+	    
+	    <para>This could return an embeddable Mozilla component
+		that is suitable to be embedded into your application
+		as a widget (because we are requesting the moniker to
+		return a MateComponent/Control interface).  If the interface
+		is resolved against the "MateComponent/Stream"
+		interface,maybe Mozilla is not required, and the
+		process could use a smaller process that just provides
+		MateComponent/Streams, say a corbaified wget.</para>
+
+	    <para>The logic for this lives on the http: moniker
+		handler.</para>
+	</refsect2>
+
+	<refsect2><title>Core monikers</title>
+
+	    <para>MateComponent ships with a number of moniker handlers: the
+		<literal>file</literal> moniker,
+		the <literal>item</literal> moniker,
+		the <literal>oafid</literal> moniker and
+		the <literal>new</literal> moniker.</para>
+	    
+	    <refsect3><title>The file moniker</title>
+		
+		<para>The file moniker is used to reference files.
+		    For instance:</para>
+		<programlisting>file:sales.gnumeric</programlisting>
+		
+		<para> The file moniker will scan its argument until
+		    it reaches the special characters `#' or `!' which
+		    indicate the end of the filename.</para>
+
+		<para>The file moniker will use the mime type
+		    associated with the file to find a component that
+		    will handle the file.  Once the object handler has
+		    been invoked, the Moniker will try to feed the
+		    file to the component first through quering the
+		    PersistFile interface, and if this is not
+		    supported, through the PersistStream interface.</para>
+	    </refsect3>
+	    
+	    <refsect3><title>The item moniker</title>
+
+
+		<para>The item moniker is typically triggered by the
+		    "!" string in the middle.  The item moniker can be
+		    used to implement custom object naming, or
+		    argument handling.</para>
+
+		<para>The item moniker parses the text following '!'
+		    until the next '!' character, this is called the
+		    argument of the item moniker.  During the
+		    resolution process, the item moniker will request
+		    from its parent the MateComponent/ItemContainer interface
+		    and will invoke the getObject on this interface
+		    with the argument.</para>
+
+		<para>For example, in a Gnumeric spreadsheet this
+		    allows programmers to reference sub-objects by
+		    name.  For instance, Workbooks can locate Sheet
+		    objects; Sheets can locate range names, cell
+		    names, or cell references.</para>
+
+		<para>This moniker would reference the sheet named
+		    `Sales' in the workbook contained in the
+		    sales.gnumeric spreadsheet:</para>
+
+		<programlisting>
+	sheet = matecomponent_get_object ("sales.gnumeric!Sales", "Gnumeric/Sheet");
+		</programlisting>
+
+		<para>This other would reference the cell that has been named
+		    `Total' inside the Sheet "Sales":</para>
+		<programlisting>
+	cell = matecomponent_get_object ("sales.gnumeric!Sales!Total", "Gnumeric/Cell")
+		</programlisting>
+
+		<para> The way this works from the container
+		    perspective, is that the container will implement
+		    the <function>getObject</function> (string)
+		    method, and would respond to
+		    the <function>getObject</function> request.</para>
+
+		<para> Item monikers can also be used to perform
+		    instance initialization.  The component that wants
+		    to support instance initialization needs to
+		    support the MateComponent/ItemContainer interface and
+		    implement a getObject method that would return the
+		    object properly initialized.</para>
+
+		<para> For example, lets consider an image viewer
+		    component that can be configured, like this: </para>
+	
+		<programlisting>
+	image = matecomponent_get_object ("file.jpg!convert_to_gray=on", "MateComponent/Control")
+		</programlisting>
+
+		<para>The above example would activate the EOG
+		    component because of the file.jpg match, and then
+		    invoke EOG's ItemContainer implementation with the
+		    argument "convert_to_gray=on".  getObject should
+		    return an object (which would be itself) but it
+		    would modify the instance data to set the
+		    "convert_to_gray" flag to on.  Like this:</para>
+		<programlisting>
+MateComponent_Unknown
+eog_item_container_get_object (MateComponentObject *o, char *name)
+{
+	if (command_is (name, "convert_to_gray", &amp;v))
+		image_set_convert_to_gray (o, v);
+	...
+	matecomponent_object_ref (o);
+	return matecomponent_objet_corba_objref (o);
+}
+		</programlisting>
+
+	    </refsect3>
+
+	    <refsect3><title>The oafiid moniker</title>
+
+		<para>The <literal>oafid:</literal> moniker handles
+		    activation using the Object Activation Framework.
+		    This allows application programmers to activate
+		    objects by their OAF ID, like this:</para>
+		<programlisting>
+	gnumeric = matecomponent_object_get ("oafiid:MATE_Gnumeric_Workbook", iface)
+		</programlisting>
+	    </refsect3>
+
+	    <refsect3><title>The "new:" moniker</title>
+		
+		<para>The new moniker requests from its parent the
+		    "MateComponent/GenericFactory" interface and invokes the
+		    method create_instance in the interface.</para>
+
+		<para>Typically this moniker would be invoked like this:</para>
+		<programlisting>
+		matecomponent_get_object ("oafid:RandomFactory:new:", iface);
+		</programlisting>
+		
+		<para>In the example above "RandomFactory" is the
+		    OAFID for the factory for a certain object.
+		    During the resolution process, the "new:" moniker
+		    would request its parent to resolve against the
+		    IDL:MATE/ObjectFactory:1.0 interface (which is
+		    the traditional factory interface in MATE for
+		    creating new object instances) and then invoke the
+		    new_instance method on it.</para>
+		    
+		<para>Historically GNORBA (the old MATE object
+		    activation system) and OAF (the new object
+		    activation system) implemented a special "hack" to
+		    do this same processing.  Basically, the
+		    description files for the object activation system
+		    was overloaded, there were three types of
+		    activation mechanism defined:</para>
+		
+		<itemizedlist>
+		    <listitem><para>activate object implementation from an
+			executable.</para></listitem>
+		    <listitem><para>activate object implementation from a
+			shared library.</para></listitem>
+		    <listitem><para>activate object implementation by
+			launching another object, and querying the
+			launched object for the ObjectFactory
+			interface.</para></listitem>
+		</itemizedlist>
+
+		<para>The "new:" moniker basically obviates the need
+		    for the last step in the activation system.  With
+		    OAF, using the OAF approach proves to be more
+		    useful, as it is possible to query OAF for
+		    components that have certain attributes, and the
+		    attributes for a factory object are not as
+		    interesting as the attributes for the instances
+		    themselves.  Despite this, the "new:" moniker can
+		    be used for performing the operation of instance
+		    initialization in more complex scenarios that go
+		    beyond the scope of activation provided by
+		    OAF.</para>
+	    </refsect3>
+
+	</refsect2>
+
+	<refsect2><title>Adding moniker handlers to the system</title>
+	    <formalpara><title>Ideal monikers:</title>
+		<para>There are two moniker handlers that would be
+		    interesting to implement: the Configuration
+		    Moniker and the VFS moniker.</para>
+	    </formalpara>
+
+	    <para>They both help the system overall, because the added
+		simplicity of having a standard way of activating
+		services in the system and given that the API to these
+		services is CORBA-based, any programming language with
+		CORBA/MateComponent support can make use of them without the
+		need of a special language binding.</para>
+
+	    <para>I am convinced that this helps make the system more
+		self consistant internally.</para>
+
+	    <refsect3><title>The Configuration Moniker</title>
+
+		<para>The configuration moniker is invoked by using
+		    the <literal>"config:"</literal> prefix.  The
+		    string afterwards is the configuration locator.
+		    The moniker should support being querried against
+		    the "MateComponent/Property" or "MateComponent/PropertyBag"
+		    depending on whether we are requesting a set of
+		    attributes, or a single attribute.</para>
+
+		<para>For example, retrieving the configuration
+		    information for a specific configuration property
+		    in Gnumeric would work like this:</para>
+		<programlisting>
+	MateComponent_Property auto_save;
+	CORBA_Any value;
+	
+	auto_save = matecomponent_get_object (
+		"config:gnumeric/auto-save", "/MateComponent/Property");
+	value = matecomponent_property_get_value (auto_save, &amp;ev);
+	if (value-&gt; tc-&gt; kind == CORBA_tk_bool)
+	    printf ("Value: %s\n", (CORBA_bool) value-&gt;_value ? "true" : "false");
+	else
+	    printf ("Property is not boolean\n");
+		</programlisting>
+
+		<para> In the above example, we first use the
+		    <function>matecomponent_get_object</function> routine to locate the
+		    configuration object through its moniker.  The
+		    return value from the <function>matecomponent_get_object</function> is of type
+		    <literal>MateComponent_Property</literal> which is the
+		    standard MateComponent way of manipulating
+		    properties.</para>
+		<para>This has two main advantages:</para>
+		<itemizedlist>
+		    <listitem>
+			<para>By accessing the configuration engine
+			    through the moniker interface we have
+			    eliminated the need to define a C-specific
+			    API for the configuration management.  The
+			    configuration could have been reached
+			    through any other programming language
+			    that supports CORBA.</para>
+			<para>The MATE project has always tried to
+			    define APIs that could be easily wrapped
+			    and accessed from various languages
+			    (particularly, we have done this with the
+			    toolkit and recently with the CORBA
+			    bindings).</para>
+			<para>But even if we have taken special care
+			    of doing this, and there are continous
+			    efforts to wrap the latest and greatest
+			    APIs, widgets, and tools, the bindings
+			    typically lag a few weeks to monthsw
+			    behind the actual C API.</para>
+			<para>By moving towards CORBA, we only need to
+			    support CORBA in the various programming
+			    languages and we get access to any new
+			    APIs defined by it.</para>
+		    </listitem>
+
+		    <listitem>
+			<para>Any tools on the system that can
+			    manipulate a MateComponent::Property or
+			    ::PropertyBag (a GUI in a visual designer,
+			    or a configuration engine that
+			    persists/hidrates objects, or a browsing
+			    tool) can talk directly to the
+			    configuration engine all of a sudden, as
+			    we are using the same interface method
+			    across every language on the system.</para>
+		    </listitem>
+		</itemizedlist>
+
+		<para>The MateComponent::Property interface is pretty
+		    comprehensive, and should address most needs, the
+		    methods are:</para>
+		<synopsis>
+	string   get_name ();
+	TypeCode get_type ();
+	any      get_value ();
+	void     set_value ();
+	any      get_default ();
+	string   get_doc_string ();
+	long     get_flags ();
+		</synopsis>
+
+		<para>Now, this interface as you can see does not
+		    specify an implementation for the actual backend.
+		    Given that this is just an interface, we do not
+		    care what the moniker will connect us to, we only
+		    care with the fact that we will be able to use the
+		    Property and PropertyBag interfaces.</para>
+	    </refsect3>
+
+	    <refsect3><title>Configuration transactions</title>
+
+		<para>Handling of transactional changes to the
+		    configuration system can be achieved by the use of
+		    the setValues interface in the PropertyBag.  The
+		    implementation of the PropertyBag can either
+		    accept the values set, or it can do consistency
+		    checking of the values being set (for instance, to
+		    avoid the configuration to contradict itself, or
+		    store invalid values).  If the values being set
+		    are invalid, an exception is thrown.</para>
+
+		<para>It would be also possible to hook up an
+		    arbitrary consistency checking component in the
+		    middle, by inserting the consistency checking in
+		    the middle of the stream, like this:</para>
+		<programlisting>
+	matecomponent_get_object ("config:gnumeric/auto-save:gnumeric-consistency-check:", "MateComponent/Property");
+		</programlisting>
+
+		<para>Notice the `gnumeric-consistency-check:' moniker handler.
+		    This could just be a shared library consistency checking
+		    component if it needs to be.</para>
+	    </refsect3>
+
+	    <refsect3><title>Listening to changes.</title>
+		<para>
+		    One of the requirements for a modern desktop is to
+		    be react globally when changes are made to global
+		    settings.  For example, in the MATE desktop when
+		    a theme is changed, a special protocol inside Gtk+
+		    is used to notify all the applications that they
+		    should reload their theme configuration.
+		</para>
+		<para>There are many other examples where applications
+		    need to keep track of the current setting.  For
+		    example, when a preference is changed, we want the
+		    preference to take place right away, without us
+		    having to restart our running applications.
+		</para>
+		<para>This is easily achieved by registering a
+		    Listener with the MateComponent/EventSource in the
+		    PropertyBag.</para>
+	    </refsect3>
+
+	    <refsect3><title>What about MateConf?</title>
+
+		<para>MateConf is a configuration management
+		    infrastructure that provides the following
+		    features:</para>
+		<itemizedlist>
+		    <listitem><para>A schema system for specifying the
+			various configuration options, as well as
+			their documentation and initial values
+			(default values).</para>
+		    </listitem>
+		    <listitem><para>A way for the system administrator
+			to override values in a system-wide fashion
+			(this encompasses a network-wise setup if
+			desired).</para>
+		    </listitem>
+		    <listitem><para>A change notification system:
+			applications might be notified of changes to
+			various values they might want to keep track
+			of.</para>
+		    </listitem>
+		</itemizedlist>
+
+		<para>There are two drawbacks to MateConf currently:</para>
+		<itemizedlist>
+		    <listitem><para>Although mateconf provides pretty
+			much everything that is required, but it is a
+			C-based API that needs to be wrapped for every
+			language that wants to support MateConf.</para>
+		    </listitem>
+		    <listitem><para>MateConf is limited in the kind of
+			information that can be stored on its
+			database.  A MateComponentProperty stores a CORBA_Any
+			which can contain any of the simple CORBA
+			types (strings, integers, floating points,
+			booleans), structures, arrays and
+			unions.</para>
+		    </listitem>
+		</itemizedlist>
+
+		<para>The actual engine and backend for MateConf could
+		    become the configuration moniker handler, only the
+		    API would be replaced as well as the actual
+		    storage system to support the more complete
+		    CORBA_Any, and the ad-hoc CORBA interface can be
+		    replaced with a more powerful system.</para>
+	    </refsect3>
+
+	    <refsect3><title>Configuration management: Open Issues</title>
+
+		<formalpara><title>Specifying the location for
+		    configuration.</title>
+
+		    <para>The syntax for accessing the configuration
+			has not been defined, but we can cook this up
+			pretty easily.</para>
+		</formalpara>
+		<para>Forcing the configuration data to be loaded from
+		    a specific location.  Although the arguments to
+		    the moniker could be used to encode a specific
+		    location, for example:</para>
+		<programlisting>
+	config:~/file.config!auto-save
+		</programlisting>
+		<para> It seems more natural to use the file moniker
+		    to provide this information, for example:</para>
+		<programlisting>
+	file:~/file.config!config:auto-save
+		</programlisting>
+		<para>The config moniker can test for the presence of
+		    a parent, and if the parent exists, then it would
+		    request one of the Persist interfaces from it to
+		    load the actual configuration file, and provide
+		    access to it.
+		    </para>
+		
+		<formalpara><title>Transactional setting of values.</title>
+
+		    <para>It might make sense to "batch" a number of
+			changes done under a prefix to avoid listeners
+			to a range of keys to reset themselves
+			multiple times.  Consider the case in which a
+			command line tool makes various changes to the
+			background properties, say the changes are
+			done in this order:</para>
+		</formalpara>
+		<programlisting>
+	background = matecomponent_get_object ("config:desktop/background", "PropertyBag");
+	matecomponent_property_bag_set_values (background, 
+		matecomponent_property_list_new (
+			"gradient", "string", "true",
+			"color1",   "string"  "red",
+			"color2",   "string"  "blue",
+			&amp;ev);
+		</programlisting>
+		<para>If the real configuration program for handling
+		    the background is running at that point, it will
+		    have registered to be notified of changes to all
+		    those values.  The changes might be very
+		    expensive.  For example the code migh react to
+		    every change and recompute the whole background
+		    image on each change.</para>
+		<para>An optimization would be to tag the beginning of
+		    the transaction and the end of it in the client
+		    code to allow listeners to get batched
+		    notification of changes:</para>
+		<programlisting>
+	background = matecomponent_get_object ("config:desktop/background", iface);
+	matecomponent_property_bag_batch_push (background);
+	matecomponent_property_set (background, "gradient", "true");
+	matecomponent_property_set (background, "color1", "red");
+	matecomponent_property_set (background, "color2", "blue");
+	matecomponent_property_bag_batch_pop (background);
+		</programlisting>
+		<para>This would allow the listener code to batch all
+		    the expensive requests into a single pass.</para>
+		
+		<formalpara><title>Configuration handlers</title>
+		    <para>Consider the example above, we would like to
+			be able to change properties on the system and
+			have those properties to take effect
+			independently of whether a listener is
+			registered or not.</para>
+		</formalpara>
+		<para>A property handler might register with the
+		    configuration moniker to be launched when a
+		    property changes.  This could be done in a file
+		    installed in a special location.</para>
+
+	    </refsect3>
+
+	    <refsect3><title>The MATE VFS becomes deprecated.</title>
+		<para>The MATE VFS provides an asyncronouse
+		    file-system interface abstraction that can be used
+		    to access local files, remote files, files in
+		    compressed files and more.</para>
+		<para>The problem with the MATE VFS is that it is
+		    very limited: it can only expose a file system
+		    like interface to its clients (very much like the
+		    Unix interface after which it was modeled).</para>
+		<para> As covered before in the `Object Naming Space',
+		    Monikers define an object naming space, and
+		    monikers can be defined for any type of resource
+		    that the MATE VFS supports (a transitional path
+		    might include a set of monikers implemented on top
+		    of the actual MATE VFS).</para>
+		<para> A file dialog could request a moniker to be
+		    resolved against a "Graphical File Listing"
+		    interface, which might result in a miniature
+		    Nautilus window to be embedded in the dialog
+		    box.</para>
+		<para>It would be possible to entirely reuse the
+		    existing MATE VFS code by providing monikers for
+		    the various access methods that would handle the
+		    special cases "Stream", "Storage" and
+		    "FileListing".  Other interfaces will be plugged
+		    into the moniker handler to support the richer
+		    content.</para>
+		<para> For instance, consider the "trashcan:" moniker.
+		    The trashcan moniker could be resolved against
+		    various interfaces.  A file manager would resolve
+		    it against a DirectoryListing interface to display
+		    the contents of it; It could resolve it against a
+		    "Control" interface to get a trahscan custom view
+		    (to configure the values in the trashcan); a
+		    PropertyBag interface could be used to
+		    programmatically configure the various settings in
+		    it.</para>
+	    </refsect3>
+
+	</refsect2>
+
+	<refsect2><title>Other monikers</title>
+	    <para>There is another family of moniker handlers that are
+		worth stuyding.  The filtering moniker handlers and
+		the caching moniker handlers.</para>
+
+	    <refsect3><title>The <literal>streamcache:</literal> moniker</title>
+		<para>The idea of the streamcache: moniker is to be
+		    basically a shared library moniker handler that
+		    provides a cache for the IDL:MateComponent/Stream:1.0
+		    interface.</para>
+		
+		<para>This moniker is very simple, during resolution
+		    it requests the IDL:MateComponent/Stream:1.0 interface
+		    from its parent and it can only expose the
+		    IDL:MateComponent/Stream:1.0 interface to clients.</para>
+
+		<para>The plus is this: it is a shared library
+		    component, which will run in the address space of
+		    the application that will use the Stream, and it
+		    provides a cache to the parent Stream (so we can
+		    use small granular method invocations, and the
+		    stream cache can do the traditional buffering).</para>
+
+		<para> Think of this difference as the one between an
+		    application using write()/read and the application
+		    using fwrite/fread/getc/putc: although many
+		    applications can implement their own buffering,
+		    most of the time just using the libc-provided ones
+		    (fwrite/fread/getc/putc) will do it.  This is
+		    exactly what the streamcache: moniker will do: By
+		    appending this to a stringified representation of
+		    a moniker, you can get a Stream cache for free.</para>
+	    </refsect3>
+
+	    <refsect3><title>The #gunzip, #utar filtering monikers</title>
+		<para>The #utar moniker is a moniker that would
+		    implement tar file decoding (the same concept can
+		    be used for other archive formats).  This moniker
+		    uses an auxiliary tar component handler.  The
+		    moniker connects the tar component handler to the
+		    parent object's Stream interface and returns the
+		    resulting object.  The result of the #utar moniker
+		    can be either a MateComponent/Stream (for a file
+		    reference) or MateComponent/Storage (for a directory
+		    reference).</para>
+		<para>Like this:</para>
+		<programlisting>
+	file:/home/miguel/mail-backup.tar#utar:2000/may/1001
+	ftp://ftp.helixcode.com/pub/sources/mate-libs-1.2.tar.gz#gunzip#utar:/README
+		</programlisting>
+		
+		<para>The beauty of this system is that if two
+		    applications use the same moniker, they would be
+		    sharing the same data without having to uncompress
+		    two times the same tar file.</para>
+		<para>This is all achieved transparently. This would
+		    happen in quite a few instances, for example, if
+		    you are exploring a compressed tar file in a file
+		    manager and you drag the file to another
+		    Moniker-aware application, say Gnumeric, Gnumeric
+		    would be using the same file that was openened by
+		    the file manager instead of having two
+		    uncompressed sets of files in your system.</para>
+		<para>The above scenario is particularly useful if you
+		    have little space, or if the process of untaring a
+		    file would take a long time.</para>
+	    </refsect3>
+
+	    <refsect3><title>The propertycache: moniker</title>
+		<para>Accessing individual properties over and over
+		    might take quite some time due to the CORBA round
+		    trips.  The propertycache: moniker would be also a
+		    shared library handler that would basically
+		    activate the property moniker, and would set up
+		    property listeners (which would be notified of
+		    changes in the property data base).</para>
+		<para>So if your application does a lot of queries to
+		    a property, you might just want to append this to
+		    improve performance and not care about doing
+		    clustered reads, the cache would do this for
+		    you.</para>
+		<para>This is not implemented, as it requires the
+		    property moniker to be written.</para>
+	    </refsect3>
+	</refsect2>
+
+	<refsect2><title>The accidental invention</title>
+	    <para>Monikers were invented originally in OLE2 to
+		implement Object Linking.  The OLE2 programmers
+		accidentally invented an object naming system.</para>
+	    <para>This object naming system is not only very powerful,
+		but it is extensible and it helps make the system more
+		consistent.</para>
+	</refsect2>
+
+	<refsect2><title>Monikers and the MATE VFS</title>
+	    <para>
+		Some people ask: monikers look as if they are just
+		re-implementing the MATE-VFS, why is that?</para>
+	    <para>For a storage backend you can always use something
+		like matecomponent_storage_new ("mate-vfs") and get away
+		with life.</para>
+	    <para>The main difference between the mate-vfs, and
+		monikers is that monikers are used to implement an
+		object-based name space, while the mate-vfs is a fine
+		abstraction for naming files and directories.  The
+		moniker space goes well beyond this.</para>
+	    <para>When Ettore, Nat and I designed the MATE VFS in
+		Paris Ettore had a grander vision than Nat and I had.
+		Nat and I wanted exactly what the MATE VFS is: an
+		asyncronous, pluggable virtual file system
+		implementation.  Ettore wanted something more general,
+		something that would implement an object name space.
+		And some of the design decisions in the core of the
+		mate-vfs reflect some of this thinking, but the API
+		and the infrastructure was limited to handling
+		files.</para>
+	    <para>Various months later, we finally understood
+		completely the moniker system, and we realized that
+		monikers were an object naming space, and that if done
+		correctly monikers would be able to implement Ettore's
+		initial vision for having an object-based naming
+		space.</para>
+	</refsect2>
+
+	<refsect2><title>Open Issues</title>
+	    <para>We will need to research the implementation
+		requirements for asyncronous parsing and resolution of
+		Monikers.</para>
+	    <para>Currently, both the Object Activation Framework and
+		MateComponent support asyncronous activation.  Implementing
+		this for Monikers should not be hard, but might
+		require a few changes in the Moniker interface.</para>
+	</refsect2>
+
+	<refsect2><title>Conclusion</title>
+	    <para>Monikers are very powerful mechanisms that can unify
+		the name space of objects in the system and can be
+		used to provide a uniform access method for a wide
+		variety of tasks:</para>
+	    <itemizedlist>
+		<listitem><para>Component initialization</para></listitem>
+		<listitem><para>Addressing objects</para></listitem>
+		<listitem><para>Addressing sub-objects in a compound
+		    document.</para></listitem>
+		<listitem><para>Implementing Object Linking.</para></listitem>
+		<listitem><para>Implementing nested objects, and nested handlers for
+		    file systems.</para></listitem>
+	    </itemizedlist>
+	</refsect2>
+
+	<refsect2><title>Acknowledgements</title>
+
+	    <para>The MateComponent moniker implementation was done by
+		Michael Meeks.</para>
+	    <para>The design for the MateComponent moniker system was done by
+		Ettore Perazzoli, Michael Meeks and myself.</para>
+
+	</refsect2>
+
+    </refsect1>
+</refentry>
+

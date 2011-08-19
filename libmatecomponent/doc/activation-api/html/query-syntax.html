@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Syntax</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="up" href="query-langage.html" title="MateComponent Activation Query Langage">
+<link rel="prev" href="query-langage.html" title="MateComponent Activation Query Langage">
+<link rel="next" href="server-xml-reference.html" title=".server file format reference">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="query-langage.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="query-langage.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateComponent Activation API Reference Manual</th>
+<td><a accesskey="n" href="server-xml-reference.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="query-syntax"></a>Syntax</h2></div></div></div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="oaf-query-ref-types"></a>Constants</h3></div></div></div>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>'string': As in SQL, delimited by single quotes. Example: 'mystring'
+</p></li>
+<li class="listitem"><p>'stringv' (string arrays): A comma-separated list of strings, surrounded 
+by square brackets. Example: ['red','blue']
+</p></li>
+<li class="listitem"><p>'number': Floating point decimals. (aka "whatever atof() accepts" :)
+</p></li>
+<li class="listitem"><p>'boolean': TRUE or FALSE (other common boolean value identifiers also 
+accepted, but not encouraged).
+</p></li>
+</ul></div>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2763994"></a>Field identifiers</h3></div></div></div>
+<p>
+Names of fields are attributes of a ServerInfo record. These include
+'server_type', 'location_info', and 'iid', even though these are explicitly
+stored instead of just other attributes.
+</p>
+<p>
+Some pseudo-fields are also available - they are all prefaced with an underscore:
+</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+_active : Whether the server is currently running (boolean)
+</p></li></ul></div>
+<p>
+</p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2764020"></a>Variables</h3></div></div></div>
+<p>
+Variables are various miscellaneous data items that are part of the
+environment. The syntax for referring to a variable is a '$' sign
+followed by the variable name. The following variables are available:
+</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>$hostname : the hostname that the requesting client is running on.
+</p></li>
+<li class="listitem"><p>$domain : the "domain" that the client is requesting activation in.
+</p></li>
+</ul></div>
+<p>
+</p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2764048"></a>Functions</h3></div></div></div>
+<p>Functions perform transformations on data and return a result. There are 
+two possible syntaxes for a function call:
+</p>
+<pre class="programlisting">
+	funcname(field, other-arguments)
+	field.funcname(other-arguments...)
+</pre>
+<p>
+Internally, 'field.funcname(other-arguments...)' is translated to be
+exactly the same as 'funcname(field, other-arguments)', so
+'priority.max()' is exactly the same as 'max(priority)'. Function names are 
+case insensitive. The following functions are available:
+</p>
+<p>
+</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+defined(expression) : 
+   Returns a boolean value that indicates whether the given expression is defined for the current
+   record. For example, using a field name would indicate whether that field is defined for the
+   record.
+</p></li>
+<li class="listitem"><p>
+has_one(stringv1, stringv2) : 
+   Returns a boolean value that indicates whether any of the strings
+   in the 'stringv2' array are contained in the 'stringv1' array.
+</p></li>
+<li class="listitem"><p>
+has_all(stringv1, stringv2) : 
+   Returns a boolean value that indicates whether all of the strings
+   in the 'stringv2' array are contained in the 'stringv1' array.
+</p></li>
+<li class="listitem"><p>
+has(stringv, string)
+   Returns a boolean value that indicates whether 'string' is contained in the 'stringv' array.
+</p></li>
+<li class="listitem"><p>
+prefer_by_list_order(string, stringv) 
+   This function is intended to use as a sort condition when you have a prioritized list of 
+   preferred values. It returns -1 if the 'string' is not in the 'stringv' array, otherwise 
+   it's position measured from the end of 'stringv'. The result is that the first item is 
+   most preferred, items after that are next most preferred, and items not in the list are 
+   lowest priority.
+</p></li>
+<li class="listitem"><p>
+max(expr)
+   Evaluates 'expr' over all the available server information records in the database, and returns
+   the maximum value as dictated by the normal sort order for the data type of 'expr'.
+   This function is not valid for string vectors.
+</p></li>
+<li class="listitem"><p>
+min(expr)
+   As with the 'max' function, but finds the minimum value.
+</p></li>
+</ul></div>
+<p>
+</p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2764132"></a>Operators</h3></div></div></div>
+<p>
+	More complex queries can be built using the various operators described below. </p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>When building complex expressions, make sure they are fully parenthized or your query will fail in weird ways.</div>
+<p>
+
+	</p>
+<div class="table">
+<a name="id2764146"></a><p class="title"><b>Table 1. Binary relational operators.</b></p>
+<div class="table-contents"><table summary="Binary relational operators." border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">Operator</th>
+<th align="left">Signification</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">==</td>
+<td align="left">equal</td>
+</tr>
+<tr>
+<td align="left">!=</td>
+<td align="left">not equal</td>
+</tr>
+<tr>
+<td align="left">&lt;</td>
+<td align="left">less than</td>
+</tr>
+<tr>
+<td align="left">&gt;</td>
+<td align="left">greater than</td>
+</tr>
+<tr>
+<td align="left">&lt;=</td>
+<td align="left">less than or equal</td>
+</tr>
+<tr>
+<td align="left">&gt;=</td>
+<td align="left">greater than or equal</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+
+	</p>
+<div class="table">
+<a name="id2764250"></a><p class="title"><b>Table 2. Binary boolean operators.</b></p>
+<div class="table-contents"><table summary="Binary boolean operators." border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">Operator</th>
+<th align="left">Signification</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">&amp;&amp; or AND</td>
+<td align="left">and</td>
+</tr>
+<tr>
+<td align="left">|| or OR</td>
+<td align="left">or</td>
+</tr>
+<tr>
+<td align="left">^^ or XOR</td>
+<td align="left">exclusive or</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+
+	</p>
+<div class="table">
+<a name="id2764325"></a><p class="title"><b>Table 3. Unary boolean operators.</b></p>
+<div class="table-contents"><table summary="Unary boolean operators." border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">Operator</th>
+<th align="left">Signification</th>
+</tr></thead>
+<tbody><tr>
+<td align="left">~ or NOT</td>
+<td align="left">not</td>
+</tr></tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+
+	</p>
+<div class="table">
+<a name="id2764380"></a><p class="title"><b>Table 4. Binary arithmetic operators.</b></p>
+<div class="table-contents"><table summary="Binary arithmetic operators." border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">Operator</th>
+<th align="left">Signification</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">/</td>
+<td align="left">divided by</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">plus</td>
+</tr>
+<tr>
+<td align="left">-</td>
+<td align="left">minus</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">times</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+
+	</p>
+<div class="table">
+<a name="id2764465"></a><p class="title"><b>Table 5. Unary arithmetic operators.</b></p>
+<div class="table-contents"><table summary="Unary arithmetic operators." border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">Operator</th>
+<th align="left">Signification</th>
+</tr></thead>
+<tbody><tr>
+<td align="left">-</td>
+<td align="left">negate</td>
+</tr></tbody>
+</table></div>
+</div>
+<p><br class="table-break">
+
+</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+
+ MateVFS 2.4 TODO (Michael's wishlist)
+ =================
+
+	* backend test / validation framework
+		+ nail down woolly semantics:
+		+ if open SEEKABLE, then seek
+		  shouldn't return 'not supported'
+		+ consistant error return values for misc.
+		  methods.
+		+ URI / name escaping tests.
+
+
+ MateVFS 2.0 TODO
+ =================
+
+This TODO attempts to cover the larger changes that we
+might want in a MateVFS 2.0 release accompanying MATE 2.0.
+Specific details on bugs, fixes, features should be found
+in MATE bugzilla, this is just intended to serve as a
+roadmap of larger work-chunks.
+
+Pretty much everything here is tenatively an "it would be nice"
+sort of feature or change. We should highlight any changes
+that are really critical.
+
+--MATE 2.0 platform--
+
+  * Communicate with application developers and get feedback
+    on changes or additions they'd like to see in MateVFS APIs.
+
+-----New Features-----
+
+  * SSL support, particularly for the HTTP module
+
+  * Documentation, documentation documentation. We should gun
+    for 100% documented status for 2.0.
+
+  * gzip, bzip2, tar, etc. Figure out how to properly handle
+    these and implement it. It would be best if it can be 
+    application transparent.
+
+----Enchancements-----
+
+  * Make the MIME database return the "correct information"
+    for a file. e.g. user selected icons, handling programs,
+    actions, etc. This will require the metadata API support.
+    (this may entail API changes to do it the "best way")
+
+------New APIs-------
+
+  * Add a file metadata API. Adopt some convention
+    for storing metadata on filesystems without such (almost
+    all of the currently supported filesystems except WebDAV).
+    We probably want to use a large chunk of the Caja
+    metadata system for this.
+
+  * Add a filesystem event notification API. Write backends for
+    fam/imon and the Linux Kernel 2.4 directory monitor.
+
+  * Add helper functions to solve problems that application
+    programmers will run into frequently using MateVFS. For example,
+    parsing user input with relative paths and detecting
+    if they are URIs, URI fragments, plain paths...etc. Much
+    code of this nature needs to be refactored out of Caja.
+
+-------Modules-------
+
+  * SMB module (Windows Filesharing)
+
+  * CVS module
+
+  * SSH module
+
+
+=======================================================================
+
+Items from an older TODO. I've removed a bunch of outdated items already,
+but I suspect even more of these are invalid.
+
+     -Seth
+
+
+* tar method, cpio method.
+
+* GZIP write support might be broken.
+
+* Implement SMB support through Wayne's cool librarified Samba client
+stuff (Wayne Roberts <wroberts@pwav.com>).
+
+* Add some kind of conversation function, so that e.g. we can know
+what step the op is performing.  (E.g for `open()': "connecting to
+ftp.some.site.net", "logging in", "getting dir listing", "retrieving
+file.tar", "extracting file.c".)
+
+* Make sure that only one module is initialized at a given time
+(i.e. add a lock that must be obtained before calling the
+`vfs_module_init()' function).
+
+* Complete cancellation code, to make sure every operation can be
+cancelled.  We need to be able to send signals to the helper
+threads/processes.
+
+API issues
+----------
+
+* Better hiding of private stuff.
+
+* We definitely need an `URI context', which is basically a URI prefix
+which is used for subsequent calls.  When creating a context, backends
+can assume they are going to get several requests for sub-URIs
+starting from that URI, and can try to optimize things.  OR maybe we
+can just have a function to "lock" a certain URI.  This will make
+everything easier to implement.
+
+* Make directory/xfer calls cancellable as well.
+
+* Specific issues
+	mate_vfs_monitor_callback's info_uri should be const.
+
+Installation issues
+-------------------
+
+* We need to install the private headers: otherwise, it is not
+possible to write new modules without the full mate-vfs source code.
+Maybe we need to have more than two levels (i.e. more than just
+"private" and "public" headers).

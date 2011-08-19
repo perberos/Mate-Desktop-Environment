@@ -1,0 +1,2370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Asynchronous File Operations</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-file-async-ops.html" title="Asynchronous Operations">
+<link rel="prev" href="mate-vfs-file-async-ops.html" title="Asynchronous Operations">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-cancellation.html" title="Cancellation">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-file-async-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-file-async-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-cancellation.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-async-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-async-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-async-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-async-ops.top_of_page"></a>Asynchronous File Operations</span></h2>
+<p>Asynchronous File Operations — POSIX-style file operations that run outside your main loop</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-async-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN">MATE_VFS_PRIORITY_MIN</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX">MATE_VFS_PRIORITY_MAX</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT">MATE_VFS_PRIORITY_DEFAULT</a>
+typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle">MateVFSAsyncHandle</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCallback" title="MateVFSAsyncCallback ()">*MateVFSAsyncCallback</a>)            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()">*MateVFSAsyncOpenCallback</a>)        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenAsChannelCallback" title="MateVFSAsyncOpenAsChannelCallback ()">*MateVFSAsyncOpenAsChannelCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GIOChannel</span> *channel</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateCallback" title="MateVFSAsyncCreateCallback ()">*MateVFSAsyncCreateCallback</a>)      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateAsChannelCallback" title="MateVFSAsyncCreateAsChannelCallback ()">*MateVFSAsyncCreateAsChannelCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GIOChannel</span> *channel</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCloseCallback" title="MateVFSAsyncCloseCallback ()">*MateVFSAsyncCloseCallback</a>)       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncReadCallback" title="MateVFSAsyncReadCallback ()">*MateVFSAsyncReadCallback</a>)        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_requested</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_read</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncWriteCallback" title="MateVFSAsyncWriteCallback ()">*MateVFSAsyncWriteCallback</a>)       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_requested</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_written</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSeekCallback" title="MateVFSAsyncSeekCallback ()">*MateVFSAsyncSeekCallback</a>)        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncGetFileInfoCallback" title="MateVFSAsyncGetFileInfoCallback ()">*MateVFSAsyncGetFileInfoCallback</a>) (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *results</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSetFileInfoCallback" title="MateVFSAsyncSetFileInfoCallback ()">*MateVFSAsyncSetFileInfoCallback</a>) (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *file_info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFileControlCallback" title="MateVFSAsyncFileControlCallback ()">*MateVFSAsyncFileControlCallback</a>) (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> operation_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncDirectoryLoadCallback" title="MateVFSAsyncDirectoryLoadCallback ()">*MateVFSAsyncDirectoryLoadCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *list</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> entries_read</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFindDirectoryCallback" title="MateVFSAsyncFindDirectoryCallback ()">*MateVFSAsyncFindDirectoryCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *results</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult">MateVFSFindDirectoryResult</a>;
+<span class="returnvalue">gint</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()">*MateVFSAsyncXferProgressCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation">MateVFSCancellation</a>;
+typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSContext" title="MateVFSContext">MateVFSContext</a>;
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-set-job-limit" title="mate_vfs_async_set_job_limit ()">mate_vfs_async_set_job_limit</a>       (<em class="parameter"><code><span class="type">int</span> limit</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-get-job-limit" title="mate_vfs_async_get_job_limit ()">mate_vfs_async_get_job_limit</a>       (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-cancel" title="mate_vfs_async_cancel ()">mate_vfs_async_cancel</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open" title="mate_vfs_async_open ()">mate_vfs_async_open</a>                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-uri" title="mate_vfs_async_open_uri ()">mate_vfs_async_open_uri</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-as-channel" title="mate_vfs_async_open_as_channel ()">mate_vfs_async_open_as_channel</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> advised_block_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenAsChannelCallback" title="MateVFSAsyncOpenAsChannelCallback ()"><span class="type">MateVFSAsyncOpenAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-uri-as-channel" title="mate_vfs_async_open_uri_as_channel ()">mate_vfs_async_open_uri_as_channel</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> advised_block_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenAsChannelCallback" title="MateVFSAsyncOpenAsChannelCallback ()"><span class="type">MateVFSAsyncOpenAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create" title="mate_vfs_async_create ()">mate_vfs_async_create</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-uri" title="mate_vfs_async_create_uri ()">mate_vfs_async_create_uri</a>          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-symbolic-link" title="mate_vfs_async_create_symbolic_link ()">mate_vfs_async_create_symbolic_link</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *uri_reference</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-as-channel" title="mate_vfs_async_create_as_channel ()">mate_vfs_async_create_as_channel</a>   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateAsChannelCallback" title="MateVFSAsyncCreateAsChannelCallback ()"><span class="type">MateVFSAsyncCreateAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-uri-as-channel" title="mate_vfs_async_create_uri_as_channel ()">mate_vfs_async_create_uri_as_channel</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateAsChannelCallback" title="MateVFSAsyncCreateAsChannelCallback ()"><span class="type">MateVFSAsyncCreateAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-close" title="mate_vfs_async_close ()">mate_vfs_async_close</a>               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCloseCallback" title="MateVFSAsyncCloseCallback ()"><span class="type">MateVFSAsyncCloseCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-read" title="mate_vfs_async_read ()">mate_vfs_async_read</a>                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncReadCallback" title="MateVFSAsyncReadCallback ()"><span class="type">MateVFSAsyncReadCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-write" title="mate_vfs_async_write ()">mate_vfs_async_write</a>               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncWriteCallback" title="MateVFSAsyncWriteCallback ()"><span class="type">MateVFSAsyncWriteCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-seek" title="mate_vfs_async_seek ()">mate_vfs_async_seek</a>                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MateVFSSeekPosition" title="enum MateVFSSeekPosition"><span class="type">MateVFSSeekPosition</span></a> whence</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset" title="MateVFSFileOffset"><span class="type">MateVFSFileOffset</span></a> offset</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSeekCallback" title="MateVFSAsyncSeekCallback ()"><span class="type">MateVFSAsyncSeekCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-get-file-info" title="mate_vfs_async_get_file_info ()">mate_vfs_async_get_file_info</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncGetFileInfoCallback" title="MateVFSAsyncGetFileInfoCallback ()"><span class="type">MateVFSAsyncGetFileInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-set-file-info" title="mate_vfs_async_set_file_info ()">mate_vfs_async_set_file_info</a>       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> mask</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSetFileInfoCallback" title="MateVFSAsyncSetFileInfoCallback ()"><span class="type">MateVFSAsyncSetFileInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-load-directory" title="mate_vfs_async_load_directory ()">mate_vfs_async_load_directory</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> items_per_notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncDirectoryLoadCallback" title="MateVFSAsyncDirectoryLoadCallback ()"><span class="type">MateVFSAsyncDirectoryLoadCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-load-directory-uri" title="mate_vfs_async_load_directory_uri ()">mate_vfs_async_load_directory_uri</a>  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> items_per_notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncDirectoryLoadCallback" title="MateVFSAsyncDirectoryLoadCallback ()"><span class="type">MateVFSAsyncDirectoryLoadCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()">mate_vfs_async_xfer</a>                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *source_uri_list</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *target_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> overwrite_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()"><span class="type">MateVFSAsyncXferProgressCallback</span></a> progress_update_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> update_callback_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_sync_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> sync_callback_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-find-directory" title="mate_vfs_async_find_directory ()">mate_vfs_async_find_directory</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *near_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-find-ops.html#MateVFSFindDirectoryKind" title="enum MateVFSFindDirectoryKind"><span class="type">MateVFSFindDirectoryKind</span></a> kind</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> create_if_needed</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> find_if_needed</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> permissions</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFindDirectoryCallback" title="MateVFSAsyncFindDirectoryCallback ()"><span class="type">MateVFSAsyncFindDirectoryCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-file-control" title="mate_vfs_async_file_control ()">mate_vfs_async_file_control</a>        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *operation</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> operation_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> operation_data_destroy_func</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFileControlCallback" title="MateVFSAsyncFileControlCallback ()"><span class="type">MateVFSAsyncFileControlCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="returnvalue">MateVFSFindDirectoryResult</span></a> *  <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-find-directory-result-dup" title="mate_vfs_find_directory_result_dup ()">mate_vfs_find_directory_result_dup</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a> *result</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-find-directory-result-free" title="mate_vfs_find_directory_result_free ()">mate_vfs_find_directory_result_free</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a> *result</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-async-ops.description"></a><h2>Description</h2>
+<p>
+  When executing an asynchornous operation on a file the program does not
+  block waiting for the operation to finish, instead it keeps on running,
+  which means that the process and the I/O operation can be both running
+  concurrently. Once the I/O operation has been completed the process is
+  notified using a callback.
+</p>
+<p>
+  Asynchronous operations are particularly good when long I/O operations
+  are expected, in this case the program can continue normaly, the I/O
+  will be performed in the background. On the other hand when operations
+  are expected to be short (creating a file, writing/reading small amounts
+  of data, etc.) synchronous operations are prefered.
+</p>
+<p>
+  Within a graphical desktop asynchornous I/O operations can be used to
+  avoid blocking the UI (User Interface) during a long operation, and
+  to be able to provide some kind of feedback to the user.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-async-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MATE-VFS-PRIORITY-MIN:CAPS"></a><h3>MATE_VFS_PRIORITY_MIN</h3>
+<pre class="programlisting">#define MATE_VFS_PRIORITY_MIN     -10
+</pre>
+<p>
+The minimuum priority a job can have.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-PRIORITY-MAX:CAPS"></a><h3>MATE_VFS_PRIORITY_MAX</h3>
+<pre class="programlisting">#define MATE_VFS_PRIORITY_MAX     10
+</pre>
+<p>
+The maximuum priority a job can have.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-PRIORITY-DEFAULT:CAPS"></a><h3>MATE_VFS_PRIORITY_DEFAULT</h3>
+<pre class="programlisting">#define MATE_VFS_PRIORITY_DEFAULT 0
+</pre>
+<p>
+The default job priority. Its best to use this
+unless you have a reason to do otherwise.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncHandle"></a><h3>MateVFSAsyncHandle</h3>
+<pre class="programlisting">typedef struct MateVFSAsyncHandle MateVFSAsyncHandle;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncCallback"></a><h3>MateVFSAsyncCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncCallback)            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Basic callback from an async operation that passes no data back,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncOpenCallback"></a><h3>MateVFSAsyncOpenCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncOpenCallback)        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open" title="mate_vfs_async_open ()"><code class="function">mate_vfs_async_open()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncOpenAsChannelCallback"></a><h3>MateVFSAsyncOpenAsChannelCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncOpenAsChannelCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GIOChannel</span> *channel</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateVFSAsyncOpenAsChannelCallback</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open-as-channel" title="mate_vfs_async_open_as_channel ()"><code class="function">mate_vfs_async_open_as_channel()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>channel</code></em> :</span></p></td>
+<td>a <span class="type">GIOChannel</span> corresponding to the file opened
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncCreateCallback"></a><h3>MateVFSAsyncCreateCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncCreateCallback)      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create" title="mate_vfs_async_create ()"><code class="function">mate_vfs_async_create()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncCreateAsChannelCallback"></a><h3>MateVFSAsyncCreateAsChannelCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncCreateAsChannelCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GIOChannel</span> *channel</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateVFSAsyncCreateAsChannelCallback</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-create-as-channel" title="mate_vfs_async_create_as_channel ()"><code class="function">mate_vfs_async_create_as_channel()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>channel</code></em> :</span></p></td>
+<td>a <span class="type">GIOChannel</span> corresponding to the file created
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncCloseCallback"></a><h3>MateVFSAsyncCloseCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncCloseCallback)       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-close" title="mate_vfs_async_close ()"><code class="function">mate_vfs_async_close()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncReadCallback"></a><h3>MateVFSAsyncReadCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncReadCallback)        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_requested</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_read</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-read" title="mate_vfs_async_read ()"><code class="function">mate_vfs_async_read()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>buffer containing data read from <em class="parameter"><code>handle</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_requested</code></em> :</span></p></td>
+<td>the number of bytes asked for in the call to
+<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-read" title="mate_vfs_async_read ()"><code class="function">mate_vfs_async_read()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_read</code></em> :</span></p></td>
+<td>the number of bytes actually read from <em class="parameter"><code>handle</code></em> into <em class="parameter"><code>buffer</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncWriteCallback"></a><h3>MateVFSAsyncWriteCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncWriteCallback)       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_requested</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes_written</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-write" title="mate_vfs_async_write ()"><code class="function">mate_vfs_async_write()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>buffer containing data written to <em class="parameter"><code>handle</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_requested</code></em> :</span></p></td>
+<td>the number of bytes asked to write in the call to
+<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-write" title="mate_vfs_async_write ()"><code class="function">mate_vfs_async_write()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_written</code></em> :</span></p></td>
+<td>the number of bytes actually written to <em class="parameter"><code>handle</code></em> from <em class="parameter"><code>buffer</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncSeekCallback"></a><h3>MateVFSAsyncSeekCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncSeekCallback)        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-seek" title="mate_vfs_async_seek ()"><code class="function">mate_vfs_async_seek()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise
+an error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncGetFileInfoCallback"></a><h3>MateVFSAsyncGetFileInfoCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncGetFileInfoCallback) (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *results</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-get-file-info" title="mate_vfs_async_get_file_info ()"><code class="function">mate_vfs_async_get_file_info()</code></a> function,
+informing the user of the <em class="parameter"><code>results</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>
+<span class="type">GList</span> of <span class="type">MateVFSFileInfoResult</span> * items representing
+the success of each <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info" title="mate_vfs_get_file_info ()"><code class="function">mate_vfs_get_file_info()</code></a> and the data retrieved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncSetFileInfoCallback"></a><h3>MateVFSAsyncSetFileInfoCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncSetFileInfoCallback) (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *file_info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-set-file-info" title="mate_vfs_async_set_file_info ()"><code class="function">mate_vfs_async_set_file_info()</code></a> function,
+informing the user of the <em class="parameter"><code>result</code></em> of the operation and
+returning the new <em class="parameter"><code>file_info</code></em>.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<p>
+  Setting the file info sometimes changes more information than the
+  caller specified; for example, if the name changes the MIME type might
+  change, and if the owner changes the SUID &amp; SGID bits might change. 
+  Therefore the callback returns the new <em class="parameter"><code>file_info</code></em> for the caller's
+  convenience. The MateVFSFileInfoOptions passed here are those used 
+  for the returned file info; they are not used when setting.
+ </p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise a
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file_info</code></em> :</span></p></td>
+<td>if <em class="parameter"><code>result</code></em> is <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>, a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct containing
+information about the file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncFileControlCallback"></a><h3>MateVFSAsyncFileControlCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncFileControlCallback) (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> operation_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-find-directory" title="mate_vfs_async_find_directory ()"><code class="function">mate_vfs_async_find_directory()</code></a> function.
+informing the user of the <em class="parameter"><code>result</code></em> of the operation, and
+providing the requested <em class="parameter"><code>operation_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was successful, otherwise a
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> error code.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>operation_data</code></em> :</span></p></td>
+<td>The data requested from the module if <em class="parameter"><code>result</code></em>
+is <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>User data defined when the operation was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncDirectoryLoadCallback"></a><h3>MateVFSAsyncDirectoryLoadCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncDirectoryLoadCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *list</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> entries_read</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Callback for the <code class="function">mate_vfs_async_directory_load()</code> function.
+informing the user of the <em class="parameter"><code>result</code></em> of the operation and
+providing a file <em class="parameter"><code>list</code></em> if the <em class="parameter"><code>result</code></em> is <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the operation was sucessful, 
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-EOF:CAPS"><code class="literal">MATE_VFS_ERROR_EOF</code></a> if the last file in the directory 
+has been read, otherwise a <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> error code
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>a <span class="type">GList</span> of <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> structs representing 
+information about the files just loaded.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>entries_read</code></em> :</span></p></td>
+<td>number of entries read from <em class="parameter"><code>handle</code></em> for this instance of
+the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data defined when the callback was established.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncFindDirectoryCallback"></a><h3>MateVFSAsyncFindDirectoryCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncFindDirectoryCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *results</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<p>
+Callback for the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-find-directory" title="mate_vfs_async_find_directory ()"><code class="function">mate_vfs_async_find_directory()</code></a> function,
+informing the user of the <em class="parameter"><code>results</code></em> of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the operation generating the callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>
+<span class="type">GList</span> of <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a> *s containing
+special directories matching the find criteria.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>user data defined when the operation was established
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSFindDirectoryResult"></a><h3>MateVFSFindDirectoryResult</h3>
+<pre class="programlisting">typedef struct {
+	MateVFSURI *uri;
+	MateVFSResult result;
+} MateVFSFindDirectoryResult;
+</pre>
+<p>
+This structure is passed to a <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFindDirectoryCallback" title="MateVFSAsyncFindDirectoryCallback ()"><span class="type">MateVFSAsyncFindDirectoryCallback</span></a>
+by <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-find-directory" title="mate_vfs_async_find_directory ()"><code class="function">mate_vfs_async_find_directory()</code></a> and contains the information
+associated with a single <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> matching the specified
+find request.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *<em class="structfield"><code><a name="MateVFSFindDirectoryResult.uri"></a>uri</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> that was found.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> <em class="structfield"><code><a name="MateVFSFindDirectoryResult.result"></a>result</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> that was obtained when finding <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncXferProgressCallback"></a><h3>MateVFSAsyncXferProgressCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                (*MateVFSAsyncXferProgressCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+This callback is passed to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a> and should
+be used for user interaction. That said, it serves two purposes:
+Informing the user about the progress of the operation, and
+making decisions.
+</p>
+<p>
+On the one hand, when the transfer progresses normally,
+i.e. when the <em class="parameter"><code>info</code></em>'s status is <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_OK</code></a>
+it is called periodically whenever new progress information
+is available, and it wasn't called already within the last
+100 milliseconds.
+</p>
+<p>
+On the other hand, it is called whenever a decision is
+requested from the user, i.e. whenever the <em class="parameter"><code>info</code></em>'s <code class="literal">status</code>
+is not <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_OK</code></a>.
+</p>
+<p>
+Either way, it acts like <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a>
+would act in non-asynchronous mode. The differences in
+invocation are explained in the <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a>
+documentation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>Handle of the Xfer operation generating the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>Information on the current progress in the transfer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>The user data that was passed to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-xfer" title="mate_vfs_async_xfer ()"><code class="function">mate_vfs_async_xfer()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">gint</code> depending on the <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressInfo" title="MateVFSXferProgressInfo"><span class="type">MateVFSXferProgressInfo</span></a>.
+	    Please consult <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> for details.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSCancellation"></a><h3>MateVFSCancellation</h3>
+<pre class="programlisting">typedef struct MateVFSCancellation MateVFSCancellation;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSContext"></a><h3>MateVFSContext</h3>
+<pre class="programlisting">typedef struct MateVFSContext MateVFSContext;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-set-job-limit"></a><h3>mate_vfs_async_set_job_limit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_set_job_limit       (<em class="parameter"><code><span class="type">int</span> limit</code></em>);</pre>
+<p>
+Restrict the number of worker threads used by async operations
+to <em class="parameter"><code>limit</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>limit</code></em> :</span></p></td>
+<td>maximum number of allowable threads.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-get-job-limit"></a><h3>mate_vfs_async_get_job_limit ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_vfs_async_get_job_limit       (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Get the current maximum allowable number of
+worker threads for async operations.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> current maximum number of threads.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-cancel"></a><h3>mate_vfs_async_cancel ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_cancel              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>);</pre>
+<p>
+Cancel an asynchronous operation and close all its callbacks.
+</p>
+<p>
+In a single-threaded application, its guaranteed that if you
+call this before the operation finished callback has been called
+the callback will never be called.
+</p>
+<p>
+However, in a multithreaded application, or to be more specific, if
+you call mate_vfs_async_cancel from another thread than the thread
+handling the glib mainloop, there is a race condition where if
+the operation finished callback was just dispatched, you might
+still cancel the operation. So, in this case you need to handle the
+fact that the operation callback might still run even though another
+thread has cancelled the operation.
+</p>
+<p>
+One way to avoid problems from this is to mark the data structure you're
+using as callback_data as destroyed, and then queue an idle and do the
+actual freeing in an idle handler. The idle handler is guaranteed to run
+after the callback has been exectuted, so by then it is safe to destroy
+the callback_data. The callback handler must handle the case where the
+callback_data is marked destroyed by doing nothing.
+</p>
+<p>
+This is clearly not ideal for multithreaded applications, but as good as
+we can with the current API. Eventually we'll have to change the API to
+make this work better.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the async operation to be cancelled.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-open"></a><h3>mate_vfs_async_open ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_open                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Open <em class="parameter"><code>text_uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>.  On return, <em class="parameter"><code>handle_return</code></em> will
+contain a pointer to the operation. Once the file has been successfully opened,
+<em class="parameter"><code>callback</code></em> will be called with the <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string of the uri to open.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign to this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-open-uri"></a><h3>mate_vfs_async_open_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_open_uri            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Open <em class="parameter"><code>uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>.  On return, <em class="parameter"><code>handle_return</code></em> will
+contain a pointer to the operation. Once the file has been successfully opened,
+<em class="parameter"><code>callback</code></em> will be called with the <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to open.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign to this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-open-as-channel"></a><h3>mate_vfs_async_open_as_channel ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_open_as_channel     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> advised_block_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenAsChannelCallback" title="MateVFSAsyncOpenAsChannelCallback ()"><span class="type">MateVFSAsyncOpenAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_async_open_as_channel</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Open <em class="parameter"><code>text_uri</code></em> as a <span class="type">GIOChannel</span>. Once the channel has been established
+<em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em>, the result of the operation,
+and if the result was <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>, a reference to a <span class="type">GIOChannel</span> pointing
+at <em class="parameter"><code>text_uri</code></em> in <em class="parameter"><code>open_mode</code></em>.
+</p>
+<p>
+This function has been deprecated due to behaving weirdly which suggests 
+that it hasn't been used. See bugs <span class="type">157266</span>, <span class="type">157265</span>, <span class="type">157261</span>, <span class="type">138398</span> in
+the MATE Bugzilla. If the *_as_channel functions are needed they should be
+fixed and undeprecated.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string of the uri to open as a <span class="type">GIOChannel</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode i.e. for reading, writing, random, etc.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>advised_block_size</code></em> :</span></p></td>
+<td>the preferred block size for <span class="type">GIOChannel</span> to read.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-open-uri-as-channel"></a><h3>mate_vfs_async_open_uri_as_channel ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_open_uri_as_channel (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> advised_block_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenAsChannelCallback" title="MateVFSAsyncOpenAsChannelCallback ()"><span class="type">MateVFSAsyncOpenAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_async_open_uri_as_channel</code> is deprecated and should not be used in newly-written code. This function has been deprecated due to behaving weirdly which suggests 
+that it shouldn't be used. See bugs <span class="type">157266</span>, <span class="type">157265</span>, <span class="type">157261</span>, <span class="type">138398</span> in
+the MATE Bugzilla. If the *_as_channel functions are needed they should be
+fixed and undeprecated.</p>
+</div>
+<p>
+Open <em class="parameter"><code>uri</code></em> as a <span class="type">GIOChannel</span>. Once the channel has been established
+<em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em>, the result of the operation,
+and if the result was <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>, a reference to a <span class="type">GIOChannel</span> pointing
+at <em class="parameter"><code>uri</code></em> in <em class="parameter"><code>open_mode</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to open as a <span class="type">GIOChannel</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode i.e. for reading, writing, random, etc.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>advised_block_size</code></em> :</span></p></td>
+<td>the preferred block size for <span class="type">GIOChannel</span> to read.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-create"></a><h3>mate_vfs_async_create ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_create              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Create a file at <em class="parameter"><code>uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>, with permissions <em class="parameter"><code>perm</code></em> (in
+the standard UNIX packed bit permissions format). When the create has been completed
+<em class="parameter"><code>callback</code></em> will be called with the result code and <em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri to create.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>mode to leave the file opened in after creation (or <code class="literal">MATE_VFS_OPEN_MODE_NONE</code>
+to leave the file closed after creation).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exclusive</code></em> :</span></p></td>
+<td>whether the file should be created in "exclusive" mode:
+i.e. if this flag is nonzero, operation will fail if a file with the
+same name already exists.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>perm</code></em> :</span></p></td>
+<td>bitmap representing the permissions for the newly created file
+(Unix style).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-create-uri"></a><h3>mate_vfs_async_create_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_create_uri          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Create a file at <em class="parameter"><code>uri</code></em> according to mode <em class="parameter"><code>open_mode</code></em>, with permissions <em class="parameter"><code>perm</code></em> (in
+the standard UNIX packed bit permissions format). When the create has been completed
+<em class="parameter"><code>callback</code></em> will be called with the result code and <em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to create a file at.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>mode to leave the file opened in after creation (or <code class="literal">MATE_VFS_OPEN_MODE_NONE</code>
+to leave the file closed after creation).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exclusive</code></em> :</span></p></td>
+<td>Whether the file should be created in "exclusive" mode:
+i.e. if this flag is nonzero, operation will fail if a file with the
+same name already exists.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>perm</code></em> :</span></p></td>
+<td>bitmap representing the permissions for the newly created file
+(Unix style).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-create-symbolic-link"></a><h3>mate_vfs_async_create_symbolic_link ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_create_symbolic_link
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *uri_reference</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncOpenCallback" title="MateVFSAsyncOpenCallback ()"><span class="type">MateVFSAsyncOpenCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Create a symbolic link at <em class="parameter"><code>uri</code></em> pointing to <em class="parameter"><code>uri_reference</code></em>. When the operation
+has completed <em class="parameter"><code>callback</code></em> will be called with the result of the operation and
+<em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for
+the async operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>location to create the link at.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri_reference</code></em> :</span></p></td>
+<td>location to point <em class="parameter"><code>uri</code></em> to (can be a uri fragment, i.e. relative).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign to this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-create-as-channel"></a><h3>mate_vfs_async_create_as_channel ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_create_as_channel   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateAsChannelCallback" title="MateVFSAsyncCreateAsChannelCallback ()"><span class="type">MateVFSAsyncCreateAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_async_create_as_channel</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Open <em class="parameter"><code>text_uri</code></em> as a <span class="type">GIOChannel</span>, creating it as necessary. Once the channel has 
+been established <em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em>, the result of the 
+operation, and if the result was <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>, a reference to a <span class="type">GIOChannel</span> pointing
+at <em class="parameter"><code>text_uri</code></em> in <em class="parameter"><code>open_mode</code></em>.
+</p>
+<p>
+This function has been deprecated due to behaving weirdly which suggests 
+that it hasn't been used. See bugs <span class="type">157266</span>, <span class="type">157265</span>, <span class="type">157261</span>, <span class="type">138398</span> in
+the MATE Bugzilla. If the *_as_channel functions are needed they should be
+fixed and undeprecated.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string of the uri to open as a <span class="type">GIOChannel</span>, creating it as necessary.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode i.e. for reading, writing, random, etc.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exclusive</code></em> :</span></p></td>
+<td>replace the file if it already exists.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>perm</code></em> :</span></p></td>
+<td>standard POSIX-style permissions bitmask, permissions of created file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-create-uri-as-channel"></a><h3>mate_vfs_async_create_uri_as_channel ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_create_uri_as_channel
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html#MateVFSOpenMode" title="enum MateVFSOpenMode"><span class="type">MateVFSOpenMode</span></a> open_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> exclusive</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> perm</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCreateAsChannelCallback" title="MateVFSAsyncCreateAsChannelCallback ()"><span class="type">MateVFSAsyncCreateAsChannelCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_async_create_uri_as_channel</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Open <em class="parameter"><code>uri</code></em> as a <span class="type">GIOChannel</span>, creating it as necessary. Once the channel has 
+been established <em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em>, the result of the 
+operation, and if the result was <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a>, a reference to a <span class="type">GIOChannel</span> pointing
+at <em class="parameter"><code>text_uri</code></em> in <em class="parameter"><code>open_mode</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <span class="type">MateVFSHandle</span> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to open as a <span class="type">GIOChannel</span>, creating it as necessary.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>open_mode</code></em> :</span></p></td>
+<td>open mode i.e. for reading, writing, random, etc.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exclusive</code></em> :</span></p></td>
+<td>replace the file if it already exists.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>perm</code></em> :</span></p></td>
+<td>standard POSIX-style permissions bitmask, permissions of created file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-close"></a><h3>mate_vfs_async_close ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_close               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncCloseCallback" title="MateVFSAsyncCloseCallback ()"><span class="type">MateVFSAsyncCloseCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Close <em class="parameter"><code>handle</code></em> opened with <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-open" title="mate_vfs_async_open ()"><code class="function">mate_vfs_async_open()</code></a>. When the close
+has completed, <em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em> and
+the result of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>async handle to close.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-read"></a><h3>mate_vfs_async_read ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_read                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncReadCallback" title="MateVFSAsyncReadCallback ()"><span class="type">MateVFSAsyncReadCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Read <em class="parameter"><code>bytes</code></em> bytes from the file pointed to be <em class="parameter"><code>handle</code></em> into <em class="parameter"><code>buffer</code></em>.
+When the operation is complete, <em class="parameter"><code>callback</code></em> will be called with the
+result of the operation and <em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle for the file to be read.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>allocated block of memory to read into.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>number of bytes to read.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-write"></a><h3>mate_vfs_async_write ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_write               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncWriteCallback" title="MateVFSAsyncWriteCallback ()"><span class="type">MateVFSAsyncWriteCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Write <em class="parameter"><code>bytes</code></em> bytes from <em class="parameter"><code>buffer</code></em> into the file pointed to be <em class="parameter"><code>handle</code></em>.
+When the operation is complete, <em class="parameter"><code>callback</code></em> will be called with the
+result of the operation and <em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle for the file to be written.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>block of memory containing data to be written.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>number of bytes to write.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-seek"></a><h3>mate_vfs_async_seek ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_seek                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MateVFSSeekPosition" title="enum MateVFSSeekPosition"><span class="type">MateVFSSeekPosition</span></a> whence</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset" title="MateVFSFileOffset"><span class="type">MateVFSFileOffset</span></a> offset</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSeekCallback" title="MateVFSAsyncSeekCallback ()"><span class="type">MateVFSAsyncSeekCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Set the current position for reading/writing through <em class="parameter"><code>handle</code></em>.
+When the operation is complete, <em class="parameter"><code>callback</code></em> will be called with the
+result of the operation and <em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle for which the current position must be changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>whence</code></em> :</span></p></td>
+<td>integer value representing the starting position.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>number of bytes to skip from the position specified by <em class="parameter"><code>whence</code></em>.
+(a positive value means to move forward; a negative one to move backwards).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-get-file-info"></a><h3>mate_vfs_async_get_file_info ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_get_file_info       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncGetFileInfoCallback" title="MateVFSAsyncGetFileInfoCallback ()"><span class="type">MateVFSAsyncGetFileInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Fetch information about the files indicated in <em class="parameter"><code>uri_list</code></em> and return the
+information progressively to <em class="parameter"><code>callback</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for
+the async operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri_list</code></em> :</span></p></td>
+<td>a <span class="type">GList</span> of <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a> to fetch information about.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>packed boolean type providing control over various details
+of the get_file_info operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-set-file-info"></a><h3>mate_vfs_async_set_file_info ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_set_file_info       (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask"><span class="type">MateVFSSetFileInfoMask</span></a> mask</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncSetFileInfoCallback" title="MateVFSAsyncSetFileInfoCallback ()"><span class="type">MateVFSAsyncSetFileInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Set file info details about the file at <em class="parameter"><code>uri</code></em>, such as permissions, name,
+owner, and modification time.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for
+the async operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri to set the file info of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>the struct containing new information about the file.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mask</code></em> :</span></p></td>
+<td>control which fields of <em class="parameter"><code>info</code></em> are to be changed about the file at <em class="parameter"><code>uri</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>packed boolean type providing control over various details
+of the set_file_info operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-load-directory"></a><h3>mate_vfs_async_load_directory ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_load_directory      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> items_per_notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncDirectoryLoadCallback" title="MateVFSAsyncDirectoryLoadCallback ()"><span class="type">MateVFSAsyncDirectoryLoadCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Read the contents of the directory at <em class="parameter"><code>text_uri</code></em>, passing back <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> 
+structs about each file in the directory to <em class="parameter"><code>callback</code></em>. <em class="parameter"><code>items_per_notification</code></em>
+files will be processed between each call to <em class="parameter"><code>callback</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for
+the async operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri of the directory to be loaded.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>packed boolean type providing control over various details
+of the get_file_info operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>items_per_notification</code></em> :</span></p></td>
+<td>number of files to process in a row before calling <em class="parameter"><code>callback</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign to this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-load-directory-uri"></a><h3>mate_vfs_async_load_directory_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_load_directory_uri  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions"><span class="type">MateVFSFileInfoOptions</span></a> options</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> items_per_notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncDirectoryLoadCallback" title="MateVFSAsyncDirectoryLoadCallback ()"><span class="type">MateVFSAsyncDirectoryLoadCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Read the contents of the directory at <em class="parameter"><code>uri</code></em>, passing back <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> structs
+about each file in the directory to <em class="parameter"><code>callback</code></em>. <em class="parameter"><code>items_per_notification</code></em>
+files will be processed between each call to <em class="parameter"><code>callback</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for
+the async operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>uri of the directory to be loaded.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>packed boolean type providing control over various details
+of the get_file_info operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>items_per_notification</code></em> :</span></p></td>
+<td>number of files to process in a row before calling <em class="parameter"><code>callback</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-xfer"></a><h3>mate_vfs_async_xfer ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_async_xfer                (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *source_uri_list</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *target_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> xfer_options</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferErrorMode" title="enum MateVFSXferErrorMode"><span class="type">MateVFSXferErrorMode</span></a> error_mode</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOverwriteMode" title="enum MateVFSXferOverwriteMode"><span class="type">MateVFSXferOverwriteMode</span></a> overwrite_mode</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()"><span class="type">MateVFSAsyncXferProgressCallback</span></a> progress_update_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> update_callback_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> progress_sync_callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> sync_callback_data</code></em>);</pre>
+<p>
+Performs an Xfer operation in a seperate thread, otherwise like
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#mate-vfs-xfer-uri-list" title="mate_vfs_xfer_uri_list ()"><code class="function">mate_vfs_xfer_uri_list()</code></a>.
+</p>
+<p>
+See <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncXferProgressCallback" title="MateVFSAsyncXferProgressCallback ()"><span class="type">MateVFSAsyncXferProgressCallback</span></a> and <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressCallback" title="MateVFSXferProgressCallback ()"><span class="type">MateVFSXferProgressCallback</span></a> for details on how the
+callback mechanism works.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<p>
+  <em class="parameter"><code>progress_sync_callback</code></em> should only be used if you want to execute additional
+  actions that may not wait until after the transfer, for instance because
+  you have to do them for each transferred file/directory, and that require
+  a very specific action to be taken. For instance, the Caja application
+  schedules metadata removal/moving/copying at specific phases.
+ </p>
+<p>
+  Do not use <em class="parameter"><code>progress_sync_callback</code></em> if you just need user feedback, because
+  each invocation is expensive, and requires a context switch.
+ </p>
+<p>
+  If you use both <em class="parameter"><code>progress_update_callback</code></em> and <em class="parameter"><code>progress_sync_callback</code></em>,
+  the <em class="parameter"><code>progress_sync_callback</code></em> will always be invoked before the
+  <em class="parameter"><code>progress_update_callback</code></em>. It is recommended to do conflict
+  handling in <em class="parameter"><code>progress_update_callback</code></em>, and always return <code class="literal">TRUE</code>
+  in <em class="parameter"><code>progress_sync_callback</code></em>, because if the Xfer's
+  <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferProgressStatus" title="enum MateVFSXferProgressStatus"><span class="type">MateVFSXferProgressStatus</span></a> is <a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MATE-VFS-XFER-PROGRESS-STATUS-OK:CAPS"><code class="literal">MATE_VFS_XFER_PROGRESS_STATUS_OK</code></a>,
+  <em class="parameter"><code>progress_update_callback</code></em> will only be invoked if it hasn't
+  been invoked within the last 100 milliseconds, and if 
+  <em class="parameter"><code>progress_update_callback</code></em> is not invoked, only
+  <em class="parameter"><code>progress_sync_callback</code></em> is authoritative for the
+  further processing, causing abortion if it is <code class="literal">FALSE</code>.
+ </p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source_uri_list</code></em> :</span></p></td>
+<td>A <span class="type">GList</span> of source <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target_uri_list</code></em> :</span></p></td>
+<td>A <span class="type">GList</span> of target <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a>, each corresponding to one URI in
+<em class="parameter"><code>source_uri_list</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>xfer_options</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-xfer.html#MateVFSXferOptions" title="enum MateVFSXferOptions"><span class="type">MateVFSXferOptions</span></a> defining the desired operation and parameters.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error_mode</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSErrorMode</span> specifying how to proceed if a VFS error occurs.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>overwrite_mode</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSOverwriteMode</span> specifying how to proceed if a file is being overwritten.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>A value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>progress_update_callback</code></em> :</span></p></td>
+<td>A <span class="type">MateVFSAsyncXferCallback</span> called periodically for
+informing the program about progress, and when the program requires responses to
+interactive queries (e.g. overwriting files, handling errors, etc).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>update_callback_data</code></em> :</span></p></td>
+<td>User data to pass to <em class="parameter"><code>progress_update_callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>progress_sync_callback</code></em> :</span></p></td>
+<td>An optional <span class="type">MateVFSXferCallback</span> called whenever some state changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync_callback_data</code></em> :</span></p></td>
+<td>User data to pass to <em class="parameter"><code>progress_sync_callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-OK:CAPS"><code class="literal">MATE_VFS_OK</code></a> if the paramaters were in order, 
+or <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MATE-VFS-ERROR-BAD-PARAMETERS:CAPS"><code class="literal">MATE_VFS_ERROR_BAD_PARAMETERS</code></a> if something was wrong in the passed in arguments.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-find-directory"></a><h3>mate_vfs_async_find_directory ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_find_directory      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> **handle_return</code></em>,
+                                                         <em class="parameter"><code><span class="type">GList</span> *near_uri_list</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-directory-find-ops.html#MateVFSFindDirectoryKind" title="enum MateVFSFindDirectoryKind"><span class="type">MateVFSFindDirectoryKind</span></a> kind</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> create_if_needed</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> find_if_needed</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> permissions</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> priority</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFindDirectoryCallback" title="MateVFSAsyncFindDirectoryCallback ()"><span class="type">MateVFSAsyncFindDirectoryCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Used to return special directories such as Trash and Desktop from different
+file systems.
+</p>
+<p>
+There is quite a complicated logic behind finding/creating a Trash directory
+and you need to be aware of some implications:
+Finding the Trash the first time when using the file method may be pretty 
+expensive. A cache file is used to store the location of that Trash file
+for next time.
+If <em class="parameter"><code>create_if_needed</code></em> is specified without <em class="parameter"><code>find_if_needed</code></em>, you may end up
+creating a Trash file when there already is one. Your app should start out
+by doing a mate_vfs_find_directory with the <em class="parameter"><code>find_if_needed</code></em> to avoid this
+and then use the <em class="parameter"><code>create_if_needed</code></em> flag to create Trash lazily when it is
+needed for throwing away an item on a given disk.
+</p>
+<p>
+When the operation has completed, <em class="parameter"><code>callback</code></em> will be called with the result
+of the operation and <em class="parameter"><code>user_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle_return</code></em> :</span></p></td>
+<td>when the function returns, will point to a handle for the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>near_uri_list</code></em> :</span></p></td>
+<td>a <span class="type">GList</span> of <a href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI"><span class="type">MateVFSURIs</span></a>, find a special directory on the same 
+volume as <em class="parameter"><code>near_uri_list</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>kind</code></em> :</span></p></td>
+<td>kind of special directory.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>create_if_needed</code></em> :</span></p></td>
+<td>if directory we are looking for does not exist, try to create it.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>find_if_needed</code></em> :</span></p></td>
+<td>if we don't know where the directory is yet, look for it.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>permissions</code></em> :</span></p></td>
+<td>if creating, use these permissions.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td>a value from <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MIN:CAPS" title="MATE_VFS_PRIORITY_MIN"><code class="literal">MATE_VFS_PRIORITY_MIN</code></a> to <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-MAX:CAPS" title="MATE_VFS_PRIORITY_MAX"><code class="literal">MATE_VFS_PRIORITY_MAX</code></a> (normally
+should be <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MATE-VFS-PRIORITY-DEFAULT:CAPS" title="MATE_VFS_PRIORITY_DEFAULT"><code class="literal">MATE_VFS_PRIORITY_DEFAULT</code></a>) indicating the priority to assign to this job
+in allocating threads from the thread pool.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the operation is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>. 
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-file-control"></a><h3>mate_vfs_async_file_control ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_file_control        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncHandle" title="MateVFSAsyncHandle"><span class="type">MateVFSAsyncHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *operation</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> operation_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> operation_data_destroy_func</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncFileControlCallback" title="MateVFSAsyncFileControlCallback ()"><span class="type">MateVFSAsyncFileControlCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Execute a backend dependent operation specified by the string <em class="parameter"><code>operation</code></em>.
+This is typically used for specialized vfs backends that need additional
+operations that mate-vfs doesn't have. Compare it to the unix call <code class="function">ioctl()</code>.
+The format of <em class="parameter"><code>operation_data</code></em> depends on the operation. Operation that are
+backend specific are normally namespaced by their module name.
+</p>
+<p>
+When the operation is complete, <em class="parameter"><code>callback</code></em> will be called with the
+result of the operation, <em class="parameter"><code>operation_data</code></em> and <em class="parameter"><code>callback_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the file to affect.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>operation</code></em> :</span></p></td>
+<td>operation to execute.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>operation_data</code></em> :</span></p></td>
+<td>data needed to execute the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>operation_data_destroy_func</code></em> :</span></p></td>
+<td>callback to destroy <em class="parameter"><code>operation_data</code></em> when its no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to be called when the <em class="parameter"><code>operation</code></em> is complete.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-find-directory-result-dup"></a><h3>mate_vfs_find_directory_result_dup ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="returnvalue">MateVFSFindDirectoryResult</span></a> *  mate_vfs_find_directory_result_dup
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a> *result</code></em>);</pre>
+<p>
+Duplicates <em class="parameter"><code>result</code></em>.
+</p>
+<p>
+Note: The internal uri is not duplicated but its
+refcount is incremented.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A 1:1 copy of <em class="parameter"><code>result</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-find-directory-result-free"></a><h3>mate_vfs_find_directory_result_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_find_directory_result_free
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a> *result</code></em>);</pre>
+<p>
+Unrefs the inner uri object and frees the memory 
+allocated for <em class="parameter"><code>result</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSFindDirectoryResult" title="MateVFSFindDirectoryResult"><span class="type">MateVFSFindDirectoryResult</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.12</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

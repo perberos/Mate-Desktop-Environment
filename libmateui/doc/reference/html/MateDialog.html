@@ -1,0 +1,1074 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateDialog</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="deprecated.html" title="Deprecated Modules">
+<link rel="prev" href="MateColorPicker.html" title="MateColorPicker">
+<link rel="next" href="libmateui-mate-dialog-util.html" title="mate-dialog-util">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="MateColorPicker.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="deprecated.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="libmateui-mate-dialog-util.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#MateDialog.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#MateDialog.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#MateDialog.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#MateDialog.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#MateDialog.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="MateDialog"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="MateDialog.top_of_page"></a>MateDialog</span></h2>
+<p>MateDialog — Create generic dialog boxes.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="MateDialog.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+struct              <a class="link" href="MateDialog.html#MateDialog-struct" title="struct MateDialog">MateDialog</a>;
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="MateDialog.html#mate-dialog-new" title="mate_dialog_new ()">mate_dialog_new</a>                    (<em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="MateDialog.html#mate-dialog-newv" title="mate_dialog_newv ()">mate_dialog_newv</a>                   (<em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **buttons</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-set-parent" title="mate_dialog_set_parent ()">mate_dialog_set_parent</a>             (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWindow</span> *parent</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-button-connect" title="mate_dialog_button_connect ()">mate_dialog_button_connect</a>         (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-button-connect-object" title="mate_dialog_button_connect_object ()">mate_dialog_button_connect_object</a>  (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkObject</span> *obj</code></em>);
+<span class="returnvalue">gint</span>                <a class="link" href="MateDialog.html#mate-dialog-run" title="mate_dialog_run ()">mate_dialog_run</a>                    (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>);
+<span class="returnvalue">gint</span>                <a class="link" href="MateDialog.html#mate-dialog-run-and-close" title="mate_dialog_run_and_close ()">mate_dialog_run_and_close</a>          (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-set-default" title="mate_dialog_set_default ()">mate_dialog_set_default</a>            (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-grab-focus" title="mate_dialog_grab_focus ()">mate_dialog_grab_focus</a>             (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-set-sensitive" title="mate_dialog_set_sensitive ()">mate_dialog_set_sensitive</a>          (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> setting</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-set-accelerator" title="mate_dialog_set_accelerator ()">mate_dialog_set_accelerator</a>        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">guchar</span> accelerator_key</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint8</span> accelerator_mods</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-close" title="mate_dialog_close ()">mate_dialog_close</a>                  (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-close-hides" title="mate_dialog_close_hides ()">mate_dialog_close_hides</a>            (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> just_hide</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-set-close" title="mate_dialog_set_close ()">mate_dialog_set_close</a>              (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> click_closes</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-editable-enters" title="mate_dialog_editable_enters ()">mate_dialog_editable_enters</a>        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkEditable</span> *editable</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-append-buttons" title="mate_dialog_append_buttons ()">mate_dialog_append_buttons</a>         (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *first</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-append-button" title="mate_dialog_append_button ()">mate_dialog_append_button</a>          (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *button_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-append-buttonsv" title="mate_dialog_append_buttonsv ()">mate_dialog_append_buttonsv</a>        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **buttons</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-append-button-with-pixmap" title="mate_dialog_append_button_with_pixmap ()">mate_dialog_append_button_with_pixmap</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *button_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *pixmap_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-append-buttons-with-pixmaps" title="mate_dialog_append_buttons_with_pixmaps ()">mate_dialog_append_buttons_with_pixmaps</a>
+                                                        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **names</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **pixmaps</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-construct" title="mate_dialog_construct ()">mate_dialog_construct</a>              (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> ap</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="MateDialog.html#mate-dialog-constructv" title="mate_dialog_constructv ()">mate_dialog_constructv</a>             (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **buttons</code></em>);
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-OK:CAPS" title="MATE_STOCK_BUTTON_OK">MATE_STOCK_BUTTON_OK</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-CANCEL:CAPS" title="MATE_STOCK_BUTTON_CANCEL">MATE_STOCK_BUTTON_CANCEL</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-YES:CAPS" title="MATE_STOCK_BUTTON_YES">MATE_STOCK_BUTTON_YES</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-NO:CAPS" title="MATE_STOCK_BUTTON_NO">MATE_STOCK_BUTTON_NO</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-CLOSE:CAPS" title="MATE_STOCK_BUTTON_CLOSE">MATE_STOCK_BUTTON_CLOSE</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-APPLY:CAPS" title="MATE_STOCK_BUTTON_APPLY">MATE_STOCK_BUTTON_APPLY</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-HELP:CAPS" title="MATE_STOCK_BUTTON_HELP">MATE_STOCK_BUTTON_HELP</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-NEXT:CAPS" title="MATE_STOCK_BUTTON_NEXT">MATE_STOCK_BUTTON_NEXT</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-PREV:CAPS" title="MATE_STOCK_BUTTON_PREV">MATE_STOCK_BUTTON_PREV</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-UP:CAPS" title="MATE_STOCK_BUTTON_UP">MATE_STOCK_BUTTON_UP</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-DOWN:CAPS" title="MATE_STOCK_BUTTON_DOWN">MATE_STOCK_BUTTON_DOWN</a>
+#define             <a class="link" href="MateDialog.html#MATE-STOCK-BUTTON-FONT:CAPS" title="MATE_STOCK_BUTTON_FONT">MATE_STOCK_BUTTON_FONT</a>
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateDialog.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----GInitiallyUnowned
+         +----GtkObject
+               +----GtkWidget
+                     +----GtkContainer
+                           +----GtkBin
+                                 +----GtkWindow
+                                       +----MateDialog
+                                             +----<a class="link" href="libmateui-mate-messagebox.html#MateMessageBox">MateMessageBox</a>
+                                             +----<a class="link" href="MatePropertyBox.html" title="MatePropertyBox">MatePropertyBox</a>
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateDialog.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+MateDialog implements
+ AtkImplementorIface and  GtkBuildable.</p>
+</div>
+<div class="refsect1">
+<a name="MateDialog.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="MateDialog.html#MateDialog-clicked" title='The "clicked" signal'>clicked</a>"                                        : <code class="literal">Run Last</code>
+  "<a class="link" href="MateDialog.html#MateDialog-close" title='The "close" signal'>close</a>"                                          : <code class="literal">Run Last</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="MateDialog.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="MateDialog.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateDialog-struct"></a><h3>struct MateDialog</h3>
+<pre class="programlisting">struct MateDialog {
+  GtkWidget * vbox;
+};
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateDialog</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Client code can pack widgets (for example, text or images) into <em class="parameter"><code>vbox</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="type">GtkWidget</span> *<em class="structfield"><code><a name="MateDialog-struct.vbox"></a>vbox</code></em>;</span></p></td>
+<td>The middle portion of the dialog box.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-new"></a><h3>mate_dialog_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_dialog_new                    (<em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_new</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-newv"></a><h3>mate_dialog_newv ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_dialog_newv                   (<em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **buttons</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_newv</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buttons</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-set-parent"></a><h3>mate_dialog_set_parent ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_set_parent             (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWindow</span> *parent</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_set_parent</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-button-connect"></a><h3>mate_dialog_button_connect ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_button_connect         (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_button_connect</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-button-connect-object"></a><h3>mate_dialog_button_connect_object ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_button_connect_object  (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">GCallback</span> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkObject</span> *obj</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_button_connect_object</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-run"></a><h3>mate_dialog_run ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_dialog_run                    (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_run</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-run-and-close"></a><h3>mate_dialog_run_and_close ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_dialog_run_and_close          (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_run_and_close</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-set-default"></a><h3>mate_dialog_set_default ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_set_default            (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_set_default</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-grab-focus"></a><h3>mate_dialog_grab_focus ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_grab_focus             (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_grab_focus</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-set-sensitive"></a><h3>mate_dialog_set_sensitive ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_set_sensitive          (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> setting</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_set_sensitive</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-set-accelerator"></a><h3>mate_dialog_set_accelerator ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_set_accelerator        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> button</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">guchar</span> accelerator_key</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint8</span> accelerator_mods</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_set_accelerator</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Set an accelerator key for a button.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+<a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> to affect.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>Button number.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>accelerator_key</code></em> :</span></p></td>
+<td>Key for the accelerator.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>accelerator_mods</code></em> :</span></p></td>
+<td>Modifier.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-close"></a><h3>mate_dialog_close ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_close                  (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_close</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-close-hides"></a><h3>mate_dialog_close_hides ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_close_hides            (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> just_hide</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_close_hides</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>just_hide</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-set-close"></a><h3>mate_dialog_set_close ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_set_close              (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> click_closes</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_set_close</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>click_closes</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-editable-enters"></a><h3>mate_dialog_editable_enters ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_editable_enters        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkEditable</span> *editable</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_editable_enters</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>editable</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-append-buttons"></a><h3>mate_dialog_append_buttons ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_append_buttons         (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *first</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_append_buttons</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>first</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-append-button"></a><h3>mate_dialog_append_button ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_append_button          (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *button_name</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_append_button</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Add a button to a dialog after its initial construction.
+This function is mostly for internal library use. You should use
+<a class="link" href="MateDialog.html#mate-dialog-new" title="mate_dialog_new ()"><code class="function">mate_dialog_new()</code></a> instead. See that function for a description of
+the button argument.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+<a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> to add button to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button_name</code></em> :</span></p></td>
+<td>Button to add.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-append-buttonsv"></a><h3>mate_dialog_append_buttonsv ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_append_buttonsv        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **buttons</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_append_buttonsv</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buttons</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-append-button-with-pixmap"></a><h3>mate_dialog_append_button_with_pixmap ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_append_button_with_pixmap
+                                                        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *button_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *pixmap_name</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_append_button_with_pixmap</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Add a pixmap button to a dialog.
+<a class="link" href="MateDialog.html#mate-dialog-new" title="mate_dialog_new ()"><code class="function">mate_dialog_new()</code></a> does not permit custom buttons with pixmaps, so if you
+want one of those you need to use this function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+<a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> to add the button to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button_name</code></em> :</span></p></td>
+<td>Name of the button, or stock button #define.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixmap_name</code></em> :</span></p></td>
+<td>Stock pixmap name.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-append-buttons-with-pixmaps"></a><h3>mate_dialog_append_buttons_with_pixmaps ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_append_buttons_with_pixmaps
+                                                        (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **names</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **pixmaps</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_append_buttons_with_pixmaps</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>names</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixmaps</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-construct"></a><h3>mate_dialog_construct ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_construct              (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> ap</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_construct</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ap</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-dialog-constructv"></a><h3>mate_dialog_constructv ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_dialog_constructv             (<em class="parameter"><code><a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> **buttons</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_dialog_constructv</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buttons</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-OK:CAPS"></a><h3>MATE_STOCK_BUTTON_OK</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_OK     GTK_STOCK_OK
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_OK</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-CANCEL:CAPS"></a><h3>MATE_STOCK_BUTTON_CANCEL</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_CANCEL GTK_STOCK_CANCEL
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_CANCEL</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-YES:CAPS"></a><h3>MATE_STOCK_BUTTON_YES</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_YES    GTK_STOCK_YES
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_YES</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-NO:CAPS"></a><h3>MATE_STOCK_BUTTON_NO</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_NO     GTK_STOCK_NO
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_NO</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-CLOSE:CAPS"></a><h3>MATE_STOCK_BUTTON_CLOSE</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_CLOSE  GTK_STOCK_CLOSE
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_CLOSE</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-APPLY:CAPS"></a><h3>MATE_STOCK_BUTTON_APPLY</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_APPLY  GTK_STOCK_APPLY
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_APPLY</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-HELP:CAPS"></a><h3>MATE_STOCK_BUTTON_HELP</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_HELP   GTK_STOCK_HELP
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_HELP</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-NEXT:CAPS"></a><h3>MATE_STOCK_BUTTON_NEXT</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_NEXT   GTK_STOCK_GO_FORWARD
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_NEXT</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-PREV:CAPS"></a><h3>MATE_STOCK_BUTTON_PREV</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_PREV   GTK_STOCK_GO_BACK
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_PREV</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-UP:CAPS"></a><h3>MATE_STOCK_BUTTON_UP</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_UP     GTK_STOCK_GO_UP
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_UP</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-DOWN:CAPS"></a><h3>MATE_STOCK_BUTTON_DOWN</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_DOWN   GTK_STOCK_GO_DOWN
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_DOWN</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-STOCK-BUTTON-FONT:CAPS"></a><h3>MATE_STOCK_BUTTON_FONT</h3>
+<pre class="programlisting">#define MATE_STOCK_BUTTON_FONT   GTK_STOCK_SELECT_FONT
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_STOCK_BUTTON_FONT</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+This button has been replaced by one in GTK+ and new code should use that.
+</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="MateDialog.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateDialog-clicked"></a><h3>The <code class="literal">"clicked"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog,
+                                                        <span class="type">gint</span>         arg1,
+                                                        <span class="type">gpointer</span>     user_data)      : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateDialog-close"></a><h3>The <code class="literal">"close"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            user_function                      (<a class="link" href="MateDialog.html" title="MateDialog"><span class="type">MateDialog</span></a> *dialog,
+                                                        <span class="type">gpointer</span>     user_data)      : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dialog</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!-- ##### SECTION Title ##### -->
+matecomponent-arg
+
+<!-- ##### SECTION Short_Description ##### -->
+simplified CORBA_Any wrappers
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The MateComponentArg code, and macros are designed to make the
+use of CORBA_Any's slightly simpler by providing a glib
+like binding for them. The matecomponent-arg code also provides
+mappings between GValues and CORBA_anys.
+</para>
+
+<para>
+A typical use of the MateComponentArg macros would be in 
+  <example>
+     <title>Property bag implementation</title>
+     <programlisting>
+static void
+get_prop (MateComponentPropertyBag *bag,
+	  MateComponentArg         *arg,
+	  guint              arg_id,
+	  CORBA_Environment *ev,
+	  gpointer           user_data)
+{
+	GObject *clock = user_data;
+
+	switch (arg_id) {
+
+	case PROP_RUNNING: {
+		MATECOMPONENT_ARG_SET_BOOLEAN (arg, is_it_running);
+		break;
+	}
+
+	default:
+		matecomponent_exception_set (ev, ex_MateComponent_PropertyBag_NotFound);
+		break;
+	}
+}
+     </programlisting>
+  </example>
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### TYPEDEF MateComponentArg ##### -->
+<para>
+A glib style looking type alias for a CORBA_any
+</para>
+
+
+<!-- ##### TYPEDEF MateComponentArgType ##### -->
+<para>
+A glib style looking typedef for a CORBA type description.
+</para>
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_NULL ##### -->
+<para>
+the null type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_BOOLEAN ##### -->
+<para>
+the boolean type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SHORT ##### -->
+<para>
+the short type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_INT ##### -->
+<para>
+the integer type [ in fact a long ]
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_LONG ##### -->
+<para>
+the long type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_LONGLONG ##### -->
+<para>
+the long long type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_FLOAT ##### -->
+<para>
+the float type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_DOUBLE ##### -->
+<para>
+the double type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_CHAR ##### -->
+<para>
+the char type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_STRING ##### -->
+<para>
+the string type
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_GENERAL ##### -->
+<para>
+A macro to extract a value from a MateComponentArg with
+the given CORBA type @t.
+</para>
+
+@a: the MateComponentArg
+@c: a MateComponentArgType for checking
+@t: the C type of the value eg. for MATECOMPONENT_ARG_LONG: CORBA_long
+@e: an optional CORBA_Environment or NULL.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_GENERAL ##### -->
+<para>
+A macro to insert a value into an empty MateComponentArg with
+the given CORBA type @t.
+</para>
+
+@a: the MateComponentArg
+@v: a pointer to the value to insert.
+@c: a MateComponentArgType for checking
+@t: the C type of the value eg. for MATECOMPONENT_ARG_LONG: CORBA_long
+@e: an optional CORBA_Environment or NULL.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_BOOLEAN ##### -->
+<para>
+This macro returns a CORBA_boolean from inside a MateComponentArg.
+If the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_BOOLEAN ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_boolean.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_SHORT ##### -->
+<para>
+This macro returns a CORBA_short from inside a MateComponentArg.
+If the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_SHORT ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_short.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_INT ##### -->
+<para>
+this macro returns a CORBA_long from inside a MateComponentArg,
+if the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_INT ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_long.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_LONG ##### -->
+<para>
+this macro returns a CORBA_long from from inside a MateComponentArg,
+if the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_LONG ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_long.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_LONGLONG ##### -->
+<para>
+this macro returns a CORBA_long_long from from inside a MateComponentArg,
+if the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_LONGLONG ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_long_long.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_FLOAT ##### -->
+<para>
+this macro returns a CORBA_float from inside a MateComponentArg,
+if the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_FLOAT ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_float.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_DOUBLE ##### -->
+<para>
+This macro returns a CORBA_double from inside a MateComponentArg.
+If the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_DOUBLE ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_double.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_CHAR ##### -->
+<para>
+This macro returns a CORBA_char from inside a MateComponentArg,
+If the MateComponentArg's type does not match, the behavior is
+undefined, and may cause faults.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_CHAR ##### -->
+<para>
+This macro sets the value of @a to contain @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_char.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_GET_STRING ##### -->
+<para>
+this macro returns a const CORBA_char * from from inside a
+MateComponentArg, if the MateComponentArg's type does not match, the
+behavior is undefined, and may cause faults. The
+pointer to the string is only valid for the scope of
+the lifetime of @a.
+</para>
+
+@a: the MateComponentArg to extract the value from.
+
+
+<!-- ##### MACRO MATECOMPONENT_ARG_SET_STRING ##### -->
+<para>
+This macro sets the value of @a to contain a
+duplicated copy of @v
+</para>
+
+@a: the MateComponent arg to insert the value into
+@v: a CORBA_char *.
+
+
+<!-- ##### FUNCTION matecomponent_arg_new ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_new_from ##### -->
+<para>
+
+</para>
+
+@t: 
+@data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_release ##### -->
+<para>
+
+</para>
+
+@arg: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_copy ##### -->
+<para>
+
+</para>
+
+@arg: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_from_gvalue ##### -->
+<para>
+
+</para>
+
+@a: 
+@value: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_type_from_gtype ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_to_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@arg: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_type_to_gtype ##### -->
+<para>
+
+</para>
+
+@id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_is_equal ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@opt_ev: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_arg_type_is_equal ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@opt_ev: 
+@Returns: 
+
+

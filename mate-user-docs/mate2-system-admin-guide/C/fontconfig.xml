@@ -1,0 +1,95 @@
+<chapter id="fontconfig-0">
+  <title>Configuring Fonts</title>
+  <highlights>
+    <para>This chapter describes how to configure fonts in the MATE
+Desktop.</para>
+  </highlights>
+  <sect1 id="fontconfig-1">
+    <title>Introduction to Configuring Fonts</title>
+    <indexterm>
+      <primary>configuring fonts</primary>
+      <see>fonts</see>
+    </indexterm>
+    <indexterm>
+      <primary>fontconfig</primary>
+      <see>fonts</see>
+    </indexterm>
+    <indexterm>
+      <primary>fonts</primary>
+      <secondary>introduction</secondary>
+    </indexterm>
+    <para>MATE Desktop uses the <literal>fontconfig</literal> font configuration and
+customization library. The <literal>fontconfig</literal> library can use all
+kinds of fonts, including PostScript Type 1 fonts and TrueType fonts.</para>
+    <para>The <literal>fontconfig</literal> library provides a list of all the
+fonts available on a MATE Desktop system. To compile this list, <literal>fontconfig</literal> searches the directories listed in the <filename>/etc/fonts/fonts.conf</filename> file. To view all the fonts available on a system, access the <literal>fonts:///</literal> location in the file manager on the system.</para>
+    <para>For more information about the <literal>fontconfig</literal> library,
+see the following URL: </para>
+    <literallayout>
+      <ulink url="http://freedesktop.org/software/fontconfig">http://freedesktop.org/software/fontconfig</ulink>
+    </literallayout>
+  </sect1>
+  <sect1 id="fontconfig-4">
+    <title>Font Substitution</title>
+    <indexterm>
+      <primary>fonts</primary>
+      <secondary>substitution</secondary>
+    </indexterm>
+    <para>The <literal>fontconfig</literal> library performs font substitution
+when either entire fonts, or individual characters, are not present. If the
+system needs to display a font that is not available, <literal>fontconfig</literal> attempts to display another, similar font. For example, if a web
+page requests to display the Verdana font, and that font is not installed
+on the system, <literal>fontconfig</literal> displays a similar font, such
+as Helvetica. The list of similar fonts is defined in the <filename>/etc/fonts/fonts.conf</filename> file. </para>
+    <para>If the system needs to display a character that is not present in the
+selected font, <literal>fontconfig</literal> attempts to display the character
+in another, similar font. For example, you might select Bitstream Vera Sans
+as the font for the Text Editor application. The Bitstream Vera font family
+does not include Cyrillic characters. If you open a document which contains
+a Cyrillic character, Text Editor uses a similar font that includes Cyrillic
+characters to display the character.</para>
+    <para>The <literal>fontconfig</literal> library also defines aliases for fonts,
+for example, <literal>serif</literal>, <literal>sans-serif</literal>, and <literal>monospace</literal>. When you select one of the aliases for a font, the system
+uses the first font that is defined for that alias in the <filename>/etc/fonts/fonts.conf</filename>. </para>
+  </sect1>
+  <sect1 id="fontconfig-2">
+    <title>To Add a Font for All Users</title>
+    <indexterm>
+      <primary>fonts</primary>
+      <secondary>adding for all users</secondary>
+    </indexterm>
+    <para>To add a font for all users, perform the following steps:</para>
+    <orderedlist>
+      <listitem>
+        <para>Copy the font file to one of the directories in the <filename>/etc/fonts/fonts.conf</filename> file. Typically, fonts are stored in the <filename>/usr/share/fonts/</filename> directory.</para>
+      </listitem>
+      <listitem>
+        <para>The <literal>fontconfig</literal> library updates the list
+of fonts automatically. If the list of fonts is not updated, run the following
+command:</para>
+        <screen><userinput>fc-cache <replaceable>directory-name</replaceable></userinput></screen>
+      </listitem>
+    </orderedlist>
+  </sect1>
+  <sect1 id="fontconfig-3">
+    <title>To Add a Font for an Individual User</title>
+    <indexterm>
+      <primary>fonts</primary>
+      <secondary>adding for individual users</secondary>
+    </indexterm>
+    <para>To add a font for an individual users, perform
+the following steps:</para>
+    <orderedlist>
+      <listitem>
+        <para>Copy the font file to the <filename>$HOME/.fonts</filename>
+directory of the user. If you drag the font file to the <literal>fonts:///</literal> location in the file manager, the font file is copied to the <filename>$HOME/.fonts</filename> directory.</para>
+      </listitem>
+      <listitem>
+        <para>The <literal>fontconfig</literal> library updates the list
+of fonts automatically. If the list of fonts is not updated, run the following
+command:</para>
+        <screen><userinput>fc-cache <replaceable>directory-name</replaceable></userinput></screen>
+      </listitem>
+    </orderedlist>
+  </sect1>
+</chapter>

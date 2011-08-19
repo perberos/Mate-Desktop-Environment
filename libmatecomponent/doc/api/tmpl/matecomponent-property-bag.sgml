@@ -1,0 +1,350 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentPropertyBag
+
+<!-- ##### SECTION Short_Description ##### -->
+Implements a generic property storage interface
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The PropertyBag is used for many things, particularly for
+the customization of controls. The important thing to
+remember about the MateComponentPropertyBag implementation is that
+no live data is stored in the bag. ie. the Model for the 
+properties is your code.
+</para>
+
+<para>
+Consequently when someone requests a properties value,
+or sets a property the callbacks you supply at bag
+construction time are called, and the code therein must
+supply the property. Similarly, when a property changes
+value inside your object you need to notify the property
+bag's listeners that it has changed with a call to
+<function>matecomponent_event_source_notify_listeners_full</function>.
+</para>
+
+<para>
+Here is a simple example use of the property bag:
+  <example>
+     <title>PropertyBag Callbacks</title>
+     <programlisting>
+enum {
+	PROP_RUNNING,
+	PROP_COLOUR
+} MyArgs;
+
+static void
+get_prop (MateComponentPropertyBag *bag,
+	  MateComponentArg         *arg,
+	  guint              arg_id,
+	  CORBA_Environment *ev,
+	  gpointer           user_data)
+{
+	GtkObject *clock = user_data;
+
+	switch (arg_id) {
+
+	case PROP_RUNNING:
+		MATECOMPONENT_ARG_SET_BOOLEAN (arg, clock->is_running);
+		break;
+
+	case PROP_COLOUR:
+		MATECOMPONENT_ARG_SET_STRING (arg, clock->color);
+		break;
+
+	default:
+		matecomponent_exception_set (ev, ex_MateComponent_PropertyBag_NotFound);
+		break;
+	}
+}
+
+static void
+set_prop (MateComponentPropertyBag *bag,
+	  const MateComponentArg   *arg,
+	  guint              arg_id,
+	  CORBA_Environment *ev,
+	  gpointer           user_data)
+{
+	GtkClock *clock = user_data;
+
+	switch (arg_id) {
+
+	case PROP_RUNNING: {
+		guint i = MATECOMPONENT_ARG_GET_BOOLEAN (arg);
+
+		if (i)
+			gtk_clock_start (clock);
+		else
+			gtk_clock_stop (clock);
+		break;
+	}
+
+	case PROP_COLOUR:
+		gtk_clock_set_color (clock, MATECOMPONENT_ARG_GET_STRING (arg));
+
+	default:
+		matecomponent_exception_set (ev, ex_MateComponent_PropertyBag_NotFound);
+		break;
+	}
+}
+     </programlisting>
+  </example>
+</para>
+<para>
+Then to instantiate the property bag interface and associate it with
+a control perhaps we do:
+  <example>
+     <title>Adding a PropertyBag to a control</title>
+     <programlisting>
+	MateComponentPropertyBag *pb;
+
+	pb = matecomponent_property_bag_new (get_prop, set_prop, clock);
+	matecomponent_control_set_properties (control, pb);
+
+	matecomponent_property_bag_add (pb, "running", PROP_RUNNING,
+				 MATECOMPONENT_ARG_BOOLEAN, NULL,
+				 _("Whether or not the clock is running"),
+				 0);
+
+	matecomponent_property_bag_add (pb, "colour", PROP_COLOUR,
+				 MATECOMPONENT_ARG_STRING, NULL,
+				 _("The colour of the clock face"),
+				 0);
+
+	matecomponent_object_unref (MATECOMPONENT_OBJECT (pb));
+     </programlisting>
+  </example>
+And finally we need to notify listeners of changes in various properties
+so we could perhaps do:
+  <example>
+     <title>Notifying proterty bag listeners</title>
+     <programlisting>
+static void
+signal_handler (GtkClock *clock, MateComponentPropertyBag *pb)
+{
+	MateComponentArg *arg = matecomponent_arg_new (TC_string);
+
+	MATECOMPONENT_ARG_SET_STRING (arg, gtk_clock_get_color (clock));
+
+	matecomponent_event_source_notify_listeners_full (pb->es, 
+					           "MateComponent/Property",
+					           "change",
+						   "colour",
+					           arg, NULL);
+	matecomponent_arg_release (arg);
+}
+...
+	gtk_signal_connect (GTK_OBJECT (clock), "color_changed",
+			    GTK_SIGNAL_FUNC (signal_handler), pb);
+     </programlisting>
+  </example>
+  See also #MateComponentArg.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentPropertyBagClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@epv: 
+
+<!-- ##### STRUCT MateComponentPropertyBag ##### -->
+<para>
+
+</para>
+
+@parent: 
+@priv: 
+@es: 
+
+<!-- ##### MACRO MATECOMPONENT_PROPERTY_READABLE ##### -->
+<para>
+    If this flag is set, the property allows consulting its value.
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_PROPERTY_WRITEABLE ##### -->
+<para>
+    If this flag is set, the property supports modification of its value.
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_PROPERTY_WRITABLE ##### -->
+<para>
+    Misspelling of #MATECOMPONENT_PROPERTY_WRITEABLE.
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_PROPERTY_NO_LISTENING ##### -->
+<para>
+    If this flag set, when the property changes its value its
+    listeners will *not* be notified.
+</para>
+
+
+
+<!-- ##### MACRO MATECOMPONENT_PROPERTY_NO_AUTONOTIFY ##### -->
+<para>
+    If this flag set, when the property changes its value its
+    listeners will *not* be notified.
+</para>
+
+
+
+<!-- ##### STRUCT MateComponentProperty ##### -->
+<para>
+Structure that holds information about a property in a #MateComponentPropertyBag.
+</para>
+
+@name: the canonic name of the property
+@idx: unique numeric identifier of the property within the property bag
+@type: type of value contained by this property
+@default_value: the default value
+@doctitle: documentation string title
+@docstring: documentation string
+@flags: property flags (read/write, etc.)
+@priv: implementation private data
+
+<!-- ##### USER_FUNCTION MateComponentPropertyGetFn ##### -->
+<para>
+Property getter function.
+</para>
+
+@bag: the property bag
+@arg: output parameter; the caller must place here the property value
+@arg_id: unique numeric identifier of the property within the property bag
+@ev: the relevant CORBA environment
+@user_data: user data
+
+
+<!-- ##### USER_FUNCTION MateComponentPropertySetFn ##### -->
+<para>
+Property setter function.
+</para>
+
+@bag: the property bag
+@arg: the new property value to be set
+@arg_id: unique numeric identifier of the property within the property bag
+@ev: the relevant CORBA environment
+@user_data: user data
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_new ##### -->
+<para>
+
+</para>
+
+@get_prop_cb: 
+@set_prop_cb: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_new_closure ##### -->
+<para>
+
+</para>
+
+@get_prop: 
+@set_prop: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_new_full ##### -->
+<para>
+
+</para>
+
+@get_prop: 
+@set_prop: 
+@es: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_construct ##### -->
+<para>
+
+</para>
+
+@pb: 
+@get_prop: 
+@set_prop: 
+@es: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_add ##### -->
+<para>
+
+</para>
+
+@pb: 
+@name: 
+@idx: 
+@type: 
+@default_value: 
+@doctitle: 
+@flags: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_add_full ##### -->
+<para>
+
+</para>
+
+@pb: 
+@name: 
+@idx: 
+@type: 
+@default_value: 
+@doctitle: 
+@docstring: 
+@flags: 
+@get_prop: 
+@set_prop: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_remove ##### -->
+<para>
+
+</para>
+
+@pb: 
+@name: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_map_params ##### -->
+<para>
+
+</para>
+
+@pb: 
+@on_instance: 
+@pspecs: 
+@n_params: 
+
+
+<!-- ##### FUNCTION matecomponent_property_bag_get_prop_list ##### -->
+<para>
+
+</para>
+
+@pb: 
+@Returns: 
+
+

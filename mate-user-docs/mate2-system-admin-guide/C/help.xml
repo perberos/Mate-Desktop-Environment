@@ -1,0 +1,114 @@
+<chapter id="help-0">
+  <title>Help System</title>
+  <highlights>
+    <para>This chapter describes the Help system in the MATE Desktop.</para>
+  </highlights>
+  <sect1 id="help-1">
+    <title>Introduction to the Help System</title>
+    <indexterm>
+      <primary>online Help</primary>
+      <see>Help</see>
+    </indexterm>
+    <indexterm>
+      <primary>Help</primary>
+      <secondary>introduction</secondary>
+    </indexterm>
+    <para>The MATE Desktop displays help in the <application>Yelp</application> Help
+browser. For more information, see <ulink url="ghelp:user-guide?yelp">Yelp Help Browser</ulink> in the
+<ulink url="ghelp:user-guide">MATE Desktop User Guide</ulink>.</para>
+<para>The source documents for the help are XML files. The XML files are
+written to the DocBook XML Version 4.1.2 document type definition (DTD). The
+DocBook XML files are converted to HTML using stylesheets installed with <application>
+mate-doc-utils</application> and the HTML is displayed in the
+help browser. For more information on DocBook XML, see the following URL:</para>
+    <literallayout>
+      <ulink url="http://www.oasis-open.org/docbook/xml/">http://www.oasis-open.org/docbook/xml</ulink>
+    </literallayout>
+    <para>The Help system uses <firstterm>Open Source Metadata Framework</firstterm>
+(OMF) files, and a cataloging system. The next sections describe OMF files
+and the cataloging system.</para>
+  </sect1>
+  <sect1 id="help-3">
+    <title>OMF Files</title>
+    <indexterm>
+      <primary>.omf files</primary>
+      <see>OMF files</see>
+    </indexterm>
+    <indexterm>
+      <primary>Help</primary>
+      <secondary>OMF files</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>OMF files</primary>
+    </indexterm>
+    <para>The XML file for each manual
+has an associated OMF file. The OMF file contains information about the manual
+that is used by the Help browser. OMF files have a <filename>.omf</filename>
+extension.</para>
+    <para>When you install an application, the installation process installs an
+OMF file to a directory of OMF files. If a Help document has an associated
+OMF file in an OMF file directory, the Help document is displayed in the Help
+browser.</para>
+    <para>OMF files contain information about Help documents such as the following:</para>
+    <itemizedlist>
+      <listitem>
+        <para>The location of the XML file for the Help document</para>
+      </listitem>
+      <listitem>
+        <para>The title of the Help document</para>
+      </listitem>
+      <listitem>
+        <para>A subject category to which the Help document belongs</para>
+      </listitem>
+    </itemizedlist>
+    <para>For more information on how to create OMF files, please see 
+    <ulink url="ghelp:writing_scrollkeeper_omf_files">Writing Scrollkeeper 
+OMF Files</ulink>.</para>
+  </sect1>
+  <sect1 id="help-2">
+    <title>ScrollKeeper Cataloging System</title>
+    <indexterm>
+      <primary>Help</primary>
+      <secondary>ScrollKeeper cataloging system</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>ScrollKeeper cataloging system</primary>
+    </indexterm>
+    <para><application>ScrollKeeper</application> is a cataloging
+system for documentation.  Its primary function is to manage the information in 
+OMF files for the help browser.  When you install an application, the 
+OMF file is copied to the <filename>
+<replaceable>$prefix</replaceable>/share/omf/<replaceable>&lt;application-name&gt;</replaceable>
+</filename> directory.
+</para>
+
+    <para><application>ScrollKeeper</application> builds a table of contents from the
+collection of OMF files in the directories specified in 
+<filename><replaceable>$prefix</replaceable>/etc/scrollkeeper.conf</filename> file. 
+This file usually consists of a single line with the <varname>OMF_DIR</varname> 
+set to a comma separated list of directories to recursively search.</para>
+
+    <programlisting>OMF_DIR=/usr/share/omf:/usr/local/share/omf:/opt/mate2/share/omf:/opt/kde/omf
+</programlisting>
+
+    <para><application>ScrollKeeper</application> contains a hierarchy of subject
+categories to which a help document can belong. The subject category of the document 
+in the OMF file determines the location of the document in the table of contents presented
+by the help browser.</para>
+
+    <para>The hierarchy of subject categories is defined in the file
+<filename>
+<replaceable>$prefix</replaceable>/scrollkeeper/Templates/<replaceable>&lt;lang&gt;</replaceable>/scrollkeeper_cl.xml</filename>. 
+The subject category of a document must correspond to a category specified in this file.</para>
+
+    <para>For more information on the <application>Scrollkeeper</application> system,
+visit the website at 
+<ulink url="http://scrollkeeper.sourceforge.net/">http://scrollkeeper.sourceforge.net/</ulink>.
+</para>
+
+    <note>
+      <para>If the help document XML file is moved to a new location, then
+the location in the OMF file needs to be updated.</para>
+    </note>
+  </sect1>
+</chapter>

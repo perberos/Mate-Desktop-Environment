@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Monitoring</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-file-and-dirs-ops.html" title="Advanced File/Directory Operations">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-xfer.html" title="File Transfers">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-file-advanced-ops.html" title="Backend-Specific Operations">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-xfer.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-file-and-dirs-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-file-advanced-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-monitor.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-monitor.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-monitor"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-monitor.top_of_page"></a>Monitoring</span></h2>
+<p>Monitoring — watch files for changes, and get called back if they do</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-monitor.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle">MateVFSMonitorHandle</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorType" title="enum MateVFSMonitorType">MateVFSMonitorType</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorEventType" title="enum MateVFSMonitorEventType">MateVFSMonitorEventType</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorCallback" title="MateVFSMonitorCallback ()">*MateVFSMonitorCallback</a>)          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle"><span class="type">MateVFSMonitorHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *monitor_uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *info_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorEventType" title="enum MateVFSMonitorEventType"><span class="type">MateVFSMonitorEventType</span></a> event_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-add" title="mate_vfs_monitor_add ()">mate_vfs_monitor_add</a>               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle"><span class="type">MateVFSMonitorHandle</span></a> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorType" title="enum MateVFSMonitorType"><span class="type">MateVFSMonitorType</span></a> monitor_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorCallback" title="MateVFSMonitorCallback ()"><span class="type">MateVFSMonitorCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-cancel" title="mate_vfs_monitor_cancel ()">mate_vfs_monitor_cancel</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle"><span class="type">MateVFSMonitorHandle</span></a> *handle</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-callback" title="mate_vfs_monitor_callback ()">mate_vfs_monitor_callback</a>          (<em class="parameter"><code><span class="type">MateVFSMethodHandle</span> *method_handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *info_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorEventType" title="enum MateVFSMonitorEventType"><span class="type">MateVFSMonitorEventType</span></a> event_type</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-monitor.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-monitor.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSMonitorHandle"></a><h3>MateVFSMonitorHandle</h3>
+<pre class="programlisting">typedef struct MateVFSMonitorHandle MateVFSMonitorHandle;
+</pre>
+<p>
+a handle representing a file or directory monitor that
+was registered using <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-add" title="mate_vfs_monitor_add ()"><code class="function">mate_vfs_monitor_add()</code></a> and that
+can be cancelled using <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-cancel" title="mate_vfs_monitor_cancel ()"><code class="function">mate_vfs_monitor_cancel()</code></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSMonitorType"></a><h3>enum MateVFSMonitorType</h3>
+<pre class="programlisting">typedef enum {
+  MATE_VFS_MONITOR_FILE,
+  MATE_VFS_MONITOR_DIRECTORY
+} MateVFSMonitorType;
+</pre>
+<p>
+Type of resources that can be monitored.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-FILE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_FILE</code></span></p></td>
+<td>the monitor is registered for a single file.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-DIRECTORY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_DIRECTORY</code></span></p></td>
+<td>the monitor is registered for all files in a directory,
+				 and the directory itself.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSMonitorEventType"></a><h3>enum MateVFSMonitorEventType</h3>
+<pre class="programlisting">typedef enum {
+  MATE_VFS_MONITOR_EVENT_CHANGED,
+  MATE_VFS_MONITOR_EVENT_DELETED,
+  MATE_VFS_MONITOR_EVENT_STARTEXECUTING,
+  MATE_VFS_MONITOR_EVENT_STOPEXECUTING,
+  MATE_VFS_MONITOR_EVENT_CREATED,
+  MATE_VFS_MONITOR_EVENT_METADATA_CHANGED
+} MateVFSMonitorEventType;
+</pre>
+<p>
+Types of events that can be monitored.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-EVENT-CHANGED:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_EVENT_CHANGED</code></span></p></td>
+<td>file data changed (FAM, inotify).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-EVENT-DELETED:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_EVENT_DELETED</code></span></p></td>
+<td>file deleted event (FAM, inotify).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-EVENT-STARTEXECUTING:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_EVENT_STARTEXECUTING</code></span></p></td>
+<td>file was executed (FAM only).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-EVENT-STOPEXECUTING:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_EVENT_STOPEXECUTING</code></span></p></td>
+<td>executed file isn't executed anymore (FAM only).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-EVENT-CREATED:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_EVENT_CREATED</code></span></p></td>
+<td>file created event (FAM, inotify).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-MONITOR-EVENT-METADATA-CHANGED:CAPS"></a><span class="term"><code class="literal">MATE_VFS_MONITOR_EVENT_METADATA_CHANGED</code></span></p></td>
+<td>file metadata changed (inotify only).
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSMonitorCallback"></a><h3>MateVFSMonitorCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSMonitorCallback)          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle"><span class="type">MateVFSMonitorHandle</span></a> *handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *monitor_uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *info_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorEventType" title="enum MateVFSMonitorEventType"><span class="type">MateVFSMonitorEventType</span></a> event_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Function called when a monitor detects a change.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>the handle of the monitor that created the event
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>monitor_uri</code></em> :</span></p></td>
+<td>the URI of the monitor that was triggered
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info_uri</code></em> :</span></p></td>
+<td>the URI of the actual file this event is concerned with (this can be different
+from <em class="parameter"><code>monitor_uri</code></em> if it was a directory monitor)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_type</code></em> :</span></p></td>
+<td>what happened to <em class="parameter"><code>info_uri</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data passed to <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-add" title="mate_vfs_monitor_add ()"><code class="function">mate_vfs_monitor_add()</code></a> when the monitor was created
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-monitor-add"></a><h3>mate_vfs_monitor_add ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_monitor_add               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle"><span class="type">MateVFSMonitorHandle</span></a> **handle</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorType" title="enum MateVFSMonitorType"><span class="type">MateVFSMonitorType</span></a> monitor_type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorCallback" title="MateVFSMonitorCallback ()"><span class="type">MateVFSMonitorCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+Watch the file or directory at <em class="parameter"><code>text_uri</code></em> for changes (or the creation/deletion of the file)
+and call <em class="parameter"><code>callback</code></em> when there is a change. If a directory monitor is added, <em class="parameter"><code>callback</code></em> is
+notified when any file in the directory changes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>after the call, <em class="parameter"><code>handle</code></em> will be a pointer to an operation handle.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text_uri</code></em> :</span></p></td>
+<td>string representing the uri to monitor.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>monitor_type</code></em> :</span></p></td>
+<td>add a directory or file monitor.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to call when the monitor is tripped.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-monitor-cancel"></a><h3>mate_vfs_monitor_cancel ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_monitor_cancel            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorHandle" title="MateVFSMonitorHandle"><span class="type">MateVFSMonitorHandle</span></a> *handle</code></em>);</pre>
+<p>
+Cancel the monitor pointed to be <em class="parameter"><code>handle</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the monitor to cancel.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-monitor-callback"></a><h3>mate_vfs_monitor_callback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_monitor_callback          (<em class="parameter"><code><span class="type">MateVFSMethodHandle</span> *method_handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *info_uri</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorEventType" title="enum MateVFSMonitorEventType"><span class="type">MateVFSMonitorEventType</span></a> event_type</code></em>);</pre>
+<p>
+<a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-callback" title="mate_vfs_monitor_callback ()"><code class="function">mate_vfs_monitor_callback()</code></a> is used by <span class="type">MateVFSMethods</span> to indicate that a particular
+resource changed, and will issue the emission of the <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#MateVFSMonitorCallback" title="MateVFSMonitorCallback ()"><span class="type">MateVFSMonitorCallback</span></a> registered
+using <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-add" title="mate_vfs_monitor_add ()"><code class="function">mate_vfs_monitor_add()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>method_handle</code></em> :</span></p></td>
+<td>Method-specific monitor handle obtained through <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-add" title="mate_vfs_monitor_add ()"><code class="function">mate_vfs_monitor_add()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info_uri</code></em> :</span></p></td>
+<td>URI that triggered the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event_type</code></em> :</span></p></td>
+<td>The event obtained for <em class="parameter"><code>info_uri</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

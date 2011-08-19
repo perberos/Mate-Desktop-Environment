@@ -1,0 +1,176 @@
+<refentry id="debugging">
+    <refmeta>
+	<refentrytitle>Debugging</refentrytitle>
+<!--	<manvolnum>3</manvolnum> -->
+	<refmiscinfo>LIBMATECOMPONENT Library</refmiscinfo>
+    </refmeta>
+
+    <refsect1>
+	<title>Debugging</title>
+
+	<para>MateComponent component debugging advice, version 0.1
+	    by Michael Meeks &lt;mmeeks@gnu.org&gt;</para>
+
+	<para>Since it is not transparently obvious how to debug
+	    MateComponent components the following suggestions may be of use.</para>
+
+	<refsect2><title>Read the FAQ</title>
+
+	    <para>This will cover particularly common errors and their
+		solutions obviating the need for further debugging.</para>
+
+	</refsect2>
+	<refsect2><title>Versions</title>
+
+	    <para> It is vital to ensure that the correct versions of
+		both the component and the container are being
+		run. The safest way to make sure this is the case is
+		to explicitly specify the path eg. </para>
+	    <command> ./matecomponent-my-component &amp; ./my-test-container </command>
+
+	</refsect2>
+
+	<refsect2><title>Correct install</title>
+	    <para>It is rather important to make sure that matecomponent has
+		compiled and installed correctly. If you are using CVS
+		ensure that your matecomponent has installed without errors
+		and that you have run ldconfig.</para>
+	</refsect2>
+
+	<refsect2><title>Stale processes</title>
+
+	    <para>It is a good idea to check there are no stale
+		component processes running in the background, check
+		with</para>
+	    <command>ps ax | grep 'matecomponent-my-component'</command>
+	    <para>or just:</para>
+	    <command>matecomponent-slay</command>
+	</refsect2>
+
+	<refsect2><title>Debugging</title>
+	    
+	    <para>So: debugging. The best way to do this is to have
+		two X-terms, in one run the component:</para>
+		<command><screen>
+gdb ./matecomponent-my-component
+$ r
+		    </screen></command>
+	    <para>And in the second run the container:</para>
+	    <command><screen>
+gdb ./my-test-container
+$ r
+		</screen></command>
+	    
+	    <para>Putting breakpoints in shared libraries such as
+		matecomponent is not possible until they have been linked
+		in. Hence break in main, and then start populating
+		your breakpoints.</para>
+
+	    <para>Ok, so it seems some people also get horribly
+		confused by libtool libraries that are in fact here to
+		help; libtool creates a shell script in place of the
+		binary to allow non-installed libraries to be linked
+		correctly. That aside you need to do:</para>
+	    <command>$ libtool gdb ./my-program-name.</command>
+
+	    <para>NB. don't go fiddling in <filename>.libs</filename>,
+		you will get burned.  NNB. it seems that emacs' debug
+		mode doesn't like this; you have to write a small
+		<literal>'libtool gdb</literal>' wrapper script
+		eg. '<literal>libtool gdb $@</literal>'</para>
+	</refsect2>
+
+	<refsect2><title>CORBA method tracing</title>
+
+	    <para>There is beautiful built in MateCORBA2 method tracing
+		facility that will show you all CORBA invocations,
+		their objects, arguments, microsecond timestamps
+		etc. To use it you need to configure MateCORBA2 with the
+		--enable-debug switch and then either define the
+		environment variable <envar>MATECORBA2_DEBUG</envar> or
+		use the ORBDebugFlags command line option or matecorbarc
+		flag. See the MateCORBA2 FAQ for more info.</para>
+	</refsect2>
+
+	<refsect2><title>Order of execution</title>
+
+	    <para>It is of course important to ensure that the
+		component has registered before executing the
+		container.  A good guide is to wait until your hard
+		disk has stopped thrashing madly before running the
+		container.</para>
+	</refsect2>
+
+	<refsect2><title>Nothing will activate!</title>
+
+	    <command><screen>
+export MATECOMPONENT_ACTIVATION_DEBUG_OUTPUT=1
+matecomponent-slay
+		</screen></command>
+
+	    <para> And try again - it's possible that a debug message
+		is being suppressed by matecomponent-activation-server that
+		this will show you. </para>
+	</refsect2>
+
+	<refsect2><title>Nothing seems to happen, the code just locks</title>
+	    
+	    <para>Check that you are doing either a
+		<function>matecomponent_main()</function> or a
+		<function>matecomponent_activate()</function> followed by
+		<function>gtk_main()</function>. Failure to do this
+		will cause strange lockups, caused because the POA is
+		still queueing incoming requests waiting to be
+		activated.  NB. this must be done in both container
+		and component.</para>
+	    
+	</refsect2>
+	
+	<refsect2><title>Getting more information</title>
+
+	    <para>If you are doing serious development consider
+		compiling gtk+, glib and matecomponent with debugging
+		symbols:</para>
+	    <command>export CFLAGS='-g' ; ./configure</command>
+	    <para>If you suspect the name server of causing problems
+		use type:</para>
+	    <command>export MATECOMPONENT_ACTIVATION_DEBUG_EXERUN=1</command>
+
+	    <para>to get debug to the console, simply adding a
+		breakpoint in <function>g_log</function> will help get
+		at the innards of the matecomponent-activation
+		process.</para>
+
+	</refsect2>
+
+	<refsect2><title>Debugging matecomponent-activation</title>
+
+	    <para> This is often best done by running: </para>
+	    <command><screen>
+gdb ./matecomponent-activation
+r --ac-activate
+		</screen></command>
+	    <para>
+		And then cutting and pasting the IOR it spews out into
+		/tmp/matecorba-$USER/reg:...-local.</para>
+	</refsect2>
+
+	<refsect2><title>The last resort</title>
+	    <para>And finally when the handfuls of hair are coming out
+		thick and fast, consider reading the source, it only
+		looks scary, it won't bite.</para>
+	</refsect2>
+	    
+	<refsect2><title>Talk to the experts.</title>
+	    <para> Try reading the mailing list <ulink
+	    url="http://www.mate.org/mailing-lists/archives/mate-components-list/">
+	    archive </ulink>.  </para>
+	    <para>
+		Alternatively if you wish to buy in the programming expertise to meet
+		an agressive deadline see: <ulink url="http://www.mate-support.com"/>.
+	    </para>
+	</refsect2>
+
+    </refsect1>
+</refentry>
+

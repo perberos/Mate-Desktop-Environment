@@ -1,0 +1,154 @@
+xml2po 0.18.0 — © 2004, Danilo Segan
+
+Requirements
+............
+
+ * Python
+ * libxml2 and libxml2-python
+ * xml2po.py (this program)
+ * GNU gettext (msgfmt, msgmerge tools)
+
+Quick install
+.............
+
+To install in the same prefix as intltool:
+
+ $ ./configure && make && su -c "make install"
+
+
+About xml2po
+............
+
+xml2po is a simple Python program which extracts translatable content
+from free-form XML documents and outputs gettext compatible POT
+files.
+
+It can work it's magic with most "simple" tags, and for complicated
+tags one has to provide a list of all tags which are "final" (that
+will be put into one "message" in PO file), "ignored" (skipped over)
+and "space preserving".
+
+I will try to provide sane defaults for DocBook documents and other
+common document types (like Mate Summaries, XHTML).  For other kinds
+of documents, it is possible to use "-a" (--automatic-tags) to choose
+suitable translatable pieces.  It usually works very well.
+
+Preparing a POTemplate from XML file
+........................................
+
+ ./xml2po.py -o template.pot file.xml
+
+By default, xml2po treats documents as DocBook.  If that's not
+correct, you may choose another "document mode" by passing option "-m
+MODE" on the command line.  If there's currently no special module
+developed for document type you're trying to translate, use option
+"-a" for automatic detection of tags, which will work well even for
+simple DocBook documents.
+
+Get back a translation from a translator
+........................................
+
+Save a translation to xx.po, where xx is language code of a
+translation (i.e. "sr" for Serbian, "de" for German, ...).
+
+Execute:
+ ./xml2po.py -p xx.po -o file-xx.xml file.xml
+
+Now you've got a nice and translated XML file in 'file-xx.xml'.
+
+Updating a translation
+......................
+
+When base XML file changes, the real advantages of PO files come to
+surface.  To merge the translation you need to first produce a new
+POT file:
+ ./xml2po.py -o newfile.pot newfile.xml
+
+And then you need to use gettext "msgmerge" program to merge the
+translation with the new POT file:
+ msgmerge -o new-xx.po xx.po newfile.pot && mv new-xx.po xx.po
+
+Alternatively, xml2po provides option "-u" which does exactly these
+two steps for you:
+ ./xml2po.py -u xx.po newfile.xml
+
+(Note that there has been a change in suggested behaviour between
+xml2po versions 1.0.9 and 1.0.10 — previously, you used only "xx",
+without ".po", what emulated intltool-update behaviour; users [Ismael
+Olea actually :] found that confusing, so I'm suggesting a full
+filename now.)
+
+Special handling of document types
+..................................
+
+If you want to handle some document types in a special way, you may
+need to write short Python module to do it.  Currently, two special
+document types come with xml2po: "docbook" and "empty".
+
+Look at files modes/docbook.py and modes/empty.py to see how can one
+write new document handling modules.  DocBook module sets "lang"
+attribute on "article" element, and also adds translators to
+<articleinfo> element in form of <copyright>s.
+
+The basic features every module must provide are following functions:
+
+- getIgnoredTags: list of tags to be skipped over, unless they're
+  also "final"
+
+- getFinalTags: list of tags that will end up as separate PO messages
+
+- getPreserveSpaceTags: tags for which spaces should not be
+  compressed 
+
+- getStringForTranslators: string that will be added to PO file which
+  translators can translate with their names
+
+- getCommentForTranslators: comment that should document what format 
+  should translators use to credit themselves
+
+- postProcessXmlTranslation(doc, lang, credits): function which
+  receives current document tree (doc), current language (lang) and
+  list of translators (credits); if applicable, it should set
+  language and credit translators appropriately
+
+If a element name is in both ignored tags and final tags, then it is
+treated in a somewhat special way.  It "resets" the state of parser,
+but is not included as a separate translable message in PO files.
+
+This is useful with cases like nested lists in other final tags.  In
+DocBook, if we have <itemizedlist> inside <para>, we'd preferably
+have it replaced in its entirety, instead of getting in message
+something like:
+ <itemizedlist><listitem><placeholder-1/></listitem></itemizedlist>
+(where <placeholder-1/> is a another nested <para>, which is itself a
+final tag).  xml2po will try to do best even in cases like this, but
+giving it a hand can't hurt.
+
+If you don't want to worry about nesting of tags, option "-a" tries to
+detect what nodes are most suitable as final-tags.  This won't work
+well if one can nest tags indefinitely (like with DocBook documents,
+where one may have "<para>Blah... <orderedlist><listitem>...</para>"
+which may become very long string, what defeats the advantages of 
+PO files).
+
+Caveats
+.......
+
+There are several situations in which xml2po produces temporary
+files.  If permissions in current directory are too restrictive, they
+may cause mysterious breakages, though I have tried to make it act as
+sanely as possible.
+
+Normally, xml2po doesn't substitute external entities, because such
+files should be translated by themselves.  Unfortunately, Python
+bindings for libxml2 are not complete, and there's no simple way to
+detect if entity is external or not.  Still, there's a method
+debugDumpNode which can output relevant data to a filehandle (it
+doesn't work with StringIO), so I decided to create a temporary file
+.xml2po-checkingentities in the current working directory.  If it is
+not writeable, instead of showing an error, xml2po will replace every
+entity.
+
+Option "-p file.po" depends on program msgfmt being available and in
+the path.  If that fails, you'll see an error.
+

@@ -1,0 +1,5769 @@
+2009-03-31  Tobias Mueller  <tobiasmue@mate.org>
+
+	* libmate/mate-mateconf.c:
+	* libmate/libmate.h:
+	* libmate/mate-mateconf.h:
+	* libmate/libmate-private.h:
+	* libmate/mate-program.c:
+	* libmate/mate-score.c:
+	* libmate/mate-program.h:
+	* libmate/mate-i18n.c:
+	* libmate/mate-score.h:
+	* libmate/mate-mateconfP.h:
+	* libmate/mate-exec.c:
+	* libmate/mate-i18n.h:
+	* libmate/mate-triggers.c:
+	* libmate/mate-sound.c:
+	* libmate/mate-help.c:
+	* libmate/mate-macros.h:
+	* libmate/mate-exec.h:
+	* libmate/mate-triggers.h:
+	* libmate/mate-sound.h:
+	* libmate/mate-help.h:
+	* libmate/mate-url.c:
+	* libmate/mate-init.c:
+	* libmate/mate-config.c:
+	* libmate/mate-url.h:
+	* libmate/mate-init.h:
+	* libmate/mate-config.h:
+	* libmate/mate-triggersP.h:
+	* libmate/mate-util.c:
+	* libmate/dllmain.c:
+	* libmate/mate-util.h:
+	Update the address of the FSF by replacing old bits with new ones.
+	Fixes bug 577195.
+
+2009-03-17  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.26.1
+
+==================== 2.26.0 ====================
+
+2009-03-17  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: version 2.26.0
+
+2009-03-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.c: (load):
+	* libmate/mate-triggers.c:
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	* monikers/matecomponent-config-bag.c: (impl_MateComponent_PropertyBag_getKeys),
+	(impl_MateComponent_PropertyBag_getType),
+	(impl_MateComponent_PropertyBag_getValue),
+	(impl_MateComponent_PropertyBag_setValue),
+	(impl_MateComponent_PropertyBag_getValues),
+	(impl_MateComponent_PropertyBag_getDefault),
+	(impl_MateComponent_PropertyBag_getDocTitle),
+	(impl_MateComponent_PropertyBag_getDoc),
+	(impl_MateComponent_PropertyBag_getFlags):
+	- Remove #if 0'ed out code.
+	- Fix warnings about missing format specifiers.
+
+2009-03-03  Alexander Larsson  <alexl@redhat.com>
+
+        Bug 561172 – mate-open fails on local URIs with anchors
+
+        * libmate/mate-open.c:
+	For URIs, use the passed in URI, not the one from the GFile,
+	so that we can properly handle e.g. mailto: and other links
+	not supported by GIO.
+
+2008-12-07  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* libmate/mate-init.c:
+	Only include <glib.h>. Patch by Luis Menina (#563572).
+
+2008-10-19  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 556796 – add schema for buttons_have_images
+
+	* schemas/desktop_mate_interface.schemas.in.in: Add schema for 
+	buttons_have_images key.
+
+	* Branch for mate 2.24
+
+2008-09-25  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/dllmain.c (mate_win32_get_prefixes): Drop the Win9x
+	code path. There is no Win9x support any more lower in the stack
+	anyway.
+
+======================== 2.24.1 ===========================
+
+2008-09-22  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update again. 
+	* configure.in: 2.24.1.
+
+2008-09-22  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* schemas/desktop_mate_thumbnail_cache.schemas.in:
+	Made the housekeeping plugin less aggressive by default (bug #552680).
+	Code freeze break approved by release team.
+
+======================= 2.24.0 ==============================
+2008-09-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version.
+
+======================= 2.23.92 =============================
+
+2008-09-12  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-sound.c: Include <poll.h> only if HAVE_ESD as
+	poll() is used only if HAVE_ESD.
+
+2008-09-08  Christian Persch  <chpe@mate.org>
+
+	* configure.in:
+	* libmate/Makefile.am:
+	* libmate/mate-open.c: (main): Port mate-open to GIO. Bug #530752,
+	patch by Jean-Yves Lefort.
+
+2008-08-28  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	Revert this since it broke the build.
+
+2008-08-28  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	Patch from OpenSUSE to fix uninitialized var. Closes 
+	bug #543570. (Rodrigo Moya)
+
+====================== 2.23.5 =======================
+
+2008-07-30  Jeffrey Stedfast  <fejj@novell.com>
+
+	* libmate/mate-sound.c (send_all): More robustification.
+
+2008-07-22  Lennart Poettering   <lpoetter@redhat.com>
+
+	Fixes bug #541420
+
+	* schemas/desktop_mate_sound.schemas.in: add two new event sounds
+	settings to mateconf schema files.
+
+2008-07-17  Jeffrey Stedfast  <fejj@novell.com>
+
+	* libmate/mate-sound.c (send_all): Check for EAGAIN too (thanks
+	to Morten for pointing this out).
+
+2008-07-09  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes bug #542296
+
+	* libmate/mate-sound.c (mate_sound_sample_load): Poll the esd
+	connection to check that it's still alive. Set it to -1 if it's
+	not.
+	(mate_sound_play): Make sure the connection is still alive before
+	trying to play the sound file.
+
+==================== 2.23.4 ====================
+
+2008-06-14  Christian Persch  <chpe@mate.org>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.in: Prepare 2.23.4.
+
+2008-06-04  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.23.4
+
+==================== 2.23.3 ====================
+
+2008-06-04  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: Version 2.23.3. (simpler to keep the version of MATE)
+
+2008-06-02  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version to 2.23.0
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	Cast away a warning.
+
+2008-05-29  Christian Persch  <chpe@mate.org>
+
+	* libmate/mate-help.h:
+	* libmate/mate-url.h: Only include <glib.h>. Bug #535476.
+
+2008-05-07  William Jon McCann  <jmccann@redhat.com>
+
+	* schemas/desktop_mate_lockdown.schemas.in:
+	Add disable_application_handlers lockdown.
+
+2008-04-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/*.*: Include headers from srcdir over
+	the installed ones. Some other small cleanups.
+
+2008-04-27  William Jon McCann  <jmccann@redhat.com>
+
+	* schemas/desktop_mate_lockdown.schemas.in:
+	Add disable_application_handlers lockdown.
+
+2008-04-10  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* schemas/Makefile.am:
+	* schemas/desktop_mate_thumbnail_cache.schemas.in:
+	Re-added schema to support the thumbnail cache cleaner from 
+	the new mate-settings-daemon housekeeping plug-in, after
+	branching for mate-2-22. Bug #523159.
+
+2008-04-10  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* schemas/Makefile.am:
+	* schemas/desktop_mate_thumbnail_cache.schemas.in:
+	Revert commit of 2008-04-04 due to string freeze.
+
+2008-04-09  Stefan Kost  <ensonic@users.sf.net>
+
+	* libmate/mate-program.c: Unref MateConfClient. Bug #525815
+
+2008-04-04  Michael J. Chudobiak  <mjc@svn.mate.org>
+
+	* schemas/Makefile.am:
+	* schemas/desktop_mate_thumbnail_cache.schemas.in:
+	Added schema to support the thumbnail cache cleaner from the
+	new mate-settings-daemon housekeeping plug-in. Bug #523159.
+
+2008-03-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-triggers.c: Remove unused
+	static functions: mate_triggerlist_free() and
+	mate_trigger_free()
+
+2008-03-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Post release bump.
+
+======================= libmate 2.22.0 ====================
+
+2008-03-04  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_interface.shemas.in.in: Use the
+	gio backend for the filechooser by default. Patch from Luca
+	Ferretti.
+
+2007-11-15  Ross Burton  <ross@openedhand.com>
+
+	* schemas/desktop_mate_applications_office.schemas.in:
+	* schemas/Makefile.am:
+	Add more default application schemas for office applications,
+	specifically "calendar" and "tasks".  Default these to evolution.
+
+======================== libmate 2.21.90 =================
+
+2008-01-28  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update
+	* configure.in: Bump version
+
+2008-01-25  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-program.c: Bypass accessibility initialisation on
+	Windows for now. It isn't implemented yet.
+
+2008-01-25  Christian Persch  <chpe@mate.org>
+
+	* libmate/mate-sound.c: Set sound to enabled by default. Bug
+	#511928.
+
+2008-01-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-exec.c: (mate_prepend_terminal_to_vector):
+	* libmate/mate-mateconf.c: Remove more unneeded use of popt.
+	Patch from dmacks at netspace org. Closes bug #511424.
+
+2008-01-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-sound.c: Fix a warning by moving
+	the prototype for _mate_sound_set_enabled() a bit.
+	Patch from dmacks at netspace org. Closes bug #511455.
+
+2008-01-23  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-config.c (check_path): Use g_stat().
+
+	* libmate/mate-init.c (libmate_userdir_setup): Use
+	G_IS_DIR_SEPARATOR(). Use g_stat().
+
+2008-01-22  Tor Lillqvist  <tml@novell.com>
+
+	* libmate-zip.in: Look for catalogs in share/locale first, as
+	that is where they will be with a properly built GNU gettext.
+
+2008-01-17  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.c: (dump_keys), (dump_sections),
+	(dump_sections_to_file), (dump_profile): Make this more
+	robust against full disk situations. Patch from edpeur at gmail com
+	Closes bug #507687.
+	* libmate/libmate-2.0.pc.in: Add localstatedir variable so
+	we can tell where mate-games should look for highscore files.
+	Closes some bug I can't find :-/
+
+2008-01-08  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_finalize):
+	Free list of accessibility modules. Closes bug #483770.
+
+2008-01-08  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_accessibility_keyboard.schemas.in:
+	* schemas/desktop_mate_accessibility_startup.schemas.in:
+	* schemas/desktop_mate_applications_at_mobility.schemas.in:
+	* schemas/desktop_mate_applications_at_visual.schemas.in:
+	* schemas/desktop_mate_applications_browser.schemas.in:
+	* schemas/desktop_mate_applications_terminal.schemas.in:
+	* schemas/desktop_mate_background.schemas.in.in:
+	* schemas/desktop_mate_file_views.schemas.in:
+	* schemas/desktop_mate_interface.schemas.in.in:
+	* schemas/desktop_mate_peripherals_keyboard.schemas.in:
+	* schemas/desktop_mate_peripherals_mouse.schemas.in:
+	Add missing «.» to all long descriptions.
+	Closes bug #100287. Reported by Christian Rose.
+	
+2007-12-18  Christian Persch  <chpe@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in.in: Add setting for the
+	GTK IM module. Bug #504184, patch by Akira TAGOH.
+
+2007-12-16  Christian Persch  <chpe@mate.org>
+
+	* schemas/Makefile.am:
+	R schemas/desktop_mate_applications_help_viewer.schemas.in:
+	Remove the unused, obsolete and buggy schema for the help viewer app.
+	Bug #437827.
+
+2007-12-06  Jens Granseuer  <jensgr@gmx.net>
+
+	* schemas/desktop_mate_interface.schemas.in.in: replace the defunct
+	toolbar_icon_size integer setting with a string setting and rename it
+	so it doesn't conflict with the old one. Bug #401030.
+
+2007-10-19  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-score.c: Map pipe() to _pipe() on Win32.
+
+2007-10-16  Christian Persch  <chpe@mate.org>
+
+	* schemas/Makefile.am: Install the .schemas files, not the
+	.schemas.in. Bug #478299.
+
+2007-10-04  Ray Strode  <rstrode@redhat.com>
+
+	* libmate/mate-init.c: apply old distro patch from Dan Walsh to 
+	be more SELinux friendly. Spotted by Kjartan Maraas.
+
+2007-10-04  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-init.c: (libmate_option_cb): Warning fix.
+	* tests/Makefile.am: Remove old cruft.
+	* tests/test-help-path.c: Same
+	* tests/test-moniker.c: Same
+	* tests/test-storage.c: Same.
+
+2007-09-19  Christian Persch  <chpe@mate.org>
+
+	* schemas/Makefile.am: Don't distribute built schema files. Bug
+	#478299. Fix "make clean" not to remove files generated by configure.
+
+======================= libmate 2.20.0 ========================
+
+2007-08-30  Christian Persch  <chpe@mate.org>
+
+	* configure.in: We don't need a macros dir.
+
+2007-08-28  Christian Persch  <chpe@mate.org>
+
+	* configure.in:
+	* libmate/mate-program.c: (split_file_list), (get_module_path),
+	(find_module), (mate_program_module_load): Fix module loading. Bug
+	#410549, patch by Mariano Suárez-Alvarez.
+
+2007-08-27  Lucas Rocha  <lucasr@mate.org>
+
+	Define new default wallpaper for desktop. 
+	Patch from Vincent Untz <vuntz@mate.org>
+
+	* mate-data/Makefile.am, mate-data/mate-default.xml.in.in:
+	new wallpaper definition file.
+	* schemas/Makefile.am, schemas/desktop_mate_background.schemas.in.in:
+	new default background settings.
+	* schemas/desktop_mate_background.schemas.in: removed.
+
+2007-08-22  Christian Persch  <chpe@mate.org>
+
+	* configure.in:
+	* libmate/libmate-2.0-uninstalled.pc.in:
+	* libmate/libmate-2.0.pc.in: Only depend on esd when esd support is
+	compiled in. Bug #460199, patch by Daniel Gryniewicz.
+
+======================= libmate 2.19.0 ========================
+
+2007-07-30  Christian Persch  <chpe@mate.org>
+
+	* autogen.sh:
+	* doc/reference/tmpl/mate-program.sgml:
+	* libmate/Makefile.am: Build fixes.
+
+2007-07-30  Christian Persch  <chpe@mate.org>
+
+	* libmate/mate-init.c: (libmate_post_args_parse):
+	* libmate/mate-sound.c: (use_sound), (close_sound_connection),
+	(_mate_sound_set_enabled), (mate_sound_init),
+	(mate_sound_shutdown): Don't init the esd connection when
+	--disable-sound is passed. Bug #449249.
+
+2007-06-19  Christian Persch  <chpe@mate.org>
+
+	* libmate/mate-init.c: (libmate_post_args_parse),
+	(libmate_module_get_goption_group), (libmate_module_info_get):
+	Simplify by using g_object_get instead of g_object_get_property.
+	No need to make the GOptionEntry data static.
+
+2007-06-19  Christian Persch  <chpe@mate.org>
+
+	* libmate/mate-program.c: (mate_program_locate_file),
+	(mate_program_parse_args): Simplify by using g_object_get
+	instead of g_object_get_property.
+
+2007-06-18  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: Post release version bump.
+
+======================= libmate 2.19.0 ========================
+
+2007-06-18  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* NEWS: Update for the 2.19.0 release
+	* doc/reference/tmpl/mate-program.sgml:
+
+2007-04-18  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Portability fix. == vs = in test.
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	* schemas/desktop_mate_accessibility_keyboard.schemas.in:
+	* schemas/desktop_mate_applications_at_mobility.schemas.in:
+	Fix typos spotted by Kenneth Nielsen. Closes bug #429751.
+
+2007-04-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c:
+	Add some more info to the docs for mate_program_init().
+	Thanks go to Christian Persch. Closes bug #82943.
+
+2007-04-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/libmate-2.0-uninstalled.pc.in:
+	* libmate/libmate-2.0.pc.in:
+	Add esound to Requires.private. Bug #405352.
+
+2007-04-01  Matthias Clasen  <mclasen@redhat.com>
+
+	* libmate/mate-program.c (mate_program_preinit): Set
+	the program name to the basename of argv[0]. This is
+	expected by other parts of the stack, and e.g. makes bug-buddy
+	work for applets again.  (#424949)
+
+2007-02-24  Christian Persch  <chpe@svn.mate.org>
+
+	* libmate/Makefile.am: Rebuild the type builtins when the Makefile
+	changes.
+
+	* libmate/mate-config.c:
+	* libmate/mate-exec.c:
+	* libmate/mate-mateconf.c:
+	* libmate/mate-help.c:
+	* libmate/mate-i18n.c:
+	R libmate/mate-i18nP.h:
+	* libmate/mate-init.c:
+	* libmate/mate-open.c:
+	* libmate/mate-program.c:
+	* libmate/mate-score.c:
+	* libmate/mate-url.c: Replace mate-i18n.P with glib/gi18n-lib.h.
+
+======================= libmate 2.18.0 ========================
+
+2007-02-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.c:
+	* tests/test-help-path.c:
+	Remove duplicated header includes.
+
+======================= libmate 2.17.92 =======================
+
+2007-02-20  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am: Dist MAINTAINERS.
+
+======================= libmate 2.17.91 =======================
+
+======================= libmate 2.17.90 =======================
+
+2007-01-12  Christian Persch  <chpe@svn.mate.org>
+
+	* libmate/mate-program.c: Improve mate_program_init docs. Bug
+	#395089, patch by Jens Granseuer.
+
+2007-01-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/libmate-2.0-uninstalled.pc.in:
+	* libmate/libmate-2.0.pc.in:
+	Move some libs that aren't exposed in the headers to
+	Requires.private. Built the entire jhbuild moduleset
+	without problems with this patch. Closes bug #352193.
+	Patch from Samuel Thibault.
+
+======================== libmate 2.17.3 ======================
+
+2007-01-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_sound.schemas.in: Add two keys for
+	the new mixer support in mate-control-center. Patch from
+	Jan Arne Petersen. Closes bug #394731.
+
+======================== libmate 2.17.2 ======================
+
+2007-01-09  Christian Persch  <chpe@svn.mate.org>
+
+	* autogen.sh:
+	* configure.in: Use automake 1.9.
+
+2007-01-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update for the release.
+	* schemas/Makefile.am: Add a missing schema.
+
+2007-01-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/Makefile.am:
+	* schemas/desktop_mate_applications_at_mobility.schemas.in:
+	* schemas/desktop_mate_applications_at_visual.schemas.in:
+	Add schemas for AT preferred applications. Patch from
+	George Kraft IV. Closes bug #387219.
+
+2007-01-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_lockdown.schemas.in:
+	Add key to disable the screensaver. Patch from
+	Guillaume Desmottes. Closes bug #386864.
+
+2007-01-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_lockdown.schemas.in:
+	Add key to make it possible to disable user switching.
+	Patch from Guillaume Desmottes. Closes bug #385119.
+
+2006-12-06  Christian Persch  <chpe@cvs.mate.org>
+
+	* libmate/mate-macros.h:
+	Deprecate these macros. You can use G_DEFINE_TYPE instead.
+	Bug #382065.
+
+2006-12-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in:
+	* monikers/MATE_Moniker_std.server.in.in:
+	* monikers/Makefile.am:
+	Cygwin fixes from the Cygwin ports maintainer.
+	Closes bug #322895
+
+2006-12-06  Christian Persch  <chpe@cvs.mate.org>
+
+	* libmate/mate-program.h:
+	Fix for building with MATE_DISABLE_DEPRECATED.
+
+2006-12-06  Christian Persch  <chpe@cvs.mate.org>
+
+	* doc/reference/tmpl/mate-program.sgml:
+	* libmate/mate-program.h:
+	Deprecate mate_program_preinit/parse_args/postinit. Bug #382046.
+
+2006-12-05  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version after release.
+
+2006-12-04  Christian Persch  <chpe@cvs.mate.org>
+
+	* libmate/mate-init.c: (libmate_module_get_goption_group):
+	Add ":" after description. Bug #350227.
+
+2006-12-03  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update
+	* configure.in: Bump version
+	* libmate/mate-config.h:
+	* libmate/mate-i18n.h:
+	* libmate/mate-score.h:
+	- Fix header guards.
+
+2006-11-13  Vincent Untz  <vuntz@mate.org>
+
+	* libmate/mate-init.c: (libmate_option_cb)
+	(libmate_goption_version): s/Mate/MATE
+
+2006-11-07  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.c: (access_config_extended):
+	* libmate/mate-program.c: (mate_program_preinit):
+	* libmate/mate-score.c: (mate_score_child):
+	* libmate/mate-sound.c: (mate_sound_sample_load_wav),
+	(use_sound), (mate_sound_init), (mate_sound_shutdown):
+	* libmate/mate-triggers.c: (mate_trigger_free):
+	g_free/g_strdup handles NULL just fine according to
+	$CVSROOT/gnumeric/tools/check-gfrees.
+
+2006-11-07  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in:
+	* schemas/.cvsignore:
+	* schemas/Makefile.am:
+	* schemas/desktop_mate_interface.schemas.in.in:
+	Patch from Fernando Herrera to enable a11y by default
+	in the development version.
+
+2006-10-30  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	More error message improvement. Closes bug #365871. Patch
+	from Matthias Clasen.
+
+2006-10-30  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	Recommit the fix for bug #365342.
+
+2006-10-30  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	Fix duplicate error message. Closes bug #361697 filed by Don Scorgie.
+
+2006-10-30  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	Revert string change until we branch.
+
+2006-10-30  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	Handle failed logins with better feedback to the user.
+	Patch from Sebastian Bacher. Closes bug #365342.
+
+2006-10-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update some.
+	* libmate/mate-program.c: (mate_program_init):
+	GThread initialization fix from Tor and Tim. Closes bug #343490.
+
+2006-10-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-score.c: Fix API docs for a function.
+	Noted by Steve Chaplin. Closes bug #116457.
+
+2006-10-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-sound.c: (use_sound), (mate_sound_init),
+	(mate_sound_shutdown): Fix playback problems on NetBSD and possibly
+	other platforms. Closes bug #155121. Patch from Cliff Wright.
+
+2006-10-15  Daniel Drake  <dsd@gentoo.org>
+
+	* libmate/mate-url.c: Interpret MATE_VFS_ERROR_NOT_FOUND
+	(bug #360932)
+
+2006-09-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* doc/reference/libmateui-docs.sgml: Make the API documentation
+	easier to navigate (bug #357834).
+
+2006-09-10  Tor Lillqvist  <tml@novell.com>
+
+	* libmate-zip.in: Include also
+	$prefix/etc/mateconf/mateconf.xml.defaults in the zipfile.
+
+======================== 2.16.0 ===========================
+
+2006-08-31  Thomas Wood  <thos@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Revert the default gtk+
+	theme name
+
+2006-08-18  Kjartan Maraas  <kmaraas@mate.org>
+
+	* monikers/matecomponent-moniker-conf-indirect.c:
+	(matecomponent_moniker_conf_indirect_resolve): Fix a leak.
+
+======================= 2.15.2 =========================
+
+2006-08-08  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am: Dist gtk-doc.make too.
+
+2006-08-08  Thomas Wood  <thos@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Updated the gtk+ theme
+	key to reflect the new name of the default theme
+
+======================= 2.15.1 =========================
+
+2006-07-10 Kjartan Maraas <kmaraas@mate.org>
+
+	* Remove excessive whitespace all over and release 2.15.1.
+
+2006-06-20  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in: From bug #338276:
+	The new mateconf keys, /desktop/mate/interface/show_input_method_menu and
+	/desktop/mate/interface/show_unicode_menu should default to true 
+	instead of false as they do now. Otherwise, the user's abiliity to 
+	change input method and insert some control characters from the text 
+	input's context menu will vanish without trace once he upgrades to 
+	gtk+ 2.9.
+
+2006-06-13  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-config.c
+	* libmate/mate-help.c
+	* libmate/mate-init.c:
+	Use gstdio wrappers consistently. A couple of spots had slipped
+	through the cracks and still used the unwrapped C library
+	functions. For full Unicode file name support on Win32 we must use
+	gstdio wrappers for all C library functions that take file names.
+
+2006-05-23  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-exec.c: (mate_prepend_terminal_to_vector):
+	Remove unneeded cast.
+	* libmate/mate-mateconf.c: (_mate_mateconf_module_info_get): Small
+	cleanup from Christian Persch. Closes bug #342304.
+	* monikers/matecomponent-config-bag.c: (matecomponent_config_bag_finalize):
+	* monikers/matecomponent-moniker-conf-indirect.c:
+	(matecomponent_moniker_conf_indirect_resolve): Remove unneeded cast.
+
+2006-05-16  Christian Persch  <chpe@cvs.mate.org>
+
+	* configure.in: Update intltool requirement to 0.35.
+
+2006-05-09  Benoît Dejean  <benoit@placenet.org>
+
+	* configure.in: Bumped version number to 2.15.1.
+
+	* libmate/mate-util.c: (mate_util_user_shell): More const data.
+	Closes #339672.
+
+2006-05-01  Christian Persch  <chpe@cvs.mate.org>
+
+	* doc/reference/tmpl/mate-program.sgml: Fix goption example.
+	  Bug #339463, patch by Kristof Vansant.
+
+2006-04-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-help.c: Add Since: entries to some API docs
+	* libmate/mate-program.c: Same
+	* libmate/mate-url.c: Same
+
+2006-04-18  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: New handling of ALL_LINGUAS
+	* po/LINGUAS: Same. Closes bug #338549. Patch from
+	Przemysław Grzegorczyk.
+
+2006-04-18  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Remove obsolete entry for no_NO
+	* po/no.po: And the translation.
+
+========================== 2.14.1 ===========================
+
+2006-04-04  Christian Persch  <chpe@cvs.mate.org>
+
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	  Plug potential mem leak introduced by my previous patch.
+
+2006-04-04  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-exec.c: (mate_prepend_terminal_to_vector):
+	Fix compiler warnings from previous patch.
+	* libmate/mate-program.c: (mate_program_locate_file): Remove
+	unused variable.
+
+2006-04-04  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Add --enable-esd switch. Patch from
+	Leonardo Boshell. Closes bug #310972.
+
+2006-04-04  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-exec.c: (mate_prepend_terminal_to_vector):
+	Fix for 'run in terminal' launchers with mate-terminal as
+	the preferred terminal. Patch from Vincent Vuntz. Closes
+	bug #336542.
+
+2006-04-04  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-init.c: (libmate_option_cb): Fix
+	--espeaker option. Closes bug #333932. Patch from
+	Michael H. Schimek.
+
+2006-04-04  Kjartan Maraas <kmaraas@mate.org>
+
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	* libmate/mate-program.c: (mate_program_locate_file):
+	Fix mate_help_display_with_doc_id() to behave as documented.
+	Patch from Stefan Kost and Christian Persch. Closes bug #333943.
+
+2006-04-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (global_program_unref),
+	(add_to_module_list), (mate_program_class_init),
+	(mate_program_instance_init), (mate_program_finalize),
+	(mate_program_locate_file), (mate_program_parse_args),
+	(mate_program_init_common): Fix leaks. (Christian Persch)
+	Closes bug #335741.
+
+======================== 2.14.0 =============================
+
+2006-03-13  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Release 2.14.0.
+
+2006-03-09  Subhransu Behera <sbehera@redhat.com>
+
+	* configure.in: "or" is added to ALL_LINGUS
+
+2006-02-15  Christian Persch  <chpe@cvs.mate.org>
+
+        * libmate/mate-program.c: (mate_program_preinit): revert to only
+	using GOption if explicitly requested, since otherwise the popt
+	context isn't created, which breaks ABI in case anyone tries to use
+	it.
+
+2006-02-12  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libmate/mate-url.c: (mate_url_show_with_env): Add handling of
+	MATE_VFS_ERROR_INVALID_URI error and a user readable message
+	(Fixes #327754).
+
+2006-02-12  Vincent Untz  <vuntz@mate.org>
+
+	Use GOption instead of popt by default
+
+	* libmate/mate-program.c: (mate_program_preinit): use GOption by
+	default if the program does not specify any help data
+
+2006-01-17  Christian Persch  <chpe@cvs.mate.org>
+
+	* libmate/mate-init.c: (mate_matecomponent_module_info_get),
+	(mate_matecomponent_activation_module_info_get),
+	(mate_vfs_module_info_get), (libmate_module_info_get):
+	Initialise all members of the MateModuleInfo structs.
+
+2006-01-16  Emmanuele Bassi  <ebassi@cvs.mate.org>
+
+	* configure.in, NEWS: release 2.13.7.
+
+	* libmate/mate-program.h: non-conditionally include popt.h
+
+2006-01-16  Emmanuele Bassi  <ebassi@cvs.mate.org>
+
+	* configure.in, NEWS: release 2.13.6.
+
+2006-01-16  Emmanuele Bassi  <ebassi@cvs.mate.org>
+
+	* libmate/mate-init.c: (mate_matecomponent_activation_module_info_get),
+	(libmate_module_info_get):
+	* libmate/mate-program.c: (mate_program_preinit):
+	* libmate/mate-program.h: apply patch from Christian Persch to mark
+	popt as deprecated and rename the MateModuleInfo struct member
+	for using GOption for argument parsing.  Closes bug #326846.
+
+2006-01-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* doc/reference/tmpl/mate-program.sgml: Add deprecation notices
+	for the popt stuff and improve the docs for GOption argument
+	parsing. Closes bug #317545. (Christian Perch)
+
+2006-01-13  Federico Mena Quintero  <federico@ximian.com>
+
+	* doc/reference/tmpl/mate-program.sgml: Patch from Tim Müller
+	<t.i.m@zen.co.uk> to add an example on how to get non-option
+	command-line arguments from a GOptionContext after using
+	mate_program_init().
+
+2006-01-12  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "zh_HK" to ALL_LINGUAS.
+
+2006-01-09  Sebastien Bacher  <seb128@debian.org>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	don't make the toolbars detachable by default (Closes: #326330)
+
+2006-01-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Up version.
+	* libmate/.cvsignore: Add a missing file
+	* libmate/mate-init.c: (mate_matecomponent_activation_module_info_get),
+	(libmate_module_get_goption_group), (libmate_module_info_get):
+	* libmate/mate-program.c: (mate_program_preinit):
+	* libmate/libmatetypes.c: Fix leaks introduced by the move to
+	GOption. (Christian Perch). Closes bug #326237.
+
+2006-01-03  Mark McLoughlin  <mark@skynet.ie>
+
+	* configure.in: remove comment which refers to
+	code which was removed when we started using
+	AM_MATECONF_SOURCE_2
+
+2005-12-22  Nickolay V. Shmyrev  <nshmyrev@yandex.ru>
+
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	Fix searching of document when doc_id is NULL. See bug
+	#84148.
+
+2005-12-17  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_postinit):
+	Remove call to g_blow_chunks(). GMemChunks are deprecated
+	now and this shouldn't produce much of an ill effect hopefully?
+	* monikers/matecomponent-config-bag.c: #if 0 out a function that
+	is only referenced in a commented out line.
+
+2005-12-13  Gustavo J. A. M. Carneiro  <gjc@inescporto.pt>
+
+	* libmate/mate-program.c (mate_program_init_paramv): Allow
+	nparams == 0, mate-python depends on it.
+
+2005-12-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version to 2.13.3.
+
+2005-12-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* .cvsignore: Shh
+	* doc/reference/.cvsignore: Shh
+	* doc/reference/tmpl/mate-url.sgml: This changed somehow
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	Check for nparams > 0 not >= 0.
+	* monikers/matecomponent-moniker-extra.c: Remove extra semicolon.
+	* po/.cvsignore: Shh
+
+2005-12-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-url (mate_url_show_with_env): Give some
+	feedback if the host can't be found. Patch from Christian Neumair.
+	Closes bug #323659.
+
+2005-11-14  Sebastien Bacher  <seb128@debian.org>
+
+	* NEWS:
+	* configure.in:
+	update for 2.13.2.
+
+2005-11-14  Sebastien Bacher  <seb128@debian.org>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	describe the new XSettings to control the visibility of the
+	input method and Unicode control character submenus in the context
+	menus of entries and text views, change by Matthias Clasen
+	(Closes: #319637).
+
+2005-11-14  Sebastien Bacher  <seb128@debian.org>
+
+	* schemas/desktop_mate_peripherals_mouse.schemas.in:
+	Updated the descriptions for the cursor changes with the new GTK
+	(Closes: #311524).
+
+2005-11-13  Jürg Billeter  <j@bitron.ch>
+
+	* schemas/desktop_mate_peripherals_keyboard.schemas.in:
+	Add schema for numlock state, moved from mate-control-center.
+	Fixes bug #319788.
+
+2005-11-10  Simos Xenitellis  <simos@mate.org>
+
+	* configure.in: Added tt (Tatar) to ALL_LINGUAS.
+
+2005-10-28  Erdal Ronahi  <erdal.ronahi@gmail.com>
+
+	* configure.in: Added ku (Kurdish) to ALL_LINGUAS
+
+2005-10-28  Christian Neumair  <chris@mate-de.org>
+
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	* libmate/mate-url.h:
+	Add MATE_URL_ERROR_CANCELLED and return it in mate_url_show_with_env
+	when the MateVFS request fails with MATE_VFS_ERROR_CANCELLED.
+
+2005-09-30  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-program.c (mate_program_get_property,
+	mate_program_set_property): Use G_SEARCHPATH_SEPARATOR_S instead
+	of hardcoded ":".
+
+2005-09-29  Christian Persch  <chpe@cvs.mate.org>
+
+	* configure.in: Bump version to 2.13.0, and require libmatecomponent 2.13.0
+	and glib 2.8.0.
+	* libmate/mate-init.c: (mate_matecomponent_activation_module_info_get),
+	(libmate_goption_epeaker), (libmate_goption_disable_sound),
+	(libmate_goption_enable_sound), (libmate_goption_version),
+	(libmate_module_info_get):
+	* libmate/mate-program.c: (mate_program_set_property),
+	(mate_program_get_property), (mate_program_class_init),
+	(mate_program_finalize), (mate_program_preinit),
+	(mate_program_parse_args):
+	* libmate/mate-program.h: Add GOption argument parsing to
+	mate_program_init.
+	Patch by Pawel Sliwowski <open.list@gmail.com>, bug #307312.
+	* doc/reference/libmate-sections.txt:
+	* doc/reference/tmpl/mate-program.sgml: Document
+	MATE_PARAM_GOPTION_CONTEXT.
+
+2005-09-29  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in
+	* libmate/mate-init.c
+	* libmate/mate-open.c
+	* libmate/libmate-2.0.pc.in: Do use mate-vfs on Win32,
+	too. Drop the related ifdefs etc. The main reason we do want
+	mate-vfs on Win32 here, too is so that the MATE module
+	dependency tree handled by mate_program_init() is the same as on
+	Unix. This means that mate_vfs_init() automagically will get
+	called as long as an application registers a dependency on
+	libmate (directly or indirectly).
+
+	* libmate/Makefile.am (mate_open_LDADD): Link with LIBMATE_LIBS.
+
+	* libmate/mate-util.c
+	* libmate/mate-util.h: Drop
+	mate_win32_locale_filename_from_utf8(), MATE software on Win32
+	uses GLib 2.8 and can use its g_win32_locale_filename_from_utf8().
+
+	* monikers/Makefile.am: On Win32, use relative path from the
+	servers directory to the moniker shlib in the server file.
+
+2005-09-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Version bump to 2.13.0.
+
+====================== 2.12.0 ======================
+
+2005-09-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Release 2.12.0
+	* NEWS: Update for the release.
+
+2005-08-29  Tor Lillqvist  <tml@novell.com>
+
+	* libmate-zip.in: Include also documentation in the developer
+	zipfile.
+
+====================== 2.11.3 ======================
+
+2005-08-21  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/dllmain.c (mate_win32_get_prefixes): Once more fix the
+	system codepage prefix setup logic.
+
+2005-08-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-help.c: (mate_help_display_with_doc_id_and_env):
+	Actually use the doc_id arg that's being passed in here. Reported
+	by Damon Chaplin. Patch by Muktha Narayan. Closes bug #84148.
+
+2005-08-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* mate-data/Makefile.am: Hook it up in the build
+	* mate-data/mate-options.7: New man page from Sebastien
+	Bacher. Closes bug #125120.
+
+2005-08-05  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Post release version bump.
+
+==================== 2.11.2 =======================
+
+2005-08-01  Elijah Newren  <newren@gmail.com>
+
+	See http://mail.mate.org/archives/desktop-devel-list/2005-August/msg00000.html
+	and zillions of other d-d-l threads.
+
+	* schemas/desktop_mate_interface.schemas.in: Change default gtk
+	theme theme to Clearlooks.  #312248.
+
+2005-07-19  Mark McLoughlin  <mark@skynet.ie>
+
+	See http://mail.mate.org/archives/desktop-devel-list/2005-July/msg00341.html
+
+	* schemas/desktop_mate_applications_window_manager.schemas.in:
+	Add deprecated notices to each of the keys.
+
+2005-07-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version
+	* libmate/mate-score.c: (mate_score_child): Fix
+	typo that broke scores handling after the win32 merge.
+	(Sebastien Bacher), Bug #309782.
+
+2005-06-17  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-init.h: Remove misleading comment about
+	mate_win32_get_prefixes(). No reason why it can't be used by
+	applications, too.
+
+	* libmate/dllmain.c (mate_win32_get_prefixes): Improve doc
+	comment.
+
+2005-06-11  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/dllmain.c (mate_win32_get_prefixes): Actually put
+	locale charset, not UTF-8, into cp_prefix in two of the cases.
+
+2005-06-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: Revert fix for bug #109238
+	since it creates glib-WARNINGS when g_set_application_name()
+	is called elsewhere first.
+
+2005-05-30  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Merge fix for bug #305464 from stable.
+
+2005-05-18  Alexander Larsson  <alexl@redhat.com>
+
+	* libmate/mate-config.c:
+	* libmate/mate-help.c:
+	Use g_get_language_names() instead of mate_i18n_get_language_list.
+
+	* libmate/mate-i18n.c:
+	Implement mate_i18n_get_language_list using g_get_language_names
+	instead of matecomponent_activation_get_language_list.
+	Mention in docs that you should use g_get_language_list, and that
+	the category field now is ignored.
+
+2004-10-20  Vinay M R  <vinay.mandyakoppal@wipro.com>
+
+	* libmate/mate-util.h: Fix the problem of
+	Launcher unusable as root in solaris.
+	Fixes bug #155913.
+
+2005-05-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-mateconf.c: Fix build with newer GCC. Patch
+	from Ryan Lortie. Closes bug #169857.
+
+2005-01-02  Sebastien Bacher  <seb128@debian.org>
+
+	* schemas/desktop_mate_interface.schemas.in: added a mateconf key to
+	configure the gtk-menu-bar-accelerator.
+
+2005-05-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	Patch from Shaun McCance to add schemas for document
+	font setting. Closes bug #160453
+
+2005-05-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Fix build on ia64. Patch from Sebastien
+	Bacher. Closes bug #148996.
+
+2005-05-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Use
+	the correct key name for both-horiz. Patch from
+	Christian Neumair. Closes bug #145004.
+
+2005-05-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.c: Add #include <strings.h>
+	* monikers/matecomponent-config-bag.c: Make a function static
+
+2005-05-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c:
+	Pass the MATE_PARAM_HUMAN_READABLE_NAME property
+	to g_set_application_name(). Fixes bug #109238.
+	Patch from Muktha Narayan <muktha narayan at wipro com>
+
+2005-04-29  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/mate-util.c (mate_win32_locale_filename_from_utf8):
+	New function. Lifted from HEAD GLib. If GLib 2.8 is released
+	before libmate gets more widely deployed on Windows, this can be
+	dropped and use g_win32_locale_filename_from_utf8() directly
+	instead.
+
+	* libmate/mate-util.h: Declare it. On GLib 2.7 and later,
+	just redirect to g_win32_locale_filename_from_utf8().
+
+2005-04-18  Tor Lillqvist  <tml@novell.com>
+
+	* libmate/Makefile.am: Remove unused LIBMATE_BINDIR.
+
+	Rework the Win32 run-time path lookup system once more. Use
+	functions instead of global variables. Make DllMain() minimalistic
+	as is recommended.
+
+	* libmate/dllmain.c (DllMain): Now very minimal, as is the
+	recommended practise. Just store the DLL handle. Don't call GLib
+	functions.
+	(mate_win32_get_prefixes): New public function to be used by
+	other MATE libraries, too. Takes a HMODULE and returns the
+	installation prefix both in a full UTF-8 form and in a system
+	codepage form. This should probably be in GLib, but MATE's
+	release schedule isn't synchronized with GLib's.
+	(setup): Helper function that uses mate_win32_get_prefixes().
+	(_mate_get_prefix, _mate_get_localedir, _mate_get_libdir,
+	_mate_get_datadir, _mate_get_localstatedir,
+	_mate_get_sysconfdir): Private functions for libmate, return the
+	run-time paths.
+
+	* libgnme/mate-init.h: Declare mate_win32_get_prefixes ().
+
+	* libmate/libmate-private.h: Declare the Win32 private
+	functions.
+
+2005-03-30  Steve Murphy  <murf@e-tools.com>
+
+        * configure.in: Added "rw" to ALL_LINGUAS.
+
+2005-03-28  Tor Lillqvist  <tml@novell.com>
+
+	Port to Windows, initial commit.
+
+	* configure.in: Bump version to 2.11.0 to distinguish from the
+	mate-2-10 branch. Define Automake conditional OS_WIN32. Depend on
+	GLib 2.6 so that we can use the gstdio.h wrappers to make
+	non-ASCII path names work better on Win32.
+
+	* libmate-zip.in: New file, to build libmate distribution for
+	Win32.
+
+	* Makefile.am
+	* configure.in: Distribute and expand it.
+
+	* configure.in
+	* libmate/libmate-2.0.pc.in
+	* libmate/mate-init.c
+	* libmate/mate-open.c: Try to manage without mate-vfs on Win32,
+	at least for now.
+
+	* libmate/mate-config.c
+	* libmate/mate-init.c
+	* libmate/mate-score.c
+	* libmate/mate-triggers.c: Use gstdio wrappers. Use GLib
+	pathname manipulation functions where applicable. Use gdir
+	functions. Accept both the canonical backslash and slash as path
+	compinent separators on Win32.
+
+	* libmate/dllmain.c: New file. Contains the Win32 DLL entry
+	point, which is used here to implement installation location
+	independence. Sets up run-time paths to libdir, sysconfdir etc.
+
+	* libmate/libmate-private.h: New file. On Win32 undefs the
+	compile-time definitions of directory pathnames and defines them
+	to point to the run-time ones instead.
+
+	* libmate/mate-init.c
+	* libmate/mate-program.c
+	* libmate/mate-score.c: Include libmate-private.h.
+
+	* libmate/mate-exec.c (mate_execute_async_with_env_fds,
+	mate_prepend_terminal_to_vector): Just stub out with g_warning()
+	on Win32 for now. Implement later if needed.
+
+	* libmate/mate-program.c: Dummy getuid/geteuid/getgid/getegid
+	definitions for Win32. No setuid or setgid concept.
+
+	* libmate/mate-score.c (log_score): Use ftruncate() on Unix,
+	_chsize() on Win32.
+	(mate_score_child_thread, mate_score_init): Use a thread on
+	Win32 where we have no fork().
+	(mate_score_log): No setgid concept on Win32, no need to check.
+
+	* libmate/mate-triggers.c: Use g_spawn_sync() on Win32.
+
+	* libmate/mate-url.c (mate_url_show_with_env): Use
+	ShellExecute() on Win32.
+
+	* libmate/mate-util.c (mate_util_user_shell): Look for cmd.exe
+	or command.com on Win32.
+
+	* schemas/Makefile.am (install-data-local): Work around MSYS
+	feature on Win32. It converts environment variables that look like
+	search paths into the Windows format (with semicoon
+	delimiters). The MATECONFIG_CONFIG_SOURCE would get mangled, so we
+	have to run mateconftool-2 through temporary .bat file.
+
+2005-03-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-mateconf.c: Fix compile breakage with gcc4
+
+2005-03-07  Anders Carlsson  <andersca@imendio.com>
+
+	* configure.in: Release 2.10.0
+
+2005-03-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	Minimal fix to get things building again on 64-bit.
+	Patch from James Henstridge which is partly a revert to
+	the first fix plus being a bit more strict about arguments
+	passed in there. Closes bug #168387. Thanks to Benoît Dejean,
+	Joe Marcus Clarke, Jean Bréfort and James for this fix.
+
+2005-02-14  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	init args to 0 to avoid complaints from gcc. Fix for my previous
+	commit.
+
+2005-02-08  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "xh" to ALL_LINGUAS.
+
+2005-02-04  Hans Petter Jansson  <hpj@novell.com>
+
+	* configure.in: Detect _NSGetEnviron() and crt_externs.h on Darwin.
+
+	* libmate/mate-util.c: Call _NSGetEnviron() to get the environment
+	on Darwin. Prevents build breakage.
+
+2005-02-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	Fix build on Red Hat 7.2 Alpha. Fix from <diskman at kc rr com>
+	Closes bug #165564.
+
+===================== 2.9.1 ==================
+
+2005-01-25  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-score.c: (mate_score_child): Handle
+	blank real name fields in the passwd file correctly.
+	Patch from Callum McKenzie <callum at physics otago ac nz>
+	Closes bug #149270.
+
+2004-11-12  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-config.h:
+	Deprecate, use GKeyFile instead.
+
+	* libmate/mate-i18n.h:
+	Deprecate, use glib/gi18n.h and	g_get_language_names instead.
+
+	* libmate/mate-score.h:
+	Deprecate. This is too specialized, and eventually a replacement
+	will find its way into mate-games.
+
+2004-11-08  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Update to 2.9.1
+
+2004-10-27  Thomas Fitzsimmons	<fitzsim@redhat.com>
+
+	* schemas/Makefile.am (install-data-local): Install generated
+	.schema files from build directory, not source directory.
+
+2004-10-10  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-mateconf.c:
+	(mate_mateconf_get_mate_libs_settings_relative):
+	Escape the app id.
+
+==================== 2.8.0 ====================
+
+2004-09-12  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.8.0
+
+	* NEWS: Update
+
+=================== 2.7.92 ====================
+
+2004-08-30  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.7.92
+
+2004-08-25  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-i18n.c: Fix a warning caused by a missin
+	declaration of matecomponent_activation_i18n_get_language_list().
+	* libmate/mate-program.c: (mate_program_init_paramv):
+	s/NULL/0 in parameter list. Closes bug #150986.
+
+=================== 2.7.91 ====================
+
+2004-08-16  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.7.91
+
+2004-08-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.c: (free_sections),
+	(escape_string_and_dup), (load), (access_config),
+	(mate_config_init_iterator_), (mate_config_iterator_next):
+	* libmate/mate-util.c: (mate_util_user_shell): Fix 0 vs NULL
+	usage. Closes bug #149828.
+
+2004-08-13  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Added nb to ALL_LINGUAS.
+
+2004-08-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Added gobject-2.0 to the PKG_CHECK_MODULES for LIBMATE
+	so all libmate's symbol references are resolvable (i.e. it builds
+	with LDFLAGS=-Wl,-z,defs).
+
+2004-08-11  Alexander Larsson  <alexl@redhat.com>
+
+	* libmate/mate-i18n.c (mate_i18n_get_language_list):
+	Upe matecomponent_activation_i18n_get_language_list() to avoid
+	duplication of local alias tables.
+
+==================== 2.7.2 ====================
+
+Mon Jul 19 23:18:19 2004  Jonathan Blandford  <jrb@mate.org>
+
+	* configure.in: Release 2.7.2
+
+2004-07-04  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* libmate/mate-program.h: Add prototype for
+	mate_program_init_paramv.
+
+	* libmate/mate-program.c (mate_program_init_common): Rename
+	from mate_program_initv; Add parameters 'nparams', 'params';
+	Allow instantiation of the MateProgram using either
+	g_object_new_valist or g_object_newv, depending on the supplied
+	arguments.
+	(mate_program_initv): Delegates to mate_program_init_common().
+	(mate_program_init_paramv): New function, GParameter variant of
+	mate_program_init. Delegates to mate_program_init_common().
+
+2004-06-08  Pawan Chitrakar  <pawan@nplinux.org>
+
+	* configure.in: Added "ne" Nepali in ALL_LINGUAS
+
+==================== 2.7.1 ====================
+
+2004-05-31  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.7.1
+
+	* NEWS: Update
+
+2004-05-30  Anders Carlsson  <andersca@mate.org>
+
+	* schemas/desktop_mate_lockdown.schemas.in: Fix grammar,
+	#137200, Dafydd Harries.
+
+2004-05-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_instance_init):
+	Commit a fix for broken sound events. Investigation and fix
+	by Colin Walters <walters at redhat com>. Should fix
+	bug #142502.
+
+2004-05-13  James Henstridge  <james@daa.com.au>
+
+	* Makefile.am (ACLOCAL_AMFLAGS): set so that aclocal gets called
+	with contents of $ACLOCAL_FLAGS environment variable.
+
+	* acconfig.h: remove file. All used AC_DEFINE()'s have help
+	strings.
+
+2004-05-11  James Henstridge  <james@daa.com.au>
+
+	* configure.in: use AC_HELP_STRING() to format the help string for
+	--enable-rebuild.
+
+2004-05-07  James Henstridge  <james@daa.com.au>
+
+	* configure.in: remove some env variables that weren't being used.
+	Use AM_GLIB_DEFINE_LOCALEDIR() to define the localedir, like gtk+
+	does.
+
+	* libmate/Makefile.am: fix built sources to work correctly with
+	read only source directory.
+
+2004-05-05  James Henstridge  <james@daa.com.au>
+
+	* Makefile.am: get rid of intltool files on "make distclean".
+
+	* mate-data/Makefile.am (CLEANFILES): get rid of .soundlist files
+	on "make clean".
+
+	* schemas/Makefile.am (CLEANFILES): get rid of .schemas files in
+	"make clean".
+
+	* monikers/Makefile.am (CLEANFILES): don't use += before =.
+
+	* doc/reference/Makefile.am: update to use gtk-doc.make
+	boilerplate.
+
+	* Makefile.am: require Automake >= 1.7, pass --enable-gtk-doc
+	during "make distcheck".
+
+	* configure.in: update to use more modern autoconf features.  Use
+	GTK_DOC_CHECK macro to find gtk-doc.
+
+	* autogen.sh (REQUIRED_AUTOMAKE_VERSION): require Automake >= 1.7
+
+2004-05-02  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-init.c: (safe_mkdir), (libmate_userdir_setup):
+	Add a new mkdir function that's safe against trailing slashes and use it.
+	(#106117, Julio Merino)
+
+2004-05-02  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-help.c (locate_help_file): First try locating
+	the file without appending an extension (#136242, Toshio Kuratomi)
+
+	* libmate/mate-score.c (mate_score_get_notable): Set
+	scoretimes to NULL, (#117305, Steve Chaplin).
+
+	* mate-data/Makefile.am:
+	* libmate/mate-program.c: (mate_program_preinit):
+	* libmate/mate-util.c: (mate_unsetenv):
+	* schemas/Makefile.am:
+	A couple of portability fixes (#131394, The Written Word)
+
+2004-05-02  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-program.c: (mate_program_get_property):
+	Fix memory leak. (#135773, Christian Persche)
+
+2004-05-02  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in:
+	* doc/reference/Makefile.am:
+	* doc/reference/libmate-docs.sgml:
+	* doc/reference/version.xml.in:
+	Put version number in reference docs.
+	(#125759, Steve Chaplin)
+
+2004-05-02  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-sound.c: Fix crash when reading invalid
+	audio files. (#124519, Chris Lahey)
+
+=================== 2.6.1.1 ===================
+
+2004-04-20  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Fix soname and release 2.6.1.1
+
+==================== 2.6.1 ====================
+
+2004-04-19  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Version 2.6.1 "Triclops"
+
+	* NEWS: Update
+
+2004-04-13  Colin Walters  <walters@redhat.com>
+
+	* libmate/mate-program.c: Remove G_PARAM_CONSTRUCT_ONLY from
+	sound properties, since they are set slightly after object
+	initialization.
+
+2004-04-09  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+        * configure.in: Added "gu" (Gujarati) to ALL_LINGUAS.
+
+2004-03-25  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-i18n.h: Fix comment after #endif to
+	denote the right file. Patch from Gustavo R. Montesino
+	<ikki_gerrard at yahoo.com>. Closes bug #133788.
+
+2004-03-22  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.in: Added "pa" (Punjabi) to ALL_LINGUAS.
+
+==================== 2.6.0 ====================
+
+2004-03-22  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Version 2.6.0 "Zoomer"
+
+	* Makefile.am (EXTRA_DIST): Add NEWS
+
+	* NEWS: Update
+
+Wed Mar 17 12:34:30 2004  Jonathan Blandford  <jrb@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Add
+	file_chooser_backend schema.
+
+2004-03-16  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.92.1
+
+	* libmate/mate-init.c: (libmate_userdir_setup),
+	(libmate_module_info_get):
+	Put back the bind_textdomain_codeset, and use g_printerr
+	instead of fprintf on stderr. This partially fixes #106549.
+
+2004-03-15  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.92
+
+2004-03-09  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.91
+
+2004-03-04  Glynn Foster  <glynn.foster@sun.com>
+
+	* configure.in, libmate/Makefile.am,
+	libmate/libmate-2.0-uninstalled.pc.in: Add
+	uninstalled pc file.
+
+2004-02-25  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.in: Added sr@ije to ALL_LINGUAS.
+
+2004-02-24  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.90
+
+2004-02-20  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "en_CA" to ALL_LINGUAS.
+
+2004-02-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_lockdown.schemas.in: Fix typo.
+
+2004-02-07  Robert Sedak  <robert.sedak@sk.htnet.hr>
+
+        * configure.in: Added "hr" (Croatian) to ALL_LINGUAS.
+
+2004-02-05  Mark McLoughlin  <mark@skynet.ie>
+
+	* schemas/desktop_mate_lockdown.schemas.in:
+	Add lockdown schemas.
+
+2004-02-03  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.4
+
+	* schemas/Makefile.am (install-data-local): Revert fix
+	since it broke distcheck
+
+2004-01-23  Jody Goldberg <jody@mate.org>
+
+	* libmate/mate-program.c : Add missing #include <locale.h> so that
+	  things compile.
+
+2004-01-21  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-program.c: (mate_program_preinit):
+	Translate strings instead of just marking them.
+	(Completely fixes #106549, patch by Christian Neumair).
+
+2004-01-21  Anders Carlsson  <andersca@mate.org>
+
+	* libmate/mate-init.c: (libmate_module_info_get):
+	* libmate/mate-program.c: (mate_program_parse_args):
+	Fix translation of program arguments.
+	(#106549, patch by Hidetoshi Tajima).
+
+2004-01-18  Jason Leach  <leach@wam.umd.edu>
+
+	* schemas/Makefile.am (install-data-local): builddir != srcdir fix.
+
+2004-01-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-config.h: Merge fix for bug #129744.
+
+2004-01-14  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.3
+
+2003-12-28  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.2
+
+2003-12-08  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.1
+
+2003-12-05  Mark McLoughlin  <mark@skynet.ie>
+
+	* schemas/Makefile.am,
+	  schemas/desktop_mate_url_handlers.schemas.in:
+	Remove the url_hanlders schemas. They've been moved
+	to mate-vfs.
+
+2003-11-24  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.0
+
+2003-10-27   Mark Finlay <sisobATtuxfamilyDOTorg>
+
+	* schemas/desktop_mate_background.schemas.in:
+	Change default background color.
+
+2003-09-23  Hidetoshi Tajima  <hidetoshi.tajima@sun.com>
+
+	* libmate/mate-init.c: make --help work with popt-1.7.
+	Fix bug 123052.
+
+2003-09-01  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.4.0
+
+	* schemas/Makefile.am (schema_in_files): Ship
+	.schemas in tarball since that's what everyone else is doing.
+
+2003-09-01  Laurent Dhima  <laurenti@alblinux.net>
+
+	* configure.in: Added "sq" to ALL_LINGUAS.
+
+2003-08-26  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* schemas/Makefile.am:
+	Ship .schemas.in in tarball, not .schemas.
+
+2003-08-25  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.3.7
+
+2003-08-25  Alexander Larsson  <alexl@redhat.com>
+
+	* schemas/desktop_mate_url_handlers.schemas.in:
+	Add http url handlers.
+
+2003-08-17  Paisa Seeluangsawat  <paisa@users.sf.net>
+
+        * configure.in: Added Thai (th) to ALL_LINGUAS.
+
+2003-08-11  Anders Carlsson  <andersca@codefactory.se>
+
+	* configure.in: Release 2.3.6
+
+2003-07-23  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* libmate/mate-program.c (mate_program_initv): Don't create new
+	pointer arrays for program_module_list and program_modules if such
+	arrays already exist, which may happen if
+	mate_program_module_register() has been called directly by the
+	programmer.
+
+2003-07-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	Fixes for ui-review bug number 99533.
+
+	* mate-data/gtk-events-2.soundlist.in:
+	  s/Action button click/Click on command button,
+	  s/Check box toggled/Select check box,
+	  s/Menu item activation/Choose menu item.
+
+	* mate-data/mate-2.soundlist.in:
+	  s/MATE system events/System events,
+	  s/Error Messages/Error message,
+	  s/Informational Messages/Informational message,
+	  s/Login/Log in,
+	  s/Logout/Log out,
+	  s/Miscellaneous Messages/Miscellaneous message,
+	  s/Question Dialogs/Question dialog,
+	  s/Warning Messages/Warning message.
+
+2003-07-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: (mate_program_postinit):
+	* libmate/mate-score.c: (mate_score_child): Merge
+	fixes for bug #116794 + one more :)
+
+2003-07-08  Anders Carlsson  <andersca@codefactory.se>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	Add default value for monospace font name
+	(Patch by Owen Taylor).
+
+2003-07-08  Anders Carlsson  <andersca@codefactory.se>
+
+	* configure.in:
+	Remove libxml and libxslt deps.
+
+2003-07-08  Anders Carlsson  <andersca@codefactory.se>
+
+	* Makefile.am:
+	* configure.in:
+	* help-converters/Makefile.am:
+	* help-converters/README:
+	* help-converters/docbook/.cvsignore:
+	* help-converters/docbook/AUTHORS:
+	* help-converters/docbook/Makefile.am:
+	* help-converters/docbook/README:
+	* help-converters/docbook/mate-customization/.cvsignore:
+	* help-converters/docbook/mate-customization/Makefile.am:
+	* help-converters/docbook/mate-customization/mate-custom.xsl:
+	* help-converters/docbook/mate-customization/mate-customization.x
+	sl:
+	* help-converters/docbook/mate-customization/l10n.xml:
+	* help-converters/docbook/mate-db2html3.c:
+	* help-converters/mate-vfs-module/.cvsignore:
+	* help-converters/mate-vfs-module/Makefile.am:
+	* help-converters/mate-vfs-module/help-method.c:
+	* help-converters/mate-vfs-module/help-method.h:
+	* help-converters/mate-vfs-module/help-methods.conf.in:
+	* help-converters/info/.cvsignore:
+	* help-converters/info/Makefile.am:
+	* help-converters/info/data.h:
+	* help-converters/info/html.c:
+	* help-converters/info/html.h:
+	* help-converters/info/main.c:
+	* help-converters/info/parse.c:
+	* help-converters/info/parse.h:
+	* help-converters/info/utils.c:
+	* help-converters/info/utils.h:
+	* help-converters/info/version.h:
+	* help-converters/man/.cvsignore:
+	* help-converters/man/Makefile.am:
+	* help-converters/man/README:
+	* help-converters/man/mate-man2html.c:
+	* help-converters/man/man2html.8:
+	Remove help converters (#98761)
+
+2003-07-04  Anders Carlsson  <andersca@codefactory.se>
+
+	* configure.in: Release 2.3.3.1
+
+2003-07-02  Anders Carlsson  <andersca@codefactory.se>
+
+	* doc/reference/.cvsignore:
+	* doc/reference/Makefile.am:
+	* doc/reference/libmate-docs.sgml:
+	Generate xml reference docs (#111796, Matthias Clasen)
+
+2003-06-30  Anders Carlsson  <andersca@codefactory.se>
+
+	* libmate/mate-mateconf.h: Add G_BEGIN_DECLS and G_END_DECLS.
+
+2003-06-27  Richard Hult  <richard@imendio.com>
+
+	* schemas/desktop_mate_typing_break.schemas.in: Remove the unused
+	schemas so we don't get stuck with them after a release. Also use
+	the correct name for the postpone key.
+
+Thu Jun 26 07:35:41 2003  Jonathan Blandford  <jrb@mate.org>
+
+	* schemas/desktop_mate_typing_break.schemas.in: new schemas file
+	for the typing-break-daemon.
+
+2003-06-24  Anders Carlsson  <andersca@codefactory.se>
+
+	* schemas/desktop_mate_peripherals_mouse.schemas.in: Fix typo.
+	(#100283, Christian Rose)
+	(#104140, Christian Rose)
+
+	* schemas/desktop_mate_interface.schemas.in: Fix typo.
+	(#100280, Christian Rose)
+
+	* schemas/desktop_mate_accessibility_startup.schemas.in:
+	Use "Applications", not "Apps". (#115570, Christian Rose)
+
+	* libmate/mate-util.c: (mate_util_user_shell):
+	Check that the shells exist and that they are executable.
+	(#91925, Giovanni Pardini).
+
+2003-06-24  Anders Carlsson  <andersca@codefactory.se>
+
+	* help-converters/info/main.c: (main):
+	Use g_strdup_printf instead of sprintf.
+	(#109889, Christian Marillat).
+
+2003-06-24  Anders Carlsson  <andersca@codefactory.se>
+
+	* help-converters/man/mate-man2html.c: Use glib versions of
+	string functions. (Fixes #81355, Morten Welinder.)
+
+	* schemas/Makefile.am:
+	Honor for --disable-schemas-install (#106119, Julio Merino.)
+
+2003-06-24  Anders Carlsson  <andersca@codefactory.se>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	* schemas/desktop_mate_peripherals_keyboard.schemas.in:
+	Put literal values inside quotes. (#100278, Christian Rose)
+
+2003-06-23  Anders Carlsson  <andersca@codefactory.se>
+
+	* libmate/.cvsignore:
+	* libmate/Makefile.am:
+	* libmate/mate-open.c: (main):
+	Add mate-open.
+
+Tue Jun 10 12:51:27 2003  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_accessibility_startup.schemas.in: Patch
+	from Bill Haneman <bill.haneman@sun.com> to add at_start support.
+
+2003-06-10  Jody Goldberg <jody@mate.org>
+
+	* schemas/desktop_mate_url_handlers.schemas.in : we still need
+	  ghelp, info, and man to keep the help system working.
+
+2003-05-26  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libmate/mate-program.c: Merge fix for
+	bug #113660.
+
+2003-05-16  Telsa Gwynne <hobbit@aloss.ukuu.org.uk>
+
+	* configure.in: Added cy to ALL_LINGUAS
+
+2003-05-12  Hidetoshi Tajima <hidetoshi.tajima@sun.com>
+
+	* libmate/mate-init.c (libmate_module_info_get):
+	call bindtextdomain and bind_textdomain_codeset() earlier
+	than the current, fixing bug #99224.
+
+2003-05-09  SamÅel JÅn Gunnarsson  <sammi@techattack.nu>
+
+	* configure.in: Added "is" into ALL_LINGUAS
+
+Thu May  8 18:31:02 2003  Soeren Sandmann  <sandmann@daimi.au.dk>
+
+	* help-converters/info/main.c (file_exists): make it compile on
+	C89 compilers.
+
+2003-05-08  Masahiro Sakai  <sakai@tom.sfc.keio.ac.jp>
+
+	* configure.in: call AC_LIBTOOL_WIN32_DLL which is necessary for
+	building shared library on win32 platform.
+
+	* libmate/Makefile.am (libmate_2_la_LDFLAGS): add -no-undefined
+	which is necessary for building shared library on some platforms
+	(e.g. Win32, BeOS).
+
+	* libmate/libmate-2.0.pc.in (Libs): add -lpopt.
+
+	* help-converters/mate-vfs-module/Makefile.am:
+	(module_flags): add -module and -no-undefined.
+	(libvfs_help_la_LIBADD): add $(top_builddir)/libmate/libmate-2.la.
+
+	* help-converters/mate-vfs-module/help-methods.conf.in: remove "lib"
+	prefix and ".so" suffix from module names. Because these are added
+	automatically by g_module_build_path(), and they breaks on Cygwin.
+	Cygwin uses "cyg" and ".dll" respectively.
+
+	* monikers/MATE_Moniker_std.server.in.in: remove ".so" from module
+	name.
+
+	* monikers/Makefile.am (libmoniker_extra_2_la_LDFLAGS): add
+	-no-undefined.
+
+2003-05-05  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added sr and sr@Latn to ALL_LINGUAS.
+
+2003-05-04  Taneem Ahmed  <taneem@eyetap.org>
+
+	* configure.in: Added "bn" in ALL_LINGUAS
+
+2003-05-01  Kjartan Maraas  <set EMAIL_ADDRESS environment variable>
+
+	* libmate/mate-i18n.c: (unalias_lang): Locate locale.alias
+	in LIBMATE_DATADIR also. Patch from Julio Merino
+	<jmmv@hispabsd.org>. Fixes bug #106180.
+
+2003-05-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Fix typo.
+	Fixes bug #104422.
+
+2003-05-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Same as below: Fix crashes when feeding dirs to the
+	help converters. Merged from branch.
+	* help-converters/man/Makefile.am:
+	* help-converters/man/mate-man2html.c: (output_meta_element),
+	(scan_request): Fix for bug #79071. Localised man pages work.
+
+2003-05-01  Kjartan Maraas  <kmaraas@mate.org>
+
+	* help-converters/man/mate-man2html.c: (main): Fix for
+	bug #73597. Patch from Roderich Schupp.
+	* libmate/mate-config.c: (check_path): Use NULL in g_string_new()
+	* libmate/mate-exec.c: (mate_execute_shell_fds): Fix a typo in
+	a comment.
+
+2003-04-25  Alexander Larsson  <alexl@redhat.com>
+
+        Patch by Frank Worsley <fworsley@shaw.ca>
+
+	* libmate/mate-url.c: (mate_url_show_with_env):
+	now just calls mate_vfs_show_url and wrap error codes in GErrors
+
+	* libmate/mate-url.h:
+	updated for new functions
+
+	* schemas/desktop_mate_url_handlers.schemas.in:
+	cleaned up the url handler schemas. removed unneeded schemas and moved
+	others into mate-vfs
+
+2003-04-14 Paul Duffy <dubhthach@frink.nuigalway.ie>
+
+        * configure.in: Added ga (irish) to ALL_LINGUAS
+
+2003-04-12  Arvind Samptur <arvind.samptur@wipro.com>
+	* libmate/mate-exec.c: (mate_execute_async_with_env_fds):
+	waitpid() could fail due to a interrupted system call, loop till you
+	succeed. #110100
+
+	Reviewed by: Mark McLoughlin <mark@skynet.ie>
+
+2003-04-11  Pasupathi Duraisamy <pasupathi.duraisamy@wipro.com>
+
+	*  libmate/mate-url.c (mate_url_show_with_env):
+	Make sure url substitution takes place for customized web
+	browser command. Fixes bug#108909.
+
+	Reviewed by: Mark McLoughlin <mark@skynet.ie>
+
+2003-03-27  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Releae 2.3.0
+
+2003-03-26  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "yi" to ALL_LINGUAS.
+
+2003-03-21  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.in: Added "ml" in ALL_LINGUAS
+
+2003-03-16  Andras Timar  <timar@mate.hu>
+
+	* help-converters/docbook/mate-customization/l10n.xml:
+        Added Hungarian translation.
+
+2003-02-13  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Require intltool version that supports
+	merging translations of .schemas files
+	* doc/reference/Makefile.am: Removed extra '\'
+	* libmate/mate-help.c (mate_help_display_desktop_with_env):
+	Plug a leak.
+
+2003-02-11  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* help-converters/mate-vfs-module/Makefile.am:
+	Fix tinderbox bustage introduced by my previous commit.
+
+2003-02-10  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* help-converters/mate-vfs-module/Makefile.am:
+	* help-converters/mate-vfs-module/help-methods.conf:
+	* help-converters/mate-vfs-module/help-methods.conf.in:
+	be sure to generate help-methods.conf based on libexecdir value
+	(bug #91169)
+
+2003-02-10  Mohammad DAMT  <mdamt@bisnisweb.com>
+
+	* po/id.po: Added Indonesian translation
+	* configure.in: Added "id" to ALL_LINGUAS
+
+Thu Jan 30 22:28:43 2003  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_interface.schemas.in: change default GTK+ theme.
+
+2003-01-23  Alexander Larsson  <alexl@redhat.com>
+
+	* libmate/Makefile.am (libmate_2_la_LDFLAGS):
+	Correct version number error.
+
+	* configure.in:
+	Add EXTRAVERSION and set to .1
+	Add missing translations to ALL_LINGUAS.
+
+2003-01-22  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "mn" to ALL_LINGUAS.
+
+2003-01-21  Anders Carlsson  <andersca@codefactory.se>
+
+	* configure.in: Fix libtool versioning. Up number to 2.2.0
+
+Fri Jan 17 15:25:39 2003  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_peripherals_mouse.schemas.in: add
+	/desktop/mate/peripherals/mouse/cursor_theme and
+	/desktop/mate/peripherals/mouse/cursor_size
+
+2003-01-14  Anders Carlsson  <andersca@gnu.org>
+
+	* monikers/matecomponent-config-bag.c (matecomponent_config_bag_new): Fix comment.
+
+2003-01-09  Alexander Larsson  <alexl@redhat.com>
+
+	* schemas/Makefile.am (schema_in_files):
+	* schemas/desktop_mate_thumbnailers.schemas.in:
+	Add schemas for thumbnailers.
+
+2003-01-08  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.1.90
+
+2003-01-08  Jody Goldberg <jody@mate.org>
+
+	* schemas/desktop_mate_accessibility_keyboard.schemas.in : set
+	  defaults to 0 to fix #96483
+
+2002-12-24 John Fleck <jfleck@inkstain.net>
+
+	* help-converters/info/main.c
+	output title, fixing bug #83905
+
+2002-12-16  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.1.5
+
+2002-12-12  Chema Celorio  <chema@celorio.com>
+
+	* acconfig.h: Trying to fix the autoheader warning didn't worked because
+	we are pulling one AC_DEFINE from mate-common. I added acconfig.h back
+	so that autogen works again (when running autoheader) but the autoheader warning
+	is back. We need to fix mate-common but fixing libmate again (removing acconfig.h)
+	would require people to have the fixed version of mate-common.
+
+2002-12-11  Christian Neumair  <chris@mate-de.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Forgot to specify
+	<type>, too. Thanks to Yanko Kaneti <yaneti@declera.com>.
+
+2002-12-11  Christian Neumair  <chris@mate-de.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Brown-paperbag:
+	Changed a closing tag from </apply> to </applyto>. Thanks to
+	Joe Marcus Clarke <marcus@FreeBSD.org> for reporting this bug.
+
+2002-12-09  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.1.4
+
+2002-12-07  Andras Timar  <timar@mate.hu>
+
+	* configure.in: Added Hungarian (hu) to ALL_LINGUAS
+
+2002-12-06  Miloslav Trmac  <mitr@volny.cz>
+
+	* configure.in: Added Czech (cs) to ALL_LINGUAS
+
+2002-12-01  Christian Neumair  <chris@mate-de.org>
+
+	* schemas/desktop_mate_interface.schemas.in: Various fixes,
+	moved enable_animation key from panel (partitially fixes #98426).
+
+2002-11-27  Anders Carlsson  <andersca@gnu.org>
+
+	* Relase 2.1.2
+
+2002-11-23  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* configure.in: Fix gtk-doc detection.
+
+2002-11-18  Abi Brady  <morwen@evilmagic.org>
+
+	* configure.in: Added British to ALL_LINGUAS.
+
+2002-11-03  Havoc Pennington  <hp@pobox.com>
+
+	* libmate/parse-path.cP (parse_path): don't hardcode
+	MATE_DOT_MATE, use mate_user_dir_get() and
+	mate_user_private_dir_get()
+
+	* libmate/mate-init.c (libmate_userdir_setup): allow overriding
+	mate_user_dir via environment variable MATE22_USER_DIR, this
+	allows people to install multiple MATE versions and isolate the
+	configuration of each one.
+
+	* libmate/mate-init.h: add comment about how MATE_DOT_MATE and
+	MATE_DOT_MATE_PRIVATE macros should not be used
+
+2002-11-08  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* doc/reference/libmate-sections.txt,
+	* doc/reference/tmpl/mate-help.sgml,
+	* doc/reference/tmpl/mate-url.sgml:
+	Move the *_with_env functions that Mark added recently into
+	libmate-sections so that they appear in the API documentation.
+
+2002-11-03  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+
+	* configure.in: Added Belarusian to ALL_LINGUAS
+
+2002-11-01  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.1.1
+
+Sun Oct 27 09:07:49 2002  Jonathan Blandford  <jrb@mate.org>
+
+	* schemas/desktop_mate_interface.schemas (can_change_accels): Add
+	a default value and doc string.
+
+2002-10-10  Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/mate-help.[ch]:
+	(mate_help_display_with_doc_id_and_env),
+	(mate_help_display_desktop_with_env),
+	(mate_help_display_uri_with_env): add _with_env()
+	variants of these functions so multiscreen applications
+	can control which screen to display the help on.
+
+	* libmate/mate-url.[ch]:
+	(mate_url_show_with_env): ditto for urls.
+
+2002-10-01  Yanko Kaneti <yaneti@declera.com>
+
+	* schemas/*.schemas.in: reorder the "applyto" and "key" elements
+	so that the files validate against the mateconf dtd.
+
+2002-09-27  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.1.0
+
+2002-09-27  Alexander Larsson  <alexl@redhat.com>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	Add icon_theme key.
+
+Thu Sep 26 17:25:26 2002  HideToshi Tajima  <hidetoshi.tajima@sun.com>
+
+	* schemas/desktop_mate_interface.schemas.in:
+	Add settings to change preedit/status styles of GTK+ input
+	method,	and set callback styles by default (#59076)
+
+2002-09-04  Marius Andreiana <mandreiana@yahoo.com>
+
+	* configure.in: added 'ro' to ALL_LINGUAS
+
+2002-08-28  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.0.3
+
+2002-08-21  Anju P S  <anju.premachandran@wipro.com>
+
+ 	* libmate/mate-exec.c (mate_execute_async_with_env_fds) :
+ 	Added code to check the return value of the chdir() call.If chdir
+ 	call fails the child process may be executed in the wrong directoy.
+
+2002-08-15  Mikael Hallendal  <micke@codefactory.se>
+
+	* help-converters/man/mate-man2html.c:
+	(scan_table): applied patch from Kjartan fixing #77895
+
+2002-08-15  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* help-converters/info/main.c:
+	* help-converters/man/mate-man2html.c:
+	Remove setting of BGCOLOR when writing HTML body tag.
+	(bug #90655)
+
+2002-08-05  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 2.0.2
+
+2002-07-29  Mark McLoughlin  <mark@skynet.ie>
+
+	* monikers/matecomponent-config-bag.c:
+	(impl_MateComponent_PropertyBag_getKeys),
+	(impl_MateComponent_PropertyBag_getType),
+	(impl_MateComponent_PropertyBag_getValue),
+	(impl_MateComponent_PropertyBag_setValue),
+	(impl_MateComponent_PropertyBag_getValues),
+	(impl_MateComponent_PropertyBag_getDefault),
+	(impl_MateComponent_PropertyBag_getDocTitle),
+	(impl_MateComponent_PropertyBag_getDoc),
+	(impl_MateComponent_PropertyBag_getFlags): initialise GError* to NULL.
+	Should fix crash seen in #89158.
+
+2002-07-25  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Bosnian (bs) to ALL_LINGUAS
+
+2002-07-11  Brian Cameron  <Brian.Cameron@sun.com>
+
+	* libmate/libmate-2.0.pc.in
+	* help-converters/mate-vfs-module/Makefile.am
+	* help-converters/mate-vfs-module/help-method.c
+	* help-converters/info/Makefile.am
+	* help-converters/man/Makefile.am
+	* help-converters/docbook/Makefile.am
+	Now install mate2-info2html, mate2-man2html, and mate2-db2html
+	to libexec rather than bin.
+
+2002-07-01  jacob berkman  <jacob@ximian.com>
+
+	* mate-data/mate-2.soundlist.in: use login/logout files that
+	actually exist (#84774)
+
+2002-06-23  Yanko Kaneti  <yaneti@declera.com>
+
+	* configure.in: (ALL_LINGUAS) Added Bulgarian (bg).
+
+2002-06-12  Jody Goldberg <jody@mate.org>
+
+	* libmate/mate-program.c (mate_program_module_addtolist) : I
+	  suspect you meant new_item_idx ?
+
+2002-06-11  jacob berkman  <jacob@ximian.com>
+
+	* libmate/mate-config.c (check_path): prefer strchr to strtok_r
+	which seems to be returning garbage on solaris.  helps in building
+	on os x and fixes bug #82915
+
+2002-06-10  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Released 2.0.1
+
+2002-06-10  Naba Kumar <kh_naba@users.sourceforge.net>
+
+	* configure.in: Added hi in ALL_LINGUAS
+
+2002-06-08  Alexander Larsson  <alla@lysator.liu.se>
+
+	* schemas/desktop_mate_url_handlers.schemas:
+	Add handlers for start-here, preferences, system-settings, server-settings, applications,
+	and trash. They all default to caja. Fixes bug 77875.
+
+2002-06-06  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Update required versions and update version to 2.0.0
+
+2002-06-05  Carlos PerellÅ MarÅn <carlos@mate-db.org>
+
+	* schemas/*.schemas: Renamed as *.schemas.in
+	* schemas/Makefile.am: Added the rule to use intltool for schemas
+
+2002-06-02  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	* doc/reference/tmpl/mate-config.sgml,
+	  doc/reference/tmpl/mate-util.sgml, libmate/mate-config.c,
+	  libmate/mate-util.h: Replace .mate with .mate2 in a couple
+	  of places in case people are wanting to poke around $HOME for
+	  examples while reading the docs.
+
+	* doc/reference/tmpl/mate-util.sgml: Fix the "Returns"
+	  parameter for mate_util_prepend_user_home().
+
+2002-06-01  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	* doc/reference/libmate-sections.txt,
+	  doc/reference/tmpl/mate-score.sgml, libmate/mate-score.c,
+	  libmate/mate-score.h:
+	  Finally worked out why mate_score_get_notable() was not being
+	  included in the documentation and fixed that problem (stoopid
+	  gtk-doc).
+
+	* libmate/mate-mateconf.c: Fixed a problem with not using &lt;
+	  entities in one of the functions. Kills a build warning, too.
+
+	* libmate/mate-i18n.c: Fixed a couple of typos.
+
+2002-05-31  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	* doc/reference/tmpl/mate-init.sgml: Add a short description.
+
+	* help-converters/docbook/docbook/*/.cvsignore: Remove useless
+	.cvsignore files so that these directories are now truly empty and can
+	be pruned.
+
+2002-05-30  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-config.c, libmate/mate-help.c,
+          libmate/mate-help.h, libmate/mate-init.c,
+	  libmate/mate-program.c, libmate/mate-program.h,
+	  libmate/mate-url.c, libmate/mate-util.c,
+	  doc/reference/libmate-docs.sgml,
+	  doc/reference/libmate-sections.txt,
+	  doc/reference/tmpl/mate-config.sgml,
+	  doc/reference/tmpl/mate-help.sgml,
+	  doc/reference/tmpl/mate-init.sgml,
+	  doc/reference/tmpl/mate-program.sgml,
+	  doc/reference/tmpl/mate-url.sgml: API documentation updates.
+	  This brings libmate up to 100% documented with nothing left
+	  in *-unused.txt.
+
+	* .cvsignore: Learn to spell 'hierarchy' so that the correct
+	  file is ignored.
+
+	* libmate.hierarchy: Removed. This is autogenerated and empty
+	  for libmate.
+
+2002-05-27  Havoc Pennington  <hp@pobox.com>
+
+	* schemas/desktop_mate_applications_window_manager.schemas:
+	specify the type of elements of the list
+
+2002-05-27  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 1.117.2
+
+2002-05-23  Federico Mena Quintero  <federico@ximian.com>
+
+	* help-converters/man/mate-man2html.c (scan_troff): Do not
+	convert characters with the most significant bit set.  Hopefully
+	fixes #79071.
+
+2002-05-22  jacob berkman  <jacob@ximian.com>
+
+	* help-converters/man/mate-man2html.c (main): fix last commit
+
+2002-05-22  Patanjali Somayaji  <patanjali@codito.com>
+
+	* help-converters/info/main.c: output only the section asked for,
+	  see comment in the beginning of the file.
+
+	* help-converters/info/html.c:
+	(form_info_tag_href): output links in info with ?section
+
+2002-05-21  jacob berkman  <jacob@ximian.com>
+
+	* help-converters/man/mate-man2html.c (main): modified patch from
+	Jim Bowen <jim_bowen@alum.mit.edu> to work with caching man
+
+	fixes bug #81129
+
+2002-05-20  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes #82140.
+
+	* libmate/mate-help.c (mate_help_display_with_doc_id): Clarified
+	error messages.  De-convoluted function a bit.  Made it check for
+	the stat() return value.  Made it check for device and inode
+	numbers instead of just inode number in the fallback code.
+	(locate_help_file): Use g_build_filename() so that we don't get
+	duplicated slashes, which yelp warns about.
+
+	* doc/reference/libmate-sections.txt: Added
+	mate_help_display_with_doc_id.
+
+2002-05-20  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 1.117.1
+
+2002-05-16  jacob berkman  <jacob@ximian.com>
+
+	* schemas/desktop_mate_peripherals_keyboard.schemas: remove bell
+	volume, as it's not used, and default to a nicer pitch.  fix for
+	#78016
+
+	* schemas/desktop_mate_applications_browser.schemas: remove http,
+	ftp handlers and just default to the default
+
+	* schemas/desktop_mate_applications_editor.schemas:
+	* schemas/Makefile.am (schema_DATA): remove default editors
+	schemas
+
+	fixes #78037
+
+	* schemas/desktop_mate_background.schemas: set the default
+	wallpaper image to "".  fixes #76693
+
+2002-05-14  jacob berkman  <jacob@ximian.com>
+
+	* revert previous commit; it busted the build and is broken
+	anyway.  see bug #76993
+
+Tue May 14 15:44:38 2002  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_background.schemas.in: add prototype file
+	for setting the right $(prefix), #76432
+
+	* schemas/Makefile.am: create desktop_mate_background.schemas
+
+	* schemas/desktop_mate_background.schemas: remove file
+
+2002-05-14  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* help-converters/info/data.h:
+	* help-converters/info/html.c:
+	* help-converters/info/main.c: (main):
+	* help-converters/info/parse.c: (read_node), (read_node_contents):
+	* help-converters/info/parse.h:
+	* help-converters/info/utils.c: (alloc_node), (readbuf_open),
+	(readbuf_close), (readbuf_eof), (readbuf_getc), (readbuf_gets):
+	* help-converters/info/utils.h:
+	fix support for bzip2 info files : bug# 66334
+
+2002-05-13  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 1.117.0
+
+2002-05-13  Yogeesh MB  <yogeeshappa.mathighatta@wipro.com>
+
+	* libmate/configure.in, libmate/acconfig.h,
+	libmate/help_conveters/man/mate-man2html.c: fixes Bug#76331
+
+2002-05-10  Anders Carlsson  <andersca@gnu.org>
+
+	* schemas/desktop_mate_peripherals_mouse.schemas:
+	Set default values of mouse_acceleration and mouse_threshold
+	to -1, which means "use system default".
+
+2002-05-08  Glynn Foster  <glynn.foster@sun.com>
+
+	* schemas/desktop_mate_interface.schemas: Add new key for
+	statusbar_meter_on_right and set it, by default, to false.
+
+2002-05-06  Anders Carlsson  <andersca@gnu.org>
+
+	* schemas/desktop_mate_file_views.schemas: Fix tyop.
+
+	* schemas/desktop_mate_interface.schemas: Add both_horiz to the
+	list of valid toolbar styles.
+
+2002-05-05  Gustavo Maciel Dias Vieira  <gdvieira@zaz.com.br>
+
+	* configure.in (ALL_LINGUAS): Added pt_BR.
+
+2002-05-04  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Basque (eu) and Vietnamese (vi) to ALL_LINGUAS
+
+2002-05-03  Mikael Hallendal  <micke@codefactory.se>
+
+	* libmate/mate-help.c
+	(mate_help_display_desktop): don't free the variables before
+	  using them, thanks Satyajit
+	- Fixes #79870
+	(mate_help_display_with_doc_id):
+	- always send the full uri to the help browsers.
+	(mate_help_display_desktop): same.
+
+2002-04-29  Anders Carlsson  <andersca@gnu.org>
+
+	* Release 1.116.0
+
+	* configure.in:
+	* libmate/mate-init.c: (libmate_post_args_parse):
+	Call bindtextdomain_codeset if it's available.
+
+2002-04-24  Zbigniew Chyla <cyba@mate.pl>
+
+	* mate-data/mate-2.soundlist.in, mate-data/gtk-events-2.soundlist.in:
+	Removed translations, replaced "description" with "_description".
+
+2002-04-22  Anders Carlsson  <andersca@gnu.org>
+
+	* Release 1.115.0
+
+2002-04-19  Anders Carlsson  <andersca@gnu.org>
+
+	* mate-data/Makefile.am (soundlist_in_files): Doh, add a
+	line separator here.
+
+2002-04-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* mate-data/Makefile.am: Fix intltool support.
+	* mate-data/.cvsignore: Ignore the generated files.
+
+2002-04-11  Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/mate-exec.c: (safe_read): impl to handle EINTR
+	and EAGAIN.
+	(mate_execute_async_with_env_fds): use it.
+
+2002-04-11  jacob berkman  <jacob@ximian.com>
+
+	* libmate/mate-url.c (mate_url_show): pass G_SPAWN_SEARCH_PATH
+	to g_spawn_async() to fix previous commit (and clean up a little)
+
+2002-04-09  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-url.c (mate_url_show): Don't use a shell,
+	just launch the url handler directly. Fixes #73781.
+
+	* help-converters/man/Makefile.am:
+	* help-converters/man/mate-man2html.c: (main):
+	Use g_snprintf instead of snprintf which apparently needs
+	-ldb to work on OSF/1 4.0 (#78166, Gareth Pearce).
+
+2002-04-09  Anders Carlsson  <andersca@gnu.org>
+
+	* message-of-doom:
+	* Makefile.am:
+	Remove message-of-doom file, I think we're stable enough now.
+
+	* configure.in:
+	* libmate/Makefile.am:
+	Add proper libtool versioning.
+
+	* libmate/test-libmate.c:
+	Remove this program.
+
+2002-04-08  Anders Carlsson  <andersca@gnu.org>
+
+	* mate-data/Makefile.am: Add intltool support for our .soundlist
+	files. Fixes #76753.
+
+	* libmate/mate-score.c: Add patch from Andrey Panov that makes
+	the score files use real names instead of login names. (#75197).
+
+	* libmate/Makefile.am (test_libmate_LDADD): Add LIBMATE_LIBS,
+	hopefully fixing #73050.
+
+	* libmate/mate-url.h: #include <glib/gerror.h>.
+
+	* libmate/mate-macros.h: Move #include into the #ifndef so the
+	file gets to be properly guarded. Fixes #71406 reported by
+	Morten Welinder.
+
+2002-04-07  Philip Langdale  <philipl@mail.utexas.edu>
+
+	* help-converters/info/html.c: Uncommented code that generated
+	header for html (including the page title). No idea why this
+	was commented out. Fixes bug #64495
+
+2002-04-04  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-init.c: Make --version work, thanks to Stephen
+	Browne for noticing.
+
+2002-03-29  Lauris Kaplinski  <lauris@ximian.com>
+
+	* schemas/mate_url_handler.schemas: Updated schema, originally
+	by Bradford Hovinen.
+
+	* libmate/mate-url.c (mate_url_show): Update key name to match
+	schema
+	(mate_url_default_handler): Update key names to match schemas
+
+2002-03-29  Jody Goldberg <jody@mate.org>
+
+	* schemas/desktop_mate_accessibility_keyboard.schemas : Dear lord I
+	  apologize for failing grade 3 spelling.  PLEASE don't humiliate me
+	  like this again.
+
+2002-03-29  Anders Carlsson  <andersca@gnu.org>
+
+	* Release 1.114.0
+
+2002-03-29  Zbigniew Chyla  <cyba@mate.pl>
+
+	* libmate/mate-url.c (mate_url_show):
+	Removed const to avoid warning.
+
+2002-03-29  Havoc Pennington  <hp@pobox.com>
+
+	* libmate/mate-url.c (mate_url_show): use g_shell_parse_argv()
+	instead of popt function
+	(mate_url_show): quote url for shell so we don't run shell
+	commands found in the url. Using a shell here is perhaps
+	not a good idea anyway...
+
+	* monikers/matecomponent-config-bag.c (impl_MateComponent_PropertyBag_getValue):
+	don't use private mateconf fields
+	(impl_MateComponent_PropertyBag_getValues): ditto, also handle
+	NULL entry values
+
+2002-03-26  Dave Camp  <dave@ximian.com>
+
+	* schemas/Makefile.am (schema_DATA): Add
+	desktop_mate_sound.schemas.
+
+2002-03-23 John Fleck <jfleck@inkstain.net>
+
+	* help-converters/docbook/customization/mate-customization.xsl
+	fix to properly generate img tags
+
+2002-03-22  Jody Goldberg <jody@mate.org>
+
+	* schemas/Makefile.am : Add the accessX schema
+
+2002-03-22  Havoc Pennington  <hp@pobox.com>
+
+	* libmate/mate-mateconf.c (_mate_mateconf_lazy_init): remove
+	no-longer-needed mateconf_init() call
+
+	* libmate/mate-program.c
+	(mate_program_get_human_readable_name): fall back to
+	g_get_prgname() if human readable name is not set
+
+2002-03-20  Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/mate-help.c: (locate_help_file): add a missing '/' when
+	constructing the help file path.
+
+2002-03-19  Mikael Hallendal  <micke@codefactory.se>
+
+	* schemas/desktop_mate_url_handlers.schemas: set the default url
+          handlers in the schema file instead of in the code.
+
+	* libmate/mate-url.c:
+	(mate_url_default_handler): removed, left over from mate-config.
+	(mate_url_show): get the default handler from mateconf every time,
+	  #71632
+
+2002-03-18 John Fleck <jfleck@inkstain.net>
+
+	* configure.in, help-converters/docbook/Makefile.am
+	patch from Glynn Foster to speed up docbook converter
+	by pkg-config-ing converter makefile so it only links
+	against the libraries it needs
+
+2002-03-18  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Up to 1.113.0
+
+2002-03-17  Havoc Pennington  <hp@pobox.com>
+
+	* libmate/mate-program.c (mate_program_locate_file): handle
+	absolute paths
+
+2002-03-14  Richard Hestilow  <hestilow@ximian.com>
+
+	* schemas/desktop_mate_applications_browser.schemas:
+	Change to new schema.
+
+2002-03-13  Michael Meeks  <michael@ximian.com>
+
+	* libmate/mate-program.c
+	(accessibility_invoke): move matecomponent bits to atk-bridge
+	so the GTK_MODULES approach also works well, sigh.
+
+2002-03-13  Michael Meeks  <michael@ximian.com>
+
+	* libmate/mate-program.c
+	(find_accessibility_module): use gtk-2.0/modules
+	(accessibility_invoke): only do a11y if we're a GUI
+	app even if it's enabled, and don't do it for matecomponent
+	components - we go via their frames.
+
+2002-03-13  Michael Meeks  <michael@ximian.com>
+
+	* monikers/matecomponent-config-bag.c
+	(impl_MateComponent_PropertyBag_getDefault),
+	(impl_MateComponent_PropertyBag_getValue),
+	(impl_MateComponent_PropertyBag_getType): fix warnings.
+
+	* monikers/matecomponent-moniker-config.c: ditto.
+
+	* libmate/mate-program.c
+	(find_accessibility_module): impl.
+	(mate_program_postinit): add accessibility setup / init.a
+	(accessibility_init): grab any interesting
+	looking modules out of the module list.
+	(accessibility_invoke_module): impl.
+	(accessibility_invoke): impl.
+
+2002-03-12  Laszlo Peter  <laca@ireland.sun.com>
+
+	* libmate/mate-exec.c (mate_prepend_terminal_to_vector):
+	remove a g_message that causes seg. fault on Solaris.
+
+2002-03-09  Michael Meeks  <michael@ximian.com>
+
+	* schemas/desktop_mate_interface.schemas: set
+	toolbar_style to 'both' by default
+
+2002-03-06  Paolo Maggi  <maggi@athena.polito.it>
+
+	* libmate/mate-url.c (mate_url_default_handler):
+	use mate-help as handler for ghelp: info: man: uris
+	and mozilla as default url handler
+	(mate_url_show): fix mem leak, use the rigth handler
+	also the first time it runs
+
+2002-03-06  Christian Meyer  <chrisime@mate.org>
+
+	* configure.in: Added 'de' to ALL_LINGUAS.
+
+2002-03-05  Paolo Maggi  <maggi@athena.polito.it>
+
+	* libmate/mate-program.c (mate_program_locate_file):
+	search files in {prefix}/share/mate/help/{app_id}/
+	when using MATE_FILE_DOMAIN_APP_HELP domain
+
+	* libmate/mate-help.c (locate_help_file): removed extra
+	"/" between path and lang
+
+2002-03-05  Eric Baudais  <baudais@okstate.edu>
+
+	* help-converters/docbook/mate-customization/mate-custom.xsl:
+	Sync the general customizations with mate-docu/gdp/xsl.
+	* help-converters/docbook/mate-customization/l10n.xml:
+	Sync the general customizations with mate-docu/gdp/xsl.
+
+2002-03-05  Eric Baudais  <baudais@okstate.edu>
+
+	* help-converters/docbook/mate-customization/mate-customization.xsl:
+	changed the stylesheets to 1.48.  after testing no adverse results
+	can be seen.
+
+2002-03-04  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Bump version to 1.112.1
+
+2002-03-03  Mikael Hallendal  <micke@codefactory.se>
+
+	* help-converters/docbook/mate-db2html3.c:
+	(print_err): add dummy printerr-function. Don't output anything.
+
+	* help-converters/info/html.c:
+	(dump_html_for_node): add a &nbsp; in anchor tag, otherwise
+	  gtkhtml2 won't be able to jump to it.
+
+Fri Feb 22 12:51:48 2002  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_peripherals_mouse.schemas: why oh why was
+	left_handed TRUE by default...  Fixing.
+
+Wed Feb 20 00:05:13 2002  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_peripherals_mouse.schemas: new schemas to
+	handle a cursor font.
+
+2002-02-19 John Fleck <jfleck@inkstain.net>
+
+	* help-converters/docbook/mate-db2html3.c
+	remove old code checking for sgml catalog files. This was
+	causing major slowdown for some users (like, for example,
+	me)
+
+2002-02-19  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Up to 1.112.0
+
+2002-02-18  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* configure.in: remove MATE_COMMON_INIT, MATE_PLATFORM_MATE_2
+	macros, fix warning macro to match latest mate-common.
+
+2002-02-17  Zbigniew Chyla  <cyba@mate.pl>
+
+	* configure.in (ALL_LINGUAS): Added pl (Polish).
+
+2002-02-15  jacob berkman  <jacob@ximian.com>
+
+	*   libmate/mate-exec.c  (mate_prepend_terminal_to_vector): the
+	key is "exec_arg" not "exec_flag" (according to the .schemas file)
+
+2002-02-14  Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/mate-help.c: (mate_help_display_with_doc_id):
+	don't free the path before using it in g_error_set.
+
+2002-02-11  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 1.111.0
+
+	* mate-data/*: Rename .soundlist files so that they won't conflict with
+	mate-libs, fixing #70324.
+
+2002-02-10  Richard Hestilow  <hestilow@ximian.com>
+
+	* schemas/desktop_mate_interface.schemas: Add gtk_theme, font_name, and use_custom_font settings.
+
+2002-02-09  Pauli Virtanen  <ptvirtan@cc.hut.fi>
+
+	* configure.in (ALL_LINGUAS): Added "fi" (Finnish).
+
+2002-02-09  Darin Adler  <darin@bentspoon.com>
+
+	* configure.in: Improve message when popt is missing.
+	* help-converters/mate-vfs-module/help-method.c: Remove unneeded include that
+	causes trouble with the latest mate-vfs.
+
+2002-02-07  Changwoo Ryu  <cwryu@debian.org>
+
+	* configure.in (ALL_LINGUAS): Added "ko".
+
+2002-01-31 John Fleck <jfleck@inkstain.net>
+
+	* help-converters/docbook/mate-db2html3.c
+	output "filename" rather than "filename.xml" for Eric's stylesheets
+
+2002-01-29  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Up to 1.110.0
+
+	* schemas/desktop_mate_peripherals_mouse.schemas: Change motion_threshold type
+	to int.
+
+2002-01-28  Ross Golder  <ross@golder.org>
+
+	* configure.in: Updated popt URL.
+
+2002-01-25  Darin Adler  <darin@bentspoon.com>
+
+	* help-converters/mate-vfs-module/help-method.c: Remove unused include <ctype.h>.
+	* help-converters/info/html.c: Remove unused include <ctype.h>.
+	* help-converters/man/mate-man2html.c: Remove unused include <ctype.h>.
+	* libmate/mate-config.c: (mate_config_get_bool_with_default_):
+	Use g_ascii_tolower instead of tolower and remove include of <ctype.h>.
+	* libmate/mate-program.c: (rpmvercmp): Use g_ascii calls instead of
+	the locale-sensitive <ctype.h> calls and remove include of <ctype.h>.
+	* libmate/mate-score.c: (log_score): Use g_ascii_isspace instead of
+	isspace and remove include of <ctype.h>.
+	* libmate/mate-triggers.c: Remove unused include of <ctype.h>.
+
+2002-01-23 John Fleck <jfleck@inkstain.net>
+
+	* help-converters/docbook/mate-customization/Makefile.am
+	install mate-custom.xsl and l10n.xml
+
+2002-01-23  Peteris Krisjanis <peteris.krisjanis@ttc.lv>
+
+	* configure.in: Added lv to ALL_LINGUAS
+
+2002-01-23  Seth Nickell  <snickell@stanford.edu>
+
+	* schemas/Makefile.am:
+	* schemas/desktop_mate_background.schemas:
+
+	Spruce up Jonathan's cleanup of the schemas file and rename
+	keys to more approximately match how we are using them
+	and their names in the capplet.
+
+	* schemas/desktop_mate_file_views.schemas:
+
+	Add file views schemas that Caja will shortly use.
+
+Wed Jan 23 01:25:20 2002  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_background.schemas: clean up schemas file.
+
+2002-01-21  Eric Baudais  <baudais@okstate.edu>
+
+	* help-converters/docbook/mate-customization/eric_titlepage.xsl: Cruft removed.
+	* help-converters/docbook/mate-xustomization/eric-customization: Cruft removed.
+	* help-converters/docbook/mate-customization/mate-custom.xsl: Added concatenated
+	GDP stylesheets.
+	* help-converters/docbook/mate-customization/mate-customization.xsl: Displays the
+	entire document.
+
+2002-01-21  jacob berkman  <jacob@ximian.com>
+
+	* help-converters/Makefile.am (EXTRA_DIST): remove reference to
+	removed ChangeLog
+
+2002-01-21  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* ChangeLog: merged all ChangeLog's into a single file
+
+2002-01-14  Michael Meeks  <michael@ximian.com>
+
+	* schemas/desktop_mate_interface.schemas: add 'accessibility'
+
+2002-01-14  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-mateconf.c (mate_mateconf_get_mate_libs_settings_relative): Make this
+	function do what it's supposed to.
+
+Mon Jan 14 00:20:23 2002  Jonathan Blandford  <jrb@mate.org>
+
+	* libmate/mate-exec.c (mate_prepend_terminal_to_vector): use the schemas
+	correctly.
+
+Fri Jan 11 15:01:56 2002  George Lebl <jirka@5z.com>
+
+	* libmate/mate-init.c: when setting values as GValue's, use
+	  g_object_set_property, and not g_object_set
+
+2002-01-14  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Released 1.109.1
+
+	* schemas/desktop_mate_interface.schemas: Some more tweaking.
+
+	* message-of-doom: Make the message of doom a little less scary.
+
+	* schemas/desktop_mate_interface.schemas: Fix toolbar-style
+	and remove some unused keys.
+
+Mon Jan 14 00:28:40 2002  Jonathan Blandford  <jrb@mate.org>
+
+	* schemas/desktop_mate_applications_terminal.schemas: add
+	exec_arg key to separate the command from the arguments.  Somewhat
+	dubious, but then again, so is this key.
+
+2002-01-13  Alexander Larsson  <alla@lysator.liu.se>
+
+	* schemas/desktop_mate_applications_window_manager.schemas:
+	Added number_of_workspaces and workspace_names.
+
+2002-01-12 Hasbullah Bin Pit <sebol@ikhlas.com>
+
+	* Added Malay (ms) Translation in configure.in
+
+2002-01-12  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* monikers/matecomponent-config-bag.c (impl_MateComponentPropertyBag_getValue):
+	return a MATECOMPONENT_ARG_NULL if we can't resolve the MateConf type
+	(impl_MateComponentPropertyBag_getValues): implemented
+	(impl_MateComponentPropertyBag_setValue): if the type is MATECOMPONENT_ARG_NULL,
+	unset the key in the configuration database
+
+	* monikers/MATE_Moniker_std.server.in.in: the MATE std monikers
+	are in libmoniker_extra_2.so, not libmoniker_std_2.so
+
+2002-01-12 Hasbullah Bin Pit <sebol@ikhlas.com>
+
+	* Added Malay (ms) Translation in configure.in
+
+2002-01-11  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* monikers/matecomponent-moniker-config.c (matecomponent_moniker_config_resolve):
+	removed check for MateComponent/Control requested interface, since this
+	is not needed here
+
+2002-01-10  Michael Meeks  <michael@ximian.com>
+
+	* schemas/desktop_mate_interface.schemas: kill
+	double def. of relief.
+
+2002-01-10  Michael Meeks  <michael@ximian.com>
+
+	* schemas/desktop_mate_interface.schemas: kill
+	double def. of menus-have-icons.
+
+2002-01-10  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Release 1.109.0
+
+	* schemas/Makefile.am (install-data-local): Fix builddir != srcdir bug.
+
+2002-01-09  jacob berkman  <jacob@localhost.localdomain>
+
+	* mate-data/Makefile.am (EXTRA_DIST): soundlist_DATA is a
+	variable not a file
+
+2002-01-09  Michael Meeks  <michael@ximian.com>
+
+	* Makefile.am: add monikers.
+
+2002-01-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* help-converters/info/main.c: Merge fix from stable branch. <HTML><BODY>.
+
+2002-01-09  Alex Larsson  <alexl@redhat.com>
+
+	* help-converters/mate-vfs-module/help-method.c:
+	Use g_shell_quote(). Remove shell_quote function.
+
+	* help-converters/mate-vfs-module/help-methods.conf:
+	Use mate2-info2html and mate2-man2html instead of the
+	old converters.
+
+	* help-converters/man/mate-man2html.c:
+	Use a white background in the generated pages.
+
+2002-01-09  Alex Larsson  <alexl@redhat.com>
+
+	* help-converters/info/main.c (main):
+	Use white background in the generated pages for info.
+
+2002-01-08  Richard Hestilow  <hestilow@ximian.com>
+
+	* libmate/mate-sound.c (use_sound): Check to see if NULL is really
+	ok (it means to use the default hostname sometimes.)
+
+	* libmate/mate-triggers.c: (mate_triggers_play_sound,
+	mate_triggers_do_mediaplay): Re-enable.
+
+Thu Jan 03 11:15:40 2002  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.[ch]:  Perform some garbage collection: Remove
+	  module-info and modules properties, they were not implemented
+	  and were not implementable, nor usable, nor used.  Remove
+	  mate_program_get_invocation_name and
+	  mate_program_get_short_invocation_name since those were not
+	  implemented either.  Add documentations trings to all properties.
+	  Remove construct only restriction from the app prefix properties,
+	  since it is not required and is in fact not used during
+	  construction.
+
+2002-01-08  Richard Hestilow  <hestilow@ximian.com>
+
+	* mate-data: Added.
+
+	* configure.in, Makefile.am: Add mate-data subdir.
+
+Mon Jan  7 20:40:09 2002  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas/desktop_mate_peripherals_keyboard.schemas: add
+	custom_bell_sound.
+
+	* schemas/desktop_mate_peripherals_mouse.schemas: add
+	locate_pointer value.
+
+	* schemas/desktop_mate_peripherals_keyboard.schemas: add
+	bell_mode schema. change clickvolume to click_volume.
+
+	* schemas/desktop_mate_interface.schemas: add cursor_blink and
+	cursor_blink_time.
+
+2002-01-03  Bradford Hovinen  <hovinen@ximian.com>
+
+	* schemas/Makefile.am (schema_DATA): Add background,
+	peripherals_keyboard
+
+2002-01-03  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-program.c (mate_program_locate_file): Plug leak.
+
+Wed Dec 26 18:10:32 2001  George Lebl <jirka@5z.com>
+
+	* libmate/Makefile.am, mate-url.c: compile with G_DISABLE_DEPRECATED, yay
+
+2001-12-27  Duarte Loreto <happyguy_pt@hotmail.com>
+
+        * configure.in: Added portuguese to ALL_LINGUAS
+
+2001-12-23  Takayuki KUSANO  <AE5T-KSN@asahi-net.or.jp>
+
+	* configure.in: Added "ja" to ALL_LINGUAS.
+
+2001-12-19  Seth Nickell  <snickell@stanford.edu>
+
+	* schemas/desktop_mate_interface.schemas:
+
+	Disable tearoff menus by default.
+
+2001-12-18  jacob berkman  <jacob@ximian.com>
+
+	* schemas/Makefile.am (install-data-local): don't do the schema
+	rule if DESTDIR is set.  i can't think of a reason why this would
+	be broken.
+
+2001-12-17  jacob berkman  <jacob@ximian.com>
+
+	* schemas/Makefile.am (EXTRA_DIST): add $(schama_DATA)
+
+Fri Dec 14 16:20:16 2001  Jonathan Blandford  <jrb@redhat.com>
+
+	* schemas: Move all MATE schemas here.
+
+2001-12-14  Josh Barrow  <drleary@mac.com>
+
+	* libmate/Makefile.am:
+	Remove all talk of mateconf and schemas and whatnot.
+	libmate.schemas no longer lives here.
+
+2001-12-11  Michael Meeks  <michael@ximian.com>
+
+	* libmate/Makefile.am: add deps info for the built files.
+
+2001-12-11  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-marshal.list: Remove.
+
+	* libmate/mate-marshal-main.c: Remove.
+
+	* libmate/Makefile.am: Remove references to mate-marshal.
+
+	* libmate/libmate.h: Don't include mate-marshal.h
+
+2001-12-11  Anders Carlsson  <andersca@gnu.org>
+
+	* doc/reference/libmate-sections.txt: Remove marshal docs.
+
+	* doc/reference/libmate-docs.sgml: Remove marshal docs.
+
+	* doc/reference/tmpl/mate-marshal.sgml: Remove.
+
+2001-12-11  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Up to 1.108.0
+
+2001-12-10  Mikael Hallendal  <micke@codefactory.se>
+
+	* help-converters/README (CATALOG): added info about --create
+
+2001-12-08  Richard Hestilow  <hestilow@ximian.com>
+
+	* libmate/libmate.schemas: Add a couple of settings for wm-properties
+	and mate-wm to share.
+
+2001-12-07  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* libmate/mate-program.h: Removed buggy buggy BUGGY
+	program_invocation_name public variable. If you've used it in your
+	code, use g_get_prgname from Glib instead.
+
+2001-12-06  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-program.c: Fix a typo in the API docs so they
+	  now build correctly.
+
+2001-12-04  Richard Hestilow  <hestilow@ximian.com>
+
+	* libmate/mate-exec.c (mate_prepend_terminal_to_vector): Don't
+	double-free terminal.
+
+	* libmate/mate-url.c (mate_url_show): Wrap execution in "/bin/sh -c ...".
+	Also, return ret, not hard-coded TRUE.
+
+	* libmate/libmate.schemas: Revamp to better fit
+	default-applications-properties. Also, remove UI settings, will
+	be moved to libmateui.schemas.
+
+
+2001-12-04  Gregory Leblanc  <gleblanc@linuxweasel.com>
+
+	* help-converters/README: added some explanation of how to set up XML catalogs,
+	and why they're important.
+	* help-converters/docbook/mate-customization/eric_customization.xsl: Changed
+	xsl:import to use the correct URI for the docbook stylesheets.
+	This will cause the stylesheets to be fetched over the network,
+	unless you have your XML catalogs set up correctly.
+	* help-converters/docbook/mate-customization/mate-customization.xsl: ditto
+
+2001-12-03  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-init.[ch], mate-util.h, parse-path.cP: replace
+	  references to .mate and .mate_private with MATE_DOT_MATE
+	  and MATE_DOT_MATE_PRIVATE respectivly. Define these macros
+	  in mate-init.h (to be .mate2 and .mate2_private for now)
+	  and include this in mate-util.h, which was the only place
+	  that didn't have it.
+
+	* libmate/mate-program.h: A documentation fix I had lying around in my
+	  tree for some reason.
+
+Fri Nov 30 16:59:01 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-init.c: g_object_set is a vararg function so null terminate
+	  the argument list.  Yay for no typesafety and corrupted stacks.
+
+Tue Nov 27 15:41:43 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-util.[ch], mate-exec.c, mate-url.c: move
+	  mate_is_program_in_path to deprecated and make it a macro
+	  that just resolves to g_find_program_in_path which is
+	  smarter and all that good stuff.
+
+2001-12-03  Malcolm Tredinnick <malcolm@commsecure.com.au>
+	* doc/reference/libmate-sections.txt: revive some entries from
+	mate-program.h.
+
+	* doc/reference/tmpl/mate-program.sgml:
+	* doc/reference/tmpl/mate-util.sgml: Updated.
+
+2001-11-28  jacob berkman  <jacob@ximian.com>
+
+	* configure.in: install the schema into $DESTDIR
+
+2001-11-27  Anders Carlsson  <andersca@gnu.org>
+
+	* help-converters/Makefile.am (EXTRA_DIST): Add ChangeLog.
+
+2001-11-27  Anders Carlsson  <andersca@gnu.org>
+
+	* doc/Makefile.am: Remove this old porting doc since it isn't valid
+	anymore and there's a better one in CVS anyway.
+
+	* doc/reference/libmate-overrides.txt: Add file, it's required
+	by gtk-doc.
+
+	* doc/reference/Makefile.am: Use the new all-generic Makefile.am
+	which makes the docs actually build now.
+
+2001-11-27  Anders Carlsson  <andersca@gnu.org>
+
+	* Makefile.am (SUBDIRS): Don't build tests directory.
+
+	* configure.in: Up version to 1.107.0 and also up
+	dependencies.
+
+2001-11-21  Michael Meeks  <michael@ximian.com>
+
+	* libmate/mate-program.c (mate_program_preinit),
+	(mate_program_initv, mate_program_instance_init),
+	(mate_program_postinit): remove _massive_ debug spew,
+	all trying ( unsuccessfully ) to discover that it is in
+	fact pango that takes > 1 sec. to initialize - which it
+	does idly.
+
+Tue Nov 20 15:44:49 2001  Owen Taylor  <otaylor@redhat.com>
+
+	* libmate/mate-marshal-main.c mate-program.c test-libmate.c:
+	Remove excess gobject/* includes.
+
+2001-11-18  Miles Lane  <miles@megapathdsl.net>
+
+	* libmate/mate-program.h:
+	libmate/Makefile.am : replace include of
+        gobject/gobject.h and gobject/genums.h with glib-object.h,
+	due to a change in gobject/gobject.h and gobject/genums.h
+        that forces an #error for all direct includes.
+        This checkin was approved by Havoc.
+
+2001-11-14  Michael Meeks  <michael@ximian.com>
+
+	* libmate/mate-macros.h: update for new matecomponent.
+
+2001-11-12  Darin Adler  <darin@bentspoon.com>
+
+	* libmate/mate-macros.h: Remove the "_HANDLER" from the macro name.
+	Before it's too late!
+
+2001-11-12  Darin Adler  <darin@bentspoon.com>
+
+	* libmate/mate-macros.h: Took out unused parameter of the
+	MATE_CLASS_BOILERPLATE macro. Broke macro into pieces so it can
+	be reused by matecomponent.
+
+	* libmate/mate-program.c: Pass one less argument to
+	MATE_CLASS_BOILERPLATE.
+
+Tue Nov 06 23:56:12 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-macros.h: chain the class_init func so that we get
+	  the parent_class pointer in the class_init function rather then
+	  in the get_type function to reduce get_type overhead.
+
+2001-11-12  Darin Adler  <darin@bentspoon.com>
+
+	* help-converters/.cvsignore:
+	* help-converters/docbook/.cvsignore:
+	* help-converters/mate-vfs-module/.cvsignore:
+	* help-converters/info/.cvsignore:
+	* help-converters/man/.cvsignore:
+	All these directories needed .cvsignores.
+
+2001-11-11  Frank Belew <frb@ximian.com>
+
+	* help-converters/info/Makefile.am: added $(Z_LIBS) to mate2_info2html_LDADD
+
+2001-11-09  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added da to ALL_LINGUAS. (sorry for ignorance)
+
+2001-11-09  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added zh_CN to ALL_LINGUAS.
+
+2001-11-05  Maciej Stachowiak  <mjs@noisehavoc.org>
+
+	* help-converters/mate-vfs-module/Makefile.am: Use appropriate CFLAGS to get
+	mate-vfs module headers.
+
+2001-11-05  Maciej Stachowiak  <mjs@noisehavoc.org>
+
+	* configure.in: Only use mate-vfs module headers for help vfs
+	module.
+
+2001-11-03  Anders Carlsson  <andersca@gnu.org>
+
+	* help-converters/mate-vfs-module/help-method.c: Fixup header paths.
+
+2001-11-03  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Up to 1.105.0 and up versions for some of the packages
+	we require.
+
+2001-11-02  Michael Meeks  <michael@ximian.com>
+
+	* libmate/mate-init.c (matecomponent_activation_pre_args_parse),
+	(matecomponent_activation_post_args_parse): don't double init & leak.
+
+Wed Oct 31 18:20:44 2001  Jonathan Blandford  <jrb@redhat.com>>
+
+	* libmate/mate-help.c (mate_help_display): Simple variant of showing
+	help function.  The one that 90% of users will use.
+	(mate_help_display_with_doc_id): Full variant.
+	(mate_help_display_desktop): Fix up a bit.
+
+	* libmate/mate-i18n.c: doc updates.
+
+2001-11-02  Maciej Stachowiak  <mjs@noisehavoc.org>
+
+	* configure.in: Import mate-vfs module API. This is wrong and
+	should be done only for the mate-vfs module, but I'm too tired to
+	fix it properly right now.
+
+Thu Nov  1 16:14:11 2001  Jonathan Blandford  <jrb@redhat.com>
+
+	* help-converters/docbook/docbook*: Remove at anders request; we
+	need to count on packagers shipping this.
+
+2001-11-01  jacob berkman  <jacob@ximian.com>
+
+	* configure.in: fix: ./configure: exit: bad non-numeric arg
+	`please'.  this m4 hacking is getting addictive
+
+2001-11-01  Michael Meeks  <michael@ximian.com>
+
+	* configure.in: add mate-vfs-module config.
+
+2001-11-01  Anders Carlsson  <andersca@gnu.org>
+
+	* help-converters/mate-vfs-module/help-method.c: Added #defines for help commands
+	so we can change them easily if needed.
+
+2001-11-01  Anders Carlsson  <andersca@gnu.org>
+
+	* Copy the help converters from caja. We now depend on
+	libxslt.
+
+2001-10-30  jacob berkman  <jacob@ximian.com>
+
+	* libmate/libmate-2.0.pc.in (Cflags):
+	* libmate/Makefile.am (libmateincludedir): install headers in
+	libmate-2.0 rather than mate-2.0
+
+2001-10-29  jacob berkman  <jacob@ximian.com>
+
+	* libmate/mate-init.c: use GETTEXT_PACKAGE where appropriate
+
+	* libmate/mate-i18nP.h (MATE_EXPLICIT_TRANSLATION_DOMAIN): use
+	GETTEXT_PACKAGE
+
+2001-10-29  jacob berkman  <jacob@ximian.com>
+
+	* configure.in (AC_OUTPUT): add tests/Makefile
+
+	* Makefile.am (EXTRA_DIST): build / shipt tests/
+
+	* Makefile.am (EXTRA_DIST): add intltool stuff
+
+	* configure.in: drop the 2 from the package name, use intltool,
+	define GETTEXT_PACKAGE, use and AM_GLIB_GNU_GETTEXT
+
+	* acconfig.h: add GETTEXT_PACKAGE
+
+2001-10-26  Michael Meeks  <michael@ximian.com>
+
+	* libmate/libmate.schema: add menus-have-icons, so we get some icons.
+
+2001-10-24  jacob berkman  <jacob@ximian.com>
+
+	* configure.in: don't fail if esound / audiofile aren't found (and
+	a better check for them)
+
+2001-10-24  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-preferences.[ch]: Remove these files as they aren't used
+	anymore.
+
+Tue Oct 23 14:40:12 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.h: add padding to the class structure to
+	  allow for future expansions
+
+	* libmate/mate-util.c: make mate_setenv handle null value
+
+2001-10-23  jacob berkman  <jacob@ximian.com>
+
+	* libmate/mate-program.c (mate_program_initv): register the
+	libmate_module if it wasn't passed in.  this isn't the gross hack
+	it was when gtk didn't have gdk_threads_init().
+
+2001-10-23  jacob berkman  <jacob@ximian.com>
+
+	* configure.in: get audiofile and esound flags from pkgconfig
+
+2001-10-19  jacob berkman  <jacob@ximian.com>
+
+	* libmate/mate-preferences.c (do_warning): don't be so damn annoying
+
+2001-10-18 Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/Makefile.am: simplify mateconf install
+
+	* libmate/mate-url.c (mate_url_show): unref mateconf client.
+
+Wed Oct 17 17:39:42 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.c: remove two unused fields from the private
+	  struct
+
+Wed Oct 17 17:32:41 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-preferences.c: fix warnings
+
+Wed Oct 17 11:25:38 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-preferences.c:  We really don't want people to use
+	  mate-preferences, so make it say evil things to the developer
+	  at runtime
+
+2001-10-18  Mark McLoughlin  <mark@skynet.ie>
+
+	* configure.in: add mateconf checks.
+
+2001-10-17 Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/mate-preferences.c: add comments to indicate which
+	ones have been replaced by mateconf keys.
+
+Sun Oct 14 20:12:14 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.c: popt IS the evil incarnate.  There is no
+	  reasonable way to pass data to the callbacks.  And we don't want
+	  to modify or use the options.  So add a hack that sets
+	  a data on the context with the MateProgram, so in a callback
+	  if you want to get the MateProgram object you'd do
+	  g_dataset_get_data (popt_context, "MateProgram");  Evil?
+	  yes.  And it's the only way to do this sanely.
+
+2001-10-10  Glynn Foster <glynn.foster@sun.com>
+
+	* libmate/mate-mateconf.c: Change to use proper mateconf key for desktop wide
+	  settings [ie. /desktop/mate]
+
+Tue Oct 09 18:22:34 2001  George Lebl <jirka@5z.com>
+
+	* libmate/libmate.schema, Makefile.am: schemas for preferences, this
+	  replaces mate-preferences API which is supposed to be gone
+	  (And will be soon)
+
+	* libmate/mate-macros.h: also add prototypes for class_init and
+	  instance_init to the macro, so that they can be just declared
+	  sometime later without having to mess with forward declarations
+
+2001-10-06 Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-program.c, mate-triggers.c, mate-triggers.h:
+	* libmate/mate-util.c, mate-help.h, mate-uri.h: Documentation updates
+	and fiddling.
+
+2001-10-06  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* doc/reference/libmate-docs.sgml: More rearrangement.
+	* doc/reference/tmpl/mate-sound.sgml: Fixed a typo
+	* doc/reference/tmpl/mate-triggers.sgml: Documentation updates.
+	* doc/reference/tmpl/mate-util.sgml: Documentation updates.
+
+e001-10-05  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* doc/reference/libmate-docs.sgml: Added some structure to the main
+	page.
+	* doc/reference/libmate-sections.txt: Reordered some stuff. Hid
+	some private stuff. Removed mate-preferences altogether.
+	* doc/reference/tmpl/mate-config.sgml:
+	* doc/reference/tmpl/mate-mateconf.sgml:
+	* doc/reference/tmpl/mate-help.sgml:
+	* doc/reference/tmpl/mate-i18n.sgml:
+	* doc/reference/tmpl/mate-score.sgml:
+	* doc/reference/tmpl/mate-sound.sgml:
+	* doc/reference/tmpl/mate-url.sgml: Documentation updates.
+
+2001-10-05 Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-config.c, mate-mateconf.c, mate-help.c, mate-program.c:
+	* libmate/mate-score.c, mate-sound.c, mate-url.c: Documentation
+	updates.
+
+2001-10-05  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Walloon (wa) to the languages list.
+
+2001-10-04 Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-program.c, mate-exec.c, mate-18n.c: Documentation
+	updates.
+
+Sun Sep 30 14:41:52 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.c: free data on finalize, copy argv stuff, and a bit
+	  of cleanup
+
+2001-10-04  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* doc/reference/Makefile.am: detect deprecated functions.
+	* doc/reference/libmate-sections.txt: reordering.
+	* doc/doc/reference/tmpl/mate-exec.sgml:
+	* doc/doc/reference/tmpl/mate-mateconf.sgml:
+	* doc/doc/reference/tmpl/mate-i18n.sgml:
+	* doc/doc/reference/tmpl/mate-program.sgml:
+	* doc/doc/reference/tmpl/mate-util.sgml: documentation updates.
+
+2001-09-28 Mark McLoughlin  <mark@skynet.ie>
+
+	* libmate/libmate/mate-program.h: add lame MATE_PARAM_NONE
+	for clarity.
+
+	* libmate/libmate/mate-init.c
+	(mate_matecomponent_module_info_get): add missing initialiser.
+
+2001-09-26  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: Update to 1.104.0
+
+2001-09-21  Havoc Pennington  <hp@redhat.com>
+
+	* autogen.sh: remove CERTIFIED_GNOMIE
+
+2001-09-19  Frank Belew <frb@ximian.com>
+
+	* libmate/mate-init.c (matelib_options): add space to implicitly concatenated 	string
+
+2001-09-19  Frank Belew <frb@ximian.com>
+
+	* libmate/mate-init.c (matelib_options): add quotation marks to continued
+	string in initializer
+
+	* libmate/mate-program.h: define program_invocation_short_name and
+	program_invocation_name if not already defined in errno.h
+
+2001-09-19  Frank Belew  <frb@ximian.com>
+
+	* configure.in: remove AM_CONDITIONAL that has no effect
+
+2001-09-19  Ariel Rios  <ariel@gnu.org>
+
+	* libmate/mate-program.c (add_to_module_list): Cast the return
+	value of g_ptr_array_index since PPC was complaining about this.
+
+Tue Sep 18 20:40:04 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-util.[ch], mate-config.h, mate-init.c:
+	  deprecate g_concat_dir_and_file, and replace it with a macro
+	  using g_build_filename, which essentially does the same thing.
+
+Tue Sep 18 17:43:45 2001  George Lebl <jirka@5z.com>
+
+	* libmate/Makefile.am, mate-config.[ch], mate-mateconfP.h, mate-mateconf.[ch],
+	  mate-exec.c, mate-init.c, mate-url.c:  Do the private symbols
+	  dance and make the mateconf lazy init stuff private
+
+Fri Sep 14 12:33:21 2001  George Lebl <jirka@5z.com>
+
+	* libmate/Makefile.am, mate-macros.h, mate-program.c, libmate.h: Move the
+	  mate-macros foo to libmate.  Also change it a bit so that it can
+	  actually deal with basic glib objects, and use it for MateProgram
+
+2001-09-18  Havoc Pennington  <hp@redhat.com>
+
+	* libmate/libmate-2.0.pc.in (Requires): add mate-vfs
+
+2001-09-18  Anders Carlsson  <andersca@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add COPYING.LIB
+
+	* COPYING.LIB: Add this file.
+
+Sun Sep 09 16:54:21 2001  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* libmate/mate-init.c, libmate/mate-program.c: Added some
+	  documentation
+
+Sun Sep 09 00:16:03 2001  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* Makefile.am, doc/Makefile.am, configure.in: Add build
+	  infrastructure for documentation.
+
+Mon Sep 03 17:27:04 2001  George Lebl <jirka@5z.com>
+
+	* configure.in: raise version to 1.103.0
+
+2001-09-11  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-program.c (mate_module_info_get_type): Update to use
+	new api for g_boxed_type_register_static.
+
+Fri Sep 07 14:38:07 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-help.h: include mate-program.h
+
+2001-09-09  Malcolm Tredinnick <malcolm@commsecure.com.au>
+
+	* doc/reference/libmate-sections.txt: Hide some things, reorganise
+	  some orderings.
+
+	* doc/reference/tmpl/mate-init.sgml,
+	* doc/reference/tmpl/mate-program.sgml: Begin filling in details.
+
+	* doc/reference/tmpl/.cvsignore,
+	* doc/reference/tmpl/libmate-unused.sgml: The "-unused" file is
+	  going to be annoying until things have settled down, so remove
+	  it for now at least.
+
+	* doc/reference/*: Add the beginnings of the API reference manual.
+	  Nothing of substance in here yet, but it builds correctly.
+
+2001-09-06  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/libmate-2.0.pc.in (Cflags): Use mate-2.0/
+	instead of mate/2/
+
+	* libmate/Makefile.am: Install libmate.h in libmateui/
+	and use mate-2.0/ instead of mate/2/
+
+Tue Sep 04 19:12:15 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.h: include mate-init.h
+
+Tue Sep 04 18:05:12 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.h: use the getters for the user/private mate_dir
+
+2001-09-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-i18n.c: #include <locale.h>.
+
+2001-09-03  Rodrigo Moya <rodrigo@mate-db.org>
+
+	* libmate/mate-i18n.h: removed #define's for gettext macros, and
+	include matecomponent/matecomponent-i18n.h, which includes them
+
+2001-09-02  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-program.h: Add G_END_DECLS.
+
+Mon Sep 03 17:45:03 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-i18nP.h: remove the config.h include from here, that
+	  shouldn't be in other header files
+
+	* libmate/mate-marshal-main.c: include config.h
+
+Mon Sep 03 03:33:20 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-init.[ch]: add a matecomponent module here
+
+	* libmate/mate-program.c: some doc fixes, a typo in a constant fixed, and
+	  add simple init profiling info
+
+Mon Sep 03 02:18:51 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mateconf.c, mate-init.c: get versions right
+
+	* libmate/mate-program.c: fixup mate_program_get doc
+
+Sun Sep 02 23:30:56 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-exec.c, mate-url.c: clean up headers a bit, and do lazy mateconf init
+
+	* libmate/mate-mateconf.[ch]:  Don't do all the init on init, but only when
+	  something calls mate_mateconf_lazy_init
+
+	* libmate/mate-init.c: remove the matecomponent stuff, init vfs after arguments are
+	  parsed for matecomponent-activation argument parsing to work right
+
+	* libmate/mate-program.[ch], mate-mateconf.[ch], mate-init.[ch],
+	  test-libmate.c:  Make all the module info stuff into getters
+	  rather then data pointers.  This makes the lib have no exported
+	  data symbols which is apparently more kosher and makes some
+	  optimizations in loading possible.
+
+	* libmate/mate-program.c: when comparing modules, just compare pointers.  We
+	  require pointers to stay the same anyway.  So we save a whole bunch
+	  of string compares this way.  And we already did this somewhat
+	  anyway
+
+	* libmate/mate-sound.[ch]: Remove mate_sound_connection and add
+	  mate_sound_connection_get (), which works a lot better for
+	  on demand esound starting.
+
+Sun Sep 02 14:15:46 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-help.[ch], mate-url.[ch]: fix compilation with popt, remove
+	  some of the duplicated errors and just pass the underlying errors
+	  where appropriate.  Use g_spawn instead of the mate exec function.
+	  also fix a memory leak.
+
+2001-09-02  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/Makefile.am: Remove compilation of Mate.idl.
+
+	* libmate/mate-exec.c: (mate_prepend_terminal_to_vector):
+	Use mateconf.
+
+	* libmate/mate-help.c: (mate_help_display_uri):
+	Use the old mate_url_show API.
+
+	* libmate/mate-init.c: (libmatecomponent_class_init):
+	Don't initialize the matecomponent-config monikers.
+
+	* libmate/mate-init.h:
+	Remove functions to get a ConfigDatabase from a MateProgram.
+
+	* libmate/mate-preferences.c: (desktop_property_get_boolean),
+	(desktop_property_set_boolean):
+	Add a really bad hack (always return FALSE on get_boolean) until
+	we can put MatePreferences out of its misery.
+
+	* libmate/mate-url.c: (mate_url_default_handler), (mate_url_show):
+	* libmate/mate-url.h:
+	Remove complex API and just export mate_url_show.
+
+	* libmate/libmate.h:
+	Don't include Mate.h
+
+	* libmate/test-libmate.c: (test_url), (main):
+	Remove moniker tests and use mate_url_show for the url test.
+
+Sun Sep 02 02:45:37 2001  George Lebl <jirka@5z.com>
+
+	* libmate/libmate.h: add mate-help.h and mate-score.h
+
+Sun Sep 02 01:38:05 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-help.c: make actually compile.  DOH!
+
+Sun Sep 02 00:49:05 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.[ch], mate-init.c, mate-mateconf.c:  Be consistent
+	  with naming of attributes and getters.  So
+	  s/mate_program_get_name/mate_program_get_app_id/ and
+	  s/mate_program_get_version/mate_program_get_app_version/
+
+	* libmate/mate-program.c, mate-help.[ch]:  Implement the help stuff
+	  according to jrb's RFP.  Hopefully correctly :)
+
+	* libmate/mate-exec.c, mate-program.c, mate-config.c: Be more consistent
+	  with use of alloca and always call g_alloca
+
+Sat Sep 01 23:01:30 2001  George Lebl <jirka@5z.com>
+
+	* libmate/Makefile.am, mate-score.[ch]: bring back the non-gui portion of
+	  mate-scores.
+
+	* libmate/mate-i18n.c: the push/pop numeric C locale was sort of stupid.  It
+	  was saving the C locale.  So assume that if we're nested we're in the
+	  C locale.  This is just as safe netable wise and wastes less
+	  resources
+
+	* libmate/mate-config.c: alloca voodoo is now done in glib
+
+Sat Sep 01 17:26:44 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-init.c: don't run the mate_triggers_init, it's an empty
+	  function
+
+	* libmate/mate-sound.c: actually do on demand esd startup and not on init,
+	  and fix the issue with possible sound sample conflicts if they were
+	  loaded at the same second.  Perhaps this code is weird, need more
+	  investigation.
+
+	* libmate/mate-triggers.[ch]: comment out the init function, and whack the
+	  prototypes from the .h file that weren't implemented at all anyway
+
+	* libmate/mate-util.[ch]:  use G_DIR_SEPARATOR(_S), deprecate g_copy_vector,
+	  and mark all the deprecation macros as deprecated.  Add deprecated
+	  macro for g_file_exists, g_unix_error_string and
+	  mate_util_user_home as well.
+
+Sat Sep 01 15:24:54 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.c: in the _init function only reregister a module if
+	  it hasn't been registered yet.
+
+2001-09-02  Anders Carlsson  <andersca@gnu.org>
+
+	* Makefile.am: Don't build tests/
+
+	* configure.in: Don't build tests, remove matecomponent-config dependency.
+
+	* idl/ChangeLog: Remove.
+
+	* idl/Mate.idl: Remove.
+
+	* idl/Makefile.am: Remove.
+
+Sat Sep 01 23:05:23 2001  George Lebl <jirka@5z.com>
+
+	* configure.in, acconfig.h: Add some HAVE_ defines, and again
+	  look for esd and audiofile
+
+Sun Aug 26 18:39:43 2001  George Lebl <jirka@5z.com>
+
+	* libmate/configure.in, libmate/libmate-2.0.pc.in:  Require MateConf
+
+Fri Aug 24 09:59:14 2001  George Lebl <jirka@5z.com>
+
+	* acconfig.h, configure.in, libmate/mate-utils.[ch]:  Add portable
+	  setenv, unsetenv, clearenv implementations since they still didn't
+	  get into glib.  If they get there these can be easily replaced
+	  by macros or just punted.  They are simple yet very useful to
+	  have to write portable code
+
+	* libmate/mate-utils.c:  make mate_is_program_in_path use 'access'
+	  with X_OK to check only for actually executable files and it also
+	  regets the PATH every time so that it follows the current PATH
+	  setting.  Note that this cannot possibly be the bottleneck in this
+	  function and the "access" is.
+
+	* configure.in: get rid of this elitist evil CERTIFIED_GNOMIE
+	  bullshit
+
+2001-09-01  Anders Carlsson  <andersca@gnu.org>
+
+	* libmate/mate-program.c (mate_program_module_registered): the program_modules
+	array is NULL-terminated, so break if we get a NULL.
+
+Sat Sep 01 06:49:49 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.c: Init modules passed to mate_program_init on
+	  the second (non-global) invocation as well.  Found out matecomponent is
+	  calling this and that's very wrong BTW.  mate_program_init should
+	  be only called by the program itself in it's main.  Also don't
+	  load shlib modules if we're setgid or setuid.  Take the
+	  "--load-modules modules" form of argument.  Use the type in the
+	  init to create the program.
+
+Sat Sep 01 02:40:35 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c: kill weird include for strndup, this is in glib
+	  now
+
+Thu Aug 30 19:04:25 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-util.c: if looking for a shell in the fallback code,
+	  look for shells in /usr/bin as well as that's used on solaris
+
+Thu Aug 30 14:15:44 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mateconf.h:  Eeek, we were including mateconf-client, we don't
+	  want to do that.
+
+Wed Aug 29 01:24:33 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.[ch]: ifdef out the help functions, that's a better
+	  indication that these are here just for show for now.  A proposal
+	  of sorts.
+
+Tue Aug 28 23:40:23 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.c: app prefix defaults to NULL, which will cause
+	  a g_warning (maybe should be g_error) when locate_file is used
+	  for an app relative domain.  Also don't search the path for
+	  app relative files.
+
+	* libmate/mate-program.[ch]:  Add a proposal of functions implementation
+	  for displaying app and system help.  This is not part of the
+	  API people should use.  It's just for people to leer at for
+	  now.
+
+Tue Aug 28 22:45:44 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-program.[ch]: To make help file (and other files) location
+	  possible add distinction for app and mate specific files.  Also
+	  add a macro that will set the standard directory properties more
+	  simply.
+
+	* libmate/mate-init.c: translate module names
+
+Tue Aug 28 01:49:27 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mateconf.[ch]: For program relative path, take an optional
+	  argument of MateProgram.  Also add documentation for these
+	  two.
+
+Mon Aug 27 00:55:56 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c, parse-path.cP: use an internal version of
+	  cancat dir and file which always works with '/'
+
+Mon Aug 27 00:32:57 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mateconf.c: include mate-i18nP.h
+
+	* libmate/mate-init.[ch], mate-program.[ch]: Fix include stuff foo, 
+	  declare the externs in the header file, initialize triggers again,
+	  and put back the sound stuff so that we're at 1.0 level on that.
+	  Also added a few descriptions of MateProgram properties.
+
+Sun Aug 26 22:54:57 2001  George Lebl <jirka@5z.com>
+
+	* libmate/libmate.h, Makefile.am, mate-mateconf.c: Getting confused a bit,
+	  fix things up, now it does compile
+
+Sun Aug 26 22:48:54 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-init.c, mate-mateconf.[ch], Makefile.am:  Add mateconf support
+	  here.  This is the init stuff, none of the gui stuff.
+
+Sun Aug 26 07:29:59 2001  George Lebl <jirka@5z.com>
+
+	* libmate/Makefile.am, mate-config.[ch], parse-path.cP, mate-sound.[ch],
+	  mate-triggersP.h, mate-triggers.[ch], mate-i18n.[ch],
+	  mate-i18nP.h, libmate.h:  Bring back sane versions of these files.
+	  Will be marked as deprecated where appropriate later after some more
+	  discussion.  In mate-i18n, don't bring back the broken and
+	  unused crap (preffered language and get_language)
+
+	* libmate/mate-i18nP.h, mate-exec.c, mate-init.c, mate-program.c, 
+	  mate-url.c, test-libmate.c: Make translations works once more
+
+	* libmate/mate-util.c: paranoia fix, setuid/setgid programs can't use
+	  getenv ("SHELL") (for obvious reasons).
+
+Thu Aug 23 23:23:42 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-exec.c: fix a 64bit issue with a format string (remember
+	  that types that you don't know size (such as gsize) should be
+	  casted when passed to printf since they can be either %d or %ld
+	  or some such.
+
+2001-08-14  Michael Meeks  <michael@ximian.com>
+
+	* configure.in: add a matecomponent-config dependency.
+
+2001-08-14  Martin Baulig  <baulig@suse.de>
+
+	Released libmate 1.102.0 "Roswell".
+
+	* configure.in: Bumped version number to 1.102.0.
+
+2001-08-14  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added zh_TW to ALL_LINGUAS.
+
+2001-08-13  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-init.c (matecomponent_activation_post_args_parse): Get the
+	MateComponent::ActivationContext here, this avoids some nasty
+	reentrancy problems.
+
+	* libmate/mate-program.c (mate_program_locate_file): Allow the `program'
+	argument to be NULL, in this case call mate_program_get().
+
+2001-08-10  Michael Meeks  <michael@ximian.com>
+
+	* libmate/mate-init.c (libmate_requirements): remove redundant
+	duplicate libmatecomponent_module_info.
+
+2001-08-09  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-util.h (mate_*_file, mate_unconditional_*_file): Put
+	them back, but #define it as a mate_program_locate_file() call.
+
+2001-08-09  Martin Baulig  <baulig@suse.de>
+
+	After a discussion with Michael and a release meeting, we
+	decided to remove the sound again. It was really a bad idea.
+
+	* libmate/mate-sound.[ch]: Removed.
+	* libmate/mate-sound-csl.c: Removed.
+	* libmate/mate-sound-driver.[ch]: Removed.
+	* libmate/mate-triggers.[ch]: Removed.
+	* libmate/test-sound.c: Removed.
+
+2001-08-09  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-sound-driver.[ch]: New files.
+	* libmate/mate-sound.c, mate-sound-csl.c: This is an API rewrite
+	which I did in my local tree, but it's not finished yet and
+	shouldn't be considered as a good API - just wanted to commit
+	this before ..... (see the next ChangeLog entry).
+
+2001-08-09  Martin Baulig  <baulig@suse.de>
+
+	Released libmate 1.101.0 "Pearl Harbor".
+
+	* configure.in: Bumped version number to 1.101.0.
+
+2001-08-09  Martin Baulig  <baulig@suse.de>
+
+	* tools/*: Removed.
+
+	* configure.in, Makefile.am: Reverted Darin's last change here,
+	all we need to do is to remove the check for this stuff in
+	libmateui's configure.in, it isn't used anymore.
+
+2001-08-09  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Don't check for CSL anymore.
+
+2001-08-06  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* configure.in: Added sk to ALL_LINGUAS.
+
+2001-08-06  Darin Adler  <darin@bentspoon.com>
+
+	* configure.in:
+	* Makefile.am:
+	Start building the tools directory again, but don't bother
+	building the intl directory any more.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-sound.h (mate_sound_sample_new_from_file):
+	Added `const gchar *name' argument.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/*.[ch]: Fixed #includes, only include necessary
+	header files, use <...> instead of "..." where
+	appropriate.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.[ch]: Renamed to mate-init.[ch].
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-triggersP.h: Removed.
+
+	* libmate/libmateP.h: Removed.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-moz-remote.c, mate-moz-remote2.c: Removed.
+	* libmate/vroot.h: Removed.
+
+	* libmate/mate-remote.[ch]: Removed.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.[ch]: Updated copyright info and use
+	"This file is part of MATE 2.0" to indicate that it's part
+	of the frozed API.
+
+	* libmate/libmate-init.[ch]:  Updated copyright info and use
+	"This file is part of MATE 2.0" to indicate that it's part
+	of the frozed API.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-sound.h (mate_sound_sample_new_from_cache): New func.
+	(mate_sound_cache_add_sample): New func.
+	(mate_sound_cache_remove_sample): New func.
+
+	* libmate/mate-triggers.c: Re-enable this file.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	Released libmate 1.100.0 "Nature One".
+
+	* configure.in: Bumped version number to 1.100.0 and
+	MATE_PLUGIN_SERIAL to 3.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* NEWS: Updated for 1.100.0.
+
+	We're almost done for the release :-)
+
+	Just let me watch the rest of the Nature One broadcast in TV
+	and then I'll increment the version number and do the distcheck.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* NEWS: Started to write the release notes for 1.100.0.
+
+	* configure.in: Require the latest version of everything and
+	bump version number to 1.99.0.
+
+2001-08-04  Martin Baulig  <baulig@suse.de>
+
+	* configure.in (MATE_PLUGIN_SERIAL): Bump to 2.
+
+2001-08-03  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (libmatecomponent_post_args_parse): Initialize the
+	config databases in an idle handler as this will improve the
+	startup time of the application.
+
+2001-08-03  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am: Create matesoundplugin_csl.la and install it
+	in $(libdir)/mate-2.0/sound-plugins/ if we have CSL.
+
+	* libmate/mate-sound.[ch]: The new MATE Sound API.
+
+	* libmate/mate-sound-csl.c: This is the sound plugin module for CSL.
+
+	* libmate/test-sound.c: New file.
+
+2001-08-03  Martin Baulig  <baulig@suse.de>
+
+	* Makefile.am: Don't build the monikers/ and tools/ subdirs.
+
+2001-08-03  Martin Baulig  <baulig@suse.de>
+
+	* configure.in (LIBMATE): Require libmatecomponent >= 1.100.0.
+	(LIBMATE_CSL): Optionally depend on CSL
+	(http://www.arts-project.org).
+
+2001-08-01  Michael Meeks  <michael@ximian.com>
+
+	* configure.in: prune redundant pkgconfig checks, let the
+	deps do the work ...
+
+	* port to matecomponent-activation.
+
+2001-08-01  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-paper.[ch]: Removed.
+
+2001-07-31  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-marshal.list: Removed everything which is not currently used:
+	VOID:DOUBLE, VOID:UINT, VOID:STRING,INT, VOID:STRING,INT,BOXED,
+	VOID:STRING,INT,UINT, VOID:POINTER,INT,BOOLEAN, VOID:STRING,BOXED,
+	VOID:STRING,BOOLEAN,BOXED, ENUM:VOID, BOOLEAN:OBJECT, POINTER:INT,INT,
+	POINTER:BOOLEAN, POINTER:VOID, POINTER:POINTER, STRING:VOID.
+
+2001-07-31  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-ditem.[ch]: Removed. This will be moved to mate-core when George is
+	back from his holidays.
+
+2001-07-31  Martin Baulig  <baulig@suse.de>
+
+	* monikers/: Don't build this directory.
+
+2001-07-28  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* configure.in: depend on libmatecomponent 1.98.0
+
+2001-07-27  Michael Meeks  <michael@ximian.com>
+
+	* configure.in: add xml-i18n tools.
+
+	* tests/test-moniker.c (main): add.
+
+	* tests/Makefile.am: upd.
+
+2001-07-27  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-marshal.list: VOID:STRING,INT,UINT,BOXED -> VOID:STRING,INT,UINT.
+	VOID:POINTER,INT,BOOLEAN,BOXED -> VOID:POINTER,INT,BOOLEAN,BOXED.
+
+2001-07-16  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (MATE_PARAM_CONFIG_MONIKER): Default to "config:";
+	you don't need to set this property unless you have a reason to do so.
+	(MATE_PARAM_DESKTOP_CONFIG_MONIKER): Default to "config:/mate/desktop/".
+	No need to set this property.
+
+2001-07-14  Martin Baulig  <baulig@suse.de>
+
+	* configure.in (MATECOMPONENT_IDLDIR): AC_SUBST this.
+
+2001-07-12  Darin Adler  <darin@bentspoon.com>
+
+	* configure.in: Remove duplicate AC_PROG_LEX.
+	* monikers/matecomponent-storage-vfs.c: Remove unneeded include.
+	* monikers/matecomponent-stream-fs.c: (matecomponent_stream_create): Use
+	mate-vfs MIME calls.
+	* monikers/matecomponent-stream-vfs.c: Remove unneeded include.
+
+2001-07-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_mime_type): Removed.
+
+2001-07-11  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Don't define ENABLE_MATECORBA2, the conditionals
+	are all gone now.
+
+	* configure.in: Require autoconf 2.50b.
+
+2001-07-10  Michael Meeks  <michael@ximian.com>
+
+	* configure.in: always define ENABLE_MATECORBA2
+	require a version of libmatecomponent that requires MateCORBA2.
+
+2001-07-10  Michael Meeks  <michael@ximian.com>
+
+	* tests/test-storage.c (main): hack it up.
+
+2001-07-09  Michael Meeks  <michael@ximian.com>
+
+	* libmate/Makefile.am (libmate_headers): remove mate-regex.[ch]
+
+2001-07-09  Michael Meeks  <michael@ximian.com>
+
+	* tests: add.
+
+	* tests/Makefile.am: add.
+
+	* tests/test-storage.c: add.
+
+2001-07-08  Seth Nickell  <snickell@stanford.edu>
+
+	* libmate/libmate-init.c: (mate_oaf_pre_args_parse):
+
+	Don't call g_thread_init () if it has already been called
+	by another library / application / what have you. g_thread_init
+	can only be called *once*.
+
+	* po/ChangeLog:
+
+	Curse you gettext.
+
+Thu Jun 28 22:58:23 2001  Owen Taylor  <otaylor@redhat.com>
+
+	* libmate/mate-program.c: g_type_init() no longer
+	has an arg.
+
+Thu Jun 28 10:39:18 2001  Jonathan Blandford  <jrb@redhat.com>
+
+	* configure.in: remove test for make-inline-pixbufs, as this
+	program no longer exists, and libmate hardly needs it anyway.
+
+2001-07-04  Michael Meeks  <michael@ximian.com>
+
+	* libmate/Makefile.am: remove mate-fileconvert.[ch]
+
+	* libmate/libmate/mate-fileconvert.[ch]: remove.
+
+2001-07-02  Carlos PerellÅ MarÅn <carlos@mate-db.org>
+
+	* libmate/mate-ditem.c, libmate-init.c: Now it compile with the
+	latest matecomponent-conf
+
+Sat Jun 30 15:54:25 2001  Jonathan Blandford  <jrb@redhat.com>
+
+	* libmate/mate-program.c (mate_program_initv): Change to match new
+	function signature.
+
+2001-06-28  Michael Meeks  <michael@ximian.com>
+
+	* configure.in (matelocaledir): add --enable-matecorba2
+
+	* accoonfig.h: cover ENABLE_MATECORBA2
+
+2001-06-26  Fatih Demir <kabalak@gtranslator.org>
+
+	* configure.in: Added ta to the languages list.
+
+2001-06-19  Héctor García Álvarez <hector@scouts-es.org>
+
+	* configure.in: Added "es" for Spanish to $ALL_LINGUAS
+
+2001-06-16  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added sv to ALL_LINGUAS.
+
+2001-06-14  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-i18n.c, mate-i18nP.h: Removed.
+
+2001-06-13  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am: Install libmate.h in `$(includedir)/mate/2' to make it
+	consistent with MateComponent.
+
+	* libmate/libmate.h: You now use #include <libmate.h> to get this.
+
+2001-06-13  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.[ch]: Moved to libmate-extra/libmate/.
+	* libmate/mate-selector-factory.[ch]: Likewise.
+	* libmate/mate-async-context.[ch]: Likewise.
+
+2001-06-13  Martin Baulig  <baulig@suse.de>
+
+	You need to update your mate-common to get this working.
+
+	* configure.in: Use PKG_CHECK_MODULES from pkg-config to check for stuff.
+
+2001-06-12  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.c (mate_program_get_property): Implemented PROP_POPT_CONTEXT.
+
+2001-06-10  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-config.[ch]: Finally removed this. It's already in libcompat.
+
+	* libmate/mate-paper.[ch]: Copied to libcompat and don't compile it anymore. This belongs into
+	libmateprint or some printing library / application.
+
+	* libmate/mate-scores.[ch]: Moved to libcompat. This belongs into some games library, but not
+	into libmate.
+
+	* libmate/mate-remote.[ch]: Don't compile this for the moment.
+	(FIXME: What should we do with this code ? Since this was only a wrapper around
+	mate_config calls we don't really need to have this in libmate. However, IMO it'd be
+	nice to have this functionality in mate-exec).
+
+	* libmate/mate-i18n.c: #ifdef FIXME all mate_config_calls. The big FIXME is to decide whether
+	we still want/need this at all.
+
+	* libmate/mate-exec.c (mate_prepend_terminal_to_vector): Use matecomponent-config, not mate-config.
+
+2001-06-10  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Don't depend on MateConf anymore.
+
+2001-06-10  Martin Baulig  <baulig@suse.de>
+
+	* ChangeLog: This is the *top-level* ChangeLog file.
+	There are ChangeLog files in the libmate/ and monikers/ directory.
+
+2001-06-10  Cody Russell  <bratsche@mate.org>
+
+	* libmate/mate-preferences: Change preprocessor pasting from ##t## to just ## t.
+
+2001-06-10  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-ditem.c (mate_ditem_save): Implemented.
+
+2001-06-10  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-ditem.c: Rewrote this to use matecomponent-config with the new ditem moniker.
+	(the old version of this file is at CVS revision 1.40).
+
+	* libmate/mate-ditem.h (MateDesktopItemLoadFlags): Removed
+	MATE_DESKTOP_ITEM_LOAD_NO_DROP and MATE_DESKTOP_ITEM_LOAD_NO_OTHER_SECTIONS.
+	(mate_desktop_item_get_type): Changed return value to MATE_DesktopEntryType.
+	(mate_desktop_item_get_command): Now returns a `gchar *' which you need to g_free.
+	(mate_desktop_item_get_icon_path): Likewise.
+	(mate_desktop_item_get_name): Likewise.
+	(mate_desktop_item_get_comment): Likewise.
+	(mate_desktop_item_get_local_name): Likewise.
+	(mate_desktop_item_get_local_comment): Likewise.
+	(mate_desktop_item_get_attribute): New returns a `MateComponentArg *' (which you need
+	to matecomponent_arg_release).
+	(mate_desktop_item_set_attributes): Takes a `const MateComponentArg *' as argument.
+	(mate_desktop_item_get_local_attributes): Removed.
+	(mate_desktop_order_get_order): Now returns a `GSList *', you need to g_free the
+	strings in that list.
+	(mate_desktop_order_set_type): Takes a MATE_DesktopEntryType.
+
+2001-06-10  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-desktop.xmldb: Moved to ../monikers.
+
+2001-06-07  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added "az" to the languages list.
+
+2001-06-05  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-desktop.xmldb: New file.
+
+	* libmate/mate-url.c: Use matecomponent-config instead of mate-config.
+
+	* libmate/libmate-init.h (mate_get_config_database): New function.
+
+	* libmate/Makefile.am (libmate_headers): Don't install mate-config.h.
+	(libmate_src): Removed mate-triggers.c.
+
+	* libmate/libmate.h: Don't #include <libmate/mate-config.h>.
+
+2001-06-05  Martin Baulig  <baulig@suse.de>
+
+	* monikers/: New directory, but don't compile it by default.
+	We may move this into matecomponent-config or matecomponent-extra later on, but
+	for the moment it's easier for me to play around with it when it's
+	here.
+
+2001-06-05  Fatih Demir <kabalak@gtranslator.org>
+
+	* configure.in: Added "tr" to the languages list.
+
+2001-06-04  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c (mate_selector_add_event_supplier): New function.
+
+2001-06-03  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c (PROP_CONFIG_MONIKER, PROP_BROWSE_DIALOG_MONIKER): New properties.
+	(mate_selector_ensure_properties): New function. Sets default values for all
+	properties from the property bag.
+
+2001-06-03  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c (PROP_IS_FILE_SELECTOR): New tristate property.
+
+2001-06-03  Joe Shaw  <joe@ximian.com>
+
+	* configure.in: Get rid of the db check and --enable-prefer-db1
+
+2001-06-02  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-directory-filter.[ch]: Removed.
+
+	* libmate/mate-selector.c: Removed the MateDirectoryFilter stuff.
+
+2001-06-02  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c: Started to implement a new directory filter based on the
+	"filter-patterns" property in the property bag.
+
+	* libmate/mate-selector.c (PROP_PBAG_AUTO_ADD_TO_LIST, PROP_PBAG_ACTIVATE_ENTRY_ACTION,
+	PROP_PBAG_ADD_URI_MODE, PROP_PBAG_FILTER_PATTERNS): New properties.
+	(PROP_PBAG_AUTO_ADD_TO_LIST): Removed.
+	(impl_MATE_Selector_getURIList): Implemented.
+
+2001-06-02  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_mime_type): Add this here until matecomponent-moniker-extender-file.c
+	is fixed. You will be killed if you use this function !
+
+2001-06-01  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c (PROP_PBAG_MAX_HISTORY_LINES): Implemented.
+
+	* libmate/mate-selector.c (PROP_PBAG_PREVIEW_URI): New read-only property.
+
+	* libmate/mate-selector.c (PROP_PBAG_HISTORY): Implemented this property.
+	(PROP_PBAG_AUTO_ACTIVATE_ENTRY): New property.
+	(get_uri_handler, set_uri_handler): The default implementation is to save/return the
+	URI, so make sure to call the parent handler in derived classes.
+	(set_entry_text_handler): Call mate_selector_activate_entry if the
+	PROP_PBAG_AUTO_ACTIVATE_ENTRY property is set.
+	(activate_entry_handler): Add the entry text to the history.
+
+	* libmate/mate-selector.h (mate_selector_load_history, mate_selector_save_history): Removed.
+	(mate_selector_prepend_history, mate_selector_append_history): Removed the
+	`gboolean save' argument.
+
+2001-06-01  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c
+	(PROP_PBAG_ENTRY_TEXT, PROP_PBAG_HISTORY, PROP_PBAG_MAX_HISTORY_LINES): New properties
+	in the PropertyBag.
+
+2001-06-01  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c
+	(mate_selector_get_property_bag): Renamed to mate_selector_get_ambient_properties().
+	(PROP_PROPERTY_BAG): Renamed to PROP_AMBIENT_PROPERTIES.
+	(mate_selector_construct): matecomponent_object_add_interface() our MateComponent::EventSource and
+	our MATE::AsyncContext and create and matecomponent_object_add_interface() a new
+	MateComponent::PropertyBag.
+
+2001-06-01  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c
+	(mate_selector_set_vfs_filter): New function to set the MateVFSDirectoryFilter.
+	(check_uri_handler, scan_directory_handler): Do the MateVFS stuff here rather
+	than in mate-file-selector.[ch].
+
+	* libmate/mate-file-selector.[ch]: Removed.
+
+2001-05-31  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c: Implemented the new CORBA API.
+
+	* libmate/mate-selector.h (MateSelectorClass): Renamed "clear" to "clear_uri_list",
+	added "scan_directory" and added `gboolean directory_ok' to "check_uri".
+	(mate_selector_scan_uri, mate_selector_set_directory_filter): New functions.
+
+	* libmate/mate-async-context.c
+	(MateAsyncFunc): Added `gboolean completed' and `const MateComponentArg *result'.
+	(mate_async_context_get_handle_by_id): New function.
+	(mate_async_handle_set_result): New function.
+	(mate_async_handle_call_async_func): New function.
+	(mate_async_handle_get_id): New function.
+
+	* libmate/mate-file-selector.[ch]: Derive from MateDirectoryFilter.
+
+	* libmate/mate-selector-dialog.[ch]: Removed.
+
+2001-05-30  Christophe Merlet  <redfox@eikonex.org>
+
+	* configure.in: Added fr to $ALL_LINGUAS.
+
+2001-05-25  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.[ch]: Merged `check_filename' and `check_directory'
+	into `check_uri' and `add_file' and `add_directory' into `add_uri'.
+
+2001-05-25  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-async-context.h (MATE_ASYNC_TYPE_*): Removed.
+
+2001-05-25  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h, mate-selectorP.h: Moved the async stuff to
+	mate-async-context.[ch].
+
+	* libmate/mate-async-context.[ch]: New files.
+
+	* libmate/mate-directory-filter.[ch]: New files.
+
+2001-05-23  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector-factory.c (create_selector_handler): Read values
+	from the PropertyBag and set the GObject properties.
+
+Mon May 21 23:12:04 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.[ch]: wipe all the standard incomformat stuff, clean
+	  up a little bit and start on supporting the standard.  Currently
+	  compiles but doesn't all work, that is launching doesn't work.
+	  Also wipe all KDE vs. MATE stuff, now the entry is converted to
+	  standard upon load, making life easier on the rest of the functions
+
+2001-05-21  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector-factory.c: Create a MateComponentItemHandler so that
+	you can create a new MateSelector entirely with monikers.
+
+	* libmate/mate-selector-dialog.[ch]: New files.
+
+2001-05-21  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.c (MATE_TYPE_TRISTATE): New enum type.
+	(PROP_WANT_BROWSE_BUTTON): Use the new tristate enum.
+	(PROP_WANT_CLEAR_BUTTON, PROP_WANT_DEFAULT_BUTTON): Likewise.
+	(PROP_WANT_ENTRY_WIDGET): New tristate property.
+	(PROP_WANT_SELECTOR_WIDGET): New tristate property.
+	(PROP_WANT_BROWSE_DIALOG): New tristate property.
+	(PROP_WANT_DEFAULT_BEHAVIOUR): Removed.
+	(PROP_USE_DEFAULT_ENTRY_WIDGET): Removed.
+	(PROP_USE_DEFAULT_SELECTOR_WIDGET): Removed.
+	(PROP_USE_DEFAULT_BROWSE_DIALOG): Removed.
+
+Mon May 21 00:43:48 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem-entry.[ch]: to be consistent with everything else g*
+	  return the item from the _ref function when we do that.  Also
+	  update the docs for this of course.
+
+Sun May 20 22:46:20 2001  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c: fix get_translated_string wrt defaults, the old
+	  implementation just didn't work AT ALL if you passed in a default,
+	  this appends the languages to the keys rather then onto the end
+	  of the entire path.
+
+2001-05-20  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h
+	(mate_selector_construct): Added `MateComponent_PropertyBag pbag' argument.
+	(mate_selector_get_property_bag): New function.
+	(mate_selector_get_history_id): Removed.
+	(mate_selector_set_history_id): Removed.
+
+	* libmate/mate-selector.c (PROP_HISTORY_ID): Removed this property.
+	(PROP_PROPERTY_BAG): New property.
+
+	* libmate/mate-selector-factory.[ch]: New files.
+
+2001-05-18  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Optionally depend on libmatesupport (from
+	the libmatebase module).
+
+	* acconfig.h (HAVE_MATESUPPORT): Added.
+
+	* libmate/libmate-init.c: #include <matesupport.h> if we
+	HAVE_MATESUPPORT.
+
+2001-05-16  Mark Murnane  <Mark.Murnane@ireland.sun.com>
+
+	Changes to eliminate any potential problems on 64-bit platforms.
+
+	* libmate/mate-config.c (mate_config_assemble_vector): Modified type
+	of len to match return type of strlen().
+
+	* libmate/mate-ditem.c (replace_percentsign): Modified type of start,
+	string_len and ps_len as they are used in strlen() operations.
+	(strip_the_amp): Ditto for exec_len.
+	(stripstreq): Ditto for len2.
+
+	* libmate/mate-exec.c (mate_execute_async_with_env_fds): Modiifed type
+	of res to gssize to match return type of read() and write() system
+	calls.
+
+	* libmate/mate-moz-remote.c (mozilla_remote_test_window): Cast
+	hostname to const char* to match g_strcasecmp's signature.
+
+	* libmate/mate-paper.c	(paper_name_compare): Modified return type
+	from int to long to match return type of g_strcasecmp.
+	(unit_name_compare): Ditto
+	(unit_abbrev_compare): Ditto
+
+	* libmate/mate-program.c (mate_program_install_property): Cast
+	parameter #3 of both calls to g_param_spec_set_qdata.
+
+	* libmate/mate-score.c (log_score): Modified type of counter i to
+	match return from strlen().
+
+	* libmate/mate-selector.c (_mate_selector_add_history): Cast
+	parameter #3 to GCompareFunc.
+
+2001-05-15  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_vfs_pre_args_parse): Call mate_vfs_init()
+	and use this as pre-args-parse function for the mate-vfs module.
+
+2001-05-15  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am (MATECORBA_IDL): Use @MATECORBA_IDL@ rather than
+	hardcoding `matecorba-idl'.
+
+2001-05-10  Martin Baulig  <baulig@suse.de>
+
+	* doc/depends.dia: Moved this to the mate-2-plan module.
+
+2001-05-08  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h (mate_selector_get_uri): Removed.
+	(mate_selector_set_uri): Removed.
+
+	* libmate/mate-selector.c (impl_MATE_Selector_getClientID): Implemented.
+	(impl_MATE_Selector_getURI, impl_MATE_Selector_setURI): Likewise.
+
+2001-05-07  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h (MateSelectorClass): Removed "do_construct".
+	(mate_selector_do_construct): Removed.
+	(mate_selector_construct): New function.
+	(mate_selector_bind_to_control): Made 2nd argument a MateComponentObject.
+
+2001-05-06  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-preferences.c: Use the new matecomponent-property-bag-client API.
+
+2001-05-03  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-file-selector.[ch]: Moved here from libmateui.
+	(MateFileSelector): Derive this directly from MateSelector.
+
+2001-05-02  Michael Meeks  <michael@ximian.com>
+
+	* libmate/libmate-init.c (libmatecomponent_class_init): kill MateComponentObjectClietn.
+	(mate_program_get_config_database): split out (get_db): into here
+	never cut and paste code.
+	(mate_program_get_config_database),
+	(mate_program_get_desktop_config_database): upd.
+	re-order to remove redundant prototypes.
+
+2001-05-02  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am: Added explicit dependency
+	`libmatetypebuiltins.h libmatetypebuiltins.c: $(CORBA_SOURCE)'.
+
+2001-05-01  Michael Meeks  <michael@ximian.com>
+
+	* libmate/Makefile.am: fixup corba dependencies more genericaly, add
+	cleanfiles.
+
+2001-05-01  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-preferences.h (MATE_PAD, MATE_PAD_SMALL, MATE_PAD_BIG):
+	Moved these #defines here from mate-uidefs.h.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h (mate_selector_get_entry_text): Removed.
+	(mate_selector_set_entry_text): Removed.
+	(mate_selector_activate_entry): Removed.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h (mate_selector_bind_to_control): New function.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-selector.h (MateSelector): Made this a MateComponentObject.
+	(MATE_TYPE_SELECTOR_ASYNC_HANDLE): New #define.
+	(mate_selector_async_handle_get_type): New function.
+	(MATE_TYPE_SELECTION_MODE): New #define.
+	(mate_selection_mode_get_type): New function.
+
+	* libmate/mate-selector.c: Use GObject and removed all GTK+ stuff.
+	(PROP_ENTRY_WIDGET, PROP_SELECTOR_WIDGET, PROP_BROWSE_DIALOG):
+	Removed these properties.
+
+	* libmate/mate-selector.[ch], mate-selectorP.h: Moved here from libmateui.
+
+	* libmate/libmate.h: #include <libmate/mate-selector.h>.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am (libmate_2_la_SOURCES): Added the CORBA sources.
+	(libmate_headers): Install Mate.h.
+
+	* libmate/libmate.h: #include <libmate/Mate.h>.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-marshal.list, mate-marshal-main.c: Moved here
+	from libmateui.
+
+	* libmate/Makefile.am: Create mate-marshal.[ch] from mate-marshal.list.
+
+	* libmate/libmate.h: #include <libmate/mate-marshal.h>.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am: Install mate-selectorP.h.
+
+	* libmate/mate-selector.h (mate_selector_get_entry_text): Put this back.
+	(mate_selector_set_entry_text): Likewise.
+	(mate_selector_activate_entry): Likesise.
+	(mate_selector_get_uri, mate_selector_set_uri): Likewise.
+
+2001-04-30  Martin Baulig  <baulig@suse.de>
+
+	* idl/: New directory.
+
+2001-04-29  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am: Use the new glib-mkenums instead of our own
+	mate-makeenums.pl and mate-maketypes.awk.
+
+	* libmate/libmatetypebuiltins.[ch]: New generated files; provide a
+	type installation routine for each enum and flags type.
+
+	* libmate/mate-program.c, libmateP.h (libmate_type_init): This
+	function no longer exists.
+
+2001-04-29  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.[ch]
+	(MATE_PARAM_DESKTOP_CONFIG_DATABASE): New property.
+	(MATE_PARAM_DESKTOP_CONFIG_MONIKER): Likewise.
+	(mate_program_get_desktop_config_database): New function.
+
+	* libmate/mate-preferences.[ch]: New files; this has the same API than
+	libmateui/mate-preferences.[ch], but it's using matecomponent-conf
+	internally.
+
+2001-04-29  Martin Baulig  <baulig@suse.de>
+
+	* configure.in (REBUILT): Added this; copied from gtk+.
+
+2001-04-24  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am (libmate_headers): Added mate-i18n.h.
+
+2001-04-23  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.h (MateModuleConstructor): Removed typedef.
+	(MateModuleClassInitHook): New typedef.
+	(MateModuleInfo): Removed `constructor' and added `class_init'
+	and `instance_init' functions.
+	(mate_program_module_load): Return a `const MateModuleInfo *'.
+	(mate_program_init): Added `MateModuleInfo *' argument.
+	(mate_program_initv): Added `GType' and `MateModuleInfo *'
+	arguments.
+
+	* libmate/mate-program.c (mate_program_constructor): Removed.
+	(mate_program_initv): Load and initialize all modules based
+	on the `MateModuleInfo *' argument; for the moment, we don't
+	use the MATE_PARAM_MODULE_INFO and MATE_PARAM_MODULES
+	properties.
+
+	* libmate/libmate-init.h (mate_mateconf_module_info): Removed.
+	(mate_program_get_mateconf_client, MATE_PARAM_MATECONF_CLIENT): Removed.
+	(mate_program_get_config_database): New function.
+	(MATE_PARAM_CONFIG_DATABASE, MATE_PARAM_CONFIG_MONIKER):
+	New properties.
+
+	* libmate/libmate-init.c: Don't initialize MateConf.
+
+2001-04-23  Dietmar Maurer  <dietmar@ximian.com>
+
+	* libmate/test-libmate.c: replace #include <matecomponent/libmatecomponent.h> with
+	#include <libmatecomponent.h>
+
+2001-04-22  Martin Baulig  <baulig@suse.de>
+
+	* libmate/test-libmate.c (test_matecomponent): Added little matecomponent-conf test.
+
+2001-04-22  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-2.0.pc.in: We don't need libmatebase anymore.
+
+	* libmate/libmate-init.c (mate_oaf_pre_args_parse): Call g_thread_init().
+
+2001-04-22  Dietmar Maurer  <dietmar@ximian.com>
+
+	* libmate/Makefile.am (INCLUDES): move LIBMATECOMPONENT_CFLAGS before
+	OAF_CFLAGS, because OAF_CFLAGS include /usr/local/include
+
+2001-04-21  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am (INCLUDES): Use `LIBMATE_*DIR' instead of `MATE*DIR'.
+
+	* libmate/mate-program.[ch]: Put this back.
+
+	* libmate/mate-i18n.h: Put this back.
+
+	* libmate/*.[ch]: Don't #include <libmatebase/mate-portability.h>.
+
+2001-04-21  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Added nn and no to ALL_LINGUAS.
+
+2001-04-20  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_oaf_module_info): Put this back.
+	(libmatecomponent_module_info): Depend of mate_oaf_module_info; moved
+	oaf_popt_options to mate_oaf_module_info.
+
+2001-04-18  Michael Meeks  <michael@ximian.com>
+
+	* libmate/libmate-init.c (mate_oaf_module_info): kill,
+	(libmatecomponent_module_info): Update.
+
+2001-04-18  Michael Meeks  <michael@ximian.com>
+
+	* *.[ch]:
+
+	s/\#include[ \t]*<libmatebase\/mate-defs.h>//;
+	s/BEGIN_MATE_DECLS/G_BEGIN_DECLS/g;
+	s/END_MATE_DECLS/G_END_DECLS/g;
+
+2001-04-18  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_oaf_module_info): Put this back.
+	(libmatecomponent_module_info): Put this here since Michael doesn't want to
+	have it in MateComponent.
+
+2001-04-17  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_oaf_module_info): Removed; this is in libmatecomponent.
+	(libmate_module_requires): Require libmatecomponent.
+
+	* libmate/libmate-2.0.pc.in: Depend on libmatecomponent-2.
+
+2001-04-17  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-ditem.c (mate_desktop_item_drop_uri_list): Don't call
+	mate_uri_extract_filename(), just use the URI as-is.
+
+2001-04-17  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Unconditionally depend on libmatecomponent; removed the
+	`HAVE_LIBMATECOMPONENT' automake conditional.
+	(LIBMATE_EXTRA_DEPS): Removed.
+
+2001-04-16  Martin Baulig  <baulig@suse.de>
+
+	* configure.in (HAVE_LIBMATECOMPONENT): #define this if we have libmatecomponent.
+
+2001-04-15  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (libmate_loadinit): Don't initialize threads here;
+	this has already been done by libmatebase.
+
+2001-04-15  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_program_get_mateconf_client): Moved this function
+	here; it was previously in mate-program.c, but mate-program.c is now
+	in libmatebase and thus cannot use mateconf anymore.
+
+	* libmate/libmate-init.h: New public header file.
+	(MATE_PARAM_MATECONF_CLIENT): Moved this #define here.
+	(mate_program_get_mateconf_client): Provide external declaration.
+	(mate_oaf_module_info, mate_mateconf_module_info, mate_vfs_module_info,
+	libmate_module_info): Moved external declarations here from libmate.h.
+
+	* libmate/libmate.h: #include <libmate/libmate-init.h>.
+
+2001-04-15  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-2.0.pc.in: Depend on libmatebase-2.
+
+2001-04-15  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.[ch]: Removed; this is now in libmatebase/libmatebase.
+
+	* libmate/mate-defs.h, mate-i18n.h: Removed; this is now in libmatebase/libmatebase.
+
+	* libmate/mate-i18nP.h: Moved all the external declarations from mate-i18n.h here.
+
+	* libmate/mate-portability.h.in: Removed; this is now in libmatebase/libmatebase.
+
+2001-04-14  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.h (MATE_PARAM_MATECONF_CLIENT): New MateProgram property.
+	(mate_program_get_mateconf_client): New convenience function to return the
+	MateProgram's MATE_PARAM_MATECONF_CLIENT property.
+
+	* libmate/mate-program.c (mate_program_get_property): Fixed a typo to make this
+	actually work.
+
+	* libmate/libmate-init.c (mate_mateconf_constructor): New constructor function to
+	install the MateProgram's MATE_PARAM_MATECONF_CLIENT property.
+	(mate_mateconf_get_property, mate_mateconf_post_args_parse): Implement that
+	property; when creating a new MateProgram instance we set its
+	MATE_PARAM_MATECONF_CLIENT property to mate_conf_client_get_default().
+
+2001-04-13  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-init.c (mate_oaf_module_info, mate_mateconf_module_info):
+	Provide MateModuleInfo structs for OAF and MateConf.
+	(libmate_module_requirements): Depend on OAF and MateConf.
+
+2001-04-13  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-2.0.pc.in: Added @LIBMATE_EXTRA_DEPS@ to the Requires:.
+
+2001-04-13  Martin Baulig  <baulig@suse.de>
+
+	NOTE: You must update your mate-common to make this work !
+
+	* configure.in: Optionally depend on libmatecomponent and define
+	`HAVE_LIBMATECOMPONENT' automake conditional.
+	(LIBMATE_EXTRA_DEPS): New AC_SUBST'ed variable for our .pc file.
+
+2001-04-12  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.h (MateModuleHook): The `MateModuleInfo' argument
+	is deep-copied, so you can actually modify it.
+
+2001-04-12  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate.h (libmate_module_info): Added external declaration.
+
+	* libmate/matelib-init.c: Renamed to libmate-init.c.
+
+	* libmate/matelib-init.h: Removed.
+
+2001-04-12  Martin Baulig  <baulig@suse.de>
+
+	* configure.in (--disable-deprecated): Put back this command
+	line argument; also define `EXCLUDE_DEPRECATED' automake
+	conditional.
+
+	* acconfig.h (MATE_EXCLUDE_DEPRECATED_SOURCE): Added.
+	(MATE_EXCLUDE_DEPRECATED): Added.
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-util.h (mate_libdir_file, mate_datadir_file,
+	mate_sound_file, mate_pixmap_file, mate_config_file,
+	mate_help_file, mate_app_help_file): Removed.
+	(mate_unconditional_*_file): Removed.
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-config.c (access_config_extended): Use
+	mate_program_locate_file() instead of mate_config_file().
+
+	* libmate/mate-fileconvert.c (gfc_read_FileConverters): Use
+	mate_program_locate_file().
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.c (mate_program_locate_file): Return NULL if
+	`ret_locations' is given.
+
+	* libmate/mate-program.c (mate_program_initv): Call libmate_type_init ()
+	instead of g_type_init (), moved g_type_init () call into
+	libmate_type_init ().
+
+	* libmate/libmateP.h (libmate_type_init): Added function prototype.
+
+	* libmate/Makefile.am: Create libmate.defs and the type stuff using
+	mate-maketypes.awk and mate-makeenums.pl.
+
+	* libmate/libmate-boxed.defs: New file.
+
+	* libmate/libmatetypes.c: New file.
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate.h: Use #include <libmate/*.h> instead of "libmate/*.h"
+	and #include <libmate/mate-ditem.h>.
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-util.h (PATH_SEP, PATH_SEP_STR): Moved to libmateP.h.
+	(g_is_image_filename): Removed function prototype.
+
+	* libmate/mate-util.h (g_file_exists): Removed; use g_file_test() instead.
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* doc/Porting-1.0-2.0.txt: Added info about the `mate_*_file'
+	functions.
+
+2001-04-11  Martin Baulig  <baulig@suse.de>
+
+	* libmate/: This has now been copied over in CVS. There's a
+	MATE_LIBS_MODULE_SPLIT tag which refers to the latest version
+	in mate-libs.
+
+2001-03-24  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-2.0.pc.in: Depend on mateconf-2.0.
+
+2001-03-24  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Require MateCORBA >= 2.3.90, not 2.5.7.
+
+2001-03-24  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in (DB_LIB): It's mate-vfs-2.0, not matevfs-2.0
+
+2001-03-21  Martin Baulig  <baulig@suse.de>
+
+	* libmate/Makefile.am: We're now in the new libmate-2 module.
+	(bin_PROGRAMS): Don't build mate-moz-remote for the moment since
+	it depends on X.
+
+2001-03-21  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.h (MATE_PARAM_POPT_FLAGS, MATE_PARAM_POPT_CONTEXT):
+	New properties.
+
+	* libmate/mate-program.[ch]
+	(mate_program_module_register, mate_program_module_registered,
+	mate_program_module_load): Removed the `MateProgram *' argument.
+	(mate_program_install_property): First argument is now
+	`MateProgramClass *'.
+	(MateModuleInfo): The `init_pass' function no longer has a
+	`MateProgram *' argument, added `constructor' function.
+
+2001-03-21  Martin Baulig  <baulig@suse.de>
+
+	* doc/Porting-1.0-2.0.txt: Added the libmate section from
+	our porting document here.
+
+2001-03-21  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Set package name to `libmate2', looks better
+	than `libmate-2'.
+
+2001-03-21  Martin Baulig  <baulig@suse.de>
+
+	configure.in: Added awk check; use AC_PATH_PROGS in perl check.
+
+	* tools/: New directory.
+
+	* doc/: New directory.
+
+2001-03-20  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-program.[ch] (mate_program_install_property): New
+	function; allows you to add a property to the MateProgramClass.
+
+	* libmate/mate-program.h (MateFileDomain): New enum.
+	(MATE_PARAM_MATE_PATH): New property.
+	(mate_program_locate_file): New function; this is a slightly
+	modified version of mate_file_locate().
+
+2001-03-20  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-util.h (mate_*_file): Use mate_program_locate_file().
+	(mate_file_domain_*): Removed.
+	(g_file_exists): #define this to use g_file_test().
+
+	* libmate/mate-util.c (mate_file_locate): Removed.
+	(g_file_exists): Removed.
+
+2001-03-20  Martin Baulig  <baulig@suse.de>
+
+	* libmate/matelib-init.[ch] (mate_program_get_human_readable_name):
+	Moved to mate-program.[ch].
+
+	* libmate/matelib-init.h (LIBMATE_PARAM_*, libmate_param_*):
+	Removed #defines and external declarations. There are corresponding
+	`MATE_PARAM_*' #defines in mate-program.h which are the names
+	of MateProgram's properties.
+
+	* libmate/test-libmate.c: Simple test program.
+
+	* libmate/matelib-init2.[ch]: Removed, this is now mate-program.[ch].
+
+	* libmate/mate-program.[ch]: New files. This implements a `MateProgram'
+	GObject; most of the code is copied from matelib-init2.c, but
+	removed all the MateAttribute stuff and use GParam's.
+
+2001-03-05  Martin Baulig  <baulig@suse.de>
+
+	* configure.in: Enable NLS again.
+	* po/POTFILES.in: New file; currently empty.
+
+	* configure.in: Set package name to `libmate-2-martin' and
+	version number to 1.96.0.
+
+2001-02-28  Mikael Hallendal  <micke@codefactory.se>
+
+	* libmate/libmate/: Fixed includes (added glib.h and mate-defs.h
+	to the files needing it. Those are: mate-config.h, mate-ditem.h,
+	mate-exec.h, mate-fileconvert.h, mate-i18n.h, mate-regex.h,
+	mate-remote.h, mate-score.h, mate-sound.h, mate-triggers.h,
+	mate-url.h, mate-util.h, mate-init.h).
+
+2001-02-26  jacob berkman  <jacob@ximian.com>
+
+	* libmate/mate-url.c: default to using caja for help browsing if it
+	is available
+
+2001-02-23  Martin Baulig  <baulig@suse.de>
+
+	* libmate/libmate-2.0.pc.in: New file.
+	* libmate/Makefile.am: Install pkg-config file.
+
+2001-02-15  Darin Adler  <darin@eazel.com>
+
+	* libmate/matelib-init2.c: (mate_program_preinita):
+	Mark "Help options" with a N_ so it can be translated.
+
+2000-12-26  Miguel de Icaza  <miguel@helixcode.com>
+
+	* libmate/mate-moz-remote.c (main): Give preference to mozilla when
+	autodetecting.
+
+2000-12-09  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-dump.c, mate-gen-mimedb.c, mate-magic.c, mate-magic.h,
+	mate-metadata.c, mate-metadata.h, mate-mime-info.c,
+	mate-mime-info.h, mate-mime.c, mate-mime.h: Removed.
+
+2000-12-09  Martin Baulig  <baulig@suse.de>
+
+	* libmate/matelibs-init.c (libmate_loadinit): New static function; add
+	this as `loadinit' function to libmate's MateModuleInfo and
+	call g_thread_init() here.
+
+2000-12-09  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-i18n.c: Comment out g_i18n_get_language_list() and
+	g_i18n_guess_category_value() until someone with a clue has
+	had a look at it.
+
+2000-11-22  Martin Baulig  <martin@home-of-linux.org>
+
+	* libmate/mate-util.h (g_file_test): Removed.
+
+	* libmate/Makefile.am: Use $(MATESUPPORT_INCS) and $(MATESUPPORT_LIBS).
+
+2000-09-28  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-history.[ch]: Moved to libcompat.
+
+Thu Sep 28 03:34:52 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c, mate-moz-remote2.c, mate-util.c, matelib-init2.c:
+	  use g_getenv instead of getenv
+
+Sun Sep 24 15:32:20 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-exec.[ch]:  Improve some docs, and add function to
+	  deal with terminals according to user prefs.  Also some stylistic
+	  changes.
+
+	* libmate/mate-ditem.c:  Use the mate-exec function for getting the
+	  terminal command line
+
+	* libmate/mate-portability.h.in:  remove the alloca thing as g_alloca is
+	  apparently now in glib.  The file is now empty and perhaps
+	  should be removed, unless there's further need for it.
+
+Sat Sep 23 17:28:25 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-i18n.[ch]:  Add mate_i18n_push_c_numeric_locale and
+	  mate_i18n_pop_c_numeric_locale functions that do the job of
+	  pushing and poping "C" locale to make float<->string conversions
+	  work right in other locales.
+
+	* libmate/mate-scores.c, mate-config.c: use the above
+
+	* libmate/mate-ditem.c: include mate-url.h to avoid warning
+
+Fri Sep 15 18:47:06 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.[ch]: Launch Type=URL entries, and slight
+	  cosmetic updates
+
+Thu Sep 14 18:45:00 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: use g_path_get_dirname instead of g_dirname
+
+2000-09-09  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-util.c (g_copy_vector): Allow the argument to be NULL.
+
+Fri Sep 01 19:13:15 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-url.[ch]: Use GError instead of homebrewed error return
+
+2000-08-31  Martin Baulig  <baulig@suse.de>
+
+	* libmate/mate-i18n.c (mate_i18n_get_language_list): Mark this as
+	deprecated and call g_i18n_get_language_list().  Moved most
+	stuff from this file into glib; you need the glib-2.0.patch
+	in the patches/ directory in order to use it.
+
+	* libmate/matelib-init.c: Initialize the mate-vfs module.
+
+Wed Aug 30 22:22:47 2000  George Lebl <jirka@5z.com>
+
+	* libmate/Makefile.am: cosmetic cleanups done in search of errors
+
+Thu Aug 24 03:11:54 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: use g_path_get_basename instead of g_basename
+
+Thu Aug 24 02:17:20 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: remove g_hash_table_freeze calls as freeze/thaw
+	  on hash tables is deprecated
+
+Thu Aug 24 01:45:11 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mime.c: remove include of gtk/gtk.h
+
+	* libmate/libmate.h: remove mate-dentry.h as it's in libcompat now
+
+	* libmate/mate-init2.c, mate-ditem.c: whoops, it's g_path_get_basename not
+	  g_path_basename
+
+2000-08-07  Martin Baulig  <baulig@suse.de>
+
+	Moved all deprecated files (i.e the ones that were linked into
+	libmate-1-compat and not into libmate) into their own
+	subdirectory (../libcompat).
+
+	* libmate/mate-dentry.c, mate-dentry.h, mate-help.c, mate-help.h,
+	mate-popt.c, mate-popt.h, mate10-compat.c, mate10-compat.h,
+	libmate-compat-1.0.h: Moved to ../libcompat/.
+
+	* libmate/mate-ditem.c: #include <popt.h> directly and not the deprecated
+	"mate-popt.h"
+	* libmate/mate-url.c: Likewise.
+
+2000-07-31  Karl Eichwalder  <ke@suse.de>
+
+	* libmate/mate-moz-remote2.c: Add missing dots.
+
+2000-07-26  John Sullivan  <sullivan@eazel.com>
+
+	* libmate/mate-sound.c (use_sound): Moved this function out of a
+	#ifndef HAVE_LIBAUDIOFILE and into #ifdef HAVE_ESD.
+	This fixes the build breakage caused earlier today by Miguel's change.
+
+2000-07-16  Jaka Mocnik  <jaka@barbara>
+
+	* libmate/mate-help.h (mate_help_goto, mate_help_pbox_goto): actually
+	add the const stuff.
+
+Fri Jul 14 01:41:05 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-dentry.[ch]: s/int/gboolean/
+
+	* libmate/mate-help.[ch]: add const stuff
+
+	* libmate/mate-history.[ch]: add const stuff and MateHistoryEnt is a
+	  typedef to the structure and NOT the pointer as this is
+	  inconsistent with the rest of mate and plain ugly
+
+	* libmate/mate-mime-info.[ch]: const stuff
+
+	* libmate/mate-regex.h: use a standard looking typedef for the structure
+
+	* libmate/mate-score.[ch]: const stuff
+
+	* libmate/mate-url.[ch]: MateURLDisplayContext again a typedef to
+	  the structure NOT the pointer so that we are consistent again
+
+	* libmate/matelib-init.[ch], matelib-init2.[ch]: const stuff
+
+Wed Jul 12 02:25:14 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c, mate-ditem.c, mate-i18n.[ch], mate-mime-info.c,
+	  mate-paper.[ch]:  Where an internal string or list is returned,
+	  make the return constant.  mate_i18n_get_preferred_language is
+	  not constant, so remove the "const"
+
+	* libmate/mate-mime-info.c: before reversing the language list, make a copy
+
+	* libmate/gnop-util.c: use g_strdup and not strdup
+
+2000-07-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* libmate/mate-sound.c (mate_sound_init): Store the esound hostname
+	here.
+	(mate_sound_play): Use the use_sound routine here.
+	(mate_sound_sample_load): ditto.
+	(use_sound): Delayed initialization of sound.
+
+2000-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* libmate/mate-score.c (print_ascore) : setlocale returns a static buffer.
+	  Copy it to safety.  Set the locale AFTER storing the current
+	  setting.
+	(log_score) : Ditto.
+	(mate_score_get_notable) : Ditto.
+
+	* libmate/mate-config.c (_mate_config_get_float_with_default): Ditto.
+	(_mate_config_set_float) : Ditto.
+
+Mon Jun 12 18:40:33 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-util.c: update the comments.  Just to make gtk-doc work on
+	  g_file_test, and take out the "will be removed thing on
+	  g_file_exists as it won't
+
+Fri May 26 12:24:02 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-score.c: Applied patch from Dennis Bjorklund
+	  <dennisb@cs.chalmers.se> to fix another unprotected atof with
+	  setting locale to "C" and then back.
+
+2000-05-27  Miguel de Icaza  <miguel@helixcode.com>
+
+	* libmate/mate-exec.c (mate_execute_async_with_env_fds): Invoke setsid()
+	before execing the child process, as some applications terminate
+	by doing kill (0, SIGTERM) (mgp), so when we launch them from the
+	file manager they get the SIGTERM Message as well
+
+2000-05-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* libmate/mate-config.c (mate_config_iterator_next): Implement as
+	documented.
+
+Sat May 06 16:46:13 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c (_mate_config_get_float_with_default)
+	  (_mate_config_set_float): setlocae for LC_NUMERIC to "C" and
+	  then back to original locale when reading and writing floats
+	  so that we can read/write floats over different locales
+
+	* libmate/mate-score.c (mate_get_score_file_name) (log_score):
+	  The same as above.  Fixes bugs #10404, #10257
+
+Fri May 05 20:53:11 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-url.c: mate_url_show had it's return value inversed, duh!
+
+Fri May 05 19:22:30 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: include mate-i18nP.h rather then mate-i18n.h
+
+	* libmate/mate-url.[ch]: add an error argument to mate_url_show_full
+	  Fix one memory leak and one GList corruption bug.  Made it use
+	  mate_exec_async rather then shell.  It will now correctly handle
+	  URIs with weird characters and no longer uses printf format strings
+	  taken from files.  When the handler is mate-moz-remote, it
+	  first checks if the program ('netscape' or whatever mate-moz-remote
+	  uses) actually exists.
+
+	* libmate/matelib-init2.c: fix a warning
+
+Sun Mar 26 13:31:28 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.[ch],parse-path.cP: return TRUE/FALSE from the sync
+	  functions indicating an error in writing to a file, and do
+	  s/gint/gboolean/ a bit
+
+	* libmate/mate-ditem.[ch]: return TRUE/FALSE from the _save function to
+	  indicate an error in saving
+
+Mon Mar 20 21:10:53 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: if no "C" locale setting found for name, set it
+	  to the filename or "Unknown" when saving.  This prevents problem
+	  with created files.  Also eliminate a possible buffer overrun.
+
+Mon Mar 20 20:36:35 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c: Apply patch from miguel made to mate-libs-1-0,
+	  fix segfault when loading illegal files by correctly setting state
+	  after ignore.  also correctly set state after premature end of line
+
+	* libmate/mate-dentry.c: when saving names and comments, save them to the
+	  default (no language) first just in case there was no setting,
+	  fixes first part of #7300
+
+2000-04-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* libmate/mate-fileconvert.c (gfc_read_FileConverters): Do not depend on
+	initialization sequence to run.
+
+	* libmate/parse-path.cP (parse_path): Do not depend on the initialization sequence
+
+2000-02-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* libmate/mate-util.c (g_concat_dir_and_file): dir or file being NULL is
+	an error.
+
+2000-02-18 Elliot Lee <sopwith@redhat.com>
+	* libmate/mate-dentry.c: Try just looking for KDE icons in various common places instead of using
+	KDE_ICONDIR define.
+
+Sun Jan 30 12:49:59 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: fix two double free errors by applying a patch from
+	  Peter Wainwright <prw@wainpr.demon.co.uk> and fix a small leak
+	  in _unref
+
+Thu Jan 20 00:07:37 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mime.[ch]: add a function mate_uri_extract_filename,
+	  which will take a single uri and return a newly allocated
+	  string with a local filename or NULL if it's not file: and
+	  local.  Use this in extract_filenames so that we actually
+	  get real files for things that specify hostname too
+
+	* libmate/mate-ditem.c: use mate_uri_extract_filename to test for
+	  something being a local file and use it to extract the filename
+	  itself.  If we actually append ".directory" and read the file,
+	  stat it again to get the correct mtime.  Store full path in
+	  location.  Make sure the type is "Directory" if and only if
+	  the loaded file is a ".directory".  Recognize "<dir>/.directory"
+	  as a directory file as well.  Add _() around the g_warning
+	  messages.  Fix .order file reading by opening the right file.
+
+Tue Jan 18 00:30:56 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-util.c: (g_file_test) make the tests work sanely again.
+	  This had been changed to test an and of the conditions which
+	  doesn't make sense as something can never be a dir, a regular
+	  file and a link at the same time.  So it now agains properly
+	  tests an OR of the conditions, which also fixes
+	  mate-pixmap-entry and anything else that used the function.
+
+Mon Jan 17 14:21:09 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.c: test for mate-terminal's existence and fall back
+	  to xterm otherwise
+
+Sun Jan 16 02:43:14 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.[ch]: Add a basic "Type" attribute to the structure and
+	  mate_desktop_item_get_type/set_type accessors
+	  Get and store other sections found in the file.
+	  Fix recognition of files by looking at all lines for the initial
+	  section header.
+	  Add a MATE_DESKTOP_ITEM_LOAD_NO_OTHER_SECTIONS flag that will
+	  inhibit reading of other sections from files to speed up loading.
+	  Use mate_config_sync_file and not mate_config_sync
+	  Remove the tree reading/writing support, it's not justifiable
+	  for this to be in ditem, we need a separate simpler loader for
+	  trees.
+	  Add get_order/set_order functions for getting and setting the
+	  order of items for a directory ditem.
+	  Still read and store keys that have an empty value.
+	  Store the entire location in location, not just the basename.
+	  The _get_languages function gets a union of all languages from
+	  name and comment.
+	  The _save function sets the location to the new location.
+	  The _get_file_status no longer takes 'under' as we store the entire
+	  Actually start a terminal if we need to.
+	  Check the type (if set) before a launch (assume
+	  "KonsoleApplication" for kde things is an application for the
+	  terminal)
+	  Make world peace possible.
+	  Fix getting the terminal flag
+	  Allow clearing of names, comments and attributes by passing
+	  nulls as the new value.
+	  Allow mass clearing of names and comments.
+	  For _set_name and _set_comment default language to "C" if NULL.
+
+Sat Jan 15 00:53:48 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-dentry.c, mate-exec.c, mate-moz-remote2.c, mate-util.c:
+	  fix minor compiler warnings and a sizeof doesn't necessairly
+	  return int error.
+
+Thu Jan 14 23:56:08 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mime.c: make a local function static and fix a sizeof
+	is integer assumption when printing with g_message.
+
+	* libmate/mate-url.c: fixed two sizeof(pointer) == sizeof(int) assumtions
+
+2000-01-13  Havoc Pennington  <hp@redhat.com>
+
+	* libmate/matelib-init2.c (mate_program_module_register): Dump
+	bad-module-version message to stderr instead of stdout, and
+	then exit(1) (we can't really continue, it will segfault
+	most of the time no doubt)
+	(mate_program_version_check): reverse the version args
+	to rpmvercmp
+
+Thu Jan 13 14:49:03 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-i18n.c: fixup the inline doc to be more clear that the
+	  list returned from mate_i18n_get_language_list should not be
+	  freed at all.
+
+2000-01-11  Havoc Pennington  <hp@redhat.com>
+
+	* libmate/matelib-init2.c: Add MATE_PARAM_HUMAN_READABLE_NAME
+	(mate_program_get_human_readable_name): convenience function
+	to get it
+
+Sat Jan 08 19:06:47 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-ditem.[ch]:  Switch exec from a vector to a simple string.
+	  change the _get_command and _set_command to return/take a simple
+	  string.  Also changed reading of .order file to not use a fixed
+	  buffer for reading.
+
+Sat Jan 01 18:45:26 2000  George Lebl <jirka@5z.com>
+
+	* libmate/mate-config.c,mate-help.c,mate-mime-info.c: Use LC_MESSAGES
+	  instead of LC_ALL to get the language to use for translating
+	  messages.  LC_ALL is used as well inside mate-i18n anyway
+	  and messages need to use LC_MESSAGES if it's set
+
+	* libmate/mate-help.c: s/g_fee/g_free/ in the inline docs for two functions
+
+2000-01-11  Havoc Pennington  <hp@pobox.com>
+
+	* libmate/matelib-init.c: move human readable name stuff into
+	libmate init files.
+
+1999-12-23  Havoc Pennington  <hp@redhat.com>
+
+	* libmate/matelib-init.c (libmate_userdir_setup): Clean up this
+	code. Include strerror() in error messages, don't dump core (just
+	fprintf() then exit(1)), indent reasonably, don't use -1 as a
+	truth value.
+
+1999-12-21  Havoc Pennington  <hp@redhat.com>
+
+	* libmate/mate-ditem.c: new functions to get the best comment/name to
+	display to the current user (by locale list).
+
+Wed Dec 15 14:15:37 1999  George Lebl <jirka@5z.com>
+
+	* libmate/mate-i18n.c: make sure we don't get into an infinite loop by
+	  descending only 30 levels before giving a warning.  This would
+	  only be the case for broken locale.alias, but we wanna handle it.
+	  I could have sworn that I did this before, guess not.
+
+Tue Dec 14 00:04:18 1999  George Lebl <jirka@5z.com>
+
+	* libmate/mate-mime-info.c: current_lang is a list of languages.  Also
+	  we store the previous key and it's language level when reading.
+	  (remove_this_key) removed this function as it is replaced by
+	  using g_hash_table_lookup_extended where we don't need to
+	  remove/readd, but just readd with the old key
+	  (context_add_key) take an extra 'lang' argument which is the
+	  language of the current key/value or NULL.  If the current 'lang'
+	  is higher then the previous key's lang level we replace the
+	  previous key with this key, otherwise we just add the key/value
+	  (load_mime_type_info_from) keep track of lang just like we do
+	  of 'key'
+	  (mate_mime_flag) take the 'key' as an argument and do the right
+	  thing
+	  (mate_mime_copiousoutput,mate_mime_needsterminal) call the
+	  mate_mime_flag with the 'key'
+
+	* libmate/mate-mime-info.h: mate_mime_nametemplate removed from the
+	  header as it was not actually implemented anywhere.  Also this
+	  file was slightly weirdly formatted and was not all that readable
+	  at 80 cols, so I removed some spurious tabs to make it so
+
+1999-12-13  Havoc Pennington  <hp@redhat.com>
+
+	* libmate/mate-ditem.h, mate-ditem.c: Add copyright, add Emacs magic, re-indent.
+
+1999-12-07  Martin Baulig  <martin@home-of-linux.org>
+
+	* libmate/mate-mime-info.c (mate_mime_init): Use `mate_util_home_file'
+	instead of `mate_util_user_home'
+
+Sun Dec 05 01:32:35 1999  George Lebl <jirka@5z.com>
+
+	* libmate/mate-dentry.c: fix the quoting, now we don't quote the exec vector
+	  from the dentry as this is the expected behaviour, but we do quote
+	  the arguments passed to mate_desktop_entry_launch_with_args so
+	  that we work with filenames with spaces.  This will completely
+	  fix #4010.
+
+Fri Dec 03 21:23:56 1999  George Lebl <jirka@5z.com>
+
+	* libmate/mate-dentry.c: fix a segfault in join_with_quotes, fixes #4010
+
+1999-11-24  James Henstridge  <james@daa.com.au>
+
+	* libmate/mate-paper.h: added prototypes for new functions.
+
+	* libmate/mate-paper.c (mate_unit_with_abbrev): new function to find a
+	MateUnit by its abbreviation.
+	(mate_unit_convert): convert from one set of units to another.
+	(mate_unit_name): accessor for the name of a MateUnit.
+	(mate_unit_abbrev): accessor for abbreviation of MateUnit.
+
+1999-11-17  Iain Holmes  <ih@csd.abdn.ac.uk>
+
+	* libmate/matelib-init.h: Removed matelib_init.
+
+	* libmate/mate10-compat.[ch]: Added matelib_init as a function to pass fake
+	arguments to mate_program_init.
+
+1999-11-16  Elliot Lee  <sopwith@redhat.com>
+
+	* libmate/mate-url.[ch]: Add a callback for history maintainance.
+
+1999-11-15  Elliot Lee  <sopwith@redhat.com>
+
+	* libmate/matelib-init2.[ch]: Add mate_program_module_load() (Dynamic module loading from --load-modules, $MATE_MODULES).
+
+1999-11-11  Jacob Berkman  <jberkman@andrew.cmu.edu>
+
+	        * mate-config.c (mate_config_make_vector): correctly
+	        handle the "a \b c" case (escaped character between 2
+	        spaces)
+	        (mate_config_make_vector): george also suggested this
+	        fix
+
+	        Fixes bug #3475
+
+1999-11-09  Elliot Lee  <sopwith@redhat.com>
+
+	* libmate/Makefile.am: Link libmate to $(LIBMATE_LIBS), not $(GLIB_LIBS).
+
+	* libmate/mate-i18n.c: Add a comment about implementation behaviour.
+	* libmate/mate-moz-remote2.c: Finish implementation of new mate-moz-remote
+	* libmate/mate-url.[ch]: Support new API with MateURLDisplayContext's, change mate_url_show to just use this.
+	* libmate/mate-util.[ch]: Add a "help" file domain, for looking up help files.
+	* libmate/mate10-compat.[ch]: No change, stupid CVS.
+	* libmate/libmate{,10compat}.h: Move mate-help into 1.0 compat library.
+	* libmate/matelib-init2.c: Don't free the popt context unless that is specifically requested - programs need a sane way
+	to get to the args.
+
+1999-11-05  Havoc Pennington  <hp@pobox.com>
+
+	* libmate/mate-util.h: Include mate-defs.h
+
+1999-10-30  Dick Porter <dick@acm.org>
+
+	* libmate/Allow mate-moz-remote to launch a netscape as a last resort, if
+		--remote cant find a running one.
+
+1999-10-27  Elliot Lee  <sopwith@redhat.com>
+
+	* libmate/matelib-init.h: Add attributes for application prefix/libdir/datadir/sysconfdir.
+	* libmate/mate-util.c: Make use of these attributes in mate_file_locate().
+
+	* libmate/mate-ditem.[ch]: Add save routine, location accessors. Remove run-in-bg flag. Add check-for-changes routine.
+
+1999-10-26  Elliot Lee  <sopwith@redhat.com>
+
+	* libmate/mate-ditem.[ch]: New files - replacement for mate-dentry.[ch]
+	* libmate/mate-util.[ch] (mate_file_locate) Redo the file location stuff
+	                  (g_file_test): Use access() if only testing for existence. Also fix the other tests to
+			                 work slightly more sanely (check that all specified conditions are met,
+					 rather than that all unspecified conditions are not met).
+	                  (mate_user_shell): Use g_strdup instead of strdup
+	* libmate/matelib-init2.c (mate_program_attribute_get): Fix inverted error condition.
+	* libmate/matelib-init.h: Add an attribute for an application-provided file locator function.
+	* libmate/mate-config.c: Recognize [yYtT1-9].* as TRUE boolean values, all others as FALSE boolean values.
+
+1999-10-21  Federico Mena Quintero  <federico@redhat.com>
+
+	* libmate/mate-mime.c (add_ext): New helper function to add an
+	extension->mime_type mapping.  It checks for the presence of old
+	mappings of the same extension.  This fixes a memory leak in
+	add_to_key() when there are multiple mappings of an extension to
+	mime types in the .mime files.
+	(add_to_key): Use add_ext().
+
+1999-10-18  Jonathan Blandford  <jrb@redhat.com>
+
+	* libmate/Makefile.am (libmate10compat_a_SOURCES): new compatibility lib.
+
+	* libmate/matelib-init2.c (mate_program_parse_args): fixed so it compiles
+	(mate_program_get): fixed so it compiles
+	(mate_program_module_register): fixed so it compiles.
+
+1999-10-07  Elliot Lee  <sopwith@redhat.com>
+	* libmate/matelib-init2.[ch]: New implementation.
+	* libmate/matelib-init.[ch]: Use new init system.
+	* libmate/Makefile.am: Add mate-portability.h, matelib-init{,2}.h to headers, remove mate-popt.h from headers.
+	Add matelib-init2.c to sources, remove mate-popt.c from sources.
+	* libmate/mateconfigger.c, mate-gen-mimedb.c, mate-moz-remote.c: Use new init setup.
+	* libmate/mate-i18n.h, mate-i18nP.h: Instead of duplicating everything in two header files, add hooks so we can
+	avoid doing that.
+	* libmate/mate-mime-info.c, mate-util.c, mate-util.h: Avoid using deprecated functions.
+	* libmate/mate-mime.c: Case-insensitive file extension hashing.
+	* libmate/mate-portability.h.in: New file (gives us a working g_alloca on any system).
+	* libmate/libmate.h: Add new header files
+	* libmate/libmateP.h: avoid duplication with libmate.h

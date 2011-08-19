@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter id="desktop-integration">
+  <title>Desktop Integration</title>
+  
+  <para>There are two elements to basic integration with the user environment of the MATE Desktop.
+    <orderedlist>
+      <listitem><para>Place an entry for your application in the <guimenu>Applications</guimenu> menu. This is the primary mechanism by which users discover and run applications.</para></listitem>
+      <listitem><para>If your application can open and save files, place entries for those file types in the application database and the document type (MIME) database. This allows the file manager and other applications to automatically launch your application when they encounter files your application can handle.</para></listitem>
+    </orderedlist>
+	Do not add launchers or other icons to the desktop when your application is installed.  The desktop is the user&apos;s space, and is reserved for icons that they explicitly request or add themselves.
+  </para>
+  <sect1 id="desktop-application-menu">
+    <title>Placing Entries in the Applications Menu</title>
+    
+	<figure><title>The Applications menu</title>
+	  <mediaobject>
+	    <imageobject><imagedata fileref="images/desktop-applications-menu.png" format="PNG" width="160" depth="365"/></imageobject>
+	    <imageobject><imagedata fileref="images/desktop-applications-menu.eps" format="EPS"/></imageobject>
+	    <textobject><phrase>Screenshot of the open Applications menu on the MATE menu panel</phrase></textobject>
+	  </mediaobject>
+	</figure>
+	
+       <para>The <guimenu>Applications</guimenu> menu, which appears on the panel at the top of the screen by default, is the primary mechanism by which users discover and run applications.  You place entries in this menu by installing an appropriate <filename>.desktop</filename> file.</para>
+
+    <para>The menu is arranged into a set of categories, such as Accessories and Games. Applications are placed in particular categories by the set of keywords they include in their <filename>.desktop</filename> file. </para>
+
+	<itemizedlist><title>Guidelines</title>
+		<listitem><para>Assign your application to only one category on the <guimenu>Applications</guimenu> menu</para></listitem>
+
+		<listitem><para>For application suites that wrap a number of smaller sub-applications into a single window, such as Evolution or OpenOffice.org, add a menu item for each sub-application. For example, the mail, calendar, and tasklist in Evolution should each have their own menu item.</para></listitem>
+
+	</itemizedlist>
+
+	<para>Technical details can be found in the freedesktop.org <ulink url="http://freedesktop.org/Standards/menu-spec">menu</ulink> and <ulink url="http://www.freedesktop.org/Standards/desktop-entry-spec">desktop entry</ulink> specifications.</para>
+
+
+    <sect2 id="menu-item-names">
+      <title>Menu Item Names</title>
+
+
+      <sect3 id="menu-item-functional-description">
+	<title>Include a functional description in the menu name</title>
+
+	<para>In the menu item name, include a description of functionality in addition to the proper name of the application. This is especially useful novice users, and to users of systems where numerous applications are installed by default. Users are more likely to find your application if the name that appears in the menu includes a description of its functionality.</para>
+
+	<para>For example, <ulink url="http://web.mit.edu/is/usability/aui/">user testing of MIT&apos;s Athena system</ulink> revealed that users had difficulty finding the file manager because they were unfamiliar with the name &quot;Caja&quot;. Because users did not associate the word &quot;Caja&quot; with the concept &quot;file manager&quot; the menu item did not help them. This is an example of not using the user&apos;s language. See <xref linkend="principles-match"/> for more on this topic.</para>
+
+
+	    <example>
+		<title>Including functional description in menu names</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Original menu item</entry>
+				      <entry>Revised menu item</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>Epiphany</entry>
+					<entry>Epiphany Web Browser</entry>
+				</row>
+	  		</tbody>
+         	</tgroup>
+		</informaltable>
+	</example>
+
+      </sect3>
+
+      <sect3>
+	<title>Only put useful information in the menu name</title>
+	<para>Do not include words like &quot;MATE&quot;, &quot;X Window System&quot;, &quot;GTK+&quot; or other platform details in <guimenu>Application</guimenu> menu names. The user probably already knows what platform they are using, and if they don&apos;t, then application names are not the right place to inform them.</para>
+	<example>
+		<title>Removing non-essential information from menu names</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Original menu item</entry>
+				      <entry>Revised menu item</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>MATE Image Viewer</entry>
+					<entry>Image Viewer</entry>
+				</row>
+				<row>
+					<entry>GTK Blog Editor</entry>
+					<entry>Blog Editor</entry>
+				</row>
+	  		</tbody>
+         	</tgroup>
+		</informaltable>
+	</example>
+
+	<para>Do not include technical details when the user does not need to know them, or can infer them from context.  Avoid technical jargon unless the application is to be used only by a technical audience.</para>
+	<para>For example, when both a client and a server for something are listed in the menus, remove the word &quot;Client&quot; from the menu name for the client.</para>
+	
+	<example>
+		<title>Removing technical jargon from menu names</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Original menu item</entry>
+				      <entry>Revised menu item</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>Mate Batalla Naval Client</entry>
+					<entry>Batalla Naval</entry>
+				</row>
+				<row>
+					<entry>Mate Batalla Naval Server</entry>
+					<entry>Batalla Naval Multiplayer Server</entry>
+				</row>
+				<row>
+					<entry>Mate VideoLAN Client</entry>
+					<entry>VideoLAN Movie Player</entry>
+				</row>
+	  		</tbody>
+         	</tgroup>
+		</informaltable>
+	</example>
+
+	<tip><title>Providing the right information</title>
+        <para>Try to imagine what words users will be looking for when they select your application from the <guimenu>Applications</guimenu> menu. That is the information that should be in the menu name. For example, a user wanting to play a movie will probably not be looking for the word &quot;Client&quot;. On the other hand, a user wanting to transmit movies from their computer may well look for the word &quot;Server&quot;. Avoid thinking of the applications menu as an ontology!</para></tip>
+      </sect3>
+
+      <sect3>
+	<title>Menu name formats</title>
+	<orderedlist>
+	  
+         <listitem>
+	    <para>If your application&apos;s proper name is already descriptive of its functionality, and not just suggestive, use the format: <replaceable>Application Name</replaceable></para>
+	<example>
+		<title>Using application&apos;s name as menu name</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Application name</entry>
+				      <entry>Menu name</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>Dictionary</entry>
+					<entry>Dictionary</entry>
+				</row>
+				<row>
+					<entry>Search Tool</entry>
+					<entry>Search Tool</entry>
+				</row>
+	  		</tbody>
+         	</tgroup>
+		</informaltable>
+        	</example>
+          </listitem>
+
+	  <listitem>
+	    <para>If there is a succinct functional description of your application, use the format: <replaceable>ApplicationName FunctionalDescription</replaceable></para>
+
+	<example>
+		<title>Using functional description in menu names</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Application name</entry>
+				      <entry>Menu item name</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>The GIMP</entry>
+					<entry>GIMP Image Editor</entry>
+				</row>
+				<row>
+					<entry>Evolution email sub-application</entry>
+					<entry>Evolution Email</entry>
+				</row>
+				<row>
+					<entry>AbiWord</entry>
+					<entry>AbiWord Word Processor</entry>
+				</row>
+				<row>
+					<entry>Galeon</entry>
+					<entry>Galeon Web Browser</entry>
+				</row>
+				<row>
+					<entry>Gramps</entry>
+					<entry>Gramps Genealogy</entry>
+				</row>
+				<row>
+					<entry>AisleRiot</entry>
+					<entry>AisleRiot Solitaire</entry>
+				</row>
+
+	  		</tbody>
+         	</tgroup>
+		</informaltable>
+	</example>
+
+
+	  </listitem>
+
+	  <listitem>
+	    <para>A few applications, particularly games, do not have appropriate functional descriptions (but note that many games do). In this case, use <replaceable>Application Name</replaceable> as the menu name.</para>
+
+	<example>
+		<title>Using applicaton&apos;s name as menu name where no functional description exists</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Application name</entry>
+				      <entry>Menu item name</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>Bomber Maze</entry>
+					<entry>Bomber Maze</entry>
+				</row>
+	  		</tbody>
+         	</tgroup>
+		</informaltable>
+	</example>
+
+	  </listitem>
+
+	</orderedlist>
+      </sect3>
+<!--
+	<sect3>
+	<title>Generic Name and Name</title>
+
+        <para>There are two name types required for a menu item, a generic name and a proper name.  The menu item requires these two names to distinguish the applications when there are more than one of the same application type present and to simplify the item name when there is only one present.  If only one application of a generic name exists in the menu the application assumes the generic name, otherwise the proper name is displayed.</para>
+
+	<example>
+		<title>X-Chat .desktop file</title>
+		 <programlisting>
+	Name=X-Chat IRC
+	GenericName=IRC
+		 </programlisting>
+	</example>
+
+	<para>
+	The generic name or GenericName, is a name describing only the applications functionality without the applications proper name.  This is the name to be displayed when there are no other applications of the same generic name present and should simply describe the pure functionality of the application without its actual name.
+	</para>
+
+	<para>
+	A proper name or Name, is the displayed name of the application when there are more than one applications present with the same generic name.  This distinguishes the multiple generic names with the applications proper name.
+	</para>
+
+	<example>
+		<title>GenericName and Name</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>GenericName</entry>
+					<entry>Name</entry>
+	   			</row>
+			  </thead>
+			  <tbody>
+	     			<row>
+					<entry>Web Browser</entry>
+					<entry>Epiphany Web Browser</entry>
+				</row>
+	     			<row>
+					<entry>Web Browser</entry>
+					<entry>Mozilla Web Browser</entry>
+				</row>
+	     			<row>
+					<entry>Word Processor</entry>
+					<entry>AbiWord Word Processor</entry>
+				</row>
+	     			<row>
+					<entry>Word Processor</entry>
+					<entry>OpenOffice.org Word Processor</entry>
+				</row>
+	  		</tbody>
+	         	</tgroup>
+		</informaltable>
+	</example>
+	</sect3>
+-->
+    </sect2>
+    <sect2 id="menu-item-tooltips">
+
+      <title>Menu Item Tooltips</title>
+
+      <para>Tooltips help provide users with enough information to run the right application. Many users use tooltips to explore a new environment.</para>
+	<para>Provide a tooltip for each <guimenu>Application</guimenu> menu item you add, following these guidelines:</para>
+
+	<itemizedlist><title>Guidelines</title>
+		<listitem><para>Phrase the tooltip as an imperative verb, for example &quot;design&quot;, &quot;write&quot; or &quot;check&quot;.</para></listitem>
+		<listitem><para>Describe the most important tasks users can accomplish with your application.</para></listitem>
+		<listitem><para>While tooltips should not be verbose, they should be longer and more descriptive than the item&apos;s name.</para></listitem>
+	</itemizedlist>
+
+	<example>
+		<title>Example tooltips for MATE applications</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="2" align="left">
+			  <thead>
+				<row>
+		      			<entry>Application</entry>
+				      <entry>Menu item tooltip</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>Character Map</entry>
+					<entry>Insert special characters into documents</entry>
+				</row>
+
+				<row>
+					<entry>Memprof</entry>
+					<entry>Check your applications for memory leaks</entry>
+				</row>
+				<row>
+					<entry>Same Mate</entry>
+					<entry>Arrange long chains of similarly-colored balls to eliminate them</entry>
+				</row>
+				<row>
+					<entry>Mate Batalla Naval Client</entry>
+					<entry>Find and sink enemy ships in this networked version of Battleship</entry>
+				</row>
+	  		</tbody>
+	         	</tgroup>
+		</informaltable>
+	</example>
+
+    </sect2>
+   </sect1>
+    <sect1 id="mateconf-keys">
+
+      <title>MateConf Keys</title>
+
+      <para>MateConf keys are required to have long and short descriptions for each key.  Many keys have no interface through the application, so for someone administering the key values from another application each description field will be the only interface available to them.</para>
+
+	<itemizedlist><title>Guidelines</title>
+		<listitem><para>Short Descriptions should be short, less than 8 words, describing the purpose of the key</para></listitem>
+		<listitem><para>Long Description should be complete in describing the possible values of the key and the effects that those values have on the application</para></listitem>
+	</itemizedlist>
+
+	<example>
+		<title>Example descriptions for MateConf Keys from mate-terminal</title>
+		<informaltable frame="all">
+			
+			<tgroup cols="3" align="left">
+			  <thead>
+				<row>
+					<entry>Key</entry>
+		      			<entry>Short Description</entry>
+				      <entry>Long Description</entry>
+	   			</row>
+			  </thead>
+			<tbody>
+	     			<row>
+					<entry>background_type</entry>
+					<entry>Background type</entry>
+					<entry>Type of terminal background. May be &quot;solid&quot; for a solid color, &quot;image&quot; for an image, or &quot;transparent&quot; for pseudo-transparency. </entry>
+				</row>	
+	     			<row>
+					<entry>delete_binding</entry>
+					<entry>Effect of the Delete key</entry>
+					<entry>Sets what code the delete key generates. Possible values are &quot;ascii-del&quot; for the ASCII DEL character, &quot;control-h&quot; for Control-H (AKA the ASCII BS character), &quot;escape-sequence&quot; for the escape sequence typically bound to backspace or delete. &quot;escape-sequence&quot; is normally considered the correct setting for the Delete key. </entry>
+				</row>	
+			</tbody>
+	         	</tgroup>
+		</informaltable>
+	</example>
+   </sect1>
+  
+  <sect1 id="desktop-mimedatabase">
+    <title>Mapping Document Types to Applications</title>
+    
+    <para>The document type (MIME) database allows users to specify their preferred applications for opening different types of document. This is the mechanism by which Caja, Evolution and other applications decide which application to run when they encounter a document they cannot open themselves.</para>
+
+    <para>It is important for users to be able to double-click on documents they see on the desktop, such as files and email messages, and have them launch in their favorite application.  Therefore, your MATE application should associate itself at install-time with all the document types it can handle. Technical details on doing this can be found in the <ulink url="http://developer.mate.org/doc/API/mate-vfs"><citetitle>MateVFS API reference</citetitle></ulink>.</para>
+
+    <!-- FIXME: need to cover things like the preferred list and when an application should add itself to the preferred list -->
+
+  </sect1>
+
+  <sect1 id="desktop-notification-area">
+	<title>Using the Status Notification Area</title>
+	<para>
+	 Using the status notification area applications can notify the user of non-critical events (for example, arrival of new email, or a chat &apos;buddy&apos; having logged on), and expose the status of active system processes (for example, a printing document, or a laptop's battery charging).</para>
+
+	<para>Following the guidelines in this section will help to clarify the difference in the user&apos;s mind between information presented in the notification area, and controls and information presented on other parts of the panel.</para>
+
+		<warning><para>The utility of the notification area decreases rapidly when more than about four icons are always present. For this reason, icons that appear only temporarily in response to events are preferable.</para></warning>
+
+	<sect2 id="desktop-notification-or-applet"><title>Notification Area or Panel Applet?</title>
+	<para>
+	You should probably write an applet instead of using the notification area if:</para>
+	<itemizedlist>
+		<listitem><para>clicking your notification area icon does anything other than opening a window directly associated with the icon (e.g. a mail folder window for a new mail icon, or a print queue window for printer notification icon), or </para></listitem>
+		<listitem><para>there are icon-specific options on its context menu for doing anything other than that</para></listitem> 
+		<listitem><para>your application would ever need to display more than one notification icon at the same time</para></listitem>
+	</itemizedlist>
+	</sect2>
+
+	<sect2><title>Icon Appearance</title>
+	<itemizedlist><title>Guidelines</title>
+		<listitem><para>Use table perspective for icons representing physical devices, with the light source above and to the left of the represented object.  For example, a printer icon during printing. See <xref linkend="icon_style_perspective"/> for more about table perspective.</para></listitem>
+		<listitem><para>Use shelf perspective, with overhead lighting, for all other icons. For example, an envelope shown when new mail arrives. See <xref linkend="icon_style_perspective"/> for more about shelf perspective.</para></listitem>	
+		<listitem><para>For monitors or progress bars that change over
+time, such as a battery charge monitor, clearly delimit the border of the area.</para></listitem>
+
+		</itemizedlist>
+
+		<itemizedlist><title>Guidelines</title>
+			<listitem><para>Only core MATE programs may perpetually display an icon in the status area.</para></listitem>
+			<listitem><para>Non-core programs for which a perpetual icon may be useful must default to not perpetually showing the icon. Users may select to enable a perpetual icon for the application as a preference. <remark>Standard way of presenting this option would be nice.</remark></para></listitem>
+		</itemizedlist>
+
+	</sect2>
+
+	<sect2 id="notification-area-animation">
+	<title>Animation</title>
+	
+	<itemizedlist><title>Guidelines</title>
+		<listitem><para>Icons should not usually appear animated. They may change to
+indicate a change of state, but should not do so when that change
+is occurs regularly rapidly. A battery status indicator would
+usually change slowly, therefore an icon is appropriate. By contrast,
+a load meter would always be changing, therefore it should use a flat
+image.</para></listitem>
+<!--		<listitem><para>Icons are permitted to blink under a few conditions.
+ An icon may blink for n (=5?) seconds when first displayed
+   if showing the icon is not caused by user action.
+   A printing-in-progress icon would be shown because the user
+   is printing a document, therefore it should not blink.
+   An incoming email or personal message (IM) would be shown
+   because something has changed absent the user, therefore it
+   may blink.</para></listitem>
+
+ 		<listitem><para>A icon may blink for n seconds if its conditions for initially
+   blinking recur. For example, an incoming email icon which was
+   shown and blinked when a message arrived and which has remained
+   visible may blink again when another message arrives.</para></listitem>
+-->
+ 		<listitem><para>Any icon may blink to indicate an error in deference to showing
+   an alert. For example, a printing-in-progress icon may blink when
+   there is a paper jam, but not when the printer is on fire - that
+   should show an alert.
+   </para></listitem>
+		<listitem><para>Do not rely on blinking or animation as a means of alerting the user to any particular event.  <!-- commenting out until it exists...  -Seth The notification area respects the global desktop "no animation" preference for accessibility reasons. <remark>Note: This doesn&apos;t exist yet but it&apos;s on the list...</remark> --></para></listitem>
+		</itemizedlist>
+
+	</sect2>
+	
+	<sect2 id="notification-icon-interaction">
+	<title>Interaction</title>
+		<para>Icons should respond to the these user actions.
+(Keypresses apply only when the icon has focus, of course)</para>
+		<itemizedlist><title>Guidelines</title>
+  			<listitem><para>Double-click or <keysym>Space</keysym> key
+     should perform the icon&apos;s default action.  Normally this should open a window with relevant data, for example:
+			<itemizedlist>
+     				<listitem><para>the printer queue for a printing-in-progress icon.</para></listitem>
+     				<listitem><para>the inbox for an incoming email iconi</para></listitem>
+     				<listitem><para>the message for an incoming message</para></listitem>
+			</itemizedlist></para></listitem>
+  		<listitem><para>Right-click or <keycombo><keycap>Shift</keycap><keycap>F10</keycap></keycombo>
+     should present a menu for the icon containing at least
+     the icon&apos;s default action.</para></listitem>
+
+		<listitem><para>If the icon&apos;s properties may be altered, it should
+  have a menu item <guimenuitem>Properties</guimenuitem> in its menu,
+ nd show its property panel in response to Alt+Enter.</para></listitem>
+
+		<listitem><para>Icons should obey normal tooltip conventions.</para></listitem>
+		</itemizedlist>
+	</sect2>
+ </sect1>
+
+</chapter>
+

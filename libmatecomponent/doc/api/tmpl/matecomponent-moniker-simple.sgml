@@ -1,0 +1,143 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentMonikerSimple
+
+<!-- ##### SECTION Short_Description ##### -->
+A super easy to use moniker implementation wrapper
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+MateComponentMonikerSimple makes writing monikers really extremely
+easy. To implement a moniker you only have to write 1 function.
+To register create the moniker object you have to use only 1
+call. It can't get much simpler. If you want to use monikers
+instead of implementing them, you probably want to see
+#matecomponent-moniker-util instead.
+</para>
+
+<para>
+Few people need to implement monikers, but if they do, this
+is how they should do it:
+  <example>
+    <title>A cut down file: moniker implementation</title>
+    <programlisting>
+MateComponent_Unknown
+matecomponent_moniker_file_resolve (MateComponentMoniker               *moniker,
+			     const MateComponent_ResolveOptions *options,
+			     const CORBA_char            *requested_interface,
+			     CORBA_Environment           *ev)
+{
+	const char    *fname = matecomponent_moniker_get_name (moniker);
+	MateComponent_Unknown retval;
+
+	g_warning ("Fname '%s'", fname);
+
+	if (!strcmp (requested_interface, "IDL:MateComponent/Stream:1.0")) {
+		MateComponentStream *stream;
+
+		stream = matecomponent_stream_open ("fs", fname,
+					     MateComponent_Storage_READ, 0664);
+
+		if (!stream) {
+			g_warning ("Failed to open stream '%s'", fname);
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_MateComponent_Moniker_InterfaceNotFound, NULL);
+			return CORBA_OBJECT_NIL;
+		}
+
+		return CORBA_Object_duplicate (MATECOMPONENT_OBJREF (stream), ev);
+	}
+	
+	return CORBA_OBJECT_NIL;
+}
+    </programlisting>
+  </example>
+  After implementing the resolve function, you need to create the new moniker
+in your standard factory:
+  <example>
+    <title>Creating a new simple moniker</title>
+    <programlisting>
+static MateComponentObject *
+matecomponent_std_moniker_factory (MateComponentGenericFactory *this,
+			    const char           *object_id,
+			    void                 *data)
+{
+	g_return_val_if_fail (object_id != NULL, NULL);
+
+	if (!strcmp (object_id, "OAFIID:MateComponent_Moniker_File"))
+
+		return MATECOMPONENT_OBJECT (matecomponent_moniker_simple_new (
+			"file:", matecomponent_moniker_file_resolve));
+	else
+		return NULL;
+}
+    </programlisting>
+  </example>
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+#MateComponentMoniker, #MateComponentMonikerSimple, #matecomponent-moniker-util, #MateComponentMonikerExtender
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentMonikerSimple ##### -->
+<para>
+A simplified #MateComponentMoniker.
+</para>
+
+
+<!-- ##### STRUCT MateComponentMonikerSimpleClass ##### -->
+<para>
+MateComponentMonikerSimple's class.
+</para>
+
+@parent_class: 
+
+<!-- ##### USER_FUNCTION MateComponentMonikerSimpleResolveFn ##### -->
+<para>
+Type of callback function that implements a simple moniker resolution.
+</para>
+
+@moniker: the moniker
+@options: resolve options
+@requested_interface: the requested interface (repoid string)
+@ev: CORBA environment, in case an exception needs to be raised
+@Returns: a MateComponent_Unknown as the result of the resolution
+
+
+<!-- ##### FUNCTION matecomponent_moniker_simple_construct ##### -->
+<para>
+
+</para>
+
+@moniker: 
+@name: 
+@resolve_closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_moniker_simple_new ##### -->
+<para>
+
+</para>
+
+@name: 
+@resolve_fn: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_moniker_simple_new_closure ##### -->
+<para>
+
+</para>
+
+@name: 
+@resolve_closure: 
+@Returns: 
+
+

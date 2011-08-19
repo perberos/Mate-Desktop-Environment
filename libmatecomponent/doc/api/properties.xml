@@ -1,0 +1,175 @@
+<refentry id="properties">
+    <refmeta>
+	<refentrytitle>Properties</refentrytitle>
+<!--	<manvolnum>3</manvolnum> -->
+	<refmiscinfo>LIBMATECOMPONENT Library</refmiscinfo>
+	<refname>matecomponent-arg</refname><refpurpose>simplified CORBA_Any wrappers</refpurpose>
+
+    </refmeta>
+
+    <refsect1>
+	<title>Properties</title>
+	
+	<para>MateComponent component properties, version 0.1 by Michael
+	    Meeks &lt;mmeeks@gnu.org&gt;</para>
+	
+	<para>A brief discussion of how to use the property API to add
+	    a simple to use configuration mechanism to your matecomponent
+	    component.</para>
+
+	<refsect2><title>Properties and bags</title>
+	    
+	    <para>A property is an attribute that is attached to a
+		MateComponent object.  It can have any type, although the
+		standard types <type>boolean</type>,
+		<type>long</type>, <type>float</type>, double, string
+		are handled in a convenient fashion. Properties are
+		attached to a <classname>PropertyBag</classname>
+		object that is attached to your control or component
+		in some way.</para>
+	</refsect2>
+	    
+	<refsect2><title>MateComponentArgs</title>
+
+	    <para>A matecomponent arg contains the value of a property whilst
+		it is 'in flight' between a property and a
+		requestor. The matecomponent arg system is designed to make
+		MateCORBA's 'any' code easier to use and less error prone
+		- it is however simply a wrapper around a
+		<type>CORBA_any</type>.</para>
+
+	    <para>A number of macros and helper functions are provided
+		in <filename>matecomponent-arg.h</filename>. Particularly,
+		the type macros of MateComponentArgType eg.</para>
+	    <para><literal>MATECOMPONENT_ARG_BOOLEAN, MATECOMPONENT_ARG_LONG,
+		MATECOMPONENT_ARG_STRING</literal></para>
+
+	    <para>And a number of access procedures for getting and
+		setting standard values from a MateComponentArg. Eg. if 'a'
+		is a <type>MateComponentArg *</type> we should use:</para>
+	    <para><literal>MATECOMPONENT_ARG_GET_STRING (a)</literal> to get its string value</para>
+	    <para> or </para>
+	    <para><literal>MATECOMPONENT_ARG_SET_STRING (a, "GNU")</literal>to set its string value</para>
+
+	    <!-- Note: original docs said that passing NULL would -->
+	    <!-- cause crashes, but that's no longer true; I checked. -->
+	    <para>NB. Passing a NULL string to
+	    <function>MATECOMPONENT_ARG_SET_STRING</function> is equivalent
+	    to passing an empty string.</para>
+
+	    <para> The matecomponent-arg code also provides functions for
+		mapping <type>GParamSpec</type>s to MateComponentArgs and
+		vice-versa.</para>
+
+	</refsect2>
+
+	<refsect2><title>PropertyBag creation</title>
+
+	    <para>To add properties to an object first we must create
+		a property bag hence:</para>
+	    <synopsis>
+MateComponentPropertyBag *matecomponent_property_bag_new (MateComponentPropertyGetFn get_prop,
+                                            MateComponentPropertySetFn set_prop,
+                                            gpointer            user_data);
+	    </synopsis>
+	    
+	    <para> Each property has a get / set / user_data (GSU)
+		triplet that handles that property's behavior. In a
+		typical scenario all object properties in a bag
+		utilise the same GSU triplet, and are identified
+		inside the get / set functions by a unique enumerated
+		constant arg_id.  Inside the function this arg_id can
+		then be used with a switch statement to provide
+		efficient (de)multiplexing of property
+		requests. </para>
+	    
+	    <para> For particularly obtuse persons wanting more
+		flexibility it is possible to specify the GSU triplet
+		per property using the add_full variant. </para>
+
+	</refsect2>
+
+	<refsect2><title>Property Creation</title>
+
+	    <para> Each basic property is created by this function: </para>
+	    <synopsis>
+void matecomponent_property_bag_add (MateComponentPropertyBag   *pb,
+                              const char          *name,
+			      int                  idx,
+                              MateComponentArgType        type,
+		              MateComponentArg           *default_value,
+	    		      const char          *docstring,
+                              MateComponentPropertyFlags  flags);
+	    </synopsis>
+	    
+	    <para> It looks horrendous, but is horribly simple in most
+		cases; the idx is the index that will be passed to a
+		generic get / set function for this property. The type
+		is one of the MateComponentArgType macros discussed in
+		section 2 which maps to an MateCORBA TypeCode [ hence any
+		arbitary type can be added without the property-bag
+		knowing anything about it ( allocation of that type is
+		the users responsibility ) ]. Default_value is either
+		NULL or a value created thusly:</para>
+	    <programlisting>
+MateComponentArg *def = matecomponent_arg_new (MATECOMPONENT_ARG_DOUBLE);
+MATECOMPONENT_ARG_SET_DOUBLE (def, 0.3127);
+	    </programlisting>
+
+	    <para>It's reference is stored in the property_bag.</para>
+
+	    <para> The rest of the code is internal and extremely
+		transparent. In order to implement the get / set
+		functions I would copy &amp; paste the sample code in:
+		<filename>libmatecomponentui/samples/controls/matecomponent-sample-controls.c.
+		</filename></para>
+	</refsect2>
+	<refsect2><title>Wrapping GObjects</title>
+
+	    <para> If you have already implemented a GObject that
+		has the set of properties that you wish to export as
+		MateComponent properties then it is trivial to add them to
+		the property bag using a transparent mapping. This
+		means that you do not have to write any more code,
+		simply use:</para>
+	    <programlisting>
+GParamSpec **pspecs;
+guint        n_props;
+
+pspecs = g_object_class_list_properties (
+      G_OBJECT_GET_CLASS (my_object), &amp;n_props);
+
+matecomponent_property_bag_map_params (pb, my_object, pspecs, n_props);
+
+g_free (pspecs)
+	    </programlisting>
+	</refsect2>
+
+	<refsect2><title>Using properties in your client application</title>
+
+	    <para>There are some fairly typesafe but convenient vararg
+		ways to get remote properties. Example:</para>
+	    <informalexample><programlisting>
+CORBA_double i;
+
+matecomponent_widget_get_property (control, "value",
+			    TC_CORBA_double, &amp;i, NULL);
+i+= 0.37;
+matecomponent_widget_set_property (control, "value",
+			    TC_CORBA_double, i, NULL);
+		</programlisting></informalexample>
+
+	    <para>The alternative being the even more type safe version:</para>
+	    <programlisting>
+matecomponent_property_bag_client_get_value_gdouble (pb, "value", &amp;i);
+	    </programlisting>
+
+	</refsect2>
+
+    </refsect1>
+</refentry>
+
+
+
+
+

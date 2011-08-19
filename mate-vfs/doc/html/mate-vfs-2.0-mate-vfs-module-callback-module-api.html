@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-vfs-module-callback-module-api</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="modules.html" title="Filesystem Modules">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-module-shared.html" title="mate-vfs-module-shared">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-context.html" title="MateVFSContext">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-module-shared.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="modules.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-context.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-module-callback-module-api.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-module-callback-module-api.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-module-callback-module-api"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-module-callback-module-api.top_of_page"></a>mate-vfs-module-callback-module-api</span></h2>
+<p>mate-vfs-module-callback-module-api — invoking callbacks from a mate-vfs module to ask the application for necessary information (authentication, ...)</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-module-callback-module-api.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback-module-api.html#mate-vfs-module-callback-invoke" title="mate_vfs_module_callback_invoke ()">mate_vfs_module_callback_invoke</a>    (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> in</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> in_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> out</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> out_size</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-module-callback-module-api.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-module-callback-module-api.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-vfs-module-callback-invoke"></a><h3>mate_vfs_module_callback_invoke ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_module_callback_invoke    (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> in</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> in_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> out</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> out_size</code></em>);</pre>
+<p>
+Invoke a default callback for <em class="parameter"><code>callback_name</code></em>, with in arguments
+specified by <em class="parameter"><code>in</code></em> and <em class="parameter"><code>in_size</code></em>, and out arguments specified by <em class="parameter"><code>out</code></em>
+and <em class="parameter"><code>out_size</code></em>.
+</p>
+<p>
+This function should only be called by mate-vfs modules.
+</p>
+<p>
+If this function is called from an async job thread, it will invoke
+the current async handler for <em class="parameter"><code>callback_name</code></em>, if any. If no async
+handler is set, or the function is not called from an async job
+thread, the regular handler, if any, will be invoked instead. If no
+handler at all is found for <em class="parameter"><code>callback_name</code></em>, the function returns
+<code class="literal">FALSE</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>name of the module callback to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in</code></em> :</span></p></td>
+<td>in argument for this callback; the exact type depends on the specific callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in_size</code></em> :</span></p></td>
+<td>size of the in argument; useful for sanity-checking.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out</code></em> :</span></p></td>
+<td>out argument for this callback; the exact type depends on the specific callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out_size</code></em> :</span></p></td>
+<td>size of the out argument; useful for sanity-checking.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if a callback was invoked, <code class="literal">FALSE</code> if none was set.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,295 @@
+2005-10-07  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c: A bit of cleanup. No flipping any more at
+	all.
+
+2005-09-27  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c: Hack on flipping (const FALSE). Will fix it
+	properly next time.
+
+2005-08-24  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c: Do not use pangoxft any more - and the
+	text at least appears. 
+
+2005-08-15  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c: fixing BAD bug with the stack variables,
+	I would kill the person doing (gint*)
+
+2005-08-14  Sergey V. Udaltsov <svu@mate.org>
+
+	* autogen.sh, configure.ac: up2date
+
+2004-12-30  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c, src/keyboard-drawing.h,
+	tests/kbdraw.c: substantial architectural changes, introducing
+	struct KeyboardDrawingGroupLevel
+
+2004-10-28  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c, src/keyboard-drawing.h,
+	tests/kbdraw.c: Cleaning up the indicators handling.
+	Now indicators are handled properly on the off-screen keyboard.
+
+2004-10-24  Sergey V. Udaltsov <svu@mate.org>
+
+	* src/keyboard-drawing.c, src/keyboard-drawing.h, 
+	tests/kbdraw.c: tracking the modifiers
+
+2004-07-28  Sergey V. Udaltsov
+
+	* src/keyboard-drawing.c: prope handling of the "destroy" event
+
+2004-07-14  Sergey V. Udaltsov
+
+	* autogen.sh: make automake-1.8 friendly
+
+2004-03-26  Noah Levitt
+
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h:
+	* test/kbdraw.c: Fix up tracking functions and flags.
+
+	* src/keyboard-drawing.h: Reformat.
+
+2004-03-25  Noah Levitt
+
+	* test/kbdraw.c:
+	* src/keyboard-drawing.c: Fix code formatting.
+
+2004-03-25  Noah Levitt
+
+	* autogen.sh: Plagiarize mate-common’s autogen.sh.
+
+2004-02-25  Sergey Oudaltsov
+
+	* test/kbdraw.c: two more options - track the group, track the
+          config
+
+2004-02-25  Sergey Oudaltsov
+
+	* src/: keyboard-drawing.c, keyboard-drawing.h: Now kbdraw can
+          track the group and configuration changes. Looks funny actually -
+          especially the groups > 0
+
+2004-02-24  Sergey Oudaltsov
+
+	* Makefile.am, configure.ac, src/Makefile.am, test/.cvsignore,
+	  test/Makefile.am, test/kbdraw.c, src/kbdraw.c: now libkbdraw can
+	  be inserted into other modules as static lib
+
+2003-11-18  Noah Levitt
+
+	* README: Add cvs info.
+
+	* configure.ac: Need to #include <X11/Xlib.h> before XKBlib.h for
+	Xfree86 3.3.6. (Mike Castle)
+
+2003-11-16  Noah Levitt
+
+	* configure.ac:
+	* kbdraw.pc.in:
+	* .cvsignore:
+	* Makefile.am: Add pkg-config kbdraw.pc file.
+
+2003-11-16  Noah Levitt
+
+	* src/keyboard-drawing.h: Update preprocessor define.
+
+	* configure.ac: Bump version number for release.
+
+	* README: New readme.
+
+2003-08-18  Noah Levitt
+
+	* src/Makefile.am: Add keyboard-marshal.list to EXTRA_DIST.
+
+2003-08-18  Noah Levitt
+
+	* src/kbdraw.c: Fix mistake parsing --levels.
+
+2003-08-13  Noah Levitt
+
+	* src/keyboard-drawing.c: With the last change, it would warn a bit
+	too often. Fixed.
+
+2003-08-13  Noah Levitt
+
+	* src/keyboard-drawing.[ch]: Check that the index returned by
+	XkbGetNamedIndicator is within range before using it.
+
+2003-08-09  Noah Levitt
+
+	* src/kbdraw.c:
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Draw only two shift levels. Command line
+	option to choose which ones.
+
+2003-08-09  Noah Levitt
+
+	* src/keyboard-drawing.c (keyboard_drawing_set_keyboard): Get
+	indicator information.
+
+	* src/keyboard_drawing.c (keyboard_drawing_init): Get only the
+	information needed, and use XkbGBN_* masks, since they seem to be what
+	it expects.
+
+2003-08-09  Noah Levitt
+
+	* src/kbdraw.c: Print a more detailed message about what was attempted
+	when keyboard_drawing_set_keyboard fails.
+
+2003-08-09  Noah Levitt
+
+	* src/keyboard-drawing.c: Draw logo doodads simplistically.
+
+2003-08-09  Noah Levitt
+
+	* src/keyboard-drawing.c: Remove debugging printfs.
+
+2003-08-09  Noah Levitt
+
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Color indicator doodads appropriately for
+	their state.
+
+2003-08-08  Noah Levitt
+
+	* src/keyboard-drawing: Changed my mind. Replace g_asserts with
+	g_critical. (g_assert can be disabled, anyway). Hopefully, we'll
+	survive a critical thing.
+
+2003-08-07  Noah Levitt
+
+	* src/keyboard-drawing.c: It's ok to die if the keyboard geometry says
+	the width or height of the keyboard is zero, but use an assertion
+	instead of getting a floating point exception.
+
+2003-08-07  Noah Levitt
+
+	* src/keyboard-drawing.c: Draw text doodads at the correct angle.
+
+2003-08-07  Noah Levitt
+
+	* src/kbdraw.c:
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Choose the keyboard you want to look at from
+	the command line (--symbols, --geometry).
+
+2003-08-07  Noah Levitt
+
+	* src/keyboard-drawing.c: Get keysyms from the keyboard description,
+	not from the server.
+
+2003-08-03  Noah Levitt
+
+	* src/keyboard-drawing.c: Fix bug freeing the old keyboard when
+	setting a new one.
+
+2003-08-02  Noah Levitt
+
+	* src/keyboard-drawing.c: Blank the widget if
+	keyboard_drawing_set_keyboard fails.
+
+2003-08-01  Noah Levitt
+
+	* src/keyboard-drawing.[ch]: Change keyboard_drawing_set_keybaord to
+	take an XkbComponentNamesRec so that we can manage the memory of the
+	XkbDescRec ourselves.
+
+2003-07-29  Noah Levitt
+
+	* configure.ac: Check for Xkb stuff.
+
+2003-07-29  Noah Levitt
+
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Add keyboard_drawing_set_keyboard.
+
+2003-07-29  Noah Levitt
+
+	* src/keyboard-drawing.h: Angle is signed.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Fix typo in keyboard_drawing_get_pixbuf.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Add keyboard_drawing_get_pixbuf.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Position the second and subsequent lines of
+	rotated multi-line pango layouts correctly.
+
+2003-07-26  Noah Levitt
+
+	* src/.cvsignore:
+	* src/keyboard-marshal.list: Forgot to add this in the last commit.
+
+2003-07-26  Noah Levitt
+
+	* configure.ac:
+	* src/Makefile.am:
+	* src/kbdraw.c:
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Emit a signal "bad-keycode" when we get a
+	key event with a keycode that X doesn't think is on the keyboard.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Fix bug where string drawn at a different
+	angle than the previous string is messed up.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Redraw all the region that needs to be
+	redrawn when a key is pressed or released.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Draw a key even if we can't find a keycode
+	for it.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Position labels correctly within rotated
+	keys (well, most of the time).
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Position rotated keys correctly.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c: Draw rotated keys rotated. (Still have to
+	position them and lots of other stuff.)
+
+2003-07-26  Noah Levitt
+
+	* MAINTAINERS: Add MAINTAINERS file.
+
+2003-07-26  Noah Levitt
+
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Remember the angle we're drawing text at, so
+	that we don't have to set it every time. Also, use the correct screen
+	everywhere instead of screen 0.
+
+2003-07-26  Noah Levitt
+
+	* .cvsignore:
+	* COPYING:
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* src/.cvsignore:
+	* src/Makefile.am:
+	* src/kbdraw.c:
+	* src/keyboard-drawing.c:
+	* src/keyboard-drawing.h: Initial checkin.

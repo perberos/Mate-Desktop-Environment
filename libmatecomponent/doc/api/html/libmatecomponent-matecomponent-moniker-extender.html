@@ -1,0 +1,427 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateComponentMonikerExtender</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="monikers.html" title="Monikers">
+<link rel="prev" href="libmatecomponent-matecomponent-moniker-util.html" title="matecomponent-moniker-util">
+<link rel="next" href="libmatecomponent-matecomponent-item-handler.html" title="MateComponentItemHandler">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmatecomponent-matecomponent-moniker-util.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="monikers.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponent-matecomponent-item-handler.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponent-matecomponent-moniker-extender.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-moniker-extender.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmatecomponent-matecomponent-moniker-extender.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponent-matecomponent-moniker-extender"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponent-matecomponent-moniker-extender.top_of_page"></a>MateComponentMonikerExtender</span></h2>
+<p>MateComponentMonikerExtender — A way to extend arbitary monikers</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponent-matecomponent-moniker-extender.synopsis"></a><h2>Synopsis</h2>
+<a name="MateComponentMonikerExtender"></a><pre class="synopsis">                    <a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtender-struct" title="MateComponentMonikerExtender">MateComponentMonikerExtender</a>;
+                    <a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtenderClass" title="MateComponentMonikerExtenderClass">MateComponentMonikerExtenderClass</a>;
+<span class="returnvalue">MateComponent_Unknown</span>      (<a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtenderFn" title="MateComponentMonikerExtenderFn ()">*MateComponentMonikerExtenderFn</a>)          (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtender"><span class="type">MateComponentMonikerExtender</span></a> *extender</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">MateComponent_Moniker</span> parent</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">MateComponent_ResolveOptions</span> *options</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *requested_interface</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);
+<a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtender"><span class="returnvalue">MateComponentMonikerExtender</span></a> * <a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#matecomponent-moniker-extender-new" title="matecomponent_moniker_extender_new ()">matecomponent_moniker_extender_new</a>     (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtenderFn" title="MateComponentMonikerExtenderFn ()"><span class="type">MateComponentMonikerExtenderFn</span></a> resolve</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+<span class="returnvalue">MateComponent_MonikerExtender</span>  <a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#matecomponent-moniker-find-extender" title="matecomponent_moniker_find_extender ()">matecomponent_moniker_find_extender</a>    (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *interface</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">MateComponent_Unknown</span>      <a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#matecomponent-moniker-use-extender" title="matecomponent_moniker_use_extender ()">matecomponent_moniker_use_extender</a>         (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *extender_oafiid</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-moniker.html#MateComponentMoniker"><span class="type">MateComponentMoniker</span></a> *moniker</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">MateComponent_ResolveOptions</span> *options</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *requested_interface</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-moniker-extender.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a class="link" href="libmatecomponent-matecomponent-object.html#MateComponentObject">MateComponentObject</a>
+         +----MateComponentMonikerExtender
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-moniker-extender.description"></a><h2>Description</h2>
+<p>
+A moniker extender is used to extend the functionality of a moniker.
+There are two standard moniker extenders that cannot be system wide,
+since they use the oaf database to expand the scope of a moniker to
+arbitrarily many interfaces. These are invoked explicitely by monikers
+implementing the stream interface in the following way:
+  </p>
+<div class="example">
+<a name="id3165440"></a><p class="title"><b>Example 18. Explicit Stream extender usage example</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="normal">MateComponent_Unknown</span>
+<span class="function">example_moniker_resolve</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentMoniker</span><span class="normal">               </span><span class="symbol">*</span><span class="normal">moniker</span><span class="symbol">,</span>
+<span class="normal">             </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">MateComponent_ResolveOptions</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">options</span><span class="symbol">,</span>
+<span class="normal">             </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">            </span><span class="symbol">*</span><span class="normal">requested_interface</span><span class="symbol">,</span>
+<span class="normal">             </span><span class="usertype">CORBA_Environment</span><span class="normal">           </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(!</span><span class="function">strcmp</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">requested_interface</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"IDL:MateComponent/Stream:1.0"</span><span class="symbol">))</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="function">handle_stream</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">moniker</span><span class="symbol">,</span><span class="normal"> options</span><span class="symbol">,</span><span class="normal"> ev</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">else</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="function"><a href="libmatecomponent-matecomponent-moniker-extender.html#matecomponent-moniker-use-extender">matecomponent_moniker_use_extender</a></span><span class="normal"> </span><span class="symbol">(</span>
+<span class="normal">            </span><span class="string">"OAFIID:MateComponent_MonikerExtender_stream"</span><span class="symbol">,</span>
+<span class="normal">            moniker</span><span class="symbol">,</span><span class="normal"> options</span><span class="symbol">,</span><span class="normal"> requested_interface</span><span class="symbol">,</span><span class="normal"> ev</span><span class="symbol">);</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+  The moniker extender essentialy resolves 'moniker' against stream
+and by some means ( not known when the moniker was written ) converts
+this to a new exotic interface - via. the PersistStream interface.
+</p>
+<p>
+All standard moniker extenders are registered by adding a fragment
+like this:
+  </p>
+<div class="example">
+<a name="id3165469"></a><p class="title"><b>Example 19. Oaf information for an extender</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="symbol">&lt;</span><span class="usertype">oaf_attribute</span><span class="normal"> name</span><span class="symbol">=</span><span class="string">"matecomponent:moniker_extender"</span><span class="normal"> type</span><span class="symbol">=</span><span class="string">"stringv"</span><span class="symbol">&gt;</span>
+<span class="normal">    </span><span class="symbol">&lt;</span><span class="usertype">item</span><span class="normal"> value</span><span class="symbol">=</span><span class="string">"file:"</span><span class="symbol">/&gt;</span>
+<span class="symbol">&lt;/</span><span class="normal">oaf_attribute</span><span class="symbol">&gt;</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+to the .oaf file. This registers the extender with the system, such
+that when a moniker resolve fails an extender can be found for any
+of the monikers with prefix specified in the "matecomponent:moniker_extender"
+stringv.
+</p>
+<p>
+Implementing your own extender is extremely simple, much like
+<a class="link" href="libmatecomponent-matecomponent-moniker-simple.html#MateComponentMonikerSimple"><span class="type">MateComponentMonikerSimple</span></a>.
+  </p>
+<div class="example">
+<a name="id3165501"></a><p class="title"><b>Example 20. Oaf information for an extender</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="normal">MateComponent_Unknown</span>
+<span class="function">example_extender_resolve</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentMonikerExtender</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">extender</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">MateComponent_Moniker</span><span class="normal">   m</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">MateComponent_ResolveOptions</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">options</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">      </span><span class="symbol">*</span><span class="normal">display_name</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">CORBA_char</span><span class="normal">      </span><span class="symbol">*</span><span class="normal">requested_interface</span><span class="symbol">,</span>
+<span class="normal">              </span><span class="usertype">CORBA_Environment</span><span class="normal">     </span><span class="symbol">*</span><span class="normal">ev</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="symbol">...</span><span class="normal"> resolve </span><span class="string">'m'</span><span class="normal"> against an interface we know </span><span class="usertype">it</span><span class="normal"> supports </span><span class="symbol">...</span>
+<span class="normal">    </span><span class="symbol">...</span><span class="normal"> then use that interface to </span><span class="usertype">provide</span><span class="normal"> requested_interface </span><span class="symbol">...</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+It is registered again in much the same way in your factory:
+  </p>
+<div class="example">
+<a name="id3165522"></a><p class="title"><b>Example 21. Creating a new simple moniker</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> <a href="libmatecomponent-matecomponent-object.html#MateComponentObject">MateComponentObject</a> </span><span class="symbol">*</span>
+<span class="function">matecomponent_std_moniker_factory</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">MateComponentGenericFactory</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">this</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="keyword">const</span><span class="normal"> </span><span class="type">char</span><span class="normal">           </span><span class="symbol">*</span><span class="normal">object_id</span><span class="symbol">,</span>
+<span class="normal">                </span><span class="type">void</span><span class="normal">                 </span><span class="symbol">*</span><span class="normal">data</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Warnings-and-Assertions.html#g-return-val-if-fail">g_return_val_if_fail</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">object_id </span><span class="symbol">!=</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(!</span><span class="function">strcmp</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">object_id</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"OAFIID:MateComponent_MonikerExtender_file"</span><span class="symbol">))</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="function">MATECOMPONENT_OBJECT</span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="libmatecomponent-matecomponent-moniker-extender.html#matecomponent-moniker-extender-new">matecomponent_moniker_extender_new</a></span><span class="normal"> </span><span class="symbol">(</span>
+<span class="normal">            example_extender_resolve</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">));</span>
+<span class="normal">    </span><span class="keyword">else</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS">NULL</a></span><span class="symbol">;</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponent-matecomponent-moniker-extender.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateComponentMonikerExtender-struct"></a><h3>MateComponentMonikerExtender</h3>
+<pre class="programlisting">typedef struct _MateComponentMonikerExtender MateComponentMonikerExtender;</pre>
+<p>
+Implements a moniker extender: MateComponent::MonikerExtender.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentMonikerExtenderClass"></a><h3>MateComponentMonikerExtenderClass</h3>
+<pre class="programlisting">typedef struct {
+	MateComponentObjectClass      parent_class;
+
+	POA_MateComponent_MonikerExtender__epv epv;
+	
+	MateComponentMonikerExtenderFn resolve;
+} MateComponentMonikerExtenderClass;
+</pre>
+<p>
+MateComponentMonikerExtender's class.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentMonikerExtenderFn"></a><h3>MateComponentMonikerExtenderFn ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_Unknown</span>      (*MateComponentMonikerExtenderFn)          (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtender"><span class="type">MateComponentMonikerExtender</span></a> *extender</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">MateComponent_Moniker</span> parent</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">MateComponent_ResolveOptions</span> *options</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *requested_interface</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *ev</code></em>);</pre>
+<p>
+Moniker resolution callback function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>extender</code></em> :</span></p></td>
+<td>extender (self)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>parent moniker
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>resolve options
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>? FIXME
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>requested_interface</code></em> :</span></p></td>
+<td>? FIXME
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the resolution resulting object
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-moniker-extender-new"></a><h3>matecomponent_moniker_extender_new ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtender"><span class="returnvalue">MateComponentMonikerExtender</span></a> * matecomponent_moniker_extender_new     (<em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-moniker-extender.html#MateComponentMonikerExtenderFn" title="MateComponentMonikerExtenderFn ()"><span class="type">MateComponentMonikerExtenderFn</span></a> resolve</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+This creates a new moniker extender.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>resolve</code></em> :</span></p></td>
+<td>the resolve function that will be used to do the extension
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>user data to be passed back to the resolve function.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the extender object
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-moniker-find-extender"></a><h3>matecomponent_moniker_find_extender ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_MonikerExtender</span>  matecomponent_moniker_find_extender    (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *interface</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+This routine tries to locate an extender for our moniker
+by examining a registry of extenders that map new interfaces
+to certain moniker names.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>the name of the moniker we want to extend eg. 'file:'
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interface</code></em> :</span></p></td>
+<td>the interface we want to resolve to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>an optional corba exception environment.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an appropriate extender or CORBA_OBJECT_NIL.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-moniker-use-extender"></a><h3>matecomponent_moniker_use_extender ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_Unknown</span>      matecomponent_moniker_use_extender         (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *extender_oafiid</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponent-matecomponent-moniker.html#MateComponentMoniker"><span class="type">MateComponentMoniker</span></a> *moniker</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">MateComponent_ResolveOptions</span> *options</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">CORBA_char</span> *requested_interface</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+Locates a known extender via. OAFIID; eg.
+OAFIID:MateComponent_Moniker_Extender_file
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>extender_oafiid</code></em> :</span></p></td>
+<td>The IID of the extender to use
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>moniker</code></em> :</span></p></td>
+<td>the moniker to extend
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td>resolve options
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>requested_interface</code></em> :</span></p></td>
+<td>the requested interface
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>optional corba environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the resolved result or CORBA_OBJECT_NIL.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

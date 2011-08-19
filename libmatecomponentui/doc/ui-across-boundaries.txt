@@ -1,0 +1,153 @@
+                    ----------------------
+                    U.I. Across Boundaries
+                    ----------------------
+                       Mark McLoughlin
+                        mark@skynet.ie
+                       Mon Oct 1st, 2001
+
+	Perhaps the most compelling aspect of the MateComponent U.I. APIs is
+the ability to use cross-process U.I. embedding - that is, to have a
+U.I. component, managed by one process, visible in the window of
+another process.
+
+	Because MateComponent makes such a big deal of being built upon
+CORBA, you would be forgiven for assuming that this bit of magic is
+carried out solely using CORBA. That assumption is, in fact, untrue.
+The magic - displaying the out of process widgets and proxying the
+U.I. signals and events to the other process - is actually provided by
+the GtkPlug/GtkSocket APIs and, ultimately the X11 windowing system
+itself.
+
+====================
+GtPlug and GtkSocket
+====================
+
+	A GtkPlug wdget is a top-level window running in one
+application which may be embedded in a GtkSocket widget running in
+another application.
+
+	These APIs are actually quite simple. One application creates
+a GtkSocket and passes the XID of the wigets window to another
+process which, in turn, creates a GtkPlug window using that XID.
+
+	e.g. in the 'container' application:
+
+---                                                             ---
+	GtkWidget *socket = gtk_socket_new ();
+
+	gtk_container_add (GTK_CONTAINER (parent), socket);
+
+	app_transmit_xid (GDK_WINDOW_XWINDOW (socket->window));
+---                                                             ---
+
+	and in the 'component' application
+
+---                                                             ---
+	GtkWidget *window;
+	guint32    xid = app_receive_xid ();
+
+	window = gtk_plug_new (xid);
+
+	gtk_container_add (GTK_CONTAINER (window), widgets);
+
+	gtk_widget_show_all (window);
+---                                                             ---
+
+	The key here is how to communicate the XID between processes?
+Any IPC mechanism will do. In the 'testsocket' program with gtk+ the
+processes communicate via a UNIX domain socket. However, we could just
+as easily use CORBA ...
+
+	With MateComponent, we don't need to concern ourselves with
+GtkPlug/Sockets - as you'd expect with MateComponent there is a beautiful,
+clean and simple API we can use which abstracts away the complexities.
+These are the MateComponentControl and MateComponentControlFrame APIs.
+
+============
+MateComponentControl
+============
+
+	The MateComponentControl API essentially provides a way to create a
+GtkPlug which exports a widget of your choice. The really important
+part, though, is that a MateComponentControl also represents a CORBA object
+which may be exported and made available to other applications on the
+system.
+
+---                                                             ---
+	MateComponentControl *control;
+	GtkWidget     *widget;
+	MateComponent_Unkown *corba_object;
+
+	widget = app_create_widget ();
+	gtk_widget_show (widget);
+
+	control = matecomponent_control_new (widget);
+
+	corba_object = MATECOMPONENT_OBJREF (control);
+---                                                             ---
+
+	Usually, the MateComponentControl CORBA object - or the
+MateComponent_Control[1] object - would be exported using a MateComponent factory
+which may be discovered by querying  the matecomponent-activation server.
+However, this need not always be the case.
+
+==================
+MateComponentControlFrame
+==================
+
+	Just like MateComponentControl is, conceptually, a wrapper for
+GtkPlug, so then is MateComponentControlFrame a wrapper for GtkSocket. Once
+again though, a MateComponentControlFrame is more than a mere wrapper for a
+GtkSocket. It is also a CORBA object.
+
+	Simliar to the way you add, or bind, a widget to a container,
+you bind a MateComponentControl to a MateComponentControlFrame. It is at this point
+that the control creates a GtkPlug using the GtkSocket's XID. The
+control and control frame communicate using CORBA to make this happen.
+
+---                                                             ---
+	MateComponentControlFrame *frame;
+	GtkWidget          *frame_widget;
+
+	frame = matecomponent_control_frame_new (NULL);
+
+	matecomponent_control_frame_bind_to_control (frame, control);
+
+	frame_widget = matecomponent_control_frame_get_widget (frame);
+
+	gtk_container_add (GTK_CONTAINER (container), frame_widget);
+
+	gtk_widget_show (frame_widget);
+---                                                             ---
+
+	As simple as the API is to use, it could be simpler. And it
+is. Enter MateComponentWidget ...
+
+============
+MateComponentWidget
+============
+
+	"MateComponent component embedding for hydrocephalic imbeciles"
+			- Nat Friedman.
+
+	To embed a control in our application, all we really need is a
+GtkWidget representing the control to add to a GtkContainer. With the
+MateComponentWidget API, the one piece of information needed to obtain this
+GtkWidget is a moniker that identifies the component.
+
+---                                                             ---
+	GtkWidget *widget;
+
+	widget = matecomponent_widget_new_control ("OAFIID:MATE_myControl");
+
+	gtk_container_add (GTK_CONTAINER (container), frame_widget);
+
+	gtk_widget_show (frame_widget);
+---                                                             ---
+
+	I mean, really, could this be simpler?
+
+
+[1] - MateComponent uses the convention that identifiers like MateComponentControl
+      represent the C wrapper object of a CORBA object and identifiers 
+      like MateComponent_Control represent the actual CORBA object.

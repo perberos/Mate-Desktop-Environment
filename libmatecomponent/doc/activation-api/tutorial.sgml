@@ -1,0 +1,153 @@
+<chapter id="tutorial">
+<title>MateComponent Activation tutorial</title>
+
+   <sect1>
+   <title>What is MateComponent Activation ?</title>
+
+   <para>
+   MateComponent Activation (originally named OAF) was designed as a replacement for the limited libgnorba library used
+   in older MATE released. matecomponent-activation is responsible on MATE 2.x systems for
+   the activation of CORBA objects. matecomponent-activation allows you to browse the available
+   CORBA servers on your system (running or not). It keeps track of the running 
+   servers so that if you ask for a server which is already running, you will not
+   start it again but will reuse the already running one.
+   </para>
+
+   <sect2>
+   <title>The need for a replacement</title>
+   <para>
+      Gnorba works well in a limited number of cases and suffers of a 
+      number of design issues. More specifically:
+
+      <itemizedlist>
+
+      <listitem>
+      <para>
+      It cannot handle the non-local case gracefully. ie: you cannot start 
+      a remote CORBA server with matecomponent-activation.
+      </para>
+      </listitem>
+
+      <listitem>
+      <para>
+      It uses <emphasis>evil</emphasis> hacks to keep track of the system's CosNaming 
+      service making it unusable on systems where an X server is not running.
+      (for details, read matecomponent-activation code ;-)
+      </para>      
+      </listitem>
+
+      <listitem>
+      <para>
+      matecomponent-activation allows you to only request specific servers by their name: you cannot ask
+      for a server which provides a specific service. You have to ask for a server which 
+      you know provides a specific service.
+      </para>      
+      </listitem>
+
+      </itemizedlist>
+      </para>
+
+      <para>
+      MateComponent Activation was designed to address these issues. The remote issue is completely solved
+      by the MateComponent Activation daemon (see <xref linkend="architecture"/>), the evil hacks regarding X are
+      part of our past and the grand <emphasis>OAF query langage</emphasis> (see 
+      <xref linkend="query-langage"/>) gives you the ability to perform arbitrary queries
+      on the database of CORBA servers.
+      </para>
+
+      <para>
+      Basically, MateComponent Activation keeps track of all the CORBA servers installed on your machine and
+      can track any other machine's CORBA servers provided you set up MateComponent Activation correctly and 
+      allows you to perform queries on the properties of these servers.
+      The following very simple example will make things rather clear:
+
+      <programlisting>
+CORBA_Object o = matecomponent_activation_activate ("repo_ids.has ('IDL:MATE/Graph/Layout:1.0')",
+                                             NULL, 0, NULL, &amp;ev);
+      </programlisting>
+
+      This will ask for a component which supports the MATE/Graph/Layout:1.0 interface.
+      You can also do much more complicated things. MateComponent Activation will find one whcih matches the 
+      query and will take all the necessary measures required to get the server running
+      (if it is a shared library progam, it will load the relevant library in memory.
+      If you need a Factory, it will launch the factory and request the factory to create
+      the relevant object).
+
+      </para>
+
+      </sect2>
+
+      <sect2>
+      <title>Getting started</title>
+
+      <para>
+      Here follows a very simple-stupid example of what you can do with MateComponent Activation.
+      The complete API description of matecomponent activation, the MateComponent Activation query langage reference and the
+      <filename>.server</filename> file format reference are included in this 
+      document and are recommended readings. Reading <xref linkend="architecture"/> is
+      also a good idea.
+      </para>  
+
+      </sect2>
+
+   </sect1>
+
+   <sect1 id="checklist">
+   <title>Checklist</title>
+
+   <para>
+   If you plan to use MateComponent Activation for your own CORBA servers, you should use the following simple 
+   checklist.
+   <itemizedlist>
+
+   <listitem>
+   <para>
+   Create a unique UUID for your CORBA server by using libuuid and uuidgen
+   (both are available by anonymous ftp from tsx-11.mit.edu in 
+   <filename>/pub/linux/packages/ext2fs</filename>. These are part of the 
+   <filename>e2fsprogs</filename> package.
+   </para>
+   </listitem>
+
+   <listitem>
+   <para>
+   Create a proper <filename>.server</filename> file for your server describing its
+   IDL interfaces, its main properties and the way it is to be activated.
+   </para>
+   </listitem>
+
+   <listitem>
+   <para>
+   Call <function>matecomponent_activation_init</function> (make sure you do not initialize twice by calling 
+   <function>matecomponent_activation_is_initialized</function>). Then, call
+   <function>matecomponent_activation_active_server_register</function>
+   to register yourself as running to the MateComponent Activation daemon.
+   </para>
+   </listitem>
+
+   </itemizedlist>
+
+   If you are a client willing to activate a few servers, it is a little simpler: you 
+   just must make sure you call the <function>matecomponent_activation_init</function> function and you can then
+   call <function>matecomponent_activation_query</function> or <function>matecomponent_activation_activate</function> or 
+   <function>matecomponent_activation_activate_from_id</function>.
+   </para>
+
+   <para>
+   Here, put a real-life example of a client and a server.
+   </para>
+
+
+   <sect2>
+   <title>The non-local case</title>
+   <para>
+   Here, present how to use setup the system for the non-local case.
+   If anyone is willing to write this part, mail mate-components-list@mate.org.
+   in the meantime, you can have a look at the code in mate-libs HEAD from cvs.
+   (I never had time to go look at it)
+   </para>
+   </sect2>
+
+   </sect1>
+
+</chapter>

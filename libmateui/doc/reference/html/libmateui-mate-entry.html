@@ -1,0 +1,446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateEntry</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="deprecated.html" title="Deprecated Modules">
+<link rel="prev" href="libmateui-mate-dialog-util.html" title="mate-dialog-util">
+<link rel="next" href="MateFileEntry.html" title="MateFileEntry">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmateui-mate-dialog-util.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="deprecated.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="MateFileEntry.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmateui-mate-entry.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmateui-mate-entry.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmateui-mate-entry.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libmateui-mate-entry.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#libmateui-mate-entry.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#libmateui-mate-entry.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmateui-mate-entry"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmateui-mate-entry.top_of_page"></a>MateEntry</span></h2>
+<p>MateEntry</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmateui-mate-entry.synopsis"></a><h2>Synopsis</h2>
+<a name="MateEntry"></a><pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+                    <a class="link" href="libmateui-mate-entry.html#MateEntryPrivate" title="MateEntryPrivate">MateEntryPrivate</a>;
+struct              <a class="link" href="libmateui-mate-entry.html#MateEntry-struct" title="struct MateEntry">MateEntry</a>;
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-entry.html#mate-entry-new" title="mate_entry_new ()">mate_entry_new</a>                     (<em class="parameter"><code>const <span class="type">gchar</span> *history_id</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-entry.html#mate-entry-gtk-entry" title="mate_entry_gtk_entry ()">mate_entry_gtk_entry</a>               (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="libmateui-mate-entry.html#mate-entry-get-history-id" title="mate_entry_get_history_id ()">mate_entry_get_history_id</a>          (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-entry.html#mate-entry-set-history-id" title="mate_entry_set_history_id ()">mate_entry_set_history_id</a>          (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *history_id</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-entry.html#mate-entry-set-max-saved" title="mate_entry_set_max_saved ()">mate_entry_set_max_saved</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> max_saved</code></em>);
+<span class="returnvalue">guint</span>               <a class="link" href="libmateui-mate-entry.html#mate-entry-get-max-saved" title="mate_entry_get_max_saved ()">mate_entry_get_max_saved</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-entry.html#mate-entry-prepend-history" title="mate_entry_prepend_history ()">mate_entry_prepend_history</a>         (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> save</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-entry.html#mate-entry-append-history" title="mate_entry_append_history ()">mate_entry_append_history</a>          (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> save</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-entry.html#mate-entry-clear-history" title="mate_entry_clear_history ()">mate_entry_clear_history</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----GInitiallyUnowned
+         +----GtkObject
+               +----GtkWidget
+                     +----GtkContainer
+                           +----GtkBox
+                                 +----GtkHBox
+                                       +----GtkCombo
+                                             +----MateEntry
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+MateEntry implements
+ AtkImplementorIface,  GtkBuildable,  GtkOrientable and  GtkEditable.</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmateui-mate-entry.html#MateEntry--gtk-entry" title='The "gtk-entry" property'>gtk-entry</a>"                <span class="type">GtkEntry</span>*             : Read
+  "<a class="link" href="libmateui-mate-entry.html#MateEntry--history-id" title='The "history-id" property'>history-id</a>"               <span class="type">gchar</span>*                : Read / Write
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmateui-mate-entry.html#MateEntry-activate" title='The "activate" signal'>activate</a>"                                       : <code class="literal">Run Last</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateEntryPrivate"></a><h3>MateEntryPrivate</h3>
+<pre class="programlisting">typedef struct _MateEntryPrivate MateEntryPrivate;</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateEntryPrivate</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateEntry-struct"></a><h3>struct MateEntry</h3>
+<pre class="programlisting">struct MateEntry;</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MateEntry</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-new"></a><h3>mate_entry_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_entry_new                     (<em class="parameter"><code>const <span class="type">gchar</span> *history_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_new</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Creates a new MateEntry widget.  If  <em class="parameter"><code>history_id</code></em> is
+not <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>, then the history list will be saved and restored between
+uses under the given id.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>history_id</code></em> :</span></p></td>
+<td>If not <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>, the text id under which history data is stored
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Newly-created MateEntry widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-gtk-entry"></a><h3>mate_entry_gtk_entry ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_entry_gtk_entry               (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_gtk_entry</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Obtain pointer to MateEntry's internal text entry
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Pointer to GtkEntry widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-get-history-id"></a><h3>mate_entry_get_history_id ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       mate_entry_get_history_id          (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_get_history_id</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Returns the current history id of the MateEntry widget.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The current history id.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-set-history-id"></a><h3>mate_entry_set_history_id ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_entry_set_history_id          (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *history_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_set_history_id</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Set the id of the history list. This function cannot be
+used to change and already existing id.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>history_id</code></em> :</span></p></td>
+<td>the text id under which history data is stored
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-set-max-saved"></a><h3>mate_entry_set_max_saved ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_entry_set_max_saved           (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> max_saved</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_set_max_saved</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Set internal limit on number of history items saved
+to the config file.
+Zero is an acceptable value for <em class="parameter"><code>max_saved</code></em>, but the same thing is
+accomplished by setting the history id of <em class="parameter"><code>gentry</code></em> to <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>max_saved</code></em> :</span></p></td>
+<td>Maximum number of history items to save
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-get-max-saved"></a><h3>mate_entry_get_max_saved ()</h3>
+<pre class="programlisting"><span class="returnvalue">guint</span>               mate_entry_get_max_saved           (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_get_max_saved</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Get internal limit on number of history items saved
+to the config file
+See #<a class="link" href="libmateui-mate-entry.html#mate-entry-set-max-saved" title="mate_entry_set_max_saved ()"><code class="function">mate_entry_set_max_saved()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> An unsigned integer
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-prepend-history"></a><h3>mate_entry_prepend_history ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_entry_prepend_history         (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> save</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_prepend_history</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Adds a history item of the given <em class="parameter"><code>text</code></em> to the head of
+the history list inside <em class="parameter"><code>gentry</code></em>.  If <em class="parameter"><code>save</code></em> is <code class="literal">TRUE</code>, the history
+item will be saved in the config file (assuming that <em class="parameter"><code>gentry</code></em>'s
+history id is not <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>).
+Duplicates are automatically removed from the history list.
+The history list is automatically saved if needed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>save</code></em> :</span></p></td>
+<td>If <code class="literal">TRUE</code>, history entry will be saved to config file
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>Text to add
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-append-history"></a><h3>mate_entry_append_history ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_entry_append_history          (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> save</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *text</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_append_history</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Adds a history item of the given <em class="parameter"><code>text</code></em> to the tail
+of the history list inside <em class="parameter"><code>gentry</code></em>.  If <em class="parameter"><code>save</code></em> is <code class="literal">TRUE</code>, the
+history item will be saved in the config file (assuming that
+<em class="parameter"><code>gentry</code></em>'s history id is not <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>).
+Duplicates are automatically removed from the history list.
+The history list is automatically saved if needed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>save</code></em> :</span></p></td>
+<td>If <code class="literal">TRUE</code>, history entry will be saved to config file
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>Text to add
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-entry-clear-history"></a><h3>mate_entry_clear_history ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_entry_clear_history           (<em class="parameter"><code><a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *gentry</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_entry_clear_history</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Clears the history.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>gentry</code></em> :</span></p></td>
+<td>Pointer to MateEntry object.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="MateEntry--gtk-entry"></a><h3>The <code class="literal">"gtk-entry"</code> property</h3>
+<pre class="programlisting">  "gtk-entry"                <span class="type">GtkEntry</span>*             : Read</pre>
+<p>The GTK entry.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateEntry--history-id"></a><h3>The <code class="literal">"history-id"</code> property</h3>
+<pre class="programlisting">  "history-id"               <span class="type">gchar</span>*                : Read / Write</pre>
+<p>History ID.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-entry.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateEntry-activate"></a><h3>The <code class="literal">"activate"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-entry.html#MateEntry"><span class="type">MateEntry</span></a> *entry,
+                                                        <span class="type">gpointer</span>    user_data)      : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>entry</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

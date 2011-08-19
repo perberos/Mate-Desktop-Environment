@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateAppBar</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE UI Library Reference Manual">
+<link rel="up" href="application-mgmt.html" title="Application Management">
+<link rel="prev" href="libmateui-mate-app.html" title="MateApp">
+<link rel="next" href="libmateui-mate-app-helper.html" title="mate-app-helper">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmateui-mate-app.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="application-mgmt.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE UI Library Reference Manual</th>
+<td><a accesskey="n" href="libmateui-mate-app-helper.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmateui-mate-appbar.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmateui-mate-appbar.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmateui-mate-appbar.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libmateui-mate-appbar.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#libmateui-mate-appbar.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#libmateui-mate-appbar.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmateui-mate-appbar"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmateui-mate-appbar.top_of_page"></a>MateAppBar</span></h2>
+<p>MateAppBar — An application status and progress bar widget</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmateui-mate-appbar.synopsis"></a><h2>Synopsis</h2>
+<a name="MateAppBar"></a><pre class="synopsis">
+#include &lt;libmateui/libmateui.h&gt;
+
+#define             <a class="link" href="libmateui-mate-appbar.html#MATE-APPBAR-HAS-STATUS:CAPS" title="MATE_APPBAR_HAS_STATUS()">MATE_APPBAR_HAS_STATUS</a>             (appbar)
+#define             <a class="link" href="libmateui-mate-appbar.html#MATE-APPBAR-HAS-PROGRESS:CAPS" title="MATE_APPBAR_HAS_PROGRESS()">MATE_APPBAR_HAS_PROGRESS</a>           (appbar)
+#define             <a class="link" href="libmateui-mate-appbar.html#MATE-APPBAR-INTERACTIVE:CAPS" title="MATE_APPBAR_INTERACTIVE()">MATE_APPBAR_INTERACTIVE</a>            (ab)
+struct              <a class="link" href="libmateui-mate-appbar.html#MateAppBar-struct" title="struct MateAppBar">MateAppBar</a>;
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-appbar.html#mate-appbar-new" title="mate_appbar_new ()">mate_appbar_new</a>                    (<em class="parameter"><code><span class="type">gboolean</span> has_progress</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> has_status</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmateui-mate-types.html#MatePreferencesType" title="enum MatePreferencesType"><span class="type">MatePreferencesType</span></a> interactivity</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-set-status" title="mate_appbar_set_status ()">mate_appbar_set_status</a>             (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *status</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmateui-mate-appbar.html#mate-appbar-get-status" title="mate_appbar_get_status ()">mate_appbar_get_status</a>             (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-set-default" title="mate_appbar_set_default ()">mate_appbar_set_default</a>            (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *default_status</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-push" title="mate_appbar_push ()">mate_appbar_push</a>                   (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *status</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-pop" title="mate_appbar_pop ()">mate_appbar_pop</a>                    (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-clear-stack" title="mate_appbar_clear_stack ()">mate_appbar_clear_stack</a>            (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-set-progress-percentage" title="mate_appbar_set_progress_percentage ()">mate_appbar_set_progress_percentage</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code><span class="type">gfloat</span> percentage</code></em>);
+<span class="returnvalue">GtkProgressBar</span> *    <a class="link" href="libmateui-mate-appbar.html#mate-appbar-get-progress" title="mate_appbar_get_progress ()">mate_appbar_get_progress</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-refresh" title="mate_appbar_refresh ()">mate_appbar_refresh</a>                (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-set-prompt" title="mate_appbar_set_prompt ()">mate_appbar_set_prompt</a>             (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *prompt</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> modal</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmateui-mate-appbar.html#mate-appbar-clear-prompt" title="mate_appbar_clear_prompt ()">mate_appbar_clear_prompt</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+<span class="returnvalue">gchar</span> *             <a class="link" href="libmateui-mate-appbar.html#mate-appbar-get-response" title="mate_appbar_get_response ()">mate_appbar_get_response</a>           (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----GInitiallyUnowned
+         +----GtkObject
+               +----GtkWidget
+                     +----GtkContainer
+                           +----GtkBox
+                                 +----GtkHBox
+                                       +----MateAppBar
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+MateAppBar implements
+ AtkImplementorIface,  GtkBuildable and  GtkOrientable.</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmateui-mate-appbar.html#MateAppBar--has-progress" title='The "has-progress" property'>has-progress</a>"             <span class="type">gboolean</span>              : Read / Write / Construct
+  "<a class="link" href="libmateui-mate-appbar.html#MateAppBar--has-status" title='The "has-status" property'>has-status</a>"               <span class="type">gboolean</span>              : Read / Write / Construct
+  "<a class="link" href="libmateui-mate-appbar.html#MateAppBar--interactivity" title='The "interactivity" property'>interactivity</a>"            <a class="link" href="libmateui-mate-types.html#MatePreferencesType" title="enum MatePreferencesType"><span class="type">MatePreferencesType</span></a>  : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmateui-mate-appbar.html#MateAppBar-clear-prompt" title='The "clear-prompt" signal'>clear-prompt</a>"                                   : <code class="literal">Run Last</code>
+  "<a class="link" href="libmateui-mate-appbar.html#MateAppBar-user-response" title='The "user-response" signal'>user-response</a>"                                  : <code class="literal">Run Last</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.description"></a><h2>Description</h2>
+<p>
+A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> widget sits (usually) at the bottom of an application window and
+contains a progress bar (for indicating time consuming tasks and their
+completion status) and/or a status bar for sending short one-line message to
+the user. It is also possible (in theory) for the user to edit the contents of
+the status bar, should the application developer choose to allow that, however
+<span class="emphasis"><em>note that this is not really working</em></span> in the present
+implementation, so developers are recommended to avoid using interactive status
+bars and use proper editable widgets instead.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MATE-APPBAR-HAS-STATUS:CAPS"></a><h3>MATE_APPBAR_HAS_STATUS()</h3>
+<pre class="programlisting">#define MATE_APPBAR_HAS_STATUS(appbar) (mate_appbar_get_status(MATE_APPBAR(appbar)) != NULL)
+</pre>
+<p>
+Whether or not the application bar contains a status box.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<code class="literal">TRUE</code> is a status box is contained in the appbar.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-APPBAR-HAS-PROGRESS:CAPS"></a><h3>MATE_APPBAR_HAS_PROGRESS()</h3>
+<pre class="programlisting">#define MATE_APPBAR_HAS_PROGRESS(appbar) (mate_appbar_get_progress(MATE_APPBAR(appbar)) != NULL)
+</pre>
+<p>
+Whether or not the application bar contains a status box.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<code class="literal">TRUE</code> is a status box is contained in the appbar.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-APPBAR-INTERACTIVE:CAPS"></a><h3>MATE_APPBAR_INTERACTIVE()</h3>
+<pre class="programlisting">#define MATE_APPBAR_INTERACTIVE(ab) ((ab) ? (ab)-&gt;interactive : FALSE)
+</pre>
+<p>
+Whether or not the user can edit the text in the statusbar portion of a
+<a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ab</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<code class="literal">TRUE</code> if the user can edit the statusbar text.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateAppBar-struct"></a><h3>struct MateAppBar</h3>
+<pre class="programlisting">struct MateAppBar;</pre>
+<p>
+This widget contains the status bar and progress bar (if they are requested).
+After creating a <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> widget (via <a class="link" href="libmateui-mate-appbar.html#mate-appbar-new" title="mate_appbar_new ()"><code class="function">mate_appbar_new()</code></a>, for example), it
+can then be passed to <a class="link" href="libmateui-mate-app.html#mate-app-set-statusbar" title="mate_app_set_statusbar ()"><code class="function">mate_app_set_statusbar()</code></a> to add it to the main
+application window.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-new"></a><h3>mate_appbar_new ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_appbar_new                    (<em class="parameter"><code><span class="type">gboolean</span> has_progress</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> has_status</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmateui-mate-types.html#MatePreferencesType" title="enum MatePreferencesType"><span class="type">MatePreferencesType</span></a> interactivity</code></em>);</pre>
+<p>
+Create a new MATE application status bar.  If <em class="parameter"><code>has_progress</code></em> is
+<code class="literal">TRUE</code>, a small progress bar widget will be created, and placed on the
+left side of the appbar.  If <em class="parameter"><code>has_status</code></em> is <code class="literal">TRUE</code>, a status bar,
+possibly an editable one, is created.
+</p>
+<p>
+The <em class="parameter"><code>interactivity</code></em> parameter determines whether the appbar is an interactive
+"minibuffer" or just a status bar.  If it is set to
+<span class="type">MATE_PREFERENCES_NEVER</span>, it is never interactive.  If it is set to
+<span class="type">MATE_PREFERENCES_USER</span> we respect user preferences from
+ui-properties. If it's <span class="type">MATE_PREFERENCES_ALWAYS</span> we are interactive
+whether the user likes it or not. Basically, if your app supports
+both interactive and not (for example, if you use the
+mate-app-util interfaces), you should use
+<span class="type">MATE_PREFERENCES_USER</span>. Otherwise, use the setting you
+support. Please note that "interactive" mode is not functional now;
+GtkEntry is inadequate and so a custom widget will be written
+eventually.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>has_progress</code></em> :</span></p></td>
+<td>
+<code class="literal">TRUE</code> if appbar needs progress bar widget, <code class="literal">FALSE</code> if not.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>has_status</code></em> :</span></p></td>
+<td>
+<code class="literal">TRUE</code> if appbar needs status bar widget, <code class="literal">FALSE</code> if not.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interactivity</code></em> :</span></p></td>
+<td>Level of user activity required.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>  Pointer to new <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-set-status"></a><h3>mate_appbar_set_status ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_set_status             (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *status</code></em>);</pre>
+<p>
+Sets the status label without changing widget state; next call to
+<a class="link" href="libmateui-mate-appbar.html#mate-appbar-set-status" title="mate_appbar_set_status ()"><code class="function">mate_appbar_set_status()</code></a> or <a class="link" href="libmateui-mate-appbar.html#mate-appbar-push" title="mate_appbar_push ()"><code class="function">mate_appbar_push()</code></a> will destroy this
+permanently.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>status</code></em> :</span></p></td>
+<td>Text to which status label will be set.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-get-status"></a><h3>mate_appbar_get_status ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         mate_appbar_get_status             (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Retrieves the statusbar widget.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+A pointer to the statusbar widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-set-default"></a><h3>mate_appbar_set_default ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_set_default            (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *default_status</code></em>);</pre>
+<p>
+What to show when showing nothing else is on the stack; defaults to the
+empty string.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>default_status</code></em> :</span></p></td>
+<td>Text for status label.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-push"></a><h3>mate_appbar_push ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_push                   (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *status</code></em>);</pre>
+<p>
+Push a new status message onto the status bar stack and display it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>status</code></em> :</span></p></td>
+<td>Text of status message.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-pop"></a><h3>mate_appbar_pop ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_pop                    (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Remove current status message, and display previous status
+message, if any.  It is fine to call this with an empty stack.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-clear-stack"></a><h3>mate_appbar_clear_stack ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_clear_stack            (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Remove all status messages from <em class="parameter"><code>appbar</code></em>, and display default status
+message (if present).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-set-progress-percentage"></a><h3>mate_appbar_set_progress_percentage ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_set_progress_percentage
+                                                        (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code><span class="type">gfloat</span> percentage</code></em>);</pre>
+<p>
+Sets progress bar to <em class="parameter"><code>percentage</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>percentage</code></em> :</span></p></td>
+<td>Percentage to which progress bar should be set.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-get-progress"></a><h3>mate_appbar_get_progress ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkProgressBar</span> *    mate_appbar_get_progress           (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Retrieves the progress bar widget for further manipulation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <span class="type">GtkProgressBar</span> widget which is <em class="parameter"><code>appbar</code></em>'s progress bar, or <a href="/opt/mate2/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>
+if <em class="parameter"><code>appbar</code></em> has no progress bar.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-refresh"></a><h3>mate_appbar_refresh ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_refresh                (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Refresh the status message bar by redrawing the item on the top of the
+stack, or the default value if the stack is empty.. Useful to force the
+message from a previous call to <a class="link" href="libmateui-mate-appbar.html#mate-appbar-set-status" title="mate_appbar_set_status ()"><code class="function">mate_appbar_set_status()</code></a> to disappear.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-set-prompt"></a><h3>mate_appbar_set_prompt ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_set_prompt             (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *prompt</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> modal</code></em>);</pre>
+<p>
+Put a prompt in the appbar and wait for a response. When the
+user responds or cancels, a 'user_response' signal is emitted.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>prompt</code></em> :</span></p></td>
+<td>Text of the prompt message.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>modal</code></em> :</span></p></td>
+<td>If <code class="literal">TRUE</code>, grabs input.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-clear-prompt"></a><h3>mate_appbar_clear_prompt ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_appbar_clear_prompt           (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Remove any prompt from the status message bar.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-appbar-get-response"></a><h3>mate_appbar_get_response ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *             mate_appbar_get_response           (<em class="parameter"><code><a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar</code></em>);</pre>
+<p>
+Get the response to the prompt, if any.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>A <a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> instance.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+Text from <em class="parameter"><code>appbar</code></em> entry widget, as entered by user. This string should be
+freed by the caller (using <code class="function">gfree()</code>) when no longer required.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="MateAppBar--has-progress"></a><h3>The <code class="literal">"has-progress"</code> property</h3>
+<pre class="programlisting">  "has-progress"             <span class="type">gboolean</span>              : Read / Write / Construct</pre>
+<p>Create a progress widget.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateAppBar--has-status"></a><h3>The <code class="literal">"has-status"</code> property</h3>
+<pre class="programlisting">  "has-status"               <span class="type">gboolean</span>              : Read / Write / Construct</pre>
+<p>Create a status widget.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateAppBar--interactivity"></a><h3>The <code class="literal">"interactivity"</code> property</h3>
+<pre class="programlisting">  "interactivity"            <a class="link" href="libmateui-mate-types.html#MatePreferencesType" title="enum MatePreferencesType"><span class="type">MatePreferencesType</span></a>  : Read / Write / Construct</pre>
+<p>Level of user activity required.</p>
+<p>Default value: MATE_PREFERENCES_NEVER</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmateui-mate-appbar.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateAppBar-clear-prompt"></a><h3>The <code class="literal">"clear-prompt"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar,
+                                                        <span class="type">gpointer</span>     user_data)      : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateAppBar-user-response"></a><h3>The <code class="literal">"user-response"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmateui-mate-appbar.html#MateAppBar"><span class="type">MateAppBar</span></a> *appbar,
+                                                        <span class="type">gpointer</span>     user_data)      : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>appbar</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

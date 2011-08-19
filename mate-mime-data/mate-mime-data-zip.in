@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Build zipfile distribution of mate-mime-data for Win32. Run after
+# make install.
+
+# No, I don't claim that it will necessarily make much sense having a
+# mate-mime-data package for Win32. This is just for completeness as
+# many MATE libraries depend in their configure.in on
+# mate-mime-data, and as for now it's easiest to have it installed
+# when building them. But very likely the users of mate-mime-data
+# will eventually have code to use more native Win32 mechanisms for
+# the function that mate-mime-data has on a Unix
+# system. --tml@novell.com
+
+ZIP=/tmp/mate-mime-data-@VERSION@.zip
+
+cd @prefix@
+rm $ZIP
+
+zip $ZIP -@ <<EOF
+etc/mate-vfs-mime-magic
+lib/pkgconfig/mate-mime-data-2.0.pc
+share/application-registry/mate-vfs.applications
+share/mime-info/mate-vfs.mime
+EOF

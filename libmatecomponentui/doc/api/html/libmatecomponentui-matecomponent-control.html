@@ -1,0 +1,1200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateComponentControl</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="LibMateComponentUI API Reference Manual">
+<link rel="up" href="matecomponent-controls.html" title="Controls">
+<link rel="prev" href="matecomponent-controls.html" title="Controls">
+<link rel="next" href="libmatecomponentui-matecomponent-control-frame.html" title="MateComponentControlFrame">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="matecomponent-controls.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="matecomponent-controls.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibMateComponentUI API Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponentui-matecomponent-control-frame.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponentui-matecomponent-control.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponentui-matecomponent-control.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmatecomponentui-matecomponent-control.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libmatecomponentui-matecomponent-control.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponentui-matecomponent-control"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponentui-matecomponent-control.top_of_page"></a>MateComponentControl</span></h2>
+<p>MateComponentControl — An implementation of the control interface for GtkWidgets</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponentui-matecomponent-control.synopsis"></a><h2>Synopsis</h2>
+<a name="MateComponentControl"></a><pre class="synopsis">struct              <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl-struct" title="struct MateComponentControl">MateComponentControl</a>;
+                    <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControlPrivate" title="MateComponentControlPrivate">MateComponentControlPrivate</a>;
+                    <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControlClass" title="MateComponentControlClass">MateComponentControlClass</a>;
+<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="returnvalue">MateComponentControl</span></a> *     <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-new" title="matecomponent_control_new ()">matecomponent_control_new</a>                  (<em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-widget" title="matecomponent_control_get_widget ()">matecomponent_control_get_widget</a>           (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-automerge" title="matecomponent_control_set_automerge ()">matecomponent_control_set_automerge</a>        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> automerge</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-automerge" title="matecomponent_control_get_automerge ()">matecomponent_control_get_automerge</a>        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-property" title="matecomponent_control_set_property ()">matecomponent_control_set_property</a>         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *first_prop</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-property" title="matecomponent_control_get_property ()">matecomponent_control_get_property</a>         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *first_prop</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-transient-for" title="matecomponent_control_set_transient_for ()">matecomponent_control_set_transient_for</a>    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWindow</span> *window</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-unset-transient-for" title="matecomponent_control_unset_transient_for ()">matecomponent_control_unset_transient_for</a>  (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWindow</span> *window</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="returnvalue">MateComponentControl</span></a> *     <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-construct" title="matecomponent_control_construct ()">matecomponent_control_construct</a>            (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);
+<a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="returnvalue">MateComponentUIComponent</span></a> * <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-ui-component" title="matecomponent_control_get_ui_component ()">matecomponent_control_get_ui_component</a>     (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-ui-component" title="matecomponent_control_set_ui_component ()">matecomponent_control_set_ui_component</a>     (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="type">MateComponentUIComponent</span></a> *component</code></em>);
+<span class="returnvalue">MateComponent_UIContainer</span>  <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-remote-ui-container" title="matecomponent_control_get_remote_ui_container ()">matecomponent_control_get_remote_ui_container</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-control-frame" title="matecomponent_control_set_control_frame ()">matecomponent_control_set_control_frame</a>    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_ControlFrame</span> control_frame</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">MateComponent_ControlFrame</span>  <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-control-frame" title="matecomponent_control_get_control_frame ()">matecomponent_control_get_control_frame</a>   (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-properties" title="matecomponent_control_set_properties ()">matecomponent_control_set_properties</a>       (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_PropertyBag</span> pb</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">MateComponent_PropertyBag</span>  <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-properties" title="matecomponent_control_get_properties ()">matecomponent_control_get_properties</a>       (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<span class="returnvalue">MateComponent_PropertyBag</span>  <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-ambient-properties" title="matecomponent_control_get_ambient_properties ()">matecomponent_control_get_ambient_properties</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-activate-notify" title="matecomponent_control_activate_notify ()">matecomponent_control_activate_notify</a>      (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> activated</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);
+<span class="returnvalue">MateComponent_Gdk_WindowId</span>  <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-window-id-from-x11" title="matecomponent_control_window_id_from_x11 ()">matecomponent_control_window_id_from_x11</a>  (<em class="parameter"><code><span class="type">guint32</span> x11_id</code></em>);
+<span class="returnvalue">guint32</span>             <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-x11-from-window-id" title="matecomponent_control_x11_from_window_id ()">matecomponent_control_x11_from_window_id</a>   (<em class="parameter"><code>const <span class="type">CORBA_char</span> *id</code></em>);
+#define             <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-windowid-from-x11" title="matecomponent_control_windowid_from_x11()">matecomponent_control_windowid_from_x11</a>    (a)
+#define             <a class="link" href="libmatecomponentui-matecomponent-control.html#MATECOMPONENT-CONTROL-POPUP-BUTTON1:CAPS" title="MATECOMPONENT_CONTROL_POPUP_BUTTON1">MATECOMPONENT_CONTROL_POPUP_BUTTON1</a>
+#define             <a class="link" href="libmatecomponentui-matecomponent-control.html#MATECOMPONENT-CONTROL-POPUP-BUTTON2:CAPS" title="MATECOMPONENT_CONTROL_POPUP_BUTTON2">MATECOMPONENT_CONTROL_POPUP_BUTTON2</a>
+#define             <a class="link" href="libmatecomponentui-matecomponent-control.html#MATECOMPONENT-CONTROL-POPUP-BUTTON3:CAPS" title="MATECOMPONENT_CONTROL_POPUP_BUTTON3">MATECOMPONENT_CONTROL_POPUP_BUTTON3</a>
+<a class="link" href="libmatecomponentui-matecomponent-ui-container.html#MateComponentUIContainer"><span class="returnvalue">MateComponentUIContainer</span></a> * <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-popup-ui-container" title="matecomponent_control_get_popup_ui_container ()">matecomponent_control_get_popup_ui_container</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="returnvalue">MateComponentUIComponent</span></a> * <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-get-popup-ui-component" title="matecomponent_control_get_popup_ui_component ()">matecomponent_control_get_popup_ui_component</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-popup-ui-container" title="matecomponent_control_set_popup_ui_container ()">matecomponent_control_set_popup_ui_container</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-container.html#MateComponentUIContainer"><span class="type">MateComponentUIContainer</span></a> *ui_container</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-do-popup" title="matecomponent_control_do_popup ()">matecomponent_control_do_popup</a>             (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint32</span> activate_time</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-do-popup-full" title="matecomponent_control_do_popup_full ()">matecomponent_control_do_popup_full</a>        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent_menu_shell</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent_menu_item</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuPositionFunc</span> func</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint32</span> activate_time</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControlLifeCallback" title="MateComponentControlLifeCallback ()">*MateComponentControlLifeCallback</a>)        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-life-set-purge" title="matecomponent_control_life_set_purge ()">matecomponent_control_life_set_purge</a>       (<em class="parameter"><code>long <span class="type">ms</span> Param1</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-life-set-callback" title="matecomponent_control_life_set_callback ()">matecomponent_control_life_set_callback</a>    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControlLifeCallback" title="MateComponentControlLifeCallback ()"><span class="type">MateComponentControlLifeCallback</span></a> all_dead_callback</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-life-instrument" title="matecomponent_control_life_instrument ()">matecomponent_control_life_instrument</a>      (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-life-get-count" title="matecomponent_control_life_get_count ()">matecomponent_control_life_get_count</a>       (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-control.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----MateComponentObject
+         +----MateComponentControl
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-control.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl-activate" title='The "activate" signal'>activate</a>"                                       : <code class="literal">Run Last</code>
+  "<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl-disconnected" title='The "disconnected" signal'>disconnected</a>"                                   : <code class="literal">Run Last</code>
+  "<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl-plug-created" title='The "plug-created" signal'>plug-created</a>"                                   : <code class="literal">Run Last</code>
+  "<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl-set-frame" title='The "set-frame" signal'>set-frame</a>"                                      : <code class="literal">Run Last</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-control.description"></a><h2>Description</h2>
+<p>
+The MateComponentControl object implements the CORBA interface for
+handling remote embeddable components. A Control is a light
+weight, single view, arbitrarily complex 'widget'. Controls
+typicaly expose much of their functionality through a
+property bag.
+</p>
+<div class="figure">
+<a name="control-img"></a><p class="title"><b>Figure 1. The MateComponent::Control interface</b></p>
+<div class="figure-contents"><div class="mediaobject"><img src="control.png" alt="The MateComponent::Control interface"></div></div>
+</div>
+<br class="figure-break"><p>
+A MateComponentControl provides the server ( or component ) side
+implementation of a Control. The client that uses this
+control will probably use a <a class="link" href="libmatecomponentui-matecomponent-widget.html#MateComponentWidget"><span class="type">MateComponentWidget</span></a> to use the control
+in their program.
+</p>
+<p>
+</p>
+<p>
+If you want to expose your widget as a control it is very simple
+  </p>
+<div class="example">
+<a name="id2565677"></a><p class="title"><b>Example 1. CORBA-ifying your GtkWidget</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7</pre></td>
+        <td class="listing_code"><pre class="programlisting">MateComponentControl *control;
+GtkWidget     *widget;
+MateComponent_Unknown corba_object;
+widget = make_my_widget ();
+gtk_widget_show (widget);
+control = matecomponent_control_new (widget);
+corba_object = MATECOMPONENT_OBJREF (control);</pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+  The corba_object can then be passed off down the wire to anyone
+and the control popped into a <a class="link" href="libmatecomponentui-matecomponent-widget.html#MateComponentWidget"><span class="type">MateComponentWidget</span></a> or <a class="link" href="libmatecomponentui-matecomponent-control-frame.html#MateComponentControlFrame"><span class="type">MateComponentControlFrame</span></a>
+at the other end. Here is an even less useful example
+  </p>
+<div class="example">
+<a name="id2565708"></a><p class="title"><b>Example 2. A pretty useless Control</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4</pre></td>
+        <td class="listing_code"><pre class="programlisting">GtkWidget *widget;
+widget = gtk_button_new_with_label (<span class="number">&quot;My Control&quot;</span>);
+gtk_widget_show (widget);
+<span class="keyword">return</span> matecomponent_control_new (widget);</pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+  If you learn only one thing from this example, it should be that
+you need to do a gtk_widget_show on your control. It is not
+sufficient to do a gtk_widget_show_all on the top level of the
+client side, since this will not ( and should not ) propagate
+over to the Control.
+</p>
+<p>
+One final thing worth thinking about is activation. When a control
+is embedded inside a <a class="link" href="libmatecomponentui-matecomponent-control-frame.html#MateComponentControlFrame"><span class="type">MateComponentControlFrame</span></a>, it is initialy inactive.
+In order for the control to recieve interactive input it is neccessary
+to use matecomponent_control_frame_activate. This signals to the control
+that it is activated, at which point the Control should merge any
+UI elements it has with the associated <a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="type">MateComponentUIComponent</span></a>. This
+needs to be done every time the control is activated.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-control.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateComponentControl-struct"></a><h3>struct MateComponentControl</h3>
+<pre class="programlisting">struct MateComponentControl;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentControlPrivate"></a><h3>MateComponentControlPrivate</h3>
+<pre class="programlisting">typedef struct _MateComponentControlPrivate MateComponentControlPrivate;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentControlClass"></a><h3>MateComponentControlClass</h3>
+<pre class="programlisting">typedef struct {
+	MateComponentObjectClass      parent_class;
+
+	POA_MateComponent_Control__epv epv;
+
+	gpointer dummy[2];
+
+	/* Signals. */
+	void (*plug_created)   (MateComponentControl *control);
+	void (*disconnected)   (MateComponentControl *control);
+	void (*set_frame)      (MateComponentControl *control);
+	void (*activate)       (MateComponentControl *control, gboolean state);
+} MateComponentControlClass;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-new"></a><h3>matecomponent_control_new ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="returnvalue">MateComponentControl</span></a> *     matecomponent_control_new                  (<em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);</pre>
+<p>
+This function creates a new MateComponentControl object for <em class="parameter"><code>widget</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>a GTK widget that contains the control and will be passed to the
+container process.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a MateComponentControl object that implements the MateComponent::Control CORBA
+service that will transfer the <em class="parameter"><code>widget</code></em> to the container process.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-widget"></a><h3>matecomponent_control_get_widget ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         matecomponent_control_get_widget           (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<p>
+Returns the GtkWidget associated with a MateComponentControl.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>a MateComponentControl
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the MateComponentControl's widget
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-automerge"></a><h3>matecomponent_control_set_automerge ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_automerge        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> automerge</code></em>);</pre>
+<p>
+Sets whether or not the control handles menu/toolbar merging
+automatically.  If automerge is on, the control will automatically
+register its MateComponentUIComponent with the remote MateComponentUIContainer
+when it is activated.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>automerge</code></em> :</span></p></td>
+<td>Whether or not menus and toolbars should be
+automatically merged when the control is activated.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-automerge"></a><h3>matecomponent_control_get_automerge ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_control_get_automerge        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Whether or not the control is set to automerge its
+menus/toolbars.  See <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-set-automerge" title="matecomponent_control_set_automerge ()"><code class="function">matecomponent_control_set_automerge()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-property"></a><h3>matecomponent_control_set_property ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_property         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *first_prop</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+This method takes a NULL terminated list of name, type, value
+triplicates, and sets the corresponding values on the control's
+associated property bag.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>the control with associated property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>optional corba exception environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>first_prop</code></em> :</span></p></td>
+<td>the first property's name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-property"></a><h3>matecomponent_control_get_property ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_get_property         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *first_prop</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+This method takes a NULL terminated list of name, type, value
+triplicates, and fetches the corresponding values on the control's
+associated property bag.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>the control with associated property bag
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>optional corba exception environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>first_prop</code></em> :</span></p></td>
+<td>the first property's name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-transient-for"></a><h3>matecomponent_control_set_transient_for ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_transient_for    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWindow</span> *window</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+Attempts to make the <em class="parameter"><code>window</code></em> transient for the toplevel
+of any associated controlframe the MateComponentControl may have.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>a control with associated control frame
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a window upon which to set the transient window.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-unset-transient-for"></a><h3>matecomponent_control_unset_transient_for ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_unset_transient_for  (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWindow</span> *window</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>a control with associated control frame
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a window upon which to unset the transient window.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-construct"></a><h3>matecomponent_control_construct ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="returnvalue">MateComponentControl</span></a> *     matecomponent_control_construct            (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-ui-component"></a><h3>matecomponent_control_get_ui_component ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="returnvalue">MateComponentUIComponent</span></a> * matecomponent_control_get_ui_component     (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>The control
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the associated UI component
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-ui-component"></a><h3>matecomponent_control_set_ui_component ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_ui_component     (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="type">MateComponentUIComponent</span></a> *component</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>component</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-remote-ui-container"></a><h3>matecomponent_control_get_remote_ui_container ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_UIContainer</span>  matecomponent_control_get_remote_ui_container
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A MateComponentControl object which is associated with a remote
+ControlFrame.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>an optional exception environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The MateComponent_UIContainer CORBA server for the remote MateComponentControlFrame.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-control-frame"></a><h3>matecomponent_control_set_control_frame ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_control_frame    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_ControlFrame</span> control_frame</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control_frame</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-control-frame"></a><h3>matecomponent_control_get_control_frame ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_ControlFrame</span>  matecomponent_control_get_control_frame   (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A MateComponentControl object whose MateComponent_ControlFrame CORBA interface is
+being retrieved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>an optional exception environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The MateComponent_ControlFrame CORBA object associated with <em class="parameter"><code>control</code></em>, this is
+a CORBA_Object_duplicated object.  You need to CORBA_Object_release it when you are
+done with it.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-properties"></a><h3>matecomponent_control_set_properties ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_properties       (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">MateComponent_PropertyBag</span> pb</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+Binds <em class="parameter"><code>pb</code></em> to <em class="parameter"><code>control</code></em>.  When a remote object queries <em class="parameter"><code>control</code></em>
+for its property bag, <em class="parameter"><code>pb</code></em> will be used in the responses.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> object.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pb</code></em> :</span></p></td>
+<td>A <span class="type">MateComponent_PropertyBag</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>An optional exception environment
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-properties"></a><h3>matecomponent_control_get_properties ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_PropertyBag</span>  matecomponent_control_get_properties       (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> whose PropertyBag has already been set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The <span class="type">MateComponent_PropertyBag</span> bound to <em class="parameter"><code>control</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-ambient-properties"></a><h3>matecomponent_control_get_ambient_properties ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_PropertyBag</span>  matecomponent_control_get_ambient_properties
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> which is bound to a remote
+<a class="link" href="libmatecomponentui-matecomponent-control-frame.html#MateComponentControlFrame"><span class="type">MateComponentControlFrame</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>an optional exception environment
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <span class="type">MateComponent_PropertyBag</span> bound to the bag of ambient
+properties associated with this <span class="type">Control</span>'s <span class="type">ControlFrame</span>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-activate-notify"></a><h3>matecomponent_control_activate_notify ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_activate_notify      (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> activated</code></em>,
+                                                         <em class="parameter"><code><span class="type">CORBA_Environment</span> *opt_ev</code></em>);</pre>
+<p>
+Notifies the remote ControlFrame which is associated with
+<em class="parameter"><code>control</code></em> that <em class="parameter"><code>control</code></em> has been activated/deactivated.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>A <a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> object which is bound
+to a remote ControlFrame.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>activated</code></em> :</span></p></td>
+<td>Whether or not <em class="parameter"><code>control</code></em> has been activated.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>opt_ev</code></em> :</span></p></td>
+<td>An optional exception environment
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-window-id-from-x11"></a><h3>matecomponent_control_window_id_from_x11 ()</h3>
+<pre class="programlisting"><span class="returnvalue">MateComponent_Gdk_WindowId</span>  matecomponent_control_window_id_from_x11  (<em class="parameter"><code><span class="type">guint32</span> x11_id</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x11_id</code></em> :</span></p></td>
+<td>the x11 window id or Windows HWND.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the window id or handle as a string; free after use.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-x11-from-window-id"></a><h3>matecomponent_control_x11_from_window_id ()</h3>
+<pre class="programlisting"><span class="returnvalue">guint32</span>             matecomponent_control_x11_from_window_id   (<em class="parameter"><code>const <span class="type">CORBA_char</span> *id</code></em>);</pre>
+<p>
+De-mangle a window id string,
+fields are separated by ':' character,
+currently only the first field is used.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>CORBA_char *
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the native window id.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-windowid-from-x11"></a><h3>matecomponent_control_windowid_from_x11()</h3>
+<pre class="programlisting">#define             matecomponent_control_windowid_from_x11(a)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-CONTROL-POPUP-BUTTON1:CAPS"></a><h3>MATECOMPONENT_CONTROL_POPUP_BUTTON1</h3>
+<pre class="programlisting">#define                     MATECOMPONENT_CONTROL_POPUP_BUTTON1           "/popups/button1"
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-CONTROL-POPUP-BUTTON2:CAPS"></a><h3>MATECOMPONENT_CONTROL_POPUP_BUTTON2</h3>
+<pre class="programlisting">#define                     MATECOMPONENT_CONTROL_POPUP_BUTTON2           "/popups/button2"
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATECOMPONENT-CONTROL-POPUP-BUTTON3:CAPS"></a><h3>MATECOMPONENT_CONTROL_POPUP_BUTTON3</h3>
+<pre class="programlisting">#define                     MATECOMPONENT_CONTROL_POPUP_BUTTON3           "/popups/button3"
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-popup-ui-container"></a><h3>matecomponent_control_get_popup_ui_container ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponentui-matecomponent-ui-container.html#MateComponentUIContainer"><span class="returnvalue">MateComponentUIContainer</span></a> * matecomponent_control_get_popup_ui_container
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-get-popup-ui-component"></a><h3>matecomponent_control_get_popup_ui_component ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponentui-matecomponent-ui-component.html#MateComponentUIComponent"><span class="returnvalue">MateComponentUIComponent</span></a> * matecomponent_control_get_popup_ui_component
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-set-popup-ui-container"></a><h3>matecomponent_control_set_popup_ui_container ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_set_popup_ui_container
+                                                        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-container.html#MateComponentUIContainer"><span class="type">MateComponentUIContainer</span></a> *ui_container</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ui_container</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-do-popup"></a><h3>matecomponent_control_do_popup ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_control_do_popup             (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint32</span> activate_time</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>activate_time</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-do-popup-full"></a><h3>matecomponent_control_do_popup_full ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_control_do_popup_full        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent_menu_shell</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent_menu_item</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkMenuPositionFunc</span> func</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> data</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> button</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint32</span> activate_time</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent_menu_shell</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent_menu_item</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>button</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>activate_time</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentControlLifeCallback"></a><h3>MateComponentControlLifeCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateComponentControlLifeCallback)        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-life-set-purge"></a><h3>matecomponent_control_life_set_purge ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_life_set_purge       (<em class="parameter"><code>long <span class="type">ms</span> Param1</code></em>);</pre>
+<p>
+Set time we're prepared to wait without a ControlFrame
+before terminating the Control. This can happen if the
+panel activates us but crashes before the set_frame.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>Param1</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-life-set-callback"></a><h3>matecomponent_control_life_set_callback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_life_set_callback    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControlLifeCallback" title="MateComponentControlLifeCallback ()"><span class="type">MateComponentControlLifeCallback</span></a> all_dead_callback</code></em>);</pre>
+<p>
+See <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-life-instrument" title="matecomponent_control_life_instrument ()"><span class="type">matecomponent_control_life_instrument</span></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>all_dead_callback</code></em> :</span></p></td>
+<td>method to call at idle when no controls remain
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-life-instrument"></a><h3>matecomponent_control_life_instrument ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_control_life_instrument      (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *control</code></em>);</pre>
+<p>
+Request that <em class="parameter"><code>control</code></em> is lifecycle managed by this code;
+when it (and all other registerees are dead, the
+all_dead_callback set by <a class="link" href="libmatecomponentui-matecomponent-control.html#matecomponent-control-life-set-callback" title="matecomponent_control_life_set_callback ()"><span class="type">matecomponent_control_life_set_callback</span></a>
+will be called at idle.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
+<td>control to manage.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-control-life-get-count"></a><h3>matecomponent_control_life_get_count ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 matecomponent_control_life_get_count       (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+calculates the number of live controls under management.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the number of live controls.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-control.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateComponentControl-activate"></a><h3>The <code class="literal">"activate"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *matecomponentcontrol,
+                                                        <span class="type">gboolean</span>       arg1,
+                                                        <span class="type">gpointer</span>       user_data)          : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>matecomponentcontrol</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentControl-disconnected"></a><h3>The <code class="literal">"disconnected"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *matecomponentcontrol,
+                                                        <span class="type">gpointer</span>       user_data)          : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>matecomponentcontrol</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentControl-plug-created"></a><h3>The <code class="literal">"plug-created"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *matecomponentcontrol,
+                                                        <span class="type">gpointer</span>       user_data)          : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>matecomponentcontrol</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentControl-set-frame"></a><h3>The <code class="literal">"set-frame"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmatecomponentui-matecomponent-control.html#MateComponentControl"><span class="type">MateComponentControl</span></a> *matecomponentcontrol,
+                                                        <span class="type">gpointer</span>       user_data)          : <code class="literal">Run Last</code></pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>matecomponentcontrol</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-control.see-also"></a><h2>See Also</h2>
+<p>
+  <a class="link" href="libmatecomponentui-matecomponent-widget.html#MateComponentWidget"><span class="type">MateComponentWidget</span></a>, <code class="function">matecomponent_widget_new()</code>
+</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/xsl"
+   href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://docbook.org/xml/4.3/docbookx.dtd" [
+
+  <!ENTITY dhfirstname "<firstname>Daniel</firstname>">
+  <!ENTITY dhsurname   "<surname>Leidert</surname>">
+  <!ENTITY dhdate      "<date>2005/02/10</date>">
+  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
+  <!ENTITY dhemail     "<email>daniel.leidert@wgdd.de</email>">
+  <!ENTITY dhusername  "Daniel Leidert">
+  <!ENTITY dhucpackage "<refentrytitle>XML2PO</refentrytitle>">
+  <!ENTITY dhpackage   "xml2po">
+]>
+
+<refentry>
+
+	<refentryinfo>
+		<address>
+			&dhemail;
+		</address>
+		<copyright>
+			<year>2005</year>
+			<holder>&dhusername;</holder>
+		</copyright>
+		&dhdate;
+	</refentryinfo>
+	
+	<refmeta>
+		&dhucpackage;
+		&dhsection;
+	</refmeta>
+	
+	<refnamediv>
+		<refname>&dhpackage;</refname>
+		<refpurpose>
+			program to create a PO-template file from a DocBook XML file and merge it
+			back into a (translated) XML file
+		</refpurpose>
+	</refnamediv>
+	
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>&dhpackage;</command>
+			<arg><option>OPTIONS</option></arg>
+			<arg><replaceable>XMLFILE</replaceable></arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+	
+	<refsect1>
+		<title>DESCRIPTION</title>
+		<para>
+			This manual page documents briefly the <command>&dhpackage;</command>
+			command.
+		</para>
+		<para>
+			<command>&dhpackage;</command> is a simple Python program which extracts
+			translatable content from free-form XML documents and outputs gettext
+			compatible POT files. Translated PO files can be turned into XML output
+			again.
+		</para>
+		<para>
+			It can work it's magic with most "simple" tags, and for complicated
+			tags one has to provide a list of all tags which are "final" (that
+			will be put into one "message" in PO file), "ignored" (skipped over)
+			and "space preserving".
+		</para>
+	</refsect1>
+	
+	<refsect1>
+		<title>OPTIONS</title>
+		<para>
+			The program follows the usual GNU command line syntax,
+			with long options starting with two dashes (`-').  A summary of
+			options is included below.
+		</para>
+		<variablelist>
+			<varlistentry>
+				<term>
+					<option>-a</option>,
+					<option>--automatic-tags</option>
+				</term>
+				<listitem>
+					<para>
+						Automatically decide if tags are to be considered
+						"final" or not.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-k</option>,
+					<option>--keep-entities</option>
+				</term>
+				<listitem>
+					<para>
+						Don't expand entities (default). See also the <option>-e</option>
+						option.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-e</option>,
+					<option>--expand-all-entities</option>
+				</term>
+				<listitem>
+					<para>
+						Expand all entities (including SYSTEM ones).
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-m</option>,
+					<option>--mode=<replaceable>TYPE</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+						Treat tags as type <replaceable>TYPE</replaceable>
+						(default: docbook).
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-o</option>,
+					<option>--output=<replaceable>FILE</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+						Print resulting text (XML while merging translations 
+						with "-p" or "-t" options, POT template file while 
+						extracting strings, and translated PO file with "-r" 
+						option) to the given FILE.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-p</option>,
+					<option>--po-file=<replaceable>FILE</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+ 						Specify a PO FILE containing translation and output 
+						XML document with translations merged in.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-r</option>,
+					<option>--reuse=<replaceable>FILE</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+						Specify a translated XML document in FILE with the 
+						same structure to generate translated PO file for
+						XML document given on command line. 
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-t</option>,
+					<option>--translation=<replaceable>FILE</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+ 						Specify a MO file containing translation and output 
+						XML document with translations merged in.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-u</option>,
+					<option>--update-translation=<replaceable>LANG.po</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+						Update a PO file using <command>msgmerge</command>.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-l</option>,
+					<option>--language=<replaceable>LANG</replaceable></option>
+				</term>
+				<listitem>
+					<para>
+						Explicitly set language of the translation.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-h</option>,
+					<option>--help</option>
+				</term>
+				<listitem>
+					<para>
+						Show summary of options.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>
+					<option>-v</option>,
+					<option>--version</option>
+				</term>
+				<listitem>
+					<para>
+						Show version of program.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+	
+	<refsect1>
+		<title>EXAMPLES</title>
+		<refsect2>
+			<title>Creating POT template files</title>
+			<para>
+				To create a POT template <filename>book.pot</filename> from an input
+				file <filename>book.xml</filename>, which consists
+				of <filename>chapter1.xml</filename>
+				and <filename>chapter2.xml</filename> (external entities), run:
+			</para>
+			<programlisting>
+				<command>/usr/bin/xml2po</command> <option>-o</option> book.pot book.xml chapter1.xml chapter2.xml
+			</programlisting>
+			<para>
+				To expand entities use the <option>-e</option> option:
+			</para>
+			<programlisting>
+				<command>/usr/bin/xml2po</command> <option>-e -o</option> book.pot book.xml
+			</programlisting>
+		</refsect2>
+		<refsect2>
+			<title>Creating translated XML files (merging back PO files)</title>
+			<para>
+				After translating <filename>book.pot</filename>
+				into <filename>LANG.po</filename>, merge the translations back by
+				using <option>-p</option> option for each XML file:
+			</para>
+			<programlisting>
+				<command>/usr/bin/xml2po</command> <option>-p</option> LANG.po <option>-o</option> book.LANG.xml book.xml
+				<command>/usr/bin/xml2po</command> <option>-p</option> LANG.po <option>-o</option> chapter1.LANG.xml chapter1.xml
+				<command>/usr/bin/xml2po</command> <option>-p</option> LANG.po <option>-o</option> chapter2.LANG.xml chapter2.xml
+			</programlisting>
+			<para>
+				If you used the <option>-e</option> option to expand entities,
+				you should use it again to merge back the translation into an XML file:
+			</para>
+			<programlisting>
+				<command>/usr/bin/xml2po</command> <option>-e -p</option> LANG.po <option>-o</option> book.LANG.xml book.xml
+			</programlisting>
+		</refsect2>
+		<refsect2>
+			<title>Updating PO files</title>
+			<para>
+				When base XML file changes, the real advantages of PO files come to
+				surface. There are 2 ways to merge the translation. The first is to
+				produce a new POT template file (additionally use
+				the <option>-e</option> if you decided earlier to expand
+				entities). Afterwards run <command>msgmerge</command> to merge the
+				translation with the new POT file:
+			</para>
+			<programlisting>
+				<command>/usr/bin/msgmerge</command> <option>-o</option> tmp.po LANG.po book.pot
+			</programlisting>
+			<para>
+				Now rename <filename>tmp.po</filename> to <filename>LANG.po</filename> and
+				update your translation. Alternatively, <command>xml2po</command>
+				provides the <option>-u</option> option, which does exactly these two steps for
+				you. The advantage is, that it also runs <command>msgfmt</command> to give you
+				a statistical output of translation status (count of translated, untranslated 
+				and fuzzy messages). Additionally use the <option>-e</option> if you decided 
+				earlier to expand entities:
+			</para>
+			<programlisting>
+				<command>/usr/bin/xml2po</command> <option>-u</option> LANG.po book.xml
+			</programlisting>
+		</refsect2>
+	</refsect1>
+	
+	<refsect1>
+		<title>SEE ALSO</title>
+		<para>
+			<command>msgmerge</command> (1), <command>msgfmt</command> (1)
+		</para>
+	</refsect1>
+	
+	<refsect1>
+		<title>AUTHOR</title>
+		<para>
+			This manual page was written by &dhusername; &dhemail; for
+			the Debian system (but may be used by others). Permission is
+			granted to copy, distribute and/or modify this document under
+			the terms of the GNU General Public License, Version 2 any 
+			later version published by the Free Software Foundation.
+		</para>
+	</refsect1>
+
+</refentry>
+

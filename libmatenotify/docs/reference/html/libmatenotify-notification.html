@@ -1,0 +1,988 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>NotifyNotification</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatenotify Reference Manual">
+<link rel="up" href="ch01.html" title="Libmatenotify">
+<link rel="prev" href="libmatenotify-notify.html" title="notify">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmatenotify-notify.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatenotify Reference Manual</th>
+<td> </td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatenotify-notification.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatenotify-notification.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmatenotify-notification.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#libmatenotify-notification.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#libmatenotify-notification.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatenotify-notification"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatenotify-notification.top_of_page"></a>NotifyNotification</span></h2>
+<p>NotifyNotification — A passive pop-up notification.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatenotify-notification.synopsis"></a><h2>Synopsis</h2>
+<a name="NotifyNotification"></a><pre class="synopsis">#define             <a class="link" href="libmatenotify-notification.html#NOTIFY-EXPIRES-DEFAULT:CAPS" title="NOTIFY_EXPIRES_DEFAULT">NOTIFY_EXPIRES_DEFAULT</a>
+#define             <a class="link" href="libmatenotify-notification.html#NOTIFY-EXPIRES-NEVER:CAPS" title="NOTIFY_EXPIRES_NEVER">NOTIFY_EXPIRES_NEVER</a>
+                    <a class="link" href="libmatenotify-notification.html#NotifyNotification-struct" title="NotifyNotification">NotifyNotification</a>;
+enum                <a class="link" href="libmatenotify-notification.html#NotifyUrgency" title="enum NotifyUrgency">NotifyUrgency</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="libmatenotify-notification.html#NotifyActionCallback" title="NotifyActionCallback ()">*NotifyActionCallback</a>)             (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *action</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+#define             <a class="link" href="libmatenotify-notification.html#NOTIFY-ACTION-CALLBACK:CAPS" title="NOTIFY_ACTION_CALLBACK()">NOTIFY_ACTION_CALLBACK</a>              (func)
+<a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="returnvalue">NotifyNotification</span></a> * <a class="link" href="libmatenotify-notification.html#notify-notification-new" title="notify_notification_new ()">notify_notification_new</a>            (<em class="parameter"><code>const <span class="type">char</span> *summary</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *body</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *attach</code></em>);
+<a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="returnvalue">NotifyNotification</span></a> * <a class="link" href="libmatenotify-notification.html#notify-notification-new-with-status-icon" title="notify_notification_new_with_status_icon ()">notify_notification_new_with_status_icon</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *summary</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *body</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkStatusIcon</span> *status_icon</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatenotify-notification.html#notify-notification-update" title="notify_notification_update ()">notify_notification_update</a>          (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *summary</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *body</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-attach-to-widget" title="notify_notification_attach_to_widget ()">notify_notification_attach_to_widget</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *attach</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-attach-to-status-icon" title="notify_notification_attach_to_status_icon ()">notify_notification_attach_to_status_icon</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkStatusIcon</span> *status_icon</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-geometry-hints" title="notify_notification_set_geometry_hints ()">notify_notification_set_geometry_hints</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkScreen</span> *screen</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> y</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatenotify-notification.html#notify-notification-show" title="notify_notification_show ()">notify_notification_show</a>            (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-timeout" title="notify_notification_set_timeout ()">notify_notification_set_timeout</a>     (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> timeout</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-category" title="notify_notification_set_category ()">notify_notification_set_category</a>    (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *category</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-urgency" title="notify_notification_set_urgency ()">notify_notification_set_urgency</a>     (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyUrgency" title="enum NotifyUrgency"><span class="type">NotifyUrgency</span></a> urgency</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-icon-from-pixbuf" title="notify_notification_set_icon_from_pixbuf ()">notify_notification_set_icon_from_pixbuf</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkPixbuf</span> *icon</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-hint-int32" title="notify_notification_set_hint_int32 ()">notify_notification_set_hint_int32</a>  (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-hint-double" title="notify_notification_set_hint_double ()">notify_notification_set_hint_double</a> (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gdouble</span> value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-hint-string" title="notify_notification_set_hint_string ()">notify_notification_set_hint_string</a> (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-hint-byte" title="notify_notification_set_hint_byte ()">notify_notification_set_hint_byte</a>   (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">guchar</span> value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-set-hint-byte-array" title="notify_notification_set_hint_byte_array ()">notify_notification_set_hint_byte_array</a>
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">guchar</span> *value</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> len</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-clear-hints" title="notify_notification_clear_hints ()">notify_notification_clear_hints</a>     (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-add-action" title="notify_notification_add_action ()">notify_notification_add_action</a>      (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *action</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *label</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyActionCallback" title="NotifyActionCallback ()"><span class="type">NotifyActionCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GFreeFunc</span> free_func</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notification.html#notify-notification-clear-actions" title="notify_notification_clear_actions ()">notify_notification_clear_actions</a>   (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatenotify-notification.html#notify-notification-close" title="notify_notification_close ()">notify_notification_close</a>           (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----NotifyNotification
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--attach-widget" title='The "attach-widget" property'>attach-widget</a>"            <span class="type">GtkWidget</span>*            : Read / Write / Construct
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--body" title='The "body" property'>body</a>"                     <span class="type">gchar</span>*                : Read / Write / Construct
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--closed-reason" title='The "closed-reason" property'>closed-reason</a>"            <span class="type">gint</span>                  : Read
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--icon-name" title='The "icon-name" property'>icon-name</a>"                <span class="type">gchar</span>*                : Read / Write / Construct
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--id" title='The "id" property'>id</a>"                       <span class="type">gint</span>                  : Read / Write / Construct
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--status-icon" title='The "status-icon" property'>status-icon</a>"              <span class="type">GtkStatusIcon</span>*        : Read / Write / Construct
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification--summary" title='The "summary" property'>summary</a>"                  <span class="type">gchar</span>*                : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="libmatenotify-notification.html#NotifyNotification-closed" title='The "closed" signal'>closed</a>"                                         : Run First
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.description"></a><h2>Description</h2>
+<p>
+<a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> represents a passive pop-up notification. It can
+contain summary text, body text, and an icon, as well as hints specifying
+how the notification should be presented. The notification is rendered
+by a notification daemon, and may present the notification in any number
+of ways. As such, there is a clear separation of content and presentation,
+and this API enforces that.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="NOTIFY-EXPIRES-DEFAULT:CAPS"></a><h3>NOTIFY_EXPIRES_DEFAULT</h3>
+<pre class="programlisting">#define NOTIFY_EXPIRES_DEFAULT -1
+</pre>
+<p>
+The default expiration time on a notification.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NOTIFY-EXPIRES-NEVER:CAPS"></a><h3>NOTIFY_EXPIRES_NEVER</h3>
+<pre class="programlisting">#define NOTIFY_EXPIRES_NEVER    0
+</pre>
+<p>
+The notification never expires. It stays open until closed by the calling API
+or the user.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification-struct"></a><h3>NotifyNotification</h3>
+<pre class="programlisting">typedef struct _NotifyNotification NotifyNotification;</pre>
+<p>
+This is an opaque structure representing a notification. This should
+not be used directly. Use the accessor functions below.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyUrgency"></a><h3>enum NotifyUrgency</h3>
+<pre class="programlisting">typedef enum
+{
+        NOTIFY_URGENCY_LOW,
+        NOTIFY_URGENCY_NORMAL,
+        NOTIFY_URGENCY_CRITICAL,
+
+} NotifyUrgency;
+</pre>
+<p>
+The urgency level of the notification.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="NOTIFY-URGENCY-LOW:CAPS"></a><span class="term"><code class="literal">NOTIFY_URGENCY_LOW</code></span></p></td>
+<td>
+	Low urgency. Used for unimportant notifications.
+</td>
+</tr>
+<tr>
+<td><p><a name="NOTIFY-URGENCY-NORMAL:CAPS"></a><span class="term"><code class="literal">NOTIFY_URGENCY_NORMAL</code></span></p></td>
+<td>
+	Normal urgency. Used for most standard notifications.
+</td>
+</tr>
+<tr>
+<td><p><a name="NOTIFY-URGENCY-CRITICAL:CAPS"></a><span class="term"><code class="literal">NOTIFY_URGENCY_CRITICAL</code></span></p></td>
+<td>
+	Critical urgency. Used for very important notifications.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyActionCallback"></a><h3>NotifyActionCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*NotifyActionCallback)             (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> *action</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+An action callback function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NOTIFY-ACTION-CALLBACK:CAPS"></a><h3>NOTIFY_ACTION_CALLBACK()</h3>
+<pre class="programlisting">#define NOTIFY_ACTION_CALLBACK(func) ((NotifyActionCallback)(func))
+</pre>
+<p>
+A convenience macro for casting a function to a <a class="link" href="libmatenotify-notification.html#NotifyActionCallback" title="NotifyActionCallback ()"><span class="type">NotifyActionCallback</span></a>. This
+is much like <code class="function">G_CALLBACK()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em> :</span></p></td>
+<td>The function to cast.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-new"></a><h3>notify_notification_new ()</h3>
+<pre class="programlisting"><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="returnvalue">NotifyNotification</span></a> * notify_notification_new            (<em class="parameter"><code>const <span class="type">char</span> *summary</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *body</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *attach</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a>. The summary text is required, but
+all other parameters are optional.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>summary</code></em> :</span></p></td>
+<td>The required summary text.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>body</code></em> :</span></p></td>
+<td>The optional body text.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon</code></em> :</span></p></td>
+<td>The optional icon theme icon name or filename.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attach</code></em> :</span></p></td>
+<td>The optional widget to attach to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The new <a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-new-with-status-icon"></a><h3>notify_notification_new_with_status_icon ()</h3>
+<pre class="programlisting"><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="returnvalue">NotifyNotification</span></a> * notify_notification_new_with_status_icon
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *summary</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *body</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkStatusIcon</span> *status_icon</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> and attaches to a <span class="type">GtkStatusIcon</span>.
+The summary text and <em class="parameter"><code>status_icon</code></em> is required, but all other parameters
+are optional.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>summary</code></em> :</span></p></td>
+<td>The required summary text.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>body</code></em> :</span></p></td>
+<td>The optional body text.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon</code></em> :</span></p></td>
+<td>The optional icon theme icon name or filename.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>status_icon</code></em> :</span></p></td>
+<td>The required <span class="type">GtkStatusIcon</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The new <a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.4.1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-update"></a><h3>notify_notification_update ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            notify_notification_update          (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *summary</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *body</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *icon</code></em>);</pre>
+<p>
+Updates the notification text and icon. This won't send the update out
+and display it on the screen. For that, you will need to call
+<a class="link" href="libmatenotify-notification.html#notify-notification-show" title="notify_notification_show ()"><code class="function">notify_notification_show()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification to update.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>summary</code></em> :</span></p></td>
+<td>The new required summary text.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>body</code></em> :</span></p></td>
+<td>The optional body text.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon</code></em> :</span></p></td>
+<td>The optional icon theme icon name or filename.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code>, unless an invalid parameter was passed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-attach-to-widget"></a><h3>notify_notification_attach_to_widget ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_attach_to_widget
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *attach</code></em>);</pre>
+<p>
+Attaches the notification to a widget. This will set hints on the
+notification requesting that the notification point to the widget's
+location. If <em class="parameter"><code>attach</code></em> is <code class="literal">NULL</code>, the widget will be unset.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attach</code></em> :</span></p></td>
+<td>The widget to attach to, or <code class="literal">NULL</code>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-attach-to-status-icon"></a><h3>notify_notification_attach_to_status_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_attach_to_status_icon
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkStatusIcon</span> *status_icon</code></em>);</pre>
+<p>
+Attaches the notification to a <span class="type">GtkStatusIcon</span>. This will set hints on the
+notification requesting that the notification point to the status icon's
+location. If <em class="parameter"><code>status_icon</code></em> is <code class="literal">NULL</code>, the status icon will be unset.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>status_icon</code></em> :</span></p></td>
+<td>The <span class="type">GtkStatusIcon</span> to attach to, or <code class="literal">NULL</code>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.4.1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-geometry-hints"></a><h3>notify_notification_set_geometry_hints ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_geometry_hints
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkScreen</span> *screen</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> x</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> y</code></em>);</pre>
+<p>
+Sets the geometry hints on the notification. This sets the screen
+the notification should appear on and the X, Y coordinates it should
+point to, if the particular notification supports X, Y hints.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>screen</code></em> :</span></p></td>
+<td>The <span class="type">GdkScreen</span> the notification should appear on.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>The X coordinate to point to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>The Y coordinate to point to.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.4.1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-show"></a><h3>notify_notification_show ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            notify_notification_show            (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Tells the notification server to display the notification on the screen.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>The returned error information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if successful. On error, this will return <code class="literal">FALSE</code> and set
+         <em class="parameter"><code>error</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-timeout"></a><h3>notify_notification_set_timeout ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_timeout     (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> timeout</code></em>);</pre>
+<p>
+Sets the timeout of the notification. To set the default time, pass
+<a class="link" href="libmatenotify-notification.html#NOTIFY-EXPIRES-DEFAULT:CAPS" title="NOTIFY_EXPIRES_DEFAULT"><code class="literal">NOTIFY_EXPIRES_DEFAULT</code></a> as <em class="parameter"><code>timeout</code></em>. To set the notification to never
+expire, pass <a class="link" href="libmatenotify-notification.html#NOTIFY-EXPIRES-NEVER:CAPS" title="NOTIFY_EXPIRES_NEVER"><code class="literal">NOTIFY_EXPIRES_NEVER</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timeout</code></em> :</span></p></td>
+<td>The timeout in milliseconds.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-category"></a><h3>notify_notification_set_category ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_category    (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *category</code></em>);</pre>
+<p>
+Sets the category of this notification. This can be used by the
+notification server to filter or display the data in a certain way.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>category</code></em> :</span></p></td>
+<td>The category.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-urgency"></a><h3>notify_notification_set_urgency ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_urgency     (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyUrgency" title="enum NotifyUrgency"><span class="type">NotifyUrgency</span></a> urgency</code></em>);</pre>
+<p>
+Sets the urgency level of this notification.
+</p>
+<p>
+See: <a class="link" href="libmatenotify-notification.html#NotifyUrgency" title="enum NotifyUrgency"><span class="type">NotifyUrgency</span></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>urgency</code></em> :</span></p></td>
+<td>The urgency level.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-icon-from-pixbuf"></a><h3>notify_notification_set_icon_from_pixbuf ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_icon_from_pixbuf
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GdkPixbuf</span> *icon</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">notify_notification_set_icon_from_pixbuf</code> is deprecated and should not be used in newly-written code. use <code class="function">notify_notification_set_image_from_pixbuf()</code> instead.
+</p>
+<p>
+This will only work when libmatenotify is compiled against D-BUS 0.60 or
+higher.</p>
+</div>
+<p>
+Sets the icon in the notification from a <span class="type">GdkPixbuf</span>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>icon</code></em> :</span></p></td>
+<td>The icon.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-hint-int32"></a><h3>notify_notification_set_hint_int32 ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_hint_int32  (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gint</span> value</code></em>);</pre>
+<p>
+Sets a hint with a 32-bit integer value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>The hint.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>The hint's value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-hint-double"></a><h3>notify_notification_set_hint_double ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_hint_double (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gdouble</span> value</code></em>);</pre>
+<p>
+Sets a hint with a double value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>The hint.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>The hint's value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-hint-string"></a><h3>notify_notification_set_hint_string ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_hint_string (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *value</code></em>);</pre>
+<p>
+Sets a hint with a string value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>The hint.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>The hint's value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-hint-byte"></a><h3>notify_notification_set_hint_byte ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_hint_byte   (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">guchar</span> value</code></em>);</pre>
+<p>
+Sets a hint with a byte value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>The hint.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>The hint's value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-set-hint-byte-array"></a><h3>notify_notification_set_hint_byte_array ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_set_hint_byte_array
+                                                        (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">guchar</span> *value</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> len</code></em>);</pre>
+<p>
+Sets a hint with a byte array value. The length of <em class="parameter"><code>value</code></em> must be passed
+as <em class="parameter"><code>len</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>The hint.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>The hint's value.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>len</code></em> :</span></p></td>
+<td>The length of the byte array.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-clear-hints"></a><h3>notify_notification_clear_hints ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_clear_hints     (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>);</pre>
+<p>
+Clears all hints from the notification.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-add-action"></a><h3>notify_notification_add_action ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_add_action      (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *action</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *label</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyActionCallback" title="NotifyActionCallback ()"><span class="type">NotifyActionCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GFreeFunc</span> free_func</code></em>);</pre>
+<p>
+Adds an action to a notification. When the action is invoked, the
+specified callback function will be called, along with the value passed
+to <em class="parameter"><code>user_data</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td>The action ID.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>label</code></em> :</span></p></td>
+<td>The human-readable action label.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>The action's callback function.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>Optional custom data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>free_func</code></em> :</span></p></td>
+<td>An optional function to free <em class="parameter"><code>user_data</code></em> when the notification
+            is destroyed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-clear-actions"></a><h3>notify_notification_clear_actions ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_notification_clear_actions   (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>);</pre>
+<p>
+Clears all actions from the notification.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-notification-close"></a><h3>notify_notification_close ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            notify_notification_close           (<em class="parameter"><code><a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Tells the notification server to hide the notification on the screen.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The notification.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>The returned error information.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if successful. On error, this will return <code class="literal">FALSE</code> and set
+         <em class="parameter"><code>error</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="NotifyNotification--attach-widget"></a><h3>The <code class="literal">"attach-widget"</code> property</h3>
+<pre class="programlisting">  "attach-widget"            <span class="type">GtkWidget</span>*            : Read / Write / Construct</pre>
+<p>The widget to attach the notification to.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification--body"></a><h3>The <code class="literal">"body"</code> property</h3>
+<pre class="programlisting">  "body"                     <span class="type">gchar</span>*                : Read / Write / Construct</pre>
+<p>The message body text.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification--closed-reason"></a><h3>The <code class="literal">"closed-reason"</code> property</h3>
+<pre class="programlisting">  "closed-reason"            <span class="type">gint</span>                  : Read</pre>
+<p>The reason code for why the notification was closed.</p>
+<p>Allowed values: &gt;= -1</p>
+<p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification--icon-name"></a><h3>The <code class="literal">"icon-name"</code> property</h3>
+<pre class="programlisting">  "icon-name"                <span class="type">gchar</span>*                : Read / Write / Construct</pre>
+<p>The icon filename or icon theme-compliant name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification--id"></a><h3>The <code class="literal">"id"</code> property</h3>
+<pre class="programlisting">  "id"                       <span class="type">gint</span>                  : Read / Write / Construct</pre>
+<p>The notification ID.</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification--status-icon"></a><h3>The <code class="literal">"status-icon"</code> property</h3>
+<pre class="programlisting">  "status-icon"              <span class="type">GtkStatusIcon</span>*        : Read / Write / Construct</pre>
+<p>The status icon to attach the notification to.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="NotifyNotification--summary"></a><h3>The <code class="literal">"summary"</code> property</h3>
+<pre class="programlisting">  "summary"                  <span class="type">gchar</span>*                : Read / Write / Construct</pre>
+<p>The summary text.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notification.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="NotifyNotification-closed"></a><h3>The <code class="literal">"closed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="libmatenotify-notification.html#NotifyNotification"><span class="type">NotifyNotification</span></a> *notification,
+                                                        <span class="type">gpointer</span>            user_data)         : Run First</pre>
+<p>
+Emitted when the notification is closed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>notification</code></em> :</span></p></td>
+<td>The object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

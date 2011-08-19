@@ -1,0 +1,189 @@
+<chapter id="about">
+  <title>Introduction to MateVFS</title>
+
+  <sect1>
+    <title>Uses and Purpose</title>
+    <para>
+      MateVFS is a filesystem abstraction library allowing applications
+      plugable transparent access to a variety of "real" filesystems, from
+      WebDAV to digital cameras, to the local filesystem. It also contains
+      a number of other convenient file utilities such as a comphrehensive
+      MIME database / Application registry, and a copy engine. Use of MateVFS
+      ensures that an application or component will be usable by Caja
+      or other MateVFS applications for handling the display of data from
+      various URIs, as well 
+    </para>
+    <sect2>
+      <title>User's Perspective</title>
+      <para>
+	From a user's perspective MateVFS enabled applications provide consistent
+	access to their data, whether it be stored on remote servers or on their
+	local harddisk, or even a peripheral device such as a Rio or a digital
+	camera. Rather than having to work around the distinction between storage
+	you can work off of and storage you can only "download" from or "upload" to,
+	MateVFS allows users to store their documents and data wherever it is
+	most convenient.
+      </para>
+    </sect2>
+    <sect2>
+      <title>Developer's Perspective</title>
+      <para>
+	Besides providing transparent access to data methods that you might
+	otherwise have to implement, MateVFS provides a number of convenience
+	libraries for processing URIs, detecting the MIME type of files, and
+	even figuring out which applications or components to launch to view
+	a file or what icon to use. Writing a MateVFS module may also be an
+	appropriate solution to some data access problems as it allows the
+	developer to implement a relatively small number of functions to gain
+	general filesystem semantics (and of course, writing a MateVFS module
+	benefits other applications too!).
+      </para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="mate-vfs-first-steps">
+    <title>A Gentle Programming Primer</title>
+    <para>
+      Using MateVFS in an existing application, or writing a new application
+      with it, is actually very simple since MateVFS tries to mimic POSIX
+      file access syntax and semantics. That means that most "standard unix calls" 
+      have a MateVFS equivalent that operates in a fairly similar manner. There are
+      a few differences to keep in mind. 
+
+      <itemizedlist>
+	
+	<listitem>
+	  <para>
+	    The most obvious is probably that all I/O operations return a <type>MateVFSResult</type>
+	    indicating the success or failure of the operation. More on this later.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    The types may be slightly different (but still parallel), for example rather than using an 
+	    <type>int</type> for a file-descriptor, MateVFS uses <type>MateVFSHandle</type>, a handle
+	    to a particular URI.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Most operations come in Handle (think file descriptor) and URI form. The URI form may be
+	    more convenient if you do not want to track handles, etc, but just be aware that both are
+	    at your disposal and may be used interchangably. For example <function>mate_vfs_open</function>
+	    and <function>mate_vfs_open_uri</function>.
+	  </para>
+	</listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      By way of example, consider the basic read command:
+      <programlisting>
+	ssize_t read (int fd, void *buf, size_t count);
+      </programlisting>
+    </para>
+    <para>
+      The MateVFS equivalent is very similar, but you will notice slightly different data types. The
+      consistent returning of a MateVFSResult also necessitated moving the return value of read into
+      a pass-back-value pointer <parameter>bytes_read</parameter>:
+      <programlisting>
+	MateVFSResult mate_vfs_read (MateVFSHandle *handle,
+	                               gpointer buffer,
+                                       MateVFSFileSize bytes,
+                                       MateVFSFileSize *bytes_read);
+      </programlisting>
+    </para>
+    <para>
+      So <function>mate_vfs_read</function> takes a <type>MateVFSHandle</type>, which functions
+      like a file descriptor, and attempts to read <parameter>bytes</parameter> bytes out of
+      <parameter>handle</parameter> into <parameter>buffer</parameter>. The number of bytes succesfully
+      read into <parameter>buffer</parameter> is returned in the pointer <parameter>bytes_read</parameter>.
+      The return value of the function, a <type>MateVFSResult</type> indicates the success of the
+      operation or any errors that might have occurred (for example, permission denied).
+      <type>MateVFSResult</type> is just an enumeration.
+    </para>
+    <sect2>
+      <title>Simple Sample Program</title>
+      <para>
+	Now lets write a simple program to copy a fixed number of bytes from one file and append
+	it to another file.
+      </para>
+      <para>
+	<programlisting>
+<![CDATA[
+#include <stdio.h>
+#include <libmatevfs/mate-vfs.h>
+#include <libmatevfs/mate-vfs-utils.h>
+
+#define BYTES_TO_PROCESS 256
+
+int print_error (MateVFSResult result, const char *uri_string);
+
+int
+main (int argc, char **argv)
+{
+  MateVFSHandle *read_handle, *write_handle;
+  char *input_uri_string;
+  char *output_uri_string = argv[2];
+  MateVFSFileSize bytes_read, bytes_written;
+  guint buffer[BYTES_TO_PROCESS];
+  MateVFSResult result;
+
+  /* remember to initialize MateVFS! */
+  if (!mate_vfs_init ()) {
+    printf ("Could not initialize MateVFS\n");
+    return 1;
+  }
+
+  /* Convert the user supplied filenames into proper MateVFS URIs */
+  input_uri_string = mate_vfs_make_uri_from_shell_arg (argv[1]);
+  output_uri_string = mate_vfs_make_uri_from_shell_arg (argv[2]);
+
+  /* open the input file for read access */
+  result = mate_vfs_open (&read_handle, input_uri_string, MATE_VFS_OPEN_READ);
+  /* if the operation was not successful, print the error and abort */
+  if (result != MATE_VFS_OK) return print_error (result, input_uri_string);
+
+  /* we use create instead of open, because open will not create the file if it does
+     not already exist. The last argument is the permissions to use if the file is created,
+     the second to last tells MateVFS that its ok if the file already exists, and just open it */
+  result = mate_vfs_create (&write_handle, output_uri_string, MATE_VFS_OPEN_WRITE, FALSE, 0777);
+  if (result != MATE_VFS_OK) return print_error (result, output_uri_string);
+
+  /* read data from the input uri */
+  result = mate_vfs_read (read_handle, buffer, BYTES_TO_PROCESS, &bytes_read);
+  if (result != MATE_VFS_OK) return print_error (result, input_uri_string);
+
+  /* seek to the end of the output uri so we will append rather than overwrite */
+  /* therefore, we seek 0 bytes relative to the end of the file */
+  result = mate_vfs_seek (write_handle, MATE_VFS_SEEK_END, 0);
+
+  /* now write the data we read out to the output uri */
+  result = mate_vfs_write (write_handle, buffer, bytes_read, &bytes_written);
+  if (result != MATE_VFS_OK) return print_error (result, output_uri_string);
+
+  g_free (input_uri_string);
+  g_free (output_uri_string);
+
+  return 0;
+}
+
+int
+print_error (MateVFSResult result, const char *uri_string)
+{
+  const char *error_string;
+  /* get the string corresponding to this MateVFSResult value */
+  error_string = mate_vfs_result_to_string (result);
+  printf ("Error %s occured opening location %s\n", error_string, uri_string);
+  return 1;
+}
+]]>
+	</programlisting>
+</para>
+    </sect2>
+    <sect2>
+	<title>Conversion of a Sample Code Block</title>
+	<para>
+	</para>
+      </sect2>
+  </sect1>
+</chapter>

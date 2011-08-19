@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-vfs-module-callback</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="modules.html" title="Filesystem Modules">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-standard-callbacks.html" title="mate-vfs-standard-callbacks">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-standard-callbacks.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="modules.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td> </td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-module-callback.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-module-callback.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-module-callback"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-module-callback.top_of_page"></a>mate-vfs-module-callback</span></h2>
+<p>mate-vfs-module-callback — functions used by apps if they want to answer to callback invocations by mate-vfs modules</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-module-callback.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()">*MateVFSModuleCallback</a>)           (<em class="parameter"><code><span class="type">gconstpointer</span> in</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> in_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> out</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> out_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallbackResponse" title="MateVFSModuleCallbackResponse ()">*MateVFSModuleCallbackResponse</a>)   (<em class="parameter"><code><span class="type">gpointer</span> response_data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback" title="MateVFSAsyncModuleCallback ()">*MateVFSAsyncModuleCallback</a>)      (<em class="parameter"><code><span class="type">gconstpointer</span> in</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> in_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> out</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> out_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallbackResponse" title="MateVFSModuleCallbackResponse ()"><span class="type">MateVFSModuleCallbackResponse</span></a> response</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> response_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-set-default" title="mate_vfs_module_callback_set_default ()">mate_vfs_module_callback_set_default</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()"><span class="type">MateVFSModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-push" title="mate_vfs_module_callback_push ()">mate_vfs_module_callback_push</a>      (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()"><span class="type">MateVFSModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-pop" title="mate_vfs_module_callback_pop ()">mate_vfs_module_callback_pop</a>       (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-set-default" title="mate_vfs_async_module_callback_set_default ()">mate_vfs_async_module_callback_set_default</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback" title="MateVFSAsyncModuleCallback ()"><span class="type">MateVFSAsyncModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-push" title="mate_vfs_async_module_callback_push ()">mate_vfs_async_module_callback_push</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback" title="MateVFSAsyncModuleCallback ()"><span class="type">MateVFSAsyncModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-pop" title="mate_vfs_async_module_callback_pop ()">mate_vfs_async_module_callback_pop</a> (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-module-callback.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-module-callback.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSModuleCallback"></a><h3>MateVFSModuleCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSModuleCallback)           (<em class="parameter"><code><span class="type">gconstpointer</span> in</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> in_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> out</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> out_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>);</pre>
+<p>
+Modules use a <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()"><span class="type">MateVFSModuleCallback</span></a> to send data to
+client applications and request data from them synchronously.
+</p>
+<p>
+The format of <em class="parameter"><code>in</code></em> and <em class="parameter"><code>out</code></em> is determined by the callback name.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in</code></em> :</span></p></td>
+<td>data passed from module to application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in_size</code></em> :</span></p></td>
+<td>size of <em class="parameter"><code>in</code></em> bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out</code></em> :</span></p></td>
+<td>data passed from application to module.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out_size</code></em> :</span></p></td>
+<td>size of <em class="parameter"><code>out</code></em> in bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data passed when connecting the callback.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSModuleCallbackResponse"></a><h3>MateVFSModuleCallbackResponse ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSModuleCallbackResponse)   (<em class="parameter"><code><span class="type">gpointer</span> response_data</code></em>);</pre>
+<p>
+This is the type of the response function passed to a
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback" title="MateVFSAsyncModuleCallback ()"><code class="function">MateVFSAsyncModuleCallback()</code></a>. It should be called when the async
+callback has completed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>response_data</code></em> :</span></p></td>
+<td>pass the response data argument originally passed to the async callback.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSAsyncModuleCallback"></a><h3>MateVFSAsyncModuleCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateVFSAsyncModuleCallback)      (<em class="parameter"><code><span class="type">gconstpointer</span> in</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> in_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> out</code></em>,
+                                                         <em class="parameter"><code><span class="type">gsize</span> out_size</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallbackResponse" title="MateVFSModuleCallbackResponse ()"><span class="type">MateVFSModuleCallbackResponse</span></a> response</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> response_data</code></em>);</pre>
+<p>
+Modules use a <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()"><span class="type">MateVFSModuleCallback</span></a> to send data to
+client applications and request data from them asynchronously.
+</p>
+<p>
+The application is expected to invoke the <em class="parameter"><code>response</code></em> with <em class="parameter"><code>response_data</code></em>
+when it is able to satisfy the request.
+</p>
+<p>
+The format of <em class="parameter"><code>in</code></em> and <em class="parameter"><code>out</code></em> is determined by the callback name.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in</code></em> :</span></p></td>
+<td>data passed from module to application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in_size</code></em> :</span></p></td>
+<td>size of <em class="parameter"><code>in</code></em> bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out</code></em> :</span></p></td>
+<td>data passed from application to module.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out_size</code></em> :</span></p></td>
+<td>size of <em class="parameter"><code>out</code></em> in bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>user data passed when connecting the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>response</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallbackResponse" title="MateVFSModuleCallbackResponse ()"><span class="type">MateVFSModuleCallbackResponse</span></a> that must be invoked when the request is satisfied.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>response_data</code></em> :</span></p></td>
+<td>data that must be passed to <em class="parameter"><code>response</code></em> when the request is satisfied.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-module-callback-set-default"></a><h3>mate_vfs_module_callback_set_default ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_module_callback_set_default
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()"><span class="type">MateVFSModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);</pre>
+<p>
+Set the default callback for <em class="parameter"><code>callback_name</code></em> to
+<em class="parameter"><code>callback</code></em>. <em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em> on the
+same thread as the mate-vfs operation that invokes it. The default
+value is shared for all threads, but setting it is thread-safe.
+</p>
+<p>
+Use this function if you want to set a handler to be used by your
+whole application. You can use <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-push" title="mate_vfs_module_callback_push ()"><code class="function">mate_vfs_module_callback_push()</code></a> to
+set a callback function that will temporarily override the default
+on the current thread instead. Or you can also use
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-set-default" title="mate_vfs_async_module_callback_set_default ()"><code class="function">mate_vfs_async_module_callback_set_default()</code></a> to set an async
+callback function.
+</p>
+<p>
+Note: <em class="parameter"><code>destroy_notify</code></em> may be called on any thread - it is not
+guaranteed to be called on the main thread.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>name of the module callback to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to call when the <em class="parameter"><code>callback</code></em> is invoked.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_notify</code></em> :</span></p></td>
+<td>function to call when <em class="parameter"><code>callback_data</code></em> is to be freed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-module-callback-push"></a><h3>mate_vfs_module_callback_push ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_module_callback_push      (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSModuleCallback" title="MateVFSModuleCallback ()"><span class="type">MateVFSModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);</pre>
+<p>
+Set <em class="parameter"><code>callback</code></em> as a temprary handler for <em class="parameter"><code>callback_name</code></em>. <em class="parameter"><code>callback</code></em>
+will be called with <em class="parameter"><code>callback_data</code></em> on the same thread as the
+mate-vfs operation that invokes it. The temporary handler is set
+per-thread.
+</p>
+<p>
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-pop" title="mate_vfs_module_callback_pop ()"><code class="function">mate_vfs_module_callback_pop()</code></a> removes the most recently set
+temporary handler. The temporary handlers are treated as a first-in
+first-out stack.
+</p>
+<p>
+Use this function to set a temporary callback handler for a single
+call or a few calls. You can use
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-set-default" title="mate_vfs_module_callback_set_default ()"><code class="function">mate_vfs_module_callback_set_default()</code></a> to set a callback function
+that will establish a permanent global setting for all threads
+instead.
+</p>
+<p>
+Note: <em class="parameter"><code>destroy_notify</code></em> may be called on any thread - it is not
+guaranteed to be called on the main thread.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>name of the module callback to set temporarily.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to call when the <em class="parameter"><code>callback</code></em> is invoked.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_notify</code></em> :</span></p></td>
+<td>function to call when <em class="parameter"><code>callback_data</code></em> is to be freed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-module-callback-pop"></a><h3>mate_vfs_module_callback_pop ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_module_callback_pop       (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-module-callback-set-default"></a><h3>mate_vfs_async_module_callback_set_default ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_module_callback_set_default
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback" title="MateVFSAsyncModuleCallback ()"><span class="type">MateVFSAsyncModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);</pre>
+<p>
+Set the default async callback for <em class="parameter"><code>callback_name</code></em> to
+<em class="parameter"><code>callback</code></em>. <em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em>
+from a callback on the main thread. It will be passed a response
+function which should be called to signal completion of the callback.
+The callback function itself may return in the meantime.
+</p>
+<p>
+The default value is shared for all threads, but setting it is
+thread-safe.
+</p>
+<p>
+Use this function if you want to globally set a callback handler
+for use with async operations.
+</p>
+<p>
+You can use <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-push" title="mate_vfs_async_module_callback_push ()"><code class="function">mate_vfs_async_module_callback_push()</code></a> to set an async
+callback function that will temporarily override the default on the
+current thread instead. Or you can also use
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-module-callback-set-default" title="mate_vfs_module_callback_set_default ()"><code class="function">mate_vfs_module_callback_set_default()</code></a> to set a regular callback
+function.
+</p>
+<p>
+Note: <em class="parameter"><code>destroy_notify</code></em> may be called on any thread - it is not
+guaranteed to be called on the main thread.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>name of the async module callback to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to call when <em class="parameter"><code>callback</code></em> is invoked.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_notify</code></em> :</span></p></td>
+<td>function to call when <em class="parameter"><code>callback_data</code></em> is to be freed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-module-callback-push"></a><h3>mate_vfs_async_module_callback_push ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_module_callback_push
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#MateVFSAsyncModuleCallback" title="MateVFSAsyncModuleCallback ()"><span class="type">MateVFSAsyncModuleCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> callback_data</code></em>,
+                                                         <em class="parameter"><code><span class="type">GDestroyNotify</span> destroy_notify</code></em>);</pre>
+<p>
+Set <em class="parameter"><code>callback</code></em> as a temprary async handler for
+<em class="parameter"><code>callback_name</code></em>. <em class="parameter"><code>callback</code></em> will be called with <em class="parameter"><code>callback_data</code></em>
+from a callback on the main thread. It will be passed a response
+function which should be called to signal completion of the
+callback. The callback function itself may return in the meantime.
+</p>
+<p>
+The temporary async handler is set per-thread.
+</p>
+<p>
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-pop" title="mate_vfs_async_module_callback_pop ()"><code class="function">mate_vfs_async_module_callback_pop()</code></a> removes the most recently set
+temporary handler. The temporary async handlers are
+treated as a first-in first-out stack.
+</p>
+<p>
+Use this function to set a temporary async callback handler for a
+single call or a few calls. You can use
+<a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-set-default" title="mate_vfs_async_module_callback_set_default ()"><code class="function">mate_vfs_async_module_callback_set_default()</code></a> to set an async
+callback function that will establish a permanent global setting
+for all threads instead.
+</p>
+<p>
+Note: <em class="parameter"><code>destroy_notify</code></em> may be called on any thread - it is not
+guaranteed to be called on the main thread.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>name of the module callback to set temporarily.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>function to call when <em class="parameter"><code>callback</code></em> is invoked.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback_data</code></em> :</span></p></td>
+<td>data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_notify</code></em> :</span></p></td>
+<td>function to call when <em class="parameter"><code>callback_data</code></em> is to be freed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-async-module-callback-pop"></a><h3>mate_vfs_async_module_callback_pop ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_async_module_callback_pop (<em class="parameter"><code>const <span class="type">char</span> *callback_name</code></em>);</pre>
+<p>
+Remove the temporary async handler for <em class="parameter"><code>callback_name</code></em> most recently
+set with <a class="link" href="mate-vfs-2.0-mate-vfs-module-callback.html#mate-vfs-async-module-callback-push" title="mate_vfs_async_module_callback_push ()"><code class="function">mate_vfs_async_module_callback_push()</code></a>.  If another
+temporary async handler was previously set on the same thread, it
+becomes the current handler. Otherwise, the default async handler,
+if any, becomes current.
+</p>
+<p>
+The temporary async handlers are treated as a first-in first-out
+stack.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>callback_name</code></em> :</span></p></td>
+<td>name of the module callback to remove a temporary handler for.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

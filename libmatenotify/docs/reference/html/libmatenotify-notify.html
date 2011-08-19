@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>notify</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatenotify Reference Manual">
+<link rel="up" href="ch01.html" title="Libmatenotify">
+<link rel="prev" href="ch01.html" title="Libmatenotify">
+<link rel="next" href="libmatenotify-notification.html" title="NotifyNotification">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatenotify Reference Manual</th>
+<td><a accesskey="n" href="libmatenotify-notification.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatenotify-notify.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatenotify-notify.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatenotify-notify"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatenotify-notify.top_of_page"></a>notify</span></h2>
+<p>notify — Notification API</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatenotify-notify.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis"><span class="returnvalue">gboolean</span>            <a class="link" href="libmatenotify-notify.html#notify-init" title="notify_init ()">notify_init</a>                         (<em class="parameter"><code>const <span class="type">char</span> *app_name</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatenotify-notify.html#notify-uninit" title="notify_uninit ()">notify_uninit</a>                       (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatenotify-notify.html#notify-is-initted" title="notify_is_initted ()">notify_is_initted</a>                   (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="libmatenotify-notify.html#notify-get-app-name" title="notify_get_app_name ()">notify_get_app_name</a>                 (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="libmatenotify-notify.html#notify-get-server-caps" title="notify_get_server_caps ()">notify_get_server_caps</a>              (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatenotify-notify.html#notify-get-server-info" title="notify_get_server_info ()">notify_get_server_info</a>              (<em class="parameter"><code><span class="type">char</span> **ret_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **ret_vendor</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **ret_version</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **ret_spec_version</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notify.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatenotify-notify.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="notify-init"></a><h3>notify_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            notify_init                         (<em class="parameter"><code>const <span class="type">char</span> *app_name</code></em>);</pre>
+<p>
+Initialized libmatenotify. This must be called before any other functions.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_name</code></em> :</span></p></td>
+<td>The name of the application initializing libmatenotify.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if successful, or <code class="literal">FALSE</code> on error.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-uninit"></a><h3>notify_uninit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                notify_uninit                       (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Uninitialized libmatenotify.
+</p>
+<p>
+This should be called when the program no longer needs libmatenotify for
+the rest of its lifecycle, typically just before exitting.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-is-initted"></a><h3>notify_is_initted ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            notify_is_initted                   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Gets whether or not libmatenotify is initialized.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if libmatenotify is initialized, or <code class="literal">FALSE</code> otherwise.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-get-app-name"></a><h3>notify_get_app_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       notify_get_app_name                 (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Gets the application name registered.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The registered application name, passed to <a class="link" href="libmatenotify-notify.html#notify-init" title="notify_init ()"><code class="function">notify_init()</code></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-get-server-caps"></a><h3>notify_get_server_caps ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             notify_get_server_caps              (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Queries the server for its capabilities and returns them in a <span class="type">GList</span>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <span class="type">GList</span> of server capability strings.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="notify-get-server-info"></a><h3>notify_get_server_info ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            notify_get_server_info              (<em class="parameter"><code><span class="type">char</span> **ret_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **ret_vendor</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **ret_version</code></em>,
+                                                         <em class="parameter"><code><span class="type">char</span> **ret_spec_version</code></em>);</pre>
+<p>
+Queries the server for its information, specifically, the name, vendor,
+server version, and the version of the notifications specification that it
+is compliant with.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret_name</code></em> :</span></p></td>
+<td>The resulting server name.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret_vendor</code></em> :</span></p></td>
+<td>The resulting server vendor.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret_version</code></em> :</span></p></td>
+<td>The resulting server version.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ret_spec_version</code></em> :</span></p></td>
+<td>The resulting version of the specification the server is
+                   compliant with.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if successful, and the variables passed will be set. <code class="literal">FALSE</code>
+         on failure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

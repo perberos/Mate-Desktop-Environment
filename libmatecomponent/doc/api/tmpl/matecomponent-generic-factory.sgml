@@ -1,0 +1,216 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentGenericFactory
+
+<!-- ##### SECTION Short_Description ##### -->
+The basic, generic MateComponent object factory implementation
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The vast majority of MateComponent objects are created by the
+#MateComponentGenericFactory implementation. This provides a
+very simple C sugar wrapper of the MATE::ObjectFactory
+IDL interface, used by OAF to instantiate new objects.
+</para>
+
+<para>
+Most applications when they start up will register their
+MateComponent object factory with OAF, this can be done like this:
+  <example>
+    <title>How to register a factory with OAF</title>
+    <programlisting>
+MateComponentGenericFactory *factory;
+
+factory = matecomponent_generic_factory_new (
+	"OAFIID:MATE_MyApp_myId",
+	my_factory_function, NULL);
+matecomponent_running_context_auto_exit_unref (MATECOMPONENT_OBJECT (factory));
+    </programlisting>
+  </example>
+  This registers the factory with OAF, associated with your
+factory's OAFIID ( as specified in the installed .oaf file ).
+The running_context_auto_exit_unref function is used to ensure
+that the program exits the gtk main loop when all of the factory's
+( or any derived ) objects are destroyed.
+</para>
+<para>
+When an object that is created by your factory is demanded from
+OAF the my_factory_function will be called:
+  <example>
+    <title>A simple factory</title>
+    <programlisting>
+static MateComponentObject *
+my_factory_fn (MateComponentGenericFactory *this,
+               const char           *object_id,
+               void                 *data)
+{
+	MateComponentObject *object = NULL;
+	
+	g_return_val_if_fail (object_id != NULL, NULL);
+
+	if (!strcmp (object_id, "OAFIID:MateComponent_Sample_Clock"))
+		object = matecomponent_clock_control_new ();
+	else
+		g_warning ("Unknown OAFIID '%s'", object_id);
+
+	return object;
+}
+     </programlisting>
+  </example>
+  This will return the newly constructed object via OAF to
+the Object requestor.
+</para>
+
+<para>
+There is a macro that can be used for simple components to remove the
+burden of writing the main function and getting the initialization
+correct, see #MATECOMPONENT_ACTIVATION_FACTORY.  </para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### USER_FUNCTION MateComponentFactoryCallback ##### -->
+<para>
+Type of function that is called when it's time for the factory to create a new instance.
+</para>
+
+@factory: the factory that invoked this callback
+@component_id: OAFIID of the component that should be activated
+@closure: user data
+@Returns: the newly created #MateComponentObject
+
+
+<!-- ##### FUNCTION matecomponent_generic_factory_new ##### -->
+<para>
+
+</para>
+
+@act_iid: 
+@factory_cb: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_generic_factory_new_closure ##### -->
+<para>
+
+</para>
+
+@act_iid: 
+@factory_closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_generic_factory_construct ##### -->
+<para>
+
+</para>
+
+@factory: 
+@act_iid: 
+@factory_closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_generic_factory_construct_noreg ##### -->
+<para>
+
+</para>
+
+@factory: 
+@act_iid: 
+@factory_closure: 
+
+
+<!-- ##### FUNCTION matecomponent_generic_factory_main ##### -->
+<para>
+
+</para>
+
+@act_iid: 
+@factory_cb: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_generic_factory_main_timeout ##### -->
+<para>
+
+</para>
+
+@act_iid: 
+@factory_cb: 
+@user_data: 
+@quit_timeout: 
+@Returns: 
+
+
+<!-- ##### MACRO MATECOMPONENT_FACTORY_INIT ##### -->
+<para>
+Macro that expands to the code need to initialize an exe factory.  Should be placed at the beginning of the main() function.
+</para>
+
+@descr: factory description string
+@version: version string
+@argcp: pointer to main()'s argc
+@argv: main()'s argv
+
+
+<!-- ##### MACRO MATECOMPONENT_OAF_FACTORY ##### -->
+<para>
+Deprecated; see MATECOMPONENT_ACTIVATION_FACTORY().
+</para>
+
+@oafiid: 
+@descr: 
+@version: 
+@callback: 
+@data: 
+
+
+<!-- ##### MACRO MATECOMPONENT_OAF_FACTORY_MULTI ##### -->
+<para>
+Deprecated; see MATECOMPONENT_ACTIVATION_FACTORY().
+</para>
+
+@oafiid: 
+@descr: 
+@version: 
+@callback: 
+@data: 
+
+
+<!-- ##### MACRO MATECOMPONENT_ACTIVATION_FACTORY ##### -->
+
+<para>
+    Macro that includes all boiler-plate code necessary to create an exe
+    type factory, including a main() function and a generic factory.
+</para>
+
+@oafiid: The factory's OAFIID
+@descr: Description of the factory
+@version: Version string of the factory program
+@callback: Function (#MateComponentFactoryCallback) responsible for intantiating components
+@data: Additional data to be passed to the callback
+
+
+<!-- ##### MACRO MATECOMPONENT_ACTIVATION_FACTORY_TIMEOUT ##### -->
+<para>
+    Like MATECOMPONENT_ACTIVATION_FACTORY(), but has an extra @quit_timeout argument.
+</para>
+
+@oafiid: The factory's OAFIID
+@descr: Description of the factory
+@version: Version string of the factory program
+@callback: Function (#MateComponentFactoryCallback) responsible for intantiating components
+@data: Additional data to be passed to the callback
+@quit_timeout: Ammount of time to wait (in milliseconds) before deciding to quit the factory.  A larger value prevents frequent respawning of a new factory process when there are many consecutive one-time requests, so that your factory appears to start faster after the first time.
+
+

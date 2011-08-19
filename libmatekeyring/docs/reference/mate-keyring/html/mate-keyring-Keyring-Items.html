@@ -1,0 +1,1325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Keyring Items</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="mate-keyring Reference Manual">
+<link rel="up" href="ch01.html" title="mate-keyring API Reference">
+<link rel="prev" href="mate-keyring-Keyring-Info.html" title="Keyring Info">
+<link rel="next" href="mate-keyring-Item-Information.html" title="Item Information">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-keyring-Keyring-Info.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">mate-keyring Reference Manual</th>
+<td><a accesskey="n" href="mate-keyring-Item-Information.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-keyring-Keyring-Items.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-keyring-Keyring-Items.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="Keyring Items">
+<a name="mate-keyring-Keyring-Items"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-keyring-Keyring-Items.top_of_page"></a>Keyring Items</span></h2>
+<p>Keyring Items — Keyring items each hold a secret and a number of attributes.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="mate-keyring-Keyring-Items.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">enum                <a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringItemInfoFlags" title="enum MateKeyringItemInfoFlags">MateKeyringItemInfoFlags</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetItemInfoCallback" title="MateKeyringOperationGetItemInfoCallback ()">*MateKeyringOperationGetItemInfoCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetAttributesCallback" title="MateKeyringOperationGetAttributesCallback ()">*MateKeyringOperationGetAttributesCallback</a>)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-create" title="mate_keyring_item_create ()">mate_keyring_item_create</a>           (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemType" title="enum MateKeyringItemType"><span class="type">MateKeyringItemType</span></a> type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *secret</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> update_if_exists</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetIntCallback" title="MateKeyringOperationGetIntCallback ()"><span class="type">MateKeyringOperationGetIntCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-create-sync" title="mate_keyring_item_create_sync ()">mate_keyring_item_create_sync</a>      (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemType" title="enum MateKeyringItemType"><span class="type">MateKeyringItemType</span></a> type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *secret</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> update_if_exists</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> *item_id</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-delete" title="mate_keyring_item_delete ()">mate_keyring_item_delete</a>           (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-delete-sync" title="mate_keyring_item_delete_sync ()">mate_keyring_item_delete_sync</a>      (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info" title="mate_keyring_item_get_info ()">mate_keyring_item_get_info</a>         (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetItemInfoCallback" title="MateKeyringOperationGetItemInfoCallback ()"><span class="type">MateKeyringOperationGetItemInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info-full" title="mate_keyring_item_get_info_full ()">mate_keyring_item_get_info_full</a>    (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetItemInfoCallback" title="MateKeyringOperationGetItemInfoCallback ()"><span class="type">MateKeyringOperationGetItemInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info-full-sync" title="mate_keyring_item_get_info_full_sync ()">mate_keyring_item_get_info_full_sync</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> **info</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info-sync" title="mate_keyring_item_get_info_sync ()">mate_keyring_item_get_info_sync</a>    (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> **info</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-info" title="mate_keyring_item_set_info ()">mate_keyring_item_set_info</a>         (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-info-sync" title="mate_keyring_item_set_info_sync ()">mate_keyring_item_set_info_sync</a>    (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> *info</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-attributes" title="mate_keyring_item_get_attributes ()">mate_keyring_item_get_attributes</a>   (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetAttributesCallback" title="MateKeyringOperationGetAttributesCallback ()"><span class="type">MateKeyringOperationGetAttributesCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-attributes-sync" title="mate_keyring_item_get_attributes_sync ()">mate_keyring_item_get_attributes_sync</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> **attributes</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-attributes" title="mate_keyring_item_set_attributes ()">mate_keyring_item_set_attributes</a>   (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-attributes-sync" title="mate_keyring_item_set_attributes_sync ()">mate_keyring_item_set_attributes_sync</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-acl" title="mate_keyring_item_get_acl ()">mate_keyring_item_get_acl</a>          (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetListCallback" title="MateKeyringOperationGetListCallback ()"><span class="type">MateKeyringOperationGetListCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-acl-sync" title="mate_keyring_item_get_acl_sync ()">mate_keyring_item_get_acl_sync</a>     (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> **acl</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-acl" title="mate_keyring_item_set_acl ()">mate_keyring_item_set_acl</a>          (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *acl</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-acl-sync" title="mate_keyring_item_set_acl_sync ()">mate_keyring_item_set_acl_sync</a>     (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *acl</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-grant-access-rights" title="mate_keyring_item_grant_access_rights ()">mate_keyring_item_grant_access_rights</a>
+                                                        (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *keyring</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *full_path</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-keyring-Item-ACLs.html#MateKeyringAccessType" title="enum MateKeyringAccessType"><span class="type">MateKeyringAccessType</span></a> rights</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);
+<a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-grant-access-rights-sync" title="mate_keyring_item_grant_access_rights_sync ()">mate_keyring_item_grant_access_rights_sync</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *full_path</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-keyring-Item-ACLs.html#MateKeyringAccessType" title="enum MateKeyringAccessType"><span class="type">MateKeyringAccessType</span></a> rights</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="mate-keyring-Keyring-Items.description"></a><h2>Description</h2>
+<p>
+A keyring contains multiple items. Each item has a secret, attributes and access
+information associated with it.
+</p>
+<p>
+An item is identified by an unsigned integer unique to the keyring in which it
+exists. An item's name is for displaying to the user. Each item has a single secret,
+which is a null-terminated string. This secret is stored in non-pageable memory, and
+encrypted on disk. All of this information is exposed via <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a>
+pointers.
+</p>
+<p>
+Attributes allow various other pieces of information to be associated with an item.
+These can also be used to search for relevant items. Attributes are accessed with
+<a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttribute" title="MateKeyringAttribute"><span class="type">MateKeyringAttribute</span></a> structures and built into lists using <a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a>.
+</p>
+<p>
+Each item has an access control list, which specifies the applications that
+can read, write or delete an item. The read access applies only to reading the secret.
+All applications can read other parts of the item. ACLs are accessed and changed
+through <a class="link" href="mate-keyring-Item-ACLs.html#MateKeyringAccessControl" title="MateKeyringAccessControl"><span class="type">MateKeyringAccessControl</span></a> pointers.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="mate-keyring-Keyring-Items.details"></a><h2>Details</h2>
+<div class="refsect2" title="enum MateKeyringItemInfoFlags">
+<a name="MateKeyringItemInfoFlags"></a><h3>enum MateKeyringItemInfoFlags</h3>
+<pre class="programlisting">typedef enum {
+	MATE_KEYRING_ITEM_INFO_BASICS = 0,
+	MATE_KEYRING_ITEM_INFO_SECRET = 1&lt;&lt;0
+} MateKeyringItemInfoFlags;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="MateKeyringOperationGetItemInfoCallback ()">
+<a name="MateKeyringOperationGetItemInfoCallback"></a><h3>MateKeyringOperationGetItemInfoCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateKeyringOperationGetItemInfoCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="MateKeyringOperationGetAttributesCallback ()">
+<a name="MateKeyringOperationGetAttributesCallback"></a><h3>MateKeyringOperationGetAttributesCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateKeyringOperationGetAttributesCallback)
+                                                        (<em class="parameter"><code><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="type">MateKeyringResult</span></a> result</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attributes</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_create ()">
+<a name="mate-keyring-item-create"></a><h3>mate_keyring_item_create ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_create           (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemType" title="enum MateKeyringItemType"><span class="type">MateKeyringItemType</span></a> type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *secret</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> update_if_exists</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetIntCallback" title="MateKeyringOperationGetIntCallback ()"><span class="type">MateKeyringOperationGetIntCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Create a new item in a keyring.
+</p>
+<p>
+The <em class="parameter"><code>secret</code></em> must be a null terminated string. It should be allocated using secure
+memory whenever possible. See <a class="link" href="mate-keyring-Non-pageable-Memory.html#mate-keyring-memory-strdup" title="mate_keyring_memory_strdup ()"><code class="function">mate_keyring_memory_strdup()</code></a>
+</p>
+<p>
+The user may have been prompted to unlock necessary keyrings. If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> is
+specified as the <em class="parameter"><code>keyring</code></em> and no default keyring exists, the user will be
+prompted to create a new keyring.
+</p>
+<p>
+When <em class="parameter"><code>update_if_exists</code></em> is set to <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the user may be prompted for access
+to the previously existing item.
+</p>
+<p>
+Whether a new item is created or not, id of the item will be passed to
+the <em class="parameter"><code>callback</code></em>.
+</p>
+<p>
+For a synchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-create-sync" title="mate_keyring_item_create_sync ()"><code class="function">mate_keyring_item_create_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which to create the item, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>The item type.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>The name of the item. This will be displayed to the user where necessary.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attributes</code></em> :</span></p></td>
+<td>A (possibly empty) list of attributes to store with the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>secret</code></em> :</span></p></td>
+<td>The password or secret of the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>update_if_exists</code></em> :</span></p></td>
+<td>If true, then another item matching the type, and attributes
+ will be updated instead of creating a new item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_create_sync ()">
+<a name="mate-keyring-item-create-sync"></a><h3>mate_keyring_item_create_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_create_sync      (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemType" title="enum MateKeyringItemType"><span class="type">MateKeyringItemType</span></a> type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *secret</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> update_if_exists</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> *item_id</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attributes</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>secret</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>update_if_exists</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>item_id</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_delete ()">
+<a name="mate-keyring-item-delete"></a><h3>mate_keyring_item_delete ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_delete           (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Delete an item in a keyring.
+</p>
+<p>
+The user may be prompted if the calling application doesn't have necessary
+access to delete the item.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyrings.html#mate-keyring-delete" title="mate_keyring_delete ()"><code class="function">mate_keyring_delete()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring from which to delete the item, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_delete_sync ()">
+<a name="mate-keyring-item-delete-sync"></a><h3>mate_keyring_item_delete_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_delete_sync      (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>);</pre>
+<p>
+Delete an item in a keyring.
+</p>
+<p>
+The user may be prompted if the calling application doesn't have necessary
+access to delete the item.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-delete" title="mate_keyring_item_delete ()"><code class="function">mate_keyring_item_delete()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring from which to delete the item, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_info ()">
+<a name="mate-keyring-item-get-info"></a><h3>mate_keyring_item_get_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_get_info         (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetItemInfoCallback" title="MateKeyringOperationGetItemInfoCallback ()"><span class="type">MateKeyringOperationGetItemInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Get information about an item and its secret.
+</p>
+<p>
+The user may be prompted if the calling application doesn't have necessary
+access to read the item with its secret.
+</p>
+<p>
+A <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> structure will be passed to the <em class="parameter"><code>callback</code></em>. This structure
+will be freed after <em class="parameter"><code>callback</code></em> returns.
+</p>
+<p>
+For a synchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info-sync" title="mate_keyring_item_get_info_sync ()"><code class="function">mate_keyring_item_get_info_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_info_full ()">
+<a name="mate-keyring-item-get-info-full"></a><h3>mate_keyring_item_get_info_full ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_get_info_full    (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetItemInfoCallback" title="MateKeyringOperationGetItemInfoCallback ()"><span class="type">MateKeyringOperationGetItemInfoCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Get information about an item, optionally retrieving its secret.
+</p>
+<p>
+If <em class="parameter"><code>flags</code></em> includes <code class="literal">MATE_KEYRING_ITEM_INFO_SECRET</code> then the user may be
+prompted if the calling application doesn't have necessary access to read
+the item with its secret.
+</p>
+<p>
+A <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> pointer will be passed to the <em class="parameter"><code>callback</code></em>. Certain fields
+of this structure may be NULL or zero if they were not specified in <em class="parameter"><code>flags</code></em>. This
+structure will be freed after <em class="parameter"><code>callback</code></em> returns.
+</p>
+<p>
+For a synchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info-full-sync" title="mate_keyring_item_get_info_full_sync ()"><code class="function">mate_keyring_item_get_info_full_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>The parts of the item to retrieve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_info_full_sync ()">
+<a name="mate-keyring-item-get-info-full-sync"></a><h3>mate_keyring_item_get_info_full_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_get_info_full_sync
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> flags</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> **info</code></em>);</pre>
+<p>
+Get information about an item, optionally retrieving its secret.
+</p>
+<p>
+If <em class="parameter"><code>flags</code></em> includes <code class="literal">MATE_KEYRING_ITEM_INFO_SECRET</code> then the user may be
+prompted if the calling application doesn't have necessary access to read
+the item with its secret.
+</p>
+<p>
+A <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> structure will be returned in <em class="parameter"><code>info</code></em>. Certain fields
+of this structure may be NULL or zero if they were not specified in <em class="parameter"><code>flags</code></em>.
+This must be freed using <a class="link" href="mate-keyring-Item-Information.html#mate-keyring-item-info-free" title="mate_keyring_item_info_free ()"><code class="function">mate_keyring_item_info_free()</code></a>.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info-full" title="mate_keyring_item_get_info_full ()"><code class="function">mate_keyring_item_get_info_full()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>The parts of the item to retrieve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The location to return a <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> pointer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_info_sync ()">
+<a name="mate-keyring-item-get-info-sync"></a><h3>mate_keyring_item_get_info_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_get_info_sync    (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> **info</code></em>);</pre>
+<p>
+Get information about an item and its secret.
+</p>
+<p>
+The user may be prompted if the calling application doesn't have necessary
+access to read the item with its secret.
+</p>
+<p>
+A <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> structure will be returned in <em class="parameter"><code>info</code></em>. This must be
+freed using <a class="link" href="mate-keyring-Item-Information.html#mate-keyring-item-info-free" title="mate_keyring_item_info_free ()"><code class="function">mate_keyring_item_info_free()</code></a>.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-info" title="mate_keyring_item_get_info ()"><code class="function">mate_keyring_item_get_info()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The location to return a <a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> pointer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_set_info ()">
+<a name="mate-keyring-item-set-info"></a><h3>mate_keyring_item_set_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_set_info         (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> *info</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Set information on an item, like its display name, secret etc...
+</p>
+<p>
+Only the fields in the <em class="parameter"><code>info</code></em> pointer that are non-null or non-zero will be
+set on the item.
+</p>
+<p>
+For a synchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-info-sync" title="mate_keyring_item_set_info_sync ()"><code class="function">mate_keyring_item_set_info_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The item info to save into the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_set_info_sync ()">
+<a name="mate-keyring-item-set-info-sync"></a><h3>mate_keyring_item_set_info_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_set_info_sync    (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Information.html#MateKeyringItemInfo" title="MateKeyringItemInfo"><span class="type">MateKeyringItemInfo</span></a> *info</code></em>);</pre>
+<p>
+Set information on an item, like its display name, secret etc...
+</p>
+<p>
+Only the fields in the <em class="parameter"><code>info</code></em> pointer that are non-null or non-zero will be
+set on the item.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-info" title="mate_keyring_item_set_info ()"><code class="function">mate_keyring_item_set_info()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The item info to save into the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_attributes ()">
+<a name="mate-keyring-item-get-attributes"></a><h3>mate_keyring_item_get_attributes ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_get_attributes   (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Keyring-Items.html#MateKeyringOperationGetAttributesCallback" title="MateKeyringOperationGetAttributesCallback ()"><span class="type">MateKeyringOperationGetAttributesCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Get all the attributes for an item.
+</p>
+<p>
+A <a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> will be passed to the <em class="parameter"><code>callback</code></em>. This list will
+be freed after <em class="parameter"><code>callback</code></em> returns.
+</p>
+<p>
+For a synchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-attributes-sync" title="mate_keyring_item_get_attributes_sync ()"><code class="function">mate_keyring_item_get_attributes_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_attributes_sync ()">
+<a name="mate-keyring-item-get-attributes-sync"></a><h3>mate_keyring_item_get_attributes_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_get_attributes_sync
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> **attributes</code></em>);</pre>
+<p>
+Get all attributes for an item.
+</p>
+<p>
+A <a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> will be returned in <em class="parameter"><code>attributes</code></em>. This should be
+freed using <a class="link" href="mate-keyring-Item-Attributes.html#mate-keyring-attribute-list-free" title="mate_keyring_attribute_list_free ()"><code class="function">mate_keyring_attribute_list_free()</code></a>.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-get-attributes" title="mate_keyring_item_get_attributes ()"><code class="function">mate_keyring_item_get_attributes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attributes</code></em> :</span></p></td>
+<td>The location to return a pointer to the attribute list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_set_attributes ()">
+<a name="mate-keyring-item-set-attributes"></a><h3>mate_keyring_item_set_attributes ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_set_attributes   (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<p>
+Set all the attributes for an item. This will replace any previous attributes
+set on the item.
+</p>
+<p>
+For a synchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-attributes-sync" title="mate_keyring_item_set_attributes_sync ()"><code class="function">mate_keyring_item_set_attributes_sync()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attributes</code></em> :</span></p></td>
+<td>The full list of attributes to set on the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_set_attributes_sync ()">
+<a name="mate-keyring-item-set-attributes-sync"></a><h3>mate_keyring_item_set_attributes_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_set_attributes_sync
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Item-Attributes.html#MateKeyringAttributeList" title="MateKeyringAttributeList"><span class="type">MateKeyringAttributeList</span></a> *attributes</code></em>);</pre>
+<p>
+Set all the attributes for an item. This will replace any previous attributes
+set on the item.
+</p>
+<p>
+For an asynchronous version of this function see <a class="link" href="mate-keyring-Keyring-Items.html#mate-keyring-item-set-attributes" title="mate_keyring_item_set_attributes ()"><code class="function">mate_keyring_item_set_attributes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>attributes</code></em> :</span></p></td>
+<td>The full list of attributes to set on the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_acl ()">
+<a name="mate-keyring-item-get-acl"></a><h3>mate_keyring_item_get_acl ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_get_acl          (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationGetListCallback" title="MateKeyringOperationGetListCallback ()"><span class="type">MateKeyringOperationGetListCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_keyring_item_get_acl</code> is deprecated and should not be used in newly-written code. Never returns any ACL values.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_get_acl_sync ()">
+<a name="mate-keyring-item-get-acl-sync"></a><h3>mate_keyring_item_get_acl_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_get_acl_sync     (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> **acl</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_keyring_item_get_acl_sync</code> is deprecated and should not be used in newly-written code. Never returns any acls.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>acl</code></em> :</span></p></td>
+<td>The location to return a pointer to the access control list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Always <code class="literal">MATE_KEYRING_RESULT_OK</code>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_set_acl ()">
+<a name="mate-keyring-item-set-acl"></a><h3>mate_keyring_item_set_acl ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_set_acl          (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *acl</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_keyring_item_set_acl</code> is deprecated and should not be used in newly-written code. This function no longer has any effect.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>acl</code></em> :</span></p></td>
+<td>The access control list to set on the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>A callback which will be called when the request completes or fails.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>A pointer to arbitrary data that will be passed to the <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>A function to free <em class="parameter"><code>data</code></em> when it's no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_set_acl_sync ()">
+<a name="mate-keyring-item-set-acl-sync"></a><h3>mate_keyring_item_set_acl_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_set_acl_sync     (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *acl</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_keyring_item_set_acl_sync</code> is deprecated and should not be used in newly-written code. This function no longer has any effect.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The name of the keyring in which the item exists, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>acl</code></em> :</span></p></td>
+<td>The access control list to set on the item.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_grant_access_rights ()">
+<a name="mate-keyring-item-grant-access-rights"></a><h3>mate_keyring_item_grant_access_rights ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            mate_keyring_item_grant_access_rights
+                                                        (<em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *keyring</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *full_path</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-keyring-Item-ACLs.html#MateKeyringAccessType" title="enum MateKeyringAccessType"><span class="type">MateKeyringAccessType</span></a> rights</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-keyring-Callbacks.html#MateKeyringOperationDoneCallback" title="MateKeyringOperationDoneCallback ()"><span class="type">MateKeyringOperationDoneCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> destroy_data</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_keyring_item_grant_access_rights</code> is deprecated and should not be used in newly-written code. This function no longer has any effect.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The keyring name, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>The display name for the application, as returned by <a href="http://library.mate.org/devel/glib/unstable/glib-Miscellaneous-Utility-Functions.html#g-get-application-name"><code class="function">g_get_application_name()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>full_path</code></em> :</span></p></td>
+<td>The full filepath to the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item to grant access to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rights</code></em> :</span></p></td>
+<td>The type of rights to grant.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>Callback which is called when the operation completes
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>Data to be passed to callback
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_data</code></em> :</span></p></td>
+<td>Function to be called when data is no longer needed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The asychronous request, which can be passed to <a class="link" href="mate-keyring-Miscellaneous-Functions.html#mate-keyring-cancel-request" title="mate_keyring_cancel_request ()"><code class="function">mate_keyring_cancel_request()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.20</p>
+</div>
+<hr>
+<div class="refsect2" title="mate_keyring_item_grant_access_rights_sync ()">
+<a name="mate-keyring-item-grant-access-rights-sync"></a><h3>mate_keyring_item_grant_access_rights_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-keyring-Result-Codes.html#MateKeyringResult" title="enum MateKeyringResult"><span class="returnvalue">MateKeyringResult</span></a>  mate_keyring_item_grant_access_rights_sync
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *keyring</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *full_path</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> id</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-keyring-Item-ACLs.html#MateKeyringAccessType" title="enum MateKeyringAccessType"><span class="type">MateKeyringAccessType</span></a> rights</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_keyring_item_grant_access_rights_sync</code> is deprecated and should not be used in newly-written code. This function no longer has any effect.</p>
+</div>
+<p>
+Will grant the application access rights to the item, provided
+callee has write access to said item.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keyring</code></em> :</span></p></td>
+<td>The keyring name, or NULL for the default keyring.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>The display name for the application, as returned by <a href="http://library.mate.org/devel/glib/unstable/glib-Miscellaneous-Utility-Functions.html#g-get-application-name"><code class="function">g_get_application_name()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>full_path</code></em> :</span></p></td>
+<td>The full filepath to the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>The id of the item to grant access to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rights</code></em> :</span></p></td>
+<td>The type of rights to grant.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">MATE_KEYRING_RESULT_OK</code> if the operation was succcessful or
+an error result otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

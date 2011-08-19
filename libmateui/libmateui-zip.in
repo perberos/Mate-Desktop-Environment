@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Build zipfiles for libmateui on Win32. Separate runtime and
+# developer ones. Run after make install.
+
+ZIP=/tmp/libmateui-@VERSION@.zip
+DEVZIP=/tmp/libmateui-dev-@VERSION@.zip
+
+current_minus_age=`expr @LIBMATEUI_CURRENT@ - @LIBMATEUI_AGE@`
+
+cd @prefix@
+rm $ZIP
+
+zip $ZIP -@ <<EOF
+bin/libmateui-2-$current_minus_age.dll
+lib/gtk-2.0/@GTK_BINARY_VERSION@/filesystems/libgio.dll
+lib/libglade/2.0/libmate.dll
+share/pixmaps/mate-about-logo.png
+EOF
+
+if [ -f share/locale/de/LC_MESSAGES/libmateui-2.0.mo ]; then
+  zip $ZIP share/locale/*/LC_MESSAGES/libmateui-2.0.mo
+else
+  zip $ZIP lib/locale/*/LC_MESSAGES/libmateui-2.0.mo
+fi
+
+rm $DEVZIP
+zip -r $DEVZIP -@ <<EOF
+lib/libmateui-2.dll.a
+lib/pkgconfig/libmateui-2.0.pc
+include/libmateui-2.0
+share/gtk-doc/html/libmateui
+EOF

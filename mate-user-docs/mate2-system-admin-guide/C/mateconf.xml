@@ -1,0 +1,1320 @@
+<chapter id="mateconf-0">
+  <title>Using MateConf</title>
+  <highlights>
+    <para>The information in this chapter describes how to use <application>MateConf</application> to manage user preferences.</para>
+  </highlights>
+  <sect1 id="mateconf-1">
+    <title>Introduction to MateConf</title>
+    <indexterm>
+      <primary>MateConf</primary>
+      <secondary>introduction</secondary>
+    </indexterm>
+    <para><application>MateConf</application> simplifies the administration of preferences
+for MATE Desktop users. <application>MateConf</application> enables system administrators
+to do the following:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Set mandatory values for particular preferences for all users.
+In this way, system administrators can control whether users can update particular
+preferences.</para>
+      </listitem>
+      <listitem>
+        <para>Set default values for particular preferences for all users. </para>
+      </listitem>
+      <listitem>
+        <para>Use suggested values for preferences that are specified in
+definition files for the preferences.</para>
+      </listitem>
+      <listitem>
+        <para>Read documentation on each preference. </para>
+      </listitem>
+    </itemizedlist>
+    <para><application>MateConf</application> also notifies applications when a preference
+value changes, locally or across a network. In this way, when you change a
+preference, all applications that use the preference are immediately updated.</para>
+    <para><application>MateConf</application> has the following components: </para>
+    <itemizedlist>
+      <listitem>
+        <para>A repository of user preferences. </para>
+      </listitem>
+      <listitem>
+        <para>A daemon, <command>mateconfd-2</command>.</para>
+      </listitem>
+      <listitem>
+        <para>A command line tool, <command>mateconftool-2</command>.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+  <sect1 id="mateconf-24">
+    <title>MateConf Repository</title>
+    <indexterm>
+      <primary>MateConf</primary>
+      <secondary>repository</secondary>
+    </indexterm>
+    <para>Each preference in the <application>MateConf</application> repository is
+expressed as a key-value pair. A <firstterm>MateConf preference key</firstterm>
+is an element in the repository that corresponds to an application preference.
+For example, the <systemitem>/apps/mate-session/options/show_splash_screen</systemitem>
+preference key corresponds to the <guilabel>Show splash screen on login</guilabel>
+option in the <application>Sessions</application> preference tool.  The MATE
+Desktop user interface does not contain all of the preference keys in the <application>MateConf</application> repository. For example, the <application>Panel</application>
+preference tool does not contain an option that corresponds to the <systemitem>/apps/panel/global/tooltips_enabled</systemitem> key.</para>
+    <para>The repository is structured like a simple hierarchical file system.
+The repository contains the following:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Directories that correspond to applications that use the <application>MateConf</application> repository. For example, the file system contains the
+directory <systemitem>/apps/marco</systemitem>. </para>
+      </listitem>
+      <listitem>
+        <para>Subdirectories that correspond to categories of preferences.
+For example, the file system contains the directory <systemitem>/apps/marco/general</systemitem>.</para>
+      </listitem>
+      <listitem>
+        <para>Special files that list the preference keys in the directory,
+and contain information about the keys. For example, a file that contains
+information about the keys that relate to the HTTP proxy preferences is in
+the directory <systemitem>/system/http_proxy</systemitem>. </para>
+      </listitem>
+      <listitem>
+        <para>A <systemitem>/schemas</systemitem> directory that contains files
+that describe all of the preference keys.</para>
+      </listitem>
+    </itemizedlist>
+    <para>Preference keys typically have simple values such as strings, integers,
+or lists of strings and integers. The format of the preference key in the
+repository depends on the backend module that is used to read the repository.
+The following is an example of the <systemitem>/desktop/mate/interface/font_name</systemitem> preference key when an Extensible Markup Language (XML) backend
+module is used to read the repository:</para>
+    <programlisting><![CDATA[<entry name="font_name" mtime="1038323555" muser="user123" type="string">
+<stringvalue>Sans 10</stringvalue></entry>]]></programlisting>
+    <note>
+      <para>When this guide refers to a preference key, the path to the key
+is added to the name of the key. For example, the <systemitem>font_name</systemitem>
+preference key in the <systemitem>/desktop/mate/interface</systemitem> subdirectory
+is referred to as <systemitem>/desktop/mate/interface/font_name</systemitem>.</para>
+    </note>
+    <sect2 id="mateconf-26">
+      <title>MateConf Configuration Sources</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>configuration sources</secondary>
+      </indexterm>
+      <para>The <application>MateConf</application> repository contains
+a series of storage locations that are called <firstterm>configuration sources</firstterm>. The configuration sources are listed in the <firstterm>MateConf
+path file</firstterm>. The location of the <application>MateConf</application>
+path file is <systemitem>/etc/mateconf/<replaceable>mateconf-version-number</replaceable>/path</systemitem>. Each user has a path file. The path file specifies the following
+information for each configuration source:</para>
+      <itemizedlist>
+        <listitem>
+          <para>The backend module to use to read the repository. </para>
+        </listitem>
+        <listitem>
+          <para>The permissions on the repository.</para>
+        </listitem>
+        <listitem>
+          <para>The location of the repository.</para>
+        </listitem>
+      </itemizedlist>
+      <para>The <application>MateConf</application> path file also contains <systemitem>include</systemitem> instructions. By default, the contents of the <application>MateConf</application> path file are as follows: </para>
+      <programlisting>xml:readonly:/etc/mateconf/mateconf.xml.mandatory
+include /etc/mateconf/2/local-mandatory.path
+include "$(HOME)/.mateconf.path"
+include /etc/mateconf/2/local-defaults.path
+xml:readwrite:$(HOME)/.mateconf
+xml:readonly:/etc/mateconf/mateconf.xml.defaults</programlisting>
+      <para>When <application>MateConf</application> searches for a preference value, <application>MateConf</application> reads the configuration sources in the order specified
+in the path file. The following table describes the configuration sources
+in the path file:</para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0">
+          <colspec colwidth="31.29*"/>
+          <colspec colwidth="68.71*"/>
+          <thead>
+            <row rowsep="1">
+              <entry>
+                <para>Configuration Source</para>
+              </entry>
+              <entry>
+                <para>Description</para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top">
+                <para>Mandatory</para>
+              </entry>
+              <entry valign="top">
+                <para>The permissions on this configuration source are set to read only. Users cannot
+overwrite the values in this source, so the preferences in the source are
+mandatory.</para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>User</para>
+              </entry>
+              <entry valign="top">
+                <para>This configuration source is stored in the <filename>.mateconf</filename> directory
+in the home directory of the user. When the user sets a preference, the new
+preference information is added to this location. </para>
+                <para>You can use
+the <application>Configuration Editor</application> to modify the user configuration
+source.</para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>Default</para>
+              </entry>
+              <entry valign="top">
+                <para>This configuration source contains the default preference settings.</para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <para>The sequence of the configuration sources in the path file ensures that
+mandatory preference settings override user preference settings. The sequence
+also ensures that user preference settings override default preference settings.
+That is, <application>MateConf</application> applies preferences in the following
+order of priority:</para>
+      <orderedlist>
+        <listitem>
+          <para>Mandatory preferences </para>
+        </listitem>
+        <listitem>
+          <para>User-specified preferences </para>
+        </listitem>
+        <listitem>
+          <para>Default preferences</para>
+        </listitem>
+      </orderedlist>
+      <para>The <systemitem>include</systemitem> instructions in the <application>MateConf</application> path file enable system administrators to specify other configuration
+sources. </para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0">
+          <colspec colwidth="50*"/>
+          <colspec colwidth="50*"/>
+          <thead>
+            <row rowsep="1">
+              <entry>
+                <para>Included Configuration Source</para>
+              </entry>
+              <entry>
+                <para>Description</para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top">
+                <para>
+                  <filename>/etc/mateconf/2/local-mandatory.path</filename>
+                </para>
+              </entry>
+              <entry valign="top">
+                <para>Use this configuration
+source to store mandatory preference values for a particular system.</para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>
+                  <filename>$(HOME)/.mateconf.path</filename>
+                </para>
+              </entry>
+              <entry valign="top">
+                <para>The user specifies the location of  the configuration
+source in the home directory, in a file that is called <filename>.mateconf.path</filename>.</para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>
+                  <filename>/etc/mateconf/2/local-defaults.path</filename>
+                </para>
+              </entry>
+              <entry valign="top">
+                <para>Use this configuration
+source to store default preference values for a particular system.</para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+    <sect2 id="mateconf-27">
+      <title>MateConf Schemas</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>schemas</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>schema keys</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>schema objects</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>schemas</primary>
+        <secondary>description</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>schemas</primary>
+        <secondary>schema keys</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>schemas</primary>
+        <secondary>schema objects</secondary>
+      </indexterm>
+      <para>A <firstterm>MateConf schema</firstterm> is a collective term
+for a <firstterm>MateConf schema key</firstterm> and a <firstterm>MateConf schema
+object</firstterm>. The following table describes schema keys and schema objects
+and the relationship of these items to preference keys:</para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0">
+          <colspec colname="colspec0" colwidth="24.31*"/>
+          <colspec colname="colspec1" colwidth="75.69*"/>
+          <thead>
+            <row rowsep="1">
+              <entry>
+                <para>Item</para>
+              </entry>
+              <entry>
+                <para>Description</para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="colspec0" valign="top">
+                <para>Preference key</para>
+              </entry>
+              <entry colname="colspec1" valign="top">
+                <para>An element in the <application>MateConf</application> repository that corresponds to an application preference.</para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>Schema key</para>
+              </entry>
+              <entry valign="top">
+                <para>A key that stores a schema object for a preference key. </para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>Schema object</para>
+              </entry>
+              <entry valign="top">
+                <para>An element in a configuration source that contains information for a preference
+key, such as the following:</para>
+                <itemizedlist>
+                  <listitem>
+                    <para>The name of the application that uses the preference key.</para>
+                  </listitem>
+                  <listitem>
+                    <para>The type of value required for the preference key, for example
+integer, boolean, and so on.</para>
+                  </listitem>
+                  <listitem>
+                    <para>A default value for the preference key. </para>
+                  </listitem>
+                  <listitem>
+                    <para>Brief documentation on the preference key.</para>
+                  </listitem>
+                </itemizedlist>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <para>The following table gives examples of a preference key, a schema key,
+and a schema object:</para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0">
+          <colspec colname="colspec0" colwidth="24.31*"/>
+          <colspec colname="colspec1" colwidth="75.69*"/>
+          <thead>
+            <row rowsep="1">
+              <entry>
+                <para>Item</para>
+              </entry>
+              <entry>
+                <para>Example</para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="colspec0" valign="top">
+                <para>Preference key</para>
+              </entry>
+              <entry colname="colspec1" valign="top">
+                <para>
+                  <systemitem>/desktop/mate/interface/font_name</systemitem>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry colname="colspec0" valign="top">
+                <para>Schema key</para>
+              </entry>
+              <entry colname="colspec1" valign="top">
+                <para>
+                  <systemitem>/schemas/desktop/mate/interface/font_name</systemitem>
+                </para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>Schema object</para>
+              </entry>
+              <entry valign="top">
+                <programlisting><![CDATA[<schema>
+  <applyto>/desktop/mate/interface/font_name</applyto>
+  <key>/schemas/desktop/mate/interface/font_name</key>
+  <owner>mate</owner>
+  <type>string</type>
+  <default>Sans 10</default>
+  <locale name="C">
+    <short>Default font</short>
+      <long>Name of the default font used by gtk+.</long>
+  </locale>
+</schema>]]></programlisting>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <para>You can associate a schema key with a preference key. For example, the
+following <systemitem>/desktop/mate/interface/font_name</systemitem> key includes
+a schema key:</para>
+      <programlisting><![CDATA[<entry name="font_name" mtime="1034873859"
+schema="/schemas/desktop/mate/interface/font_name"/>]]></programlisting>
+      <para>When you associate a schema key with a preference key, the preference
+uses the suggested value that is specified in the schema object of the schema
+key. The suggested value is contained in the <sgmltag>&lt;default&gt;</sgmltag>
+element in the schema object. By default, all the preference keys in the default
+configuration source are associated with schema keys.</para>
+      <para>Typically, schemas are stored in the default configuration source. </para>
+    </sect2>
+    <sect2 id="mateconf-2">
+      <title>MateConf Schema Definition Files</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>schema definition files</secondary>
+        <tertiary>introduction</tertiary>
+      </indexterm>
+      <indexterm>
+        <primary>schemas</primary>
+        <secondary>schema definition files</secondary>
+        <tertiary>introduction</tertiary>
+      </indexterm>
+      <para>Schemas are generated from <firstterm>schema definition
+files</firstterm>. A schema definition file defines the characteristics of
+all of the keys in a particular application. Schema definition files have
+a <filename>.schemas</filename> extension.</para>
+      <para>The schema definition files are included in the <filename>/etc/mateconf/schemas</filename> directory. You can use the schema definition files to create a
+new configuration source.</para>
+      <para>Some schema definition files correspond closely to a part of the MATE
+Desktop user interface. For example, <filename>system_http_proxy.schemas</filename>
+corresponds to the <application>Network Proxy</application> preference tool. Other schema definition files contain
+preference keys that are not present in the MATE Desktop user interface.
+For example, the <systemitem>/apps/panel/global/tooltips_enabled</systemitem> key
+is not present in the user interface. </para>
+      <para>Some parts of the MATE Desktop user interface contain preferences that
+represent preference keys from more than one schema definition file. For example,
+the <application>Keyboard Shortcuts</application> preference tool contains preferences that represent
+keys from the <filename>panel-global-config.schemas</filename> and <filename>marco.schemas</filename> files.</para>
+    </sect2>
+  </sect1>
+  <sect1 id="mateconf-25">
+    <title>MateConf Daemon</title>
+    <indexterm>
+      <primary>mateconfd</primary>
+      <see>MateConf daemon</see>
+    </indexterm>
+    <indexterm>
+      <primary>MateConf</primary>
+      <secondary>daemon</secondary>
+    </indexterm>
+    <para>The <application>MateConf</application> daemon is called <command>mateconfd-2</command>. The <application>MateConf</application> daemon notifies applications when a preference value changes.
+For example, you might select to show only icons in toolbars in the <application>Menus &amp; Toolbars</application> preference tool. When you select this option
+in the preference tool, the toolbars on all open applications are updated
+instantly. The <application>MateConf</application> daemon can operate locally,
+or across a network.</para>
+    <para>An instance of the <application>MateConf</application> daemon is started
+for each user. The <application>MateConf</application> daemon does not have to
+deal with complex problems such as authentication and data security. When
+the <application>MateConf</application> daemon starts, the daemon loads the <application>MateConf</application> path file. The <application>MateConf</application> daemon
+manages all access between applications and the configuration sources.</para>
+    <para>When an application requests the value of a preference key, the daemon
+searches the configuration sources as follows:</para>
+    <orderedlist>
+      <listitem>
+        <para>Search for the value of the preference key in each configuration
+source, in the order specified in the path file. If the value is found, return
+the value.</para>
+      </listitem>
+      <listitem>
+        <para>If a value is not found, search for the schema key that corresponds
+to the preference key in each configuration source, in the order specified
+in the path file.</para>
+      </listitem>
+      <listitem>
+        <para>If the schema key is found, check the value of the schema
+key.</para>
+      </listitem>
+      <listitem>
+        <para>If the value of the schema key is a schema object, return
+the suggested value in the <sgmltag>&lt;default&gt;</sgmltag> element of the
+schema object.</para>
+      </listitem>
+    </orderedlist>
+    <para>The <application>MateConf</application> daemon also caches preference key
+values. All applications use this cache, so applications only need to access
+the configuration sources once.</para>
+    <para>To terminate the <application>MateConf</application> daemon, run the following
+command:</para>
+    <screen><userinput>mateconftool-2 --shutdown</userinput></screen>
+  </sect1>
+  <sect1 id="mateconf-6">
+    <title>MateConf Command Line Tool</title>
+    <anchor id="mateconf-TBL-7"/>
+    <indexterm>
+      <primary>mateconftool-2</primary>
+      <see>MateConf command line tool</see>
+    </indexterm>
+    <indexterm>
+      <primary>MateConf</primary>
+      <secondary>command line tool</secondary>
+    </indexterm>
+    <para><application>MateConf</application> includes a
+command line tool, <command>mateconftool-2</command>. You can use the <command>mateconftool-2</command> command to perform the following tasks: </para>
+    <itemizedlist>
+      <listitem>
+        <para>Set the values of keys.</para>
+      </listitem>
+      <listitem>
+        <para>Display the values of keys.</para>
+      </listitem>
+      <listitem>
+        <para>Install schemas from schema definition files when you install
+an application.</para>
+      </listitem>
+    </itemizedlist>
+    <para>For example, use the following command to display the values of all
+keys in the <systemitem>/desktop/mate</systemitem> directory and subdirectories.</para>
+    <screen><userinput>mateconftool-2 --recursive-list /desktop/mate</userinput></screen>
+    <para>Below are listed some of the options that you can
+use with the <command>mateconftool-2</command> command.  For detailed command line options, 
+please see <ulink url="man:mateconftool-2(1)">man:mateconftool-2(1)</ulink>.</para>
+    <variablelist>
+      <title>mateconftool-2 Command Options</title>
+      <varlistentry>
+        <term>
+            <option>--all-dirs</option>
+        </term>
+        <listitem>
+          <para>Lists all subdirectories in a
+    directory that you specify.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--all-entries</option>
+        </term>
+        <listitem>
+          <para>Displays the values of all keys
+    in a directory that you specify.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--config-source=<replaceable>configuration-source</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use this option with the <option>--direct</option> option
+    to specify a configuration source to use. If you do not specify a configuration
+    source with this option, the command runs on all configuration sources in
+    the path file.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--direct</option>
+        </term>
+        <listitem>
+          <para>Use this option with the <option>--config-source</option> option to access a configuration source directly.
+    When you use this option, <application>MateConf</application> bypasses the server.
+    Ensure that the <application>MateConf</application> daemon, <command>mateconfd-2</command>, is not running before you use this option.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--dump</option>
+        </term>
+        <listitem>
+          <para>Generates a list that contains all preference
+    keys in a <application>MateConf</application> repository directory that you specify.
+    The list contains XML descriptions of all the keys. The list is contained
+    in a <sgmltag>&lt;mateconfentryfile&gt;</sgmltag> element. </para>
+          <para>For example,
+    you can redirect the output from this option to generate a file that lists
+    all keys that are related to your panel configuration. You can use the <option>--load</option> option with this file.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--get</option>
+        </term>
+        <listitem>
+          <para>Displays the value of a preference key that you specify.
+    Also displays the values of the elements in the schema object for a schema
+    key that you specify.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--help</option>
+        </term>
+        <listitem>
+          <para>Displays a help message about the <command>mateconftool-2</command> command, and the options that you can use with the <command>mateconftool-2</command> command.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--load=<replaceable>filename</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use this option to sets the values of preference keys in the current directory
+    in a configuration source to the values in the file that you specify. The
+    file that you specify must contain XML descriptions of the keys, in a <literal>&lt;mateconfentryfile&gt;</literal> element.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--long-desc=<replaceable>description</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use this option with the <option>--set-schema</option>
+    option to specify a long description for a schema key. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--makefile-install-rule</option>
+        </term>
+        <listitem>
+          <para>Installs schema definition files to applications.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--owner=<replaceable>owner</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use this option with the <option>--set-schema</option> option to specify
+    an owner for a schema key. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--recursive-list</option>
+        </term>
+        <listitem>
+          <para>Displays the values of all preference keys in all
+    subdirectories in a directory that you specify.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--recursive-unset</option>
+        </term>
+        <listitem>
+          <para>Resets
+    the values of all preference keys, in all subdirectories in a directory, from
+    the user setting to the setting in the default configuration source.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--set</option>
+        </term>
+        <listitem>
+          <para>Sets the value of a preference key, and writes the value
+    to the user configuration source. Use the <option>--type</option> option
+    with the <option>--set</option> option to specify the data type of the value
+    that you want to set. For example, the following command sets the value of
+    the <systemitem>/apps/mate-terminal/profiles/Default/background_color</systemitem>
+    key in the user configuration source:</para>
+          <screen><userinput>mateconftool-2 \
+  --set "/apps/mate-terminal/profiles/Default/background_color" \
+  --type string "#000000"</userinput></screen>
+          <para>You can also use the <option>--direct</option> option and the <option>--config-source</option> option
+    with the <option>--set</option> option to write a value to another configuration
+    source.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--set-schema</option>
+        </term>
+        <listitem>
+          <para>Sets the value of an attribute
+    in a schema key, and writes the value to the default configuration source.</para>
+          <para>Use the following options with the <option>--set-schema</option>
+    option to specify the attribute that you want to update:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <option>--type</option>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <option>--short-desc</option>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <option>--long-desc</option>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <option>--owner</option>
+              </para>
+            </listitem>
+          </itemizedlist>
+          <para>For example, the following command sets the short description
+    in the schema key for the <systemitem>/apps/mate-terminal/profiles/Default/background_color</systemitem> key:</para>
+          <screen><userinput>mateconftool-2 \
+  --set-schema  "/schemas/apps/mate-terminal/profiles/Default/background_color" \
+  --short-desc "Default  background color of terminal"</userinput></screen>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--short-desc=<replaceable>description</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use this option with the <option>--set-schema</option>
+    option to specify a short description for a schema key. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--shutdown</option>
+        </term>
+        <listitem>
+          <para>Terminates the <application>MateConf</application> daemon.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--type=<replaceable>data-type</replaceable></option>
+        </term>
+        <listitem>
+          <para>Use this option to specify the data type when you set a
+    value of a preference key. You can also use this option when you set the value
+    of an attribute in a schema key. The following is a list of valid data types:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <type>bool</type>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <type>float</type>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <type>int</type>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <type>list</type>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <type>pair</type>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                <type>string</type>
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--unset</option>
+        </term>
+        <listitem>
+          <para>Resets the value of a preference
+    key from the user setting to the setting in the default configuration source.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+            <option>--usage</option>
+        </term>
+        <listitem>
+          <para>Displays a brief help message
+    about the <command>mateconftool-2</command> command, and the options that you
+    can use with the <command>mateconftool-2</command> command.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+  <sect1 id="mateconf-7">
+    <title>To Set Preference Values</title>
+    <indexterm>
+      <primary>MateConf</primary>
+      <secondary>preference values, setting</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>preference values</primary>
+      <secondary>setting
+with MateConf</secondary>
+    </indexterm>
+    <para>You can set a mandatory value or a
+default value for a preference key. Before you change mandatory preference
+values or default preference values for users, you must ensure that the <application>MateConf</application> daemon is not running for any user. Ensure that all users
+are logged out before you change preference values for users.</para>
+    <para>To set a mandatory value or a default value for a preference key, use
+the <command>mateconftool-2</command> command, as follows:</para>
+    <screen><userinput>mateconftool-2 --direct \
+  --config-source <replaceable>configuration-source</replaceable> \
+  --type <replaceable>data-type</replaceable> \
+  --set <replaceable>preference-key</replaceable> <replaceable>value</replaceable></userinput></screen>
+    <para>For example, to set <literal>wwwproxy.xyz.com</literal> as the mandatory
+HTTP proxy host, run the following command:</para>
+    <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type string \
+  --set /system/http_proxy/host wwwproxy.xyz.com</userinput></screen>
+    <para>The user cannot override this preference value.</para>
+    <para>You can also use the <command>mateconftool-2</command> command to set default
+values. For example, to set the default number of workspaces to five, run
+the following command:</para>
+    <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type int \
+  --set /apps/marco/general/num_workspaces 5</userinput></screen>
+    <para>The user can override this preference value.</para>
+    <caution>
+      <para>Before you change mandatory preference values or default preference
+values for users, you must ensure that all users are logged out.</para>
+    </caution>
+  </sect1>
+  <sect1 id="mateconf-8">
+    <title>Setting General Preferences</title>
+    <para>The following sections describe how to assign mandatory or default values
+to general preferences.</para>
+    <sect2 id="mateconf-10">
+      <title>To Set HTTP Proxy Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>HTTP proxy, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>HTTP proxy</primary>
+        <secondary>setting with
+MateConf</secondary>
+      </indexterm>
+      <para>To set HTTP proxy preferences, you modify
+the values of the preference keys in the <systemitem>/system/http_proxy/</systemitem>
+location. For example, to set a mandatory value for the HTTP proxy host, run
+the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type string \
+  --set /system/http_proxy/host <replaceable>proxy-name</replaceable></userinput></screen>
+      <para>To set a default value for the HTTP proxy host, run the following command: </para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type string \
+  --set /system/http_proxy/host <replaceable>proxy-name</replaceable></userinput></screen>
+      <para>You can also set other HTTP proxy-related preferences. For information
+on the other HTTP proxy preferences, see the <filename>system_http_proxy.schemas</filename> schema definition file.</para>
+    </sect2>
+    <sect2 id="mateconf-11">
+      <title>To Set Print Manager Preferences</title>
+      <para>To set print manager preferences, you modify the values of the preference
+keys in the <systemitem>/apps/mate-print-manager</systemitem> location. For example,
+if you do not want users to view the print jobs of other users, set a mandatory
+value as follows: </para>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>print manager, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>print manager</primary>
+        <secondary>setting
+with MateConf</secondary>
+      </indexterm>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type bool \
+  --set /apps/mate-print-manager/show_all_jobs false</userinput></screen>
+      <para>To set a default value for this preference, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type bool \
+  --set /apps/mate-print-manager/show_all_jobs false</userinput></screen>
+      <para>You can also set other print manager preferences. For information on
+the other print manager preferences, see the <filename>mate-print-manager.schemas</filename> schema definition file.</para>
+<!--mate-print-manager isn't in Mercury. Is there a replacement?-->
+    </sect2>
+    <sect2 id="mateconf-12">
+      <title>To Set the Number of Workspaces</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>number of workspaces, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>workspaces</primary>
+        <secondary>setting number with MateConf</secondary>
+      </indexterm>
+      <para>To set a mandatory
+number of workspaces, use the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type int \
+  --set /apps/marco/general/num_workspaces <replaceable>integer</replaceable></userinput></screen>
+      <para>To set a default number of workspaces, use the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type int \
+  --set /apps/marco/general/num_workspaces <replaceable>integer</replaceable></userinput></screen>
+      <para>You can also set other window manager preferences. For information on
+the other window manager preferences, see the <filename>marco.schemas</filename>
+schema definition file.</para>
+    </sect2>
+    <sect2 id="mateconf-16">
+      <title>To Set Keyboard Accessibility Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>keyboard accessibility, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>keyboard</primary>
+        <secondary>setting accessibility preferences with MateConf</secondary>
+      </indexterm>
+      <para>To set keyboard accessibility preferences, you modify the values of the preference
+keys in the <systemitem>/desktop/mate/accessibility/keyboard</systemitem> location.
+For example, if you want to set a mandatory value so that keyboard accessibility
+features are enabled, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type bool \
+  --set /desktop/mate/accessibility/keyboard/enable true</userinput></screen>
+      <para>To set a default value for this preference, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type bool \
+  --set /desktop/mate/accessibility/keyboard/enable false</userinput></screen>
+      <para>You can also set other keyboard accessibility preferences. For information
+on the other keyboard accessibility preferences, see the <filename>desktop_mate_accessibility_keyboard.schemas</filename> schema definition file.</para>
+    </sect2>
+    <sect2 id="mateconf-18">
+      <title>To Set Keyboard Shortcut Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>keyboard shortcuts, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>keyboard</primary>
+        <secondary>setting shortcut preferences with MateConf</secondary>
+      </indexterm>
+      <para>To set
+keyboard shortcut preferences, you modify the values of preference keys in <systemitem>/apps/marco/global_keybindings</systemitem> location. For example, you might
+want users to use only the <keycombo><keycap>Alt</keycap><keycap>F3</keycap></keycombo> keyboard
+shortcut to open the <guilabel>Run Application</guilabel> dialog. To set this
+mandatory value, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type string \
+  --set /apps/marco/global_keybindings/panel_run_dialog '&lt;Alt&gt;F3'</userinput></screen>
+      <para>You can also set other keyboard shortcut preferences. For information
+on the other keyboard shortcut preferences, see the <filename>marco.schemas</filename> schema definition file.</para>
+    </sect2>
+    <sect2 id="mateconf-14">
+      <title>Setting Panel and Panel Object Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>panel object preferences, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>panel
+preferences, setting individual </secondary>
+      </indexterm>
+      <indexterm>
+        <primary>panels</primary>
+        <secondary>preferences, individual, setting with MateConf</secondary>
+      </indexterm>
+      <para>The <filename>panel-default-setup.entries</filename> file
+specifies the following details of the panels in the MATE Desktop:</para>
+      <itemizedlist>
+        <listitem>
+          <para>Number of panels.</para>
+        </listitem>
+        <listitem>
+          <para>Types of the panels.</para>
+        </listitem>
+        <listitem>
+          <para>Properties of the panels.</para>
+        </listitem>
+        <listitem>
+          <para>Contents of the panels.</para>
+        </listitem>
+      </itemizedlist>
+      <para>The configuration of individual panels and of panel objects is a complex
+task. To configure individual panels and panel objects, you must first understand
+the structure of the <filename>panel-default-setup.entries</filename> file.
+For more information on the <filename>panel-default-setup.entries</filename>
+file, see the next section.</para>
+      <para>To set preferences for individual panels and panel objects, you must
+set the values of many preferences in a configuration source. The easiest
+way to set the values of panel preferences is to use the <command>mateconftool-2</command> command with the <option>--dump</option> and <option>--load</option> options. For more information on how to set preferences for panels
+and objects on panels, see <xref linkend="mateconf-3"/>.</para>
+      <sect3 id="mateconf-23">
+        <title>Specifying Individual Panels and Panel Objects</title>
+        <indexterm>
+          <primary>MateConf</primary>
+          <secondary>schema definition files</secondary>
+          <tertiary>panel and panel object</tertiary>
+        </indexterm>
+        <indexterm>
+          <primary>schemas</primary>
+          <secondary>schema definition files</secondary>
+          <tertiary>panel and panel object</tertiary>
+        </indexterm>
+        <para>The file <filename>panel-default-setup.entries</filename> contains sections that specify panels and panel contents. The <filename>panel-default-setup.entries</filename> file specifies values for schema keys.
+The <filename>panel-default-setup.entries</filename> file resides in the <filename>/etc/mateconf/schemas</filename> directory. </para>
+        <para>The <filename>panel-default-setup.entries</filename> file is structured
+as follows:</para>
+        <orderedlist>
+          <listitem>
+            <para>Keys that specify the general structure of panels, applets,
+and other panel objects in the MATE Desktop. The following keys specify the
+number of panels, panel objects, and applets that appear in the MATE Desktop:</para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <systemitem>/apps/panel/default_setup/general/toplevel_id_list</systemitem>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <systemitem>/apps/panel/default_setup/general/object_id_list</systemitem>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  <systemitem>/apps/panel/default_setup/general/applet_id_list</systemitem>
+                </para>
+              </listitem>
+            </itemizedlist>
+            <para>The keys also assign identifiers to each panel, panel object, and applet.
+For example, the following sample from <filename>panel-default-setup.entries</filename> specifies that one panel appears in the MATE Desktop:</para>
+            <programlisting><![CDATA[<entry>
+  <key>toplevel_id_list</key>
+  <schema_key>/schemas/apps/panel/general/toplevel_id_list</schema_key>
+  <value>
+    <list type="string">
+      <value>
+        <string>bottom_panel</string>
+      </value>
+    </list>
+  </value>
+</entry>]]></programlisting>
+            <para>In the <filename>panel-default-setup.entries</filename> file, the identifier <systemitem>bottom_panel</systemitem> identifies the bottom edge panel.</para>
+          </listitem>
+          <listitem>
+            <para>Keys that specify the properties of the panels. The panel
+property keys are structured as follows:</para>
+            <programlisting>/apps/panel/default_setup/toplevels/<replaceable>panel-name</replaceable>/<replaceable>panel-property-key</replaceable></programlisting>
+            <para>For example, the key <systemitem>/apps/panel/default_setup/toplevels/bottom_panel/size</systemitem> specifies the size of the bottom panel. </para>
+          </listitem>
+          <listitem>
+            <para>Keys that specify the panel objects, the panel object properties,
+and the panels in which the objects reside. For example, the following sample
+from <filename>panel-default-setup.entries</filename> specifies a <guimenu>Main Menu</guimenu> object at the left side of the bottom panel:</para>
+            <programlisting><![CDATA[<entrylist base="/apps/panel/default_setup/objects/main_menu">
+  <entry>
+    <key>object_type</key>
+    <schema_key>/schemas/apps/panel/objects/object_type</schema_key>
+    <value>
+      <string>menu-object</string>
+    </value>
+  </entry>
+  <entry>
+    <key>toplevel_id</key>
+    <schema_key>/schemas/apps/panel/objects/toplevel_id</schema_key>
+    <value>
+      <string>bottom_panel</string>
+    </value>
+  </entry>
+  <entry>
+    <key>position</key>
+    <schema_key>/schemas/apps/panel/objects/position</schema_key>
+    <value>
+      <int>0</int>
+    </value>
+  </entry>
+  <!-- Possibly more entry elements -->
+</entrylist>]]></programlisting>
+          </listitem>
+          <listitem>
+            <para>Keys that specify the applets, the applet preferences, and
+the panels in which the applets reside. For example, the following sample
+from <filename>panel-default-setup.entries</filename> specifies the <application>Window List</application> applet, in the bottom panel:</para>
+            <programlisting><![CDATA[<entrylist base="/apps/panel/default_setup/applets/window_list">
+  <entry>
+    <key>object_type</key>
+    <schema_key>/schemas/apps/panel/objects/object_type</schema_key>
+    <value>
+      <string>matecomponent-applet</string>
+    </value>
+  </entry>
+  <entry>
+    <key>toplevel_id</key>
+    <schema_key>/schemas/apps/panel/objects/toplevel_id</schema_key>
+    <value>
+      <string>bottom_panel</string>
+    </value>
+  </entry>
+  <entry>
+    <key>position</key>
+    <schema_key>/schemas/apps/panel/objects/position</schema_key>
+    <value>
+      <int>2</int>
+    </value>
+  </entry>
+  <!-- Possibly more entry elements -->
+  <entry>
+    <key>matecomponent_iid</key>
+    <schema_key>/schemas/apps/panel/objects/matecomponent_iid_type</schema_key>
+    <value>
+      <string>OAFIID:MATE_WindowListApplet</string>
+    </value>
+  </entry>
+</entrylist>]]></programlisting>
+            <para>The OAFIID is a unique identifier for an applet. To find the OAFIID
+for a particular applet, see the <filename>.server</filename> file for the
+applet in the <filename>/usr/lib/matecomponent/servers</filename> directory. For
+example, the following excerpt from <filename>MATE_Wncklet_Factory.server</filename> shows the OAFIID for the <application>Window List</application>
+applet:</para>
+            <programlisting><![CDATA[<oaf_server iid="OAFIID:MATE_WindowListApplet" 
+type="factory" location="OAFIID:MATE_Wncklet_Factory">]]></programlisting>
+          </listitem>
+        </orderedlist>
+      </sect3>
+      <sect3 id="mateconf-3">
+        <title>To Set Preferences for Individual Panels and Panel Objects</title>
+        <para>To set the preferences for a panel and the objects on a panel perform
+the following steps:</para>
+        <orderedlist>
+          <listitem>
+            <para>Log in to a MATE session, and configure the panels as required.</para>
+          </listitem>
+          <listitem>
+            <para>Use the <option>--dump</option> option with the <command>mateconftool-2</command> command line tool to generate a file that contains an
+XML description of your panel configuration. The <option>--dump</option>
+option generates a list that contains all preference keys in a <application>MateConf</application> repository directory that you specify. </para>
+            <para>For example, the following command creates an XML description of the
+default panel configuration in a file called <filename>my-panel-setup.entries</filename>:</para>
+            <screen><userinput>mateconftool-2 --dump /apps/panel &gt; my-panel-setup.entries</userinput></screen>
+          </listitem>
+          <listitem>
+            <para>Open the <filename>my-panel-setup.entries</filename> file
+in a text editor, and modify the file as required.</para>
+            <para>For example, you might want to change the location of the desktop entry
+files. The following is an excerpt from a file generated with the <option>--dump</option> option:</para>
+            <programlisting><![CDATA[<entry>
+  <key>objects/object_16/launcher_location</key>
+  <schema_key>/schemas/apps/panel/objects/launcher_location</schema_key>
+  <value>
+    <string>hadjaha-00adce02f7.desktop</string>
+  </value>
+</entry>]]></programlisting>
+            <para>In the sample above, you might want to change the reference to <filename>hadjaha-00adce02f7.desktop</filename> to another desktop entry file that is
+available globally.</para>
+            <para>When you generate a panel configuration with the <option>--dump</option>
+option, the positions of the panel objects are absolute positions. You might
+want to change the positions of panel objects from absolute positions to relative
+positions. The object at the extreme left of a panel has a <systemitem>position</systemitem> value of <literal>0</literal>. The next object has a <systemitem>position</systemitem> value of <literal>1</literal>, and so on. If you want object
+positions to be relative to the right side of the panel, set the value of
+the <systemitem>right_stick</systemitem> key to <literal>true</literal>. </para>
+<!--Give full key name for position.-->
+          </listitem>
+          <listitem>
+            <para>Use the <option>--load</option> option with the <command>mateconftool-2</command> command line tool to set the values of the default configuration
+source to the values in the <filename>my-panel-setup.entries</filename> file.
+For example, the following command sets the values of the keys in the default
+configuration source to the values of the corresponding keys in <filename>my-panel-setup.entries</filename>:</para>
+            <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --load my-panel-setup.entries</userinput></screen>
+          </listitem>
+        </orderedlist>
+      </sect3>
+    </sect2>
+  </sect1>
+  <sect1 id="mateconf-9">
+    <title>Setting Look-and-Feel Preferences</title>
+    <para>The following sections describe how to assign mandatory or default values
+to look-and-feel preferences.</para>
+    <sect2 id="mateconf-19">
+      <title>To Set Font Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>fonts, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>fonts</primary>
+        <secondary>setting with MateConf</secondary>
+      </indexterm>
+      <para>To set font preferences, you modify the values of two preference
+keys. The following table shows the keys to modify, and the part of the user
+interface to which the keys correspond:</para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0">
+          <colspec colwidth="50*"/>
+          <colspec colwidth="50*"/>
+          <thead>
+            <row rowsep="1">
+              <entry>
+                <para>MateConf Location</para>
+              </entry>
+              <entry>
+                <para>User
+Interface Component</para>
+              </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top">
+                <para>/desktop/mate/interface/font_name</para>
+              </entry>
+              <entry valign="top">
+                <para><application>Font</application> preference tool, <guilabel>Application font</guilabel> option</para>
+              </entry>
+            </row>
+            <row>
+              <entry valign="top">
+                <para>/apps/caja/preferences/desktop_font</para>
+              </entry>
+              <entry valign="top">
+                <para><application>Font</application> preference tool, <guilabel>Desktop font</guilabel> option</para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <para>For example, to set <literal>Sans 12</literal> as the mandatory application
+font, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type string \
+  --set /desktop/mate/interface/font_name "Sans 12"</userinput></screen>
+      <para><indexterm><primary>desktop</primary><secondary>font preferences, setting
+with MateConf</secondary></indexterm>To set <literal>palatino 12</literal> as
+the default desktop object font, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type string \
+  --set /apps/caja/preferences/desktop_font "palatino 12"</userinput></screen>
+    </sect2>
+    <sect2 id="mateconf-20">
+      <title>To Set Background Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>background, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>background</primary>
+        <secondary>preferences,
+setting with MateConf</secondary>
+      </indexterm>
+      <para>To set preferences for the
+desktop background, you modify the values of the preference keys in the <systemitem>/desktop/mate/background</systemitem> location. For example, to set a mandatory
+image for the background, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type string \
+  --set /desktop/mate/background/picture_filename <replaceable>filename.png</replaceable></userinput></screen>
+      <para>To set a default value for this preference, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type string \
+  --set /desktop/mate/background/picture_filename <replaceable>filename.png</replaceable></userinput></screen>
+      <para>You can also set other background preferences. For information on the
+other background preferences, see the <filename>desktop_mate_background.schemas</filename> schema definition file.</para>
+    </sect2>
+    <sect2 id="mateconf-21">
+      <title>To Set Splash Image Preferences</title>
+      <indexterm>
+        <primary>MateConf</primary>
+        <secondary>splash image, setting</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>splash screen</primary>
+        <secondary>image, setting
+with MateConf</secondary>
+      </indexterm>
+      <para>To set splash image preferences, you
+modify the value of the preference keys in the <systemitem>/apps/mate-session/options/</systemitem> location. For example, if you do not want users ever to see a
+splash image, set a mandatory value as follows:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.mandatory \
+  --type bool \
+  --set /apps/mate-session/options/show_splash_screen false</userinput></screen>
+      <para>To set a default value for this preference, run the following command:</para>
+      <screen><userinput>mateconftool-2 --direct \
+  --config-source xml:readwrite:/etc/mateconf/mateconf.xml.defaults \
+  --type bool \
+  --set /apps/mate-session/options/show_splash_screen false</userinput></screen>
+      <para>You can also set other splash image preferences. For information on
+the other splash image preferences, see the <filename>mate-session.schemas</filename> schema definition file.</para>
+    </sect2>
+  </sect1>
+  <sect1 id="mateconf-28">
+    <title>To Restore Default Preference Values</title>
+    <indexterm>
+      <primary>MateConf</primary>
+      <secondary>restoring default preference
+values</secondary>
+    </indexterm>
+    <indexterm>
+      <primary>preference values</primary>
+      <secondary>restoring to default with MateConf</secondary>
+    </indexterm>
+    <para>To
+restore the default preference values for a user, run the following command:</para>
+    <screen><userinput>mateconftool-2 --direct \
+  --config-source <replaceable>user-configuration-source</replaceable> \
+  --recursive-unset</userinput></screen>
+    <para>Replace <replaceable>user-configuration-source</replaceable> with the
+configuration source in the <filename>.mateconf</filename> directory in the home
+directory of the user. </para>
+    <para>This command resets the values of all preference keys, in all subdirectories,
+from the user setting to the setting in the default configuration source.</para>
+  </sect1>
+</chapter>

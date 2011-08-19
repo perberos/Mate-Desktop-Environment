@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-sound</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Library Reference Manual">
+<link rel="up" href="ch04.html" title="Miscellaneous">
+<link rel="prev" href="libmate-mate-util.html" title="mate-util">
+<link rel="next" href="libmate-mate-triggers.html" title="mate-triggers">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmate-mate-util.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch04.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Library Reference Manual</th>
+<td><a accesskey="n" href="libmate-mate-triggers.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmate-mate-sound.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmate-mate-sound.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmate-mate-sound"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmate-mate-sound.top_of_page"></a>mate-sound</span></h2>
+<p>mate-sound — Sound playing routines.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmate-mate-sound.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmate/libmate.h&gt;
+
+<span class="returnvalue">void</span>                <a class="link" href="libmate-mate-sound.html#mate-sound-init" title="mate_sound_init ()">mate_sound_init</a>                    (<em class="parameter"><code>const <span class="type">char</span> *hostname</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmate-mate-sound.html#mate-sound-shutdown" title="mate_sound_shutdown ()">mate_sound_shutdown</a>                (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmate-mate-sound.html#mate-sound-play" title="mate_sound_play ()">mate_sound_play</a>                    (<em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmate-mate-sound.html#mate-sound-sample-load" title="mate_sound_sample_load ()">mate_sound_sample_load</a>             (<em class="parameter"><code>const <span class="type">char</span> *sample_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="libmate-mate-sound.html#mate-sound-connection-get" title="mate_sound_connection_get ()">mate_sound_connection_get</a>          (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-sound.description"></a><h2>Description</h2>
+<p>
+This API has been deprecated. Use
+<a class="ulink" href="http://library.mate.org/devel/libcanberra/" target="_top">libcanberra or libcanberra-gtk</a>
+instead.
+</p>
+<p>
+This module provides wrapper functions for playing sound samples. Currently it
+just wraps the esound daemon, but the API is flexible enough that other sound
+infrastructures can be included in the future.
+</p>
+<p>
+These functions also allow for the fact that no sound may be supported on the
+current platform. So applications can safely call these functions to play
+sounds and they will just quietly return if no action is possible.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-sound.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="mate-sound-init"></a><h3>mate_sound_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_sound_init                    (<em class="parameter"><code>const <span class="type">char</span> *hostname</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_sound_init</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Initialize the esd connection.
+</p>
+<p>
+<em class="parameter"><code>Deprecated</code></em>: 2.30
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>hostname</code></em> :</span></p></td>
+<td>Hostname where esd daemon resides.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-sound-shutdown"></a><h3>mate_sound_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_sound_shutdown                (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_sound_shutdown</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Shuts down the mate sound support.
+</p>
+<p>
+<em class="parameter"><code>Deprecated</code></em>: 2.30
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-sound-play"></a><h3>mate_sound_play ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_sound_play                    (<em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_sound_play</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Plays the audio stored in <em class="parameter"><code>filename</code></em>, if possible. Fail quietly if playing is
+not possible (due to missing sound support or for other reasons).
+</p>
+<p>
+<em class="parameter"><code>Deprecated</code></em>: 2.30: Use <a href="/opt/mate2/share/gtk-doc/html/libcanberra/libcanberra-canberra.html#ca-context-play"><code class="function">ca_context_play()</code></a>, <a href="/opt/mate2/share/gtk-doc/html/libcanberra/libcanberra-canberra-gtk.html#ca-gtk-play-for-widget"><code class="function">ca_gtk_play_for_widget()</code></a> or <a href="/opt/mate2/share/gtk-doc/html/libcanberra/libcanberra-canberra-gtk.html#ca-gtk-play-for-event"><code class="function">ca_gtk_play_for_event()</code></a> instead
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>File containing the sound sample.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-sound-sample-load"></a><h3>mate_sound_sample_load ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_sound_sample_load             (<em class="parameter"><code>const <span class="type">char</span> *sample_name</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *filename</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_sound_sample_load</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Loads the audio from <em class="parameter"><code>filename</code></em> and load it into the canberra cache for later
+playing. Programs will rarely want to call this function directly. Use
+<a class="link" href="libmate-mate-sound.html#mate-sound-play" title="mate_sound_play ()"><code class="function">mate_sound_play()</code></a> instead for fire and forget sound playing.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sample_name</code></em> :</span></p></td>
+<td>The name of the sample.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
+<td>The filename where the audio is stored.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> -1 or -2
+
+<em class="parameter"><code>Deprecated</code></em>: 2.30: Use <a href="/opt/mate2/share/gtk-doc/html/libcanberra/libcanberra-canberra.html#ca-context-cache"><code class="function">ca_context_cache()</code></a> or <a href="/opt/mate2/share/gtk-doc/html/libcanberra/libcanberra-canberra.html#ca-context-cache-full"><code class="function">ca_context_cache_full()</code></a> instead
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-sound-connection-get"></a><h3>mate_sound_connection_get ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_sound_connection_get          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_sound_connection_get</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> -1
+
+<em class="parameter"><code>Deprecated</code></em>: 2.30
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

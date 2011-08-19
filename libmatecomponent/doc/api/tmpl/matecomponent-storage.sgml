@@ -1,0 +1,76 @@
+<!-- ##### SECTION Title ##### -->
+matecomponent-storage
+
+<!-- ##### SECTION Short_Description ##### -->
+Abstract implementation of the MateComponent::Storage interface
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+The MateComponentStorage C interface is extremely simple, this is since
+the CORBA client interface is where the action occurs. It is
+anticipated that relatively few people need to implement the
+MateComponent/Storage IDL interface.
+</para>
+
+<para>
+The common entry point for MateComponentStorage is that of opening a
+storage using the matecomponent_storage_open function, perhaps by a
+container to use to persist a compound document:
+  <example>
+     <title>An example storage use case</title>
+     <programlisting>
+void
+container_save (SampleApp         *app,
+                const char        *filename,
+                CORBA_Environment *ev)
+{
+	MateComponentStorage *storage;
+	MateComponent_Storage corba_storage;
+	GList *components;
+	int i;
+
+	storage = matecomponent_storage_open (STORAGE_TYPE, filename,
+				       MateComponent_Storage_READ |
+				       MateComponent_Storage_WRITE |
+				       MateComponent_Storage_CREATE,
+				       0664);
+	g_return_if_fail (storage);
+
+	corba_storage = MATECOMPONENT_OBJREF (storage);
+
+	... 
+	Serialize components to streams created in the storage
+	...
+
+	MateComponent_Storage_commit (corba_storage, ev);
+
+	CORBA_exception_free (ev);
+
+	matecomponent_object_unref (MATECOMPONENT_OBJECT (storage));
+}
+     </programlisting>
+  </example>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+#MateComponentPersist #MateComponentPersistStream
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### FUNCTION matecomponent_storage_copy_to ##### -->
+<para>
+
+</para>
+
+@src: 
+@dest: 
+@ev: 
+
+

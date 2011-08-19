@@ -1,0 +1,418 @@
+<chapter id="server-xml-reference">
+  <title><filename>.server</filename> file format reference</title>
+
+  <para>
+    This section describes the format of the <filename>.server</filename> files
+    used by applications to tell the MateComponent Activation daemon about the
+    interfaces they support.
+  </para>
+
+  <sect1 id="server-tag">
+    <title>The <sgmltag>oaf_server</sgmltag> tag</title>
+
+    <para>
+      Here follows a simple example of a minimalist
+      <filename>.server</filename> file.
+
+      <programlisting>
+&lt;oaf_info>
+  &lt;oaf_server iid="OAFIID:MateComponent_CosNaming_NamingContext"
+	      type="exe"
+              location="/usr/lib/matecomponent-activation/matecomponent-activation-server">
+  &lt;/oaf_server>
+&lt;/oaf_info></programlisting>
+
+      Each <sgmltag>oaf_server</sgmltag> entry conventionally has three mandatory
+      properties:
+      <emphasis>iid</emphasis> (the FAQ of the MateComponent API reference manual
+      explains how to create an iid), <!-- FIXME real link -->
+      <emphasis>type</emphasis> (can be <emphasis>exe,</emphasis> <!-- for
+      proper typesetting -->
+      <emphasis>factory,</emphasis> or <emphasis>shlib</emphasis>) and
+      <emphasis>location</emphasis>.
+    </para>
+
+    <para>
+      If the type is <emphasis>exe,</emphasis> <emphasis>location</emphasis> is
+      the name of the executable which creates the CORBA interfaces associated to
+      this entry and registers them to MateComponent Activation.
+      If the type is <emphasis>factory,</emphasis> <emphasis>location</emphasis>
+      is the iid of the component which can create the corresponding CORBA
+      server.
+      If the type is <emphasis>shlib,</emphasis> <emphasis>location</emphasis> is
+      the name of the library the code is in: <filename>libgmf</filename>
+      for example.
+    </para>
+
+    <note>
+      <title>Portability Note</title>
+      <para>
+        Don't include the <filename>.so</filename> suffix common on Linux
+        systems in the <emphasis>location</emphasis> of a
+        <emphasis>shlib</emphasis> component.
+      </para>
+    </note>
+
+    <para>
+      Here follows a simple example of a component activated through a factory:
+
+      <programlisting>
+&lt;oaf_info>
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo_Factory" type="exe"
+	      location="/usr/lib/matecomponent-2.0/samples/matecomponent-echo-2">
+  &lt;/oaf_server>
+
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo" type="factory"
+	      location="OAFIID:MateComponent_Sample_Echo_Factory">
+  &lt;/oaf_server>
+&lt;/oaf_info></programlisting>
+
+      If you ask MateComponent Activation to activate the
+      <classname>OAFIID:MateComponent_Sample_Echo</classname> component,
+      MateComponent Activation will first check if it is a factory, make sure the
+      corresponding factory compoenent is running (by activating it. Here,
+      activating the factory component is a matter of launching the executable)
+      and call <function>create</function> on the factory.
+      It will return you that object.
+    </para>
+  </sect1>
+
+  <sect1 id="attribute-tag">
+    <title>The <sgmltag>oaf_attribute</sgmltag> tag</title>
+
+    <para>
+      Defining servers is useful (that is what <filename>.goad</filename> files
+      did light-years ago) but to use all the power of MateComponent Activation
+      (<abbrev>i.e.</abbrev> queries ;-), you have to define
+      <emphasis><sgmltag>oaf_attribute</sgmltag>s</emphasis> for each of those
+      <sgmltag>oaf_server</sgmltag> entries.
+      An example is worth all words.
+
+      <programlisting>
+&lt;oaf_info>
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo_Factory" type="exe"
+	      location="/usr/lib/matecomponent-2.0/samples/matecomponent-echo-2">
+    &lt;oaf_attribute name="repo_ids" type="stringv">
+      &lt;item value="IDL:MateComponent/GenericFactory:1.0"/>
+    &lt;/oaf_attribute>
+    &lt;oaf_attribute name="name" type="string" value="Echo component factory"/>
+    &lt;oaf_attribute name="description" type="string"
+                   value="MateComponent Echo server factory"/>
+  &lt;/oaf_server>
+
+  &lt;oaf_server iid="OAFIID:MateComponent_Sample_Echo" type="factory"
+	      location="OAFIID:MateComponent_Sample_Echo_Factory">
+    &lt;oaf_attribute name="repo_ids" type="stringv">
+      &lt;item value="IDL:Demo/Echo:1.0"/>
+    &lt;/oaf_attribute>
+    &lt;oaf_attribute name="name" type="string" value="Echo component"/>
+    &lt;oaf_attribute name="description" type="string"
+                   value="MateComponent Echo server sample program"/>
+  &lt;/oaf_server>
+&lt;/oaf_info></programlisting>
+
+      Each <sgmltag>oaf_server</sgmltag> entry defines a set of attributes.
+      Each attribute has a given <emphasis>name,</emphasis>
+      <emphasis>type,</emphasis> and <emphasis>value.</emphasis> The types of the
+      attributes are those defined in the MateComponent Activation query langage reference
+      (<xref linkend="oaf-query-ref-types"/>).
+      Type name should be non-caps.
+    </para>
+
+    <para>
+      Values of type <emphasis>stringv</emphasis> are represented as follows:
+
+      <programlisting>
+&lt;oaf_attribute name="repo_ids" type="stringv">
+  &lt;item value="IDL:MateComponent/Unknown:1.0"/>
+  &lt;item value="IDL:MateComponent/Control:1.0"/>
+&lt;/oaf_attribute></programlisting>
+
+      All other types' values are simply in the <emphasis>value</emphasis> field.
+    </para>
+
+    <para>
+      A certain number of attributes have been normalized for MATE.
+      If a component uses any attribute from the list, it ought to have the
+      meaning described here.
+      Their list follows.
+
+      <!-- FIXME explode the table to paragraphs or a list or xxx -->
+      <table frame="all">
+	<title>Normalized attributes</title>
+	<tgroup cols="4">
+	<colspec colwidth="3*" colnum="1" align="left"/>
+	<colspec colwidth="*" colnum="2" align="left"/>
+	<colspec colwidth="10*" colnum="3" align="left"/>
+          <thead>
+	    <row>
+	      <entry>Attribute name</entry>
+	      <entry>Type</entry>
+	      <entry>Signification</entry>
+	    </row>
+          </thead>
+
+	  <tbody>
+            <!-- FIXME mention which attributes can be translated -->
+	    <row>
+	      <entry>repo_ids</entry>
+	      <entry><type>stringv</type></entry>
+	      <entry>
+		the list of all <acronym>IDL</acronym> interfaces this component
+                implements, including inherited interfaces.
+		If <classname>MateComponent::Unknown</classname> is one of the
+		interfaces, the list should include all interfaces for which a
+		<function>queryInterface</function> operation on the component
+                will succeed.
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>description</entry>
+	      <entry><type>string</type></entry>
+	      <entry>
+		a human readable string describing what the component can do
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>name</entry>
+	      <entry><type>string</type></entry>
+	      <entry>
+		a short name for the component, suitable for display to the
+		end user, <abbrev>e.g.</abbrev> in a menu.
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>matecomponent:editable</entry>
+	      <entry><type>boolean</type></entry>
+	      <entry>if the component allows editing of its content</entry>
+	      <entry>no</entry>
+	    </row>
+
+	    <row>
+	      <entry>matecomponent:supported_uri_schemes</entry>
+	      <entry><type>stringv</type></entry>
+	      <entry>a list of protocols this component knows how to handle.
+		This only really makes sense if the component implements one
+		of the following interfaces:
+		<classname>MateComponent::PersistFile</classname> or
+		<classname>Nautilus::View</classname>
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>matecomponent:supported_mime_types</entry>
+	      <entry><type>stringv</type></entry>
+	      <entry>a list of <acronym>MIME</acronym> types this component
+                understands as input.
+		In addition to specific <acronym>MIME</acronym> types, it is
+                possible to include supertypes (<abbrev>e.g.</abbrev>
+                <quote>image/*</quote> or <quote>text/*</quote>) or
+                <quote>*/*</quote> to indicate the component can display any
+                <acronym>MIME</acronym> type.
+		Specifying <quote>*/*</quote> is only necessary if neither
+                <emphasis>supported_uri_schemes</emphasis> nor
+                <emphasis>additional_uri_schemes</emphasis> is not specified,
+                otherwise <quote>*/*</quote> is assumed.
+		This only really makes sense if the component implements one
+		of the following interfaces:
+		<classname>MateComponent::PersistStream</classname>,
+		<classname>MateComponent::PersistFile</classname>,
+		or <classname>Nautilus::View</classname>.
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>matecomponent:additional_uri_schemes</entry>
+	      <entry><type>stringv</type></entry>
+	      <entry>a list of protocols this component knows how to handle.
+                The component is applicable to any <acronym>URI</acronym> which
+                uses such a protocol, even if its <acronym>MIME</acronym> type is
+                not among <emphasis>supported_mime_types.</emphasis>
+		This only really makes sense if the component implements one
+		of the following interfaces:
+		<classname>MateComponent::PersistFile</classname> or
+		<classname>Nautilus::View</classname>
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>matecomponent:moniker</entry>
+	      <entry><type>stringv</type></entry>
+	      <entry>FIXME
+	      </entry>
+	    </row>
+
+            <row>
+              <entry>matecomponent:moniker_extender</entry>
+              <entry><type>stringv</type></entry>
+              <entry>FIXME
+              </entry>
+            </row>
+
+            <row>
+              <entry>matecomponent:environment</entry>
+              <entry><type>stringv</type></entry>
+              <entry>List of environment variables that must have the
+              same values in both activator (client) and component.
+              This is useful for exe type factories.  If there is
+              already a running process serving the component being
+              activated, its environment variables are compared to the
+              ones in the activator.  If they match, a new reference
+              from that process is returned.  If not, a new process is
+              started, which receives an evironment modified to match
+              the one in the activator for the environment keys
+              specified in this property.
+              </entry>
+
+            </row>
+
+	    <!-- Nautilus -->
+            <!-- for nautilus:view_as_foo see
+                 nautilus/libnautilus-private/nautilus-view-identifier.c -->
+	    <row>
+	      <entry>nautilus:view_as_name</entry>
+	      <entry><type>string</type></entry>
+	      <entry>a suitable name for use as a <emphasis>View as</emphasis>
+                name. Several labels in Nautilus will be built from this value,
+                see the following attributes.
+		This must be present for any MateComponent Controls that can be
+		used as Nautilus views.
+                <!-- add reference to HIG chapter 2? (Desktop integration) -->
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:view_as_label</entry>
+              <entry><type>string</type></entry>
+              <entry>a label (without keyboard mnemonic) for the component's menu
+                item in Nautilus' <emphasis>View as</emphasis> list (next to the
+                zoom control) as well as for its entry in the
+                <emphasis>Open with Other Viewer</emphasis> window.
+                It defaults to
+                <quote>View as <replaceable>name</replaceable></quote> where
+                <replaceable>name</replaceable> is the value of the
+                <emphasis>view_as_name</emphasis> attribute.
+		It is discouraged to rely on this fallback because it makes
+		correct translation impossible for some languages.
+              </entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:view_as_label_with_mnemonic</entry>
+              <entry><type>string</type></entry>
+              <entry>a label (with keyboard mnemonic) for the component's menu
+                item in Nautilus' <guimenu>View</guimenu> menu.
+                Thus the mnemonic must not clash with one from a built-in menu
+                item.
+                If omitted, the value of <emphasis>view_as_label</emphasis> will
+                be used instead.
+              </entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:viewer_label</entry>
+              <entry><type>string</type></entry>
+              <entry>a label for the component's menu item in the
+                <guimenu>Open With</guimenu> submenu of Nautilus'  context menu
+                for files and the <guimenu>File</guimenu> menu.
+                It defaults to
+                <quote><replaceable>name</replaceable> Viewer</quote> where
+                <replaceable>name</replaceable> is the value of the
+                <emphasis>view_as_name</emphasis> attribute.
+		It is discouraged to rely on this fallback because it makes
+		correct translation impossible for some languages.
+              </entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:required_directory_content_mime_types</entry>
+	      <entry><type>stringv</type></entry>
+	      <entry>if the component is to be activated on a
+		<acronym>URI</acronym> with <acronym>MIME</acronym> type
+                <quote>special/directory</quote>, it is only really applicable
+                if the directory contains a file with one of the
+                <acronym>MIME</acronym> types listed in this attribute.
+		As before, supertypes like <quote>audio/*</quote> are allowed.
+		If this attribute is omitted, <quote>*/*</quote> is assumed.
+	      </entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:sidebar_panel_name</entry>
+	      <entry><type>string</type></entry>
+	      <entry>a suitable name for use as a sidebar panel label name.
+                This must be implemented by any MateComponent Controls that can be
+                used as a Nautilus sidebar view.
+              </entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:context_menu_handler</entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:can_handle_multiple_files</entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilus:property_page_name</entry>
+	    </row>
+
+	    <row>
+	      <entry>nautilusverb:<replaceable>verbname</replaceable></entry>
+            </row>
+	    <!-- Panel -->
+
+	    <!-- Evolution -->
+          </tbody>
+        </tgroup>
+      </table>
+    </para>
+
+    <para>
+      If <emphasis>matecomponent:supported_uri_schemes</emphasis> or
+      <emphasis>matecomponent:additional_uri_schemes</emphasis> is specified but
+      <emphasis>matecomponent:supported_mime_types</emphasis> is not, it is assumed the
+      component can handle any type of data that might come via that protocol.
+
+      Some schemes may not even have an associated <acronym>MIME</acronym>
+      type for any given URI, for instance <filename>irc:</filename> or
+      <filename>news:</filename>
+    </para>
+
+    <para>
+      If <emphasis>matecomponent:supported_mime_types</emphasis> is specified but
+      <emphasis>matecomponent:supported_uri_schemes</emphasis> is not, the component
+      is assumed to be able to handle all common URI schemes (possible
+      definition: anything mate-vfs can handle).
+    </para>
+
+    <para>
+      If neither <emphasis>matecomponent:supported_uri_schemes</emphasis> nor
+      <emphasis>matecomponent:additional_uri_schemes</emphasis> nor
+      <emphasis>matecomponent:supported_mime_types</emphasis> is specified, it is
+      assumed the component cannot handle any data at all in a general way
+      and should never be generically selected for such purposes.
+    </para>
+
+    <para>
+      Nautilus considers a component as a view if it can handle the data
+      from a URI and implements the <classname>Nautilus::View</classname>
+      interface or <classname>MateComponent::Control</classname> and
+      <classname>MateComponent::PersistStream</classname> or
+      <classname>MateComponent::PersistFile</classname>.
+    </para>
+  </sect1>
+</chapter>
+
+<!--
+Local Variables:
+mode: xml
+sgml-namecase-general: t
+sgml-general-insert-case: lower
+sgml-parent-document: ("matecomponent-activation-docs.sgml" "BOOK" "CHAPTER")
+End:
+-->

@@ -1,0 +1,1006 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateVFSDrive</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="volumes.html" title="Volumes and Drives Handling">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-volume.html" title="MateVFSVolume">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-volume-monitor.html" title="MateVFSVolumeMonitor">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-volume.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="volumes.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-volume-monitor.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-drive.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-drive.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-drive.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-drive.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-drive"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-drive.top_of_page"></a>MateVFSDrive</span></h2>
+<p>MateVFSDrive — Container for MateVFSVolume (floppy drive, CD reader, ...)</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-drive.synopsis"></a><h2>Synopsis</h2>
+<a name="MateVFSDrive"></a><pre class="synopsis">enum                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType">MateVFSDeviceType</a>;
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-struct" title="MateVFSDrive">MateVFSDrive</a>;
+struct              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDriveClass" title="struct MateVFSDriveClass">MateVFSDriveClass</a>;
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MATE-IS-VFS-DRIVE:CAPS" title="MATE_IS_VFS_DRIVE()">MATE_IS_VFS_DRIVE</a>                  (o)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MATE-IS-VFS-DRIVE-CLASS:CAPS" title="MATE_IS_VFS_DRIVE_CLASS()">MATE_IS_VFS_DRIVE_CLASS</a>            (k)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-TYPE-DRIVE:CAPS" title="MATE_VFS_TYPE_DRIVE">MATE_VFS_TYPE_DRIVE</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DRIVE:CAPS" title="MATE_VFS_DRIVE()">MATE_VFS_DRIVE</a>                     (o)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MATE-VFS-DRIVE-CLASS:CAPS" title="MATE_VFS_DRIVE_CLASS()">MATE_VFS_DRIVE_CLASS</a>               (k)
+<span class="returnvalue">gint</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-compare" title="mate_vfs_drive_compare ()">mate_vfs_drive_compare</a>             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *b</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-eject" title="mate_vfs_drive_eject ()">mate_vfs_drive_eject</a>               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-activation-uri" title="mate_vfs_drive_get_activation_uri ()">mate_vfs_drive_get_activation_uri</a>  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-device-path" title="mate_vfs_drive_get_device_path ()">mate_vfs_drive_get_device_path</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType"><span class="returnvalue">MateVFSDeviceType</span></a>  <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-device-type" title="mate_vfs_drive_get_device_type ()">mate_vfs_drive_get_device_type</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-display-name" title="mate_vfs_drive_get_display_name ()">mate_vfs_drive_get_display_name</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-hal-udi" title="mate_vfs_drive_get_hal_udi ()">mate_vfs_drive_get_hal_udi</a>         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-icon" title="mate_vfs_drive_get_icon ()">mate_vfs_drive_get_icon</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">gulong</span>              <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-id" title="mate_vfs_drive_get_id ()">mate_vfs_drive_get_id</a>              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volume" title="mate_vfs_drive_get_mounted_volume ()">mate_vfs_drive_get_mounted_volume</a>  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()">mate_vfs_drive_get_mounted_volumes</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-volume-list-free" title="mate_vfs_drive_volume_list_free ()">mate_vfs_drive_volume_list_free</a>    (<em class="parameter"><code><span class="type">GList</span> *volumes</code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-type" title="mate_vfs_drive_get_type ()">mate_vfs_drive_get_type</a>            (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-is-connected" title="mate_vfs_drive_is_connected ()">mate_vfs_drive_is_connected</a>        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-is-mounted" title="mate_vfs_drive_is_mounted ()">mate_vfs_drive_is_mounted</a>          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-is-user-visible" title="mate_vfs_drive_is_user_visible ()">mate_vfs_drive_is_user_visible</a>     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-mount" title="mate_vfs_drive_mount ()">mate_vfs_drive_mount</a>               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="returnvalue">MateVFSDrive</span></a> *     <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-ref" title="mate_vfs_drive_ref ()">mate_vfs_drive_ref</a>                 (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unmount" title="mate_vfs_drive_unmount ()">mate_vfs_drive_unmount</a>             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unref" title="mate_vfs_drive_unref ()">mate_vfs_drive_unref</a>               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-drive.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----MateVFSDrive
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-drive.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-volume-mounted" title='The "volume-mounted" signal'>volume-mounted</a>"                                 : <code class="literal">Run First</code>
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-volume-pre-unmount" title='The "volume-pre-unmount" signal'>volume-pre-unmount</a>"                             : <code class="literal">Run First</code>
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive-volume-unmounted" title='The "volume-unmounted" signal'>volume-unmounted</a>"                               : <code class="literal">Run First</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-drive.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-drive.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSDeviceType"></a><h3>enum MateVFSDeviceType</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_DEVICE_TYPE_UNKNOWN,
+	MATE_VFS_DEVICE_TYPE_AUDIO_CD,
+	MATE_VFS_DEVICE_TYPE_VIDEO_DVD,
+	MATE_VFS_DEVICE_TYPE_HARDDRIVE, 
+	MATE_VFS_DEVICE_TYPE_CDROM,
+	MATE_VFS_DEVICE_TYPE_FLOPPY,
+	MATE_VFS_DEVICE_TYPE_ZIP,
+	MATE_VFS_DEVICE_TYPE_JAZ,
+	MATE_VFS_DEVICE_TYPE_NFS,
+	MATE_VFS_DEVICE_TYPE_AUTOFS,
+	MATE_VFS_DEVICE_TYPE_CAMERA,
+	MATE_VFS_DEVICE_TYPE_MEMORY_STICK,
+	MATE_VFS_DEVICE_TYPE_SMB,
+	MATE_VFS_DEVICE_TYPE_APPLE,
+	MATE_VFS_DEVICE_TYPE_MUSIC_PLAYER,
+	MATE_VFS_DEVICE_TYPE_WINDOWS, 
+	MATE_VFS_DEVICE_TYPE_LOOPBACK, 
+	MATE_VFS_DEVICE_TYPE_NETWORK 
+} MateVFSDeviceType;
+</pre>
+<p>
+Identifies the device type of a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> or a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-UNKNOWN:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_UNKNOWN</code></span></p></td>
+<td>the type of this <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> or <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> is not known.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-AUDIO-CD:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_AUDIO_CD</code></span></p></td>
+<td>only used for <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects. Denotes that this
+volume is an audio CD.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-VIDEO-DVD:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_VIDEO_DVD</code></span></p></td>
+<td>only used for <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects. Denotes that this
+volume is a video DVD.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-HARDDRIVE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_HARDDRIVE</code></span></p></td>
+<td>this is a mount point refering to a harddisk partition that
+neither has a Microsoft file system (FAT, VFAT, NTFS) nor an Apple file system (HFS, HFS+).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-CDROM:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_CDROM</code></span></p></td>
+<td>this may either be a mount point or a HAL drive/volume. Either way,
+it refers to a CD-ROM device respectively volume.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-FLOPPY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_FLOPPY</code></span></p></td>
+<td>the volume or drive referenced by this <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> or
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> is a floppy disc respectively a floppy drive.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-ZIP:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_ZIP</code></span></p></td>
+<td>the volume or drive referenced by this <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> or
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> is a ZIP disc respectively a ZIP drive.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-JAZ:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_JAZ</code></span></p></td>
+<td>the volume or drive referenced by this <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> or
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> is a JAZ disc respectively a JAZ drive.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-NFS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_NFS</code></span></p></td>
+<td>this is a mount point having an NFS file system.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-AUTOFS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_AUTOFS</code></span></p></td>
+<td>this is a mount point having an AutoFS file system.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-CAMERA:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_CAMERA</code></span></p></td>
+<td>only used for <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects. Denotes that this volume is a camera.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-MEMORY-STICK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_MEMORY_STICK</code></span></p></td>
+<td>only used for <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects. Denotes that this volume is a memory stick.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-SMB:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_SMB</code></span></p></td>
+<td>this is a mount point having a Samba file system.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-APPLE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_APPLE</code></span></p></td>
+<td>this is a mount point refering to a harddisk partition, that has an
+Apple file system (HFS, HFS+).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-MUSIC-PLAYER:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_MUSIC_PLAYER</code></span></p></td>
+<td>only used for <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects. Denotes that this
+volume is a music player.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-WINDOWS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_WINDOWS</code></span></p></td>
+<td>this is a mount point refering to a harddisk partition, that has a
+Microsoft file system (FAT, VFAT, NTFS).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-LOOPBACK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_LOOPBACK</code></span></p></td>
+<td>this is a mount point refering to a loopback device.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-DEVICE-TYPE-NETWORK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_DEVICE_TYPE_NETWORK</code></span></p></td>
+<td>only used for <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects, denoting that this volume
+refers to a network mount that is not managed by the kernel VFS but exclusively known to MateVFS.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDrive-struct"></a><h3>MateVFSDrive</h3>
+<pre class="programlisting">typedef struct _MateVFSDrive MateVFSDrive;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDriveClass"></a><h3>struct MateVFSDriveClass</h3>
+<pre class="programlisting">struct MateVFSDriveClass {
+	GObjectClass parent_class;
+
+	void (* volume_mounted)	  	(MateVFSDrive *drive,
+				   	 MateVFSVolume *volume);
+	void (* volume_pre_unmount) (MateVFSDrive *drive,
+				   	 MateVFSVolume *volume);
+	void (* volume_unmounted) (MateVFSDrive *drive,
+				   	 MateVFSVolume *volume);
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-IS-VFS-DRIVE:CAPS"></a><h3>MATE_IS_VFS_DRIVE()</h3>
+<pre class="programlisting">#define MATE_IS_VFS_DRIVE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MATE_VFS_TYPE_DRIVE))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>o</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-IS-VFS-DRIVE-CLASS:CAPS"></a><h3>MATE_IS_VFS_DRIVE_CLASS()</h3>
+<pre class="programlisting">#define MATE_IS_VFS_DRIVE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MATE_VFS_TYPE_DRIVE))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-TYPE-DRIVE:CAPS"></a><h3>MATE_VFS_TYPE_DRIVE</h3>
+<pre class="programlisting">#define MATE_VFS_TYPE_DRIVE        (mate_vfs_drive_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-DRIVE:CAPS"></a><h3>MATE_VFS_DRIVE()</h3>
+<pre class="programlisting">#define MATE_VFS_DRIVE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_DRIVE, MateVFSDrive))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>o</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-DRIVE-CLASS:CAPS"></a><h3>MATE_VFS_DRIVE_CLASS()</h3>
+<pre class="programlisting">#define MATE_VFS_DRIVE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), MATE_VFS_TYPE_DRIVE, MateVFSDriveClass))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-compare"></a><h3>mate_vfs_drive_compare ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                mate_vfs_drive_compare             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *b</code></em>);</pre>
+<p>
+Compares two <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> objects <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em>. Two
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> objects referring to different drives
+are guaranteed to not return 0 when comparing them,
+if they refer to the same drive 0 is returned.
+</p>
+<p>
+The resulting <span class="type">gint</span> should be used to determine the
+order in which <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em> are displayed in graphical
+user interfces.
+</p>
+<p>
+The comparison algorithm first of all peeks the device
+type of <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em>, they will be sorted in the following
+order:
+</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>Magnetic and opto-magnetic drives (ZIP, floppy)</p></li>
+<li class="listitem"><p>Optical drives (CD, DVD)</p></li>
+<li class="listitem"><p>External drives (USB sticks, music players)</p></li>
+<li class="listitem"><p>Mounted hard disks&lt;</p></li>
+<li class="listitem"><p>Other drives&lt;</p></li>
+</ul></div>
+<p>
+</p>
+<p>
+Afterwards, the display name of <em class="parameter"><code>a</code></em> and <em class="parameter"><code>b</code></em> is compared
+using a locale-sensitive sorting algorithm, which
+involves <code class="function">g_utf8_collate_key()</code>.
+</p>
+<p>
+If two drives have the same display name, their
+unique ID is compared which can be queried using
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-id" title="mate_vfs_drive_get_id ()"><code class="function">mate_vfs_drive_get_id()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> 0 if the drives refer to the same <em class="parameter"><code>MateVFSDrive</code></em>,
+a negative value if <em class="parameter"><code>a</code></em> should be displayed before <em class="parameter"><code>b</code></em>,
+or a positive value if <em class="parameter"><code>a</code></em> should be displayed after <em class="parameter"><code>b</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-eject"></a><h3>mate_vfs_drive_eject ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_drive_eject               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+If <em class="parameter"><code>drive</code></em> has associated <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects, all of them will be
+unmounted by calling <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unmount" title="mate_vfs_volume_unmount ()"><code class="function">mate_vfs_volume_unmount()</code></a> for each volume in
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>, except for the last one,
+for which <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-eject" title="mate_vfs_volume_eject ()"><code class="function">mate_vfs_volume_eject()</code></a> is called to ensure that the
+<em class="parameter"><code>drive</code></em>'s media is ejected.
+</p>
+<p>
+If <em class="parameter"><code>drive</code></em> however has no associated <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects, it
+simply calls an unmount helper on the <em class="parameter"><code>drive</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> that should be ejcted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> that should be invoked after ejecting <em class="parameter"><code>drive</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>the user data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-activation-uri"></a><h3>mate_vfs_drive_get_activation_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_drive_get_activation_uri  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<p>
+Returns the activation URI of a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</p>
+<p>
+The returned URI usually refers to a valid location. You can check the
+validity of the location by calling <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#mate-vfs-uri-new" title="mate_vfs_uri_new ()"><code class="function">mate_vfs_uri_new()</code></a> with the URI,
+and checking whether the return value is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for the activation uri of the <span class="type">drive</span>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-device-path"></a><h3>mate_vfs_drive_get_device_path ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_drive_get_device_path     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<p>
+Returns the device path of a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</p>
+<p>
+For HAL drives, this returns the value of the
+drives's "block.device" key. For UNIX mounts,
+it returns the <code class="literal">mntent</code>'s <code class="literal">mnt_fsname</code> entry.
+</p>
+<p>
+Otherwise, it returns <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for the device path of the <span class="type">drive</span>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-device-type"></a><h3>mate_vfs_drive_get_device_type ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType"><span class="returnvalue">MateVFSDeviceType</span></a>  mate_vfs_drive_get_device_type     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> device type, a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDeviceType" title="enum MateVFSDeviceType"><span class="type">MateVFSDeviceType</span></a> value.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-display-name"></a><h3>mate_vfs_drive_get_display_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_drive_get_display_name    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for the display name of the <em class="parameter"><code>drive</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-hal-udi"></a><h3>mate_vfs_drive_get_hal_udi ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_drive_get_hal_udi         (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<p>
+Returns the HAL UDI of a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</p>
+<p>
+For HAL drives, this matches the value of the "info.udi" key,
+for other drives it is <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for the unique device id of the <em class="parameter"><code>drive</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-icon"></a><h3>mate_vfs_drive_get_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_drive_get_icon            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated string for the icon filename of the <em class="parameter"><code>drive</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-id"></a><h3>mate_vfs_drive_get_id ()</h3>
+<pre class="programlisting"><span class="returnvalue">gulong</span>              mate_vfs_drive_get_id              (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> drive id, a <span class="type">gulong</span> value.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-mounted-volume"></a><h3>mate_vfs_drive_get_mounted_volume ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    mate_vfs_drive_get_mounted_volume  (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_drive_get_mounted_volume</code> is deprecated and should not be used in newly-written code. Use <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a> instead.</p>
+</div>
+<p>
+Returns the first mounted volume for the <em class="parameter"><code>drive</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-mounted-volumes"></a><h3>mate_vfs_drive_get_mounted_volumes ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_drive_get_mounted_volumes (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> list of mounted volumes for the <em class="parameter"><code>drive</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.8</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-volume-list-free"></a><h3>mate_vfs_drive_volume_list_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_drive_volume_list_free    (<em class="parameter"><code><span class="type">GList</span> *volumes</code></em>);</pre>
+<p>
+Frees the list <em class="parameter"><code>volumes</code></em>, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>volumes</code></em> :</span></p></td>
+<td>list of <a href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolumes</span></a> to be freed, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.8</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-get-type"></a><h3>mate_vfs_drive_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               mate_vfs_drive_get_type            (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-is-connected"></a><h3>mate_vfs_drive_is_connected ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_drive_is_connected        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the <em class="parameter"><code>drive</code></em> is connected, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-is-mounted"></a><h3>mate_vfs_drive_is_mounted ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_drive_is_mounted          (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the <em class="parameter"><code>drive</code></em> is mounted, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-is-user-visible"></a><h3>mate_vfs_drive_is_user_visible ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_drive_is_user_visible     (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<p>
+Returns whether the <em class="parameter"><code>drive</code></em> is visible to the user. This
+should be used by applications to determine whether it
+is included in user interfaces listing available drives.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the <em class="parameter"><code>drive</code></em> is visible to the user, <code class="literal">FALSE</code> otherwise.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-mount"></a><h3>mate_vfs_drive_mount ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_drive_mount               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> that should be mounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> that should be invoked after mounting <em class="parameter"><code>drive</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>the user data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-ref"></a><h3>mate_vfs_drive_ref ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="returnvalue">MateVFSDrive</span></a> *     mate_vfs_drive_ref                 (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<p>
+Increases the refcount of the <em class="parameter"><code>drive</code></em> by 1, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <em class="parameter"><code>drive</code></em> with its refcount increased by one,
+	    or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if <em class="parameter"><code>drive</code></em> is <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-unmount"></a><h3>mate_vfs_drive_unmount ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_drive_unmount             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> user_data</code></em>);</pre>
+<p>
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unmount" title="mate_vfs_drive_unmount ()"><code class="function">mate_vfs_drive_unmount()</code></a> invokes <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-eject" title="mate_vfs_drive_eject ()"><code class="function">mate_vfs_drive_eject()</code></a>, if the <em class="parameter"><code>drive</code></em> signals
+that it should be ejected when it is unmounted. This may be true for CD-ROMs,
+USB sticks and other devices, depending on the backend providing the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> <em class="parameter"><code>drive</code></em>.
+</p>
+<p>
+If the <em class="parameter"><code>drive</code></em> does not signal that it should be ejected when it is unmounted,
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unmount" title="mate_vfs_drive_unmount ()"><code class="function">mate_vfs_drive_unmount()</code></a> calls <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unmount" title="mate_vfs_volume_unmount ()"><code class="function">mate_vfs_volume_unmount()</code></a> for each of the
+<em class="parameter"><code>drive</code></em>'s mounted <a href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolumes</span></a>, which can be queried using
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> that should be unmounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolumeOpCallback" title="MateVFSVolumeOpCallback ()"><span class="type">MateVFSVolumeOpCallback</span></a> that should be invoked after unmounting <em class="parameter"><code>drive</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>the user data to pass to <em class="parameter"><code>callback</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-drive-unref"></a><h3>mate_vfs_drive_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_drive_unref               (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> *drive</code></em>);</pre>
+<p>
+Decreases the refcount of the <em class="parameter"><code>drive</code></em> by 1, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-drive.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateVFSDrive-volume-mounted"></a><h3>The <code class="literal">"volume-mounted"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>  *drive,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume,
+                                                        <span class="type">gpointer</span>        user_data)      : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted after the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> <em class="parameter"><code>volume</code></em> has been mounted.
+</p>
+<p>
+When the <em class="parameter"><code>volume</code></em> is mounted, it is added to the <em class="parameter"><code>drive</code></em>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<p>
+It is also added to the list of the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that has been mounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDrive-volume-pre-unmount"></a><h3>The <code class="literal">"volume-pre-unmount"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>  *drive,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume,
+                                                        <span class="type">gpointer</span>        user_data)      : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted when the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> <em class="parameter"><code>volume</code></em>, which has been present in
+the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> <em class="parameter"><code>drive</code></em>, is about to be unmounted.
+</p>
+<p>
+When the <em class="parameter"><code>volume</code></em> is unmounted, it is removed from the <em class="parameter"><code>drive</code></em>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<p>
+It is also removed from the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>'s list of mounted volumes,
+which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<p>
+When a client application receives this signal, it must free all resources
+associated with the <em class="parameter"><code>volume</code></em>, for instance cancel all pending file operations
+on the <em class="parameter"><code>volume</code></em>, and cancel all pending file monitors using <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-cancel" title="mate_vfs_monitor_cancel ()"><code class="function">mate_vfs_monitor_cancel()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that is about to be unmounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSDrive-volume-unmounted"></a><h3>The <code class="literal">"volume-unmounted"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>  *drive,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> *volume,
+                                                        <span class="type">gpointer</span>        user_data)      : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted after the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> <em class="parameter"><code>volume</code></em>, which had been present in
+the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> <em class="parameter"><code>drive</code></em>, has been unmounted.
+</p>
+<p>
+When the <em class="parameter"><code>volume</code></em> is unmounted, it is removed from the <em class="parameter"><code>drive</code></em>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<p>
+It is also removed from the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>'s list of mounted volumes,
+which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that has been unmounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

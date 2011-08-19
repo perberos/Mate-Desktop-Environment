@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mate-init</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Library Reference Manual">
+<link rel="up" href="ch01.html" title="Initializing Applications and Starting Programs">
+<link rel="prev" href="libmate-mate-program.html" title="mate-program">
+<link rel="next" href="libmate-mate-exec.html" title="mate-exec">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmate-mate-program.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Library Reference Manual</th>
+<td><a accesskey="n" href="libmate-mate-exec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmate-mate-init.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmate-mate-init.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmate-mate-init"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmate-mate-init.top_of_page"></a>mate-init</span></h2>
+<p>mate-init — Functions used during initialisation of libmate and other platform libraries.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmate-mate-init.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;libmate/libmate.h&gt;
+
+#define             <a class="link" href="libmate-mate-init.html#LIBMATE-MODULE:CAPS" title="LIBMATE_MODULE">LIBMATE_MODULE</a>
+
+const <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="returnvalue">MateModuleInfo</span></a> * <a class="link" href="libmate-mate-init.html#libmate-module-info-get" title="libmate_module_info_get ()">libmate_module_info_get</a>        (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="returnvalue">MateModuleInfo</span></a> *  <a class="link" href="libmate-mate-init.html#mate-matecomponent-module-info-get" title="mate_matecomponent_module_info_get ()">mate_matecomponent_module_info_get</a>   (<em class="parameter"><code><span class="type">void</span></code></em>);
+
+const <span class="returnvalue">char</span> *        <a class="link" href="libmate-mate-init.html#mate-user-dir-get" title="mate_user_dir_get ()">mate_user_dir_get</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="libmate-mate-init.html#mate-user-private-dir-get" title="mate_user_private_dir_get ()">mate_user_private_dir_get</a>          (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="libmate-mate-init.html#mate-user-accels-dir-get" title="mate_user_accels_dir_get ()">mate_user_accels_dir_get</a>           (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-init.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="libmate-mate-init.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="LIBMATE-MODULE:CAPS"></a><h3>LIBMATE_MODULE</h3>
+<pre class="programlisting">#define LIBMATE_MODULE libmate_module_info_get()
+</pre>
+<p>
+This macro wraps the call to <a class="link" href="libmate-mate-init.html#libmate-module-info-get" title="libmate_module_info_get ()"><code class="function">libmate_module_info_get()</code></a> and is the usual way of
+retrieving the <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="type">MateModuleInfo</span></a> returned by this function.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="libmate-module-info-get"></a><h3>libmate_module_info_get ()</h3>
+<pre class="programlisting">const <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="returnvalue">MateModuleInfo</span></a> * libmate_module_info_get        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Retrieves the current libmate version and the modules it depends on.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="type">MateModuleInfo</span></a> structure describing the version and
+the versions of the dependents.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-matecomponent-module-info-get"></a><h3>mate_matecomponent_module_info_get ()</h3>
+<pre class="programlisting">const <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="returnvalue">MateModuleInfo</span></a> *  mate_matecomponent_module_info_get   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Retrieves the matecomponent module version and indicate that it requires the current
+libmate and its dependencies (although libmatecomponent does not depend on
+libmate, libmatecomponentui does and this will also be initialised when
+initialising a MATE app).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="libmate-mate-program.html#MateModuleInfo" title="struct MateModuleInfo"><span class="type">MateModuleInfo</span></a> structure describing the version of the
+matecomponent modules and its dependents.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-user-dir-get"></a><h3>mate_user_dir_get ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_user_dir_get                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Retrieves the user-specific directory for MATE apps to use ($HOME/.mate2
+is the usual MATE 2 value).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> An absolute path to the directory.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-user-private-dir-get"></a><h3>mate_user_private_dir_get ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_user_private_dir_get          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Differs from <a class="link" href="libmate-mate-init.html#mate-user-dir-get" title="mate_user_dir_get ()"><code class="function">mate_user_dir_get()</code></a> in that the directory returned here will
+have had permissions of 0700 (rwx------) enforced when it was created.  Of
+course, the permissions may have been altered since creation, so care still
+needs to be taken.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> An absolute path to the user-specific private directory that MATE
+apps can use.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-user-accels-dir-get"></a><h3>mate_user_accels_dir_get ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_user_accels_dir_get           (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Retrieves the user-specific directory that stores the keyboard shortcut files
+for each MATE app. Note that most applications should be using MateConf for
+storing this information, but it may be necessary to use the
+<a class="link" href="libmate-mate-init.html#mate-user-accels-dir-get" title="mate_user_accels_dir_get ()"><code class="function">mate_user_accels_dir_get()</code></a> directory for legacy applications.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The absolute path to the directory.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

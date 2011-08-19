@@ -1,0 +1,269 @@
+2006-09-18  Sergey Udaltsov <svu@mate.org>
+
+	* Makefile.am: one header should not be installed, one header should
+	be installed instead (for plugins to be built properly).
+
+2006-07-02  Sergey Udaltsov <svu@mate.org>
+
+	* mate-kbd-indicator.c: fix for gcc 2.95, #347611
+
+2006-07-02  Sergey Udaltsov <svu@mate.org>
+
+	* mate-kbd-indicator.c: using Unicode subscript for repeating
+	descriptions.
+
+2006-07-29  Sergey Udaltsov <svu@mate.org>
+
+	* Makefile.am: fixed CLEANFILES, thanks to Davyd
+
+2006-07-11  Sebastien Bacher  <seb128@debian.org>
+
+	* Makefile.am: specify srcdir where it's required
+
+2006-07-11  Sebastien Bacher  <seb128@debian.org>
+
+	* Makefile.am:
+	make gswitchitinc_HEADERS list gswitchit-plugins-app.h
+
+2006-07-11  Sebastien Bacher  <seb128@debian.org>
+
+	* Makefile.am: 
+	make gswitchitinc_HEADERS list keyboard-config-registry.h
+
+2006-07-11  Sebastien Bacher  <seb128@debian.org>
+
+	* Makefile.am: fixed type to gswitchit-plugins.h
+
+2006-07-10  Sergey Udaltsov <svu@mate.org>
+
+	* keyboard-config-registry.c: made XML loading lazy. Thanks for the
+	idea, Ben
+
+2006-07-10  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit-plugins-app.c: changing matecomponent loop to glib loop
+
+2006-07-09  Sergey Udaltsov <svu@mate.org>
+
+	* mate-startup.*: Long unused startup stuff removed
+
+2006-07-08  Sergey Udaltsov <svu@mate.org>
+
+	* mate-kbd-indicator.c, gswitchit-applet-config.c,
+	gswitchit-config-private.h, gswitchit-config.c, gswitchit-config.h,
+	gswitchit-plugins-add.c, gswitchit-plugins-app.c,
+	gswitchit-plugins-app.h, gswitchit-plugins.glade, gswitchit-util.c,
+	gswitchit-util.h: Code restructuring, moving plugin management app to
+	libgswitchit
+
+2006-07-08  Sergey Udaltsov <svu@mate.org>
+
+	* mate-kbd-indicator.*: adding set_angle function
+
+2006-07-06  Sergey Udaltsov <svu@mate.org>
+
+	Fixed build process, renaming files from '_' to '-'
+
+2006-07-05  Sergey Udaltsov <svu@mate.org>
+
+	* Makefile.am,
+	mate-kbd-indicator.c,
+	gswitchit_config.c,
+	gswitchit_config.h: Remote group names from DBUS are working
+
+2006-06-25  Sergey Udaltsov <svu@mate.org>
+
+	The GKI widget is working, the libgswitchit API is changed
+	to the MATE naming convention. Massive change in all MATE
+	kbd-related sources.
+
+2006-06-23  Sergey Udaltsov <svu@mate.org>
+
+	* mate-kbd-indicator.[ch]: first version of the g-k-i widget
+	the development is in progress
+
+2006-05-27  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.[ch]: optimizing dealing with UTF8 descriptions -
+	changed GSList to NULL-terminated gchar **
+
+2006-04-22  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.[ch]: save/load preview window coords
+
+2006-04-20  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.c: added kbd config ToString function
+
+2006-04-20  Sergey Udaltsov <svu@mate.org>
+
+	* *.c,*.h: update for new libxklavier API
+
+2006-01-03  Kristof Vansant <de_lupus@pandora.be>
+
+	Fixes #171668
+
+	* gswitchit_config.c:
+	* mate-startup.[ch]: header cleanup.
+
+2005-12-06  Sergey V. Udaltsov <svu@mate.org>
+
+	* gswitchit_plugin_manager.h,
+	gswitchit_plugin_manager.c: Small change in the plugin API:
+	the GroupChanged is called for every instance of the applet
+	
+2005-11-14  Kjartan Maraas  <kmaraas@mate.org>
+
+	* gswitchit_config.c: (GSwitchItConfigLockPrevGroup):
+	Fix typo in function name.
+
+2005-09-14  Sergey V. Udaltsov <svu@mate.org>
+
+	* gswitchit_plugin_manager.h,
+	gswitchit_plugin_manager.c: added ConfigChanged proxy
+
+2005-07-15  Mark McLoughlin  <mark@skynet.ie>
+
+	Re-work the way some of the MateConf keys are handled.
+	See bug #310513
+
+	* gswitchit_config.c:
+	(_GSwitchItKbdConfigLoadParams): kbdConfig->model can
+	be NULL.
+	(_GSwitchItKbdConfigSaveParams): if ->model, ->options or
+	->layouts is NULL, unset the appropriate key.
+	(GSwitchItKbdConfigLoadFromMateConf): ignore overrideSettings
+	and use the XKB default for any unset keys.
+	(GSwitchItKbdConfigSaveToMateConf): ignore overrideSettings.
+	(GSwitchItKbdConfigModelSet): set ->model to NULL if the
+	MateConf key contains an empty string.
+	
+	* gswitchit_config.h: remove the overrideSettings member
+	from GSwitchItKbdConfig and add a kbdConfigDefault to
+	parameter to GSwitchItKbdConfigLoadFromMateConf()
+
+2005-03-16  Sergey V. Udaltsov <svu@mate.org>
+
+	* Makefile.am: removing -Werror
+
+2005-03-14  Pedro Villavicencio Garrido  <pvillavi@mate.org>
+
+	* gswitchit_config.c (GSwitchItAppletConfigLoadImages):  use GtkMessageDialog instead of mate_error_dialog.
+
+2005-03-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* mate-startup.c: (mate_startup_acquire_token):
+	Fix some compiler warnings wrt signedness.
+	* gswitchit_config.h: 
+	* gswitchit_plugin_manager.c:
+	* gswitchit_util.c:
+	* gswitchit_util.h: Clean up headers.
+
+2005-01-12  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.h,
+	gswitchit_config.c: the listeners are inside the structs
+
+2005-01-08  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.h,
+	gswitchit_config.c: better names for the save/load functions
+
+2005-01-03  Dan Winship  <danw@novell.com>
+
+	* gswitchit_util.c (GSwitchItLogAppender): Cast time_t to long to
+	match the printf format.
+	
+2004-12-22  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.h,
+	gswitchit_config.c: can listen for the changes
+	in the general configuration
+
+2004-12-18  Sergey Udaltsov <svu@mate.org>
+
+	* Makefile.am,
+	gswitchit_applet_config.h,
+	gswitchit_config.c,
+	gswitchit_config.h,
+	gswitchit_config_private.h,
+	gswitchit_plugin.h,
+	gswitchit_plugin_manager.c,
+	gswitchit_plugin_manager.h,
+	gswitchit_xkb_config.h,
+	gswitchit_xkb_config_private.h: massive redesign.
+	Three GSwitchIt*Config classes now - instead of two. 
+	MateConf entries changed.
+
+2004-12-08  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_applet_config.h,
+	gswitchit_config.c,
+	gswitchit_plugin_manager.c: changing fixed-size array to GSList.
+	Memleaks fixed.
+
+2004-10-03  Sergey Udaltsov <svu@mate.org>
+
+	* gswitchit_config.c:
+	Removing a function which was never used.
+
+2004-06-29  Jody Goldberg <jody@mate.org>
+
+	* gswitchit_config.c (GSwitchItXkbConfigInit) : s/g_error/g_warning/
+	(GSwitchItAppletConfigInit) : ditto.
+
+2004-04-15  Jody Goldberg <jody@mate.org>
+
+	* Release 2.6.1
+
+2004-04-04  Sergey Udaltsov <svu@mate.org>
+
+	* gswithit_config.c:
+	Better theme handling - deprecated MateIconTheme changed to
+	GtkIconTheme. Also now gswitchit applet allows local per-user
+	icons.
+
+2004-04-01  Jody Goldberg <jody@mate.org>
+
+	* Release 2.6.0.3
+
+2004-03-30  Jody Goldberg <jody@mate.org>
+
+	* Release 2.6.0.1
+
+2004-03-23  Jody Goldberg <jody@mate.org>
+
+	* Release 2.6.0
+
+2004-03-11  Jody Goldberg <jody@mate.org>
+
+	* Release 2.5.4
+
+2004-02-21  Dennis Smit  <ds@nerds-incorporated.org>
+
+	* gswitchit_util.c, gswitchit_util.h (GSwitchItHelp):
+	Changed GtkWindow argument into a GtkWidget argument.
+
+	Updated to egg help and made multihead aware.
+
+2004-02-13  Jody Goldberg <jody@mate.org>
+
+	* Release 2.5.3
+
+2004-01-14  Jody Goldberg <jody@mate.org>
+
+	* Release 2.5.2
+
+2003-12-30  Jody Goldberg <jody@mate.org>
+
+	* Release 2.5.1.1
+
+2003-12-30  Jody Goldberg <jody@mate.org>
+
+	* Release 2.5.1
+
+2003-11-12  Jody Goldberg <jody@mate.org>
+
+	* Makefile.am (EXTRA_DIST) : always dist gswitchit.pc.in to keep
+	  automake happy.  There is no significant downside to it.
+

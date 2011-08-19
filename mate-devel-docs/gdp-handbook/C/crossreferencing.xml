@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+
+<!-- ################# Cross Referencing Other Documentation
+############# -->
+
+<sect1 id="refering">
+  <title>Cross Referencing Other Documentation</title>
+  <para>
+	In many circumstances you may want to create a link from one
+	document to another.  This can be done using MATE's virtual
+	filesystem layer.  You use a specific Uniform Resource Identifier
+	(URI) scheme to identify the type of documentation.  There are different 
+	schemas which tell <application>Yelp</application> what type of document 
+	the you are referencing. 
+  </para>
+
+<!-- ####### Cross Referencing Other Documentation | Uniform Resource
+Identifier ####### -->
+
+  <sect2 id="uri">
+	<title>Uniform Resource Identifier</title>
+
+	<para>
+	  The Uniform Resource Identifier (URI) is made up of three
+	  parts: the schema, the document and the id.  The schema declares
+	  the type of document.  Some of the well known schemas are:
+	  http://, ftp://, file://.  There are three specific schemas
+	  identifying documentation in MATE 2.  The schema ghelp:
+	  identifies MATE documentation.  The schema <literal>man:</literal> is used to
+	  reference man pages and the schema info: identifies info
+	  pages. <application>Yelp</application> only uses the schemas
+	  ghelp:, man: and info: to cross reference documentation
+	  you must use one of those three schemas.
+	</para>
+
+	<para>
+	  The second part of the URI is the document.  This is really the
+	  path to the document and identifying the document itself.  You
+	  can either give the full path to the document on the computer,
+	  give the filename of the document, or just give the appid.  It
+	  is not recommended to use the full path of the document to
+	  reference documentation.  This will lead to broken links and
+	  heartaches.  You should always either use the name of the
+	  document (e.g. gedit.xml) or use the appid to reference the main
+	  documentation (e.g. gedit).
+	</para>
+
+	<note>
+	  <para>
+		The appid is the way the MATE build system identifies
+		applications.  The appid is unique, but sometimes it is hard
+		to deduce the appid.  The appid is typically the name of the
+		module in SVN.  An example is the appid for the MATE Terminal
+		is mate-terminal and its module name in SVN is also
+		mate-terminal.  For some applications this rule of thumb does
+		not hold.  An example is the appid for the Stock Ticker is
+		gtik2_applet2, but its module name in SVN is gtik.  If you are
+		having trouble figuring out the appid of an application ask
+		the maintainer of the program.
+	  </para>
+	</note>
+
+	<para>
+	  The third part of the URI is the id.  The id is the unique
+	  DocBook id made for every section.  For more information on
+	  section ids see <xref linkend="guidelines-sectids"/>.  The id is optional, but
+	  will let you choose where in the document the reader will look
+	  instead of placing the reader at the table of contents.  It is
+	  recommended to use ids in the URI to accurately direct the
+	  reader to a specific portion of the document.
+	</para>
+
+	<para>
+	  The three parts of the URI are put together to cross reference
+	  documentation in MATE.  The URI is formed by placing the schema
+	  first, followed by the appid or filename of the document.  A
+	  question mark is placed after the appid, but before the section
+	  id.  Then the section id is put after the question mark.  The
+	  complete URI looks like:
+	  <programlisting>
+ghelp:gedit?intro
+	  </programlisting>
+	  In the above example the schema is <quote>ghelp:</quote>, the
+	  appid is <quote>gedit</quote>, and the section id is
+	  <quote>intro</quote>. Note the absence of slashes after the schema: with slashes, what
+	  follows is assumed to be a file rather than an appid.
+	</para>
+
+  </sect2>
+
+<!-- ####### Cross Referencing Other Documentation | MATE Documentation 
+####### -->
+
+  <sect2 id="refermate">
+	<title>MATE Documentation</title>
+	<para>
+	  Adding a link to a different MATE help document is not hard.
+	  This is done using the <quote>ghelp:</quote> URI scheme.  This
+	  works for documents which are shipped as XML.  To cross
+	  reference another MATE document, use:
+<programlisting>
+&lt;ulink type="help" url="ghelp:user-guide?gosbasic-2"&gt;text&lt;/ulink&gt;
+</programlisting>
+      where <quote>ghelp:</quote> is the schema,
+      <quote>user-guide</quote> is the appid of the <citetitle>User's
+      Guide</citetitle>, <quote>gosbasic-2</quote> is the section id,
+      and <quote>text</quote> is the text which becomes the link.
+    </para>
+    <para>To link within the current document, you need only specify the section id you wish to link to, but the DocBook syntax is different. To create a link that displays the section number and name, use:
+<programlisting>
+&lt;xref linkend="intro" /&gt;
+</programlisting>    
+    To create a link and specify the link text, use:
+<programlisting>
+&lt;link linkend="intro"&gt;text&lt;/link&gt;
+</programlisting>      
+    </para>
+    
+	</sect2>
+
+<!-- ####### Cross Referencing Other Documentation | Man and Info Pages 
+####### -->
+
+	<sect2 id="refermanpages">
+	  <title>Man and Info Pages</title>
+
+	  <para>
+	  Adding a link to a manpage in a MATE document is done using the
+	  <quote>man:</quote> URI scheme.  To cross reference a manpage,
+	  use:
+<programlisting>
+&lt;ulink type="help" url="man:foo"&gt;text&lt;/ulink&gt;
+</programlisting>
+	  </para>
+
+	  <para>
+	  Adding a link to an infopage in a MATE document is done using
+	  the <quote>info:</quote> URI scheme.  To cross reference a
+	  manpage, use:
+<programlisting>
+&lt;ulink type="help" url="info:foo"&gt;text&lt;/ulink&gt;
+</programlisting>
+	  </para>
+
+	</sect2>
+	<sect2 id="referweb">
+	  <title>Web Pages</title>
+	  <para>To link to web pages, use:
+<programlisting>
+&lt;ulink type="http" url="http://www.mate.org"&gt;MATE Web Site&lt;/ulink&gt;
+</programlisting>
+	</para>
+	</sect2>
+  </sect1>

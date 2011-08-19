@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+
+<!-- ################# Building Documentation within a Program ########### -->
+
+  <sect1 id="buildingdocs">
+    <title>Building Documentation within a Program</title>
+
+<!-- ####### Building Documentation within a Program | Documentation Files 
+####### -->
+
+    <sect2 id="applicationfiles">
+      <title>Documentation Files</title>
+      <para>
+        Documentation in MATE application repository and packages should be
+        kept under <filename 
+        class="directory">help/<replaceable>locale</replaceable>/</filename>, 
+        where <filename><replaceable>locale</replaceable></filename>
+        is typically replaced with <quote>C</quote> for the default (English)
+        documents or the locale for other documents.  In some cases, 
+        <quote>doc</quote> is used in place of <quote>help</quote> however
+        it is preferrable to use <quote>help</quote> to remain consistent
+        with the path under which these documents are installed.
+      </para>
+      <para>
+        Most applications will have screenshots,
+        images, or other figures.  To keep the directories reasonably
+        clean and easy to navigate, screenshots, images, and other
+        similar items should be placed in a directory called 
+        <filename class="directory">figures</filename>.  While in some 
+        cases the directory is called 
+        <filename class="directory">images</filename>
+        since most figures consist of images (well, screenshots 
+        really), it is preferable to use <filename 
+        class="directory">figures</filename> for consistency and to 
+        allow for figures which contain things other than images.
+      </para>
+	  <para>
+		Most packages have a COPYING file in the tree which explains the 
+		rules or the license used to be able to copy any parts of the 
+		package.  There should also be a COPYING-DOCS file which will 
+		contain the FDL or other licenses the documenter and maintainer 
+		agrees on.  An example file is found in Subversion in the module 
+		<filename class="directory">mate-docu/gdp/</filename>
+		<filename>COPYING-DOCS</filename> which contains the GNU Free 
+		Documentation License.  The <filename>COPYING-DOCS</filename> file 
+		should be placed in the same place the <filename>COPYING</filename> 
+		file is located or in the top level of the package tree.  If you wish 
+		to use the GFDL, you must have this file in the top level of the 
+		package.
+	  </para>
+    </sect2>
+
+<!-- ####### Building Documentation within a Program | Listing Documents in the 
+Help Menu ############# -->
+<sect2 id="docsbuildsetup">
+	  <title>Adding Documentation to the Build Setup</title>
+
+    <para>A new build system has been developed for MATE 2.4. Each package will
+      no longer be required to have its own copy of
+      <filename>xmldocs.make</filename> and
+      <filename>omf.make</filename>. Instead, the files are pulled from
+      <application>mate-common</application> whenever the package is built from
+      Subversion.</para>
+
+    <para>To use the new system, in <filename>autogen.sh</filename> change the
+      line that invokes <filename>mate-autogen.sh</filename> from:
+
+      <programlisting>
+
+USE_MATE2_MACROS=1 . mate-autogen.sh
+      </programlisting>
+to
+      <programlisting>
+USE_MATE2_MACROS=1 USE_COMMON_DOC_BUILD=yes . mate-autogen.sh
+      </programlisting>
+</para>
+    <para>In addition, <filename>xmldocs.make</filename> and
+      <filename>omf.make</filename> need to be removed from packages that used
+      previous versions of the build system.</para>
+    <note>
+    <para>For programs that do not use <application>mate-common</application>,
+      the files <filename>xmldocs.make</filename> and
+      <filename>omf.make</filename> need to be manually installed. They can be
+      found in <application>mate-common</application> Subversion in <filename
+	class="directory">doc-build</filename>. They should be
+	installed in the package's root directory.
+	  </para>
+    </note>
+      <para>
+	In the docs directory, a <filename>Makefile.am</filename> then is
+	required that calls them:
+	<programlisting>
+figdir = figures
+docname = mate-calculator
+lang = C
+omffile = mate-calculator-C.omf
+entities = legal.xml
+include $(top_srcdir)/xmldocs.make
+dist-hook: app-dist-hook
+	</programlisting>
+      </para>
+	</sect2>
+
+  <sect2 id="listingdocsinhelpmenu">
+    <title>Listing Documents in the Help Menu</title>
+
+    <note>
+      <title>Developer Information</title>
+      <para>
+        This section is for developers.  Documentation authors
+        generally do not need to know this material.
+      </para>
+    </note>
+    <para>
+      Typically the application manual and possibly additional help
+      documents will be made available to the user under the
+      <guimenu>Help</guimenu> menu at the top right of the
+      application.
+    </para>
+    
+    <para>
+	A macro is used in your menu definition to specify inclusion of the help
+      item on the menu, as follows:
+      
+<programlisting>
+static MateUIInfo help_menu[] = {
+	MATEUIINFO_HELP("mate-calculator"),
+	MATEUIINFO_MENU_ABOUT_ITEM(about_cb,NULL),
+	MATEUIINFO_END
+};
+</programlisting>
+      the line specifying <varname>MATEUIINFO_HELP</varname> causes
+      MATE to create a menu entry which is tied to the documentation
+	in the directory mentioned above. When the user selects <guimenu>Help</guimenu> from the menu, the default help browser, generally <application>Yelp</application>
+      will display the documentation.
+    </para>
+  </sect2>
+<!-- ####### Building Documentation within a Program | Adding Help Buttons 
+####### -->
+	<sect2 id="helpmenu">
+	  <title>Adding Help Buttons</title>
+
+	  <para>
+	An example of adding a help button can be found in
+	<filename>main.c</filename> of <application>gfloppy</application> in the
+	<application>mate-utils</application> package. It bascically requires
+	connecting <function>mate_help_display</function> to a button and
+	testing for an error if the documentation is not found:
+	<programlisting>
+<![CDATA[
+while ((button = gtk_dialog_run (GTK_DIALOG (toplevel))) >= 0) 
+	GtkWidget *density_option;
+	GtkWidget *dialog;
+
+	if (button == GTK_RESPONSE_CLOSE) 
+		break;
+
+	if (button == GTK_RESPONSE_HELP) {
+		GError *error;
+
+		error = NULL;
+		mate_help_display ("gfloppy", NULL, &error);
+		if (error) {
+			GtkWidget *dialog;
+
+			dialog = gtk_message_dialog_new (GTK_WINDOW (toplevel),
+							 0,
+							 GTK_MESSAGE_ERROR,
+							 GTK_BUTTONS_CLOSE,
+							 _("Could not display help for the "
+							   "floppy formatter.\n"
+							   "%s"),
+							 error->message);
+				g_signal_connect_swapped (dialog, "response",
+						  G_CALLBACK (gtk_widget_destroy),
+						  dialog);
+			gtk_widget_show (dialog);
+				g_error_free (error);
+			}
+]]>
+	</programlisting>
+	  </para>
+	</sect2>
+  </sect1>

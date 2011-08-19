@@ -1,0 +1,905 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateComponentUISync</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="LibMateComponentUI API Reference Manual">
+<link rel="up" href="matecomponent-ui.html" title="MateComponent UI">
+<link rel="prev" href="libmatecomponentui-matecomponent-ui-engine-config.html" title="matecomponent-ui-engine-config">
+<link rel="next" href="libmatecomponentui-matecomponent-ui-preferences.html" title="matecomponent-ui-preferences">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libmatecomponentui-matecomponent-ui-engine-config.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="matecomponent-ui.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibMateComponentUI API Reference Manual</th>
+<td><a accesskey="n" href="libmatecomponentui-matecomponent-ui-preferences.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libmatecomponentui-matecomponent-ui-sync.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#libmatecomponentui-matecomponent-ui-sync.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#libmatecomponentui-matecomponent-ui-sync.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="libmatecomponentui-matecomponent-ui-sync"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="libmatecomponentui-matecomponent-ui-sync.top_of_page"></a>MateComponentUISync</span></h2>
+<p>MateComponentUISync — A Synchronizer object to keep a widget tree in sync with an XML tree.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="libmatecomponentui-matecomponent-ui-sync.synopsis"></a><h2>Synopsis</h2>
+<a name="MateComponentUISync"></a><pre class="synopsis">struct              <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync-struct" title="struct MateComponentUISync">MateComponentUISync</a>;
+<span class="returnvalue">void</span>                (<a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISyncStateFn" title="MateComponentUISyncStateFn ()">*MateComponentUISyncStateFn</a>)              (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);
+<span class="returnvalue">GtkWidget</span> *         (<a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISyncBuildFn" title="MateComponentUISyncBuildFn ()">*MateComponentUISyncBuildFn</a>)              (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);
+                    <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISyncPrivate" title="MateComponentUISyncPrivate">MateComponentUISyncPrivate</a>;
+                    <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISyncClass" title="MateComponentUISyncClass">MateComponentUISyncClass</a>;
+<a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="returnvalue">MateComponentUISync</span></a> *      <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-construct" title="matecomponent_ui_sync_construct ()">matecomponent_ui_sync_construct</a>            (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-engine.html#MateComponentUIEngine"><span class="type">MateComponentUIEngine</span></a> *engine</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> is_recursive</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> has_widgets</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-is-recursive" title="matecomponent_ui_sync_is_recursive ()">matecomponent_ui_sync_is_recursive</a>         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-has-widgets" title="matecomponent_ui_sync_has_widgets ()">matecomponent_ui_sync_has_widgets</a>          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-remove-root" title="matecomponent_ui_sync_remove_root ()">matecomponent_ui_sync_remove_root</a>          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *root</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-update-root" title="matecomponent_ui_sync_update_root ()">matecomponent_ui_sync_update_root</a>          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *root</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-state" title="matecomponent_ui_sync_state ()">matecomponent_ui_sync_state</a>                (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-state-placeholder" title="matecomponent_ui_sync_state_placeholder ()">matecomponent_ui_sync_state_placeholder</a>    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-build" title="matecomponent_ui_sync_build ()">matecomponent_ui_sync_build</a>                (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-build-placeholder" title="matecomponent_ui_sync_build_placeholder ()">matecomponent_ui_sync_build_placeholder</a>    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-ignore-widget" title="matecomponent_ui_sync_ignore_widget ()">matecomponent_ui_sync_ignore_widget</a>        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-get-widgets" title="matecomponent_ui_sync_get_widgets ()">matecomponent_ui_sync_get_widgets</a>          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-stamp-root" title="matecomponent_ui_sync_stamp_root ()">matecomponent_ui_sync_stamp_root</a>           (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-can-handle" title="matecomponent_ui_sync_can_handle ()">matecomponent_ui_sync_can_handle</a>           (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-get-attached" title="matecomponent_ui_sync_get_attached ()">matecomponent_ui_sync_get_attached</a>         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-state-update" title="matecomponent_ui_sync_state_update ()">matecomponent_ui_sync_state_update</a>         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *new_state</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-do-show-hide" title="matecomponent_ui_sync_do_show_hide ()">matecomponent_ui_sync_do_show_hide</a>         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);
+<span class="returnvalue">GtkWidget</span> *         <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-wrap-widget" title="matecomponent_ui_sync_wrap_widget ()">matecomponent_ui_sync_wrap_widget</a>          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *custom_widget</code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-keys-get-type" title="matecomponent_ui_sync_keys_get_type ()">matecomponent_ui_sync_keys_get_type</a>        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-menu-get-type" title="matecomponent_ui_sync_menu_get_type ()">matecomponent_ui_sync_menu_get_type</a>        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-status-get-type" title="matecomponent_ui_sync_status_get_type ()">matecomponent_ui_sync_status_get_type</a>      (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-toolbar-get-type" title="matecomponent_ui_sync_toolbar_get_type ()">matecomponent_ui_sync_toolbar_get_type</a>     (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-ui-sync.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----MateComponentUISync
+</pre>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-ui-sync.description"></a><h2>Description</h2>
+<p>
+The MateComponentUISynchronizer is used internaly by the <a class="link" href="libmatecomponentui-matecomponent-ui-engine.html#MateComponentUIEngine"><span class="type">MateComponentUIEngine</span></a>. Writing
+one is a very advanced topic, and should only be attempted by carefuly study
+of the code. No normal user should need to write his own synchronizer.
+</p>
+</div>
+<div class="refsect1">
+<a name="libmatecomponentui-matecomponent-ui-sync.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateComponentUISync-struct"></a><h3>struct MateComponentUISync</h3>
+<pre class="programlisting">struct MateComponentUISync;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentUISyncStateFn"></a><h3>MateComponentUISyncStateFn ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*MateComponentUISyncStateFn)              (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentUISyncBuildFn"></a><h3>MateComponentUISyncBuildFn ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         (*MateComponentUISyncBuildFn)              (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentUISyncPrivate"></a><h3>MateComponentUISyncPrivate</h3>
+<pre class="programlisting">typedef struct _MateComponentUISyncPrivate MateComponentUISyncPrivate;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateComponentUISyncClass"></a><h3>MateComponentUISyncClass</h3>
+<pre class="programlisting">typedef struct {
+	GObjectClass parent_class;
+
+	MateComponentUISyncStateFn sync_state;
+	MateComponentUISyncStateFn sync_state_placeholder;
+	MateComponentUISyncBuildFn build;
+	MateComponentUISyncBuildFn build_placeholder;
+
+	void          (*update_root)     (MateComponentUISync     *sync,
+					  MateComponentUINode     *root);
+
+	void          (*remove_root)     (MateComponentUISync     *sync,
+					  MateComponentUINode     *root);
+
+	GList        *(*get_widgets)     (MateComponentUISync     *sync,
+					  MateComponentUINode     *node);
+
+	void          (*state_update)    (MateComponentUISync     *sync,
+					  GtkWidget        *widget,
+					  const char       *new_state);
+	
+	gboolean      (*ignore_widget)   (MateComponentUISync     *sync,
+					  GtkWidget        *widget);
+	
+	gboolean      (*can_handle)      (MateComponentUISync     *sync,
+					  MateComponentUINode     *node);
+	
+        void          (*stamp_root)      (MateComponentUISync     *sync);
+
+	GtkWidget    *(*get_attached)    (MateComponentUISync     *sync,
+					  GtkWidget        *widget,
+					  MateComponentUINode     *node);
+
+	GtkWidget    *(*wrap_widget)     (MateComponentUISync     *sync,
+					  GtkWidget        *custom_widget);
+} MateComponentUISyncClass;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-construct"></a><h3>matecomponent_ui_sync_construct ()</h3>
+<pre class="programlisting"><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="returnvalue">MateComponentUISync</span></a> *      matecomponent_ui_sync_construct            (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-engine.html#MateComponentUIEngine"><span class="type">MateComponentUIEngine</span></a> *engine</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> is_recursive</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> has_widgets</code></em>);</pre>
+<p>
+Used to construct a new synchronizer object
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>engine</code></em> :</span></p></td>
+<td>the associated engine
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>is_recursive</code></em> :</span></p></td>
+<td>whether it deals with its children recursively
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>has_widgets</code></em> :</span></p></td>
+<td>whether it has associated widgets.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-is-recursive"></a><h3>matecomponent_ui_sync_is_recursive ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_ui_sync_is_recursive         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> whether this deals with its children recursively
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-has-widgets"></a><h3>matecomponent_ui_sync_has_widgets ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_ui_sync_has_widgets          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> whether this deals with widgets
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-remove-root"></a><h3>matecomponent_ui_sync_remove_root ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_ui_sync_remove_root          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *root</code></em>);</pre>
+<p>
+This is called when a 'root' or toplevel node is
+removed that this synchronizer deals with. eg. in
+the toolbar case, this might trigger hiding an
+associated dock item.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>root</code></em> :</span></p></td>
+<td>the toplevel node to be removed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-update-root"></a><h3>matecomponent_ui_sync_update_root ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_ui_sync_update_root          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *root</code></em>);</pre>
+<p>
+This flags the fact that a toplevel node has changed
+and is used primarily by non-recursive handlers, such
+as the keybinding sync method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>root</code></em> :</span></p></td>
+<td>the toplevel node
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-state"></a><h3>matecomponent_ui_sync_state ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_ui_sync_state                (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);</pre>
+<p>
+This method is used to synchronize the state of a <em class="parameter"><code>node</code></em>
+with that of a <em class="parameter"><code>widget</code></em>, by ensuring the pertainant
+attributes are reflected in the widget view.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>the associated command node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>the widget 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the parent of <em class="parameter"><code>node</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-state-placeholder"></a><h3>matecomponent_ui_sync_state_placeholder ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_ui_sync_state_placeholder    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);</pre>
+<p>
+This synchronizes the state of a placeholder, there is
+a default implementation for this method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>the associated command node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>the widget 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the parent of <em class="parameter"><code>node</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-build"></a><h3>matecomponent_ui_sync_build ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         matecomponent_ui_sync_build                (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);</pre>
+<p>
+This function causes a child widget to be build that matches
+<em class="parameter"><code>node</code></em>'s attributes. This should then be inserted by into
+<em class="parameter"><code>parent</code></em>'s associated widget at position <em class="parameter"><code>pos</code></em> in the container.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>the associated command node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>the position in the parent container to insert at
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the parent of <em class="parameter"><code>node</code></em> 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the freshly built widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-build-placeholder"></a><h3>matecomponent_ui_sync_build_placeholder ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         matecomponent_ui_sync_build_placeholder    (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *pos</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *parent</code></em>);</pre>
+<p>
+As for <a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#matecomponent-ui-sync-build" title="matecomponent_ui_sync_build ()"><span class="type">matecomponent_ui_sync_build</span></a> but for placeholders
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>the associated command node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td>position in the parent to insert the built widget
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the parent of <em class="parameter"><code>node</code></em> 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the freshly built widget.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-ignore-widget"></a><h3>matecomponent_ui_sync_ignore_widget ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_ui_sync_ignore_widget        (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>the widget 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if this widget should be ignored in a container
+this is the case for eg. menu tearoffs items, and toolbar popout items.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-get-widgets"></a><h3>matecomponent_ui_sync_get_widgets ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             matecomponent_ui_sync_get_widgets          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>);</pre>
+<p>
+This method is used to obtain a sensibly ordered list
+of child widgets of the container associated with <em class="parameter"><code>node</code></em>.
+Essentialy this does something like gtk_container_children
+but preserving the visible order of the widgets in the list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> An ordered list of child widgets of <em class="parameter"><code>node</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-stamp-root"></a><h3>matecomponent_ui_sync_stamp_root ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_ui_sync_stamp_root           (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>);</pre>
+<p>
+This asks the synchronizer to stamp all its associated
+root widget containers into the XML tree.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-can-handle"></a><h3>matecomponent_ui_sync_can_handle ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_ui_sync_can_handle           (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>);</pre>
+<p>
+This is used to determine which, of multiple synchronizers
+can be used to deal with a specific node type. Each synchronizer
+deals with different types of node.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if the synchronizer can deal with this node type
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-get-attached"></a><h3>matecomponent_ui_sync_get_attached ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         matecomponent_ui_sync_get_attached         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>);</pre>
+<p>
+This is used to get an 'attached' widget - some
+widgets have associated widgets that are coupled
+in strange ways - eg. GtkMenuItem &lt;-&gt; GtkMenuShell
+It is neccessary to store the GtkContainer item of
+these couples in the XML tree, since then we can
+do things more genericaly and cleanly.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>the widget 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an associated widget or NULL if none exists.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-state-update"></a><h3>matecomponent_ui_sync_state_update ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                matecomponent_ui_sync_state_update         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *new_state</code></em>);</pre>
+<p>
+This is used to synchronize state with a stateful widget,
+eg. when a "state" attribute is set, this is not reflected
+in the normal 'state-sync' process, but occurs later with
+a set of state_updates to avoid re-enterancy problems.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>the widget 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>new_state</code></em> :</span></p></td>
+<td>the new state
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-do-show-hide"></a><h3>matecomponent_ui_sync_do_show_hide ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            matecomponent_ui_sync_do_show_hide         (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *node</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-node.html#MateComponentUINode" title="MateComponentUINode"><span class="type">MateComponentUINode</span></a> *cmd_node</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *widget</code></em>);</pre>
+<p>
+This is a helper function that applies the hidden attribute
+from either the <em class="parameter"><code>node</code></em> or fallback to the <em class="parameter"><code>cmd_node</code></em> to the
+<em class="parameter"><code>widget</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>the synchronizer 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>node</code></em> :</span></p></td>
+<td>the node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd_node</code></em> :</span></p></td>
+<td>the associated command node 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>widget</code></em> :</span></p></td>
+<td>the widget 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if the widget's hidden / shown state changed,
+this is needed to work around some nasty dock sizing bugs.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-wrap-widget"></a><h3>matecomponent_ui_sync_wrap_widget ()</h3>
+<pre class="programlisting"><span class="returnvalue">GtkWidget</span> *         matecomponent_ui_sync_wrap_widget          (<em class="parameter"><code><a class="link" href="libmatecomponentui-matecomponent-ui-sync.html#MateComponentUISync"><span class="type">MateComponentUISync</span></a> *sync</code></em>,
+                                                         <em class="parameter"><code><span class="type">GtkWidget</span> *custom_widget</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sync</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>custom_widget</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-keys-get-type"></a><h3>matecomponent_ui_sync_keys_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               matecomponent_ui_sync_keys_get_type        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-menu-get-type"></a><h3>matecomponent_ui_sync_menu_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               matecomponent_ui_sync_menu_get_type        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-status-get-type"></a><h3>matecomponent_ui_sync_status_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               matecomponent_ui_sync_status_get_type      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="matecomponent-ui-sync-toolbar-get-type"></a><h3>matecomponent_ui_sync_toolbar_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               matecomponent_ui_sync_toolbar_get_type     (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

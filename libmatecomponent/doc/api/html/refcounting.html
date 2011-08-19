@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Reference Counting</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Libmatecomponent Reference Manual">
+<link rel="up" href="factories.html" title="Objects, Factories, Reference Counting">
+<link rel="prev" href="libmatecomponent-matecomponent-shlib-factory.html" title="matecomponent-shlib-factory">
+<link rel="next" href="property-bags.html" title="Property Bags, Events, Listeners">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="libmatecomponent-matecomponent-shlib-factory.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="factories.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Libmatecomponent Reference Manual</th>
+<td><a accesskey="n" href="property-bags.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="refcounting"></a><div class="titlepage"></div>
+<div class="refsect1">
+<a name="id3099457"></a><h2>Reference Counting</h2>
+<p>
+	    MateComponent component reference counting, version 0.1
+	    by  Michael Meeks &lt;mmeeks@gnu.org&gt;
+	    and Mike Fleming &lt;mfleming@eazel.com&gt;
+	</p>
+<div class="refsect2">
+<a name="id3099469"></a><h3>MateComponent Objects</h3>
+<p>
+		A matecomponent object is a glib object that implements an
+		CORBA interface, it also contains a pointer to the
+		MateComponentAggregateObject that it is part of. A matecomponent
+		object has two reference counts; the first is a
+		GObject reference count on the object. This should
+		be 1 at all times except pre-finalization. The main
+		reference count for the aggregate is stored in
+		the</p>
+<pre class="programlisting">
+typedef struct {
+	int   ref_count;
+	GList *objs;
+} MateComponentAggregateObject;
+	    </pre>
+<p>structure. Also in this structure is a list of all
+		the objects implementing other interfaces in this
+		aggregate. Clearly an object is always in its own
+		aggregate hence:</p>
+<pre class="programlisting">
+g_assert (g_list_find (object-&gt;priv-&gt;ao-&gt;objs, object) == object);
+	    </pre>
+<p>Is always true. The
+		<em class="structfield"><code>object-&gt;priv-&gt;ao</code></em>
+		dereference is merely a nice way of encapsulating this
+		information inside
+		<code class="filename">matecomponent-object.c</code> and ensuring that
+		it can't be fiddled with elsewhere.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="id3100129"></a><h3>Ref counting</h3>
+<p> The only ref count to manipulate is that on the
+		aggregate obejct, this is done via the
+		<code class="function">matecomponent_object_ref / unref</code> pair,
+		it is also done remotely via the
+		<code class="function">MateComponent_Object_ref / unref</code> CORBA
+		stubs. There is no 'destroy' method, if you want this
+		method you are probably confused about how GObject
+		deals with allocation.</p>
+<p>
+		Some people try to use <code class="function">g_object_ref /
+		unref</code> on
+		<code class="classname">MateComponentObjects</code>; sadly this will
+		cause very serious grief. This if you
+		<code class="function">g_object_unref</code> a matecomponent object,
+		then that object will be destroyed without consulting
+		the aggregate ref-count, and without sorting out the
+		aggregate. The net effect of this is that the
+		aggregate is left including a finalized object. This
+		is a very bad move indeed.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="id3100180"></a><h3>Reference leaks</h3>
+<p>
+		Catching reference leaks is evily difficult. The first
+		approach is to set environment variable
+		<code class="envar">MATECOMPONENT_DEBUG_FLAGS</code> to a colon separated
+		list of a subset of {object, running, aggregate,
+		lifecycle, refs}. This will enable debugging output in
+		certain parts of libmatecomponent. The output will be written
+		to stdout or, alternatively, if you set
+		<code class="envar">MATECOMPONENT_DEBUG_DIR</code> to a directory path,
+		to a file named
+		<code class="filename">matecomponent-debug-&lt;pid&gt;</code> in that
+		directory. This combined with a call to
+	
+		<code class="function">matecomponent_shutdown ()</code> before exiting
+		your program should provide a dump of all object
+		references floating in your code.</p>
+<p>Another good way of catching leaks---having guessed
+		which object is not getting freed---is to fire up
+		container and component in gdb, break in
+		eg. matecomponent_embeddable_new and insert a hardware watch
+		point on the ref count [ see also <a class="xref" href="debugging.html" title="Debugging"><span class="refentrytitle">Debugging</span></a> ]:</p>
+<pre class="programlisting">
+(gdb) p &amp;((MateComponentObject *)embeddable)-&gt;priv-&gt;ao-&gt;ref_count
+$N = (int *) 0x80808102
+(gdb) watch *0x80808102
+(gdb) cont
+	    </pre>
+<p>
+		This will result in gdb giving you control each time
+		the ref count is changed. At this point halt the other
+		end of the CORBA link and start logging traces at both
+		ends. By the time the program exits you should have
+		worked out where the reference went astray.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="id3100255"></a><h3>Ref Counting Conventions</h3>
+<p>And now for the important stuff:</p>
+<div class="refsect3">
+<a name="id3100263"></a><h4>MateComponent Ref Counting</h4>
+<p>The MateComponent ref count convention is as follows.
+		    (Mild rewording; same meaning as before)</p>
+<div class="orderedlist"><ol class="orderedlist" type="1">
+<li class="listitem"><p> A function returning an object,
+			either as the return value or by-reference,
+			must always add a reference before returning.
+			(Alternately: the callee must create a
+			reference to the returned object that the
+			caller owns)</p></li>
+<li class="listitem"><p> A function that accepts a matecomponent
+			object as an in/out parameter must unreference
+			the originally passed object once if the
+			function wishes to change the value of the
+			in/out parameter.  (The function must ref()
+			new objects returned via this in/out in
+			accordance with [1]) </p></li>
+<li class="listitem"><p> An object passed into a function
+			needs only be ref()'d if the ifunction wishes
+			to retain a reference to the object beyond the
+			scope of the function call.</p></li>
+</ol></div>
+<p>In addition, there's a consensus that interface
+		    designers should be advised against designing
+		    methods with in/out parameters.  In/out parameters
+		    can obscure the lifetime of the passed argument to
+		    casual code observers, and thus may cause hidden
+		    side-effects.</p>
+</div>
+<div class="refsect3">
+<a name="id3100315"></a><h4>CORBA Ref-counting</h4>
+<p>Since the ORB also maintains reference counts
+		    per interface handle, should you be returning a
+		    reference to an object it is imperative to</p>
+<pre class="programlisting">
+MateComponent_Unknown_ref (corba_object, ev);
+return CORBA_Object_duplicate (corba_object, ev);
+		</pre>
+<p> To assist with this there are two functions:</p>
+<pre class="synopsis">
+MateComponent_Unknown matecomponent_object_dup_ref       (MateComponent_Unknown     object,
+                                            CORBA_Environment *ev);
+void           matecomponent_object_release_unref (MateComponent_Unknown     object,
+                                            CORBA_Environment *ev);
+		</pre>
+<p>
+		    So to return an Unknown from a impl you can simply:</p>
+<pre class="programlisting">
+return matecomponent_object_dup_ref (corba_object, ev);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p>there is a caveat with this approach which is this:</p>
+<p>If you construct a MateComponentObject in an impl_
+			whose reference you wish to hand back to the
+			caller then the situation is slightly
+			different. In this case you have an object
+			with the following:</p>
+<p>MateComponent_Unknown: ref 1</p>
+<p>MateComponentObject:   ref 1</p>
+<p>
+			You want to hand a CORBA reference to this
+			object to the client, without incrementing the
+			MateComponentObject reference. To do this you must
+			do:</p>
+<pre class="programlisting">
+return CORBA_Object_duplicate (MATECOMPONENT_OBJREF (myobject));
+		    </pre>
+<p>The mirror of this is that if you want to
+			hand a ref to an impl you will need to
+			CORBA_Object_duplicate the value before
+			inserting it into a MateComponentObjectClient.</p>
+</div>
+</div>
+<div class="refsect3">
+<a name="id3100400"></a><h4>Ref counting and one-way methods</h4>
+<p>While the ORB has built in support for correct
+		    referencing on 1 way methods, the MateComponent reference
+		    count does not; hence if you wish to hand a matecomponent
+		    reference to several listeners you need to do
+		    something like:</p>
+<pre class="programlisting">
+ref = MateComponent_Unknown_ref (MATECOMPONENT_OBJREF (obj), ev);
+MateComponent_Sample_executeOnewayMethod (foo, ref, ev);
+		</pre>
+<p>And at the other end in executeOnewayMethod the
+		    reference needs to be released.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

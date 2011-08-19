@@ -1,0 +1,77 @@
+AC_INIT
+
+PACKAGE=caja-open-terminal
+VERSION=0.9
+
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_CONFIG_HEADER(config.h)
+
+CAJA_REQUIRED=2.21.2
+EEL_REQUIRED=2.6.0
+LIBMATE_DESKTOP_REQUIRED=2.9.91
+GLIB_REQUIRED=2.4.0
+
+AC_PROG_CC
+AM_PROG_LIBTOOL
+
+dnl Check for pkgconfig first
+AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, yes, no)
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+
+dnl Give error and exit if we don't have pkgconfig
+if test "x$HAVE_PKGCONFIG" = "xno"; then
+  AC_MSG_ERROR(you need to have pkgconfig installed !)
+fi
+
+PKG_CHECK_MODULES(CAJA, libcaja-extension >= $CAJA_REQUIRED glib-2.0 >= $GLIB_REQUIRED)
+PKG_CHECK_MODULES(MATECONF, mateconf-2.0)
+PKG_CHECK_MODULES(MATEDESKTOP, mate-desktop-2.0 >= $LIBMATE_DESKTOP_REQUIRED)
+
+PKG_CHECK_MODULES(GLIB_RECENT, glib-2.0 >= 2.13.3,
+                  AC_DEFINE(HAVE_GLIB_DESKTOP_DIR_API, 1, [g_get_user_special_dir() support]),
+		  AC_MSG_NOTICE([not using g_get_user_special_dir()]))
+
+
+dnl make MATE_CFLAGS and MATE_LIBS available
+AC_SUBST(CAJA_CFLAGS)
+AC_SUBST(CAJA_LIBS)
+
+AC_SUBST(MATECONF_CFLAGS)
+AC_SUBST(MATECONF_LIBS)
+
+AC_SUBST(MATEDESKTOP_CFLAGS)
+AC_SUBST(MATEDESKTOP_LIBS)
+
+dnl Get caja extensions directory
+CAJA_EXTENSION_DIR=`$PKG_CONFIG --variable=extensiondir libcaja-extension`
+AC_SUBST(CAJA_EXTENSION_DIR)
+
+dnl MateConf
+
+AC_PATH_PROG(MATECONFTOOL, mateconftool-2, no)
+
+if test x"$MATECONFTOOL" = xno; then
+  AC_MSG_ERROR([mateconftool-2 executable not found in your path - should be installed with MateConf])
+fi
+
+AM_MATECONF_SOURCE_2
+
+
+dnl intltool stuff
+AC_PROG_INTLTOOL(0.18)
+dnl AM_WITH_NLS
+GETTEXT_PACKAGE=caja-open-terminal
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [gettext package])
+ALL_LINGUAS="ar be be@latin bg bn_IN ca cs da de dz en_CA en_GB es el et eu fi fr gl gu he hu it ja ka ko lt mk ml nb ne nl oc or pa pl pt pt_BR ro ru rw sk sl sr sr@Latn sv ta th tr uk vi zh_CN zh_TW"
+AM_GLIB_GNU_GETTEXT
+
+AC_OUTPUT([
+  Makefile 
+  src/Makefile
+  po/Makefile.in 
+])
+

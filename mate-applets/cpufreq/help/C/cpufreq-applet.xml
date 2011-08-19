@@ -1,0 +1,372 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY appletversion "2.12.0">
+  <!ENTITY applet "CPU Frequency Scaling Monitor">
+]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the MATE Documentation Project
+  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Feb 06, 2003
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+	<title>&applet; Manual</title> 
+        <abstract role="description">
+	  <para>&applet; shows the current clock speed of the CPU and provides an
+            interface to change the clock speed if the CPU supports it.</para>
+	</abstract>
+	<copyright>
+	  <year>2005</year>
+	  <holder>Davyd Madeley</holder>
+	</copyright>
+        <copyright>
+	   <year>2004</year>
+            <holder>MATE Foundation</holder>
+        </copyright>
+
+<!-- translators: uncomment this:
+  <copyright>
+   <year>2003</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+   -->
+
+	 <publisher role="maintainer"> 
+		<publishername>MATE Documentation Project</publishername> 
+	 </publisher> 
+
+&legal;
+<!-- This file  contains link to license for the documentation (GNU FDL), and 
+     other legal stuff such as "NO WARRANTY" statement. Please do not change 
+     any of this. -->
+
+	 <authorgroup> 
+            <author>
+	       <firstname>Carlos</firstname>
+	       <surname>Garcia Campos</surname>
+	       <affiliation>
+                  <orgname>MATE Project</orgname>
+		  <address><email>carlosgc@mate.org</email></address>
+	       </affiliation>
+            </author>
+	    <author>
+	      <firstname>Davyd</firstname>
+	      <surname>Madeley</surname>
+	      <affiliation>
+	        <orgname>MATE Project</orgname>
+		<address><email>davyd@madeley.id.au</email></address>
+	      </affiliation>
+	    </author>
+      <!-- This is appropriate place for other contributors: translators,
+           maintainers,  etc. Commented out by default.
+        <othercredit role="translator">
+	      <firstname>Latin</firstname> 
+	      <surname>Translator 1</surname> 
+	      <affiliation> 
+	      	<orgname>Latin Translation Team</orgname> 
+	       	<address> <email>translator@mate.org</email> </address> 
+	      </affiliation>
+	      <contrib>Latin translation</contrib>
+        </othercredit>
+-->
+	 </authorgroup>
+	 
+	 <releaseinfo revision="2.26" role="review"/>
+
+	 <revhistory>
+	   <revision>
+	     <revnumber>MATE 2.12</revnumber>
+	     <date>August 2005</date>
+	     <revdescription>
+	      <para role="author">Davyd Madeley</para>
+	     </revdescription>
+	   </revision>
+	   <revision>
+	     <revnumber>MATE 2.10</revnumber>
+	     <date>March 2005</date>
+	     <revdescription>
+	      <para role="author">Davyd Madeley</para>
+	     </revdescription>
+	   </revision>
+		<revision> 
+		  <revnumber>&applet; Applet Manual V0.3</revnumber> 
+		  <date>October 2004</date> 
+		  <revdescription> 
+                    <para role="author">Carlos Garcia Campos</para>
+                    <para role="publisher">MATE Documentation Project</para>
+		  </revdescription> 
+		</revision> 
+	 </revhistory> 
+
+	 <releaseinfo>This manual describes version &appletversion; of &applet;.
+		</releaseinfo> 
+
+		<legalnotice> 
+		<title>Feedback</title> 
+		<para> 
+		   To report a bug or make a suggestion regarding the &applet; applet or 
+		   this manual, follow the directions in the <ulink url="ghelp:mate-feedback"
+		   type="help">MATE Feedback Page</ulink>.
+	        </para>
+	     </legalnotice>
+
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+	 <primary>CPU Frequency Scaling Monitor</primary> 
+  </indexterm>
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<sect1 id="cpufreq-applet-introduction"> 
+	 <title>Introduction</title> 
+	 <figure id="cpufreq-applet-figure"> 
+	    <title>&applet;</title> 
+		<screenshot> 
+		  <mediaobject> 
+		     <imageobject>
+			<imagedata fileref="figures/cpufreq-applet.png"
+				   format="PNG"/> 
+		     </imageobject>
+		  </mediaobject>
+	       </screenshot>
+	 </figure> 
+    <!-- ==== End of Figure ======================================= -->
+    <para>The <application>&applet;</application> provides a convenient way to monitor the CPU Frequency Scaling for each CPU.
+		</para> 
+	 <para>To add <application>&applet;</application> to a panel, right-click on the panel to open the panel popup menu, then choose 
+		<menuchoice> 
+		  <guimenu>Add to Panel</guimenu> 
+		  <guimenuitem>CPU Frequency Scaling Monitor</guimenuitem> 
+		</menuchoice>.</para> 
+	
+    <note><para>
+     Unfortunately, CPU frequency scaling can currently only be monitored on
+     Linux machines that have support in the kernel. It can however, support the
+     several generations of frequency scaling interfaces in the kernel.
+    </para></note>
+   
+   <para>When there is no CPU frequency scaling support in the system, the &applet; only displays the current CPU frequency.</para>
+   <para>When CPU frequency scaling is supported in the system, the &applet; displays the CPU icon with a progress bar. The state of the progress bar represents the current CPU frequency with respect to the maximum frequency.</para>
+   <para>By default the &applet; displays the current CPU frequency as a value
+   in Hertz (the standard measure of frequency), but can be configured to
+   display a percentage instead. For more information on how to configure &applet; see <xref linkend="cpufreq-applet-prefs"/>.</para>
+   <para>Each instance of &applet; can monitor only one CPU. You must start an
+   instance of &applet; for each CPU that you want to monitor if you are in a
+   multiprocessor (SMP) system.</para>
+
+   <sect2 id="mate-cpufreq-icons">
+     <title>Understanding the Icons</title>
+     <para>
+       The &applet; has a series of icons that graphically represent the current
+       scaling level of the processor you are monitoring. They are:
+     </para>
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50*"/>
+          <colspec colname="COLSPEC1" colwidth="50*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Icon</para></entry>
+              <entry colname="COLSPEC1">
+                <para>Description</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para><inlinemediaobject><imageobject>
+               <imagedata fileref="figures/cpufreq-100.png"
+	     		  format="PNG"/>
+               </imageobject><textobject>
+                <phrase>100% Power</phrase>
+              </textobject></inlinemediaobject></para></entry>
+	      <entry><para>
+	       The CPU is running at, or close to, 100% throughput
+	      </para></entry>
+	    </row>
+            <row valign="top">
+              <entry><para><inlinemediaobject><imageobject>
+               <imagedata fileref="figures/cpufreq-75.png"
+	     		  format="PNG"/>
+               </imageobject><textobject>
+                <phrase>75% Power</phrase>
+              </textobject></inlinemediaobject></para></entry>
+	      <entry><para>
+	       The CPU is running at, or close to, 75% throughput</para>
+	      </entry>
+	    </row>
+            <row valign="top">
+              <entry><para><inlinemediaobject><imageobject>
+               <imagedata fileref="figures/cpufreq-50.png"
+	     		  format="PNG"/>
+               </imageobject><textobject>
+                <phrase>50% Power</phrase>
+              </textobject></inlinemediaobject></para></entry>
+	      <entry><para>
+	       The CPU is running at, or close to, 50% throughput
+	      </para></entry>
+	    </row>
+            <row valign="top">
+              <entry><para><inlinemediaobject><imageobject>
+               <imagedata fileref="figures/cpufreq-25.png"
+	     		  format="PNG"/>
+               </imageobject><textobject>
+                <phrase>25% Power</phrase>
+              </textobject></inlinemediaobject></para></entry>
+	      <entry><para>
+	       The CPU is running at, or close to, 25% throughput
+	      </para></entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </informaltable>
+   </sect2>
+   
+   <sect2 id="mate-cpufreq-selector">
+      <title>Frequency and Governor Selector</title>
+      <warning><para>The Frequency Selector functionality may not be available
+      on your MATE Desktop by default. Please consult your system
+      administrator, vendor documentation, or the documentation that came with
+      this software.</para></warning>
+      <para>
+       To set the CPU frequency, (left-)click on the monitor and a menu
+       will be shown. This menu will offer you a list of available frequencies
+       and/or frequency governors for your machine.
+      </para>
+      <tip><para>
+       You can choose whether you want to show available frequencies or
+       governors in the <guilabel>Preferences</guilabel>.
+       See <xref linkend="cpufreq-applet-prefs"/> for more information.
+      </para></tip>
+
+      <figure id="cpufreq-applet-selector-img">
+	 <title>Frequency selector showing just frequencies</title>
+	 <screenshot>
+	    <mediaobject>
+	       <imageobject>
+		  <imagedata fileref="figures/cpufreq-applet-selector.png" format="PNG"/>
+	       </imageobject>
+	    </mediaobject>
+	</screenshot>
+      </figure>
+
+      <figure id="cpufreq-applet-selector-both-img">
+	 <title>Frequency selector showing both frequencies and governors</title>
+	 <screenshot>
+	    <mediaobject>
+	       <imageobject>
+		  <imagedata fileref="figures/cpufreq-applet-selector-both.png" format="PNG"/>
+	       </imageobject>
+	    </mediaobject>
+	</screenshot>
+      </figure>
+   </sect2>
+</sect1>
+
+<!-- ============= Customization ============================= -->
+<!-- Use this section to describe how to customize the applet. -->
+<sect1 id="cpufreq-applet-prefs"> 
+	 <title>Preferences</title> 
+	 <para>To configure the <application>&applet;</application>, right-click on the applet, then choose <guimenuitem>Preferences</guimenuitem> from the popup menu.</para> 
+	 <para>The <guimenuitem>Preferences</guimenuitem> dialog contains the following components: </para> 
+	 <figure id="cpufreq-applet-preferences">
+	    <title>&applet; Preferences Dialog</title>
+	    <screenshot>
+	       <mediaobject>
+		  <imageobject><imagedata fileref="figures/cpufreq-applet-preferences.png" format="PNG"/>
+		  </imageobject>
+		  <textobject>
+		     <phrase>&applet; preferences dialog</phrase>
+		  </textobject>
+	       </mediaobject>
+	    </screenshot>
+	 </figure>
+
+	 <variablelist> 
+	   <varlistentry> 
+	      <term><guilabel>Monitored CPU (only in multiprocessor systems)</guilabel></term> 
+	     <listitem> 
+		<para>Use this drop-down list to select the CPU that you want to monitor.</para>
+	 <figure id="cpufreq-applet-preferences-smp">
+	    <title>Selecting the CPU to monitor</title>
+	    <screenshot>
+	       <mediaobject>
+		  <imageobject><imagedata fileref="figures/cpufreq-applet-preferences-smp.png" format="PNG"/>
+		  </imageobject>
+		  <textobject>
+		     <phrase>&applet; preferences dialog CPU selector</phrase>
+		  </textobject>
+	       </mediaobject>
+	    </screenshot>
+	 </figure>
+	<note><para>
+	 The <guilabel>Monitored CPU</guilabel> option will only appear on
+	 multiprocessor (SMP) systems.
+	</para></note>
+	 
+	     </listitem>
+	   </varlistentry> 
+	   <varlistentry> 
+	      <term><guilabel>Show in Mode</guilabel></term> 
+	     <listitem> 
+		<para>Use this drop-down list to select the mode in which you want to display the applet. 
+		   Available modes are: Graphic, Text and both (Graphic and Text)
+               </para> 
+	    </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	    <term><guilabel>Show CPU frequency as frequency</guilabel></term>
+	    <listitem>
+	       <para>Select this option to display the current CPU frequency.</para>
+	    </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	    <term><guilabel>Show frequency units</guilabel></term>
+	    <listitem>
+	       <para>Select this option to display or not the frequency units in the frequency mode.
+	       </para>
+	    </listitem>
+	 </varlistentry>
+	  <varlistentry>
+	     <term><guilabel>Show CPU frequency as percentage</guilabel></term>
+	     <listitem>
+		<para>Select this option to display the current CPU frequency as a percentage.
+		</para>
+	     </listitem>
+	  </varlistentry>
+
+	  <varlistentry><term><guilabel>Show menu</guilabel></term>
+	   <listitem>
+	    <para>
+	     This option allows you to choose how much information is shown in
+	     the frequency selector dropdown
+	     (see <xref linkend="mate-cpufreq-selector"/>). You can select to
+	     display <guilabel>Frequencies</guilabel>,
+	     <guilabel>Governors</guilabel> or both <guilabel>Frequencies and
+	     Governors</guilabel>.
+	 <figure id="cpufreq-applet-selector-both-2">
+	    <title>The selector configured to Frequencies and Governors</title>
+	    <screenshot>
+	       <mediaobject>
+		  <imageobject><imagedata fileref="figures/cpufreq-applet-selector-both.png" format="PNG"/>
+		  </imageobject>
+		  <textobject>
+		     <phrase>CPU governors selector</phrase>
+		  </textobject>
+	       </mediaobject>
+	    </screenshot>
+	 </figure>
+
+	    </para>
+	  </listitem></varlistentry>
+       </variablelist>
+  </sect1>
+
+</article> 

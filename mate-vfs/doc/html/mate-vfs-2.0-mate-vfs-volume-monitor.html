@@ -1,0 +1,649 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateVFSVolumeMonitor</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="volumes.html" title="Volumes and Drives Handling">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-drive.html" title="MateVFSDrive">
+<link rel="next" href="networking.html" title="Networking">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-drive.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="volumes.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="networking.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-volume-monitor.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-volume-monitor.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-volume-monitor.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-volume-monitor.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-volume-monitor.top_of_page"></a>MateVFSVolumeMonitor</span></h2>
+<p>MateVFSVolumeMonitor — Monitors volume mounts and unmounts</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor.synopsis"></a><h2>Synopsis</h2>
+<a name="MateVFSVolumeMonitor"></a><pre class="synopsis">#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-IS-VFS-VOLUME-MONITOR:CAPS" title="MATE_IS_VFS_VOLUME_MONITOR()">MATE_IS_VFS_VOLUME_MONITOR</a>         (o)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-IS-VFS-VOLUME-MONITOR-CLASS:CAPS" title="MATE_IS_VFS_VOLUME_MONITOR_CLASS()">MATE_IS_VFS_VOLUME_MONITOR_CLASS</a>   (k)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-VFS-TYPE-VOLUME-MONITOR:CAPS" title="MATE_VFS_TYPE_VOLUME_MONITOR">MATE_VFS_TYPE_VOLUME_MONITOR</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-VFS-VOLUME-MONITOR:CAPS" title="MATE_VFS_VOLUME_MONITOR()">MATE_VFS_VOLUME_MONITOR</a>            (o)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MATE-VFS-VOLUME-MONITOR-CLASS:CAPS" title="MATE_VFS_VOLUME_MONITOR_CLASS()">MATE_VFS_VOLUME_MONITOR_CLASS</a>      (k)
+struct              <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-struct" title="struct MateVFSVolumeMonitor">MateVFSVolumeMonitor</a>;
+struct              <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitorClass" title="struct MateVFSVolumeMonitorClass">MateVFSVolumeMonitorClass</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="returnvalue">MateVFSVolumeMonitor</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-get-volume-monitor" title="mate_vfs_get_volume_monitor ()">mate_vfs_get_volume_monitor</a>    (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-connected-drives" title="mate_vfs_volume_monitor_get_connected_drives ()">mate_vfs_volume_monitor_get_connected_drives</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="returnvalue">MateVFSDrive</span></a> *     <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-drive-by-id" title="mate_vfs_volume_monitor_get_drive_by_id ()">mate_vfs_volume_monitor_get_drive_by_id</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>,
+                                                         <em class="parameter"><code><span class="type">gulong</span> id</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()">mate_vfs_volume_monitor_get_mounted_volumes</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);
+<span class="returnvalue">GType</span>               <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-type" title="mate_vfs_volume_monitor_get_type ()">mate_vfs_volume_monitor_get_type</a>   (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-volume-by-id" title="mate_vfs_volume_monitor_get_volume_by_id ()">mate_vfs_volume_monitor_get_volume_by_id</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>,
+                                                         <em class="parameter"><code><span class="type">gulong</span> id</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-volume-for-path" title="mate_vfs_volume_monitor_get_volume_for_path ()">mate_vfs_volume_monitor_get_volume_for_path</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *path</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="returnvalue">MateVFSVolumeMonitor</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-ref" title="mate_vfs_volume_monitor_ref ()">mate_vfs_volume_monitor_ref</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-unref" title="mate_vfs_volume_monitor_unref ()">mate_vfs_volume_monitor_unref</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GObject
+   +----MateVFSVolumeMonitor
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-drive-connected" title='The "drive-connected" signal'>drive-connected</a>"                                : <code class="literal">Run First</code>
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-drive-disconnected" title='The "drive-disconnected" signal'>drive-disconnected</a>"                             : <code class="literal">Run First</code>
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-volume-mounted" title='The "volume-mounted" signal'>volume-mounted</a>"                                 : <code class="literal">Run First</code>
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-volume-pre-unmount" title='The "volume-pre-unmount" signal'>volume-pre-unmount</a>"                             : <code class="literal">Run First</code>
+  "<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor-volume-unmounted" title='The "volume-unmounted" signal'>volume-unmounted</a>"                               : <code class="literal">Run First</code>
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MATE-IS-VFS-VOLUME-MONITOR:CAPS"></a><h3>MATE_IS_VFS_VOLUME_MONITOR()</h3>
+<pre class="programlisting">#define MATE_IS_VFS_VOLUME_MONITOR(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MATE_VFS_TYPE_VOLUME_MONITOR))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>o</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-IS-VFS-VOLUME-MONITOR-CLASS:CAPS"></a><h3>MATE_IS_VFS_VOLUME_MONITOR_CLASS()</h3>
+<pre class="programlisting">#define MATE_IS_VFS_VOLUME_MONITOR_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MATE_VFS_TYPE_VOLUME_MONITOR))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-TYPE-VOLUME-MONITOR:CAPS"></a><h3>MATE_VFS_TYPE_VOLUME_MONITOR</h3>
+<pre class="programlisting">#define MATE_VFS_TYPE_VOLUME_MONITOR        (mate_vfs_volume_monitor_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-VOLUME-MONITOR:CAPS"></a><h3>MATE_VFS_VOLUME_MONITOR()</h3>
+<pre class="programlisting">#define MATE_VFS_VOLUME_MONITOR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_VOLUME_MONITOR, MateVFSVolumeMonitor))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>o</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-VOLUME-MONITOR-CLASS:CAPS"></a><h3>MATE_VFS_VOLUME_MONITOR_CLASS()</h3>
+<pre class="programlisting">#define MATE_VFS_VOLUME_MONITOR_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), MATE_VFS_TYPE_VOLUME_MONITOR, MateVFSVolumeMonitorClass))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitor-struct"></a><h3>struct MateVFSVolumeMonitor</h3>
+<pre class="programlisting">struct MateVFSVolumeMonitor;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitorClass"></a><h3>struct MateVFSVolumeMonitorClass</h3>
+<pre class="programlisting">struct MateVFSVolumeMonitorClass {
+	GObjectClass parent_class;
+
+	/* signals */
+	void (* volume_mounted)	  	(MateVFSVolumeMonitor *volume_monitor,
+				   	 MateVFSVolume	       *volume);
+	void (* volume_pre_unmount) (MateVFSVolumeMonitor *volume_monitor,
+				   	 MateVFSVolume	       *volume);
+	void (* volume_unmounted) (MateVFSVolumeMonitor *volume_monitor,
+				   	 MateVFSVolume	       *volume);
+	void (* drive_connected) 	(MateVFSVolumeMonitor *volume_monitor,
+				   	 MateVFSDrive	       *drive);
+	void (* drive_disconnected) (MateVFSVolumeMonitor *volume_monitor,
+				   	 MateVFSDrive         *drive);
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-volume-monitor"></a><h3>mate_vfs_get_volume_monitor ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="returnvalue">MateVFSVolumeMonitor</span></a> * mate_vfs_get_volume_monitor    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Returns a pointer to the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> singleton.
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> is a singleton, this means it is guaranteed to
+exist and be valid until <a class="link" href="mate-vfs-2.0-mate-vfs-init.html#mate-vfs-shutdown" title="mate_vfs_shutdown ()"><code class="function">mate_vfs_shutdown()</code></a> is called. Consequently,
+it doesn't need to be refcounted since mate-vfs will hold a reference to 
+it until it is shut down.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> singleton.
+
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-get-connected-drives"></a><h3>mate_vfs_volume_monitor_get_connected_drives ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_volume_monitor_get_connected_drives
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);</pre>
+<p>
+Returns a <span class="type">GList</span> of all drives connected to the machine.
+The <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> objects must be unreffed by the caller when
+no longer needed with <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unref" title="mate_vfs_drive_unref ()"><code class="function">mate_vfs_drive_unref()</code></a> and the <span class="type">GList</span> must
+be freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">GList</span> of all connected drives.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-get-drive-by-id"></a><h3>mate_vfs_volume_monitor_get_drive_by_id ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="returnvalue">MateVFSDrive</span></a> *     mate_vfs_volume_monitor_get_drive_by_id
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>,
+                                                         <em class="parameter"><code><span class="type">gulong</span> id</code></em>);</pre>
+<p>
+Looks for a <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> whose id is <em class="parameter"><code>id</code></em>. A valid <em class="parameter"><code>volume_monitor</code></em> to pass
+to this function can be acquired using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-get-volume-monitor" title="mate_vfs_get_volume_monitor ()"><code class="function">mate_vfs_get_volume_monitor()</code></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> id to look for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> corresponding to <em class="parameter"><code>id</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if no 
+<a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> with a matching id could be found. The caller owns a 
+reference on the returned drive, and must call <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-unref" title="mate_vfs_drive_unref ()"><code class="function">mate_vfs_drive_unref()</code></a>
+when it no longer needs it.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-get-mounted-volumes"></a><h3>mate_vfs_volume_monitor_get_mounted_volumes ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_volume_monitor_get_mounted_volumes
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);</pre>
+<p>
+Gets the list of all the mounted <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> volumes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <span class="type">GList</span> of <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>. The <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> objects must be 
+unreffed by the caller when no longer needed with <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unref" title="mate_vfs_volume_unref ()"><code class="function">mate_vfs_volume_unref()</code></a>
+and the <span class="type">GList</span> must be freed.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-get-type"></a><h3>mate_vfs_volume_monitor_get_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">GType</span>               mate_vfs_volume_monitor_get_type   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-get-volume-by-id"></a><h3>mate_vfs_volume_monitor_get_volume_by_id ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    mate_vfs_volume_monitor_get_volume_by_id
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>,
+                                                         <em class="parameter"><code><span class="type">gulong</span> id</code></em>);</pre>
+<p>
+Looks for a <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> whose id is <em class="parameter"><code>id</code></em>. A valid <em class="parameter"><code>volume_monitor</code></em> to pass
+to this function can be acquired using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-get-volume-monitor" title="mate_vfs_get_volume_monitor ()"><code class="function">mate_vfs_get_volume_monitor()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> id to look for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> corresponding to <em class="parameter"><code>id</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if no 
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> with a matching id could be found. The caller owns a 
+reference on the returned volume, and must call <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unref" title="mate_vfs_volume_unref ()"><code class="function">mate_vfs_volume_unref()</code></a>
+when it no longer needs it.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-get-volume-for-path"></a><h3>mate_vfs_volume_monitor_get_volume_for_path ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="returnvalue">MateVFSVolume</span></a> *    mate_vfs_volume_monitor_get_volume_for_path
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *path</code></em>);</pre>
+<p>
+Returns the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> corresponding to <em class="parameter"><code>path</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<p>
+The volume referring to <em class="parameter"><code>path</code></em> is found by calling <code class="literal">stat</code> on <em class="parameter"><code>path</code></em>,
+and then iterating through the list of volumes that refer
+to currently mounted local file systems.
+The first volume in this list maching the <em class="parameter"><code>path</code></em>'s UNIX device
+is returned.
+</p>
+<p>
+If the <code class="literal">stat</code> on <em class="parameter"><code>path</code></em> was not successful, or no volume matches <em class="parameter"><code>path</code></em>,
+or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em> :</span></p></td>
+<td>string representing a path.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> corresponding to the <em class="parameter"><code>path</code></em>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.  Volume returned 
+must be unreffed by the caller with <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#mate-vfs-volume-unref" title="mate_vfs_volume_unref ()"><code class="function">mate_vfs_volume_unref()</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-ref"></a><h3>mate_vfs_volume_monitor_ref ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="returnvalue">MateVFSVolumeMonitor</span></a> * mate_vfs_volume_monitor_ref    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);</pre>
+<p>
+Increases the refcount of <em class="parameter"><code>volume_monitor</code></em> by one, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<p>
+You shouldn't use this function unless you know what you are doing:
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> is to be used as a singleton object, see
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-get-volume-monitor" title="mate_vfs_get_volume_monitor ()"><code class="function">mate_vfs_get_volume_monitor()</code></a> for more details.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>volume_monitor</code></em> with its refcount increased by one,
+	    or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a> if <em class="parameter"><code>volume_monitor</code></em> is <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-volume-monitor-unref"></a><h3>mate_vfs_volume_monitor_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_volume_monitor_unref      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor</code></em>);</pre>
+<p>
+Decreases the refcount of <em class="parameter"><code>volume_monitor</code></em> by one, if it is not <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</p>
+<p>
+You shouldn't use this function unless you know what you are doing:
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> is to be used as a singleton object, see
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-get-volume-monitor" title="mate_vfs_get_volume_monitor ()"><code class="function">mate_vfs_get_volume_monitor()</code></a> for more details.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a>, or <a href="/mate/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL--CAPS"><code class="literal">NULL</code></a>.
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-volume-monitor.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitor-drive-connected"></a><h3>The <code class="literal">"drive-connected"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>         *drive,
+                                                        <span class="type">gpointer</span>               user_data)           : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted when the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> <em class="parameter"><code>drive</code></em> has been connected.
+</p>
+<p>
+When the <em class="parameter"><code>drive</code></em> is connected, it is present in the <em class="parameter"><code>volume_monitor</code></em>'s list of connected
+drives, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-connected-drives" title="mate_vfs_volume_monitor_get_connected_drives ()"><code class="function">mate_vfs_volume_monitor_get_connected_drives()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> that has been connected.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitor-drive-disconnected"></a><h3>The <code class="literal">"drive-disconnected"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>         *drive,
+                                                        <span class="type">gpointer</span>               user_data)           : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted after the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> <em class="parameter"><code>drive</code></em> has been disconnected.
+</p>
+<p>
+When the <em class="parameter"><code>drive</code></em> is disconnected, it is removed from the <em class="parameter"><code>volume_monitor</code></em>'s list of connected
+drives, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-connected-drives" title="mate_vfs_volume_monitor_get_connected_drives ()"><code class="function">mate_vfs_volume_monitor_get_connected_drives()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>drive</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a> that has been disconnected.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitor-volume-mounted"></a><h3>The <code class="literal">"volume-mounted"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>        *volume,
+                                                        <span class="type">gpointer</span>               user_data)           : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted after the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> <em class="parameter"><code>volume</code></em> has been mounted.
+</p>
+<p>
+When the <em class="parameter"><code>volume</code></em> is mounted, it is present in the <em class="parameter"><code>volume_monitor</code></em>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> has an associated <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>, it also appears in the drive's
+list of mounted volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that has been mounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitor-volume-pre-unmount"></a><h3>The <code class="literal">"volume-pre-unmount"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>        *volume,
+                                                        <span class="type">gpointer</span>               user_data)           : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted when the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> <em class="parameter"><code>volume</code></em> is about to be unmounted.
+</p>
+<p>
+When the <em class="parameter"><code>volume</code></em> is unmounted, it is removed from the <em class="parameter"><code>volume_monitor</code></em>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> has an associated <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>, it is also removed from in the drive's
+list of mounted volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<p>
+When a client application receives this signal, it must free all resources
+associated with the <em class="parameter"><code>volume</code></em>, for instance cancel all pending file operations
+on the <em class="parameter"><code>volume</code></em>, and cancel all pending file monitors using <a class="link" href="mate-vfs-2.0-mate-vfs-monitor.html#mate-vfs-monitor-cancel" title="mate_vfs_monitor_cancel ()"><code class="function">mate_vfs_monitor_cancel()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that is about to be unmounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSVolumeMonitor-volume-unmounted"></a><h3>The <code class="literal">"volume-unmounted"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> *volume_monitor,
+                                                        <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a>        *volume,
+                                                        <span class="type">gpointer</span>               user_data)           : <code class="literal">Run First</code></pre>
+<p>
+This signal is emitted after the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> <em class="parameter"><code>volume</code></em> has been unmounted.
+</p>
+<p>
+When the <em class="parameter"><code>volume</code></em> is unmounted, it is removed from the <em class="parameter"><code>volume_monitor</code></em>'s list of mounted
+volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#mate-vfs-volume-monitor-get-mounted-volumes" title="mate_vfs_volume_monitor_get_mounted_volumes ()"><code class="function">mate_vfs_volume_monitor_get_mounted_volumes()</code></a>.
+</p>
+<p>
+If the <em class="parameter"><code>volume</code></em> has an associated <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#MateVFSDrive"><span class="type">MateVFSDrive</span></a>, it is also removed from in the drive's
+list of mounted volumes, which can be queried using <a class="link" href="mate-vfs-2.0-mate-vfs-drive.html#mate-vfs-drive-get-mounted-volumes" title="mate_vfs_drive_get_mounted_volumes ()"><code class="function">mate_vfs_drive_get_mounted_volumes()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume_monitor</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume-monitor.html#MateVFSVolumeMonitor"><span class="type">MateVFSVolumeMonitor</span></a> which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the <a class="link" href="mate-vfs-2.0-mate-vfs-volume.html#MateVFSVolume"><span class="type">MateVFSVolume</span></a> that has been unmounted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

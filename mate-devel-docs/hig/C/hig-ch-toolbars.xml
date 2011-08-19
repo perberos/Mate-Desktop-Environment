@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter id="toolbars">
+  <title>Toolbars</title>
+  <para>A toolbar is a strip of controls that allows convenient access to commonly-used functions. Most toolbars only contain graphical buttons, but in more complex applications, other types of controls such as dropdown lists, can also be useful.</para>
+
+  <!-- This bit more relevant to the utility windows section
+  <note><para>Although the latter is just a side-effect of the fact that palettes can't be created with the standard toolbar widgets— it would be rather nice if they could, especially as they would then automatically feature in the toolbar keyboard navigation order.</para></note>
+  -->
+    
+  <figure id="mail-toolbar-example">
+    <title>Example toolbar from a simple mail application</title>
+    <mediaobject>
+      <imageobject><imagedata fileref="images/toolbars-mail.png" format="PNG" width="428" depth="48"/></imageobject>
+      <imageobject><imagedata fileref="images/toolbars-mail.eps" format="EPS"/></imageobject>
+      <textobject><phrase>Example mail application toolbar</phrase></textobject>
+    </mediaobject>
+  </figure>
+
+  <!-- Notes from GJM:
+  Text-on-the-side toolbars are now part of Gtk+.
+  Stock items have mnemonics/access keys. I don't think they should.
+  -->
+ 
+  <!-- CFB: Assuming for now therefore that we ought to be recommending Gtk toolbars, but trying to keep the text as widget-neutral as possible
+  <note>
+  <title>For discussion</title>
+  <para>A few people only want to recommend one type of toolbar.  Which should it be?  We can't really recommend the GAL one because it's not part of core MATE.  On the other hand, the Gtk one is somewhat clunky, and projects like Evo, AbiWord etc. are unlikely to switch to it anyime soon.</para>
+  </note>
+  -->
+    
+  <para>Careful and consistent toolbar design speeds up the user's task by giving direct access to functions that would otherwise be hidden on a menu.  Use them only for the most important functions, however.  Having too many toolbar controls reduces their efficiency by making them harder to find, and too many rows of toolbars reduces the amount of screen space available to the rest of the application.</para>
+    
+  <sect1 id="toolbars-appearance">
+    <title>Appearance and Content</title>
+      
+    <para>The effectiveness of toolbars is increased by maintaining a level of consistency between different applications.  The toolbar is one of the first parts of your application that a user will see the first time they run it, so by providing a toolbar that looks familiar to them, you can immediately make them feel comfortable about using your application.</para>
+      
+    <para>As well as following the recommendations and examples given in this section, look at the toolbars in other well-designed MATE 2.0 applications for guidance when deciding what— and what not— to put on your application's toolbar.</para>
+      
+    <para>However many toolbars or <link linkend="toolbox-windows">toolbox windows</link> your application offers, provide one main toolbar by default that contains a representative subset of the application's overall functionality.  Many of the buttons on this toolbar will be the same regardless of the type of application.</para>
+      
+    <para>For example, the main toolbar in an office application will nearly always have <guilabel>New</guilabel>, <guilabel>Open</guilabel> and <guilabel>Save</guilabel> as its first three toolbar buttons.  Similarly, the first few buttons in a browser application should always include <guilabel>Back</guilabel>, <guilabel>Forward</guilabel>, <guilabel>Stop</guilabel> and <guilabel>Reload</guilabel>, in that order.</para>
+      
+    <!-- CB-Fig: A composite figure for all the listitems might be useful. --> 
+    <itemizedlist><title>Guidelines</title>
+	
+      <listitem><para>Place only the most commonly-used application functions on your toolbars.  Don't just add buttons for every menu item.</para></listitem>
+		
+      <listitem><para>By default, have your toolbars appear directly below the main menu bar.</para></listitem>
+	
+      <listitem><para>Allow toolbars to be turned on and off in your application's <guilabel>Preferences</guilabel> dialog and by using the <menuchoice><guimenu>View</guimenu><guimenuitem>Toolbar</guimenuitem></menuchoice> menu item.  If there is more than one toolbar, they are turned on and off by individual entries in the <menuchoice><guimenu>View</guimenu><guimenuitem>Toolbar</guimenuitem></menuchoice> submenu.</para></listitem>
+	
+      <listitem><para>All functions that appear on your toolbars must also accessible via the main menu bar, either directly (i.e. an equivalent menu item) or indirectly (e.g. in the <menuchoice><guimenu>Options</guimenu><guimenuitem>Settings</guimenuitem></menuchoice> dialog).</para></listitem>
+	
+      <listitem><para>Arrange toolbar buttons in the same order and groupings as their equivalents on the main menu bar. In particular, always group sets of mutually-exclusive toolbar buttons.</para></listitem>
+	
+      <listitem><para>Don't add buttons for <guilabel>Help</guilabel>, <guilabel>Close</guilabel> or <guilabel>Quit</guilabel> to your toolbar by default, as these are rarely used and the space is better used for more useful controls.  Similarly, only provide buttons for <guilabel>Undo</guilabel>, <guilabel>Redo</guilabel> and the standard clipboard functions if there is space on the toolbar to do so without sacrificing more useful, application-specific controls.</para></listitem>
+	
+      <listitem><para>Provide options to show toolbar buttons as text, graphics or both— see <xref linkend="view-toolbar"/> for the menus to use for controlling toolbar display.  Also provide an option to return all toolbars in your application to the control center default for this setting.</para></listitem>
+	
+      <listitem><para>Allow users to configure toolbars to contain their own selection of commands, in whatever order they choose.  Provide an option in the configuration dialog to return the toolbars to their default configuration.</para></listitem>
+	
+      <listitem><para>Save your application's toolbar position and contents as part of the application configuration, and restore them when the application is restarted.</para></listitem>
+	
+    </itemizedlist>
+      
+    <sect2 id="vertical-toolbars">
+      <title>Vertical Toolbars</title>
+
+      <para>In general, don't use vertical toolbars.  The eye does not scan vertically as well as it does horizontally, groups of mutually exclusive buttons are less obvious when arranged vertically, and showing button labels is more awkard and less space-efficient.  Also, some toolbar controls just cannot be used vertically, such as dropdown lists.</para>
+  	
+      <para>Only consider using a vertical toolbar if:</para> 
+	
+      <itemizedlist>
+
+	<listitem><para>the configuration of the application window means there would be a lot of wasted space if a horizontal toolbar was used instead, or</para></listitem>
+	<listitem><para>your application would otherwise require three or more rows of toolbars to appear below the main menu bar by default.  Note however that in this situation, the better alternative is usually to display fewer toolbars by default.</para></listitem>
+
+      </itemizedlist>
+
+      <para>If you must use a vertical toolbar, ensure the user can configure it to appear horizontally if they prefer.</para>
+      
+    </sect2>
+
+	<sect2 id="toolbars-media">
+		<title>Media Player Toolbars</title>
+		<para>Many applications are able to play sound or video clips.  For consistency, always present the buttons that control playback in the same order and with the same stock icons.</para>
+		<itemizedlist><title>Guidelines</title>
+			<listitem><para>Show separate Stop and Pause buttons. Do not change Play to Pause while the clip is playing.</para></listitem>
+		</itemizedlist>
+		<para><remark>Suggested order: prev,rew,rec,play,stop,pause,fwd,next,eject.</remark></para>
+		<para><remark>gtk still doesn't have stock media icons, but CD player, sound recorder etc. all register icons with media-* IDs, should mention that here.</remark></para>
+		<para><remark>Should maybe also suggest here how to show volume and timeline controls.</remark></para>
+	</sect2>
+
+  </sect1>
+    
+  <sect1 id="toolbars-controlling-display">
+    <title>Controlling Display and Appearance</title>
+      
+    <para>For each toolbar in your application, the user should be able to choose whether or not to show that toolbar, and whether to show its contents as icons only, text only or both.</para>
+                  
+    <itemizedlist><title>Guidelines</title>
+	
+      <listitem><para>Allow the user to override the control center toolbar defaults for your particular application in the application's <guilabel>Preferences</guilabel> dialog.  In particular, ensure that the user can:</para>
+	  
+	<itemizedlist>
+	    
+	  <listitem><para>separately choose to show each toolbar in your application as icons only, text only, or both</para></listitem>
+	    
+	  <listitem><para>return the icon/text/both status for all toolbars in your applicaton to the system default</para></listitem>
+
+	  <listitem><para>choose to show text labels either to the side of some or below all toolbar icons, and to return this setting to the system default</para></listitem>
+	    
+	  <listitem><para>return the layout and ordering of all toolbars in your application to the application default</para></listitem>
+	    
+	</itemizedlist>
+	  
+      </listitem>
+	
+      <listitem><para>If your application has a single toolbar, allow the user to turn it on or off with a <menuchoice><guimenu>View</guimenu><guimenuitem>Toolbar</guimenuitem></menuchoice> check box menu item.</para></listitem>
+	
+      <listitem><para>If your application has two or three toolbars, allow the user to turn them on or off individually by placing a menu item for each one on the application's <guimenu>View</guimenu> menu.  For example, <guimenuitem>Main Toolbar</guimenuitem>, <guimenuitem>Drawing Toolbar</guimenuitem>, <guimenuitem>Formatting Toolbar</guimenuitem>. Place the items together in a single group on the menu, with <guimenuitem>Main Toolbar</guimenuitem> first (if your application has one), followed by the others in alphabetical order.</para></listitem>
+	
+      <listitem><para>If your application has more than three toolbars, allow the user to turn them on or off individually by placing a menu item for each one in a <guisubmenu>Toolbars</guisubmenu> sub-menu on the application's <guimenu>View</guimenu> menu.  Place the <guimenuitem>Main Toolbar</guimenuitem> item first (if your application has one), followed by the others in alphabetical order.</para>
+	  
+	<figure id="view-toolbar">
+	  <title>Example View menu fragments for applications with one toolbar (left), two or three toolbars (middle), or four or more toolbars (right)</title>
+	  <mediaobject>
+	    <imageobject><imagedata fileref="images/toolbars-configure-menu.png" format="PNG" width="488" depth="135"/></imageobject>
+	    <imageobject><imagedata fileref="images/toolbars-congfigure-menu.eps" format="EPS"/></imageobject>
+	    <textobject><phrase>Example View menu for application with single toolbar</phrase></textobject>
+	  </mediaobject>
+	</figure>
+	  
+      </listitem>
+	
+    </itemizedlist>
+
+  </sect1>
+  <sect1 id="toolbars-labels-tooltips">
+    <title>Labels and Tooltips</title>
+      
+    <para>Most controls that appear on your toolbar will require a text label that appears on, below or beside it.  Keep this description as short as possible, preferably a single verb.  For example, <guibutton>Open</guibutton> or <guibutton>Undo</guibutton>.</para>
+      
+    <para>Every control that appears on your toolbar should have a tooltip, whether or not that control has an associated text label.  The tooltip should be a concise description of the control, but should provide more information than its text label where possible.  For example, <guilabel>Open an existing document</guilabel>, or <guilabel>Undo last operation</guilabel>.</para>
+            
+    <itemizedlist><title>Guidelines</title>
+
+      <listitem><para>For buttons that correspond directly to menu items, make the text label the same as the menu item, but without any trailing ellipsis.  For example, <guibutton>Open</guibutton>, <guibutton>Save</guibutton>.</para></listitem>
+
+      <listitem><para>Do not provide access keys for toolbar buttons.  Since toolbars are in the same keyboard focus context as the menubar, it would be too difficult to provide unique access keys for every menu title and toolbar control.  Toolbars are primarily intended as a shortcut for mouse users, although they are keyboard-navigable for accessibility reasons.</para></listitem>
+	
+      <listitem><para>If your toolbar is configured to show labels below button icons, show a label for every control on the toolbar.  For example:</para>
+	  
+	<figure>
+	  <title>Toolbar with labels under all buttons</title>
+	  <mediaobject>
+	    <imageobject><imagedata fileref="images/toolbars-labels-below.png" format="PNG" width="381" depth="56"/></imageobject>
+	    <imageobject><imagedata fileref="images/toolbars-labels-below.eps" format="EPS"/></imageobject>
+	    <textobject><phrase>Toolbar showing labels under all controls</phrase></textobject>
+	  </mediaobject>
+	</figure>
+
+      </listitem>
+	
+      <listitem><para>If your toolbar is configured to show labels beside button icons rather than below them (using the &quot;priority text&quot; setting), do not show labels for every button.  Show labels only for the buttons that will be most-frequently used.  Choose no more than four such icons on any one toolbar, otherwise the effect will be diluted and the toolbar will become very wide.  For example:</para>
+	  
+	<figure>
+	  <title>Toolbar with &quot;priority text&quot; labels beside the first few buttons only</title>
+	  <mediaobject>
+	    <imageobject><imagedata fileref="images/toolbars-labels-beside.png" format="PNG" width="459" depth="35"/></imageobject>
+	    <imageobject><imagedata fileref="images/toolbars-labels-beside.eps" format="EPS"/></imageobject>
+	    <textobject><phrase>Toolbar with "priority text" labels beside the first few items only</phrase></textobject>
+	  </mediaobject>
+	</figure>
+
+	<para>If you are unsure which buttons will be most frequently used, choose the first few buttons on your toolbar and provide labels for those only.</para>
+      </listitem>
+	
+      <listitem><para>Ensure all toolbar controls have tooltips. The tooltip should be more descriptive than the corresponding menu item, if it has one, but still concise.  For example, <guilabel>Create new document</guilabel> for the <guibutton>Open</guibutton> toolbar button.  Use sentence capitalization for tooltips—see <xref linkend="layout-capitalization"/> for more information.</para></listitem>
+	
+    </itemizedlist>
+      
+  </sect1>
+    
+  <!-- Removed for now until we decide how much/little specific guidance to give for application types
+    
+  <sect2>
+  <title>Default Toolbar Layout— Office Application</title>
+    
+  <para>However many toolbars or palette windows your application provides, by default there should be one main toolbar that provides a subset of the application's overall functionality.  Many of the buttons on this toolbar will be the same regardless of the type of application.</para>
+    
+  <para>The following operations should be included on the main toolbar in the following order, if your application supports them.  Application-specific functions should be slotted onto the toolbar according to the position on which they appear on the main menu bar.  For functions that don't appear on the <guimenu>File</guimenu>, <guimenu>Edit</guimenu> or <guimenu>Help</guimenu> menus, this means they will normally appear between the <guibutton>Replace</guibutton> and <guibutton>Help</guibutton> buttons.</para>
+    
+  <figure>
+  <title>Buttons that should appear on the main toolbar of an office application.</title>
+  <mediaobject>
+  <imageobject><imagedata fileref="images/GtkToolbar_productivitydefault.png" format="PNG" width="720" depth="54"/></imageobject>
+  <imageobject><imagedata fileref="images/GtkToolbar_productivitydefault.eps" format="EPS"/></imageobject>
+  <textobject>
+  <phrase>New-Open-Save|Print|Undo-Redo|Find-Replace|Cut-Copy-Paste-Delete</phrase>
+  </textobject>
+  </mediaobject>
+  </figure>
+    
+  <para>If your application supports all of these functions and you want to simplify your toolbar, consider leaving off the <guibutton>Undo</guibutton> and <guibutton>Redo</guibutton> buttons, or the <guibutton>Cut</guibutton>, <guibutton>Copy</guibutton>, <guibutton>Paste</guibutton> and <guibutton>Delete</guibutton> buttons, as most users prefer to use keyboard or menu for these functions.  However, you should include an option to re-add these buttons in your <menuchoice><guimenu>Toolbars</guimenu><guimenuitem>Customize</guimenuitem></menuchoice>... menu.</para>
+    
+  <para>If you wish to add a <guibutton>Help</guibutton> toolbar button, it should be placed last (rightmost, in western locales) on the main toolbar.  However, adding a <guibutton>Help</guibutton> button to the toolbar is not generally recommended, as usability studies suggest that it will be rarely used.  (N.B. This finding applies only to toolbars, not <guibutton>Help</guibutton> buttons in dialogs).</para>
+    
+    
+    
+  </sect2>
+    
+  <sect2>
+  <title>Default Toolbar Layout— Browser Applications</title>
+    
+  <para>Applications for browsing documents or other objects, such as web, file, help or documentation browsers, should use the following layout for their main toolbar:</para>
+    
+  <para>Back Forward [Other Navigation] Stop Reload | Home | [Other App-Specific]</para>
+    
+  <para>Application-specific buttons (other than navigation buttons) should be placed in the button group following <guibutton>Home</guibutton>, in the order that they appear on the main menu bar.</para>
+    
+  <para>Following this model, some current MATE browser apps would have their toolbars re-ordered as follows:</para>
+    
+  <figure>
+  <title>Caja 1.0 toolbar rearranged to follow recommended standard toolbar layout for browser applications</title>
+  <mediaobject>
+  <imageobject><imagedata fileref="images/GtkToolbar_browserdefault.png" format="PNG" width="486" depth="58"/></imageobject>
+  <imageobject><imagedata fileref="images/GtkToolbar_browserdefault.eps" format="EPS"/></imageobject>
+	    <textobject>
+	      <phrase>Back Forward Up Stop Reload | Home | WebSearch Services</phrase>
+	    </textobject>
+	  </mediaobject>
+	</figure>
+	
+	<table>
+	  <title>Proposed toolbar re-ordering for Caja</title>
+	  <tgroup cols='2' align='left'>
+	    	    
+	    <tbody>
+	      <row>
+		<entry>Caja (1.0.x)</entry>
+		<entry>Back Forward Up Refresh Home WebSearch Services Stop</entry>
+	      </row>
+	      <row>
+		<entry>Caja (proposed)</entry>
+		<entry>Back Forward Up Stop Reload | Home | WebSearch Services </entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
+
+	<table>
+	  <title>Proposed toolbar re-ordering for Galeon</title>
+	  <tgroup cols='2' align='left'>
+
+	    <tbody>
+	      <row>
+		<entry>Galeon (0.12.x)</entry>
+		<entry>Back Forward Reload Home Stop Zoom [URL] Go</entry>
+	      </row>
+	      <row>
+		<entry>Galeon (proposed)</entry>
+		<entry>Back Forward Stop Reload | Home | Zoom [URL] Go </entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
+	
+	<table>
+	  <title>Proposed toolbar re-ordering for MATE Help (deprecated, for illustration purposes only)</title>
+	  <tgroup cols='2' align='left'>
+
+	    <tbody>
+	      <row>
+		<entry>MATE Help (0.4)</entry>
+		<entry>Back Forward Refresh Index History Bookmarks Help</entry>
+	      </row>
+	      <row>
+		<entry>MATE Help (proposed)</entry>
+		<entry>Back Forward Stop Reload | Index History Bookmarks</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
+
+	<para>Note: In browser applications, use <guilabel>Reload</guilabel> rather than <guilabel>Refresh</guilabel> when the data will be actually re-read from its original source, rather than just re-painted on the screen.</para>
+
+
+      </sect2>
+-->
+
+  </chapter>
+  <!-- Note from GJM: I think palettes should go with toolboxes/utility windows. -->
+  <!--
+<sect1 id="toolbars-palettes">
+<title>TODO : Palettes</title>
+  
+<para>A palette is much like a floating toolbar.  However, its size and shape is usually more customizable, and it typically has a titlebar of its own and appears in the MATE task list.</para>
+  
+</sect1>
+</chapter>
+  -->
+  

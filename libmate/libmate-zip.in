@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Build zipfiles for libmate on Win32. Separate runtime and developer
+# ones. Run after make install.
+
+ZIP=/tmp/libmate-@VERSION@.zip
+DEVZIP=/tmp/libmate-dev-@VERSION@.zip
+
+cd @prefix@
+rm $ZIP
+
+zip $ZIP -@ <<EOF
+bin/libmate-2-0.dll
+bin/mate-open.exe
+etc/mateconf/schemas/desktop_mate_accessibility_keyboard.schemas
+etc/mateconf/schemas/desktop_mate_accessibility_startup.schemas
+etc/mateconf/schemas/desktop_mate_applications_browser.schemas
+etc/mateconf/schemas/desktop_mate_applications_help_viewer.schemas
+etc/mateconf/schemas/desktop_mate_applications_terminal.schemas
+etc/mateconf/schemas/desktop_mate_applications_window_manager.schemas
+etc/mateconf/schemas/desktop_mate_background.schemas
+etc/mateconf/schemas/desktop_mate_file_views.schemas
+etc/mateconf/schemas/desktop_mate_interface.schemas
+etc/mateconf/schemas/desktop_mate_lockdown.schemas
+etc/mateconf/schemas/desktop_mate_peripherals_mouse.schemas
+etc/mateconf/schemas/desktop_mate_peripherals_keyboard.schemas
+etc/mateconf/schemas/desktop_mate_sound.schemas
+etc/mateconf/schemas/desktop_mate_thumbnailers.schemas
+etc/mateconf/schemas/desktop_mate_typing_break.schemas
+etc/sound/events/mate-2.soundlist
+etc/sound/events/gtk-events-2.soundlist
+lib/matecomponent/monikers/libmoniker_extra_2.dll
+lib/matecomponent/servers/MATE_Moniker_std.server
+EOF
+
+zip -r $ZIP etc/mateconf/mateconf.xml.defaults
+
+if [ -f share/locale/de/LC_MESSAGES/libmate-2.0.mo ]; then
+  zip $ZIP share/locale/*/LC_MESSAGES/libmate-2.0.mo
+else
+  zip $ZIP lib/locale/*/LC_MESSAGES/libmate-2.0.mo
+fi
+
+rm $DEVZIP
+zip -r $DEVZIP -@ <<EOF
+lib/libmate-2.dll.a
+lib/pkgconfig/libmate-2.0.pc
+include/libmate-2.0
+share/gtk-doc/html/libmate
+EOF

@@ -1,0 +1,852 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Deprecated Application Registry API</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mime-registry.html" title="MIME Registry">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html" title="mate-vfs-mime-database-deprecated">
+<link rel="next" href="modules.html" title="Filesystem Modules">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-mime-database-deprecated.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mime-registry.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="modules.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-application-registry.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-application-registry.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-application-registry"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-application-registry.top_of_page"></a>Deprecated Application Registry API</span></h2>
+<p>Deprecated Application Registry API — formerly used for managing applications.  Replaced by
+<span class="type">MateVFS MIME Database</span> API</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-application-registry.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-COMMAND:CAPS" title="MATE_VFS_APPLICATION_REGISTRY_COMMAND">MATE_VFS_APPLICATION_REGISTRY_COMMAND</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-NAME:CAPS" title="MATE_VFS_APPLICATION_REGISTRY_NAME">MATE_VFS_APPLICATION_REGISTRY_NAME</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-CAN-OPEN-MULTIPLE-FILES:CAPS" title="MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES">MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES</a>
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#MATE-VFS-APPLICATION-REGISTRY-REQUIRES-TERMINAL:CAPS" title="MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL">MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL</a>
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-exists" title="mate_vfs_application_registry_exists ()">mate_vfs_application_registry_exists</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-keys" title="mate_vfs_application_registry_get_keys ()">mate_vfs_application_registry_get_keys</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-peek-value" title="mate_vfs_application_registry_peek_value ()">mate_vfs_application_registry_peek_value</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-bool-value" title="mate_vfs_application_registry_get_bool_value ()">mate_vfs_application_registry_get_bool_value</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *got_key</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-remove-application" title="mate_vfs_application_registry_remove_application ()">mate_vfs_application_registry_remove_application</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-set-value" title="mate_vfs_application_registry_set_value ()">mate_vfs_application_registry_set_value</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-set-bool-value" title="mate_vfs_application_registry_set_bool_value ()">mate_vfs_application_registry_set_bool_value</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-unset-key" title="mate_vfs_application_registry_unset_key ()">mate_vfs_application_registry_unset_key</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-applications" title="mate_vfs_application_registry_get_applications ()">mate_vfs_application_registry_get_applications</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-mime-types" title="mate_vfs_application_registry_get_mime_types ()">mate_vfs_application_registry_get_mime_types</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-supports-mime-type" title="mate_vfs_application_registry_supports_mime_type ()">mate_vfs_application_registry_supports_mime_type</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-supports-uri-scheme" title="mate_vfs_application_registry_supports_uri_scheme ()">mate_vfs_application_registry_supports_uri_scheme</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri_scheme</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-is-user-owned-application" title="mate_vfs_application_is_user_owned_application ()">mate_vfs_application_is_user_owned_application</a>
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-clear-mime-types" title="mate_vfs_application_registry_clear_mime_types ()">mate_vfs_application_registry_clear_mime_types</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-add-mime-type" title="mate_vfs_application_registry_add_mime_type ()">mate_vfs_application_registry_add_mime_type</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-remove-mime-type" title="mate_vfs_application_registry_remove_mime_type ()">mate_vfs_application_registry_remove_mime_type</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-sync" title="mate_vfs_application_registry_sync ()">mate_vfs_application_registry_sync</a> (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-shutdown" title="mate_vfs_application_registry_shutdown ()">mate_vfs_application_registry_shutdown</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-reload" title="mate_vfs_application_registry_reload ()">mate_vfs_application_registry_reload</a>
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-get-mime-application" title="mate_vfs_application_registry_get_mime_application ()">mate_vfs_application_registry_get_mime_application</a>
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-application-registry.html#mate-vfs-application-registry-save-mime-application" title="mate_vfs_application_registry_save_mime_application ()">mate_vfs_application_registry_save_mime_application</a>
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-application-registry.description"></a><h2>Description</h2>
+<p>
+This API was formerly used to manage the applications known
+to MateVFS, providing editing capabilities. The system was
+overengineered and not very performant, so it has been
+replaced by a new API, described in the
+<span class="type">MateVFS MIME Database</span>
+section.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-application-registry.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MATE-VFS-APPLICATION-REGISTRY-COMMAND:CAPS"></a><h3>MATE_VFS_APPLICATION_REGISTRY_COMMAND</h3>
+<pre class="programlisting">#define MATE_VFS_APPLICATION_REGISTRY_COMMAND "command"
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_VFS_APPLICATION_REGISTRY_COMMAND</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Application registry key for fetching the command to execute
+an application.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-APPLICATION-REGISTRY-NAME:CAPS"></a><h3>MATE_VFS_APPLICATION_REGISTRY_NAME</h3>
+<pre class="programlisting">#define MATE_VFS_APPLICATION_REGISTRY_NAME "name"
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_VFS_APPLICATION_REGISTRY_NAME</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Application registry key for fetching the name of an application.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-APPLICATION-REGISTRY-CAN-OPEN-MULTIPLE-FILES:CAPS"></a><h3>MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES</h3>
+<pre class="programlisting">#define MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES "can_open_multiple_files"
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Application registry key for determining if an application 
+can open multiple files in the same invocation.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-APPLICATION-REGISTRY-REQUIRES-TERMINAL:CAPS"></a><h3>MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL</h3>
+<pre class="programlisting">#define MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL "requires_terminal"
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Application registry key for determining if an application
+needs to run from within a terminal (for example, mpg123)
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-exists"></a><h3>mate_vfs_application_registry_exists ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_application_registry_exists
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_exists</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will return TRUE if there is an entry for <em class="parameter"><code>app_id</code></em> in
+the registry, otherwise FALSE.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>an application ID
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if the application is in the registry, FALSE if not 
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-get-keys"></a><h3>mate_vfs_application_registry_get_keys ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_application_registry_get_keys
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_get_keys</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function wil return a list of strings which is the list of
+keys set for <em class="parameter"><code>app_id</code></em> in the application registry.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>the application ID for which to get keys
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A list of the keys set for <em class="parameter"><code>app_id</code></em>
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-peek-value"></a><h3>mate_vfs_application_registry_peek_value ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_application_registry_peek_value
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_peek_value</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This will return the value associated with <em class="parameter"><code>key</code></em> for <em class="parameter"><code>app_id</code></em> in the
+application registry. There is no need to free the return value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>the application ID for which to look up a value
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>the key to look up
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the value associated with the key, or NULL if there is no
+associated value
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-get-bool-value"></a><h3>mate_vfs_application_registry_get_bool_value ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_application_registry_get_bool_value
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> *got_key</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_get_bool_value</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This will look up a key in the structure pointed to by app_id and return the
+boolean value of that key.  It will return false if there are no
+applications associated with the app_id.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>key to look up
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>got_key</code></em> :</span></p></td>
+<td>TRUE if a setting was dound, otherwise FALSE
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if <em class="parameter"><code>key</code></em> is set to "true" or "yes" for <em class="parameter"><code>app_id</code></em>, otherwise FALSE
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-remove-application"></a><h3>mate_vfs_application_registry_remove_application ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_remove_application
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_remove_application</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+Given the registry id this function will remove all applications that has
+been set by the user.  You will need to call
+mate_vfs_application_registry_sync to save the changes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-set-value"></a><h3>mate_vfs_application_registry_set_value ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_set_value
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *value</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_set_value</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will set values pertaining to registry entry pointed to by
+app_id.  You will need to call mate_vfs_application_registry_sync to
+realize the changes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>target key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>value to set the target key to
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-set-bool-value"></a><h3>mate_vfs_application_registry_set_bool_value ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_set_bool_value
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> value</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_set_bool_value</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will modify those registry values that are of type boolean to
+a value specified by the user.  You will need to call
+mate_vfs_application_registry_sync to save your changes.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>target key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>value you want to set the target key to
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-unset-key"></a><h3>mate_vfs_application_registry_unset_key ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_unset_key
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *key</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_unset_key</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function given the application and the target will wipe the current
+value that the key contains.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>search key
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-get-applications"></a><h3>mate_vfs_application_registry_get_applications ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_application_registry_get_applications
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_get_applications</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This will return all applications from the registry that are associated with
+the given mime type string, if NULL it returns all applications.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>mime type string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a list of the application IDs for all applications which
+support the given mime type.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-get-mime-types"></a><h3>mate_vfs_application_registry_get_mime_types ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_application_registry_get_mime_types
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_get_mime_types</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function returns a list of strings that represent the mime
+types that can be handled by an application.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a list of the mime types supported
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-supports-mime-type"></a><h3>mate_vfs_application_registry_supports_mime_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_application_registry_supports_mime_type
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_supports_mime_type</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+Use this function to see if there is an application associated with a given
+mime type.  The function will return true or false.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>mime type string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if <em class="parameter"><code>app_id</code></em> supports <em class="parameter"><code>mime_type</code></em>, otherwise FALSE.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-supports-uri-scheme"></a><h3>mate_vfs_application_registry_supports_uri_scheme ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_application_registry_supports_uri_scheme
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri_scheme</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_supports_uri_scheme</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+Given the id of the application this function will determine if the
+uri scheme will given is supported.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri_scheme</code></em> :</span></p></td>
+<td>uri schme string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if <em class="parameter"><code>app_id</code></em> supports <em class="parameter"><code>uri_scheme</code></em>, otherwise FALSE
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-is-user-owned-application"></a><h3>mate_vfs_application_is_user_owned_application ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_application_is_user_owned_application
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_is_user_owned_application</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will determine if a mime application is user owned or not.  By
+user ownered this means that the application is not a system application
+located in the prerequisite /usr area but rather in the user's area.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>data structure of the mime application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> gboolean
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-clear-mime-types"></a><h3>mate_vfs_application_registry_clear_mime_types ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_clear_mime_types
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_clear_mime_types</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will remove the mime types associated with the application.
+Changes are not realized until the  mate_vfs_application_registry_sync
+function is called to save the changes to the file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>Application id
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-add-mime-type"></a><h3>mate_vfs_application_registry_add_mime_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_add_mime_type
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_add_mime_type</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will associate a mime type with an application given the   
+application registry id and the mime type.  Changes are not realized until
+the mate_vfs_application_registry_sync function is called to save the
+changes to the file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>mime type string
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-remove-mime-type"></a><h3>mate_vfs_application_registry_remove_mime_type ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_remove_mime_type
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_remove_mime_type</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will de-associate a mime type from an application registry.  
+Given the application registry id and the mime type.  Changes are not
+realized until the mate_vfs_application_registry_sync function is called to
+save the changes to the file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>mime type string
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-sync"></a><h3>mate_vfs_application_registry_sync ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_application_registry_sync (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_sync</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This function will sync the registry.  Typically you would use this function
+after a modification of the registry.  When you modify the registry a dirty
+flag is set.  Calling this function will save your modifications to disk and
+reset the flag.
+</p>
+<p>
+If successful, will return MATE_VFS_OK
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> MateVFSResult
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-shutdown"></a><h3>mate_vfs_application_registry_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_shutdown
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_shutdown</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+Synchronize mate-vfs application registry data to disk, and free
+resources.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-reload"></a><h3>mate_vfs_application_registry_reload ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_reload
+                                                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_reload</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+If this function is called for the first time it will initialize the
+registry.  Subsequent calls to the function will clear out the current
+registry contents and load registry contents from the save file.  Make
+certain that you've saved your registry before calling this function.  It
+will destroy unsaved changes.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-get-mime-application"></a><h3>mate_vfs_application_registry_get_mime_application ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="returnvalue">MateVFSMimeApplication</span></a> * mate_vfs_application_registry_get_mime_application
+                                                        (<em class="parameter"><code>const <span class="type">char</span> *app_id</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_get_mime_application</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+Returns a structure that contains the application that handles
+the mime type associated by the application referred by app_id.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app_id</code></em> :</span></p></td>
+<td>registry id of the application
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> MateVFSMimeApplication
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-application-registry-save-mime-application"></a><h3>mate_vfs_application_registry_save_mime_application ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_application_registry_save_mime_application
+                                                        (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-mime-database.html#MateVFSMimeApplication" title="MateVFSMimeApplication"><span class="type">MateVFSMimeApplication</span></a> *application</code></em>);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mate_vfs_application_registry_save_mime_application</code> is deprecated and should not be used in newly-written code. All application registry functions have been
+deprecated. Use the functions available in mate-mime-handlers
+instead.</p>
+</div>
+<p>
+This will save to the registry the application that will be associated with
+a defined mime type.  The defined mime type is located within the
+MateVFSMimeApplication structure.  Changes are not realized until the
+mate_vfs_application_registry_sync function is called.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>application associated with the mime type
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-application-registry.see-also"></a><h2>See Also</h2>
+<p>
+<span class="type">MateVFS MIME Database API</span>
+</p>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

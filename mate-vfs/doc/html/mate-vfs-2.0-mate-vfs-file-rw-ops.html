@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Reading and Writing Files</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="mate-vfs-basic-file-ops.html" title="File Operations">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html" title="Basic File Operations">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html" title="Truncating Files">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-file-basic-ops.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="mate-vfs-basic-file-ops.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-file-trunc-ops.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-file-rw-ops.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-file-rw-ops.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-file-rw-ops"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-file-rw-ops.top_of_page"></a>Reading and Writing Files</span></h2>
+<p>Reading and Writing Files — Reading from and writing to open file handles.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-file-rw-ops.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MateVFSSeekPosition" title="enum MateVFSSeekPosition">MateVFSSeekPosition</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-read" title="mate_vfs_read ()">mate_vfs_read</a>                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_read</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-write" title="mate_vfs_write ()">mate_vfs_write</a>                     (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_written</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-seek" title="mate_vfs_seek ()">mate_vfs_seek</a>                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MateVFSSeekPosition" title="enum MateVFSSeekPosition"><span class="type">MateVFSSeekPosition</span></a> whence</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset" title="MateVFSFileOffset"><span class="type">MateVFSFileOffset</span></a> offset</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-tell" title="mate_vfs_tell ()">mate_vfs_tell</a>                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *offset_return</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-forget-cache" title="mate_vfs_forget_cache ()">mate_vfs_forget_cache</a>              (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset" title="MateVFSFileOffset"><span class="type">MateVFSFileOffset</span></a> offset</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> size</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-rw-ops.description"></a><h2>Description</h2>
+<p>
+  Reading and writing operations are explained, also <a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#mate-vfs-seek" title="mate_vfs_seek ()"><code class="function">mate_vfs_seek()</code></a>, which
+  is used to move the file pointer inside the file.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-rw-ops.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSSeekPosition"></a><h3>enum MateVFSSeekPosition</h3>
+<pre class="programlisting">typedef enum {
+        MATE_VFS_SEEK_START,
+        MATE_VFS_SEEK_CURRENT,
+        MATE_VFS_SEEK_END
+} MateVFSSeekPosition;
+</pre>
+<p>
+This is used to specify the start position for seek operations.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-SEEK-START:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SEEK_START</code></span></p></td>
+<td>Start of the file.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SEEK-CURRENT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SEEK_CURRENT</code></span></p></td>
+<td>Current position.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SEEK-END:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SEEK_END</code></span></p></td>
+<td>End of the file.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-read"></a><h3>mate_vfs_read ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_read                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_read</code></em>);</pre>
+<p>
+Read <em class="parameter"><code>bytes</code></em> from <em class="parameter"><code>handle</code></em>.  As with Unix system calls, the number of
+bytes read can effectively be less than <em class="parameter"><code>bytes</code></em> on return and will be
+stored in <em class="parameter"><code>bytes_read</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the file to read data from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>pointer to a buffer that must be at least <em class="parameter"><code>bytes</code></em> bytes large.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>number of bytes to read.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_read</code></em> :</span></p></td>
+<td>pointer to a variable that will hold the number of bytes
+effectively read on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-write"></a><h3>mate_vfs_write ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_write                     (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><span class="type">gconstpointer</span> buffer</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> bytes</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *bytes_written</code></em>);</pre>
+<p>
+Write <em class="parameter"><code>bytes</code></em> into the file opened through <em class="parameter"><code>handle</code></em>.  As with Unix system
+calls, the number of bytes written can effectively be less than <em class="parameter"><code>bytes</code></em> on
+return and will be stored in <em class="parameter"><code>bytes_written</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the file to write data to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>pointer to the buffer containing the data to be written.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes</code></em> :</span></p></td>
+<td>number of bytes to write.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bytes_written</code></em> :</span></p></td>
+<td>pointer to a variable that will hold the number of bytes
+effectively written on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-seek"></a><h3>mate_vfs_seek ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_seek                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-rw-ops.html#MateVFSSeekPosition" title="enum MateVFSSeekPosition"><span class="type">MateVFSSeekPosition</span></a> whence</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset" title="MateVFSFileOffset"><span class="type">MateVFSFileOffset</span></a> offset</code></em>);</pre>
+<p>
+Set the current position for reading/writing through <em class="parameter"><code>handle</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle for which the current position must be changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>whence</code></em> :</span></p></td>
+<td>integer value representing the starting position.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>number of bytes to skip from the position specified by <em class="parameter"><code>whence</code></em>.
+(a positive value means to move forward; a negative one to move backwards).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-tell"></a><h3>mate_vfs_tell ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_tell                      (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> *offset_return</code></em>);</pre>
+<p>
+Return the current position on <em class="parameter"><code>handle</code></em>. This is the point in the file
+pointed to by handle that reads and writes will occur on.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle for which the current position must be retrieved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_return</code></em> :</span></p></td>
+<td>pointer to a variable that will contain the current position
+on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-forget-cache"></a><h3>mate_vfs_forget_cache ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_forget_cache              (<em class="parameter"><code><span class="type">MateVFSHandle</span> *handle</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileOffset" title="MateVFSFileOffset"><span class="type">MateVFSFileOffset</span></a> offset</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> size</code></em>);</pre>
+<p>
+With this call you can announce to mate-vfs that you will no longer
+use the region of data starting at <em class="parameter"><code>offset</code></em> with the size of <em class="parameter"><code>size</code></em>. Any
+cached data for this region might then be freed.
+</p>
+<p>
+This might be useful if you stream large files, for example.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>handle</code></em> :</span></p></td>
+<td>handle of the file to affect.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>start point of the region to be freed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td>length of the region to be freed (or until the end of the
+file if 0 is specified).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an integer representing the result of the operation.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.12</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,1350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateVFSFileInfo</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="data-types.html" title="Basic Data Types">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-utils.html" title="mate-vfs-utils">
+<link rel="next" href="mate-vfs-2.0-mate-vfs-file-size.html" title="MateVFSFileSize">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-utils.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="data-types.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mate-vfs-2.0-mate-vfs-file-size.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-file-info.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-file-info.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-file-info"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-file-info.top_of_page"></a>MateVFSFileInfo</span></h2>
+<p>MateVFSFileInfo — stores information about files, MateVFS equivalent of stat</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-file-info.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileFlags" title="enum MateVFSFileFlags">MateVFSFileFlags</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileType" title="enum MateVFSFileType">MateVFSFileType</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoFields" title="enum MateVFSFileInfoFields">MateVFSFileInfoFields</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFilePermissions" title="enum MateVFSFilePermissions">MateVFSFilePermissions</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoOptions" title="enum MateVFSFileInfoOptions">MateVFSFileInfoOptions</a>;
+enum                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSSetFileInfoMask" title="enum MateVFSSetFileInfoMask">MateVFSSetFileInfoMask</a>;
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult">MateVFSGetFileInfoResult</a>;
+typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSInodeNumber" title="MateVFSInodeNumber">MateVFSInodeNumber</a>;
+                    <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo">MateVFSFileInfo</a>;
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SYMLINK:CAPS" title="MATE_VFS_FILE_INFO_SYMLINK()">MATE_VFS_FILE_INFO_SYMLINK</a>         (info)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-SYMLINK:CAPS" title="MATE_VFS_FILE_INFO_SET_SYMLINK()">MATE_VFS_FILE_INFO_SET_SYMLINK</a>     (info,
+                                                         value)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-LOCAL:CAPS" title="MATE_VFS_FILE_INFO_LOCAL()">MATE_VFS_FILE_INFO_LOCAL</a>           (info)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-LOCAL:CAPS" title="MATE_VFS_FILE_INFO_SET_LOCAL()">MATE_VFS_FILE_INFO_SET_LOCAL</a>       (info,
+                                                         value)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SUID:CAPS" title="MATE_VFS_FILE_INFO_SUID()">MATE_VFS_FILE_INFO_SUID</a>            (info)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SGID:CAPS" title="MATE_VFS_FILE_INFO_SGID()">MATE_VFS_FILE_INFO_SGID</a>            (info)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-STICKY:CAPS" title="MATE_VFS_FILE_INFO_STICKY()">MATE_VFS_FILE_INFO_STICKY</a>          (info)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-SUID:CAPS" title="MATE_VFS_FILE_INFO_SET_SUID()">MATE_VFS_FILE_INFO_SET_SUID</a>        (info,
+                                                         value)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-SGID:CAPS" title="MATE_VFS_FILE_INFO_SET_SGID()">MATE_VFS_FILE_INFO_SET_SGID</a>        (info,
+                                                         value)
+#define             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-SET-STICKY:CAPS" title="MATE_VFS_FILE_INFO_SET_STICKY()">MATE_VFS_FILE_INFO_SET_STICKY</a>      (info,
+                                                         value)
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="returnvalue">MateVFSFileInfo</span></a> *  <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-new" title="mate_vfs_file_info_new ()">mate_vfs_file_info_new</a>             (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-unref" title="mate_vfs_file_info_unref ()">mate_vfs_file_info_unref</a>           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-ref" title="mate_vfs_file_info_ref ()">mate_vfs_file_info_ref</a>             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-clear" title="mate_vfs_file_info_clear ()">mate_vfs_file_info_clear</a>           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);
+const <span class="returnvalue">char</span> *        <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-get-mime-type" title="mate_vfs_file_info_get_mime_type ()">mate_vfs_file_info_get_mime_type</a>   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-copy" title="mate_vfs_file_info_copy ()">mate_vfs_file_info_copy</a>            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *src</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="returnvalue">MateVFSFileInfo</span></a> *  <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-dup" title="mate_vfs_file_info_dup ()">mate_vfs_file_info_dup</a>             (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *orig</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-matches" title="mate_vfs_file_info_matches ()">mate_vfs_file_info_matches</a>         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *a</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *b</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-ref" title="mate_vfs_file_info_list_ref ()">mate_vfs_file_info_list_ref</a>        (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-unref" title="mate_vfs_file_info_list_unref ()">mate_vfs_file_info_list_unref</a>      (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">GList</span> *             <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-copy" title="mate_vfs_file_info_list_copy ()">mate_vfs_file_info_list_copy</a>       (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-list-free" title="mate_vfs_file_info_list_free ()">mate_vfs_file_info_list_free</a>       (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="returnvalue">MateVFSGetFileInfoResult</span></a> *  <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-get-file-info-result-dup" title="mate_vfs_get_file_info_result_dup ()">mate_vfs_get_file_info_result_dup</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="type">MateVFSGetFileInfoResult</span></a> *result</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-get-file-info-result-free" title="mate_vfs_get_file_info_result_free ()">mate_vfs_get_file_info_result_free</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="type">MateVFSGetFileInfoResult</span></a> *result</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-info.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-file-info.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSFileFlags"></a><h3>enum MateVFSFileFlags</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_FILE_FLAGS_NONE = 0,
+	MATE_VFS_FILE_FLAGS_SYMLINK = 1 &lt;&lt; 0,
+	MATE_VFS_FILE_FLAGS_LOCAL = 1 &lt;&lt; 1
+} MateVFSFileFlags;
+</pre>
+<p>
+Packed boolean bitfield representing special
+flags a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct can have.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-FILE-FLAGS-NONE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_FLAGS_NONE</code></span></p></td>
+<td>no flags
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-FLAGS-SYMLINK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_FLAGS_SYMLINK</code></span></p></td>
+<td>whether the file is a symlink.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-FLAGS-LOCAL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_FLAGS_LOCAL</code></span></p></td>
+<td>whether the file is on a local filesystem
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSFileType"></a><h3>enum MateVFSFileType</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_FILE_TYPE_UNKNOWN,
+	MATE_VFS_FILE_TYPE_REGULAR,
+	MATE_VFS_FILE_TYPE_DIRECTORY,
+	MATE_VFS_FILE_TYPE_FIFO,
+	MATE_VFS_FILE_TYPE_SOCKET,
+	MATE_VFS_FILE_TYPE_CHARACTER_DEVICE,
+	MATE_VFS_FILE_TYPE_BLOCK_DEVICE,
+	MATE_VFS_FILE_TYPE_SYMBOLIC_LINK
+} MateVFSFileType;
+</pre>
+<p>
+Maps to a <code class="literal">stat</code> mode, and identifies the kind of file represented by a
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct, stored in the <code class="literal">type</code> field.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-UNKNOWN:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_UNKNOWN</code></span></p></td>
+<td>The file type is unknown (none of the types below matches).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-REGULAR:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_REGULAR</code></span></p></td>
+<td>The file is a regular file (stat: <code class="literal">S_ISREG</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-DIRECTORY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_DIRECTORY</code></span></p></td>
+<td>The file is a directory (stat: <code class="literal">S_ISDIR</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-FIFO:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_FIFO</code></span></p></td>
+<td>The file is a FIFO (stat: <code class="literal">S_ISFIFO</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-SOCKET:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_SOCKET</code></span></p></td>
+<td>The file is a socket (stat: <code class="literal">S_ISSOCK</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-CHARACTER-DEVICE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_CHARACTER_DEVICE</code></span></p></td>
+<td>The file is a character device (stat: <code class="literal">S_ISCHR</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-BLOCK-DEVICE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_BLOCK_DEVICE</code></span></p></td>
+<td>The file is a block device (stat: <code class="literal">S_ISBLK</code>).
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-TYPE-SYMBOLIC-LINK:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_TYPE_SYMBOLIC_LINK</code></span></p></td>
+<td>The file is a symbolic link (stat: <code class="literal">S_ISLNK</code>).
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSFileInfoFields"></a><h3>enum MateVFSFileInfoFields</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_FILE_INFO_FIELDS_NONE = 0,
+	MATE_VFS_FILE_INFO_FIELDS_TYPE = 1 &lt;&lt; 0,
+	MATE_VFS_FILE_INFO_FIELDS_PERMISSIONS = 1 &lt;&lt; 1,
+	MATE_VFS_FILE_INFO_FIELDS_FLAGS = 1 &lt;&lt; 2,
+	MATE_VFS_FILE_INFO_FIELDS_DEVICE = 1 &lt;&lt; 3,
+	MATE_VFS_FILE_INFO_FIELDS_INODE = 1 &lt;&lt; 4,
+	MATE_VFS_FILE_INFO_FIELDS_LINK_COUNT = 1 &lt;&lt; 5,
+	MATE_VFS_FILE_INFO_FIELDS_SIZE = 1 &lt;&lt; 6,
+	MATE_VFS_FILE_INFO_FIELDS_BLOCK_COUNT = 1 &lt;&lt; 7,
+	MATE_VFS_FILE_INFO_FIELDS_IO_BLOCK_SIZE = 1 &lt;&lt; 8,
+	MATE_VFS_FILE_INFO_FIELDS_ATIME = 1 &lt;&lt; 9,
+	MATE_VFS_FILE_INFO_FIELDS_MTIME = 1 &lt;&lt; 10,
+	MATE_VFS_FILE_INFO_FIELDS_CTIME = 1 &lt;&lt; 11,
+	MATE_VFS_FILE_INFO_FIELDS_SYMLINK_NAME = 1 &lt;&lt; 12,
+	MATE_VFS_FILE_INFO_FIELDS_MIME_TYPE = 1 &lt;&lt; 13,
+	MATE_VFS_FILE_INFO_FIELDS_ACCESS = 1 &lt;&lt; 14,
+	MATE_VFS_FILE_INFO_FIELDS_IDS = 1 &lt;&lt; 15,
+	MATE_VFS_FILE_INFO_FIELDS_ACL = 1 &lt;&lt; 16,
+	MATE_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT = 1 &lt;&lt; 17
+} MateVFSFileInfoFields;
+</pre>
+<p>
+Flags indicating what fields in a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct are valid. 
+Name is always assumed valid (how else would you have gotten a
+FileInfo struct otherwise?)
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-NONE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_NONE</code></span></p></td>
+<td>No fields are valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-TYPE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_TYPE</code></span></p></td>
+<td>Type field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-PERMISSIONS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_PERMISSIONS</code></span></p></td>
+<td>Permissions field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-FLAGS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_FLAGS</code></span></p></td>
+<td>Flags field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-DEVICE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_DEVICE</code></span></p></td>
+<td>Device field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-INODE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_INODE</code></span></p></td>
+<td>Inode field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-LINK-COUNT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_LINK_COUNT</code></span></p></td>
+<td>Link count field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-SIZE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_SIZE</code></span></p></td>
+<td>Size field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-BLOCK-COUNT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_BLOCK_COUNT</code></span></p></td>
+<td>Block count field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-IO-BLOCK-SIZE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_IO_BLOCK_SIZE</code></span></p></td>
+<td>I/O Block Size field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-ATIME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_ATIME</code></span></p></td>
+<td>Access time field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-MTIME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_MTIME</code></span></p></td>
+<td>Modification time field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-CTIME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_CTIME</code></span></p></td>
+<td>Creating time field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-SYMLINK-NAME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_SYMLINK_NAME</code></span></p></td>
+<td>Symlink name field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-MIME-TYPE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_MIME_TYPE</code></span></p></td>
+<td>Mime type field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-ACCESS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_ACCESS</code></span></p></td>
+<td>Access bits of the permissions
+bitfield are valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-IDS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_IDS</code></span></p></td>
+<td>UID and GID information are valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-ACL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_ACL</code></span></p></td>
+<td>ACL field is valid
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FIELDS-SELINUX-CONTEXT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT</code></span></p></td>
+<td>SELinux Security context is valid
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSFilePermissions"></a><h3>enum MateVFSFilePermissions</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_PERM_SUID = S_ISUID,
+	MATE_VFS_PERM_SGID = S_ISGID,	
+	MATE_VFS_PERM_STICKY = 01000, /* S_ISVTX not defined on all systems */
+	MATE_VFS_PERM_USER_READ = S_IRUSR,
+	MATE_VFS_PERM_USER_WRITE = S_IWUSR,
+	MATE_VFS_PERM_USER_EXEC = S_IXUSR,
+	MATE_VFS_PERM_USER_ALL = S_IRUSR | S_IWUSR | S_IXUSR,
+	MATE_VFS_PERM_GROUP_READ = S_IRGRP,
+	MATE_VFS_PERM_GROUP_WRITE = S_IWGRP,
+	MATE_VFS_PERM_GROUP_EXEC = S_IXGRP,
+	MATE_VFS_PERM_GROUP_ALL = S_IRGRP | S_IWGRP | S_IXGRP,
+	MATE_VFS_PERM_OTHER_READ = S_IROTH,
+	MATE_VFS_PERM_OTHER_WRITE = S_IWOTH,
+	MATE_VFS_PERM_OTHER_EXEC = S_IXOTH,
+	MATE_VFS_PERM_OTHER_ALL = S_IROTH | S_IWOTH | S_IXOTH,
+	MATE_VFS_PERM_ACCESS_READABLE   = 1 &lt;&lt; 16,
+	MATE_VFS_PERM_ACCESS_WRITABLE   = 1 &lt;&lt; 17,
+	MATE_VFS_PERM_ACCESS_EXECUTABLE = 1 &lt;&lt; 18
+} MateVFSFilePermissions;
+</pre>
+<p>
+File permissions. Some of these fields correspond to traditional
+UNIX semantics, others provide more abstract concepts.
+</p>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+  Some network file systems don't support traditional UNIX semantics but
+  still provide file access control. Thus, if you want to modify the
+  permissions (i.e. do a chmod), you should rely on the traditional
+  fields, but if you just want to determine whether a file or directory
+  can be read from or written to, you should rely on the more
+  abstract <code class="literal">MATE_VFS_PERM_ACCESS_</code>* fields.
+</div>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-PERM-SUID:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_SUID</code></span></p></td>
+<td>UID bit
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-SGID:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_SGID</code></span></p></td>
+<td>GID bit
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-STICKY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_STICKY</code></span></p></td>
+<td>Sticky bit.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-USER-READ:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_USER_READ</code></span></p></td>
+<td>Owner has read permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-USER-WRITE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_USER_WRITE</code></span></p></td>
+<td>Owner has write permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-USER-EXEC:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_USER_EXEC</code></span></p></td>
+<td>Owner has execution permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-USER-ALL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_USER_ALL</code></span></p></td>
+<td>Owner has all permissions.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-GROUP-READ:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_GROUP_READ</code></span></p></td>
+<td>Group has read permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-GROUP-WRITE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_GROUP_WRITE</code></span></p></td>
+<td>Group has write permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-GROUP-EXEC:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_GROUP_EXEC</code></span></p></td>
+<td>Group has execution permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-GROUP-ALL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_GROUP_ALL</code></span></p></td>
+<td>Group has all permissions.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-OTHER-READ:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_OTHER_READ</code></span></p></td>
+<td>Others have read permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-OTHER-WRITE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_OTHER_WRITE</code></span></p></td>
+<td>Others have write permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-OTHER-EXEC:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_OTHER_EXEC</code></span></p></td>
+<td>Others have execution permission.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-OTHER-ALL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_OTHER_ALL</code></span></p></td>
+<td>Others have all permissions.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-ACCESS-READABLE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_ACCESS_READABLE</code></span></p></td>
+<td>This file is readable for the current client.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-ACCESS-WRITABLE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_ACCESS_WRITABLE</code></span></p></td>
+<td>This file is writable for the current client.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-PERM-ACCESS-EXECUTABLE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_PERM_ACCESS_EXECUTABLE</code></span></p></td>
+<td>This file is executable for the current client.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSFileInfoOptions"></a><h3>enum MateVFSFileInfoOptions</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_FILE_INFO_DEFAULT = 0,
+	MATE_VFS_FILE_INFO_GET_MIME_TYPE = 1 &lt;&lt; 0,
+	MATE_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE = 1 &lt;&lt; 1,
+	MATE_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE = 1 &lt;&lt; 2,
+	MATE_VFS_FILE_INFO_FOLLOW_LINKS = 1 &lt;&lt; 3,
+	MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS = 1 &lt;&lt; 4,
+	MATE_VFS_FILE_INFO_NAME_ONLY = 1 &lt;&lt; 5,
+	MATE_VFS_FILE_INFO_GET_ACL = 1 &lt;&lt; 6,
+	MATE_VFS_FILE_INFO_GET_SELINUX_CONTEXT = 1 &lt;&lt; 7
+} MateVFSFileInfoOptions;
+</pre>
+<p>
+Packed boolean bitfield representing options that can
+be passed into a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-get-file-info" title="mate_vfs_get_file_info ()"><code class="function">mate_vfs_get_file_info()</code></a> call (or other
+related calls that return file info) and affect the operation
+of get_file_info.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-DEFAULT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_DEFAULT</code></span></p></td>
+<td>default flags
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-GET-MIME-TYPE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_GET_MIME_TYPE</code></span></p></td>
+<td>detect the MIME type
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FORCE-FAST-MIME-TYPE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE</code></span></p></td>
+<td>only use fast MIME type 
+detection (extensions)
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FORCE-SLOW-MIME-TYPE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE</code></span></p></td>
+<td>force slow MIME type 
+detection where available (sniffing, algorithmic detection, etc)
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-FOLLOW-LINKS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_FOLLOW_LINKS</code></span></p></td>
+<td>automatically follow symbolic 
+links and retrieve the properties of their target (recommended)
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-GET-ACCESS-RIGHTS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS</code></span></p></td>
+<td>tries to get data similar 
+to what would return access(2) on a local file system (ie is the 
+file readable, writable and/or executable). Can be really slow on 
+remote file systems
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-NAME-ONLY:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_NAME_ONLY</code></span></p></td>
+<td>When reading a directory, only
+get the filename (if doing so is faster). Useful to e.g. count
+the number of files.
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-GET-ACL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_GET_ACL</code></span></p></td>
+<td>get ACLs for the file
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-FILE-INFO-GET-SELINUX-CONTEXT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_FILE_INFO_GET_SELINUX_CONTEXT</code></span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSSetFileInfoMask"></a><h3>enum MateVFSSetFileInfoMask</h3>
+<pre class="programlisting">typedef enum {
+	MATE_VFS_SET_FILE_INFO_NONE = 0,
+	MATE_VFS_SET_FILE_INFO_NAME = 1 &lt;&lt; 0,
+	MATE_VFS_SET_FILE_INFO_PERMISSIONS = 1 &lt;&lt; 1,
+	MATE_VFS_SET_FILE_INFO_OWNER = 1 &lt;&lt; 2,
+	MATE_VFS_SET_FILE_INFO_TIME = 1 &lt;&lt; 3,
+	MATE_VFS_SET_FILE_INFO_ACL = 1 &lt;&lt; 4,
+	MATE_VFS_SET_FILE_INFO_SELINUX_CONTEXT = 1 &lt;&lt; 5,
+	MATE_VFS_SET_FILE_INFO_SYMLINK_NAME = 1 &lt;&lt; 6
+} MateVFSSetFileInfoMask;
+</pre>
+<p>
+Packed boolean bitfield representing the aspects of the file
+to be changed in a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info-ops.html#mate-vfs-set-file-info" title="mate_vfs_set_file_info ()"><code class="function">mate_vfs_set_file_info()</code></a> call.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-NONE:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_NONE</code></span></p></td>
+<td>don't set any file info fields
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-NAME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_NAME</code></span></p></td>
+<td>change the name
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-PERMISSIONS:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_PERMISSIONS</code></span></p></td>
+<td>change the permissions
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-OWNER:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_OWNER</code></span></p></td>
+<td>change the file's owner
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-TIME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_TIME</code></span></p></td>
+<td>change the file's time stamp(s)
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-ACL:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_ACL</code></span></p></td>
+<td>change the file's ACLs
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-SELINUX-CONTEXT:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_SELINUX_CONTEXT</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="MATE-VFS-SET-FILE-INFO-SYMLINK-NAME:CAPS"></a><span class="term"><code class="literal">MATE_VFS_SET_FILE_INFO_SYMLINK_NAME</code></span></p></td>
+<td>change the file's symlink name
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSGetFileInfoResult"></a><h3>MateVFSGetFileInfoResult</h3>
+<pre class="programlisting">typedef struct {
+	MateVFSURI *uri;
+	MateVFSResult result;
+	MateVFSFileInfo *file_info;
+} MateVFSGetFileInfoResult;
+</pre>
+<p>
+This data structure encapsulates the details of an individual file
+info request that was part of a mass file info request launched
+through <a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#mate-vfs-async-get-file-info" title="mate_vfs_async_get_file_info ()"><code class="function">mate_vfs_async_get_file_info()</code></a>, and is passed to a
+<a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSAsyncGetFileInfoCallback" title="MateVFSAsyncGetFileInfoCallback ()"><span class="type">MateVFSAsyncGetFileInfoCallback</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> *<em class="structfield"><code><a name="MateVFSGetFileInfoResult.uri"></a>uri</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-uri.html#MateVFSURI" title="MateVFSURI"><span class="type">MateVFSURI</span></a> the file info was requested for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> <em class="structfield"><code><a name="MateVFSGetFileInfoResult.result"></a>result</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> of the file info request.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *<em class="structfield"><code><a name="MateVFSGetFileInfoResult.file-info"></a>file_info</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> that was retrieved.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSInodeNumber"></a><h3>MateVFSInodeNumber</h3>
+<pre class="programlisting">typedef MateVFSFileSize MateVFSInodeNumber;
+</pre>
+<p>
+Represents the i-node of a file, this is a low level data structure
+that the operating system uses to hold information about a file.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MateVFSFileInfo"></a><h3>MateVFSFileInfo</h3>
+<pre class="programlisting">typedef struct {
+	char *name;
+
+	MateVFSFileInfoFields valid_fields;
+	MateVFSFileType type;
+	MateVFSFilePermissions permissions;
+
+	MateVFSFileFlags flags;
+
+	dev_t device;
+	MateVFSInodeNumber inode;
+
+	guint link_count;
+
+	guint uid;
+	guint gid;
+
+	MateVFSFileSize size;
+
+	MateVFSFileSize block_count;
+
+	guint io_block_size;
+
+	time_t atime;
+	time_t mtime;
+	time_t ctime;
+
+	char *symlink_name;
+
+	char *mime_type;
+
+	guint refcount;
+
+	/* File ACLs */
+	MateVFSACL *acl;
+
+	/* SELinux security context. -- ascii string, raw format. */
+	char* selinux_context;
+} MateVFSFileInfo;
+</pre>
+<p>
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+  When doing massive I/O, it is suggested to adhere <em class="parameter"><code>io_block_size</code></em> if applicable.
+  For network file systems, this may be set to very big values allowing
+  parallelization.
+</div>
+<p>
+</p>
+<p>
+The MateVFSFileInfo structure contains information about a file.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateVFSFileInfo.name"></a>name</code></em>;</span></p></td>
+<td>A char * specifying the base name of the file (without any path string).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoFields" title="enum MateVFSFileInfoFields"><span class="type">MateVFSFileInfoFields</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.valid-fields"></a>valid_fields</code></em>;</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfoFields" title="enum MateVFSFileInfoFields"><span class="type">MateVFSFileInfoFields</span></a> specifying which fields of
+		  <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> are valid. Note that <em class="parameter"><code>name</code></em> is always
+		  assumed to be valid, i.e. clients may assume that it is not NULL.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileType" title="enum MateVFSFileType"><span class="type">MateVFSFileType</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.type"></a>type</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileType" title="enum MateVFSFileType"><span class="type">MateVFSFileType</span></a> of the file (i.e. regular, directory, block device, ...)
+	  if <em class="parameter"><code>valid_fields</code></em> provides MATE_VFS_FILE_INFO_FIELDS_TYPE.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFilePermissions" title="enum MateVFSFilePermissions"><span class="type">MateVFSFilePermissions</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.permissions"></a>permissions</code></em>;</span></p></td>
+<td>The <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFilePermissions" title="enum MateVFSFilePermissions"><span class="type">MateVFSFilePermissions</span></a> corresponding to the UNIX-like
+		 permissions of the file, if <em class="parameter"><code>valid_fields</code></em> provides
+		 <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-PERMISSIONS:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_PERMISSIONS</span></a>, and the
+		 <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFilePermissions" title="enum MateVFSFilePermissions"><span class="type">MateVFSFilePermissions</span></a> corresponding to abstract access
+		 concepts (<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-ACCESS-READABLE:CAPS"><span class="type">MATE_VFS_PERM_ACCESS_READABLE</span></a>, <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-ACCESS-WRITABLE:CAPS"><span class="type">MATE_VFS_PERM_ACCESS_WRITABLE</span></a>,
+		 and <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-PERM-ACCESS-EXECUTABLE:CAPS"><span class="type">MATE_VFS_PERM_ACCESS_EXECUTABLE</span></a>) if <em class="parameter"><code>valid_fields</code></em>
+		 provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-PERMISSIONS:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_PERMISSIONS</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileFlags" title="enum MateVFSFileFlags"><span class="type">MateVFSFileFlags</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.flags"></a>flags</code></em>;</span></p></td>
+<td>
+<a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileFlags" title="enum MateVFSFileFlags"><span class="type">MateVFSFileFlags</span></a> providing additional information about the file,
+	   for instance whether it is local or a symbolic link, if
+	   <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-FLAGS:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_FLAGS</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">dev_t</span> <em class="structfield"><code><a name="MateVFSFileInfo.device"></a>device</code></em>;</span></p></td>
+<td>Identifies the device the file is located on, if
+	    <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-DEVICE:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_DEVICE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSInodeNumber" title="MateVFSInodeNumber"><span class="type">MateVFSInodeNumber</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.inode"></a>inode</code></em>;</span></p></td>
+<td>Identifies the inode corresponding to the file, if
+	    <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-INODE:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_INODE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSFileInfo.link-count"></a>link_count</code></em>;</span></p></td>
+<td>Counts the number of hard links to the file, if
+		<em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-LINK-COUNT:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_LINK_COUNT</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSFileInfo.uid"></a>uid</code></em>;</span></p></td>
+<td>The user owning the file, if <em class="parameter"><code>valid_fields</code></em> provides
+	 MATE_VFS_FILE_INFO_FIELDS_IDS.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSFileInfo.gid"></a>gid</code></em>;</span></p></td>
+<td>The user owning the file, if <em class="parameter"><code>valid_fields</code></em> provides
+	 MATE_VFS_FILE_INFO_FIELDS_IDS.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.size"></a>size</code></em>;</span></p></td>
+<td>The size of the file in bytes (a <a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a>),
+	  if <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-SIZE:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_SIZE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a> <em class="structfield"><code><a name="MateVFSFileInfo.block-count"></a>block_count</code></em>;</span></p></td>
+<td>The size of the file in file system blocks (a <a class="link" href="mate-vfs-2.0-mate-vfs-file-size.html#MateVFSFileSize" title="MateVFSFileSize"><span class="type">MateVFSFileSize</span></a>),
+		 if <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-BLOCK-COUNT:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_BLOCK_COUNT</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSFileInfo.io-block-size"></a>io_block_size</code></em>;</span></p></td>
+<td>The optimal buffer size for reading/writing the file, if
+		   <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-IO-BLOCK-SIZE:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_IO_BLOCK_SIZE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">time_t</span> <em class="structfield"><code><a name="MateVFSFileInfo.atime"></a>atime</code></em>;</span></p></td>
+<td>The time of the last file access, if <em class="parameter"><code>valid_fields</code></em> provides
+	   <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-ATIME:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_ATIME</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">time_t</span> <em class="structfield"><code><a name="MateVFSFileInfo.mtime"></a>mtime</code></em>;</span></p></td>
+<td>The time of the last file contents modification, if <em class="parameter"><code>valid_fields</code></em>
+	   provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-MTIME:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_MTIME</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">time_t</span> <em class="structfield"><code><a name="MateVFSFileInfo.ctime"></a>ctime</code></em>;</span></p></td>
+<td>The time of the last inode change, if <em class="parameter"><code>valid_fields</code></em> provides
+	   <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-CTIME:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_CTIME</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateVFSFileInfo.symlink-name"></a>symlink_name</code></em>;</span></p></td>
+<td>This is the name of the file this link points to, <em class="parameter"><code>type</code></em>
+		  is <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-FLAGS-SYMLINK:CAPS"><span class="type">MATE_VFS_FILE_FLAGS_SYMLINK</span></a>, and <em class="parameter"><code>valid_fields</code></em>
+		  provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-SYMLINK-NAME:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_SYMLINK_NAME</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateVFSFileInfo.mime-type"></a>mime_type</code></em>;</span></p></td>
+<td>This is a char * identifying the type of the file, if
+	       <em class="parameter"><code>valid_fields</code></em> provides <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MATE-VFS-FILE-INFO-FIELDS-MIME-TYPE:CAPS"><span class="type">MATE_VFS_FILE_INFO_FIELDS_MIME_TYPE</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">guint</span> <em class="structfield"><code><a name="MateVFSFileInfo.refcount"></a>refcount</code></em>;</span></p></td>
+<td>The reference count of this file info, which is one by default, and
+	      that can be increased using <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-ref" title="mate_vfs_file_info_ref ()"><code class="function">mate_vfs_file_info_ref()</code></a> and decreased
+	      using <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-unref" title="mate_vfs_file_info_unref ()"><code class="function">mate_vfs_file_info_unref()</code></a>. When it drops to zero, the file info
+	      is freed and its memory is invalid. Make sure to keep your own
+	      reference to a file info if you received it from MateVFS, i.e.
+	      if you didn't call <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#mate-vfs-file-info-new" title="mate_vfs_file_info_new ()"><code class="function">mate_vfs_file_info_new()</code></a> yourself.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">MateVFSACL</span> *<em class="structfield"><code><a name="MateVFSFileInfo.acl"></a>acl</code></em>;</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="type">char</span> *<em class="structfield"><code><a name="MateVFSFileInfo.selinux-context"></a>selinux_context</code></em>;</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SYMLINK:CAPS"></a><h3>MATE_VFS_FILE_INFO_SYMLINK()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SYMLINK(info)</pre>
+<p>
+Determines whether a file is a symbolic link given <em class="parameter"><code>info</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SET-SYMLINK:CAPS"></a><h3>MATE_VFS_FILE_INFO_SET_SYMLINK()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SET_SYMLINK(info, value)</pre>
+<p>
+Set the symbolic link field in <em class="parameter"><code>info</code></em> to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, <em class="parameter"><code>info</code></em> is set to indicate the file is a symbolic link
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-LOCAL:CAPS"></a><h3>MATE_VFS_FILE_INFO_LOCAL()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_LOCAL(info)</pre>
+<p>
+Determines whether a file is local given <em class="parameter"><code>info</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SET-LOCAL:CAPS"></a><h3>MATE_VFS_FILE_INFO_SET_LOCAL()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SET_LOCAL(info, value)</pre>
+<p>
+Set the "local file" field in <em class="parameter"><code>info</code></em> to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, <em class="parameter"><code>info</code></em> is set to indicate the file is local
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SUID:CAPS"></a><h3>MATE_VFS_FILE_INFO_SUID()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SUID(info)</pre>
+<p>
+Determines whether a file belongs to the super user.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SGID:CAPS"></a><h3>MATE_VFS_FILE_INFO_SGID()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SGID(info)</pre>
+<p>
+Determines whether a file belongs to the super user's group.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-STICKY:CAPS"></a><h3>MATE_VFS_FILE_INFO_STICKY()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_STICKY(info)</pre>
+<p>
+Determines whether a file has the sticky bit set, given <em class="parameter"><code>info</code></em>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SET-SUID:CAPS"></a><h3>MATE_VFS_FILE_INFO_SET_SUID()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SET_SUID(info, value)</pre>
+<p>
+Set the SUID field in <em class="parameter"><code>info</code></em> to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, <em class="parameter"><code>info</code></em> is set to indicate the file belongs to the super user
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SET-SGID:CAPS"></a><h3>MATE_VFS_FILE_INFO_SET_SGID()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SET_SGID(info, value)</pre>
+<p>
+Set the SGID field in <em class="parameter"><code>info</code></em> to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, <em class="parameter"><code>info</code></em> is set to indicate the file belongs to the super user's group
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="MATE-VFS-FILE-INFO-SET-STICKY:CAPS"></a><h3>MATE_VFS_FILE_INFO_SET_STICKY()</h3>
+<pre class="programlisting">#define             MATE_VFS_FILE_INFO_SET_STICKY(info, value)</pre>
+<p>
+Set the sticky bit in <em class="parameter"><code>info</code></em> to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>MateVFSFileInfo struct
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>if <code class="literal">TRUE</code>, <em class="parameter"><code>info</code></em> is set to indicate the file has the sticky bit set
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-new"></a><h3>mate_vfs_file_info_new ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="returnvalue">MateVFSFileInfo</span></a> *  mate_vfs_file_info_new             (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Allocate and initialize a new <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to the newly allocated file information struct.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-unref"></a><h3>mate_vfs_file_info_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_file_info_unref           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);</pre>
+<p>
+Decreases the refcount of <em class="parameter"><code>info</code></em> by 1. Frees the struct <em class="parameter"><code>info</code></em> if refcount becomes 0.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>pointer to a file information struct.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-ref"></a><h3>mate_vfs_file_info_ref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_file_info_ref             (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);</pre>
+<p>
+Increment refcount of <em class="parameter"><code>info</code></em> by 1.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>pointer to a file information struct.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-clear"></a><h3>mate_vfs_file_info_clear ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_file_info_clear           (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);</pre>
+<p>
+Clear <em class="parameter"><code>info</code></em> so that it's ready to accept new data. This is
+supposed to be used when <em class="parameter"><code>info</code></em> already contains meaningful information which
+we want to replace.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>pointer to a file information struct.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-get-mime-type"></a><h3>mate_vfs_file_info_get_mime_type ()</h3>
+<pre class="programlisting">const <span class="returnvalue">char</span> *        mate_vfs_file_info_get_mime_type   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *info</code></em>);</pre>
+<p>
+Retrieve MIME type from <em class="parameter"><code>info</code></em>. There is no need to free the return
+value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>a pointer to a file information struct.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a pointer to a string representing the MIME type.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-copy"></a><h3>mate_vfs_file_info_copy ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_file_info_copy            (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *src</code></em>);</pre>
+<p>
+Copy information from <em class="parameter"><code>src</code></em> into <em class="parameter"><code>dest</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>pointer to a struct to copy <em class="parameter"><code>src</code></em>'s information into.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>pointer to the information to be copied into <em class="parameter"><code>dest</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-dup"></a><h3>mate_vfs_file_info_dup ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="returnvalue">MateVFSFileInfo</span></a> *  mate_vfs_file_info_dup             (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *orig</code></em>);</pre>
+<p>
+Duplicates <em class="parameter"><code>orig</code></em> and returns it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>orig</code></em> :</span></p></td>
+<td>pointer to a file information structure to duplicate.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new file information struct that duplicates the information in <em class="parameter"><code>orig</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-matches"></a><h3>mate_vfs_file_info_matches ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            mate_vfs_file_info_matches         (<em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *a</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> *b</code></em>);</pre>
+<p>
+Compare the two file info structs, return <code class="literal">TRUE</code> if they match exactly
+the same file data.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>first <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct to compare.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>second <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> struct to compare.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the two <a href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo"><span class="type">MateVFSFileInfos</span></a> match, otherwise return <code class="literal">FALSE</code>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-list-ref"></a><h3>mate_vfs_file_info_list_ref ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_file_info_list_ref        (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Increments the refcount of the items in <em class="parameter"><code>list</code></em> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>list</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-list-unref"></a><h3>mate_vfs_file_info_list_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_file_info_list_unref      (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Decrements the refcount of the items in <em class="parameter"><code>list</code></em> by one.
+Note that the list is *not freed* even if each member of the list
+is freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>list</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-list-copy"></a><h3>mate_vfs_file_info_list_copy ()</h3>
+<pre class="programlisting"><span class="returnvalue">GList</span> *             mate_vfs_file_info_list_copy       (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Creates a duplicate of <em class="parameter"><code>list</code></em>, and references each member of
+that list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> elements.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly referenced duplicate of <em class="parameter"><code>list</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-file-info-list-free"></a><h3>mate_vfs_file_info_list_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_file_info_list_free       (<em class="parameter"><code><span class="type">GList</span> *list</code></em>);</pre>
+<p>
+Decrements the refcount of each member of <em class="parameter"><code>list</code></em> by one,
+and frees the list itself.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>list of <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSFileInfo" title="MateVFSFileInfo"><span class="type">MateVFSFileInfo</span></a> elements.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-file-info-result-dup"></a><h3>mate_vfs_get_file_info_result_dup ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="returnvalue">MateVFSGetFileInfoResult</span></a> *  mate_vfs_get_file_info_result_dup
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="type">MateVFSGetFileInfoResult</span></a> *result</code></em>);</pre>
+<p>
+Duplicate <em class="parameter"><code>result</code></em>.
+</p>
+<p>
+Note: The internal uri and fileinfo objects are not duplicated
+but their refcount is incremented by 1.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="type">MateVFSGetFileInfoResult</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a duplicated version of <em class="parameter"><code>result</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-get-file-info-result-free"></a><h3>mate_vfs_get_file_info_result_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_get_file_info_result_free (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="type">MateVFSGetFileInfoResult</span></a> *result</code></em>);</pre>
+<p>
+Unrefs the internal uri and fileinfo objects and frees the
+memory allocated for <em class="parameter"><code>result</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>result</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-vfs-2.0-mate-vfs-file-info.html#MateVFSGetFileInfoResult" title="MateVFSGetFileInfoResult"><span class="type">MateVFSGetFileInfoResult</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 2.12</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!-- ##### SECTION Title ##### -->
+MateComponentItemHandler
+
+<!-- ##### SECTION Short_Description ##### -->
+Simple Moniker Arguments
+
+<!-- ##### SECTION Long_Description ##### -->
+<!-- doc/simple-moniker-arguments.txt -->
+<para>
+    Sometimes you want to pass "arguments" to a component.
+    Consider the component with the following OAFIID:
+</para>
+<para><literal>OAFIID:MATE_FileSelector</literal></para>
+<para>
+    You might want to be able to set configuration options from
+    its moniker name, without having to ever use the property bag
+    API. For example:</para>
+<para><literal>
+    OAFIID:MATE_FileSelector!AcceptMimeTypes=image/*</literal></para>
+
+<refsect2>
+    <title>Implementing it</title>
+    <para>
+	Create a MateComponentItemHandler.  This component will
+	let you do argument parsing of any kind.</para>
+    <para>
+	You have to provide two functions: <function>enumObjects</function>
+	(this can be empty) and <function>getObject</function>.</para>
+    <para>The getObject function will be called when the moniker
+	mechanism is trying to resolve a set of arguments to your
+	function.</para>
+    <para>Like this:</para>
+    <informalexample>
+	<programlisting>
+MateComponent_Unknown
+getObject (MateComponentItemHandler *h, const char *item_name,
+           gboolean only_if_exists, gpointer data,
+           CORBA_Environment *ev)
+{
+        MyData *m = data;
+                                                                        
+        if (strcmp (item_name, "friendly") == 0){
+                m-&gt;friendly = true;
+        }
+                                                                        
+        /* we just return ourselves */
+        return matecomponent_object_dup_ref (matecomponent_object_corba_objref (h), NULL);
+}
+	</programlisting>
+    </informalexample>
+    <para>
+	So basically during the `getObject' operation you will be
+	given a chance to process the `item_name' string which is
+	basically like a command line argument (for the sake of
+	explaining this) and based on this information you can
+	customize your component.
+    </para>
+</refsect2>
+
+<refsect2>
+    <title>Sample functions</title>
+    <para>
+	Sometimes you will want to specify a bunch of options to
+	configure your component, like this:
+    </para>
+    <para><literal>OAFIID:MyComponent!visible=true;image=blah.png</literal></para>
+    <para>
+	So we are separating the various options with semi-colons
+	here.  To simplify your code, we have provided a couple of
+	functions that given the following string:</para>
+    <para><literal>visible=true;image=blah.png</literal></para>
+    <para>Will return a GList split with MateComponentItemOptions:</para>
+    <informalexample>
+	<programlisting>
+GSList *l, *x;
+									
+x = matecomponent_item_option_parse ("visible=true;image=blah.png");
+									
+for (l = x; l != NULL; l++){
+	MateComponentItemOption *io = l-&gt;data;
+									
+	printf ("Key=%s, Value=%s\n", io-&gt;key, io-&gt;value);
+}
+matecomponent_item_option_free (x);
+	</programlisting>
+    </informalexample>
+
+</refsect2>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+   A simplistic implementation exists in #MateComponentItemContainer.
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT MateComponentItemHandler ##### -->
+<para>
+MateComponent::ItemHandler implementation
+</para>
+
+
+<!-- ##### STRUCT MateComponentItemHandlerClass ##### -->
+<para>
+MateComponentItemHandler class
+</para>
+
+@parent_class: 
+@epv: 
+
+<!-- ##### FUNCTION matecomponent_item_handler_new ##### -->
+<para>
+
+</para>
+
+@enum_objects: 
+@get_object: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_item_handler_new_closure ##### -->
+<para>
+
+</para>
+
+@enum_objects: 
+@get_object: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_item_handler_construct ##### -->
+<para>
+
+</para>
+
+@handler: 
+@enum_objects: 
+@get_object: 
+@Returns: 
+
+
+<!-- ##### STRUCT MateComponentItemOption ##### -->
+<para>
+A key-value pair.
+</para>
+
+@key: 
+@value: 
+
+<!-- ##### FUNCTION matecomponent_item_option_parse ##### -->
+<para>
+
+</para>
+
+@option_string: 
+@Returns: 
+
+
+<!-- ##### FUNCTION matecomponent_item_options_free ##### -->
+<para>
+
+</para>
+
+@options: 
+
+

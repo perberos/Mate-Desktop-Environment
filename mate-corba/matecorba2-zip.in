@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Build zipfiles for MateCORBA2 on Win32: Separate runtime and developer
+# ones. After running make install, run this.
+
+ZIP=/tmp/MateCORBA2-@MATECORBA_VERSION@.zip
+DEVZIP=/tmp/MateCORBA2-dev-@MATECORBA_VERSION@.zip
+
+cd @prefix@
+rm $ZIP
+
+zip $ZIP -@ <<EOF
+COPYING.LIB-2
+bin/libMateCORBA-2-0.dll
+bin/libMateCORBA-imodule-2-0.dll
+bin/libMateCORBACosNaming-2-0.dll
+etc/matecorbarc
+EOF
+
+rm $DEVZIP
+zip -r $DEVZIP -@ <<EOF
+bin/matecorba-idl-2.exe
+bin/matecorba-ior-decode-2.exe
+bin/matecorba-typelib-dump.exe
+include/matecorba-2.0
+lib/libMateCORBA-2.dll.a
+lib/libMateCORBA-imodule-2.dll.a
+lib/libMateCORBACosNaming-2.dll.a
+lib/libname-matecorba-server-2.a
+lib/pkgconfig/MateCORBA-2.0.pc
+lib/pkgconfig/MateCORBA-CosNaming-2.0.pc
+lib/pkgconfig/MateCORBA-idl-2.0.pc
+lib/pkgconfig/MateCORBA-imodule-2.0.pc
+share/aclocal/MateCORBA2.m4
+share/idl/matecorba-2.0
+share/gtk-doc/html/MateCORBA2
+EOF

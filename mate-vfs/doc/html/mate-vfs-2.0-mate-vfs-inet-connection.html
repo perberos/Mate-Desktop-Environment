@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Internet connection</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateVFS - Filesystem Abstraction library">
+<link rel="up" href="networking.html" title="Networking">
+<link rel="prev" href="mate-vfs-2.0-mate-vfs-socket-buffer.html" title="Unified bufferd network I/O">
+<link rel="next" href="mime-registry.html" title="MIME Registry">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mate-vfs-2.0-mate-vfs-socket-buffer.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="networking.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateVFS - Filesystem Abstraction library</th>
+<td><a accesskey="n" href="mime-registry.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-vfs-2.0-mate-vfs-inet-connection.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-vfs-2.0-mate-vfs-inet-connection.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="mate-vfs-2.0-mate-vfs-inet-connection"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-vfs-2.0-mate-vfs-inet-connection.top_of_page"></a>Internet connection</span></h2>
+<p>Internet connection — Simple TCP/IP connection functions.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="mate-vfs-2.0-mate-vfs-inet-connection.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">typedef             <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection">MateVFSInetConnection</a>;
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-create" title="mate_vfs_inet_connection_create ()">mate_vfs_inet_connection_create</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> **connection_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *host_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> host_port</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-destroy" title="mate_vfs_inet_connection_destroy ()">mate_vfs_inet_connection_destroy</a>   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-free" title="mate_vfs_inet_connection_free ()">mate_vfs_inet_connection_free</a>      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="returnvalue">MateVFSSocket</span></a> *    <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-to-socket" title="mate_vfs_inet_connection_to_socket ()">mate_vfs_inet_connection_to_socket</a> (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="returnvalue">MateVFSSocketBuffer</span></a> * <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-to-socket-buffer" title="mate_vfs_inet_connection_to_socket_buffer ()">mate_vfs_inet_connection_to_socket_buffer</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-get-fd" title="mate_vfs_inet_connection_get_fd ()">mate_vfs_inet_connection_get_fd</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-create-from-address" title="mate_vfs_inet_connection_create_from_address ()">mate_vfs_inet_connection_create_from_address</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> **connection_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress" title="MateVFSAddress"><span class="type">MateVFSAddress</span></a> *address</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> host_port</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);
+<a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress" title="MateVFSAddress"><span class="returnvalue">MateVFSAddress</span></a> *   <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-get-address" title="mate_vfs_inet_connection_get_address ()">mate_vfs_inet_connection_get_address</a>
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-get-ip" title="mate_vfs_inet_connection_get_ip ()">mate_vfs_inet_connection_get_ip</a>    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-inet-connection.description"></a><h2>Description</h2>
+<p>
+A <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> represents a TCP/IP connection. You can either use
+<a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-create" title="mate_vfs_inet_connection_create ()"><span class="type">mate_vfs_inet_connection_create</span></a> which will use the <a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#mate-vfs-resolve" title="mate_vfs_resolve ()"><span class="type">mate_vfs_resolve</span></a> DNS
+resolution functions internally or you can do the name resolution yourself
+and use <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#mate-vfs-inet-connection-create-from-address" title="mate_vfs_inet_connection_create_from_address ()"><span class="type">mate_vfs_inet_connection_create_from_address</span></a> to connect to a specific
+address.
+After a connection has been established all I/O is done through a MateVFSSocket
+or a MateVFSSocketBuffer.
+</p>
+</div>
+<div class="refsect1">
+<a name="mate-vfs-2.0-mate-vfs-inet-connection.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="MateVFSInetConnection"></a><h3>MateVFSInetConnection</h3>
+<pre class="programlisting">typedef struct MateVFSInetConnection MateVFSInetConnection;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-create"></a><h3>mate_vfs_inet_connection_create ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_inet_connection_create    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> **connection_return</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *host_name</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> host_port</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Creates a connection at <em class="parameter"><code>connection_return</code></em> to <em class="parameter"><code>host_name</code></em> using
+port <em class="parameter"><code>port</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a>, which will
+contain an allocated <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> object on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host_name</code></em> :</span></p></td>
+<td>string indicating the host to establish an internet connection with.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host_port</code></em> :</span></p></td>
+<td>port number to connect to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-destroy"></a><h3>mate_vfs_inet_connection_destroy ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_inet_connection_destroy   (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Closes/Destroys <em class="parameter"><code>connection</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to destroy.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle for cancelling the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-free"></a><h3>mate_vfs_inet_connection_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                mate_vfs_inet_connection_free      (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Frees <em class="parameter"><code>connection</code></em> without closing the socket.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to free.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle for cancelling the operation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-to-socket"></a><h3>mate_vfs_inet_connection_to_socket ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="returnvalue">MateVFSSocket</span></a> *    mate_vfs_inet_connection_to_socket (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);</pre>
+<p>
+Wrap <em class="parameter"><code>connection</code></em> inside a standard <a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="type">MateVFSSocket</span></a> for convenience.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to be wrapped into a <a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="type">MateVFSSocket</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly created <a class="link" href="mate-vfs-2.0-mate-vfs-socket.html#MateVFSSocket" title="MateVFSSocket"><span class="type">MateVFSSocket</span></a> around <em class="parameter"><code>connection</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-to-socket-buffer"></a><h3>mate_vfs_inet_connection_to_socket_buffer ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="returnvalue">MateVFSSocketBuffer</span></a> * mate_vfs_inet_connection_to_socket_buffer
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);</pre>
+<p>
+Wrap <em class="parameter"><code>connection</code></em> inside a standard <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> for convenience.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to be wrapped into a <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly created <a class="link" href="mate-vfs-2.0-mate-vfs-socket-buffer.html#MateVFSSocketBuffer" title="MateVFSSocketBuffer"><span class="type">MateVFSSocketBuffer</span></a> around <em class="parameter"><code>connection</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-get-fd"></a><h3>mate_vfs_inet_connection_get_fd ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 mate_vfs_inet_connection_get_fd    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);</pre>
+<p>
+Retrieve the UNIX file descriptor corresponding to <em class="parameter"><code>connection</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to get the file descriptor from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> file descriptor.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-create-from-address"></a><h3>mate_vfs_inet_connection_create_from_address ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="returnvalue">MateVFSResult</span></a>      mate_vfs_inet_connection_create_from_address
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> **connection_return</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress" title="MateVFSAddress"><span class="type">MateVFSAddress</span></a> *address</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint</span> host_port</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-async-ops.html#MateVFSCancellation" title="MateVFSCancellation"><span class="type">MateVFSCancellation</span></a> *cancellation</code></em>);</pre>
+<p>
+Creates a connection at <em class="parameter"><code>connection_return</code></em> to <em class="parameter"><code>address</code></em> using
+port <em class="parameter"><code>port</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection_return</code></em> :</span></p></td>
+<td>pointer to a pointer to a <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a>, which will 
+contain an allocated <a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> object on return.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
+<td>a valid <a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress" title="MateVFSAddress"><span class="type">MateVFSAddress</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>host_port</code></em> :</span></p></td>
+<td>port number to connect to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellation</code></em> :</span></p></td>
+<td>handle allowing cancellation of the operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="mate-vfs-2.0-mate-vfs-result.html#MateVFSResult" title="enum MateVFSResult"><span class="type">MateVFSResult</span></a> indicating the success of the operation.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.8</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-get-address"></a><h3>mate_vfs_inet_connection_get_address ()</h3>
+<pre class="programlisting"><a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress" title="MateVFSAddress"><span class="returnvalue">MateVFSAddress</span></a> *   mate_vfs_inet_connection_get_address
+                                                        (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);</pre>
+<p>
+Retrieve the address of the other side of a connected <em class="parameter"><code>connection</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to get the address from. 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="mate-vfs-2.0-mate-vfs-resolve.html#MateVFSAddress" title="MateVFSAddress"><span class="type">MateVFSAddress</span></a> containing the address.
+
+Since 2.8
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="mate-vfs-inet-connection-get-ip"></a><h3>mate_vfs_inet_connection_get_ip ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              mate_vfs_inet_connection_get_ip    (<em class="parameter"><code><a class="link" href="mate-vfs-2.0-mate-vfs-inet-connection.html#MateVFSInetConnection" title="MateVFSInetConnection"><span class="type">MateVFSInetConnection</span></a> *connection</code></em>);</pre>
+<p>
+Retrieve the ip address of the other side of a connected <em class="parameter"><code>connection</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
+<td>connection to get the ip from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> string version of the ip.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.8</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

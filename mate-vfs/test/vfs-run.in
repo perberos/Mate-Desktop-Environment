@@ -1,0 +1,16 @@
+#! /bin/sh
+
+# Wrapper for VFS test programs.  It makes sure the modules are loaded
+# from the build directory instead of the system one.
+
+MATE_VFS_MODULE_PATH=@TOP_BUILDDIR@/modules/.libs
+export MATE_VFS_MODULE_PATH
+
+echo "VFS modules will be loaded from $MATE_VFS_MODULE_PATH"
+
+PATH=.:$PATH
+export PATH
+
+exec $@
+
+echo "$0: cannot exec "$@

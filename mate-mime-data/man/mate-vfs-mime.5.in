@@ -1,0 +1,207 @@
+.\"
+.\" MATE mime types manual page
+.\" (C) 1999 Miguel de Icaza (miguel@gnu.org).
+.\" 
+.\" This manual page is covered by the terms of the GNU General
+.\" Public License.  
+.\"
+.TH MATE 1 "MATE 1.0" 
+.SH NAME
+MATE MIME configuration files
+.PP
+The MATE system uses MIME types to classify content.  Each MIME type
+on the MATE system has a number of attributes attached to it.  Some
+of these attributes have a special meaning to the MATE system.
+.SH MIME type of files
+There are two ways of classifying a file in the MATE system: by
+matching their extension or a regular expression with their name or by
+its content.  MATE applications use one of those two methods
+depending on speed contraints and the specific setup.  The MIME types
+available on the system can be configured at runtime by putting
+special files in either the MATE MIME directory
+.I (@datadir@/mime-info)
+or the user 
+.I ~/.mate/mime-info 
+directory.
+.PP
+.SH MIME type definition files.
+.PP
+The routines that classify a file by its name, use the contents of all
+of the files with the extension 
+.I .mime
+from the
+.I @datadir@/mime-info
+directory and the
+.I ~/.mate/mime-info
+to build the database for
+filename matching.  The latter is supported to enable users to provide
+their mime types to extend the system defaults.
+.PP
+Application that wish to install their own MIME types only need
+to install a file in this directory.
+.PP
+The file 
+.I @datadir@/mime-info/mate.mime 
+is
+special, as it contains the defaults for mate, and is read first.  In
+addition, the file 
+.I ~/.mate/mime-info/user.mime
+is read last.  This will guarantee that there is a way to set system
+defaults, and there is a way for the user to override them.  There is
+currently no way to tell anything about the order of the other files
+in those directories, nor is there anyway to override system defaults
+yet.
+.PP
+The format is the following:
+.PP
+.nf
+mime-type-name
+	ext[,priority]: ext1 ext2 ext3
+	ext[,priority]: ext4
+	regex[,priority]: regex1
+	regex[,priority]: regex2
+.fi
+.PP
+where "mime-type-name" is a valid MIME type.  For example
+"text/plain". 
+.PP
+For example, for a vCalendar application, this file would be
+installed:
+.PP
+.nf
+------ calendar.mime  -------
+application/v-calendar:
+	ext: vcf
+-----------------------------
+.fi
+.PP
+.SH MIME key information
+To add keys to a MIME type, it is necessary to install a file with the
+extension 
+.I .keys
+in the
+.I @datadir@/mime-info
+directory or in the 
+.I ~/.mate/mime-info
+directory.  The former is for system-provided mime-information and the
+latter is to enable the user to extend the actions as provided by the
+system.  
+.PP
+The file 
+.I @datadir@/mime-info/mate.keys
+is
+special, as it contains the defaults for mate, and is read first.  In
+addition, the file 
+.I ~/.mate/mime-info/user.keys
+is
+read last.  This will guarantee that there is a way to set system
+defaults, and there is a way for the user to override them.  There is
+currently no way to tell anything about the order of the other files in
+those directories, nor is there anyway to override system defaults yet.
+.PP
+The 
+.I .keys
+files have the following format:
+.PP
+.nf
+mime-type-match:
+	[\[LANG\]]key=value
+.fi
+.PP
+Above, the 
+.I key
+is the key that is being
+defined and 
+.I value
+is the value we bind to
+it.  The optional 
+.I [LANG]
+represents a language in which this definition is valid.  If this part
+is specified, then the definition will only be valid if LANG matches
+the setting of the environment variable LANG.  The LANG setting is
+used to provide keys which can be displayed to the user in a localized
+way.
+.PP
+This is an example to bind the key 
+.I open
+to all of
+the mime-types matching 
+.I image/*
+and the
+.I icon-filename
+key is bound to the
+.I /opt/gimp/share/xcf.png
+value:
+.PP
+.nf
+image/*:
+	open=gimp %f
+
+image/x-xcf:
+        icon-filename=/opt/gimp/share/xcf.png
+.fi
+.PP
+This will make the GIMP the handler for the open action.  Files of
+type xcf would use the filename pointed in the 
+.I icon-filename
+key.
+.PP
+.I %f gets
+interpolated with the file name or the list of file names that
+matched this mime-type.
+.PP
+As you can see from the example above, a
+.I .keys
+file does not need to provide all of the values, it can just provide
+or override some of the actions.
+.PP
+User defined bindings in 
+.I .keys file will take
+precedence over system installed files.
+.PP
+.SH Special key used by the MATE system
+The following keys are currently used in the MATE
+desktop:
+.PP
+.I open
+.IP
+Open the file with this command.
+.PP
+.I icon-filename
+.IP
+The filename with the icon that should be used to represent files of this type.
+.PP
+.I view
+.IP
+Command to view the file contents.
+.PP
+.I ascii-view
+.IP
+A command that should be used to do an ascii-rendering of the file.
+Used as a fallback by the filemanager if a
+.I view action
+does not exist.
+.PP
+.I fm-open
+.IP
+file-manager open.  If
+present, the file manager will use this action instead of the value in
+open to perform this action (the filemanager for example will open
+archive files as if they were directories by using the VFS).
+.PP
+.I fm-view
+.IP
+file-manager view.  If present, invoking the view opertion on the file
+manager will use the value defined here instead of the value in
+"view".
+.PP
+.I fm-ascii-view
+.IP
+Fallback operation for the file manager as well.
+.PP
+Those keys are also queried on the metadata (except in the cases where
+the lookup would be too expensive).
+.PP
+.SH AUTHOR
+This manual page has been written by Miguel de Icaza (miguel@gnu.org)
+

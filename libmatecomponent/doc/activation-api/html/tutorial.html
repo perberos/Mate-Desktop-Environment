@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MateComponent Activation tutorial</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="up" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="prev" href="index.html" title="MateComponent Activation API Reference Manual">
+<link rel="next" href="checklist.html" title="Checklist">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
+<td><a accesskey="p" href="index.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td> </td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateComponent Activation API Reference Manual</th>
+<td><a accesskey="n" href="checklist.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="chapter">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="tutorial"></a>MateComponent Activation tutorial</h2></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect1"><a href="tutorial.html#id2719173">What is MateComponent Activation ?</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="tutorial.html#id2753489">The need for a replacement</a></span></dt>
+<dt><span class="sect2"><a href="tutorial.html#id2714570">Getting started</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="checklist.html">Checklist</a></span></dt>
+<dd><dl><dt><span class="sect2"><a href="checklist.html#id2762602">The non-local case</a></span></dt></dl></dd>
+</dl></div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="id2719173"></a>What is MateComponent Activation ?</h2></div></div></div>
+<p>
+   MateComponent Activation (originally named OAF) was designed as a replacement for the limited libgnorba library used
+   in older MATE released. matecomponent-activation is responsible on MATE 2.x systems for
+   the activation of CORBA objects. matecomponent-activation allows you to browse the available
+   CORBA servers on your system (running or not). It keeps track of the running 
+   servers so that if you ask for a server which is already running, you will not
+   start it again but will reuse the already running one.
+   </p>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2753489"></a>The need for a replacement</h3></div></div></div>
+<p>
+      Gnorba works well in a limited number of cases and suffers of a 
+      number of design issues. More specifically:
+
+      </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+      It cannot handle the non-local case gracefully. ie: you cannot start 
+      a remote CORBA server with matecomponent-activation.
+      </p></li>
+<li class="listitem"><p>
+      It uses <span class="emphasis"><em>evil</em></span> hacks to keep track of the system's CosNaming 
+      service making it unusable on systems where an X server is not running.
+      (for details, read matecomponent-activation code ;-)
+      </p></li>
+<li class="listitem"><p>
+      matecomponent-activation allows you to only request specific servers by their name: you cannot ask
+      for a server which provides a specific service. You have to ask for a server which 
+      you know provides a specific service.
+      </p></li>
+</ul></div>
+<p>
+      </p>
+<p>
+      MateComponent Activation was designed to address these issues. The remote issue is completely solved
+      by the MateComponent Activation daemon (see <a class="xref" href="architecture.html" title="MateComponent Activation Architecture"><i>MateComponent Activation Architecture</i></a>), the evil hacks regarding X are
+      part of our past and the grand <span class="emphasis"><em>OAF query langage</em></span> (see 
+      <a class="xref" href="query-langage.html" title="MateComponent Activation Query Langage"><i>MateComponent Activation Query Langage</i></a>) gives you the ability to perform arbitrary queries
+      on the database of CORBA servers.
+      </p>
+<p>
+      Basically, MateComponent Activation keeps track of all the CORBA servers installed on your machine and
+      can track any other machine's CORBA servers provided you set up MateComponent Activation correctly and 
+      allows you to perform queries on the properties of these servers.
+      The following very simple example will make things rather clear:
+
+      </p>
+<pre class="programlisting">
+CORBA_Object o = matecomponent_activation_activate ("repo_ids.has ('IDL:MATE/Graph/Layout:1.0')",
+                                             NULL, 0, NULL, &amp;ev);
+      </pre>
+<p>
+
+      This will ask for a component which supports the MATE/Graph/Layout:1.0 interface.
+      You can also do much more complicated things. MateComponent Activation will find one whcih matches the 
+      query and will take all the necessary measures required to get the server running
+      (if it is a shared library progam, it will load the relevant library in memory.
+      If you need a Factory, it will launch the factory and request the factory to create
+      the relevant object).
+
+      </p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="id2714570"></a>Getting started</h3></div></div></div>
+<p>
+      Here follows a very simple-stupid example of what you can do with MateComponent Activation.
+      The complete API description of matecomponent activation, the MateComponent Activation query langage reference and the
+      <code class="filename">.server</code> file format reference are included in this 
+      document and are recommended readings. Reading <a class="xref" href="architecture.html" title="MateComponent Activation Architecture"><i>MateComponent Activation Architecture</i></a> is
+      also a good idea.
+      </p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>
