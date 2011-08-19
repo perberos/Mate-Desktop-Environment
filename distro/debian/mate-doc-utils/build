@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# fill it
+pkgname=mate-doc-utils
+pkgver=0.0.0-1
+pkgdesc="Documentation utilities for MATE"
+#depends="libxslt1.1, python, docbook-xml, rarian-compat, gnome-doc-utils"
+depends=('libxml2')
+makedepends=('libxml2-dev' 'libxslt1-dev' 'automake' 'intltool')
+
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf ${pkgname}.tar.gz
+	# entramos a la carpeta
+	cd ${pkgname}
+	
+	PYTHON=/usr/bin/python ./configure --prefix=/usr --sysconfdir=/etc \
+		--mandir=/usr/share/man --localstatedir=/var --disable-scrollkeeper
+	make
+
+	make DESTDIR="$pkgdir" install || return 1
+
+	# files with conflicts with gnome-doc-utils
+	rm -rf "${pkgdir}/usr/share/xml/mallard/"
+	rm "${pkgdir}/usr/share/pkgconfig/xml2po.pc"
+	rm -rf "${pkgdir}/usr/share/man/"
+	rm -rf "${pkgdir}/usr/lib/"
+	rm "${pkgdir}/usr/bin/xml2po"
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. ../common

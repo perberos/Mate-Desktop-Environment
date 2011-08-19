@@ -1,0 +1,34 @@
+pkgname=mate-image-viewer
+pkgver=0.0.0
+pkgrel=2
+pkgdesc="An image viewing and cataloging program for MATE"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('mate-desktop' 'libexif' 'lcms' 'desktop-file-utils' 'mate-icon-theme' 'exempi')
+makedepends=('pkgconfig' 'mate-doc-utils' 'intltool')
+options=('!emptydirs' '!libtool')
+conflicts=('eog')
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+install=mate-image-viewer.install
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
+sha256sums=('46130b2508f495d2ef1241e9819eb7db5b94b00b1c2341aa04bfe1292f14e9c3')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	
+	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-scrollkeeper || return 1
+	
+	make || return 1
+}
+
+package() {
+    cd "${srcdir}/${pkgname}"
+    
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}

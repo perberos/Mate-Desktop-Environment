@@ -1,0 +1,34 @@
+pkgname=mate-window-manager
+pkgver=0.0.0
+pkgrel=2
+pkgdesc="A window manager for MATE"
+arch=(i686 x86_64)
+license=('GPL')
+depends=('startup-notification' 'mate-conf' 'mate-dialogs' 'libcanberra' 'libgtop' 'libwnck')
+makedepends=('intltool' 'pkgconfig' 'mate-doc-utils')
+options=('!emptydirs')
+install=mate-window-manager.install
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz
+		metacity-restartstyle.patch)
+sha256sums=('1b7aa5ac2cf58f35bbb7fca5a4bbe952754c6ba6b00b86b7cf92cf20de304ace'
+            'ea2450ca3e4fb59166ec18ff4844cc61cb16865880dc6b125078a3ab47bf2caf')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	patch -Np1 -i "${srcdir}/metacity-restartstyle.patch"
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--libexecdir=/usr/lib/${pkgname} \
+		--localstatedir=/var --disable-static
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}

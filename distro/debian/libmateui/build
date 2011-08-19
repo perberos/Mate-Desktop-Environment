@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# on Ubuntu there is a bug with the libgcrypt package
+# open /usr/lib/i386-linux-gnu/libgcrypt.la
+# and change /lib/i386-linux-gnu for /usr/lib/i386-linux-gnu
+# after, cp /usr/lib/i386-linux-gnu/libgcrypt.la /lib/i386-linux-gnu/libgcrypt.la
+
+# fill it
+pkgname=libmateui
+pkgver=0.0.0-1
+pkgdesc="User Interface library for MATE"
+#depends="libmatecomponentui, libmatekeyring, libsm"
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf ${pkgname}.tar.gz
+	# entramos a la carpeta
+	cd ${pkgname}
+	
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static \
+		--libexecdir=/usr/lib/libmateui || return 1
+	make || return 1
+    make DESTDIR="$pkgdir" install || return 1
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. ../common

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# fill it
+pkgname=mate-corba
+pkgver=0.0.0-1
+pkgdesc="Thin and fast CORBA ORB"
+makedepends=('libglib2.0-dev' 'libidl-dev')
+
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf ${pkgname}.tar.gz
+	# entramos a la carpeta
+	cd ${pkgname}
+	
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR="${pkgdir}" install
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. ../common

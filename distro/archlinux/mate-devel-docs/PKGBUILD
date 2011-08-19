@@ -1,0 +1,24 @@
+pkgname=mate-devel-docs
+pkgver=0.0.0
+pkgrel=1
+pkgdesc="Developer documentation for MATE"
+arch=('any')
+license=('GPL' 'LGPL')
+depends=('libxslt' 'python2' 'docbook-xml' 'rarian')
+makedepends=('pkgconfig' 'intltool')
+url="http://matsusoft.com.ar/projects"
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
+sha256sums=('b67b2795025e028d12c07e9a204b0061377049cc923c316e1fea30d81f8518c2')
+groups=('mate')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --sysconfdir=/etc \
+		--mandir=/usr/share/man --localstatedir=/var --disable-scrollkeeper
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+    make DESTDIR="$pkgdir" install || return 1
+}

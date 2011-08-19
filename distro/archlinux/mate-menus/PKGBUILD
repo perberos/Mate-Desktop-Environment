@@ -1,0 +1,36 @@
+pkgname=mate-menus
+pkgver=0.0.0
+pkgrel=2
+pkgdesc="MATE menu specifications"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('glib2' 'python2')
+makedepends=('intltool' 'gobject-introspection')
+options=('!libtool')
+provides=('gnome-menus')
+conflicts=('gnome-menus')
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz
+        menus.patch)
+sha256sums=('a004cc3a39d0d8065a783e40bf7917db8d6d056a94f02d452e095ba1ebc6fc96'                                                   
+            'fcb4ec32349e3788bb19149c51b773d2a82f93618ab7a22ff6896d166ae2cab9')
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+
+	patch -Np0 -i "$srcdir/menus.patch"
+
+	PYTHON=/usr/bin/python2 ./configure \
+		--prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var  --disable-static
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	make DESTDIR="${pkgdir}" install
+
+	sed -i "1s|#!/usr/bin/env python$|&2|" \
+		"$pkgdir/usr/lib/python2.7/site-packages/GMenuSimpleEditor/config.py"
+}

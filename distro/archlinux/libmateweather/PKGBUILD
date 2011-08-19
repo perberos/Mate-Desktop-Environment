@@ -1,0 +1,36 @@
+pkgname=libmateweather
+pkgver=0.0.0
+pkgrel=2
+pkgdesc="Provides access to weather information from the net"
+arch=('i686' 'x86_64')
+license=('LGPL')
+depends=('mate-conf' 'mate-icon-theme') #  'libsoup-mate'
+makedepends=('pkgconfig' 'intltool' 'gtk-doc')
+options=('!emptydirs')
+url="http://www.gnome.org/"
+install=libmateweather.install
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
+sha256sums=('e3bfe3e72a173172b0b05fd44175d5631fb49364af4d497c4aada72d3e0d0ca8')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	libtoolize --force || return 1
+	gtkdocize || return 1
+	aclocal || return 1
+	autoconf || return 1
+	automake || return 1
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static \
+		--enable-locations-compression || return 1
+	make || return 1
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain libmateweather ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}

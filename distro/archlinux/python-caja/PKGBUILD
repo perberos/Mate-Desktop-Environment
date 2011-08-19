@@ -1,0 +1,27 @@
+pkgname=python-caja
+pkgver=0.0
+pkgrel=1
+pkgdesc="Python binding for Cahja components"
+arch=('i686' 'x86_64')
+url="http://matsusoft.com.ar/projects/"
+license="GPL"
+makedepends=('pkgconfig' 'python-mate' )
+depends=('mate-file-manager' 'pygtk')
+options=('!libtool' '!emptydirs')
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
+sha256sums=('bb93232c12a48f084f0b32ea58b8962f444f030fd2f4ce88042399b0a6ee7f1f')
+
+build() {
+	export PYTHON=python2
+	cd "${srcdir}/${pkgname}"
+
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static || return 1
+	make || return 1
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	
+	make DESTDIR="$pkgdir" install || return 1
+}

@@ -1,0 +1,37 @@
+pkgname=mate-character-map
+pkgver=0.0.0
+pkgrel=1
+pkgdesc="MATE Unicode Charmap"
+arch=(i686 x86_64)
+license=('GPL')
+depends=('mate-conf' 'hicolor-icon-theme')
+makedepends=('mate-doc-utils' 'pkgconfig' 'intltool')
+options=('!libtool' '!emptydirs')
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+install=mate-character-map.install
+conflicts=('gucharmap')
+provides=('gucharmap')
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
+sha256sums=('03b577be797250a3c52485f58ecf70f4c32da7775a28be41426300ef24a5fa6c')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+
+	mate-doc-prepare || return 1
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static \
+		--disable-scrollkeeper || return 1
+
+	make || return 1
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+    
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain mate-character-map ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}

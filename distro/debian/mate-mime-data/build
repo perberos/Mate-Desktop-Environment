@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# fill it
+pkgname=mate-mime-data
+pkgver=0.0.0-1
+pkgdesc="The base MIME and Application database for MATE"
+#depends="shared-mime-info"
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf ${pkgname}.tar.gz
+	# entramos a la carpeta
+	cd ${pkgname}
+	
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+	make
+	make DESTDIR="${pkgdir}" install
+
+	install -m755 -d "${pkgdir}/usr/lib"
+	mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/"
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. ../common

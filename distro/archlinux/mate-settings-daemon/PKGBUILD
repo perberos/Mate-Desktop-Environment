@@ -1,0 +1,37 @@
+pkgname=mate-settings-daemon
+pkgver=0.0.0
+pkgrel=4
+pkgdesc="The MATE Settings daemon"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('libmatekbd' 'mate-desktop' 'libmatenotify' 'gstreamer0.10-base' 'hicolor-icon-theme')
+makedepends=('intltool' 'pkgconfig')
+options=('!emptydirs')
+url="http://matsusoft.com.ar/projects"
+install=mate-settings-daemon.install
+groups=('mate')
+source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
+sha256sums=('590ab62748726ba07588ee4a114864ea5383a497eff5ebbd27eaba572f257b65')
+
+build() {
+	cd "$srcdir/$pkgname"
+	libtoolize --force || return 1
+	aclocal || return 1
+	autoconf || return 1
+	automake || return 1
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+		--libexecdir=/usr/bin \
+		--disable-static --disable-pulse --disable-schemas-install \
+		--enable-polkit || return 1
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	
+	make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
+
+	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}
