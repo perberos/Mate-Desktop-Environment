@@ -1,0 +1,471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GeditMessage</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="gedit Reference Manual">
+<link rel="up" href="ch01.html" title="gedit">
+<link rel="prev" href="gedit-GeditMessageType.html" title="GeditMessageType">
+<link rel="next" href="gedit-gedit-notebook.html" title="GeditNotebook">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gedit-GeditMessageType.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">gedit Reference Manual</th>
+<td><a accesskey="n" href="gedit-gedit-notebook.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#GeditMessage.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#GeditMessage.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#GeditMessage.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#GeditMessage.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry" title="GeditMessage">
+<a name="GeditMessage"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="GeditMessage.top_of_page"></a>GeditMessage</span></h2>
+<p>GeditMessage — message bus message object</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="GeditMessage.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;gedit/gedit-message.h&gt;
+
+                    <a class="link" href="GeditMessage.html#GeditMessage-struct" title="GeditMessage">GeditMessage</a>;
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-get" title="gedit_message_get ()">gedit_message_get</a>                   (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-get-valist" title="gedit_message_get_valist ()">gedit_message_get_valist</a>            (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> var_args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-get-value" title="gedit_message_get_value ()">gedit_message_get_value</a>             (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-set" title="gedit_message_set ()">gedit_message_set</a>                   (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-set-valist" title="gedit_message_set_valist ()">gedit_message_set_valist</a>            (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> var_args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-set-value" title="gedit_message_set_value ()">gedit_message_set_value</a>             (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="GeditMessage.html#gedit-message-set-valuesv" title="gedit_message_set_valuesv ()">gedit_message_set_valuesv</a>           (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **keys</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *values</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> n_values</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GeditMessage.html#gedit-message-get-object-path" title="gedit_message_get_object_path ()">gedit_message_get_object_path</a>       (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GeditMessage.html#gedit-message-get-method" title="gedit_message_get_method ()">gedit_message_get_method</a>            (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GeditMessage.html#gedit-message-has-key" title="gedit_message_has_key ()">gedit_message_has_key</a>               (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+<a href="http://library.mate.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>               <a class="link" href="GeditMessage.html#gedit-message-get-key-type" title="gedit_message_get_key_type ()">gedit_message_get_key_type</a>          (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GeditMessage.html#gedit-message-validate" title="gedit_message_validate ()">gedit_message_validate</a>              (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="GeditMessage.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----GeditMessage
+</pre>
+</div>
+<div class="refsect1" title="Properties">
+<a name="GeditMessage.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="GeditMessage.html#GeditMessage--method" title='The "method" property'>method</a>"                   <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
+  "<a class="link" href="GeditMessage.html#GeditMessage--object-path" title='The "object-path" property'>object-path</a>"              <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
+  "<a class="link" href="GeditMessage.html#GeditMessage--type" title='The "type" property'>type</a>"                     <a class="link" href="gedit-GeditMessageType.html#GeditMessageType" title="GeditMessageType"><span class="type">GeditMessageType</span></a>*     : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="GeditMessage.description"></a><h2>Description</h2>
+<p>
+Communication on a <a class="link" href="GeditMessageBus.html" title="GeditMessageBus"><span class="type">GeditMessageBus</span></a> is done through messages. Messages are
+sent over the bus and received by connecting callbacks on the message bus.
+A <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> is an instantiation of a <a class="link" href="gedit-GeditMessageType.html#GeditMessageType" title="GeditMessageType"><span class="type">GeditMessageType</span></a>, containing
+values for the arguments as specified in the message type.
+</p>
+<p>
+A message can be seen as a method call, or signal emission depending on
+who is the sender and who is the receiver. There is no explicit distinction
+between methods and signals.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="GeditMessage.details"></a><h2>Details</h2>
+<div class="refsect2" title="GeditMessage">
+<a name="GeditMessage-struct"></a><h3>GeditMessage</h3>
+<pre class="programlisting">typedef struct _GeditMessage GeditMessage;</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_get ()">
+<a name="gedit-message-get"></a><h3>gedit_message_get ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_get                   (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+Get values of message arguments. The supplied <em class="parameter"><code>var_args</code></em> should contain
+pairs of keys and pointers to variables which are set to the argument
+value for the specified key.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>a NULL variable argument list of key/value container pairs
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_get_valist ()">
+<a name="gedit-message-get-valist"></a><h3>gedit_message_get_valist ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_get_valist            (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> var_args</code></em>);</pre>
+<p>
+Get values of message arguments. The supplied <em class="parameter"><code>var_args</code></em> should contain
+pairs of keys and pointers to variables which are set to the argument
+value for the specified key.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>var_args</code></em> :</span></p></td>
+<td>a NULL variable argument list of key/value container pairs
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_get_value ()">
+<a name="gedit-message-get-value"></a><h3>gedit_message_get_value ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_get_value             (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
+<p>
+Get the value of a specific message argument. <em class="parameter"><code>value</code></em> will be initialized
+with the correct type.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>the argument key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>value return container
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_set ()">
+<a name="gedit-message-set"></a><h3>gedit_message_set ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_set                   (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+Set values of message arguments. The supplied <em class="parameter"><code>var_args</code></em> should contain
+pairs of keys and argument values.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>a NULL terminated variable list of key/value pairs
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_set_valist ()">
+<a name="gedit-message-set-valist"></a><h3>gedit_message_set_valist ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_set_valist            (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> var_args</code></em>);</pre>
+<p>
+Set values of message arguments. The supplied <em class="parameter"><code>var_args</code></em> should contain
+pairs of keys and argument values.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>var_args</code></em> :</span></p></td>
+<td>a NULL terminated variable list of key/value pairs
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_set_value ()">
+<a name="gedit-message-set-value"></a><h3>gedit_message_set_value ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_set_value             (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
+<p>
+Set value of message argument <em class="parameter"><code>key</code></em> to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>the argument key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the argument value
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_set_valuesv ()">
+<a name="gedit-message-set-valuesv"></a><h3>gedit_message_set_valuesv ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_message_set_valuesv           (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **keys</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *values</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> n_values</code></em>);</pre>
+<p>
+Set message argument values.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keys</code></em> :</span></p></td>
+<td>keys to set values for
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
+<td>values to set
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n_values</code></em> :</span></p></td>
+<td>number of arguments to set values for
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_get_object_path ()">
+<a name="gedit-message-get-object-path"></a><h3>gedit_message_get_object_path ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gedit_message_get_object_path       (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>);</pre>
+<p>
+Get the message object path.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the message object path
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_get_method ()">
+<a name="gedit-message-get-method"></a><h3>gedit_message_get_method ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gedit_message_get_method            (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>);</pre>
+<p>
+Get the message method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the message method
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_has_key ()">
+<a name="gedit-message-has-key"></a><h3>gedit_message_has_key ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_message_has_key               (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>
+Check whether the message has a specific key.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>the argument key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if <em class="parameter"><code>message</code></em> has argument <em class="parameter"><code>key</code></em>
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_get_key_type ()">
+<a name="gedit-message-get-key-type"></a><h3>gedit_message_get_key_type ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>               gedit_message_get_key_type          (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>
+Get the type of a message argument.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>the argument key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the type of <em class="parameter"><code>key</code></em>
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_message_validate ()">
+<a name="gedit-message-validate"></a><h3>gedit_message_validate ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_message_validate              (<em class="parameter"><code><a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a> *message</code></em>);</pre>
+<p>
+Validates the message arguments according to the message type.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>message</code></em> :</span></p></td>
+<td>the <a class="link" href="GeditMessage.html" title="GeditMessage"><span class="type">GeditMessage</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the message is valid
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="GeditMessage.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "method" property'>
+<a name="GeditMessage--method"></a><h3>The <code class="literal">"method"</code> property</h3>
+<pre class="programlisting">  "method"                   <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read</pre>
+<p>
+The messages method.
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" title='The "object-path" property'>
+<a name="GeditMessage--object-path"></a><h3>The <code class="literal">"object-path"</code> property</h3>
+<pre class="programlisting">  "object-path"              <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read</pre>
+<p>The message object path.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" title='The "type" property'>
+<a name="GeditMessage--type"></a><h3>The <code class="literal">"type"</code> property</h3>
+<pre class="programlisting">  "type"                     <a class="link" href="gedit-GeditMessageType.html#GeditMessageType" title="GeditMessageType"><span class="type">GeditMessageType</span></a>*     : Read / Write / Construct Only</pre>
+<p>The message type.</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+dnl -*- mode: autoconf -*-
+AC_PREREQ(2.52)
+
+m4_define(pymatecorba_major_version, 2)
+m4_define(pymatecorba_minor_version, 24)
+m4_define(pymatecorba_micro_version, 0)
+m4_define(pymatecorba_version, pymatecorba_major_version.pymatecorba_minor_version.pymatecorba_micro_version)
+
+m4_define(matecorba2_required_version, 2.12)
+
+AC_INIT([pymatecorba], [pymatecorba_version],
+        [http://bugzilla.mate.org/enter_bug.cgi?product=pymatecorba])
+
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_SRCDIR([src/pymatecorba.h])
+AC_CONFIG_HEADERS([config.h])
+
+AM_INIT_AUTOMAKE
+
+# make sure $ACLOCAL_FLAGS are used during a rebuild.
+AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \${ACLOCAL_FLAGS}"])
+
+AC_DEFINE([PYMATECORBA_MAJOR_VERSION], [pymatecorba_major_version],
+          [PyMateCORBA major version])
+AC_DEFINE([PYMATECORBA_MINOR_VERSION], [pymatecorba_minor_version],
+          [PyMateCORBA minor version])
+AC_DEFINE([PYMATECORBA_MICRO_VERSION], [pymatecorba_micro_version],
+          [PyMateCORBA micro version])
+
+# used in the spec file ...
+AC_SUBST([MATECORBA2_REQUIRED_VERSION], [matecorba2_required_version])
+
+AC_DISABLE_STATIC
+AC_PROG_LIBTOOL
+
+AM_PATH_PYTHON([2.4])
+
+AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+CC="$PYTHON_CC"
+
+PKG_CHECK_MODULES([PYMATECORBA], [MateCORBA-2.0 >= matecorba2_required_version])
+
+# link with the imodule service if it is available
+AC_MSG_CHECKING([for the MateCORBA2 imodule service])
+if AC_RUN_LOG([$PKG_CONFIG --print-errors --exists MateCORBA-imodule-2.0]); then
+   AC_MSG_RESULT([found])
+   PYMATECORBA_CFLAGS=`$PKG_CONFIG --cflags MateCORBA-imodule-2.0`
+   PYMATECORBA_LIBS=`$PKG_CONFIG --libs MateCORBA-imodule-2.0`
+   AC_DEFINE([HAVE_MATECORBA2_IMODULE],,
+             [have support for the MateCORBA2 imodule service])
+else
+   AC_MSG_RESULT([not found])
+fi
+
+# get rid of the -export-dynamic stuff from the configure flags ...
+export_dynamic=`(./libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
+if test -n "$export_dynamic"; then
+  PYMATECORBA_LIBS=`echo $PYMATECORBA_LIBS | sed -e "s/$export_dynamic//"`
+fi
+
+dnl add required cflags ...
+JH_ADD_CFLAG([-Wall])
+JH_ADD_CFLAG([-std=c9x])
+JH_ADD_CFLAG([-fno-strict-aliasing])
+
+AC_CONFIG_FILES([
+  Makefile
+  src/Makefile
+  tests/Makefile
+  tests/c-inproc/Makefile
+  examples/Makefile
+  examples/threaded/Makefile
+  pymatecorba-2.pc
+  pymatecorba.spec
+  PKG-INFO
+])
+
+AC_OUTPUT

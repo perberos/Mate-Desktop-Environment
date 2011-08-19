@@ -1,0 +1,172 @@
+# Theme Name  : Glider
+# Author(s)   : Link Dupont <link@subpop.net>
+# Description : A very basic, conservative theme, using the Smooth engine and
+#               HIG colors.
+#               This is Glider, the mate-themes version of SmoothMATE..
+
+gtk_color_scheme = "fg_color:#000\nbg_color:#eae8e3\nbase_color:#fff\ntext_color:#000\nselected_bg_color:#7590ae\nselected_fg_color:#fff\ntooltip_bg_color:#FFF1BE\ntooltip_fg_color:#000"
+
+style "default"
+{
+	GtkWidget::interior_focus = 0
+	GtkWidget::focus-line-pattern = ""
+	GtkWidget::focus_padding = 0
+
+	GtkButton::default_spacing = 8
+	GtkButton::default_border = {0,0,0,0}
+	GtkButton::default_outside_border = {0,0,0,0}
+	
+	GtkCheckButton::indicator_size = 14
+	GtkRadioButton::indicator_size = 12
+	
+	GtkPaned::handle_size = 6
+
+	GtkRange::trough_border = 2
+	GtkRange::slider_width = 15
+	GtkRange::stepper_size = 15
+	GtkRange::stepper_spacing = 0
+
+	fg[ACTIVE] = @fg_color # Black
+	fg[SELECTED] = @selected_fg_color # White
+	fg[NORMAL] = @fg_color # Black
+	fg[PRELIGHT] = @fg_color # Black
+	fg[INSENSITIVE] = darker (@bg_color) # 3D Shadow
+
+	bg[ACTIVE] = shade (0.8, @bg_color) # Basic 3D Medium
+	bg[SELECTED] = @selected_bg_color # Blue Medium
+	bg[NORMAL] = @bg_color # Basic 3D Hilight
+	bg[PRELIGHT] = shade (1.1, @bg_color) # Variant of Basic 3D Hilight
+	bg[INSENSITIVE] = @bg_color # Basic 3D Hilight
+
+	base[ACTIVE] = darker (@bg_color) # Basic 3D Medium
+	base[SELECTED] = @selected_bg_color # Blue Medium
+	base[NORMAL] = @base_color # White
+	base[PRELIGHT] = @base_color # White
+	base[INSENSITIVE] = shade (0.9, @bg_color) # Variant of Basic 3D Highlight
+
+	text[ACTIVE] = @text_color # Black
+	text[SELECTED] = @selected_fg_color # White
+	text[NORMAL] = @text_color # Black
+	text[PRELIGHT] = @text_color # Black
+	text[INSENSITIVE] = darker (@bg_color) # 3D Shadow
+
+	engine "glide" {}
+}
+widget_class "*" style "default"
+
+style "menuitem"
+{
+	bg[PRELIGHT] = @selected_bg_color
+	fg[PRELIGHT] = @selected_fg_color
+}
+class "*MenuItem*" style "menuitem"
+widget_class "*MenuItem*" style "menuitem"
+
+style "scale"
+{
+    GtkRange::trough-side-details = 1
+    GtkRange::trough_border = 0
+    GtkRange::slider-width = 22
+    GtkScale::slider-length = 10
+}
+widget_class "*VScale*"         style "scale"
+class "*VScale*"                style "scale"
+widget_class "*HScale*"         style "scale"
+class "*HScale*"                style "scale"
+
+style "toolbar"
+{
+	bg[PRELIGHT] = @selected_bg_color
+	base[PRELIGHT] = @selected_bg_color
+}
+widget_class "*MateComponentDockItem" style "toolbar"
+class "*MateComponentDockItem" style "toolbar"
+
+widget_class "*HandleBox" style "toolbar"
+class "*HandleBox" style "toolbar"
+
+widget_class "*Toolbar" style "toolbar"
+class "*Toolbar" style "toolbar"
+
+widget_class "*MenuBar" style "toolbar"
+class "*MenuBar" style "toolbar"
+
+style "progressbar"
+{
+	bg[PRELIGHT] = @selected_bg_color
+	fg[PRELIGHT] = @selected_fg_color # White
+	xthickness = 1
+	ythickness = 1
+}
+widget_class "*ProgressBar*" style "progressbar"
+
+style "tooltip"
+{
+    bg[NORMAL] = @tooltip_bg_color
+    fg[NORMAL] = @tooltip_fg_color
+}
+widget "gtk-tooltip*" style "tooltip"
+
+style "textentry"
+{
+#    bg[INSENSITIVE] = "#DEDCD7" # Varient of Basic 3D Highlight
+#    base[INSENSITIVE] = "#DEDCD7" # Varient of Basic 3D Highlight
+    bg[SELECTED] = mix(0.85, @selected_bg_color, @base_color)
+}
+widget_class "*GtkEntry" style "textentry"
+
+style "treeview"
+{
+    GtkWidget::focus_padding = 1
+}
+widget_class "*TreeView*" style "treeview"
+
+style "ephybug"
+{
+    GtkWidget::interior_focus = 1
+}
+widget "*Ephy*Location*" style "ephybug"
+
+
+# Work around for http://bugzilla.mate.org/show_bug.cgi?id=382646
+# Note that the work around assumes that the combobox is _not_ in
+# appears-as-list mode.
+# This style does not affect GtkComboBoxEntry, it does have an effect
+# on comboboxes in appears-as-list mode though.
+style "glider-text-is-fg-color-workaround"
+{
+	text[NORMAL]        = @fg_color
+	text[PRELIGHT]      = @fg_color
+	text[SELECTED]      = @selected_fg_color
+	text[ACTIVE]        = @fg_color
+	text[INSENSITIVE]   = darker (@bg_color)
+}
+widget_class "*.<GtkComboBox>.<GtkCellView>"   style "glider-text-is-fg-color-workaround"
+
+style "glider-menuitem-text-is-fg-color-workaround"
+{
+	text[NORMAL]        = @fg_color
+	text[PRELIGHT]      = @selected_fg_color
+	text[SELECTED]      = @selected_fg_color
+	text[ACTIVE]        = @fg_color
+	text[INSENSITIVE]   = darker (@bg_color)
+}
+widget "*.gtk-combobox-popup-menu.*"   style "glider-menuitem-text-is-fg-color-workaround"
+
+# Work around the usage of GtkLabel inside GtkListItems to display text.
+# This breaks because the label is shown on a background that is based on the
+# base color set.
+style "glider-fg-is-text-color-workaround"
+{
+	fg[NORMAL]      = @text_color
+	fg[PRELIGHT]    = @text_color
+	fg[ACTIVE]      = @selected_fg_color
+	fg[SELECTED]    = @selected_fg_color
+	fg[INSENSITIVE] = darker (@bg_color)
+}
+widget_class "*<GtkListItem>*" style "glider-fg-is-text-color-workaround"
+# The same problem also exists for GtkCList and GtkCTree
+# Only match GtkCList and not the parent widgets, because that would also change the headers.
+widget_class "*<GtkCList>" style "glider-fg-is-text-color-workaround"
+
+

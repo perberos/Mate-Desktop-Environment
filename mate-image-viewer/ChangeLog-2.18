@@ -1,0 +1,2798 @@
+2007-03-16  Felix Riemann  <friemann@svn.mate.org>
+
+	* shell/eog-save-as-dialog-helper.c: (prepare_format_options):
+	Fix leaked list.
+
+2007-03-15  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c: (eog_window_open): Fix critical warning when
+	starting EOG without a file/directory to open. Fixes bug #417196.
+
+2007-03-12  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: post release version bump.
+
+2007-03-12  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* NEWS: Update for 2.18.0.1
+	* configure.in:
+
+2007-03-12  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-image.c:
+	* libeog/eog-image.h:
+
+	Build if libexif is not installed. Fixes bug #417684.
+
+2007-03-11  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2007-03-11  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.18.0
+
+2007-03-06  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* eog.desktop.in.in: Remove 'Application' from the Categories field.
+
+2007-03-05  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-window.c (+update_image_pos, +image_list_image_removed,
+	+image_list_image_added, update_status_bar): update image list position
+	and size and selection when images are externally removed or added.
+	Based on patch from Claudio Saavedra <csaavedra@alumnos.utalca.cl>.
+	Fixes bug #414968.
+
+2007-03-05  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-private.h, libeog/eog-image.c: schedule automatic
+	orientation for all images in image list for future rotation (Fixes
+	bug #390266).
+
+2007-03-05  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-image-list.c: (-cleanup_dead_files),
+	(vfs_monitor_dir_cb): Correctly handle external file removal.
+	Fixes bug #399982.
+
+2007-03-04  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c: (eog_window_print): Abort the action if
+	no image is currently selected (fixes a crasher when trying to print
+	an already removed image). Fixes bug #414547.
+
+2007-02-27  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-statusbar.c: increase image position info width in
+	statusbar to avoid ellipsizing with big numbers. Fixes bug #357427.
+
+2007-02-27  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2007-02-26  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.17.92
+
+2007-02-20  Lucas Rocha  <lucasr@mate.org>
+
+	* src/eog-image-list.c (eog_image_list_add_uris): take other images in
+	same location into account even for remote URIs (if the image's parent
+	URI is a directory) (Fixes bug #364426).
+
+2007-02-17  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-image-list.c: (+eog_image_list_has_file),
+	(vfs_monitor_dir_cb):
+
+	Factorize the code in vfs_monitor_dir_cb () to search for
+	a file in a EogImageList and create a eog_image_list_has_file()
+	function to improve readability and reusability.
+
+2007-02-15  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-image-list.c: (compare_uri_cb), (cleanup_dead_files),
+	(vfs_monitor_dir_cb):
+	* shell/eog-window.c: (display_image_data):
+
+	Unref URI's returned by eog_image_get_uri ().
+
+2007-02-13  Felix Riemann  <friemann@svn.mate.org>
+
+	* configure.in: Make it clear that EOG requires GTK+ >= 2.10.
+
+2007-02-12  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2007-02-12  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.17.91
+	* eog.desktop.in.in: Change launcher description to match UI
+	review (Fixes bug #383436).
+
+2007-02-09  Felix Riemann  <friemann@svn.mate.org>
+
+	* shell/eog-window.c: (eog_window_print): Make sure the window is not
+	finalized while we are printing. Fixes bug #404708.
+
+2007-02-09  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/main.c: (check_uri_file_type), (sort_files): Handle
+	the case when mate_vfs_get_file_info_uri () returns
+	MATE_VFS_ERROR_CANCELLED, so we don't say "file not found" if the
+	user cancelled the authentication in a remote file open. Fixes
+	bug #344135.
+
+2007-02-09  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c: (eog_window_destroy), (eog_window_init):
+	Initialize and finish properly the printing objects.
+
+2007-02-07  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-uri-converter.c: (eog_uri_converter_preview):
+	* shell/eog-save-as-dialog-helper.c: (eog_save_as_dialog_new):
+	* shell/eog-window.c: (verb_FileOpen_cb):
+	Fix several leaked strings.
+
+2007-02-07  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-image.c: (update_exif_data): According to the EXIF	specs
+	Pixel{X,Y}Dimension tags can be either of short or long	datatype.
+	Respect that. This fixes warnings in Valgrind and wrong	values in
+	images using the short type.
+
+2007-02-03  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-image-list.c: (eog_image_list_add_uris): Fix leak.
+
+2007-02-02  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-image.c: (update_exif_data): No need to keep empty
+	function boilerplate as calls are wrapped in proper ifdefs.
+	Fixes compiler warning if compiling without libexif.
+
+2007-01-30  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-collection-item.c: (job_thumb_create): Workaround problem
+	that the passed object is not valid anymore.
+	* libeog/eog-job-manager.c: (eog_job_manager_quit),
+	(eog_job_manager_init): Cancel all jobs when quitting the main loop.
+	This fixes bug #389755. Patch by Kees Cook.
+
+2007-01-24  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/main.c: (job_prepare_model_finished): Show an error message
+	instead of closing the program if the image loading has failed.
+	Fixes bug #399988.
+
+2007-01-22  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2007-01-22  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.17.90
+	* libeog/Makefile.am: fix broken distcheck because failing
+	libeog-marshal.[ch] generation.
+
+2007-01-20  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/Makefile.am: Improve rules to avoid compiler warning.
+	* libeog/libeog-marshal.list: Remove unused marshal.
+
+2007-01-19  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-collection-item.c: (job_thumb_finished): Fix leaked error.
+	* shell/main.c: (open_uri_list_cb): Fix leaked list.
+
+2007-01-18  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c: updated EOG's webpage in about dialog.
+
+2007-01-13  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-wrap-list.c: (eog_wrap_list_dispose):
+	* shell/main.c: (handle_cmdline_args):
+	Fix several leaked lists.
+
+2007-01-13  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-wrap-list.c: (eog_wrap_list_init),
+	(eog_wrap_list_new): Remove unused (leaked) hash table.
+
+2007-01-12  Felix Riemann  <friemann@svn.mate.org>
+
+	* shell/eog-window.c: (gen_role):
+	* shell/recent-files/egg-recent-util.c:
+	(egg_recent_util_get_unique_id):
+	Use hostname cached by GLib instead of retrieving it ourselves.
+
+2007-01-12  Hendrik Richter  <hendrikr@mate.org>
+
+	* shell/eog-window.c: Fix #395541, patch by Phillip Kerling
+
+2007-01-11  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-transform.c: (eog_transform_identity_new):
+	* libeog/eog-transform.h: Fix compiler warning.
+
+2007-01-10  Felix Riemann  <friemann@svn.mate.org>
+
+	* shell/eog-preferences.c: (color_change_cb): Free color string after
+	setting it in MateConf.
+
+2007-01-09  Felix Riemann  <friemann@svn.mate.org>
+
+	* shell/eog-window.c: (job_image_load_finished): Release image data
+	when the just loaded image is not needed anymore. Closes a memory hole
+	when clicking through the collection quickly (bug #365136).
+
+2007-01-08  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2007-01-08  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.17.4
+
+2007-01-07  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-image.c: (eog_image_free_mem_private):
+	Make the double free guard actually work.
+	This might fix bug #354106 (confirmation needed).
+
+2007-01-06  Felix Riemann  <friemann@svn.mate.org>
+
+	* libeog/eog-image-list.c: (cleanup_dead_files): Use GINT_TO_POINTER
+	to save a gint in list. This should avoid a compiler warning on 64bit
+	machines.
+	* shell/eog-print-image-setup.c: (size_changed): Fix compiler warning.
+
+2007-01-05  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* src/Makefile.am: Add new files.
+
+	* src/eog-print-image-setup.c:
+	* src/eog-print-image-setup.h:
+
+	New custom widget for the GtkPrint UI to set the image position and
+	size in a printed page.
+
+	* src/eog-print-preview.c:
+	* src/eog-print-preview.h:
+
+	Widget to interactively preview the printing of an image.
+
+	* src/eog-window.c: (eog_window_print_draw_page),
+	(eog_window_print_create_custom_widget),
+	(eog_window_print_custom_widget_apply),
+	(eog_window_print_end_print), (eog_window_print),
+	(verb_HelpAbout_cb): Use the above widgets to set the image
+	position and size when printing instead of hardcoding its
+	size.
+
+	Fixes bugs #356947, #321815.
+
+2006-01-04  Lucas Rocha  <lucasr@mate.org>
+
+	* po/POTFILES.skip: removed eog.desktop.in.
+
+2006-01-04  Lucas Rocha  <lucasr@mate.org>
+
+	* data/icons/Makefile.am, data/icons/16x16/apps/Makefile.am,
+	data/icons/22x22/apps/Makefile.am,  data/icons/24x24/apps/Makefile.am,
+	data/icons/32x32/apps/Makefile.am: update icon cache only once on
+	installation.
+
+2007-01-04  Felix Riemann  <friemann@svn.mate.org>
+
+	* *.cvsignore, *.svnignore: Rename old CVS files to Subversion. Make
+	updates where necessary. Update svn properties where required.
+
+2007-01-04  Luca Ferretti  <luca@redrum>
+
+	* configure.in:
+	* Makefile.am:
+	* data/icons/<size>/apps/eog.<ext>:
+
+	 Add structure for custom EoG appicon.
+
+	* eog.desktop.in:
+	* shell/eog-window.c:
+	* shell/main.c:
+
+	Use custom "eog" named icon instead generic "image-viewer" from
+	MATE icon theme.
+
+2007-01-04  Felix Riemann  <friemann@svn.mate.org>
+
+	* shell/eog-window.c: (job_image_load_finished): Unsetting the
+	displayed image through display_image_data() does not work currently.
+	Remove such a call when image loading failed to avoid a possible crash
+	when running with fatal-criticals enabled.
+
+2006-12-28  Bruno Boaventura <brunobol@mate.org>
+
+	* eog.glade: Change "Slide Show" to "Slideshow". Fix #383090
+
+2006-12-28  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/eog-window.c: (eog_window_update_properties):
+	mateconf_entry_free() is deprecated. Use mateconf_entry_unref() instead.
+
+2006-12-28  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image-list.c: (eog_image_list_class_init):
+	* libeog/eog-image-list.h: Remove list-prepared signal as it is
+	neither	emitted nor used anymore.
+	* libeog/eog-wrap-list.c: Remove some leftover handler_id variables.
+	* shell/eog-window.c: (eog_window_init), (eog_window_open): We don't
+	connect to EogImageList::list-prepared anymore, so there's no need to
+	disconnect from it. This avoids some possibly fatal warnings when EOG
+	is set to reuse its window. Fixes bug #390268.
+
+2006-12-27  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: Reformat and add dependence on mate-icon-theme.
+	* shell/eog-window.c: Add hypenation to "Page Set_up" string.
+	Use "print-setup" icon from g-i-t. Patch from Thomas Andersen
+	<phomes@gmail.com>. Fixes bug #389314.
+
+2006-12-22  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image.c: (eog_image_get_exif_orientation): Fix NULL
+	pointer	dereference when orientation tag is not present in EXIF data.
+	Fixes #388413. Patch from Sebastien Bacher <seb128@debian.org>.
+
+2006-12-18  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c: (eog_window_print_draw_page): Clip the pattern
+	to workaround a bug in cairo's PDF backend.
+
+2006-12-18  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-12-18  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.17.3
+
+2006-12-18  Lucas Rocha  <lucasr@mate.org>
+
+	* eog.glade: simplify preferences dialog label texts (Fixes bug
+	#382586).
+
+2006-12-18  Lucas Rocha  <lucasr@mate.org>
+
+	Support for image auto-rotation based on EXIF orientation (Fixes bug
+	#148400). Patch from Kalle Vahlman <zuh@iki.fi> and
+	Jef Driesen <jefdriesen@hotmail.com>
+
+	* eog.glade: new check box for image auto orientation.
+	* libeog/eog-config-keys.h, eog.schemas.in: new /apps/eog/view/autorotate
+	mateconf key.
+	* libeog/eog-image.[ch]: new eog_image_autorotate () method.
+	* libeog/eog-transform.[ch]: auto-rotation support.
+	* shell/eog-window.c: queue autorotation on image list initialization.
+
+2006-12-17  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/eog-window.c: (save_as_uri_selection_dialog):
+	Don't leak folder_uri.
+
+2006-12-17  Jan Arne Petersen  <jpetersen@jpetersen.org>
+
+	* configure.in: Remove help/de/Makefile as it has been converted to
+	g-d-u.
+
+2006-12-14  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c (eog_window_print_draw_page): Do not use a group
+	in the cairo context. Fixes bug #381358.
+
+2006-12-04  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-12-04  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.17.2
+
+2006-12-02  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-uri-converter.h: Reformat for better readability.
+
+2006-11-28  Felix Riemann  <friemann@cvs.mate.org>
+
+	* configure.in: Generate configure help strings using an autoconf
+	macro instead of tabbing/spacing them by hand.
+
+2006-11-28  Felix Riemann  <friemann@cvs.mate.org>
+
+	* configure.in: Put MATE_DOC_INIT down further and make sure
+	PKG_PROG_PKG_CONFIG is called before any other PKG_CHECK_MODULES call.
+	Fixes bug #372820.
+
+2006-11-20  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/accessible-image-view.c:
+	* libeog/eog-canvas-pixbuf.c:
+	* libeog/eog-collection-item.c:
+	* libeog/eog-full-screen.c:
+	* libeog/eog-full-screen.h:
+	* libeog/eog-image-cache.c:
+	* libeog/eog-image-list.c:
+	* libeog/eog-image.c:
+	* libeog/eog-info-view.c:
+	* libeog/eog-job-manager.c:
+	* libeog/eog-job-manager.h:
+	* libeog/eog-job.c:
+	* libeog/eog-thumbnail.c:
+	* libeog/eog-thumbnail.h:
+	* libeog/eog-transform.c:
+	* libeog/eog-wrap-list.c:
+	* shell/eog-file-chooser.c:
+	* shell/eog-preferences.c:
+	* shell/eog-save-dialog-helper.h:
+	* shell/eog-window.c:
+	* shell/main.c:
+
+	Removing old and unused #include's, only related to eog's own code
+	and MATE libraries. I hope this won't break anyone's builds, but if it
+	does, please report it.
+
+2006-11-20  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/eog-save-as-dialog-helper.c: (prepare_token_options):
+	Actually use the translated token descriptions
+	Hide the non-working ones so the UI doesn't look broken.
+	Fixes bugs #337642 and #340490.
+
+2006-11-18  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image.h: Remove prototype of long gone eog_image_save().
+
+2006-11-18  Felix Riemann <friemann@cvs.mate.org>
+
+	* autogen.sh: automake-1.7 depends on autoconf-2.54. Also require
+	intltool-0.35.0.
+
+2006-11-17  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* Makefile.am: Remove art from SUBDIRS.
+	* art/*: Remove directory.
+	* art/loading.png: Remove.
+	* configure.in: Remove art from AC_OUTPUT.
+	* libeog/eog-collection-item.c: (get_busy_pixbuf): Use "image-loading"
+	from icon theme instead of shipped icon.
+
+	* macros/*: Remove old and unused macros from CVS.
+
+2006-11-17  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/main.c: (load_context_free): free_uri_list() does the same as
+	mate_vfs_uri_list_free(). Remove the former.
+
+2006-11-16  Felix Riemann  <friemann@cvs.mate.org>
+
+	* acconfig.h:
+	* configure.in: Move config.h templating into configure.in to silence
+	newer autoheader versions and make config.h slim.
+
+2006-11-16  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/Makefile.am: Remove util.c
+	* shell/util.c: Removed.
+	* shell/util.h: Remove unused open_failure_dialog() definition.
+
+2006-11-16  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-save-as-dialog-helper.c: Adding back <stdlib.h>, as it is
+	needed for some machines. Fixes bug #375897.
+
+2006-11-15  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-save-as-dialog-helper.c: Remove unused includes.
+
+2006-11-15  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-scroll-view.c: (paint_rectangle): Make check
+	pattern for transparent images a bit lighter. Fixes bug #350183.
+
+2006-11-15  Felix Riemann  <friemann@cvs.mate.org>
+
+	* art/Makefile.am:
+	* art/down-right.png:
+	* art/orient-horizontal.png:
+	* art/orient-vertical.png:
+	* art/right-down.png: Remove unused icons.
+
+2006-11-14  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c: (eog_window_print): Remove unused call and mark
+	string for translation.
+
+2006-11-14  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: Remove checks for libmateprint{ui} and add checks for
+	gtk+-unix-print.
+	* libeog/eog-config-keys.h: Add lockdown printing macros.
+	* libeog/eog-image.c: remove unused eog_image_print ().
+	* libeog/eog-image.h: remove unused eog_image_print () definition.
+	* shell/eog-gtk-ui.xml: Add "FilePageSetup" action.
+	* shell/eog-window.c: (eog_window_page_setup),
+	(eog_window_print_draw_page), (eog_window_print_end_print),
+	(eog_window_print), (verb_PageSetup_cb), (verb_Print_cb),
+	(update_ui_visibility):
+
+	Add support for GtkPrint. Remove old libmateprint{ui} dependence.
+
+2006-11-10  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* art/Makefile.am: Remove the icons.
+	* art/stock-rotate-180-16.png:
+	* art/stock-rotate-270-16.png:
+	* art/stock-rotate-90-16.png:
+	* art/stock-flip-horizontal-16.png:
+	* art/stock-flip-vertical-16.png:
+	* shell/eog-gtk-ui.xml: Remove rotate 180 degrees action.
+	* shell/eog-window.c: (eog_window_construct_ui): Remove custom
+	icon factory.
+
+	Use stock icons for rotate and flip actions. (Fixes bug #305823). Patch
+	from Luca Ferreti <elle.uca@libero.it>.
+
+2006-11-10  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image-save-info.c:
+	* libeog/eog-image.c:
+	* libeog/eog-info-view-detail.c:
+	* libeog/eog-info-view-exif.c:
+	* libeog/eog-info-view-file.c:
+	* libeog/eog-info-view.c:
+	* libeog/eog-metadata-reader.c:
+	* libeog/eog-scroll-view.c:
+	* libeog/eog-transform.c:
+	* libeog/eog-uri-converter.c:
+	* shell/eog-file-chooser.c:
+	Remove unneeded mate-macros.h includes.
+	The code that used it was removed in 2.13.4.
+
+2006-10-29  Felix Riemann  <friemann@cvs.mate.org>
+
+	* configure.in: Remove help/sv from manual translation list as it has
+	been converted to g-d-u. (Fixes bug #366695)
+
+2006-10-19  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: Add several help/*/Makefile to AC_OUTPUT.
+	* help/Makefile.am: Add non g-d-u translations directories to SUBDIRS.
+
+	Add some missing manual translations to the tarballs. This is a
+	temporary fix for those manuals which are not yet converted to
+	g-d-u. (Fixes bug #363348).
+
+2006-10-18  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: post release version bump.
+
+2006-10-18  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* NEWS, configure.in: Update for 2.17.1
+
+2006-10-16  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-transform.c: (eog_transform_apply):
+	Optimize calculation of dy variable. It is now only calculated
+	dest_height times not dest_height*dest_width times.
+
+2006-10-15  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-full-screen.c: (eog_full_screen_new):
+	* libeog/eog-image-save-info.c: (is_local_uri):
+	* shell/eog-preferences.c: (eog_preferences_show):
+	* shell/eog-window.c: (transparency_changed_cb),
+	(trans_color_changed_cb):
+	Replace deprecated g_strcasecmp() calls.
+
+2006-10-11  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/eog-file-chooser.c: (eog_file_chooser_add_preview):
+	* shell/eog-save-dialog-helper.c: (update_counter_label):
+	* shell/eog-window.c: (eog_window_construct_ui): Replace deprecated
+	gtk_label_set() and gtk_widget_set_usize() calls.
+
+2006-10-09  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image-save-info.c: (eog_image_save_info_from_image),
+	(eog_image_save_info_from_vfs_uri): Replace file_exists() with
+	identical mate_vfs_uri_exists().
+
+2006-10-05  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image.c: (eog_image_real_load), (eog_image_load): Merge
+	eog_image_load_exif_data_only() into eog_image_real_load() as they are
+	mostly identical.
+
+2006-10-02  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/eog-window.c: Add stock icon to undo action.
+
+2006-09-28  Felix Riemann  <friemann@cvs.mate.org>
+
+	* shell/eog-window.c: (handle_image_selection_changed): Make sure the
+	correct image is displayed when reselecting the current image while
+	loading another one (Fixes bug #355858).
+
+2006-09-27  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/eog-image-private.h:
+	* libeog/eog-image.c: (eog_image_dispose), (image_transform),
+	(eog_image_undo), (eog_image_reset_modifications): Replace undo stack
+	GList with a sufficient GSList and replace some list iteration loops
+	with g_slist_foreach().
+
+2006-09-20  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-image-list.c: (is_supported_mime_type): Check if
+	given string is NULL. Fixes several critical warnings.
+
+2006-09-13  Felix Riemann  <friemann@cvs.mate.org>
+
+	* libeog/accessible-image-view-factory.h:
+	* libeog/accessible-image-view.h: replace "#ifdef __cplusplus" defines
+	with the corresponding G_(BEGIN/END)_DECLS macros.
+
+2006-09-11  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-preferences.c: (eog_preferences_show):
+	* shell/eog-window.c: (transparency_changed_cb),
+	(trans_color_changed_cb): Fixed memory leaks related
+	to mateconf_client_get_string ().
+
+2006-09-06  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/main.c: save customized keybindings on application
+	shutdown (Fixes bug #324757).
+
+2006-09-06  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-wrap-list.c (handle_canvas_scroll,
+	eog_wrap_list_construct): use mouse wheel to scroll, not to switch
+	images (Fixes bug #331645). Patch from Wouter Bolsterlee
+	<wbolster@mate.org>.
+
+2006-09-06  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (eog_window_class_init, eog_window_button_press):
+	mouse sidebuttons (6 and 7) for image navigation (Fixes bug #321400).
+
+2006-09-06  Lucas Rocha  <lucasr@mate.org>
+
+	* eog.glade: fix i18n bugs by removing empty messages (Fixes bug
+	#335577). Patch from Felix Riemann <felix@hsgheli.de>.
+
+2006-09-04  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-09-04  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.16.0.1
+
+2006-09-04  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-canvas-pixbuf.c: fix infinite loop on canvas group
+	destruction (Fixed bug #350569). Patch from Sven
+	Herzberg <herzi@mate-de.org>.
+
+2006-09-04  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-09-04  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.16.0
+
+2006-08-21  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-08-21  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.15.92
+	* libeog/eog-image.c: disable debug messages by default.
+
+2006-08-11  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-full-screen.c (eog_full_screen_new): make transparency
+	color preferences work on full screen mode (Fixes bug #346680).
+	Patch from Felix Riemann <felix@hsgheli.de>.
+
+2006-08-10  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-list.c (eog_image_list_add_uris): fix critical
+	warning when opening remote images (Fixes bug #350557).
+
+2006-08-10  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/main.c (make_canonical_uri): fix error when loading images
+	with ':' in their filenames from command line (Fixes bug #305129).
+	Patch from Felix Riemann <felix@hsgheli.de>.
+
+2006-08-10  Lucas Rocha  <lucasr@mate.org>
+
+	* eog.desktop.in.in: removed image/x-psd from supported
+	mime-types (Fixes bug #343052).
+
+2006-08-08  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-08-07  Lucas Rocha  <lucasr@mate.org>
+
+	* NEWS: Update for 2.15.91
+	* shell/eog-window.c: fix typo on delete confirmation dialog
+	message (Fixes bug #350109).
+
+2006-08-04  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-full-screen.c (eog_full_screen_key_press): panning
+	around the image with up, down, left, and right keys (Fixes
+	bug #347174).
+
+2006-08-04  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c: fix string "Counter Clockwise" with
+	"Counterclockwise" (Fixes bug #349361).
+
+2006-08-01  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-scroll-view.c (image_changed_cb): fix memory leak on
+	image transformation (Fixes bug #349434). Patch from Felix
+	Riemann <felix@hsgheli.de>.
+
+2006-07-31  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (job_image_load_finished): make error dialog
+	appear for images with loading problems. Regression fix.
+
+2006-07-24  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: post release version bump.
+
+2006-07-24  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* NEWS, configure.in, po/ChangeLog: Update for 2.15.90.
+
+2006-07-24  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-image-private.h:
+	* libeog/eog-image.c: (eog_image_dispose), (eog_image_init),
+	(eog_image_lock), (eog_image_unlock), (eog_image_cancel_load):
+	* libeog/eog-image.h:
+	* libeog/eog-job-manager.c: (thread_start_func):
+	* libeog/eog-job.c: (eog_job_call_action):
+	* shell/eog-window.c: (eog_window_init), (job_image_load_action),
+	(job_image_load_finished), (handle_image_selection_changed):
+
+	Add image_lock/unlock methods to ensure that there are no
+	race conditions when loading and unloading images (Fixes bug
+	#340827). Patch from Callum McKenzie <callum@spooky-possum.org>.
+
+2006-07-24  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-preferences.c: (color_change_cb): Use correct syntax
+	to retrieve color string (Fixes bug #347600). Patch from Felix
+	Riemann <felix@hsgheli.de>.
+
+2006-07-13  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-scroll-view.c (eog_scroll_view_button_press_event,
+	eog_scroll_view_button_release_event): use middle mouse drag
+	to scroll image (Fixes bug #335689). Patch from Wouter
+	Bolsterlee <uws+mate@xs4all.nl>.
+
+2006-07-13  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-jpeg.c (_save_jpeg_as_jpeg): avoid losing
+	EXIF data when saving changed jpeg images (Fixes bug #309219).
+	Patch from Felix Riemann <felix@hsgheli.de>.
+
+2006-07-12  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: post release version bump.
+
+2006-07-12  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* NEWS: Update for 2.15.4
+
+2006-06-26  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-statusbar.c: (eog_statusbar_init): Remove unused variable.
+	* shell/eog-window.c: (verb_FileOpen_cb): Clean warning.
+
+	Patch from Felix Riemann <felix@hsgheli.de> (#321267).
+
+2006-06-25  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* libeog/eog-full-screen.c: (eog_full_screen_new): Remove call to
+	deprecated gdk_pixmap_unref ().
+	* libeog/eog-image-jpeg.c: (eog_image_jpeg_save): Clean function and
+	replace duplicated code with a call to _save_any_as_jpeg () (#321267).
+	Patch from Felix Riemann <felix@hsgheli.de>.
+
+2006-06-10  Francisco Javier F. Serrador  <serrador@cvs.mate.org>
+
+	* shell/eog-window.c (verb_HelpAbout_cb): Replaced old FSF addres
+	with current one
+
+2006-06-10  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-06-10  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.15.3
+
+2006-06-01  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image.c (eog_image_print): fix printing for images with
+	alpha channel (Fixes bug #322057). Patch from Jan Kümmel
+	<mate-bugz@snorc.org>.
+
+2006-05-31  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-collection-item.c (set_pixbuf): making sure thumbnail
+	is at least 1px large (Fixes bug #342817). Patch from
+	Felix Riemann <felix@hsgheli.de>.
+
+2006-05-31  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image.c (eog_image_get_collate_key): properly sort
+	filenames containing numbers (Fixes bug #340957). Patch from
+	Felix Riemann <felix@hsgheli.de>.
+
+2006-04-21  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-04-21  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.15.2
+	* libeog/eog-full-screen.c (eog_full_screen_key_press,
+	job_image_load_finished): partial fix for crash when cancelling
+	slideshow/fullscreen (#320206). Patch from Claudio Saavedra
+	<csaavedra@alumnos.utalca.cl>.
+
+2006-05-19  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-statusbar.c (eog_statusbar_init): set the height of
+	progressbar to avoid re-zooming image after loading (Fixes bug #327424).
+
+2006-05-19  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (eog_window_cmd_about): about dialog
+	update (Fixes bug #342103). Patch from Claudio Saavedra
+	<csaavedra@alumnos.utalca.cl>.
+
+2006-05-19  Wouter Bolsterlee  <uws+mate@xs4all.nl>
+
+	* configure.in: Require intltool 0.35.0.
+
+2006-05-18  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (get_screen_profile): debug message disabled by
+	default.
+
+2006-05-18  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (update_ui_visibility),
+	libeog/eog-config-keys.h: respect the disable_save_to_disk
+	mateconf lockdown key (Fixed bug #341862).
+
+2006-05-18  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/Makefile.am: removed reference to removed files.
+	* libeog/access.[ch]: obsolete files removed.
+
+2006-04-29  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-04-24  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.15.1
+
+2006-04-23  Lucas Rocha  <lucasr@mate.org>
+
+	* eog.glade: small mnemonic fix (Fixed bug #339315).
+
+2006-04-16  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, po/LINGUAS: use po/LINGUAS the right way by
+	using latest intltool.
+
+2006-04-10  Michiel Sikkes  <michiel.sikkes@gmail.com>
+
+	* configure.in:
+	* po/LINGUAS:
+
+	Convert to use po/LINGUAS.
+
+2006-03-31  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-list.c (vfs_monitor_dir_cb): checks mimetype
+	before trying to include new detected files on image list (Fixes
+	bug #336050).
+
+2006-03-31  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-thumbnail.c (eog_thumb_data_new): avoid setting
+	the error twice (Fixes bug #336652).
+
+2006-03-26  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-list.c (directory_visit_cb): don't include
+	hidden images from a directory on image list (Fixes bug #335338).
+
+2006-03-26  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (verb_Print_cb): duplex-printing is off
+	by default (Fixed bug #334016).
+
+2006-03-26  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c: add ellipsis to "Save As" and "Print" menu
+	items to be HIG compliant (Fixed bug #335109).
+
+2006-03-26  Lucas Rocha  <lucasr@mate.org>
+
+	GOption migration (Fixes bug #335877). Patch from Michael
+	Plump <plumpy@skylab.org>
+
+	* configure.in: remove popt dependencie.
+	* src/main (main, handle_cmdline_args): use GOption instead of popt.
+
+2006-03-26  Lucas Rocha  <lucasr@mate.org>
+
+	Keyboard shortcuts revamp (Fixes bug #310455 partly). Patch from
+	Jaap Haitsma <jaap@haitsma.org>.
+
+	* shell/eog-gtk-ui.xml: Add Home and End as shortcut keys for the first
+	and last images respectively
+
+	* shell/eog-window.c:
+	(action_entries_image) Add Home and End as keyboard shortcuts for the
+	first and last images respectively.
+
+	(action_entries_collection) Change the keyboard shortcuts of first,
+	last, next and previous image so they conform to the HIG
+	First was Ctrl+Home now Alt+Home
+	Last was Ctrl+End now Alt+End
+	Next was Ctrl+Right now Alt+Right
+	Previous was Ctrl+Left now Alt+Left
+
+	(eog_window_key_press) If no scrollbars visible PageDown, Right and Down
+	show the next image and PageUp, Left and Up show the previous image
+
+	* libeog/eog-scroll-view.{c|h}:
+	Add eog_scroll_view_scrollbars_visible function
+
+	(display_key_press_event) Page up/down now scroll 3/4 of the image
+	(page) height (Fixes bug #324871). Ctrl PageUp/PageDown scroll
+	left/right
+
+2006-03-23  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window (verb_FileOpen_cb): use the directory
+	of the currently viewed file as file chooser initial
+	location (Fixes bug #335653).
+
+2006-03-22  Tommi Vainikainen  <thv@iki.fi>
+
+	* configure.in (ALL_LINGUAS): Added Dzongkha (dz).
+
+2006-03-22  Lucas Rocha  <lucasr@mate.org>
+
+	* help/C/eog.xml: several fixes for DTD correct validation.
+
+2006-03-22  Lucas Rocha  <lucasr@mate.org>
+
+	* .cvsignore: added mate-doc-utils.make.
+	* configure.in: added MATE_DOC_INIT and
+	removed help/*/Makefile from AC_OUTPUT.
+	* Makefile.am: added mate-doc-utils.make to
+	EXTRA_DIST and DISTCLEANFILES. Added
+	DISTCHECK_CONFIGURE_FLAGS.
+	* help/Makefile.am: migration to mate-doc-utils.
+	* help/matedialog.omf.in: new OMF file to be used by
+	mate-doc-utils.
+	* help/C/Makefile.am, help/C/eog-C.omf: No
+	longer needed. Removed.
+	* help/C/eog.xml: updates to be mate-doc-utils
+	compliant.
+	* help/ChangeLog: new ChangeLog to keep track
+	of doc updates.
+
+2006-03-13  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: Post release bump, for unstable
+	2.15.x development.
+
+2006-03-13  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.14.0
+
+2006-03-06  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c
+	(eog_window_get_mode): always set to collection mode as there's
+	no single/collection dichotomy anymore and to correctly save
+	window's geometry.
+	(eog_window_init): center the window by default.
+
+2006-03-06  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/main.c (job_prepare_model_finished): quit EOG when not
+	able to load images.
+	* libeog/eog-image-list.c (add_regular): remove unwanted output.
+
+2006-03-05  Ryan Lortie  <desrt@desrt.ca>
+
+	* libeog/eog-image-list.c: Ensure that requested image is added
+	when scanning parent directory of said image.  Fixes a crasher
+	when opening images with strange extensions (#333551).
+
+2006-03-04  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-03-04  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.13.92
+
+2006-03-03  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-list.c, libeog/eog-image-private.h,
+	libeog/eog-image.c (eog_image_dispose, vfs_monitor_dir_cb,
+	vfs_monitor_file_cb, eog_image_register_infoview),
+	libeog/eog-image.h (eog_image_register_infoview),
+	libeog/eog-info-view.c (update_data_pages_for_image): fix
+	crash when removing images from a directory with images
+	that EOG is watching.
+
+2006-03-02  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-full-screen.c (disable_screen_saver): make
+	EOG mate-screen-saver if this is present (Fixes
+	bug #333142). Patch from Oliver Grawert <ogra@ubuntu.com>
+	with some fixes.
+
+2006-03-02  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-wrap-list.c (handle_canvas_scroll,
+	eog_wrap_list_construct): mouse scroll wheel make image
+	switching on collection pane (Fixes bug #331645).
+
+2006-02-27  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (eog_window_init): define a minimum
+	window size (Fixes bug #327065).
+
+2006-02-27  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/Makefile.am: change libs search paths order to
+	make development libs paths have higher priority than X11
+	libs search paths (Fixes bug #330708). Patch from
+	Sylvain Bertrand <sylvain.bertrand@gmail.com>.
+
+2006-02-27  Lucas Rocha  <lucasr@mate.org>
+
+	* eog-scroll-view.c (eog_scroll_view_zoom_in,
+	eog_scroll_view_zoom_out): correct handling of zoom
+        double precision with mouse wheel (Fixes bug #310833).
+	Patch from Felix Riemann <felix@hsgheli.de>.
+
+2006-02-22  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-metadata-reader.c: fix 64-bit pointer
+	truncation (Fixes #331971). Patch from Pascal Hofstee
+	<caelian@gmail.com> and Alexander Nedotsukov
+	<bland@freebsd.org>.
+
+2006-02-19  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image-list.c, libeog/eog-image.c,
+	libeog/eog-info-view.c, libeog/eog-job-manager.c,
+	libeog/eog-job.c, shell/eog-window.c: disable all
+	debug messages by default (Fixes bug #331362).
+
+2006-02-16  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-02-14  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.13.91
+
+2006-02-01  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image.c: use current locale for images on
+	NIS filesystem (Fixes bug #320289). Patch from Takao
+	Fujiwara <takao.fujiwara@sun.com>.
+
+2006-01-31  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c (job_save_image_list,
+	job_save_as_image_list): remove g_idle_add calls to avoid
+	critical warnings when updating save dialog (Fixes
+	bug #327170).
+
+2006-01-29  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-01-29  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.13.90
+
+2006-01-26  Lucas Rocha  <lucasr@mate.org>
+
+	* eog.desktop.in.in: make .desktop file to have
+	MATE;GTK; instead of just MATE; (Fixes bug #328033).
+
+2006-01-21  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-image.c: decrease READ_BUFFER_SIZE by 1
+	to make it possible to view images from a SMB
+	shares (Fixes bug #326104). Solution from Felix
+	Riemann <felix@hsgheli.de>.
+
+2006-01-16  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-01-16  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.13.5
+	* shell/eog-window.c (show_move_to_trash_confirm_dialog):
+	use ngettext for handling plurals (Fixes bug #327106).
+
+2006-01-10  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: post release version bump.
+
+2006-01-10  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in, NEWS: Update for 2.13.4
+	* MAINTAINERS: e-mail update.
+
+2006-01-10  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-full-screen.c: prevent screensaver on
+	fullscreen mode (Fixes bug #326369).
+
+2006-01-10  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-scroll-view.c (paint_rectangle,
+	set_minimum_zoom_factor, set_zoom, set_zoom_fit,
+	eog_scroll_view_get_zoom_is_min, eog_scroll_view_instance_init):
+	refresh	image section for very small images (Fixes bug #317641).
+	Also, the zoom out is locked when the image gets 1px wide. Patch
+	from Felix Riemann <felix@hsgheli.de> with contribution from
+	Claudio Saavedra <csaavedra@alumnos.utalca.cl>.
+
+2006-01-09  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-gtk-ui.xml, shell/eog-window.c: new delete
+	confirmation dialog that only appears when using Del accel
+	to remove an image (Fixes bug #322884). Patch from
+	Jaap A. Haitsma <jaap@haitsma.org> with some fixes and
+	refactoring.
+
+2006-01-07  Lucas Rocha  <lucasr@mate.org>
+
+	* libeog/eog-canvas-pixbuf.c, libeog/eog-collection-item.c,
+	libeog/eog-full-screen.c, libeog/eog-image-cache.c,
+	libeog/eog-image-list.c, libeog/eog-image-save-info.c,
+	libeog/eog-image.c, libeog/eog-info-view-detail.c,
+	libeog/eog-info-view-exif.c, libeog/eog-info-view-file.c,
+	libeog/eog-info-view.c, libeog/eog-job.c,
+	libeog/eog-metadata-reader.c, libeog/eog-scroll-view.c,
+	libeog/eog-transform.c, libeog/eog-uri-converter.c,
+	libeog/eog-wrap-list.c, shell/eog-file-chooser.c,
+	shell/eog-window.c: replace MATE_CLASS_BOILERPLATE macros in
+	libeog with the	G_DEFINE_TYPE macros. Patch by Felix Riemann
+	<felix@hsgheli.de>.
+
+2006-01-07  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/recent-files/egg-recent-item.c,
+	shell/recent-files/egg-recent-model.c,
+	shell/recent-files/egg-recent-util.c,
+	shell/recent-files/egg-recent-util.h,
+	shell/recent-files/egg-recent-view-matecomponent.c,
+	shell/recent-files/egg-recent-view-matecomponent.h,
+	shell/recent-files/egg-recent-view-gtk.c,
+	shell/recent-files/egg-recent.h: Sync from
+	latest libegg.
+
+2006-01-07  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-window.c: resize window according to the
+	image dimensions (Fixes bug #323204). Also, now there's a
+	"minimal" window size that will be used if the image is
+	smaller than that.
+
+2005-12-28  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "zh_HK" to ALL_LINGUAS.
+
+2005-12-19  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-gtk-ui.xml, shell/eog-window.c: add BackSpace
+	accel for previous image action (Fixes bug #324088).
+
+2005-12-13  Lucas Rocha  <lucasr@mate.org>
+
+	* configure.in: Fix GTK+ dependency version. Now EOG depends on
+	GTK+ >= 2.7.1 (Fixes bug #324149).
+
+2005-12-12  Tim Gerla  <tim@gerla.net>
+
+	* configure.in, NEWS, ChangeLog: update for 2.13.3, post-release
+	bump to 2.13.4.
+
+2005-12-01  Lucas Rocha  <lucasr@mate.org>
+
+	* shell/eog-gtk-ui.xml, shell/eog-window.c: add Return
+	accelerator for Next Image and Shift+Return and Shift+SpaceBar
+	accelerators for Previous Image. Split verb_GoPrev_cb into
+	four simpler functions (Fixes bug #322593). Patch from
+	Jaap A. Haitsma <jaap@haitsma.org>
+
+2005-12-01  Lucas Rocha  <lucasr@mate.org>
+
+	* README: fix maintainer list order.
+
+2005-12-01  Lucas Rocha  <lucasr@mate.org>
+
+	* README, AUTHORS: Update and UTF-8 encoding.
+
+2005-11-18  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-canvas-pixbuf.c, libeog/eog-collection-item.c,
+	libeog/eog-full-screen.c, libeog/eog-image-cache.c,
+	libeog/eog-image-list.c, libeog/eog-image-private.h,
+	libeog/eog-image-save-info.c, libeog/eog-image.c,
+	libeog/eog-image.h, libeog/eog-info-view-detail.c,
+	libeog/eog-info-view-exif.c, libeog/eog-info-view-file.c,
+	libeog/eog-info-view.c, libeog/eog-job-manager.c,
+	libeog/eog-job.c, libeog/eog-metadata-reader.c,
+	libeog/eog-pixbuf-util.c, libeog/eog-scroll-view.c,
+	libeog/eog-transform.c, libeog/eog-uri-converter.c,
+	libeog/eog-uri-converter.h, libeog/eog-wrap-list.c,
+	libeog/uta.c, shell/eog-save-as-dialog-helper.c,
+	shell/eog-window.c, libeog/Makefile.am: several code
+	cleanups. Patch from Kjartan Maraas <kmaraas@mate.org>.
+	* libeog/eog-vertical-splitter.c, libeog/eog-vertical-splitter.h,
+	libeog/eog-horizontal-splitter.c, libeog/eog-horizontal-splitter.h:
+	removed.
+
+2005-11-17  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* eog.schemas.in: image information pane is disabled
+	by default (Fixes bug #313672).
+
+2005-11-17  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c (verb_HelpAbout_cb): icon in about
+	dialog (Fixes bug #321665). Patch from Vincent Noel
+	<vincent.noel@gmail.com>.
+
+2005-11-13  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-wrap-list.c: (eog_wrap_list_select_single),
+	(eog_wrap_list_key_press_cb): Use one single function when changing
+	single selection instead of six too similar ones (Closes #321395).
+	Patch from Claudio Saavedra <csaavedra@alumnos.utalca.cl>.
+	* libeog/eog-wrap-list.h: Added EogWrapListSelectChange enum and
+	updated headers as needed.
+	* shell/eog-window.c: (verb_Go_cb): Call new function
+	eog_wrap_list_select_single () instead old ones.
+
+2005-11-13  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* configure.in: post release version bump.
+
+2005-11-13  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* configure.in, NEWS: Update for 2.13.2
+	* shell/eog-window.c: added my name to the maintainers list.
+
+2005-11-13  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* eog.schemas.in (/apps/eog/ui/image_collection),
+	libeog/eog-config-keys.h (EOG_CONF_UI_IMAGE_COLLECTION):
+	added option for show/hide image collection pane.
+	* libeog/eog-full-screen.c (eog_full_screen_key_press):
+	keybinding for slideshow is now F5.
+	* libeog/eog-image-list.c, libeog/eog-image-list.h (
+	eog_image_list_get_initial_pos, compare_uri_cb,
+	eog_image_list_add_uris): new initial_pos attribute which
+	holds the inicial position for wrap list. Also, a new uri
+	list loading policy. When opening a single uri, load all
+	images from the same dir; when opening more than one uri,
+	load them as a collection; and when opening a dir, load
+	all images inside it as a collection (Fixes bug #320542).
+	* libeog/eog-wrap-list.c, libeog/eog-wrap-list.h (
+	eog_wrap_list_select_first, eog_wrap_list_select_last,
+	create_items_from_model: new methods to select first and
+	last images. Use EogImageList initial_pos attribute to
+	define the first item to select.
+	* shell/eog-gtk-ui.xml, shell/eog-window.c (set_window_icon,
+	verb_FolderOpen_cb, verb_Go_cb, update_ui_visibility,
+	eog_window_construct_ui, display_image_data, job_save_image_finished,
+	update_status_bar), shell/main.c (user_wants_collection,
+	job_prepare_model_finished, open_uri_list_cb): use image thumbnail
+	as the window icon (Fixes bug #320245). Patch from Claudio Saavedra
+	<csaavedra@alumnos.utalca.cl>. EOG UI rework: remove 'Open Folder'
+	from 'File' menu; added 'Go' menu with prev/next/first/last image
+	operations and next/prev image in toolbar; moved rotation toolbar
+	items to the right edge; added an toggle item in 'View' menu to
+	show/hide image collection pane; removed 'Open' item from toolbar;
+	no confirmation when opening more than one image at once (always
+	open as a collection) (Fixes bug #148643); statusbar show the position
+	of current image within a collection, not the number of selected
+	images.
+
+2005-11-10  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c: use fullscreen stock icon on Fullscreen
+	menu item.
+
+2005-11-09  Paolo Borelli  <pborelli@katamail.com>
+
+	* libeog/eog-image.c (eog_image_real_load): don't stomp on an
+	already	set GError. Fixes bug #320342.
+
+2005-11-09  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c (delete_image_real, show_delete_confirm_dialog):
+	no confirmation dialog when deleting (moving to trash) a
+	image (Fixes bug #309046).
+
+2005-11-07  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* shell/eog-window.c: (job_save_image_finished), (set_window_icon),
+	(display_image_data): Resize image before using it as window icon if
+	it is too big (Workaround that fixes bug #320245. See related gtk+
+	bug #320909).
+
+2005-11-06  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c (verb_SetAsWallpaper_cb,
+	eog_file_launch_desktop_file, launch_desktop_item,
+	update_selection_ui_visibility,	handle_image_selection_changed):
+	add option to use an image as the desktop wallpaper (Fixes
+	bug #140768). Patch from Nirmal Kumar <reach2nirmal@gmail.com>
+	with several changes.
+	* configure.in: added mate-desktop dependency.
+	* shell/eog-gtk-ui.xml: new "Set As Wallpaper" Image menu
+	item.
+
+2005-11-05  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-scroll-view.c (display_key_press_event):
+	Page Up and Page Down keys scroll images up and
+	down (Fixes bug #152364).
+
+2005-11-03  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c: fix build error (Fixes bug #320616).
+
+2005-11-03  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-gtk-ui.xml, shell/eog-window.c, shell/main.c:
+	remove useless "New Window" action item from File menu and
+	toolbar as part of UI rework.
+
+2005-11-03  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-image.c, libeog/eog-scroll-view.c,
+	libeog/eog-thumbnail.c, shell/eog-preferences.c,
+	shell/eog-window.c, shell/main.c: several build warning
+	fixes (Fixes bug #318020).
+
+2005-11-01  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-full-screen.c: make F9 key only cancel slide
+	show and F11 only cancel fullscreen mode.
+	* shell/eog-window.c (verb_FullScreen_cb): string comparison
+	with g_ascii_strcasecmp().
+
+2005-11-01  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-scroll-view.c, shell/eog-window.c: on single
+	image view, default focus on scroll-view. On collection view,
+	default focus on wrap-list (Fixes bug #169836).
+
+2005-11-01  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-scroll-view.c: make it possible to use '='
+	or '+' for zooming in (Fixes bug #320367).
+
+2005-10-30  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-gtk-ui.xml, shell/eog-window.c: added
+	accelerators from numerical keypad for zooming in
+	and out (Fixes bug #315183). Patch from Felix Riemann
+	<felix@hsgheli.de>.
+
+2005-10-30  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c: make scrollbar buttons work in
+	thumbnails pane (Fixes bug #124653). Patch from
+	Juan Carlos Inostroza <jci@tux.cl>.
+
+2005-10-29  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* eog.glade, eog.schemas.in, libeog/eog-config-keys.h,
+	libeog/eog-full-screen.c, libeog/eog-full-screen.h,
+	shell/eog-preferences.c, shell/eog-window.c: implement
+	a more consistent fullscreen/slide show behavior. Checkbox
+	that activate/deactivate the automatic image switching removed
+	from preferences (and from mateconf schema) because slide show
+	always do that. After starting a slide show (F9), the only keys
+	the user can use are those that stop the show. Fullscreen (F11)
+	can be activated in a single image or collections. On fullscreen
+	mode, the user can use keys to switch to next, previous, first
+	and last images and exiting fullscreen (Fixes bug #317392).
+
+2005-10-28  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c: window icon is a thumbnail
+	of the image (Fixes bug #311720).
+
+2005-10-28  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* eog.desktop.in.in, shell/eog-window.c, shell/main.c:
+	use intuitive generic image viewer icon instead of EOG
+	icon (Fixes bug #167087).
+
+2005-10-27  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-info-view.c: fix width of the information
+	pane that was too small (Fixes bug #313674). Patch
+	from Ed Catmur <ed@catmur.co.uk>.
+
+2005-10-25  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* configure.in: post release version bump.
+
+2005-10-25  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* configure.in, NEWS: Update for 2.13.1
+	* MAINTAINERS: added my name.
+
+2005-10-24  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-thumbnail.c: fix crash when adding new
+	non-image files	to a directory eog watches (Fixes bug
+	#311925) and when trying to view a PNG image with a
+	JPEG extension (Fixes bug #316808). Patch from
+	Callum McKenzie <callum@physics.otago.ac.nz>
+
+2005-10-23  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* configure.in: change X development libraries checking to
+	work on every platform (Fixes bug #317828). Patch from
+	Christophe Belle <christophe.belle@bull.net>.
+
+2005-10-23  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* shell/eog-window.c, shell/main.c: fix crash when trying
+	to view an image from recent list that doesn't exist
+	anymore (Fixes bug #312448 with contribution from
+	Claudio Saavedra <csaavedra@alumnos.utalca.cl>).
+
+2005-10-22  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-window.c: Ctrl+I keybinding to show/hide
+	Image Properties bar (Fixes bug #307188).
+
+2005-10-22  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-window.c: update "recent files" when viewing
+	images (Fixes bug #316004).
+
+2005-10-22  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-image-jpeg.c: fix RGBA->RGB conversion when saving
+	PNG images to JPEG (Fixes bug #314742). Patch from Felix Riemann
+	<felix@hsgheli.de>.
+
+2005-10-17  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* eog.desktop.in.in: Add image/svg+xml to the list of supported
+	file types. Closes bug #314566.
+
+2005-10-13  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* configure.in: Post-release-bump version to 2.13.0.
+
+2005-10-12  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-image.c, libeog/eog-wrap-list.c, shell/eog-window.c:
+	Update window title when saving in another location (Fixes bug #318318).
+	Asks to overwrite target file instead of source when 'Saving
+	as' (Fixes bug #162627 with contribution from Gustavo Noronha).
+	Don't crash when removing images from a	collection (Fixes bug #313003).
+	* shell/eog-file-chooser.c: no "Open in new window" option on
+	save action. Fixes bug #318734.
+
+2005-10-03  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* configure.in, NEWS: Update for 2.12.1
+	* libeog/eog-image.c, libeog/eog-thumbnail.c: Fix
+	  a couple of crashing bugs. Fixes bugs #313892 and
+	  #313397. Patches from lucasr.at.mundo@gmail.com.
+	* shell/eog-window.c: Update the statusbar correctly.
+	  Fixes bug #317757, patch from lucasr.at.mundo@gmail.com.
+
+2005-09-04  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* configure.in, NEWS: Update for 2.12.0
+
+2005-09-03  Ryan Lortie  <desrt@desrt.ca>
+
+	* shell/eog-window.c (eog_window_construct_ui): Don't allow the file
+	 information side pane to expand beyond its original size.  This
+	 causes the image to not be initially displayed at 100% zoom.  Fixes
+	 bug #315189 and bug #313674.
+
+2005-08-31  Baris Cicek <baris@teamforce.name.tr>
+
+	* configure.in: Added ku to ALL_LINGUAS
+
+2005-08-23  Lucas Rocha  <lucasr@cvs.mate.org>
+
+	* libeog/eog-image.c: fixes bug #311086.
+
+2005-08-21  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* configure.in, NEWS: Update for 2.11.92
+
+2005-08-17  Maxim Dziumanenko <mvd@mylinux.ua>
+
+	* configure.in:
+	* help/Makefile.am:
+	* help/uk*:
+	Added Ukraininian translation of the manual.
+
+2005-08-09  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* libeog/eog-job-manager.c: Apply patch from Ross Burton
+	<ross@burtonini.com> which stops creating joinable threads
+	when the threads are never joined. This saves 8M from the
+	virtual address space for every thread created, and never
+	returned.
+
+2005-08-03  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* AUTHORS, shell/eog-window.c: Update authors list.
+
+2005-07-26  Tim Gerla  <tim+matebugs@gerla.net>
+
+	* configure.in, NEWS: Update for 2.11.90
+
+2005-07-25  Ross Burton  <ross@burtonini.com>
+
+	* libeog/eog-image.c:
+	Re-implement the error handler.
+
+2005-07-25  Ross Burton  <ross@burtonini.com>
+
+	* libeog/eog-image.c:
+	Register an error handler as otherwise LCMS will abort on error.
+
+2005-07-25  Ross Burton  <ross@burtonini.com>
+
+	* libeog/eog-image.c:
+	Only try and extract a profile from an image if there is a
+	metadata reader.
+
+2005-07-25  Tim Gerla  <tim@gerla.net>
+
+	* libeog/eog-full-screen.[ch], shell/eog-window.c:
+	Patch from Davyd Madeley <davyd@madeley.id.au> to
+	fix some dual-screen bugs. Fixes bug #309100.
+
+2005-07-14  Philip Van Hoof  <pvanhoof@mate.org>
+
+	* shell/eog-window.c: Renamed "Preview" to "Print Preview"
+	fixes Bug 310470
+	* libeog/eog-image.c, libeog/eog-image.h, libeog/eog-info-view.c,
+	shell/eog-window.c: Fix for Bug 310463
+
+2005-07-15  Paolo Borelli  <pborelli@katamail.com>
+
+	* move the eog-file-chooser and the save dialog helpers from
+	libeog to the shell, since they are specific to the eog app.
+
+2005-07-14  Philip Van Hoof  <pvanhoof@mate.org>
+
+	* configure.in, libeog/eog-image.c, libeog/eog-image.h,
+	shell/eog-gtk-ui.xml, shell/eog-window.c: Printing support
+	* libeog/eog-image.c: Bugfix for Bug #310351
+	* shell/main.c: Patch from Paolo Borelli to address Bug# 310352
+
+2005-07-14  Ross Burton  <ross@burtonini.com>
+
+	* libeog/eog-image.h:
+	* libeog/eog-image-private.h:
+	Wrap lcms includes in HAVE_LCMS.
+
+2005-07-14  Ross Burton  <ross@burtonini.com>
+
+	* shell/eog-window.c:
+	Don't assert when there are no images to display (patch from Paolo
+	Borelli)
+
+2005-07-14  Ross Burton  <ross@burtonini.com>
+
+	* shell/eog-window.c:
+	Wrap lcms includes in HAVE_LCMS.
+
+2005-07-13  Tim Gerla  <tim@gerla.net>
+
+	* More patches from Ross Burton improving the ICC profile support
+	and make linking against -llcms optional.
+
+2005-07-11  Tim Gerla  <tim@gerla.net>
+
+	* Apply patches from Ross Burton <ross@burtonini.com> to add ICC
+	color profile support.
+
+2005-07-10  Tim Gerla  <tim@gerla.net>
+
+	* Apply patches from Philip Van Hoof <pvanhoof@mate.org> to
+	update the folder of viewed images on filesystem changes.
+	Closes bug #308634.
+
+2005-07-09  Tim Gerla  <tim@gerla.net>
+
+	* Apply patch from Paolo Borelli <pborelli@katamail.com> to remove
+	eog-hig-dialog.[ch] and replace with gtk 2.6 calls. Closes bug #309376.
+	* shell/eog-gtk-ui.xml, shell/eog-window.c: Apply patch from
+	Jaap A. Haitsma <jaap@haitsma.org> to use Ctrl-= to zoom in and Ctrl-0
+	to go to "Normal Size". Closes bug #109412.
+
+2005-07-01  Tim Gerla  <tim@gerla.net>
+
+	* configure.in, eog-info-view-exif.c: remove support for very old
+	libexif version 0.5.12.
+	* Apply patch from Paolo Borelli <pborelli@katamail.com> to rework
+	the statusbar to new Gtk API. Closes bug #309118.
+	* Update NEWS for 2.11.0.
+	* CVSVERSION, DEPENDS: Removed.
+	* MAINTAINERS: Added my name.
+	* shell/recent-files/Makefile.am: Added missing files.
+	* Makefile.am: Add logic stolen from mate-panel to make distcheck work
+	without complaining about scrollkeeper files. A few more fixes to make
+	distcheck pass.
+
+2005-06-25  Diego Gonzalez <diego@pemas.net>
+
+	* eog.glade: fix a couple typo introduced in the last commit.
+
+2005-06-25  Tim Gerla  <tim@gerla.net>
+
+	* eog.glade, shell/eog-preferences.c: Apply patch from
+	  Paolo Borelli <pborelli@katamail.com> to use GtkColorButton
+	  instead of the deprecated widget MateColorPicker.
+
+2005-06-24  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* eog.glade: HIGify the preference dialog.
+
+2005-06-24  Tim Gerla  <tim@gerla.net>
+
+	* eog.glade, shell/eog-preferences.c, shell/eog-preferences.h:
+	Apply patch from Paolo Borelli <pborelli@katamail.com> to
+	make preferences and help dialog launch in the center of the
+	parent window. Closes bug #144631.
+	* shell/eog-window.c: Patch from Paolo Borelli to fix miscalculated
+	zoom amount. Closes bug #308910.
+	* libeog/eog-scroll-view.c, libeog/eog-scroll-view.h,
+	shell/eog-window.c: Another patch from Paolo Borelli to
+	desensitize zoom in/out buttons at max/min zoom levels.
+
+2005-06-24  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libeog/test-eog-job.c: (test_jobs):
+	* shell/eog-window.c: (eog_window_drag_data_received),
+	(obtain_desired_size): #if 0 some unused code and fix
+	compiler warnings.
+
+2005-06-24  Tim Gerla  <tim@gerla.net>
+
+	* libeog/eog-image.c: Add patch to fix building with
+	--without-jpeg flag from foser@gentoo.org. Closes bug #158067.
+	* shell/eog-gtk-ui.xml, shell/eog-window.c: Add patch from
+	murali2k5@gmail.com to move some image operations from the Edit
+	menu to a new Image menu. Closes bug #152367.
+	* shell/Makefile.am: add $LIBJPEG to eog_LDADD to fix AIX 5
+	compilation problem reported and patched by
+	christophe.belle@bull.net (christophe belle). Closes bug #160937.
+
+2005-06-24  Kjartan Maraas  <kmaraas@mate.org>
+
+	* shell/recent-files/egg-recent-item.c: (egg_recent_item_new),
+	(egg_recent_item_new_from_uri), (egg_recent_item_update_mime_type),
+	(make_valid_utf8), (egg_recent_item_get_short_name),
+	(egg_recent_item_set_mime_type), (egg_recent_item_get_mime_type):
+	* shell/recent-files/egg-recent-item.h:
+	* shell/recent-files/egg-recent-model.c:
+	(egg_recent_model_write_raw), (egg_recent_model_changed_timeout),
+	(egg_recent_model_lock_file), (egg_recent_model_unlock_file),
+	(egg_recent_model_finalize), (egg_recent_model_add_full):
+	* shell/recent-files/egg-recent-util.c: (load_icon_file),
+	(egg_recent_util_get_icon):
+	* shell/recent-files/egg-recent-view-matecomponent.c:
+	* shell/recent-files/egg-recent-view-gtk.c:
+	(egg_recent_view_gtk_clear), (egg_recent_view_gtk_new_separator),
+	(egg_recent_view_gtk_new_menu_item),
+	(egg_recent_view_gtk_set_list), (egg_recent_view_gtk_set_property),
+	(egg_recent_view_gtk_get_property), (egg_recent_view_gtk_finalize),
+	(egg_recent_view_gtk_class_init), (egg_recent_view_gtk_init),
+	(egg_recent_view_gtk_set_label_width),
+	(egg_recent_view_gtk_get_label_width),
+	(egg_recent_view_gtk_set_menu):
+	* shell/recent-files/egg-recent-view-gtk.h:
+	* shell/recent-files/egg-recent-view.c:
+	* shell/recent-files/egg-recent.h: Sync from latest libegg
+
+2005-06-23  Tim Gerla  <tim@gerla.net>
+
+	* shell/eog-window.c: Applied patch from Murali k <murali2k5@gmail.com>
+	to change a message string to match tense. Closes bug #164300.
+
+	* libeog/*.c, shell/*.c:
+	Apply patch from Kjartan Maraas <kmaraas@mate.org>:
+	config.h has to be the first file included in a .c file and
+	it must not be included more than once else you get undefined
+	behaviour and broken translations etc. This patch fixes this up,
+	along with a couple of other minor memory-management bugs.
+	Closes bug #300647.
+
+2005-06-22  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version to 2.11.x
+	* eog.desktop.in.in: Add image/x-pcx to the list of supported
+	file types. Closes bug #301471. "patch" by <hadess at hadess net>
+
+2005-06-22  Kjartan Maraas  <kmaraas@mate.org>
+
+	* libeog/eog-job-manager.c: (eog_job_manager_add): Patch to fix
+	C99ism. Closes bug #308466. Patch from Behdad Esfahbod.
+
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* shell/main.c (get_installation_subdir, eog_get_datadir,
+	eog_get_icondir, eog_get_localedir): [Win32] New functions, used
+	to implement run-time lookup of DATADIR, ICONDIR and LOCALEDIR,
+	instead of using configure-time paths. Use them by redefining the
+	macros.
+
+	* shell/util.h: [Win32] Declare eog_get_datadir() and
+	eog_get_icondir().
+
+	* shell/eog-preferences.c
+	* shell/eog-window.c: Use them here, too.
+
+	* shell/Makefile.am (INCLUDES): Pass also $prefix to the
+	compilation.
+
+	* libeog/Makefile.am (INCLUDES): Remove unused MATELOCALEDIR and
+	EOG_DATADIR definitions.
+
+2005-06-17  Tor Lillqvist  <tml@novell.com>
+
+	Port to Windows, not because there wouldn't be enough good image
+	viewers on Windows already, but mostly to have a relatively simple
+	testbed for the libraries that eog uses.
+
+	* configure.in: Don't do the X11 checks unless GTK target is
+	X11. Check for fsync().
+
+	* Makefile.am (install-data-local): Workaround MSYS feature.
+
+	* shell/Makefile.am
+	* libeog/Makefile.am
+	* shell/main.c: Rename DATADIR to EOG_DATADIR as the
+	mindbogglingly wildly namespace-stomping Windows headers that
+	mate-vfs-address.h drags in clash with DATADIR.
+
+	* */Makefile.am: Link with LIBJPEG.
+
+	* libeog/eog-full-screen.c
+	* shell/eog-window.c: Conditionalize use of X11 and Unix API. No
+	attempt to do the corresponding things on Win32 yet, so the
+	behaviour might not be similar.
+
+	* libeog/eog-image-jpeg.c: On Win32 use plain setjmp and longjmp.
+
+	* libeog/test-eog-job.c: Use g_usleep() instead of sleep().
+
+	* shell/main.c: Don't call mate_authentication_manager_init() on
+	Windows, hasn't been ported yet, if ever.
+
+	* shell/recent-files/egg-recent-model.c: Bypass use of lockf() on
+	Windows.
+
+	* shell/recent-files/egg-recent-util.c: Use GetComputerName()
+	instead of gethostname() on Windows. (There is a gethostname() in
+	WinSock, but it seems unnecessary to drag in WinSock just for
+	that.)
+
+2005-06-06  Abduxukur Abdurixit <abduxukur.abdurixit@t-systems.ch>
+
+	* configure.in: Added "ug" to ALL_LINGUAS.
+
+2005-05-29  Jens Finke  <jens@triq.net>
+
+	* MAINTAINERS: Removed myself.
+	* TODO: Some notes about stuff I've worked on at last.
+
+	My last commit. See also
+	http://mail.mate.org/archives/eog-list/2005-May/msg00001.html
+
+2005-05-10  Jens Finke <jens@triq.net>
+
+	* libeog/eog-image.c (eog_image_real_load): Check gdk_pixbuf_writer_close
+	for errors. Part of the fix for #155553.
+
+2005-04-12 Naveen and Team  <naveenchandranv@gmail.com >
+
+	* shell/eog-window.c: Changed 'New' menu item to 'New Window'.
+	  Fixes bug #161391.
+
+2005-04-12  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_HelpAbout_cb): Use GtkAbout dialog.
+	(raise_and_focus): Removed.
+	Based on a patch by Kristof Vansant, fixes #166620.
+
+2005-04-11  Jens Finke  <jens@triq.net>
+
+	* eog.glade: Added checkbox to disable auto switching of images in slideshow.
+
+	* eog.schemas.in: New key full_screen/auto_advance
+
+	* shell/eog-preferences.c (check_auto_advance_toggle_cb): Disable spin button
+	when unchecked, otherwise enable it.
+
+	* libeog/eog-fullscreen.c (eog_full_screen_new): Auto advance of images depend
+	on auto_advance mateconf key, not whether seconds are greater zero.
+
+2005-04-11  Jens Finke  <jens@triq.net>
+
+	* shell/eog-gtk-ui.xml: Added Slideshow item to View menu.
+	* shell/eog-window.c (update_ui_visibility): Enable/disable Fullscreen and
+	Slideshow actions properly.
+	(get_ui_description_file): New function to ease ui development.
+	Fixes #161866.
+
+2005-04-05  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-collection-item.c (get_item_image_caption): Escape caption before
+	setting as markup string in text item. Fixes #164163.
+
+2005-04-05  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-file-selection.c (set_preview_pixbuf),
+	* shell/eog-window.c (update_status_bar),
+	* shell/main.c (user_wants_collection): Use ngettext where useful.
+	Fixes #149525, #150636.
+
+2005-04-05  Jens Finke  <jens@triq.net>
+
+	* help/de/eog-de.omf
+	* help/fr/eog-fr.omf: Removed extranous bytes at the start of file.
+	Fixes #117862.
+
+2005-04-05  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-uri-converter.c (eog_uri_converter_check): Replacing 'disjunct' by
+	'not all equal'. Fixes #148912.
+
+2005-04-05  Jens Finke  <jens@triq.net>
+
+	* eog.desktop.in.in: Better comment. Fixed #166910.
+
+2005-03-31  Steve Murphy  <murf@e-tools.com>
+
+	* configure.in: Added "rw" to ALL_LINGUAS.
+
+2005-03-21  Kristof Vansant  <de_lupus@pandora.be>
+
+	* autogen.sh: Require automake 1.7.
+	Fixes bug #166854.
+
+2005-03-21  Vincent Noel <vincent.noel@gmail.com>
+
+	* shell/main.c (main): Use gtk_window_set_default_icon.
+	Fixes bug #167081.
+
+2005-03-21  Paolo Borelli <pborelli@katamail.com>
+
+	* libeog/eog-image.c (eog_image_real_load): Fix memory leak.
+	Fixes bug #159575.
+
+2005-03-21  Danilo Šegan  <dsegan@gmx.net>
+
+	* libeog/Makefile.am: s/MARSHAL_SOURCES/MARSHAL_OUTPUT/.
+	Fixes bug #171113.
+
+2005-03-21  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-info-view-exif.c (eog_info_view_exif_instance_init):
+	Use translation for exif categorie labels.
+
+2005-03-21  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-info-view-file.c (eog_info_view_file_instance_init):
+	Use translation for attribute names.
+
+2005-03-21  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (add_short_labels),
+	(eog_window_construct_ui): Make short toolbar item labels translatable.
+
+2005-03-18  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-wrap-list.c (add_image): Place item outside visible area until
+	its final position is determined.
+
+2005-03-18  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-full-screen.c (disable_screen_saver),
+	(eog_full_screen_show), (eog_full_screen_hide): Disable xscreensaver during
+	auto advance slideshows.
+
+2005-03-15  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (get_window_decoration_size): New function.
+	(obtain_desired_size): In case of single image adapt window size so that
+	the image fills the window completely.
+	(setup_initial_geometry): Ensure that window has usable size.
+
+2005-03-14  Jens Finke  <jens@triq.net>
+
+	* Merged the experimental-job-mgr branch back to head.
+
+===== experimental-job-mgr merge ================
+
+2005-03-14  Jens Finke  <jens@triq.net>
+
+	* eog.schemas.in: New keys for saving window geometry.
+
+	* shell/eog-window.c: Save window geometry and restore it on load.
+
+	* shell/main.c: Create empty windows more simple.
+
+2005-03-14  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image-list.c (eog_image_list_add_uris):
+	Joined _add_directory and _add_files functions.
+
+	* libeog/eog-wrap-list.c: Don't wait for model prepare
+	signal, create collection items directly when model is set.
+
+	* shell/eog-window.c (eog_window_open): Requires an
+	eog_image_list model object.
+
+	* shell/main.c: Create and prepare EogImageList aka model before
+	opening a new EogWindow.
+
+2005-03-04  Adi Attar  <aattar@cvs.mate.org>
+
+	* configure.in: Added "xh" to ALL_LINGUAS.
+
+2005-02-11  Vincent Noel  <vnoel@cox.net>
+
+	* shell/eog-preferences.c:
+	* shell/main.c:
+	* shell/util.c: Second part of bug #166849.
+
+2005-02-11  Vincent Noel  <vnoel@cox.net>
+
+	* libeog/eog-file-selection.c:
+	* libeog/eog-image-jpeg.c:
+	* libeog/eog-image-list.c:
+	* libeog/eog-image.c:
+	* libeog/eog-info-view-exif.c:
+	* libeog/eog-info-view-file.c:
+	* libeog/eog-info-view.c:
+	* libeog/eog-save-as-dialog-helper.c:
+	* libeog/eog-save-dialog-helper.c:
+	* libeog/eog-uri-converter.h: Replace mate-i18n.h by
+	gi18n.h. Fixes #166849. Patch from Kristof Vansant.
+
+2005-01-10  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image-list.[ch] (eog_image_list_add_directory),
+	(eog_image_list_add_files),
+	* shell/eog-window.[ch] (eog_window_open),
+	(eog_window_open_list): Take MateVFSURI as argument,
+	instead of text uris.
+
+	* shell/main.c (sort_files): Create lists of MateVFSURI objects.
+
+	* shell/session.c (load_uri_with_role): Adapt to eog_window_open
+	 changes.
+
+2005-01-10  Jens Finke  <jens@triq.net>
+
+	* shell/main.c,
+	* shell/eog-window.[ch]
+	* shell/session.c: Code cleanup.
+
+2005-01-06  Jens Finke  <jens@triq.net>
+
+	* libeog/Makefile.am (SOURCES): Added eog-thumbnail.[ch].
+
+	* libeog/eog-collection-item.c: Use EogJob and new
+	thumbnail API for creating thumbnails.
+
+	* libeog/eog-image.[ch]: Moved thumbnail creation to
+	eog_thumbnail.[ch].
+	(eog_image_load_thumbnail): Removed.
+	(eog_image_set_thumbnail): New function.
+
+	* libeog/eog_thumbnail.[ch]: New files.
+
+	* shell/main.c (main): Init thumbnail factory.
+
+2005-01-06  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-job-manager.c: Use GQueue data structure.
+	Added job priority handling.
+
+	* libeog/eog-job.[ch]: Allow setting of job priority.
+
+	* shell/eog-window.c (handle_image_selection_changed):
+	Set high job priority.
+
+2005-01-03  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (eog_window_construct_ui):
+	Make sure info view is completely visible.
+	Patch by Naveen & Team, bug #162164.
+
+2005-01-03  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c: Use short labels for toolbar items.
+
+2005-01-03  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-full-screen.c: Use EogJob API
+
+	* libeog/eog-image-cache.[ch]: Reworked, inherits from
+	GObject now.
+
+2005-01-03  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-job-manager.c: Let threads waiting
+	for next job after finishing a job.
+
+2005-01-03  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image.[ch],
+	* libeog/eog-image-private.h: (eog_image_data_ref),
+	(eog_image_data_unref): New functions.
+	Removed EogImageCache dependency.
+
+	* shell/eog-window.c,
+	* libeog/eog-info-view.c,
+	* libeog/eog-scroll-view.c: Use new data (un)ref
+	functions.
+
+	* libeog/eog-image-list.c (eog_image_list_iter_equal):
+	Don't abort if iter is NULL.
+
+2004-12-19  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image.[ch] (eog_image_save_by_info),
+	(eog_image_save_as_by_info): Add EogJob to signature.
+	(eog_image_save): Removed deprecated function.
+
+	* libeog/eog-job.c (eog_job_dispose): Lock mutex when
+	freeing user data.
+
+	* libeog/eog-save-dialog-helper.[ch]: Splitted dialog update
+	process into three new functions
+
+	* shell/eog-window.c: Reworked Save and SaveAs functions to
+	work with new EogJob API.
+
+2004-12-14  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c: Use EogJob API for image
+	transformations.
+	* libeog/eog-image.c (image_transform): Don't emit changed
+	signal automatically.
+	* libeog/eog-scroll-view.c (eog_scroll_view_set_image):
+	Connect to image changed signal.
+
+2004-12-13  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-info-view.c,
+	* libeog/eog-scroll-view.c: Ported to new EogJob API.
+
+	* shell/eog-window.c: Make it compilable again,
+	(handle_image_selection_changed): Ported to new EogJob API.
+
+2004-12-13  Jens Finke  <jens@triq.net>
+
+	This patch breaks eog. Only the new test
+	programs will be build. They outline how the new
+	EogJob framework should be used.
+
+	* libeog/test-eog-job.c,
+	* libeog/test-image-load.c,
+	* libeog/Makefile.am: New test programs.
+
+	* libeog/eog-image-private.h,
+	* libeog/eog-image.h,
+	* libeog/eog-image.c: New image load API,
+	which is compatible with EogJob framework.
+
+	* libeog/eog-job.[ch]:
+	Improved job progress framework.
+
+	* libeog/eog-metadata-reader.c
+	(eog_metadata_reader_finished): New function.
+
+	* libeog/eog-transform.[ch] (eog_transform_apply):
+	Adapted to job progress framework.
+
+	* libeog/eog-info-view.c
+	* libeog/eog-full-screen.c
+	* libeog/eog-scroll-view.c: Commented out image loading functions.
+	Just to let libeog.a build and allow building of the test programs.
+
+2004-12-07  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-job.[ch]
+	* libeog/eog-job-manager[ch]: New files.
+
+===== experimental-job-mgr branch ================
+
+2004-12-04  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-file-selection.c: (eog_file_selection_toggle_button_cb),
+	(eog_file_selection_add_open_new_window): New functions.
+
+	Add check box to let user decide to open an URI in the same window
+	or open a new one.
+
+2004-12-01  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-metadata-reader.c: AIX compilation fixes.
+	Patch by Sandie Vanderme <sandie.vanderme@bull.net>. #159863
+
+2004-11-30  Dwayne Bailey  <dwayne@translate.org.za>
+
+	* configure.in: Added "zu" to ALL_LINGUAS.
+
+====== 2.9.1 =====
+
+2004-11-29  Jens Finke  <jens@triq.net>
+
+	* NEWS: Updated.
+
+2004-11-29  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-scroll-view.c (set_zoom_fit): Respect allowed
+	min/max zoom factors.
+
+	* shell/eog-window.c (eog_window_construct_ui): Set min widget size
+	for scroll_view.
+
+2004-11-28  Dwayne Bailey  <dwayne@translate.org.za>
+
+	* configure.in: Added "nso" to ALL_LINGUAS.
+
+2004-11-25  Christoffer Olsen  <co@deworks.net>
+
+	* configure.in: Generates eog.desktop.in, added eog.dekstop.in.in
+	to AC_OUTPUT
+	* eog.desktop.in: Moved to eog.desktop.in.in
+	* eog.desktop.in.in: Added X-MATE-Bugzilla-Version header
+	* po/POTFILES.in: References eog.desktop.in.in instead
+
+	- Added support for bug buddy version number autocompletion
+	when filing bugs.
+
+2004-11-15  James Henstridge  <james@jamesh.id.au>
+
+	* libeog/eog-collection-item.c (eog_collection_item_construct):
+	fix a bug setting the fill colour for the item's caption that was
+	causing a crash on startup.  Fixes bug #155241.
+
+2004-10-24  Jens Finke  <jens@triq.net>
+
+	* eog.glade,
+	* doc/C/eog.sgml,
+	* libeog/eog-save-as-dialog.c,
+	* shell/eog-preferences.c,
+	* shell/eog-window.c,
+	* shell/main.c: s/Eye of Mate/Eye of MATE
+	Fixes #122544.
+
+2004-10-24  Jens Finke  <jens@triq.net>
+
+	* eog.schemas.in,
+	* eog-config-keys.h:  Added keys for visibility of
+	info view.
+	* eog-gtk-ui.xml: Added info view toggle.
+	* eog-window.c (verb_ShowHideAnyBar_cb)
+	(update_ui_visiblity): Consider info view updates.
+	Partially fixes #154859.
+
+2004-10-23  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (eog_window_construct_ui)
+	(eog_window_new),
+	* shell/main.c (create_new_window): Handle error, when
+	ui description file is not found.
+	* shell/Makefile.am: Install eog-gtk-ui.xml in <datadir>/eog.
+
+2004-10-21  Paolo Borelli <pborelli@katamail.com>
+
+	* libeog/eog-util.[ch]: New files, copy&pasted code from eel.
+	* configure.in,
+	* libeog/eog-image.c,
+	* libeog/eog-save-dialog-helper.c: Removed eel library dependency.
+
+2004-10-20  Vinay M R  <vinay.mandyakoppal@wipro.com>
+
+	* shell/eog-preferences.c (eog_preferences_show): Added help_cb()
+	to provide help support for Edit->Preferences.
+	* eog.glade: Created the Help button.
+	Edited the patch given by Shakti Sen  <shakti.sen@wipro.com>.
+	Fixes the bug #131897
+
+2004-10-20  Jens Finke  <jens@triq.net>
+
+	* shell/eog-gtk-ui.xml,
+	* shell/eog-window.c: Renamed all DirOpen occurences to FolderOpen.
+	Fixes #137873. Patch by Kevin Duffus <kod1929@rit.edu>
+
+====== 2.9.0 =====
+
+2004-10-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* shell/main.c: (main): Initialize mate-authentication-manager.
+	Fixes #141851.
+
+2004-10-20  Jens Finke  <jens@triq.net>
+
+	* shell/main.c: s/eel_uri_from_shell_arg/mate_vfs_uri_from_shell_arg
+	Patch by Paolo Borelli <pborelli@katamail.com>  - #155841
+
+=====  2.8.2 ======
+
+2004-10-11  Jens Finke  <jens@triq.net>
+
+	* NEWS: updated
+
+2004-09-26  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-full-screen.c (show_nth_image): New function.
+	(prepare_data): Set first_iter always to the first iter of the
+	image list.
+	(eog_full_screen_key_press): Enable Pos1 and End keys to switch
+	 to start/end of the slideshow. Enable PageDown and PageUp keys
+	for browsing to next/previous image.
+
+2004-09-26  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image.h,
+	* libeog/eog-image.c (eog_image_get_uri_for_display): New function.
+
+	* shell/eog-window.c (save_error): Use eog_image_get_uri_for_display.
+
+2004-09-26  Jens Finke  <jens@triq.net>
+
+	This change re-introduce a string from the 2.6 series. Therefore
+	the po files required an update too. See po/ChangeLog for more details.
+
+	* shell/eog-window.c (update_status_bar): New function.
+	(handle_image_selection_changed),
+	(view_zoom_changed_cb),
+	(image_loading_finished_cb): Update status bar.
+
+2004-09-18  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-save-as-dialog-helper.c (on_browse_button_clicked):
+	Use gtk_file_chooser_get_uri.
+
+2004-09-18  Jens Finke  <jens@triq.net>
+
+	* shell/recent-files: Updated from libegg.
+
+2004-09-18  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_FileExit_cb),
+	(eog_window_key_press).
+	* shell/eog-gtk-ui.xml:
+	Removed quit function from file menu - #148755.
+
+2004-09-18  Jens Finke  <jens@triq.net>
+
+	* help/C/eog.xml,
+	* help/C/figures/eog_save_as_window.png,
+	* help/C/figures/eog_start_window.png: Updated. Now it really matches
+	  eog 2.8.
+
+2004-09-13  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_DirOpen_cb): Use gtk_file_chooser_get_uris
+	for retrieving folder uri. Fixes - #137164.
+
+2004-09-12  Shaun McCance  <shaunm@mate.org>
+
+	* help/C/eog-C.omf:
+	* help/C/eog.xml:
+	- Updates for 2.8, thanks to Angela Boyle and Stuart Ellis
+
+2004-09-12  Jens Finke  <jens@triq.net>
+
+	* configure.in: Bumped version to 2.8.1
+
+	* ChangeLog
+	* po/ChangeLog: Set version markers
+
+======= 2.8.1 =======
+
+2004-09-12  Jens Finke  <jens@triq.net>
+
+	* configure.in: Bumped version to 2.8.0
+
+2004-09-11  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_SaveAs_cb): Don't unref an image in the single case.
+	- Fixes #151982
+
+2004-08-29  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image.c,
+	* libeog/eog-metadata-reader.c,
+	* shell/eog-window.c: #ifdef'ed debug messages.
+	(eog_window_has_contents): Check for image_list == NULL.
+
+2004-08-29  Jens Finke  <jens@triq.net>
+
+	* AUTHORS, MAINTAINERS: Updated files.
+
+2004-08-26  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-collection-item.c (eog_collection_item_destroy): NULL image variable.
+
+	* libeog/eog-image.c (load_emit_signal_done):
+	* libeog/eog-wrap-list.c (eog_wrap_list_drag_data): Unref image.
+
+	* shell/eog-window.c (eog_window_destroy): Free all image objects.
+	(handle_image_selection_changed): Don't add ref to image.
+
+2004-08-18  Jens Finke  <jens@triq.net>
+
+	* configure.in: Bumped version to 2.7.2.
+
+====== 2.8.0 ======
+
+2004-08-18  Jens Finke  <jens@triq.net>
+
+	* NEWS: updated
+
+2004-08-18  Jens Finke  <jens@triq.net>
+
+	* shell/recent-files/egg-recent.h: Remove eog-recent-view-matecomponent.c
+
+2004-08-18  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-uri-converter.c: Make it compile with gcc 2.95 - #150399.
+
+2004-08-17  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-full-screen.c (eog_full_screen_new): Consider antialiasing setting.
+
+	* shell/eog-window.c (interp_type_changed_cb),
+	  (transparency_changed_cb),
+	  (trans_color_changed_cb): New functions.
+	  (eog_window_destroy): Remove mateconf listeners.
+	  (eog_window_init): Add mateconf listeners.
+	  (eog_window_update_properties): Read current mateconf settings.
+
+2004-08-16  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "bs" to ALL_LINGUAS.
+
+2004-08-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Added nb to ALL_LINGUAS.
+
+2004-08-16  Jens Finke  <jens@triq.net>
+
+	* Deleted viewer/ directory.
+	* Deleted collection/ directory.
+	* Deleted libgpi/ directory.
+	* Deleted idl/ directory.
+
+2004-08-16  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (show_delete_confirm_dialog): Use ngettext - #149525.
+
+	* shell/main.c: Fixed spelling - #149209.
+
+2004-08-02  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "or" to ALL_LINGUAS.
+
+2004-07-28  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (handle_image_selection_changed): Set image filename
+	  in title.
+	  (slideshow_hide_cb): New function. Display last slideshow image in main
+	  window when returning from fullscreen mode.
+
+2004-07-26  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_FullScreen_cb): Start slideshow with
+	selected image. If multiple images are selected, display only these.
+
+2004-07-26  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-hig-dialog.c (eog_hig_dialog_new): New window parameter.
+	Other files adapted to new signature.
+
+2004-07-26  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (save_as_file_selection_dialog): New function.
+	(save_as_single_image): Assert that we can always determine
+	the image format - #148190.
+
+	* libeog/eog-pixbuf-util.[ch] (eog_pixbuf_get_format_by_vfs_uri),
+	(eog_pixbuf_get_format_by_uri): New functions.
+
+2004-07-26  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (add_eog_icon_factory): Don't free static
+	MateProgram object. Fixes #148096
+
+2004-07-25  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-wrap-list.c (model_image_removed): Force canvas update
+	before deleting MateCanvasItem.
+
+2004-07-25  Jens Finke  <jens@triq.net>
+
+	* shell/main.c (show_nonexistent_files): Use format uri for display
+	for all files. Use ngettext - #148419.
+
+2004-07-25  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c: Mark main menus for translation.
+	(eog_window_construct_ui): Set translation domain for ui.
+
+	* eog.glade: Removed dummy strings.
+
+2004-07-24  Grzegorz Golawski <grzegol@pld-linux.org>
+
+	* configure.in: Check for libexif = 0.5.12 and newer versions.
+
+	* libeog/eog-info-view-exif.c: Consider API changes with new libexif.
+
+2004-07-23  Jens Finke  <jens@triq.net>
+
+	* configure.in: Removed GPI and libmateprint related checks.
+
+2004-07-23  Jens Finke  <jens@triq.net>
+
+	* configure.in: Removed matecomponent related checks.
+
+	* libeog/accessible-image-view.c
+	* shell/eog-window.c
+	* shell/main.c: Removed matecomponent includes and remaining
+	source references.
+
+	* shell/recent-files/Makefile.am,
+	* shell/recent-files/egg-recent.h: Removed eog-recent-view-matecomponent.[ch]
+
+2004-07-22  Mason Kidd <mrkidd@mrkidd.com>
+
+	* shell/eog-window.c: Added icon for About menu item - #148097.
+
+2004-07-21  Ray Strode  <rstrode@redhat.com>
+
+	* eog/eog.desktop.in: Add MimeType line to desktop file
+	new mime sytem.
+
+2004-07-20  Jens Finke  <jens@triq.net>
+
+	* configure.in: Bumped version to 2.7.1.
+
+====== 2.7.1 ======
+
+2004-07-20  Jens Finke  <jens@triq.net>
+
+	* configure.in: Check for libexif = 0.5.12. Don't create Makefiles in
+	libgpi, collection, viewer and idl directories.
+
+	* Makefile.am: Removed libgpi, collection, viewer and idl
+	from SUBDIRS.
+
+	* libeog/Makefile.am: Removed CORBA/MateComponent stuff.
+
+	* NEWS: Updated.
+
+2004-07-20  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image-list.c (list_insert_sorted_private): Create new list
+	if list argument is NULL.
+
+2004-07-13  Jens Finke  <jens@triq.net>
+
+	* shell/gtk-shell-ui.xml: Renamed to eog-gtk-ui.xml
+
+	* shell/eog-shell-ui.xml: Removed.
+
+	* shell/eog-window.c (eog_window_construct_ui),
+	* shell/Makefile.am: Use new ui xml.
+
+2004-07-13  Jens Finke  <jens@triq.net>
+
+	Implemented delete function.
+
+	* libeog/eog-image-list.c (list_insert_sorted_private),
+	(eog_image_list_remove_image),
+	(remove_image_private): New function.
+	(add_image_private): Return inserted position.
+
+	* libeog/eog-wrap-list.c (model_image_removed): Implemented.
+	(do_update): Handle N_ITEMS_CHANGED hint.
+
+	* shell/eog-window.c (show_delete_confirm_dialog),
+	(delete_image_real),
+	(verb_Delete_cb): New functions.
+
+	* shell/gtk-shell-ui.xml: Delete item added.
+
+2004-07-12  Pawan Chitrakar  <pawan@nplinux.org>
+
+	* configure.in: Added ne Nepali in ALL_LINGUAS
+
+2004-07-11  Jens Finke  <jens@triq.net>
+
+	'Save As' for single and multiple files.
+
+	* eog.glade: New "Save As" dialog.
+
+	* libeog/Makefile.am: Build eog-uri-converter and eog-save-as-dialog-helper.
+
+	* libeog/eog-file-selection.c: Removed 'overwrite file'-checks.
+	Now better handled by EogImage.
+
+	* liboeg/eog-image-save-info.c (get_save_file_type_by_uri):
+	simplified
+	(eog_image_save_info_from_vfs_uri): New function.
+
+	* libeog/eog-image.c (eog-image_copy_file),
+	(tmp_file_move_to_uri): Do file-exists-check ourselves.
+	(eog_image_save_as_by_info): Don't emit changed signal.
+
+	* libeog/eog-pixbuf-util.[ch] (eog_pixbuf_get_format_by_suffix),
+	(eog_pixbuf_get_common_suffix): New method.
+
+	* libeog/eog-save-as-dialog-helper.c: Code cleanups, some fixes.
+
+	* libeog/eog-save-dialog-helper.c: Display target filename if available.
+
+	* libeog/eog-uri-converter.c (eog_uri_converter_parse_string):
+	Don't loose last string chars.
+	(eog_uri_converter_check): Set error message.
+
+	* shell/eog-window.c: Implemented 'Save As' function.
+
+2004-07-04  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-uri-converter.[ch],
+	* libeog/eog-save-as-dialog-helper.[ch]:
+	  New files for upcoming "Save As" rework.
+
+2004-06-21  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-collection-item.c (ensure_max_string_width): Fix compiler
+	  warning.
+
+2004-06-18  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-image-jpeg.[ch]: Build without libexif. (#144591)
+
+2004-06-17  Jens Finke  <jens@triq.net>
+
+	* jpegutils/: Remove every source file but transupp.[ch].
+
+	* libeog/eog-image-save-info.[ch]
+	* libeog/eog-save-dialog-helper.[ch]: New files.
+
+	* eog.glade: New save file dialog.
+
+	* libeog/eog-metadata-reader.[ch]: Handle duplicated EXIF markers.
+
+	* libeog/eog-image-jpeg.[ch],
+	* libeog/eog-image.[ch],
+	* shell/eog-window.c: Huge patch, reworked "Save" function
+	completely.
+
+2004-06-07  Mariano Suárez-Alvarez  <mariano@mate.org>
+
+	* shell/eog-window.c (eog_window_construct_ui): use
+	mate_program_locate_file to locate the xml ui description file.
+	* shell/Makefile.am (UI_FILES): correct the name of the xml ui
+	description file.
+
+2004-06-02  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_Undo_cb): Implemented undo.
+
+2004-06-02  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (add_eog_icon_factory): New function.
+	(eog_window_construct_ui): Construct eog stock icon factory.
+
+	* art/Makefile.am: Added stock-flip-horizontal-16.png,
+	stock-flip-vertical-16.png.
+
+2004-05-31  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (transformation_progress_cb),
+	(apply_transformation),
+	(verb_FlipHorizontal_cb),
+	(verb_FlipVertical_cb),
+	(verb_Rotate90_cb),
+	(verb_Rotate270_cb),
+	(verb_Rotate180_cb): New functions.
+	(eog_window_new): Don't try to set 'win_name' property.
+
+	* shell/gtk-shell-ui.xml: Added remaining edit and save items.
+
+2004-05-29  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "tk" to ALL_LINGUAS.
+
+2004-05-27  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (verb_ZoomIn_cb),
+	(verb_ZoomOut_cb),
+	(verb_ZoomNormal_cb),
+	(verb_ZoomFit_cb): New functions.
+	(eog_window_construct_ui): Create functional different action
+	groups. Added accelators
+	(update_ui_visibility): Disable/enable action groups, depending on
+	window state.
+
+	* shell/gtk-shell-ui.xml: Added zoom and fullscreen items.
+
+2004-05-27  Jens Finke  <jens@triq.net>
+
+	* shell/eog-window.c (eog_window_open_uri),
+	(eog_window_open_uri_list): Make recently used items work.
+	(image_loading_finished_cb),
+	(image_loading_failed_cb): New functions.
+	(handle_image_selection_changed): (Dis-)connect to image signals.
+	(adapt_window_size): Reworked.
+
+2004-05-25  Jens Finke  <jens@triq.net>
+
+	This is a fairly large patch, which makes fundamental changes. It
+	is a work in progress and is not fully functional yet again. Use
+	the BEFORE_GTK_UI_MANAGER_SWITCH tag to checkout the latest
+	working version.
+
+	* libeog/Makefile.am: Moved eog-wrap-list.[ch],
+	eog-canvas-pixbuf.[ch], eog-collection-item.[ch] here.
+
+	* collection/Makefile.am: Removed above files from here. Killed
+	eog-collection-marshal.list.
+
+	* shell/Makefile.am: Link with jpegutils.
+
+	* shell/eog-window.c: Made this a GtkWindow, using GtkUIManager
+	and related stuff.
+
+	* shell/gtk-shell-ui.xml: New file.
+
+2004-05-11  Narayana Pattipati <narayana.pattipati@wipro.com>
+
+	* collection/MATE_EOG_Collection.server.in.in:
+	Add viewer_label for Image Collection Viewer.
+	Bugzilla bug#142347.
+
+2004-05-07  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-metdata-reader.[ch]: New files.
+
+	* libeog/Makefile.am (SOURCES): Added new files.
+
+	* libeog/eog-image-private.h: Added attributes for exif/iptc raw data.
+
+	* libeog/eog-image.c (real_image_load): Use EogMetadataReader object for
+	obtaining image metadata.
+	(check_for_metadata_img_format): New function.
+	(load_emit_signal_info_done): Removed InfoDone signal emission.
+	(eog_image_load): Always use EOG_IMAGE_LOAD_COMPLETE method
+	(significantly faster).
+	(image_changed_cb): Do explicit ExifData* cast.
+	(eog_image_free_mem_private): Free exif raw data if used.
+
+	* collection/eog-collection-view.c (create_user_interface):
+	Create always info view.
+
+2004-04-26  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-info-view-exif.c: Build even without libexif. #141114
+
+2004-04-26  Rhys Jones <rhys@sucs.org>
+
+	* eog.schemas.in: Fixed typos. #136833
+
+2004-04-25  Jens Finke  <jens@triq.net>
+
+	* libeog/eog-info-view.c: Reworked this completely. Derived from
+	GtkNotebook now with separate pages for file and exif data.
+
+	* libeog/eog-ifo-view-detail.[ch],
+	libeog/eog-info-view-file.[ch],
+	libeog/eog-info-view-exif.[ch]:
+	EogInfoViewDetail is the base class derived from a
+	GtkTreeView. EogInfoViewFile and EogInfoViewExif implement the
+	code for viewing file properties resp. EXIF tag information.
+
+	* collection/eog-collection-view.c (create_user_interface): Don't add
+	notebook with viewport.
+
+2004-04-23  Jens Finke  <jens@triq.net>
+
+	Synchron image loading.
+
+	* eog-image.[ch] (eog_image_load_sync): New.
+	  (real_image_load): Broadcast thread finished msg
+
+	* eog-image-private.h: Added load_finished condition
+
+2004-04-23  Jens Finke  <jens@triq.net>
+
+	Faster image loading.
+
+	* eog-image-private.h: Removed deprecated loading status fields.
+
+	* eog-image.c (check_load_status): Removed.
+	  (load_emit_signal_progress),
+	  (load_emit_signal_info_done),
+	  (load_emit_signal_size_prepared),
+	  (load_size_prepared),
+	  (load_emit_signal_done): New.
+	  (real_image_load): Initiate signal emits where appropriate.
+	  (eog_image_load): No more need for check_load_status idle func.
+
+	* configure.in: Bumped version to 2.7.0
+
+===== 2.7.0 =====

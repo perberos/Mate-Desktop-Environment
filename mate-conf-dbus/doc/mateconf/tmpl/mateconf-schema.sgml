@@ -1,0 +1,261 @@
+<!-- ##### SECTION Title ##### -->
+MateConfSchema
+
+<!-- ##### SECTION Short_Description ##### -->
+
+A #MateConfSchema describes a #MateConfEntry
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+A "schema" describes a key-value pair in a MateConf database.
+It may include information such as default value and value
+type, as well as documentation describing the pair, the
+name of the application that created the pair, etc.
+</para>
+<para>
+A #MateConfSchema duplicates some of the information about the value it
+describes, such as type information. In these cases, the type information
+provided describes what the type of the value <emphasis>should
+be</emphasis>, not what the type actually is.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT MateConfSchema ##### -->
+<para>
+An opaque data type representing a description of a key-value pair.
+</para>
+
+
+<!-- ##### FUNCTION mateconf_schema_new ##### -->
+<para>
+Creates a new #MateConfSchema.
+</para>
+
+@Returns: newly allocated #MateConfSchema
+
+
+<!-- ##### FUNCTION mateconf_schema_free ##### -->
+<para>
+Deallocates a #MateConfSchema. Also frees any allocated memory
+inside the #MateConfSchema.
+</para>
+
+@sc: a #MateConfSchema to destroy.
+
+
+<!-- ##### FUNCTION mateconf_schema_copy ##### -->
+<para>
+Copies a #MateConfSchema. The copy is a deep copy, that is, any allocated memory
+inside the #MateConfSchema will also be copied.
+</para>
+
+@sc: a #MateConfSchema to copy.
+@Returns: a newly allocated #MateConfSchema
+
+
+<!-- ##### FUNCTION mateconf_schema_get_type ##### -->
+<para>
+Returns the type of the entry described by a #MateConfSchema
+</para>
+
+@schema: a #MateConfSchema
+@Returns: the entry type.
+<!-- #Unused Parameters # -->
+
+
+<!-- ##### FUNCTION mateconf_schema_get_locale ##### -->
+<para>
+Returns the locale for a #MateConfSchema. The returned string
+is <emphasis>not</emphasis> a copy, so don't try to free it. It is
+"owned" by the #MateConfSchema and will be destroyed when the #MateConfSchema
+is destroyed.
+</para>
+
+@schema: a #MateConfSchema
+@Returns: the locale
+<!-- # Unused parameters # -->
+
+
+<!-- ##### FUNCTION mateconf_schema_get_short_desc ##### -->
+<para>
+Returns the short description for a #MateConfSchema. The returned string
+is <emphasis>not</emphasis> a copy, don't try to free it. It is
+"owned" by the #MateConfSchema and will be destroyed when the #MateConfSchema
+is destroyed.
+</para>
+
+@schema: a #MateConfSchema.
+@Returns: the short description.
+
+
+<!-- ##### FUNCTION mateconf_schema_get_long_desc ##### -->
+<para>
+Returns the long description for a #MateConfSchema. The returned string
+is <emphasis>not</emphasis> a copy, don't try to free it. It is
+"owned" by the #MateConfSchema and will be destroyed when the #MateConfSchema
+is destroyed.
+</para>
+
+@schema: a #MateConfSchema
+@Returns: the long description.
+
+
+<!-- ##### FUNCTION mateconf_schema_get_owner ##### -->
+<para>
+Returns the owner of a #MateConfSchema. The returned string
+is <emphasis>not</emphasis> a copy, don't try to free it. It is
+"owned" by the #MateConfSchema and will be destroyed when the #MateConfSchema
+is destroyed.
+</para>
+
+@schema: a #MateConfSchema.
+@Returns: the owner.
+
+
+<!-- ##### FUNCTION mateconf_schema_get_default_value ##### -->
+<para>
+Returns the default value of the entry that is described by a #MateConfSchema.
+</para>
+
+@schema: a #MateConfSchema.
+@Returns: the default value of the entry.
+
+
+<!-- ##### FUNCTION mateconf_schema_get_car_type ##### -->
+<para>
+Returns the default type of the first member of the pair in the entry
+(which should be of type %MATECONF_VALUE_PAIR) described by @schema.
+</para>
+
+@schema: a #MateConfSchema.
+@Returns: the type of the first member of the pair element of the entry.
+
+
+<!-- ##### FUNCTION mateconf_schema_get_cdr_type ##### -->
+<para>
+Returns the default type of the second member of the pair in the entry
+(which should be of type %MATECONF_VALUE_PAIR) described by @schema.
+</para>
+
+@schema: a #MateConfSchema.
+@Returns: the type of the second member of the pair element of the entry.
+
+
+<!-- ##### FUNCTION mateconf_schema_get_list_type ##### -->
+<para>
+Returns the default type of the list elements of the entry (which should be
+of default type %MATECONF_VALUE_LIST) described by @schema.
+</para>
+
++@schema: a #MateConfSchema.
++@Returns: the type of the list elements of the entry.
+
+@schema: 
+@Returns: 
+
+
+<!-- ##### FUNCTION mateconf_schema_set_type ##### -->
+<para>
+Sets the #MateConfValueType of the #MateConfSchema to @type.
+</para>
+
+@sc: a #MateConfSchema.
+@type: the type.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_locale ##### -->
+<para>
+Sets the locale for a #MateConfSchema to @locale. @locale is copied.
+</para>
+
+@sc: a #MateConfSchema.
+@locale: the locale.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_short_desc ##### -->
+<para>
+Sets the short description of a #MateConfSchema to @desc. @desc is copied.
+</para>
+
+@sc: a #MateConfSchema.
+@desc: the short description.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_long_desc ##### -->
+<para>
+Sets the long description of a #MateConfSchema to @desc. @desc is copied.
+</para>
+
+@sc: a #MateConfSchema.
+@desc: the long description.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_owner ##### -->
+<para>
+Sets the "owner" of the #MateConfSchema, where the owner is the
+name of the application that created the entry.
+</para>
+
+@sc: a #MateConfSchema.
+@owner: the name of the creating application.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_default_value ##### -->
+<para>
+Sets the default value for the entry described by the #MateConfSchema.
+The #MateConfValue is copied. Alternatively, use
+mateconf_schema_set_default_value_nocopy().
+</para>
+
+@sc: a #MateConfSchema.
+@val: the default value.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_default_value_nocopy ##### -->
+<para>
+Sets the default value for the entry described by the #MateConfSchema.
+The #MateConfValue is not copied; the #MateConfSchema takes ownership of it.
+Alternatively, use mateconf_schema_set_default_value().
+</para>
+
+@sc: a #MateConfSchema.
+@val: the default value.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_car_type ##### -->
+<para>
+Sets the #MateConfValueType of the first member (car) of the entry (which
+should be of type %MATECONF_VALUE_PAIR) described by #MateConfSchema to @type.
+</para>
+
+@sc: a #MateConfSchema.
+@type: the type.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_cdr_type ##### -->
+<para>
+Sets the #MateConfValueType of the second member (cdr) of the entry (which
+should be of type %MATECONF_VALUE_PAIR) described by #MateConfSchema to @type.
+</para>
+
+@sc: a #MateConfSchema.
+@type: the type.
+
+
+<!-- ##### FUNCTION mateconf_schema_set_list_type ##### -->
+<para>
+Sets the #MateConfValueType of the list elements of the entry (which
+should be of type %MATECONF_VALUE_LIST) described by #MateConfSchema to @type.
+</para>
+
+@sc: a #MateConfSchema.
+@type: the type.
+
+

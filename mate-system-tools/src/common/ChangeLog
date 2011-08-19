@@ -1,0 +1,2470 @@
+==================== 2.27.2 ====================
+
+==================== 2.27.1 ====================
+
+==================== 2.22.2 ====================
+
+==================== 2.22.1 ====================
+
+2008-03-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.22.0
+
+2008-02-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-polkit-action.c (gst_polkit_action_init): Do not spew extra
+	critical warnings if any of the DBusConnections can't be created.
+	Fixes what can be fixed in #518796.
+
+2008-02-25  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.92
+
+2008-02-17  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.[ch] (gst_tool_add_configuration_object)
+	(configuration_object_committed) (configuration_object_changed)
+	(gst_tool_commit_async): Do not reload the configuration if there's a
+	quite certain possibility that the tool is the one that caused the
+	change.
+
+2008-02-16  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.[ch] (gst_dialog_get_topmost_edit_dialog): Added.
+	* gst-tool.[ch] (configuration_object_changed): Use topmost edit
+	dialog as the parent for the "configuration changed" dialog. Also, do
+	not show another of these dialogs if there's already one present.
+
+2008-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.91
+
+2008-01-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.90
+
+2008-01-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.5.1
+
+2008-01-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.5
+
+2008-01-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.[ch] (gst_dialog_authenticate): Added, programatically
+	tells the tool to unlock.
+
+2008-01-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-polkit-action.c, gst-polkit-button.c: Display an error dialog if
+	the call to org.mate.PolicyKit returns some error.
+
+2007-12-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.c (gst_dialog_constructor): Display the GError message
+	when the builder file can't be loaded.
+
+2007-12-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.3
+
+2007-12-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.[ch] (gst_dialog_add_edit_dialog)
+	(gst_dialog_remove_edit_dialog) (gst_dialog_stop_editing)
+	(gst_dialog_get_editing): New API to specify that a group of dialogs
+	is in the process of changing the configuration and control them.
+	* gst-tool.c (gst_tool_add_configuration_object): listen to the
+	changed signal, call
+	(configuration_object_changed): Show a "Update config?" dialog if the
+	user has opened a dialog that might be doing some change to the
+	configuration.
+
+2007-11-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.2.1
+
+2007-11-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.2
+
+2007-11-12  Carlos Garnacho  <carlosg@mate.org>
+
+	Made a couple of improvements to widget policies handling.
+
+	* gst-dialog.c: reduce GstWidgetPolicy size to sizeof(gushort). Attach
+	it through g_object_set_qdata(), so it doesn't have to run through the
+	whole list to find a widget.
+	* gst-types.h: get rid of it, it has now little use.
+	* gst-dialog.h, gst-tool.h: move the things defined there to these
+	files.
+	* Makefile.am: remove gst-types.h
+	* gst.h: remove gst-types.h include
+
+2007-11-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-polkit-action.[ch]: Added, keeps track of a PolicyKit action and
+	the corresponding permissions management.
+	* gst-polkit-button.[ch]: Use GstPolKitAction underneath.
+	* Makefile.am: added gst-polkit-action.[ch]
+
+2007-10-30  Carlos Garnacho  <carlosg@mate.org>
+
+        * Release 2.21.1
+
+2007-10-21  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.c: do not surround widget policies code with ifdef
+	HAVE_POLKIT, less ifdefs is less clutter, and the essential code was
+	already protected. (Also fixes #488650, noticed by Claudio Saavedra,
+	thanks!)
+	(gst_dialog_require_authentication_for_widget): fix typo in function
+	name. check gst_dialog_is_authenticated() to set widget sensitivity.
+
+2007-10-17  Denis Washington  <denisw@svn.mate.org>
+
+	* gst-dialog.[ch]: Added "unlocked" signal.
+
+2007-10-15  Denis Washington  <denisw@svn.mate.org>
+
+	* gst-widget.[ch]: Removed.
+	* gst-dialog.[ch]: Replaced the code that simply sets the
+	top-level container insensitive with new function
+	gst_dialog_require_authentication_for_widget[s](), which
+	is used by the tools to mark certain controls as requiring
+	authentication, and remove all references to GstWidget.
+
+2007-10-10  Carlos Garnacho  <carlosg@mate.org>
+
+	Add optional PolicyKit support.
+
+	* gst-polkit-button.[ch]: Added, implementation of a button that takes
+	care of all the authentication process.
+	* Makefile.am: optionally compile it.
+	* gst-dialog.[ch]: Add a GstPolKitButton if PolicyKit is used.
+	(gst_dialog_is_authenticated): Move here.
+	(gst_dialog_map): No longer needed, the configuration is already
+	updated inconditionally in the GstTool constructor.
+	* gst-tool.[ch] (gst_tool_is_authenticated): removed from here.
+	* gst-widget.c: update callers.
+	* gst-widget.h: make GstWidget struct a bit more compact.
+
+2007-10-10  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.c (show_access_denied_dialog) (gst_tool_constructor)
+	(on_commit_finalized) (gst_tool_commit_async): prepare it to show
+	access denied dialog on commit operations too.
+
+2007-09-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.[ch]: improve freeze/thaw logic, make it so you have to 
+	thaw it as many times as you froze it.
+	* gst-tool.[ch] (gst_tool_add_configuration_object): new function,
+	adds the object to an internal list.
+	(gst_tool_update_async): new function, updates asynchronously all
+	objects in the internal list, freezing the dialog during the
+	operation. This has also changed the gst_tool_update_config() role,
+	now it just updates relevant information inside the tool
+	implementation, it's no longer responsible of updating the 
+	configuration objects itself.
+	(gst_tool_constructor): call gst_tool_update_async().
+
+2007-09-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: put courier in the right position, spotted by
+	Ermanno Scaglione  <e.scaglione@arcor.de>
+
+2007-09-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.h: remove glade include
+	* gst-tool.[ch], gst-dialog.c: use GtkBuilder API
+
+2007-09-03  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.92
+
+2007-08-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.91
+
+2007-07-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.1
+
+2007-07-10  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.0
+
+2007-04-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.18.1
+
+2007-03-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.18.0
+
+2007-03-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: do not fool bsearch with postgresql*, add
+	postgresql-8.2.
+
+2007-02-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.92
+
+2007-02-19  Jani Monoses  <jani.monoses@gmail.com>
+
+	* gst-tool.c (gst_tool_show_help): spawn mate-help directly to avoid
+	libmate use.
+
+2007-02-19  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.c (gst_dialog_response): Usually when the main window is
+	insensitive it's because it's busy with important stuff, prevent it
+	from closing through "delete-event" if it's in that state. Fixes
+	#358383.
+
+2007-02-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.c (gst_dialog_delete_event): added and attached, returns
+	TRUE to prevent early dialog destruction. Fixes #403599.
+
+2007-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.91
+
+2007-01-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: add "ntp" service.
+
+2007-01-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.5
+
+2007-01-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.4
+
+2007-01-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.[ch] (gst_tool_commit_async): add function hook to be run
+	after the commit operation has ended.
+
+2006-12-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.c (gst_dialog_constructor): destroy toplevel of the
+	widget we embed in the main dialog.
+	* gst-tool.c (gst_tool_impl_close): process all pending events before
+	exiting.
+	(gst_tool_show_report_window): do not throw critical warnings if
+	there's already a pending operation.
+
+2006-12-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.3
+
+2006-11-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-platforms-dialog.c: do not use distro pixmaps, present the
+	distros info as a tree.
+
+2006-11-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: ditto with ntpd.
+
+2006-11-10  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: ditto with ssh/sshd
+
+2006-11-10  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: do not fool bsearch with apache2
+
+2006-11-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.2
+
+2006-11-03  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-types.h: remove some uneeded typedefs and defines.
+	* gst-conf.[ch]: define GST_MATECONF_ROOT here.
+	* gst-dialog.[ch]: keep gst_dialog_list public, GstWidget needs it.
+	remove other public fields, private ones are being used. Plug memory
+	leaks. Removed unused struct definitions.
+	* gst-tool.[ch]: plug some leaks.
+	* gst-widget.[ch]: simplify widget policies, there's no longer
+	advanced/basic modes.
+
+2006-11-03  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.[ch]: remove heaps of unused code.
+	(gst_init_tool): plug a leak.
+	* gst-marshal.h: ancient, removed.
+	* Makefile.am: remove gst-marshal.h
+	* gst-dialog.c (gst_dialog_constructor): exit if the glade file could
+	not be found.
+
+2006-10-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.c: add one test service for SunOS, of course more
+	are needed.
+
+2006-09-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.5
+
+2006-09-22  Jani Monoses  <jani.monoses@gmail.com>
+
+	* gst-tool.c: optionally use MateProgram if --disable-mate is not
+	present.
+
+2006-09-16  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-platform.c, gst-tool.c: adapt to latest liboobs API changes.
+	Show an "Access denied" dialog if the user can't access the backends
+	due to backend policies.
+
+2006-09-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.4
+
+2006-09-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.3
+
+2006-09-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-service-role.[ch]: added, guesses a system service role from
+	the name. This functionality was before down in the stack (namely
+	s-t-b), but will be eventually removed from there.
+	* Makefile.am: add those files.
+	* gst.h: add gst-service-roles.h #include
+
+2006-09-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.[ch] (gst_tool_update_config): expose this functionality.
+
+2006-09-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-report-hook.[ch], gst-report-line.[ch], gst-ui.[ch],
+	gst-util.[ch], gst-xml.[ch], text.[ch]: old and unused code, to the
+	Attic.
+	* Makefile.am: remove those files
+	* gst-tool.c, gst.h: remove unnecessary includes
+
+2006-08-23  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-platform-dialog.c (gst_platform_dialog_set_property): own a
+	reference of the OobsSession object.
+	(gst_platform_dialog_response): exit() unless Ok is pressed.
+	* gst-tool.c (gst_tool_class_init): remove signals, their behavior
+	correspond more to vfuncs
+	(gst_tool_close): made public, now calls the object implementation for
+	the "close" vfunc (gst_tool_impl_close for GstTool)
+	(gst_tool_update_gui): now call the update_gui vfunc
+	(gst_tool_constructor): call the update_config vfunc after getting the
+	platform from the platform dialog.
+	* gst-tool.h (gst_tool_close): added
+	* gst-dialog.c (gst_dialog_response): call gst_tool_close().
+
+2006-08-11  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.2
+
+2006-08-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.1
+
+2006-08-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.c: remove unnecessary code
+
+2006-06-06  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.0
+
+2006-06-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-auth.[ch]: deleted, no longer used
+
+2006-05-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-tool.[ch]: add possibility to set a default icon name. define it
+	as an abstract type, tools will have their own implementation of this
+	class. (gst_tool_new): removed as a consequence.
+
+2006-05-24  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.c: small optimization, remove an unnecessarily translated
+	string
+	* gst-filter.c: do not use deprecated functions
+
+2006-05-22  Carlos Garnacho  <carlosg@mate.org>
+
+	* gst-dialog.h, gst-tool.c: remove unnecessary #includes
+	* gst-tool.c: fix a potential critical warning
+
+2006-05-19  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-dialog.c: remove a debug g_printf()
+
+2006-05-18  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-conf.[ch] (gst_conf_add_notify): added
+	* gst-platform-dialog.[ch]: deprecates gst-platform.[ch], does the
+	same, but using liboobs and being somewhat more encapsulated
+	* gst-platform.[ch]: to the Attic
+	* gst-dialog.[ch]: Inherit from GtkDialog instead of MateApp,
+	use G_DEFINE_TYPE and stuff, removed unused code
+	* gst-tool.[ch]: use G_DEFINE_TYPE, remove/comment out all the code
+	for communicating with the backends. Replaced with OobsSession.
+	removed no longer necessary code. Note that there's still lots of 
+	code to delete/refactor.
+	* gst-types.h: GstTool and GstToolClass are now defined in gst-tool.h
+	* gst-widget.c: use gst_tool_is_authenticated()
+
+2006-03-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.14.0
+
+2006-01-31  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.2
+
+2006-01-30  Carlos Garnacho Parro  <carlosg@mate.org>
+
+        * gst-auth.c: Apply string improvement suggestions from Benoît 
+	Dejean  <benoit@placenet.org>, closes #328944.
+			
+2006-01-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.1
+
+2006-01-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.0
+
+2005-11-28  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.4.1
+
+2005-11-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.c: added missing include, fixes #317222, patch from Dann
+	Frazier <dannf@hp.com>
+
+2005-09-04  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.4.0
+
+2005-08-23  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.92
+
+2005-08-22 Olaf Heiring <olh@suse.de>
+
+	* src/common/gst-tool.c (read_everything): use int instead of char
+	for characters, for 64bit.
+
+2005-08-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.2
+
+2005-07-26  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.1
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.0.1
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.0
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.c: center password dialog on main dialog
+
+2005-06-23  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-filter.c: handle too the cases where the user deletes something
+	in the filtered entry
+
+2005-06-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-platform.c, gst-tool.c: Added Vida Linux OS icon
+
+2005-06-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.c: fixed a typo. Fixes #304032
+
+2005-06-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-dialog.c: connect the key-press-event with connect_after, so it
+	doesn't get annoying behavior in i.e. the network tool, when
+	cancelling the edition of an editable GtkCellRendererText
+
+2005-03-07  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.2.0
+
+2005-03-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-dialog.c (dialog_delete_event_cb): really add a return value.
+	Fixes #168941
+
+2005-03-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.92
+
+2005-02-24  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Makefile.am: ship CommonMakefile in the package. Fixes #167215
+
+2005-02-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.91
+
+2005-01-30  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.c: exit cleanly if the tool can't fork the backend. Closes
+	#158810
+
+2005-01-25  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.90
+
+2005-01-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-filter.[ch]: added GST_FILTER_PHONE, to know whether a string
+	contains only chars that could be part of a phone number
+
+2005-01-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-dialog.c: Added GDK_Escape keybinding to the main dialog, so
+	it may cancel as in other dialogs
+
+2005-01-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-hig-dialog.[ch]: removed
+	* Makefile.am: ditto
+	* gst-auth.c, gst-dialog.c, gst-tool.c: use new GtkMessageDialog API
+	for HIG dialogs
+
+2005-01-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.4.1
+
+2005-01-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.4
+
+2004-12-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.3
+
+2004-12-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+        * gst-tool.c: put error = NULL in some mateconf calls, we're not caring
+	about the error here.
+
+2004-11-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* CommonMakefile: start-here seems to be definitely deprecated,
+	stop installing .desktop files in $(sysconfdir)/X11/sysconfig/
+
+2004-12-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.c: made it not to block when su fails
+
+2004-12-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.c, gst-tool.[ch]: improved IO with backends, now updates
+	the GUI while waiting for data to read.
+	* gst-tool.[ch]: readded reports window, with a more modern look, use
+	it if the directive has report text and lasts for >2 secs.
+
+2004-12-15  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.[ch], gst-auth.c: made comunication a lot more sane, now 
+	there are two fds instead of one.
+
+2004-12-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.c: removed a gst_xml_doc_dump()
+
+2004-12-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-xml.c (gst_xml_set_child_content): do not output any warning if
+	val == NULL
+
+2004-12-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.c: put error = NULL in some mateconf calls, we're not caring
+	about the error here.
+
+2004-12-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-filter.c (gst_filter_check_ip_address): handled NULL strings
+
+2004-12-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-filter.[ch]: added for making generic GtkEntry filters
+	* gst.h, Makefile.am: added gst-filter.h
+
+2004-10-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+        * gst-tool.[ch] (gst_init): use GOption instead of popt
+
+2004-11-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.c (gst_tool_run_set_directive_va): made it really able
+	to get some XML from the backend. 
+	(gst_tool_write_xml_to_backend) send the end of request. 
+	(gst_tool_read_junk_from_backend) removed.
+
+2004-11-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-platform.c, gst-tool.c: Added archlinux pixmap
+
+2004-11-03  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1
+
+2004-10-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.c (gst_tool_directive_free): do not free data, it can be
+	reused
+
+2004-10-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+        * gst-auth.h: fixed build with -fno-common, patch by Heikki Tauriainen
+        <heikki.tauriainen@hut.fi>. Fixes #153062
+
+2004-10-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-tool.c: do not use the tool if the refcount is 0
+
+2004-09-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.0
+
+2004-09-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 0.92
+
+2004-08-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.c, gst-tool.c: fixed some memleaks
+
+2004-08-24  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-platform.c, gst-tool.c: various leaks fixed
+
+2004-08-24  Joe Marcus Clarke  <marcus@freebsd.org>
+
+	* gst-auth.c: fixes for calling correctly the backend both in Linux
+	and FreeBSD (using env, not export). Fixes #150693
+
+2004-08-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.91.0
+
+2004-08-20  Carlos Garnacho Parro  <carlos@mate.org>
+
+	* gst-platform.c, gst-tool.c: Added support for Specifix Linux pixmaps
+
+2004-08-20  Daisuke SUZUKI  <daisuke@linux.or.jp>
+
+	* gst-platform.c, gst-tool.c: Added support for Vine Linux 3.0 and 3.1
+
+2004-08-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-auth.[ch]: made it to search first to the su/ssh output for
+	guessing whether it needs password or not. Fixes #147362
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.90
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: removed fatal warning, I think that the tools are quite
+	  stable already
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-platform.c, gst-tool.c: added Black Panther pixmap
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Makefile.am, gst-dialog.[ch], gst-tool.[ch]: removed complexity
+	  thing, added help functions
+
+2004-07-07  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.[ch], gst-tool.[ch]: removed the "apply" button logic,
+	  dropped some GtkObject aberrations into oblivion
+
+2004-06-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.34
+
+2004-06-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: removed a couple of strings from being translated,
+	  they weren't user visible
+
+2004-06-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c, gst-dialog.c: some sentences have been improved
+
+2004-05-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-ui.[ch]: removed unused code that depended on the deprecated
+	  GtkOptionMenu widget
+
+2004-05-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c: Patch by Philippe Rouquier <rouquier.p@wanadoo.fr>.
+	  fixes bug caused when su/ssh strings are translated by setting the 
+	  C locale.
+	  (gst_auth_save_locale): added, it saves current locale to a string
+	  for adding it to the command run by su/ssh
+
+2004-05-15  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.33.0
+
+2004-05-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-platform.c, gst-tool.c: added support for conectiva linux
+	* gst-tool.c: some code cleanups. made it to run the gtk main loop
+	  when reading
+
+2004-05-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: removed pango markup from one string. Fixes bug #140782
+
+2004-05-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.[ch]: huge speed improvements when reading from backend,
+	  the only case in which we don't want to read a full line is in the
+	  password prompt, it's silly to use the same function everywhere
+
+2004-04-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-hig-dialog.c: small fixes for making it compile with gtk+ 2.2
+	  when the gtk+ 2.4 port is done I'll make it fully work
+
+2004-04-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c: curiously FreeBSD su randomly hangs if echo is disabled
+	  in the pseudoterm, so we disable it after dealing with su (only in
+	  the FreeBSD case)
+
+2004-04-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-hig-dialog.[ch]: made internal widgets truly private
+
+2004-04-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c: fixes for compiling correctly in FreeBSD
+
+2004-04-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-hig-dialog.[ch]: doh! removed unused code
+
+2004-04-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-ui.[ch] (gst_ui_logout_dialog): removed, it was unused
+
+2004-04-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c, gst-dialog.c, gst-tool.c: made them to use
+	  the uber-cool HIG dialog
+
+2004-04-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-hig-dialog.[ch]: added a cool HIG message dialog
+	* Makefile.am: ditto
+
+2004-04-14  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: improvements reading data from the backend, not it
+	  reads with O_NONBLOCK until it gets a char, so the UI doesn't
+	  freeze
+
+2004-04-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c, gst-tool.[ch]: yet another BE/FE communication 
+	  improvement, now all the xml reading stuff is done 
+	  synchronously to avoid problems when reading from a pty with 
+	  O_NONBLOCK
+
+2004-02-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.c: added some checks to see if the user has permissions to
+	  run su or ssh
+
+2004-02-19  Carlos Garcia Campos <elkalmail@yahoo.es>
+
+	* gst-tool.[ch]: remove unnecessary etspecs_common_path variable
+
+2004-02-05  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.32.0
+
+2004-01-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: renamed mateconf keys to use "_" instead of "-",
+	  fixed some leaks
+
+2004-01-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: made the descriptor blocking while writing the
+	  configuration to the backend. Fixes bug #131493
+
+2004-01-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: made it search for the correct error return value 
+	  of fputc () while writing the XML to the backend
+
+2004-01-07  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.31.1
+
+2004-01-07  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* checked.xpm, unchecked.xpm, reading.xpm: removed
+	* gst-ui.c: unref the files
+
+2004-01-07  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* CommonMakefile: fixed paths during install. Fixes bug #130686
+
+2003-12-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.31.0
+
+2003-12-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* CommonMakefile: changes for passing distcheck
+
+2003-12-27  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-platform.c, gst-tool.c: added the Fedora icon to the supported
+	  platform list
+
+2003-12-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * gst-auth.c: made it to search the backends directory from the
+          backends pkgconfig file when remote config is enabled
+
+2003-12-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.30.0
+
+2003-11-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: made it only to change the mouse cursor when the
+	  GstDialog window is created
+
+2003-11-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: made it not to try to free a constant pointer
+
+2003-11-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: removed unneccesary "\n" from the scary warning dialog,
+	  which fixes bug #125346. Made it more HIGgy too
+
+2003-11-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: marked a "%s" as non-translatable. fixes bug #126006
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.c: made it compile again with gtk < 2.3
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: removed some unused variables
+	* gst-dialog.c: added GDK_WATCH cursor when the tool is frozen
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-ui.c: fixed a typo, removed '\n' from a string
+	* gst-tool.c: removed package name from window titles
+
+2003-10-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.29.0
+
+2003-10-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.[ch]: made the apply|cancel|ok buttons behaviour more
+	  sensible
+
+2003-10-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* release 0.28.0
+
+2003-10-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.c: (gst_tool_kill_backend_cb) made it to remove the timeout
+	  that's waiting for the backend to die
+
+2003-10-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-platform.c, gst-tool.c: added the OpenNA icon to the supported
+	  platform list
+
+2003-10-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.[ch]: (gst_tool_read_from_backend)
+	(gst_tool_write_to_backend) (gst_tool_write_xml_to_backend): new
+	functions for non-blocking IO with the backend
+	* gst-tool.[ch], gst-dialog.c: now all the communication is done via
+	the new functions
+
+2003-10-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.[ch], gst-tool.[ch]: added "Apply" button with HIGgy
+	  behaviour
+
+2003-09-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.c, gst-tool.[ch], gst-ui.c: huge unused code cleanup
+
+2003-09-09  William Jon McCann  <mccann@jhu.edu>
+
+	* gst-dialog.c (gst_dialog_set_complexity): Revert the s/Fewer/Less/
+	Options change and fix bug #121853.
+
+2003-09-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.c: (accept_cb) made it to apply data only if there has
+	  been any change in the XML. (cancel_cb) made some extra checkings
+
+2003-09-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.[ch]: made proper changes for making the "Cancel" and
+	  "OK" buttons to behave correctly
+
+2003-08-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-tool.[ch] (gst_tool_main_with_hidden_dialog): added to make gst
+	  not to show the main dialog when starting
+
+2003-08-25  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.27.0
+
+2003-08-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-common.c: (gst_tool_run_set_directive_va): fixed problem when
+	  flushing the fd
+
+2003-08-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-common.c: (gst_tool_run_set_directive_va): removed a couple
+	  of unneeded fcntl()'s, now the fd doesn't need to be non-blocking in
+	  this area
+
+2003-08-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-common.c: (gst_tool_run_set_directive_va): small
+	  hack/improvement, now it won't be supposed to block randomly when
+	  reading the answer from the backend
+
+2003-08-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-auth.[ch]: added, now that gst supports ssh and su, the name had
+	  to be more generic
+	* gst-su.[ch]: deleted
+	* Makefile.am: reflect those changes
+	* gst-dialog.[ch], gst-report-line.c, gst-tool.[ch]: several changes
+	  for allowing remote config
+
+2003-07-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* System.directory.in.in: removed, moving the .desktop files makes it
+	no longer neccesary
+	* Makefile.am: ditto
+	* CommonMakefile: made it to install the desktop files in
+	($prefix)/share/applications instead of ($prefix)/mate/apps, fixes
+	bug #116195
+
+2003-05-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.26.1
+
+2003-05-27  Carlos García Campos <elkalmail@yahoo.es>
+
+	* gst-dialog.c: s/Fewer Options/Less Options, Fixes bug #113430
+
+2003-05-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.26.0
+	 
+2003-05-19  Götz Waschk  <waschk@informatik.uni-rostock.de>
+
+	* gst-tool.c: fixed a crash when the mateconf_client_get_string()
+	function couldn't get a value. closes bug #112472
+
+2003-05-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.25.0
+
+2003-05-01  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-platform.c, gst-tool.c: added PLD linux png (patch by Grzegorz
+	Golawski <grzegol@pld.org.pl>)
+
+2003-04-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-dialog.[ch]: (gst_dialog_connect_signals_after) added, it works
+	like gst_dialog_connect_signals, but using g_signal_connect_after
+
+2003-03-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* gst-su.c: (on_terminal_child_exited) made it clear and destroy 
+	the vte term when the program exits, it leaves the program more 
+	elegantly when the son dies (at least, it doesn't die for a 
+	second time)
+
+2003-03-13  Christian Neumair  <chris@mate-de.org>
+
+	* gst-tool.c: Use gtk_window_set_default_icon_from_file rather than
+	gtk_window_set_icon so that child windows/dialogs automatically use
+	the tool's icon.
+
+2003-03-13  Christian Neumair  <chris@mate-de.org>
+
+	* xst*: Removed, renamed to gst*.
+	* gst*: Added. s/XST/GST/, s/Xst/Gst/, s/xst/gst/.
+	* Makefile.am: Reflect that.
+
+2003-03-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.24.0
+
+2003-02-25  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-su.c: get_tool_path () added, this is a function that searches 
+	  the full tool path, this is because the tools may be in the user's 
+	  path, but not in the root's path, and then su fails.
+
+2003-02-21  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.23.0
+
+2003-02-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-su.[ch]: changed authentication procedure, it now runs 'su' before
+	  even requesting password (just to ensure that 'su' is run and
+	  requesting password before the parent proccess sends it). removed
+	  exec_su (), added xst_su_run_term (), xst_su_write_password (),
+	  xst_su_clear_term ().
+	* xst-tool.c: ditto, removed xst_fool_the_linker () (it was unused)
+
+2003-02-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-su.c, xst-tool.c: made the exec_su () function to work with vte to launch
+          the su command.
+
+2003-02-15  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-su.c: made it to use the SU_PATH define provided by the
+	  configure script.
+
+2003-02-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* CommonMakefile: made it to install the .desktop files also in
+	  $(sysconfdir)/X11/sysconfig, to make them appear in 
+	  system-settings:/// 
+	* xst-tool.c: moved platform list from code to glade
+
+2003-02-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-tool.c: fixed a line that had two semicolons at the end (why am
+	  I using gcc3.2.2, which considers this bug OK????)
+
+2003-02-09  Carlos García Campos  <elkalmail@yahoo.es> and
+            Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-conf.c, xst-dialog.c, xst-tool.c, xst-types.h: added mateconf
+	  support
+
+2003-01-01  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-dialog.[ch]: added some code to make stock icons in "more/fewer
+	  options" button work.
+
+2002-12-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* xst-su.c: changed getpt() stuff for forkpty() stuff, exec_su() works
+	  again.
+
+2002-12-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+        * Release 0.22
+
+2002-11-22  Carlos Garnacho Parro <garnacho@tuxerver.net>
+
+	* added gentoo logo to the unsupported distro dialog
+
+2002-10-03  Carlos Garnacho  <garnacho@tuxerver.net>
+
+	* xst-ui.[ch] (xst_ui_load_etspec): Removed function, it's no longer
+	neccesary due to GAL dependency removal
+
+2002-09-16  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-dialog.c (xst_dialog_construct): Removed manual help icon inclusion,
+	it's done in glade now.
+
+2002-09-13  Carlos Garnacho <garparr@teleline.es>
+
+	* xst-dialog.[ch], xst-platform.[ch], xst-tool.[ch], xst-ui.[ch]: Make
+          it compile with the *_DISABLE_DEPRECATED flags
+	* added distro logos to the unsupported distro dialog
+
+2002-09-13  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-tool.c (xst_tool_run_platform_dialog): Made platform dialog work again.
+
+2002-09-03  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* Release 0.21.0
+
+2002-08-31  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* Release 0.20.0
+
+2002-04-05  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-tool.c (xst_tool_construct): Use Gtk to set main window's icon.
+
+	* CommonMakefile: Fixed path to control center.
+
+	* xst-su.c (xst_su_get_password): Finished fixing, now it works like it
+	used to.
+
+	* xst-ui.c: Added some comments.
+
+2002-04-05  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_text_view_clear): Implement to simplify GtkTextView
+	to our simple needs.
+	(xst_ui_text_view_get_text): Ditto.
+	(xst_ui_text_view_add_text): Ditto.
+
+2002-04-04  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c: MateDialog -> GtkDialog.
+
+	* xst-tool.c: Ditto.
+
+	* xst-dialog.c: Ditto.
+
+2002-02-22  Kjartan Maraas  <kmaraas@mate.org>
+
+	* xst-tool.c: Remove unsupported #ifdef ENABLE_NLS stuff.
+	
+2002-02-14  James Willcox  <jwillcox@cs.indiana.edu>
+
+	* xst-su.c: Fixed (mostly) the password dialog.
+
+2002-02-11  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.c (try_show_usage_warning): fix previously_run thingie
+
+2002-02-11  Seth Nickell  <snickell@stanford.edu>
+
+	reviewed by: <delete if not using a buddy>
+
+	* CommonMakefile:
+
+2002-02-11  Kenneth Rohde Christiansen  <kenneth@gnu.org>
+
+	* xst-utils.c: Port warning splash to MATE 2.0
+
+2002-02-10  Chema Celorio  <chema@celorio.com>
+
+	* Port to the MATE 2.0 platform
+
+2002-02-10  Chema Celorio  <chema@celorio.com>
+	
+	* xst-xml.c (xst_xml_element_get_attribute): one more libxml2 fix
+
+	* xst-*.c : port to libxml2
+
+2002-02-08  Chema Celorio  <chema@celorio.com>
+
+	* configure.in: 0.12.0 here we go
+2002-01-06  Chema Celorio  <chema@celorio.com>
+
+	* xst-dialog.c (xst_dialog_construct): g_error if the widget is not a toplevel
+
+	* xst-tool.c (xst_tool_load_glade): g_error if the glade file was not
+	found
+	(xst_tool_load_glade_common): ditto
+
+2002-01-02  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_idle_run_directives): Removed debugs,
+	exhaust the queue on one pass. Set tool idle id to 0.
+	(xst_tool_idle_run_directives_add): Only add if not running
+	a directive. Set tool idle id to newly created id.
+	(xst_tool_idle_run_directives_remove): det tool idle id to 0.
+	(xst_tool_queue_directive): idle_queue_directive exists no more.
+	Just add the entry to the list here and then call
+	idle_run_directives_add.
+
+	Removed debug global "the" and the corresponding debug g_prints.
+
+2001-12-20  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_type_init): connect the delete_event
+	for the report window here.
+	(report_progress): Perfected sleep routine. Call show_now too.
+	(report_finished_cb): removed warning.
+
+2001-12-19  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (report_progress): Commented out async directive
+	code that caused warnings. Async directives are not functional
+	now.
+	(report_progress): A sleep here lets the X server take care of
+	drawing, and avoids dangling windows. Sorry if this had to be
+	done. Any suggestions?
+
+2001-12-16  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.c (xst_tool_idle_run_directives): remove g_print's
+
+2001-12-11  Israel Escalante <israel@ximian.com>
+
+	* Release 0.10.0.
+
+2001-12-14  Tambet Ingo  <tambet@ximian.com>
+
+	* CommonMakefile ($(desktop).in): s/Icon=./Icon=.*/
+
+2001-12-12  Israel Escalante  <israel@ximian.com>
+
+	* xst-tool.c: conditionaly use the archiver or not
+
+2001-10-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_kill_backend): exhaust directive queue
+	before exitting.
+
+2001-12-06  Bradford Hovinen  <hovinen@ximian.com>
+
+	* xst-tool.c (xst_tool_save): Don't just abort if the location
+	could not be found; instead gracefully unref the archive object
+	and continue without archiving the data
+
+2001-12-05  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-xml.c (xst_xml_doc_create): Implement.
+
+2001-12-02  Chema Celorio  <chema@celorio.com>
+
+	* CommonMakefile (desktop): add, replace the DESKTOP_IN_RULE hack
+	which was unreliable
+
+2001-11-20  Duncan Mak  <duncan@ximian.com>
+
+	* xst-tool.c: #include <libmateui/mate-window-icon.h>
+	(xst_tool_construct): set window_icon for all the tools.
+
+2001-10-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_line_new_from_string): bugs
+	bug bugs.
+	(xst_report_line_parse_string): g_list_free frees all the list.
+
+	* xst-tool.c (xst_tool_join_directive): escapes :: to \:: and
+	\ to \\ and joins the strings.
+
+2001-10-16  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_line_parse_string): Unescape
+	and split the string into a strv. phew.
+	(xst_report_line_new_from_string): Use the new function
+	instead of g_strsplit.
+
+	* xst-tool.c: removed platform_add_supported_cb: things
+	are done with directives now, not reports.
+	compare_platforms passed to xst-platform.c.
+	(xst_tool_get_supported_platforms): run the "platforms"
+	directive and build a list of XstPlatforms.
+	(xst_tool_process_startup): minor restructuring.
+	(xst_tool_send_directive): don't init backend here.
+	But check to see if it is ready.
+	(xst_tool_run_get_directive_va): init backend before setting
+	lock state. This allows to run directives inside init seq.
+	(xst_tool_run_set_directive_va): same.
+	(xst_tool_kill_backend): Don't show report window to run the
+	end directive.
+
+	* xst-platform.c (xst_platform_new): require key arg too.
+	(xst_platform_new_from_node): Creates a platform struct
+	from a compliant xmlNode.
+	(xst_platform_new_from_report_line): Take second arg from
+	rline and use that as the new name.
+	(xst_platform_cmp): Taken from xst-tool. It should live here.
+	(xst_platform_dup): Use platform_new to perform this.
+	(xst_platform_free): free the key too.
+	(xst_platform_get_key): counterpart to get_name.
+
+2001-10-10  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.h (XST_TOOL_MAKE_TYPE): Don't always register as
+	XstIshareTool.
+
+2001-10-10  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.[ch] (xst_dialog_get_tool): Implement.
+	
+2001-10-06  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_default_set_directive_callback): Got rid
+	of _va functions: when the callback is executed the va_list
+	data is no longer in the stack.
+
+2001-10-05  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_idle_run_directives): Run a queued
+	directive. Ran as gtk_idle.
+	(xst_tool_default_set_directive_callback): This is callled
+	if no directive callback is specified. (NULL).
+	(xst_tool_queue_directive): Just like run_{set|get}_directive,
+	but passes additional callback and closure.
+	(xst_tool_run_get_directive_va): Receives a va_list, and does
+	the actual directive call.
+	(xst_tool_run_get_directive): The traditional function, wrapping
+	the one above.
+	(xst_tool_run_set_directive_va): converse. Report which directive
+	is being skipped if in ROOT_ACCESS_SIMULATED.
+	(xst_tool_run_set_directive): converse.
+
+2001-10-03  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_image_widget_get): Added assertion to not
+	just trust that value is legal.
+
+2001-10-02  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-su.c (exec_su): Pass all arguments to child process.
+
+	* xst-tool.c (report_progress): Another aptempt at making
+	the report window show its contents before closing.
+
+	* xst-ui.c (xst_ui_create_image_widget_canvas): Removed
+	useless canvas_update_now.
+
+2001-10-01  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_run_get_directive): Added pseudo-lock
+	to avoid concurrent directives running. Corrected report_sign
+	translation call.
+	(xst_tool_run_set_directive): same.
+	(xst_tool_directive_running): encapsulate directive_running.
+
+Tue Sep 18 12:35:42 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_sprintf): Handle excess arguments
+	for format.
+
+2001-09-13  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (report_finished_cb): Do the gtk_main_quit
+	and report window hiding here.
+
+	* xst-ui.c (xst_ui_create_image_widget_canvas): do an
+	update_now: see if that helps with the report window.
+
+2001-08-31  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-xml.c (xst_xml_element_reparent): New wrapping function.
+	(xst_xml_doc_destroy): Same.
+
+2001-08-27  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_line_new_from_string): Removed
+	debug.
+
+Fri Aug 24 12:33:44 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-xml.c (xst_xml_element_set_boolean): New convenience func.
+
+Thu Aug 23 01:06:31 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-xml.c (xst_xml_element_get_boolean): Just changed
+	name of first arg to something less confusing and consistent.
+
+2001-08-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst.h: Added a couple of necessary includes.
+
+2001-08-21  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_invoke_default_hook): set new XstTool
+	member input_block to FALSE when calling a hook, so the
+	gtk_input handler doesn't reenter when pushing gtk_mains in
+	the hook calls.
+	(report_progress_tick): Don't enter if input_block is set.
+	(report_progress): set input_block to FALSE after setting the
+	input handler.
+	(xst_tool_call_report_hook): This is the routine that sets
+	the input_block flag before and after calling the hook.
+
+2001-08-20  Bradford Hovinen  <hovinen@ximian.com>
+
+	* xst-tool.c (xst_tool_load): 
+	(xst_tool_save): Use CORBA-based archiver interface
+	(xst_init): Initialize OAF and MateComponent
+
+2001-08-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_line_new_from_string): fixed
+	little memory leak.
+
+2001-08-15  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-xml.h: Just some descriptive comments on boolean values.
+
+Thu Aug 16 02:10:34 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+        These changes have only been tested compile-time, but it has
+	additional functionality that should not impact any of the
+	old code.
+	
+	* xst-types.h: The report major enum.
+
+	* xst-tool.h: Added default hook table.
+
+	* xst-tool.c: Closure support all over the place (hoook cb's and
+	hook entry table declaration).
+	(xst_tool_set_default_hook): Set the default policy handler for
+	a given major.
+	(xst_tool_invoke_default_hook): Helper. Nothing is done if no
+	default hook is defined (if there's NULL).
+	(xst_tool_invoke_report_hooks): If no hooks for this key were
+	invoked, try with a default hook.
+
+	* xst-report-line.c (xst_report_line_str_to_major): Convert from
+	the major string received to the internal enum.
+	(xst_report_line_new_from_string): Check that the major part
+	is given, and that it is valid. Optional arguments now start from
+	the third field.
+
+	* xst-report-hook.h: ReportHookFuncs now receive a data gpointer.
+	Changed allow_repeat and invoked to gboolean. gpointer data.
+
+	* xst-report-hook.c (xst_report_hook_new): Use TRUE/FALSE for
+	invoked. Added data gpointer for closure.
+	(xst_report_hook_new_from_entry): Added closure support.
+
+	* xst-report-line.c (xst_report_line_new): major support.
+
+2001-08-01  Bradford Hovinen  <hovinen@ximian.com>
+
+	* xst-tool.c (xst_tool_save): Reorganize logic to remove duplicate
+	code
+	(xst_tool_load): Retrieve XML snapshot from the archive if we are
+	editing outside of our location
+
+2001-07-31  Bradford Hovinen  <hovinen@ximian.com>
+
+	* xst-tool.c (xst_tool_save): Re-enable archiver
+
+2001-07-27  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (xst_tool_process_startup): NULL-terminate the varargs
+	  list. Should fix #5530.
+
+2001-07-27  Bradford Hovinen  <hovinen@ximian.com>
+
+	* xst-tool.c (xst_tool_save): Disable archiving feature
+
+2001-07-26  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-dialog.c (xst_dialog_construct): Hide help button until
+	help files are ready.
+
+2001-07-26  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (xst_tool_run_get_directive): Implement potential
+	  workaround for PPC brokenness.
+	  (xst_tool_run_set_directive): Ditto.
+
+2001-07-26  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (xst_tool_read_xml_from_backend): Hack to allow interface
+	  to update while waiting for XML from backend.
+	  (report_progress): Introduce a delay to allow events based on replies
+	  from X server to be processed (prevents blank window here).
+
+Wed Jul 25 14:43:43 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_init_backend): Remove ACCESS_SIMULATED
+	if clause, and deprecated code.
+	root_acces: added ROOT_ACCES_SIMULATED_DISABLED.
+	(xst_tool_process_startup): Disable access simulation so
+	this set_directive can be run.
+	(xst_tool_kill_backend): same.
+	(xst_tool_run_set_directive): immediately return NULL if
+	access is being simulated.
+
+2001-07-23  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-ui.c (xst_ui_logout_dialog): Minor sign fix. Use _()
+	instead of N_(). If message is not NULL, use that instead.
+	(xst_ui_create_image_widget): calls helper. fixed style.
+	(xst_ui_create_image_widget_canvas): helper.
+	(xst_ui_image_set_pix): Changes the pixmap of an antialiased
+	image.
+
+2001-07-20  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_load_try): Trivial fix that evades the
+	su routines from thinking that the password was incorrectly set.
+	(common_report_hooks): look for "platform_success" when saving.
+	(platform_unsupported_clicked_cb): Removed all code related to
+	report_dispatch.
+	(platform_unsupported_cb): Moved dialog code below. Now using
+	run_again as a flag to run the platform dialog later.
+	(platform_set_current_cb): Set run_again to false.
+	(xst_tool_run_platform_dialog): configure platform dialog and run.
+	(xst_tool_process_startup): Read the initial report lines and
+	run the platform dialog if the platform wasn't set. Then run
+	platform_set directive with the chosen platform.
+	(xst_tool_init_backend): call xst_tool_process_startup.
+	(xst_tool_load_try): No more iteration over run_again.
+
+Tue Jul 17 21:30:34 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (report_finished_cb): Being "end" the last report,
+	we're safe to set tool->report_dispatch_pending to FALSE, and
+	this allows report_dispatch to gtk_main_quit. #4682 fixed.
+
+2001-07-19  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am: install the directory for the control center
+	(noinst_LIBRARIES): make distcheck fixes
+
+2001-07-18  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_run_set_directive): Don't gettext
+	report_sign if it is NULL.
+	(report_progress): If label is NULL, don't show report
+	window.
+	(report_progress): An aptempt to make the report window work.
+
+Sun Jul 15 08:12:29 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-dialog.c (xst_dialog_set_modified): Sets the modified
+	state of the dialog.
+	(xst_dialog_run_apply_hooks): convenience function.
+	(xst_dialog_modify): use set_modified instead.
+	(apply_cb): same.
+	(xst_dialog_construct): same.
+
+Sat Jul 14 19:56:34 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_init_backend): Added -f to the debug
+	strace code. buahahaha
+
+Fri Jul 13 19:43:37 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_kill_backend): Run "end" directive
+	with "Closing tool" sign.
+	(xst_tool_run_get_directive): Now you can set what sign
+	will appear on the report window.
+	(xst_tool_run_set_directive): same.
+	(xst_tool_load): Send the usual label.
+	(xst_tool_save): Same.
+
+Thu Jul 12 12:22:56 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-ui.c (container_get_label_string): Convenience function.
+	(get_list_item_by_name): Shrinked, improved style.
+	(xst_ui_option_menu_set_selected_string): Avoids warning:
+	Check if the active menu item is the one we want to set.
+
+	* xst-report-line.c (xst_report_line_new_from_string): Better
+	warning.
+
+	* xst-tool.c (xst_tool_read_xml_from_backend): After reading
+	the reports, proceed to read the returning XML from the backend,
+	until the end of request string appears.
+	(xst_tool_run_get_directive): Use the above function now.
+	(xst_tool_run_set_directive): Use it too, to consume the end
+	of request string, and now return pointer to parsed XML, if
+	one was delivered by the backend.
+
+2001-07-12  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_init_backend): Being a mortal user here
+	is no crime.
+
+2001-07-05  Bradford Hovinen  <hovinen@ximian.com>
+
+	* Makefile.am (INCLUDES): Removed -I$(top_srcdir)/archiver
+
+	* xst-tool.c: Update include locations for ximian archiver stuff
+
+2001-07-05  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_logout_dialog): Just give dialog to advise
+	user to restart X since it doesn't work.
+
+2001-07-02  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_option_menu_set_selected_string): Give warning
+	if sting isn't in option_menu.
+	(xst_ui_option_menu_set_selected_string): Added assertions.
+	(xst_ui_option_menu_get_selected_string): Ditto.
+	(xst_ui_option_menu_clear): Ditto.
+	(xst_ui_option_menu_remove_string): ditto.
+	(xst_ui_option_menu_add_string): ditto.
+	(xst_ui_option_menu_get_selected_row): ditto.
+
+2001-06-29  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (report_progress): No longer requires the fd: it
+	comes with the tool now.
+	(xst_tool_init_backend): Forks and launches the backend, setting
+	up file descriptors and stuff. Note that it's quite useful to
+	launch the backend with strace when debugging (at the execl).
+	(xst_tool_kill_backend): Send the backend the "end" directive,
+	then wait for it to dye. Would a timeout with some killing action
+	be useful here?
+	(xst_tool_end_of_request): Check if the string ends with the magic
+	"end of request" string. If so, truncate magic str and return TRUE.
+	(xst_tool_send_directive): Create a directive line using the
+	directive and the va_list as arguments and send it to the backend.
+	(xst_tool_run_get_directive): Run a "get" type directive, returning
+	resulting parsed XML.
+	(xst_tool_run_set_directive): Run a "set" type directive, which may require
+	an xmlDoc to be passed. xml may be NULL to specify no xml.
+	(xst_tool_load): This function shrank a lot by using the new functions.
+	(xst_tool_save): Same. Just a particular case, with some other GUI and
+	archiver instructions.
+	XST_TOOL_EOR: static global with the magic string.
+	(xst_tool_end_of_request): Use static global, and receive the entire
+	GString, using now g_string_truncate.
+	(xst_tool_run_set_directive): Send the end of request string after dumping
+	xml.
+
+2001-06-25  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-dialog.c (xst_dialog_construct): Hide complexity button
+	instead of making it unsensitive. 
+	(xst_dialog_enable_complexity): s/sensitive/show; Fixes bug #3481.
+
+2001-06-20  Bradford Hovinen  <hovinen@ximian.com>
+
+	* Makefile.am (INCLUDES): Added -I$(top_srcdir)/archiver
+
+	* xst-tool.c (xst_tool_save): Archive data with the archiver;
+	don't fork off the backend process if we are editing outside our
+	location
+
+2001-06-19  Bradford Hovinen  <hovinen@ximian.com>
+
+	* xst-tool.c (xst_init): Added popt structure and call for
+	--location parameter; added file scope variable location_id (WORM
+	policy)
+	(xst_tool_save): Pass --location to backend iff location was set
+	on command line
+	(xst_tool_load): Print stringified errno if we cannot launch the
+	backend
+	(xst_tool_load): Read from STDIN if we are editing a location we
+	are not in
+	(xst_tool_load): Report progress only if the location is NULL
+
+2001-06-14  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_option_menu_get_selected_string): strdup the value before return.
+
+2001-06-07  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_entry_set_text): Commented.
+	(xst_ui_logout_dialog): Implement.
+
+2001-06-01  Kenneth Christiansen  <kenneth@gnu.org>
+
+        * xst-tool.c: Fixed i18n bug, so the warning
+        screen is translatable.
+
+        reviewed by Hans Petter Jansson <hpj@ximian.com>
+
+2001-06-01  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-dialog.c (xst_dialog_construct): Don't crash if parent widget
+	couldn't be found. Give warning instead.
+
+2001-05-31  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_entry_set_text): Implement. Set empty string to entry
+	if parameter == NULL.
+
+2001-05-30  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c: Include GNU extensions to silence warnings.
+
+2001-05-30  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (try_show_usage_warning): Implement.
+	  (xst_init): Show usage warning for this version, if user hasn't tired
+	  of it.
+
+2001-05-30  Theo van Klaveren <t.vanklaveren@student.utwente.nl>
+
+	* xst-su.c (getpt): Implement this GNU libc extention for FreeBSD
+	using the openpty(3) function in libutil. Also fix argument order
+	to 'su'.
+
+2001-05-29  Miguel de Icaza  <miguel@ximian.com>
+
+	* xst-tool.c (report_progress_tick): Process as much data as
+	possible in a single pass.
+
+	Removed ad-hoc string implementation from here.
+
+	(xst_tool_load): Use any pending data from the report pass as the
+	input to the XML document;  Make this work with arbitrarly large
+	XML documents.
+
+2001-05-29  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c (exec_su): If the child crashes, don't return. Previously, this
+	  would lead to an "invalid password" dialog being shown. Should fix bug
+	  #3106.
+
+2001-05-29  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c (exec_su): Don't close stdout and stderr. This means we can see
+	  debug output from programs.
+
+2001-05-29  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c: Tell su(1) not to modify environment variables. This might or
+	  might not fix the problem where you get the root user's theme instead
+	  of what you were expecting.
+
+2001-05-29  Kjartan Maraas  <kmaraas@mate.org>
+
+	* System.directory.in: Added Norwegian translation.
+	
+2001-05-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c: Remove warning.
+
+	* xst-tool.c: Remove warnings, handled FIXMEs and debug code.
+
+2001-05-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-xml.c (xst_xml_element_peek_content): Implement.
+
+	* xst-xml.h: Cleanup.
+
+2001-05-29  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am (INCLUDES): clean
+
+2001-05-26  Carlos Perelló Marín <carlos@mate-db.org>
+
+	* xst-tool.c, xst-tool.h: Added a new function (xst_load_especs).
+
+2001-05-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (report_window_close_cb): Implement.
+	  (report_progress): Hide report window when closed. Fixes bug #3057.
+
+2001-05-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (platform_dialog_close_cb): Exit with 0, not 1.
+	  (platform_unsupported_clicked_cb): Ditto.
+
+2001-05-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c (exec_su): Introduced a short delay, so the frontend will have
+	  time to write the password to su(1).
+
+2001-05-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* 0.5 RELEASE
+
+2001-05-24  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.c: Remove an & that was causing problems on an RH7.1 test install.
+
+2001-05-24  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.[ch]: Remove som cruft, integrate our own dialog.
+	  (exec_su): Now static. Small fixes.
+	  (error_box): Remove.
+	  (win_wd_destroy): Remove.
+	  (xst_su_run): Remove.
+	  (load_glade_common): Small stub for pre-tool-initialization.
+	  (xst_su_get_password): Implement.
+	  (xst_su_run_with_password): Implement.
+
+	* xst-tool.[ch] (authenticate): Implement.
+	  (xst_init): Use authenticate().
+
+2001-05-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-su.[ch]: Add. Based on gtksu 1.7 by Chris L. Bond. Not entirely
+	  finished (i.e. not as robust, beautiful, portable and secure as I'd like),
+	  but that will be straightened out ASAP.
+
+	* xst-tool.c (xst_init): Use xst_su_run to ask for privileges.
+
+2001-05-22  Nils Barth  <nbarth@math.uchicago.edu>
+
+	* xst-tool.c: Sort platform selection list.
+
+2001-05-14  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.h: upd. header
+	* xst-tool.c (xst_tool_main): add a flag to disable the main loop,
+
+2001-05-14  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_option_menu_get_selected_string): optimized.
+	(xst_ui_option_menu_get_string_list): removed.
+	(xst_ui_option_menu_add_string): Fixed OptionMenu's sizeing problem.
+	(xst_ui_option_menu_remove_string): Fixed the problem where selected string
+	didn't get removed cause it was temporarily parented elsewhere.
+	(xst_ui_option_menu_clear): gtk_widget_destroy menu_items.
+
+2001-05-14  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.h (XST_TOOL_MAKE_TYPE): add even more boilerplate
+	code to the macro.
+
+	* xst-tool.c (platform_dialog_close_cb): implement
+	(platform_unsupported_clicked_cb): disconnect dialog close here
+	(platform_unsupported_cb): connect dialog_close_cb to "close",
+	this causes the platform dialog to be closed if ESC is pressed
+	(timeout_cb): #ifdef out
+	(set_arrow): ditto
+	(xst_fool_the_linker): implement
+	(xst_init): remove the call to xst_ui_create_image_widget and
+	the "nice" message that acompanied it.
+
+	* xst-platform.h: upd. header
+
+	* xst-platform.c (xst_platform_new_from_report_line): make key
+	a const gchar
+	(xst_platform_new): constify
+
+	* xst-tool.c: remove compile time warning by #ifdefing out code/
+	variables that where not beeing used
+
+2001-05-13  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.h (XST_TOOL_MAKE_TYPE): add a macro that will reduce
+	the boilerplate when we subclass an XstTool.
+
+	* xst-dialog.c (xst_dialog_set_widget_policies): use 
+	widget_new function, don't append the widget to the
+	slist here
+	(xst_dialog_set_widget_user_modes): use widget_new_full
+
+	* xst-widget.h: upd the header
+
+	* xst-widget.c (xst_widget_new): reame to widget_new_full
+	(xst_widget_new): implement a widget_new which takes only 2
+	parameters an XstDialog and a XstWidgetPolicy. We prepend
+	to the dialog->xst_widget_list inside the function and not
+	in the caller.
+
+	* Makefile.am (noinst_LIBRARIES): s/global.h/xst.h
+
+2001-05-12  Chema Celorio  <chema@celorio.com>
+
+	* global.h: rename to xst.h
+
+	* xst-xml.c: constify
+	(xst_xml_element_get_boolean): implement
+
+	* xst-xml.h: constify
+
+2001-05-13  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-util.[ch] (xst_util_strcasestr): Implement.
+
+2001-05-12  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.[ch] (xst_dialog_freeze): Go back to original behaviour,
+	  don't desensitize dialog.
+	  (xst_dialog_thaw): Ditto, don't sensitize.
+	  (xst_dialog_freeze_visible): Implement.
+	  (xst_dialog_thaw_visible): Implement.
+
+	* xst-tool.c (xst_tool_main): xst_dialog_freeze() ->
+	  xst_dialog_freeze_visible().
+	  (xst_tool_save): Ditto.
+
+2001-05-10  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.c (xst_ini): rename xst_tool_init to xst_init
+
+2001-05-09  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* 0.4 RELEASE
+
+2001-05-08  Chema Celorio  <chema@celorio.com>
+
+	* xst-dialog.c (xst_dialog_construct): add a warning when the widget we are loading
+	is a toplevel widget. It is more descriptive than the core dump.
+
+2001-05-05  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_option_menu_get_string_list): Implement.
+	(xst_ui_option_menu_set_selected_string): Fixed bug.
+
+	* xst-dialog.c (dialog_close): Hide dialog. If dialog is tool->main_dialog destroy tool.
+
+2001-05-04  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_option_menu_get_selected_string): More fixes.
+
+2001-05-03  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-ui.c (xst_ui_option_menu_get_selected_string): Fixed it so it actually works now.
+	(xst_ui_option_menu_get_string_list): Implement.
+
+2001-04-30  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-xml.c (xst_xml_element_add_child): Added prototype to make compiler happy.
+	(xst_xml_element_get_parent): ditto.
+
+	* xst-ui.c (xst_ui_option_menu_get_selected_string): Implement.
+	(xst_ui_option_menu_set_selected_string): Implement.
+	(xst_ui_option_menu_add_string): Implement.
+	(xst_ui_option_menu_remove_string): Implement.
+
+2001-04-26  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-ui.c (xst_ui_create_image_widget): warn when pixbuf could not be loaded.
+	
+2001-04-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* helpers.[ch]: Removed, none of the remaining functions were in use anymore.
+	  Thankfully.
+
+2001-04-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-util.h: Added conditional to include only once.
+
+2001-04-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* global.h: Added xst-util.h.
+
+2001-04-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* helpers.[ch] (set_ctree_checkmark): Moved.
+	  (get_ctree_checkmark): Moved.
+	  (set_clist_checkmark): Moved.
+	  (get_clist_checkmark): Moved.
+
+	* xst-ui.[ch] (xst_ui_ctree_set_checkmark): Here.
+	  (xst_ui_ctree_get_checkmark): Here.
+	  (xst_ui_clist_set_checkmarK): Here.
+	  (xst_ui_clist_get_checkmark): Here.
+
+2001-04-25  Hans Petter Jansson <hpj@ximian.com>
+
+	* xst-util.[ch]: Add. Implement simple network host and path string
+	  prettifiers.
+
+	* xst-xml.[ch] (xst_xml_element_get_parent): Implement.
+	  (xst_xml_elemend_add_child): Implement.
+
+	* Makefile.am: Accomodate xst-util.[ch]. Slight cleanup.
+
+2001-04-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-dialog.c (xst_dialog_get_xst_widget): Moved missing widget warning
+	here, which is more general.
+
+2001-04-23  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_sprintf): return trivially if '%' was not
+	found. This also prevents a crash if fmt == "".
+
+2001-04-20  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c: added hook entry for the "end" report line. This is cleaner.
+	(report_finished_cb): the hook.
+	(report_dispatch): Hmm... this got mistakingly #if0ed.
+	(report_progress_tick): Changed order in these calls, so that the report
+	finished hook works.
+
+	* xst-platform.c (xst_platform_new_from_report_line): So splitting
+	is kinda hacky? Well, we're now saving the argv in the rline, so this
+	step is now trivial.
+
+	* xst-report-line.c: All the report hash code gone.
+	(xst_report_line_new): keep the fmt and the argv now. argv copying is
+	kinda hacky.
+	(xst_report_line_new_from_string): Make sure parts 0 and 1 exist.
+	(xst_report_line_free): Free the new allocated stuff.
+	(xst_report_line_get_argv): YA encapsulation func.
+
+2001-04-19  Hans Petter Jansson <hpj@ximian.com>
+
+	* xst-xml.c (xst_xml_element_add): Add check for valid parent node.
+
+2001-04-19  Arturo Espinosa Aldama  <arturo@ximian.com>
+	
+	* xst-dialog.c (xst_dialog_widget_set_user_mode): a warning that
+	  explains better the problem, without assert, which aborts program.
+
+2001-04-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.c (xst_dialog_freeze): Desensitize dialog when frozen.
+	  (xst_dialog_thaw): Conversely.
+
+	* xst-tool.c: Removed all progress information from report window.
+	  Freeze/thaw around load and save operations.
+
+2001-04-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_format_from_key): when warning about
+	  a missing key, show the actual key. This warning should disappear
+	  shortly.
+
+2001-04-16  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-conf.c: Documented all public functions.
+
+2001-04-11  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-conf.c: Converted from MateConf to mate-config. No changes needed
+	in frontends.
+
+2001-04-04  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-ui.[ch] (get_list_item_by_name): Moved out of
+	  xst_ui_list_get_list_item_by_name ().
+		(xst_ui_list_get_list_item_by_name): Use get_list_item_by_name ().
+		(xst_ui_option_menu_get_selected_row): Implement. Returns index of
+		selected item in a GtkOptionMenu. Uses get_list_item_by_name ().
+
+2001-04-03  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.h: Fixed proto for xst_dialog_add_apply_hook ().
+
+2001-04-03  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-dialog.c (xst_dialog_add_apply_hook): oops. We want a function
+	pointer, not a pointer to pointer.
+
+2001-04-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.[ch] (xst_dialog_set_widget_user_modes): Implement. Sets user
+	  widget modes from table.
+
+2001-04-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-widget.[ch] (xst_widget_set_user_mode): Implement.
+	  (xst_widget_set_user_sensitive): Uses former, kept for compat.
+		(xst_widget_apply_policy): Changed to honour full-fledged user modes.
+
+	* xst-dialog.c (xst_dialog_widget_set_user_mode): New shortcut func.
+	  (xst_dialog_widget_set_user_sensitive): Obsoleted, kept for compat.
+
+2001-03-31  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-dialog.c (xst_dialog_set_complexity): Use common functions.
+	(xst_dialog_construct): ditto.
+
+	* xst-conf.c: New.
+
+	* xst-conf.h: New.
+
+2001-03-30  Tambet Ingo  <tambet@ximian.com>
+
+	* Makefile.am: Add mateconf cflags.
+	
+	* xst-dialog.c (xst_dialog_construct): Set initial complexity right.
+	(xst_dialog_set_complexity): Save complexity.
+
+	* xst-tool.c (xst_tool_construct): construct MateConfClient,
+	  add client directory if needed.
+	  (xst_tool_init): mateconf_init ()
+
+	* xst-types.h: Added XST_DIALOG_NONE to XstDialogComplexity
+	  to notify errors.
+
+	* xst-tool.h: Added MateConfClient to XstTool.
+
+2001-03-30  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-report-line.c (xst_report_hash_eq): equivalence function.
+	(xst_report_hash_func): hashing function.
+	(xst_report_hash_init): init hash with report.pl.in keys and
+	translatable strings. Gotta love query-replace-regexp.
+	(xst_report_format_from_key): return translatable string from
+	parsed key.
+	(xst_report_sprintf): helper function, for a lack of a more
+	expressive language.
+	(xst_report_line_new): use new scheme to allow translatable strings.
+	(xst_report_line_new_from_string): parsing changed. Separator is
+	now "::".
+
+2001-03-28  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c: common_report_hooks: gchar *keys in hook entry
+	  declarations. More code passing from ids to keys.
+
+	* xst-report-line.c: Use gchar *keys instead of gint ids.
+
+	* xst-report-hook.c: Use gchar *keys instead of gint ids.
+
+2001-03-27  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-tool.c (xst_tool_destroy): gtk_main_quit here.
+	(xst_tool_set_close_func): Now we can add cleanup/gui-save functions
+	on tool exit.
+
+	* xst-dialog.c (dialog_close): Don't quit here, just destroy the dialog
+	  and emit "destroy" for tool.
+
+	* xst-tool.c (xst_tool_destroy): The right arg for it is GtkObject.
+
+2001-03-21  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-ui.c (xst_ui_create_image_widget): stolen from evolution's
+	  e-util/e-gui-utils.c, creates an aa canvas with a gdk_pixbuf
+	  item inside. Called from libglade: don't use this by hand: just
+	  add MatePixmaps in the glade files and they'll be replaced
+	  by Custom widgets created by calling this function.
+
+2001-03-21  Tambet Ingo  <tambet@ximian.com>
+
+	* global.h: Added xst-ui.h
+
+	* xst-ui.h: Added "#ifndef XST_UI_H" and friends.
+
+	* Makefile.am: Add those two suckers to build.
+	
+	* xst-ui.c (xst_ui_list_get_list_item_by_name): Does what it says.
+	(xst_ui_combo_remove_by_label): Ditto. I can't believe there isn't gtk_ functions for that.
+
+	* xst-ui.h: New file for gtk helpers.
+
+	* xst-ui.c: ditto.
+
+2001-03-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.[ch] (xst_dialog_get_xst_widget): Implement. Gets a
+	  GtkWidget wrapped in XstWidget struct.
+	  (xst_dialog_widget_set_user_sensitive): Implement. Sets requested
+	  sensitivity for a named (and loaded) XstWidget.
+
+2001-03-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.[ch] (xst_dialog_set_widget_policies): Correct the
+	  array referencing.
+
+	* global.h: Add includes of xst-widget.h and xst-types.h.
+
+2001-03-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.c (xst_dialog_set_complexity): Sync complexity string
+	  array with the number of levels now available (2).
+
+2001-03-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-widget.[ch]: Implement. Wrapper for XST-managed widgets; lets
+	  us update widget visibility and sensitivity according to defined
+	  policies. Policy includes complexity level, root access and a
+	  user-controlled sensitivity (e.g. for buttons that become sensitive
+	  when you select from a list).
+
+	* xst-dialog.[ch] (xst_dialog_set_widget_policies): Re-implement.
+	  Lets you define widget policies in an array and pass that to the
+	  dialog. Now converts the array into a GSList.
+	  (apply_widget_policies): Don't do the work here anymore, call
+	  xst_widget_apply_policy() on each XstWidget instead.
+
+	* xst-types.[ch]: Remove XST_DIALOG_INTERMEDIATE. Move
+	  XstWidgetPolicy struct to xst-widget.h. Add XstWidget typedef.
+
+	* Makefile.am: Add xst-widget.[ch].
+
+2001-03-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.c (apply_widget_policies): Implement.
+	  (xst_dialog_set_complexity): Call apply_widget_policies().
+	  (xst_dialog_set_widget_policies): Implement.
+
+	* xst-dialog.h: Add widget_policies to XstDialog struct.
+	  Add xst_dialog_set_widget_policies().
+
+	* xst-types.h: #include <glib.h>.
+	  Add XstWidgetMode enum.
+	  Add XstWidgetPolicy struct.
+
+2001-03-08  Tambet Ingo  <tambet@ximian.com>
+
+	* xst-xml.c (xst_xml_element_find_first): Added additional checks.
+	(xst_xml_element_find_next): same here.
+
+2001-03-05  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-dialog.h: Structures and types for apply hooks.
+
+	* xst-dialog.c (xst_dialog_add_apply_hook): Add functions that for checking
+	  info before calling apply signals.
+	  (apply_cb):  If any of these hooks return false, don't emit signals.
+	  
+
+2001-03-01  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-dialog.c (dialog_close): general function.
+	(close_cb): use dialog_close.
+	(dialog_delete_event_cb): delete_event handler.
+	(xst_dialog_construct): connect delete_event.
+
+2001-02-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am: Disable control-center entry.
+
+2001-02-27  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am (EXTRA_DIST): distcheck fixes
+
+2001-02-26  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* xst-tool.c (xst_tool_load_try): Split xst_main tasks, so I can use
+	  this code on the ppp druid.
+
+2001-02-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (platform_unknown_cb): Remove.
+	  (report_dispatch): Rename from report_dispatch_lines (). Modify
+	  to work without nested main loops.
+	  (platform_list_unselect_row_cb): Implment.
+	  (platform_unsupported_clicked_cb): Implement.
+	  (platform_unsupported_cb): Modify to work without nested main loops.
+	  Now handles unknown platforms too.
+	  (report_progress): Put input_id in tool context.
+	  (report_progress_tick): Modify to work without nested main loops.
+
+	* xst-tool.h: Add input_id to XstTool context.
+
+2001-02-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (platform_list_select_row_cb): Make Ok button sensitive
+	  when selection made. Take tool context as argument.
+	  (platform_unsupported_cb): Set button insensitive. Fix arguments to
+	  platform_list_select_row_cb.
+	  (report_progress_tick): Handle zero-length read as broken pipe.
+	  (xst_tool_load): Don't abort when no document received. Instead,
+	  return an error value so informative dialog is shown.
+
+	* xst-tool.h: Add context for platform selection.
+
+2001-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (platform_unsupported_cb): Plug the other memleak.
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* xst-xml.h: copy from xml.h
+	* xst-xml.c: ditto
+
+	* Makefile.am (libsetuptool_a_SOURCES): replace xml.[ch]
+	with xst_xml.[ch]
+
+	* xst-tool.c (report_dispatch_lines): plug a memleak
+
+2001-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-dialog.c (close_cb): Fix typo.
+
+2001-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c, xst-tool.h: Implement dialog for overriding the
+	  detected platform, in case it's not supported. Also, the chosen
+	  platform is stored for reference (used on --set). Note that this
+	  still sort of sucks, but it works for now.
+
+	* xst-platform.c, xst-platform.h (xst_platform_dup): Implement.
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* xml.c (xst_xml_unquote): remove this function. Duh !
+
+2001-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.c (report_clear_lines): Implement.
+	  (report_dispatch_lines): It's tool, not took.
+	  (xst_tool_clear_supported_platforms): Set list ptr to NULL.
+	  (report_progress): Init report system properly, so that multiple
+	  invocations will work.
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* xml.c (xst_xml_unquote): implement
+	(xml_element_get_content): user here
+
+2001-02-21  Arturo Espinosa  <arturo@ximian.com>
+
+	* xst-dialog.c: handle delete_event. An assignment from incompatible
+	  pointer type warning cleared.
+
+2001-02-21  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.c (report_dispatch_lines): when a backend malfunctions
+	don't recurse here.
+
+2001-02-17  Chema Celorio  <chema@celorio.com>
+
+	* xst-tool.h: update the header for tool_init
+
+	* xst-tool.c (xst_tool_init): add a parameter to let each front end add
+	command line options. We are going to have to merge the options with the
+	ones that are going to be available on all front ends.
+	
+
+2001-02-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-platform.[ch]: Implement.
+
+	* xst-report-hook.[ch]: XstReportHookFunc now takes an
+	  XstReportLine, not id and message.
+
+	* xst-tool.[ch]: XstReportHookFunc funcs changed to take
+	  XstReportLine. Implemented xst_tool_add_supported_platform (),
+	  xst_tool_clear_supported_platforms (), platform_add_supported_cb (),
+	  platform_set_current_cb (). We now build lists of supported
+	  distros, and store the currently assumed distro.
+
+	* xst-types.h: Add XstPlatform.
+
+	* Makefile.am: Add xst-platform.[ch].
+
+2001-02-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-tool.[ch]: Added callbacks for distro-related fatal
+	  conditions. Added report line queuing.
+
+	* xst-report-line.c: Fixed string splitting and added a check.
+
+2001-02-13  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-report-line.[ch]: Implement.
+
+	* xst-types.h: Add XstReportLine.
+
+	* Makefile.am: Add xst-report-line.[ch].
+
+2001-02-09  Tambet Ingo  <tambet@ximian.com>
+
+	* xml.c (xml_set_child_content): If there's no child, then add it.
+
+2001-02-09  Hans Petter Jansson  <hpj@ximian.com>
+
+	* xst-report-hook.[ch]: Implement. This is the framework that
+	  allows tools to react to report messages.
+
+	* xst-tool.[ch]: Add report hook functions to XstTool. Add a
+	  skeleton table for common hooks.
+
+	* xst-types.h: Add types needed for XstReportHook.
+
+	* Makefile.am: Add xst-report-hook.[ch] to build.
+
+2001-02-06  jacob berkman  <jacob@ximian.com>
+
+	* xst-dialog.[ch]: add a _connect_signals() function
+	which... connects the glade signals.  Also, add the " - Ximian
+	Setup Tools" to the title of the windows here instead of in each
+	tool
+
+2001-02-03  Christian Meyer  <chrisime@mate.org>
+
+	* System.directory.in: Added German strings.
+
+2001-02-02  jacob berkman  <jacob@ximian.com>
+
+	* tool.[ch]: into the Attic with you
+
+	* helpers.c: remove inclusion of old tool.h
+
+	* global.h: 
+	* Makefile.am: remove tool.[ch]
+
+2001-01-18 Chema Celorio   <chema@celorio.com>
+
+	* tool.c (report_progress): Set the timeout to half of what it was
+	before.
+	(handle_events_immediately): retur the usleep to what it was
+	before. 
+
+2001-01-29  jacob berkman  <jacob@ximian.com>
+
+	* Makefile.am: * global.h: include the old tool.[ch] until all
+	tools are ported to the new ones
+
+	* xst-tool.[ch]:
+	* xst-dialog.[ch]: near complete implementation.  Time tool now
+	uses the these
+
+2001-01-26  jacob berkman  <jacob@ximian.com>
+
+	* xst-tool.[ch]:
+	* xst-dialog.[ch]: they compile now
+
+	* matesupport.h: this shouldn't be here
+
+2001-01-25  jacob berkman  <jacob@ximian.com>
+
+	* xst-tool.[ch]: 
+	* xst-types.h:
+	* xst-dialog.h: refactoring of tool.[ch]
+
+2001-01-18  Chema Celorio  <chema@celorio.com>
+
+	* xml.h: remove headers
+
+	* xml.c (xml_doc_read_from_backend): remove, it was not beeing
+	used and was duplicated with common/tool.c#tool_config_load
+	(xml_doc_write_to_backend): ditto
+	(get_backend_path): remove, not beeing used. Why was it inside xml.c ?
+
+2001-01-17  Tambet Ingo  <tambet@ximian.com>
+
+	* Changelog: Clean up my mess.
+
+	* xml.c: (xml_set_child_content) New function.
+
+2001-01-16  Tambet Ingo  <tambet@ximian.com>
+
+	* xml.c: (xml_get_child_content) New function.
+
+	* tool.c (tool_interface_load) removed #warning and added dialog to
+	  notify users about error.
+
+2001-01-15  Chema Celorio  <chema@celorio.com>
+
+	*  Start ChangeLog
+

@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY appversion "2.26">
+<!ENTITY manrevision "3.0">
+<!ENTITY date "February 2009">
+<!ENTITY app "Totem Movie Player">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file. 
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the MATE Documentation Project
+  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Apr 11, 2002
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="zh_CN">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+    <title><application>Totem 电影播放器</application>手册</title>       
+    <copyright> 
+      <year>2003</year> 
+      <holder>Chee Bin HOH</holder>
+    </copyright>
+    <copyright>
+      <year>2009</year>
+      <holder>Philip Withnall</holder>
+    </copyright><copyright><year>2009.</year><holder>Lyper Lai (lyp069@gmail.com)</holder></copyright>
+    <releaseinfo revision="2.26" role="final">
+    	<ulink type="peerreview" url="http://bugzilla.mate.org/show_bug.cgi?id=574524"/>
+    </releaseinfo>
+
+    <abstract role="description">
+      <para><application>Totem 电影播放器</application>是 MATE 的媒体播放器，默认运行在 GStreamer 上，但也能运行在 xine 上。它支持多种音频视频解码，其中也包括 DVD。其功能包括 TV-out，全屏播放，播放列表等等。</para>
+    </abstract>
+
+    <publisher> 
+      <publishername>MATE 文档项目</publishername> 
+    </publisher> 
+
+      <legalnotice id="legalnotice">
+	<para>对于本文档的复制、分发和／或修改必须遵循自由软件基金会 (Free Software Foundation) 发布的 GNU 自由文档许可证 (GFDL) 版本 1.1 或更高版本，该许可证没有固定的部分、没有封面和背页文本。您可以在此<ulink type="help" url="ghelp:fdl">链接</ulink>上或在随本手册一起分发的 COPYING-DOCS 文件中找到 GFDL 的副本。</para>
+         <para>手册是在 GFDL 许可之下分发的 MATE 手册集合的一部分。如果想要单独分发此手册，可以在手册中添加该许可证的一份副本然后分发，如该许可证的第 6 部分所述。</para>
+
+	<para>各个公司使用的许多用于区别它们产品和服务的名称都声明为商标。在所有的 MATE 文档以及 MATE 文档项目的成员中，这些名称都是以全大写字母或首字母大写显示，从而表明它们是商标。</para>
+
+	<para>本文档以及文档的修改版本都是在遵循 GNU 自由文档许可证的条款下提供，这表示具有以下含义：<orderedlist>
+		<listitem>
+		  <para>文档按“原样”提供，不提供任何明示或暗示的保证，包括但不限于：文档或文档的修改版本没有适销性方面的缺陷、适合特定目的的适用性，以及没有侵权行为。您将自行承担本文档以及文档修改版本的质量、准确性以及性能方面的风险。如果任何文档或文档修改版本存在缺陷，您(而不是最初的编写者、作者或撰写人)将承担所有必需的服务、维修或更正的费用。此免责声明是本许可证的重要组成部分。如果不接受此免责声明，那么您就没有权利使用任何文档或文档的修改版本；并且</para>
+		</listitem>
+		<listitem>
+		  <para>无论在任何情况以及在任何法律理论下，本文档或文档修改版本的作者、最初的编写者、任何撰写人或任何分发者，或者任意这些方的任何提供者都不对任何人由于使用本文档或文档修改版本引起或带来的任何直接的、间接的、特殊的、偶然的或继发的损失承担任何民事(包括疏忽)、合同或其它方面的责任，这些损失包括但不限于信誉损失、工作停止、计算机失败或故障，或任何以及所有其它损失或由此引发的或与之相关的损失，即使这些方已被告知存在出现此类损失的可能性时也是如此。</para>
+		</listitem>
+	  </orderedlist></para>
+  </legalnotice>
+
+
+    <!-- This file  contains link to license for the documentation (GNU FDL), and 
+         other legal stuff such as "NO WARRANTY" statement. Please do not change 
+	 any of this. -->
+
+    <authorgroup> 
+      <author role="maintainer"> 
+	<firstname>Chee Bin</firstname> 
+	<surname>HOH</surname> 
+	<affiliation> 
+  	  <orgname>MATE 文档项目</orgname> 
+	</affiliation>
+	<email>cbhoh@mate.org</email>
+      </author>
+      <author>
+	<firstname>Baptiste</firstname> 
+	<surname>Mille-Mathias</surname> 
+	<affiliation> 
+          <orgname>MATE 文档项目</orgname>
+        </affiliation>
+        <contrib>更新文档</contrib>
+        <email>baptiste.millemathias@gmail.org</email>
+      </author>
+       <author>
+	<firstname>Philip</firstname> 
+	<surname>Withnall</surname>
+        <contrib>更新文档</contrib>
+	<email>philip@tecnocode.co.uk</email>
+      </author>   
+
+<!-- This is appropriate place for other contributors: translators,
+     maintainers,  etc. Commented out by default.
+      <othercredit role="translator">
+	<firstname>Latin</firstname> 
+	<surname>Translator 1</surname> 
+	<affiliation> 
+          <orgname>Latin Translation Team</orgname> 
+  	  <address> <email>translator@mate.org</email> </address> 
+        </affiliation>
+        <contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other -->
+<!-- than the current revision. -->
+<!-- The revision numbering system for MATE manuals is as follows: -->
+<!-- * the revision number consists of two components -->
+<!-- * the first component of the revision number reflects the release version of the MATE desktop. -->
+<!-- * the second component of the revision number is a decimal unit that is incremented with each revision of the manual. -->
+<!-- For example, if the MATE desktop release is V2.x, the first version of the manual that -->
+<!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
+<!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
+<!-- to V3.0, and so on. -->  
+    <revhistory>
+      <revision> 
+        <revnumber>Totem 电影播放器手册 V2.0</revnumber> 
+	<date>2006年8月</date> 
+	<revdescription> 
+	  <para role="author">Chee Bin HOH <email>cbhoh@mate.org</email></para>
+	  <para role="publisher">MATE 文档项目</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Totem 电影播放器手册 V3.0</revnumber> 
+	<date>2009年2月</date> 
+	<revdescription> 
+	  <para role="author">Philip Withnall <email>philip@tecnocode.co.uk</email></para>
+	  <para role="publisher">MATE 文档项目</para>
+        </revdescription> 
+      </revision>
+    </revhistory> 
+
+    <releaseinfo>本手册描述的是 2.26 版的 Totem 电影播放器。</releaseinfo> 
+    <legalnotice> 
+      <title>反馈</title> 
+      <para>汇报 BUG、提交有关<application>电影播放器</application>应用程序的建议或者这个手册的建议，请查看<ulink url="ghelp:user-guide#feedback" type="help">MATE 反馈页面</ulink></para>
+    </legalnotice> 
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+    <primary>Totem 电影播放器</primary> 
+  </indexterm> 
+  <indexterm zone="index"> 
+    <primary>totem</primary> 
+  </indexterm>
+
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+  <sect1 id="totem-introduction"> 
+    <title>介绍</title> 
+    <para><application>Totem 电影播放器 </application>是 MATE 桌面的媒体播放器，基于 Gstreamer 多媒体框架和 Xine 库，您可用它播放电影或者音乐。</para>
+    <para><application>Totem 电影播放器</application>提供如下功能：</para>
+    <itemizedlist> 
+      <listitem> 
+	<para>支持多种视频音频文件。</para>
+      </listitem>
+      <listitem>
+	<para>多种缩放级别与纵横比，以及全屏视图。</para> 
+      </listitem>
+      <listitem>
+        <para>Seek and volume controls.</para>
+      </listitem>
+      <listitem>
+        <para>播放列表。</para>
+      </listitem>
+      <listitem>
+        <para>字幕支持。</para>
+      </listitem>
+      <listitem>
+	<para>完整键盘导航功能。</para>
+      </listitem>
+      <listitem>
+	<para>完善的插件设置，包含字幕下载器、YouTube 浏览器和光盘刻录工具。</para>
+      </listitem>
+    </itemizedlist> 
+    <note>
+      <para><application>Totem 电影播放器</application>还有一些附加功能，如：</para>
+      <itemizedlist>
+	<listitem>
+	  <para>MATE 视频缩略图生成器。</para>
+        </listitem>
+        <listitem>
+	  <para>MATE 音频预听。</para>
+        </listitem>
+	<listitem>
+	  <para>Caja 属性标签页。</para>
+        </listitem>
+      </itemizedlist>
+    </note>
+  </sect1>
+<!-- =========== End of Introduction ========================= -->
+
+<!-- =========== Getting Started ============================= -->
+<!-- Use the Getting Started section to describe the steps required
+     to start the application and to describe the user interface components
+     of the application. If there is other information that it is important
+     for readers to know before they start using the application, you should
+     also include this information here. 
+     If the information about how to get started is very short, you can 
+     include it in the Introduction and omit this section. -->
+
+  <sect1 id="totem-getting-started"> 
+    <title>启动</title> 
+
+    <sect2 id="totem-start">
+      <title>要启动<application>Totem 电影播放器 </application></title>
+      <para>您可以通过如下几种方式启动 <application>Totem 电影播放器 </application>：</para> 
+      <variablelist>
+	<varlistentry>
+	  <term><guimenu>应用程序</guimenu> 菜单</term>
+	  <listitem>
+	    <para>选择 <menuchoice><guisubmenu>影音</guisubmenu><guimenuitem>电影播放器</guimenuitem></menuchoice>。</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>命令行</term>
+	  <listitem>
+	    <para>要从命令行启动 <application>Totem 电影播放器</application>，请输入下面的命令，然后按<keycap>回车</keycap>：</para>
+	    <para> 
+            <command>totem</command> 
+            </para> 
+	    <tip>
+	      <para>要查看其它可用的命令行选项，请输入 <command>totem --help</command>，然后按<keycap>回车</keycap>。</para>
+	    </tip>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-when-start">
+      <title>当您启动 <application>Totem 电影播放器</application>时</title>
+      <para>当您启动 <application>Totem 电影播放器</application>，显示下面的窗口。</para>
+
+      <!-- ==== Figure ==== -->
+      <figure id="totem-start-fig"> 
+	<title><application>Totem 电影播放器</application>启动界面</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject>
+	      <imagedata fileref="figures/totem_start_window.png" format="PNG"/> 
+	    </imageobject>
+	    <textobject> 
+	      <phrase>显示 <application>Totem 电影播放器</application> 带有播放列表侧边栏的主窗口。包含菜单栏、显示区、侧边栏、时间滑块、播放控制按钮、音量滑块和状态栏。</phrase>
+	    </textobject> 
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+      <!-- ==== End of Figure ==== -->
+
+      <!-- Include any descriptions of the GUI immediately after the screenshot of the main UI, -->
+      <!-- for example, the items on the menubar and on the toolbar. This section is optional. -->
+      <para><application>Totem 电影播放器</application>界面包含下面几个元素：</para>
+      <variablelist>
+	<varlistentry>
+	  <term>菜单栏。</term>
+  	  <listitem>
+  	    <para><application>Totem 电影播放器</application>菜单栏里的菜单包括您需要的全部功能。</para>
+ 	  </listitem>
+   	</varlistentry>
+	<varlistentry>
+	  <term>显示区。</term>
+	  <listitem>
+	    <para>显示区显示影像或者音乐可视化效果。</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>侧边栏。</term>
+	  <listitem>
+	    <para>侧边栏可显示播放文件属性，并显示为播放列表。它也可以用于多种插件，如 MythTV，Youtube 和视频搜索插件。它们可以通过单击侧边栏顶部的下拉菜单选择。</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>时间滑块。</term>
+	  <listitem>
+	    <para>The elapsed time slider displays the elapsed time of the movie or song that is playing.
+              It also enables you to skip forward or backward in a movie or song by dragging the slider's handle along the bar,
+              or by clicking on a point on the bar.
+            </para>
+	  </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>播放控制按钮。</term>
+          <listitem>
+            <para>播放控制按钮能够让您转到下一个或上一个曲目，并能暂停或播放影音文件。</para>
+	  </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>音量按钮。</term>
+          <listitem>
+	    <para>音量按钮能够调整音量。</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>状态栏。</term>
+	  <listitem>
+	    <para>状态栏显示与电影或歌曲有关的状态信息，如正在播放</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+<!-- =========== End of Getting Started ====================== -->
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to use the application to perform the tasks for 
+  which the application is designed. -->
+  <sect1 id="totem-usage"> 
+    <title>用法</title> 
+
+    <!-- ================ Usage Subsection ================================ -->
+    <sect2 id="totem-open-file"> 
+      <title>打开文件</title> 
+      <para>要打开一个视频或者音频文件，请选择 <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo></shortcut><guimenu>电影</guimenu><guisubmenu>打开</guisubmenu></menuchoice>。在弹出的<application>选择电影或播放列表</application>对话框中选择一个或多个你想打开的文件，然后单击<guibutton>确定</guibutton>。</para>
+      <para>您可以从另外一个应用程序中，如文件管理器，将一个文件拖拽到<application> Totem 电影播放器</application>窗口中。若把文件拖到显示区，那么该文件会取代现有的播放列表并立即开始播放。若拖拽文件到侧边栏中的播放列表处，那么该文件会添加到现有播放列表。 <application>Totem 电影播放器</application>将会打开文件并播放电影或音乐。 <application>Totem 电影播放器</application>会在窗口的标题栏及侧边栏上的播放列表中显示电影或音乐的标题。</para>
+      <para>如果您试图打开一个 <application>Totem 电影播放器</application>无法识别格式的文件，那么将会显示一个错误信息。大多数情况下，该错误会是因为未安装合适的解码器造成的。关于获取解码器的信息，可在如下网站获得<ulink url="http://projects.mate.org/totem/#codecs" type="http"><application>Totem 电影播放器</application> 网站</ulink>。</para>
+      <tip>
+	<para>您可以在<application> Caja </application>中双击影音文件，以便在<application>Totem 电影播放器</application>窗口中打开。</para>
+      </tip>
+    </sect2> 
+
+    <sect2 id="totem-usage-open-location">
+      <title>打开位置</title>
+      <para>打开网络上的文件，选择 <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo></shortcut><guimenu> 电影</guimenu><guimenuitem>打开位置</guimenuitem></menuchoice>。弹出<application>打开位置</application>对话框。使用下拉列表框选择你想打开的 URI(列表框里的 URI 是您以前使用过的)，或者直接输一个，单击<guibutton>打开</guibutton>按钮。</para>
+      <para>如果粘贴板中已有一个URL，它会被自动粘贴到组合框中。</para>
+    </sect2>
+
+    <sect2 id="totem-usage-play">
+      <title>播放电影( DVD 或 VCD 光盘)</title>
+	      <para>把光盘插入到光驱中，然后选择<menuchoice><guimenu>电影</guimenu><guimenuitem>播放光盘</guimenuitem></menuchoice>。</para>
+             <para>要弹出 DVD 或 VCD 光盘，请选择<menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo></shortcut><guimenu>电影</guimenu><guimenuitem>弹出</guimenuitem></menuchoice>。</para>
+       </sect2>
+
+    <sect2 id="totem-usage-pause">
+      <title>暂停电影或音乐</title>
+      <para>要暂停当前播放的电影或音乐，请单击<inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_pause_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>显示暂停按钮。</phrase></textobject>
+        </inlinemediaobject>按钮，或者选择<menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>空格</keycap></keycombo></shortcut><guimenu>电影</guimenu><guimenuitem>播放/暂停</guimenuitem></menuchoice>。您也可以使用 <keycap>P</keycap>键来暂停或播放电影。</para>
+      <para>要恢复播放电影或音乐，请再次单击<inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_play_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>显示播放按钮。</phrase></textobject>
+        </inlinemediaobject>按钮，或者选择<menuchoice><shortcut><keycombo><keycap> Ctrl</keycap><keycap>空格</keycap></keycombo></shortcut><guimenu>电影</guimenu><guimenuitem>播放/暂停</guimenuitem></menuchoice>。</para>
+    </sect2>
+
+    <sect2 id="totem-usage-view-properties">
+      <title>查看影音文件属性</title>
+      <para>要查看影音文件的属性，选择<menuchoice><guimenu>查看</guimenu><guimenuitem>侧边栏</guimenuitem></menuchoice>以显示侧边栏，然后在侧边栏顶端的下拉列表中选择<guimenu>属性</guimenu>。</para>
+    </sect2>
+
+    <sect2 id="totem-usage-seek">
+      <title>定位影音文件</title>
+      <para>To seek through movies or songs, you can use the following methods:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>快进</term>
+	  <listitem>
+	    <para>快进，选择<menuchoice><shortcut><keycap>Right</keycap></shortcut><guimenu>转到</guimenu><guimenuitem>快进</guimenuitem></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>快退</term>
+	  <listitem>
+	    <para>快退，选择 <menuchoice><shortcut><keycap>Left</keycap></shortcut><guimenu>转到</guimenu><guimenuitem>快退</guimenuitem></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>跳转到某时刻</term>
+	  <listitem>
+	    <para>跳转到影音文件特定的时刻，选择 <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>K</keycap></keycombo></shortcut><guimenu>转到</guimenu><guimenuitem>跳转至</guimenuitem></menuchoice>。在<application>跳转至</application>对话框的选值框中指定时刻(最小单位秒)，然后点击<guibutton>确定</guibutton>按钮。</para>
+            <para>The spin box also allows more natural language to be used. You can enter a time in the
+            formats "hh:mm:ss", "mm:ss" or "ss"; where "hh" is the hour, "mm" is the minute and "ss" is the
+            second to skip to.
+            </para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>转到下一部电影或曲目</term>
+	  <listitem>
+	    <para>转到下一部电影或曲目，选择 <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Right</keycap></keycombo></shortcut><guimenu>转到</guimenu><guimenuitem>下一节/电影</guimenuitem></menuchoice>或者点击 <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_next_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>显示下一曲按钮</phrase></textobject>
+              </inlinemediaobject> 按钮。</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>转到前一部电影或曲目</term>
+	  <listitem>
+	    <para>转到前一部电影或曲目，选择 <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Left</keycap></keycombo></shortcut><guimenu>转到</guimenu><guimenuitem>上一节/电影</guimenuitem></menuchoice>或者点击<inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_previous_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>显示搜索前一曲按钮</phrase></textobject>
+              </inlinemediaobject> 按钮</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-usage-change-zoom">
+      <title>更改缩放系数</title>
+	  <sect3 id="totem-usage-change-size">
+		<title>更改视频尺寸</title>
+      <para>要更改显示区域的缩放系数，使用下面的方法：</para>
+      <itemizedlist>
+	<listitem>
+	  <para>放大到全屏模式, 选择 <menuchoice><shortcut><keycap>F11</keycap></shortcut><guimenu>查看</guimenu><guimenuitem>全屏</guimenuitem></menuchoice>。还可以用快捷键 <keycap>F</keycap> 打开全屏模式。退出全屏模式，点击<guibutton>退出全屏</guibutton>按钮、按 <keycap>Esc</keycap> 键， <keycap>F11</keycap> 键或 <keycap>F</keycap> 键。</para>
+    </listitem>
+	<listitem>
+	  <para>要更改源电影的尺寸或视觉效果，选择 <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>0</keycap></keycombo></shortcut><guimenu>查看</guimenu><guimenuitem>窗口适合影片</guimenuitem></menuchoice> ，并且选择缩放比例。</para>
+    </listitem>
+	</itemizedlist>
+	</sect3>
+	 <sect3 id="totem-usage-change-ratio">
+		<title>更改视频纵横比</title>
+	      <para>要在不同的纵横比间切换，选择 <menuchoice><shortcut><keycap>A</keycap></shortcut><guimenu>查看</guimenu><guisubmenu>纵横比</guisubmenu></menuchoice>。</para>
+	  </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-adjust-volume">
+      <title>调节声音</title>
+      <para>要增加音量，选择 <menuchoice><shortcut><keycap>Up</keycap></shortcut><guimenu>声音</guimenu><guimenuitem>音量增大</guimenuitem></menuchoice>。要减小音量，选择<menuchoice><shortcut><keycap>Down</keycap></shortcut><guimenu>声音</guimenu><guimenuitem>音量减小</guimenuitem></menuchoice>。</para>
+      <para>您也可以使用音量控制按钮：点击音量按钮并用滑块来选择音量大小。</para>
+    </sect2>
+
+    <sect2 id="totem-usage-on-top">
+      <title>To Make the Window Always on Top</title>
+      <para>To make the <application>Totem Movie Player</application> window always on top of other application windows,
+        choose
+        <menuchoice>
+          <guimenu>Edit</guimenu>
+          <guimenuitem>Plugins</guimenuitem>
+        </menuchoice>. Select the <guilabel>Always on Top</guilabel> plugin to enable it. The <application>Totem Movie Player</application> window will now stay on
+        top of all other windows while a movie is playing, but not while audio or visualizations are playing.
+       </para>
+       <para>To stop the window from always being on top, disable the <guilabel>Always on Top</guilabel> plugin again.
+       See <xref linkend="totem-plugins-always-on-top"/> for more information.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-show-control">
+      <title>显示或隐藏控制面板</title>
+      <para>要显示或者隐藏 <application>Totem 电影播放器</application> 窗口的控制面板，选择 <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenu>查看</guimenu><guimenuitem>显示控制面板</guimenuitem></menuchoice>，或者按 <keycap>H</keycap> 键。您还可以右击 <application>Totem 电影播放器</application>窗口，然后在弹出菜单中选择 <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenuitem>显示控制面板</guimenuitem></menuchoice>。</para>
+      <para>如果<guilabel>显示控制面板</guilabel>选项被选中， <application>Totem 电影播放器</application> 窗口会显示菜单栏，时间滑块，播放控制按钮，音量滑块和状态栏。如果<guilabel>显示控制面板</guilabel>选项未选中，程序会隐藏它们只留下显示区域。</para>
+    </sect2>
+
+    <sect2 id="totem-usage-playlist">
+      <title>管理播放列表</title>
+
+      <sect3 id="totem-usage-playlist-show-hide">
+	<title>显示或隐藏播放列表</title>
+	<para>要显示或隐藏播放列表，请选择<menuchoice><guimenu>查看</guimenu><guimenuitem>侧边栏</guimenuitem></menuchoice>或者点击<guibutton>侧边栏</guibutton>按钮，并选择侧边栏顶部的<guimenu>播放列表</guimenu>。</para>
+      </sect3>
+
+      <sect3 id="totem-usage-playlist-manage">
+	<title>管理播放列表</title>
+	<para>你可以使用<application>播放列表</application>对话框做如下事情: <variablelist>
+	    <varlistentry>
+	      <term>添加音轨或者电影</term>
+	      <listitem>
+		<para>To add a track or movie to the playlist, click on the <guibutton>Add</guibutton>
+                  button. The <application>Select Movies or Playlists</application> dialog is displayed. Select the file that you 
+                  want to add to the playlist, then click <guibutton>Add</guibutton>.
+                </para>
+              </listitem>
+            </varlistentry>
+	    <varlistentry>
+	      <term>移除音轨或电影</term>
+	      <listitem>
+		<para>从播放列表中移除音轨或电影，选择一个或多个要从播放列表移除的项目，然后单击<guibutton>移除</guibutton>按钮。</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>保存播放列表到文件</term>
+	      <listitem>
+		<para>保存播放列表到文件，单击<guibutton>保存播放列表</guibutton>按钮。弹出<application>保存播放列表</application>对话框; 指定你想保存的播放列表文件名，单击<guibutton>保存</guibutton>按钮。</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>上移音轨或电影在播放列表的位置</term>
+	      <listitem>
+		<para>上移音轨或电影在播放列表的位置，选择播放列表中的项目，然后点击<guibutton>上移</guibutton>按钮。</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>下移音轨或电影在播放列表的位置</term>
+	      <listitem>
+		<para>下移音轨或电影在播放列表的位置，选择播放列表中的项目，然后点击<guibutton>下移</guibutton>按钮。</para>
+              </listitem>
+	    </varlistentry>
+          </variablelist></para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-repeat">
+	<title>选择或取消重复播放模式</title>
+	<para>启用或停用重复播放模式，选择<menuchoice><guimenu>编辑</guimenu><guimenuitem>重复模式</guimenuitem></menuchoice>。</para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-shuffle">
+	<title>选择或取消随机播放模式</title>
+	<para>要启用或停用随机播放模式，请选择<menuchoice><guimenu>编辑</guimenu><guimenuitem>随机模式</guimenuitem></menuchoice>。</para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-subtitle">
+	  <title>选择字幕</title>
+	  <para>要选择字幕语言，选择<menuchoice><guimenu>查看</guimenu><guisubmenu>字幕</guisubmenu></menuchoice>，并选择需要的字幕语言。</para>
+	  <para>要停止显示字幕，选择<menuchoice><guimenu>查看</guimenu><guisubmenu>字幕</guisubmenu><guimenuitem>无</guimenuitem></menuchoice>。</para>
+	  <note><para>默认情况下，<application>Totem 电影播放器</application>将会把字幕语言设定为与计算机当前所用语言一致。</para></note>
+	  <para>如果找到一个字幕文件，与当前播放视频的名称相同，并具有如下扩展名，<filename class="extension">asc</filename>, <filename class="extension">txt</filename>, <filename class="extension">sub</filename>, <filename class="extension">srt</filename>, <filename class="extension">smi</filename>, <filename class="extension">ssa</filename> 或 <filename class="extension">ass</filename><application>，Totem 电影播放器</application> 会自动载入并显示视频字幕。</para>
+	  <para>如果文件包含的字幕文件与正在播放的视频不同名，你可以右击播放列表里的视频项目并从快捷菜单中选择<menuchoice><guimenuitem>选择文本字幕</guimenuitem></menuchoice> 读取正确的字幕文件。你也可以通过<menuchoice><guimenu>查看</guimenu><guimenuitem>选择文本字幕</guimenuitem></menuchoice>菜单找出要使用的字幕。</para>
+	  <para>使用<guilabel>字幕下载器</guilabel>插件，也可从 OpenSubtitle 服务下载字幕。参看<xref linkend="totem-plugins-opensubtitles"/> 获得更多信息。</para>
+	</sect2>
+
+    <sect2 id="totem-usage-take-screenshot">
+      <title>截图</title>
+      <para>要截取当前播放电影或可视化效果的屏幕截图，请选择<menuchoice><guimenu>编辑</guimenu><guimenuitem>抓图</guimenuitem></menuchoice>。此时会显示<application>保存截图</application>对话框。选择一个位置，并输入要保存截图的文件名，然后点击<guibutton>保存</guibutton>按钮以保存屏幕截图。</para>
+      <tip><para><application>Totem 电影播放器</application>会在<application>保存截图</application>左侧显示将要保存的截图预览。</para></tip>
+    </sect2>
+
+    <sect2 id="totem-usage-create-screenshot-gallery">
+      <title>创建截图画册</title>
+      <para>To create a gallery of screenshots of the movie or visualization that is playing, choose
+        <menuchoice>
+          <guimenu>Edit</guimenu>
+          <guimenuitem>Create Screenshot Gallery</guimenuitem>
+        </menuchoice>. The <application>Save Gallery</application> dialog is displayed. Choose a location and
+	insert the filename as which you want to save the gallery image, then click on the <guibutton>Save</guibutton> button
+	to save the screenshot.
+      </para>
+      <tip><para>你可能在<guilabel>截图宽度</guilabel>标签下指定自已画册的截图宽度，默认宽度是 128 像素。</para>
+      <para>你可能会指定画册里截图的数量。默认地，截图数量是基于电影长度估算而得；尽管通过取消选择<guilabel>估算截图数量</guilabel>复选框，这个数字可能被无视。在<guilabel>截图数量</guilabel>选值框处输入新的数字。</para></tip>
+    </sect2>
+  </sect1>
+
+<!-- =========== Plugins ======================================= -->
+  <sect1 id="totem-plugins">
+    <title>插件</title>
+    <para><application>Totem 电影播放器</application>有许多以插件形式实现的功能——仅当需要时才加载的软件模块。</para>
+    <sect2 id="totem-plugins-load">
+      <title>启用插件</title>
+      <para>要查看已安装插件的列表，选择<menuchoice><guimenu>编辑</guimenu><guimenuitem>插件</guimenuitem></menuchoice>。此时会弹出<application>配置插件</application>对话框。左侧是所有已安装插件的列表，右侧是当前选中插件的描述。对于有配置选项的插件，在右侧会有一个激活的<guibutton>配置</guibutton>按钮。</para>
+      <para>要启用一个插件, 仅需选中插件列表中名称左侧的复选框，插件会被立即载入。如果载入插件发生错误，将会随即显示一个错误对话框。</para>
+      <para>要停用一个插件，取消选择插件旁的复选框。即使<application>Totem 电影播放器</application>关闭，插件仍会保持启用或者停用的状态。</para>
+    </sect2>
+    <sect2 id="totem-plugins-always-on-top">
+      <title>总是位于前面</title>
+      <para>当启用，<guilabel>总是位于前面</guilabel>插件将会强制 <application>Totem 电影播放器</application>在播放电影时窗口始终位于所有其它窗口的前面，但这不不包含音频或可视化效果播放时的情况。停用窗口一直在前功能，只需停用插件即可。</para>
+    </sect2>
+    <sect2 id="totem-plugins-coherence">
+      <title>Coherence DLNA/UPnp 客户端</title>
+      <para><guilabel>Coherence DLNA/UPnP 客户端</guilabel>插件允许 <application>Totem 电影播放器</application> 在本地网络上播放 UPnP 媒体服务器(如 Coherence 服务器)目录上的多媒体资源。</para>
+      <para>随着 <guilabel>Coherence DLNA/UPnP 客户端</guilabel>插件启用，选择 <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>查看</guimenu><guimenuitem>侧边栏</guimenuitem></menuchoice> 或者点击<guibutton>侧边栏</guibutton>按钮显示侧边栏。从侧边栏顶部的下拉列表里选择 <guilabel>Coherence DLNA/UPnP 客户端</guilabel>即可显示 <guilabel>Coherence DLNA/UPnP 客户端</guilabel>侧边栏。</para>
+      <para>数形列表将显示所有可用的媒体服务器。点击服务器将展开显示该服务器提供服务的媒体格式，单击媒体文件夹会展开可用多媒体文件列表，双击媒体文件将会加入该文件到<application> Totem 电影播放器</application>的播放列表中并播放它。你可能有选择地右击一个文件并且选择<menuchoice><guimenuitem>播放</guimenuitem></menuchoice>或者<menuchoice><guimenuitem>队列</guimenuitem></menuchoice>菜单，立即播放文件或者分别把它加入到播放列表。</para>
+      <para>如果媒体服务器允许，那么从文件的右键快捷菜单中选择<menuchoice><guimenuitem>删除</guimenuitem></menuchoice>允许你删除媒体服务器上的文件。</para>
+    </sect2>
+    <sect2 id="totem-plugins-gromit">
+      <title>屏幕涂鸦</title>
+      <para><guilabel>屏幕涂鸦</guilabel>插件允许你在播放电影时使用<ulink type="http" url="http://www.home.unix-ag.org/simon/gromit/"><application>Gromit</application></ulink> 程序在电影图像上面绘图。当然你必须启用插件之前安装 <application>Gromit</application> 程序 — 请查阅你的操作系统文档中有关如何安装 Gromit 的信息。</para>
+      <para>随着插件启用，按快捷键 <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> 开关 <application>Gromit</application> 程序。当 <application>Gromit</application> 程序启用时，你的指针会变成十字。在屏幕上绘图，就要在你松开鼠标左键之前，一直按住你的鼠标并且拖拽你的指针。<keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> 开关关闭<application>Gromit</application> 。</para>
+      <para>要清理屏幕上的涂鸦，只需按下快捷键 <keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo>，或者关闭 <application>Totem 电影播放器</application>。</para>
+    </sect2>
+    <sect2 id="totem-plugins-jamendo">
+      <title>Jamendo</title>
+      <para><guilabel>Jamendo</guilabel> 插件允许您收听在 <ulink type="http" url="http://www.jamendo.com/en/">Jamendo</ulink> 服务上以创作共享协议下发布的音乐。</para>
+      <sect3 id="totem-plugins-jamendo-configuration">
+        <title>配置插件</title>
+        <para><guilabel>Jamendo</guilabel> 插件可以被配置。当插件启用时，点击<guibutton>配置</guibutton>按钮，这时将会显示<application> Jamendo 插件配置</application>对话框。在这里，你可以选择是否下载 OGG 或者 MP3 格式的歌曲(推荐开源格式 OGG )；搜索时检索到的专辑数(如有较快的网络连接，可选择更多的专辑)。 </para>
+        <para>一旦完成，点击<guibutton>确定</guibutton>。</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-setup">
+        <title>显示 Jamendo 侧边栏</title>
+        <para>随着 <guilabel>Jamendo</guilabel> 插件启用，选择 <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>View</guimenu><guimenuitem>侧边栏</guimenuitem></menuchoice> 或者单击<guibutton>侧边栏</guibutton>按钮显示侧边栏。从顶部下拉列表选择 <guilabel>Jamendo</guilabel> 即可显示 <guilabel>Jamendo</guilabel> 侧边栏。</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-search">
+        <title>音乐搜索</title>
+        <para>在 <guilabel>Jamendo</guilabel> 侧边栏顶部的搜索框中输入你的搜索条件。你可以通过艺术家或者标签来搜索。单击搜索按钮即可开始搜索。</para>
+        <para>搜索结果将以树状视图显示在侧边栏的<guilabel>搜索结果</guilabel>页中，并且可以用低部的箭头状按钮浏览详细信息，如果你点击一个专辑,该专辑将会展开它的曲目。再点击该专辑，曲目会被收起</para>
+        <para>选中艺术家，你可以点击 <guibutton>Jamendo 专辑页</guibutton>按钮打开 Jamendo 网站上的专辑页面。从专辑的目录菜单中点击专辑或者选择<menuchoice><guimenuitem>添加到播放列表</guimenuitem></menuchoice>,将用这个专辑里的所有曲目取代你播放列表并且通过 Jamendo 的网站从第一首曲目开始在线收听该专辑。单独双击一首曲目将会用这首曲目取代播放列表。</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-popular">
+        <title>流行专辑和最新发布</title>
+        <para>查看<guilabel>Jamendo</guilabel>侧边栏下的<guilabel>流行</guilabel>页面将从 Jamendo 取回一份流行专辑列表，可以做为搜索结果播放。查看<guilabel>最新发布</guilabel>页类似地会从 Jamendo取回一份最新专辑列表。</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-tracker">
+      <title>本地搜索</title>
+      <para><guilabel>本地搜索</guilabel> 插件允许你在 <application>Totem 电影播放器</application>中搜索计算机可播放的影音文件。启用这个插件，选择 <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>查看</guimenu><guimenuitem>侧边栏</guimenuitem></menuchoice>或者单击<guibutton>侧边栏</guibutton>按钮显示侧边栏。点击侧边栏顶部的下拉菜单选择<guilabel>本地搜索</guilabel>显示<guilabel>本地搜索</guilabel>侧边栏。</para>
+      <para>在侧边栏顶部的搜索框中输入你的搜索条件并点击<guibutton>查找</guibutton>。你的搜索条件可能包含 <literal>*</literal> 之类的通配符，* 号匹配任意字符。例如搜索 <userinput>*.mpg</userinput> 将查找所以扩展名为 <filename class="extension">.mpg</filename> 的影音文件。</para>
+      <para>可以利用侧边栏底部的<guibutton>后退</guibutton>和<guibutton>前进</guibutton>按钮浏览搜索结果。并且你可以通过选值框跳输入数字页码跳转到指定页。</para>
+    </sect2>
+    <sect2 id="totem-plugins-publish">
+      <title>发布播放列表</title>
+      <para><guilabel>发布播放列表</guilabel>插件允计在你的本地网络上发表播放列表，允许其它计算机接入并播放它们。</para>
+      <sect3 id="totem-plugins-publish-configuration">
+        <title>配置插件</title>
+        <para><guilabel>发布播放列表</guilabel>插件配置，当插件启用时点击<guibutton>Configure</guibutton>按钮弹出配置对话框。这里你可以修改将要共享的播放列表名称。下面的字符串在播放列表发布时将会替代为: <variablelist>
+	    <varlistentry>
+	      <term><literal>%a</literal></term>
+	      <listitem><para>替换为程序名：<application>Totem 电影播放器</application>。</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%h</literal></term>
+	      <listitem><para>替换为您的计算机的主机名。</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%u</literal></term>
+	      <listitem><para>替换为您的用户名。</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%U</literal></term>
+	      <listitem><para>替换为您的真名。</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%%</literal></term>
+	      <listitem><para>Replaced with a literal percent sign.</para></listitem>
+	    </varlistentry>
+	  </variablelist></para>
+	<para>当你网络中传播播放列表时，如果你希望加密你共享列表，可以勾选<guilabel>使用加密传输协议</guilabel>复选框。</para>
+        <para>一旦你决定了，单击<guibutton>关闭</guibutton>。</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-publishing">
+        <title>发布播放列表</title>
+        <para>With the plugin enabled, you do not need to explicitly publish playlists; they are automatically made available on the network as
+          a Zeroconf website.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-neighborhood">
+        <title>To Browse your Neighborhood</title>
+        <para>查看网络中其它人的播放列表，从侧边栏顶部的下拉列表中选择<guilabel>Neighborhood</guilabel>。如果播放列表已在网络中发布，侧边栏中会列出。双击一播放列表即载入并在你的计算机上播放。</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-opensubtitles">
+      <title>字幕下载器</title>
+      <para><guilabel>字幕下载器</guilabel>插件允许你从 <ulink type="http" url="http://www.opensubtitles.org/en">OpenSubtitles</ulink> 服务中查找并下载字幕文件。</para>
+      <para>字幕下载只能用于本地电影文件;不能用于音频文件、DVD、DVB流媒体、VCD或HTTP流媒体。要为正在播放的电影搜索字幕，选择<menuchoice><guimenu>查看</guimenu><guimenuitem>下载电影字幕</guimenuitem></menuchoice>后，便会显示<application>下载电影字幕</application>对话框。</para>
+      <para>在对话框顶部下拉列表中选择你所期望的字幕语言，然后点击<guibutton>查找</guibutton>按钮搜索当前电影字幕。字幕的查找不是根椐电影的内容，而是根椐字的文件名或者标签。</para>
+      <para>在对话框的中间，搜索结果以树状视图列出。现在，字幕只能通过<emphasis>重新载入</emphasis>电影才能使用。因此在你选定你希望下载的字幕后，点击<guibutton>带字幕播放</guibutton>按钮后下载字幕并且重新载入电影。</para>
+        <note><para>Downloaded subtitle files are cached (in <filename>~/.cache/totem/subtitles</filename>, by default) so that they do not need to be downloaded
+        again when playing the movie again. When downloading new subtitles for a movie, any previously downloaded subtitles for that movie are deleted.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-thumbnail">
+      <title>缩略图</title>
+      <para><guilabel>缩略图</guilabel>插件，设置<application> Totem 电影播放器</application>的主窗口图标为当前播放电影的缩略图，并前当新电影被载入时更新图标。</para>
+      <note><para>如果现有电影的缩略图不存在(或者你正在播放音频文件)，那么主窗口图标会重置为<application>Totem 电影播放器</application>标志。</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-brasero">
+      <title>视频光盘录制</title>
+      <para><guilabel>视频光盘录制器</guilabel>插件使你能够将现有播放列表的内容运用<application>Brasero</application>刻录到 DVD 或 VCD 光盘。</para>
+      <para>To burn the current playlist, choose <menuchoice><guimenu>Movie</guimenu><guimenuitem>Create Video Disc</guimenuitem></menuchoice>.
+        A <application>Brasero</application> dialog will be displayed, giving options for converting the movies to the appropriate format and burning them to disc. For more
+        information, see the <ulink type="help" url="ghelp:brasero?brasero-new-project-video">Brasero documentation</ulink>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-youtube">
+      <title>YouTube 浏览器</title>
+      <para><guilabel>YouTube 浏览器</guilabel>插件允许你浏览并搜索<ulink type="http" url="http://www.youtube.com/">YouTube</ulink>，直接在<application>Totem 电影播放器</application>中直接播放。随着插件的启用，选择<menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>查看</guimenu><guimenuitem>侧边栏</guimenuitem></menuchoice>或者点击<guibutton>侧边栏</guibutton>按钮显示侧边栏。从侧边栏顶部下拉列表中选择<guilabel>YouTube</guilabel>标签以显示<guilabel>YouTube</guilabel>侧边栏。</para>
+      <para>要搜索 YouTube视频，在侧边栏的顶部搜索框中输入要搜索的条件，然后点击<guibutton>查找</guibutton>按钮。搜索结果会以树状视图在下面列出。更多结果会自动地在你向下滚动列表时载入。</para>
+      <para>要播放视频，双击搜索结果列表，或者从它的目录菜单中选择<menuchoice><guimenuitem>添加到播放列表</guimenuitem></menuchoice>。当视频被播放，相关视频列表会在<guilabel>YouTube</guilabel>侧边栏的<guilabel>Related Videos</guilabel>页中被自动载入。</para>
+      <para>YouTube 视频能通过它的目录菜单选择<menuchoice><guimenuitem>在浏览器中打开</guimenuitem></menuchoice>菜单打开。这样会在 YouTube  网站原始位置打开视频。</para>
+    </sect2>
+    <sect2 id="totem-plugins-dbus-service">
+      <title>D-Bus 服务</title>
+      <para><guilabel>D-Bus 服务</guilabel>插件使<application>Totem 电影播放器</application>实现在 D-Bus 会话总线上广播正在播放曲目的消息通知。应用程序如 <application>Gajim</application> 能够监听到通知并做出相应的应答，例如，更新你的即时通信状态显示<application>Totem 电影播放器</application>中正在播放的视频。</para>
+    </sect2>
+  </sect1>
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to customize the 
+     application. -->
+  <sect1 id="totem-prefs">
+    <title>首选项</title>
+    <para>要更改<application>Totem 电影播放器</application>的首选项，请选择<menuchoice><guimenu>编辑</guimenu><guimenuitem>首选项</guimenuitem></menuchoice>。</para>
+
+    <sect2 id="totem-prefs-general">
+      <title>常规</title>
+      <variablelist>
+	<varlistentry>
+	  <term>网络</term>
+	  <listitem>
+	    <para>从<guilabel>连接速度</guilabel>下接列表中选择网络连接速度。</para>
+          </listitem>
+        </varlistentry>	
+	<varlistentry>
+	  <term>文本字幕</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	      	<para><guilabel>自动载入字幕文件</guilabel>:选择该选项，当电影播放时自动载入和电影文件名相同的字幕文件。</para>
+	      </listitem>
+	      <listitem>
+                <para><guilabel>字体</guilabel>：这个选项改变字幕显示所使用的字体。</para>
+              </listitem>
+	          <listitem>
+				<para><guilabel>编码</guilabel>：这个选项改变字幕显示所使用的编码。</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>	
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-display">
+      <title>显示</title>
+      <variablelist>
+	<varlistentry>
+	  <term>显示</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	        <para>当新视频载入时，如果你想<application>Totem 播放器</application>依照该视频尺寸自动调整窗口大小，那么请选择调整大小选项。</para>
+              </listitem>
+              <listitem>
+                <para>当音频文件播放时，如果你想使屏保开始起作用，那么请选择屏保选项。在屏保开始起作用时，一些集成扬声器的显示器可能会停止正在播放的音乐。</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>视觉效果</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+                <para><guilabel>可视化</guilabel>：选取该选项会在音频文件播放时显示视觉效果。</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Type of visualization</guilabel>: select type of visualization from the
+                  drop-down list.
+                </para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Visualization size</guilabel>: select visualization size from the
+                  drop-down list.
+                </para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>颜色平衡</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+		    <para><guilabel>亮度</guilabel>: 使用滑块调节亮度。</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>对比度</guilabel>: 使用滑块调节对比度。</para>
+          </listitem>
+	      <listitem>
+		    <para><guilabel>饱和度</guilabel>: 使用滑块调节饱和度。</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>色调</guilabel>: 使用滑块调节色调。</para>
+          </listitem>
+	    </itemizedlist>
+	    <tip><para>你可能会使用<guilabel>恢复默认</guilabel>按钮来重置色彩平衡控制到默认位置。</para></tip>
+      </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-audio">
+      <title>音频</title>
+      <variablelist>
+	<varlistentry>
+	  <term>音频输出</term>
+	  <listitem>
+	    <para>从<guilabel>音频输出类型</guilabel>下拉列表中选择音频输出类型。</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+
+<!-- ============= Bugs ================================== -->
+<!-- This section is optional and is commented out by default. 
+     You can use it to describe known bugs and limitations of the 
+	  program if there are any - please be frank and list all
+     problems you know of. 
+  
+  <sect1 id="mayapp-bugs">
+  <title>Known Bugs and Limitations</title>
+  <para> </para>
+ </sect1>
+-->
+
+<!-- ============= About ================================== -->
+<!-- This section contains info about the program (not docs), such as
+      author's name(s), web page, license, feedback address. This
+      section is optional: primary place for this info is "About.." box of
+      the program. However, if you do wish to include this info in the
+      manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
+  <sect1 id="totem-about"> 
+    <title>关于 <application>Totem 电影播放器</application></title> 
+    <para><application>Totem 电影播放器</application>由 Bastien Nocera (<email>hadess@hadess.net</email>)编写，Julien Moutte (<email>julien@moutte.net</email>) 和 Guenter Bartsch (<email>guenter@users.sourceforge.net</email>)编写 GStreamer 后端。 查询更多关于 <application>Totem 电影播放器</application>信息，请访问 <ulink url="http://projects.mate.org/totem/" type="http"><application>Totem 电影播放器</application> 网站</ulink>。</para>
+    <para>汇报 BUG、提交有关<application>电影播放器</application>应用程序的建议或者这个手册的建议，请查看<ulink url="ghelp:user-guide#feedback" type="help">MATE 反馈页面</ulink></para>
+    <para>这个程序在 GNU 通用公共许可证协议下分发，由自由软件基金会发布；协议版本请选择协议的第 2 版，或者更高版本(自行选择)。协议副本可以在这个<ulink url="ghelp:gpl" type="help">link</ulink>中，或者在程序源代码包中包含的 COPYING 文件中找到。</para>
+  </sect1> 
+</article>

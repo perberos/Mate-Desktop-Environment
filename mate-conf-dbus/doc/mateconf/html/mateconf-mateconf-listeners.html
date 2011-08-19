@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>mateconf-listeners</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-internals.html" title="mateconf-internals">
+<link rel="next" href="mateconf-mateconf-schema.html" title="MateConfSchema">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-internals.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-schema.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2598044" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2624747" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-listeners"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2598044"></a><span class="refentrytitle">mateconf-listeners</span>
+</h2>
+<p>mateconf-listeners</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a>;
+void                (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListenersCallback">*MateConfListenersCallback</a>)           (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         const gchar *all_above_key,
+                                                         guint cnxn_id,
+                                                         gpointer listener_data,
+                                                         gpointer user_data);
+<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a>*     <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-new">mateconf_listeners_new</a>                 (void);
+void                <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-free">mateconf_listeners_free</a>                (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners);
+guint               <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-add">mateconf_listeners_add</a>                 (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         const gchar *listen_point,
+                                                         gpointer listener_data,
+                                                         GFreeFunc destroy_notify);
+void                <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-remove">mateconf_listeners_remove</a>              (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         guint cnxn_id);
+void                <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-notify">mateconf_listeners_notify</a>              (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         const gchar *all_above,
+                                                         <a class="link" href="mateconf-mateconf-listeners.html#MateConfListenersCallback">MateConfListenersCallback</a> callback,
+                                                         gpointer user_data);
+guint               <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-count">mateconf_listeners_count</a>               (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners);
+void                <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-foreach">mateconf_listeners_foreach</a>             (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         MateConfListenersForeach callback,
+                                                         gpointer user_data);
+gboolean            <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-get-data">mateconf_listeners_get_data</a>            (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         guint cnxn_id,
+                                                         gpointer *listener_data_p,
+                                                         const gchar **location_p);
+void                <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-remove-if">mateconf_listeners_remove_if</a>           (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         MateConfListenersPredicate predicate,
+                                                         gpointer user_data);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2624747"></a><h2>Description</h2>
+<p>
+A MateConfListeners object is used to store listeners who want notification of changes
+in a namespace section. It is a public API shared between mateconfd and the GObject 
+convenience wrapper.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2624766"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2587744"></a><h3>
+<a name="MateConfListeners"></a>MateConfListeners</h3>
+<a class="indexterm" name="id2587756"></a><pre class="programlisting">typedef struct _MateConfListeners MateConfListeners;</pre>
+<p>
+The <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a> structure contains nothing other than a dummy pointer. Internally 
+the data about listeners is maintained through a listener table structure,
+LTable which contains data like the namespace, an array to hold the listeners, count of
+active listeners,value to be given to the next connection and the list of connection indices
+to be recycled. There is also a Listener structure maintaining data pertaining to listeners. 
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587787"></a><h3>
+<a name="MateConfListenersCallback"></a>MateConfListenersCallback ()</h3>
+<a class="indexterm" name="id2587798"></a><pre class="programlisting">void                (*MateConfListenersCallback)           (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         const gchar *all_above_key,
+                                                         guint cnxn_id,
+                                                         gpointer listener_data,
+                                                         gpointer user_data);</pre>
+<p>
+This is the signature of a user function added with <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-notify"><code class="function">mateconf_listeners_notify()</code></a>. This function
+is called whenever the value of a key changes. 
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>all_above_key</code></em>&#160;:</span></p></td>
+<td>the key that has changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cnxn_id</code></em>&#160;:</span></p></td>
+<td>the connection id got from <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-add"><code class="function">mateconf_listeners_add()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listener_data</code></em>&#160;:</span></p></td>
+<td>the data field associated with each listener.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>the user data to be passed to the callback.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587958"></a><h3>
+<a name="mateconf-listeners-new"></a>mateconf_listeners_new ()</h3>
+<a class="indexterm" name="id2587970"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a>*     mateconf_listeners_new                 (void);</pre>
+<p>
+Creates a new listener table and typecasts it to a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the newly allocated <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2593468"></a><h3>
+<a name="mateconf-listeners-free"></a>mateconf_listeners_free ()</h3>
+<a class="indexterm" name="id2593479"></a><pre class="programlisting">void                mateconf_listeners_free                (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners);</pre>
+<p>
+Destroys the listener table.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2593532"></a><h3>
+<a name="mateconf-listeners-add"></a>mateconf_listeners_add ()</h3>
+<a class="indexterm" name="id2593544"></a><pre class="programlisting">guint               mateconf_listeners_add                 (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         const gchar *listen_point,
+                                                         gpointer listener_data,
+                                                         GFreeFunc destroy_notify);</pre>
+<p>
+Creates a new Listener with the next available connection id and inserts it into the listener table.
+The newly created listener listens for changes below and including the <em class="parameter"><code>listen_point.Returns</code></em> the newly 
+assigned connection id.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listen_point</code></em>&#160;:</span></p></td>
+<td>where to listen for changes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listener_data</code></em>&#160;:</span></p></td>
+<td>data to pass to function.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>destroy_notify</code></em>&#160;:</span></p></td>
+<td>pointer to the function to be called when the listener is destroyed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the newly assigned connection id, a <span class="type">guint</span> value.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2593689"></a><h3>
+<a name="mateconf-listeners-remove"></a>mateconf_listeners_remove ()</h3>
+<a class="indexterm" name="id2593700"></a><pre class="programlisting">void                mateconf_listeners_remove              (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         guint cnxn_id);</pre>
+<p>
+Removes the listener from the listener table.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cnxn_id</code></em>&#160;:</span></p></td>
+<td>the connection id returned during <a class="link" href="mateconf-mateconf-listeners.html#mateconf-listeners-add"><code class="function">mateconf_listeners_add()</code></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2574644"></a><h3>
+<a name="mateconf-listeners-notify"></a>mateconf_listeners_notify ()</h3>
+<a class="indexterm" name="id2574656"></a><pre class="programlisting">void                mateconf_listeners_notify              (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         const gchar *all_above,
+                                                         <a class="link" href="mateconf-mateconf-listeners.html#MateConfListenersCallback">MateConfListenersCallback</a> callback,
+                                                         gpointer user_data);</pre>
+<p>
+Notifies all the associated listeners that a key has changed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>all_above</code></em>&#160;:</span></p></td>
+<td>the key that has changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListenersCallback"><span class="type">MateConfListenersCallback</span></a> to be called.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>data to be passed to the callback.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2574780"></a><h3>
+<a name="mateconf-listeners-count"></a>mateconf_listeners_count ()</h3>
+<a class="indexterm" name="id2574791"></a><pre class="programlisting">guint               mateconf_listeners_count               (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners);</pre>
+<p>
+Returns the number of alive listeners in the listener table.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the number of active listeners.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2574856"></a><h3>
+<a name="mateconf-listeners-foreach"></a>mateconf_listeners_foreach ()</h3>
+<a class="indexterm" name="id2574867"></a><pre class="programlisting">void                mateconf_listeners_foreach             (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         MateConfListenersForeach callback,
+                                                         gpointer user_data);</pre>
+<p>
+Execute a function for each of the <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em>&#160;:</span></p></td>
+<td>the function to be called.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>a gpointer.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2574970"></a><h3>
+<a name="mateconf-listeners-get-data"></a>mateconf_listeners_get_data ()</h3>
+<a class="indexterm" name="id2574981"></a><pre class="programlisting">gboolean            mateconf_listeners_get_data            (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         guint cnxn_id,
+                                                         gpointer *listener_data_p,
+                                                         const gchar **location_p);</pre>
+<p>
+Obtains the data particular to a <span class="type">MateConfListener</span>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cnxn_id</code></em>&#160;:</span></p></td>
+<td>the connection id, an integer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listener_data_p</code></em>&#160;:</span></p></td>
+<td>the address for getting the listener data.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>location_p</code></em>&#160;:</span></p></td>
+<td>a pointer to the address for getting the name.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> if the data could be obtained successfully, <span class="symbol">FALSE</span> 
+if an error occurs while retrieving the data.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2575124"></a><h3>
+<a name="mateconf-listeners-remove-if"></a>mateconf_listeners_remove_if ()</h3>
+<a class="indexterm" name="id2575135"></a><pre class="programlisting">void                mateconf_listeners_remove_if           (<a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners">MateConfListeners</a> *listeners,
+                                                         MateConfListenersPredicate predicate,
+                                                         gpointer user_data);</pre>
+<p>
+Remove the listener if a predicate is satisfied.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>listeners</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-listeners.html#MateConfListeners"><span class="type">MateConfListeners</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>predicate</code></em>&#160;:</span></p></td>
+<td>the predicate checked for removal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gpointer</span>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2575239"></a><div class="refsect2" lang="en"><a name="id2575240"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2575241"></a></div>
+</div>
+</div>
+</body>
+</html>

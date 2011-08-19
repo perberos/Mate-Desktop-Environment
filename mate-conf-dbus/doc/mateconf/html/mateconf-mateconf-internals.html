@@ -1,0 +1,1031 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>mateconf-internals</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-error.html" title="GError">
+<link rel="next" href="mateconf-mateconf-listeners.html" title="mateconf-listeners">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-error.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-listeners.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2620047" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2624952" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-internals"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2620047"></a><span class="refentrytitle">mateconf-internals</span>
+</h2>
+<p>mateconf-internals</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+gchar*              <a class="link" href="mateconf-mateconf-internals.html#mateconf-key-directory">mateconf_key_directory</a>                 (const gchar *key);
+const gchar*        <a class="link" href="mateconf-mateconf-internals.html#mateconf-key-key">mateconf_key_key</a>                       (const gchar *key);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-file-test">mateconf_file_test</a>                     (const gchar *filename,
+                                                         int test);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-file-exists">mateconf_file_exists</a>                   (const gchar *filename);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-from-corba-value">mateconf_value_from_corba_value</a>        (const ConfigValue *value);
+<a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a>*        <a class="link" href="mateconf-mateconf-internals.html#mateconf-schema-from-corba-schema">mateconf_schema_from_corba_schema</a>      (const ConfigSchema *cs);
+const gchar*        <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-type-to-string">mateconf_value_type_to_string</a>          (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> type);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a>      <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-type-from-string">mateconf_value_type_from_string</a>        (const gchar *str);
+GSList*             <a class="link" href="mateconf-mateconf-internals.html#mateconf-load-source-path">mateconf_load_source_path</a>              (const gchar *filename,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-internals.html#mateconf-shutdown-daemon">mateconf_shutdown_daemon</a>               (GError **err);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-ping-daemon">mateconf_ping_daemon</a>                   (void);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-spawn-daemon">mateconf_spawn_daemon</a>                  (GError **err);
+gulong              <a class="link" href="mateconf-mateconf-internals.html#mateconf-string-to-gulong">mateconf_string_to_gulong</a>              (const gchar *str);
+const gchar*        <a class="link" href="mateconf-mateconf-internals.html#mateconf-current-locale">mateconf_current_locale</a>                (void);
+enum                <a class="link" href="mateconf-mateconf-internals.html#MateConfLogPriority">MateConfLogPriority</a>;
+void                <a class="link" href="mateconf-mateconf-internals.html#mateconf-log">mateconf_log</a>                           (<a class="link" href="mateconf-mateconf-internals.html#MateConfLogPriority">MateConfLogPriority</a> pri,
+                                                         const gchar *format,
+                                                         ...);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-key-check">mateconf_key_check</a>                     (const gchar *key,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-new-list-from-string">mateconf_value_new_list_from_string</a>    (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         const gchar *str,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-new-pair-from-string">mateconf_value_new_pair_from_string</a>    (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         const gchar *str,
+                                                         GError **err);
+gchar*              <a class="link" href="mateconf-mateconf-internals.html#mateconf-quote-string">mateconf_quote_string</a>                  (const gchar *str);
+gchar*              <a class="link" href="mateconf-mateconf-internals.html#mateconf-unquote-string">mateconf_unquote_string</a>                (const gchar *str,
+                                                         const gchar **end,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-internals.html#mateconf-unquote-string-inplace">mateconf_unquote_string_inplace</a>        (gchar *str,
+                                                         gchar **end,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-decode">mateconf_value_decode</a>                  (const gchar *encoded);
+gchar*              <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-encode">mateconf_value_encode</a>                  (<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *val);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-list-from-primitive-list">mateconf_value_list_from_primitive_list</a>
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GSList *list,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-pair-from-primitive-pair">mateconf_value_pair_from_primitive_pair</a>
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gconstpointer address_of_car,
+                                                         gconstpointer address_of_cdr,
+                                                         GError **err);
+GSList*             <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-list-to-primitive-list-destructive">mateconf_value_list_to_primitive_list_destructive</a>
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *val,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-value-pair-to-primitive-pair-destructive">mateconf_value_pair_to_primitive_pair_destructive</a>
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *val,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gpointer car_retloc,
+                                                         gpointer cdr_retloc,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-internals.html#mateconf-set-daemon-mode">mateconf_set_daemon_mode</a>               (gboolean setting);
+gboolean            <a class="link" href="mateconf-mateconf-internals.html#mateconf-handle-oaf-exception">mateconf_handle_oaf_exception</a>          (CORBA_Environment *ev,
+                                                         GError **err);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2624952"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2624968"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2624979"></a><h3>
+<a name="mateconf-key-directory"></a>mateconf_key_directory ()</h3>
+<a class="indexterm" name="id2624991"></a><pre class="programlisting">gchar*              mateconf_key_directory                 (const gchar *key);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2625047"></a><h3>
+<a name="mateconf-key-key"></a>mateconf_key_key ()</h3>
+<a class="indexterm" name="id2625060"></a><pre class="programlisting">const gchar*        mateconf_key_key                       (const gchar *key);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577387"></a><h3>
+<a name="mateconf-file-test"></a>mateconf_file_test ()</h3>
+<a class="indexterm" name="id2577399"></a><pre class="programlisting">gboolean            mateconf_file_test                     (const gchar *filename,
+                                                         int test);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>test</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577477"></a><h3>
+<a name="mateconf-file-exists"></a>mateconf_file_exists ()</h3>
+<a class="indexterm" name="id2577489"></a><pre class="programlisting">gboolean            mateconf_file_exists                   (const gchar *filename);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577546"></a><h3>
+<a name="mateconf-value-from-corba-value"></a>mateconf_value_from_corba_value ()</h3>
+<a class="indexterm" name="id2577559"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_value_from_corba_value        (const ConfigValue *value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577616"></a><h3>
+<a name="mateconf-schema-from-corba-schema"></a>mateconf_schema_from_corba_schema ()</h3>
+<a class="indexterm" name="id2577629"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a>*        mateconf_schema_from_corba_schema      (const ConfigSchema *cs);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577687"></a><h3>
+<a name="mateconf-value-type-to-string"></a>mateconf_value_type_to_string ()</h3>
+<a class="indexterm" name="id2577698"></a><pre class="programlisting">const gchar*        mateconf_value_type_to_string          (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> type);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577756"></a><h3>
+<a name="mateconf-value-type-from-string"></a>mateconf_value_type_from_string ()</h3>
+<a class="indexterm" name="id2577770"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a>      mateconf_value_type_from_string        (const gchar *str);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577827"></a><h3>
+<a name="mateconf-load-source-path"></a>mateconf_load_source_path ()</h3>
+<a class="indexterm" name="id2577838"></a><pre class="programlisting">GSList*             mateconf_load_source_path              (const gchar *filename,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>filename</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577916"></a><h3>
+<a name="mateconf-shutdown-daemon"></a>mateconf_shutdown_daemon ()</h3>
+<a class="indexterm" name="id2577927"></a><pre class="programlisting">void                mateconf_shutdown_daemon               (GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2577973"></a><h3>
+<a name="mateconf-ping-daemon"></a>mateconf_ping_daemon ()</h3>
+<a class="indexterm" name="id2577985"></a><pre class="programlisting">gboolean            mateconf_ping_daemon                   (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578021"></a><h3>
+<a name="mateconf-spawn-daemon"></a>mateconf_spawn_daemon ()</h3>
+<a class="indexterm" name="id2578034"></a><pre class="programlisting">gboolean            mateconf_spawn_daemon                  (GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578090"></a><h3>
+<a name="mateconf-string-to-gulong"></a>mateconf_string_to_gulong ()</h3>
+<a class="indexterm" name="id2578101"></a><pre class="programlisting">gulong              mateconf_string_to_gulong              (const gchar *str);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578157"></a><h3>
+<a name="mateconf-current-locale"></a>mateconf_current_locale ()</h3>
+<a class="indexterm" name="id2578169"></a><pre class="programlisting">const gchar*        mateconf_current_locale                (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578206"></a><h3>
+<a name="MateConfLogPriority"></a>enum MateConfLogPriority</h3>
+<a class="indexterm" name="id2578218"></a><pre class="programlisting">typedef enum {
+  GCL_EMERG,
+  GCL_ALERT,
+  GCL_CRIT,
+  GCL_ERR,
+  GCL_WARNING,
+  GCL_NOTICE,
+  GCL_INFO,
+  GCL_DEBUG
+} MateConfLogPriority;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578236"></a><h3>
+<a name="mateconf-log"></a>mateconf_log ()</h3>
+<a class="indexterm" name="id2578248"></a><pre class="programlisting">void                mateconf_log                           (<a class="link" href="mateconf-mateconf-internals.html#MateConfLogPriority">MateConfLogPriority</a> pri,
+                                                         const gchar *format,
+                                                         ...);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pri</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578331"></a><h3>
+<a name="mateconf-key-check"></a>mateconf_key_check ()</h3>
+<a class="indexterm" name="id2578343"></a><pre class="programlisting">gboolean            mateconf_key_check                     (const gchar *key,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578421"></a><h3>
+<a name="mateconf-value-new-list-from-string"></a>mateconf_value_new_list_from_string ()</h3>
+<a class="indexterm" name="id2578435"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_value_new_list_from_string    (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         const gchar *str,
+                                                         GError **err);</pre>
+<p>
+This function does not work. Don't use it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578535"></a><h3>
+<a name="mateconf-value-new-pair-from-string"></a>mateconf_value_new_pair_from_string ()</h3>
+<a class="indexterm" name="id2578548"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_value_new_pair_from_string    (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         const gchar *str,
+                                                         GError **err);</pre>
+<p>
+This function does not work. Don't use it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578670"></a><h3>
+<a name="mateconf-quote-string"></a>mateconf_quote_string ()</h3>
+<a class="indexterm" name="id2578683"></a><pre class="programlisting">gchar*              mateconf_quote_string                  (const gchar *str);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578739"></a><h3>
+<a name="mateconf-unquote-string"></a>mateconf_unquote_string ()</h3>
+<a class="indexterm" name="id2578750"></a><pre class="programlisting">gchar*              mateconf_unquote_string                (const gchar *str,
+                                                         const gchar **end,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>end</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578849"></a><h3>
+<a name="mateconf-unquote-string-inplace"></a>mateconf_unquote_string_inplace ()</h3>
+<a class="indexterm" name="id2578862"></a><pre class="programlisting">void                mateconf_unquote_string_inplace        (gchar *str,
+                                                         gchar **end,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>end</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2578951"></a><h3>
+<a name="mateconf-value-decode"></a>mateconf_value_decode ()</h3>
+<a class="indexterm" name="id2578964"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_value_decode                  (const gchar *encoded);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoded</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579020"></a><h3>
+<a name="mateconf-value-encode"></a>mateconf_value_encode ()</h3>
+<a class="indexterm" name="id2579032"></a><pre class="programlisting">gchar*              mateconf_value_encode                  (<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *val);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579089"></a><h3>
+<a name="mateconf-value-list-from-primitive-list"></a>mateconf_value_list_from_primitive_list ()</h3>
+<a class="indexterm" name="id2579101"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_value_list_from_primitive_list
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GSList *list,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579202"></a><h3>
+<a name="mateconf-value-pair-from-primitive-pair"></a>mateconf_value_pair_from_primitive_pair ()</h3>
+<a class="indexterm" name="id2579215"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_value_pair_from_primitive_pair
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gconstpointer address_of_car,
+                                                         gconstpointer address_of_cdr,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_car</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_cdr</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579360"></a><h3>
+<a name="mateconf-value-list-to-primitive-list-destructive"></a>mateconf_value_list_to_primitive_list_destructive ()</h3>
+<a class="indexterm" name="id2579374"></a><pre class="programlisting">GSList*             mateconf_value_list_to_primitive_list_destructive
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *val,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579475"></a><h3>
+<a name="mateconf-value-pair-to-primitive-pair-destructive"></a>mateconf_value_pair_to_primitive_pair_destructive ()</h3>
+<a class="indexterm" name="id2579489"></a><pre class="programlisting">gboolean            mateconf_value_pair_to_primitive_pair_destructive
+                                                        (<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *val,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gpointer car_retloc,
+                                                         gpointer cdr_retloc,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_retloc</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_retloc</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579654"></a><h3>
+<a name="mateconf-set-daemon-mode"></a>mateconf_set_daemon_mode ()</h3>
+<a class="indexterm" name="id2579666"></a><pre class="programlisting">void                mateconf_set_daemon_mode               (gboolean setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2579711"></a><h3>
+<a name="mateconf-handle-oaf-exception"></a>mateconf_handle_oaf_exception ()</h3>
+<a class="indexterm" name="id2579723"></a><pre class="programlisting">gboolean            mateconf_handle_oaf_exception          (CORBA_Environment *ev,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2635553"></a><div class="refsect2" lang="en"><a name="id2635554"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2635555"></a></div>
+</div>
+</div>
+</body>
+</html>

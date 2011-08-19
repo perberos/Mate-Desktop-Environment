@@ -1,0 +1,307 @@
+<?xml version="1.0" ?>
+<interface>
+
+<object class="GtkUIManager" id="totem-playlist-ui-manager">
+   <child>
+      <object class="GtkActionGroup" id="playlist-action-group">
+         <child>
+            <object class="GtkAction" id="remove">
+               <property name="label" translatable="yes">_Remove</property>
+               <property name="tooltip" translatable="yes">Remove file from playlist</property>
+               <property name="stock-id">gtk-remove</property>
+               <signal name="activate" handler="playlist_remove_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="copy-location">
+               <property name="label" translatable="yes">_Copy Location</property>
+               <property name="tooltip" translatable="yes">Copy the location to the clipboard</property>
+               <property name="stock-id">gtk-copy</property>
+               <signal name="activate" handler="playlist_copy_location_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="select-subtitle">
+               <property name="label" translatable="yes">_Select Text Subtitles...</property>
+               <property name="tooltip" translatable="yes">Select a file to use for text subtitles</property>
+               <property name="stock-id">gtk-open</property>
+               <signal name="activate" handler="playlist_select_subtitle_action_callback"/>
+            </object>
+         </child>
+      </object>
+   </child>
+   <ui>
+      <popup name="totem-playlist-popup">
+         <menuitem name="remove" action="remove"/>
+         <menuitem name="copy-location" action="copy-location"/>
+         <menuitem name="select-subtitle" action="select-subtitle"/>
+      </popup>
+   </ui>
+</object>
+
+<object class="GtkListStore" id="playlist_list_store">
+  <columns>
+    <column type="gint"/><!--playing-->
+    <column type="gchararray"/><!--filename-->
+    <column type="gchararray"/><!--escaped filename-->
+    <column type="gchararray"/><!--URI-->
+    <column type="gboolean"/><!--custom title-->
+    <column type="gchararray"/><!--subtitle URI-->
+    <column type="GObject"/><!--file monitor-->
+  </columns>
+</object>
+
+<object class="GtkVBox" id="vbox4">
+  <property name="border_width">0</property>
+  <property name="visible">True</property>
+  <property name="homogeneous">False</property>
+  <property name="spacing">6</property>
+  <property name="orientation">vertical</property>
+
+  <child>
+    <object class="GtkScrolledWindow" id="scrolledwindow1">
+      <property name="visible">True</property>
+      <property name="can_focus">True</property>
+      <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+      <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+      <property name="shadow_type">GTK_SHADOW_IN</property>
+      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+      <child>
+	<object class="GtkTreeView" id="treeview1">
+	  <property name="model">playlist_list_store</property>
+	  <property name="visible">True</property>
+	  <property name="can-focus">True</property>
+	  <property name="headers-visible">False</property>
+	  <property name="rules-hint">True</property>
+	  <property name="reorderable">False</property>
+	  <property name="enable-search">True</property>
+	  <property name="fixed-height-mode">False</property>
+	  <property name="hover-selection">False</property>
+	  <property name="hover-expand">False</property>
+	</object>
+      </child>
+    </object>
+    <packing>
+      <property name="padding">0</property>
+      <property name="expand">True</property>
+      <property name="fill">True</property>
+    </packing>
+  </child>
+
+  <child>
+    <object class="GtkHBox" id="hbox4">
+      <property name="visible">True</property>
+      <property name="homogeneous">True</property>
+      <property name="spacing">6</property>
+
+      <child>
+	<object class="GtkButton" id="add_button">
+	  <property name="visible">True</property>
+	  <property name="tooltip-text" translatable="yes">Add...</property>
+	  <property name="can_focus">True</property>
+	  <property name="relief">GTK_RELIEF_NONE</property>
+	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="totem_playlist_add_files"/>
+
+	  <child>
+	    <object class="GtkAlignment" id="alignment1">
+	      <property name="visible">True</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xscale">0</property>
+	      <property name="yscale">0</property>
+	      <property name="top_padding">0</property>
+	      <property name="bottom_padding">0</property>
+	      <property name="left_padding">0</property>
+	      <property name="right_padding">0</property>
+
+	      <child>
+		<object class="GtkHBox" id="hbox5">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">2</property>
+
+		  <child>
+		    <object class="GtkImage" id="image1">
+		      <property name="visible">True</property>
+		      <property name="stock">gtk-add</property>
+		      <property name="icon_size">4</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <!--Placeholder-->
+		</object>
+	      </child>
+	    </object>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="GtkButton" id="remove_button">
+	  <property name="visible">True</property>
+	  <property name="sensitive">False</property>
+	  <property name="tooltip-text" translatable="yes">Remove</property>
+	  <property name="can_focus">True</property>
+	  <property name="relief">GTK_RELIEF_NONE</property>
+	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="playlist_remove_button_clicked"/>
+
+	  <child>
+	    <object class="GtkImage" id="image4">
+	      <property name="visible">True</property>
+	      <property name="stock">gtk-remove</property>
+	      <property name="icon_size">4</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	    </object>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="GtkButton" id="save_button">
+	  <property name="visible">True</property>
+	  <property name="tooltip-text" translatable="yes">Save Playlist...</property>
+	  <property name="can_focus">True</property>
+	  <property name="relief">GTK_RELIEF_NONE</property>
+	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="totem_playlist_save_files"/>
+
+	  <child>
+	    <object class="GtkAlignment" id="alignment2">
+	      <property name="visible">True</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xscale">0</property>
+	      <property name="yscale">0</property>
+	      <property name="top_padding">0</property>
+	      <property name="bottom_padding">0</property>
+	      <property name="left_padding">0</property>
+	      <property name="right_padding">0</property>
+
+	      <child>
+		<object class="GtkHBox" id="hbox6">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">2</property>
+
+		  <child>
+		    <object class="GtkImage" id="image2">
+		      <property name="visible">True</property>
+		      <property name="stock">gtk-save</property>
+		      <property name="icon_size">4</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <!--Placeholder-->
+		</object>
+	      </child>
+	    </object>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="GtkButton" id="up_button">
+	  <property name="visible">True</property>
+	  <property name="sensitive">False</property>
+	  <property name="tooltip-text" translatable="yes">Move Up</property>
+	  <property name="can_focus">True</property>
+	  <property name="relief">GTK_RELIEF_NONE</property>
+	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="totem_playlist_up_files"/>
+
+	  <child>
+	    <object class="GtkImage" id="image5">
+	      <property name="visible">True</property>
+	      <property name="stock">gtk-go-up</property>
+	      <property name="icon_size">4</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	    </object>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="GtkButton" id="down_button">
+	  <property name="visible">True</property>
+	  <property name="sensitive">False</property>
+	  <property name="tooltip-text" translatable="yes">Move Down</property>
+	  <property name="can_focus">True</property>
+	  <property name="relief">GTK_RELIEF_NONE</property>
+	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="totem_playlist_down_files"/>
+
+	  <child>
+	    <object class="GtkImage" id="image6">
+	      <property name="visible">True</property>
+	      <property name="stock">gtk-go-down</property>
+	      <property name="icon_size">4</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	    </object>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+    </object>
+    <packing>
+      <property name="padding">0</property>
+      <property name="expand">False</property>
+      <property name="fill">True</property>
+    </packing>
+  </child>
+</object>
+
+</interface>

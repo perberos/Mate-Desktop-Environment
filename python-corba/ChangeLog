@@ -1,0 +1,321 @@
+== PyMateCORBA 2.24.0 ==
+2008-09-23  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* NEWS: Update.
+
+	* configure.in: Bump version to 2.24.0.
+
+2007-12-11  Eitan Isaacson  <eitan@ascender.com>
+
+	Bug 471391 – Allow accessing reference count data.
+
+	reviewed by: Gustavo Carneiro.
+
+	* src/pycorba-object.c: (get_matecorba_object_refcount) new method which
+	allows examining the current reference count of a given object.
+
+2008-04-12  Thomas Lee  <krumms@gmail.com>
+
+	reviewed by: Gustavo Carneiro.
+
+	* m4/python-module.m4: Bug 522593 – AM_CHECK_PYTHON_HEADERS not
+	taking MODLIBS into account.
+
+2007-12-11  Eitan Isaacson  <eitan@ascender.com>
+
+	* src/pymatecorba.h (struct): 
+	* src/pycorba-object.c (pycorba_object_dealloc),
+	(PyCORBA_Object_Type),
+	(pycorba_object_new_with_type): Added weakref support to Python
+	CORBA objects (bug #502925).
+
+2007-06-18  Sebastien Bacher  <seb128@ubuntu.com>
+
+	* m4/python-module.m4: use python-config to get python includes
+	  (Closes #448178)
+
+== PyMateCORBA 2.14.3 ==
+2007-05-26  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* NEWS: Update.
+
+	* configure.in: Bump version to 2.14.3.
+
+2007-05-06  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* src/pycorba-object.c (pycorba_object_repr): Get the type_id from
+	__typecode__ instead of using an MateCORBA API that only works for
+	MateCORBA servers.
+	Fixes Bug #435891: pycorba_object_repr fails with non-MateCORBA objects.
+
+2007-05-06  Peter Parente  <parente@cs.unc.edu>
+
+	reviewed by: Gustavo J. A. M. Carneiro
+
+	* src/pycorba-marshal.c (demarshal_value),
+	* src/pycorba-object.c (pycorba_object_new_with_type),
+	(pycorba_object_new),
+	* src/pymatecorba-private.h: When unmarshalling a CORBA object,
+	fallback to the typecoded provided in the IIOP stream when MateCORBA
+	introspection fails.
+	Closes #Bug 435825: Non-MateCORBA object typecodes ignored when
+	instantiating stubs.
+
+2007-03-28  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* m4/python-module.m4: Don't link python modules with libpython on
+	Darwin.  Fixes #422624.
+
+== PyMateCORBA 2.14.2 ==
+2007-02-25  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* configure.in: Version 2.14.2.
+
+	* NEWS: Update.
+
+	* configure.in: Make $CC = $PYTHON_CC (for the -pthread flag).
+
+	* m4/python-module.m4: Update the AM_CHECK_PYTHON_HEADERS macro to
+	the one in mate-python in order to fix build problems in Gentoo.
+	Fixes #404943.
+
+2006-12-14  Kjartan Maraas  <kmaraas@mate.org>
+
+	* autogen.sh: Make it work with automake 1.10
+
+2006-07-05  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* src/pycorba-method.c (pycorba_bound_method_async_call): Fix
+	coverity error.
+	
+	* src/pymatecorba-utils.c (_pymatecorba_get_container): Idem.
+	Thanks paolo borelli; Fixes #343597.
+
+== PyMateCORBA 2.14.1 ==
+2006-06-11  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* configure.in: Bump version to 2.14.1.
+
+	* NEWS: Update.
+
+2006-06-04  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_dealloc): Call
+	PortableServer_POA_deactivate_object, if self->activator_poa is
+	non-null, before PortableServer_ServantBase__fini.  Fixes #342949.
+
+	* src/pymatecorba-private.h: Add a new activator_poa servant field.
+	Used to keep a ref to the activating POA in order to deactivate
+	the object on dealloc.
+
+	* src/pymatecorba-servant.c (_pymatecorba_servant_get_poa):
+	(pymatecorba_servant__this): Refactor logic to get the POA into a
+	separate function.
+
+2006-05-20  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* src/pycorba-fixed.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-method.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-exceptions.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-struct.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-enum.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-orb.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-any.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-typecode.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-marshal.c: Py_ssize_t work (#338497).
+
+	* src/pycorba-object.c: Py_ssize_t work (#338497).
+
+	* src/stub-gen.c: Py_ssize_t work (#338497).
+
+	* src/MateCORBAmodule.c: Py_ssize_t work (#338497).
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_generic_skel_func):
+	All g_message's here should be g_warnings; fixed.
+	Py_ssize_t work (#338497).
+
+	* src/pymatecorba-poa.c: Py_ssize_t work (#338497).
+
+2006-05-01  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* src/Makefile.am: Use PYTHON_LIBS and PYTHON_LDFLAGS.  Should fix
+	Bug 338946 "pymatecorba Cygwin build fixes".
+
+	* m4/python-module.m4 (AM_CHECK_PYTHON_HEADERS): Check for
+	PYTHON_LIBS and PYTHON_LDFLAGS, as required to build python
+	extensions on win32 systems.  Thanks
+	yselkowitz@users.sourceforge.net.
+	
+
+== PyMateCORBA 2.14.0 ==
+2006-03-12  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* configure.in: Bump to version 2.14.0.
+
+== PyMateCORBA 2.13.1 ==
+2005-12-11  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* configure.in: Bump version to 2.13.1.
+
+	* NEWS: Update.
+
+	* src/pycorba-method.c (pycorba_method_call): Refactor: split code
+	into pycorba_call_marshal_args, pycorba_call_demarshal_retval, and
+	pycorba_call_cleanup, so that the code can be reused in async calls.
+	Add a new 'async' method to corba bound methods, which invokes the
+	corba method asynchronously, with callback notification.
+
+	* examples/echo/echo.idl: Make Test::Echo::echo return value string.
+
+	* examples/echo/echo-server.py (EchoServant.echo): echo back the
+	message as return value.
+
+	* examples/echo/echo-client-async.py: Like echo-client.py, but async.
+
+== PyMateCORBA 2.13.0 ==
+2005-12-04  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* NEWS: Update.
+
+	* configure.in: Change version to 2.13.0, to indication this is
+	for the MATE 2.13/2.14 release cycle, otherwise it becomes too
+	confusing in the long term.
+
+	* examples/echo/*: A simple echo example, including a sample makefile to
+	compile and install a typelib.
+	
+	* examples/Makefile.am (EXTRA_DIST): Include the echo example.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_new): Call
+	MateCORBA_classinfo_register.  Fixes #151406.
+
+	* configure.in: Require MateCORBA 2.12 (thread hints, bugs fixed, etc.)
+
+	* examples/threaded/thread-hints-client.py: Parse cmd line args
+	like 1 2 to specify order of objects to operate on.
+
+	* src/pycorba-method.c (pycorba_method_call): Add missing
+	begin/end_allow_threads.  Now threading completely works as expected.
+
+2005-12-03  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* examples/threaded/thread-hints-server.py: Create custom POA with
+	thread hints and thread policy.  Now concurrent threading works,
+	but THREAD_HINT_PER_REQUEST is behaving more like
+	THREAD_HINT_PER_CONNECTION, i.e. concurrency from multiple clients
+	works well, but requests from the same client are being serialized.
+
+	* src/Makefile.am: Add pycorba-policy.c.
+
+	* src/MateCORBAmodule.c (initMateCORBA): Register new types.
+
+	* src/pycorba-policy.c: Wrapper for CORBA.Policy; Isn't a
+	PyCORBA_Object due to a crash in pycorba_object_repr.
+
+	* src/pymatecorba-poa.c (pymatecorba_poa_create_thread_policy),
+	(pymatecorba_poa_create_POA): Wrap these.
+
+	* src/MateCORBAmodule.c (initMateCORBA): Define
+	PortableServer_ThreadPolicyValue values.
+
+	* examples/threaded/thread-hints-client.py, 
+	* examples/threaded/thread-hints-server.py: Example to demonstrate
+	thread hints.  For some reason, this doesn't seem to work, though.
+
+	* src/pymatecorba-poa.c: Add a new baseclass to the POA type,
+	ObjectAdaptor, to contain some MateCORBA_ObjectAdaptor_* methods.
+
+	* examples/threaded/server.py: Reindent with four spaces.
+
+	* src/MateCORBAmodule.c (pymatecorba_corba_orb_init): Accept keyword args.
+	(add_matecorba_constants): Add the THREAD_HINT_* constants to the
+	module dict.
+
+	* src/pymatecorba-poa.c: Some char* vs uchar* warnings fixed.
+
+	* examples/threaded/*: Add threaded server example from bug
+	#126477, written by Bowie Owens.  Slightly modified to use
+	MateCORBA.load_file instead of load_typelib to avoid a compilation step.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_generic_skel_func): Add
+	pymatecorba_gil_state_ensure/pymatecorba_gil_state_release.  "Should" fix
+	#126477.  Code based on a patch by Bowie Owens.
+
+	* src/pycorba-orb.c (pycorba_orb_run): Add begin/end_allow_threads
+	around CORBA_ORB_run.
+
+	* src/pymatecorba-private.h: Define the macros
+	pymatecorba_gil_state_ensure, pymatecorba_gil_state_release,
+	pymatecorba_begin_allow_threads, and pymatecorba_end_allow_threads, like
+	the ones in pygtk.
+
+2005-12-02  Gustavo J. A. M. Carneiro  <gjc@mate.org>
+
+	* m4/python-module.m4: Fix "underquoted definition of
+	AM_CHECK_PYMOD" warning.
+
+	* configure.in: Change version to 2.1.0, and required Python
+	version to 2.4.
+
+2004-10-27  James Henstridge  <james@jamesh.id.au>
+
+	* m4/jhflags.m4, m4/python-module.m4: stuff that used to be in
+	acinclude.m4.
+
+	* acinclude.m4: remove.
+
+	* configure.in: update to use AC_CONFIG_MACRO_DIR() and subst
+	ACLOCAL_AMFLAGS appropriately to make rebuilds work right.
+
+	* autogen.sh: allow use of automake-1.9 or 1.8, include -I m4.
+
+== PyMateCORBA 2.0.1 ==
+2004-10-04  Johan Dahlin  <johan@mate.org>
+
+	* NEWS: Update
+
+2004-09-28  Mark McLoughlin  <mark@skynet.ie)
+	
+	* src/Makefile.am: Install python files in pyexecdir.
+
+	Reviewed by Johan Dahlin <johan@mate.org>
+
+2004-08-15  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* configure.in: Increase pymatecorba_micro_version, so that we can
+	depend on the new exported function in mate-python.
+
+	* src/pymatecorba.h, src/MateCORBAmodule.c: Export pymatecorba_check_python_ex
+	as public API.
+
+2004-06-26  Bowie Owens  <bowie.owens@csiro.au>
+
+	* src/MateCORBAmodule.c (pymatecorba_corba_orb_init): Actually copy the
+	argv elements into the C array. Fixes bug 140811
+	( pymatecorba_corba_orb_init ignores arguments. )
+
+2004-03-30  James Henstridge  <james@daa.com.au>
+
+	* src/pymatecorba-utils.c (_pymatecorba_escape_name): use
+	keywords.iskeyword for keyword checks rather than looking at
+	keywords.kwdict, which was undocumented and doesn't exist in
+	Python 2.4.  Based on patch from Scott Tsai
+	<scottt958@yahoo.com.tw> (fixes bug 138483).
+
+2003-12-17  James Henstridge  <james@daa.com.au>
+
+	* acinclude.m4, configure.in: pass -fno-strict-aliasing to
+	compiler, since Python API breaks aliasing rules.
+
+2003-09-02  James Henstridge  <james@daa.com.au>
+
+	* ChangeLog.pre-2-0: move old change log out of the way.
+

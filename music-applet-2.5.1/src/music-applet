@@ -1,0 +1,74 @@
+#! /usr/bin/env python
+
+# Music Applet
+# Copyright (C) 2007-2008 Paul Kuliniewicz <paul@kuliniewicz.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+
+import gettext
+import mateapplet
+import gobject
+import locale
+import sys
+import os
+
+import musicapplet.applet
+import musicapplet.defs
+
+
+def applet_factory (applet, iid):
+    musicapplet.applet.MusicApplet (applet)
+    return True
+
+
+if __name__ == "__main__":
+    # To facilitate debugging, if MATE is starting the applet, redirect
+    # stdout and stderr to a file.  Otherwise, if the applet crashes or
+    # terminates abnormally, there's no clues as to what happened.
+    for arg in sys.argv:
+        if arg.startswith ("--oaf-activate-iid=") or arg.startswith ("--oaf-ior-fd="):
+            try:
+                os.makedirs (os.path.expanduser ("~/.mate2/music-applet"))
+            except OSError:
+                # Directory already existing is not a failure
+                pass
+            mode = os.O_WRONLY | os.O_CREAT | os.O_TRUNC
+            outlog = os.open (os.path.expanduser ("~/.mate2/music-applet/stdout.log"), mode, 0666)
+            errlog = os.open (os.path.expanduser ("~/.mate2/music-applet/stderr.log"), mode, 0666)
+            os.dup2 (outlog, sys.stdout.fileno ())
+            os.dup2 (errlog, sys.stderr.fileno ())
+            os.close (outlog)
+            os.close (errlog)
+            break
+
+    gobject.threads_init ()         # in case a plugin needs threads (like MPD's does)
+    gettext.bindtextdomain ("music-applet", os.path.join (musicapplet.defs.DATA_DIR, "locale"))
+    if (hasattr (gettext, "bind_textdomain_codeset")):
+        gettext.bind_textdomain_codeset ("music-applet", "UTF-8")
+    gettext.textdomain ("music-applet")
+
+    # Apparently locale doesn't necessarily support these in Python 2.5, so check first
+    if (hasattr (locale, "bindtextdomain")):
+        locale.bindtextdomain ("music-applet", os.path.join (musicapplet.defs.DATA_DIR, "locale"))
+    if (hasattr (locale, "bind_textdomain_codeset")):
+        locale.bind_textdomain_codeset ("music-applet", "UTF-8")
+    if (hasattr (locale, "textdomain")):
+        locale.textdomain ("music-applet")
+
+    mateapplet.matecomponent_factory ("OAFIID:MATE_Music_Applet_Factory",
+                                mateapplet.Applet.__gtype__,
+                                musicapplet.defs.PACKAGE,
+                                musicapplet.defs.VERSION,
+                                applet_factory)

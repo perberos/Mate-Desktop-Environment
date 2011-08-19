@@ -1,0 +1,2 @@
+SUBDIRS = actions apps status
+

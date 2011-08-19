@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<!--*- mode: xml -*--><!DOCTYPE glade-interface
+  SYSTEM 'http://glade.mate.org/glade-2.0.dtd'>
+<interface>
+
+	<object class="GtkUIManager" id="bluetooth-applet-ui-manager">
+		<child>
+			<object class="GtkActionGroup" id="killswitch-action-group">
+				<child>
+					<object class="GtkAction" id="killswitch-label">
+						<property name="label" translatable="yes">Bluetooth: Checking</property>
+						<property name="sensitive">false</property>
+						<property name="visible">false</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkAction" id="killswitch">
+						<property name="label" translatable="no">Turn Off Bluetooth</property>
+						<property name="visible">false</property>
+						<signal name="activate" handler="bluetooth_status_callback"/>
+					</object>
+				</child>
+			</object>
+		</child>
+		<child>
+			<object class="GtkActionGroup" id="adapter-action-group">
+				<child>
+					<object class="GtkToggleAction" id="discoverable">
+						<property name="label" translatable="yes">Visible</property>
+						<property name="active">false</property>
+						<signal name="toggled" handler="bluetooth_discoverable_callback"/>
+					</object>
+				</child>
+				<child>
+					<object class="GtkAction" id="send-file">
+						<property name="label" translatable="yes">Send files to device...</property>
+						<property name="icon-name">document-send</property>
+						<signal name="activate" handler="sendto_callback"/>
+					</object>
+				</child>
+				<child>
+					<object class="GtkAction" id="browse-device">
+						<property name="label" translatable="yes">Browse files on device...</property>
+						<signal name="activate" handler="browse_callback"/>
+					</object>
+				</child>
+				<child>
+					<object class="GtkAction" id="devices-label">
+						<property name="label" translatable="yes">Devices</property>
+						<property name="sensitive">false</property>
+						<property name="visible">false</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkAction" id="setup-new">
+						<property name="label" translatable="yes">Set up new device...</property>
+						<signal name="activate" handler="wizard_callback"/>
+					</object>
+				</child>
+			</object>
+		</child>
+		<child>
+			<object class="GtkActionGroup" id="preferences-action-group">
+				<child>
+					<object class="GtkAction" id="preferences">
+						<property name="label" translatable="yes">Preferences</property>
+						<property name="stock-id">gtk-preferences</property>
+						<signal name="activate" handler="settings_callback"/>
+					</object>
+				</child>
+				<child>
+					<object class="GtkAction" id="quit">
+						<property name="label" translatable="yes">Quit</property>
+						<property name="stock-id">gtk-quit</property>
+						<property name="visible">false</property>
+						<signal name="activate" handler="quit_callback"/>
+					</object>
+				</child>
+			</object>
+		</child>
+		<ui>
+			<popup name="bluetooth-applet-popup">
+				<menuitem name="killswitch-label" action="killswitch-label"/>
+				<menuitem name="killswitch" action="killswitch"/>
+
+				<separator name="killswitch-separator"/>
+
+				<menuitem name="discoverable" action="discoverable"/>
+
+				<separator name="discoverable-separator"/>
+
+				<menuitem name="send-file" action="send-file"/>
+				<menuitem name="browse-device" action="browse-device"/>
+
+				<separator name="action-separator"/>
+
+				<menuitem name="devices-label" action="devices-label"/>
+
+				<placeholder name="devices-placeholder"/>
+
+				<separator name="devices-separator"/>
+
+				<menuitem name="setup-new" action="setup-new"/>
+
+				<separator name="setup-separator"/>
+
+				<menuitem name="preferences" action="preferences"/>
+
+				<menuitem name="quit" action="quit"/>
+			</popup>
+		</ui>
+	</object>
+
+	<object class="GtkMenu" constructor="bluetooth-applet-ui-manager" id="bluetooth-applet-popup">
+	</object>
+
+</interface>

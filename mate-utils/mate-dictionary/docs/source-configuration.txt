@@ -1,0 +1,65 @@
+Thoughts on Source Configuration
+================================
+
+Since there has been a request for multiple back-end support inside MATE
+Dictionary, and since Gdict makes the addition of such back-ends a possibility,
+we need a way to configure these back-ends.
+
+My plan is to use .desktop files in a standard location, such as
+/usr/share/mate-dictionary and $HOME/.mate2/mate-dictionary.  By dropping a
+correctly-formatted .desktop file inside these locations, you can enable a new
+dictionary source inside MATE Dictionary.
+
+* Syntax
+========
+
+** General keys
+===============
+
+A .desktop file is parsable using the GKeyFile class of GLib.  Please remember
+that a .desktop file is case sensitive.  A standard .desktop file for
+Dictionary must have the "Dictionary" group; only this group should be parsed,
+and other groups should be ignored.
+
+The mandatory name of the dictionary source is specified by the "Name" key;
+it may be localized.
+
+An optional description of the dictionary source is specified by the
+"Description" key; also this may be localized.
+
+The type of back-end to use is specified by the mandatory "Transport" key; at
+this moment, only the "dictd" value is permitted.
+
+An optional default database to be used with the dictionary source is specified
+by the "Database" key; if no default database is specified, assume the default
+database for the transport.
+
+An option default match strategy to be used with the dictionary source is
+specified by the "Strategy" key; if no default strategy is specified, assume
+the default strategy for the transport.
+
+** Transport-specific keys
+==========================
+
+These are the keys defined for the "dictd" transport:
+
+"Hostname" [mandatory]
+	holds the hostname of the dictionary server to connect to;
+	
+"Port" [optional]
+	holds the port of the dictionary server to connect to; if omitted,
+	the default port should be used.
+
+** Example
+==========
+
+Dictionary source for dict.org:
+
+	[Dictionary]
+	_Name: Default
+	_Description: Default dictionary server
+	Transport: dictd
+	Hostname: dict.org
+	Port: 2628
+
+$ Last updated: 2005-12-07 19:00 (+0100) ebassi $

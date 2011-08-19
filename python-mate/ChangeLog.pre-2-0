@@ -1,0 +1,1286 @@
+2003-09-01  James Henstridge  <james@daa.com.au>
+
+	* PKG-INFO.in: add PKG-INFO file.
+
+	* gtkhtml2/gtkhtml2module.c: add missing prototype.
+
+	* setup.py: increment version number.
+
+	* configure.in: increment version number.
+
+2003-08-29  James Henstridge  <james@daa.com.au>
+
+	* mate/ui.override (_wrap_mate_about_new): if translator_credits
+	is "translator_credits", set it to NULL.  Fixes bug #120901.
+
+2003-08-28  James Henstridge  <james@daa.com.au>
+
+	* mate/ui.override (_wrap_mate_about_new): allow passing None
+	for translator_credits.  Default to None.  Fixes bug #120901.
+
+2003-08-24  James Henstridge  <james@daa.com.au>
+
+	* configure.in, setup.py: increment version number to 1.99.18.
+
+	* gtkhtml2/gtkhtml2module.c (initgtkhtml2): same here.
+
+	* mate/zvtmodule.c (initzvt): same here.
+
+	* mate/vfsmodule.c (initvfs): same here.
+
+	* mate/uimodule.c (initui): same here.
+
+	* mateprint/printuimodule.c (initui): same here.
+
+	* mateprint/printmodule.c (init_print): same here.
+
+	* mate/cajamodule.c (initcaja): same here.
+
+	* mate/matemodule.c (init_mate): same here.
+
+	* mate/canvasmodule.c (initcanvas): same here.
+
+	* mate/appletmodule.c (initapplet): same here.
+
+	* mateconf/mateconfmodule.c (initmateconf): same here.
+
+	* matecomponent/matecomponentuimodule.c (initui): same here.
+
+	* matecomponent/matecomponentmodule.c (init_matecomponent): same here.
+
+	* matecomponent/activationmodule.c (initactivation): don't convert
+	exceptions to fatal errors.
+
+	* mate/ui.defs (connect_to_session_manager): rename connect to
+	connect_to_session_manager, to get rid of conflict with
+	GObject.connect.  This is incompatible, but needs to be done.
+	Fixes bug #119420.
+
+	* setup.py: import getoutput from dsextras.py, which has a win32 fix.
+	(py_modules): install mate.__init__ if libmate or libmatecanvas
+	can build.  (fixes bug #120483).
+
+2003-08-23  James Henstridge  <james@daa.com.au>
+
+	Possible fix for bug #104581:
+
+	* matecomponent/activationmodule.c (initactivation): and here.
+
+	* matecomponent/matecomponentmodule.c (init_matecomponent): save and restore the
+	SIGCHLD handler here too.
+
+	* mate/mate.override (_wrap_mate_program_init): save and
+	restore the SIGCHLD handler around this call.
+
+2003-08-22  James Henstridge  <james@daa.com.au>
+
+	* mateprint/print.override: fix object names imported from pango
+	module.
+
+2003-08-17  James Henstridge  <james@daa.com.au>
+
+	* mate/appletmodule.c (initapplet): add constants.
+
+	* mate/applet.defs (get_background): change return type to int,
+	since the applet library doesn't register enums.
+	(get_orient): similar here.
+
+2003-08-12  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui.defs (canvas_new): rename from matecomponent_canvas_new.
+
+	* mate/ui.defs (master_client): rename from mate_master_client.
+	(accelerators_sync): rename from mate_accelerators_sync.
+	(app_setup_toolbar): rename from mate_app_setup_toolbar.
+	(app_fill_menu): rename from mate_app_fill_menu.
+	(app_fill_menu_with_data): rename from mate_app_fill_menu_with_data.
+	(app_fill_menu_custom): rename from mate_app_fill_menu_custom.
+	(app_ui_configure_configurable): rename from
+	mate_app_configure_configurable.
+	(app_fill_toolbar): rename from mate_app_fill_toolbar.
+	(app_fill_toolbar_with_data): rename from
+	mate_app_fill_toolbar_with_data.
+	(app_fill_toolbar_custom): rename from mate_app_fill_toolbar_custom.
+	(app_find_menu_pos): rename from mate_app_find_menu_pos.
+	(app_install_appbar_menu_hints): rename from
+	mate_app_install_appbar_menu_hints.
+	(app_install_statusbar_menu_hints): rename from
+	mate_app_install_statusbar_menu_hints.
+	(app_set_progress): rename from mate_app_set_progress.
+	(app_progress_done): rename from mate_app_progress_done.
+	(client_disable_master_connection): rename from
+	mate_client_disable_master_connection.
+	(interaction_key_return): rename from mate_interaction_key_return.
+	(mdi_get_app_from_view): rename from mate_mdi_get_app_from_view.
+	(mdi_get_child_from_view): rename from mate_mdi_get_child_from_view.
+	(mdi_get_menubar_info): rename from mate_mdi_get_menubar_info.
+	(mdi_get_toolbar_info): rename from mate_mdi_get_toolbar_info.
+	(mdi_get_child_menu_info): rename from mate_mdi_get_child_menu_info.
+	(popup_menu_get_accel_group): rename from
+	mate_popup_menu_get_accel_group.
+	(popup_menu_attach): rename from mate_popup_menu_attach.
+	(popup_menu_do_popup): rename from mate_popup_menu_do_popup.
+	(popup_menu_do_popup_modal): rename from
+	mate_popup_menu_do_popup_modal.
+	(popup_menu_append): rename from mate_popup_menu_append.
+	(scores_display): rename from mate_scores_display.
+	(scores_display_with_pixmap): rename from
+	mate_scores_display_with_pixmap.
+	(MateScores.*): fix bad defs for methods.
+
+	* mate/ui.override: s/ignore_glob/ignore-glob/, so that the
+	_get_type functions don't get included.
+
+2003-08-03  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* matecomponent/matecomponentmodule.c: Register matecomponent property bag flag constants.
+
+	* matecomponent/matecomponent.override, matecomponent/matecomponent.defs: Wrap MateComponentStreamMemory.
+
+2003-08-03  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui.defs (ui_util_pixbuf_to_xml): add missing
+	definition. (bug #118031).
+
+2003-07-21  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponent.override (_wrap_matecomponent_main): add a custom wrapper
+	for matecomponent_main() that unblocks threads.  (fixes bug #112102).
+
+	* gtkhtml2/Makefile.am: same here.
+
+	* mateprint/Makefile.am: same here.
+
+	* mateconf/Makefile.am: same here.
+
+	* matecomponent/Makefile.am: same here.
+
+	* mate/Makefile.am: change module.so suffixes to .so.
+
+2003-07-16  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* matecomponent/matecomponent.override (_wrap_matecomponent_generic_factory_main)
+	(_wrap_matecomponent_generic_factory_main_callback): Wrapper for
+	matecomponent_generic_factory_main. Also some code (disabled for now) for
+	matecomponent_generic_factory_main_timeout.
+
+	* matecomponent/matecomponent.defs (generic_factory_main): rename
+	matecomponent_generic_factory_main to generic_factory_main.
+
+	* mate/vfsmodule.c: Added wrapper for mate_vfs_read_entire_file().
+
+2003-07-14  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* matecomponent/matecomponentui.override (_wrap_matecomponent_ui_component_new):
+	Override matecomponent.ui.Component constructor to make the name
+	parameter optional and call matecomponent_ui_component_new_default() if
+	no name is given.
+
+2003-07-09  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* examples/mateprint/test-print.py (show_print_dialog): Improve
+	example to use page ranges and copies.
+
+	* mateprint/printui.defs (construct_range_custom)
+	(construct_range_any, construct_range_page): Wrap these methods of
+	MatePrintDialog.
+
+2003-04-29  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mate/vfsmodule.c: Add exceptions
+	(pymate_vfs_result_check): New function.
+	(pymate_vfs_exception_check): New function.
+
+	* mate/vfs-context.c: New file, wraps MateVFSContext.
+
+	* setup.py: Update for the mate-vfs method and dsextras from pygtk.
+
+	* dsextras.py: Remove, use the one from pygtk instead.
+	
+	* mate/pymatevfs.h: Split in two.
+	
+	* mate/pymatevfs-private.h: New file.
+
+	* mate/mate-vfs-python-method.c: New file
+
+2003-03-23  James Henstridge  <james@daa.com.au>
+
+	* setup.py (MICRO_VERSION): same here.
+
+	* configure.in: increment version number.
+
+2003-03-05  Johan Dahlin  <jdahlin@async.com.br>
+
+	* Makefile.am (EXTRA_DIST): Add applet stuff here.
+
+	* mate/appletmodule.c (initapplet): Call matecomponent_init before
+	mate_program_module_register to avoid segfault when calling
+	mate.applet.Applet().
+
+2003-03-05  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* mateprint/printmodule.c (pyprint_add_defined_constants):
+	Removed the MATE_PRINT_ERROR_* constants, since they are no
+	longer of any use now that we have detailed exceptions.
+
+2003-02-26  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* mateprint/print-arg-types.py: Created the
+	MatePrintReturnCodeArg to check returned mateprint error codes
+	and raise an exception if necessary.
+
+	* mateprint/printmodule.c (init_print): Register mateprint.Error
+	and derived exceptions.
+	(pymateprint_check_error): MatePrintReturnCodeArg helper
+	function.
+
+	* mateprint/Makefile.am (.defs.c): Register the new
+	MatePrintReturnCode arg type.
+
+	* mateprint/print.defs: MatePrintContext methods' return type is
+	now MatePrintReturnCode.
+
+2003-02-25  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* mate/Makefile.am (.defs.c): idem.
+
+	* mateprint/Makefile.am (.defs.c): idem.
+
+	* matecomponent/Makefile.am (.defs.c): Fix generation when builddir is
+	inside srcdir. Notice that $(srcdir) and $(top_srcdir) can be
+	relative paths, and may be no longer valid after the initial cd
+	$(srcdir).
+
+2003-02-13  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* examples/mateprint/test-print.py: New example of
+	mateprint/mateprint.ui. Very simple.
+
+	* Makefile.am (EXTRA_DIST): Added the new mateprint example.
+
+2003-02-11  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mateprint/Makefile.am (mateprintui_la): Doh. Rename back to
+	uimodule, (from printui). This should build mateprint.ui instead
+	of mateprint.printui
+
+2003-02-10  Johan Dahlin  <jdahlin@async.com.br>
+
+	* configure.in: Fix the status output. Should be right now.
+
+2003-02-10  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponent-arg.c (_pymatecomponent_register_boxed_types): remove
+	"STATIC" from the type names.
+	(_pymatecomponent_register_boxed_types): add special handler for
+	CORBA::Object types.
+	(_pymatecomponent_register_boxed_types): handler for MateComponent::Unknown.
+
+2003-02-10  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* mateprint/print.override (_wrap_mate_font_face_get_stdbbox)
+	(_wrap_mate_print_unit_get_identity)
+	(_wrap_mate_print_unit_get_default)
+	(_wrap_mate_print_unit_get_by_name)
+	(_wrap_mate_print_unit_get_by_abbreviation): Override these to
+	get rid of const warnings.
+
+=== mate-python 1.99.15 ===
+2003-02-08  Johan Dahlin  <jdahlin@async.com.br>
+
+	* configure.in: increment version number (and pygtk requirement)
+
+	* setup.py: Ditto.
+
+	* Makefile.am (EXTRA_DIST): Add setup.py and dsextras.py
+
+	* dsextras.py, setup.py: New files. (for distutils)
+
+	* mateprint/uimodule.c: Removed, It was a dup.
+
+	* mateprint/Makefile.am: s/uimodule/printuimodule/
+	
+	* mate/ui.override (_wrap_mate_icon_list_set_icon_data): Cast
+	return value to avoid warning.
+
+2003-02-05  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* mateprint/print.override (_wrap_mate_glyphlist_bbox): Made
+	both arguments optional.
+
+	* mateprint/print.defs (mate_glyphlist_new): Make it a
+	constructor of MateGlyphList.
+
+2003-01-04  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui.override (_wrap_matecomponent_widget_new_control): make
+	the second argument optional and accept None.
+
+2003-01-28  Johan Dahlin  <jdahlin@async.com.br>
+
+        * matecomponent/matecomponentui.override: Add propertybag import here
+
+2003-01-26  Johan Dahlin  <jdahlin@async.com.br>
+
+	* matecomponent/Makefile.am (.defs.c): Register matecomponent-types here too.
+
+	* matecomponent/matecomponent-types.defs (EventSource): Add.
+
+	* matecomponent/matecomponent.defs (matecomponent_event_source_new): Fix typo.
+
+	* matecomponent/matecomponent.override: Don't ignore event_source_new
+	(_wrap_matecomponent_event_source_client_add_listener_closure): Correct
+	format args to PyArg_ParseTupleAndKeywords. Fixes #102190.
+
+	* mate/vfsmodule.c (pygvfs_monitor_add, pygvfs_monitor_cancel): Impl.
+
+2003-01-21  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mate/ui.override (_wrap_mate_icon_list_get_icon_data): 
+	(_wrap_mate_icon_list_set_icon_data): Impl. Fixes #102557
+
+	* mateconf/mateconf.override (_wrap_mateconf_client_get_list): Return an
+	empty list instead of None to make the return value always iterable.
+
+2003-01-15  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mateprint/Makefile.am: Remove bogus include, make it buildable
+	without libmateprintui. Register canvas from the correct directory
+
+	* configure.in: Upped required mateprint and mateprintui version
+	to 2.1.9
+
+	* Makefile.am: protect mateprint sub directory bu defines
+
+2003-01-14  Johan Dahlin  <jdahlin@async.com.br>
+
+        * configure.in: output status about what modules that will be
+        built or not.
+
+	* mateprint/*: Checked in complete libmateprint and
+	libmateprintui bindings from Gustavo Carneiro. Fixes #102226
+
+	* configure.in: Added necessary configure checks.
+
+2003-01-12  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mate/cajamodule.c (initcaja): Added constants.
+
+	* mate/caja.defs (close_window): Added.
+	(set_listener_mask): Change mask from CajaViewListenerMask to int.
+
+	* mate/caja.override (_wrap_caja_view_open_location_force_new_window) 
+	(_wrap_caja_view_report_location_change) 
+	(_wrap_caja_view_report_redirect) 
+	(_wrap_caja_view_report_selection_change): 
+
+2003-01-11  Johan Dahlin  <jdahlin@async.com.br>
+
+	* matecomponent/Makefile.am (_matecomponentmodule_la_SOURCES): Add matecomponent-arg.c
+
+	* matecomponent/matecomponent-arg-types.py (arg): Register MateComponentArg as a
+	CORBA_any type and MateComponentArgType as a CORBA_TypeCode.
+
+	* matecomponent/matecomponentmodule.c (init_matecomponent): Call _pymatecomponent_register_boxed_types.
+
+	* matecomponent/matecomponent-arg.c (PyMateComponentArg_from_value): New file for
+	handling of boxed types (MateComponentArg/MateComponentArgType)
+
+2003-01-01  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mate/uimodule.c (initui): Add PAD/PAD_SMALL/PAD_BIG, fixes #102098.
+
+2002-12-30  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mate/vfsmodule.c (pygvfs_mime_get_icon, pygvfs_mime_set_icon) 
+	(pygvfs_mime_get_description, pygvfs_mime_set_description) 
+	(pygvfs_mime_can_be_executable) 
+	(pygvfs_mime_set_can_be_executable): Impl.
+	
+2002-12-28  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui.override
+	(_wrap_matecomponent_ui_component_add_listener): add implementation, from
+	Arjan J. Molenaar <arjanmolenaar@hetnet.nl> (bug #102091).
+
+2002-12-27  James Henstridge  <james@daa.com.au>
+
+	* configure.in: increment version number, and require
+	pygtk-1.99.14 and pymatecorba-1.99.3
+
+2002-12-23  James Henstridge  <james@daa.com.au>
+
+	* configure.in: get rid of the -export-dynamic from all the link
+	flags.
+
+	* autogen.sh (AUTOMAKE): use automake-1.7 in preference to 1.6.
+
+2002-12-22  Johan Dahlin  <jdahlin@async.com.br>
+        
+        * example/applet: Added applet example by frb, fixes #101722.
+
+2002-12-13  Jon K Hellan  <hellan@acm.org>
+
+	* matecomponent/matecomponentui.override (_wrap_matecomponent_widget_new_control):
+	Accept string as well as PyCORBA_Object as first argument. Fixes
+	http://bugzilla.mate.org/show_bug.cgi?id=101052
+
+2002-12-08  Johan Dahlin  <jdahlin@async.com.br>
+
+	* mate/vfsmodule.c: Added wrappers for pygvfs_get_mime_type and
+	pygvfs_get_mime_type_for_data.
+
+2002-11-20  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponent.override
+	(_wrap_matecomponent_generic_factory_new_closure): error out if the
+	factory could not be created.
+	(_wrap_matecomponent_moniker_simple_new_closure): and here.
+	(_wrap_matecomponent_listener_new_closure): and here.
+	(_wrap_matecomponent_property_bag_new_closure): and here.
+	(_wrap_matecomponent_item_handler_new_closure): and here.
+
+	* mate/ui.defs (mate_href_new): fix typo (bug #98137).
+
+2002-11-16  Johan Dahlin  <jdahlin@telia.com>
+
+        * mate/ui.defs: Add more fields to MateDruidPageStandard.
+
+2002-11-06  James Henstridge  <james@daa.com.au>
+
+	* mate/ui.override (_wrap_mate_about_new): ref the about box,
+	since it is a window (so the initial reference does not belong to
+	us).  Fixes bug 92926, from Arjan.
+
+2002-11-01  James Henstridge  <james@daa.com.au>
+
+	* examples/matecomponent/echo/echo-client.py: make necessary changes.
+
+	* mate/caja.override: convert to pymatecorba.
+
+	* matecomponent/__init__.py: load the "MateComponent" typelib on import.
+
+	* matecomponent/activationmodule.c: initial conversion of matecomponent
+	activation module.
+
+	* matecomponent/matecomponentui.override: convert to pymatecorba.
+
+2002-10-31  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponent.override: convert to pymatecorba.
+
+	* matecomponent/matecomponent-arg-types.py: update for use with pymatecorba.
+
+	* matecomponent/Makefile.am (INCLUDES): get pymatecorba includes.
+
+	* configure.in: require pymatecorba instead of matecorba-python.
+
+	* matecomponent/matecomponent.defs, matecomponent/matecomponentui.defs: add caller-owns-return
+	changes from patch by Arjan (bug 93312).
+
+2002-08-25  James Henstridge  <james@daa.com.au>
+
+	* configure.in: increase version number.
+
+2002-08-18  James Henstridge  <james@daa.com.au>
+
+	* mate-python.spec.in: update spec file to reflect new install
+	location.
+
+	* gtkhtml2/Makefile.am: install into the gtk-2.0 directory.
+
+	* mateconf/Makefile.am: install into the gtk-2.0 directory.
+
+	* matecomponent/Makefile.am: install into the gtk-2.0 directory.
+
+	* mate/Makefile.am: install into the gtk-2.0 directory.
+
+	* mate/caja.override (caja_view_create_function): change
+	return value to MateComponentObject.
+
+	* matecomponent/matecomponentui.defs (widget_new_control_from_objref): caller
+	owns return value.
+	(new_child): same here.
+
+	* mate/ui.override (_wrap_mate_about_new): get rid of the
+	gtk_object_sink() call.  This is now handled automatically.
+
+Sat Aug 17 19:59:02 2002  Jonathan Blandford  <jrb@mate.org>
+
+	* mate/ui.defs: s/MateDataEdit/MateDateEdit
+
+Thu Aug  1 02:05:26 2002  Jonathan Blandford  <jrb@redhat.com>
+
+	* mate/ui.defs (Druid): add fields
+
+2002-07-23  James Henstridge  <james@daa.com.au>
+
+	* mate/vfs-dir-handle.c (pygvdir_init): add trailing NULL to
+	keyword list.  Fixes bug found by micampe.
+
+2002-07-10  James Henstridge  <james@daa.com.au>
+
+	* configure.in: update version number.
+
+2002-06-22  Johan Dahlin  <jdahlin@telia.com>
+
+	* mateconf/mateconf.override (_wrap_mateconf_client_all_dirs): Impl
+	(_wrap_mateconf_client_all_entries): Impl
+
+	* mateconf/mateconf.defs: Clean up
+
+2002-06-16  James Henstridge  <james@daa.com.au>
+
+	* examples/vfs/shell.py: add example mate-vfs program.
+
+	* mate/vfsmodule.c (pymatevfs_functions): add some extra
+	functions.
+
+2002-06-15  James Henstridge  <james@daa.com.au>
+
+	* mate/vfs-handle.c: add file handle object support.
+
+	* mate/vfs-file-info.c, mate/vfs-dir-handle.c: add
+	MateVFSFileInfo and MateVFSDirectoryHandle wrappers.
+
+	* mate/vfsmodule.c, mate/vfs-uri.c, mate/pymatevfs.h: start of
+	mate-vfs wrapper.
+	(pymate_vfs_result_check): function to set an exception based on
+	the result of a MateVFSResult code.
+
+2002-05-30  Matt Wilson  <msw@redhat.com>
+
+	* configure.in: more AC_SUBST for required versions
+
+	* mate-python.spec.in: more subpackages, defattrs.
+
+2002-05-28  Matt Wilson  <msw@redhat.com>
+
+	* configure.in: AC_SUBST more required versions for use in the
+	spec file.
+
+	* mate-python.spec.in: added matecomponent, caja subpackages.
+	re-enabled applet subpackage
+
+2002-05-24  Matt Wilson  <msw@redhat.com>
+
+	* autogen.sh: use $AUTOHEADER and $AUTOCONF
+
+	* mateconf/mateconf.defs (MateConfEntry.get_key, MateConfEntry.get_value,
+	MateConfEntry.get_schema_name, MateConfEntry.get_is_default,
+	MateConfEntry.get_is_writable): added
+
+2002-05-09  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponent-arg-types.py (CorbaOrbArg.write_return): add
+	ownsreturn method argument.
+	(CorbaAnyArg.write_return): and here as well.
+	(CorbaTypeCodeArg.write_return): and here.
+	(CorbaPoaArg.write_return): and here.
+	(CorbaPoaManagerArg.write_return): and here.
+	(CorbaObjectArg.write_return): and here.
+
+2002-05-05  James Henstridge  <james@daa.com.au>
+
+	* gtkhtml2/Makefile.am (defsdir): same here.
+
+	* mate/Makefile.am (defs_DATA): same here.
+
+	* mateconf/Makefile.am (defs_DATA): same here.
+
+	* matecomponent/Makefile.am: install defs files.
+
+2002-05-04  James Henstridge  <james@daa.com.au>
+
+	* mateconf/mateconf.defs (Entry): remove fields that have been
+	privatised.
+
+	* mate/uimodule.c (initui): register mateui module so that it
+	gets initialised when you call mate.init().
+
+2002-04-29  Matt Wilson  <msw@redhat.com>
+
+	* examples/gtkhtml2/simple-browser.py: small example for gtkhtml2
+
+	* Makefile.am (SUBDIRS): add gtkhtml2
+
+	* configure.in (AC_CONFIG_FILES): add gtkhtml/Makefile to output
+	files
+	(PKG_CHECK_MODULES): add conditional check for gtkhtml2
+
+	* gtkhtml2/gtkhtml2.defs: new file
+
+	* gtkhtml2/gtkhtml2module.c: new file
+
+	* gtkhtml2/gtkhtml2.override: new file
+
+	* gtkhtml2/Makefile.am: new file, implement gtkhtml2 bindings
+
+2002-04-05  Johan Dahlin  <jdahlin@telia.com>
+
+	* .cvsignore: Add mate-python-2.0.pc
+
+	* mate-python-2.0.pc.in (exec_prefix): New file
+
+2002-04-04  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/applet.override (_wrap_panel__applet_matecomponent_factory): This
+	is a function of type kwargs
+	(_wrap_mate_panel_applet_setup_menu_from_file): Impl.
+
+2002-03-28  Johan Dahlin  <jdahlin@telia.com>
+
+	* mateconf/mateconf.defs: add 
+	MateConfValue.get_int/get_bool/get_float/get_string
+
+2002-03-18  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui.override: set modulename.
+
+	* matecomponent/matecomponent.override: set modulename.
+
+	* mateconf/mateconf.override: set modulename.
+
+	* mate/caja.override: set modulename.
+
+	* mate/zvt.override: set modulename.
+
+	* mate/canvas.override: set modulename.
+
+	* mate/ui.override: set modulename.
+
+	* mate/mate.override: set modulename.
+
+	* configure.in: increase required version numbers.
+
+2002-03-10  James Henstridge  <james@daa.com.au>
+
+	* mate/canvasmodule.c (matecanvaspoints_from_value): if points
+	is NULL, leave the list empty.
+
+2002-03-06  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/ui.override: Make translators and documenters argument to
+	MateAbout.__init__ optional.
+	
+	* mate/ui.defs: Remove private mateconf functions, and change
+	MATE_TYPE_APP_BAR to MATE_TYPE_APPBAR.
+	
+	* mate/applet.defs: Regenerate against latest libmate-panel-applet
+	
+	* mate/applet.override (mate_panel_applet_factory_main_closure): impl.
+	(mate_panel_applet_setup_menu): impl	
+	
+	* mate/canvas.defs: Add MateCanvas.set_pixels_per_unit.
+	
+	* mate/canvas.override: Use noargs on functions that doesn't
+	require any arguments. Remove kwargs and ParseTupleAndKeyword 
+	from the same functions.
+	
+2002-02-27  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/ui.defs: mate_appbar_get_progress returns a GtkProgressBar
+	now. 
+
+	* mate/canvas.defs: Added.
+
+	* matecomponent/activationmodule.c (wrap_ba_active_server_register): Impl.
+	Based on patch by Artem Popov.
+
+2002-02-25  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/matecomponentui-types.defs (Engine): Add object.
+
+	* matecomponent/matecomponent.override: include matecomponent-item-handler.h
+	Fix order of set/get_prop args to MateComponentPropertyBag.__init__
+	(_wrap_matecomponent_event_source_client_add_listener_closure): Impl
+	(_wrap_matecomponent_item_handler_new_closure): Impl	
+
+	* matecomponent/matecomponent.defs: remove leading matecomponent_ from a few functions
+	add matecomponent_item_handler_* functions
+
+	* matecomponent/matecomponent-types.defs (ItemHandler): Add object
+
+	* configure.in: bump libmatecomponentui version to 1.112.0
+
+2002-02-21  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/ui.defs: remove two private functions
+
+2002-02-19  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui-types.defs, matecomponent/matecomponentui.defs: remove
+	functions and types that have been marked internal.
+
+2002-02-09  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/matecomponentuimodule.c: include matecomponent/matecomponent-ui-main.h
+
+	* matecomponent/matecomponent.defs: remove matecomponent_ui_preferences*
+
+	* matecomponent/matecomponentui-types.defs: UI* -> UI, eg matecomponent.ui.UIComponent
+	-> matecomponent.ui.Component.
+
+	* matecomponent/matecomponentmodule.c: include matecomponent/matecomponent-main.h
+
+	* matecomponent/matecomponent.override
+	(_wrap_matecomponent_generic_factory_new_closure): return int, and
+	initialize params to NULL
+	(_wrap_matecomponent_moniker_simple_new_closure): New function.
+	(_wrap_matecomponent_listener_new_closure): New function.
+	(_wrap_matecomponent_property_bag_new_closure): New function
+
+	* matecomponent/matecomponent-types.defs (Listener): Add object.
+
+	* matecomponent/activationmodule.c (wrap_ba_query): Comment out unused variables.
+
+	* mate/matemodule.c: Add a prototype for pymate_add_constants
+
+	* mate/uimodule.c: Add a prototype for pyui_add_constants
+
+	* mateconf/mateconfmodule.c: Add a prototype for pymateconf_add_constants 
+
+	* mateconf/mateconf-fixes.h: Add prototypes
+
+2002-01-31  James Henstridge  <james@daa.com.au>
+
+	* mateconf/Makefile.am (mateconfmodule_la_SOURCES): include mateconf-fixes.h
+
+	* mate/__init__.py: make mate.init() an alias for
+	mate.program_init().
+
+	* mate/cajamodule.c (initcaja): get rid of // comment
+
+	* configure.in: increment version number of package and
+	requirements.
+	
+2002-01-31  Johan Dahlin  <jdahlin@telia.com>
+
+	* configure.in: Replace -ansi with -std=c9x
+
+2002-01-23  Johan Dahlin  <jdahlin@telia.com>
+
+	* mateconf/mateconf.override: include mateconf/mateconf-enum-types.h.
+
+	* mateconf/mateconfmodule.c (initmateconf): Remove glib debug and 
+	mateconf_type_init.
+	    
+	* mateconf/enum/*: Remove.
+	
+	* mateconf/Makefile.am: Remove enum from SUBDIRS and
+	enum/mateconftypebuiltins_ids.c from mateconfmodule_la_SOURCES.
+
+2002-01-22  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/activationmodule.c (initactivation): make ansi C safe (no
+	// comments).
+
+2002-01-22  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/activationmodule.c (initactivation): Perhaps we should call
+	matecomponent_activation_init AFTER we created argc and argv.
+
+2002-01-22  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentui.defs (xml_set_prop): add extra argument.
+
+2002-01-21  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/matemodule.c (pymate_add_defined_constants): Add a
+	MATE_PARAM* defines.
+
+	* mate/mate.override (_wrap_mate_program_init): Make it work.
+
+2002-01-19  Johan Dahlin  <jdahlin@telia.com>
+
+	* examples/mateconf/: Added 3 examples.
+	
+	* mateconf/: Lots of files: Initial checkin.
+
+	* mate/.cvsignore: Add applet.c
+
+	* configure.in: Add check for glib (for glib-mkenums) and check
+	for mateconf.
+
+	* mate/Makefile.am (appletmodule_la): Build applet by default.
+
+	* mate/applet*: Add applet bindnings.
+
+	* matecomponent/matecomponent.override (_wrap_matecomponent_generic_factory_new_closure): 
+	* matecomponent/matecomponentui.override (_wrap_matecomponent_widget_new_control):
+	Wrapped, needs more testing.
+
+	* matecomponent/matecomponentui.defs (matecomponent_widget_new_control): This is the
+	constructor of MateComponentWidget.
+
+	* mate/Makefile.am (cajamodule_la_CFLAGS): Add matecorba-python's CFLAGS.
+
+	* examples/caja/sample.py: Rewrite, make it a nice class
+	instead of ugly functions. It's now a complete conversion of
+	caja-sample-content-view.
+
+	* examples/caja/README: Some additions
+
+	* mate/caja.override (caja_view_create_function): Check
+	execption after PyObject_CallFunction, so they'll be catched and
+	printed. Include <matecorba-python.h>.
+
+2002-01-17  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentuimodule.c (initui): call
+	matecomponent_setup_x_error_handler().
+
+	* AUTHORS: add msw to the authors list.
+
+2002-01-17  Johan Dahlin  <jdahlin@telia.com>
+
+	* examples/matecomponent/matecomponentui/hello.py: convert
+	libmatecomponent/samples/hello.c to python
+
+	* examples/matecomponent/matecomponentui/MateComponent_Sample_Hello.xml: Needed by hello.py
+
+	* examples/matecomponent/echo/echo-client.py: add simple example
+
+	* matecomponent/matecomponentui.override (_wrap_matecomponent_ui_component_add_verb): wrap.
+	(_wrap_matecomponent_ui_component_add_verb_list): wrap.
+
+	* matecomponent/matecomponentui.defs: Remove matecomponent_control_set_control_frame,
+	matecomponent_ui_preferences_get_toolbar_relief, 
+	matecomponent_uipreferences_get_menubar_relief.
+
+2002-01-16  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/matecomponentui-types.defs (Window): My parent is GtkWindow, not
+	GtkBin
+
+	* matecomponent/__init__.py: Remove try except clause until it's a bit
+	more stable and tested.
+
+	* matecomponent/matecomponent-arg-types.py (CorbaObjectArg.write_return):
+	s/append/write/ to make it work. Change it slightly to avoid
+	warnings, We don't need to cast to the corba object type, just
+	CORBA_Object will do just fine.
+
+	* matecomponent/matecomponent.override: include matecomponent-presist-client.h and
+	ignore matecomponent_config_*.
+
+	* matecomponent/Makefile.am: Add activationmodule.
+
+	* configure.in: check for matecomponent-activation.
+
+2002-01-16  James Henstridge  <james@daa.com.au>
+
+	* mate/caja.override: also import MateComponentControl
+
+	* matecomponent/matecomponent-arg-types.py: plug in MateCORBA argument types.
+
+	* matecomponent/matecomponentui.override: include and initialise matecorba-python.
+
+	* matecomponent/matecomponent.override: include and initialise matecorba-python.
+
+	* mate/caja.override: import MateComponentObject type from matecomponent
+	module.
+
+	* mate/caja.defs: get rid of MateComponentObject def.
+
+	* configure.in (have_matecorba_python): check for matecorba-python.
+	(BUILD_MATEUI): conditionalise building of mate.ui on whether we
+	have matecorba-python.
+	(BUILD_MATECOMPONENT): and matecomponent
+	(BUILD_MATECOMPONENTUI): and matecomponent.ui
+	(BUILD_CAJA): and mate.caja
+
+2002-01-15  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/matecomponent-types.defs: Add header so emacs understands that
+	this is a scheme file and highlights it correctly.
+
+	* matecomponent/matecomponentui-types.defs: Add a few extra objects. Now we
+	require matecomponent cvs.
+
+	* matecomponent/matecomponentui.defs, matecomponent/matecomponent.defs: Set constructors, add
+	some new functions, fix function names, so they don't start with
+	matecomponent_
+
+	* matecomponent/matecomponent.override: ignore functions when it exists similar
+	functions with closures.
+
+	* matecomponent/matecomponentui.override: Ignore matecomponent_ui_node_*
+	import more types from gtk and canvas
+
+2002-01-15  James Henstridge  <james@daa.com.au>
+
+	* mate/ui.override: import DockItem type.
+
+	* mate/Makefile.am (.defs.c): pull in type defs from matecomponent.
+
+	* matecomponent/matecomponentmodule.c (init_matecomponent): don't initialise pygtk.
+
+	* matecomponent/matecomponent.override: this module doesn't require pygtk.
+
+	* matecomponent/matecomponent-arg-types.py (arg): add CORBA_long, CORBA_char*
+	and CORBA_float handlers.
+	(CorbaEnvArg.write_param): stub handler for CORBA_Objects (just a
+	stub at the moment).
+
+2002-1-14  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/matecomponentui-types.defs: Add MateComponentWindow.
+
+	* matecomponent/Makefile.am: s/CLEAN_FILES/CLEANFILES/
+
+	* matecomponent/.cvsignore: Add __init__.pyc
+
+2002-01-14  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/Makefile.am (.defs.c): load the matecomponent-arg-types.py arg
+	handler file when generating C code, in order to handle CORBA
+	environments.
+
+	* matecomponent/matecomponent-arg-types.py: new file containing arg type code
+	for handling CORBA environments and exception catching.
+
+2002-01-13  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/matemodule.c (init_mate): call mate_program_module_register.
+
+	* mate/mate.override (_wrap_mate_program_init): Add, but it's
+	still broken.
+
+	* mate/mate.defs (program_init): Add MateProgram.__init__
+
+2002-01-12  Johan Dahlin  <jdahlin@telia.com>
+
+	* matecomponent/__init__.py: Add.
+
+	* examples/caja/README: 
+	* examples/caja/Caja_View_pysample.server: 
+	* examples/caja/sample.py: 
+	* configure.in: 
+	* mate/Makefile.am: 
+	* mate/caja.defs: 
+	* mate/caja.override: 
+	* mate/cajamodule.c: Initial import of caja module.
+
+2002-01-12  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/matecomponentuimodule.c (initui): remember to init pygobject.
+
+	* matecomponent/Makefile.am (uimodule_la_SOURCES): list the right source
+	file (duh).
+
+	* matecomponent/matecomponent.override (ignore): ignore
+	matecomponent_setup_x_error_handler, as it isn't in libmatecomponent.
+
+	* matecomponent/Makefile.am (uimodule_la_LIBADD): update makefile.
+
+	* matecomponent/matecomponentuimodule.c, matecomponent/matecomponentui.override: same here.
+
+	* matecomponent/matecomponentmodule.c, matecomponent/matecomponent.override: fill in skels.
+
+2002-01-11  James Henstridge  <james@daa.com.au>
+
+	* matecomponent/*.defs: add defs.
+
+2002-01-03  Johan Dahlin  <jdahlin@telia.com>
+
+	* mate/matemodule.c (init_mate): Add constants.
+
+	* mate/ui.override, mate/ui.defs, mate/Makefile.am: 
+	  mate/.cvsignore, configure.in: Initial libmateui support.
+
+2001-12-24  James Henstridge  <james@daa.com.au>
+
+	* configure.in: increment version number, and put version numbers
+	at the top of the file as m4 defines.
+	Require python 2.2 final
+
+2001-11-30  Matt Wilson  <msw@redhat.com>
+
+	* mate-python.spec.in: added zvt submodule
+
+2001-11-28  Matt Wilson  <msw@redhat.com>
+
+	* mate/Makefile.am: rework to use an old style suffix rule
+	instead of a pattern rule to be more compatible.  Removed the
+	disthook that removed generated .c files and marked those files as
+	nodist instead.
+	
+2001-11-28  Matt Wilson  <msw@redhat.com>
+
+	* mate/Makefile.am (%.c): rework the generic .c rule to place
+	generated files into builddir
+	(DISTCLEANFILES): added generated files to clean up
+
+	* configure.in: check for libzvt, build zvt binding if it exists.
+
+	* mate/Makefile.am, zvt.defs, zvt.override, zvtmodule.c: add
+	start of new zvt binding.
+
+	* examples/zvt/zvt-demo.py: zvt demo.
+
+	* Makefile.am (EXTRA_DIST): add zvt-demo.py
+
+2001-11-27  Matt Wilson  <msw@redhat.com>
+
+	* mate-python.spec.in (BuildRequires): require libmate-devel
+
+	* mate/mate.defs (help_display, help_display_with_doc_id,
+	help_display_desktop): modified to use new API.
+
+	* configure.in (LIBMATE_VERSION): grab version, increase
+	libmate2 requirement to 1.107.0.
+
+2001-11-26  Matt Wilson  <msw@redhat.com>
+
+	* configure.in: 1.99.5
+
+	* mate-python.spec.in (%files canvas): include __init__.py so
+	that we don't need to require the mate-python base package.
+
+	* mate/__init__.py: catch import errors for the base mate
+	module.  This will allow one to use libmatecanvas without using
+	libmate.
+
+2001-10-31  James Henstridge  <james@daa.com.au>
+
+	* mate/Makefile.am (%.c): adjust makefile rule so that it gets
+	triggered correctly.  Is the %.c syntax a GNU make'ism?
+
+	* configure.in (minver): require python 2.2b1.
+
+2001-10-29  Matt Wilson  <msw@redhat.com>
+
+	* mate/mate.defs: nuke all functions from mate-preferences.h,
+	they are no more.
+
+2001-10-26  Matt Wilson  <msw@redhat.com>
+
+	* configure.in (AC_INIT): change version to 1.99.4
+	(PKG_CHECK_PROG): change pygtk requirement to 1.99.4 
+	(AM_PATH_GTK_2_0): bump to 1.3.10 
+
+2001-10-18  Matt Wilson  <msw@redhat.com>
+
+	* mate-python.spec.in: no longer obsoletes pymate.
+
+	* mate/Makefile.am (EXTRA_DIST): fix EXTRA_DIST for new filenames
+	too...
+
+2001-10-17  Matt Wilson  <msw@redhat.com>
+
+	* mate/canvas.override: renamed from matecanvas.override to be
+	consistent with naming
+
+	* mate/canvas.defs: likewise
+
+	* mate/Makefile.am (canvasmodule_la_SOURCES): modify deps to match
+
+2001-10-16  Matt Wilson  <msw@redhat.com>
+
+	* mate/matemodule.c: start of mate binding. (needs lots of
+	work, things are not where they were in old pymate, etc...)
+
+	* mate/mate.override: start of mate binding.
+
+	* mate/mate.defs: start of mate binding.
+
+	* mate/__init__.py: import the toplevel mate binding into here.
+
+	* configure.in: check for mate-2.0
+
+	* mate/Makefile.am (pymateexec_LTLIBRARIES): add the start of
+	the mate binding, write a generic rule for generated .c files.
+
+2001-10-15  Matt Wilson  <msw@redhat.com>
+
+	* mate-python.spec.in (%files): added __init__ files to
+	mate-python main package
+
+2001-10-11  Matt Wilson  <msw@redhat.com>
+
+	* mate-python.spec.in (Name): renamed to mate-python2, added
+	defattr
+
+	* configure.in (AC_INIT): bump to 1.99.3
+
+2001-10-10  Matt Wilson  <msw@redhat.com>
+
+	* mate/matecanvas.override (matecanvasaffine_to_value)
+	(matecanvasaffine_from_value): added functions to go to/from
+	affines
+	(_wrap_mate_canvas_new): override canvas constructor to take an
+	optional 'aa' parameter to create antialiased canvases.
+	(_wrap_mate_canvas_w2c): implemented
+	(_wrap_mate_canvas_w2c_d): implemented
+	(_wrap_mate_canvas_c2w): implemented
+	(_wrap_mate_canvas_window_to_world): implemented
+	(_wrap_mate_canvas_world_to_window): implemented
+	(_wrap_mate_canvas_item_affine_absolute): implemented
+	(_wrap_mate_canvas_item_affine_relative): implemented
+	(_wrap_mate_canvas_item_i2c_affine): implemented
+	(_wrap_mate_canvas_item_i2w_affine): implemented
+	(_wrap_mate_canvas_w2c_affine): implemented
+
+	* mate/matecanvas.defs (MateCanvasItem.affine_relative): bound
+	(MateCanvasItem.affine_absolute): bound
+	(MateCanvasItem.scale): defined (not used)
+	(MateCanvasItem.rotate): defined (not used)
+	(MateCanvasItem.raise): bound
+	(MateCanvasItem.lower): bound
+	(MateCanvasItem.i2w_affine): bound
+	(MateCanvasItem.i2c_affine): bound
+	(MateCanvasItem.reparent): bound
+	(MateCanvasItem.grab_focus): bound
+	(MateCanvasItem.request_update): defined (not used)
+	(mate_canvas_new_aa): bound
+	(MateCanvas.w2c_affine): bound
+	(MateCanvas.w2c) bound
+	(MateCanvas.w2c_d): bound
+	(MateCanvas.c2w): bound
+	(MateCanvas.window_to_world): bound
+	(MateCanvas.world_to_window): bound
+	(MateCanvas.get_color): bound
+	(MateCanvas.get_color_pixel): bound
+	(MateCanvas.set_dither): bound
+	(MateCanvas.get_dither): bound	
+
+2001-10-09  James Henstridge  <james@daa.com.au>
+
+	* configure.in (minver): increase required pygtk version to 1.99.3
+
+	* mate-python.spec.in: few small changes.  There won't be a
+	libglade module in mate-python, as libglade2 autoloads support
+	for things like mate or matecomponent.
+
+	* mate/Makefile.am (matecanvas.c): call --register on the
+	-types.defs files, to reduce code generation time.
+
+2001-10-08  Matt Wilson  <msw@redhat.com>
+
+	* Makefile.am (EXTRA_DIST): added the example and spec file to
+	EXTRA_DIST
+	(dist-hook): added a dist-hook to copy the spec file into the dist
+
+	* .cvsignore: add mate-python.spec
+
+	* mate/Makefile.am: use the defsdir in the pkgconfig, not
+	hardcoded to the way things are in CVS.  Caveat: you must install
+	the defs file before building, but that's OK as we needed codegen
+	from pygtk anyway.
+
+	* mate-python.spec.in: added spec file based off the old pygtk
+	one.
+
+	* configure.in: note the versions of gtk, libmatecanvas, and
+	pygtk for use in the spec file.  Renamed the defsdir variable
+	PYGTK_DEFSDIR.  Added mate-python.spec to AC_OUTPUT.
+
+	* mate/matecanvas.override (init): use the new type import
+	functionality of codegen to get the types we need.
+
+2001-10-04  Matt Wilson  <msw@redhat.com>
+
+	* mate/matecanvas.override (init): convert to PyTypeObject for
+	the objects we're importing from gobject and gtk.
+
+2001-10-01  Matt Wilson  <msw@redhat.com>
+
+	* configure.in: copy version check for alpha versions of python
+	from pygtk
+
+2001-09-25  Matt Wilson  <msw@redhat.com>
+
+	* mate/matecanvas.override (_wrap_mate_canvas_item_i2w):
+	implemented MateCanvasItem.i2w
+	(_wrap_mate_canvas_item_w2i): implemented MateCanvasItem.w2i
+
+	* mate/matecanvas.defs (MateCanvasItem.i2w): bound
+	(MateCanvasItem.w2i): bound
+
+2001-09-24  Matt Wilson  <msw@redhat.com>
+
+	* mate/matecanvas.override
+	(_wrap_mate_canvas_get_scroll_offsets): implemented
+	MateCanvas::get_scroll_offsets
+	(_wrap_mate_canvas_get_scroll_region): implemented
+	MateCanvas::get_scroll_region
+
+	* mate/matecanvas.defs (MateCanvas::get_item_at): bound
+	(MateCanvas::update_now): bound
+	(MateCanvas::get_scroll_offsets): bound
+	(MateCanvas::scroll_to): bound
+	(MateCanvas::set_pixels_per_unit): bound
+	(MateCanvas::get_scroll_region): bound
+	(MateCanvas::set_scroll_region): bound
+	(MateCanvasItem::show): bound
+	(MateCanvasItem::hide) bound
+
+2001-09-22  Matthew Wilson  <msw@redhat.com>
+
+	* mate/matecanvas.defs (MateCanvasItem::raise_to_top): added
+	binding
+	(MateCanvasItem::lower_to_bottom): added binding
+	(MateCanvasItem::get_bounds): added binding
+
+	* mate/matecanvas.override (_wrap_mate_canvas_item_set): verify
+	that kwargs isn't NULL before iterating over them
+	(_wrap_mate_canvas_item_new): likewise
+	(_wrap_mate_canvas_item_get_bounds): implemented
+	MateCanvasItem::get_bounds
+
+2001-09-21  Matthew Wilson  <msw@redhat.com>
+
+	* examples/canvas/canvas-example.py: ported canvas-example to new
+	binding, added it to new examples directory
+
+	* mate/matecanvas.override (_wrap_mate_canvas_item_set):
+	created new binding to set properties of items
+	(init): get the short names of the parent classes from gtk._gtk
+
+	* mate/matecanvas.defs (add_item): change name of method to
+	"add" to match old bindings
+	(set_scroll_region): added binding
+	(set): added binding
+	(move): added binding
+
+2001-09-21  James Henstridge  <james@daa.com.au>
+
+	* mate/canvasmodule.c (matecanvaspoints_from_value): function to
+	convert a value holding a MateCanvasPoints struct to a python
+	object.
+	(matecanvaspoints_to_value): the other direction.
+	(initcanvas): register functions as handlers for
+	MATE_TYPE_CANVAS_POINTS boxed type.
+
+	* mate/matecanvas.defs: change mate_canvas_item_new to
+	MateCanvasGroup.add_item().
+	Add more object defs.
+
+	* mate/matecanvas.override (_wrap_mate_canvas_item_new): get
+	mate_canvas_item_new to use the GParamSpecs.
+
+2001-09-20  Johan Dahlin  <zilch.am@home.se>
+
+	* autogen.sh: 
+	* mate/Makefile.am: 
+	* mate/canvasmodule.c:
+	* mate/matecanvas.defs:
+	* mate/matecanvas.override: Updated
+
+2001-09-14  James Henstridge  <james@daa.com.au>
+
+	* mate/*: integrate Zilch's mate.canvas module.
+
+2001-09-14  James Henstridge  <james@daa.com.au>
+
+	* mate/__init__.py: empty for now.
+
+	* mate/Makefile.am: small makefile.am that just installs
+	__init__.py
+
+	* Makefile.am: small makefile.am that just recurses into mate/
+
+	* configure.in: add configure.in with rules to build
+	libmatecanvas wrapper.
+

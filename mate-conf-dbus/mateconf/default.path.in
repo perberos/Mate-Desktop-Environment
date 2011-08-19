@@ -1,0 +1,32 @@
+# This file stores the addresses of config sources for MateConf
+# When a value is stored or requested, the sources are scanned from top to 
+# bottom, and the first one to have a value for the key (or the first one 
+# to be writeable) is used to load/store the data.
+
+# See the MateConf manual for details
+
+# Look first in systemwide mandatory settings directory
+xml:readonly:@sysmateconfdir@/mateconf.xml.mandatory
+
+# To read in any mandatory settings that the Sys Admin may have created
+# prior to a desktop system upgrade. The SysAdmin can stick read-only system
+# wide sources in this file.
+include @sysmateconfdir@/2/local-mandatory.path
+
+# Now see where users want us to look - basically the user can stick arbitrary 
+# sources in a ~/.mateconf.path file and they're inserted here
+include "$(HOME)/.mateconf.path"
+
+# Give users a default storage location, ~/.mateconf
+xml:readwrite:$(HOME)/.mateconf
+
+# To read in any defaults settings that the Sys Admin may have created
+# prior to a desktop system upgrade. The SysAdmin can stick default values
+# system-wide in this file.
+include @sysmateconfdir@/2/local-defaults.path
+
+# Finally, look at the systemwide defaults
+xml:readonly:@sysmateconfdir@/mateconf.xml.defaults
+
+
+

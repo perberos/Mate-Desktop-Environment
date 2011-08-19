@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>PolicyKit-mate Library Reference Manual</title>
+    <releaseinfo>Version &version;</releaseinfo>
+    <authorgroup>
+      <author>
+	<firstname>David</firstname>
+	<surname>Zeuthen</surname>
+	<affiliation>
+	  <address>
+	    <email>david@fubar.dk</email>
+	  </address>
+	</affiliation>
+      </author>
+    </authorgroup>
+
+    <copyright>
+      <year>2007</year>
+      <holder>The PolicyKit-mate Authors</holder>
+    </copyright>
+
+    <legalnotice>
+      <para>
+	Permission is granted to copy, distribute and/or modify this
+	document under the terms of the <citetitle>GNU Free
+	Documentation License</citetitle>, Version 1.1 or any later
+	version published by the Free Software Foundation with no
+	Invariant Sections, no Front-Cover Texts, and no Back-Cover
+	Texts. You may obtain a copy of the <citetitle>GNU Free
+	Documentation License</citetitle> from the Free Software
+	Foundation by visiting <ulink type="http"
+	url="http://www.fsf.org">their Web site</ulink> or by writing
+	to:
+
+	<address>
+	  The Free Software Foundation, Inc.,
+	  <street>59 Temple Place</street> - Suite 330,
+	  <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>,
+	  <country>USA</country>
+	</address>
+      </para>
+
+      <para>
+	Many of the names used by companies to distinguish their
+	products and services are claimed as trademarks. Where those
+	names appear in any MATE documentation, and those trademarks
+	are made aware to the members of the MATE Documentation
+	Project, the names have been printed in caps or initial caps.
+      </para>
+    </legalnotice>
+  </bookinfo>
+
+  <reference id="ref-core">
+    <title>API Reference</title>
+    <partintro>
+      <para>
+	This part presents the class and function reference for the
+	PolicyKit-mate library, <literal>libpolkit-mate</literal>.
+      </para>
+    </partintro>
+    <xi:include href="xml/polkit-mate-context.xml"/>
+    <xi:include href="xml/polkit-mate-action.xml"/>
+    <xi:include href="xml/polkit-mate-toggle-action.xml"/>
+    <xi:include href="xml/polkit-mate-auth.xml"/>
+  </reference>
+
+  <reference id="ref-auth-daemon">
+    <title>Authentication Agent</title>
+    <partintro>
+      <para>
+	This part discusses the MATE/GTK+ specific Authentication
+	Agent.
+      </para>
+    </partintro>
+
+    <refsect1 id="ref-auth-daemon-overview">
+      <title>Overview</title>
+      <para>
+        The PolicyKit model provides letting an user authenticate in
+        order to gain the privilege to let a Mechanism carry work out
+        related to a specific Action on the users behalf. In the
+        PolicyKit libraries, this functionality is programmatically
+        exposed in the PolKitGrant class. As it's tedious to use this
+        low-level functionality from a GTK+ or MATE application, the
+        high-level functionality is wrapped in a D-Bus service
+        available on the session message bus. The way it works is that
+        when an application needs privileges, it can call into this
+        D-Bus service and an authentication dialog will appear. When
+        the user is done with the authentication dialog, the
+        application recieves a reply from the D-Bus containing a
+        boolean indicating whether the user gained the privilege or
+        not.
+      </para>
+    </refsect1>
+
+    <refsect1 id="ref-auth-daemon-overview-dbus">
+      <title>D-Bus interface</title>
+      <para>
+        The D-Bus service is available on the session message bus with
+        the
+        name <literal>org.freedesktop.PolicyKit.AuthenticationAgent</literal>
+        and exports a single object <literal>/</literal> that
+        implements the
+        interface <literal>org.freedesktop.PolicyKit.AuthenticationAgent</literal>. The
+        D-Bus introspection XML looks like this
+      </para>
+      <programlisting><xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../src/polkit-mate-manager.xml" parse="text"><xi:fallback>FIXME: MISSING XINCLUDE CONTENT</xi:fallback></xi:include></programlisting>
+      <para>
+        The <literal>ObtainAuthorization()</literal> method may throw
+        an exception if another client is currently using the service
+        to show an authentication dialog. In practice this should
+        never happen because the authentication daemon grabs the X11
+        keyboard and pointer thus preventing the user from activating
+        widgets in other applications that would lead to calling into
+        the <literal>ObtainAuthorization</literal> method.
+      </para>
+    </refsect1>
+
+    <refsect1 id="ref-auth-daemon-operation">
+      <title>Operation</title>
+      <para>
+        The authentication daemon uses
+        <literal>libpolkit-grant</literal> which in turn uses PAM for
+        authentication services (however, other authentication
+        back-ends can be plugged in as required). As such, a wide
+        range of authentication mechanisms are available.
+      </para>
+      <para>
+        The authentication daemon is using D-Bus activation and exits
+        after 30 seconds of inactivity. Thus the code implementing
+        this dialog only runs when necessary.
+      </para>
+    </refsect1>
+
+    <refsect1 id="ref-auth-daemon-ui-elements">
+      <title>UI elements</title>
+      <para>
+        The appearance of the authentication dialog depends on the
+        result from PolicyKit and also whether administrator
+        authentication is defined as "authenticate as the root user"
+        or "authenticate as one of the users from UNIX group wheel" or
+        however the PolicyKit library is configured (see
+        the <literal>PolicyKit.conf(5)</literal> manual page for
+        details). Note that some of the screenshots below were made on
+        a system set up to use
+        the <ulink url="http://thinkfinger.sourceforge.net/"><citetitle>ThinkFinger</citetitle></ulink>
+        PAM module.
+      </para>
+
+      <para>
+        The text shown in the authentication dialogs stems from the
+        PolicyKit <literal>.policy</literal> XML files residing
+        in <literal>/usr/share/PolicyKit/policy</literal> and is read
+        by the authentication daemon when an applications uses
+        the <literal>ShowDialog()</literal> method. Thus, what the
+        user sees is not under application control (e.g. it's not
+        passed from the application) which rules out a class of
+        attacks where applications are trying to fool the user into
+        gaining a privilege.
+      </para>
+
+      <para>
+        Authentication dialog where the user is asked to authenticate
+        as herself:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-self.png" format="PNG"/>
+      </para>
+      <para>
+        Authentication dialog where the user is asked to authenticate
+        as an administrative user and PolicyKit is configured to use
+        the root password for this:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-root.png" format="PNG"/>
+      </para>
+      <para>
+        Authentication dialog where the user is asked to authenticate
+        as an administrative user and PolicyKit is configured to use
+        the UNIX wheel group for this:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-wheel-group-1.png" format="PNG"/>
+      </para>
+      <para>
+        Same authentication dialog, showing drop down box where the
+        user can be selected:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-wheel-group-2.png" format="PNG"/>
+      </para>
+      <para>
+        Authentication dialog showing an Action where the privilege
+        can be retained indefinitely:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-retain-always.png" format="PNG"/>
+      </para>
+      <para>
+        Authentication dialog showing an Action where the privilege
+        can be retained only for the remainer of the desktop session:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-retain-session.png" format="PNG"/>
+      </para>
+      <para>
+        The details view detailing what Action is being asked for as
+        well as what application is requesting the authentication:
+      </para>
+      <para>
+        <inlinegraphic fileref="auth-details.png" format="PNG"/>
+      </para>
+    </refsect1>
+  
+  </reference>
+
+  <!-- License -->
+
+  <appendix id="license">
+    <title>License</title>
+    <para>
+      The polkit-mate library (polkit-mate/*) is licensed to you
+      under the GNU Lesser General Public License version 2 or
+      later. 
+    </para>
+    <para>
+      The PolicyKit MATE authentication D-Bus service (src/*) is
+      licensed to you under the GNU General Public License version 2
+      or later.
+    </para>
+    <para>
+      Both licenses are included here. Some individual source code
+      files and/or binaries may be under the GPL only.
+    </para>
+    <para>
+      Each source code file is marked with the proper copyright
+      information.
+    </para>
+  </appendix>
+</book>

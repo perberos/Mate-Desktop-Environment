@@ -1,0 +1,143 @@
+Hacking the MATE System Tools
+==============================
+
+Hacking the MATE System Tools is fairly straightforward (if you are a
+hacker). However, to get you started quicker, we provide this document. Here,
+we give an overview of the existing code, provide pointers to resources and
+administrivial procedures, and point out some non-obvious issues.
+
+
+What's interesting
+------------------
+
+We're most interested in work on the backends, porting them to other
+distributions and architectures. Our goal is to make them work on whatever
+Unix you happen to throw at them, consistently and without reducing neither
+themselves nor the system configuration to unidentifiable goop.
+
+If you do good work on this, you can be sure to get our immediate attention
+and undying gratitude, as well as seeing your favourite set of workstation
+tools succeed in making Linux/Unix accessible to the masses.
+
+Other contributions - particularly any bugfixes you might have - are of
+course extremely valuable also.
+
+
+Package structure
+-----------------
+
+The package has two readily identifiable parts: Backends and frontends. The
+backends do all the actual configuration work, and communicate with their
+invokers using XML and an ad-hoc protocol for runtime errors and progress
+reporting.
+
+In addition, a frontend is defined by two parts; a part specifying the static
+layout of the interface in Glade XML (made with Glade), and another part
+which adds interactive behaviour and communication with the backend.
+
+Breakdown of the tools currently packaged:
+
+Backend                          Frontend              Frontend layout
+-------                          --------              ---------------
+backend/disks-conf.in           src/disks/*           interfaces/disks.glade
+backend/memory-conf.in          src/memory/*          interfaces/memory.glade
+backend/nameresolution-conf.in  src/nameresolution/*  interfaces/nameresolution.glade
+backend/networking-conf.in      src/networking/*      interfaces/networking.glade
+backend/shares-conf.in          src/shares/*          interfaces/shares.glade
+backend/time-conf.in            src/time/*            interfaces/time.glade
+backend/users-conf.in           src/users/*           interfaces/users.glade
+
+Currently, all the backends are in Perl, all the frontends are in C, and all
+the frontend layouts are in Glade XML. We accept backends and frontends in
+Python, though.
+
+There are also common libraries in these three categories:
+
+backend/be.pl          - shared Perl code.
+src/common/*            - shared C code.
+interfaces/common.glade - shared Glade specifications.
+
+
+Submitting patches
+------------------
+
+If you're a new contributor, we appreciate it if you send your patches to the
+mailinglist for approval. Once a patch is approved, you can apply it to CVS
+HEAD yourself, or we can apply it for you. If you submit patches on a regular
+basis, we can come to an agreement where you just apply your changes directly
+to the CVS version without needing prior approval. Note that your patch may
+still be reverted, or you may be asked to revert (or fix) it if it breaks
+something.
+
+When you make significant contributions (e.g. port a backend to a new
+distribution or platform, or add another important feature), we welcome you
+to add yourself to the authors list (with your e-mail address and a short
+description of what you did) at the top of the source. You will always be
+credited for your contribution when it's time for a release.
+
+Every CVS commit and patch should contain detailed ChangeLog entries.
+Take a look at any ChangeLog file if you are not sure what a ChangeLog
+entry is. If you use emacs you can add a ChangeLog entry with "Meta-X +
+add-change-log-entry".
+
+Implementing a new tool
+-----------------------
+
+When starting work on a new tool, you're best off copying the source from an
+existing tool and modifying that. Old backends, frontends and Glade files can
+be used efficiently as basis for new ones.
+
+When coding the C frontend, make sure to initialize the tool with
+tool_init(). It does most of the traditional MATE initialization for you,
+connects some signals, and loads the configuration from your backend to an
+internal XML tree.
+
+We believe existing source is the best documentation in this matter.
+
+
+Coding style
+------------
+
+The backends should be written with two-space indents (_no_ tabs). Try to
+follow the comment style from existing frontends, e.g. add liberal
+descriptions of the functions so they can be ported and updated with ease.
+
+Frontends must adhere to the MATE coding standards, which means 8-space tab
+intenting. See the MATE coding guidelines for details.
+
+
+Copyrights
+----------
+
+Copyright assigment is _not_ a requirement, but we'd appreciate it if you
+assigned it to Ximian, as this makes the license more easily defendable
+(Ximian has lawyers to do this, but if the copyright belongs to many
+different parties, they all have to give their consent or even show up in
+court to defend their code).
+
+
+Hands-on
+--------
+
+Checking it out (anonymously) from MATE CVS:
+
+cvs -d :pserver:anonymous@anoncvs.mate.org:/cvs/mate login
+cvs -d :pserver:anonymous@anoncvs.mate.org:/cvs/mate co ximian-setup-tools
+
+Subscribing to the mailing list:
+
+http://mail.mate.org/mailman/listinfo/system-tools-list
+
+Getting released packages:
+
+ftp://ftp.mate.org/pub/MATE/sources/mate-system-tools/
+
+Contacting the project manager:
+
+Miguel de Icaza <miguel@ximian.com>
+
+Contacting principal developers (you should send patches here):
+
+Hans Petter Jansson <hpj@ximian.com>
+Arturo Espinosa     <arturo@ximian.com>
+Tambet Ingo         <tambeti@sa.ee>

@@ -1,0 +1,1 @@
+/usr/share/aclocal/mate-doc-utils.m4

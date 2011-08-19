@@ -1,0 +1,670 @@
+<!-- ##### SECTION Title ##### -->
+MateConfValue, MateConfEntry, MateConfMetaInfo
+
+<!-- ##### SECTION Short_Description ##### -->
+
+A #MateConfValue stores a dynamically-typed value. A #MateConfEntry stores a
+key-value pair.  A #MateConfMetaInfo stores metainformation about a key.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+#MateConfValue stores one of the value types MateConf understands; MateConf
+uses #MateConfValue to pass values around because it doesn't know the
+type of its values at compile time. 
+</para>
+
+<para>
+A #MateConfEntry pairs a relative key
+name with a value, for example if the value "10" is stored at the key 
+"/foo/bar/baz", the #MateConfEntry will store "baz" and "10".
+</para>
+
+<para>
+A #MateConfMetaInfo object holds metainformation about a key, such as 
+its last modification time and the name of the schema associated with
+it. You should rarely if ever need to use #MateConfMetaInfo.
+(In fact you can't get the metainfo for a key using the current API.)
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM MateConfValueType ##### -->
+<para>
+Used to indicate the type of a #MateConfValue.
+</para>
+
+@MATECONF_VALUE_INVALID: Never the type of a #MateConfValue obtained from MateConf functions; used to indicate errors and the like.
+@MATECONF_VALUE_STRING: String value (#gchar*).
+@MATECONF_VALUE_INT: Integer value (#gint).
+@MATECONF_VALUE_FLOAT: Floating point value (#gdouble).
+@MATECONF_VALUE_BOOL: Boolean value (#gboolean).
+@MATECONF_VALUE_SCHEMA: Schema value (#MateConfSchema).
+@MATECONF_VALUE_LIST: List of #MateConfValue; #MateConfValue elements must have
+a primitive type (i.e. they may not be lists or pairs), and all elements
+of a list must have the same type.
+@MATECONF_VALUE_PAIR: Pair of #MateConfValue; the first field (car) and the second
+field (cdr) may have different types. The two elements of a pair must be primitive
+types, not lists or pairs.
+
+<!-- ##### STRUCT MateConfValue ##### -->
+<para>
+Represents a dynamically-typed value. The @type field tells you the
+type of the value; the other fields should be accessed with the
+accessor functions and macros.
+</para>
+
+<para>
+<emphasis>A #MateConfValue should always
+be initialized before use. That is, you should not use a #MateConfValue
+unless you have called one of the functions beginning with
+"mateconf_value_set_".</emphasis>. For lists, initialization has two
+steps: first you must set the list element type, then you must set the
+list value.
+</para>
+
+@type: The #MateConfValueType of this #MateConfValue. The only field of
+#MateConfValue you should access directly.
+
+<!-- ##### MACRO MATECONF_VALUE_TYPE_VALID ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### FUNCTION mateconf_value_get_string ##### -->
+<para>
+Returns a <symbol>const gchar*</symbol> for a #MateConfValue with type
+%MATECONF_VALUE_STRING. The returned string is <emphasis>not</emphasis> a
+copy, don't try to free it. It is "owned" by the #MateConfValue and will
+be destroyed when the #MateConfValue is destroyed.
+</para>
+
+<para>
+If the #MateConfValue is not initialized (i.e. no one has called
+mateconf_value_set_string()) then the string may be
+<symbol>NULL</symbol>, but of course you should not try to use an
+uninitialized #MateConfValue.
+</para>
+
+@value: a #MateConfValue.
+@Returns: a const char*.
+
+
+<!-- ##### FUNCTION mateconf_value_get_int ##### -->
+<para>
+Returns a #gint for a #MateConfValue with type %MATECONF_VALUE_INT. 
+</para>
+
+@value: a #MateConfValue.
+@Returns: a #gint.
+
+
+<!-- ##### FUNCTION mateconf_value_get_float ##### -->
+<para>
+Returns a #gdouble for a #MateConfValue with type %MATECONF_VALUE_FLOAT.
+</para>
+
+@value: a #MateConfValue.
+@Returns: a #gdouble.
+
+
+<!-- ##### FUNCTION mateconf_value_get_list_type ##### -->
+<para>
+Returns the type of the list elements in a #MateConfValue with type 
+%MATECONF_VALUE_LIST.
+</para>
+
+@value: a #MateConfValue.
+@Returns: the type of the list elements (a primitive type).
+
+
+<!-- ##### FUNCTION mateconf_value_get_list ##### -->
+<para>
+Returns a #GSList containing #MateConfValue objects. Each #MateConfValue in
+the returned list will have the type returned by
+mateconf_value_get_list_type(). Remember that the empty #GSList is equal to
+<symbol>NULL</symbol>.  The list is not a copy; it is "owned" by the
+#MateConfValue and will be destroyed when the #MateConfValue is destroyed.
+</para>
+
+@value: a #MateConfValue.
+@Returns: a #GList.
+
+
+<!-- ##### FUNCTION mateconf_value_get_car ##### -->
+<para>
+Returns the first member (car) of a #MateConfValue with type
+%MATECONF_VALUE_PAIR. The car is another #MateConfValue, with a primitive
+type (bool, int, float, string, schema).
+</para>
+
+<para>
+The returned value is not a copy; it is "owned" by the pair and will
+be destroyed when the pair is destroyed.
+</para>
+
+@value: a #MateConfValue.
+@Returns: the first member of a pair, a primitive type.
+
+
+<!-- ##### FUNCTION mateconf_value_get_cdr ##### -->
+<para>
+Returns the second member (cdr) of a #MateConfValue with type
+%MATECONF_VALUE_PAIR. The cdr is another #MateConfValue, with a primitive
+type (bool, int, float, string, schema).
+</para>
+
+<para>
+The returned value is not a copy; it is "owned" by the pair and will
+be destroyed when the pair is destroyed.
+</para>
+
+@value: a #MateConfValue.
+@Returns: the second member of a pair, a primitive type.
+
+
+<!-- ##### FUNCTION mateconf_value_get_bool ##### -->
+<para>
+Returns a #gboolean for a #MateConfValue with type %MATECONF_VALUE_BOOL. 
+</para>
+
+@value: a #MateConfValue.
+@Returns: a #gboolean value.
+
+
+<!-- ##### FUNCTION mateconf_value_get_schema ##### -->
+<para>
+Returns a #MateConfSchema for a #MateConfValue with type
+%MATECONF_VALUE_SCHEMA. If the #MateConfValue is uninitialized, it 
+may return <symbol>NULL</symbol>; but of course you should have
+initialized the #MateConfValue. The MateConf library will not return values
+with a <symbol>NULL</symbol> schema.
+</para>
+
+<para>
+The returned value is not a copy; it is "owned" by the #MateConfValue and will
+be destroyed when the #MateConfValue is destroyed.
+</para>
+
+@value: a #MateConfValue.
+@Returns: a #MateConfSchema.
+
+
+<!-- ##### FUNCTION mateconf_value_new ##### -->
+<para>
+Creates a new #MateConfValue with type @type. The type is immutable after
+creation; values have a fixed type. You <emphasis>must</emphasis>
+initialize the #MateConfValue after creation; that is, you must set its 
+value with one of the "setter" functions.
+</para>
+
+@type: type of the new #MateConfValue.
+@Returns: newly-allocated #MateConfValue.
+
+
+<!-- ##### FUNCTION mateconf_value_new_from_string ##### -->
+<para>
+Creates a new #MateConfValue with type @type and value set to the string passed.
+Based on the value of @type, this function does the appropriate conversion of the
+string passed to the @type, does error checks to ensure the value is valid, and
+then calls the appropriate mateconf_set function depending on the @type to set the value.
+</para>
+
+@type: type of the new #MateConfValue.
+@str: the return location for an allocated #GError, or <symbol>NULL</symbol> to ignore errors.
+@err: the value to be set.
+@Returns: the value to be set.
+
+
+<!-- ##### FUNCTION mateconf_value_copy ##### -->
+<para>
+Copies a #MateConfValue. The copy is a deep copy, that is, any allocated
+memory inside the #MateConfValue will also be copied.
+</para>
+
+@src: a #MateConfValue to copy.
+@Returns: a newly-allocated #MateConfValue identical to @src.
+
+
+<!-- ##### FUNCTION mateconf_value_free ##### -->
+<para>
+Deallocates a #MateConfValue. Also deallocates any allocated memory
+inside the #MateConfValue (such as lists, pair members, strings, and schemas).
+</para>
+
+@value: a #MateConfValue to destroy.
+
+
+<!-- ##### FUNCTION mateconf_value_set_int ##### -->
+<para>
+Sets the value of a #MateConfValue with type %MATECONF_VALUE_INT.
+</para>
+
+@value: a #MateConfValue of type %MATECONF_VALUE_INT.
+@the_int: the integer.
+
+
+<!-- ##### FUNCTION mateconf_value_set_string ##### -->
+<para>
+Sets the value of a #MateConfValue with type
+%MATECONF_VALUE_STRING. @the_str is copied.
+</para>
+
+@value: a #MateConfValue of type %MATECONF_VALUE_STRING.
+@the_str: the string.
+
+
+<!-- ##### FUNCTION mateconf_value_set_float ##### -->
+<para>
+Sets the value of a #MateConfValue with type
+%MATECONF_VALUE_FLOAT. 
+</para>
+
+@value: a #MateConfValue of type %MATECONF_VALUE_FLOAT.
+@the_float: the floating point number.
+
+
+<!-- ##### FUNCTION mateconf_value_set_bool ##### -->
+<para>
+Sets the value of a #MateConfValue with type
+%MATECONF_VALUE_BOOL. 
+</para>
+
+@value: a #MateConfValue of type %MATECONF_VALUE_BOOL.
+@the_bool: a boolean value (<symbol>TRUE</symbol> or <symbol>FALSE</symbol>).
+
+
+<!-- ##### FUNCTION mateconf_value_set_schema ##### -->
+<para>
+Sets the value of a #MateConfValue with type %MATECONF_VALUE_SCHEMA. The
+#MateConfSchema is copied. Alternatively you can use
+mateconf_value_set_schema_nocopy().
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_SCHEMA.
+@sc: the #MateConfSchema.
+
+
+<!-- ##### FUNCTION mateconf_value_set_schema_nocopy ##### -->
+<para>
+Sets the value of a #MateConfValue with type
+%MATECONF_VALUE_SCHEMA. The #MateConfSchema is <emphasis>not</emphasis>
+copied; the #MateConfValue takes ownership of it, and it should only be
+accessed via the mateconf_value_get_schema() macro. This function is provided 
+as a more efficient version of mateconf_value_set_schema().
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_SCHEMA.
+@sc: the #MateConfSchema.
+
+
+<!-- ##### FUNCTION mateconf_value_set_car ##### -->
+<para>
+Sets the value of the first field (car) of a #MateConfValue with type
+%MATECONF_VALUE_PAIR. The #MateConfValue is copied. Alternatively, use
+mateconf_value_set_car_nocopy().
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_PAIR.
+@car: the #MateConfValue to set as the car of the pair.
+
+
+<!-- ##### FUNCTION mateconf_value_set_car_nocopy ##### -->
+<para>
+Sets the value of the first field (car) of a #MateConfValue with type
+%MATECONF_VALUE_PAIR. The #MateConfValue is <emphasis>not</emphasis> copied;
+the #MateConfValue takes ownership of it. Alternatively, use
+mateconf_value_set_car().
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_PAIR.
+@car: the #MateConfValue to set as the car of the pair.
+
+
+<!-- ##### FUNCTION mateconf_value_set_cdr ##### -->
+<para>
+Sets the value of the second field (cdr) of a #MateConfValue with type
+%MATECONF_VALUE_PAIR. The #MateConfValue is copied. Alternatively, use
+mateconf_value_set_cdr_nocopy().
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_PAIR.
+@cdr: the #MateConfValue to set as the cdr of the pair.
+
+
+<!-- ##### FUNCTION mateconf_value_set_cdr_nocopy ##### -->
+<para>
+Sets the value of the second field (cdr) of a #MateConfValue with type
+%MATECONF_VALUE_PAIR. The #MateConfValue is <emphasis>not</emphasis> copied;
+the #MateConfValue takes ownership of it. Alternatively, use
+mateconf_value_set_cdr().
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_PAIR.
+@cdr: the #MateConfValue to set as the cdr of the pair.
+
+
+<!-- ##### FUNCTION mateconf_value_set_list_type ##### -->
+<para>
+Sets the type of the elements in a #MateConfValue of type
+%MATECONF_VALUE_LIST. All the elements in the list must have the same
+type. You must set the list type before you can set the list value.
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_LIST.
+@type: the type of elements in this list.
+
+
+<!-- ##### FUNCTION mateconf_value_set_list_nocopy ##### -->
+<para>
+Sets the value of a #MateConfValue with type %MATECONF_VALUE_LIST.  The
+@list argument should be a #GSList of #MateConfValue. Each #MateConfValue in
+the list must have the same type, and this type must be specified in
+advance with mateconf_value_set_list_type(). This function does
+<emphasis>not</emphasis> copy the list; the #MateConfValue will take
+ownership of the list and its contents, and they will be destroyed
+when the #MateConfValue is destroyed. Alternatively, use
+mateconf_value_set_list() to make a copy.
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_LIST.
+@list: the #GSList of #MateConfValue to set as the list value.
+
+
+<!-- ##### FUNCTION mateconf_value_set_list ##### -->
+<para>
+Sets the value of a #MateConfValue with type %MATECONF_VALUE_LIST.  The
+@list argument should be a #GSList of #MateConfValue. Each #MateConfValue in
+the list must have the same type, and this type must be specified in
+advance with mateconf_value_set_list_type(). This function copies the
+list; it will not modify the @list argument.
+</para>
+
+@value: a #MateConfValue with type %MATECONF_VALUE_LIST.
+@list: the #GSList of #MateConfValue to set as the list value.
+
+
+<!-- ##### FUNCTION mateconf_value_to_string ##### -->
+<para>
+Creates a human-readable string representation of a #MateConfValue. This
+is intended for debugging and the like; the string representation is
+not suitable for reliable machine parsing (that is, you shouldn't use
+this function to save a value to a file or anything like that). The
+exact nature of the string representation may change in future
+versions. The returned string is newly-allocated and must be freed
+with g_free().
+</para>
+
+@value: a #MateConfValue.
+@Returns: a newly-allocated string representing the #MateConfValue.
+
+
+<!-- ##### STRUCT MateConfMetaInfo ##### -->
+<para>
+
+</para>
+
+@schema: 
+@mod_user: 
+@mod_time: 
+
+<!-- ##### FUNCTION mateconf_meta_info_new ##### -->
+<para>
+Creates a new #MateConfMetaInfo structure and returns the newly allocated 
+#MateConfMetaInfo.
+</para>
+
+@Returns: the newly allocated #MateConfMetainfo.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_free ##### -->
+<para>
+Frees the #MateConfMetaInfo.
+</para>
+
+@gcmi: the #MateConfMetaInfo to be freed.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_get_schema ##### -->
+<para>
+Returns the schema field of the #MateConfMetaInfo.
+</para>
+
+@gcmi: a #MateConfMetaInfo.
+@Returns: the schema field, a char* value.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_get_mod_user ##### -->
+<para>
+Returns the user owning the daemon that made the last modification of the key.
+</para>
+
+@gcmi: a #MateConfMetaInfo.
+@Returns: mod_user, a char* value.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_mod_time ##### -->
+<para>
+Returns the last modification time of the key.
+</para>
+
+@gcmi: a #MateConfMetaInfo.
+@Returns: the mod_time, a #GTime value.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_set_schema ##### -->
+<para>
+Sets the schema_name field of the #MateConfMetaInfo to the name passed.
+</para>
+
+@gcmi: a #MateConfMetaInfo.
+@schema_name: the name to be set for the schema, a gchar* value.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_set_mod_user ##### -->
+<para>
+Sets the mod_user field of the #MateConfMetaInfo to the user name passed.
+</para>
+
+@gcmi: a #MateConfMetaInfo.
+@mod_user: the value to be set, a char*.
+
+
+<!-- ##### FUNCTION mateconf_meta_info_set_mod_time ##### -->
+<para>
+Sets the mod_last field of the #MateConfMetaInfo to the mod_time passed.
+</para>
+
+@gcmi: a #MateConfMetaInfo.
+@mod_time: a #GTime.
+
+
+<!-- ##### STRUCT MateConfEntry ##### -->
+<para>
+Stores an entry from a MateConf "directory," including a key-value pair,
+the name of the schema applicable to this entry, whether the value is
+a default value, and whether MateConf can write a new value at this
+key. @key should be an absolute key, not a relative key.  (Note that
+internally MateConf breaks this rule sometimes; but in the public
+interface, @key is always an absolute key.)  To access the key and
+value, use mateconf_entry_get_key() and mateconf_entry_get_value().
+</para>
+
+<warning><para>Value can be <symbol>NULL</symbol>, indicating that the
+value is not set.</para></warning>
+
+@key: an absolute key name.
+@value: the value.
+
+<!-- ##### FUNCTION mateconf_entry_get_key ##### -->
+<para>
+Accesses the @key field of a #MateConfEntry. The returned key is not a
+copy, and should not be freed or modified.
+</para>
+
+@entry: a #MateConfEntry.
+@Returns: the key , a char*.
+
+
+<!-- ##### FUNCTION mateconf_entry_get_value ##### -->
+<para>
+Accesses the @value field of a #MateConfEntry. The returned value is not
+a copy, and should not be freed or modified. If you have called
+mateconf_entry_steal_value(), the returned value will be
+<symbol>NULL</symbol>.
+</para>
+
+@entry: a #MateConfEntry.
+@Returns: a #MateConfValue.
+
+
+<!-- ##### FUNCTION mateconf_entry_get_schema_name ##### -->
+<para>
+Returns the schema_name field of the #MateConfEntry. 
+</para>
+
+@entry: a #MateConfEntry.
+@Returns: the schema_name , a char* value.
+
+
+<!-- ##### FUNCTION mateconf_entry_get_is_default ##### -->
+<para>
+Returns the is_default field of the #MateConfEntry , a gboolean value.
+</para>
+
+@entry: a #MateConfEntry.
+@Returns: a #gboolean value.
+
+
+<!-- ##### FUNCTION mateconf_entry_get_is_writable ##### -->
+<para>
+Returns the is_writable field of the #MateConfEntry, a gboolean value.
+</para>
+
+@entry: a #MateConfEntry.
+@Returns: a #gboolean value.
+
+
+<!-- ##### FUNCTION mateconf_entry_new ##### -->
+<para>
+Creates a new #MateConfEntry with key @key and value @val calling mateconf_entry_new_nocopy ().
+</para>
+
+@key: the key name.
+@val: the value.
+@Returns: a new #MateConfEntry.
+
+
+<!-- ##### FUNCTION mateconf_entry_new_nocopy ##### -->
+<para>
+Creates a new #MateConfEntry with key @key and value @val. @key should be a full
+path to the key, starting with '/'. Neither the key nor the value is copied;
+both are freed when the #MateConfEntry is freed. The string will be freed with
+g_free() so should be allocated with a GLib function, not malloc().
+</para>
+
+@key: the key name.
+@val: the value.
+@Returns: a new #MateConfEntry.
+
+
+<!-- ##### FUNCTION mateconf_entry_copy ##### -->
+<para>
+Copies the fields of an existing #MateConfEntry and returns the new #MateConfEntry.
+</para>
+
+@src: the #MateConfEntry to be copied.
+@Returns: the new #MateConfEntry.
+
+
+<!-- ##### FUNCTION mateconf_entry_free ##### -->
+<para>
+Destroys a #MateConfEntry, freeing the key, the value, and the entry itself.
+</para>
+
+@entry: a #MateConfEntry to free.
+
+
+<!-- ##### FUNCTION mateconf_entry_ref ##### -->
+<para>
+Increases the refcount of a #MateConfEntry by one.
+</para>
+
+@entry: a #MateConfEntry.
+
+
+<!-- ##### FUNCTION mateconf_entry_unref ##### -->
+<para>
+Decreases the refcount of a #MateConfEntry by one and  frees the
+#MateConfEntry when the refcount becomes zero.
+</para>
+
+@entry: a #MateConfEntry.
+
+
+<!-- ##### FUNCTION mateconf_entry_steal_value ##### -->
+<para>
+Extracts the value from a #MateConfEntry, leaving the @value field in
+#MateConfEntry set to <symbol>NULL</symbol>. Destroying the #MateConfEntry
+will <emphasis>not</emphasis> destroy the value; the caller of
+mateconf_entry_steal_value() assumes ownership of it.
+</para>
+
+@entry: a #MateConfEntry.
+@Returns: a #MateConfValue that the caller must free.
+
+
+<!-- ##### FUNCTION mateconf_entry_set_value ##### -->
+<para>
+Sets the value field of the #MateConfEntry to the #MateConfValue passed.
+</para>
+
+@entry: a #MateConfEntry.
+@val: a #MateConfValue.
+
+
+<!-- ##### FUNCTION mateconf_entry_set_value_nocopy ##### -->
+<para>
+Sets the value field to @val after freeing the already existing value.
+</para>
+
+@entry: a #MateConfEntry.
+@val: the #MateConfValue to be set.
+
+
+<!-- ##### FUNCTION mateconf_entry_set_schema_name ##### -->
+<para>
+Sets the schema_name field of the #MateConfEntry to the name passed after freeing
+the already existing name.
+</para>
+
+@entry: a #MateConfEntry.
+@name: the name to be set for the schema, a gchar* value.
+
+
+<!-- ##### FUNCTION mateconf_entry_set_is_default ##### -->
+<para>
+Sets the is_default field of the #MateConfEntry to the boolean value passed.
+</para>
+
+@entry: a #MateConfEntry.
+@is_default: the boolean value to be set.
+
+
+<!-- ##### FUNCTION mateconf_entry_set_is_writable ##### -->
+<para>
+Sets the is_writable field of the #MateConfEntry to the boolean value passed.
+</para>
+
+@entry: a #MateConfEntry.
+@is_writable: a boolean value.
+
+

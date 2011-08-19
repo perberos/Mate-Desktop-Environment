@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EvSelection</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Evince Document Library Reference Manual">
+<link rel="up" href="document-interfaces.html" title="Part I. Document Interfaces">
+<link rel="prev" href="EvDocumentTransition.html" title="EvDocumentTransition">
+<link rel="next" href="EvFileExporter.html" title="EvFileExporter">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="EvDocumentTransition.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="document-interfaces.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Evince Document Library Reference Manual</th>
+<td><a accesskey="n" href="EvFileExporter.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#EvSelection.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#EvSelection.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#EvSelection.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry" title="EvSelection">
+<a name="EvSelection"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="EvSelection.top_of_page"></a>EvSelection</span></h2>
+<p>EvSelection</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="EvSelection.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="EvSelection.html#EV-SELECTION-IFACE:CAPS" title="EV_SELECTION_IFACE()">EV_SELECTION_IFACE</a>                  (k)
+#define             <a class="link" href="EvSelection.html#EV-IS-SELECTION-IFACE:CAPS" title="EV_IS_SELECTION_IFACE()">EV_IS_SELECTION_IFACE</a>               (k)
+enum                <a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle">EvSelectionStyle</a>;
+                    <a class="link" href="EvSelection.html#EvSelection-struct" title="EvSelection">EvSelection</a>;
+<span class="returnvalue">void</span>                <a class="link" href="EvSelection.html#ev-selection-render-selection" title="ev_selection_render_selection ()">ev_selection_render_selection</a>       (<em class="parameter"><code><a class="link" href="EvSelection.html" title="EvSelection"><span class="type">EvSelection</span></a> *selection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvRenderContext.html" title="EvRenderContext"><span class="type">EvRenderContext</span></a> *rc</code></em>,
+                                                         <em class="parameter"><code><a href="/home/carlos/mate-cvs/share/gtk-doc/html/cairo/cairo-cairo-surface-t.html#cairo-surface-t"><span class="type">cairo_surface_t</span></a> **surface</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *points</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *old_points</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle"><span class="type">EvSelectionStyle</span></a> style</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/gdk3-Colormaps-and-Colors.html#GdkColor"><span class="type">GdkColor</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/gdk3-Colormaps-and-Colors.html#GdkColor"><span class="type">GdkColor</span></a> *base</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="EvSelection.html#ev-selection-get-selected-text" title="ev_selection_get_selected_text ()">ev_selection_get_selected_text</a>      (<em class="parameter"><code><a class="link" href="EvSelection.html" title="EvSelection"><span class="type">EvSelection</span></a> *selection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvPage.html" title="EvPage"><span class="type">EvPage</span></a> *page</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle"><span class="type">EvSelectionStyle</span></a> style</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *points</code></em>);
+<a href="/home/carlos/mate-cvs/share/gtk-doc/html/cairo/cairo-Regions.html#cairo-region-t"><span class="returnvalue">cairo_region_t</span></a> *    <a class="link" href="EvSelection.html#ev-selection-get-selection-region" title="ev_selection_get_selection_region ()">ev_selection_get_selection_region</a>   (<em class="parameter"><code><a class="link" href="EvSelection.html" title="EvSelection"><span class="type">EvSelection</span></a> *selection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvRenderContext.html" title="EvRenderContext"><span class="type">EvRenderContext</span></a> *rc</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle"><span class="type">EvSelectionStyle</span></a> style</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *points</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="EvSelection.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GInterface
+   +----EvSelection
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="EvSelection.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="EvSelection.details"></a><h2>Details</h2>
+<div class="refsect2" title="EV_SELECTION_IFACE()">
+<a name="EV-SELECTION-IFACE:CAPS"></a><h3>EV_SELECTION_IFACE()</h3>
+<pre class="programlisting">#define EV_SELECTION_IFACE(k)	     (G_TYPE_CHECK_CLASS_CAST((k), EV_TYPE_SELECTION, EvSelectionInterface))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EV_IS_SELECTION_IFACE()">
+<a name="EV-IS-SELECTION-IFACE:CAPS"></a><h3>EV_IS_SELECTION_IFACE()</h3>
+<pre class="programlisting">#define EV_IS_SELECTION_IFACE(k)     (G_TYPE_CHECK_CLASS_TYPE ((k), EV_TYPE_SELECTION))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>k</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum EvSelectionStyle">
+<a name="EvSelectionStyle"></a><h3>enum EvSelectionStyle</h3>
+<pre class="programlisting">typedef enum {
+	EV_SELECTION_STYLE_GLYPH,
+	EV_SELECTION_STYLE_WORD,
+	EV_SELECTION_STYLE_LINE
+} EvSelectionStyle;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EvSelection">
+<a name="EvSelection-struct"></a><h3>EvSelection</h3>
+<pre class="programlisting">typedef struct _EvSelection EvSelection;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_selection_render_selection ()">
+<a name="ev-selection-render-selection"></a><h3>ev_selection_render_selection ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_selection_render_selection       (<em class="parameter"><code><a class="link" href="EvSelection.html" title="EvSelection"><span class="type">EvSelection</span></a> *selection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvRenderContext.html" title="EvRenderContext"><span class="type">EvRenderContext</span></a> *rc</code></em>,
+                                                         <em class="parameter"><code><a href="/home/carlos/mate-cvs/share/gtk-doc/html/cairo/cairo-cairo-surface-t.html#cairo-surface-t"><span class="type">cairo_surface_t</span></a> **surface</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *points</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *old_points</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle"><span class="type">EvSelectionStyle</span></a> style</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/gdk3-Colormaps-and-Colors.html#GdkColor"><span class="type">GdkColor</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/gdk3-Colormaps-and-Colors.html#GdkColor"><span class="type">GdkColor</span></a> *base</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>selection</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>surface</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>points</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>old_points</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>style</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>text</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>base</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_selection_get_selected_text ()">
+<a name="ev-selection-get-selected-text"></a><h3>ev_selection_get_selected_text ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             ev_selection_get_selected_text      (<em class="parameter"><code><a class="link" href="EvSelection.html" title="EvSelection"><span class="type">EvSelection</span></a> *selection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvPage.html" title="EvPage"><span class="type">EvPage</span></a> *page</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle"><span class="type">EvSelectionStyle</span></a> style</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *points</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>selection</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>style</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>points</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_selection_get_selection_region ()">
+<a name="ev-selection-get-selection-region"></a><h3>ev_selection_get_selection_region ()</h3>
+<pre class="programlisting"><a href="/home/carlos/mate-cvs/share/gtk-doc/html/cairo/cairo-Regions.html#cairo-region-t"><span class="returnvalue">cairo_region_t</span></a> *    ev_selection_get_selection_region   (<em class="parameter"><code><a class="link" href="EvSelection.html" title="EvSelection"><span class="type">EvSelection</span></a> *selection</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvRenderContext.html" title="EvRenderContext"><span class="type">EvRenderContext</span></a> *rc</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvSelection.html#EvSelectionStyle" title="enum EvSelectionStyle"><span class="type">EvSelectionStyle</span></a> style</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *points</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>selection</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>style</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>points</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

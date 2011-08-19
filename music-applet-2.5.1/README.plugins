@@ -1,0 +1,54 @@
+Music Applet uses a simple plugin system to add support for new music
+players.  Writing a plugin only involves implementing a subclass of
+musicapplet.player.PluginBase, writing a MateConf schema for your plugin's
+configuration, and adding a little metadata for the plugin manager.
+
+When Music Applet starts up, one of the places it looks for plugins is
+the directory ~/.mate2/music-applet/plugins.  Each plugin is stored
+in a single file (except for the MateConf schema, of course) in that
+directory.  (Aside from the directory that Music Applet keeps the
+plugins it comes with in, of course.)
+
+The templates/ directory in the source distribution is a good starting
+point for writing your plugin.  Pick the appropriate template and fill
+in the required information.
+
+You'll probably find the following Python modules installed with
+Music Applet helpful:
+
+    musicapplet.conf    -- interface to access MateConf settings easily
+    musicapplet.defs    -- important paths and version numbers
+    musicapplet.player  -- the base classes for your plugin
+
+The MateConf schemas should be installed before running Music Applet with
+your plugin, so that the default settings will be available.  A MateConf
+schema file is an XML file that describes the settings you want to
+store in MateConf.  For a basic plugin, it will look something like this:
+
+    <mateconfschemafile>
+        <schemalist>
+
+            <schema>
+                <key>/schemas/apps/music-applet/prefs/Plugin-Name/command</key>
+                <owner>music-applet</owner>
+                <type>string</type>
+                <default>command --arg1 --arg2</default>
+                <locale name="C">
+                    <short>Command for launching the Whatever music player.</short>
+                    <long>Command to execute to launch the Whatever music player.</long>
+                </locale>
+            </schema>
+
+        </schemalist>
+    </mateconfschemafile>
+
+Note the recommended naming scheme for the keys:
+
+    /schemas/apps/music-applet/prefs/Plugin-Name/key_name
+
+See the MateConf documentation for more details about writing schemas.
+
+Once you've written and tested your plugin, please consider contributing it
+to the Music Applet developer(s) for inclusion in future versions of the
+applet.  There's no requirement to do this, of course, but it will make it
+easier for other users to find your plugin.

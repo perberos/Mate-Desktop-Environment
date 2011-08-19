@@ -1,0 +1,1868 @@
+commit 1659b71a6992770cb1d80d9091e376bf647ed03e
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Sep 28 16:10:47 2010 +0100
+
+    2.32.0
+
+ NEWS         |    3 +++
+ configure.in |    4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+commit 45353b0716063379dd453bcb70a4fbc7d16709ca
+Author: Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>
+Date:   Mon Sep 20 21:30:06 2010 +0900
+
+    Updated Japanese translation
+
+ po/ja.po |   29 +++++++++++++++--------------
+ 1 files changed, 15 insertions(+), 14 deletions(-)
+
+commit bbc36382ad4c66bddbc7f93e20974e875ab82bc0
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Wed Sep 15 21:42:11 2010 +0100
+
+    2.31.92
+
+ NEWS         |    3 +++
+ configure.in |    4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+commit 7cd2a4e2da69aabbb01eb40190fcae88dc427ef2
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Tue Sep 14 00:01:13 2010 +0100
+
+    Update g-ir-scanner options
+    
+    This changes the prefix used in totem-pl-parser's GIR file to “TotemPl”,
+    breaking introspection API. It makes things neater, however, and does fix the
+    introspection build. This works with old versions of gobject-introspection,
+    but ideally we'd depend on 0.9.5 with this change. Closes: bgo#629342
+
+ plparse/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit b458ca8d7a18f24cbb97e03374a410f2d1da61fb
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Wed Sep 15 21:29:39 2010 +0100
+
+    Add missing documentation
+
+ docs/reference/totem-pl-parser-docs.xml     |    4 ++++
+ docs/reference/totem-pl-parser-sections.txt |    4 ++++
+ plparse/totem-pl-playlist.h                 |   15 +++++++++++++++
+ 3 files changed, 23 insertions(+), 0 deletions(-)
+
+commit 178cc697bd65fd21b4cc0209c3b24554d5fa037d
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Wed Sep 15 21:29:25 2010 +0100
+
+    Fix the test environment for gtk-doc master
+
+ docs/reference/Makefile.am |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit d0f36f59a0afce7ecd79ca7e1c3e6d10d0b024d5
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Sep 13 14:40:12 2010 +0100
+
+    2.30.3
+    
+    Add missing test file to the dist
+
+ NEWS                      |    4 ++++
+ configure.in              |    2 +-
+ plparse/tests/Makefile.am |    3 ++-
+ 3 files changed, 7 insertions(+), 2 deletions(-)
+
+commit 027d97f6b1624bb3e9913ca5f7981a17eb457fc3
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Sep 13 14:32:17 2010 +0100
+
+    Make sure videos disguised as MP4 aren't unhandled
+    
+    *.mp4 files were ignored if they were actually detected
+    as any other type. This was the case for 3gpp files, but
+    it would happen for *all* files types that weren't listed.
+    
+    And we can't list every file type as possibly being a quicktime file.
+    
+    So we ignore files that are text/plain, or a sub-class of it.
+    
+    This makes FLV hiding as an MP4, or 3GPP hiding as an MP4 work
+    correctly.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=620039
+
+ plparse/tests/Makefile.am    |    3 ++-
+ plparse/tests/parser.c       |   12 ++++++++++++
+ plparse/tests/really-flv.mp4 |  Bin 0 -> 204800 bytes
+ plparse/totem-pl-parser.c    |    5 ++---
+ 4 files changed, 16 insertions(+), 4 deletions(-)
+
+commit 3e2dc648a694b15352c2b7e54ff797986c238511
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Aug 26 14:11:49 2010 +0100
+
+    Fix parsing of 3gpp files
+    
+    3GPP files with a .mp4 suffix would have been ignored by the
+    parser when they should actually be marked as "unhandled"
+    by the parser, and handled by the player instead.
+    
+    Fixed Debian bug #594359.
+
+ plparse/tests/3gpp-file.mp4 |  Bin 0 -> 524288 bytes
+ plparse/tests/Makefile.am   |    3 ++-
+ plparse/tests/parser.c      |   12 ++++++++++++
+ plparse/totem-pl-parser.c   |    1 +
+ 4 files changed, 15 insertions(+), 1 deletions(-)
+
+commit a0824aa8e003b62b8976d2cb683c0cae09d2d6a2
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Aug 23 10:45:53 2010 +0100
+
+    Don't use ":" as a separator in M3U playlists
+    
+    Fixes parsing of titles with ":" in their titles.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=609091
+
+ plparse/tests/Makefile.am       |    3 ++-
+ plparse/tests/parser.c          |   13 +++++++++++++
+ plparse/tests/separator.m3u     |    3 +++
+ plparse/totem-pl-parser-lines.c |    7 -------
+ 4 files changed, 18 insertions(+), 8 deletions(-)
+
+commit 41d13b6ff351716818451d570fda64417e2284e0
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Aug 23 10:42:32 2010 +0100
+
+    Simplify getting results for entries
+    
+    Share more code between tests
+
+ plparse/tests/parser.c |  131 ++++++++----------------------------------------
+ 1 files changed, 21 insertions(+), 110 deletions(-)
+
+commit 82d0e7af339f73f963f62735758e469c4f1d308c
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Aug 4 14:57:03 2010 +0100
+
+    2.30.2
+
+ NEWS |    8 ++++++++
+ 1 files changed, 8 insertions(+), 0 deletions(-)
+
+commit c1e5c2f15f4b0c523743cfeae0c7e636d9d468d1
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Aug 2 14:22:56 2010 +0100
+
+    Add support for Last.fm's new XSPF extensions
+    
+    Support the TOTEM_PL_PARSER_FIELD_ID and
+    TOTEM_PL_PARSER_FIELD_DOWNLOAD_URI fields in newer last.fm XSPF
+    playlists.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=625823
+
+ plparse/tests/Makefile.am            |    4 +-
+ plparse/tests/new-lastfm-output.xspf |   37 +++++++++++++++
+ plparse/tests/old-lastfm-output.xspf |   25 ++++++++++
+ plparse/tests/parser.c               |   83 ++++++++++++++++++++++++++++++++++
+ plparse/totem-pl-parser-xspf.c       |   14 ++++++
+ 5 files changed, 162 insertions(+), 1 deletions(-)
+
+commit 85779b0e2a962feefa96233722b8e1e0c3116bf3
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 22 13:56:24 2010 +0100
+
+    Up version number
+
+ configure.in |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 0049574a2574928cd1607cf96daa490f2e19ad73
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 22 12:28:54 2010 +0100
+
+    Add test case for ITMS podcast parsing
+
+ plparse/tests/parser.c |   38 ++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 38 insertions(+), 0 deletions(-)
+
+commit 1da75f11fd384cc01333052d39400932b32b0394
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 22 12:19:44 2010 +0100
+
+    Fix itms links parsing
+    
+    Fix parsing podcasts links used in the iTunes Music Store.
+
+ configure.in                      |    2 +-
+ plparse/totem-pl-parser-podcast.c |  127 +++++++++----------------------------
+ plparse/xmlparser.c               |    2 +-
+ 3 files changed, 32 insertions(+), 99 deletions(-)
+
+commit 48148139975f2ff1788ce0392c386f51b83c31a6
+Author: Fran Diéguez <fran.dieguez@mabishu.com>
+Date:   Wed Jul 21 16:16:43 2010 +0200
+
+    Updated Galician translations
+
+ po/gl.po |   33 ++++++++-------------------------
+ 1 files changed, 8 insertions(+), 25 deletions(-)
+
+commit 99d25e17e008fa0b6ecd92cf460a9492058a4853
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Jul 18 03:01:30 2010 +0100
+
+    Add Genre extension to XSPF playlists
+    
+    Both reading and writing, including test.
+
+ plparse/tests/Makefile.am      |    3 +-
+ plparse/tests/parser.c         |   42 ++++++++++++++++++++++++++++++++++++++++
+ plparse/tests/playlist.xspf    |   14 +++++++++++++
+ plparse/totem-pl-parser-xspf.c |   37 +++++++++++++++++++++++++++++-----
+ 4 files changed, 89 insertions(+), 7 deletions(-)
+
+commit 88d4973586e75e8c71d458f64828bc9b69329957
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Thu Jul 15 23:21:33 2010 +0100
+
+    Make MEDIA_TYPE_NUM_TYPES a #define rather than an enum member
+
+ plparse/totem-disc.h |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+
+commit f67db2fdd04a97b819859e649d463f94c0f13d13
+Author: Lucian Adrian Grijincu <lucian.grijincu@gmail.com>
+Date:   Thu Jul 15 01:20:30 2010 +0300
+
+    po: Updated Romanian translation
+
+ po/ro.po | 1340 +-------------------------------------------------------------
+ 1 files changed, 10 insertions(+), 1330 deletions(-)
+
+commit 485d45f75fed44979957ef3ac22c21c068cc87cb
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Wed Jul 14 23:00:13 2010 +0100
+
+    Add testcase for bgo#624341
+
+ plparse/tests/audio.php |   95 +++++++++++++++++++++++++++++++++++++++++++++++
+ plparse/tests/parser.c  |   12 ++++++
+ 2 files changed, 107 insertions(+), 0 deletions(-)
+
+commit e137b15636d41a32a29f4bf627a4cc0791888753
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Wed Jul 14 22:54:52 2010 +0100
+
+    Disable debugging again
+    
+    Whoops.
+
+ plparse/totem-pl-parser.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 342238a1336f9d66efca9edb9a1d3d5558d8a188
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Wed Jul 14 22:48:56 2010 +0100
+
+    Bug 624341 — crash in totem_pl_parser_parse_with_base
+    
+    Fix a crash with application/x-php dual-types if
+    my_g_file_info_get_mime_type_with_data() can't find a real MIME type for the
+    playlist. Closes: bgo#624341
+
+ plparse/totem-pl-parser.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit ef834f5a728b439630f7314b88591915bae6d78c
+Author: Theppitak Karoonboonyanan <thep@linux.thai.net>
+Date:   Sun Jul 4 22:24:37 2010 +0700
+
+    Fix non-source-dir build failure
+    
+    Move to new make rule in gobject-introspection >= 0.6.14, where introspection
+    source files are referenced via VPATH. Distinction between generated and manual
+    sources are no longer needed.
+    
+    Fixes https://bugzilla.mate.org/show_bug.cgi?id=623533
+    
+    Signed-off-by: Theppitak Karoonboonyanan <thep@linux.thai.net>
+
+ configure.in        |    2 +-
+ plparse/Makefile.am |   19 +++++--------------
+ 2 files changed, 6 insertions(+), 15 deletions(-)
+
+commit cedf240ade170f059b29ff36b2dc956ef058f2b8
+Author: Kristjan Schmidt <kristjan.schmidt@googlemail.com>
+Date:   Fri Jul 2 20:27:56 2010 +0200
+
+    Add Esperanto translation
+
+ po/LINGUAS |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 6cddbe012eb4ce14193f7640abd237e1db1ada66
+Author: Kristjan Schmidt <kristjan.schmidt@googlemail.com>
+Date:   Fri Jul 2 20:27:56 2010 +0200
+
+    Add Esperanto translation
+
+ po/eo.po |   52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 52 insertions(+), 0 deletions(-)
+
+commit 14b9b021554e054a748d2a9ffc9b9e243e2c6202
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Sat Jun 26 22:03:32 2010 +0100
+
+    Move TotemDiscMediaType get_type() and quark() functions from Totem
+
+ plparse/Makefile.am                |   10 +++++-----
+ plparse/plparser.symbols           |    2 ++
+ plparse/totem-disc.c               |   10 ++++++++++
+ plparse/totem-disc.h               |    6 +++++-
+ plparse/totem-pl-parser-builtins.h |    7 +++++--
+ 5 files changed, 27 insertions(+), 8 deletions(-)
+
+commit 291b01c80a76a70b8fa1a9cdf26b56ed882322d9
+Author: Yaakov Selkowitz <yselkowitz@users.sourceforge.net>
+Date:   Tue Jun 15 23:17:21 2010 -0500
+
+    Do not dist gir_DATA
+    
+    GIR files contain a shared-library attribute which varies per platform,
+    and therefore must not be disted; see bug 621611 for rationale.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=621729
+
+ plparse/Makefile.am |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 9907ccdf7c998d99785c19db2a76409aa2d5e9b9
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Jun 1 19:11:22 2010 +0100
+
+    Add test case for missing PLS entries
+    
+    Add test case for the problem with missing PLS entries.
+
+ plparse/tests/Makefile.am       |    3 +-
+ plparse/tests/missing-items.pls |   80 +++++++++++++++++++++++++++++++++++++++
+ plparse/tests/parser.c          |   44 +++++++++++++++++++++
+ 3 files changed, 126 insertions(+), 1 deletions(-)
+
+commit 17bff27d807375c4cdfbc8bae0a9ac9b2cf1b3c6
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Jun 1 19:07:16 2010 +0100
+
+    Fix small compile-time warning
+
+ plparse/totem-pl-parser-pls.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit f5c6405416ae14841e72828ba6220836395509bd
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Jun 1 18:49:33 2010 +0100
+
+    Fix PLS parsing when some numbered entries are missing
+    
+    Fix missing entries when parsing a PLS file which has "holes"
+    in its numbering.
+
+ plparse/totem-pl-parser-pls.c |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+commit 234749a7e9fe84aeec358a9958cb0d25975d5aed
+Author: Adrian Bunk <adrian.bunk@movial.com>
+Date:   Tue May 18 16:00:40 2010 +0300
+
+    plparse/Makefile.am: Improve the rules for totemplparser-marshal.{c,h}
+    
+    Based on a suggestion by Christian Persch.
+    
+    This also fixes building with automake 1.9.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=618823
+
+ plparse/Makefile.am |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
+
+commit 6924bdc1aa3818a07ae2444dee0f26beac37e73e
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Thu May 13 10:32:22 2010 +0200
+
+    Remove -lz from Libs.private now that GZlibDecompressor is used instead of zlib
+
+ totem-plparser-uninstalled.pc.in |    1 -
+ totem-plparser.pc.in             |    1 -
+ 2 files changed, 0 insertions(+), 2 deletions(-)
+
+commit e4fbb2b8e49215ba9c06cc1d2e952c2eac8ca7ae
+Author: Thomas Thurman <tthurman@mate.org>
+Date:   Wed May 12 18:41:06 2010 -0400
+
+    Updated Shavian transliteration
+
+ po/en@shaw.po |   25 +++++++++++++------------
+ 1 files changed, 13 insertions(+), 12 deletions(-)
+
+commit 2dc1c1eac49a8c30aee89041d7857243fd31eff4
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 12 14:18:02 2010 +0100
+
+    2.30.1
+
+ NEWS         |    7 +++++++
+ configure.in |    2 +-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+commit 9f73be4d36d873136da4ee5016758bdf4f9ca8df
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 12 14:17:14 2010 +0100
+
+    Don't distribute generated marshal files
+    
+    Those are generated at build time. Fixes compilation from
+    tarball after the builddir != srcdir fixes.
+
+ plparse/Makefile.am |   15 ++++++++-------
+ 1 files changed, 8 insertions(+), 7 deletions(-)
+
+commit fdc62c90fcb5cc5519a17a9e2e61b93c2a108fd4
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 12 14:16:45 2010 +0100
+
+    Remove generated file from repository
+
+ plparse/totem-pl-parser-builtins.c |   58 ------------------------------------
+ 1 files changed, 0 insertions(+), 58 deletions(-)
+
+commit 05efbbecdbf20d8bb87096661f45a705bd78c0f1
+Author: Theppitak Karoonboonyanan <thep@linux.thai.net>
+Date:   Fri May 7 09:36:50 2010 +0100
+
+    Fix building introspection when srcdir != builddir
+    
+    The Makefile.am snippets were making the assumption that all
+    the files were in the srcdir, which isn't true for generated files
+    with srcdir != builddir
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=617892
+
+ plparse/Makefile.am |   20 +++++++++++++++-----
+ 1 files changed, 15 insertions(+), 5 deletions(-)
+
+commit 9cfbff6598869ff46b5d7e064587df621cae0378
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Thu May 6 13:01:00 2010 +0200
+
+    Remove now unneeded zlib configure check
+
+ configure.in |    6 ------
+ 1 files changed, 0 insertions(+), 6 deletions(-)
+
+commit 09b2bae800f5505b65c055ce9fd2f8b8d5daf265
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 5 12:06:55 2010 +0100
+
+    Fix returning FALSE with no error set in _save()
+    
+    When the playlist is empty, set an error mentioned why it failed,
+    instead of failing silently and not setting the error.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=616538
+
+ plparse/totem-pl-parser.c |    5 +++++
+ plparse/totem-pl-parser.h |    4 +++-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+commit d548b44d7dd8d943493288d3fab1a25b2f1f2797
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 5 11:54:30 2010 +0100
+
+    Remove now-unneeded libz linking
+
+ plparse/Makefile.am |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit 71ab73dd80816243958f997460b68c81192f6341
+Author: Christian Persch <chpe@mate.org>
+Date:   Wed May 5 01:40:37 2010 +0200
+
+    Use GZlibDecompressor
+    
+    Untested!
+    
+    Bug #617664.
+
+ configure.in                      |    2 +-
+ plparse/totem-pl-parser-podcast.c |  180 +++++++++++++------------------------
+ 2 files changed, 64 insertions(+), 118 deletions(-)
+
+commit 5676ce6ffa59dd2b2e826b47f8de16f7ad83aad9
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 5 00:55:24 2010 +0100
+
+    Fix parsing when you aren't me
+
+ plparse/tests/parser.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 4787efebda1cd1a24fdbc9292498515c93c48632
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 5 00:51:13 2010 +0100
+
+    Add missing test file
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=617710
+
+ plparse/tests/HackerMedley |  434 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 434 insertions(+), 0 deletions(-)
+
+commit 68b138e740fabb681b511037795b3ce75eeff273
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Tue May 4 19:00:00 2010 +0200
+
+    Use AC_MSG_ERROR instead of AC_ERROR for the zlib check
+
+ configure.in |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 5d578de928eadeacc9ad24b2a9a5634491a4ab0b
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Tue May 4 17:43:17 2010 +0200
+
+    Fix Requires/Libs of the pkg-config files to list everything required
+
+ totem-plparser-mini-uninstalled.pc.in |    2 ++
+ totem-plparser-mini.pc.in             |    2 ++
+ totem-plparser-uninstalled.pc.in      |    4 +++-
+ totem-plparser.pc.in                  |    4 +++-
+ 4 files changed, 10 insertions(+), 2 deletions(-)
+
+commit bbd84a522acbcb1615485d48c44f78c4df72c5b2
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Tue May 4 17:43:05 2010 +0200
+
+    Link the gtk-doc scanner with the correct libs
+
+ docs/reference/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit c99aa5efb2813e2f3616f0374910b941a859d010
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Tue May 4 17:42:53 2010 +0200
+
+    Check for zlib and link with it
+
+ configure.in        |    6 ++++++
+ plparse/Makefile.am |    4 +---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+commit f80eee1a44ea72931e81a4c3e18eeb7b1b1ed0d0
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Apr 28 16:10:13 2010 +0100
+
+    Fix crasher parsing hacker medley RSS feed
+    
+    From:
+    https://bugzilla.redhat.com/show_bug.cgi?id=582850
+    
+    Parsing the RSS at http://feeds.feedburner.com/HackerMedley
+    caused a crash because we weren't zero'ing the newly re-allocated
+    buffer for the token parsing.
+
+ plparse/xmllexer.c  |   13 +++++++++----
+ plparse/xmlparser.c |    9 ++++++++-
+ 2 files changed, 17 insertions(+), 5 deletions(-)
+
+commit efd94463b684dbb24a5f7ffee445a7eb5e8d1fae
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Apr 28 16:09:42 2010 +0100
+
+    Add test case for hacker medley RSS crasher
+
+ plparse/tests/Makefile.am |    3 ++-
+ plparse/tests/parser.c    |    3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+commit 204ecf28d19ff2f2e39319cce084228d4a6b9552
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Apr 21 10:42:25 2010 +0100
+
+    Enable silent rules by default
+
+ configure.in        |    3 +++
+ plparse/Makefile.am |    8 ++++----
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+commit e477455fb75868970ba80584d2bf32b13fda215b
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Tue Apr 20 15:43:36 2010 -0500
+
+    check for block devices only on non-win32 systems
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=575373
+
+ plparse/totem-pl-parser.c |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit 0e03a4fc36870e2851fd63d03d28e0d7d86fd4d8
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Mon Apr 19 17:27:21 2010 -0500
+
+    remove the unneeded unistd.h and fix compatibility for msvc
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=575373
+
+ plparse/xmlparser.c |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
+
+commit a7d91e7129517a99beb589f557ce5de04923641f
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Mon Apr 19 17:22:09 2010 -0500
+
+    utilize the variadic macro support in msvc newer than VS8
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=575373
+
+ lib/totem_internal.h |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
+
+commit 145f8d281f5abfe22eac027f4e7186d9a4f0e52f
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Mon Apr 19 17:20:28 2010 -0500
+
+    rename macro __MINGW32__ to _WIN32 to make it work with msvc
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=575373
+
+ lib/asprintf.c |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 30a4ecf2a5c86426154bf29793aa8ed668b651b6
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Mon Apr 19 17:19:29 2010 -0500
+
+    fix includes for msvc
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=575373
+
+ lib/asprintf.c |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit af70d2b18b0b4f8484e67bb5304e6907c65dc486
+Author: Matej Urbančič <mateju@svn.mate.org>
+Date:   Wed Apr 14 14:39:06 2010 +0200
+
+    Updated Slovenian translation
+
+ po/sl.po |  127 +++++++++++++++++++++++++++++++-------------------------------
+ 1 files changed, 63 insertions(+), 64 deletions(-)
+
+commit 90ded2dc87ab703b7a052070c5e79842381571c5
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Sat Jan 16 22:31:34 2010 -0600
+
+    move the variable delaration to begin of the block
+
+ plparse/xmlparser.c |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit e40a9f12efeb91f07197448f2e9276f2b6eccb01
+Author: Shixin Zeng <zeng.shixin@gmail.com>
+Date:   Mon Apr 12 13:11:54 2010 +0100
+
+    Only include unistd.h if available
+
+ plparse/tests/parser.c |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit d270c7bd0b209ed6f4a2eac1b4c6ad660e6f0836
+Author: Andika Triwidada <andika@gmail.com>
+Date:   Mon Apr 12 14:23:34 2010 +0700
+
+    Updated Indonesian translation by Dirgita
+
+ po/id.po | 2524 +-------------------------------------------------------------
+ 1 files changed, 33 insertions(+), 2491 deletions(-)
+
+commit a7bf30d568974c1523a41e05d07ec31cea5b25a8
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Apr 12 00:03:36 2010 +0100
+
+    Allow dual-types to end up being "normal" playlists
+    
+    When we prod at a dual-type (in this case, a PHP file), fix the
+    real parser in the special_types as well, not just in the dual-types.
+    
+    Fixes parsing PHP scripts that generate XSPF playlists, such as:
+    http://startwars.org/dump/remote_xspf.php
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=590722
+
+ plparse/tests/Makefile.am     |    3 +-
+ plparse/tests/parser.c        |   12 ++++
+ plparse/tests/remote_xspf.php |  116 +++++++++++++++++++++++++++++++++++++++++
+ plparse/totem-pl-parser.c     |   45 +++++++++++-----
+ 4 files changed, 160 insertions(+), 16 deletions(-)
+
+commit 916df6eb174a4cefc925d5786ee90cb295048bfe
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Apr 11 22:51:22 2010 +0100
+
+    Fix use of the wrong iterator in loop
+
+ plparse/totem-pl-parser.c |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 12316e257478b6e144186427eb92b0c1ab2d1c42
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Apr 7 17:55:07 2010 +0100
+
+    Fix parsing of dual-types after sniffing
+    
+    After getting the data type of a playlist through the actual data,
+    we should check again if it matches the parser we want to use,
+    otherwise we'll end up trying to parse video files that were
+    masquerading as dual-type playlists.
+    
+    Test file included
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=610471
+
+ plparse/tests/Makefile.am             |    3 ++-
+ plparse/tests/asf-with-asx-suffix.asx |  Bin 0 -> 94230 bytes
+ plparse/tests/parser.c                |   12 ++++++++++++
+ plparse/totem-pl-parser.c             |   19 +++++++++++++++++++
+ 4 files changed, 33 insertions(+), 1 deletions(-)
+
+commit ae5a941de79d336bd73448d1ddcd58fb614c1a85
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Mar 29 17:03:12 2010 +0100
+
+    2.30.0
+    
+    Fix compilation with gmime-2.6
+
+ NEWS         |    3 +++
+ configure.in |   16 +++++++++++-----
+ 2 files changed, 14 insertions(+), 5 deletions(-)
+
+commit 3fef2e542acf828166b48da350c10ac61f5ae96b
+Author: Petr Kovar <pknbe@volny.cz>
+Date:   Mon Mar 29 17:36:10 2010 +0200
+
+    Fix Czech translation by Lucas Lommer
+
+ po/cs.po |   22 +++++++++++-----------
+ 1 files changed, 11 insertions(+), 11 deletions(-)
+
+commit 704f511eb70a761f08e96879d891b68a6fd57948
+Author: Jamil Ahmed <itsjamil@gmail.com>
+Date:   Sun Mar 28 02:36:07 2010 +0600
+
+    Updated Bengali translation
+
+ po/bn.po |   27 ++++++++++++++-------------
+ 1 files changed, 14 insertions(+), 13 deletions(-)
+
+commit f3fae5a646b99b29e9bfa2b96654d54eebc4843c
+Author: Badral Sanligiin <badral@openmn.org>
+Date:   Tue Mar 23 02:48:49 2010 +0100
+
+    Updated Mongolian translation
+
+ po/LINGUAS |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 5b2850ba5111f4abd98a1284798e4632ea49967d
+Author: Badral Sanligiin <badral@openmn.org>
+Date:   Tue Mar 23 02:47:00 2010 +0100
+
+    Updated Mongolian translation
+
+ po/mn.po |   51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 51 insertions(+), 0 deletions(-)
+
+commit a5478993b447ea9127b824050934fa3432999c23
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Mar 15 16:32:29 2010 +0000
+
+    2.29.92
+
+ NEWS                      |    6 ++++++
+ configure.in              |    2 +-
+ plparse/tests/Makefile.am |    3 ++-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+commit 5caf28a38a2c04ba7fe9f9c9827641d0b8a1dd31
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Sun Mar 7 23:24:07 2010 +0000
+
+    Bug 612142 — Unneeded 'DBUS_REQS=0.61' in configure.in
+    
+    Remove unused DBUS_REQS variable from configure.in. Closes: bgo#612142
+
+ configure.in |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+commit 8cd60a46cc802a16e05fdc3556802a11c6623efe
+Author: Edward Hervey <bilboed@bilboed.com>
+Date:   Sun Mar 7 11:30:28 2010 +0100
+
+    directories: Don't leak open files.
+    
+    The GFileEnumerator wasn't properly closed/unreferenced, causing the fd for
+    the directories to be left opened.
+    When opening very big media collections, we would end up being out of fd.
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=612067
+
+ plparse/totem-pl-parser-media.c |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+commit 58be46c568c9fb582ca8f99c1cbed31d450eec6c
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Mar 2 16:50:58 2010 +0000
+
+    Fix parsing of pukas.wax
+    
+    The playlist-started signal would happen after we parsed the first
+    entry, which means that Rhythmbox would be ignoring it.
+    
+    Reported at:
+    http://thread.gmane.org/gmane.comp.mate.apps.rhythmbox.devel/10810
+
+ plparse/tests/parser.c       |   58 ++++++++++++++++++++++++++++++++++++++++++
+ plparse/tests/pukas.wax      |   15 +++++++++++
+ plparse/totem-pl-parser-wm.c |    9 ++++++-
+ 3 files changed, 81 insertions(+), 1 deletions(-)
+
+commit 13930a90705d7fe490dcf0fd63c9161c27870a07
+Author: Torstein Adolf Winterseth <kvikende@yahoo.no>
+Date:   Sat Feb 27 12:59:17 2010 +0100
+
+    Updated Norwegian Nynorsk translation
+
+ po/nn.po |   66 ++++++++++++++++++++++++++++++-------------------------------
+ 1 files changed, 32 insertions(+), 34 deletions(-)
+
+commit 6fa9df809f52d0dcf44f052b012cd8ba42f9ad01
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Thu Feb 25 13:57:05 2010 +0100
+
+    Updated Polish translation
+
+ po/pl.po |  442 ++------------------------------------------------------------
+ 1 files changed, 12 insertions(+), 430 deletions(-)
+
+commit 50b25fb3c135ccb9befca1dac6dacdfc63bb4495
+Author: Fran Diéguez <frandieguez@ubuntu.com>
+Date:   Mon Feb 15 17:30:13 2010 +0100
+
+    Updated Galician Translation
+
+ po/gl.po |   24 ++++++++++++------------
+ 1 files changed, 12 insertions(+), 12 deletions(-)
+
+commit 6fbda63e1126c58943b78729e3a9934f031396da
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Feb 8 18:23:49 2010 +0000
+
+    Fix parsing of Guardian Podcasts
+    
+    As available from:
+    http://www.guardian.co.uk/media/series/media-talk-usa/rss
+
+ plparse/totem-pl-parser-podcast.c |   21 +++++++++++++++++++++
+ 1 files changed, 21 insertions(+), 0 deletions(-)
+
+commit b187641f8802a5e619e229516041ca23d9d329c0
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Jan 27 17:55:02 2010 +0000
+
+    Some gtk-doc fixes
+    
+    Thanks for Stefan Kost for his help
+
+ docs/reference/Makefile.am                  |    2 +-
+ docs/reference/totem-pl-parser-docs.xml     |    1 +
+ docs/reference/totem-pl-parser-sections.txt |    7 +++++++
+ 3 files changed, 9 insertions(+), 1 deletions(-)
+
+commit bb7be07cb259b1f81ddf07a5d2126358b3999c7a
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Jan 27 15:08:24 2010 +0000
+
+    Remove stray MODULES.types file
+
+ docs/reference/MODULE.types |    3 ---
+ 1 files changed, 0 insertions(+), 3 deletions(-)
+
+commit 2d51c9ad64a0b4b6504d99e2f29716701bcf0c6b
+Author: Didier Roche <didrocks@ubuntu.com>
+Date:   Wed Jan 27 11:38:57 2010 +0100
+
+    Fix gir and typelib file version when generated
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=608176
+
+ plparse/Makefile.am |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
+
+commit 14cce633d3759bd74ac349ca0cf8c7190beed8c5
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Jan 26 11:07:39 2010 +0000
+
+    2.29.1
+
+ NEWS |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
+
+commit 481ea77597bb83934d0ea9c6c6d9b855ad29be04
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Jan 26 11:05:23 2010 +0000
+
+    gtk-doc fixes
+
+ plparse/totem-pl-parser.c   |    2 +-
+ plparse/totem-pl-playlist.c |   13 +++++++++++++
+ 2 files changed, 14 insertions(+), 1 deletions(-)
+
+commit 5a0d8853141a21fb2a512747776ca2cc253714e4
+Author: Jamil Ahmed <itsjamil@gmail.com>
+Date:   Fri Jan 22 13:13:20 2010 +0600
+
+    Updated Bengali translation
+
+ po/bn.po | 2843 +++++++++++++++++++++++++-------------------------------------
+ 1 files changed, 1157 insertions(+), 1686 deletions(-)
+
+commit b4526013b5f89c55ec9f8aae02bf1479286be57e
+Author: Ivan Frade <ivan.frade@nokia.com>
+Date:   Tue Jan 19 20:35:32 2010 +0200
+
+    Remove duplicated lines in unit-tests makefile
+    
+    Removed also definition of EXTRA_DIST
+
+ Makefile.decl |  217 ---------------------------------------------------------
+ 1 files changed, 0 insertions(+), 217 deletions(-)
+
+commit 168293fe0f26a79fd0a42e9c693a16798f7a69d8
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jan 8 17:30:59 2010 +0000
+
+    Add more metadata to the XSPF playlist saving
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=551393
+
+ plparse/totem-pl-parser-xspf.c |   66 ++++++++++++++++++++++++++++-----------
+ 1 files changed, 47 insertions(+), 19 deletions(-)
+
+commit 4ee3fbc5cfe266858a950820bd23befc3518aab4
+Author: Andre Klapper <a9016009@gmx.de>
+Date:   Fri Jan 8 16:42:39 2010 +0100
+
+    Remove deprecated Glib symbols
+    
+    Replace g_mount_unmount_finish() with g_mount_unmount_with_operation_finish()
+    and g_mount_unmount() with g_mount_unmount_with_operation()
+    
+    Fixes https://bugzilla.mate.org/show_bug.cgi?id=602550
+
+ plparse/totem-disc.c |   16 +++++++++-------
+ 1 files changed, 9 insertions(+), 7 deletions(-)
+
+commit f79a344775f8e28218ddc508abaeefda4917a1ad
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jan 8 16:22:44 2010 +0000
+
+    But require Gio for introspection
+
+ plparse/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit b2121242e8c83f4282a5252c79c4308c4111e180
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jan 8 16:15:48 2010 +0000
+
+    Don't depend on Gtk+ anymore for the introspection data
+
+ plparse/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 021dfcad928e088d5cd2c68548fffe0bf19ce949
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jan 8 13:55:32 2010 +0000
+
+    Bump version for recent GTK+ dep drop
+
+ configure.in |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 01ded1197b0553ecb0685ef180e35c053a504b8e
+Author: Carlos Garnacho <carlos@lanedo.com>
+Date:   Fri Dec 18 14:25:57 2009 +0100
+
+    Remove GTK+ dependency.
+    
+    TotemPlPlaylist has been added to replace GtkTreeModel usage in the
+    write API, internal playlist implementations now use this to get
+    songs/titles in order to write the playlist. Older write API has been
+    replaced by totem_pl_parser_save().
+
+ configure.in                                |    2 +-
+ docs/reference/totem-pl-parser-docs.xml     |    1 +
+ docs/reference/totem-pl-parser-sections.txt |   32 ++-
+ docs/reference/totem-pl-parser.types        |    1 +
+ plparse/Makefile.am                         |    7 +-
+ plparse/plparser.symbols                    |   18 +-
+ plparse/totem-pl-parser-lines.c             |   41 ++-
+ plparse/totem-pl-parser-lines.h             |   13 +-
+ plparse/totem-pl-parser-media.c             |    3 +-
+ plparse/totem-pl-parser-misc.c              |    2 +-
+ plparse/totem-pl-parser-pla.c               |   50 ++-
+ plparse/totem-pl-parser-pla.h               |    8 +-
+ plparse/totem-pl-parser-pls.c               |  107 +++---
+ plparse/totem-pl-parser-pls.h               |    6 +-
+ plparse/totem-pl-parser-podcast.c           |    2 +-
+ plparse/totem-pl-parser-private.h           |    8 +-
+ plparse/totem-pl-parser-qt.c                |    2 +-
+ plparse/totem-pl-parser-smil.c              |    2 +-
+ plparse/totem-pl-parser-wm.c                |    2 +-
+ plparse/totem-pl-parser-xspf.c              |   58 ++--
+ plparse/totem-pl-parser-xspf.h              |   15 +-
+ plparse/totem-pl-parser.c                   |  197 ++++------
+ plparse/totem-pl-parser.h                   |   43 +--
+ plparse/totem-pl-playlist.c                 |  533 +++++++++++++++++++++++++++
+ plparse/totem-pl-playlist.h                 |  100 +++++
+ totem-plparser-uninstalled.pc.in            |    1 -
+ totem-plparser.pc.in                        |    1 -
+ 27 files changed, 955 insertions(+), 300 deletions(-)
+
+commit 49ee29f128687c8b23febfe3fdbfa3db20866556
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jan 8 13:43:21 2010 +0000
+
+    Fix ms translation
+
+ po/ms.po |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit 785068e61e196087346b0f5956393f5935fd0326
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jan 8 13:11:29 2010 +0000
+
+    Enable maintainer mode by default
+
+ configure.in |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 929b7f0c76077c220b114a5cdecceb6968a895f2
+Author: Xandru Armesto Fernandez <xandru@softastur.org>
+Date:   Thu Jan 7 19:35:21 2010 +0100
+
+    Updated asturian translation
+
+ po/LINGUAS |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 2e465fecdbc7d9683b7d8acb70b3b76f012a0f47
+Author: Xandru Armesto Fernandez <xandru@softastur.org>
+Date:   Thu Jan 7 19:35:13 2010 +0100
+
+    Updated asturian translation
+
+ po/ast.po |   51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 51 insertions(+), 0 deletions(-)
+
+commit c49a1bb8c6f939cd7dc4ef47be40f59d1e5c1089
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Mon Jan 4 16:51:40 2010 +0000
+
+    Fix documentation section references
+    
+    Fix ID collision between two sections which were both trying to call
+    themselves "TotemPlParser". This stops the irritating stream of warnings from
+    gtk-doc when building.
+
+ plparse/totem-pl-parser.h |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 067ef7123e389f071758712717c175c42c9af820
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Mon Jan 4 16:43:27 2010 +0000
+
+    Add gtk-doc support for introspection annotations
+
+ docs/reference/totem-pl-parser-docs.xml |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+commit fa45f9b86eb1523e1ee981c6a2aeb28b0230bab5
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Sat Jan 2 00:26:32 2010 +0000
+
+    Bug 555848 — Add introspection support
+    
+    Add complete introspection support to totem-pl-parser, including enough
+    annotations to ensure the GIR file is accurate. Closes: bgo#555848
+
+ Makefile.am               |    4 ++-
+ autogen.sh                |    1 +
+ configure.in              |    3 +-
+ plparse/Makefile.am       |   69 +++++++++++++++++++++++++++++++++++---------
+ plparse/totem-disc.c      |    4 +-
+ plparse/totem-pl-parser.c |   12 ++++----
+ plparse/totem-pl-parser.h |    6 ++--
+ 7 files changed, 72 insertions(+), 27 deletions(-)
+
+commit fc603d2f98802ae20f4902f2b1dd589b891595b6
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Dec 14 10:53:20 2009 +0000
+
+    Use g_strstr_len() instead of GNU extension memmem
+
+ plparse/totem-pl-parser.c |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit a8efeafbe2591dff240821655ce3be13ef1c9d8a
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 11 12:26:50 2009 +0000
+
+    2.28.2
+
+ NEWS         |   10 ++++++++++
+ configure.in |    4 ++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+
+commit 2561ef51dcaf98f8aa28c36f153d7653f25c658d
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 11 12:26:23 2009 +0000
+
+    Make tests work under distcheck
+    
+    With builddir != srcdir. Make sure to include test files
+    in the distribution as well.
+
+ plparse/tests/Makefile.am |   12 +++++++-
+ plparse/tests/parser.c    |   64 ++++++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 65 insertions(+), 11 deletions(-)
+
+commit 9af596a08abc387e7f4b3f187ed63d36eed27eaa
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 15:18:40 2009 +0000
+
+    Add test case for bug 585407
+
+ plparse/tests/585407.rss |  838 ++++++++++++++++++++++++++++++++++++++++++++++
+ plparse/tests/parser.c   |    9 +
+ 2 files changed, 847 insertions(+), 0 deletions(-)
+
+commit 5e76577f299436cac38260012db37fb1fe475484
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 15:18:04 2009 +0000
+
+    Don't zero comments that start withing CDATA
+    
+    Fixed parsing of http://www.davidco.com/podcast.php
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=585407
+
+ plparse/totem-pl-parser.c |   24 ++++++++++++++----------
+ 1 files changed, 14 insertions(+), 10 deletions(-)
+
+commit 7f6b568668e0381a95f6a9227b85c44abc293ee3
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 14:59:10 2009 +0000
+
+    Make erasing comments from XML files slightly faster
+
+ plparse/totem-pl-parser.c |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit fe01f1bbcbbc67dbfe5d9b702314f3868c892bba
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 14:24:55 2009 +0000
+
+    Add test for bug 594036
+
+ plparse/tests/live-streaming.m3u |    5 +++++
+ plparse/tests/parser.c           |    9 +++++++++
+ 2 files changed, 14 insertions(+), 0 deletions(-)
+
+commit 9cec1603cbd7991ef1eb23679acc74fdfce36f12
+Author: Matt Kraai <kraai@ftbfs.org>
+Date:   Thu Dec 3 00:48:55 2009 -0800
+
+    Make totem-pl-parser thread-safe
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=572705
+
+ plparse/totem-pl-parser.c |   15 +++-
+ plparse/xmllexer.c        |  215 ++++++++++++++++++++++++++-------------------
+ plparse/xmllexer.h        |   24 +++++-
+ plparse/xmlparser.c       |  194 ++++++++++++++++++++++++++++++++++------
+ plparse/xmlparser.h       |   25 ++++-
+ 5 files changed, 344 insertions(+), 129 deletions(-)
+
+commit 1dd2ca4bad26d6dc1e5944457e601dbf3845ec28
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 13:26:47 2009 +0000
+
+    Add test case for single line RTSPText files
+
+ plparse/tests/parser.c        |   11 +++++++++--
+ plparse/tests/single-line.qtl |    1 +
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+commit 458d240f55ca971b4e23db7ce2ad626808bb1a4b
+Author: Simon Pecher <simon.pecher@googlemail.com>
+Date:   Fri Dec 4 13:24:51 2009 +0000
+
+    Fix parsing of multi-line RTSPtext files
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=602127
+
+ plparse/totem-pl-parser-qt.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 0410d8f1dbc9be8d8ad1e09cac4ef17d5099adeb
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 13:24:21 2009 +0000
+
+    Add test case for bug 602127
+
+ plparse/tests/602127.qtl |    2 ++
+ plparse/tests/parser.c   |   40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 0 deletions(-)
+
+commit f7d9a0528d1eef380b7d0ebc181e327c90854450
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 13:15:19 2009 +0000
+
+    Make "make check" pass by adding a doc
+
+ docs/reference/totem-pl-parser-sections.txt |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 8751b19ec4795f23042a2861b43dc6cd2d2aa037
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 13:12:17 2009 +0000
+
+    Update tests to be current
+
+ plparse/tests/parser.c |   12 +++++++-----
+ 1 files changed, 7 insertions(+), 5 deletions(-)
+
+commit e973149872b20a899c3b0a2651b19a970d9d3818
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Dec 4 13:11:59 2009 +0000
+
+    Fix parsing of RSS feeds being detected as HTML files
+
+ plparse/totem-pl-parser.c |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit e78f18f1402a441e638f5b69aa798db1eba41223
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Nov 30 12:00:08 2009 +0000
+
+    Add support for subtitle URIs in SMIL playlists
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=603359
+
+ plparse/totem-pl-parser-smil.c |  119 ++++++++++++++++++++++++++++++----------
+ plparse/totem-pl-parser.c      |    4 +
+ plparse/totem-pl-parser.h      |    6 ++
+ 3 files changed, 100 insertions(+), 29 deletions(-)
+
+commit 6a68766bf79f2e7574c23fb05925661dff203483
+Author: Sebastian Dröge <sebastian.droege@collabora.co.uk>
+Date:   Mon Nov 30 09:32:26 2009 +0100
+
+    Include gio/gio.h in totem-pl-parser.h for GCancellable and friends
+    
+    gtk/gtk.h only includes gio/gio.h since 2.16 but totem-pl-parser
+    works with older GTK+ too.
+
+ plparse/totem-pl-parser.h |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 2c15e74f7cca406a28e18e94e092b545d199f0ea
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Sat Nov 28 15:38:09 2009 +0100
+
+    Fixed plural form for nepali and uighur translations
+
+ po/ne.po |    2 +-
+ po/ug.po |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit beb8e2d116e4131a3830204d9f006bc7afa964ab
+Author: Nils-Christoph Fiedler <fiedler@medienkompanie.de>
+Date:   Sat Nov 28 15:22:12 2009 +0100
+
+    Deleted obsolete file
+
+ po/nds_NFE.po |   49 -------------------------------------------------
+ 1 files changed, 0 insertions(+), 49 deletions(-)
+
+commit 20d09dfb0d1c0a699a31f8e76c53f3cd1e7cf789
+Author: Nils-Christoph Fiedler <fiedler@medienkompanie.de>
+Date:   Sat Nov 28 15:02:26 2009 +0100
+
+    Cleared obsolete file
+
+ po/nds_NFE.po |   20 ++++++++++----------
+ 1 files changed, 10 insertions(+), 10 deletions(-)
+
+commit 37cd28ea1dc8b691161b6fced22a05782af81f00
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Nov 26 18:22:53 2009 +0000
+
+    Fix getting a DVD title from remote directories
+
+ plparse/totem-pl-parser-media.c |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+
+commit cb381ad89e9d001e70ae6ca4918d831ac55609ee
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Nov 26 18:22:20 2009 +0000
+
+    Fix non-ASCII strings being used in the tests programs
+
+ plparse/tests/disc.c   |    3 +++
+ plparse/tests/parser.c |    2 ++
+ 2 files changed, 5 insertions(+), 0 deletions(-)
+
+commit 0cf4e6e5d027033f5f85cc2512140baf77120d94
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Nov 26 17:57:08 2009 +0000
+
+    Fix ISO DVD detection from remote shares
+    
+    And make sure we only umount archives that we mounted
+    ourselves.
+
+ plparse/totem-disc.c |   25 ++++++++++++++-----------
+ 1 files changed, 14 insertions(+), 11 deletions(-)
+
+commit a74d316cfbf814d899f9b7ec9f24748c9d08be2e
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sat Nov 21 14:19:14 2009 +0000
+
+    Fix small memleak when printing descriptions in test parser
+
+ plparse/tests/parser.c |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 30da5f759b398fa9fcbd5378ab298d25424a26f3
+Author: Peteris Krisjanis <pecisk@gmail.com>
+Date:   Wed Nov 18 13:33:49 2009 +0200
+
+    Updated Latvian translation.
+
+ po/lv.po | 2611 +++++++++++++++++++++++++-------------------------------------
+ 1 files changed, 1061 insertions(+), 1550 deletions(-)
+
+commit 0562803bbe9c1aa08f761d86bcd206f13507befd
+Author: Thomas Thurman <tthurman@mate.org>
+Date:   Sun Nov 1 14:42:42 2009 -0500
+
+    Shavian translation
+
+ po/LINGUAS    |    1 +
+ po/en@shaw.po |   44 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 0 deletions(-)
+
+commit f2f4b85e1d7233dde1f2ecd45bd2b8afd820f320
+Author: Nils-Christoph Fiedler <linux@medienkompanie.de>
+Date:   Thu Oct 22 20:04:54 2009 +0200
+
+    Updated Low German translation
+
+ po/nds.po |   24 ++++++++++++------------
+ 1 files changed, 12 insertions(+), 12 deletions(-)
+
+commit 89295306e1e7f7f6a616a1bf049e943ee12c8b47
+Author: Anna Jonna Ármannsdóttir <annajonna@gmail.com>
+Date:   Fri Oct 16 04:58:27 2009 +0000
+
+    Updated Icelandic translation
+
+ po/is.po |   34 +++++++++-------------------------
+ 1 files changed, 9 insertions(+), 25 deletions(-)
+
+commit c3de91b3f04b87f5126ef2c7cd817a27a8d73176
+Author: Anna Jonna Ármannsdóttir <annajonna@gmail.com>
+Date:   Fri Oct 2 06:01:50 2009 +0000
+
+    Updated Icelandic translation
+
+ po/is.po |   57 +++++++++++++++++++--------------------------------------
+ 1 files changed, 19 insertions(+), 38 deletions(-)
+
+commit 0ca6bbabbc1cefb8e1bd978155c5334faeaea60d
+Author: Anna Jonna Ármannsdóttir <annajonna@gmail.com>
+Date:   Fri Oct 2 05:41:54 2009 +0000
+
+    Updated Icelandic translation
+
+ po/is.po |   19 +++++++++----------
+ 1 files changed, 9 insertions(+), 10 deletions(-)
+
+commit 25a7d6754e988ce029cbf1151a32996dec8dc7f6
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Sep 29 16:14:07 2009 +0100
+
+    2.28.1
+
+ NEWS         |    4 ++++
+ configure.in |    2 +-
+ 2 files changed, 5 insertions(+), 1 deletions(-)
+
+commit 1c6dc284ba809ccd398c35bb20654da16ab39520
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 24 19:31:39 2009 +0100
+
+    Only ever ignore files that we can discover as text/plain
+    
+    Otherwise we'd be ignoring files for which we don't have magic,
+    which seems to happen a lot for MPEG-4 files, and their ever-growing
+    ftypes.
+
+ plparse/totem-pl-parser.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 8d20acca930c0c0cc844798d7057c2a784e06869
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:51:23 2009 +0100
+
+    Remove unused variable in PLS parser
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-pls.c |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+commit ff46f8db0ca329616838c70f1a009fd7628f8754
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:49:36 2009 +0100
+
+    You can't get a logo in atom:entry
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-podcast.c |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
+
+commit 04db71f49d05b9beccd0c360993d3fd050e7ad7f
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:39:51 2009 +0100
+
+    Fix retval of the PLA parser
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-pla.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit b83ac49f4d1b45ee59209c0a5afb16b1dce0d1c9
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:36:05 2009 +0100
+
+    Remove useless assignment
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-disc.c |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+commit 5a5c6a52ab87fe5f204b865e4bba65c908bd8988
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:33:44 2009 +0100
+
+    Remove unused num_entries variable from PLA writer
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-pla.c |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit 57de94db5b11d2aa12af139782a107ecf3d57c71
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:32:45 2009 +0100
+
+    Use g_mapped_file_unref() instead of _free()
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ configure.in              |    2 +-
+ plparse/totem-pl-parser.c |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 181e6836e0ef2905097486844c21b0c0280fbf6d
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:31:40 2009 +0100
+
+    Remove unused title variable
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 3a9df5f8ca6400fe29060e249761ca2997bed79f
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:28:56 2009 +0100
+
+    Also export the contact from RSS feeds
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-podcast.c |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 4744d6b524fee2efafdb51f8742f9f79ecf40576
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:27:30 2009 +0100
+
+    Fix dead assignment in OPML parsing
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-podcast.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit de101c1d651e70fe9a5ca076697ebd222a36819b
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Sep 17 15:25:39 2009 +0100
+
+    Remove unused variable in xspf writer code
+    
+    https://bugzilla.mate.org/show_bug.cgi?id=595471
+
+ plparse/totem-pl-parser-xspf.c |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit 853deec5fad8f62dce1a48faf2dd8ec58422c7d8
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Sep 21 11:48:35 2009 +0100
+
+    2.28.0
+
+ NEWS         |    3 +++
+ configure.in |    4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+commit 4749b1bcf0a970ba9513c2f775de30e726ba6bcc
+Author: Rajesh Ranjan <rranjan@rranjan.csb>
+Date:   Sat Sep 19 00:18:52 2009 +0530
+
+    maithili update, translated by Sangeeta Kumari
+
+ po/LINGUAS |    1 +
+ po/mai.po  |   52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+), 0 deletions(-)
+
+commit e1e4312858338b2986ed7c9d9481ed3d5c43c480
+Author: Niels-Christoph Fiedler <linux@medienkompanie.de>
+Date:   Wed Sep 16 18:34:30 2009 +0200
+
+    Updated German translation
+
+ po/nds.po |   21 ++++++++++-----------
+ 1 files changed, 10 insertions(+), 11 deletions(-)
+
+commit 00bcb0a88eed507ef76b3e7f60c24040400be526
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Sep 15 11:43:15 2009 +0100
+
+    2.27.92
+
+ NEWS         |    7 +++++++
+ configure.in |    2 +-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+commit 98306f2c26730eb13dd0aff756f016a8d38429c3
+Author: Carles Ferrando <carles.ferrando@gmail.com>
+Date:   Mon Sep 14 13:34:01 2009 +0200
+
+    Added Catalan (Valencian) translation
+
+ po/LINGUAS        |    1 +
+ po/ca@valencia.po | 2285 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 2286 insertions(+), 0 deletions(-)
+
+commit 48d16f11075ca66797afca1cc9f7732c3b924379
+Author: Ani <peter.ani@gmail.com>
+Date:   Sat Sep 12 00:28:29 2009 +0530
+
+    Updaeted Malayalam Translations
+
+ po/ml.po |   49 ++++++++++++++++++++++++-------------------------
+ 1 files changed, 24 insertions(+), 25 deletions(-)
+
+commit 5dc6aab52715eb0af2717f71db28ddd25ea48189
+Author: krishnababu k <kkrothap@redhat.ocm>
+Date:   Fri Sep 11 21:06:33 2009 +0530
+
+    Updated Telugu Translations
+
+ po/te.po | 1712 +-------------------------------------------------------------
+ 1 files changed, 28 insertions(+), 1684 deletions(-)
+
+commit ea311e53b7732761c63fe3931445fe062086a2f8
+Author: Rajesh Ranjan <rranjan@rranjan.csb>
+Date:   Thu Sep 10 13:14:38 2009 +0530
+
+    hindi update by Rajesh Ranjan
+
+ po/hi.po | 1993 +------------------------------------------------------------
+ 1 files changed, 33 insertions(+), 1960 deletions(-)
+
+commit a2bb4aa0ca85d2bc1204e8d6ef5ec528dca6c717
+Author: Miloš Popović <mpopovic@src.mate.org>
+Date:   Sun Sep 6 17:15:16 2009 +0000
+
+    Updated Serbian translation
+
+ po/sr.po       |   77 +++++++++++++------------------------------------------
+ po/sr@latin.po |   77 +++++++++++++------------------------------------------
+ 2 files changed, 36 insertions(+), 118 deletions(-)
+
+commit 0e1ba4bf1e37e669ac5144a381cc0cf61d1620e4
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Sep 2 18:21:53 2009 +0100
+
+    When asking for a URI, give back a URI
+    
+    We ask for a URI, and ended up getting a local path for the
+    mountpoint. Fixes playing data mounts from Totem's Movie menu.
+
+ plparse/totem-disc.c |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit 908ec9f43d9a0e3762870c0efa5726ade211645f
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Sep 2 18:18:26 2009 +0100
+
+    Don't assert testing for data discs
+
+ plparse/tests/disc.c |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+commit c181d77bf5bbdacb987324a5aa8a7debf27eb897
+Author: Og B. Maciel <ogmaciel@mate.org>
+Date:   Sun Aug 30 12:11:44 2009 -0400
+
+    Updated mailing list address.
+
+ po/pt_BR.po |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 9967efe5b3d08065cd128b2a39dd797c11572985
+Author: Khaled Hosny <khaledhosny@eglug.org>
+Date:   Thu Aug 27 14:06:42 2009 +0300
+
+    Updated Arabic translation
+
+ po/ar.po |   35 +++++++++++++++++------------------
+ 1 files changed, 17 insertions(+), 18 deletions(-)
+
+commit bc1ba1d815791761558b555485f0adba36fe9a5e
+Author: Denis Arnaud <darnaud@src.mate.org>
+Date:   Tue Aug 25 04:40:33 2009 +0200
+
+    Updated breton translation
+
+ po/br.po | 1754 +-------------------------------------------------------------
+ 1 files changed, 22 insertions(+), 1732 deletions(-)
+
+commit f399fbba900d136d9995259bee047e571724370d
+Author: Andre Klapper <a9016009@gmx.de>
+Date:   Mon Aug 24 22:52:17 2009 +0200
+
+    Change nds_NFE to nds as discussed on irc
+
+ po/LINGUAS |    2 +-
+ po/nds.po  |   49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+), 1 deletions(-)
+
+commit d36c1f85b24046f2033f979b768bbbbc87c7f590
+Author: Nils-Christoph Fiedler <linux@medienkompanie.de>
+Date:   Sat Aug 22 21:25:07 2009 +0200
+
+    Added Low German translation
+
+ po/LINGUAS    |    1 +
+ po/nds_NFE.po |   49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+), 0 deletions(-)
+
+commit 98ef363bfe224e5d68b2d5068c9a3f16df3369b1
+Author: Philip Withnall <philip@tecnocode.co.uk>
+Date:   Fri Jul 31 20:01:14 2009 +0100
+
+    Bug 590389 – plparse/tests/parser is broken
+    
+    Change how signals are emitted from the playlist parsing process so they're
+    once more emitted synchronously when we're parsing synchronously, and in
+    idle callbacks when we're parsing asynchronously. This solves the awkward
+    problem of all the TotemPlParser::entry-parsed signals being emitted after
+    a call to a synchronous parse function had returned. Closes: bgo#590389
+
+ plparse/totem-pl-parser-private.h |   26 ++++++++++++++++++++++++++
+ plparse/totem-pl-parser.c         |    6 ++++--
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+
+commit 73db4d176c48deec762dc042befab4b0a4bda5ab
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jul 31 17:36:09 2009 +0100
+
+    Bug 584312 – Totem does not ignore text files when adding to queue
+    
+    Ignore dual-types that are still text/plain after data check.
+    Before that, this only happened if we didn't have data for the
+    file yet, but we're certain we do now, so we can gently ignore.
+
+ plparse/totem-pl-parser.c |   15 +++++++++------
+ 1 files changed, 9 insertions(+), 6 deletions(-)
+
+commit 12b5111cfdd3e8b0dc94b0ba448d43615e49de9d
+Author: Seán de Búrca <leftmostcat@gmail.com>
+Date:   Wed Jul 29 17:48:42 2009 -0600
+
+    Updated Irish translation
+
+ po/ga.po |   51 ++++++++++++++++-----------------------------------
+ 1 files changed, 16 insertions(+), 35 deletions(-)
+
+commit d09c0d0518557cd50681aa0d528bcdd1fd4b1b80
+Author: Iestyn Pryce <dylunio@gmail.com>
+Date:   Mon Jul 27 10:03:56 2009 +0200
+
+    Updated Welsh translation.
+
+ po/cy.po | 1928 +-------------------------------------------------------------
+ 1 files changed, 19 insertions(+), 1909 deletions(-)
+
+commit e293a5f5db5ca5634a0d42927d547e401112ee04
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Jul 24 01:48:33 2009 +0100
+
+    Set uselibcamel correctly
+    
+    We still use gmime, but we keep the name "uselibcamel", as
+    that's what Rhythmbox' configure uses too.
+
+ totem-plparser.pc.in |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 44411d9b71d3d7a6ef11700ecb41e309c3d58092
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 21:19:32 2009 +0100
+
+    Bug 574780 – Speed up PLS parsing
+    
+    Speed up PLS parsing by using a hashtable to store and lookup
+    the data. Original patch by Ivan Frade <ivan.frade@nokia.com>
+
+ plparse/totem-pl-parser-pls.c |   72 +++++++++++++++++++++++-----------------
+ 1 files changed, 41 insertions(+), 31 deletions(-)
+
+commit 50dd9e2beb9927d0864721e67e5bfbfe0c632e17
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 21:03:00 2009 +0100
+
+    Update gitignore
+
+ .gitignore |   16 ++++++++++++++++
+ 1 files changed, 16 insertions(+), 0 deletions(-)
+
+commit eba233110aca33f3f20a7e9e44be3408ab5227e9
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 20:45:42 2009 +0100
+
+    Use git to generate the ChangeLog
+
+ ChangeLog            | 1434 --------------------------------------------------
+ ChangeLog.pre-2.27.2 | 1434 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ Makefile.am          |   11 +
+ 3 files changed, 1445 insertions(+), 1434 deletions(-)
+
+commit 91d41f0130fbb62449d6c076b1f342621110061a
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 20:32:38 2009 +0100
+
+    2.27.2
+
+ ChangeLog    |    9 ++++++++-
+ NEWS         |    6 ++++++
+ configure.in |    2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
+
+commit 66b793e39ce012d08ba184b6438d5cb58f364c04
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 20:18:45 2009 +0100
+
+    Fix substitution in pkg-config file
+    
+    2009-07-23  Bastien Nocera  <hadess@hadess.net>
+    
+    	* configure.in: Fix substitution in pkg-config file,
+    	spotted by Philip
+
+ ChangeLog    |    5 +++++
+ configure.in |    2 +-
+ 2 files changed, 6 insertions(+), 1 deletions(-)
+
+commit 687be91aefe701d0d28211a73644e3b609a166af
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 20:02:28 2009 +0100
+
+    Use GMime instead of libcamel for dates parsing
+    
+    2009-07-23  Bastien Nocera  <hadess@hadess.net>
+    
+    	* README:
+    	* configure.in:
+    	* plparse/totem-pl-parser-podcast.c (totem_pl_parser_add_rss),
+    	(totem_pl_parser_add_itpc), (totem_pl_parser_add_zune),
+    	(totem_pl_parser_add_atom), (totem_pl_parser_add_xml_feed),
+    	(totem_pl_parser_add_itms), (totem_pl_parser_add_opml):
+    	* plparse/totem-pl-parser-podcast.h:
+    	* plparse/totem-pl-parser.c (totem_pl_parser_parse_date):
+    	* totem-plparser-uninstalled.pc.in:
+    	* totem-plparser.pc.in: Use GMime instead of libcamel
+    	for dates parsing. Hopefully good enough for people to
+    	stop shipping crippled versions of totem-pl-parser
+
+ ChangeLog                         |   15 ++++++++++
+ README                            |    1 +
+ configure.in                      |   52 ++++++++++++++++++------------------
+ plparse/totem-pl-parser-podcast.c |   42 +++++++++++++++---------------
+ plparse/totem-pl-parser-podcast.h |    8 +++---
+ plparse/totem-pl-parser.c         |   12 ++++----
+ totem-plparser-uninstalled.pc.in  |    2 +-
+ totem-plparser.pc.in              |    2 +-
+ 8 files changed, 75 insertions(+), 59 deletions(-)
+
+commit aa5ce8f3b1deeef1f44c39bb1d528b991f924336
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Jul 23 19:57:12 2009 +0100
+
+    Add more debug when a parse error happens
+    
+    2009-07-23  Bastien Nocera  <hadess@hadess.net>
+    
+    	* plparse/tests/parser.c (test_data_get_data), (test_parsability):
+    	Add more debug when a parse error happens
+
+ ChangeLog              |    5 +++++
+ plparse/tests/parser.c |    9 ++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)

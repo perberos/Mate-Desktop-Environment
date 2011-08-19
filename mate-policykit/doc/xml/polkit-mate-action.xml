@@ -1,0 +1,616 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<refentry id="PolKitMateAction">
+<refmeta>
+<refentrytitle role="top_of_page" id="PolKitMateAction.top_of_page">PolKitMateAction</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>POLKIT-MATE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>PolKitMateAction</refname>
+<refpurpose>A GtkAction subclass where instances can be tied to a specific PolicyKit action.</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="PolKitMateAction.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="PolKitMateActionPrivate">PolKitMateActionPrivate</link>;
+                    <link linkend="PolKitMateAction-struct">PolKitMateAction</link>;
+<link linkend="PolKitMateAction">PolKitMateAction</link>*  <link linkend="polkit-mate-action-new">polkit_mate_action_new</link>             (const <link linkend="gchar">gchar</link> *name);
+<link linkend="PolKitMateAction">PolKitMateAction</link>*  <link linkend="polkit-mate-action-new-default">polkit_mate_action_new_default</link>     (const <link linkend="gchar">gchar</link> *name,
+                                                         <link linkend="PolKitAction">PolKitAction</link> *polkit_action,
+                                                         const <link linkend="gchar">gchar</link> *label,
+                                                         const <link linkend="gchar">gchar</link> *tooltip);
+<link linkend="PolKitResult">PolKitResult</link>        <link linkend="polkit-mate-action-get-polkit-result">polkit_mate_action_get_polkit_result</link>
+                                                        (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);
+<link linkend="gboolean">gboolean</link>            <link linkend="polkit-mate-action-get-sensitive">polkit_mate_action_get_sensitive</link>   (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);
+<link linkend="void">void</link>                <link linkend="polkit-mate-action-set-sensitive">polkit_mate_action_set_sensitive</link>   (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                         <link linkend="gboolean">gboolean</link> sensitive);
+<link linkend="gboolean">gboolean</link>            <link linkend="polkit-mate-action-get-visible">polkit_mate_action_get_visible</link>     (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);
+<link linkend="void">void</link>                <link linkend="polkit-mate-action-set-visible">polkit_mate_action_set_visible</link>     (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                         <link linkend="gboolean">gboolean</link> visible);
+<link linkend="GtkWidget">GtkWidget</link>*          <link linkend="polkit-mate-action-create-button">polkit_mate_action_create_button</link>   (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="PolKitMateAction.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="GtkAction">GtkAction</link>
+         +----PolKitMateAction
+               +----<link linkend="PolKitMateToggleAction">PolKitMateToggleAction</link>
+</synopsis>
+
+</refsect1>
+
+
+
+<refsect1 id="PolKitMateAction.implemented-interfaces" role="impl_interfaces">
+<title role="impl_interfaces.title">Implemented Interfaces</title>
+<para>
+PolKitMateAction implements
+ <link linkend="GtkBuildable">GtkBuildable</link>.</para>
+
+</refsect1>
+
+
+<refsect1 id="PolKitMateAction.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="PolKitMateAction--auth-icon-name">auth-icon-name</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--auth-label">auth-label</link>&quot;               <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--auth-sensitive">auth-sensitive</link>&quot;           <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--auth-short-label">auth-short-label</link>&quot;         <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--auth-tooltip">auth-tooltip</link>&quot;             <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--auth-visible">auth-visible</link>&quot;             <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--master-sensitive">master-sensitive</link>&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--master-visible">master-visible</link>&quot;           <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--no-icon-name">no-icon-name</link>&quot;             <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--no-label">no-label</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--no-sensitive">no-sensitive</link>&quot;             <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--no-short-label">no-short-label</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--no-tooltip">no-tooltip</link>&quot;               <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--no-visible">no-visible</link>&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--polkit-action">polkit-action</link>&quot;            <link linkend="gpointer">gpointer</link>              : Read / Write / Construct
+  &quot;<link linkend="PolKitMateAction--polkit-action-sufficient">polkit-action-sufficient</link>&quot; <link linkend="GValueArray">GValueArray</link>*          : Read / Write / Construct
+  &quot;<link linkend="PolKitMateAction--self-blocked-icon-name">self-blocked-icon-name</link>&quot;   <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--self-blocked-label">self-blocked-label</link>&quot;       <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--self-blocked-sensitive">self-blocked-sensitive</link>&quot;   <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--self-blocked-short-label">self-blocked-short-label</link>&quot; <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--self-blocked-tooltip">self-blocked-tooltip</link>&quot;     <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--self-blocked-visible">self-blocked-visible</link>&quot;     <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--target-pid">target-pid</link>&quot;               <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="PolKitMateAction--yes-icon-name">yes-icon-name</link>&quot;            <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--yes-label">yes-label</link>&quot;                <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--yes-sensitive">yes-sensitive</link>&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="PolKitMateAction--yes-short-label">yes-short-label</link>&quot;          <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--yes-tooltip">yes-tooltip</link>&quot;              <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="PolKitMateAction--yes-visible">yes-visible</link>&quot;              <link linkend="gboolean">gboolean</link>              : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 id="PolKitMateAction.signals" role="signal_proto">
+<title role="signal_proto.title">Signals</title>
+<synopsis>
+  &quot;<link linkend="PolKitMateAction-auth-end">auth-end</link>&quot;                                       : Run Last
+  &quot;<link linkend="PolKitMateAction-auth-start">auth-start</link>&quot;                                     : Run Last
+  &quot;<link linkend="PolKitMateAction-polkit-result-changed">polkit-result-changed</link>&quot;                          : Run Last
+</synopsis>
+</refsect1>
+
+
+<refsect1 id="PolKitMateAction.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+Actions in GTK+ represent operations that the user can be perform,
+along with some information how it should be presented in the
+interface. Each action provides methods to create icons, menu items
+and toolbar items representing itself. Each action can have one or
+more proxy menu item, toolbar button or other proxy
+widgets. Proxies mirror the state of the action (text label,
+tooltip, icon, visible, sensitive, etc), and should change when the
+action's state changes. When the proxy is activated, it should
+activate its action.
+</para>
+<para>
+Instances of <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> class updates the label, tooltip,
+icon-name, visible and properties of the parent <link linkend="GtkAction"><type>GtkAction</type></link> instance
+according to what result PolicyKit gives about a given
+<link linkend="PolKitAction"><type>PolKitAction</type></link> object. The <link linkend="PolKitMateContext"><type>PolKitMateContext</type></link> class is used
+internally to track changes. This means that external events (such
+as the editing of the /etc/PolicyKit/PolicyKit.conf file,
+ConsoleKit session activity changes or if the user gains a
+privilege via authentication) will trigger the action, and thus
+connected proxy widgets, to be updated.
+</para>
+<para>
+In addition, the <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> class intercepts the ::activate
+signal defined in <link linkend="GtkAction"><type>GtkAction</type></link>. When the result from PolicyKit is
+yes, the signal is propagated. If the result is auth,
+<link linkend="polkit-mate-auth-show-dialog"><function>polkit_mate_auth_show_dialog()</function></link> will be used to bring up an
+authentication dialog for the given <link linkend="PolKitAction"><type>PolKitAction</type></link>. If the user
+succesfully gained the privilege, a ::activate signal will be
+synthesized. If the result is no, the signal is also propagated.
+</para>
+<para>
+As a result, everything happens under the covers; the application
+programmer using <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> will only get the ::activate
+signal when the answer from PolicyKit is yes and as such don't have
+to worry about bringing up authentication dialogs if the property
+"no-sensitive" is set to <link linkend="FALSE:CAPS"><type>FALSE</type></link>.
+</para>
+<para>
+When an authentication dialog is show, the <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> class
+will pass the XID of the top-level window that the proxy widget
+causing the activation to <link linkend="polkit-mate-auth-show-dialog"><function>polkit_mate_auth_show_dialog()</function></link>.
+</para>
+<para>
+An example of how to use <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> follows. First, build
+the following program
+</para>
+<para>
+<programlisting><xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../../examples/polkit-mate-example.c" parse="text"><xi:fallback>FIXME: MISSING XINCLUDE CONTENT</xi:fallback></xi:include></programlisting>
+</para>
+<para>
+with
+</para>
+<para>
+<programlisting>gcc -o polkit-mate-example `pkg-config --cflags --libs polkit-mate` polkit-mate-example.c</programlisting>
+</para>
+<para>
+Then, put the following content
+</para>
+<para>
+<programlisting><xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../../examples/polkit-mate-example.policy" parse="text"><xi:fallback>FIXME: MISSING XINCLUDE CONTENT</xi:fallback></xi:include></programlisting>
+</para>
+<para>
+into a file
+<literal>/usr/share/PolicyKit/policy/polkit-mate-example.policy</literal>. Finally,
+run <literal>polkit-mate-example</literal>. It should display a
+window like this:
+</para>
+<para>
+<inlinegraphic fileref="polkit-mate-example-screenshot.png" format="PNG"/>
+</para>
+<para>
+If the "Twiddle!" button is pressed, an authentication dialog
+should pop up
+</para>
+<para>
+<inlinegraphic fileref="polkit-mate-example-auth-dialog-twiddle.png" format="PNG"/>
+</para>
+<para>
+Here is how what the application looks like if the user gains
+authorization for all the actions:
+</para>
+<para>
+<inlinegraphic fileref="polkit-mate-example-screenshot-authorized.png" format="PNG"/>
+</para>
+<para>
+Regarding how to build an example mechanism that this GTK+
+application can take advantage of, please refer to the
+<link linkend="PolKitContext"><type>PolKitContext</type></link> class for examples.</para>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="PolKitMateAction.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="PolKitMateActionPrivate" role="struct">
+<title>PolKitMateActionPrivate</title>
+<indexterm zone="PolKitMateActionPrivate"><primary>PolKitMateActionPrivate</primary></indexterm><programlisting>typedef struct _PolKitMateActionPrivate PolKitMateActionPrivate;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="PolKitMateAction-struct" role="struct">
+<title>PolKitMateAction</title>
+<indexterm zone="PolKitMateAction-struct"><primary>PolKitMateAction</primary></indexterm><programlisting>typedef struct _PolKitMateAction PolKitMateAction;</programlisting>
+<para>
+The PolKitMateAction struct contains only private data members and should not be accessed directly.</para>
+<para>
+
+</para></refsect2>
+<refsect2 id="polkit-mate-action-new" role="function">
+<title>polkit_mate_action_new ()</title>
+<indexterm zone="polkit-mate-action-new"><primary>polkit_mate_action_new</primary></indexterm><programlisting><link linkend="PolKitMateAction">PolKitMateAction</link>*  polkit_mate_action_new             (const <link linkend="gchar">gchar</link> *name);</programlisting>
+<para>
+Creates a new <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object. The typical use for this
+function is for specialized use where
+<link linkend="polkit-mate-action-new-default"><function>polkit_mate_action_new_default()</function></link> does not meet the needs of the
+application. A short example of the usage of this contructor
+follows.
+</para>
+<para>
+If the 'polkit-action' property is <link linkend="NULL:CAPS"><type>NULL</type></link> the behavior is similar to
+as if a <link linkend="PolKitAction"><type>PolKitAction</type></link> returned <link linkend="POLKIT-RESULT-YES:CAPS"><type>POLKIT_RESULT_YES</type></link>.
+</para>
+<para>
+One can set the 'polkit-action-sufficient' property to a
+<link linkend="GValueArray"><type>GValueArray</type></link> of pointers to <link linkend="PolKitAction"><type>PolKitAction</type></link> objects. The semantics of
+this property is that if the user is authorized for any of the
+given actions in 'polkit-action-sufficient' then the behavior is
+the same as if they're authorized for the action denoted by
+'polkit-action'. This is useful in a setup where you have two
+similar actions and one implies the other. For example, in
+mate-system-monitor there are two actions
+<literal>org.mate.system-monitor.increase-own-priority</literal>
+(Increase the priority of a process owned by yourself) and
+<literal>org.mate.system-monitor.change-priorty</literal> (Change
+priority of any process). As the latter clearly implies the former,
+one would set the latter in the 'polkit-action-sufficient'
+property when constructing a <link linkend="PolKitAction"><type>PolKitAction</type></link> for the former.
+</para>
+<para>
+<programlisting>
+PolKitAction *polkit_action;
+PolKitMateAction *action;
+
+polkit_action = polkit_action_new ();
+polkit_action_set_action_id (polkit_action, "org.example.some-policykit-action");
+
+action = polkit_mate_action_new ("blabla", NULL);
+g_object_set (action,
+              "polkit-action",    polkit_action,
+              "no-visible",       TRUE,
+              "no-sensitive",     FALSE,
+              "no-short-label",   "The Action no can do!",
+              "no-label",         "The Action is not permitted!",
+              "no-tooltip",       "The Tooltip (no)",
+              "no-icon-name",     GTK_STOCK_NO,
+
+              "auth-visible",     TRUE,
+              "auth-sensitive",   TRUE,
+              "auth-short-label", "The Action requires auth...",
+              "auth-label",       "The Action requires auth...",
+              "auth-tooltip",     "The Tooltip (auth)",
+              "auth-icon-name",   GTK_STOCK_DIALOG_AUTHENTICATION,
+
+              "yes-visible",      TRUE,
+              "yes-sensitive",    TRUE,
+              "yes-short-label",  "Action!",
+              "yes-label",        "Just do the Action!",
+              "yes-tooltip",      "The Tooltip (yes)",
+              "yes-icon-name",    GTK_STOCK_YES,
+              NULL);
+</programlisting></para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>name</parameter>&nbsp;:</term>
+<listitem><simpara> A unique name for the action
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> or <link linkend="NULL:CAPS"><type>NULL</type></link> if error is set
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-new-default" role="function">
+<title>polkit_mate_action_new_default ()</title>
+<indexterm zone="polkit-mate-action-new-default"><primary>polkit_mate_action_new_default</primary></indexterm><programlisting><link linkend="PolKitMateAction">PolKitMateAction</link>*  polkit_mate_action_new_default     (const <link linkend="gchar">gchar</link> *name,
+                                                         <link linkend="PolKitAction">PolKitAction</link> *polkit_action,
+                                                         const <link linkend="gchar">gchar</link> *label,
+                                                         const <link linkend="gchar">gchar</link> *tooltip);</programlisting>
+<para>
+Creates a new <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object with the default
+behavior for a given <link linkend="PolKitAction"><type>PolKitAction</type></link> object.
+</para>
+<para>
+Default behavior is defined by the label and tooltip being
+identical across all three four states, the action being visible in
+all four states, and the action being insensitive only in the state
+where the result from PolicyKit is no and self-blocked. Only when
+PolicyKit returns one of the 'auth*' results, the icon_name
+property will be set to <link linkend="GTK-STOCK-DIALOG-AUTHENTICATION:CAPS"><type>GTK_STOCK_DIALOG_AUTHENTICATION</type></link>.
+</para>
+<para>
+The caller can always modify individual aspects of the action after
+creation, e.g. change the tooltip for the self-blocked, no, auth
+and yes states.
+</para>
+<para>
+If the given polkit_action is <link linkend="NULL:CAPS"><type>NULL</type></link> the behavior is similar to as
+if a <link linkend="PolKitAction"><type>PolKitAction</type></link> returned <link linkend="POLKIT-RESULT-YES:CAPS"><type>POLKIT_RESULT_YES</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>name</parameter>&nbsp;:</term>
+<listitem><simpara> A unique name for the action
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>polkit_action</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="PolKitAction"><type>PolKitAction</type></link> to track
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>label</parameter>&nbsp;:</term>
+<listitem><simpara> the label to use (will also apply to short-label)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tooltip</parameter>&nbsp;:</term>
+<listitem><simpara> the tool tip to use
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> or <link linkend="NULL:CAPS"><type>NULL</type></link> if error is set
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-get-polkit-result" role="function">
+<title>polkit_mate_action_get_polkit_result ()</title>
+<indexterm zone="polkit-mate-action-get-polkit-result"><primary>polkit_mate_action_get_polkit_result</primary></indexterm><programlisting><link linkend="PolKitResult">PolKitResult</link>        polkit_mate_action_get_polkit_result
+                                                        (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);</programlisting>
+<para>
+Gets the <link linkend="PolKitResult"><type>PolKitResult</type></link> that indicates whether the user is
+privileged to do the <link linkend="PolKitAction"><type>PolKitAction</type></link> associated with this
+<link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> The <link linkend="PolKitAction"><type>PolKitAction</type></link> object. The caller shall not unref this object.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-get-sensitive" role="function">
+<title>polkit_mate_action_get_sensitive ()</title>
+<indexterm zone="polkit-mate-action-get-sensitive"><primary>polkit_mate_action_get_sensitive</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            polkit_mate_action_get_sensitive   (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);</programlisting>
+<para>
+Get the master sensitivity, see PolKitMateAction:master-sensitive:
+for details.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the master sensitivity
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-set-sensitive" role="function">
+<title>polkit_mate_action_set_sensitive ()</title>
+<indexterm zone="polkit-mate-action-set-sensitive"><primary>polkit_mate_action_set_sensitive</primary></indexterm><programlisting><link linkend="void">void</link>                polkit_mate_action_set_sensitive   (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                         <link linkend="gboolean">gboolean</link> sensitive);</programlisting>
+<para>
+Set the master sensitivity, see PolKitMateAction:master-sensitive:
+for details.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sensitive</parameter>&nbsp;:</term>
+<listitem><simpara> master sensitivity
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-get-visible" role="function">
+<title>polkit_mate_action_get_visible ()</title>
+<indexterm zone="polkit-mate-action-get-visible"><primary>polkit_mate_action_get_visible</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            polkit_mate_action_get_visible     (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);</programlisting>
+<para>
+Get the master visibility, see PolKitMateAction:master-visible:
+for details.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the master visibility
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-set-visible" role="function">
+<title>polkit_mate_action_set_visible ()</title>
+<indexterm zone="polkit-mate-action-set-visible"><primary>polkit_mate_action_set_visible</primary></indexterm><programlisting><link linkend="void">void</link>                polkit_mate_action_set_visible     (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                         <link linkend="gboolean">gboolean</link> visible);</programlisting>
+<para>
+Set the master visibility, see PolKitMateAction:master-visible:
+for details.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>visible</parameter>&nbsp;:</term>
+<listitem><simpara> master visibility
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-action-create-button" role="function">
+<title>polkit_mate_action_create_button ()</title>
+<indexterm zone="polkit-mate-action-create-button"><primary>polkit_mate_action_create_button</primary></indexterm><programlisting><link linkend="GtkWidget">GtkWidget</link>*          polkit_mate_action_create_button   (<link linkend="PolKitMateAction">PolKitMateAction</link> *action);</programlisting>
+<para>
+Create a button for the given action that displays the label,
+tooltip and icon_name corresponding to whether the state, according
+to PolicyKit, is no, auth or yes.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> A <link linkend="GtkButton"><type>GtkButton</type></link> instance connected to the action
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 id="PolKitMateAction.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="PolKitMateAction--auth-icon-name"><title>The <literal>&quot;auth-icon-name&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--auth-icon-name"><primary>PolKitMateAction:auth-icon-name</primary></indexterm><programlisting>  &quot;auth-icon-name&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'auth', use this icon-name.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--auth-label"><title>The <literal>&quot;auth-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--auth-label"><primary>PolKitMateAction:auth-label</primary></indexterm><programlisting>  &quot;auth-label&quot;               <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'auth', use this label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--auth-sensitive"><title>The <literal>&quot;auth-sensitive&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--auth-sensitive"><primary>PolKitMateAction:auth-sensitive</primary></indexterm><programlisting>  &quot;auth-sensitive&quot;           <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'auth', whether the action will be sensitive.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--auth-short-label"><title>The <literal>&quot;auth-short-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--auth-short-label"><primary>PolKitMateAction:auth-short-label</primary></indexterm><programlisting>  &quot;auth-short-label&quot;         <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'auth', use this short-label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--auth-tooltip"><title>The <literal>&quot;auth-tooltip&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--auth-tooltip"><primary>PolKitMateAction:auth-tooltip</primary></indexterm><programlisting>  &quot;auth-tooltip&quot;             <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'auth', use this tooltip.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--auth-visible"><title>The <literal>&quot;auth-visible&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--auth-visible"><primary>PolKitMateAction:auth-visible</primary></indexterm><programlisting>  &quot;auth-visible&quot;             <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'auth', whether the action will be visible.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--master-sensitive"><title>The <literal>&quot;master-sensitive&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--master-sensitive"><primary>PolKitMateAction:master-sensitive</primary></indexterm><programlisting>  &quot;master-sensitive&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>Can be set to FALSE to force insensitivity no matter what PolicyKit reports.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--master-visible"><title>The <literal>&quot;master-visible&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--master-visible"><primary>PolKitMateAction:master-visible</primary></indexterm><programlisting>  &quot;master-visible&quot;           <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>Can be set to FALSE to force invisibility no matter what PolicyKit reports.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--no-icon-name"><title>The <literal>&quot;no-icon-name&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--no-icon-name"><primary>PolKitMateAction:no-icon-name</primary></indexterm><programlisting>  &quot;no-icon-name&quot;             <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no', use this icon-name.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--no-label"><title>The <literal>&quot;no-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--no-label"><primary>PolKitMateAction:no-label</primary></indexterm><programlisting>  &quot;no-label&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no', use this label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--no-sensitive"><title>The <literal>&quot;no-sensitive&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--no-sensitive"><primary>PolKitMateAction:no-sensitive</primary></indexterm><programlisting>  &quot;no-sensitive&quot;             <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no', whether the action will be sensitive.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--no-short-label"><title>The <literal>&quot;no-short-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--no-short-label"><primary>PolKitMateAction:no-short-label</primary></indexterm><programlisting>  &quot;no-short-label&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no', use this short-label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--no-tooltip"><title>The <literal>&quot;no-tooltip&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--no-tooltip"><primary>PolKitMateAction:no-tooltip</primary></indexterm><programlisting>  &quot;no-tooltip&quot;               <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no', use this tooltip.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--no-visible"><title>The <literal>&quot;no-visible&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--no-visible"><primary>PolKitMateAction:no-visible</primary></indexterm><programlisting>  &quot;no-visible&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no', whether the action will be visible.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--polkit-action"><title>The <literal>&quot;polkit-action&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--polkit-action"><primary>PolKitMateAction:polkit-action</primary></indexterm><programlisting>  &quot;polkit-action&quot;            <link linkend="gpointer">gpointer</link>              : Read / Write / Construct</programlisting>
+<para>The PolKitAction object this GTK+ action is tracking.</para></refsect2>
+<refsect2 id="PolKitMateAction--polkit-action-sufficient"><title>The <literal>&quot;polkit-action-sufficient&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--polkit-action-sufficient"><primary>PolKitMateAction:polkit-action-sufficient</primary></indexterm><programlisting>  &quot;polkit-action-sufficient&quot; <link linkend="GValueArray">GValueArray</link>*          : Read / Write / Construct</programlisting>
+<para>An array of PolKitAction objects that are sufficient to have authorizations for.</para></refsect2>
+<refsect2 id="PolKitMateAction--self-blocked-icon-name"><title>The <literal>&quot;self-blocked-icon-name&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--self-blocked-icon-name"><primary>PolKitMateAction:self-blocked-icon-name</primary></indexterm><programlisting>  &quot;self-blocked-icon-name&quot;   <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this icon-name.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--self-blocked-label"><title>The <literal>&quot;self-blocked-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--self-blocked-label"><primary>PolKitMateAction:self-blocked-label</primary></indexterm><programlisting>  &quot;self-blocked-label&quot;       <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--self-blocked-sensitive"><title>The <literal>&quot;self-blocked-sensitive&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--self-blocked-sensitive"><primary>PolKitMateAction:self-blocked-sensitive</primary></indexterm><programlisting>  &quot;self-blocked-sensitive&quot;   <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, whether the action will be sensitive.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--self-blocked-short-label"><title>The <literal>&quot;self-blocked-short-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--self-blocked-short-label"><primary>PolKitMateAction:self-blocked-short-label</primary></indexterm><programlisting>  &quot;self-blocked-short-label&quot; <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this short-label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--self-blocked-tooltip"><title>The <literal>&quot;self-blocked-tooltip&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--self-blocked-tooltip"><primary>PolKitMateAction:self-blocked-tooltip</primary></indexterm><programlisting>  &quot;self-blocked-tooltip&quot;     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this tooltip.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--self-blocked-visible"><title>The <literal>&quot;self-blocked-visible&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--self-blocked-visible"><primary>PolKitMateAction:self-blocked-visible</primary></indexterm><programlisting>  &quot;self-blocked-visible&quot;     <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, whether the action will be visible.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--target-pid"><title>The <literal>&quot;target-pid&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--target-pid"><primary>PolKitMateAction:target-pid</primary></indexterm><programlisting>  &quot;target-pid&quot;               <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>The target process id to receive the authorization; if 0 it is the current process.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--yes-icon-name"><title>The <literal>&quot;yes-icon-name&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--yes-icon-name"><primary>PolKitMateAction:yes-icon-name</primary></indexterm><programlisting>  &quot;yes-icon-name&quot;            <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'yes', use this icon-name.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--yes-label"><title>The <literal>&quot;yes-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--yes-label"><primary>PolKitMateAction:yes-label</primary></indexterm><programlisting>  &quot;yes-label&quot;                <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'yes', use this label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--yes-sensitive"><title>The <literal>&quot;yes-sensitive&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--yes-sensitive"><primary>PolKitMateAction:yes-sensitive</primary></indexterm><programlisting>  &quot;yes-sensitive&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'yes', whether the action will be sensitive.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--yes-short-label"><title>The <literal>&quot;yes-short-label&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--yes-short-label"><primary>PolKitMateAction:yes-short-label</primary></indexterm><programlisting>  &quot;yes-short-label&quot;          <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'yes', use this short-label.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--yes-tooltip"><title>The <literal>&quot;yes-tooltip&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--yes-tooltip"><primary>PolKitMateAction:yes-tooltip</primary></indexterm><programlisting>  &quot;yes-tooltip&quot;              <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'yes', use this tooltip.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="PolKitMateAction--yes-visible"><title>The <literal>&quot;yes-visible&quot;</literal> property</title>
+<indexterm zone="PolKitMateAction--yes-visible"><primary>PolKitMateAction:yes-visible</primary></indexterm><programlisting>  &quot;yes-visible&quot;              <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>If PolicyKit evaluates the result as 'yes', whether the action will be visible.</para><para>Default value: TRUE</para>
+</refsect2>
+
+</refsect1>
+
+<refsect1 id="PolKitMateAction.signal-details" role="signals">
+<title role="signals.title">Signal Details</title>
+<refsect2 id="PolKitMateAction-auth-end"><title>The <literal>&quot;auth-end&quot;</literal> signal</title>
+<indexterm zone="PolKitMateAction-auth-end"><primary>PolKitMateAction::auth-end</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                        <link linkend="gboolean">gboolean</link>           gained_privilege,
+                                                        <link linkend="gpointer">gpointer</link>           user_data)             : Run Last</programlisting>
+<para>
+The ::auth-end signal is emitted when the an authentication
+session ends and carries information about whether the
+privilege was obtained or not.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> the object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>gained_privilege</parameter>&nbsp;:</term>
+<listitem><simpara> whether the privilege was gained
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="PolKitMateAction-auth-start"><title>The <literal>&quot;auth-start&quot;</literal> signal</title>
+<indexterm zone="PolKitMateAction-auth-start"><primary>PolKitMateAction::auth-start</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                        <link linkend="gpointer">gpointer</link>           user_data)      : Run Last</programlisting>
+<para>
+The ::auth-start signal is emitted when an authentication
+session starts.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> the object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="PolKitMateAction-polkit-result-changed"><title>The <literal>&quot;polkit-result-changed&quot;</literal> signal</title>
+<indexterm zone="PolKitMateAction-polkit-result-changed"><primary>PolKitMateAction::polkit-result-changed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="PolKitMateAction">PolKitMateAction</link> *action,
+                                                        <link linkend="gint">gint</link>               current_result,
+                                                        <link linkend="gpointer">gpointer</link>           user_data)           : Run Last</programlisting>
+<para>
+The ::polkit-result-changed signal is emitted when the
+PolicyKit result changes. This can happen when external
+factors (config file, ConsoleKit, privilege granted /
+revoked) change since the <link linkend="PolKitMateAction"><type>PolKitMateAction</type></link> class listens
+for events using the <link linkend="PolKitMateContext"><type>PolKitMateContext</type></link> class.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> the object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>current_result</parameter>&nbsp;:</term>
+<listitem><simpara> current <link linkend="PolKitResult"><type>PolKitResult</type></link> from PolicyKit regarding given <link linkend="PolKitAction"><type>PolKitAction</type></link> object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+</refsect1>
+
+
+
+</refentry>

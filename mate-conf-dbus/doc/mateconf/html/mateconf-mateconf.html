@@ -1,0 +1,2322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>MateConf Core Interfaces</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-value.html" title="MateConfValue, MateConfEntry, MateConfMetaInfo">
+<link rel="next" href="mateconf-mateconf-locale.html" title="mateconf-locale">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-value.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-locale.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2617128" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2659561" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2617128"></a><span class="refentrytitle">MateConf Core Interfaces</span>
+</h2>
+<p>MateConf Core Interfaces &#8212; 
+Basic functions to initialize MateConf and get/set values</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-init">mateconf_init</a>                          (int argc,
+                                                         char **argv,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-preinit">mateconf_preinit</a>                       (gpointer app,
+                                                         gpointer mod_info);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-postinit">mateconf_postinit</a>                      (gpointer app,
+                                                         gpointer mod_info);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-is-initialized">mateconf_is_initialized</a>                (void);
+void                (<a class="link" href="mateconf-mateconf.html#MateConfNotifyFunc">*MateConfNotifyFunc</a>)                  (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         guint cnxn_id,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfEntry">MateConfEntry</a> *entry,
+                                                         gpointer user_data);
+guint               <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add">mateconf_engine_notify_add</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *namespace_section,
+                                                         <a class="link" href="mateconf-mateconf.html#MateConfNotifyFunc">MateConfNotifyFunc</a> func,
+                                                         gpointer user_data,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-remove">mateconf_engine_notify_remove</a>          (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         guint cnxn);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf.html#mateconf-engine-get">mateconf_engine_get</a>                    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-without-default">mateconf_engine_get_without_default</a>    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfEntry">MateConfEntry</a>*         <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-entry">mateconf_engine_get_entry</a>              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         gboolean use_schema_default,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-with-locale">mateconf_engine_get_with_locale</a>        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-default-from-schema">mateconf_engine_get_default_from_schema</a>
+                                                        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set">mateconf_engine_set</a>                    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-unset">mateconf_engine_unset</a>                  (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-associate-schema">mateconf_engine_associate_schema</a>       (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *schema_key,
+                                                         GError **err);
+GSList*             <a class="link" href="mateconf-mateconf.html#mateconf-engine-all-entries">mateconf_engine_all_entries</a>            (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);
+GSList*             <a class="link" href="mateconf-mateconf.html#mateconf-engine-all-dirs">mateconf_engine_all_dirs</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-engine-suggest-sync">mateconf_engine_suggest_sync</a>           (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-dir-exists">mateconf_engine_dir_exists</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-engine-remove-dir">mateconf_engine_remove_dir</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-key-is-writable">mateconf_engine_key_is_writable</a>        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-valid-key">mateconf_valid_key</a>                     (const gchar *key,
+                                                         gchar **why_invalid);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-key-is-below">mateconf_key_is_below</a>                  (const gchar *above,
+                                                         const gchar *below);
+gchar*              <a class="link" href="mateconf-mateconf.html#mateconf-concat-dir-and-key">mateconf_concat_dir_and_key</a>            (const gchar *dir,
+                                                         const gchar *key);
+gchar*              <a class="link" href="mateconf-mateconf.html#mateconf-unique-key">mateconf_unique_key</a>                    (void);
+char*               <a class="link" href="mateconf-mateconf.html#mateconf-escape-key">mateconf_escape_key</a>                    (const char *arbitrary_text,
+                                                         int len);
+char*               <a class="link" href="mateconf-mateconf.html#mateconf-unescape-key">mateconf_unescape_key</a>                  (const char *escaped_key,
+                                                         int len);
+gdouble             <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-float">mateconf_engine_get_float</a>              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+gint                <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-int">mateconf_engine_get_int</a>                (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+gchar*              <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-string">mateconf_engine_get_string</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-bool">mateconf_engine_get_bool</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a>*        <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-schema">mateconf_engine_get_schema</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);
+GSList*             <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-list">mateconf_engine_get_list</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-pair">mateconf_engine_get_pair</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gpointer car_retloc,
+                                                         gpointer cdr_retloc,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-float">mateconf_engine_set_float</a>              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         gdouble val,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-int">mateconf_engine_set_int</a>                (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         gint val,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-string">mateconf_engine_set_string</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *val,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-bool">mateconf_engine_set_bool</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         gboolean val,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-schema">mateconf_engine_set_schema</a>             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a> *val,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-list">mateconf_engine_set_list</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GSList *list,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-pair">mateconf_engine_set_pair</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gconstpointer address_of_car,
+                                                         gconstpointer address_of_cdr,
+                                                         GError **err);
+                    <a class="link" href="mateconf-mateconf.html#MateConfEnumStringPair">MateConfEnumStringPair</a>;
+gboolean            <a class="link" href="mateconf-mateconf.html#mateconf-string-to-enum">mateconf_string_to_enum</a>                (<a class="link" href="mateconf-mateconf.html#MateConfEnumStringPair">MateConfEnumStringPair</a> lookup_table[],
+                                                         const gchar *str,
+                                                         gint *enum_value_retloc);
+const gchar*        <a class="link" href="mateconf-mateconf.html#mateconf-enum-to-string">mateconf_enum_to_string</a>                (<a class="link" href="mateconf-mateconf.html#MateConfEnumStringPair">MateConfEnumStringPair</a> lookup_table[],
+                                                         gint enum_value);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-clear-cache">mateconf_clear_cache</a>                   (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf.html#mateconf-synchronous-sync">mateconf_synchronous_sync</a>              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-full">mateconf_engine_get_full</a>               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         gboolean use_schema_default,
+                                                         gboolean *is_default_p,
+                                                         gboolean *is_writable_p,
+                                                         GError **err);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2659561"></a><h2>Description</h2>
+<p>
+These functions initialize MateConf, and communicate with the
+<span class="application">mateconfd</span> server via a
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> object. You can install a notification
+request on the server, get values, set values, list directories, and associate
+schema names with keys.
+</p>
+<p>
+Most of this interface is replicated in the <span class="type">GObject</span> wrapper
+(<span class="type">MateConfClient</span> object); an alternative to the value-setting functions
+is the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> interface.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2659614"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2659623"></a><h3>
+<a name="mateconf-init"></a>mateconf_init ()</h3>
+<a class="indexterm" name="id2659636"></a><pre class="programlisting">gboolean            mateconf_init                          (int argc,
+                                                         char **argv,
+                                                         GError **err);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mateconf_init</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Initializes the MateConf library. Creates a connection to a CORBA ORB, and
+initializes OAF (the object activation framework) if it isn't already
+initialized.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>argc</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>argv</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> otherwise.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2659754"></a><h3>
+<a name="mateconf-preinit"></a>mateconf_preinit ()</h3>
+<a class="indexterm" name="id2659766"></a><pre class="programlisting">void                mateconf_preinit                       (gpointer app,
+                                                         gpointer mod_info);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mateconf_preinit</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mod_info</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2659838"></a><h3>
+<a name="mateconf-postinit"></a>mateconf_postinit ()</h3>
+<a class="indexterm" name="id2659850"></a><pre class="programlisting">void                mateconf_postinit                      (gpointer app,
+                                                         gpointer mod_info);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mateconf_postinit</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>app</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mod_info</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2659922"></a><h3>
+<a name="mateconf-is-initialized"></a>mateconf_is_initialized ()</h3>
+<a class="indexterm" name="id2659934"></a><pre class="programlisting">gboolean            mateconf_is_initialized                (void);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">mateconf_is_initialized</code> is deprecated and should not be used in newly-written code.</p>
+</div>
+<p>
+Asks whether the library has been initialized.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> if the library has been initialized.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2659982"></a><h3>
+<a name="MateConfNotifyFunc"></a>MateConfNotifyFunc ()</h3>
+<a class="indexterm" name="id2659993"></a><pre class="programlisting">void                (*MateConfNotifyFunc)                  (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         guint cnxn_id,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfEntry">MateConfEntry</a> *entry,
+                                                         gpointer user_data);</pre>
+<p>
+A callback function invoked when a key's value changes. The <em class="parameter"><code>cnxn_id</code></em> parameter
+will be the connection ID returned from <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a>. <em class="parameter"><code>key</code></em> will be the
+full path of the changed key, <em class="parameter"><code>value</code></em> will be the new value if the key is set.
+If the key is unset, <em class="parameter"><code>value</code></em> will be the default value if one exists, or
+<span class="symbol">NULL</span> otherwise. <em class="parameter"><code>is_default</code></em> indicates whether a value is a
+default setting or a user setting. If <em class="parameter"><code>value</code></em> is <span class="symbol">NULL</span>,
+<em class="parameter"><code>is_default</code></em> will be <span class="symbol">TRUE</span>. <em class="parameter"><code>user_data</code></em> is the data passed to
+<a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>the <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> passed to <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cnxn_id</code></em>&#160;:</span></p></td>
+<td>the ID returned from <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>entry</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>the user data passed to <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2660196"></a><h3>
+<a name="mateconf-engine-notify-add"></a>mateconf_engine_notify_add ()</h3>
+<a class="indexterm" name="id2660206"></a><pre class="programlisting">guint               mateconf_engine_notify_add             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *namespace_section,
+                                                         <a class="link" href="mateconf-mateconf.html#MateConfNotifyFunc">MateConfNotifyFunc</a> func,
+                                                         gpointer user_data,
+                                                         GError **err);</pre>
+<p>
+Registers a notification request with the <span class="application">mateconfd</span>
+server.  The server will notify the client when any key at or below
+<em class="parameter"><code>namespace_section</code></em> is set or unset. Try to watch the smallest possible part of
+the namespace; otherwise you will slow down the server and your application with
+unnecessary notifications. Note that you should prefer <a class="link" href="mateconf-MateConfClient.html#mateconf-client-notify-add"><code class="function">mateconf_client_notify_add()</code></a>
+if you're using the <span class="type">GObject</span> wrapper library, because
+<a class="link" href="mateconf-MateConfClient.html#mateconf-client-notify-add"><code class="function">mateconf_client_notify_add()</code></a> does not require a client-server conversation for
+every callback. <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a> requests a different server notification for
+every callback. The function returns an ID you can use to remove the
+notification request; 0 is an invalid ID, and is returned if an error occurs.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to monitor for changes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>namespace_section</code></em>&#160;:</span></p></td>
+<td>the directory or key to watch; you will be notified of changes at or below this point.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em>&#160;:</span></p></td>
+<td>the callback to invoke when a notification is received from the server.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>the data to pass to the callback.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>an ID for the notification request, or 0 on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2660406"></a><h3>
+<a name="mateconf-engine-notify-remove"></a>mateconf_engine_notify_remove ()</h3>
+<a class="indexterm" name="id2660417"></a><pre class="programlisting">void                mateconf_engine_notify_remove          (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         guint cnxn);</pre>
+<p>
+Removes a notification request.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>the <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> you were monitoring for changes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cnxn</code></em>&#160;:</span></p></td>
+<td>The ID returned by <a class="link" href="mateconf-mateconf.html#mateconf-engine-notify-add"><code class="function">mateconf_engine_notify_add()</code></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2660493"></a><h3>
+<a name="mateconf-engine-get"></a>mateconf_engine_get ()</h3>
+<a class="indexterm" name="id2660503"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_engine_get                    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Returns the <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a> stored at <em class="parameter"><code>key</code></em>, or <span class="symbol">NULL</span> if no value is
+set. You must call <a class="link" href="mateconf-mateconf-value.html#mateconf-value-free"><code class="function">mateconf_value_free()</code></a> to free the returned value. If you know
+the expected type of the value, you probably want to use the type-specific
+convenience wrappers (<a class="link" href="mateconf-mateconf.html#mateconf-engine-get-int"><code class="function">mateconf_engine_get_int()</code></a>, etc.)  because they will do the
+type-checking for you and return the appropriate type. Automatically returns the
+default value for a key, if the key is unset and a default exists.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to get the value from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to get.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>newly-allocated <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>, or <span class="symbol">NULL</span> if unset and no default exists.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2660656"></a><h3>
+<a name="mateconf-engine-get-without-default"></a>mateconf_engine_get_without_default ()</h3>
+<a class="indexterm" name="id2660668"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_engine_get_without_default    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Identical to <a class="link" href="mateconf-mateconf.html#mateconf-engine-get"><code class="function">mateconf_engine_get()</code></a>, except that it will return <span class="symbol">NULL</span> in
+place of the default value if the key is unset. Note that <a class="link" href="mateconf-mateconf.html#mateconf-engine-get"><code class="function">mateconf_engine_get()</code></a> can also
+return <span class="symbol">NULL</span> if no default exists or an error occurs.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to get the value from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to get.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>newly-allocated <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>, or <span class="symbol">NULL</span> if unset.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2660809"></a><h3>
+<a name="mateconf-engine-get-entry"></a>mateconf_engine_get_entry ()</h3>
+<a class="indexterm" name="id2660820"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfEntry">MateConfEntry</a>*         mateconf_engine_get_entry              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         gboolean use_schema_default,
+                                                         GError **err);</pre>
+<p>
+Obtain the full <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a> for a value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to get.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locale</code></em>&#160;:</span></p></td>
+<td>preferred locale (as in the locale-related environment variables).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>use_schema_default</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gboolean</span> value indicating whether the default value associated with schema
+should be used.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2660985"></a><h3>
+<a name="mateconf-engine-get-with-locale"></a>mateconf_engine_get_with_locale ()</h3>
+<a class="indexterm" name="id2660997"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_engine_get_with_locale        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         GError **err);</pre>
+<p>
+Requests the value appropriate for a particular locale. Right now,
+only values of type <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a> are localized; the locale is
+meaningless for other value types. Also, <a class="link" href="mateconf-mateconf.html#mateconf-engine-get"><code class="function">mateconf_engine_get()</code></a> automatically
+requests the value in the user's current locale. So this function is
+only useful if you want a schema for some locale other than the user's
+current locale. Except for the additional argument, this function is
+identical to <a class="link" href="mateconf-mateconf.html#mateconf-engine-get"><code class="function">mateconf_engine_get()</code></a> in all respects.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to get the value from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to get.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locale</code></em>&#160;:</span></p></td>
+<td>preferred locale (as in the locale-related environment variables).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>newly-allocated <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>, or <span class="symbol">NULL</span> if unset.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2661165"></a><h3>
+<a name="mateconf-engine-get-default-from-schema"></a>mateconf_engine_get_default_from_schema ()</h3>
+<a class="indexterm" name="id2661177"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_engine_get_default_from_schema
+                                                        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Returns the default value stored in the key's schema, if the key has a schema
+associated and the schema exists and the schema contains a default value.  Note
+that <a class="link" href="mateconf-mateconf.html#mateconf-engine-get"><code class="function">mateconf_engine_get()</code></a>, <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-string"><code class="function">mateconf_engine_get_string()</code></a>, and so on already return the default value
+if no other value is found, so normally you do not need this function. This
+function is just for convenience; you could also get the <a class="link" href="mateconf-mateconf-value.html#MateConfMetaInfo"><span class="type">MateConfMetaInfo</span></a> for the
+key, read the schema name from there, then look up the schema by name and
+extract the default value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to get the value from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to get the default value for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>newly-allocated <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>, or <span class="symbol">NULL</span> if unset.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2661325"></a><h3>
+<a name="mateconf-engine-set"></a>mateconf_engine_set ()</h3>
+<a class="indexterm" name="id2661336"></a><pre class="programlisting">gboolean            mateconf_engine_set                    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value,
+                                                         GError **err);</pre>
+<p>
+Sets the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>value</code></em>. Does not modify the passed-in
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>, you must free it yourself. You may prefer a type-specific
+convenience wrapper, such as <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-int"><code class="function">mateconf_engine_set_int()</code></a>.
+</p>
+<p>
+ An error of note is <code class="literal">MATECONF_OVERRIDDEN</code>, indicating that the system
+administrator has "forced" a value for this key. If no writable
+configuration sources exist, it is not an error, but MateConf will just
+forget all your values; this allows users to have a configuration-free
+setup without a constant barrage of error messages.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to set the value in.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2661514"></a><h3>
+<a name="mateconf-engine-unset"></a>mateconf_engine_unset ()</h3>
+<a class="indexterm" name="id2661524"></a><pre class="programlisting">gboolean            mateconf_engine_unset                  (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Unsets the value of <em class="parameter"><code>key</code></em>; if <em class="parameter"><code>key</code></em> is already unset, has no effect.  An
+error of note is <code class="literal">MATECONF_OVERRIDDEN</code>, indicating that the system
+administrator has "forced" a value for this key.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to affect.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to unset.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2661656"></a><h3>
+<a name="mateconf-engine-associate-schema"></a>mateconf_engine_associate_schema ()</h3>
+<a class="indexterm" name="id2661668"></a><pre class="programlisting">gboolean            mateconf_engine_associate_schema       (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *schema_key,
+                                                         GError **err);</pre>
+<p>
+Directs MateConf to find the schema for <em class="parameter"><code>key</code></em> at location
+<em class="parameter"><code>schema_key</code></em>. That is, the value stored at <em class="parameter"><code>schema_key</code></em> should have type
+<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><span class="type">MATECONF_VALUE_SCHEMA</span></a>, and be descriptive of <em class="parameter"><code>key</code></em>. Normally you don't
+call this function from C code; you can ship a special file with your
+application and ask <span class="application">mateconftool</span> to install
+schema associations into the database during "make install."
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to affect.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to associate the schema with.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>schema_key</code></em>&#160;:</span></p></td>
+<td>the key where the schema will be stored.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2661838"></a><h3>
+<a name="mateconf-engine-all-entries"></a>mateconf_engine_all_entries ()</h3>
+<a class="indexterm" name="id2661848"></a><pre class="programlisting">GSList*             mateconf_engine_all_entries            (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+Lists the key-value pairs in <em class="parameter"><code>dir</code></em>. Does not list subdirectories; for
+that use <a class="link" href="mateconf-mateconf.html#mateconf-engine-all-dirs"><code class="function">mateconf_engine_all_dirs()</code></a>. The returned list contains <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a>
+objects. A <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a> contains an <span class="emphasis"><em>absolute</em></span> key
+and a value. The list is not recursive, it contains only the immediate
+children of <em class="parameter"><code>dir</code></em>.  To free the returned list, <a class="link" href="mateconf-mateconf-value.html#mateconf-entry-free"><code class="function">mateconf_entry_free()</code></a>
+each list element, then <code class="function">g_slist_free()</code> the list itself.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>Directory to list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>List of <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662022"></a><h3>
+<a name="mateconf-engine-all-dirs"></a>mateconf_engine_all_dirs ()</h3>
+<a class="indexterm" name="id2662036"></a><pre class="programlisting">GSList*             mateconf_engine_all_dirs               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+Lists the subdirectories in <em class="parameter"><code>dir</code></em>. The returned list contains allocated
+strings. Each string is the absolute path of a subdirectory. You should <code class="function">g_free()</code> each string in the list, then <code class="function">g_slist_free()</code> the list itself.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>Directory to get subdirectories from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>List of allocated subdirectory names.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662183"></a><h3>
+<a name="mateconf-engine-suggest-sync"></a>mateconf_engine_suggest_sync ()</h3>
+<a class="indexterm" name="id2662197"></a><pre class="programlisting">void                mateconf_engine_suggest_sync           (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err);</pre>
+<p>
+Suggests to <span class="application">mateconfd</span> that you've just finished
+a block of changes, and it would be an optimal time to sync to
+permanent storage. This is only a suggestion; and
+<span class="application">mateconfd</span> will eventually sync even if you
+don't call <a class="link" href="mateconf-mateconf.html#mateconf-engine-suggest-sync"><code class="function">mateconf_engine_suggest_sync()</code></a>. This function is just a "hint"
+provided to <span class="application">mateconfd</span> to maximize efficiency
+and minimize data loss.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>the <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> to suggest syncing to.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662315"></a><h3>
+<a name="mateconf-engine-dir-exists"></a>mateconf_engine_dir_exists ()</h3>
+<a class="indexterm" name="id2662329"></a><pre class="programlisting">gboolean            mateconf_engine_dir_exists             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+Queries whether the directory <em class="parameter"><code>dir</code></em> exists in the MateConf
+database. Returns <span class="symbol">TRUE</span> or <span class="symbol">FALSE</span>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>Directory to check for.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> or <span class="symbol">FALSE</span>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662467"></a><h3>
+<a name="mateconf-engine-remove-dir"></a>mateconf_engine_remove_dir ()</h3>
+<a class="indexterm" name="id2662481"></a><pre class="programlisting">void                mateconf_engine_remove_dir             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+This function first checks the validity of the mateconf key. In case of a local <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> it removes
+the directory from the source backend calling <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-remove-dir"><code class="function">mateconf_sources_remove_dir()</code></a>. Otherwise it obtains the
+configuration database using <code class="function">mateconf_engine_get_database()</code> and removes the directory from the database
+calling <code class="function">ConfigDatabase_remove_dir()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>the name of the directory to be removed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662629"></a><h3>
+<a name="mateconf-engine-key-is-writable"></a>mateconf_engine_key_is_writable ()</h3>
+<a class="indexterm" name="id2662643"></a><pre class="programlisting">gboolean            mateconf_engine_key_is_writable        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Checks whether the key is writable.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the value to be changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> if the key is writable, <span class="symbol">FALSE</span> if the key is read only.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662769"></a><h3>
+<a name="mateconf-valid-key"></a>mateconf_valid_key ()</h3>
+<a class="indexterm" name="id2662782"></a><pre class="programlisting">gboolean            mateconf_valid_key                     (const gchar *key,
+                                                         gchar **why_invalid);</pre>
+<p>
+Asks whether a key is syntactically correct, that is, it ensures that
+the key consists of slash-separated strings and contains only legal
+characters. Normally you shouldn't need to call this function; the
+MateConf functions all check this for you and return an error if the key
+is invalid. However, it may be useful to validate input to an entry
+field or the like. If you pass a non-<span class="symbol">NULL</span> address as
+the <em class="parameter"><code>why_invalid</code></em> argument, an allocated string is returned explaining
+why the key is invalid, if it is. If the key is valid the <em class="parameter"><code>why_invalid</code></em>
+argument is unused.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key to check.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>why_invalid</code></em>&#160;:</span></p></td>
+<td>return location for an explanation of the problem, if any. <code class="function">g_free()</code> the returned string.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> if the key is valid, or <span class="symbol">FALSE</span> if not.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2662901"></a><h3>
+<a name="mateconf-key-is-below"></a>mateconf_key_is_below ()</h3>
+<a class="indexterm" name="id2662915"></a><pre class="programlisting">gboolean            mateconf_key_is_below                  (const gchar *above,
+                                                         const gchar *below);</pre>
+<p>
+Asks whether the key <em class="parameter"><code>below</code></em> would be found below the key <em class="parameter"><code>above</code></em>, were
+they both to exist in the database. For example, <span class="symbol">/foo</span>
+is always found below <span class="symbol">/</span> and above
+<span class="symbol">/foo/bar</span>. This probably isn't useful but MateConf uses
+it internally so here it is if you need it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>above</code></em>&#160;:</span></p></td>
+<td>the key on the "left hand side" of the predicate.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>below</code></em>&#160;:</span></p></td>
+<td>the key on the "right hand side."
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> or <span class="symbol">FALSE</span>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663027"></a><h3>
+<a name="mateconf-concat-dir-and-key"></a>mateconf_concat_dir_and_key ()</h3>
+<a class="indexterm" name="id2663040"></a><pre class="programlisting">gchar*              mateconf_concat_dir_and_key            (const gchar *dir,
+                                                         const gchar *key);</pre>
+<p>
+Concatenates the dir and key passed removing the unnecessary '/' characters
+and returns the new string.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>the directory.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the newly concatenated string.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663120"></a><h3>
+<a name="mateconf-unique-key"></a>mateconf_unique_key ()</h3>
+<a class="indexterm" name="id2663133"></a><pre class="programlisting">gchar*              mateconf_unique_key                    (void);</pre>
+<p>
+Generates a new and unique key using serial number, process id, current time and a 
+random number generated.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a newly created key, a <span class="type">gchar</span> value.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663179"></a><h3>
+<a name="mateconf-escape-key"></a>mateconf_escape_key ()</h3>
+<a class="indexterm" name="id2663192"></a><pre class="programlisting">char*               mateconf_escape_key                    (const char *arbitrary_text,
+                                                         int len);</pre>
+<p>
+Escape <em class="parameter"><code>arbitrary_text</code></em> such that it's a valid key element (i.e. one
+part of the key path). The escaped key won't pass <a class="link" href="mateconf-mateconf.html#mateconf-valid-key"><code class="function">mateconf_valid_key()</code></a>
+because it isn't a whole key (i.e. it doesn't have a preceding
+slash), but prepending a slash to the escaped text should always
+result in a valid key.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arbitrary_text</code></em>&#160;:</span></p></td>
+<td> some text in any encoding or format
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>len</code></em>&#160;:</span></p></td>
+<td> length of <em class="parameter"><code>arbitrary_text</code></em> in bytes, or -1 if <em class="parameter"><code>arbitrary_text</code></em> is nul-terminated
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> a nul-terminated valid MateConf key
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663307"></a><h3>
+<a name="mateconf-unescape-key"></a>mateconf_unescape_key ()</h3>
+<a class="indexterm" name="id2663321"></a><pre class="programlisting">char*               mateconf_unescape_key                  (const char *escaped_key,
+                                                         int len);</pre>
+<p>
+Converts a string escaped with <a class="link" href="mateconf-mateconf.html#mateconf-escape-key"><code class="function">mateconf_escape_key()</code></a> back into its original
+form.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>escaped_key</code></em>&#160;:</span></p></td>
+<td> a key created with <a class="link" href="mateconf-mateconf.html#mateconf-escape-key"><code class="function">mateconf_escape_key()</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>len</code></em>&#160;:</span></p></td>
+<td> length of <em class="parameter"><code>escaped_key</code></em> in bytes, or -1 if <em class="parameter"><code>escaped_key</code></em> is nul-terminated
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the original string that was escaped to create <em class="parameter"><code>escaped_key</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663442"></a><h3>
+<a name="mateconf-engine-get-float"></a>mateconf_engine_get_float ()</h3>
+<a class="indexterm" name="id2663455"></a><pre class="programlisting">gdouble             mateconf_engine_get_float              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Requests the floating point number (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-FLOAT:CAPS"><code class="literal">MATECONF_VALUE_FLOAT</code></a>) stored at
+<em class="parameter"><code>key</code></em>. Automatically performs type-checking, so if a non-float is
+stored at <em class="parameter"><code>key</code></em>, an error is returned. On error, or if <em class="parameter"><code>key</code></em> is unset, 
+0.0 is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the value of <em class="parameter"><code>key</code></em>, or 0.0 if no value is obtained.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663610"></a><h3>
+<a name="mateconf-engine-get-int"></a>mateconf_engine_get_int ()</h3>
+<a class="indexterm" name="id2663624"></a><pre class="programlisting">gint                mateconf_engine_get_int                (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Requests the integer (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-INT:CAPS"><code class="literal">MATECONF_VALUE_INT</code></a>) stored at
+<em class="parameter"><code>key</code></em>. Automatically performs type-checking, so if a non-integer is
+stored at <em class="parameter"><code>key</code></em>, an error is returned. On error, or if <em class="parameter"><code>key</code></em> is unset, 
+0 is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the value of <em class="parameter"><code>key</code></em>, or 0 if no value is obtained.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663779"></a><h3>
+<a name="mateconf-engine-get-string"></a>mateconf_engine_get_string ()</h3>
+<a class="indexterm" name="id2663793"></a><pre class="programlisting">gchar*              mateconf_engine_get_string             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Requests the string (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a>) stored at
+<em class="parameter"><code>key</code></em>. Automatically performs type-checking, so if a non-string is
+stored at <em class="parameter"><code>key</code></em>, an error is returned. On error, or if <em class="parameter"><code>key</code></em> is unset, 
+<span class="symbol">NULL</span> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>allocated string (value of <em class="parameter"><code>key</code></em>), or <span class="symbol">NULL</span> if no value is obtained.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2663955"></a><h3>
+<a name="mateconf-engine-get-bool"></a>mateconf_engine_get_bool ()</h3>
+<a class="indexterm" name="id2663969"></a><pre class="programlisting">gboolean            mateconf_engine_get_bool               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Requests the boolean value (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-BOOL:CAPS"><code class="literal">MATECONF_VALUE_BOOL</code></a>) stored at
+<em class="parameter"><code>key</code></em>. Automatically performs type-checking, so if a non-bool is
+stored at <em class="parameter"><code>key</code></em>, an error is returned. On error, or if <em class="parameter"><code>key</code></em> is unset, 
+<span class="symbol">FALSE</span> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the value of <em class="parameter"><code>key</code></em>, or <span class="symbol">FALSE</span> if no value is obtained.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2664131"></a><h3>
+<a name="mateconf-engine-get-schema"></a>mateconf_engine_get_schema ()</h3>
+<a class="indexterm" name="id2664145"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a>*        mateconf_engine_get_schema             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+Requests the schema (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a>) stored at <em class="parameter"><code>key</code></em>.
+Automatically performs type-checking, so if a non-schema is stored at
+<em class="parameter"><code>key</code></em>, an error is returned. If no value is set or an error occurs,
+<span class="symbol">NULL</span> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the value of <em class="parameter"><code>key</code></em> as an allocated <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema"><span class="type">MateConfSchema</span></a>, or <span class="symbol">NULL</span> if no value was obtained.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2664308"></a><h3>
+<a name="mateconf-engine-get-list"></a>mateconf_engine_get_list ()</h3>
+<a class="indexterm" name="id2664322"></a><pre class="programlisting">GSList*             mateconf_engine_get_list               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GError **err);</pre>
+<p>
+Requests the list (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-LIST:CAPS"><code class="literal">MATECONF_VALUE_LIST</code></a>) stored at <em class="parameter"><code>key</code></em>.  Automatically
+performs type-checking, so if a non-list is stored at <em class="parameter"><code>key</code></em>, or the
+list does not contain elements of type <em class="parameter"><code>list_type</code></em>, an error is
+returned. If no value is set or an error occurs, <span class="symbol">NULL</span>
+is returned. Note that <span class="symbol">NULL</span> is also the empty list,
+so if you need to distinguish the empty list from an unset value, you
+must use <a class="link" href="mateconf-mateconf.html#mateconf-engine-get"><code class="function">mateconf_engine_get()</code></a> to obtain a raw <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>.
+</p>
+<p>
+<span class="emphasis"><em>Remember that MateConf lists can only store primitive types:
+<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-FLOAT:CAPS"><code class="literal">MATECONF_VALUE_FLOAT</code></a>, <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-INT:CAPS"><code class="literal">MATECONF_VALUE_INT</code></a>, <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-BOOL:CAPS"><code class="literal">MATECONF_VALUE_BOOL</code></a>,
+<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a>, <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a>.</em></span> Also remember
+that lists must be uniform, you may not mix types in the same list.
+</p>
+<p>
+The type of the list elements depends on <em class="parameter"><code>list_type</code></em>. A <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>
+with type <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-LIST:CAPS"><code class="literal">MATECONF_VALUE_LIST</code></a> normally stores a list of more <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>
+objects. <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-list"><code class="function">mateconf_engine_get_list()</code></a> automatically converts to primitive C
+types. Thus, the list-&gt;data fields in the returned list 
+contain:
+ 
+</p>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-INT:CAPS"><code class="literal">MATECONF_VALUE_INT</code></a></td>
+<td>The integer itself, converted with <code class="function">GINT_TO_POINTER()</code>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-BOOL:CAPS"><code class="literal">MATECONF_VALUE_BOOL</code></a></td>
+<td>The bool itself, converted with <code class="function">GINT_TO_POINTER()</code>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-FLOAT:CAPS"><code class="literal">MATECONF_VALUE_FLOAT</code></a></td>
+<td>A pointer to <span class="type">gdouble</span>, which should be freed with <code class="function">g_free()</code>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a></td>
+<td>A pointer to <span class="type">gchar</span>, which should be freed with <code class="function">g_free()</code>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a></td>
+<td>A pointer to <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema"><span class="type">MateConfSchema</span></a>, which should be freed with <a class="link" href="mateconf-mateconf-schema.html#mateconf-schema-free"><code class="function">mateconf_schema_free()</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+
+In the <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-FLOAT:CAPS"><code class="literal">MATECONF_VALUE_FLOAT</code></a> and <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a> cases, you must
+<code class="function">g_free()</code> each list element. In the <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a> case you must
+<a class="link" href="mateconf-mateconf-schema.html#mateconf-schema-free"><code class="function">mateconf_schema_free()</code></a> each element. In all cases you must free the
+list itself with <code class="function">g_slist_free()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em>&#160;:</span></p></td>
+<td>type of each list element.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>an allocated list, with elements as described above.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2664861"></a><h3>
+<a name="mateconf-engine-get-pair"></a>mateconf_engine_get_pair ()</h3>
+<a class="indexterm" name="id2664875"></a><pre class="programlisting">gboolean            mateconf_engine_get_pair               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gpointer car_retloc,
+                                                         gpointer cdr_retloc,
+                                                         GError **err);</pre>
+<p>
+Requests the pair (<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-PAIR:CAPS"><code class="literal">MATECONF_VALUE_PAIR</code></a>) stored at <em class="parameter"><code>key</code></em>.  Automatically
+performs type-checking, so if a non-pair is stored at <em class="parameter"><code>key</code></em>, or the
+pair does not have the right <em class="parameter"><code>car_type</code></em> and <em class="parameter"><code>cdr_type</code></em>, an error is
+returned. Remember that the <em class="firstterm">car</em> of a pair is
+its first value, and the <em class="firstterm">cdr</em> is its second
+value, in the Lisp tradition. 
+</p>
+<p>
+<span class="emphasis"><em>Remember that MateConf pairs can only store primitive types:
+<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-FLOAT:CAPS"><code class="literal">MATECONF_VALUE_FLOAT</code></a>, <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-INT:CAPS"><code class="literal">MATECONF_VALUE_INT</code></a>, <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-BOOL:CAPS"><code class="literal">MATECONF_VALUE_BOOL</code></a>,
+<a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a>, <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a>.</em></span>
+</p>
+<p>
+<a class="link" href="mateconf-mateconf.html#mateconf-engine-get-pair"><code class="function">mateconf_engine_get_pair()</code></a> stores the two fields of the pair in the locations
+pointed to by <em class="parameter"><code>car_retloc</code></em> and <em class="parameter"><code>cdr_retloc</code></em>. The type of these pointers
+depends on the corresponding <em class="parameter"><code>car_type</code></em> and <em class="parameter"><code>cdr_type</code></em>:
+ 
+</p>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-INT:CAPS"><code class="literal">MATECONF_VALUE_INT</code></a></td>
+<td>pointer to <span class="type">gint</span>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-BOOL:CAPS"><code class="literal">MATECONF_VALUE_BOOL</code></a></td>
+<td>pointer to <span class="type">gboolean</span>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-FLOAT:CAPS"><code class="literal">MATECONF_VALUE_FLOAT</code></a></td>
+<td>pointer to <span class="type">gdouble</span>
+</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a></td>
+<td>pointer to <span class="type">gchar</span>*</td>
+</tr>
+<tr>
+<td><a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a></td>
+<td>pointer to <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema"><span class="type">MateConfSchema</span></a>*</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+
+In the <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-STRING:CAPS"><code class="literal">MATECONF_VALUE_STRING</code></a> case, you must <code class="function">g_free()</code> the string(s)
+stored in the return location(s). In the <a class="link" href="mateconf-mateconf-value.html#MATECONF-VALUE-SCHEMA:CAPS"><code class="literal">MATECONF_VALUE_SCHEMA</code></a> case you
+must <a class="link" href="mateconf-mateconf-schema.html#mateconf-schema-free"><code class="function">mateconf_schema_free()</code></a> the returned schema. If there's an error
+or the value is unset, <em class="parameter"><code>car_retloc</code></em> and <em class="parameter"><code>cdr_retloc</code></em> are left unchanged.
+</p>
+<p>
+<a class="link" href="mateconf-mateconf.html#mateconf-engine-get-pair"><code class="function">mateconf_engine_get_pair()</code></a> returns <span class="symbol">TRUE</span> on success.
+</p>
+<p>
+An example of <a class="link" href="mateconf-mateconf.html#mateconf-engine-get-pair"><code class="function">mateconf_engine_get_pair()</code></a> in action:
+</p>
+<pre class="programlisting">
+gdouble car = 10.0;
+gchar* cdr  = NULL; 
+GError* error = NULL;
+
+if (!mateconf_engine_get_pair(conf, "/foo", 
+                    MATECONF_VALUE_FLOAT,
+                    MATECONF_VALUE_STRING, 
+                    &amp;car, &amp;cdr, &amp;error))
+  {
+    /* Note: car/cdr should be untouched, because an error occurred */
+    g_assert(error != NULL);
+    fprintf(stderr, "Error: %s\n", error-&gt;message);
+    g_error_free(error);
+    error = NULL;
+  }
+else
+  {
+    /* Note: car/cdr may be untouched even though there was no error, 
+       if no value was set for "/foo"
+     */
+    printf("Found pair (%g,%s)\n", car, cdr);
+    if (cdr != NULL)
+      g_free(cdr);
+  }
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em>&#160;:</span></p></td>
+<td>desired type of the pair's first field (car).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em>&#160;:</span></p></td>
+<td>desired type of the pair's second field (cdr).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_retloc</code></em>&#160;:</span></p></td>
+<td>address of a return location for the car.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_retloc</code></em>&#160;:</span></p></td>
+<td>address of a return location for the cdr.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2665474"></a><h3>
+<a name="mateconf-engine-set-float"></a>mateconf_engine_set_float ()</h3>
+<a class="indexterm" name="id2665488"></a><pre class="programlisting">gboolean            mateconf_engine_set_float              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         gdouble val,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>val</code></em>. Automatically creates the <em class="parameter"><code>key</code></em> if it didn't exist before (ie it was unset or it only had a default value). If the key already exists but doesn't store a float (MATECONF_VALUE_FLOAT), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-float"><code class="function">mateconf_engine_set_float()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2665671"></a><h3>
+<a name="mateconf-engine-set-int"></a>mateconf_engine_set_int ()</h3>
+<a class="indexterm" name="id2665684"></a><pre class="programlisting">gboolean            mateconf_engine_set_int                (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         gint val,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>val</code></em>. Automatically creates the <em class="parameter"><code>key</code></em> if it didn't exist before (ie it was unset or it only had a default value). If the key already exists but doesn't store an integer (MATECONF_VALUE_INT), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-int"><code class="function">mateconf_engine_set_int()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2665867"></a><h3>
+<a name="mateconf-engine-set-string"></a>mateconf_engine_set_string ()</h3>
+<a class="indexterm" name="id2665881"></a><pre class="programlisting">gboolean            mateconf_engine_set_string             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *val,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>val</code></em>. Automatically creates the <em class="parameter"><code>key</code></em> if it didn't exist before (ie it was unset or it only had a default value). If the key already exists but doesn't store a string (MATECONF_VALUE_STRING), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-string"><code class="function">mateconf_engine_set_string()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2666064"></a><h3>
+<a name="mateconf-engine-set-bool"></a>mateconf_engine_set_bool ()</h3>
+<a class="indexterm" name="id2666078"></a><pre class="programlisting">gboolean            mateconf_engine_set_bool               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         gboolean val,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>val</code></em>. Automatically creates the <em class="parameter"><code>key</code></em> if it didn't exist before (ie it was unset or it only had a default value). If the key already exists but but doesn't store a boolean (MATECONF_VALUE_BOOL), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-bool"><code class="function">mateconf_engine_set_bool()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2666261"></a><h3>
+<a name="mateconf-engine-set-schema"></a>mateconf_engine_set_schema ()</h3>
+<a class="indexterm" name="id2666275"></a><pre class="programlisting">gboolean            mateconf_engine_set_schema             (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a> *val,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>val</code></em>. Automatically creates the <em class="parameter"><code>key</code></em> if it didn't exist before (ie it was unset or it only had a default value). If the key already exists but doesn't store a schema value (MATECONF_VALUE_SCHEMA), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-schema"><code class="function">mateconf_engine_set_schema()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2666458"></a><h3>
+<a name="mateconf-engine-set-list"></a>mateconf_engine_set_list ()</h3>
+<a class="indexterm" name="id2666472"></a><pre class="programlisting">gboolean            mateconf_engine_set_list               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GSList *list,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to <em class="parameter"><code>list</code></em> of type <em class="parameter"><code>list_type</code></em>. Automatically creates the <em class="parameter"><code>key</code></em> if it didn't exist before 
+(ie it was unset or it only had a default value). If the key already exists but doesn't store a list value 
+(MATECONF_VALUE_LIST), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-list"><code class="function">mateconf_engine_set_list()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em>&#160;:</span></p></td>
+<td>type of each list element.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em>&#160;:</span></p></td>
+<td>new value of <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2666683"></a><h3>
+<a name="mateconf-engine-set-pair"></a>mateconf_engine_set_pair ()</h3>
+<a class="indexterm" name="id2666696"></a><pre class="programlisting">gboolean            mateconf_engine_set_pair               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gconstpointer address_of_car,
+                                                         gconstpointer address_of_cdr,
+                                                         GError **err);</pre>
+<p>
+Change the value of <em class="parameter"><code>key</code></em> to a pair of first type <em class="parameter"><code>car_type</code></em> and second type <em class="parameter"><code>cdr_type</code></em> . Automatically creates the 
+<em class="parameter"><code>key</code></em> if it didn't exist before (ie it was unset or it only had a default value). If the key already exists 
+but doesn't store a schema value (MATECONF_VALUE_SCHEMA), <a class="link" href="mateconf-mateconf.html#mateconf-engine-set-schema"><code class="function">mateconf_engine_set_schema()</code></a> will fail.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key you want to set the value of.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em>&#160;:</span></p></td>
+<td>type of the pair's first field (car).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em>&#160;:</span></p></td>
+<td>type of the pair's second field (cdr).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_car</code></em>&#160;:</span></p></td>
+<td>address of the car.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_cdr</code></em>&#160;:</span></p></td>
+<td>address of the cdr.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> on error.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2666947"></a><h3>
+<a name="MateConfEnumStringPair"></a>MateConfEnumStringPair</h3>
+<a class="indexterm" name="id2666960"></a><pre class="programlisting">typedef struct {
+  gint enum_value;
+  const gchar* str;
+} MateConfEnumStringPair;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2666977"></a><h3>
+<a name="mateconf-string-to-enum"></a>mateconf_string_to_enum ()</h3>
+<a class="indexterm" name="id2666991"></a><pre class="programlisting">gboolean            mateconf_string_to_enum                (<a class="link" href="mateconf-mateconf.html#MateConfEnumStringPair">MateConfEnumStringPair</a> lookup_table[],
+                                                         const gchar *str,
+                                                         gint *enum_value_retloc);</pre>
+<p>
+It's best to store enumeration values as strings rather than integers. This is
+robust against changes in the enumeration, and also human-readable.
+This function makes it more convenient to store enums as strings.
+</p>
+<p>
+The first argument is a lookup table, typically declared statically as follows:
+</p>
+<pre class="programlisting">
+static MateConfEnumStringPair foo_enum_lookup_table[] = {
+  { FOO_BLAH, "Blah" },
+  { FOO_BAR,  "Bar"  },
+  { 0, NULL }
+};
+</pre>
+<p>
+Note that the last element of the table is <code class="literal">{ 0, NULL }</code>.
+Typically the strings you use should be semi-human-readable, for GTK+ and MATE
+stripping off the library prefix and converting to StudlyCaps is the recommended
+convention.
+</p>
+<p>
+The function returns <span class="symbol">TRUE</span> if a match for the string is found,
+and if a match is found the enum value is placed in <em class="parameter"><code>enum_value_retloc</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>lookup_table</code></em>&#160;:</span></p></td>
+<td>a lookup table mapping enum values to strings.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>str</code></em>&#160;:</span></p></td>
+<td>the string to convert to an enum value.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>enum_value_retloc</code></em>&#160;:</span></p></td>
+<td>the address of an enum variable.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> if a match was found.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2667136"></a><h3>
+<a name="mateconf-enum-to-string"></a>mateconf_enum_to_string ()</h3>
+<a class="indexterm" name="id2667150"></a><pre class="programlisting">const gchar*        mateconf_enum_to_string                (<a class="link" href="mateconf-mateconf.html#MateConfEnumStringPair">MateConfEnumStringPair</a> lookup_table[],
+                                                         gint enum_value);</pre>
+<p>
+See <a class="link" href="mateconf-mateconf.html#mateconf-string-to-enum"><code class="function">mateconf_string_to_enum()</code></a> for background information on this function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>lookup_table</code></em>&#160;:</span></p></td>
+<td>a lookup table mapping enum values to strings.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>enum_value</code></em>&#160;:</span></p></td>
+<td>the enumeration value to convert to a string.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a pointer to the proper string in the lookup table, or <span class="symbol">NULL</span> if no match was found.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2667246"></a><h3>
+<a name="mateconf-clear-cache"></a>mateconf_clear_cache ()</h3>
+<a class="indexterm" name="id2667260"></a><pre class="programlisting">void                mateconf_clear_cache                   (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err);</pre>
+<p>
+In case of a local <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>, this function calls <code class="function">mateconf_sources_clear_cache()</code> to clear the
+cache from the source. Otherwise it obtains the configuration database using <code class="function">mateconf_engine_get_database()</code>
+and clears the configuration database cache using <code class="function">ConfigDatabase_clear_cache()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2667385"></a><h3>
+<a name="mateconf-synchronous-sync"></a>mateconf_synchronous_sync ()</h3>
+<a class="indexterm" name="id2667399"></a><pre class="programlisting">void                mateconf_synchronous_sync              (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err);</pre>
+<p>
+In case of a local <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>, this function syncs up all the mateconf sources calling
+<a class="link" href="mateconf-mateconf.html#mateconf-synchronous-sync"><code class="function">mateconf_synchronous_sync()</code></a>. Otherwise it obtains the configuration database using
+<code class="function">mateconf_engine_get_database()</code> and syncs up the database calling <code class="function">ConfigDatabase_synchronous_sync()</code>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2667524"></a><h3>
+<a name="mateconf-engine-get-full"></a>mateconf_engine_get_full ()</h3>
+<a class="indexterm" name="id2667538"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_engine_get_full               (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         gboolean use_schema_default,
+                                                         gboolean *is_default_p,
+                                                         gboolean *is_writable_p,
+                                                         GError **err);</pre>
+<p>
+Returns the <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a> of a key and the associated <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a> fields depending on the parameters passed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key whose value is to be obtained.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locale</code></em>&#160;:</span></p></td>
+<td>the preferred locale (as in the locale related environment variables) or<span class="symbol">NULL</span> if no locale is to be
+passed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>use_schema_default</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gboolean</span> value, indicating whether schema information is to be used as the default
+value.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>is_default_p</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gpointer</span> if the is_default field of the <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a> is required, <span class="symbol">NULL</span>
+otherwise.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>is_writable_p</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gpointer</span> if the is_writable field of the <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a> is required, <span class="symbol">NULL</span>
+otherwise.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2667817"></a><div class="refsect2" lang="en"><a name="id2667818"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2667819"></a></div>
+</div>
+</div>
+</body>
+</html>

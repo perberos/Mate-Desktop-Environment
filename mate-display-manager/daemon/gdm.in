@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# A script so that
+#    1) we read the standard system env vars
+#    2) syadmins/integrators can add their own private options etc...
+
+test -f /etc/profile && . /etc/profile
+
+# Make sure LANG is set
+#
+if [ -z "$LANG" ]
+then
+  if [ -f /etc/sysconfig/language ]
+  then
+    LANG=`. /etc/sysconfig/language; echo $RC_LANG`
+    export LANG
+  fi
+fi
+
+exec @sbindir@/gdm-binary "$@"
+

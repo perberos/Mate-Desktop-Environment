@@ -1,0 +1,78 @@
+0.7.2:
+    - Fix to get the PyCapsule patch to work even if there is no PyCapsule 
+        object set up for pygtk.
+
+0.7.1:
+    - Fixed AM_CHECK_PYTHON_LIBS usage of test (MATE bug #619440)
+    - Cleaned up the docs Makefile.am to make it more consistent
+    - Fix some python3 syntax issues in the python.m4 script
+    - Add python 2.7 support (MATE bug #633171)
+
+0.7.0:
+    - Added methods:
+        caja.InfoProvider.update_file_info_full
+        caja.InfoProvider.update_complete_invoke
+        caja.InfoProvider.cancel_update
+        caja.MenuProvider.get_file_items_full
+        caja.MenuProvider.get_background_items_full
+        caja.MenuProvider.get_toolbar_items_full
+        caja.MenuProvider.emit_items_updated_signal
+    - Added complete gtk-doc documentation: tutorial and reference.  Enable
+        by adding the --enable-gtk-doc argument to ./configure or ./autogen.sh
+    - Updated the autogen.sh file so it is not a copied-over obsolete version
+        of mate-autogen.sh, but a shell that calls the user's installed
+        mate-autogen.sh.
+    - Removed obsolete .spec file
+    - Removed obsolete examples/documentation.py file
+    - Added an example plugin for the LocationWidgetProvider
+    - Look for python plugins in $XDG_DATA_DIR/caja-python/extensions.  This
+        includes ~/.local/share and /usr/share (or whatever $XDG_DATA_DIR is set
+        to)
+
+0.6.1:
+    - Look for libpython2.6.so.1.0 instead of libpython2.6.so, the latter 
+	is general available from -devel packages only.
+    - Re-added the missing spec and pc files
+    - Free pygobject data directly after using file objects.  Stops seg 
+	faults from occurring when caja wants to free pygobject data
+	after Py_Finalize() is called.
+
+0.6.0:
+    - Remove eel dependency (Vincent Untz)
+    - Sanitize python search path (Mark Lee)
+    - Remove matevfs dependency and unused code (Daniel Holbach)
+    - Load python from lib64 in 64 bit multilib distributions (Ted Toth)
+    - Fix segfault when a plugin doesn't implement the __init__ method
+    - Added the can_write, get_mount, get_file_type, get_location, 
+        and get_parent_location methods to the CajaFileInfo object
+    - Added the CajaMenu.get_items method
+    - Updated some example plugins
+    - Bug fix for some PyThreadState_New segmentation faults
+    - Use the caja prefix by default for distfiles, rather than /usr
+    - Require caja-2.22 and pygobject-2.16 now that we support GIO
+
+0.5.1:
+    - Add support for location widgets (Tim Cole)
+
+0.5.0:
+	- Add support for submenus (Lukáš Lalinský, Sylvain Baubeau, Erik Wien)
+	- Make it work with caja 2.22 (Brian Pepple)
+	- Initialize matevfs explicitly (Scott Tsai)
+	- Compilable with Python 2.5 (Jonathan Rogers)
+	- Shutdown Python (Gustavo Carneiro)
+	- Initialize PyGObject/PyGTK/PyMATEVFS on demand (Gustavo Carneiro)
+
+0.4.3:
+        - Make debugging messages a run-time option
+        - Fix bug in loading extensions from system extensions dir
+        - Fix crash when no extensions were loaded
+
+0.4.2:
+	- Make it work again with caja >= 2.13.4
+        - Minor bug fixes
+
+0.4.1:
+	(missing)
+
+0.4.0:
+	First public release

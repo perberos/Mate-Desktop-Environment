@@ -1,0 +1,657 @@
+===============
+Version 2.32.1
+===============
+
+- Reorganize Solaris login device permissions code
+- Fix PostSession call in abnormal session exits
+- Varouns user manager fixes
+- Add support for system-release file to greeter display
+- XDMCP ipv6 fixes
+- CVE-2011-0727 - change to user before copying user files
+- Translation updates
+
+===============
+Version 2.32.0
+===============
+
+- Translation updates
+
+===============
+Version 2.31.92
+===============
+
+- Change orca invocation to work better with latest release
+- Fix "Other..." item in network-login-only scenarios
+- Move gdm.schemas to pkgdatadir
+- XDMCP fixes
+- Improve ordering of languages in languages list
+- Make various slow calls asynchronous that blocked before
+- Fix up dbus security policy
+- Various other fixes
+- Translation updates
+
+===============
+Version 2.31.90
+===============
+
+- Port to upower
+- Don't stomp on $LANGUAGE environment variable
+- Don't show markup in UI
+- Fix cancel button
+- Reask user for password a few times, before failing
+- Load users asynchronously
+- Handle EINTR on getpw* calls
+- Translation updates
+
+===============
+Version 2.31.2 
+===============
+
+- Add support for legacy "custom" session name
+- Various build and warning fixes
+- XDMCP fixes
+- Add optional support for account service
+- Fix crash with multiple user switcher applets
+- Gracefully hide control center from user switch menu if not available
+- Revert marco focus workaround, now that marco is fixed
+- Rehide g-p-m context menu
+- Updates to work better with newer icon theme
+- fix non-source-dir builds
+- show username input box when there's no local user
+- Various memory leaks
+- remove gdm-restart and gdm-stop scripts
+- remove text labels from option menus
+- various user manager and user chooser fixes and performance enhancements
+- various crasher fixes
+- escape names before showing markup
+- Call button "unlock" not "login" when user is already logged in
+- Cap how long ck-history is allowed to run and how far back its allowed to go
+- Improvements to the way users are sorted
+- ensure slave's children always die with the slave
+- halectomy of the last remnants of hal
+- don't exit when X fails to start
+- trap XAddHosts call
+- minor fixes in screenshot tool
+- use lsb_release if available to determine system description
+- automatically retry on login failure
+- improve coverage of test programs
+- fix timed login + disable-user-list together
+
+===============
+Version 2.31.1 
+===============
+
+- Now GDM saves its MateConf settings per-seat.  This fixes bug #594818.  So now
+  if the user launches or exits an AT program it only affects the display where
+  the request was made, not all displays running the GDM dialog.
+- Enable FD_CLOEXEC for signal self-pipe.  Fixes bug #617661.
+- Improvements so compiling with -DGSEAL_ENABLE works better.
+- Use g_remove() to remove directories instead of g_unlink().
+- No longer clear the entry field by setting it to a list of '\b' characters.
+  Now use gtk_editable_delete_text which safely clears the entry field instead.
+  See bug #576801.
+- Fix setting of WINDOWPATH so it does not assume the format is 32 bit.  Fixes
+  bug #609272.
+- Fix bug #591937 so the code compiles when ENODATA is not available.
+
+===============
+Version 2.31.0 
+===============
+
+- GDM now better compiles with -DGSEAL_ENABLED.  Fixes bug #612472.
+- Tweak power manager policy to shutdown immediately when hitting power.
+  Previously it would show a dialog with a 60 second timeout.  Fixes bug
+  #617317.
+- Sort session using file basename.  Fixes bug #617516.
+- Avoid double conversion to utf8 in keyboard layout descriptions.  Fixes bug
+  #617108.
+- Fix build failure when libxdmcp is not available.  Fixes bug #616984.
+- String fixes.  Fix bug #609178.
+
+===============
+Version 2.30.1 
+===============
+
+- Accessibility is now enabled by default for the GDM login screen.
+- When the face browser is disabled, the PAM conversation is started
+  immediately, so users do not need to click a button to start entering the
+  username and password.  Fixes bug #591082.
+- Add label-for and labelled-by a11y relations to the entry field in the
+  login GUI.  This makes the login GUI more accessible when using AT programs.
+  Fixes bug #613434.
+- Fixed bugs that were causing XDMCP to not show the greeter again after
+  logout.  Fixes bug #606724.
+- The default XDMCP PingIntervalSeconds was increased from 15 to
+  60 seconds.
+- The WINDOWPATH environment variable is now set for the user session.  Fixes
+  bug #609272.
+- Ensure Init script is called when using Automatic Login.  Fixes bug #614488.
+- Fix race condition with Timed Login.  Fixes bug #614062.
+- Drop xhost localuser:gdm and localuser:root when the user session starts.
+  Fixes bug #605350.
+- Removed the icon monitor from the GDM login GUI since it was not functional
+  and was causing problems with automounting user's $HOME directories.  Fixes
+  bug #609321.
+- Do not mark "%x" for translation.  Fixes bug #613306.
+- Remove duplicated strings for translation.  Fixes bug #609179.
+- Minor doc corrections.
+- Translation updates.
+
+===============
+Version 2.30.0 
+===============
+
+- Translation improvements.
+
+===============
+Version 2.29.92
+===============
+
+- The greeter is not torn down until pam_open_session finishes since
+  some PAM modules can ask questions up until this point.
+- The daemon now kills the session process rather than the entire process
+  group, fixing bug #607738.  The corresponding mate-session bug #607658 
+  is released with 2.29.92 so this works properly.
+
+===============
+Version 2.29.6
+===============
+
+- Various build fixes
+- Crash fix in layout detection
+- Crash fix in session list detection
+- Remove timeout for interacting with PAM
+- Fix compile with --no-as-needed
+- Add debug message if system lacks fonts
+- Disable switch user item if user switching won't work
+
+===============
+Version 2.29.5
+===============
+
+- XDMCP fixes on Solaris
+- run PostLogin script as user instead of gdm
+- Fix ellipses usage on User Switch Applet
+- Add ability to customize system language list
+- Solaris NULL printf fixes
+- Convert from glade to gtkbuilder
+- Detect default keyboard layout better
+- Ignore executable subfolders of xinitrc.d
+- Don't reveal valid usernames when authenticating
+
+===============
+Version 2.29.4
+===============
+
+- Remove deprecated function g_mapped_file_free
+- Fix option widgets to work better with orca
+- make --with-custom-conf work
+- Don't hard code path to policykit agent
+- Don't backup xkb configuration before login
+
+===============
+Version 2.29.1
+===============
+
+- A new desktop extension is now supported in GDM session desktop files
+  (normally found in /usr/share/xsessions). Setting the key to true as follows:
+
+  X-GDM_BypassXsession=true
+
+  will cause the Xsession script to not be used to launch the session.  This
+  can be useful if you want to create a "failsafe" xterm session.  The Xsession
+  script sources the user's $HOME/.profile, for example, so setting this key
+  to true will ensure that any errors in the user's $HOME/.profile will not
+  cause the session to fail to start.
+
+- Fix makedist problem.
+
+===============
+Version 2.29.0
+===============
+
+- Now GDM supports Include, Exclude, and IncludeAll configuration options to
+  allow the ability to configure which users are displayed in the FaceBrowser.
+- Now GDM supports better debugging.  Users can set the debug/Enable
+  configuration option to turn on GDM debugging.
+- The directory where GDM screenshots are placed has been moved to its own
+  directory: /var/run/gdm/greeter/GDM-Screenshot.png.  The screenshot directory
+  can now be specified at build time via the --with-screenshot-dir configure
+  argument.
+- Many simple-greeter Face Browser usability improvements.
+- The simple-greeter Face Browser tree view search entry is now obscured to
+  help prevent accidental display of passwords.
+- Shutdown and reboot functions are moved to a menu in the simple-greeter panel
+  instead of being presented as buttons.  The shutdown menu is better
+  positioned on multi-monitor displays.
+- The simple-greeter panel notification area has been improved and now honors
+  the MateConf setting for /apps/notification_area_applet/prefs/padding.
+- The entry field in the simple-greeter now has accessibility labels so it will
+  work better with accessibility programs.
+- The clock in the simple-greeter panel no longer shows the date, making the
+  screen look a little cleaner.  The date is moved to the clock tooltip so it
+  is still available.
+- The simple-greeter now uses gethostname instead of g_get_host_name since
+  is more reliable when the hostname changes at runtime.
+- The user switch applet now honors disable_lock_screen.  The option to lock
+  screen is now not shown if disable_lock_screen is set.
+- The /var/run/gdm directory is better locked down.
+- GDM no longer crashes on bad UTF-8 in the /etc/passwd file.
+- When the worker dies, the auth-failed signal is no longer sent.  This 
+  prevents a crash that happens when switching run-levels when the login screen
+  is displayed.
+- Ensure that the length of sockaddr structure is set to the correct length for
+  IPv4 or IPv6.  This makes GDM work better on some operating systems that are
+  picky about the length being exact.
+- String and documentation improvements.
+
+===============
+Version 2.28.1
+===============
+
+- GDM will now avoid calling XAddHosts for remote connections.  Refer to bug
+  #598142 for more information.
+- Now GDM uses DeviceKit-power instead of mate-power-manager for Suspend
+  support.
+- Now the at-spi-registryd-wrapper.desktop GDM autostart file will run
+  at-spi-registryd directly instead of calling at-spi-registryd-wrapper.
+- Fix to the visibility check for the "Other" button which corrects some
+  situations where the button would not appear when it was supposed to.
+- Now the GDM daemon will make the /var/log/gdm directory if it does not exist.
+- Fixes to avoid autologin failure when a NULL username is passed in.
+- Restore CTYPE when canonicalizing codesets.
+- Several fixes to avoid warnings.
+
+===============
+Version 2.28.0
+===============
+
+- Now GDM supports the ability to specify the automatic/timed login user via a
+  script via the same interface that the old GDM supported.
+- Now the user's dmrc and face image files are stored in /var/cache/gdm, so 
+  that the login process does not need to access the user's $HOME directory 
+  before authentication.  Refer to bug #565151.
+- Fix the login GUI options widget so the language/session/layout choices are
+  not reset after a failed login.
+- Fix language dialog so it does not crash if the user click's the "OK" button
+  when no language is selected.
+- Fix to ensure that the login dialog regains focus after the language or
+  layout dialogs are used.
+- The language dialog has improved logic to sort the language names more
+  correctly.
+- Make sure to check error variable is not NULL before referencing it in the
+  gdm-user-manager code.
+- Make sure to not print NULL strings since this causes crashes on some
+  platforms.
+- Improve documentation.
+
+===============
+Version 2.27.90
+===============
+
+- Autostart polkit-mate authentication agent.
+- Add screen capture sound effect to screenshot tool.
+- If HOST_NAME_MAX is not available, try _POSIX_HOST_NAME_MAX, then 
+  default to 256.
+- Add users "nobody4" and "noaccess" to the list of users to filter from
+  the Face Browser.
+- Add Solaris logindevperm support. 
+- Fix mispelling of XDMCP.
+- Improve documentation.
+
+===============
+Version 2.27.4
+===============
+
+- Favor XFree86 Xinerama over Solaris Xinerama on Solaris
+- Make greeter a well behaved session client
+- XDMCP fixes
+- Fix up btmp record handling
+- Handle locales with modifiers better
+- Use better logic with keyboard layout handling
+- Change example PAM file/documentation to demonstrate password-less login
+- Handle usernames from non-utf8 locales
+- Allow dbus introspection for gdm services
+- Show more details authentication error messages in UI
+- Allow uppercase and lowercase booleans in config file
+- Be more consistent with booleans in schemas
+- Use g_timeout_add_seconds to reduce wakeups
+- Make greeter window more clear when user list is disabled
+- Put greeter login window in same ctrl-alt-tab menu as panel
+- Port greeter to PolicyKit 1.0
+- Shave off 1/2 second delay when bringing up greeter
+- OS X portability fixes
+- Look for locales in /usr/lib/locale instead of /usr/share/locale
+- Better handling when two users have the same name
+
+===============
+Version 2.26.1
+===============
+
+- Use O_APPEND when opening log files
+- Don't depend on mate-power-manager registering with session manager- Give greeter and slave access to the display even after the hostname changes
+- Clean up stale auth temporary directories
+- Fix double free crasher in user switcher applet
+- Load saved settings after user types username into Other box
+- Pass environment to PAM worker processes so messages are localized
+- Fix up auditing for Solaris auditor
+
+===============
+Version 2.26.0
+===============
+
+- Make xdmcp/PingIntervalSeconds config option work
+
+===============
+Version 2.25.92
+===============
+
+- Hide presence features in user switcher applet
+- Make autologin happen more than once after bootup
+- Better panel placement and login screen sizing in
+  multihead set ups
+- Fix XDMCP and add more XDMCP configurability
+- Rework dbus security files to be more correct
+- Various other fixes
+
+===============
+Version 2.25.2
+===============
+
+- Fix focus issues in applet
+- Use text view instead of entry
+
+===============
+Version 2.25.1
+===============
+
+- Add support for a real automatic login
+- Redesign user switch applet
+- Make XDMCP work again
+- Add a bevel around the dialog
+- Remove capslock warning label
+- Translate help output (Gabor Kelemen)
+
+===============
+Version 2.24.0
+===============
+
+- Allow the build to succeed without a gdm user (Frederic Peters)
+- Use Bourne shell syntax in Xsession.solaris (Brian Cameron)
+- Set ownership of .mateconf.mandatory (William Jon McCann)
+
+Translations:
+- Updated de: Mario Blättermann
+- Update zh_CN: Funda Wang
+- Updated hr: Robert Sedak
+- Updated dz: Pema Geyleg
+- Updated hu: Gabor Kelemen
+- Updated mr: Sandeep Shedmake
+- Updated ko: Changwoo Ryu
+- Updated ar: Djihed Afifi
+- Updated bn_IN: Runa Bhattacharjee
+- Updated hi: Rajesh Ranjan
+- Updated lt: Gintautas Miliauskas
+- Updated or: Manoj Kumar Giri
+- Updated it: Francesco Marletta
+- Updated gu: Sweta Kothari
+- Updated kn: Shankar Prasad
+- Updated ta: I. Felix
+- Updated el: Papadeas Pierros
+- Updated et: Ivar Smolin
+- Updated mk: Jovan Naumovski
+- Updated ro: Mişu Moldovan
+- Updated ru: Nickolay V. Shmyrev
+- Updated sr, sr@latin: Igor Nestorović
+- Updated da: Ask H. Larsen
+
+
+===============
+Version 2.23.92
+===============
+
+- Fix selection handling in language and layout choosers
+- Fixed #545337, grey screen on login (Owen Taylor)
+- Start g-s-d correctly
+- Add missing WM desktop file
+- Add docs (Brian Cameron, Ray Strode)
+- Make set-show-user* into construct properties
+- Revert the larger greeter font size
+- Add slave log file
+- Fix up some log rotation problems
+
+Translations:
+- Updated vi: Nguyễn Thái Ngọc Duy
+- Updated eu: Inaki Larranaga Murgoitio
+- Updated as: Amitakhya Phukan
+- Updated cs: Petr Kovar
+- Updated et: Priit Laes  <plaes at svn dot mate dot
+- Updated es: Jorge Gonzalez
+- Updated nl: Vincent van Adrighem
+- Updated pt: Duarte Loreto
+- Updated nb: Kjartan Maraas
+- Updated th: Theppitak Karoonboonyanan
+- Updated te: Sunil Mohan Adapa
+- Updated pl: Tomasz Dominikowski
+- Updated fr: Robert-André Mauchin
+- Updated bg: Alexander Shopov
+- Updated pt_BR: Og Maciel
+- Updated hr: Robert Sedak
+- Updated de: Jochen Skulj
+- Updated hi: Rajesh Ranjan
+- Updated fi: Ilkka Tuohela
+- Updated zh_CN: Funda Wang
+- Updated sq: Laurent Dhima
+- Updated sv: Daniel Nylander
+- Updated en_GB: Philip Withnall
+
+
+===============
+Version 2.23.90
+===============
+
+ * A few multi-monitor fixes for the greeter
+ * Don't load local users at all if user list is disabled
+ * Switch to using mate-session 2.23.6+ for simple-greeter session manager
+ * Remove a11y dialog and button on panel (now provided by g-s-d)
+ * Fixed #547965, Make PolicyKit-mate optional (Gilles Dartiguelongue)
+ * Fixed #504565, Username "gdm" is hardcoded all over the place (Patryk Zawadzki)
+ * Fixed #509141, GDM does not honor LC_DATE (Brian Cameron)
+ * Fixed #547549, Xsession update for Solaris SCIM (Brian Cameron)
+ * Fixed #547965, align help string in configure (William Jon McCann)
+ * Fixed #548551, Applet's user icon is always 24x24 (Patryk Zawadzki)
+ * Fixed #548676, fix broken check for tcp_wrappers (Brian Cameron)
+ * Fixed #549040, crash in user selector (William Jon McCann)
+ * Fixed #549223, keyboard language select gets life of its own (William Jon McCann)
+
+Translations:
+ * Updated LINGUAS, sr@latin.po, sr@Latn: Goran Rakic
+ * Updated ar: Khaled Hosny
+ * Updated bg: Alexander Shopov
+ * Updated bn_IN: Runa Bhattacharjee
+ * Updated cs: Petr Kovar
+ * Updated es: Jorge González, Jorge Gonzalez
+ * Updated et: Ivar Smolin
+ * Updated fi: Ilkka Tuohela
+ * Updated gu: Sweta Kothari
+ * Updated he: Yair Hershkovitz, Mark Krapivner
+ * Updated mai: Rajesh Ranjan <rajeshkajha@yahoo.com>, Sangeeta Kumari
+ * Updated nb: Kjartan Maraas
+ * Updated pl: Tomasz Dominikowski
+ * Updated pt: Duarte Loreto
+ * Updated pt_BR: Fábio Nogueira
+ * Updated th: Theppitak Karoonboonyanan
+ * Updated zh_CN: 甘露(Lu Gan)
+ * Updated zh_HK: Chao-Hsiung Liao
+ * Updated zh_TW: Chao-Hsiung Liao
+
+Help Manual Translations:
+None
+
+===============
+Version 2.23.2
+===============
+
+ * Requires ConsoleKit 0.3.0
+
+ * Keyboard layout selection from greeter (Matthias Clasen)
+ * Save backup of ~/.xsession-errors (Tom London)
+ * Add a MateConf key for not showing the user list (Matthias Clasen)
+ * Now support PostLogin, PreSession, and PostSession hooks (Brian Cameron)
+ * Add DisallowTCP back (Ray Strode)
+ * Support PAM_XDISPLAY and PAM_XAUTHDATA (Eamon Walsh)
+ * Add lang tags, to help Pango pick the right font (Matthias Clasen)
+ * Set the initial user selection correctly
+ * Add frame around user icons and make them larger
+ * Write gdm screenshot output to /var/run/gdm instead of /tmp
+ * Save one old copy of greeter log file
+ * Set a minimum width for the login window
+ * Fix check for /etc/gdm/Init/Default so it will actually be executed
+ * Wait for ready from backend when cancelling from greeter
+ * Use per session directories in /var/run/gdm for xauth databases
+ * Move ConsoleKit registration into the worker
+
+===============
+Version 2.22.0
+===============
+
+ * Many animation improvements (Ray)
+ * Many locale/language improvements (Ray)
+ * Many session fixes (Ray)
+ * Drop icons for Other and Auto users for now (Ray)
+ * Only populate language list with those that have translations (Ray)
+ * Load languages later to speed up starting (Ray)
+ * Select "Other..." user if it's the only available user
+ * Don't destroy the transient greeter since we may end up on wrong vt
+ * Store X auth password in /var/run/gdm instead of /tmp
+ * Enable a11y by default
+ * Monitor ~/.face for changes.
+ * Only display the currently logged in users in the applet
+ * Show local users and monitor passwd for changes
+ * More lockdown
+ * Add option for running compiz
+ * Add a "hidden" screenshot tool.  Pressing PrtSc saves file to /tmp.
+ * Add profiling framework
+ * Log greeter output to a file in /var/log/gdm
+ * Turn on media-keys support for volume control
+
+===============
+Version 2.21.9
+===============
+
+ * Lots of improvements with session and language handling (Ray)
+ * Add a crash backtrace logging tool.
+ * Timed login countdown animation (Ray)
+ * Start making host chooser able to support other protocols.
+ * Fix user display in switch applet.
+ * Start g-s-d synchronously to avoid flashing etc.
+ * Add a banner message feature to greeter.
+ * Make TryExec optional for session files.
+ * Work around g-s-d background bug.
+ * Add capslock key warning to greeter.
+ * Fix user switch applet crasher.
+ * Remove preferences from user switch applet.
+ * Make user switcher a drop in replacement for FUSA.
+ * Many dmrc file related fixes (Ray)
+ * Add more lockdown points for greeter.
+
+===============
+Version 2.21.8
+===============
+
+ * Show locales in selection properly (Ray)
+ * Improve language and session selection interfaces (Ray)
+ * Add mateconf key to disable restart/shutdown buttons.
+ * Add quick death and looping detection for displays
+ * .dmrc handling (Ray).
+ * Run /etc/gdm/Init/Default.
+ * Allow XDMCP to be enabled/disabled from configuration settings.
+ * Initial support for timed login.
+ * Better handling of ck-history not being available.
+ * Fix a few bugs with X access files. (Ray)
+ * Hook up suspend button to g-p-m.
+ * Allow the login window icon to be changed via mateconf.
+ * Handle not getting the requested X11 display number.
+ * Be more robust against dying processes.
+ * Make language and session selecting work much better (Ray).
+ * Add icons for language and session selectors.
+ * Make autostart work again.
+ * Make a11y dialog size shrink/grow with font size.
+ * Run gok in login window mode (Ray)
+ * Make disconnect work on XDMCP greeters.
+
+===============
+Version 2.21.7
+===============
+
+ * New session selection widgets (Ray Strode)
+ * New language selection widgets (Ray Strode)
+ * Don't display sessions in list if they don't have x11.
+ * Only display users that have frequently logged in.
+ * Port to GIO (Cosimo Cecchi)
+ * Add a user switcher applet.
+ * Unlock session after switching.
+ * Add support for finding and switching to existing greeters.
+ * Enable the g-s-d a11y-keyboard plugin
+ * Add PAM auditing logic (Ray Strode & Brian Cameron)
+ * Make sure we retry connecting to the xserver
+ * Move clock applet to the panel (Ray Strode)
+ * Don't show guest user
+ * Add an a11y options dialog to the greeter.
+
+===============
+Version 2.21.6
+===============
+
+        * Initial support for XDMCP IndirectQuery choosers.
+        * Also fix broken gdm_address_is_local.
+        * Initial session migration/switching support.
+        * Set CK session-type to LoginWindow for greeter session.
+        * Add gdmflexiserver command for backward compatibility.
+        * Add CK/PK system restart/stop functionality.
+
+===============
+Version 2.21.5
+===============
+
+        * Improve greeter widget animation (Ray Strode)
+        * Ignore sessions on other seats or without x11 displays
+        * Prefer marco over compiz for now
+        * Handle D-Bus method timeouts
+        * Fully switch to external mate-settings-daemon
+        * Handle icon theme changes
+
+===============
+Version 2.21.4
+===============
+
+        * Break-out settings-daemon into external module
+        * Add session chooser to login window (Ray Strode)
+        * Add login window resizing animations (Ray Strode)
+        * Fix cookie generation and handling (Ray Strode)
+        * Setup mateconf database for greeter session. (Matthias Clasen)
+        * Log session console i/o to ~/.xsession-errors (Ray Strode)
+
+===============
+Version 2.21.2
+===============
+
+        * Close the session at logout (Ray Strode)
+        * Run Xsession (Ray Strode)
+        * Rework XAuth handling (Ray Strode)
+        * Don't require x11.pc to build
+        * Assassinate the unused configuration options
+        * Add support for showing logged in users in greeter
+        * Split up GdmSession mechanism
+
+  Translators
+
+        * Updated fi: Ilkka Tuohela
+        * Updated lt: Gintautas Miliauskas
+        * Updated sl: Matej Urbančič
+
+===============
+Version 2.21.1
+===============
+
+Initial development release of new GDM design

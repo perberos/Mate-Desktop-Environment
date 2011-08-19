@@ -1,0 +1,109 @@
+pymatecorba-2.24.0:  23-Sep-2008
+    - Added weakref support to Python CORBA objects (Eitan Isaacson, #502925)
+    - Allow accessing reference count data (Eitan Isaacson, #471391)
+    - Misc. build fixes (Thomas Lee, #522593, Sebastien Bacher, #448178)
+
+pymatecorba-2.14.3:  26-May-2007
+        - Fix build problem on Mac OS X
+        - Fix compatibility with non-MateCORBA2 based servants
+
+pymatecorba-2.14.2:  15-February-2007
+        - Fix build problem on gentoo
+        - Fix a couple of bugs uncovered by Coverity
+
+pymatecorba-2.14.1:  11-June-2006
+        - Fix build problem on cygwin
+        - Fix segmentation fault on orb.shutdown()
+        - Make it work on Python 2.5 and 64-bit platforms
+
+pymatecorba-2.13.1:  11-December-2005
+        - Add support for CORBA async calls
+
+pymatecorba-2.13.0:  4-December-2005
+	- Add thread safety; don't block threads on ORB.run or remote calls
+        - Allow creating custom POAs
+        - Support POA thread policies and MateCORBA thread hints
+        - Automatic type discovery now works for Python servers too
+        - Add new examples: echo client/server; threaded server
+
+pymatecorba-2.0.1:  4-October-2004
+	- x86_64 build fixes (Mark McLoughlin)
+	- export pymatecorba versions (Gustavo)
+	- Python 2.4 fixes (James)
+	- Bug fixes (James, Bowin Owens)
+
+pymatecorba-2.0.0:  1-September-2003
+	- roll version number over to 2.0
+	- get rid of some unused code in the method call marshaller.
+
+pymatecorba-1.99.7:  24-August-2003
+	- fix a problem with handling of exceptions that was uncovered
+	  by Python 2.3.
+	- disable assigning to unknown attributes on stub instances.  Saves
+	  a little memory too.
+	- add CORBA.ORB.work_pending() and CORBA.ORB.perform_work() methods.
+
+pymatecorba-1.99.6:  31-July-2003
+	- clean up base class list when building client stubs.  This
+	  is needed in order for the stubs to work with Python 2.3.
+	- fix some possible segfaults if the argument names are
+	  missing in the IInterface structures, which occurs when
+	  using MateCORBA.load_file().
+
+pymatecorba-1.99.5:  16-July-2003
+	- Work with latest HEAD branch (MateCORBA2 2.7.x).
+	- allow importing of CORBA or PortableServer without first
+	  importing MateCORBA.  This gives better compatibility with
+	  standard CORBA mapping.
+	- None is not a valid string/wstring value.
+	- accept strings for sequence<octet>.
+
+pymatecorba-1.99.4:  23-March-2003
+	- support generation of stubs at runtime from IDL files using
+	  the imodule service found in MateCORBA2 2.6.
+	- fix marshalling of "long long" and "unsigned long long"
+	  values.
+	- fix compilation problem with MateCORBA2 HEAD branch (2.7.x).
+
+pymatecorba-1.99.3:  27-December-2002
+	- upgrade to latest auto tools (autoconf-2.57, automake-1.7.2,
+	  libtool-1.4.3).
+	- add CORBA.TC_* constants.
+	- remove messages printed when creating a stub module.
+
+pymatecorba-1.99.2:  16-November-2002
+	- Require MateCORBA2 >= 2.4.4.
+	- make sure servants start up in a valid state by moving
+	  initialisation to tp_new rather than tp_init.
+	- add support for MateCORBA-Python "delegate" style servants.
+	- improve handling of unknown exceptions (they are usually
+	  caused by errors in the program, so print a stack trace).
+	- marshalling fixes (handle NULL strings, and sequences
+	  embedded in complex types).
+	- change semantics of pycorba_object_new() so that it
+	  duplicates the object reference.
+	- prevent subclassing of various types that shouldn't be
+	  subclassed.
+	- wrap enumeration values as int subclasses such that repr()
+	  will return the string version of the enum.
+	- beginning of fixed<d,s> wrapper.  Pretty useless at the
+	  moment, since support in MateCORBA2 is broken.
+	- add a spec file.
+
+pymatecorba-1.99.1:  30-October-2002
+	- add PortableServer bindings (Servant and POA).
+	- escape names that conflict with Python keywords.
+	- move tests to tests/ subdirectory, and add a test server.
+	- change union members _d and _v to slots.
+	- install a pymatecorba.h header that can be used by other Python
+	  packages to interoperate with pymatecorba.
+	- put un-namespaced types in the _GlobalIDL module (like
+	  omniORBpy does).
+	- add some warnings to MateCORBA.load_typelib() to try and
+	  identify broken typelibs.
+	- add a test to demonstrate ability for in process C code to
+	  invoke operations on Python objects and vice versa.
+
+pymatecorba-1.99.0:  20-October-2002
+	- initial release.
+	- basic support for most client side operations.

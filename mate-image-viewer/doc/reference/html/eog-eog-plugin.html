@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EogPlugin</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
+<link rel="home" href="index.html" title="Eye of MATE Reference Manual">
+<link rel="up" href="ch05.html" title="Plugins">
+<link rel="prev" href="ch05.html" title="Plugins">
+<link rel="next" href="EogPluginManager.html" title="EogPluginManager">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch05.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch05.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Eye of MATE Reference Manual</th>
+<td><a accesskey="n" href="EogPluginManager.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#eog-eog-plugin.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#eog-eog-plugin.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#eog-eog-plugin.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry" title="EogPlugin">
+<a name="eog-eog-plugin"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="eog-eog-plugin.top_of_page"></a>EogPlugin</span></h2>
+<p>EogPlugin</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="eog-eog-plugin.synopsis"></a><h2>Synopsis</h2>
+<a name="EogPlugin"></a><pre class="synopsis">#define             <a class="link" href="eog-eog-plugin.html#EOG-PLUGIN-CONST:CAPS" title="EOG_PLUGIN_CONST()">EOG_PLUGIN_CONST</a>                    (obj)
+                    <a class="link" href="eog-eog-plugin.html#EogPlugin-struct" title="EogPlugin">EogPlugin</a>;
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-plugin.html#eog-plugin-activate" title="eog_plugin_activate ()">eog_plugin_activate</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-plugin.html#eog-plugin-deactivate" title="eog_plugin_deactivate ()">eog_plugin_deactivate</a>               (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-plugin.html#eog-plugin-update-ui" title="eog_plugin_update_ui ()">eog_plugin_update_ui</a>                (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-plugin.html#eog-plugin-is-configurable" title="eog_plugin_is_configurable ()">eog_plugin_is_configurable</a>          (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-plugin.html#eog-plugin-create-configure-dialog" title="eog_plugin_create_configure_dialog ()">eog_plugin_create_configure_dialog</a>  (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>);
+#define             <a class="link" href="eog-eog-plugin.html#EOG-PLUGIN-REGISTER-TYPE-WITH-CODE:CAPS" title="EOG_PLUGIN_REGISTER_TYPE_WITH_CODE()">EOG_PLUGIN_REGISTER_TYPE_WITH_CODE</a>  (PluginName,
+                                                         plugin_name,
+                                                         CODE)
+#define             <a class="link" href="eog-eog-plugin.html#EOG-PLUGIN-REGISTER-TYPE:CAPS" title="EOG_PLUGIN_REGISTER_TYPE()">EOG_PLUGIN_REGISTER_TYPE</a>            (PluginName,
+                                                         plugin_name)
+#define             <a class="link" href="eog-eog-plugin.html#EOG-PLUGIN-DEFINE-TYPE-WITH-CODE:CAPS" title="EOG_PLUGIN_DEFINE_TYPE_WITH_CODE()">EOG_PLUGIN_DEFINE_TYPE_WITH_CODE</a>    (ObjectName,
+                                                         object_name,
+                                                         PARENT_TYPE,
+                                                         CODE)
+#define             <a class="link" href="eog-eog-plugin.html#EOG-PLUGIN-DEFINE-TYPE:CAPS" title="EOG_PLUGIN_DEFINE_TYPE()">EOG_PLUGIN_DEFINE_TYPE</a>              (ObjectName,
+                                                         object_name,
+                                                         PARENT_TYPE)
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="eog-eog-plugin.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----EogPlugin
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="eog-eog-plugin.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="eog-eog-plugin.details"></a><h2>Details</h2>
+<div class="refsect2" title="EOG_PLUGIN_CONST()">
+<a name="EOG-PLUGIN-CONST:CAPS"></a><h3>EOG_PLUGIN_CONST()</h3>
+<pre class="programlisting">#define EOG_PLUGIN_CONST(obj)      (G_TYPE_CHECK_INSTANCE_CAST((obj), EOG_TYPE_PLUGIN, EogPlugin const))
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EogPlugin">
+<a name="EogPlugin-struct"></a><h3>EogPlugin</h3>
+<pre class="programlisting">typedef struct _EogPlugin EogPlugin;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="eog_plugin_activate ()">
+<a name="eog-plugin-activate"></a><h3>eog_plugin_activate ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_plugin_activate                 (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_plugin_deactivate ()">
+<a name="eog-plugin-deactivate"></a><h3>eog_plugin_deactivate ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_plugin_deactivate               (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_plugin_update_ui ()">
+<a name="eog-plugin-update-ui"></a><h3>eog_plugin_update_ui ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_plugin_update_ui                (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_plugin_is_configurable ()">
+<a name="eog-plugin-is-configurable"></a><h3>eog_plugin_is_configurable ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_plugin_is_configurable          (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_plugin_create_configure_dialog ()">
+<a name="eog-plugin-create-configure-dialog"></a><h3>eog_plugin_create_configure_dialog ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_plugin_create_configure_dialog  (<em class="parameter"><code><a class="link" href="eog-eog-plugin.html#EogPlugin"><span class="type">EogPlugin</span></a> *plugin</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EOG_PLUGIN_REGISTER_TYPE_WITH_CODE()">
+<a name="EOG-PLUGIN-REGISTER-TYPE-WITH-CODE:CAPS"></a><h3>EOG_PLUGIN_REGISTER_TYPE_WITH_CODE()</h3>
+<pre class="programlisting">#define             EOG_PLUGIN_REGISTER_TYPE_WITH_CODE(PluginName, plugin_name, CODE)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>PluginName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>CODE</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EOG_PLUGIN_REGISTER_TYPE()">
+<a name="EOG-PLUGIN-REGISTER-TYPE:CAPS"></a><h3>EOG_PLUGIN_REGISTER_TYPE()</h3>
+<pre class="programlisting">#define             EOG_PLUGIN_REGISTER_TYPE(PluginName, plugin_name)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>PluginName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EOG_PLUGIN_DEFINE_TYPE_WITH_CODE()">
+<a name="EOG-PLUGIN-DEFINE-TYPE-WITH-CODE:CAPS"></a><h3>EOG_PLUGIN_DEFINE_TYPE_WITH_CODE()</h3>
+<pre class="programlisting">#define             EOG_PLUGIN_DEFINE_TYPE_WITH_CODE(ObjectName, object_name, PARENT_TYPE, CODE)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ObjectName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>PARENT_TYPE</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>CODE</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EOG_PLUGIN_DEFINE_TYPE()">
+<a name="EOG-PLUGIN-DEFINE-TYPE:CAPS"></a><h3>EOG_PLUGIN_DEFINE_TYPE()</h3>
+<pre class="programlisting">#define             EOG_PLUGIN_DEFINE_TYPE(ObjectName, object_name, PARENT_TYPE)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ObjectName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>PARENT_TYPE</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

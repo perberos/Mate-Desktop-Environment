@@ -1,0 +1,219 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+ *
+ * Copyright (C) 2007 William Jon McCann <mccann@jhu.edu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+#include "config.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <locale.h>
+
+#include <glib.h>
+#include <glib/gi18n.h>
+#include <glib-object.h>
+
+#define DBUS_API_SUBJECT_TO_CHANGE
+#include <dbus/dbus-glib.h>
+#include <dbus/dbus-glib-lowlevel.h>
+
+#include "gdm-signal-handler.h"
+#include "gdm-common.h"
+#include "gdm-log.h"
+#include "gdm-session-worker.h"
+
+#include "gdm-settings.h"
+#include "gdm-settings-direct.h"
+#include "gdm-settings-keys.h"
+
+#define SERVER_DBUS_PATH      "/org/mate/DisplayManager/SessionServer"
+#define SERVER_DBUS_INTERFACE "org.mate.DisplayManager.SessionServer"
+
+static GdmSettings *settings = NULL;
+
+static gboolean
+signal_cb (int      signo,
+           gpointer data)
+{
+        int ret;
+
+        g_debug ("Got callback for signal %d", signo);
+
+        ret = TRUE;
+
+        switch (signo) {
+        case SIGSEGV:
+        case SIGBUS:
+        case SIGILL:
+        case SIGABRT:
+                g_debug ("Caught signal %d.", signo);
+
+                ret = FALSE;
+                break;
+
+        case SIGFPE:
+        case SIGPIPE:
+                /* let the fatal signals interrupt us */
+                g_debug ("Caught signal %d, shutting down abnormally.", signo);
+                ret = FALSE;
+
+                break;
+
+        case SIGINT:
+        case SIGTERM:
+                /* let the fatal signals interrupt us */
+                g_debug ("Caught signal %d, shutting down normally.", signo);
+                ret = FALSE;
+                break;
+
+        case SIGHUP:
+                g_debug ("Got HUP signal");
+                /* FIXME:
+                 * Reread config stuff like system config files, VPN service files, etc
+                 */
+                ret = TRUE;
+
+                break;
+
+        case SIGUSR1:
+                g_debug ("Got USR1 signal");
+                /* FIXME:
+                 * Play with log levels or something
+                 */
+                ret = TRUE;
+
+                gdm_log_toggle_debug ();
+
+                break;
+
+        default:
+                g_debug ("Caught unhandled signal %d", signo);
+                ret = TRUE;
+
+                break;
+        }
+
+        return ret;
+}
+
+static gboolean
+is_debug_set (void)
+{
+        gboolean debug = FALSE;
+
+        /* enable debugging for unstable builds */
+        if (gdm_is_version_unstable ()) {
+                return TRUE;
+        }
+
+        gdm_settings_direct_get_boolean (GDM_KEY_DEBUG, &debug);
+        return debug;
+}
+
+int
+main (int    argc,
+      char **argv)
+{
+        GMainLoop        *main_loop;
+        GOptionContext   *context;
+        GdmSessionWorker *worker;
+        GdmSignalHandler *signal_handler;
+        const char       *address;
+        static GOptionEntry entries []   = {
+                { NULL }
+        };
+
+        bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
+        textdomain (GETTEXT_PACKAGE);
+        setlocale (LC_ALL, "");
+
+        g_type_init ();
+
+        gdm_set_fatal_warnings_if_unstable ();
+
+        /* Translators: worker is a helper process that does the work
+           of starting up a session */
+        context = g_option_context_new (_("MATE Display Manager Session Worker"));
+        g_option_context_add_main_entries (context, entries, NULL);
+
+        g_option_context_parse (context, &argc, &argv, NULL);
+        g_option_context_free (context);
+
+        gdm_log_init ();
+
+        settings = gdm_settings_new ();
+        if (settings == NULL) {
+                g_warning ("Unable to initialize settings");
+                exit (1);
+        }
+
+        if (! gdm_settings_direct_init (settings, DATADIR "/gdm/gdm.schemas", "/")) {
+                g_warning ("Unable to initialize settings");
+                exit (1);
+        }
+
+        gdm_log_set_debug (is_debug_set ());
+
+        address = g_getenv ("GDM_SESSION_DBUS_ADDRESS");
+        if (address == NULL) {
+                g_warning ("GDM_SESSION_DBUS_ADDRESS not set");
+                exit (1);
+        }
+
+        worker = gdm_session_worker_new (address);
+
+        main_loop = g_main_loop_new (NULL, FALSE);
+
+        signal_handler = gdm_signal_handler_new ();
+        gdm_signal_handler_set_fatal_func (signal_handler,
+                                           (GDestroyNotify)g_main_loop_quit,
+                                           main_loop);
+        gdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGILL, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGBUS, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGSEGV, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGABRT, signal_cb, NULL);
+        gdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
+
+        g_main_loop_run (main_loop);
+
+        if (worker != NULL) {
+                g_object_unref (worker);
+        }
+
+        if (signal_handler != NULL) {
+                g_object_unref (signal_handler);
+        }
+
+        g_main_loop_unref (main_loop);
+
+
+        g_debug ("Worker finished");
+
+        return 0;
+}

@@ -1,0 +1,46 @@
+Summary: Themes collection for MATE
+Name: mate-themes
+Version: @VERSION@
+Release: 0
+License: GPL
+Group: User Interface/Desktop
+Source: %{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+
+%description
+Themes collection for MATE
+
+%prep
+%setup
+
+%build
+%configure
+make
+
+%install
+rm -rf ${RPM_BUILD_ROOT}
+%makeinstall
+
+%clean
+rm -rf ${RPM_BUILD_ROOT}
+
+%files
+%defattr(-, root, root)
+%{_libdir}/gtk-2.0/@GTK_BINARY_VERSION@/engines/*.so*
+%{_datadir}/eazel-engine
+%{_datadir}/icons/*
+%{_datadir}/themes/*
+%doc AUTHORS ChangeLog COPYING NEWS README
+
+%changelog
+* Sun Jan 26 2003 Yanko Kaneti <yaneti@declera.com>
+- Dont package the message catalogs, they are not used at runtime.
+
+* Sun Jan 26 2003 Yanko Kaneti <yaneti@declera.com>
+- Add Changelog and NEWS to docs
+
+* Fri Jan 24 2003 Yanko Kaneti <yaneti@declera.com>
+- Accomodate for the mate-desktop-themes merge
+
+* Fri Jan 17 2003 Yanko Kaneti <yaneti@declera.com>
+- First spec

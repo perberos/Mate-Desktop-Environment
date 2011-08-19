@@ -1,0 +1,178 @@
+; $Id: gucharmap.nsi.in,v 1.2 2003/03/15 22:15:30 nlevitt Exp $
+;
+; Copyright (c) 2003  Steve Mcgrath
+;
+; This program is free software; you can redistribute it and/or modify it
+; under the terms of the GNU General Public License as published by the
+; Free Software Foundation; either version 2 of the License, or (at your
+; option) any later version.
+;
+; This program is distributed in the hope that it will be useful, but
+; WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+; General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License along
+; with this program; if not, write to the Free Software Foundation, Inc.,
+; 59 Temple Place, Suite 330, Boston, MA 02110-1301  USA
+;
+;
+; gucharmap NSIS installation script
+; http://nsis.sourceforge.net/
+; 
+; Written by Stephen McGrath
+;
+
+!define MUI_PRODUCT "@PACKAGE@"   
+!define MUI_VERSION "@VERSION@"
+
+!include "${NSISDIR}\Contrib\Modern UI\System.nsh"
+
+;--------------------------------
+;Configuration
+
+  !define MUI_LICENSEPAGE
+  !define MUI_DIRECTORYPAGE
+  !define MUI_STARTMENUPAGE
+  !define MUI_FINISHPAGE
+  !define MUI_FINISHPAGE_RUN "$INSTDIR\gucharmap.exe"
+  !define MUI_STARTMENU_DEFAULTFOLDER "${MUI_PRODUCT} ${MUI_VERSION}"
+
+  
+  !define MUI_ABORTWARNING
+  
+  !define MUI_UNINSTALLER
+  !define MUI_UNCONFIRMPAGE
+
+  ;Language
+  ;FIXME: how to handle l10n?
+  !insertmacro MUI_LANGUAGE "English"
+  
+  ;User Variables
+  ;FIXME: these should probably be AC_SUBSTed
+  !define TEMP1 $0
+  !define GTK_HOME "\gtk"
+  !define GU_SRC_HOME "\src\${MUI_PRODUCT}-${MUI_VERSION}"
+
+  ;General
+  OutFile "${MUI_PRODUCT}-${MUI_VERSION}-setup.exe"
+  BrandingText "${MUI_PRODUCT} v${MUI_VERSION} Installer"
+
+  ;License page
+  LicenseData "${GU_SRC_HOME}\COPYING"
+
+  ;Descriptions
+  LangString DESC_SecCopyUI ${LANG_ENGLISH} "Copy ${MUI_PRODUCT} files to application folder."
+
+  ;Folder-selection page
+  ;DirText "Select the directory where you want to install GUCharMap"
+  InstallDir "$PROGRAMFILES\${MUI_PRODUCT}-${MUI_VERSION}"
+
+;--------------------------------
+;Modern UI System
+
+!insertmacro MUI_SYSTEM
+
+;--------------------------------
+;Installer Sections
+
+Section "Installer Section" SecCopyUI
+
+  SetOutPath "$INSTDIR"
+  File "${GU_SRC_HOME}\src\gucharmap.exe"
+  File "${GTK_HOME}\lib\iconv.dll"
+  File "${GTK_HOME}\lib\libatk-1.0-0.dll"
+  File "${GTK_HOME}\lib\libgdk-win32-2.0-0.dll"
+  File "${GTK_HOME}\lib\libgdk_pixbuf-2.0-0.dll"
+  File "${GTK_HOME}\lib\libglib-2.0-0.dll"
+  File "${GTK_HOME}\lib\libgmodule-2.0-0.dll"
+  File "${GTK_HOME}\lib\libgobject-2.0-0.dll"
+  File "${GTK_HOME}\lib\libgtk-win32-2.0-0.dll"
+  File "${GTK_HOME}\lib\libintl-1.dll"
+  File "${GTK_HOME}\lib\libpango-1.0-0.dll"
+  File "${GTK_HOME}\lib\libpangowin32-1.0-0.dll"
+  File "${GTK_HOME}\lib\libpng.dll"
+  File "${GTK_HOME}\lib\zlib.dll"
+  File "${GU_SRC_HOME}\COPYING"
+  ;File "${GU_SRC_HOME}\README"
+
+  SetOutPath "$INSTDIR\lib\gtk-2.0\2.2.0\loaders"
+  File "${GTK_HOME}\lib\gtk-2.0\2.2.0\loaders\libpixbufloader-png.dll"
+
+  SetOutPath "$INSTDIR\lib\pango\1.0.0\modules"
+  File "${GTK_HOME}\lib\pango\1.0.0\modules\pango-basic-win32.dll"
+
+  SetOutPath "$INSTDIR\share\pixmaps"
+  File "${GU_SRC_HOME}\pixmaps\gucharmap.png"
+
+  SetOutPath "$INSTDIR\etc\gtk-2.0"
+  File "${GTK_HOME}\etc\gtk-2.0\gdk-pixbuf.loaders"
+  File "${GTK_HOME}\etc\gtk-2.0\gtk.immodules"
+  File /oname=gtkrc "${GU_SRC_HOME}\gtkrc.win32"
+
+  SetOutPath "$INSTDIR\etc\pango"
+  File "${GTK_HOME}\etc\pango\pango.aliases"
+  File "${GTK_HOME}\etc\pango\pango.modules"	
+
+  ;Start menu entries
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN
+    
+    !undef MUI_STARTMENU_VARIABLE
+    !define MUI_STARTMENU_VARIABLE "${MUI_PRODUCT} ${MUI_VERSION}" ;Define start menu link
+
+    CreateDirectory "$SMPROGRAMS\${MUI_STARTMENU_VARIABLE}"
+    CreateShortCut "$SMPROGRAMS\${MUI_STARTMENU_VARIABLE}\${MUI_PRODUCT}.lnk" "$INSTDIR\gucharmap.exe"
+    CreateShortCut "$SMPROGRAMS\${MUI_STARTMENU_VARIABLE}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+
+    ;Write shortcut location to the registry (for Uninstaller)
+    WriteRegStr HKCU "Software\${MUI_PRODUCT}" "Start Menu Folder" "${MUI_STARTMENU_VARIABLE}"
+
+    ;Write uninstaller location to registry (for Add/Remove Programs list)
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}\${MUI_PRODUCT}-${MUI_VERSION}" "UninstallString" "$INSTDIR\Uninstall.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}\${MUI_PRODUCT}-${MUI_VERSION}" "DisplayName" "${MUI_PRODUCT} ${MUI_VERSION}"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}\${MUI_PRODUCT}-${MUI_VERSION}" "InstalledPath" "$INSTDIR"
+
+  !insertmacro MUI_STARTMENU_WRITE_END
+
+  ;Create uninstaller
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+
+SectionEnd
+
+
+;--------------------------------
+;Descriptions
+
+!insertmacro MUI_FUNCTIONS_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecCopyUI} $(DESC_SecCopyUI)
+!insertmacro MUI_FUNCTIONS_DESCRIPTION_END
+ 
+;--------------------------------
+;Uninstaller Section
+
+Section "Uninstall"
+
+  RMDir "$INSTDIR"
+
+  ;Remove shortcut
+  ReadRegStr ${TEMP1} HKCU "Software\${MUI_PRODUCT}" "Start Menu Folder"
+  
+  StrCmp ${TEMP1} "" noshortcuts
+ 
+  Delete "$SMPROGRAMS\${TEMP1}\${MUI_PRODUCT}.lnk"
+  Delete "$SMPROGRAMS\${TEMP1}\Uninstall.lnk"
+  RMDir "$SMPROGRAMS\${TEMP1}" ;Only if empty, so it won't delete other shortcuts
+    
+  noshortcuts:
+
+  DeleteRegValue HKCU "Software\${MUI_PRODUCT}" "Start Menu Folder"
+  DeleteRegKey /ifempty HKCU "Software\${MUI_PRODUCT}"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}\${MUI_PRODUCT}-${MUI_VERSION}" "UninstallString"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}\${MUI_PRODUCT}-${MUI_VERSION}" "InstalledPath"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}\${MUI_PRODUCT}-${MUI_VERSION}" "DisplayName"
+  DeleteRegKey /ifempty HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}"
+
+  ;Display the Finish header
+  !insertmacro MUI_UNFINISHHEADER
+
+SectionEnd

@@ -1,0 +1,660 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+
+#define NO_IMPORT_PYGOBJECT
+#include "pygobject.h"
+#include <libmatecanvas/libmatecanvas.h>
+#include <libmatecanvas/mate-canvas-clipgroup.h>
+#include "config.h"
+
+static int
+matecanvasaffine_to_value(PyObject *py_affine, double affine[6])
+{
+    int i;
+    
+    if (PySequence_Length(py_affine) != 6) {
+	PyErr_SetString(PyExc_TypeError, "argument must be a 6 tuple of floats.");
+	return -1;
+    }
+    for (i = 0; i < 6; i++) {
+	PyObject *sitem = PySequence_GetItem(py_affine, i);
+	Py_DECREF(sitem);
+	sitem = PyNumber_Float(sitem);
+	if (sitem)
+	    affine[i] = PyFloat_AsDouble(sitem);
+	else {
+	    PyErr_Clear();
+	    PyErr_SetString(PyExc_TypeError, "sequence item not a float");
+	    return -1;
+	}
+	Py_DECREF(sitem);
+    }
+    return 0;
+}
+
+static PyObject *
+matecanvasaffine_from_value(const double affine[6])
+{
+    return Py_BuildValue("(dddddd)", affine[0], affine[1], affine[2],
+			 affine[3], affine[4], affine[5]);
+}
+
+#ifndef MATE_TYPE_CANVAS_PATH_DEF
+
+static GType
+mate_canvas_path_def_get_type(void)
+{
+    static GType type = 0;
+	
+    if (type == 0)
+	type = g_boxed_type_register_static
+	    ("MateCanvasPathDef",
+	     (GBoxedCopyFunc) mate_canvas_path_def_ref,
+	     (GBoxedFreeFunc) mate_canvas_path_def_unref);
+    return type;
+}
+
+#define MATE_TYPE_CANVAS_PATH_DEF (mate_canvas_path_def_get_type())
+
+#endif
+
+gboolean
+static pygdk_rectangle_from_pyobject(PyObject *object, GdkRectangle *rectangle)
+{
+    g_return_val_if_fail(rectangle != NULL, FALSE);
+
+    if (pyg_boxed_check(object, GDK_TYPE_RECTANGLE)) {
+	*rectangle = *pyg_boxed_get(object, GdkRectangle);
+	return TRUE;
+    }
+    if (PyArg_ParseTuple(object, "iiii", &rectangle->x, &rectangle->y,
+				&rectangle->width, &rectangle->height)) {
+	return TRUE;
+    }
+    PyErr_Clear();
+    PyErr_SetString(PyExc_TypeError, "could not convert to GdkRectangle");
+    return FALSE;
+}
+
+
+%%
+modulename mate.canvas
+%%
+import gobject.GObject as PyGObject_Type
+import gtk._gtk.Layout as PyGtkLayout_Type
+import gtk._gtk.Object as PyGtkObject_Type
+import gtk.TextBuffer as PyGtkTextBuffer_Type
+%%
+ignore-glob
+  *_get_type
+%%
+override mate_canvas_item_new kwargs
+static PyObject *
+_wrap_mate_canvas_item_new (PyGObject *self, PyObject *args,
+			     PyObject *kwargs)
+
+{
+    PyObject          *pytype;
+    GType              type;
+    MateCanvasItem   *item;
+    GObjectClass      *class;
+    Py_ssize_t         pos;
+    PyObject          *value;
+    PyObject          *key;
+
+    if (!PyArg_ParseTuple (args, "O:mate.canvas.CanvasGroup.add_item",
+			   &pytype)) {
+	return NULL;
+    }
+	
+    type = pyg_type_from_object (pytype);
+    item = mate_canvas_item_new (MATE_CANVAS_GROUP (self->obj), type, NULL);
+    if (!item) {
+	PyErr_SetString (PyExc_RuntimeError,
+			 "could not create canvas item object");
+	return NULL;
+    }
+
+    class = G_OBJECT_GET_CLASS(item);
+    g_object_freeze_notify (G_OBJECT(item));
+    pos = 0;
+    /* For each keyword ... */
+    while (kwargs && PyDict_Next (kwargs, &pos, &key, &value)) {
+	gchar *key_str = PyString_AsString (key);
+	GParamSpec *pspec;
+	GValue gvalue ={ 0, };
+
+	pspec = g_object_class_find_property (class, key_str);
+	if (!pspec) {
+	    gchar buf[512];
+
+	    g_snprintf(buf, sizeof(buf),
+		       "canvas item `%s' doesn't support property `%s'",
+		       g_type_name(type), key_str);
+	    PyErr_SetString(PyExc_TypeError, buf);
+	    gtk_object_destroy(GTK_OBJECT(item));
+	    return NULL;
+	}
+
+	g_value_init(&gvalue, G_PARAM_SPEC_VALUE_TYPE(pspec));
+	if (pyg_value_from_pyobject(&gvalue, value)) {
+	    gchar buf[512];
+
+	    g_snprintf(buf, sizeof(buf),
+		       "could not convert value for property `%s'", key_str);
+	    PyErr_SetString(PyExc_TypeError, buf);
+	    gtk_object_destroy(GTK_OBJECT(item));
+	    return NULL;
+	}
+	g_object_set_property(G_OBJECT(item), key_str, &gvalue);
+	g_value_unset(&gvalue);
+    }
+
+    g_object_thaw_notify (G_OBJECT(item));
+
+    return pygobject_new ((GObject *)item);
+}
+%%
+override mate_canvas_item_set kwargs
+static PyObject *
+_wrap_mate_canvas_item_set (PyGObject *self, PyObject *args,
+			     PyObject *kwargs)
+{
+    GType              type;
+    MateCanvasItem   *item;
+    GObjectClass      *class;
+    Py_ssize_t         pos = 0;
+    PyObject          *value;
+    PyObject          *key;
+
+    item = MATE_CANVAS_ITEM(self->obj);
+    type = G_OBJECT_TYPE(item);
+    class = G_OBJECT_GET_CLASS(item);
+    
+    g_object_freeze_notify (G_OBJECT(item));
+
+    while (kwargs && PyDict_Next (kwargs, &pos, &key, &value)) {
+	gchar *key_str = PyString_AsString (key);
+	GParamSpec *pspec;
+	GValue gvalue ={ 0, };
+
+	pspec = g_object_class_find_property (class, key_str);
+	if (!pspec) {
+	    gchar buf[512];
+
+	    g_snprintf(buf, sizeof(buf),
+		       "canvas item `%s' doesn't support property `%s'",
+		       g_type_name(type), key_str);
+	    PyErr_SetString(PyExc_TypeError, buf);
+	    g_object_thaw_notify (G_OBJECT(item));
+	    return NULL;
+	}
+
+	g_value_init(&gvalue, G_PARAM_SPEC_VALUE_TYPE(pspec));
+	if (pyg_value_from_pyobject(&gvalue, value)) {
+	    gchar buf[512];
+
+	    g_snprintf(buf, sizeof(buf),
+		       "could not convert value for property `%s'", key_str);
+	    PyErr_SetString(PyExc_TypeError, buf);
+	    g_object_thaw_notify (G_OBJECT(item));
+	    return NULL;
+	}
+	g_object_set_property(G_OBJECT(item), key_str, &gvalue);
+	mate_canvas_item_request_update(item);
+	g_value_unset(&gvalue);
+    }
+    g_object_thaw_notify (G_OBJECT(item));
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override mate_canvas_item_w2i kwargs
+static PyObject *
+_wrap_mate_canvas_item_w2i(PyGObject *self, PyObject *args,
+			    PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", "y", NULL };
+    double x, y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "dd:MateCanvasItem.w2i", kwlist, &x, &y))
+        return NULL;
+    mate_canvas_item_w2i(MATE_CANVAS_ITEM(self->obj), &x, &y);
+
+    return Py_BuildValue("(dd)", x, y);
+}
+%%
+override mate_canvas_item_i2w kwargs
+static PyObject *
+_wrap_mate_canvas_item_i2w(PyGObject *self, PyObject *args,
+			    PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", "y", NULL };
+    double x, y;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "dd:MateCanvasItem.i2w", kwlist, &x, &y))
+        return NULL;
+    mate_canvas_item_i2w(MATE_CANVAS_ITEM(self->obj), &x, &y);
+
+    return Py_BuildValue("(dd)", x, y);
+}
+%%
+override mate_canvas_item_get_bounds noargs
+static PyObject *
+_wrap_mate_canvas_item_get_bounds(PyGObject *self, PyObject *args)
+{
+    double x1, y1, x2, y2;
+
+    mate_canvas_item_get_bounds(MATE_CANVAS_ITEM(self->obj),
+				 &x1, &y1, &x2, &y2);
+
+    return Py_BuildValue("(dddd)", x1, y1, x2, y2);
+}
+%%
+override mate_canvas_get_scroll_region noargs
+static PyObject *
+_wrap_mate_canvas_get_scroll_region(PyGObject *self, PyObject *args)
+{
+    double x1, y1, x2, y2;
+    
+    mate_canvas_get_scroll_region(MATE_CANVAS(self->obj),
+				   &x1, &y1, &x2, &y2);
+    
+    return Py_BuildValue("(dddd)", x1, y1, x2, y2);
+}
+%%
+override mate_canvas_get_scroll_offsets noargs
+static PyObject *
+_wrap_mate_canvas_get_scroll_offsets(PyGObject *self, PyObject *args)
+{
+    int cx, cy;
+
+    mate_canvas_get_scroll_offsets(MATE_CANVAS(self->obj), &cx, &cy);
+
+    return Py_BuildValue("(ii)", cx, cy);
+}
+%%
+ignore mate_canvas_new_aa
+%%
+override mate_canvas_new
+static int
+_wrap_mate_canvas_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    int aa = 0;
+    static char *kwlist[] = { "aa", NULL };
+    GType obj_type = pyg_type_from_object((PyObject *) self);
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|i:MateCanvas.__init__",
+				     kwlist, &aa))
+        return -1;
+
+    self->obj = g_object_new(obj_type, "aa", aa, NULL);
+    
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError, "could not create MateCanvas object");
+        return -1;
+    }
+    gtk_object_ref(GTK_OBJECT(self->obj));
+    gtk_object_sink(GTK_OBJECT(self->obj));
+    pygobject_register_wrapper((PyObject *)self);
+    return 0;
+}
+%%
+override mate_canvas_w2c kwargs
+static PyObject *
+_wrap_mate_canvas_w2c(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "wx", "wy", NULL };
+    double wx, wy;
+    int cx, cy;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "dd:MateCanvas.w2c",
+				     kwlist, &wx, &wy))
+        return NULL;
+    mate_canvas_w2c(MATE_CANVAS(self->obj), wx, wy, &cx, &cy);
+
+    return Py_BuildValue("(ii)", cx, cy);
+}
+%%
+override mate_canvas_w2c_d kwargs
+static PyObject *
+_wrap_mate_canvas_w2c_d(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "wx", "wy", NULL };
+    double wx, wy;
+    double cx, cy;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "dd:MateCanvas.w2c_d",
+				     kwlist, &wx, &wy))
+        return NULL;
+    mate_canvas_w2c_d(MATE_CANVAS(self->obj), wx, wy, &cx, &cy);
+
+    return Py_BuildValue("(dd)", cx, cy);
+}
+%%
+override mate_canvas_c2w kwargs
+static PyObject *
+_wrap_mate_canvas_c2w(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "cx", "cy", NULL };
+    int cx, cy;
+    double wx, wy;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ii:MateCanvas.w2c",
+				     kwlist, &cx, &cy))
+        return NULL;
+    mate_canvas_c2w(MATE_CANVAS(self->obj), cx, cy, &wx, &wy);
+
+    return Py_BuildValue("(dd)", wx, wy);
+}
+%%
+override mate_canvas_window_to_world kwargs
+static PyObject *
+_wrap_mate_canvas_window_to_world(PyGObject *self, PyObject *args,
+				   PyObject *kwargs)
+{
+    static char *kwlist[] = { "winx", "winy", NULL };
+    double winx, winy, worldx, worldy;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "dd:MateCanvas.window_to_world",
+				     kwlist, &winx, &winy))
+        return NULL;
+    mate_canvas_window_to_world(MATE_CANVAS(self->obj), winx, winy,
+				 &worldx, &worldy);
+
+    return Py_BuildValue("(dd)", worldx, worldy);
+}
+%%
+override mate_canvas_world_to_window kwargs
+static PyObject *
+_wrap_mate_canvas_world_to_window(PyGObject *self, PyObject *args,
+				   PyObject *kwargs)
+{
+    static char *kwlist[] = { "worldx", "worldy", NULL };
+    double winx, winy, worldx, worldy;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "dd:MateCanvas.window_to_world",
+				     kwlist, &worldx, &worldy))
+        return NULL;
+    mate_canvas_world_to_window(MATE_CANVAS(self->obj), worldx, worldy,
+				 &winx, &winy);
+
+    return Py_BuildValue("(dd)", winx, winy);
+}
+%%
+override mate_canvas_item_affine_absolute args
+static PyObject *
+_wrap_mate_canvas_item_affine_absolute(PyGObject *self, PyObject *args) {
+    PyObject *py_affine;
+    double affine[6];
+
+    if (!PyArg_ParseTuple(args, "O!:MateCanvasItem.affine_absolute",
+			  &PyTuple_Type, &py_affine))
+	return NULL;
+
+    if ((matecanvasaffine_to_value(py_affine, affine)) == -1)
+	return NULL;
+
+    mate_canvas_item_affine_absolute(MATE_CANVAS_ITEM(self->obj), affine);
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override mate_canvas_item_affine_relative args
+static PyObject *
+_wrap_mate_canvas_item_affine_relative(PyGObject *self, PyObject *args) {
+    PyObject *py_affine;
+    double affine[6];
+
+    if (!PyArg_ParseTuple(args, "O!:MateCanvasItem.affine_relative",
+			  &PyTuple_Type, &py_affine))
+	return NULL;
+
+    if ((matecanvasaffine_to_value(py_affine, affine)) == -1)
+	return NULL;
+    
+    mate_canvas_item_affine_relative(MATE_CANVAS_ITEM(self->obj), affine);
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override mate_canvas_item_i2c_affine args
+static PyObject *
+_wrap_mate_canvas_item_i2c_affine(PyGObject *self, PyObject *args) {
+    PyObject *py_affine;
+    double affine[6];
+
+    if (!PyArg_ParseTuple(args, "O!:MateCanvasItem.i2c_affine",
+			  &PyTuple_Type, &py_affine))
+	return NULL;
+    if ((matecanvasaffine_to_value(py_affine, affine)) == -1)
+	return NULL;
+    mate_canvas_item_i2c_affine(MATE_CANVAS_ITEM(self->obj), affine);
+
+    return matecanvasaffine_from_value(affine);
+}
+%%
+override mate_canvas_item_i2w_affine args
+static PyObject *
+_wrap_mate_canvas_item_i2w_affine(PyGObject *self, PyObject *args) {
+    PyObject *py_affine;
+    double affine[6];
+
+    if (!PyArg_ParseTuple(args, "O!:MateCanvasItem.i2w_affine",
+			  &PyTuple_Type, &py_affine))
+	return NULL;
+    if ((matecanvasaffine_to_value(py_affine, affine)) == -1)
+	return NULL;
+    mate_canvas_item_i2w_affine(MATE_CANVAS_ITEM(self->obj), affine);
+
+    return matecanvasaffine_from_value(affine);
+}
+%%
+override mate_canvas_w2c_affine args
+static PyObject *
+_wrap_mate_canvas_w2c_affine(PyGObject *self, PyObject *args) {
+    PyObject *py_affine;
+    double affine[6];
+
+    if (!PyArg_ParseTuple(args, "O!:MateCanvas.w2c_affine",
+			  &PyTuple_Type, &py_affine))
+	return NULL;
+    if ((matecanvasaffine_to_value(py_affine, affine)) == -1)
+	return NULL;
+    mate_canvas_w2c_affine(MATE_CANVAS(self->obj), affine);
+
+    return matecanvasaffine_from_value(affine);
+}
+%%
+override-attr MateCanvasGroup.item_list
+static PyObject *
+_wrap_mate_canvas_group__get_item_list(PyGObject *self, void *closure)
+{
+    MateCanvasGroup *parent = MATE_CANVAS_GROUP(self->obj);
+    PyObject         *list, *item;
+    GList            *l;
+
+    list = PyList_New(0);
+    for (l = parent->item_list; l != NULL; l = l->next) {
+	item = pygobject_new(G_OBJECT(l->data));
+	PyList_Append(list, item);
+	Py_DECREF(item);
+    }
+    return list;
+}
+
+%%
+override mate_canvas_path_def_new args
+static PyObject *
+_wrap_mate_canvas_path_def_new(PyObject *self, PyObject *args)
+{
+    MateCanvasPathDef *path;
+    PyObject *list, *arg;
+    int i, len, arg_len, code;
+    double x1, y1, x2, y2, x3, y3;
+
+
+    if (!PyArg_ParseTuple(args, "O!:mate.canvas.path_def_new",
+			  &PyList_Type, &list))
+	return NULL;
+
+    len = PyList_Size(list);
+    path = mate_canvas_path_def_new();
+    for (i = 0; i < len; ++i) {
+	arg = PyList_GET_ITEM(list, i);
+
+	if (!PyTuple_Check(arg)) {
+	    PyErr_SetString(PyExc_TypeError,
+			    "list items must be (code, x1, x2, ...) tuples");
+	    mate_canvas_path_def_unref(path);
+	    return NULL;
+	}
+	arg_len = PyTuple_Size(arg);
+	if (arg_len < 1) {
+	    PyErr_SetString(PyExc_ValueError,
+			    "list items must be (code, x1, x2, ...) tuples");
+	    mate_canvas_path_def_unref(path);
+	    return NULL;
+	}
+	if (!PyInt_Check(PyTuple_GET_ITEM(arg, 0))) {
+	    PyErr_SetString(PyExc_TypeError,
+			    "list items must be (code, x1, x2, ...) tuples");
+	    mate_canvas_path_def_unref(path);
+	    return NULL;
+	}
+	code = PyInt_AsLong(PyTuple_GET_ITEM(arg, 0));
+
+	switch (code)
+	{
+
+	case ART_MOVETO:
+	case ART_MOVETO_OPEN:
+	    if (!PyArg_ParseTuple(arg, "idd:mate.canvas.path_def_new (list item)",
+				  &code, &x1, &y1)) {
+		mate_canvas_path_def_unref(path);
+		return NULL;
+	    }
+	    mate_canvas_path_def_moveto(path, x1, y1);
+	    break;
+
+	case ART_LINETO:
+	    if (!PyArg_ParseTuple(arg, "idd:mate.canvas.path_def_new (list item)",
+				  &code, &x1, &y1)) {
+		mate_canvas_path_def_unref(path);
+		return NULL;
+	    }
+	    mate_canvas_path_def_lineto(path, x1, y1);
+	    break;
+
+	case ART_CURVETO:
+	    if (!PyArg_ParseTuple(arg, "idddddd:mate.canvas.path_def_new (list item)",
+				  &code,
+				  &x1, &y1,
+				  &x2, &y2,
+				  &x3, &y3)) {
+		mate_canvas_path_def_unref(path);
+		return NULL;
+	    }
+	    mate_canvas_path_def_curveto(path, x1, y1, x2, y2, x3, y3);
+	    break;
+
+	case ART_END:
+            mate_canvas_path_def_closepath(path);
+            break;
+
+	default:
+	    mate_canvas_path_def_unref(path);
+	    return PyErr_Format(PyExc_ValueError, "invalid path code %i",
+				code);
+	}
+
+    }
+    return pyg_boxed_new(MATE_TYPE_CANVAS_PATH_DEF, path, TRUE, TRUE);
+}
+
+%%
+override mate_canvas_bpath_set_bpath kwargs
+static PyObject *
+_wrap_mate_canvas_bpath_set_bpath(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "bpath", NULL };
+    PyObject *py_bpath;
+    MateCanvasPathDef *bpath = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:MateCanvasBpath.set_bpath", kwlist, &py_bpath))
+        return NULL;
+    if (pyg_boxed_check(py_bpath, MATE_TYPE_CANVAS_PATH_DEF))
+        bpath = pyg_boxed_get(py_bpath, MateCanvasPathDef);
+    else {
+        PyErr_SetString(PyExc_TypeError, "bpath should be a MateCanvasPathDef");
+        return NULL;
+    }
+    g_object_set(self->obj, "bpath", bpath, NULL);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override mate_canvas_item_grab kwargs
+static PyObject *
+_wrap_mate_canvas_item_grab(PyGObject *self, PyObject *args,
+			     PyObject *kwargs)
+{
+    static char *kwlist[] = { "event_mask", "cursor", "etime", NULL };
+    PyObject *py_event_mask = NULL, *py_cursor = Py_None, *py_time = NULL;
+    GdkCursor *cursor = NULL;
+    unsigned int event_mask = 0;
+    guint32 etime = GDK_CURRENT_TIME;
+    int retval;
+    
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "|OOO!:MateCanvasItem.grab", kwlist,
+				     &py_event_mask,
+				     &py_cursor,
+				     &PyLong_Type, &py_time))
+        return NULL;
+
+    if (py_event_mask && pyg_flags_get_value(GDK_TYPE_EVENT_MASK,
+					     py_event_mask,
+					     (gint *)&event_mask))
+        return NULL;
+
+    if (pyg_boxed_check(py_cursor, GDK_TYPE_CURSOR))
+        cursor = pyg_boxed_get(py_cursor, GdkCursor);
+    else if (py_cursor != Py_None) {
+        PyErr_SetString(PyExc_TypeError, "cursor should be a GdkCursor or None");
+        return NULL;
+    }
+    
+    if (py_time)
+        etime = PyLong_AsUnsignedLong(py_time);
+
+    retval = mate_canvas_item_grab(MATE_CANVAS_ITEM(self->obj),
+				   event_mask, cursor, etime);
+
+    return PyInt_FromLong(retval);
+}
+%%
+override mate_canvas_rich_text_get_iter_at_location kwargs
+static PyObject *
+_wrap_mate_canvas_rich_text_get_iter_at_location(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "x", "y", NULL };
+    PyObject *py_iter;
+    int x, y;
+    GtkTextIter iter = {0,};
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"Oii:MateCanvasRichText.get_iter_at_location", kwlist, &x, &y))
+        return NULL;
+    mate_canvas_rich_text_get_iter_at_location(MATE_CANVAS_RICH_TEXT(self->obj), &iter, x, y);
+
+    py_iter = pyg_boxed_new(GTK_TYPE_TEXT_ITER, &iter, TRUE, TRUE);
+    return py_iter;
+}
+

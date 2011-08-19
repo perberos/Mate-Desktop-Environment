@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>bluetooth-plugin</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="mate-bluetooth Reference Manual">
+<link rel="up" href="ch01.html" title="API Reference">
+<link rel="prev" href="BluetoothChooserButton.html" title="BluetoothChooserButton">
+<link rel="next" href="mate-bluetooth-bluetooth-enums.html" title="bluetooth-enums">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="BluetoothChooserButton.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">mate-bluetooth Reference Manual</th>
+<td><a accesskey="n" href="mate-bluetooth-bluetooth-enums.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#mate-bluetooth-bluetooth-plugin.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#mate-bluetooth-bluetooth-plugin.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="bluetooth-plugin">
+<a name="mate-bluetooth-bluetooth-plugin"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="mate-bluetooth-bluetooth-plugin.top_of_page"></a>bluetooth-plugin</span></h2>
+<p>bluetooth-plugin — Bluetooth plug-in</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1" title="Stability Level">
+<a name="mate-bluetooth-bluetooth-plugin.stability-level"></a><h2>Stability Level</h2>
+Stable, unless otherwise indicated
+</div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="mate-bluetooth-bluetooth-plugin.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;bluetooth-plugin.h&gt;
+
+                    <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GbtPluginInfo" title="GbtPluginInfo">GbtPluginInfo</a>;
+                    <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GbtPlugin" title="GbtPlugin">GbtPlugin</a>;
+#define             <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GBT-INIT-PLUGIN:CAPS" title="GBT_INIT_PLUGIN()">GBT_INIT_PLUGIN</a>                     (plugininfo)
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="mate-bluetooth-bluetooth-plugin.description"></a><h2>Description</h2>
+<p>
+Plug-ins can be used to extend set up wizards and preferences.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="mate-bluetooth-bluetooth-plugin.details"></a><h2>Details</h2>
+<div class="refsect2" title="GbtPluginInfo">
+<a name="GbtPluginInfo"></a><h3>GbtPluginInfo</h3>
+<pre class="programlisting">typedef struct {
+	const char                         *id;
+	gboolean (* has_config_widget)     (const char *bdaddr, const char **uuids);
+	GtkWidget * (* get_config_widgets) (const char *bdaddr, const char **uuids);
+	void (* device_removed)            (const char *bdaddr);
+} GbtPluginInfo;
+</pre>
+<p>
+A structure representing a mate-bluetooth wizard and properties plugin. You should also call <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GBT-INIT-PLUGIN:CAPS" title="GBT_INIT_PLUGIN()"><code class="function">GBT_INIT_PLUGIN()</code></a> on the plugin structure to export it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">const <span class="type">char</span> *<em class="structfield"><code><a name="GbtPluginInfo.id"></a>id</code></em>;</span></p></td>
+<td>A unique ID representing the plugin
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="GbtPluginInfo.has-config-widget"></a>has_config_widget</code></em> ()</span></p></td>
+<td>Whether the passed Bluetooth address and UUIDs would have a configuration widget
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="GbtPluginInfo.get-config-widgets"></a>get_config_widgets</code></em> ()</span></p></td>
+<td>Returns the configuration widget for the passed Bluetooth address and UUIDs
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="GbtPluginInfo.device-removed"></a>device_removed</code></em> ()</span></p></td>
+<td>Remove any configuration relating to the Bluetooth address passed
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="GbtPlugin">
+<a name="GbtPlugin"></a><h3>GbtPlugin</h3>
+<pre class="programlisting">typedef struct {
+	GModule *module;
+	GbtPluginInfo *info;
+} GbtPlugin;
+</pre>
+<p>
+A structure as used in mate-bluetooth.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a href="http://library.mate.org/devel/glib/unstable/glib-Dynamic-Loading-of-Modules.html#GModule"><span class="type">GModule</span></a> *<em class="structfield"><code><a name="GbtPlugin.module"></a>module</code></em>;</span></p></td>
+<td>the <a href="http://library.mate.org/devel/glib/unstable/glib-Dynamic-Loading-of-Modules.html#GModule"><span class="type">GModule</span></a> for the opened shared library
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="mate-bluetooth-bluetooth-plugin.html#GbtPluginInfo" title="GbtPluginInfo"><span class="type">GbtPluginInfo</span></a> *<em class="structfield"><code><a name="GbtPlugin.info"></a>info</code></em>;</span></p></td>
+<td>a <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GbtPluginInfo" title="GbtPluginInfo"><span class="type">GbtPluginInfo</span></a> structure
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="GBT_INIT_PLUGIN()">
+<a name="GBT-INIT-PLUGIN:CAPS"></a><h3>GBT_INIT_PLUGIN()</h3>
+<pre class="programlisting">#define             GBT_INIT_PLUGIN(plugininfo)</pre>
+<p>
+Call this on an <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GbtPluginInfo" title="GbtPluginInfo"><span class="type">GbtPluginInfo</span></a> structure to make it available to mate-bluetooth.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>plugininfo</code></em> :</span></p></td>
+<td>a <a class="link" href="mate-bluetooth-bluetooth-plugin.html#GbtPluginInfo" title="GbtPluginInfo"><span class="type">GbtPluginInfo</span></a> structure representing the plugin
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TotemPlPlaylist</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Totem Playlist Parser Reference Manual">
+<link rel="up" href="api-reference.html" title="API Reference">
+<link rel="prev" href="TotemPlParser.html" title="TotemPlParser">
+<link rel="next" href="totem-pl-parser-TotemPlPlaylistIter.html" title="TotemPlPlaylistIter">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TotemPlParser.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="api-reference.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Totem Playlist Parser Reference Manual</th>
+<td><a accesskey="n" href="totem-pl-parser-TotemPlPlaylistIter.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#TotemPlPlaylist.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#TotemPlPlaylist.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#TotemPlPlaylist.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry" title="TotemPlPlaylist">
+<a name="TotemPlPlaylist"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="TotemPlPlaylist.top_of_page"></a>TotemPlPlaylist</span></h2>
+<p>TotemPlPlaylist — playlist object</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1" title="Stability Level">
+<a name="TotemPlPlaylist.stability-level"></a><h2>Stability Level</h2>
+Stable, unless otherwise indicated
+</div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="TotemPlPlaylist.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;totem-pl-playlist.h&gt;
+
+typedef             <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist">TotemPlPlaylist</a>;
+typedef             <a class="link" href="TotemPlPlaylist.html#TotemPlPlaylistClass" title="TotemPlPlaylistClass">TotemPlPlaylistClass</a>;
+<a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="returnvalue">TotemPlPlaylist</span></a> *   <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-new" title="totem_pl_playlist_new ()">totem_pl_playlist_new</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-size" title="totem_pl_playlist_size ()">totem_pl_playlist_size</a>              (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-prepend" title="totem_pl_playlist_prepend ()">totem_pl_playlist_prepend</a>           (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-append" title="totem_pl_playlist_append ()">totem_pl_playlist_append</a>            (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-insert" title="totem_pl_playlist_insert ()">totem_pl_playlist_insert</a>            (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> position</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-iter-first" title="totem_pl_playlist_iter_first ()">totem_pl_playlist_iter_first</a>        (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-iter-next" title="totem_pl_playlist_iter_next ()">totem_pl_playlist_iter_next</a>         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-iter-prev" title="totem_pl_playlist_iter_prev ()">totem_pl_playlist_iter_prev</a>         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-get-value" title="totem_pl_playlist_get_value ()">totem_pl_playlist_get_value</a>         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-get-valist" title="totem_pl_playlist_get_valist ()">totem_pl_playlist_get_valist</a>        (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-get" title="totem_pl_playlist_get ()">totem_pl_playlist_get</a>               (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set-value" title="totem_pl_playlist_set_value ()">totem_pl_playlist_set_value</a>         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set-valist" title="totem_pl_playlist_set_valist ()">totem_pl_playlist_set_valist</a>        (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set" title="totem_pl_playlist_set ()">totem_pl_playlist_set</a>               (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="TotemPlPlaylist.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----TotemPlPlaylist
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="TotemPlPlaylist.description"></a><h2>Description</h2>
+<p>
+<a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> represents a playlist, provides API to either navigate through
+the playlist elements, or perform additions or modifications. See also
+<a class="link" href="TotemPlParser.html#totem-pl-parser-save" title="totem_pl_parser_save ()"><code class="function">totem_pl_parser_save()</code></a>.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="TotemPlPlaylist.details"></a><h2>Details</h2>
+<div class="refsect2" title="TotemPlPlaylist">
+<a name="TotemPlPlaylist"></a><h3>TotemPlPlaylist</h3>
+<pre class="programlisting">typedef struct TotemPlPlaylist TotemPlPlaylist;
+</pre>
+<p>
+All the fields in the <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> structure are private and should never be accessed directly.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TotemPlPlaylistClass">
+<a name="TotemPlPlaylistClass"></a><h3>TotemPlPlaylistClass</h3>
+<pre class="programlisting">typedef struct TotemPlPlaylistClass TotemPlPlaylistClass;
+</pre>
+<p>
+All the fields in the <a class="link" href="TotemPlPlaylist.html#TotemPlPlaylistClass" title="TotemPlPlaylistClass"><span class="type">TotemPlPlaylistClass</span></a> structure are private and should never be accessed directly.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_new ()">
+<a name="totem-pl-playlist-new"></a><h3>totem_pl_playlist_new ()</h3>
+<pre class="programlisting"><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="returnvalue">TotemPlPlaylist</span></a> *   totem_pl_playlist_new               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> object.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The newly created <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_size ()">
+<a name="totem-pl-playlist-size"></a><h3>totem_pl_playlist_size ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               totem_pl_playlist_size              (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>);</pre>
+<p>
+Returns the number of elements in <em class="parameter"><code>playlist</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of elements
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_prepend ()">
+<a name="totem-pl-playlist-prepend"></a><h3>totem_pl_playlist_prepend ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_prepend           (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);</pre>
+<p>
+Prepends a new empty element to <em class="parameter"><code>playlist</code></em>, and modifies <em class="parameter"><code>iter</code></em> so
+it points to it. To fill in values, you need to call
+<a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set" title="totem_pl_playlist_set ()"><code class="function">totem_pl_playlist_set()</code></a> or <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set-value" title="totem_pl_playlist_set_value ()"><code class="function">totem_pl_playlist_set_value()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>an unset <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> for returning the location
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_append ()">
+<a name="totem-pl-playlist-append"></a><h3>totem_pl_playlist_append ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_append            (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);</pre>
+<p>
+Appends a new empty element to <em class="parameter"><code>playlist</code></em>, and modifies <em class="parameter"><code>iter</code></em> so
+it points to it. To fill in values, you need to call
+<a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set" title="totem_pl_playlist_set ()"><code class="function">totem_pl_playlist_set()</code></a> or <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set-value" title="totem_pl_playlist_set_value ()"><code class="function">totem_pl_playlist_set_value()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>an unset <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> for returning the location
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_insert ()">
+<a name="totem-pl-playlist-insert"></a><h3>totem_pl_playlist_insert ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_insert            (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> position</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);</pre>
+<p>
+Inserts a new empty element to <em class="parameter"><code>playlist</code></em> at <em class="parameter"><code>position</code></em>, and modifies
+<em class="parameter"><code>iter</code></em> so it points to it. To fill in values, you need to call
+<a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set" title="totem_pl_playlist_set ()"><code class="function">totem_pl_playlist_set()</code></a> or <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set-value" title="totem_pl_playlist_set_value ()"><code class="function">totem_pl_playlist_set_value()</code></a>.
+</p>
+<p>
+<em class="parameter"><code>position</code></em> may be minor than 0 to prepend elements, or bigger than
+the current <em class="parameter"><code>playlist</code></em> size to append elements.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>position</code></em> :</span></p></td>
+<td>position in the playlist
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>an unset <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> for returning the location
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_iter_first ()">
+<a name="totem-pl-playlist-iter-first"></a><h3>totem_pl_playlist_iter_first ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_pl_playlist_iter_first        (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);</pre>
+<p>
+Modifies <em class="parameter"><code>iter</code></em> so it points to the first element in <em class="parameter"><code>playlist</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>an unset <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> for returning the location
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if there is such first element.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_iter_next ()">
+<a name="totem-pl-playlist-iter-next"></a><h3>totem_pl_playlist_iter_next ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_pl_playlist_iter_next         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);</pre>
+<p>
+Modifies <em class="parameter"><code>iter</code></em> so it points to the next element it previously
+pointed to. This function will return <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> if there was no
+next element, or <em class="parameter"><code>iter</code></em> didn't actually point to any element
+in <em class="parameter"><code>playlist</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if there was next element.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_iter_prev ()">
+<a name="totem-pl-playlist-iter-prev"></a><h3>totem_pl_playlist_iter_prev ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_pl_playlist_iter_prev         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>);</pre>
+<p>
+Modifies <em class="parameter"><code>iter</code></em> so it points to the previous element it previously
+pointed to. This function will return <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> if there was no
+previous element, or <em class="parameter"><code>iter</code></em> didn't actually point to any element
+in <em class="parameter"><code>playlist</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if there was previous element.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_get_value ()">
+<a name="totem-pl-playlist-get-value"></a><h3>totem_pl_playlist_get_value ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_pl_playlist_get_value         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
+<p>
+Gets the value for <em class="parameter"><code>key</code></em> (Such as <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-URI:CAPS" title="TOTEM_PL_PARSER_FIELD_URI"><code class="literal">TOTEM_PL_PARSER_FIELD_URI</code></a>) in
+the playlist item pointed by <em class="parameter"><code>iter</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>data key
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>an empty <a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> to set
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if <em class="parameter"><code>iter</code></em> contains data for <em class="parameter"><code>key</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_get_valist ()">
+<a name="totem-pl-playlist-get-valist"></a><h3>totem_pl_playlist_get_valist ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_get_valist        (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);</pre>
+<p>
+See <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-get" title="totem_pl_playlist_get ()"><code class="function">totem_pl_playlist_get()</code></a>, this function takes a va_list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>a va_list
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_get ()">
+<a name="totem-pl-playlist-get"></a><h3>totem_pl_playlist_get ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_get               (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+Gets the value for one or more keys from the element pointed
+by <em class="parameter"><code>iter</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>pairs of key/return location for value, terminated by <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_set_value ()">
+<a name="totem-pl-playlist-set-value"></a><h3>totem_pl_playlist_set_value ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_pl_playlist_set_value         (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
+<p>
+Sets the value for <em class="parameter"><code>key</code></em> in the element pointed by <em class="parameter"><code>iter</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>key to set the value for
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> containing the key value
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be stored in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_set_valist ()">
+<a name="totem-pl-playlist-set-valist"></a><h3>totem_pl_playlist_set_valist ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_set_valist        (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code><span class="type">va_list</span> args</code></em>);</pre>
+<p>
+See <a class="link" href="TotemPlPlaylist.html#totem-pl-playlist-set" title="totem_pl_playlist_set ()"><code class="function">totem_pl_playlist_set()</code></a>, this function takes a va_list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>args</code></em> :</span></p></td>
+<td>a va_list
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_playlist_set ()">
+<a name="totem-pl-playlist-set"></a><h3>totem_pl_playlist_set ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_playlist_set               (<em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>...</code></em>);</pre>
+<p>
+Sets the value for one or several keys in the element pointed
+by <em class="parameter"><code>iter</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iter</code></em> :</span></p></td>
+<td>a <a class="link" href="totem-pl-parser-TotemPlPlaylistIter.html#TotemPlPlaylistIter" title="TotemPlPlaylistIter"><span class="type">TotemPlPlaylistIter</span></a> pointing to some item in <em class="parameter"><code>playlist</code></em>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td>key/value string pairs, terminated with <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

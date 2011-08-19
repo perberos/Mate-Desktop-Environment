@@ -1,0 +1,40 @@
+# -*- python -*-
+import os
+import glob
+
+def configure(conf):
+    conf.find_program('xsltproc', var='XSLTPROC')
+
+def build(bld):
+    env = bld.env
+    reference_doc_name = 'pymatevfs'
+
+    d = bld.path.find_dir('html').abspath()
+    if env['XSLTPROC'] and not os.path.exists(os.path.join(d, 'index.html')):
+        doc_module = 'pymatevfs'
+        html_dir = os.path.join(bld.env['DATADIR'], 'gtk-doc', 'html')
+        target_dir = os.path.join('html_dir', reference_doc_name)
+
+        reference_main_file = 'matevfs-classes.xml'
+
+        cmd = bld.new_task_gen('command',
+                               target='html/index.html',
+                               source='../ref-html-style.xsl matevfs-classes.xml',
+                               command=(
+                '${XSLTPROC} --nonet --xinclude -o ${TGT[0].parent}/'
+                ' --stringparam gtkdoc.bookname pymatevfs'
+                ' --stringparam gtkdoc.version ${VERSION}'
+                ' --stringparam chunker.output.encoding UTF-8'
+                ' ${SRC[0]} ${SRC[1]}'))
+
+        #cmd = bld.new_task_gen('command',
+        #                       target='html/matevfs-class-reference.html',
+        #                       source='html/index.html',
+        #                       command='gtkdoc-fixxref --module-dir=${TGT[0].parent} --html-dir=${HTMLDIR}',
+        #                       variables=dict(HTMLDIR=html_dir))
+
+    # install html files from either the build dir or the source dir, whichever is found
+    html_files = glob.glob(os.path.join(bld.path.find_dir('html').abspath(env), '*'))
+    html_files += glob.glob(os.path.join(bld.path.find_dir('html').abspath(), '*'))
+    bld.install_files('${DATADIR}/gtk-doc/html/%s' % reference_doc_name,
+                      html_files)

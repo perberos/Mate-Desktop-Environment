@@ -1,0 +1,738 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GeditWindow</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="gedit Reference Manual">
+<link rel="up" href="ch01.html" title="gedit">
+<link rel="prev" href="gedit-gedit-view.html" title="GeditView">
+<link rel="next" href="gedit-gedit-convert.html" title="gedit-convert">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gedit-gedit-view.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">gedit Reference Manual</th>
+<td><a accesskey="n" href="gedit-gedit-convert.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gedit-gedit-window.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gedit-gedit-window.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gedit-gedit-window.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gedit-gedit-window.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#gedit-gedit-window.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#gedit-gedit-window.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry" title="GeditWindow">
+<a name="gedit-gedit-window"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gedit-gedit-window.top_of_page"></a>GeditWindow</span></h2>
+<p>GeditWindow</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gedit-gedit-window.synopsis"></a><h2>Synopsis</h2>
+<a name="GeditWindow"></a><pre class="synopsis">enum                <a class="link" href="gedit-gedit-window.html#GeditWindowState" title="enum GeditWindowState">GeditWindowState</a>;
+                    <a class="link" href="gedit-gedit-window.html#GeditWindowPrivate" title="GeditWindowPrivate">GeditWindowPrivate</a>;
+                    <a class="link" href="gedit-gedit-window.html#GeditWindow-struct" title="GeditWindow">GeditWindow</a>;
+<a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          <a class="link" href="gedit-gedit-window.html#gedit-window-create-tab" title="gedit_window_create_tab ()">gedit_window_create_tab</a>             (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> jump_to</code></em>);
+<a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          <a class="link" href="gedit-gedit-window.html#gedit-window-create-tab-from-uri" title="gedit_window_create_tab_from_uri ()">gedit_window_create_tab_from_uri</a>    (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> line_pos</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> create</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> jump_to</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-window.html#gedit-window-close-tab" title="gedit_window_close_tab ()">gedit_window_close_tab</a>              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> *tab</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-window.html#gedit-window-close-all-tabs" title="gedit_window_close_all_tabs ()">gedit_window_close_all_tabs</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-window.html#gedit-window-close-tabs" title="gedit_window_close_tabs ()">gedit_window_close_tabs</a>             (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *tabs</code></em>);
+<a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          <a class="link" href="gedit-gedit-window.html#gedit-window-get-active-tab" title="gedit_window_get_active_tab ()">gedit_window_get_active_tab</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-window.html#gedit-window-set-active-tab" title="gedit_window_set_active_tab ()">gedit_window_set_active_tab</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> *tab</code></em>);
+<a class="link" href="gedit-gedit-view.html#GeditView"><span class="returnvalue">GeditView</span></a> *         <a class="link" href="gedit-gedit-window.html#gedit-window-get-active-view" title="gedit_window_get_active_view ()">gedit_window_get_active_view</a>        (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="returnvalue">GeditDocument</span></a> *     <a class="link" href="gedit-gedit-window.html#gedit-window-get-active-document" title="gedit_window_get_active_document ()">gedit_window_get_active_document</a>    (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="gedit-gedit-window.html#gedit-window-get-documents" title="gedit_window_get_documents ()">gedit_window_get_documents</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="gedit-gedit-window.html#gedit-window-get-unsaved-documents" title="gedit_window_get_unsaved_documents ()">gedit_window_get_unsaved_documents</a>  (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="gedit-gedit-window.html#gedit-window-get-views" title="gedit_window_get_views ()">gedit_window_get_views</a>              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWindowGroup.html"><span class="returnvalue">GtkWindowGroup</span></a> *    <a class="link" href="gedit-gedit-window.html#gedit-window-get-group" title="gedit_window_get_group ()">gedit_window_get_group</a>              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="returnvalue">GeditPanel</span></a> *        <a class="link" href="gedit-gedit-window.html#gedit-window-get-side-panel" title="gedit_window_get_side_panel ()">gedit_window_get_side_panel</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="returnvalue">GeditPanel</span></a> *        <a class="link" href="gedit-gedit-window.html#gedit-window-get-bottom-panel" title="gedit_window_get_bottom_panel ()">gedit_window_get_bottom_panel</a>       (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="gedit-gedit-window.html#gedit-window-get-statusbar" title="gedit_window_get_statusbar ()">gedit_window_get_statusbar</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="returnvalue">GtkUIManager</span></a> *      <a class="link" href="gedit-gedit-window.html#gedit-window-get-ui-manager" title="gedit_window_get_ui_manager ()">gedit_window_get_ui_manager</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a class="link" href="gedit-gedit-window.html#GeditWindowState" title="enum GeditWindowState"><span class="returnvalue">GeditWindowState</span></a>    <a class="link" href="gedit-gedit-window.html#gedit-window-get-state" title="gedit_window_get_state ()">gedit_window_get_state</a>              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+<a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          <a class="link" href="gedit-gedit-window.html#gedit-window-get-tab-from-location" title="gedit_window_get_tab_from_location ()">gedit_window_get_tab_from_location</a>  (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a> *location</code></em>);
+<a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          <a class="link" href="gedit-gedit-window.html#gedit-window-get-tab-from-uri" title="gedit_window_get_tab_from_uri ()">gedit_window_get_tab_from_uri</a>       (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);
+<a class="link" href="GeditMessageBus.html" title="GeditMessageBus"><span class="returnvalue">GeditMessageBus</span></a> *   <a class="link" href="gedit-gedit-window.html#gedit-window-get-message-bus" title="gedit_window_get_message_bus ()">gedit_window_get_message_bus</a>        (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="gedit-gedit-window.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GInitiallyUnowned">GInitiallyUnowned</a>
+         +----<a href="http://library.mate.org/devel/gtk/unstable/GtkObject.html">GtkObject</a>
+               +----<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html">GtkWidget</a>
+                     +----<a href="http://library.mate.org/devel/gtk/unstable/GtkContainer.html">GtkContainer</a>
+                           +----<a href="http://library.mate.org/devel/gtk/unstable/GtkBin.html">GtkBin</a>
+                                 +----<a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html">GtkWindow</a>
+                                       +----GeditWindow
+</pre>
+</div>
+<div class="refsect1" title="Implemented Interfaces">
+<a name="gedit-gedit-window.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GeditWindow implements
+ AtkImplementorIface and  <a href="http://library.mate.org/devel/gtk/unstable/GtkBuildable.html">GtkBuildable</a>.</p>
+</div>
+<div class="refsect1" title="Properties">
+<a name="gedit-gedit-window.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="gedit-gedit-window.html#GeditWindow--state" title='The "state" property'>state</a>"                    <a class="link" href="gedit-gedit-window.html#GeditWindowState" title="enum GeditWindowState"><span class="type">GeditWindowState</span></a>      : Read
+</pre>
+</div>
+<div class="refsect1" title="Signals">
+<a name="gedit-gedit-window.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="gedit-gedit-window.html#GeditWindow-active-tab-changed" title='The "active-tab-changed" signal'>active-tab-changed</a>"                             : Run First
+  "<a class="link" href="gedit-gedit-window.html#GeditWindow-active-tab-state-changed" title='The "active-tab-state-changed" signal'>active-tab-state-changed</a>"                       : Run First
+  "<a class="link" href="gedit-gedit-window.html#GeditWindow-tab-added" title='The "tab-added" signal'>tab-added</a>"                                      : Run First
+  "<a class="link" href="gedit-gedit-window.html#GeditWindow-tab-removed" title='The "tab-removed" signal'>tab-removed</a>"                                    : Run First
+  "<a class="link" href="gedit-gedit-window.html#GeditWindow-tabs-reordered" title='The "tabs-reordered" signal'>tabs-reordered</a>"                                 : Run First
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="gedit-gedit-window.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1" title="Details">
+<a name="gedit-gedit-window.details"></a><h2>Details</h2>
+<div class="refsect2" title="enum GeditWindowState">
+<a name="GeditWindowState"></a><h3>enum GeditWindowState</h3>
+<pre class="programlisting">typedef enum
+{
+	GEDIT_WINDOW_STATE_NORMAL		= 0,
+	GEDIT_WINDOW_STATE_SAVING		= 1 &lt;&lt; 1,
+	GEDIT_WINDOW_STATE_PRINTING		= 1 &lt;&lt; 2,
+	GEDIT_WINDOW_STATE_LOADING		= 1 &lt;&lt; 3,
+	GEDIT_WINDOW_STATE_ERROR		= 1 &lt;&lt; 4,
+	GEDIT_WINDOW_STATE_SAVING_SESSION = 1 &lt;&lt; 5
+} GeditWindowState;
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="GeditWindowPrivate">
+<a name="GeditWindowPrivate"></a><h3>GeditWindowPrivate</h3>
+<pre class="programlisting">typedef struct _GeditWindowPrivate GeditWindowPrivate;</pre>
+</div>
+<hr>
+<div class="refsect2" title="GeditWindow">
+<a name="GeditWindow-struct"></a><h3>GeditWindow</h3>
+<pre class="programlisting">typedef struct _GeditWindow GeditWindow;</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_create_tab ()">
+<a name="gedit-window-create-tab"></a><h3>gedit_window_create_tab ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          gedit_window_create_tab             (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> jump_to</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> and adds the new tab to the <a class="link" href="gedit-gedit-notebook.html#GeditNotebook"><span class="type">GeditNotebook</span></a>.
+In case <em class="parameter"><code>jump_to</code></em> is <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the <a class="link" href="gedit-gedit-notebook.html#GeditNotebook"><span class="type">GeditNotebook</span></a> switches to that new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>jump_to</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> to set the new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> as active
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_create_tab_from_uri ()">
+<a name="gedit-window-create-tab-from-uri"></a><h3>gedit_window_create_tab_from_uri ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          gedit_window_create_tab_from_uri    (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> line_pos</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> create</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> jump_to</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> loading the document specified by <em class="parameter"><code>uri</code></em>.
+In case <em class="parameter"><code>jump_to</code></em> is <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the <a class="link" href="gedit-gedit-notebook.html#GeditNotebook"><span class="type">GeditNotebook</span></a> swithes to that new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>.
+Whether <em class="parameter"><code>create</code></em> is <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, creates a new empty document if location does 
+not refer to an existing file
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the uri of the document
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoding</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>line_pos</code></em> :</span></p></td>
+<td>the line position to visualize
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>create</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> to create a new document in case <em class="parameter"><code>uri</code></em> does exist
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>jump_to</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> to set the new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> as active
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_close_tab ()">
+<a name="gedit-window-close-tab"></a><h3>gedit_window_close_tab ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_window_close_tab              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> *tab</code></em>);</pre>
+<p>
+Closes the <em class="parameter"><code>tab</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tab</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> to close
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_close_all_tabs ()">
+<a name="gedit-window-close-all-tabs"></a><h3>gedit_window_close_all_tabs ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_window_close_all_tabs         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Closes all opened tabs.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_close_tabs ()">
+<a name="gedit-window-close-tabs"></a><h3>gedit_window_close_tabs ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_window_close_tabs             (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *tabs</code></em>);</pre>
+<p>
+Closes all tabs specified by <em class="parameter"><code>tabs</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tabs</code></em> :</span></p></td>
+<td>a list of <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_active_tab ()">
+<a name="gedit-window-get-active-tab"></a><h3>gedit_window_get_active_tab ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          gedit_window_get_active_tab         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the active <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> in the <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a GeditWindow
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the active <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> in the <em class="parameter"><code>window</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_set_active_tab ()">
+<a name="gedit-window-set-active-tab"></a><h3>gedit_window_set_active_tab ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_window_set_active_tab         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> *tab</code></em>);</pre>
+<p>
+Switches to the tab that matches with <em class="parameter"><code>tab</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tab</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_active_view ()">
+<a name="gedit-window-get-active-view"></a><h3>gedit_window_get_active_view ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-view.html#GeditView"><span class="returnvalue">GeditView</span></a> *         gedit_window_get_active_view        (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the active <a class="link" href="gedit-gedit-view.html#GeditView"><span class="type">GeditView</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the active <a class="link" href="gedit-gedit-view.html#GeditView"><span class="type">GeditView</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_active_document ()">
+<a name="gedit-window-get-active-document"></a><h3>gedit_window_get_active_document ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="returnvalue">GeditDocument</span></a> *     gedit_window_get_active_document    (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the active <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the active <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_documents ()">
+<a name="gedit-window-get-documents"></a><h3>gedit_window_get_documents ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gedit_window_get_documents          (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets a newly allocated list with all the documents in the window.
+This list must be freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated list with all the documents in the window
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_unsaved_documents ()">
+<a name="gedit-window-get-unsaved-documents"></a><h3>gedit_window_get_unsaved_documents ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gedit_window_get_unsaved_documents  (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the list of documents that need to be saved before closing the window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a list of <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> that need to be saved before closing the window
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_views ()">
+<a name="gedit-window-get-views"></a><h3>gedit_window_get_views ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gedit_window_get_views              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets a list with all the views in the window. This list must be freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated list with all the views in the window
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_group ()">
+<a name="gedit-window-get-group"></a><h3>gedit_window_get_group ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWindowGroup.html"><span class="returnvalue">GtkWindowGroup</span></a> *    gedit_window_get_group              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a href="http://library.mate.org/devel/gtk/unstable/GtkWindowGroup.html"><span class="type">GtkWindowGroup</span></a> in which <em class="parameter"><code>window</code></em> resides.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a href="http://library.mate.org/devel/gtk/unstable/GtkWindowGroup.html"><span class="type">GtkWindowGroup</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_side_panel ()">
+<a name="gedit-window-get-side-panel"></a><h3>gedit_window_get_side_panel ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="returnvalue">GeditPanel</span></a> *        gedit_window_get_side_panel         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the side <a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="type">GeditPanel</span></a> of the <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the side <a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="type">GeditPanel</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_bottom_panel ()">
+<a name="gedit-window-get-bottom-panel"></a><h3>gedit_window_get_bottom_panel ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="returnvalue">GeditPanel</span></a> *        gedit_window_get_bottom_panel       (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the bottom <a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="type">GeditPanel</span></a> of the <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the bottom <a class="link" href="gedit-gedit-panel.html#GeditPanel"><span class="type">GeditPanel</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_statusbar ()">
+<a name="gedit-window-get-statusbar"></a><h3>gedit_window_get_statusbar ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         gedit_window_get_statusbar          (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a class="link" href="gedit-gedit-statusbar.html#GeditStatusbar"><span class="type">GeditStatusbar</span></a> of the <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="gedit-gedit-statusbar.html#GeditStatusbar"><span class="type">GeditStatusbar</span></a> of the <em class="parameter"><code>window</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_ui_manager ()">
+<a name="gedit-window-get-ui-manager"></a><h3>gedit_window_get_ui_manager ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="returnvalue">GtkUIManager</span></a> *      gedit_window_get_ui_manager         (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="type">GtkUIManager</span></a> associated with the <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="type">GtkUIManager</span></a> of the <em class="parameter"><code>window</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_state ()">
+<a name="gedit-window-get-state"></a><h3>gedit_window_get_state ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-window.html#GeditWindowState" title="enum GeditWindowState"><span class="returnvalue">GeditWindowState</span></a>    gedit_window_get_state              (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Retrieves the state of the <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current <a class="link" href="gedit-gedit-window.html#GeditWindowState" title="enum GeditWindowState"><span class="type">GeditWindowState</span></a> of the <em class="parameter"><code>window</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_tab_from_location ()">
+<a name="gedit-window-get-tab-from-location"></a><h3>gedit_window_get_tab_from_location ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          gedit_window_get_tab_from_location  (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a> *location</code></em>);</pre>
+<p>
+Gets the <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> that matches with the given <em class="parameter"><code>location</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>location</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> that matches with the given <em class="parameter"><code>location</code></em>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_tab_from_uri ()">
+<a name="gedit-window-get-tab-from-uri"></a><h3>gedit_window_get_tab_from_uri ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="returnvalue">GeditTab</span></a> *          gedit_window_get_tab_from_uri       (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">gedit_window_get_tab_from_uri</code> has been deprecated since version 2.24 and should not be used in newly-written code. Use <a class="link" href="gedit-gedit-window.html#gedit-window-get-tab-from-location" title="gedit_window_get_tab_from_location ()"><code class="function">gedit_window_get_tab_from_location()</code></a> instead.</p>
+</div>
+<p>
+Gets the <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> that matches <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the uri to get the <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a> associated with <em class="parameter"><code>uri</code></em>.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_window_get_message_bus ()">
+<a name="gedit-window-get-message-bus"></a><h3>gedit_window_get_message_bus ()</h3>
+<pre class="programlisting"><a class="link" href="GeditMessageBus.html" title="GeditMessageBus"><span class="returnvalue">GeditMessageBus</span></a> *   gedit_window_get_message_bus        (<em class="parameter"><code><a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a class="link" href="GeditMessageBus.html" title="GeditMessageBus"><span class="type">GeditMessageBus</span></a> associated with <em class="parameter"><code>window</code></em>. The returned reference
+is owned by the window and should not be unreffed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>a <a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="GeditMessageBus.html" title="GeditMessageBus"><span class="type">GeditMessageBus</span></a> associated with <em class="parameter"><code>window</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="gedit-gedit-window.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "state" property'>
+<a name="GeditWindow--state"></a><h3>The <code class="literal">"state"</code> property</h3>
+<pre class="programlisting">  "state"                    <a class="link" href="gedit-gedit-window.html#GeditWindowState" title="enum GeditWindowState"><span class="type">GeditWindowState</span></a>      : Read</pre>
+<p>The window's state.</p>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
+<a name="gedit-gedit-window.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" title='The "active-tab-changed" signal'>
+<a name="GeditWindow-active-tab-changed"></a><h3>The <code class="literal">"active-tab-changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *geditwindow,
+                                                        <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>    *arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)        : Run First</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "active-tab-state-changed" signal'>
+<a name="GeditWindow-active-tab-state-changed"></a><h3>The <code class="literal">"active-tab-state-changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *geditwindow,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)        : Run First</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "tab-added" signal'>
+<a name="GeditWindow-tab-added"></a><h3>The <code class="literal">"tab-added"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *geditwindow,
+                                                        <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>    *arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)        : Run First</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "tab-removed" signal'>
+<a name="GeditWindow-tab-removed"></a><h3>The <code class="literal">"tab-removed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *geditwindow,
+                                                        <a class="link" href="gedit-gedit-tab.html#GeditTab"><span class="type">GeditTab</span></a>    *arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)        : Run First</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "tabs-reordered" signal'>
+<a name="GeditWindow-tabs-reordered"></a><h3>The <code class="literal">"tabs-reordered"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-window.html#GeditWindow"><span class="type">GeditWindow</span></a> *geditwindow,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)        : Run First</pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

@@ -1,0 +1,839 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EvDocument</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Evince Document Library Reference Manual">
+<link rel="up" href="document-interfaces.html" title="Part I. Document Interfaces">
+<link rel="prev" href="EvAsyncRenderer.html" title="EvAsyncRenderer">
+<link rel="next" href="EvDocumentAnnotations.html" title="EvDocumentAnnotations">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="EvAsyncRenderer.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="document-interfaces.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Evince Document Library Reference Manual</th>
+<td><a accesskey="n" href="EvDocumentAnnotations.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#EvDocument.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#EvDocument.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#EvDocument.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry" title="EvDocument">
+<a name="EvDocument"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="EvDocument.top_of_page"></a>EvDocument</span></h2>
+<p>EvDocument</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="EvDocument.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">                    <a class="link" href="EvDocument.html#EvDocument-struct" title="EvDocument">EvDocument</a>;
+                    <a class="link" href="EvDocument.html#EvDocumentClass" title="EvDocumentClass">EvDocumentClass</a>;
+                    <a class="link" href="EvDocument.html#EvDocumentPrivate" title="EvDocumentPrivate">EvDocumentPrivate</a>;
+#define             <a class="link" href="EvDocument.html#EV-DOCUMENT-ERROR:CAPS" title="EV_DOCUMENT_ERROR">EV_DOCUMENT_ERROR</a>
+#define             <a class="link" href="EvDocument.html#EV-DOC-MUTEX-LOCK:CAPS" title="EV_DOC_MUTEX_LOCK">EV_DOC_MUTEX_LOCK</a>
+#define             <a class="link" href="EvDocument.html#EV-DOC-MUTEX-UNLOCK:CAPS" title="EV_DOC_MUTEX_UNLOCK">EV_DOC_MUTEX_UNLOCK</a>
+enum                <a class="link" href="EvDocument.html#EvDocumentError" title="enum EvDocumentError">EvDocumentError</a>;
+                    <a class="link" href="EvDocument.html#EvPoint" title="EvPoint">EvPoint</a>;
+                    <a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle">EvRectangle</a>;
+                    <a class="link" href="EvDocument.html#EvDocumentBackendInfo" title="EvDocumentBackendInfo">EvDocumentBackendInfo</a>;
+<a href="http://library.mate.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              <a class="link" href="EvDocument.html#ev-document-error-quark" title="ev_document_error_quark ()">ev_document_error_quark</a>             (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Threads.html#GMutex"><span class="returnvalue">GMutex</span></a> *            <a class="link" href="EvDocument.html#ev-document-get-doc-mutex" title="ev_document_get_doc_mutex ()">ev_document_get_doc_mutex</a>           (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-document-doc-mutex-lock" title="ev_document_doc_mutex_lock ()">ev_document_doc_mutex_lock</a>          (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-document-doc-mutex-unlock" title="ev_document_doc_mutex_unlock ()">ev_document_doc_mutex_unlock</a>        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-doc-mutex-trylock" title="ev_document_doc_mutex_trylock ()">ev_document_doc_mutex_trylock</a>       (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Threads.html#GMutex"><span class="returnvalue">GMutex</span></a> *            <a class="link" href="EvDocument.html#ev-document-get-fc-mutex" title="ev_document_get_fc_mutex ()">ev_document_get_fc_mutex</a>            (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-document-fc-mutex-lock" title="ev_document_fc_mutex_lock ()">ev_document_fc_mutex_lock</a>           (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-document-fc-mutex-unlock" title="ev_document_fc_mutex_unlock ()">ev_document_fc_mutex_unlock</a>         (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-fc-mutex-trylock" title="ev_document_fc_mutex_trylock ()">ev_document_fc_mutex_trylock</a>        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="libevdocument-EvDocumentInfo.html#EvDocumentInfo" title="EvDocumentInfo"><span class="returnvalue">EvDocumentInfo</span></a> *    <a class="link" href="EvDocument.html#ev-document-get-info" title="ev_document_get_info ()">ev_document_get_info</a>                (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-get-backend-info" title="ev_document_get_backend_info ()">ev_document_get_backend_info</a>        (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvDocumentBackendInfo" title="EvDocumentBackendInfo"><span class="type">EvDocumentBackendInfo</span></a> *info</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-load" title="ev_document_load ()">ev_document_load</a>                    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-save" title="ev_document_save ()">ev_document_save</a>                    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="EvDocument.html#ev-document-get-n-pages" title="ev_document_get_n_pages ()">ev_document_get_n_pages</a>             (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<a class="link" href="EvPage.html" title="EvPage"><span class="returnvalue">EvPage</span></a> *            <a class="link" href="EvDocument.html#ev-document-get-page" title="ev_document_get_page ()">ev_document_get_page</a>                (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> index</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-document-get-page-size" title="ev_document_get_page_size ()">ev_document_get_page_size</a>           (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> page_index</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *width</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *height</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="EvDocument.html#ev-document-get-page-label" title="ev_document_get_page_label ()">ev_document_get_page_label</a>          (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> page_index</code></em>);
+<a href="/home/carlos/mate-cvs/share/gtk-doc/html/cairo/cairo-cairo-surface-t.html#cairo-surface-t"><span class="returnvalue">cairo_surface_t</span></a> *   <a class="link" href="EvDocument.html#ev-document-render" title="ev_document_render ()">ev_document_render</a>                  (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvRenderContext.html" title="EvRenderContext"><span class="type">EvRenderContext</span></a> *rc</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="EvDocument.html#ev-document-get-uri" title="ev_document_get_uri ()">ev_document_get_uri</a>                 (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="EvDocument.html#ev-document-get-title" title="ev_document_get_title ()">ev_document_get_title</a>               (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-is-page-size-uniform" title="ev_document_is_page_size_uniform ()">ev_document_is_page_size_uniform</a>    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-document-get-max-page-size" title="ev_document_get_max_page_size ()">ev_document_get_max_page_size</a>       (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> *width</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> *height</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-check-dimensions" title="ev_document_check_dimensions ()">ev_document_check_dimensions</a>        (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="EvDocument.html#ev-document-get-max-label-len" title="ev_document_get_max_label_len ()">ev_document_get_max_label_len</a>       (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-has-text-page-labels" title="ev_document_has_text_page_labels ()">ev_document_has_text_page_labels</a>    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="EvDocument.html#ev-document-find-page-by-label" title="ev_document_find_page_by_label ()">ev_document_find_page_by_label</a>      (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *page_label</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> *page_index</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="EvDocument.html#ev-rect-cmp" title="ev_rect_cmp ()">ev_rect_cmp</a>                         (<em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *b</code></em>);
+#define             <a class="link" href="EvDocument.html#EV-TYPE-RECTANGLE:CAPS" title="EV_TYPE_RECTANGLE">EV_TYPE_RECTANGLE</a>
+<a href="http://library.mate.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>               <a class="link" href="EvDocument.html#ev-rectangle-get-type" title="ev_rectangle_get_type ()">ev_rectangle_get_type</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="returnvalue">EvRectangle</span></a> *       <a class="link" href="EvDocument.html#ev-rectangle-new" title="ev_rectangle_new ()">ev_rectangle_new</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="returnvalue">EvRectangle</span></a> *       <a class="link" href="EvDocument.html#ev-rectangle-copy" title="ev_rectangle_copy ()">ev_rectangle_copy</a>                   (<em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *ev_rect</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="EvDocument.html#ev-rectangle-free" title="ev_rectangle_free ()">ev_rectangle_free</a>                   (<em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *ev_rect</code></em>);
+#define             <a class="link" href="EvDocument.html#EV-BACKEND-IMPLEMENT-INTERFACE:CAPS" title="EV_BACKEND_IMPLEMENT_INTERFACE()">EV_BACKEND_IMPLEMENT_INTERFACE</a>      (TYPE_IFACE,
+                                                         iface_init)
+#define             <a class="link" href="EvDocument.html#EV-BACKEND-REGISTER-WITH-CODE:CAPS" title="EV_BACKEND_REGISTER_WITH_CODE()">EV_BACKEND_REGISTER_WITH_CODE</a>       (BackendName,
+                                                         backend_name,
+                                                         CODE)
+#define             <a class="link" href="EvDocument.html#EV-BACKEND-REGISTER:CAPS" title="EV_BACKEND_REGISTER()">EV_BACKEND_REGISTER</a>                 (BackendName,
+                                                         backend_name)
+#define             <a class="link" href="EvDocument.html#EV-DEFINE-BOXED-TYPE:CAPS" title="EV_DEFINE_BOXED_TYPE()">EV_DEFINE_BOXED_TYPE</a>                (TypeName,
+                                                         type_name,
+                                                         copy_func,
+                                                         free_func)
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="EvDocument.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----EvDocument
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="EvDocument.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="EvDocument.details"></a><h2>Details</h2>
+<div class="refsect2" title="EvDocument">
+<a name="EvDocument-struct"></a><h3>EvDocument</h3>
+<pre class="programlisting">typedef struct _EvDocument EvDocument;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EvDocumentClass">
+<a name="EvDocumentClass"></a><h3>EvDocumentClass</h3>
+<pre class="programlisting">typedef struct {
+        GObjectClass base_class;
+
+        /* Virtual Methods  */
+        gboolean          (* load)            (EvDocument      *document,
+                                               const char      *uri,
+                                               GError         **error);
+        gboolean          (* save)            (EvDocument      *document,
+                                               const char      *uri,
+                                               GError         **error);
+        gint              (* get_n_pages)     (EvDocument      *document);
+	EvPage          * (* get_page)        (EvDocument      *document,
+					       gint             index);
+        void              (* get_page_size)   (EvDocument      *document,
+                                               EvPage          *page,
+                                               double          *width,
+                                               double          *height);
+        gchar           * (* get_page_label)  (EvDocument      *document,
+                                               EvPage          *page);
+        cairo_surface_t * (* render)          (EvDocument      *document,
+                                               EvRenderContext *rc);
+        EvDocumentInfo  * (* get_info)        (EvDocument      *document);
+        gboolean          (* get_backend_info)(EvDocument      *document,
+                                               EvDocumentBackendInfo *info);
+        gboolean	  (* support_synctex) (EvDocument      *document);
+} EvDocumentClass;
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="EvDocumentPrivate">
+<a name="EvDocumentPrivate"></a><h3>EvDocumentPrivate</h3>
+<pre class="programlisting">typedef struct _EvDocumentPrivate EvDocumentPrivate;</pre>
+</div>
+<hr>
+<div class="refsect2" title="EV_DOCUMENT_ERROR">
+<a name="EV-DOCUMENT-ERROR:CAPS"></a><h3>EV_DOCUMENT_ERROR</h3>
+<pre class="programlisting">#define EV_DOCUMENT_ERROR ev_document_error_quark ()
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EV_DOC_MUTEX_LOCK">
+<a name="EV-DOC-MUTEX-LOCK:CAPS"></a><h3>EV_DOC_MUTEX_LOCK</h3>
+<pre class="programlisting">#define EV_DOC_MUTEX_LOCK (ev_document_doc_mutex_lock ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EV_DOC_MUTEX_UNLOCK">
+<a name="EV-DOC-MUTEX-UNLOCK:CAPS"></a><h3>EV_DOC_MUTEX_UNLOCK</h3>
+<pre class="programlisting">#define EV_DOC_MUTEX_UNLOCK (ev_document_doc_mutex_unlock ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum EvDocumentError">
+<a name="EvDocumentError"></a><h3>enum EvDocumentError</h3>
+<pre class="programlisting">typedef enum
+{
+        EV_DOCUMENT_ERROR_INVALID,
+        EV_DOCUMENT_ERROR_ENCRYPTED
+} EvDocumentError;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EvPoint">
+<a name="EvPoint"></a><h3>EvPoint</h3>
+<pre class="programlisting">typedef struct {
+        double x;
+        double y;
+} EvPoint;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EvRectangle">
+<a name="EvRectangle"></a><h3>EvRectangle</h3>
+<pre class="programlisting">typedef struct {
+	gdouble x1;
+	gdouble y1;
+	gdouble x2;
+	gdouble y2;
+} EvRectangle;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EvDocumentBackendInfo">
+<a name="EvDocumentBackendInfo"></a><h3>EvDocumentBackendInfo</h3>
+<pre class="programlisting">typedef struct {
+	const gchar *name;
+	const gchar *version;
+} EvDocumentBackendInfo;
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_error_quark ()">
+<a name="ev-document-error-quark"></a><h3>ev_document_error_quark ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              ev_document_error_quark             (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_doc_mutex ()">
+<a name="ev-document-get-doc-mutex"></a><h3>ev_document_get_doc_mutex ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Threads.html#GMutex"><span class="returnvalue">GMutex</span></a> *            ev_document_get_doc_mutex           (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_doc_mutex_lock ()">
+<a name="ev-document-doc-mutex-lock"></a><h3>ev_document_doc_mutex_lock ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_document_doc_mutex_lock          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_doc_mutex_unlock ()">
+<a name="ev-document-doc-mutex-unlock"></a><h3>ev_document_doc_mutex_unlock ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_document_doc_mutex_unlock        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_doc_mutex_trylock ()">
+<a name="ev-document-doc-mutex-trylock"></a><h3>ev_document_doc_mutex_trylock ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_doc_mutex_trylock       (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_fc_mutex ()">
+<a name="ev-document-get-fc-mutex"></a><h3>ev_document_get_fc_mutex ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Threads.html#GMutex"><span class="returnvalue">GMutex</span></a> *            ev_document_get_fc_mutex            (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_fc_mutex_lock ()">
+<a name="ev-document-fc-mutex-lock"></a><h3>ev_document_fc_mutex_lock ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_document_fc_mutex_lock           (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_fc_mutex_unlock ()">
+<a name="ev-document-fc-mutex-unlock"></a><h3>ev_document_fc_mutex_unlock ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_document_fc_mutex_unlock         (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_fc_mutex_trylock ()">
+<a name="ev-document-fc-mutex-trylock"></a><h3>ev_document_fc_mutex_trylock ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_fc_mutex_trylock        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_info ()">
+<a name="ev-document-get-info"></a><h3>ev_document_get_info ()</h3>
+<pre class="programlisting"><a class="link" href="libevdocument-EvDocumentInfo.html#EvDocumentInfo" title="EvDocumentInfo"><span class="returnvalue">EvDocumentInfo</span></a> *    ev_document_get_info                (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_backend_info ()">
+<a name="ev-document-get-backend-info"></a><h3>ev_document_get_backend_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_get_backend_info        (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvDocumentBackendInfo" title="EvDocumentBackendInfo"><span class="type">EvDocumentBackendInfo</span></a> *info</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_load ()">
+<a name="ev-document-load"></a><h3>ev_document_load ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_load                    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Loads <em class="parameter"><code>document</code></em> from <em class="parameter"><code>uri</code></em>.
+</p>
+<p>
+On failure, <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> is returned and <em class="parameter"><code>error</code></em> is filled in.
+If the document is encrypted, EV_DEFINE_ERROR_ENCRYPTED is returned.
+If the backend cannot load the specific document, EV_DOCUMENT_ERROR_INVALID
+is returned. Other errors are possible too, depending on the backend
+used to load the document and the URI, e.g. <a href="http://library.mate.org/devel/glib/unstable/glib-IO-Channels.html#GIOError"><span class="type">GIOError</span></a>, <a href="http://library.mate.org/devel/glib/unstable/glib-File-Utilities.html#GFileError"><span class="type">GFileError</span></a>, and
+<a href="http://library.mate.org/devel/glib/unstable/glib-Character-Set-Conversion.html#GConvertError"><span class="type">GConvertError</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>a <a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the document's URI
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> location to store an error, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> on failure.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_save ()">
+<a name="ev-document-save"></a><h3>ev_document_save ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_save                    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Saves <em class="parameter"><code>document</code></em> to <em class="parameter"><code>uri</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the target URI
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> location to store an error, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> on error with <em class="parameter"><code>error</code></em> filled in
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_n_pages ()">
+<a name="ev-document-get-n-pages"></a><h3>ev_document_get_n_pages ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                ev_document_get_n_pages             (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_page ()">
+<a name="ev-document-get-page"></a><h3>ev_document_get_page ()</h3>
+<pre class="programlisting"><a class="link" href="EvPage.html" title="EvPage"><span class="returnvalue">EvPage</span></a> *            ev_document_get_page                (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> index</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>index</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_page_size ()">
+<a name="ev-document-get-page-size"></a><h3>ev_document_get_page_size ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_document_get_page_size           (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> page_index</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *width</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> *height</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>page_index</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_page_label ()">
+<a name="ev-document-get-page-label"></a><h3>ev_document_get_page_label ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             ev_document_get_page_label          (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> page_index</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>page_index</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_render ()">
+<a name="ev-document-render"></a><h3>ev_document_render ()</h3>
+<pre class="programlisting"><a href="/home/carlos/mate-cvs/share/gtk-doc/html/cairo/cairo-cairo-surface-t.html#cairo-surface-t"><span class="returnvalue">cairo_surface_t</span></a> *   ev_document_render                  (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvRenderContext.html" title="EvRenderContext"><span class="type">EvRenderContext</span></a> *rc</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rc</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_uri ()">
+<a name="ev-document-get-uri"></a><h3>ev_document_get_uri ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       ev_document_get_uri                 (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_title ()">
+<a name="ev-document-get-title"></a><h3>ev_document_get_title ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       ev_document_get_title               (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_is_page_size_uniform ()">
+<a name="ev-document-is-page-size-uniform"></a><h3>ev_document_is_page_size_uniform ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_is_page_size_uniform    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_max_page_size ()">
+<a name="ev-document-get-max-page-size"></a><h3>ev_document_get_max_page_size ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_document_get_max_page_size       (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> *width</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gdouble"><span class="type">gdouble</span></a> *height</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_check_dimensions ()">
+<a name="ev-document-check-dimensions"></a><h3>ev_document_check_dimensions ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_check_dimensions        (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_get_max_label_len ()">
+<a name="ev-document-get-max-label-len"></a><h3>ev_document_get_max_label_len ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                ev_document_get_max_label_len       (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_has_text_page_labels ()">
+<a name="ev-document-has-text-page-labels"></a><h3>ev_document_has_text_page_labels ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_has_text_page_labels    (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_document_find_page_by_label ()">
+<a name="ev-document-find-page-by-label"></a><h3>ev_document_find_page_by_label ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_document_find_page_by_label      (<em class="parameter"><code><a class="link" href="EvDocument.html" title="EvDocument"><span class="type">EvDocument</span></a> *document</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *page_label</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> *page_index</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_rect_cmp ()">
+<a name="ev-rect-cmp"></a><h3>ev_rect_cmp ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                ev_rect_cmp                         (<em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *a</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *b</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EV_TYPE_RECTANGLE">
+<a name="EV-TYPE-RECTANGLE:CAPS"></a><h3>EV_TYPE_RECTANGLE</h3>
+<pre class="programlisting">#define EV_TYPE_RECTANGLE (ev_rectangle_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_rectangle_get_type ()">
+<a name="ev-rectangle-get-type"></a><h3>ev_rectangle_get_type ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>               ev_rectangle_get_type               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_rectangle_new ()">
+<a name="ev-rectangle-new"></a><h3>ev_rectangle_new ()</h3>
+<pre class="programlisting"><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="returnvalue">EvRectangle</span></a> *       ev_rectangle_new                    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_rectangle_copy ()">
+<a name="ev-rectangle-copy"></a><h3>ev_rectangle_copy ()</h3>
+<pre class="programlisting"><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="returnvalue">EvRectangle</span></a> *       ev_rectangle_copy                   (<em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *ev_rect</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ev_rect</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_rectangle_free ()">
+<a name="ev-rectangle-free"></a><h3>ev_rectangle_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_rectangle_free                   (<em class="parameter"><code><a class="link" href="EvDocument.html#EvRectangle" title="EvRectangle"><span class="type">EvRectangle</span></a> *ev_rect</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>ev_rect</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EV_BACKEND_IMPLEMENT_INTERFACE()">
+<a name="EV-BACKEND-IMPLEMENT-INTERFACE:CAPS"></a><h3>EV_BACKEND_IMPLEMENT_INTERFACE()</h3>
+<pre class="programlisting">#define             EV_BACKEND_IMPLEMENT_INTERFACE(TYPE_IFACE, iface_init)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>TYPE_IFACE</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iface_init</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EV_BACKEND_REGISTER_WITH_CODE()">
+<a name="EV-BACKEND-REGISTER-WITH-CODE:CAPS"></a><h3>EV_BACKEND_REGISTER_WITH_CODE()</h3>
+<pre class="programlisting">#define             EV_BACKEND_REGISTER_WITH_CODE(BackendName, backend_name, CODE)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>BackendName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>backend_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>CODE</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EV_BACKEND_REGISTER()">
+<a name="EV-BACKEND-REGISTER:CAPS"></a><h3>EV_BACKEND_REGISTER()</h3>
+<pre class="programlisting">#define             EV_BACKEND_REGISTER(BackendName, backend_name)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>BackendName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>backend_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="EV_DEFINE_BOXED_TYPE()">
+<a name="EV-DEFINE-BOXED-TYPE:CAPS"></a><h3>EV_DEFINE_BOXED_TYPE()</h3>
+<pre class="programlisting">#define             EV_DEFINE_BOXED_TYPE(TypeName, type_name, copy_func, free_func)</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>TypeName</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type_name</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>copy_func</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>free_func</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

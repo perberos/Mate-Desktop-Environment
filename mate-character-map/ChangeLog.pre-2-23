@@ -1,0 +1,2596 @@
+2008-01-29  Christian Persch  <chpe@mate.org>
+
+	* gucharmap.pc.in:
+	* gucharmap/gucharmap-chapters.c: (gucharmap_chapters_constructor):
+	Merge from 2-22 branch.
+
+2007-12-26  Christian Persch  <chpe@mate.org>
+
+	* gucharmap.desktop.in.in:
+	* configure.ac:
+	* Makefile.am: Add gucharmap version to the desktop file.
+
+2007-12-25  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-table.c:
+	(gucharmap_table_set_codepoint_list): Check for NULL before unref'ing.
+
+2007-12-17  Christian Persch  <chpe@mate.org>
+
+	=== Release 2.21.4 ===
+
+2007-12-13  Behdad Esfahbod  <behdad@mate.org>
+
+	* MAINTAINERS: Remove Noah, add chpe.
+
+2007-12-12  Christian Persch  <chpe@mate.org>
+
+	* *: Update FSF address. Bug #407323.
+
+2007-12-10  Christian Persch  <chpe@mate.org>
+
+        * gucharmap/gucharmap-table.[ch]:
+        R gucharmap/cartable_accessible.[ch]:
+        R gucharmap/charcell_accessible.[ch]
+        A gucharmap/gucharmap-chartable.[ch]:
+        A gucharmap/gucharmap-chartable-accessible.[ch]:
+        A gucharmap/gucharmap-chartable-cell-accessible.[ch]: Refactored.
+        Split the real chartable out of gucharmap-table.
+        Fix bugs #396243, #501915 and many others.
+
+2007-12-06  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-table.c: (create_glyph_pixmap),
+	(place_zoom_window), (update_zoom_window), (make_zoom_window),
+	(destroy_zoom_window), (button_press_event), (drag_begin),
+	(gucharmap_table_init), (gucharmap_table_zoom_enable):
+	* gucharmap/gucharmap-table.h: Simplify character popup code. Should
+	fix popup sizing bug #501915.
+
+2007-12-05  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-table.h:
+	* gucharmap/gucharmap-unicode-info.h: Remove unimplemented functions.
+	Bug #331103.
+
+2007-12-05  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-settings.c: (window_state_timeout_cb),
+	(window_state_event_cb), (gucharmap_settings_add_window): Fix the
+	build with --disable-mateconf. Bug #501710.
+
+2007-12-04  Christian Persch  <chpe@mate.org>
+
+	* configure.ac:
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-window.c: (help_contents):
+	* gucharmap/main.c: (main): Remove mate option. Bug #469131,
+	patch by Jani Monoses.
+
+2007-12-04  Christian Persch  <chpe@mate.org>
+
+	* gucharmap.schemas.in:
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-block-chapters-model.c:
+	(gucharmap_block_chapters_model_init), (get_codepoint_list),
+	(get_book_codepoint_list), (character_to_iter),
+	(gucharmap_block_chapters_model_class_init),
+	(gucharmap_block_chapters_model_new):
+	* gucharmap/gucharmap-block-chapters-model.h:
+	* gucharmap/gucharmap-block-chapters.c:
+	(gucharmap_block_chapters_init),
+	(gucharmap_block_chapters_class_init),
+	(gucharmap_block_chapters_new):
+	* gucharmap/gucharmap-block-chapters.h:
+	* gucharmap/gucharmap-chapters-model.c:
+	(default_get_codepoint_list), (gucharmap_chapters_model_init),
+	(gucharmap_chapters_model_finalize),
+	(gucharmap_chapters_model_class_init),
+	(gucharmap_chapters_model_get_codepoint_list),
+	(gucharmap_chapters_model_get_book_codepoint_list),
+	(gucharmap_chapters_model_character_to_iter),
+	(gucharmap_chapters_model_get_title),
+	(gucharmap_chapters_model_id_to_iter):
+	* gucharmap/gucharmap-chapters-model.h:
+	* gucharmap/gucharmap-chapters-view.c: (select_iter),
+	(gucharmap_chapters_view_init),
+	(gucharmap_chapters_view_class_init),
+	(gucharmap_chapters_view_new), (gucharmap_chapters_view_set_model),
+	(gucharmap_chapters_view_next), (gucharmap_chapters_view_previous),
+	(gucharmap_chapters_view_get_selected),
+	(gucharmap_chapters_view_set_selected),
+	(gucharmap_chapters_view_select_character),
+	(gucharmap_chapters_view_get_codepoint_list),
+	(gucharmap_chapters_view_get_book_codepoint_list):
+	* gucharmap/gucharmap-chapters-view.h:
+	* gucharmap/gucharmap-chapters.c: (selection_changed),
+	(default_get_codepoint_list), (default_get_book_codepoint_list),
+	(default_go_to_character), (gucharmap_chapters_init),
+	(gucharmap_chapters_constructor),
+	(gucharmap_chapters_set_property), (gucharmap_chapters_class_init),
+	(gucharmap_chapters_new_with_model),
+	(gucharmap_chapters_set_model), (gucharmap_chapters_get_model),
+	(gucharmap_chapters_next), (gucharmap_chapters_previous),
+	(gucharmap_chapter_get_string), (gucharmap_chapter_set_string):
+	* gucharmap/gucharmap-chapters.h:
+	* gucharmap/gucharmap-charmap.c: (make_chartable_pane),
+	(gucharmap_charmap_new), (gucharmap_charmap_set_chapters):
+	* gucharmap/gucharmap-script-chapters-model.c:
+	(gucharmap_script_chapters_model_init), (get_codepoint_list),
+	(append_script), (get_book_codepoint_list), (character_to_iter),
+	(gucharmap_script_chapters_model_class_init),
+	(gucharmap_script_chapters_model_new):
+	* gucharmap/gucharmap-script-chapters-model.h:
+	* gucharmap/gucharmap-script-chapters.c:
+	(gucharmap_script_chapters_init),
+	(gucharmap_script_chapters_class_init),
+	(gucharmap_script_chapters_new):
+	* gucharmap/gucharmap-script-chapters.h:
+	* gucharmap/gucharmap-settings.c: (get_first_non_underscore_char),
+	(get_default_last_char), (gucharmap_settings_get_chapters_mode),
+	(gucharmap_settings_set_chapters_mode),
+	(gucharmap_settings_get_last_char):
+	* gucharmap/gucharmap-settings.h:
+	* gucharmap/gucharmap-table.c: (gucharmap_table_finalize),
+	(gucharmap_table_class_init),
+	(gucharmap_table_get_active_character),
+	(gucharmap_table_set_codepoint_list):
+	* gucharmap/gucharmap-window.c: (view_by): Refactoring: move common
+	code from gucharmap-{script,block}-chapters to
+	gucharmap-chapters-model/gucharmap-chapters-view. Persist the last
+	seen character, and keep it when switching between views.
+
+2007-12-04  Christian Persch  <chpe@mate.org>
+
+	=== Release 2.21.3 ===
+
+	* configure.ac:
+	* po/POTFILES.in:
+
+2007-12-03  Christian Persch  <chpe@mate.org>
+
+	* gucharmap.schemas.in:
+	* gucharmap/gucharmap-settings.c: (gucharmap_settings_initialize),
+	(gucharmap_settings_shutdown), (gucharmap_settings_initialized),
+	(gucharmap_settings_get_chapter), (gucharmap_settings_set_chapter),
+	(gucharmap_settings_get_chapters_mode),
+	(gucharmap_settings_set_chapters_mode),
+	(gucharmap_settings_get_font), (gucharmap_settings_set_font),
+	(gucharmap_settings_get_last_char),
+	(gucharmap_settings_set_last_char),
+	(gucharmap_settings_get_snap_pow2),
+	(gucharmap_settings_set_snap_pow2), (window_state_timeout_cb),
+	(free_window_state), (window_configure_event_cb),
+	(window_state_event_cb), (gucharmap_settings_add_window):
+	* gucharmap/gucharmap-settings.h:
+	* gucharmap/gucharmap-window.c: (gucharmap_window_init):
+	* gucharmap/main.c: (main): Cleanup settings code, and make window
+	state persistence not hammer mateconf while resizing. Bug #501383.
+
+2007-12-03  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-mini-fontsel.c: (fill_font_families_combo),
+	(update_font_familiy_combo), (family_changed),
+	(gucharmap_mini_font_selection_init),
+	(gucharmap_mini_font_selection_get_type),
+	(gucharmap_mini_font_selection_set_font_name):
+	* gucharmap/gucharmap-mini-fontsel.h: Port to GtkComboBox. Bug
+	#454250.
+
+2007-12-03  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-window.c: (make_menu): Add mnemonic. Bug
+	#466678, patch by Patrick Wade.
+
+2007-12-03  Christian Persch  <chpe@mate.org>
+
+	* configure.ac: Bump gtk+ dependency to 2.12.0.
+	* gucharmap/gucharmap-window.c: (make_text_to_copy): Port to new
+	tooltips API. Bug #459279.
+
+2007-12-03  Christian Persch  <chpe@mate.org>
+
+	* configure.ac: Bump version after branching.
+
+	* Makefile.am:
+	* gucharmap.pc.in:
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-block-chapters.c: (selection_changed),
+	(gucharmap_block_chapters_settings_init),
+	(gucharmap_block_chapters_init):
+	* gucharmap/gucharmap-chapters.c: (gucharmap_chapter_get_string),
+	(gucharmap_chapter_set_string):
+	* gucharmap/gucharmap-chapters.h:
+	* gucharmap/gucharmap-charmap.c: (gucharmap_active_char_save),
+	(active_char_set), (gucharmap_charmap_new):
+	* gucharmap/gucharmap-script-chapters.c: (selection_changed),
+	(gucharmap_script_chapters_settings_init),
+	(gucharmap_script_chapters_init):
+	* gucharmap/gucharmap-table.c: (draw_chartable_from_scratch):
+	* gucharmap/gucharmap-window.c: (snap_cols_pow2), (make_menu),
+	(fontsel_changed), (gucharmap_window_state_changed),
+	(gucharmap_window_size_changed), (gucharmap_window_init):
+	* gucharmap/main.c: (main): Remember the settings. Bug #140414,
+	patch by Jason Allen and Jared Moore.
+
+2007-10-24  Changwoo Ryu  <cwryu@debian.org>
+
+	* configure.ac: Korean manual translation migrated to
+	mate-doc-utils; removed help/ko/Makefile from AC_CONFIG_FILES.
+
+2007-09-17  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.10.1.
+
+	* configure.ac: Bump version to 1.10.1 and  libtool version to 6:2:0.
+
+	* NEWS: Updated.
+
+2007-09-05  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 311912 – Should come up showing the unicode block for the default
+	language
+	Patch from Federico Mena Quintero
+
+	* gucharmap/gucharmap-script-chapters.c
+	(get_first_non_underscore_char), (select_default_script),
+	(tree_view_map_event_cb), (queue_select_default_script),
+	(gucharmap_script_chapters_init): Jump to default script for users
+	selected languge (LC_MESSAGES).  We do this by getting translation for
+	"_File" and jumping to the block containing its first character.
+	We delay this until the tree view is mapped so that the tree will
+	scroll to the selected row in addition to just selecting it.
+
+2007-09-05  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 466213 – No branch for mate-2-18
+	Revert Bug 459279 – port to new tooltips API
+
+	* configure.ac: Require gtk 2.6.0 again.
+	* gucharmap/gucharmap-window.c (make_text_to_copy):
+	Revert port to new tooltips API, so we build with stable Gtk+.
+
+2007-09-05  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 357471 – chartable::finalize()
+	Patch from paolo borelli
+
+	* gucharmap/gucharmap-table.c (gucharmap_table_finalize),
+	(gucharmap_table_class_init), (motion_notify_event),
+	(gucharmap_table_init):
+	* gucharmap/gucharmap-table.h:
+	Implement chartable::finalize() so that it frees some stuff and chains
+	up to the parent finalize(). Also avoid leaking the target_list each time
+	something is drag&dropped.
+
+2007-08-07  Behdad Esfahbod  <behdad@mate.org>
+
+	* MAINTAINERS: Add Userid field.
+
+2007-07-28  Jan Arne Petersen  <jpetersen@jpetersen.org>
+
+	* configure.ac: Remove help/de/Makefile as de moved to
+	mate-doc-utils.
+
+2007-07-24  Christian Persch  <chpe@mate.org>
+
+	* configure.ac: Update gtk req to 2.11.6.
+	* gucharmap/gucharmap-window.c: (make_text_to_copy): Port to new
+	tooltips API. Bug #459279.
+
+2007-06-21  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 396265 – don't export internal symbols
+
+	* configure.ac:
+	* gucharmap/Makefile.am:
+	* gucharmap/main.c (main):
+	Only export '^gucharmap_.*' symbols.
+
+2007-04-30  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 434276 – G_UNICODE_BREAK_SURROGATE
+	Patch from huzheng
+
+	* gucharmap/gucharmap-charmap.c (set_details): Fix typo comparing
+	character General Category to G_UNICODE_BREAK_SURROGATE instead of
+	the break type.
+
+2007-04-26  David Farning  <dfarning@gmail.com>
+
+	* pixmaps/Makefile.am (update-icon-cache): fix gtk-update-icon-cache for
+	for uninstall-hook.
+
+2007-04-26  Christian Persch  <chpe@mate.org>
+
+	* gucharmap/gucharmap-search-dialog.c:(gucharmap_search_dialog_finalize):
+ 	Chain up to parent's finalise handler. Bug #433134.
+
+2007-03-12  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 1.10.1.
+
+==================== 1.10.0 ====================
+
+2007-03-12  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* gucharmap/Makefile.am: Bump libtool version to 6:1:0.
+	* configure.in: version 1.10.0
+
+2007-02-14  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.9.0.
+
+	* configure.ac: Bump version to 1.9.0
+
+	* gucharmap/Makefile.am: Bump libtool version to 6:0:0.
+
+	* NEWS: Updated.
+
+2007-02-02  Christian Persch  <chpe@svn.mate.org>
+
+	* Makefile.am:
+	* configure.ac: Don't use MATE_DOC_INIT conditionally. Update gdu
+	dependency to 0.9.0. Bug #354101.
+
+2007-01-19  Christian Persch  <chpe@svn.mate.org>
+
+	* gucharmap/charcell_accessible.c:
+	(charcell_accessible_get_extents),
+	(charcell_accessible_grab_focus), (idle_do_action):
+	* gucharmap/chartable_accessible.c:
+	(chartable_accessible_ref_accessible_at_point), (find_object):
+	* gucharmap/gucharmap-chapters.c: (gucharmap_chapters_init):
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-search-dialog.c: (entry_changed):
+	* gucharmap/gucharmap-table-private.h:
+	* gucharmap/gucharmap-table.c: (_gucharmap_table_cell_column),
+	(_gucharmap_table_column_width), (_gucharmap_table_x_offset),
+	(_gucharmap_table_row_height), (_gucharmap_table_y_offset),
+	(get_appropriate_upper_left_xy), (draw_borders), (get_cell_at_xy),
+	(draw_character), (draw_square_bg), (expose_square),
+	(draw_and_expose_cell), (copy_rows), (redraw_rows),
+	(get_root_coords_at_active_char),
+	(get_appropriate_active_char_corner_xy), (_gucharmap_table_redraw),
+	(key_press_event), (scroll_chartable), (button_press_event),
+	(motion_notify_event), (mouse_wheel_up), (mouse_wheel_down),
+	(drag_data_received), (gucharmap_table_set_active_character):
+	* gucharmap/gucharmap-window.c:
+	(_gucharmap_window_progress_cursor), (help_about): Bug #396265: fix
+	compile warnings and make internal symbols start with underscore.
+
+2007-01-10  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 386554 – compilation from CVS HEAD failed due to cclosure marshal
+	updates?
+
+	* gucharmap/Makefile.am: Use different temp files for marshaler .c and
+	.h files.
+
+2006-12-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* autogen.sh: Update to work with automake 1.10.
+
+2006-09-04  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.8.0.
+
+	* configure.ac: Bump version to 1.8.0
+
+	* gucharmap/Makefile.am: Bump libtool version to 5:1:0.
+
+	* NEWS: Updated.
+
+2006-09-03  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 354101 – must not conditionally use MATE_DOC_INIT
+
+	* configure.ac: Rever the last change...
+	
+2006-09-02  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 332880 – parameter --disable-mate doesn't has effect
+
+	* configure.ac: Move MATE_DOC_INIT inside conditional for
+	have_mate.
+
+2006-08-25  Funda Wang  <fundawang@linux.net.cn>
+
+	* gucharmap/gucharmap-window.c: Mark various string as
+	translatable.
+
+2006-08-03  Jovan Naumovski  <jovan@lugola.net>
+
+	* Added sl.po to po/ and 'sl' to LINGUAS
+
+2006-07-30  Behdad Esfahbod  <behdad@mate.org>
+
+	* configure.ac: Remove help/sv/Makefile as sv moved to
+	mate-doc-utils.
+
+	* help/sv/.cvsignore: Update.
+
+2006-07-26  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-marshal.list: Make a dummy change to force
+	recreation of marshallers since we changed their prefix in
+	Makefile.am.
+
+2006-07-24  Behdad Esfahbod  <behdad@mate.org>
+
+	* MAINTAINERS: Add Behnam Esfahbod.
+
+2006-07-24  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.7.0.
+
+	* configure.ac:
+	Require intltool >= 0.35.0
+	Bump version to 1.7.0
+
+	* gucharmap/Makefile.am:
+	Remove -no-undefined.  Breaks cygwin build.  Send patch please.
+	Bump libtool version to 5:0:0
+
+	* NEWS:
+	Updated.
+
+2006-07-24  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 341260 – String "Snap Columns to Power of Two" not marked for
+	translation
+
+	* gucharmap/gucharmap-window.c (make_menu): Add the message back for
+	translation.
+
+2006-07-24  Behdad Esfahbod  <behdad@mate.org>
+
+	Part of Bug 331103 – please use '_' to indicate internal symbols
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-block-chapters.c
+	(gucharmap_block_chapters_class_init):
+	* gucharmap/gucharmap-chapters.c (gucharmap_chapters_class_init):
+	* gucharmap/gucharmap-charmap.c (gucharmap_charmap_class_init):
+	* gucharmap/gucharmap-intl.c (_gucharmap_intl_ensure_initialized):
+	* gucharmap/gucharmap-intl.h:
+	* gucharmap/gucharmap-mini-fontsel.c
+	(gucharmap_mini_font_selection_class_init):
+	* gucharmap/gucharmap-script-chapters.c
+	(gucharmap_script_chapters_class_init):
+	* gucharmap/gucharmap-script-codepoint-list.c
+	(gucharmap_script_codepoint_list_class_init):
+	* gucharmap/gucharmap-search-dialog.c
+	(gucharmap_search_dialog_class_init):
+	* gucharmap/gucharmap-table.c
+	(chartable_accessible_factory_class_init),
+	(gucharmap_table_class_init):
+	* gucharmap/gucharmap-unicode-info.c (gucharmap_get_unicode_name),
+	(gucharmap_get_unicode_category_name):
+	* gucharmap/gucharmap-window.c (gucharmap_window_class_init):
+	* gucharmap/main.c (main):
+	Set prefix for marshallers to
+	_gucharmap_marshal, to make the marshallers internal.
+	Change gucharmap_intl_ensure_initialized to
+	_gucharmap_intl_ensure_initialized.
+
+2006-07-22  Behnam Esfahbod  <behnam@zwnj.org>
+
+	* gucharmap/download-unicode-files.sh: Add comments and getting optional
+	output directory.
+
+2006-07-19  Behnam Esfahbod  <behnam@zwnj.org>
+
+	Bug 334505 – Search buttons Prev Next unsensitive when they shouldn't be
+
+	* gucharmap/gucharmap-search-dialog.c: Add toggled signals to
+	check buttons.
+	
+2006-07-19  Behnam Esfahbod  <behnam@zwnj.org>
+
+	Bug 336283 – Update to UCD 5.0
+	Update to Unicode 5.0 Character Database, released on July 18, 2006.
+
+	* gucharmap/unicode-blocks.h,
+	* gucharmap/unicode-categories.h,
+	* gucharmap/unicode-names.h,
+	* gucharmap/unicode-nameslist.h,
+	* gucharmap/unicode-scripts.h,
+	* gucharmap/unicode-unihan.h: Updated outputs of generator script.
+
+	* gucharmap/gucharmap/download-unicode-files.sh": Add download script
+	to make UCD updates easier.
+
+2006-04-18  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 337943 – [Patch] Use po/LINGUAS
+	Updated patch from Przemysław Grzegorczyk.
+
+	* configure.in, po/LINGUAS: Use intltool 0.34.90 format.
+
+2006-04-10  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 337943 – [Patch] Use po/LINGUAS
+	Patch from Przemysław Grzegorczyk.
+
+	* configure.in, po/LINGUAS: Move list of translations to po/LINGUAS.
+
+2006-03-27  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c: Don't check _("translator-credits"),
+	the about dialog code does this automatically.
+
+2006-03-26  Behdad Esfahbod  <behdad@mate.org>
+
+	* pixmaps/Makefile.am: Respect DESTDIR.
+
+2006-03-25  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 335952 – refcount leak in main
+	Patch from Christian Persch.
+
+	* gucharmap/main.c (main): Unref the MateProgram instance when
+	we are done.
+
+2006-03-19  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 334865 – tiny string leak
+	Patch from Paolo Borelli.
+
+	* gucharmap/gucharmap-script-chapters.c (get_codepoint_list):
+	Free script_untranslated.
+
+2006-03-13  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.6.0.
+
+	* configure.in:
+	* gucharmap/Makefile.am: Bump versions.
+
+	* NEWS: Updated.
+
+2006-03-04  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+
+	* configure.ac: Added "zh_HK" to ALL_LINGUAS.
+
+2006-02-25  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.5.3.
+
+	* configure.in:
+	* gucharmap/Makefile.am: Bump versions.
+
+2006-02-20  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-windoc.c, po/*.po: Change "based on Unicode
+	Character Databse" to "based on the Unicode Character Database".
+
+2006-02-19  Behnam Esfahbod  <behnam@zwnj.org>
+
+	Bug 331722 – gucharmap crashes with search next/prev
+
+	* gucharmap/gucharmap-search-dialog.c
+	(gucharmap_search_dialog_start_search): Moving to
+	_gucharmap_search_dialog_fire_search and adding _entry_is_empty check
+	before calling that.
+
+2006-02-19  Behnam Esfahbod  <behnam@zwnj.org>
+
+	* gucharmap/gucharmap-window.c: Reverting the description change,
+	because of string freeze.
+
+2006-02-19  Behnam Esfahbod  <behnam@zwnj.org>
+
+	* gucharmap/gucharmap-search-dialog.c: Renaming "Cancel" button to
+	"Close".  Disabling Next and Previous buttons when there's no
+	result.
+
+2006-02-19  Behnam Esfahbod  <behnam@zwnj.org>
+
+	* gucharmap/gucharmap-window.c: Fixing a typo and two warnings.
+
+2006-02-18  Behdad Esfahbod  <behdad@mate.org>
+
+	* pixmaps/Makefile.am: Pass -f to gtk-update-icon-cache, as it's
+	rather crazy.
+
+2006-02-18  Behdad Esfahbod  <behdad@mate.org>
+
+	* pixmaps/Makefile.am: Pass -t and the target directory to
+	gtk-update-icon-cache.
+
+2006-02-18  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/main.c (main): Call g_set_application_name.
+
+	* gucharmap/gucharmap-window.c (help_about): Set logo-icon-name
+	in gtk_show_about_dialog.
+
+	* pixmaps/Makefile.am: Call gtk-update-icon-cache.
+
+2006-02-17  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 331565 – cvs fails to build -- gucharmap/Makefile.am:27: blank
+	line following trailing backslash
+
+	* gucharmap/Makefile.am: Fixed.
+
+2006-02-17  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c: Use gtk_window_set_icon_name to set
+	the icon.  Makes it themable.
+
+	* gucharmap/main.c: Do gtk_window_set_default_icon_name.
+
+2006-02-13  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.5.2.
+
+	* configure.in:
+	* gucharmap/Makefile.am: Bump versions.
+
+2006-02-13  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 326272 – Help/About dialog isn't HIG compliant
+	Patch from Behnam "ZWNJ" Esfahbod
+
+	* gucharmap/gucharmap-window.c (help_about): Use "MATE Character Map"
+	instead of "gucharmap".  Add license information.
+
+	* gucharmap/gen-guch-unicode-tables.pl:
+	* gucharmap/unicode-blocks.h:
+	* gucharmap/unicode-categories.h:
+	* gucharmap/unicode-names.h:
+	* gucharmap/unicode-nameslist.h:
+	* gucharmap/unicode-scripts.h:
+	* gucharmap/unicode-unihan.h: Guard headers from multiple inclusion.
+
+2006-02-11  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/Makefile.am, gucharmap/gucharmap-window.c (load_icon),
+	pixmaps/Makefile.am: Move icon to DATADIR/icons/hicolor/48x48/apps.
+
+2006-02-11  Behdad Esfahbod  <behdad@mate.org>
+
+	Bug 328912 – misc fixes
+	Patch from Christian Persch
+
+	* autogen.sh, configure.ac, Makefile.am: Modernize the build system.
+
+	* gucharmap/*.c: gucharmap_intl_ensure_initialized () in every
+	library entry point.  Use gi18n-lib.h instead of custom gettext.
+
+	* gucharmap/main.c: Use GOption instead of popt.
+
+2006-01-27  Behdad Esfahbod  <behdad@mate.org>
+
+	Released 1.5.1.
+
+	* configure.in:
+	* gucharmap/Makefile.am: Bump versions.
+
+	* README: Updated required Gtk+ version.
+
+2006-01-27  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c (make_menu): Set translation domain on
+	the action group. (bug #326328)
+
+2006-01-27  Behdad Esfahbod  <behdad@mate.org>
+
+	Fixes bug #328775.
+
+	* COPYING.UNICODE: Added.
+
+	* README: Refer to the above file.
+
+	* Makefile.am (EXTRA_DIST): Add the new file.
+
+2006-01-22  Behdad Esfahbod  <behdad@mate.org>
+
+	Migrate 'es' help files to mate-doc-utils.
+
+	* help/es/gucharmap.xml: Removed.
+
+	* help/es/Makefile.am: Oops, removed again.
+
+	* configure.ac (AC_CONFIG_OUTPUT): Removed help/es/Makefile.
+
+	* help/Makefile.am (SUBDIRS): Removed es.
+
+2006-01-22  Behdad Esfahbod  <behdad@mate.org>
+
+	* help/es/Makefile.am: 	Weird, Francisco Javier F. Serrador removed
+	the file while updating the es translations!  Readded. (bug #328135,
+	Elijah Newren)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap.desktop.in: Categorize as MATE;GTK;Utility;
+	instead of MATE:Application:Utility;. (bug #319078)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-charmap.c: Enhance "Various Useful
+	Representation". (bug #135848)
+
+	* TODO: Marks some items as done. (Behnam Esfahbod)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c: Fix infinite loop on Next Character
+	in empty chapters like Low Surrogates. (bug #323934, Behnam Esfahbod)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* configure.ac, gucharmap/Makefile.am: Add PANGO_CFLAGS and PANGO_LIBS
+	explicitly. (bug #309281)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-search-dialog.c: Add a "Search in character
+	details" option. (bug #301628, Behnam Esfahbod)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c, po/*.po: Replace "translator_credits"
+	with "translator-credits". (bug #300965)
+
+2006-01-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap.desktop.in: Categorize as MATE;Application;Utility;
+	instead of Utility;Accessibility;. (bug #319078 again)
+
+2005-12-12  Behdad Esfahbod  <behdad@mate.org>
+
+	* configure.in: Bump version to 1.5.0.
+
+	* gucharmap/Makefile.am: Increase libtool version.
+
+2005-12-11  Brent Smith  <mate@nextreality.net>
+
+	* help/C/gucharmap.xml:
+	added more verbose description for yelp to display in table of
+	contents, and removed version number from the title.
+
+2005-11-27  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-search-dialog.c: Warnings clean up. (Part of
+	#301628, Behnam Esfahbod)
+
+2005-11-27  Behdad Esfahbod  <behdad@mate.org>
+
+	Decrease the amount of non-shared data.
+	#169491, Benoît Dejean, Behnam Esfahbod.
+
+	* gucharmap/gen-guch-unicode-tables.pl: Generate index-tables instead
+	of pointer-tables, for Unihan table, and names table.
+
+	* gucharmap/gucharmap-unicode-info.c: Update to follow.
+
+	* gucharmap/unicode-names.h, gucharmap/unicode-unihan.h: Regenerated.
+
+2005-11-28  Noah Levitt  <nlevitt@columbia.edu>
+
+	* gucharmap/gucharmap-window.c: Fix ctrl+{pgdn,pgup}, which had
+	been inadvertantly swapped.
+
+2005-11-27  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-charmap.c: Make autolinking more strict to not
+	convert 3.1415 to 3.U+1415! (#303596, Behnam Esfahbod)
+
+2005-11-27  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-search-dialog.c: Add "whole word" search and
+	also search in the annotations. (#128700, Behnam Esfahbod)
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c: Remove selection before inserting new
+	characters. (#319973, Behnam Esfahbod)
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-table.c: Follow up on several fixes to scrollbar
+	and cell activation. (#312001, Behnam Esfahbod)
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+	
+	Use GtkUIManager. (#51532, thetroublemaker)
+
+	* gucharmap/gucharmap-window.c: Ported menus to gtkuimanager
+
+	* gucharmap/gucharmap-window.c: Created functions help_contents and
+	chapters_set_labels.
+
+	* gucharmap/gucharmap-window.c: Ported function help_about from
+	MateAboutDialog to GtkAboutDialog, thus got the function out of the
+	#if HAVE_MATE.
+
+	* configure.ac: The Gtk+ requirement is now >= 2.6.0
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap.desktop: Categorize as Utility;Accessibility instead of
+	Graphics;Viewer. (#319078, Stanislav Brabec)
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-table.c: Several fixes to scrollbar and cell
+	activation. (#312001, Behnam Esfahbod)
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-table.c: Make scrollbar jump a page at a time
+	instead of three. (#163710, Behnam Esfahbod)
+
+2005-11-25  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c: Fix Next/Prev function behavior over
+	one-to-last/second characters. (#304952, Luca Cavalli, Behnam Esfahbod)
+
+2005-11-22  Behdad Esfahbod  <behdad@mate.org>
+
+	Update to Unicode 4.1 Character Database. (#313411, Behnam Esfahbod)
+
+	* gucharmap/gucharmap-script-codepoint-list.c,
+	* gucharmap/gen-guch-unicode-tables.pl: Updated to handle 4.1 data.
+
+	* gucharmap/unicode-blocks.h,
+	* gucharmap/unicode-categories.h,
+	* gucharmap/unicode-names.h,
+	* gucharmap/unicode-nameslist.h,
+	* gucharmap/unicode-scripts.h,
+	* gucharmap/unicode-unihan.h: Updated outputs of above scripts.
+
+2005-11-11  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-table.c (set_active_cell): Update page on
+	up-arrow if necessary. (#316210, patch from Ferran Puig)
+
+2005-10-21  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-charmap.c (set_details): Enable Cantonese
+	pronunciation (#319342, patch from Benoît Dejean)
+
+2005-10-15  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-table.c, gucharmap/gucharmap-window.c: Change
+	#ifdef G_PLATFORM_WIN32 to #ifdef G_OS_WIN32.
+	Fixes Cygwin builds. (#318889, patch from Cygwin Ports maintainer)
+
+2005-09-16  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c (gucharmap_window_class_init): call
+	finalize from the parent GtkWindow class. (#316514, patch from
+	Alexander Nedotsukov)
+
+2005-09-16  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/gucharmap-window.c: s/;;/;/, gcc 2.95.x compatibility. (#316515)
+
+2005-09-08  Behdad Esfahbod  <behdad@mate.org>
+
+	* gucharmap/*.[ch]: Various gcc warning shut-ups.  Mostly adding void
+	to function definitions with no parameter.
+
+2005-09-08  Behdad Esfahbod  <behdad@mate.org>
+
+	* configure.ac: Bumped version /up/ to 1.4.4-cvs.
+
+	* gucharmap/Makefile.am: Pass -no-undefined to libtool. (#315490)
+
+	* MAINTAINERS: Hooking up myself!
+
+2005-09-07  Inaki Larranaga  <dooteo@euskalgnu.org>
+
+	* configura.ac: Added "eu" (Basque) to ALL_LINGUAS.
+
+2005-09-06  Behdad Esfahbod  <behdad@mate.org>
+
+	1.4.4 released.
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version numbers for release.
+	
+	* README, NEWS: Adjusted.
+
+2005-08-19  Tommi Vainikainen  <thv@iki.fi>
+
+	* .cvsignore, Makefile.am, autogen.sh, configure.ac,
+	help/ChangeLog: Migrated to mate-doc-utils.
+
+2005-08-15  Behdad Esfahbod  <behdad@mate.org>
+
+	* src/gen-guch-unicode-tables.pl: Escape backslash when forming
+	C strings. (#313409, Behnam Esfahbod)
+
+2005-07-25  Tommi Vainikainen  <thv@iki.fi>
+
+	* autogen.sh (srcdir): Set $srcdir automatically based on `dirname
+	$0` if not set. Fixes bug #158322.
+
+	* gucharmap/Makefile.am (BUILT_SOURCES): Add
+	gucharmap-marshal.[ch] and fix build rules for those files so it
+	works when srcdir != builddir.
+
+2005-07-22  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* configure.ac: Added 'gl' to ALL_LINGUAS.
+
+2005-04-23  Noah Levitt  <nlevitt@columbia.edu>
+
+	* autogen.sh: Update from mate-common cvs.
+
+2005-04-01  Adi Attar  <aattar@cvs.mate.org>
+
+	* configure.ac: Added "xh" to ALL_LINGUAS.
+
+2005-03-31  Steve Murphy  <murf@e-tools.com>
+
+	* configure.ac: Added "rw" (Kinyarwanda) to ALL_LINGUAS.
+
+2005-03-06  Dan Damian  <dand@mate.ro>
+
+	* configure.ac: Added ro (Romanian) to ALL_LINGUAS.
+
+2005-01-23  Sebastien Bacher  <seb128@debian.org>
+
+	* gucharmap/gucharmap-window.c: (help_about): Added "@" to the emails
+	(Closes: #157938).
+
+2005-01-10  Noah Levitt  <nlevitt@columbia.edu>
+
+	* Makefile.am:
+	* configure.ac: Don't do any help stuff when mate support is
+	disabled. (#141152, Jason Allen)
+
+2005-01-01  Pawan Chitrakar  <pawan@nplinux.org>
+
+	* configure.ac: Added ne "Nepali" in ALL_LINGUAS
+
+2004-11-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am: Distcheck fixes.
+	* configure.ac: Bump versions.
+
+2004-09-19  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.ac: Added "tr" to ALL_LINGUAS.
+
+2004-09-03  Akagic Amila  <bono@linux.org.ba>
+
+	* configure.ac: Again added 'bs' to ALL_LINGUAS. 
+
+2004-09-02  Christian Rose  <menthos@menthos.com>
+
+	* configure.ac: Removed "bs" from ALL_LINGUAS, as
+	this translation contains errors.
+
+2004-08-29  Akagic Amila <bono@linux.org.ba>
+
+	* configure.ac: Added 'bs'
+
+2004-08-24  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.ac: Add «nb» to ALL_LINGUAS.
+
+2004-05-24  Alexander Shopov  <ash@contact.bg>
+
+	* configure.ac (ALL_LINGUAS) Added "bg"
+	Bulgarian language
+
+2004-05-23  Noah Levitt
+
+	* gucharmap/gucharmap-block-chapters.c (go_to_character):
+	* gucharmap/gucharmap-script-chapters.c (go_to_character): Have
+	chapter list scroll to selection automatically when searching.
+
+2004-04-09  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.ac: Added "gu" (Gujarati) to ALL_LINGUAS.
+
+2004-04-01  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c: Fix crash when closing search
+	dialog with escape.
+
+2004-03-29  Samúel Jón Gunnarsson  <sammi@techattack.nu>
+
+	* configure.ac: Added "is" to ALL_LINGUAS.
+	
+2004-03-23  Åsmund Skjæveland  <aasmunds@fys.uio.no>
+
+	* configure.ac: Added 'nn' to ALL_LINGUAS.
+	* po/nn.po: Added Norwegian Nynorsk translation.
+
+2004-03-23  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version numbers for release.
+
+2004-03-22  Noah Levitt
+
+	* NEWS: New NEWS.
+
+2004-03-22  Gareth Owen  <gowen72@yahoo.com>
+
+	* configure.ac: Added en_GB to ALL_LINGUAS
+
+2004-03-22  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.ac: Added "pa" (Punjabi) to ALL_LINGUAS.
+
+2004-03-15  Glynn Foster  <glynn.foster@sun.com>
+
+	* help/*: Localized online help documentation for 
+	de, es, fr, it, ja, ko, sv, zh_CN, zh_HK and zh_TW from
+	Sun's translation team.
+	* configure.ac: Add localized help. 
+
+2004-03-15  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version nums for release.
+
+2004-03-12  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c (follow_if_link): Fix 
+	bug that would take you to U+FFFFFFFF on clicking any link.
+
+2004-03-12  Alexander Winston  <alexander.winston@comcast.net>
+
+	* configure.ac: Added en_CA to ALL_LINGUAS.
+
+2004-03-07  Noah Levitt
+
+	* configure.ac: Require intltool >= 0.29 and gobject >= 2.3.0.
+	(#136471, foser)
+
+2004-03-07  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c:
+	* gucharmap/gucharmap-unicode-info.c: Fix compilation with
+	--disable-unihan. (#136465, foser)
+
+2004-03-05  Noah Levitt
+
+	* gucharmap/gucharmap-table.c (motion_notify_event): Hide the zoom
+	window while redoing it when moving to new character while holding
+	down right mouse button.
+
+2004-03-03  Noah Levitt
+
+	* configure.ac: Remove GTK_BINARY_VERSION stuff, which was used for
+	imgucharmap. Bump version for release.
+
+	* gucharmap/Makefile.am: Bump -version-info for release.
+
+	* gucharmap/gucharmap-search-dialog.c: Declare variables at start of
+	block.
+
+2004-03-03  Noah Levitt
+
+	* README:
+	* configure.ac:
+	* gucharmap/Makefile.am:
+	* gucharmap/im-module-file.c:
+	* gucharmap/imgucharmap.c: Removed gucharmap input method. I don’t
+	think anyone used it. It only caused people strange problems compiling
+	mate.
+
+2004-02-27  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Add "Sun Microsystems" do documenter
+	credits.
+
+2004-02-26 Breda McColgan <breda.mccolgan@sun.com>
+
+	* help/C/gucharmap.xml: Updated based on technical review comments from Noah.
+	* help/C/gucharmap-C.omf: Updated date and software version.
+	* help/C/figures/gucharmap_window.png: Updated screenshot.
+
+2004-02-25  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c (search_find_response):
+	Select text in the entry so that when the user next edits it
+	they don't have to delete what's there first. 
+
+	* gucharmap/gucharmap-search-dialog.c: Make
+	gucharmap_search_state_* static. 
+
+	* gucharmap/gucharmap-search-dialog.c (gucharmap_search_dialog_start_search):
+	Use existing search state if searching for the same string as
+	last time (and are viewing by the same codepoint list).
+	search_state->dont_search wasn't being used before. Speeds up
+	repeated searches that have no results or 1 result.
+
+2004-02-25  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c: After doing full text
+	search, try NFC on the search string, and if the result is a
+	single character, jump to it. (#134678, requested by Mariano
+	Suárez-Alvarez) Then, if that fails, try interpreting the
+	search string as a hex number, and jump to that codepoint.
+	(This is in addition to jumping straight to 0x* and U+*, which
+	are checked before the full string search.)
+
+2004-02-25  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Use gtk_window_present to show search
+	dialog. (#132266, Fernando Herrera)
+
+2004-02-21  Paisa Seeluangsawat  <paisa@users.sf.net>
+
+	* configure.ac: Added Thai (th) to ALL_LINGUAS.
+
+2004-02-17  Noah Levitt
+
+	* configure.ac: Don’t build static libs by default. (Why have I been
+	wasting 7 megs of everybody’s space until now?) 
+
+2004-02-16  Danilo Šegan  <dsegan@gmx.net>
+
+	* gucharmap/gucharmap-window.c (search_start): Separate
+	declaration from assignment of "cursor" (GCC 2.95 compatibility).
+
+2004-02-15  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c:
+	* gucharmap/gucharmap-window.c: Use pointer+watch cursor instead of
+	watch. 
+
+2004-02-14  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version number for dev release (which
+	happened a few days ago).
+
+2004-02-11 Breda McColgan <breda.mccolgan@sun.com>
+
+	* help/C/gucharmap.xml: Updated based on peer review comments.
+	* help/C/gucharmap-C.omf: Updated date.
+
+2004-02-02  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c: Put stock arrow images on Next
+	and Previous buttons.
+
+2004-02-01  Noah Levitt
+
+	* gucharmap/gucharmap-chapters.c: Keep active chapter in view.
+
+2004-02-01  Noah Levitt
+
+	* gucharmap/gucharmap-script-chapters.c: Sort by translated name.
+
+2004-02-01  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Improve square size.
+
+	* gucharmap/main.c: Increase default font size.
+
+2004-02-01  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Make the end of the list really look
+	like it.
+
+2004-02-01  Noah Levitt
+
+	* gucharmap/gucharmap-chapters.c:
+	* gucharmap/gucharmap-chapters.h:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-window.c: Next Script/Block and Previous
+	Script/BLock menu items.
+
+	* gucharmap/gucharmap-window.c: Remove a couple of unused variables.
+
+2004-02-01  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c:
+	* gucharmap/gucharmap-search-dialog.h:
+	* gucharmap/gucharmap-unicode-info.c:
+	* gucharmap/gucharmap-unicode-info.h:
+	* gucharmap/gucharmap-window.c: Progress bar for searching.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: PAGE_SIZE not used anymore.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-search-dialog.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/main.c: Remove logging statements.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/main.c: 
+	* gucharmap/gucharmap-search-dialog.c: Search in CJK definitions as
+	well. This commit has some logging statements in it for reference
+	which will be removed shortly.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Avoid warnings with latest gtk+.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c: Set text entry mnemonic widget
+	on _("_Search:").
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c (information_dialog):
+	Whom to set_transient_for depends on whether the search dialog is
+	visible.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-search-dialog.c: Use watch cursor while
+	searching.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/main.c: Remove logging statements just committed. 
+
+	* gucharmap/gucharmap-table.c: Simplify bare_minimal_* functions.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-table.h:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/main.c: Estimate font height rather than call
+	pango_context_get_metrics, drastically improving startup time and
+	responsiveness when changing fonts. This commit has some logging
+	statements in it for reference; will remove and recommit.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-marshal.list:
+	* gucharmap/gucharmap_marshal.list: Rename gucharmap_marshal.list to
+	gucharmap-marshal.list.
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Ctrl+= sets font to "normal size".
+
+2004-01-31  Noah Levitt
+
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-mini-fontsel.h:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h:
+	* gucharmap/main.c: Resurrect default size setting.
+
+2004-01-30 Breda McColgan <breda.mccolgan@sun.com>
+
+	* help/C/gucharmap.xml: Updated for MATE 2.6, technical review draft
+	* help/C/gucharmap-C.omf: Updated for MATE 2.6
+	* help/C/l10n.txt: Added for MATE 2.6
+	* help/C/figures/gucharmap_window.png: Added for MATE 2.6
+
+2004-01-30  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gen-guch-unicode-tables.pl:
+	* gucharmap/gucharmap-block-chapters.[ch]:
+	* gucharmap/gucharmap-chapters.[ch]:
+	* gucharmap/gucharmap-charmap.[ch]:
+	* gucharmap/gucharmap-codepoint-list.[ch]:
+	* gucharmap/gucharmap-intl.[ch]:
+	* gucharmap/gucharmap-mini-fontsel.[ch]:
+	* gucharmap/gucharmap-script-chapters.[ch]:
+	* gucharmap/gucharmap-script-codepoint-list.[ch]:
+	* gucharmap/gucharmap-search-dialog.c:
+	* gucharmap/gucharmap-table.[ch]:
+	* gucharmap/gucharmap-unicode-info.[ch]:
+	* gucharmap/gucharmap-window.[ch]:
+	* gucharmap/gucharmap.h:
+	* gucharmap/imgucharmap.c:
+	* gucharmap/main.c:
+	* gucharmap/unicode-blocks.h:
+	* gucharmap/unicode-scripts.h: gucharmap-intl.h instead of
+	gucharmap_intl.h, and misc little preamble fixups.
+
+	* gucharmap/gucharmap_intl.[ch]: Removed.
+
+2004-01-30  Noah Levitt
+
+	* gucharmap/Makefile.am: Install all the include files.
+
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-script-codepoint-list.h:
+	* gucharmap/gucharmap-window.h: #include <gucharmap/gucharmap-foo.h>
+	in headers, #include "gucharmap-foo.h" in .c files.
+
+	* gucharmap/gucharmap.h: Add gucharmap-search-dialog.h.
+
+2004-01-29  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-search-dialog.c:
+	* gucharmap/gucharmap-search-dialog.h:
+	* gucharmap/gucharmap-window.c: Moved search handling as completely as
+	possible to GucharmapSearchDialog.
+
+	* gucharmap/gucharmap-search.c: 
+	* gucharmap/gucharmap-search.h: Removed.
+
+2004-01-28  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-window.c: 
+	* gucharmap/main.c: Remove clipboard identifying and
+	link-clicking history code.
+
+2004-01-28  Noah Levitt
+
+	* gucharmap/main.c:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h: Use private data structure.
+
+2004-01-28  Noah Levitt
+
+	* gucharmap/gucharmap-window.c (font_bigger, font_smaller): Increase
+	zoom increment.
+
+	* gucharmap/gucharmap-window.c (help_about): Change email address
+	obfuscation method. 
+
+2004-01-28  Kaushal Kumar <kaushal.kumar@wipro.com>
+
+	* gucharmap/gucharmap-search.c (gucharmap_idle_search):
+	Fix a compilation error. Fixes bugzilla #132763.
+
+2004-01-26  Noah Levitt
+
+	* gucharmap/gucharmap-search.c:
+	* gucharmap/gucharmap-search.h:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h: Search in an idle handler to be more
+	responsive. Make mouse cursor a watch while searching.
+
+2004-01-18  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-block-chapters.c:
+	* gucharmap/gucharmap-chapters.c:
+	* gucharmap/gucharmap-chapters.h:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-codepoint-list.h:
+	* gucharmap/gucharmap-script-chapters.c:
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/gucharmap-script-codepoint-list.h:
+	* gucharmap/gucharmap-search.c:
+	* gucharmap/gucharmap-search.h:
+	* gucharmap/gucharmap-unicode-info.c:
+	* gucharmap/gucharmap-unicode-info.h:
+	* gucharmap/gucharmap-window.c: New search implementation that works
+	with chapters.
+
+2004-01-16  Noah Levitt
+
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/gucharmap-script-codepoint-list.h: The lovely
+	gucharmap_script_codepoint_list_set_scripts function which may be
+	shortly discarded.
+
+2004-01-15  Noah Levitt
+
+	* gucharmap/gen-guch-unicode-tables.pl:
+	* gucharmap/gucharmap-codepoint-list.c:
+	* gucharmap/gucharmap-codepoint-list.h:
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/unicode-scripts.h: Use signed integers as the indices into
+	codepoint lists. There was no point using unsigned. It's easier to
+	check for -1 with signed integers.
+
+2004-01-15  Noah Levitt
+
+	* autogen.sh: Replace home-spun thing with mate-common's autogen.
+
+2004-01-12  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Fix mouse wheel scrolling.
+
+2004-01-12  Noah Levitt
+
+	* gucharmap/gen-guch-unicode-tables.pl:
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-table.h:
+	* gucharmap/unicode-scripts.h: "Common" script.
+
+	* gucharmap/gucharmap-window.c: Ctrl-n and ctrl-p skip unassigned and
+	invalid codepoints.
+
+2004-01-11  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-script-chapters.c:
+	* gucharmap/gucharmap-script-chapters.h:
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap.h:
+	* gucharmap/gucharmap_intl.h: Group by script as well as by unicode
+	block.
+
+2004-01-11  Noah Levitt
+
+	* gucharmap/.cvsignore:
+	* gucharmap/Makefile.am:
+	* gucharmap/gen-guch-unicode-tables.pl:
+	* gucharmap/gucharmap-block-chapters.c:
+	* gucharmap/gucharmap-block-chapters.h:
+	* gucharmap/gucharmap-chapters.c:
+	* gucharmap/gucharmap-chapters.h:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-codepoint-list.c:
+	* gucharmap/gucharmap-codepoint-list.h:
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-table.h:
+	* gucharmap/gucharmap-unicode-info.c:
+	* gucharmap/gucharmap-unicode-info.h:
+	* gucharmap/gucharmap.h:
+	* gucharmap/unicode-blocks.h:
+	* gucharmap/unicode-categories.h:
+	* gucharmap/unicode-nameslist.h:
+	* gucharmap/unicode-scripts.h: New chapters / codepoint list design.
+
+2004.01.10  Arafat Medini <lumina@silverpen.de>
+
+	* ar.po: Added Arabic locale "ar" to ALL_LINGUAS
+
+2004-01-05  Noah Levitt
+
+	* gucharmap.desktop.in: Set tooltip. (#130614, Lars Weber)
+
+2004-01-05  Noah Levitt
+
+	* gucharmap.desktop.in:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/imgucharmap.c: s/Unicode Character Map/Character Map/g
+	(#130497, Lars Weber)
+
+2004-01-05  Noah Levitt
+
+	* gucharmap/gucharmap-mini-fontsel.c: Use stock icons for bold and
+	italic. (#130306, Mikael Brockman)
+
+2004-01-03  Robert Sedak  <robert.sedak@sk.htnet.hr>
+
+	* configure.ac: Added "hr" in ALL_LINGUAS.
+
+2003-12-16  Noah Levitt
+
+	* gucharmap/gucharmap-script-codepoint-list.c: Add finalize().
+
+2003-12-16  Noah Levitt
+
+	* gucharmap/im-module-file.c: Improve the code as a sample usage of
+	gtk_rc_get_im_module_file.
+
+2003-12-16  Noah Levitt
+
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/Makefile.am: Rename gucharmap_marshal.[ch] to
+	gucharmap-marshal.[ch], add to CLEANFILES.
+
+2003-12-16	Mohammad DAMT  <mdamt@bisnisweb.com>
+
+	* configure.ac: Added "id" in ALL_LINGUAS
+	* po/id.po: Indonesian translation by Ahmad Riza H Nst <ari@160c.afraid.org>
+
+2003-12-15  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-codepoint-list.h:
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-script-codepoint-list.c:
+	* gucharmap/gucharmap-script-codepoint-list.h:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-unicode-info.h:
+	* gucharmap/gucharmap.h: Script codepoint list implementation.
+
+	* gucharmap/gen-guch-unicode-tables.pl:
+	* gucharmap/unicode-scripts.h:
+	* po/POTFILES.in: Unicode Scripts.txt info.
+
+2003-12-15  Noah Levitt
+
+	* gucharmap/gucharmap-unicode-info.c: If glib is new enough, don’t
+	special-case hangul syllables.
+
+2003-12-15  Noah Levitt
+
+	* po/POTFILES.in: Fix.
+
+2003-12-14  Noah Levitt
+
+	* gucharmap/gucharmap-unicode-info.c: List the correct name for CJK
+	ideographs (see section 0.3 of the unicode book).
+
+2003-12-14  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Move "Character in Clipboard" from
+	Search menu to to Go menu. Change accelerator from ctrl+o to Insert.
+	Maybe it's usable now!
+
+	* .cvsignore: Add intltool-modules. 
+
+2003-12-14  Noah Levitt
+
+	* gucharmap/gen-guch-unicode-tables.pl: Some fixes.
+
+	* gucharmap/unicode-blocks.h:
+	* gucharmap/unicode-categories.h:
+	* gucharmap/unicode-names.h:
+	* gucharmap/unicode-nameslist.h:
+	* gucharmap/unicode-unihan.h: New generated headers.
+
+	* gucharmap/unicode/.cvsignore:
+	* gucharmap/unicode/Makefile.am:
+	* gucharmap/unicode/generate_categories.pl:
+	* gucharmap/unicode/generate_nameslist.c:
+	* gucharmap/unicode/generate_unihan.c:
+	* gucharmap/unicode/generator.sh:
+	* gucharmap/unicode/unicode_blocks.cI:
+	* gucharmap/unicode/unicode_categories.cI:
+	* gucharmap/unicode/unicode_data.cI:
+	* gucharmap/unicode/unicode_nameslist.cI:
+	* gucharmap/unicode/unicode_unihan.cI: Remove in favor of new ones.
+
+	* configure.ac:
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-unicode-info.c: Change to the use new unicode
+	tables.
+
+2003-12-14  Noah Levitt
+
+	* gucharmap/gen-guch-unicode-tables.pl: New unicode table generation
+	script.
+
+2003-12-12  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gucharmap/Makefile.am: Add gucharmap-codepoint-list.h to the
+	installed HEADERS
+	
+2003-12-04  Sanlig Badral  <badral@openmn.org>
+
+	* configure.as: added "mn" to ALL_LINGUAS.
+
+2003-12-02  Žygimantas Beručka  <uid0@tuxfamily.org>
+
+	* configure.ac: Add "lt" to ALL_LINGUAS.
+
+2003-11-24  Noah Levitt
+
+	* gucharmap/gucharmap-codepoint-list.c: Undo accidentally committed
+	every-other-character codepoint list.
+
+2003-11-24  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Do jump-to right with codepoint list
+	stuff in search dialog.
+
+2003-11-24  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: More active_char vs active_cell fixes.
+
+2003-11-24  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Place characters in text_to_copy at
+	the current cursor location, not at the end. (#127857, Hakon)
+
+	* help/C/.cvsignore: No more question marks.
+
+2003-11-23  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/charcell_accessible.c:
+	* gucharmap/chartable_accessible.c:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-codepoint-list.c:
+	* gucharmap/gucharmap-codepoint-list.h:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-table.h:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap.h: Change chartable to keep track of cells by
+	cell number instead of by character. GucharmapCodepointList gives the
+	codepoint for a particular cell.
+
+2003-11-23  Noah Levitt
+
+	* gucharmap.desktop.in: Change Terminal=0 to Terminal=false. (#127748,
+	Pawel)
+
+2003-11-21  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Fix compile error. (#127629, Mike
+	Castle)
+
+2003-11-20  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version number and library version for
+	release.
+
+2003-11-18  Mariano Suárez-Alvarez
+
+	* gucharmap/gucharmap-charmap.c (set_details, create_tags): indent the
+	big glyph using a left margin, not spaces.
+
+2003-11-18  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Add documenter credit. (#127268, Chee
+	Bin HOH)
+
+2003-11-18  Noah Levitt
+
+	* gucharmap/Makefile.am: Add @MATE_LIBS@ to im-gucharmap.so. (Keith
+	Packard)
+
+2003-11-18  Chee Bin HOH <cbhoh@mate.org>
+
+	* help/C/figures/gucharmap_start_window.png:
+	* help/C/gucharmap.xml: update online manual for the 
+	  remove of "Search/Code Point..." functionality,
+	  Back and Forward buttons.
+	
+2003-11-17  Mariano Suárez-Alvarez
+
+	* gucharmap/gucharmap-window.[ch]: remove all remaining references to
+	the Back and Forward buttons.
+
+2003-11-17  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Remove Back and Forward buttons, since
+	they were just confusing and seldom used.
+
+2003-11-17  Noah Levitt
+
+	* gucharmap/gucharmap-window.c (do_search): Check for #dddd too, as
+	suggested by Behdad.
+
+2003-11-17  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Get rid of "Search/Code Point..." Its
+	functionality is in Search/Find now.
+
+	* gucharmap/gucharmap-window.c (do_search): Improvements to the
+	heuristic.
+
+2003-11-17  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Make Search/Find smart. The
+	intelligence is astounding.
+
+2003-11-03  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac (ALL_LINGUAS): Added "ca" (Catalan).
+
+2003-10-23  Chee Bin HOH <cbhoh@mate.org>
+
+	* help/C/gucharmap.xml: Improve docs as suggested by Noah.
+	* help/C/figures/gucharmap_start_window.png: change 'Category pane'
+	to 'Unicode block pane' as suggested by Noah, use default MATE
+	theme.
+	
+2003-10-20  Noah Levitt
+
+	* Makefile.am:
+	* configure.ac:
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/main.c:
+	* help/.cvsignore:
+	* help/Makefile.am:
+	* help/omf.make:
+	* help/xmldocs.make:
+	* help/C/.cvsignore:
+	* help/C/Makefile.am:
+	* help/C/gucharmap-C.omf:
+	* help/C/gucharmap.xml:
+	* help/C/legal.xml:
+	* help/C/figures/gucharmap_start_window.png: Help contributed by Chee
+	Bin HOH.
+
+2003-10-01  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Use gtk_widget_create_pango_layout.
+
+2003-10-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-window.c: Fix compile warning from finalize
+	assignments.
+
+2003-09-17  Fatih Demir <kabalak@gtranslator.org>
+
+	* configure.ac: Added "ta" (Tamil) to the languages' list.
+
+2003-09-10  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Walloon (wa) and Vietnamese (vi) to ALL_LINGUAS
+
+2003-09-08  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version number and library version for
+	release.
+
+2003-09-08  Laurent Dhima  <laurenti@alblinux.net>
+
+	* configure.ac: Added "sq" to ALL_LINGUAS.
+
+2003-09-06  Taneem Ahmed  <taneem@bengalinux.org>
+
+	* configure.in: Added "bn" to ALL_LINGUAS.
+
+2003-09-05  Andras Timar  <timar@mate.hu>
+
+	* configure.ac (ALL_LINGUAS): Added hu.
+
+2003-09-04  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-window.c: Add finalize functions to free stuff
+	that the widgets allocate on the heap.
+
+2003-09-04  Noah Levitt
+
+	* gucharmap/gucharmap-mini-fontsel.c: Fix leak in
+	show_available_families. (Kjartan Maraas)
+
+2003-09-04  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Fix memory leak in draw_square_bg.
+	(Kjartan Maraas)
+	
+2003-08-26  Marcel Telka  <marcel@telka.sk>
+
+	* configure.ac (ALL_LINGUAS): Added sk.
+
+2003-08-22  Noah Levitt
+
+	* configure.ac:
+	* Makefile.am: Bump version number for release.
+
+2003-08-22  Noah Levitt
+
+	* gucharmap/unicode/Makefile.am: Run $(srcdir)/generator.sh instead of
+	./generator.sh. Makes building outside of source tree work.
+
+2003-08-20  Noah Levitt
+
+	* gucharmap/gucharmap-unicode-info.h: Get rid of #define UNICHAR_MAX.
+	It's for internal use.
+
+Wed Aug 20 11:49:54 2003  George Lebl <jirka@5z.com>
+
+	* gucharmap/gucharmap-table.c: fix crash on the right click
+	  popup with non-printable characters
+
+2003-08-19  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.ac: Fixed the brokenes that Guntupalli introduced
+	[conflicts were not reviewed]. 
+
+	* ChangeLog: Resolved conflicts left over from last commit.
+
+2003-08-18  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.ac: Added "hi" to ALL_LINGUAS.
+
+2003-08-12  Dafydd Harries  <daf@parnassus.ath.cx>
+
+	* configure.ac: Added "cy" (Welsh) to ALL_LINGUAS.
+
+2003-08-06  Metin Amiroff <metin@karegen.com>
+
+	* configure.ac: Added "az" (Azerbaijani) to ALL_LINGUAS
+
+2003-08-01  Noah Levitt
+
+	* gucharmap-table.c: Get rid of the zoom window on key-release of
+	GDK_ISO_Next_Group or GDK_ISO_Prev_Group, since Shift may send these
+	keysyms on release if the grp(shift_toggle) xkb setting is on.
+
+2003-08-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Fix reckless casting between gunichar
+	and gpointer (use GPOINTER_TO_UINT and GUINT_TO_POINTER).
+
+2003-07-27  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Don't print the font family in the drag
+	icon.
+
+2003-07-23  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.ac: Added "sr" and "sr@Latn" to ALL_LINGUAS.
+
+2003-07-21  Noah Levitt
+
+	* MAINTAINERS: Added MAINTAINERS file.
+
+2003-07-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.ac: Add Norwegian
+	* po/ChangeLog: Same.
+	* po/no.po: Same.
+
+2003-07-07  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Prevent multiple About dialogs. (bug
+	#114341, patch from Steve Chaplin)
+
+2003-07-07  Noah Levitt
+
+	* configure.ac: Added Macedonian (mk) to ALL_LINGUAS.
+
+2003-06-10  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Bump version number and library version for
+	release.
+
+2003-06-10  Noah Levitt
+
+	* configure.ac:
+	* autogen.sh: Don't be so noisy.
+
+2003-06-10  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+
+	* configure.ac: Added Russian to ALL_LINGUAS.
+
+2003-06-09  Noah Levitt
+
+	* gucharmap/gucharmap-unicode-info.c:
+	* gucharmap/gucharmap-charmap.c: Don't print headings of empty
+	sections.
+
+2003-06-06  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: In the zoom window, tell the user what
+	font the character is actually being drawn in.
+
+2003-06-05  Noah Levitt
+
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-table.h: Begin drags manually to work around
+	bug #114534.
+
+2003-06-04  Hasbullah Bin Pit  <sebol@ikhlas.com>
+
+	* configure.in(ALL_LINGUAS): Added "ms".
+
+2003-06-04  Noah Levitt
+
+	* gucharmap/gucharmap-window.[ch]: Back and Forward buttons.
+
+2003-06-03  Noah Levitt
+
+	* gucharmap/main.c: Make the default size smart about
+	multihead/xinerama.
+
+2003-06-03  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Fixed off-by-one memory allocation.
+
+2003-06-03  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Hex codepoints in nameslist are
+	always capitalized. "precede" does not have a codepoint in the
+	middle. :-)
+
+2003-06-03  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Give more space to the big character
+	in the details view. Some hangul jongseongs need a lot of room.
+
+2003-06-03  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-window.c: Next Character and Previous Character
+	move to the Go menu.
+
+2003-06-03  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h:
+	* gucharmap/gucharmap_marshal.list: Simple forward/backward history
+	(for link clicking).
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Make the hand go away and come back
+	correctly in all situtations (hopefully).
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-charmap.c: Hand cursor when hovering over a
+	link.
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Don't try to interpret strings that
+	don't have codepoints in them.
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Pretty decent linking everywhere.
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Canonical decomposition is links.
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Clicking a link no longer selects the
+	whole textview (thanks, ::event-after). Also fixed stuff to allow
+	linking to U+0000.
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Don't try to draw on a null pixmap.
+
+2003-06-02  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Still broken, but better,
+	link-clicking support.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Broken initial link-clicking support.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Highlight the active block.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Next and Previous Character buttons
+	skip over invalid and unassigned codepoints.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: 
+	* gucharmap/gucharmap-charmap.h: Put the notebook in the right pane.
+	Can always see the block selector now.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: 
+	* gucharmap/gucharmap-window.c: Next and Previous Character buttons in
+	the details tab.
+
+2003-06-01  Christian Neumair  <chris@mate-de.org>
+
+	* gucharmap/gucharmap-charmap.c: Added missing colon to kun
+	pronounciation string.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/Makefile.am: Set LD_LIBRARY_PATH when running
+	gtk-query-immodules.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-mini-fontsel.h: Improved the mini font
+	selection. Toggle buttons for bold and italic.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Fix bug where zoom window was sometimes
+	the wrong size.
+
+2003-06-01  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/imgucharmap.c: Fix infinite recursive loop when starting
+	imgucharmap.
+
+2003-05-31  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Make the zoom window go away when it
+	should.
+
+2003-05-31  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Statusbar, don't resize yourself.
+
+2003-05-31  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Add some additional, hopefully
+	intelligent, information to the statusbar message 
+
+2003-05-30  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Failed searches pop up a message, but
+	leave the search dialog open, now.
+
+2003-05-30  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: 
+	* gucharmap/gucharmap-table.c: Hold down Shift for Zoom Mode. No more
+	menu item for it.
+
+2003-05-30  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Improve search dialog somewhat.
+
+2003-05-30  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Improve jump-to-codepoint dialog.
+
+2003-05-30  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Status message always has the active
+	character; use a dialog for failed searches.
+
+2003-05-30  Noah Levitt
+
+	* gucharmap/gucharmap-window.c: Change Char_map menu to _File.
+
+2003-05-24  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Fix keynav when numlock is pressed.
+
+2003-05-24  Noah Levitt
+
+	* gucharmap/Makefile.am: Fix make install.
+
+2003-05-24  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Put "see also" back in.
+
+2003-05-24  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-unicode-info.c: Fix up the details page a bit.
+
+2003-05-24  Noah Levitt
+
+	* configure.ac:
+	* gucharmap/Makefile.am: Add option not to generate gtk.immodules.
+
+2003-05-17  Noah Levitt
+
+	* gucharmap/Makefile.am: Install "mate-character-map" symlink
+	as reqested by Glynn Foster.
+
+2003-05-14  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* chartable-accessible.c: Emit active-descendant-changed signal
+	when selected cell changes. This fixes bug #112981.
+
+2003-05-14  Noah Levitt
+
+	* configure.ac: Added zh_CN to ALL_LINGUAS.
+
+2003-05-08  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-window.c: Get rid of the U+xxxx page listings in
+	the treeview on the left.
+
+2003-05-08  Noah Levitt
+
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h:
+	* gucharmap/main.c: Hide the File (Char_map) menu in the input method.
+	(bug #112605, Gregory Merchan)
+
+2003-05-07  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Added CJK ideograph info to the
+	details tab.
+
+2003-05-06  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Set statusbar message to indicate
+	active character.
+
+2003-05-06  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c: Added the nameslist stuff to the
+	character details tab.
+
+2003-05-06  Noah Levitt
+
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h: Started redoing the UI to get rid of
+	the character details treeview, and replace it with a text view in
+	another tab.
+
+2003-05-07  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.ac: Added "zh_TW" to ALL_LINGUAS.
+
+2003-05-04  Noah Levitt
+
+	* gucharmap/gucharmap-table.c: Ignore keypresses with modifiers.
+
+2003-05-04  Noah Levitt
+
+	* gucharmap/Makefile.am:
+	* gucharmap/charcell_accessible.c:
+	* gucharmap/charmap.c:
+	* gucharmap/charmap.h:
+	* gucharmap/chartable.c:
+	* gucharmap/chartable.h:
+	* gucharmap/chartable_accessible.c:
+	* gucharmap/gucharmap-charmap.c:
+	* gucharmap/gucharmap-charmap.h:
+	* gucharmap/gucharmap-mini-fontsel.c:
+	* gucharmap/gucharmap-mini-fontsel.h:
+	* gucharmap/gucharmap-table.c:
+	* gucharmap/gucharmap-table.h:
+	* gucharmap/gucharmap-unicode-info.c:
+	* gucharmap/gucharmap-unicode-info.h:
+	* gucharmap/gucharmap-window.c:
+	* gucharmap/gucharmap-window.h:
+	* gucharmap/gucharmap.h:
+	* gucharmap/imgucharmap.c:
+	* gucharmap/main.c:
+	* gucharmap/mini_fontsel.c:
+	* gucharmap/mini_fontsel.h:
+	* gucharmap/unicode_info.c:
+	* gucharmap/unicode_info.h:
+	* gucharmap/unicode/generator.sh:
+	* gucharmap/unicode/unicode_blocks.cI: Reorganized so that everything
+	public has the gucharmap_ prefix.
+
+2003-05-03  Noah Levitt
+
+	* configure.ac: 
+	* Makefile.am: 
+	* gucharmap.spec.in: Add rpm spec file.
+
+2003-05-03  Noah Levitt
+
+	* README:
+	* configure.ac:
+	* gucharmap/im-module-file.c:
+	* gucharmap/Makefile.am: Install the input module in the right place,
+	and write /etc/gtk-2.0/gtk.immodules.
+
+2003-05-03  Noah Levitt
+
+	* configure.ac: Bump development version to 0.7.0.
+
+2003-04-28  Noah Levitt
+
+	* gucharmap/unicode/unicode_blocks.cI:
+	* gucharmap/unicode/unicode_categories.cI:
+	* gucharmap/unicode/unicode_data.cI:
+	* gucharmap/unicode/unicode_nameslist.cI: Update to Unicode 4.0.
+
+2003-04-21  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added "pl", "uk", "zh_TW" to ALL_LINGUAS.
+
+2003-04-19  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/chartable.c:
+	* gucharmap/chartable.h:
+	* gucharmap/gucharmap_window.c: Snap columns to power of two option
+	(bug #107965).
+
+2003-04-16  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/chartable.[ch]: The zoom window and drag icon use pixmap
+	instead of pixbuf. It had to be converted back and forth from a
+	pixmap, anyway (at least for the zoom window).
+	
+2003-04-16  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/chartable.c: Made the zoom window a bit less invasive.
+	It's no longer always on top and on every desktop. But now it is
+	focusable (you can alt-tab to it, for example). Oh well, close enough.
+
+2003-04-15  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/imgucharmap.c: Got the gucharmap input module working
+	better.
+
+2003-04-10  Paul Duffy <dubhthach@frink.nuigalway.ie>
+
+	* configure.ac: Added ga (irish) to ALL_LINGUAS.
+
+2003-03-30  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* Makefile.am:
+	* README:
+	* configure.ac:
+	* gucharmap/.cvsignore:
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap_window.c:
+	* gucharmap/imgucharmap.c:
+	* gucharmap/main.c:
+	* gucharmap/mini_fontsel.c:
+	* gucharmap/mini_fontsel.h: Got the gucharmap input module working.
+
+
+2003-03-29  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/charmap.c:
+	* gucharmap/charmap.h:
+	* gucharmap/gucharmap_window.c:
+	* gucharmap/unicode_info.c:
+	* gucharmap/unicode_info.h: Implemented Find Previous (shift-ctrl-G).
+
+2003-03-29  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/gucharmap_window.c: Moved items in the Go menu to the
+	Search menu.
+
+2003-03-29  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/Makefile.am:
+	* gucharmap/gucharmap_window.c:
+	* gucharmap/gucharmap_window.h:
+	* gucharmap/main.c:
+	* gucharmap/mini_fontsel.c: Created GucharmapWindow widget. Got rid of
+	the search entry and button; made a menu item and dialog instead.
+
+2003-03-26  Christian Neumair  <chris@mate-de.org>
+
+	* gucharmap/charmap.c, gucharmap/unicode_info.c,
+	gucharmap/unicode/generator.sh, gucharmap/unicode/unicode_blocks.cI:
+	Marked more strings for translation.
+	* src/.cvsignore: Added
+
+2003-03-26  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/Makefile.am:
+	* gucharmap/imgucharmap.c:
+	* gucharmap/main.c: Started gucharmap input method.
+
+2003-03-22  Alessio Frusciante  <algol@firenze.linux.it>
+
+	* configure.ac (ALL_LINGUAS): Added "it" (Italian).
+
+2003-03-19  Alex Duggan  <aldug@astrolinux.com>
+
+	* gucharmap.desktop.in: Fix up bugzilla fields and add
+	startup-notification support.
+
+2003-03-18  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/charmap.c:
+	* gucharmap/chartable.c:
+	* gucharmap/main.c:
+	* gucharmap/unicode_info.c:
+	* gucharmap/unicode_info.h:
+	* gucharmap/unicode/Makefile.am:
+	* gucharmap/unicode/generate_categories.pl:
+	* gucharmap/unicode/generator.sh:
+	* gucharmap/unicode/unicode_categories.cI: All unicode information
+	comes from unicode.org files now. No discrepancies with g_unichar_*,
+	no out of date information.
+
+2003-03-16  YanKo Kaneti  <yaneti@declera.com>
+
+	* gucharmap/Makefile.am: make the charmap symlink relative.
+	Fixes staging area installs in DESTDIR.
+
+2003-03-15  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* README:
+	* configure.ac:
+	* gucharmap/charmap.c:
+	* gucharmap/chartable.c:
+	* gucharmap/chartable_accessible.c:
+	* gucharmap/main.c:
+	* po/POTFILES.in: Updated gtk+ dependency to 2.2 (#107962). Also fixed
+	some memory leaks.
+
+2003-03-11  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* configure.ac:
+	* gucharmap/.cvsignore:
+	* gucharmap/Makefile.am:
+	* gucharmap/generate_nameslist.c:
+	* gucharmap/generate_unicode_stuff.sh:
+	* gucharmap/generate_unihan.c:
+	* gucharmap/unicode_info.c:
+	* gucharmap/unicode/.cvsignore:
+	* gucharmap/unicode/Makefile.am:
+	* gucharmap/unicode/generate_nameslist.c:
+	* gucharmap/unicode/generate_unihan.c:
+	* gucharmap/unicode/generator.sh: 
+	* gucharmap/unicode/unicode_blocks.cI:
+	* gucharmap/unicode/unicode_data.cI:
+	* gucharmap/unicode/unicode_nameslist.cI:
+	* gucharmap/unicode/unicode_unihan.cI: Moved generated stuff to its
+	own directory, made it compile only with --enable-maintainer-mode.
+
+2003-03-10  Ole Laursen  <olau@hardworking.dk>
+
+	* configure.ac: Added Danish (da) to ALL_LINGUAS.
+
+2003-03-10  Roozbeh Pourander  <roozbeh@sharif.edu>
+
+	* configure.ac: Added "fa" to ALL_LINGUAS.
+
+2003-03-10  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/charmap.c: Canonical decomposition works in both
+	directions! Thanks, Roozbeh.
+
+2003-03-09  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap/charmap.c: Made character details... acceptable in RTL.
+
+2003-03-08  Takeshi AIHANA <aihana@mate.gr.jp>
+
+	* configure.ac: Added ja into ALL_LINGUAS.
+
+2002-03-04  Dom Lachowicz <cinamod@hotmail.com>
+
+	* gucharmap/chartable.[ch]: Remove cruft, const set_font()
+	* gucharmap/charmap.[ch]: Remove cruft, add set_font(), properly prefix chartable.h
+	* gucharmap/mini_fontsel.h: Remove config.h
+
+2003-03-04  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* src/chartable-accessible.[ch]:
+	Remove cell_data from ChartableAccessible data structure. Use
+	object data for it.
+
+2003-03-03  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/chartable.[ch]:
+	* src/charmap.[ch]:
+	* src/Makefile.am:
+	* src/chartable.h:
+	* src/chartable_accessible.c:
+	* src/charcell_accessible.c:
+	* src/main.c: Refactored chartable into its own widget.
+
+2003-03-03  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+
+	* configure.ac: Added Belarusian to ALL_LINGUAS.
+
+2003-03-02  Christian Neumair  <chris@mate-de.org>
+
+	* configure.ac: Added de (German) to ALL_LINGUAS.
+
+2003-03-01  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/charmap.c: Color cells of unassigned and invalid characters
+	differently. Also, display private use characters.
+
+2003-03-01  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* configure.ac:
+	* src/Makefile.am:
+	* src/charcell_accessible.c:
+	* src/charcell_accessible.h:
+	* src/charmap.c:
+	* src/charmap.h:
+	* src/chartable_accessible.c:
+	* src/chartable_accessible.h:
+	* src/main.c:
+	* COPYING.LIB: Added AtkTable implementation for the character table.
+	Contributed by Padraig O'Briain.
+
+
+2003-03-01  Duarte Loreto <happyguy_pt@hotmail.com>
+
+	* configure.ac: Added "pt" to ALL_LINGUAS.
+
+2003-02-28  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* .cvsignore:
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* gucharmap.desktop.in:
+	* po/POTFILES.in: Created .desktop file. Added intltool support so
+	that .desktop can have translations.
+
+2003-02-27  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/charmap.[ch]:
+	* src/main.c: Added toggle zoom mode menu item, changed the behavior
+	of zoom mode to accommodate this. Fairly intelligent interaction with
+	right mouse button zoom mode. (I accidentally committed most of this
+	functionality in the previous commit, whoops.)
+
+2003-02-27  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap.pc.in:
+	* Makefile.am: 
+	* configure.ac:
+	* .cvsignore: Made gucharmap a pkg-config package. Contributed by Dom
+	Lachowicz.
+
+2003-02-26  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/Makefile.am: 
+	* src/charmap.[ch]:
+	* src/generate_nameslist.c:
+	* src/generate_unicode_stuff.sh:
+	* src/generate_unicode_stuff.sh:
+	* src/.cvsignore:
+	* src/unicode_info.[ch]: Annotations and cross references are now
+	among the character details that can be displayed (requested by Markus
+	Kuhn). Also, fixed the positioning of items in the details caption.
+
+2003-02-24  Evandro Fernandes Giovanini <evandrofg@ig.com.br>
+
+	* configure.ac(ALL_LINGUAS): Added "pt_BR" (Brazilian Portuguese).
+
+2003-02-23  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/Makefile.am: 
+	* src/unicode_info.[ch]: 
+	* extact_unihan.sh:
+	* generate_unicode_stuff.sh:
+	* src/generate_unicode_stuff.sh:
+	* src/.cvsignore:
+	* src/unihan.c:
+	* src/unicode_data.c: The source files filled with unicode information
+	are now generated at make time.
+
+2003-02-10  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/main.c: The Find and Copy buttons know when to be sensitive.
+
+2003-02-09  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* configure.ac: 
+	* src/Makefile.am:
+	* src/main.c: Command line options using popt. Unfortunately, it is an
+	additional dependency (when building without mate). Added --font
+	option. Took some stuff out of main().
+
+2003-02-08  Pauli Virtanen  <pauli.virtanen@hut.fi>
+
+	* configure.ac: Added Finnish (fi) to ALL_LINGUAS.
+
+2003-02-05  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* configure.ac: 
+	* src/charmap.h: If pango >= 1.2.1, use all the unicode planes, not
+	just the first one
+
+2003-02-04  Miloslav Trmac  <mitr@volny.cz>
+
+	* configure.ac: Added Czech (cs) to ALL_LINGUAS
+
+2003-02-04  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/charmap.[ch]:
+	* src/main.c: Implemented fine-grained control of the character
+	details caption.
+
+2003-02-03  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* gucharmap.nsi.in:
+	* gtkrc.win32:
+	* configure.ac: Win32 NSIS install-shield stuff.
+
+2003-02-03  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/Makefile.am:
+	* src/gucharmaprc.rc:
+	* pixmaps/gucharmap.ico: Set up the win32 icon.
+
+2003-02-03  Daniel Yacob  <locales@geez.org>
+
+	* configure.ac: Added "am" (Amharic) to ALL_LINGUAS.
+
+2003-02-03  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/main.c:
+	* src/charmap.[ch]: Got rid of the disclosure triangle in the
+	character details; now the extra information can be shown and hidden
+	from the view menu.
+
+2003-02-02  Christian Rose  <menthos@menthos.com>
+
+	* configure.ac: Added "sv" to ALL_LINGUAS.
+
+2003-02-02  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/main.c: Added accelerators in the menus. Also, renamed font size
+	changing menu items to Zoom In/Out, and made the zoom increment of
+	the zoom proportional to the current font size.
+
+2003-02-01  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/mini_fontsel.[ch]:
+	* src/main.c: Added menu items to increase and decrease the font size
+
+2003-02-01  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/charmap.[ch]: Changed placement of zoom window so that it is
+	usually within the chartable, and so that the cursor is visible
+
+2003-01-24  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/main.c: Made some small improvements suggested by Gman; some
+	mnemonics for entries, icons for dialogs, left-justification of
+	labels, etc
+
+2003-01-23  Noah Levitt  <nlevitt аt columbia.edu>
+
+	* src/charmap.[ch]: In the character details, put codepoint and name
+	in one row, add "other representations", octal for C,sh and &#dec;
+	for xml,html
+
+2003-01-23  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* src/charmap.c (status_message): Add an invocator function for
+	the "status-message" signal, and use it.
+
+	(key_press_event): Make '=' and <Esc> enter/leave zoom mode, too.
+	(button_press_event):
+	(leave_zoom_mode): Show statusbar messages when entering/leaving
+	zoom mode.
+
+2003-01-23  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* autogen.sh: Oops, forgot to redirect the output of
+	aclocal/automake --version to /dev/null.
+
+2003-01-23  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* src/charmap.[ch]: Make use of G_BEGIN_DECLS/G_END_DECLS, and
+	explicitely use (void) instead of empty parameter lists.
+
+2003-01-23  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* generate_unicode_stuff.sh:
+	* src/unicode_data.c:
+	* src/unicode_info.[ch]:
+	* src/unihan.c: Declare the static Unicode data blocks const,
+	because they are.  Also, return const gchar * from functions
+	that return read-only strings.
+
+2003-01-23  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* src/charmap.[ch]: Implement a real zoom mode instead of abusing
+	the drag icon.  Zooming can now be activated by pressing either
+	the right mouse button or '+' on the keyboard.
+
+Wed Jan 22 02:10:52 2003  Jonathan Blandford  <jrb@mate.org>
+
+	* .cvsignore: Shut up, CVS
+

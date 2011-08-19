@@ -1,0 +1,111 @@
+AC_INIT
+
+PACKAGE=caja-python
+VERSION=0.7.2
+
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_CONFIG_HEADER(config.h)
+AC_CONFIG_MACRO_DIR([m4])
+
+AC_SUBST(ACLOCAL_AMFLAGS, "-I m4 -I .")
+
+CAJA_REQUIRED=2.22.0
+PYGTK_REQUIRED=2.8.0
+PYGOBJECT_REQUIRED=2.16.0
+MATE_PYTHON_REQUIRED=2.12.0
+
+AC_PROG_CC
+AC_DISABLE_STATIC
+AC_PROG_LIBTOOL
+
+dnl Check for pkgconfig first
+AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, yes, no)
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+
+dnl Check for gtk-doc
+GTK_DOC_CHECK(1.9)
+
+dnl Give error and exit if we don't have pkgconfig
+if test "x$HAVE_PKGCONFIG" = "xno"; then
+  AC_MSG_ERROR(you need to have pkgconfig installed !)
+fi
+
+AC_PREFIX_DEFAULT([$(pkg-config --variable=prefix libcaja-extension || echo /usr)])
+
+dnl **************************************************
+dnl * Check for Python
+dnl **************************************************
+AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+AM_CHECK_PYTHON_LIBS(,[AC_MSG_ERROR(could not find Python lib)])
+
+
+PKG_CHECK_MODULES(CAJA_PYTHON, [pygtk-2.0 >= $PYGTK_REQUIRED
+                                   pygobject-2.0 >= $PYGOBJECT_REQUIRED
+                                   mate-python-2.0 >= $MATE_PYTHON_REQUIRED
+                                   libcaja-extension >= $CAJA_REQUIRED])
+
+AC_MSG_CHECKING(for pygtk defs)
+PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
+AC_SUBST(PYGTK_DEFSDIR)
+AC_MSG_RESULT($PYGTK_DEFSDIR)
+
+AC_MSG_CHECKING(for pygtk codegen)
+PYGTK_CODEGEN="$PYTHON `$PKG_CONFIG --variable=codegendir pygtk-2.0`/codegen.py"
+AC_SUBST(PYGTK_CODEGEN)
+AC_MSG_RESULT($PYGTK_CODEGEN)
+
+AC_MSG_CHECKING(for pygobject defs)
+PYGOBJECT_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygobject-2.0`
+AC_SUBST(PYGOBJECT_DEFSDIR)
+AC_MSG_RESULT($PYGOBJECT_DEFSDIR)
+
+PYGOBJECT_DATADIR=`$PKG_CONFIG --variable=datadir pygobject-2.0`
+AC_SUBST(PYGOBJECT_DATADIR)
+
+PYGOBJECT_PYGDOCS="`$PKG_CONFIG --variable=pygdocs pygobject-2.0`"
+AC_SUBST(PYGOBJECT_PYGDOCS)
+
+PYGOBJECT_FIXXREF="$PYTHON `$PKG_CONFIG --variable=fixxref pygobject-2.0`"
+AC_SUBST(PYGOBJECT_FIXXREF)
+
+CAJA_LIBDIR=`$PKG_CONFIG --variable=libdir libcaja-extension`
+AC_SUBST(CAJA_LIBDIR)
+AC_DEFINE_UNQUOTED(CAJA_LIBDIR, "$CAJA_LIBDIR", [Caja libdir])
+
+dnl ---------------------------------
+dnl Get caja extensions directory
+dnl ---------------------------------
+CAJA_EXTENSION_DIR=`$PKG_CONFIG --variable=extensiondir libcaja-extension`
+AC_SUBST(CAJA_EXTENSION_DIR)
+AC_DEFINE_UNQUOTED(CAJA_EXTENSION_DIR, "$CAJA_EXTENSION_DIR", [Caja' extensions directory])
+
+dnl ---------------------------------
+dnl Check for gtk-doc dependencies
+dnl ---------------------------------
+if test "${enable_gtk_doc}" != no; then
+    dnl Check for xsltproc
+    AC_PATH_PROG([XSLTPROC], [xsltproc])
+    if test -z "$XSLTPROC"; then
+        echo " disabling generation of docs"
+        enable_gtk_doc=no
+    fi
+fi
+
+AC_OUTPUT([
+  Makefile
+  examples/Makefile
+  src/Makefile
+  caja-python.pc
+  docs/Makefile
+  docs/reference/entities.docbook
+])
+
+echo
+echo " caja-python $VERSION"
+echo
+echo "    Caja Prefix: ${prefix}"
+echo "      Documentation: ${enable_gtk_doc}"
+echo

@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>GError</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-engine.html" title="MateConfEngine">
+<link rel="next" href="mateconf-mateconf-internals.html" title="mateconf-internals">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-engine.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-internals.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2613837" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2618828" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-error"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2613837"></a><span class="refentrytitle">GError</span>
+</h2>
+<p>GError &#8212; 
+error reporting.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+enum                <a class="link" href="mateconf-mateconf-error.html#MateConfError">MateConfError</a>;
+GError*             <a class="link" href="mateconf-mateconf-error.html#mateconf-error-new">mateconf_error_new</a>                     (<a class="link" href="mateconf-mateconf-error.html#MateConfError">MateConfError</a> en,
+                                                         const gchar *format,
+                                                         ...);
+GQuark              <a class="link" href="mateconf-mateconf-error.html#mateconf-error-quark">mateconf_error_quark</a>                   (void);
+void                <a class="link" href="mateconf-mateconf-error.html#mateconf-set-error">mateconf_set_error</a>                     (GError **err,
+                                                         <a class="link" href="mateconf-mateconf-error.html#MateConfError">MateConfError</a> en,
+                                                         const gchar *format,
+                                                         ...);
+GError*             <a class="link" href="mateconf-mateconf-error.html#mateconf-compose-errors">mateconf_compose_errors</a>                (GError *err1,
+                                                         GError *err2);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2618828"></a><h2>Description</h2>
+<p>
+The <span class="type">GError</span> object is used to report errors that occur in MateConf
+library routines. All functions that report errors work the same way:
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+The last argument to the function is a <span class="type">GError</span>**, a pointer to a
+location where a <span class="type">GError</span>* can be placed.
+</p></li>
+<li><p>
+This last argument may be <span class="symbol">NULL</span>, in which case no
+error will be returned.
+</p></li>
+<li><p>
+If non-<span class="symbol">NULL</span>, the argument should be the address of a 
+<span class="type">GError</span>* variable, which should be initialized to
+<span class="symbol">NULL</span>. 
+</p></li>
+<li><p>
+If an error occurs, a <span class="type">GError</span> will be allocated and placed in the
+return location; the caller must free the <span class="type">GError</span> with
+<code class="function">g_error_free()</code>. If no error occurs, the return location will be
+left untouched. That is, the test <code class="literal">error != NULL</code> 
+should always be a reliable indicator of whether the operation failed.
+</p></li>
+</ul></div>
+<p>
+</p>
+<p>
+It's also common that the return value of a function indicates whether
+or not an error occurred. Typically, <span class="symbol">TRUE</span> is returned
+on success. In some cases, a <span class="symbol">NULL</span> return value
+indicates failure. Either way, if the return value indicates failure
+and you passed a non-<span class="symbol">NULL</span> value for the last argument
+to the function, a <span class="type">GError</span> will be returned. If the return value
+indicates success, then a <span class="type">GError</span> will never be returned.  These
+relationships are guaranteed; that is, you can reliably use the return
+value to decide whether a <span class="type">GError</span> was placed in the return
+location. If a function does <span class="emphasis"><em>not</em></span> indicate
+success/failure by return value, you must check whether the
+<span class="type">GError</span> is <span class="symbol">NULL</span> to detect errors.
+</p>
+<p>
+Here's a short error handling example:
+</p>
+<pre class="programlisting">
+  GError* err = NULL;
+
+  if (!mateconf_init(&amp;err))
+    {
+      fprintf(stderr, _("Failed to init MateConf: %s\n"), err-&gt;message);
+      g_error_free(err); 
+      err = NULL;
+    }
+</pre>
+<p>
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2620435"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2620446"></a><h3>
+<a name="MateConfError"></a>enum MateConfError</h3>
+<a class="indexterm" name="id2620458"></a><pre class="programlisting">typedef enum {
+  MATECONF_ERROR_SUCCESS = 0,
+  MATECONF_ERROR_FAILED = 1,        /* Something didn't work, don't know why, probably unrecoverable
+                                    so there's no point having a more specific errno */
+
+  MATECONF_ERROR_NO_SERVER = 2,     /* Server can't be launched/contacted */
+  MATECONF_ERROR_NO_PERMISSION = 3, /* don't have permission for that */
+  MATECONF_ERROR_BAD_ADDRESS = 4,   /* Address couldn't be resolved */
+  MATECONF_ERROR_BAD_KEY = 5,       /* directory or key isn't valid (contains bad
+                                    characters, or malformed slash arrangement) */
+  MATECONF_ERROR_PARSE_ERROR = 6,   /* Syntax error when parsing */
+  MATECONF_ERROR_CORRUPT = 7,       /* Fatal error parsing/loading information inside the backend */
+  MATECONF_ERROR_TYPE_MISMATCH = 8, /* Type requested doesn't match type found */
+  MATECONF_ERROR_IS_DIR = 9,        /* Requested key operation on a dir */
+  MATECONF_ERROR_IS_KEY = 10,       /* Requested dir operation on a key */
+  MATECONF_ERROR_OVERRIDDEN = 11,   /* Read-only source at front of path has set the value */
+  MATECONF_ERROR_OAF_ERROR = 12,    /* liboaf error */
+  MATECONF_ERROR_LOCAL_ENGINE = 13, /* Tried to use remote operations on a local engine */
+  MATECONF_ERROR_LOCK_FAILED = 14,  /* Failed to get a lockfile */
+  MATECONF_ERROR_NO_WRITABLE_DATABASE = 15, /* nowhere to write a value */
+  MATECONF_ERROR_IN_SHUTDOWN = 16   /* server is shutting down */
+} MateConfError;
+</pre>
+<p>
+The <a class="link" href="mateconf-mateconf-error.html#MateConfError"><span class="type">MateConfError</span></a> enumeration allows client applications to
+differentiate between different kinds of error. You may wish to take
+specific actions depending on the error type.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-SUCCESS:CAPS"></a><code class="literal">MATECONF_ERROR_SUCCESS</code></span></p></td>
+<td>indicates that no error occurred, won't be returned in a <span class="type">GError</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-FAILED:CAPS"></a><code class="literal">MATECONF_ERROR_FAILED</code></span></p></td>
+<td>indicates failure, but no more specific <a class="link" href="mateconf-mateconf-error.html#MateConfError"><span class="type">MateConfError</span></a> applied.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-NO-SERVER:CAPS"></a><code class="literal">MATECONF_ERROR_NO_SERVER</code></span></p></td>
+<td>indicates that the MateConf server couldn't be contacted, probably a CORBA problem.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-NO-PERMISSION:CAPS"></a><code class="literal">MATECONF_ERROR_NO_PERMISSION</code></span></p></td>
+<td>indicates that permission to access some resource was denied.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-BAD-ADDRESS:CAPS"></a><code class="literal">MATECONF_ERROR_BAD_ADDRESS</code></span></p></td>
+<td>indicates that a configuration source address was syntactically invalid or impossible to resolve.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-BAD-KEY:CAPS"></a><code class="literal">MATECONF_ERROR_BAD_KEY</code></span></p></td>
+<td>indicates that a key was malformed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-PARSE-ERROR:CAPS"></a><code class="literal">MATECONF_ERROR_PARSE_ERROR</code></span></p></td>
+<td>indicates that some parsing was done (perhaps in a backend) and it failed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-CORRUPT:CAPS"></a><code class="literal">MATECONF_ERROR_CORRUPT</code></span></p></td>
+<td>indicates that some part of the database is corrupt.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-TYPE-MISMATCH:CAPS"></a><code class="literal">MATECONF_ERROR_TYPE_MISMATCH</code></span></p></td>
+<td>indicates that a specific type was required, and another type was found.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-IS-DIR:CAPS"></a><code class="literal">MATECONF_ERROR_IS_DIR</code></span></p></td>
+<td>indicates that an operation only applicable to keys was performed on a directory.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-IS-KEY:CAPS"></a><code class="literal">MATECONF_ERROR_IS_KEY</code></span></p></td>
+<td>indicates that an operation only applicable to directories was performed on a key.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-OVERRIDDEN:CAPS"></a><code class="literal">MATECONF_ERROR_OVERRIDDEN</code></span></p></td>
+<td>indicates that the administrator has imposed a mandatory value, and it could not be changed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-OAF-ERROR:CAPS"></a><code class="literal">MATECONF_ERROR_OAF_ERROR</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-LOCAL-ENGINE:CAPS"></a><code class="literal">MATECONF_ERROR_LOCAL_ENGINE</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-LOCK-FAILED:CAPS"></a><code class="literal">MATECONF_ERROR_LOCK_FAILED</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-NO-WRITABLE-DATABASE:CAPS"></a><code class="literal">MATECONF_ERROR_NO_WRITABLE_DATABASE</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="MATECONF-ERROR-IN-SHUTDOWN:CAPS"></a><code class="literal">MATECONF_ERROR_IN_SHUTDOWN</code></span></p></td>
+<td>
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2617870"></a><h3>
+<a name="mateconf-error-new"></a>mateconf_error_new ()</h3>
+<a class="indexterm" name="id2617883"></a><pre class="programlisting">GError*             mateconf_error_new                     (<a class="link" href="mateconf-mateconf-error.html#MateConfError">MateConfError</a> en,
+                                                         const gchar *format,
+                                                         ...);</pre>
+<p>
+Creates a new error. Normally the MateConf library does this, but you
+might find a reason to do it as well. <em class="parameter"><code>en</code></em> is the error number, <em class="parameter"><code>format</code></em>
+is a <code class="function">printf()</code>-style format for the error message, and the variable
+argument list is the same as in <code class="function">printf()</code>. 
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>en</code></em>&#160;:</span></p></td>
+<td>the error number.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em>&#160;:</span></p></td>
+<td>
+<code class="function">printf()</code>-style format for error description.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em>&#160;:</span></p></td>
+<td>arguments required by the <em class="parameter"><code>format</code></em>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>newly-allocated <span class="type">GError</span>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2573859"></a><h3>
+<a name="mateconf-error-quark"></a>mateconf_error_quark ()</h3>
+<a class="indexterm" name="id2573871"></a><pre class="programlisting">GQuark              mateconf_error_quark                   (void);</pre>
+<p>
+Converts the string 'mateconf-error-quark' to a <span class="type">GQuark</span> and returns the value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the <span class="type">GQuark</span> representing the string.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2573922"></a><h3>
+<a name="mateconf-set-error"></a>mateconf_set_error ()</h3>
+<a class="indexterm" name="id2573934"></a><pre class="programlisting">void                mateconf_set_error                     (GError **err,
+                                                         <a class="link" href="mateconf-mateconf-error.html#MateConfError">MateConfError</a> en,
+                                                         const gchar *format,
+                                                         ...);</pre>
+<p>
+Internal function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>en</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>format</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2574038"></a><h3>
+<a name="mateconf-compose-errors"></a>mateconf_compose_errors ()</h3>
+<a class="indexterm" name="id2574049"></a><pre class="programlisting">GError*             mateconf_compose_errors                (GError *err1,
+                                                         GError *err2);</pre>
+<p>
+Internal function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err1</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err2</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2574128"></a><div class="refsect2" lang="en"><a name="id2574129"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2574130"></a></div>
+</div>
+</div>
+</body>
+</html>

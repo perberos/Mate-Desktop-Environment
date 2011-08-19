@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY appversion "2.26">
+<!ENTITY manrevision "3.0">
+<!ENTITY date "February 2009">
+<!ENTITY app "Totem Movie Player">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file. 
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the MATE Documentation Project
+  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Apr 11, 2002
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="es">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+    <title>Manual del <application>Reproductor de películas Totem</application></title>       
+    <copyright> 
+      <year>2003</year> 
+      <holder>Chee Bin HOH</holder>
+    </copyright>
+    <copyright>
+      <year>2009</year>
+      <holder>Philip Withnall</holder>
+    </copyright><copyright><year>2007, 2009</year><holder>Jorge González (jorgegonz@svn.mate.org)</holder></copyright><copyright><year>2005</year><holder>Francisco Javier F. Serrador (serrador@cvs.MATE.org)</holder></copyright>
+    <releaseinfo revision="2.26" role="final">
+    	<ulink type="peerreview" url="http://bugzilla.mate.org/show_bug.cgi?id=574524"/>
+    </releaseinfo>
+
+    <abstract role="description">
+      <para>El <application>Reproductor de películas Totem</application> es un reproductor multimedia para MATE que usa GStreamer de forma predeterminada, pero también puede usar Xine. Tiene soporte para la mayoría de códecs de sonido y vídeo, incluyendo DVD entre muchos otros. Sus características incluyen salida de TV, pantalla completa, subtítulos y mucho más.</para>
+    </abstract>
+
+    <publisher> 
+      <publishername>Proyecto de Documentación de MATE</publishername> 
+    </publisher> 
+
+      <legalnotice id="legalnotice">
+	<para>Se concede autorización para copiar, distribuir o modificar este documento según los términos de la GFDL (GNU Free Documentation License), Versión 1.1, o cualquier otra versión posterior publicada por Free Software Foundation sin secciones invariables, textos de portada ni textos de contraportada. Podrá encontrar una copia de la GFDL en este <ulink type="help" url="ghelp:fdl">enlace</ulink> o en el archivo COPYING-DOCS distribuido con este manual.</para>
+         <para>Este manual es parte de una colección de manuales de MATE distribuidos bajo la GFDL. Si quiere distribuir este manual de forma separada de la colección, puede hacerlo añadiendo una copia de la licencia al manual, tal como se describe en la sección 6 de la licencia.</para>
+
+	<para>Muchos de los nombres usados por empresas para distinguir sus productos y servicios se mencionan como marcas comerciales. Donde aparezcan dichos nombres en cualquier documentación MATE,y para que los miembros del proyecto de documentación reconozcan dichas marcas comerciales, dichos nombres se imprimen en mayúsculas o iniciales mayúsculas.</para>
+
+	<para>EL DOCUMENTO Y VERSIONES MODIFICADAS SE PROPORCIONAN BAJO LOS TÉRMINOS DE LA LICENCIA LIBRE DE DOCUMENTACIÓN DE GNU Y TENIENDO EN CUENTA QUE: <orderedlist>
+		<listitem>
+		  <para>EL DOCUMENTO SE PROPORCIONA "TAL CUAL", SIN GARANTÍAS DE NINGÚN TIPO, NI EXPRESAS NI IMPLÍCITAS, INCLUYENDO, SIN LIMITACIÓN, CUALQUIER GARANTÍA DE QUE EL DOCUMENTO O UNA VERSIÓN MODIFICADA DEL MISMO CAREZCAN DE DEFECTOS, SEA COMERCIALIZABLE, ADECUADO PARA UNA FINALIDAD DETERMINADA O QUE NO CONSTITUYA NINGUNA INFRACCIÓN. TODO EL RIESGO EN CUANTO A LA CALIDAD, PRECISIÓN Y UTILIDAD DEL DOCUMENTO O DE CUALQUIER VERSIÓN MODIFICADA DEL MISMO LE CORRESPONDE A USTED. EN CASO DE QUE CUALQUIER DOCUMENTO O VERSIÓN MODIFICADA RESULTARA DEFECTUOSO EN CUALQUIER SENTIDO, SERÁ USTED (Y NO EL REDACTOR INICIAL, NI EL AUTOR NI CUALQUIER PERSONA QUE HAYA CONTRIBUIDO) QUIEN ASUMIRÁ EL COSTE DE CUALQUIER SERVICIO TÉCNICO, REPARACIÓN O CORRECCIÓN NECESARIOS. ESTA LIMITACIÓN DE LAS GARANTÍAS CONSTITUYE UNA PARTE ESENCIAL DE ESTA LICENCIA. NO SE AUTORIZA NINGÚN USO DE CUALQUIER DOCUMENTO O VERSIÓN MODIFICADA DEL MISMO SI NO ES CON SUJECIÓN A ESTA LIMITACIÓN DE LAS GARANTÍAS; Y</para>
+		</listitem>
+		<listitem>
+		  <para>EN NINGUNA CIRCUNSTANCIA NI SEGÚN NINGÚN ARGUMENTO LEGAL, SEA POR MOTIVOS CULPOSOS (INCLUIDA LA NEGLIGENCIA), CONTRACTUALES O DE OTRO TIPO, NI EL AUTOR, NI EL REDACTOR INICIAL, NI CUALQUIER COLABORADOR, NI CUALQUIER DISTRIBUIDOR DEL DOCUMENTO O VERSIÓN MODIFICADA DEL MISMO, NI CUALQUIER PROVEEDOR DE CUALQUIERA DE DICHAS PARTES, SERÁN RESPONSABLES, ANTE NINGÚN TERCERO, DE NINGÚN DAÑO O PERJUICIO DIRECTO, INDIRECTO, ESPECIAL, INCIDENTAL O CONSIGUIENTE DE NINGÚN TIPO, INCLUIDOS, SIN LIMITACIÓN, LOS DAÑOS POR PÉRDIDA DE FONDO DE COMERCIO, INTERRUPCIÓN DEL TRABAJO, FALLO O MAL FUNCIONAMIENTO INFORMÁTICO, NI CUALQUIER OTRO DAÑO O PÉRDIDA DERIVADOS DEL USO DEL DOCUMENTO Y LAS VERSIONES MODIFICADAS DEL MISMO, O RELACIONADO CON ELLO, INCLUSO SI SE HABÍA COMUNICADO A AQUELLA PARTE LA POSIBILIDAD DE TALES DAÑOS.</para>
+		</listitem>
+	  </orderedlist></para>
+  </legalnotice>
+
+
+    <!-- This file  contains link to license for the documentation (GNU FDL), and 
+         other legal stuff such as "NO WARRANTY" statement. Please do not change 
+	 any of this. -->
+
+    <authorgroup> 
+      <author role="maintainer"> 
+	<firstname>Chee Bin</firstname> 
+	<surname>HOH</surname> 
+	<affiliation> 
+  	  <orgname>Proyecto de Documentación de MATE</orgname> 
+	</affiliation>
+	<email>cbhoh@MATE.org</email>
+      </author>
+      <author>
+	<firstname>Baptiste</firstname> 
+	<surname>Mille-Mathias</surname> 
+	<affiliation> 
+          <orgname>Proyecto de Documentación de MATE</orgname>
+        </affiliation>
+        <contrib>Actualización de la documentación</contrib>
+        <email>baptiste.millemathias@gmail.org</email>
+      </author>
+       <author>
+	<firstname>Philip</firstname> 
+	<surname>Withnall</surname>
+        <contrib>Actualización de la documentación</contrib>
+	<email>philip@tecnocode.co.uk</email>
+      </author>   
+
+<!-- This is appropriate place for other contributors: translators,
+     maintainers,  etc. Commented out by default.
+      <othercredit role="translator">
+	<firstname>Latin</firstname> 
+	<surname>Translator 1</surname> 
+	<affiliation> 
+          <orgname>Latin Translation Team</orgname> 
+  	  <address> <email>translator@mate.org</email> </address> 
+        </affiliation>
+        <contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other -->
+<!-- than the current revision. -->
+<!-- The revision numbering system for MATE manuals is as follows: -->
+<!-- * the revision number consists of two components -->
+<!-- * the first component of the revision number reflects the release version of the MATE desktop. -->
+<!-- * the second component of the revision number is a decimal unit that is incremented with each revision of the manual. -->
+<!-- For example, if the MATE desktop release is V2.x, the first version of the manual that -->
+<!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
+<!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
+<!-- to V3.0, and so on. -->  
+    <revhistory>
+      <revision> 
+        <revnumber>Manual del Reproductor de películas Totem V2.0</revnumber> 
+	<date>Agosto de 2006</date> 
+	<revdescription> 
+	  <para role="author">Chee Bin HOH <email>cbhoh@MATE.org</email></para>
+	  <para role="publisher">Proyecto de Documentación de MATE</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Manual del reproductor de películas Totem V3.0</revnumber> 
+	<date>Febrero de 2009</date> 
+	<revdescription> 
+	  <para role="author">Philip Withnall <email>philip@tecnocode.co.uk</email></para>
+	  <para role="publisher">Proyecto de Documentación de MATE</para>
+        </revdescription> 
+      </revision>
+    </revhistory> 
+
+    <releaseinfo>Este manual describe la versión 2.26 del Reproductor de películas Totem.</releaseinfo> 
+    <legalnotice> 
+      <title>Comentarios</title> 
+      <para>Para informar de un fallo o hacer alguna sugerencia concerniente a la aplicación <application>Reproductor de películas Totem</application> o este manual, siga las directrices en <ulink url="ghelp:user-guide#feedback" type="help">La página de comentarios de MATE</ulink>.</para>
+    </legalnotice> 
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+    <primary>Reproductor de películas Totem</primary> 
+  </indexterm> 
+  <indexterm zone="index"> 
+    <primary>totem</primary> 
+  </indexterm>
+
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+  <sect1 id="totem-introduction"> 
+    <title>Introducción</title> 
+    <para>La aplicación <application>Reproductor de películas Totem</application> es un reproductor de películas para el escritorio MATE basado en el «framework» GStreamer y en la biblioteca xine, y le permite reproducir películas o canciones.</para>
+    <para><application>Totem</application> proporciona las características siguientes:</para>
+    <itemizedlist> 
+      <listitem> 
+	<para>Soporta una variedad de archivos y sonido y vídeo.</para>
+      </listitem>
+      <listitem>
+	<para>Proporciona varios niveles de ampliación y proporciones, y una vista a pantalla completa.</para> 
+      </listitem>
+      <listitem>
+        <para>Controles de búsqueda y volumen.</para>
+      </listitem>
+      <listitem>
+        <para>Una lista de reproducción.</para>
+      </listitem>
+      <listitem>
+        <para>Soporte de subtítulos.</para>
+      </listitem>
+      <listitem>
+	<para>Navegación completa a través del teclado.</para>
+      </listitem>
+      <listitem>
+	<para>Conjunto exhaustivo de complementos incluyendo un descargador de subtítulos, un examinador de YouTube y un grabador de discos.</para>
+      </listitem>
+    </itemizedlist> 
+    <note>
+      <para>El <application>Reproductor de películas Totem</application> también viene con funcionalidades adicionales como:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>Miniaturizador de vídeo para MATE.</para>
+        </listitem>
+        <listitem>
+	  <para>Aplicación de previsualización de sonido para MATE.</para>
+        </listitem>
+	<listitem>
+	  <para>Solapa de propiedades de Caja.</para>
+        </listitem>
+      </itemizedlist>
+    </note>
+  </sect1>
+<!-- =========== End of Introduction ========================= -->
+
+<!-- =========== Getting Started ============================= -->
+<!-- Use the Getting Started section to describe the steps required
+     to start the application and to describe the user interface components
+     of the application. If there is other information that it is important
+     for readers to know before they start using the application, you should
+     also include this information here. 
+     If the information about how to get started is very short, you can 
+     include it in the Introduction and omit this section. -->
+
+  <sect1 id="totem-getting-started"> 
+    <title>Inicio de la aplicación</title> 
+
+    <sect2 id="totem-start">
+      <title>Iniciar el <application>Reproductor de películas Totem</application></title>
+      <para>Puede iniciar <application>Totem</application> de las formas siguientes:</para> 
+      <variablelist>
+	<varlistentry>
+	  <term>Menú <guimenu>Aplicaciones</guimenu></term>
+	  <listitem>
+	    <para>Elija <menuchoice><guisubmenu>Sonido y vídeo</guisubmenu><guimenuitem>Reproductor de películas</guimenuitem></menuchoice>.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Línea de comandos</term>
+	  <listitem>
+	    <para>Para iniciar <application>Totem</application> desde una línea de comandos, teclee el comando siguiente, y después pulse <keycap>Retorno</keycap>:</para>
+	    <para> 
+            <command>totem</command> 
+            </para> 
+	    <tip>
+	      <para>Para ver otras opciones de la línea de comandos que estén disponibles, teclee <command>totem --help</command>, y después pulse <keycap>Intro</keycap>.</para>
+	    </tip>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-when-start">
+      <title>Al iniciar el <application>Reproductor de películas Totem</application></title>
+      <para>Al iniciarse <application>Totem</application>, se muestra la ventana siguiente.</para>
+
+      <!-- ==== Figure ==== -->
+      <figure id="totem-start-fig"> 
+	<title>Ventana de inicio del <application>Reproductor de películas Totem</application></title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject>
+	      <imagedata fileref="figures/totem_start_window.png" format="PNG"/> 
+	    </imageobject>
+	    <textobject> 
+	      <phrase>Muestra <application>Reproductor de películas Totem</application> la ventana principal con la barra lateral abierta con una lista de reproducción. Contiene una barra de menú, un área de visualización, una barra lateral, un deslizador de tiempo transcurrido, botones de control de búsqueda, deslizador de volumen y barra de estado.</phrase>
+	    </textobject> 
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+      <!-- ==== End of Figure ==== -->
+
+      <!-- Include any descriptions of the GUI immediately after the screenshot of the main UI, -->
+      <!-- for example, the items on the menubar and on the toolbar. This section is optional. -->
+      <para>La ventana de <application>Totem</application> contiene los siguientes elementos:</para>
+      <variablelist>
+	<varlistentry>
+	  <term>Barra de menú.</term>
+  	  <listitem>
+  	    <para>Los menús de la barra de menú contienen todos los comandos que necesita usar en <application>Totem</application>.</para>
+ 	  </listitem>
+   	</varlistentry>
+	<varlistentry>
+	  <term>Área de visualización.</term>
+	  <listitem>
+	    <para>El área de visualización muestra la película o una visualización de la canción actual.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Barra lateral.</term>
+	  <listitem>
+	    <para>La barra lateral muestra las propiedades del archivo reproducido y actúa como una lista de reproducción. También pueden usarla varios complementos, tales como MythTV, YouTube y Búsqueda de vídeos. Se pueden seleccionar pulsando en el menú desplegable en la parte superior de la barra lateral.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Deslizador de tiempo transcurrido.</term>
+	  <listitem>
+	    <para>El deslizador de tiempo transcurrido muestra el tiempo de la película o canción que se está reproduciendo. También permite saltar adelante o atrás en una película o canción arrastrando el manejador a lo largo de la barra, o pulsando en un punto de la barra.</para>
+	  </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Botones de control de búsqueda.</term>
+          <listitem>
+            <para>Los controles de búsqueda le permiten moverse a la siguiente o anterior pista, y pausar o reproducir una película o canción.</para>
+	  </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Botón de volumen.</term>
+          <listitem>
+	    <para>El botón de volumen le permite ajustar el volumen.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Barra de estado.</term>
+	  <listitem>
+	    <para>La barra de estado muestra la información de estado acerca de la película o canción que se está reproduciendo.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+<!-- =========== End of Getting Started ====================== -->
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to use the application to perform the tasks for 
+  which the application is designed. -->
+  <sect1 id="totem-usage"> 
+    <title>Uso</title> 
+
+    <!-- ================ Usage Subsection ================================ -->
+    <sect2 id="totem-open-file"> 
+      <title>Para abrir un archivo</title> 
+      <para>Para abrir un archivo de vídeo o sonido, elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo></shortcut> <guimenu>Película</guimenu> <guisubmenu>Abrir</guisubmenu> </menuchoice>. Se muestra el diálogo <guilabel>Seleccionar películas o listas de reproducción</guilabel>. Seleccione el archivo que quiere abrir y pulse <guibutton>Aceptar</guibutton>.</para>
+      <para>Puede arrastrar un archivo desde otra aplicación, como un gestor de archivos, a la ventana del <application>Reproductor de películas Totem</application>. Si arrastra el archivo al área de visualización, el archivo reemplazará la lista de reproducción actual y comenzará a reproducirlo inmediatamente. Si arrastra el archivo a la barra lateral, el archivo se añadirá a la lista de reproducción actual. La aplicación <application>Reproductor de películas Totem</application> abrirá el archivo y reproducirá la película o canción. El <application>Reproductor de películas Totem</application> muestra el título de la película o canción en la barra de título de la ventana y en la lista de reproducción de la barra lateral.</para>
+      <para>Si intenta abrir un formato de archivo que el <application>Reproductor de películas Totem</application> no reconoce, la aplicación mostrará un mensaje de error. Este error sucede habitualmente si no tiene los códecs correctos instalados. Se puede obtener información para que los códecs funcionen en la <ulink url="http://projects.mate.org/totem/#codecs">Página web del <application>Reproductor de películas Totem</application></ulink>.</para>
+      <tip>
+	<para>Puede pulsar dos veces en un archivo de sonido o vídeo en el gestor de archivos <application>Caja</application> para abrirlo en la ventana del <application>Reproductor de películas Totem</application>.</para>
+      </tip>
+    </sect2> 
+
+    <sect2 id="totem-usage-open-location">
+      <title>Para abrir una dirección</title>
+      <para>Para abrir un archivo por dirección URI (ubicación), elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo></shortcut><guimenu>Película</guimenu><guimenuitem>Abrir dirección</guimenuitem></menuchoice>. Se muestra el diálogo <guilabel>Abrir dirección</guilabel>. Use la caja de combinación desplegable para especificar una dirección URI del archivo que le gustaría abrir (se listan direcciones URI que se han abierto previamente) ─o escriba una directamente─ y después pulse en el botón <guibutton>Abrir</guibutton>.</para>
+      <para>Si ya tiene un URI en el portapapeles se pegará automáticamente en la caja de combinación.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-play">
+      <title>Reproducir una película (DVD o VCD)</title>
+	      <para>Inserte el CD en el dispositivo óptico de su equipo, después elija <menuchoice><guimenu>Película</guimenu><guimenuitem>Reproducir disco </guimenuitem></menuchoice>.</para>
+             <para>Para expulsar un DVD o VCD CD, elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo></shortcut><guimenu>Película</guimenu><guimenuitem>Expulsar</guimenuitem></menuchoice>.</para>
+       </sect2>
+
+    <sect2 id="totem-usage-pause">
+      <title>Para pausar una película o canción</title>
+      <para>Para pausar una película o canción que se esté reproduciendo, pulse en el botón <inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_pause_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>Muestra el botón de pausa.</phrase></textobject>
+        </inlinemediaobject>, o elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>Espacio</keycap></keycombo></shortcut><guimenu>Película</guimenu><guimenuitem>Reproducir / Pausar</guimenuitem></menuchoice>. También puede usar la tecla <keycap>P</keycap> para pausar o reproducir una película.</para>
+      <para>Para continuar reproduciendo una película o canción, pulse el botón <inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_play_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>Muestra el botón de reproducción.</phrase></textobject>
+        </inlinemediaobject> de nuevo o elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>Espacio</keycap></keycombo></shortcut><guimenu>Película</guimenu><guimenuitem>Reproducir / Pausar</guimenuitem></menuchoice>.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-view-properties">
+      <title>Para ver las propiedades de una película o canción</title>
+      <para>Para ver las propiedades de una canción o película , elija <menuchoice><guimenu>Ver</guimenu><guimenuitem>Barra lateral</guimenuitem></menuchoice> para hacer que aparezca la barra lateral, y elija <guilabel>Propiedades</guilabel> de la lista desplegable en la parte superior de la barra lateral.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-seek">
+      <title>Buscar a lo largo de películas o canciones</title>
+      <para>Para buscar a lo largo de películas o canciones, puede usar los métodos siguientes:</para>
+      <variablelist>
+	<varlistentry>
+	  <term>Saltar adelante</term>
+	  <listitem>
+	    <para>Para saltar adelante una película o canción, elija <menuchoice><shortcut><keycap>Derecha</keycap></shortcut><guimenu>Ir</guimenu> <guimenuitem>Saltar adelante</guimenuitem> </menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Saltar atrás</term>
+	  <listitem>
+	    <para>Para saltar atrás una película o canción, elija <menuchoice><shortcut><keycap>Izquierda</keycap></shortcut><guimenu>Ir</guimenu> <guimenuitem>Saltar atrás</guimenuitem></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Saltar a un tiempo específico</term>
+	  <listitem>
+	    <para>Para saltar a un tiempo transcurrido específico, elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>K</keycap></keycombo></shortcut><guimenu>Ir</guimenu><guimenuitem>Saltar a</guimenuitem></menuchoice>. Se muestra el diálogo <guilabel>Saltar a</guilabel>. Use la caja incrementable para especificar el tiempo transcurrido (en segundos) para saltar, después pulse <guibutton>Aceptar</guibutton>.</para>
+            <para>La caja incrementable también permite usar un lenguaje más natural. Puede introducir tiempos en el formato «hh:mm:ss», «mm:ss» o «ss», donde «hh» es la hora, «mm» es el minuto y «ss» el segundo al que saltar.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Moverse a la siguiente película o canción</term>
+	  <listitem>
+	    <para>Para moverse a la siguiente película o canción, elija <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Derecha</keycap></keycombo></shortcut><guimenu>Ir</guimenu><guimenuitem>Siguiente capítulo / película</guimenuitem></menuchoice>o pulse en el botón <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_next_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>Muestra un botón para buscar el siguiente</phrase></textobject>
+              </inlinemediaobject>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Ir a la película o canción anterior</term>
+	  <listitem>
+	    <para>Para moverse a la anterior película o canción, elija <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Izquierda</keycap></keycombo></shortcut><guimenu>Ir</guimenu><guimenuitem>Anterior capítulo / película</guimenuitem></menuchoice>, o pulse en el botón <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_previous_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>Muestra un botón buscar anterior</phrase></textobject>
+              </inlinemediaobject>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-usage-change-zoom">
+      <title>Cambiar el factor de ampliación</title>
+	  <sect3 id="totem-usage-change-size">
+		<title>Cambiar el tamaño del vídeo</title>
+      <para>Para cambiar el factor de ampliación del área de visualización puede usar los siguientes métodos:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>Para ampliar al modo a pantalla completa, elija <menuchoice><shortcut><keycap>F11</keycap></shortcut><guimenu>Ver</guimenu><guimenuitem>Pantalla completa</guimenuitem></menuchoice>. También puede usar la tecla <keycap>F</keycap> para conmutar al modo a pantalla completa. Para salir del modo a pantalla completa, pulse el botón <guibutton>Salir de pantalla completa</guibutton>, <keycap>Esc</keycap>, <keycap>F11</keycap> o <keycap>F</keycap>.</para>
+    </listitem>
+	<listitem>
+	  <para>Para cambiar el tamaño original de la película o visualización elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>0</keycap></keycombo></shortcut><guimenu>Ver</guimenu><guisubmenu>Ajustar ventana a la película</guisubmenu></menuchoice> y elija una proporción de escala.</para>
+    </listitem>
+	</itemizedlist>
+	</sect3>
+	 <sect3 id="totem-usage-change-ratio">
+		<title>Cambiar el la proporción del vídeo</title>
+	      <para>Para cambiar entre diferentes proporciones, elija <menuchoice> <shortcut><keycap>A</keycap></shortcut><guimenu>Ver</guimenu><guisubmenu>Proporción</guisubmenu></menuchoice>.</para>
+	  </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-adjust-volume">
+      <title>Ajustar el volumen</title>
+      <para>Para subir el volumen, elija <menuchoice><shortcut><keycap>Arriba</keycap></shortcut> <guimenu>Sonido</guimenu> <guimenuitem>Subir volumen</guimenuitem> </menuchoice>. Para bajar el volumen, elija <menuchoice><shortcut><keycap>Abajo</keycap></shortcut><guimenu>Sonido</guimenu> <guimenuitem>Bajar volumen</guimenuitem></menuchoice>.</para>
+      <para>También puede usar el botón de volumen: pulse el botón de volumen y elija el nivel de volumen con el deslizador.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-on-top">
+      <title>Hacer que la ventana siempre esté encima</title>
+      <para>Para hacer que la ventana del <application>Reproductor de películas Totem</application> esté siempre encima de otras ventanas de aplicaciones, elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Complementos</guimenuitem></menuchoice>. Seleccione el complemento <application>Siempre encima</application> para activarlo. La ventana del Reproductor de películas Totem se mostrará encima de todas las otras ventanas cuando se esté reproduciendo una película, pero no cuando se esté reproduciendo sonido o una visualización.</para>
+       <para>Para hacer que la ventana deje de estar siempre encima, desactive el complemento <guilabel>Siempre encima</guilabel> de nuevo. Para obtener más información consulte la <xref linkend="totem-plugins-always-on-top"/>.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-show-control">
+      <title>Mostrar u ocultar los controles</title>
+      <para>Para ocultar o mostrar los controles de ventana del <application>Reproductor de películas Totem</application>, elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenu>Ver</guimenu><guimenuitem>Mostrar controles</guimenuitem></menuchoice> o pulse la tecla <keycap>H</keycap>. También puede pulsar con el botón derecho del ratón en la ventana del <application>Reproductor de películas Totem</application> y después elija <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenuitem>Mostrar controles</guimenuitem></menuchoice> desde el menú emergente.</para>
+      <para>Si la opción <guilabel>Mostrar controles</guilabel> está seleccionada, el <application>Reproductor de películas Totem</application> mostrará la barra de menús, el deslizador de tiempo transcurrido, los botones de control de búsqueda, el deslizador de volumen y la barra de estado en la ventana. Si la opción <guilabel>Mostrar controles</guilabel> está deseleccionada, la aplicación ocultará estos controles y mostrará sólo el área de visualización.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-playlist">
+      <title>Gestionar la lista de reproducción</title>
+
+      <sect3 id="totem-usage-playlist-show-hide">
+	<title>Para mostrar u ocultar la lista de reproducción</title>
+	<para>Para mostrar u ocultar la lista de reproducción elija <menuchoice><guimenu>Ver</guimenu><guimenuitem>Barra lateral</guimenuitem></menuchoice> o pulse el botón <guilabel>Barra lateral</guilabel> y elija <guimenu>Lista de reproducción</guimenu> en la parte superior de la barra lateral.</para>
+      </sect3>
+
+      <sect3 id="totem-usage-playlist-manage">
+	<title>Administrar una lista de reproducción</title>
+	<para>Puede usar el diálogo <guilabel>Lista de reproducción</guilabel> para hacer lo siguiente: <variablelist>
+	    <varlistentry>
+	      <term>Añadir una pista o película</term>
+	      <listitem>
+		<para>Para añadir una pista o película a la lista de reproducción, pulse el botón <guibutton>Añadir</guibutton>. Se muestra el diálogo <guilabel>Seleccionar películas o listas de reproducción</guilabel>. Seleccione el archivo que quiera añadir a la lista de reproducción, después pulse <guibutton>Añadir</guibutton>.</para>
+              </listitem>
+            </varlistentry>
+	    <varlistentry>
+	      <term>Para eliminar una pista o película</term>
+	      <listitem>
+		<para>Para eliminar una pista o película de la lista de reproducción, seleccione los elementos que quiere quitar de la lista, después pulse el botón <guibutton>Quitar</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Guardar una lista de reproducción en un archivo</term>
+	      <listitem>
+		<para>Para guardar una lista de reproducción en un archivo pulse el botón <guibutton>Guardar lista de reproducción</guibutton>. Se muestra el diálogo <guilabel>Guardar lista de reproducción</guilabel>, especifique el nombre del archivo que quiere usar para guardar la lista de reproducción y después pulse <guibutton>Guardar</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Mover una pista o película de la lista de reproducción</term>
+	      <listitem>
+		<para>Para subir una pista o película de la lista de reproducción, seleccione el elemento de la lista de reproducción y después pulse en el botón <guibutton>Subir</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Bajar una pista o película en la lista de reproducción</term>
+	      <listitem>
+		<para>Para bajar un pista o película de la lista de reproducción, seleccione el elemento de la a lista de reproducción y después pulse en el botón <guibutton>Bajar</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+          </variablelist></para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-repeat">
+	<title>Para seleccionar o deseleccionar el modo de repetición</title>
+	<para>Para activar o desactivar el modo repetición, elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Modo de repetición</guimenuitem></menuchoice>.</para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-shuffle">
+	<title>Para seleccionar o deseleccionar el modo aleatorio</title>
+	<para>Para activar o desactivar el modo aleatorio, elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Modo aleatorio</guimenuitem></menuchoice>.</para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-subtitle">
+	  <title>Para elegir un subtítulo</title>
+	  <para>Para elegir el idioma de los subtítulos, seleccione <menuchoice><guimenu>Ver</guimenu><guisubmenu>Subtítulos</guisubmenu></menuchoice> y elija el idioma de los subtítulos que quiera mostrar.</para>
+	  <para>Para desactivar la visualización de subtítulos, seleccione <menuchoice><guisubmenu>Ver</guisubmenu><guisubmenu>Subtítulos</guisubmenu><guimenuitem>Ninguno</guimenuitem></menuchoice>.</para>
+	  <note><para>De forma predeterminada el <application>Reproductor de películas Totem</application> elegirá el mismo idioma para los subtítulos que el que esté usando en su equipo.</para></note>
+	  <para>El <application>Reproductor de películas Totem</application> cargará y mostrará automáticamente los subtítulos si el archivo que los contiene tiene el mismo nombre que el archivo de vídeo reproducido y la extensión <filename class="extension">asc</filename>, <filename class="extension">txt</filename>, <filename class="extension">sub</filename>, <filename class="extension">srt</filename>, <filename class="extension">smi</filename>, <filename class="extension">ssa</filename> o <filename class="extension">ass</filename>.</para>
+	  <para>Si el archivo que contiene los subtítulos tiene un nombre diferente del vídeo en reproducción, puede pulsar con el botón derecho en la lista de reproducción de vídeos y seleccionar <menuchoice><guimenuitem>Seleccionar subtítulos de texto...</guimenuitem></menuchoice> del menú emergente para cargar el archivo de subtítulo correcto. También puede elegir los subtítulos seleccionando <menuchoice><guimenu>Ver</guimenu><guimenuitem>Seleccionar subtítulos de texto...</guimenuitem></menuchoice>.</para>
+	  <para>Usando el complemento <guilabel>Descargador de subtítulos</guilabel> también puede descargar subtítulos del servicio OpenSubtitles. Para obtener más información consulte la <xref linkend="totem-plugins-opensubtitles"/>.</para>
+	</sect2>
+
+    <sect2 id="totem-usage-take-screenshot">
+      <title>Tomar una captura de pantalla</title>
+      <para>Para tomar una captura de pantalla de la película o de la visualización que se está reproduciendo, elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Capturar pantalla</guimenuitem></menuchoice>. Se muestra el diálogo <guilabel>Guardar la captura</guilabel>. Elija una ubicación e introduzca el nombre de archivo con el que quiere guardar la captura de pantalla, después pulse el botón <guibutton>Guardar</guibutton> para guardar la captura de pantalla.</para>
+      <tip><para>El <application>Reproductor de películas Totem</application> mostrará una vista previa en la parte izquierda del diálogo <guilabel>Guardar la captura</guilabel>, de la captura de pantalla que se guardará.</para></tip>
+    </sect2>
+
+    <sect2 id="totem-usage-create-screenshot-gallery">
+      <title>Crear una galería de capturas de pantalla</title>
+      <para>Para crear una galería de capturas de pantalla de la película o de la visualización que se está reproduciendo, elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Crear una galería de capturas…</guimenuitem></menuchoice>. Se muestra el diálogo <guilabel>Guardar galería</guilabel>. Elija una ubicación e introduzca el nombre de archivo con el que quiere guardar la galerías de capturas de pantalla, después pulse el botón <guibutton>Guardar</guibutton> para guardar la captura de pantalla.</para>
+      <tip><para>Puede especificar el ancho de las capturas individuales para la galería usando la entrada <guilabel>Anchura de la captura</guilabel>. La anchura predeterminada es de 128 píxeles.</para>
+      <para>También puede especificar el número de capturas de pantalla que poner en la galería. De forma predeterminada esto se calcula en base a la duración de la película; no obstante, esto se puede sobreescribir deseleccionando la casilla de verificación <guilabel>Calcular el número de capturas</guilabel> e introduciendo un número nuevo en la caja incremental <guilabel>Número de capturas:</guilabel>.</para></tip>
+    </sect2>
+  </sect1>
+
+<!-- =========== Plugins ======================================= -->
+  <sect1 id="totem-plugins">
+    <title>Complementos</title>
+    <para>El <application>Reproductor de películas Totem</application> tiene muchas características presentes en forma de complementos; partes del software que sólo se cargan si es necesario.</para>
+    <sect2 id="totem-plugins-load">
+      <title>Activar un complemento</title>
+      <para>Para ver la lista de complementos instalados elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Complementos</guimenuitem></menuchoice>. Se mostrará el diálogo <guilabel>Configurar complementos</guilabel>. En la parte izquierda está una lista de los complementos que ha instalado, mientras que en el parte derecha se muestra una descripción del complemento actualmente seleccionado. Los complementos que tienen opciones que se pueden cambiar tendrán un botón <guibutton>Configurar</guibutton> activo en la parte derecha.</para>
+      <para>Para activar un complemento simplemente seleccione la casilla de verificación a la izquierda del nombre en la lista de complementos y se cargará inmediatamente el complemento. Si hay algún error al cargar el complemento, se mostrará inmediatamente un diálogo de error.</para>
+      <para>Para desactivar un complemento deseleccione su casilla de verificación. Los complementos permanecerán activados/desactivados, según se configure, incluso cuando cierre el <application>Reproductor de películas Totem</application>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-always-on-top">
+      <title>Siempre encima</title>
+      <para>Cuando el complemento <guilabel>Siempre encima</guilabel> está activado forzará que la ventana del <application>Reproductor de películas Totem</application> esté encima de todas las demás ventanas mientras se reproduce una película pero no mientras se reproduce sonido o una visualización. Para hacer que la ventana deje de estar siempre encima, desactive el complemento.</para>
+    </sect2>
+    <sect2 id="totem-plugins-coherence">
+      <title>Cliente de DLNA/UPnP Coherence</title>
+      <para>El complemento <guilabel>Cliente de DLNA/UPnP Coherence</guilabel> permite que el <application>Reproductor de películas Totem</application> reproduzca contenido multimedia de servidores de medios UPnP (tales como servidores Coherence) en la red local.</para>
+      <para>Con el complemento <guilabel>Cliente de DLNA/UPnP Coherence</guilabel> activado elija <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Ver</guimenu><guimenuitem>Barra lateral</guimenuitem></menuchoice> o pulse el botón <guibutton>Barra lateral</guibutton> para mostrar la barra lateral. Seleccione <guilabel>Cliente de DLNA/UPnP Coherence</guilabel> de la lista desplegable en la parte superior de la barra lateral para mostrar la barra lateral del <guilabel>Cliente de DLNA/UPnP Coherence</guilabel>.</para>
+      <para>La vista de árbol en la barra lateral listará los servidores multimedia disponibles. Pulsar sobre uno lo expandirá para mostrar los tipos de medios que puede servir y pulsar sobre una carpeta de medios la expandirá para listar los archivos multimedia disponibles. Pulsar dos veces sobre un archivo multimedia lo añadirá a la lista de reproducción del <application>Reproductor de películas Totem</application> y lo reproducirá. Puede pulsar con el botón derecho del ratón sobre un archivo y elegir <menuchoice><guimenuitem>Reproducir</guimenuitem></menuchoice> o <menuchoice><guimenuitem>Encolar</guimenuitem></menuchoice> para reproducir el archivo inmediatamente o añadirlo a la lista de reproducción, respectivamente.</para>
+      <para>Si el servidor de medios lo permite, elegir <menuchoice><guimenuitem>Eliminar</guimenuitem></menuchoice> del menú contextual de un archivo le permitirá borrar ese archivo del servidor de medios.</para>
+    </sect2>
+    <sect2 id="totem-plugins-gromit">
+      <title>Anotaciones Gromit</title>
+      <para>El complemento <guilabel>Anotaciones Grommit</guilabel> le permite dibujar sobre películas según se reproducen usando <ulink type="http" url="http://www.home.unix-ag.org/simon/gromit/"><application>Gromit</application></ulink>. Debe tener <application>Gromit</application> instalado antes de poder activar el complemento; consulte la documentación de su sistema operativo para obtener información de cómo hacer esto.</para>
+      <para>Con el complemento activado pulse <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> para conmutar <application>Gromit</application> entre activado y desactivado. Cuando <application>Gromit</application> está activado el puntero del ratón cambia a un puntero en forma de cruz. Para dibujar en la pantalla mantenga pulsado el botón del ratón y arrastre el puntero alrededor antes de dejar de pulsar el botón del ratón. Pulse <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> de nuevo para desactivar <application>Gromit</application>.</para>
+      <para>Para limpiar la pantalla de anotaciones pulse <keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo> o cierre el <application>Reproductor de películas Totem</application>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-jamendo">
+      <title>Jamendo</title>
+      <para>El complemento <guilabel>Jamendo</guilabel> le permite escuchar la colección de música licenciada con Creative Commons en el servicio <ulink type="http" url="http://www.jamendo.com/en/">Jamendo</ulink>.</para>
+      <sect3 id="totem-plugins-jamendo-configuration">
+        <title>Configurar el complemento</title>
+        <para>El complemento <guilabel>Jamendo</guilabel> se puede configurar. Pulse el botón <guibutton>Configurar</guibutton> cuando active el complemento y se mostrará el diálogo <guilabel>Configuración del complemento de Jamendo</guilabel>. Aquí puede elegir si quiere convertir las canciones a formato Ogg o MP3 (se prefiere Ogg ya que es de naturaleza de código abierto); y el número de álbumes que obtener al realizar una búsqueda (elija más álbumes si tiene una conexión a Internet rápida).</para>
+        <para>Una vez que haya terminado pulse el botón <guibutton>Aceptar</guibutton>.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-setup">
+        <title>Mostrar la barra lateral de Jamendo</title>
+        <para>Con el complemento <guilabel>Jamendo</guilabel> activado elija <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Ver</guimenu><guimenuitem>Barra lateral</guimenuitem></menuchoice> o pulse el botón <guibutton>Barra lateral</guibutton> para mostrar la barra lateral. Seleccione <guilabel>Jamendo</guilabel> de la lista desplegable en la parte superior de la barra lateral para mostrar la barra lateral del <guilabel>Jamendo</guilabel>.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-search">
+        <title>Buscar música</title>
+        <para>Introduzca los términos de búsqueda en la entrada de búsqueda en la parte superior de la barra lateral de <guilabel>Jamendo</guilabel>. También puede buscar por artista o etiquetas. Pulse el botón de búsqueda para comenzar su búsqueda.</para>
+        <para>Se mostrarán los resultados de la búsqueda en la vista de árbol e la página <guilabel>Resultados de la búsqueda</guilabel> de la barra lateral, y se pueden examinar usando los botones de flechas en la parte inferior de la barra lateral. Los álbumes se listan y si pulsa sobre un álbum, se listarán sus pistas debajo. Pulse de nuevo para ocultar las pistas del álbum.</para>
+        <para>Con un artista seleccionado puede pulsar en el botón <guibutton>Página del álbum en Jamendo</guibutton> para abrir la página del álbum en el sitio web de Jamendo. Pulsando dos veces sobre el álbum o eligiendo <menuchoice><guimenuitem>Añadir a la lista de reproducción</guimenuitem></menuchoice> desde el menú contextual del álbum reemplazará su lista de reproducción con todas las pistas de ése álbum y comenzará a reproducir la primera pista desde la página web de Jamendo. Pulsar dos veces sobre una pista individual reemplazará su lista de reproducción con esa pista únicamente.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-popular">
+        <title>Álbumes populares y últimas publicaciones</title>
+        <para>Ver la página <guilabel>Popular</guilabel> en la barra lateral de <guilabel>Jamendo</guilabel> mostrará una lista de los álbumes más populares en Jamendo en ese momento, que se pueden reproducir como resultados de una búsqueda. Ver la página <guilabel>Últimas publicaciones</guilabel> cargará igualmente una lista de los últimos álbumes publicados en Jamendo.</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-tracker">
+      <title>Búsqueda local</title>
+      <para>El complemento <guilabel>Búsqueda local</guilabel> le permite buscar películas y archivos de sonido reproducibles en su equipo desde el <application>Reproductor de películas Totem</application>. Con el complemento activado, elija <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Ver</guimenu><guimenuitem>Barra lateral</guimenuitem></menuchoice> o pulse el botón <guibutton>Barra lateral</guibutton> para mostrar la barra lateral. Seleccione <guilabel>Búsqueda local</guilabel> de la lista desplegable en la parte superior de la barra lateral para mostrar la barra lateral <guilabel>Búsqueda local</guilabel>.</para>
+      <para>Para realizar una búsqueda introduzca sus términos de búsqueda en la entrada de búsqueda en la parte superior de la barra lateral y pulse <guibutton>Buscar</guibutton>. Su búsqueda puede incluir comodines tales como <literal>*</literal>, que coincidirán con cualquier carácter. Por ejemplo, la búsqueda <userinput>*.mpg</userinput> buscará todas las películas con la extensión <filename class="extension">.mpg</filename>.</para>
+      <para>Se pueden examinar los resultados de la búsqueda con los botones <guibutton>Atrás</guibutton> y <guibutton>Adelante</guibutton> en la parte inferior de la barra lateral, y puede saltar a una página de resultados específicos introduciendo su número en el botón incrementable.</para>
+    </sect2>
+    <sect2 id="totem-plugins-publish">
+      <title>Publicar listas de reproducción</title>
+      <para>El complemento <guilabel>Publicar lista de reproducción</guilabel> le permite publicar listas de reproducción en su red local y permitir que otros equipos accedan a ellas y las reproduzcan.</para>
+      <sect3 id="totem-plugins-publish-configuration">
+        <title>Configurar el complemento</title>
+        <para>El complemento <guilabel>Publicar lista de reproducción</guilabel> se puede configurar. Pulse el botón <guibutton>Configurar</guibutton> cuando active el complemento y se mostrará el diálogo de configuración. Aquí puede cambiar el nombre con el que aparecerá su lista de reproducción compartida. Las siguientes cadenas se pueden reemplazar al publicar listas de reproducción: <variablelist>
+	    <varlistentry>
+	      <term><literal>%a</literal></term>
+	      <listitem><para>Reemplazado con el nombre del programa: <application>Reproductor de películas Totem</application>.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%h</literal></term>
+	      <listitem><para>Reemplazado con el nombre de su equipo.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%u</literal></term>
+	      <listitem><para>Reemplazado con su nombre de usuario.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%U</literal></term>
+	      <listitem><para>Reemplazado con su nombre real.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%%</literal></term>
+	      <listitem><para>Reemplazado con un símbolo literal de porcentaje.</para></listitem>
+	    </varlistentry>
+	  </variablelist></para>
+	<para>También puede seleccionar la casilla de verificación <guilabel>Usar protocolo de transporte cifrado (HTTPS)</guilabel> si quiere cifrar las listas de reproducción compartidas al transmitirlas sobre la red.</para>
+        <para>Una vez que haya terminado pulse el botón <guibutton>Aceptar</guibutton>.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-publishing">
+        <title>Publicar listas de reproducción</title>
+        <para>Con el complemento activado no necesita publicar las listas de reproducción explícitamente; están disponibles en la red automáticamente como un sitio web sin configuración.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-neighborhood">
+        <title>Buscar en su vecindario</title>
+        <para>Para ver las listas de reproducción compartidas por otros en su red seleccione <guilabel>Vecindario</guilabel> de la lista desplegable en la parte superior de la barra lateral. Si cualquier lista de reproducción se ha publicado en la red, se listará aquí. Pulse dos veces sobre una lista de reproducción para cargarla y reproducirla en su equipo.</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-opensubtitles">
+      <title>Descargador de subtítulos</title>
+      <para>El complemento <guilabel>Descargador de subtítulos</guilabel> le permite buscar y descargar subtítulos del servicio <ulink type="http" url="http://www.opensubtitles.org/es">OpenSubtitles</ulink>.</para>
+      <para> Los subtítulos sólo se pueden descargar para películas locales; no para archivos de sonido, DVD, flujos DVB, VCD o flujos HTTP. Para buscar subtítulos para la película actualmente en reproducción, elija <menuchoice><guimenu>Ver</guimenu><guimenuitem>Descargar subtítulos para la película</guimenuitem></menuchoice>, que mostrará el diálogo <application>Descargar subtítulos para la película</application>.</para>
+      <para>Seleccione el idioma en el que quiere tener los subtítulos desde la lista desplegable en la parte superior del diálogo, después pulse el botón <guibutton>Buscar</guibutton> para buscar los subtítulos para la película actual. Los subtítulos se buscan en función del contenido de la película, en lugar del nombre de archivo o de etiquetas.</para>
+      <para>Los resultados de búsqueda se listan en la vista de árbol en el medio del diálogo. Actualmente los subtítulos sólo se pueden usar en una película <emphasis>recargando</emphasis> la película con los subtítulos, de tal forma que después de seleccionar el archivo de subtítulo que quiere descargar, pulse el botón <guibutton>Reproducir con subtítulos</guibutton> para descargar los subtítulos y recargar la película.</para>
+        <note><para>Los archivos de subtítulos descargados se cachean (de forma predeterminada en <filename>~/.cache/totem/subtitles</filename>), así no se necesitan descargar de nuevo al reproducir la película otra vez. Al descargar los subtítulos para una película, se borrará cualquier otro subtítulo descargado para esa película.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-thumbnail">
+      <title>Miniatura</title>
+      <para>El complemento <guilabel>Miniatura</guilabel> establece el icono de la ventana principal del <application>Reproductor de películas Totem</application> a una miniatura de la película actual, y actualiza el icono cuando se cargan películas nuevas.</para>
+      <note><para>Si una miniatura no existe para la película actual, o si está reproduciendo un archivo de sonido, se restablecerá el icono de la ventana principal al logotipo del <application>Reproductor de películas Totem</application>.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-brasero">
+      <title>Grabador de discos de vídeo</title>
+      <para>El complemento <guilabel>Grabador de discos de vídeo</guilabel> le permite grabar la lista de reproducción actual a un DVD o VCD usando <application>Brasero</application>.</para>
+      <para>Para grabar la lista de reproducción actual elija <menuchoice><guimenu>Película</guimenu><guimenuitem>Crear disco de vídeo</guimenuitem></menuchoice>. Se abrirá un diálogo de <application>Brasero</application> proporcionando opciones para convertir las películas al formato apropiado y grabarlas al disco. Para obtener más información consulte la <ulink type="help" url="ghelp:brasero?brasero-new-project-video">Documentación de Brasero</ulink>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-youtube">
+      <title>Examinador de YouTube</title>
+      <para>El complemento <guilabel>Examinador de YouTube</guilabel> le permite buscar y examinar <ulink type="http" url="http://www.youtube.com/">YouTube</ulink> y reproducir vídeos de YouTube directamente en el <application>Reproductor de películas Totem</application>. Con el complemento activado, elija <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Ver</guimenu><guimenuitem>Barra lateral</guimenuitem></menuchoice> o pulse el botón <guibutton>Barra lateral</guibutton> para mostrar la barra lateral. Seleccione <guilabel>Examinador de YouTube</guilabel> de la lista desplegable en la parte superior de la barra lateral para mostrar la barra lateral <guilabel>YouTube</guilabel>.</para>
+      <para>Para buscar un vídeo de YouTube introduzca sus términos de búsqueda en la entrada en la parte superior de la barra lateral, después pulse <guibutton>Buscar</guibutton>. Se listarán los resultados de la búsqueda en la vista de árbol inferior. Automáticamente se cargarán más resultados según descienda sobre la lista.</para>
+      <para>Para reproducir un vídeo pulse dos veces sobre él en la lista de resultados o elija <menuchoice><guimenuitem>Añadir a la lista de reproducción</guimenuitem></menuchoice> desde su menú contextual. Cuando se reproduce un vídeo se cargará automáticamente una lista de vídeos relacionados en la página <guilabel>Vídeos relacionados</guilabel> de la barra lateral de <guilabel>YouTube</guilabel>.</para>
+      <para>Los vídeos de YouTube se pueden abrir en un navegador web eligiendo <menuchoice><guimenuitem>Abrir en un navegador web</guimenuitem></menuchoice> del menú contextual. Esto abrirá el vídeo en su ubicación original en el sitio web de YouTube.</para>
+    </sect2>
+    <sect2 id="totem-plugins-dbus-service">
+      <title>Servicio D-Bus</title>
+      <para>El complemento <guilabel>Servicio D-Bus</guilabel> envía las notificaciones en modo «broadcast» de la pista que se está reproduciendo en el <guilabel>Reproductor de películas Totem</guilabel> a través del bus de sesión D-Bus. Las aplicaciones tales como <application>Gajim</application> pueden escuchar esas notificaciones y responder de acuerdo a ellas, por ejemplo, actualizando automáticamente su mensaje de estado para mostrar el vídeo que se está reproduciendo actualmente en el <application>Reproductor de películas Totem</application>.</para>
+    </sect2>
+  </sect1>
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to customize the 
+     application. -->
+  <sect1 id="totem-prefs">
+    <title>Preferencias</title>
+    <para>Para modificar las preferencias del <application>Reproductor de películas Totem</application>, elija <menuchoice><guimenu>Editar</guimenu><guimenuitem>Preferencias</guimenuitem></menuchoice>.</para>
+
+    <sect2 id="totem-prefs-general">
+      <title>General</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Red</term>
+	  <listitem>
+	    <para>Seleccione la velocidad de la conexión de red de la lista desplegable <guilabel>Velocidad de conexión</guilabel>.</para>
+          </listitem>
+        </varlistentry>	
+	<varlistentry>
+	  <term>Subtítulos</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	      	<para><guilabel>Cargar los archivos de subtítulos automáticamente cuando se carga la película</guilabel>: seleccione esta opción para cargar automáticamente cualquier archivo de subtítulos con el mismo nombre que la película al cargar la película.</para>
+	      </listitem>
+	      <listitem>
+                <para><guilabel>Tipografía</guilabel>: seleccione esta opción para cambiar la tipografía que se usa para mostrar los subtítulos.</para>
+              </listitem>
+	          <listitem>
+				<para><guilabel>Codificación</guilabel>: seleccione esta opción para cambiar la codificación que se usa para mostrar los subtítulos.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>	
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-display">
+      <title>Área de visualización</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Área de visualización</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	        <para>Seleccione la opción de redimensión si quiere que el <application>Reproductor de películas Totem</application> redimensione automáticamente la ventana cuando se cargue un vídeo nuevo.</para>
+              </listitem>
+              <listitem>
+                <para>Seleccione la opción del salvapantallas si quiere permitir que se active el salvapantallas al reproducir archivos de sonido. Algunos monitores con altavoces integrados pueden dejar de reproducir música si se activa el salvapantallas.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Efectos visuales</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+                <para><guilabel>visual</guilabel>: seleccione esta opción para mostrar efectos visuales mientras se está reproduciendo un archivo de sonido.</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Tipo de visualización</guilabel>: seleccione el tipo de visualización de la lista desplegable.</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Tamaño de visualización</guilabel>: seleccione el tamaño de visualización de la lista desplegable.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Balance de color</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+		    <para><guilabel>Brillo</guilabel>: use el selector para especificar el nivel de brillo.</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>Contraste</guilabel>: use el selector para especificar el nivel de contraste.</para>
+          </listitem>
+	      <listitem>
+		    <para><guilabel>Saturación</guilabel>: use el deslizador para especificar el nivel de saturación.</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>Tono</guilabel>: use el selector para especificar el nivel de tono.</para>
+          </listitem>
+	    </itemizedlist>
+	    <tip><para>Puede usar el botón <guilabel>Restablecer predeterminados</guilabel> para restablecer los controles de balance de color a sus posiciones predeterminadas.</para></tip>
+      </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-audio">
+      <title>Sonido</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Salida de sonido</term>
+	  <listitem>
+	    <para>Seleccione el tipo de salida de sonido desde la lista desplegable <guilabel>Tipo de salida de sonido</guilabel>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+
+<!-- ============= Bugs ================================== -->
+<!-- This section is optional and is commented out by default. 
+     You can use it to describe known bugs and limitations of the 
+	  program if there are any - please be frank and list all
+     problems you know of. 
+  
+  <sect1 id="mayapp-bugs">
+  <title>Known Bugs and Limitations</title>
+  <para> </para>
+ </sect1>
+-->
+
+<!-- ============= About ================================== -->
+<!-- This section contains info about the program (not docs), such as
+      author's name(s), web page, license, feedback address. This
+      section is optional: primary place for this info is "About.." box of
+      the program. However, if you do wish to include this info in the
+      manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
+  <sect1 id="totem-about"> 
+    <title>Acerca del <application>Reproductor de películas Totem</application></title> 
+    <para>Bastien Nocera (<email>hadess@hadess.net</email>), Julien Moutte (<email>julien@moutte.net</email>) para el backend de GStreamer, y Guenter Bartsch (<email>guenter@users.sourceforge.net</email>) escribieron el <application>Reproductor de películas Totem</application>. Para obtener más información acerca del <application>Reproductor de películas Totem</application>, visite la <ulink url="http://projects.mate.org/totem/" type="http">Página web del <application>Reproductor de películas Totem</application></ulink>.</para>
+    <para>Para informar de un fallo o hacer alguna sugerencia concerniente a la aplicación <application>Reproductor de películas Totem</application> o este manual, siga las directrices en <ulink url="ghelp:user-guide#feedback" type="help">La página de comentarios de MATE</ulink>.</para>
+    <para>Este programa se distribuye bajo los términos de la Licencia Pública General GNU tal como la publica la Free Software Foundation; en cualquiera de las versiones 2 de la Licencia o (a su elección) cualquier versión posterior. Puede encontrar una copia de esta licencia en este <ulink url="ghelp:gpl" type="help">enlace</ulink>, o en el archivo COPYING incluido con el código fuente de este programa.</para>
+  </sect1> 
+</article>

@@ -1,0 +1,123 @@
+Frequently Asked Questions about Music Applet
+=============================================
+
+Q: I compiled and installed Music Applet, but when I run it from the command
+   line, nothing happens.  What's wrong?
+
+A: MATE panel applets aren't supposed to be run from the command line.
+   After installing Music Applet, right-click on a panel, choose "Add to
+   Panel", and select Music Applet from the list that appears.
+
+
+
+Q: I compiled and installed Music Applet, but it's not showing up in the
+   Add to Panel menu.  What's wrong?
+
+A: You installed the applet's .server file, which tells MATE about the
+   applet, to a directory that isn't being checked.  The .server file gets
+   installed to $PREFIX/lib/matecomponent/servers, where $PREFIX equals whatever
+   directory you specified as --prefix at compile time (default: /usr/local).
+
+   The easiest way to fix this is to add the directory the .server file is
+   to add it to the list of directories that get checked.  Edit
+   /etc/matecomponent-activation/matecomponent-activation-config.xml (or wherever MateComponent
+   keeps its activation configuration on your system) and add this line:
+
+       <item>$PREFIX/lib/matecomponent/servers</item>
+
+   between <searchpath> and </searchpath>, replacing $PREFIX with the
+   appropriate directory.  For example, with the default prefix, you would
+   say:
+
+       <item>/usr/local/lib/matecomponent/servers</item>
+
+   Then log out and log back into MATE to make sure the directory gets
+   re-scanned.
+
+   And if logging out and back in still doesn't work, as a last resort you
+   can try rebooting.
+
+
+
+Q: Why doesn't album art show up in the tooltip when I'm using Rhythmbox?
+
+A: The album art plugin for Rhythmbox doesn't currently have a way to let
+   Music Applet access the album art via D-Bus.
+
+
+
+Q: Why doesn't the Preferences dialog have sensible defaults?  All the
+   fields are blank at first.
+
+A: This usually happens when you are installing Music Applet as an ordinary
+   user as opposed to root.  Although all the files will be installed in
+   whatever directory you specified as the --prefix at configure time, MateConf
+   will still try to install the applet's schema file (which has those
+   sensible defaults you're looking for) in a directory only writable by
+   root.  If you look at the output from a "make install", you'll probably
+   see MateConf's verbose error messages about this.
+
+   The workaround is to specify at configure time where to install the
+   schema.  Use the configure script's --with-mateconf-source option to tell
+   MateConf to install the schema in your user's MateConf store, instead of the
+   system-wide one.  For example, this works for me:
+
+       --with-mateconf-source=xml:merged:$HOME/.mateconf
+
+   Of course, MateConf has a few different ways to store its data (that's
+   what the xml:merged part is all about), so check what your copy of
+   MateConf is using first.
+
+
+
+Q: I found a bug in Music Applet that I'm trying to debug.  Are there any
+   tricks to help me debug this (or any other) MATE applet?
+
+A: The trick is this: run the applet's executable file from the command line
+   before adding it to the panel.  When you do this, MATE will use the
+   instance you started yourself instead of launching a new instance of the
+   applet.  There's several ways this helps you when debugging:
+
+       * Warnings and debugging messages will be printed on stdout and
+         stderr.  Since you launched the applet from the command line,
+         you'll be able to see these messages.
+
+       * You can run the applet inside a debugger.
+
+       * You can run a locally-modified copy of the applet instead of the
+         one installed on the system.
+
+
+
+Q: Music Applet used to work, but ever since I upgraded Rhythmbox to
+   0.9.0 or 0.9.1, nothing works anymore!  What's wrong?
+
+A: Short answer: Upgrade to Rhythmbox 0.9.2 later.  Then make sure you
+   have D-Bus 0.35 or later installed.  Then recompile the applet, if you
+   didn't have D-Bus available when you compiled it originally.  Now it
+   should work.
+
+   Long answer: There are two IPC mechanisms that Rhythmbox uses.  The
+   first is MateComponent, which Rhythmbox 0.8.x uses.  The second is D-Bus,
+   which was introduced in Rhythmbox 0.9.0 and enhanced after 0.9.1 was
+   released.
+
+   The root of the problem is that the MateComponent interface changed between
+   0.8.8 and 0.9.0 in a way that broke backwards compatibility,
+   preventing a client program (such as Music Applet) from being able to
+   speak with both versions of Rhythmbox via MateComponent.  That's why things
+   stopped working when you upgraded Rhythmbox.
+
+   The D-Bus interface added in 0.9.0 was originally pretty limited, and
+   didn't offer the functionality needed by Music Applet.  This changed
+   shortly after 0.9.1 was released, making D-Bus a viable option.
+
+   Music Applet will automatically use the best IPC mechanism available.  If
+   Rhythmbox 0.9.2 or later is running and D-Bus is available, it will use
+   D-Bus.  If Rhythmbox 0.8.x is running, it will use MateComponent.
+
+   Music Applet will never support Rhythmbox 0.9.0 or Rhythmbox 0.9.1.
+   If you're using one of those two releases, you should stronly
+   considering upgrading to a version that has better D-Bus support,
+   especially now that those two releases of Rhythmbox are outdated
+   anyway.

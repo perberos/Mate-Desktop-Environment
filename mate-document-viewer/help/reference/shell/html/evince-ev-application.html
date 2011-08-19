@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ev-application</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Evince Programmer's Reference Manual">
+<link rel="up" href="evince-frontend.html" title="Part I. Frontend">
+<link rel="prev" href="EvOpenRecentAction.html" title="EvOpenRecentAction">
+<link rel="next" href="EvSidebarThumbnails.html" title="EvSidebarThumbnails">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="EvOpenRecentAction.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="evince-frontend.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Evince Programmer's Reference Manual</th>
+<td><a accesskey="n" href="EvSidebarThumbnails.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#evince-ev-application.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#evince-ev-application.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#evince-ev-application.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry" title="ev-application">
+<a name="evince-ev-application"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="evince-ev-application.top_of_page"></a>ev-application</span></h2>
+<p>ev-application</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="evince-ev-application.synopsis"></a><h2>Synopsis</h2>
+<a name="EvApplication"></a><pre class="synopsis">                    <a class="link" href="evince-ev-application.html#EvApplication-struct" title="EvApplication">EvApplication</a>;
+                    <a class="link" href="evince-ev-application.html#EvApplicationClass" title="EvApplicationClass">EvApplicationClass</a>;
+#define             <a class="link" href="evince-ev-application.html#EV-APP:CAPS" title="EV_APP">EV_APP</a>
+<a class="link" href="evince-ev-application.html#EvApplication"><span class="returnvalue">EvApplication</span></a> *     <a class="link" href="evince-ev-application.html#ev-application-get-instance" title="ev_application_get_instance ()">ev_application_get_instance</a>         (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-shutdown" title="ev_application_shutdown ()">ev_application_shutdown</a>             (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="evince-ev-application.html#ev-application-load-session" title="ev_application_load_session ()">ev_application_load_session</a>         (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-open-window" title="ev_application_open_window ()">ev_application_open_window</a>          (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/GdkScreen.html"><span class="type">GdkScreen</span></a> *screen</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> timestamp</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-open-uri-at-dest" title="ev_application_open_uri_at_dest ()">ev_application_open_uri_at_dest</a>     (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/GdkScreen.html"><span class="type">GdkScreen</span></a> *screen</code></em>,
+                                                         <em class="parameter"><code><a href="/home/carlos/mate-cvs/share/gtk-doc/html/libevdocument/libevdocument-ev-link-dest.html#EvLinkDest"><span class="type">EvLinkDest</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvWindow.html#EvWindowRunMode" title="enum EvWindowRunMode"><span class="type">EvWindowRunMode</span></a> mode</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_string</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> timestamp</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-open-uri-list" title="ev_application_open_uri_list ()">ev_application_open_uri_list</a>        (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *uri_list</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/GdkScreen.html"><span class="type">GdkScreen</span></a> *screen</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> timestamp</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="evince-ev-application.html#ev-application-has-window" title="ev_application_has_window ()">ev_application_has_window</a>           (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="evince-ev-application.html#ev-application-get-uri" title="ev_application_get_uri ()">ev_application_get_uri</a>              (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+<a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"><span class="returnvalue">GObject</span></a> *           <a class="link" href="evince-ev-application.html#ev-application-get-media-keys" title="ev_application_get_media_keys ()">ev_application_get_media_keys</a>       (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-set-filechooser-uri" title="ev_application_set_filechooser_uri ()">ev_application_set_filechooser_uri</a>  (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkFileChooser.html#GtkFileChooserAction"><span class="type">GtkFileChooserAction</span></a> action</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="evince-ev-application.html#ev-application-get-filechooser-uri" title="ev_application_get_filechooser_uri ()">ev_application_get_filechooser_uri</a>  (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkFileChooser.html#GtkFileChooserAction"><span class="type">GtkFileChooserAction</span></a> action</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-screensaver-enable" title="ev_application_screensaver_enable ()">ev_application_screensaver_enable</a>   (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="evince-ev-application.html#ev-application-screensaver-disable" title="ev_application_screensaver_disable ()">ev_application_screensaver_disable</a>  (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="evince-ev-application.html#ev-application-get-dot-dir" title="ev_application_get_dot_dir ()">ev_application_get_dot_dir</a>          (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> create</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="evince-ev-application.html#ev-application-get-data-dir" title="ev_application_get_data_dir ()">ev_application_get_data_dir</a>         (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="evince-ev-application.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----EvApplication
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="evince-ev-application.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="evince-ev-application.details"></a><h2>Details</h2>
+<div class="refsect2" title="EvApplication">
+<a name="EvApplication-struct"></a><h3>EvApplication</h3>
+<pre class="programlisting">typedef struct _EvApplication EvApplication;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EvApplicationClass">
+<a name="EvApplicationClass"></a><h3>EvApplicationClass</h3>
+<pre class="programlisting">typedef struct _EvApplicationClass EvApplicationClass;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EV_APP">
+<a name="EV-APP:CAPS"></a><h3>EV_APP</h3>
+<pre class="programlisting">#define EV_APP					(ev_application_get_instance ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_get_instance ()">
+<a name="ev-application-get-instance"></a><h3>ev_application_get_instance ()</h3>
+<pre class="programlisting"><a class="link" href="evince-ev-application.html#EvApplication"><span class="returnvalue">EvApplication</span></a> *     ev_application_get_instance         (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Checks for <a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> instance, if it doesn't exist it does create it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an instance of the <a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> data.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_shutdown ()">
+<a name="ev-application-shutdown"></a><h3>ev_application_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_shutdown             (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_load_session ()">
+<a name="ev-application-load-session"></a><h3>ev_application_load_session ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_application_load_session         (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_open_window ()">
+<a name="ev-application-open-window"></a><h3>ev_application_open_window ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_open_window          (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/GdkScreen.html"><span class="type">GdkScreen</span></a> *screen</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> timestamp</code></em>);</pre>
+<p>
+Creates a new window
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>The instance of the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>screen</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timestamp</code></em> :</span></p></td>
+<td>Current time value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_open_uri_at_dest ()">
+<a name="ev-application-open-uri-at-dest"></a><h3>ev_application_open_uri_at_dest ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_open_uri_at_dest     (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/GdkScreen.html"><span class="type">GdkScreen</span></a> *screen</code></em>,
+                                                         <em class="parameter"><code><a href="/home/carlos/mate-cvs/share/gtk-doc/html/libevdocument/libevdocument-ev-link-dest.html#EvLinkDest"><span class="type">EvLinkDest</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EvWindow.html#EvWindowRunMode" title="enum EvWindowRunMode"><span class="type">EvWindowRunMode</span></a> mode</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_string</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> timestamp</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>The instance of the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>The uri to be opened.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>screen</code></em> :</span></p></td>
+<td>Thee screen where the link will be shown.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>The <a href="/home/carlos/mate-cvs/share/gtk-doc/html/libevdocument/libevdocument-ev-link-dest.html#EvLinkDest"><span class="type">EvLinkDest</span></a> of the document.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mode</code></em> :</span></p></td>
+<td>The run mode of the window.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>search_string</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timestamp</code></em> :</span></p></td>
+<td>Current time value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_open_uri_list ()">
+<a name="ev-application-open-uri-list"></a><h3>ev_application_open_uri_list ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_open_uri_list        (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *uri_list</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk/unstable/GdkScreen.html"><span class="type">GdkScreen</span></a> *screen</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> timestamp</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri_list</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>screen</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timestamp</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_has_window ()">
+<a name="ev-application-has-window"></a><h3>ev_application_has_window ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            ev_application_has_window           (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_get_uri ()">
+<a name="ev-application-get-uri"></a><h3>ev_application_get_uri ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       ev_application_get_uri              (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_get_media_keys ()">
+<a name="ev-application-get-media-keys"></a><h3>ev_application_get_media_keys ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"><span class="returnvalue">GObject</span></a> *           ev_application_get_media_keys       (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+<p>
+It gives you access to the media player keys handler object.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>The instance of the application.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <a class="link" href="evince-ev-media-player-keys.html#EvMediaPlayerKeys"><span class="type">EvMediaPlayerKeys</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_set_filechooser_uri ()">
+<a name="ev-application-set-filechooser-uri"></a><h3>ev_application_set_filechooser_uri ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_set_filechooser_uri  (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkFileChooser.html#GtkFileChooserAction"><span class="type">GtkFileChooserAction</span></a> action</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_get_filechooser_uri ()">
+<a name="ev-application-get-filechooser-uri"></a><h3>ev_application_get_filechooser_uri ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       ev_application_get_filechooser_uri  (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkFileChooser.html#GtkFileChooserAction"><span class="type">GtkFileChooserAction</span></a> action</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_screensaver_enable ()">
+<a name="ev-application-screensaver-enable"></a><h3>ev_application_screensaver_enable ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_screensaver_enable   (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_screensaver_disable ()">
+<a name="ev-application-screensaver-disable"></a><h3>ev_application_screensaver_disable ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                ev_application_screensaver_disable  (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_get_dot_dir ()">
+<a name="ev-application-get-dot-dir"></a><h3>ev_application_get_dot_dir ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       ev_application_get_dot_dir          (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> create</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>create</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="ev_application_get_data_dir ()">
+<a name="ev-application-get-data-dir"></a><h3>ev_application_get_data_dir ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       ev_application_get_data_dir         (<em class="parameter"><code><a class="link" href="evince-ev-application.html#EvApplication"><span class="type">EvApplication</span></a> *application</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>application</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

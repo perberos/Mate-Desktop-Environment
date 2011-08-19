@@ -1,0 +1,577 @@
+;; -*- scheme -*-
+; object definitions ...
+
+(define-object Plugin
+  (in-module "Totem")
+  (parent "GObject")
+  (c-name "TotemPlugin")
+  (gtype-id "TOTEM_TYPE_PLUGIN")
+)
+
+(define-object Object
+  (in-module "Totem")
+  (parent "GObject")
+  (c-name "TotemObject")
+  (gtype-id "TOTEM_TYPE_OBJECT")
+)
+
+(define-object CellRendererVideo
+  (in-module "Totem")
+  (parent "GtkCellRenderer")
+  (c-name "TotemCellRendererVideo")
+  (gtype-id "TOTEM_TYPE_CELL_RENDERER_VIDEO")
+)
+
+(define-object VideoList
+  (in-module "Totem")
+  (parent "GtkTreeView")
+  (c-name "TotemVideoList")
+  (gtype-id "TOTEM_TYPE_VIDEO_LIST")
+)
+
+;; Enumerations and flags ...
+
+(define-enum DiscMediaType
+  (in-module "Totem")
+  (c-name "TotemDiscMediaType")
+  (gtype-id "TOTEM_TYPE_DISC_MEDIA_TYPE")
+  (values
+    '("error" "MEDIA_TYPE_ERROR")
+    '("data" "MEDIA_TYPE_DATA")
+    '("cdda" "MEDIA_TYPE_CDDA")
+    '("vcd" "MEDIA_TYPE_VCD")
+    '("dvd" "MEDIA_TYPE_DVD")
+    '("num-types" "MEDIA_TYPE_NUM_TYPES")
+  )
+)
+
+(define-enum PluginError
+  (in-module "Totem")
+  (c-name "TotemPluginError")
+  (gtype-id "TOTEM_TYPE_PLUGIN_ERROR")
+  (values
+    '("n" "TOTEM_PLUGIN_ERROR_ACTIVATION")
+  )
+)
+
+(define-enum RemoteCommand
+  (in-module "Totem")
+  (c-name "TotemRemoteCommand")
+  (gtype-id "TOTEM_TYPE_REMOTE_COMMAND")
+  (values
+    '("unknown" "TOTEM_REMOTE_COMMAND_UNKNOWN")
+    '("play" "TOTEM_REMOTE_COMMAND_PLAY")
+    '("pause" "TOTEM_REMOTE_COMMAND_PAUSE")
+    '("stop" "TOTEM_REMOTE_COMMAND_STOP")
+    '("playpause" "TOTEM_REMOTE_COMMAND_PLAYPAUSE")
+    '("next" "TOTEM_REMOTE_COMMAND_NEXT")
+    '("previous" "TOTEM_REMOTE_COMMAND_PREVIOUS")
+    '("seek-forward" "TOTEM_REMOTE_COMMAND_SEEK_FORWARD")
+    '("seek-backward" "TOTEM_REMOTE_COMMAND_SEEK_BACKWARD")
+    '("volume-up" "TOTEM_REMOTE_COMMAND_VOLUME_UP")
+    '("volume-down" "TOTEM_REMOTE_COMMAND_VOLUME_DOWN")
+    '("fullscreen" "TOTEM_REMOTE_COMMAND_FULLSCREEN")
+    '("quit" "TOTEM_REMOTE_COMMAND_QUIT")
+    '("enqueue" "TOTEM_REMOTE_COMMAND_ENQUEUE")
+    '("replace" "TOTEM_REMOTE_COMMAND_REPLACE")
+    '("show" "TOTEM_REMOTE_COMMAND_SHOW")
+    '("toggle-controls" "TOTEM_REMOTE_COMMAND_TOGGLE_CONTROLS")
+    '("show-playing" "TOTEM_REMOTE_COMMAND_SHOW_PLAYING")
+    '("show-volume" "TOTEM_REMOTE_COMMAND_SHOW_VOLUME")
+    '("up" "TOTEM_REMOTE_COMMAND_UP")
+    '("down" "TOTEM_REMOTE_COMMAND_DOWN")
+    '("left" "TOTEM_REMOTE_COMMAND_LEFT")
+    '("right" "TOTEM_REMOTE_COMMAND_RIGHT")
+    '("select" "TOTEM_REMOTE_COMMAND_SELECT")
+    '("dvd-menu" "TOTEM_REMOTE_COMMAND_DVD_MENU")
+    '("zoom-up" "TOTEM_REMOTE_COMMAND_ZOOM_UP")
+    '("zoom-down" "TOTEM_REMOTE_COMMAND_ZOOM_DOWN")
+    '("eject" "TOTEM_REMOTE_COMMAND_EJECT")
+    '("play-dvd" "TOTEM_REMOTE_COMMAND_PLAY_DVD")
+    '("mute" "TOTEM_REMOTE_COMMAND_MUTE")
+    '("toggle-aspect" "TOTEM_REMOTE_COMMAND_TOGGLE_ASPECT")
+  )
+)
+
+(define-enum RemoteSetting
+  (in-module "Totem")
+  (c-name "TotemRemoteSetting")
+  (gtype-id "TOTEM_TYPE_REMOTE_SETTING")
+  (values
+    '("shuffle" "TOTEM_REMOTE_SETTING_SHUFFLE")
+    '("repeat" "TOTEM_REMOTE_SETTING_REPEAT")
+  )
+)
+
+;; From totem-plugin.h
+
+(define-function totem_plugin_error_quark
+  (c-name "totem_plugin_error_quark")
+  (return-type "GQuark")
+)
+
+(define-method activate
+  (of-object "TotemPlugin")
+  (c-name "totem_plugin_activate")
+  (return-type "gboolean")
+  (parameters
+    '("TotemObject*" "totem")
+    '("GError**" "error")
+  )
+)
+
+(define-method deactivate
+  (of-object "TotemPlugin")
+  (c-name "totem_plugin_deactivate")
+  (return-type "none")
+  (parameters
+    '("TotemObject*" "totem")
+  )
+)
+
+(define-method is_configurable
+  (of-object "TotemPlugin")
+  (c-name "totem_plugin_is_configurable")
+  (return-type "gboolean")
+)
+
+(define-method create_configure_dialog
+  (of-object "TotemPlugin")
+  (c-name "totem_plugin_create_configure_dialog")
+  (return-type "GtkWidget*")
+)
+
+(define-method find_file
+  (of-object "TotemPlugin")
+  (c-name "totem_plugin_find_file")
+  (return-type "char*")
+  (parameters
+    '("const-char*" "file")
+  )
+)
+
+(define-method load_interface
+  (of-object "TotemPlugin")
+  (c-name "totem_plugin_load_interface")
+  (return-type "GtkBuilder*")
+  (parameters
+    '("const-char*" "name")
+    '("gboolean" "fatal")
+    '("GtkWindow" "parent")
+    '("gpointer" "user_data")
+  )
+)
+
+
+;; From totem.h
+
+(define-method plugins_init
+  (of-object "TotemObject")
+  (c-name "totem_object_plugins_init")
+  (return-type "none")
+)
+
+(define-method plugins_shutdown
+  (of-object "TotemObject")
+  (c-name "totem_object_plugins_shutdown")
+  (return-type "none")
+)
+
+(define-method file_opened
+  (of-object "TotemObject")
+  (c-name "totem_file_opened")
+  (return-type "none")
+  (parameters
+    '("const-char*" "mrl")
+  )
+)
+
+(define-method file_closed
+  (of-object "TotemObject")
+  (c-name "totem_file_closed")
+  (return-type "none")
+)
+
+(define-method metadata_updated
+  (of-object "TotemObject")
+  (c-name "totem_metadata_updated")
+  (return-type "none")
+  (parameters
+    '("const-char*" "artist")
+    '("const-char*" "title")
+    '("const-char*" "album")
+    '("guint" "track_num")
+  )
+)
+
+(define-method action_exit
+  (of-object "TotemObject")
+  (c-name "totem_action_exit")
+  (return-type "none")
+)
+
+(define-method action_play
+  (of-object "TotemObject")
+  (c-name "totem_action_play")
+  (return-type "none")
+)
+
+(define-method action_stop
+  (of-object "TotemObject")
+  (c-name "totem_action_stop")
+  (return-type "none")
+)
+
+(define-method action_play_pause
+  (of-object "TotemObject")
+  (c-name "totem_action_play_pause")
+  (return-type "none")
+)
+
+(define-method action_pause
+  (of-object "TotemObject")
+  (c-name "totem_action_pause")
+  (return-type "none")
+)
+
+(define-method action_fullscreen_toggle
+  (of-object "TotemObject")
+  (c-name "totem_action_fullscreen_toggle")
+  (return-type "none")
+)
+
+(define-method action_fullscreen
+  (of-object "TotemObject")
+  (c-name "totem_action_fullscreen")
+  (return-type "none")
+  (parameters
+    '("gboolean" "state")
+  )
+)
+
+(define-method action_next
+  (of-object "TotemObject")
+  (c-name "totem_action_next")
+  (return-type "none")
+)
+
+(define-method action_previous
+  (of-object "TotemObject")
+  (c-name "totem_action_previous")
+  (return-type "none")
+)
+
+(define-method action_seek_time
+  (of-object "TotemObject")
+  (c-name "totem_action_seek_time")
+  (return-type "none")
+  (parameters
+    '("gint64" "msec")
+    '("gboolean" "accurate")
+  )
+)
+
+(define-method action_seek_relative
+  (of-object "TotemObject")
+  (c-name "totem_action_seek_relative")
+  (return-type "none")
+  (parameters
+    '("int" "off_msec")
+    '("gboolean" "accurate")
+  )
+)
+
+(define-method get_volume
+  (of-object "TotemObject")
+  (c-name "totem_get_volume")
+  (return-type "gfloat")
+)
+
+(define-method action_volume
+  (of-object "TotemObject")
+  (c-name "totem_action_volume")
+  (return-type "none")
+  (parameters
+    '("gfloat" "volume")
+  )
+)
+
+(define-method action_volume_relative
+  (of-object "TotemObject")
+  (c-name "totem_action_volume_relative")
+  (return-type "none")
+  (parameters
+    '("gfloat" "off_pct")
+  )
+)
+
+(define-method action_play_media
+  (of-object "TotemObject")
+  (c-name "totem_action_play_media")
+  (return-type "none")
+  (parameters
+    '("TotemDiscMediaType" "type")
+    '("const-char*" "device")
+  )
+)
+
+(define-method action_toggle_aspect_ratio
+  (of-object "TotemObject")
+  (c-name "totem_action_toggle_aspect_ratio")
+  (return-type "none")
+)
+
+(define-method action_set_aspect_ratio
+  (of-object "TotemObject")
+  (c-name "totem_action_set_aspect_ratio")
+  (return-type "none")
+  (parameters
+    '("int" "ratio")
+  )
+)
+
+(define-method action_get_aspect_ratio
+  (of-object "TotemObject")
+  (c-name "totem_action_get_aspect_ratio")
+  (return-type "int")
+)
+
+(define-method action_toggle_controls
+  (of-object "TotemObject")
+  (c-name "totem_action_toggle_controls")
+  (return-type "none")
+)
+
+(define-method action_set_scale_ratio
+  (of-object "TotemObject")
+  (c-name "totem_action_set_scale_ratio")
+  (return-type "none")
+  (parameters
+    '("gfloat" "ratio")
+  )
+)
+
+(define-method action_error
+  (of-object "TotemObject")
+  (c-name "totem_action_error")
+  (return-type "none")
+  (parameters
+    '("const-char*" "title")
+    '("const-char*" "reason")
+  )
+)
+
+(define-method action_play_media_device
+  (of-object "TotemObject")
+  (c-name "totem_action_play_media_device")
+  (return-type "none")
+  (parameters
+    '("const-char*" "device")
+  )
+)
+
+(define-method is_fullscreen
+  (of-object "TotemObject")
+  (c-name "totem_is_fullscreen")
+  (return-type "gboolean")
+)
+
+(define-method is_playing
+  (of-object "TotemObject")
+  (c-name "totem_is_playing")
+  (return-type "gboolean")
+)
+
+(define-method is_paused
+  (of-object "TotemObject")
+  (c-name "totem_is_paused")
+  (return-type "gboolean")
+)
+
+(define-method is_seekable
+  (of-object "TotemObject")
+  (c-name "totem_is_seekable")
+  (return-type "gboolean")
+)
+
+(define-method get_main_window
+  (of-object "TotemObject")
+  (c-name "totem_get_main_window")
+  (return-type "GtkWindow*")
+)
+
+(define-method get_ui_manager
+  (of-object "TotemObject")
+  (c-name "totem_get_ui_manager")
+  (return-type "GtkUIManager*")
+)
+
+(define-method get_video_widget
+  (of-object "TotemObject")
+  (c-name "totem_get_video_widget")
+  (return-type "GtkWidget*")
+)
+
+(define-method get_video_widget_backend_name
+  (of-object "TotemObject")
+  (c-name "totem_get_video_widget_backend_name")
+  (return-type "char*")
+)
+
+(define-method get_version
+  (of-object "TotemObject")
+  (c-name "totem_get_version")
+  (return-type "char*")
+)
+
+(define-method get_playlist_length
+  (of-object "TotemObject")
+  (c-name "totem_get_playlist_length")
+  (return-type "guint")
+)
+
+(define-method get_playlist_pos
+  (of-object "TotemObject")
+  (c-name "totem_get_playlist_pos")
+  (return-type "int")
+)
+
+(define-method get_title_at_playlist_pos
+  (of-object "TotemObject")
+  (c-name "totem_get_title_at_playlist_pos")
+  (parameters
+    '("guint" "playlist_index")
+  )
+  (return-type "char*")
+)
+
+(define-method get_current_time
+  (of-object "TotemObject")
+  (c-name "totem_get_current_time")
+  (return-type "gint64")
+)
+
+(define-method add_to_playlist_and_play
+  (of-object "TotemObject")
+  (c-name "totem_add_to_playlist_and_play")
+  (return-type "none")
+  (parameters
+    '("const-char*" "uri")
+    '("const-char*" "display_name")
+    '("gboolean" "add_to_recent")
+  )
+)
+
+(define-method get_current_mrl
+  (of-object "TotemObject")
+  (c-name "totem_get_current_mrl")
+  (return-type "char*")
+)
+
+(define-method set_current_subtitle
+  (of-object "TotemObject")
+  (c-name "totem_set_current_subtitle")
+  (return-type "none")
+  (parameters
+    '("const-char*" "subtitle_uri")
+  )
+)
+
+(define-method add_sidebar_page
+  (of-object "TotemObject")
+  (c-name "totem_add_sidebar_page")
+  (return-type "none")
+  (parameters
+    '("const-char*" "page_id")
+    '("const-char*" "title")
+    '("GtkWidget*" "main_widget")
+  )
+)
+
+(define-method remove_sidebar_page
+  (of-object "TotemObject")
+  (c-name "totem_remove_sidebar_page")
+  (return-type "none")
+  (parameters
+    '("const-char*" "page_id")
+  )
+)
+
+(define-method action_remote
+  (of-object "TotemObject")
+  (c-name "totem_action_remote")
+  (return-type "none")
+  (parameters
+    '("TotemRemoteCommand" "cmd")
+    '("const-char*" "url")
+  )
+)
+
+(define-method action_remote_set_setting
+  (of-object "TotemObject")
+  (c-name "totem_action_remote_set_setting")
+  (return-type "none")
+  (parameters
+    '("TotemRemoteSetting" "setting")
+    '("gboolean" "value")
+  )
+)
+
+(define-method action_remote_get_setting
+  (of-object "TotemObject")
+  (c-name "totem_action_remote_get_setting")
+  (return-type "gboolean")
+  (parameters
+    '("TotemRemoteSetting" "setting")
+  )
+)
+
+
+;; From ../../src/totem-cell-renderer-video.h
+
+(define-function totem_cell_renderer_video_new
+  (is-constructor-of "TotemCellRendererVideo")
+  (c-name "totem_cell_renderer_video_new")
+  (return-type "TotemCellRendererVideo*")
+  (properties
+    '("thumbnail" (argname "thumbnail") (optional))
+    '("title" (argname "title") (optional))
+    '("alignment" (argname "alignment") (optional))
+    '("use-placeholder" (argname "use_placeholder") (optional))
+  )
+)
+
+
+;; From totem-interface.h
+
+(define-method interface_error_with_link
+  (of-object "TotemObject")
+  (c-name "totem_interface_error_with_link")
+  (return-type "none")
+  (parameters
+    '("const-char*" "title")
+    '("const-char*" "reason")
+    '("const-char*" "uri")
+    '("const-char*" "label")
+    '("GtkWindow" "parent")
+  )
+)
+
+;; From ../../src/totem-video-list.h
+
+(define-function totem_video_list_new
+  (is-constructor-of "TotemVideoList")
+  (c-name "totem_video_list_new")
+  (return-type "TotemVideoList*")
+  (properties
+    '("tooltip-column" (argname "tooltip_column") (optional))
+    '("mrl-column" (argname "mrl_column") (optional))
+    '("totem" (argname "totem") (optional))
+  )
+)
+
+(define-method get_ui_manager
+  (of-object "TotemVideoList")
+  (c-name "totem_video_list_get_ui_manager")
+  (return-type "GtkUIManager*")
+)

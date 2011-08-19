@@ -1,0 +1,134 @@
+2009-04-02  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-window.c: automatically scroll to the bottom of the view
+	when new lines are added to the active log (#576414).
+
+2009-04-02  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-about.h: simplify a bit the licence making it easier
+	to share a translation with the other mate-utils apps.
+	Patch by Gabor Kelemen (#577722).
+
+2009-04-02  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-main.c (create_option_context): translate the short
+	description message.
+	Patch by Gabor Kelemen (#577718).
+
+2009-03-22  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* data/logview-filter.ui: add missing file (#576222).
+
+2009-03-19  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* tests/Makefile.am: build with "-Wl,--as-needed" (#575965).
+
+2009-03-18  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-prefs.c: (save_filter_foreach_func):
+	* logview-window.c: fix some leaks.
+
+2009-03-18  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* Makefile.am:
+	* data/Makefile.am:
+	* data/logview-toolbar.xml:
+	* logview-prefs.c: (do_finalize), (load_filters),
+	(save_filter_foreach_func), (save_filters), (get_filters_foreach),
+	(logview_prefs_init), (logview_prefs_get_filters),
+	(logview_prefs_remove_filter), (logview_prefs_add_filter),
+	(logview_prefs_get_filter):
+	* logview-prefs.h:
+	* logview-window.c: (if): implement regex based filtering of log
+	files. Patch by Johannes Schmid (#574362).
+
+2009-03-02  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-app.c: (parse_syslog), (enumerate_job_finish),
+	(enumerate_next_files_async_cb), (enumerate_children_async_cb),
+	(logview_app_first_time_initialize), (logview_app_initialize):
+	* logview-prefs.c: (logview_prefs_init): when starting the
+	application for the first time, gather all the readable files from
+	/var/log instead of hardcoding logfile names.
+	We'll eventually, and hopefully, support a smarter parsing of
+	/etc/logrotate.* and log rotated/compressed log grouping, but right
+	now this is the best effort we can do (#567169).
+
+2009-02-24  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* Makefile.am: add gthread CFLAGS and LIBS (#572985).
+
+2009-02-04  Vincent Untz  <vuntz@mate.org>
+
+	* gtkmessagearea.c: add an include to fix warnings
+	* logview-log.c: (read_gzip_header):
+	* logview-manager.c: (logview_manager_get_if_loaded): return something.
+	Part of bug #570422.
+
+2009-01-30  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-loglist.c: (tree_selection_changed_cb),
+	(manager_active_changed_cb): make sure we check for day != NULL
+	before emitting "day-selected". Hopefully fixes bug #569807.
+
+2009-01-30  Cosimo Cecchi  <cosimoc@mate.org>
+
+        * logview-log.c:
+        (logview_log_init):
+        (log_load):
+        (logview_log_get_has_days):
+        * logview-log.h:
+        * logview-loglist.c:
+        (update_days_and_lines_for_log):
+        (manager_log_added_cb):
+        * logview-window.c:
+	Check if there are some lines before actually adding an entry
+	to the loglist. This implies adding some API to LogviewLog.
+	Closes bug #567170.
+
+2009-01-29  Cosimo Cecchi  <cosimoc@mate.org>
+
+        * tests/Makefile.am: don't install the test reader program.
+
+2009-01-26  Cosimo Cecchi  <cosimoc@mate.org>
+
+        * logview-main.c:
+        (main): call g_thread_init () before any other GLib function.
+
+2009-01-09  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* data/Makefile.am: Correctly install mateconf schemas.
+
+2009-01-08  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* Makefile.am:
+	* data/Makefile.am:
+	* tests/test-reader.c:
+	Fix make distcheck.
+
+2008-12-28  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-manager.c (create_log_cb): remove the use of an unallocated
+	pointer, which would lead to segfaults.
+	Patch by Frederic Peters (#565827).
+
+2008-12-24  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-log.c (log_load):
+	* logview-log.h:
+	Set a meaningful error message if we can't read from the log file
+	(#349756).
+
+2008-12-23  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-window.c: handle keypad shortcuts (#441564).
+
+2008-12-23  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* data/mate-system-log.desktop.in.in: rename the menu item to read
+	a more descriptive "Log File Viewer". Thanks to Calum Benson (#375684).
+
+2008-12-23  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* logview-window.c: restore the saved zoom size on open (#330113).
+

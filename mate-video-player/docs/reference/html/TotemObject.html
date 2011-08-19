@@ -1,0 +1,1868 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TotemObject</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Totem Reference Manual">
+<link rel="up" href="core-api.html" title="Core API">
+<link rel="prev" href="core-api.html" title="Core API">
+<link rel="next" href="totem-Interface.html" title="Interface">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="core-api.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="core-api.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Totem Reference Manual</th>
+<td><a accesskey="n" href="totem-Interface.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#TotemObject.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#TotemObject.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#TotemObject.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#TotemObject.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#TotemObject.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry" title="TotemObject">
+<a name="TotemObject"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="TotemObject.top_of_page"></a>TotemObject</span></h2>
+<p>TotemObject — main Totem object</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1" title="Stability Level">
+<a name="TotemObject.stability-level"></a><h2>Stability Level</h2>
+Unstable, unless otherwise indicated
+</div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="TotemObject.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;totem.h&gt;
+
+typedef             <a class="link" href="TotemObject.html#Totem" title="Totem">Totem</a>;
+                    <a class="link" href="TotemObject.html#TotemObject-struct" title="TotemObject">TotemObject</a>;
+                    <a class="link" href="TotemObject.html#TotemObjectClass" title="TotemObjectClass">TotemObjectClass</a>;
+enum                <a class="link" href="TotemObject.html#TotemRemoteCommand" title="enum TotemRemoteCommand">TotemRemoteCommand</a>;
+enum                <a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting">TotemRemoteSetting</a>;
+#define             <a class="link" href="TotemObject.html#TOTEM-MATECONF-PREFIX:CAPS" title="TOTEM_MATECONF_PREFIX">TOTEM_MATECONF_PREFIX</a>
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-object-plugins-init" title="totem_object_plugins_init ()">totem_object_plugins_init</a>           (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-object-plugins-shutdown" title="totem_object_plugins_shutdown ()">totem_object_plugins_shutdown</a>       (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-file-opened" title="totem_file_opened ()">totem_file_opened</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mrl</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-file-closed" title="totem_file_closed ()">totem_file_closed</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-metadata-updated" title="totem_metadata_updated ()">totem_metadata_updated</a>              (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *artist</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *album</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> track_num</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-error" title="totem_action_error ()">totem_action_error</a>                  (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-exit" title="totem_action_exit ()">totem_action_exit</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-add-to-playlist-and-play" title="totem_add_to_playlist_and_play ()">totem_add_to_playlist_and_play</a>      (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> add_to_recent</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-play" title="totem_action_play ()">totem_action_play</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-play-media" title="totem_action_play_media ()">totem_action_play_media</a>             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/totem-pl-parser/totem-pl-parser-TotemDisc.html#TotemDiscMediaType"><span class="type">TotemDiscMediaType</span></a> type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *device</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-play-media-device" title="totem_action_play_media_device ()">totem_action_play_media_device</a>      (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *device</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-play-pause" title="totem_action_play_pause ()">totem_action_play_pause</a>             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-pause" title="totem_action_pause ()">totem_action_pause</a>                  (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-stop" title="totem_action_stop ()">totem_action_stop</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-fullscreen" title="totem_action_fullscreen ()">totem_action_fullscreen</a>             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> state</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-fullscreen-toggle" title="totem_action_fullscreen_toggle ()">totem_action_fullscreen_toggle</a>      (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-next" title="totem_action_next ()">totem_action_next</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-previous" title="totem_action_previous ()">totem_action_previous</a>               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-next-angle" title="totem_action_next_angle ()">totem_action_next_angle</a>             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemObject.html#totem-action-remote-get-setting" title="totem_action_remote_get_setting ()">totem_action_remote_get_setting</a>     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting"><span class="type">TotemRemoteSetting</span></a> setting</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-remote-set-setting" title="totem_action_remote_set_setting ()">totem_action_remote_set_setting</a>     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting"><span class="type">TotemRemoteSetting</span></a> setting</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-seek-time" title="totem_action_seek_time ()">totem_action_seek_time</a>              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> msec</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> accurate</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-seek-relative" title="totem_action_seek_relative ()">totem_action_seek_relative</a>          (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> offset</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> accurate</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-volume" title="totem_action_volume ()">totem_action_volume</a>                 (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> volume</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-volume-relative" title="totem_action_volume_relative ()">totem_action_volume_relative</a>        (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> off_pct</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-volume-toggle-mute" title="totem_action_volume_toggle_mute ()">totem_action_volume_toggle_mute</a>     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-toggle-aspect-ratio" title="totem_action_toggle_aspect_ratio ()">totem_action_toggle_aspect_ratio</a>    (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="TotemObject.html#totem-action-get-aspect-ratio" title="totem_action_get_aspect_ratio ()">totem_action_get_aspect_ratio</a>       (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-set-aspect-ratio" title="totem_action_set_aspect_ratio ()">totem_action_set_aspect_ratio</a>       (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> ratio</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-toggle-controls" title="totem_action_toggle_controls ()">totem_action_toggle_controls</a>        (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-set-scale-ratio" title="totem_action_set_scale_ratio ()">totem_action_set_scale_ratio</a>        (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gfloat"><span class="type">gfloat</span></a> ratio</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-set-playlist-index" title="totem_action_set_playlist_index ()">totem_action_set_playlist_index</a>     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> index</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-action-remote" title="totem_action_remote ()">totem_action_remote</a>                 (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#TotemRemoteCommand" title="enum TotemRemoteCommand"><span class="type">TotemRemoteCommand</span></a> cmd</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *url</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemObject.html#totem-is-fullscreen" title="totem_is_fullscreen ()">totem_is_fullscreen</a>                 (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemObject.html#totem-is-playing" title="totem_is_playing ()">totem_is_playing</a>                    (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemObject.html#totem-is-paused" title="totem_is_paused ()">totem_is_paused</a>                     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemObject.html#totem-is-seekable" title="totem_is_seekable ()">totem_is_seekable</a>                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="returnvalue">GtkWindow</span></a> *         <a class="link" href="TotemObject.html#totem-get-main-window" title="totem_get_main_window ()">totem_get_main_window</a>               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="returnvalue">GtkUIManager</span></a> *      <a class="link" href="TotemObject.html#totem-get-ui-manager" title="totem_get_ui_manager ()">totem_get_ui_manager</a>                (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="TotemObject.html#totem-get-video-widget" title="totem_get_video_widget ()">totem_get_video_widget</a>              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="TotemObject.html#totem-get-video-widget-backend-name" title="totem_get_video_widget_backend_name ()">totem_get_video_widget_backend_name</a> (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="TotemObject.html#totem-get-current-mrl" title="totem_get_current_mrl ()">totem_get_current_mrl</a>               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>              <a class="link" href="TotemObject.html#totem-get-current-time" title="totem_get_current_time ()">totem_get_current_time</a>              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-set-current-subtitle" title="totem_set_current_subtitle ()">totem_set_current_subtitle</a>          (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *subtitle_uri</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="TotemObject.html#totem-get-playlist-length" title="totem_get_playlist_length ()">totem_get_playlist_length</a>           (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="TotemObject.html#totem-get-playlist-pos" title="totem_get_playlist_pos ()">totem_get_playlist_pos</a>              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="TotemObject.html#totem-get-title-at-playlist-pos" title="totem_get_title_at_playlist_pos ()">totem_get_title_at_playlist_pos</a>     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> playlist_index</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="TotemObject.html#totem-get-short-title" title="totem_get_short_title ()">totem_get_short_title</a>               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">double</span>              <a class="link" href="TotemObject.html#totem-get-volume" title="totem_get_volume ()">totem_get_volume</a>                    (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="TotemObject.html#totem-get-version" title="totem_get_version ()">totem_get_version</a>                   (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-add-sidebar-page" title="totem_add_sidebar_page ()">totem_add_sidebar_page</a>              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *page_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="type">GtkWidget</span></a> *main_widget</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemObject.html#totem-remove-sidebar-page" title="totem_remove_sidebar_page ()">totem_remove_sidebar_page</a>           (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *page_id</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="TotemObject.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----TotemObject
+</pre>
+</div>
+<div class="refsect1" title="Properties">
+<a name="TotemObject.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="TotemObject.html#TotemObject--current-mrl" title='The "current-mrl" property'>current-mrl</a>"              <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
+  "<a class="link" href="TotemObject.html#TotemObject--current-time" title='The "current-time" property'>current-time</a>"             <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a>                : Read
+  "<a class="link" href="TotemObject.html#TotemObject--fullscreen" title='The "fullscreen" property'>fullscreen</a>"               <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read
+  "<a class="link" href="TotemObject.html#TotemObject--playing" title='The "playing" property'>playing</a>"                  <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read
+  "<a class="link" href="TotemObject.html#TotemObject--seekable" title='The "seekable" property'>seekable</a>"                 <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read
+  "<a class="link" href="TotemObject.html#TotemObject--stream-length" title='The "stream-length" property'>stream-length</a>"            <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a>                : Read
+</pre>
+</div>
+<div class="refsect1" title="Signals">
+<a name="TotemObject.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="TotemObject.html#TotemObject-file-closed" title='The "file-closed" signal'>file-closed</a>"                                    : Run Last
+  "<a class="link" href="TotemObject.html#TotemObject-file-opened" title='The "file-opened" signal'>file-opened</a>"                                    : Run Last
+  "<a class="link" href="TotemObject.html#TotemObject-metadata-updated" title='The "metadata-updated" signal'>metadata-updated</a>"                               : Run Last
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="TotemObject.description"></a><h2>Description</h2>
+<p>
+<a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> is the core object of Totem; a singleton which controls all Totem's main functions.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="TotemObject.details"></a><h2>Details</h2>
+<div class="refsect2" title="Totem">
+<a name="Totem"></a><h3>Totem</h3>
+<pre class="programlisting">typedef struct _TotemObject Totem;
+</pre>
+<p>
+The <a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> object is a handy synonym for <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>, and the two can be used interchangably.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TotemObject">
+<a name="TotemObject-struct"></a><h3>TotemObject</h3>
+<pre class="programlisting">typedef struct _TotemObject TotemObject;</pre>
+<p>
+All the fields in the <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> structure are private and should never be accessed directly.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TotemObjectClass">
+<a name="TotemObjectClass"></a><h3>TotemObjectClass</h3>
+<pre class="programlisting">typedef struct {
+	GObjectClass parent_class;
+
+	void (*file_opened)			(Totem *totem, const char *mrl);
+	void (*file_closed)			(Totem *totem);
+	void (*metadata_updated)		(Totem *totem,
+						 const char *artist,
+						 const char *title,
+						 const char *album,
+						 guint track_num);
+} TotemObjectClass;
+</pre>
+<p>
+The class structure for the <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html"><span class="type">TotemPlParser</span></a> type.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="TotemObjectClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="TotemObjectClass.file-opened"></a>file_opened</code></em> ()</span></p></td>
+<td>the generic signal handler for the <a class="link" href="TotemObject.html#TotemObject-file-opened" title='The "file-opened" signal'><span class="type">"file-opened"</span></a> signal,
+which can be overridden by inheriting classes
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="TotemObjectClass.file-closed"></a>file_closed</code></em> ()</span></p></td>
+<td>the generic signal handler for the <a class="link" href="TotemObject.html#TotemObject-file-closed" title='The "file-closed" signal'><span class="type">"file-closed"</span></a> signal,
+which can be overridden by inheriting classes
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="TotemObjectClass.metadata-updated"></a>metadata_updated</code></em> ()</span></p></td>
+<td>the generic signal handler for the <a class="link" href="TotemObject.html#TotemObject-metadata-updated" title='The "metadata-updated" signal'><span class="type">"metadata-updated"</span></a> signal,
+which can be overridden by inheriting classes
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum TotemRemoteCommand">
+<a name="TotemRemoteCommand"></a><h3>enum TotemRemoteCommand</h3>
+<pre class="programlisting">typedef enum {
+	TOTEM_REMOTE_COMMAND_UNKNOWN = 0,
+	TOTEM_REMOTE_COMMAND_PLAY,
+	TOTEM_REMOTE_COMMAND_PAUSE,
+	TOTEM_REMOTE_COMMAND_STOP,
+	TOTEM_REMOTE_COMMAND_PLAYPAUSE,
+	TOTEM_REMOTE_COMMAND_NEXT,
+	TOTEM_REMOTE_COMMAND_PREVIOUS,
+	TOTEM_REMOTE_COMMAND_SEEK_FORWARD,
+	TOTEM_REMOTE_COMMAND_SEEK_BACKWARD,
+	TOTEM_REMOTE_COMMAND_VOLUME_UP,
+	TOTEM_REMOTE_COMMAND_VOLUME_DOWN,
+	TOTEM_REMOTE_COMMAND_FULLSCREEN,
+	TOTEM_REMOTE_COMMAND_QUIT,
+	TOTEM_REMOTE_COMMAND_ENQUEUE,
+	TOTEM_REMOTE_COMMAND_REPLACE,
+	TOTEM_REMOTE_COMMAND_SHOW,
+	TOTEM_REMOTE_COMMAND_TOGGLE_CONTROLS,
+	TOTEM_REMOTE_COMMAND_UP,
+	TOTEM_REMOTE_COMMAND_DOWN,
+	TOTEM_REMOTE_COMMAND_LEFT,
+	TOTEM_REMOTE_COMMAND_RIGHT,
+	TOTEM_REMOTE_COMMAND_SELECT,
+	TOTEM_REMOTE_COMMAND_DVD_MENU,
+	TOTEM_REMOTE_COMMAND_ZOOM_UP,
+	TOTEM_REMOTE_COMMAND_ZOOM_DOWN,
+	TOTEM_REMOTE_COMMAND_EJECT,
+	TOTEM_REMOTE_COMMAND_PLAY_DVD,
+	TOTEM_REMOTE_COMMAND_MUTE,
+	TOTEM_REMOTE_COMMAND_TOGGLE_ASPECT
+} TotemRemoteCommand;
+</pre>
+<p>
+Represents a command which can be sent to a running Totem instance remotely.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-UNKNOWN:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_UNKNOWN</code></span></p></td>
+<td>unknown command
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-PLAY:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_PLAY</code></span></p></td>
+<td>play the current stream
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-PAUSE:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_PAUSE</code></span></p></td>
+<td>pause the current stream
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-STOP:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_STOP</code></span></p></td>
+<td>stop playing the current stream
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-PLAYPAUSE:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_PLAYPAUSE</code></span></p></td>
+<td>toggle play/pause on the current stream
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-NEXT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_NEXT</code></span></p></td>
+<td>play the next playlist item
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-PREVIOUS:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_PREVIOUS</code></span></p></td>
+<td>play the previous playlist item
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-SEEK-FORWARD:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_SEEK_FORWARD</code></span></p></td>
+<td>seek forwards in the current stream
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-SEEK-BACKWARD:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_SEEK_BACKWARD</code></span></p></td>
+<td>seek backwards in the current stream
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-VOLUME-UP:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_VOLUME_UP</code></span></p></td>
+<td>increase the volume
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-VOLUME-DOWN:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_VOLUME_DOWN</code></span></p></td>
+<td>decrease the volume
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-FULLSCREEN:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_FULLSCREEN</code></span></p></td>
+<td>toggle fullscreen mode
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-QUIT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_QUIT</code></span></p></td>
+<td>quit the instance of Totem
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-ENQUEUE:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_ENQUEUE</code></span></p></td>
+<td>enqueue a new playlist item
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-REPLACE:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_REPLACE</code></span></p></td>
+<td>replace an item in the playlist
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-SHOW:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_SHOW</code></span></p></td>
+<td>show the Totem instance
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-TOGGLE-CONTROLS:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_TOGGLE_CONTROLS</code></span></p></td>
+<td>toggle the control visibility
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-UP:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_UP</code></span></p></td>
+<td>go up (DVD controls)
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-DOWN:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_DOWN</code></span></p></td>
+<td>go down (DVD controls)
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-LEFT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_LEFT</code></span></p></td>
+<td>go left (DVD controls)
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-RIGHT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_RIGHT</code></span></p></td>
+<td>go right (DVD controls)
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-SELECT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_SELECT</code></span></p></td>
+<td>select the current item (DVD controls)
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-DVD-MENU:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_DVD_MENU</code></span></p></td>
+<td>go to the DVD menu
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-ZOOM-UP:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_ZOOM_UP</code></span></p></td>
+<td>increase the zoom level
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-ZOOM-DOWN:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_ZOOM_DOWN</code></span></p></td>
+<td>decrease the zoom level
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-EJECT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_EJECT</code></span></p></td>
+<td>eject the current disc
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-PLAY-DVD:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_PLAY_DVD</code></span></p></td>
+<td>play a DVD in a drive
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-MUTE:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_MUTE</code></span></p></td>
+<td>toggle mute
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-COMMAND-TOGGLE-ASPECT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_COMMAND_TOGGLE_ASPECT</code></span></p></td>
+<td>toggle the aspect ratio
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum TotemRemoteSetting">
+<a name="TotemRemoteSetting"></a><h3>enum TotemRemoteSetting</h3>
+<pre class="programlisting">typedef enum {
+	TOTEM_REMOTE_SETTING_SHUFFLE,
+	TOTEM_REMOTE_SETTING_REPEAT
+} TotemRemoteSetting;
+</pre>
+<p>
+Represents a boolean setting or preference on a remote Totem instance.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="TOTEM-REMOTE-SETTING-SHUFFLE:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_SETTING_SHUFFLE</code></span></p></td>
+<td>whether shuffle is enabled
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-REMOTE-SETTING-REPEAT:CAPS"></a><span class="term"><code class="literal">TOTEM_REMOTE_SETTING_REPEAT</code></span></p></td>
+<td>whether repeat is enabled
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_MATECONF_PREFIX">
+<a name="TOTEM-MATECONF-PREFIX:CAPS"></a><h3>TOTEM_MATECONF_PREFIX</h3>
+<pre class="programlisting">#define TOTEM_MATECONF_PREFIX "/apps/totem"
+</pre>
+<p>
+The MateConf prefix under which all Totem MateConf keys are stored.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="totem_object_plugins_init ()">
+<a name="totem-object-plugins-init"></a><h3>totem_object_plugins_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_object_plugins_init           (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);</pre>
+<p>
+Initialises the plugin engine and activates all the
+enabled plugins.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_object_plugins_shutdown ()">
+<a name="totem-object-plugins-shutdown"></a><h3>totem_object_plugins_shutdown ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_object_plugins_shutdown       (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Shuts down the plugin engine and deactivates all the
+plugins.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="totem_file_opened ()">
+<a name="totem-file-opened"></a><h3>totem_file_opened ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_file_opened                   (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mrl</code></em>);</pre>
+<p>
+Emits the <a class="link" href="TotemObject.html#TotemObject-file-opened" title='The "file-opened" signal'><span class="type">"file-opened"</span></a> signal on <em class="parameter"><code>totem</code></em>, with the
+specified <em class="parameter"><code>mrl</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mrl</code></em> :</span></p></td>
+<td>the MRL opened
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_file_closed ()">
+<a name="totem-file-closed"></a><h3>totem_file_closed ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_file_closed                   (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);</pre>
+<p>
+Emits the <a class="link" href="TotemObject.html#TotemObject-file-closed" title='The "file-closed" signal'><span class="type">"file-closed"</span></a> signal on <em class="parameter"><code>totem</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_metadata_updated ()">
+<a name="totem-metadata-updated"></a><h3>totem_metadata_updated ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_metadata_updated              (<em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *artist</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *album</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> track_num</code></em>);</pre>
+<p>
+Emits the <a class="link" href="TotemObject.html#TotemObject-metadata-updated" title='The "metadata-updated" signal'><span class="type">"metadata-updated"</span></a> signal on <em class="parameter"><code>totem</code></em>,
+with the specified stream data.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>artist</code></em> :</span></p></td>
+<td>the stream's artist, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the stream's title, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>album</code></em> :</span></p></td>
+<td>the stream's album, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>track_num</code></em> :</span></p></td>
+<td>the track number of the stream
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_error ()">
+<a name="totem-action-error"></a><h3>totem_action_error ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_error                  (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Displays a non-blocking error dialog with the
+given <em class="parameter"><code>title</code></em> and <em class="parameter"><code>reason</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the error dialog title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>reason</code></em> :</span></p></td>
+<td>the error dialog text
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_exit ()">
+<a name="totem-action-exit"></a><h3>totem_action_exit ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_exit                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Closes Totem.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_add_to_playlist_and_play ()">
+<a name="totem-add-to-playlist-and-play"></a><h3>totem_add_to_playlist_and_play ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_add_to_playlist_and_play      (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *display_name</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> add_to_recent</code></em>);</pre>
+<p>
+Add <em class="parameter"><code>uri</code></em> to the playlist and play it immediately.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI to add to the playlist
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_name</code></em> :</span></p></td>
+<td>the display name of the URI
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>add_to_recent</code></em> :</span></p></td>
+<td>if <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, add the URI to the recent items list
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_play ()">
+<a name="totem-action-play"></a><h3>totem_action_play ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_play                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Plays the current stream. If Totem is already playing, it continues
+to play. If the stream cannot be played, and error dialog is displayed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_play_media ()">
+<a name="totem-action-play-media"></a><h3>totem_action_play_media ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_play_media             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/totem-pl-parser/totem-pl-parser-TotemDisc.html#TotemDiscMediaType"><span class="type">TotemDiscMediaType</span></a> type</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *device</code></em>);</pre>
+<p>
+Attempts to play the media found on <em class="parameter"><code>device</code></em> (for example, a DVD in a drive or a DVB
+tuner) by first adding it to the playlist, then playing it.
+</p>
+<p>
+An error dialog will be displayed if Totem cannot support media of <em class="parameter"><code>type</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>the type of disc media
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
+<td>the media's device path
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_play_media_device ()">
+<a name="totem-action-play-media-device"></a><h3>totem_action_play_media_device ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_play_media_device      (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *device</code></em>);</pre>
+<p>
+Attempts to play the media device (for example, a DVD drive or CD drive)
+with the given <em class="parameter"><code>device</code></em> path by first adding it to the playlist, then
+playing it.
+</p>
+<p>
+An error dialog will be displayed if Totem cannot read or play what's on
+the media device.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
+<td>the media device's path
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_play_pause ()">
+<a name="totem-action-play-pause"></a><h3>totem_action_play_pause ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_play_pause             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets the current MRL from the playlist and attempts to play it.
+If the stream is already playing, playback is paused.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_pause ()">
+<a name="totem-action-pause"></a><h3>totem_action_pause ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_pause                  (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Pauses the current stream. If Totem is already paused, it continues
+to be paused.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_stop ()">
+<a name="totem-action-stop"></a><h3>totem_action_stop ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_stop                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Stops the current stream.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_fullscreen ()">
+<a name="totem-action-fullscreen"></a><h3>totem_action_fullscreen ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_fullscreen             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> state</code></em>);</pre>
+<p>
+Sets Totem's fullscreen state according to <em class="parameter"><code>state</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>state</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if Totem should be fullscreened
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_fullscreen_toggle ()">
+<a name="totem-action-fullscreen-toggle"></a><h3>totem_action_fullscreen_toggle ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_fullscreen_toggle      (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Toggles Totem's fullscreen state; if Totem is fullscreened, calling
+this makes it unfullscreened and vice-versa.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_next ()">
+<a name="totem-action-next"></a><h3>totem_action_next ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_next                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+If a DVD is being played, goes to the next chapter. If a normal stream
+is being played, plays the next entry in the playlist.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_previous ()">
+<a name="totem-action-previous"></a><h3>totem_action_previous ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_previous               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+If a DVD is being played, goes to the previous chapter. If a normal stream
+is being played, goes to the start of the stream if possible. If seeking is
+not possible, plays the previous entry in the playlist.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_next_angle ()">
+<a name="totem-action-next-angle"></a><h3>totem_action_next_angle ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_next_angle             (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Switches to the next angle, if watching a DVD. If not watching a DVD, this is a
+no-op.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_remote_get_setting ()">
+<a name="totem-action-remote-get-setting"></a><h3>totem_action_remote_get_setting ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_action_remote_get_setting     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting"><span class="type">TotemRemoteSetting</span></a> setting</code></em>);</pre>
+<p>
+Returns the value of <em class="parameter"><code>setting</code></em> for this instance of Totem.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting"><span class="type">TotemRemoteSetting</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the setting is enabled, <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_remote_set_setting ()">
+<a name="totem-action-remote-set-setting"></a><h3>totem_action_remote_set_setting ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_remote_set_setting     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting"><span class="type">TotemRemoteSetting</span></a> setting</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> value</code></em>);</pre>
+<p>
+Sets <em class="parameter"><code>setting</code></em> to <em class="parameter"><code>value</code></em> on this instance of Totem.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html#TotemRemoteSetting" title="enum TotemRemoteSetting"><span class="type">TotemRemoteSetting</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value for the setting
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_seek_time ()">
+<a name="totem-action-seek-time"></a><h3>totem_action_seek_time ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_seek_time              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> msec</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> accurate</code></em>);</pre>
+<p>
+Seeks to an absolute time in the stream, or displays an
+error dialog if that's not possible.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>msec</code></em> :</span></p></td>
+<td>the time to seek to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>accurate</code></em> :</span></p></td>
+<td>whether to use accurate seek, an accurate seek might be slower for some formats (see GStreamer docs)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_seek_relative ()">
+<a name="totem-action-seek-relative"></a><h3>totem_action_seek_relative ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_seek_relative          (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> offset</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> accurate</code></em>);</pre>
+<p>
+Seeks to an <em class="parameter"><code>offset</code></em> from the current position in the stream,
+or displays an error dialog if that's not possible.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>the time offset to seek to
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>accurate</code></em> :</span></p></td>
+<td>whether to use accurate seek, an accurate seek might be slower for some formats (see GStreamer docs)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_volume ()">
+<a name="totem-action-volume"></a><h3>totem_action_volume ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_volume                 (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> volume</code></em>);</pre>
+<p>
+Sets the volume, with <code class="literal">1</code>.0 being the maximum, and <code class="literal">0</code>.0 being the minimum level.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>volume</code></em> :</span></p></td>
+<td>the new absolute volume value
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_volume_relative ()">
+<a name="totem-action-volume-relative"></a><h3>totem_action_volume_relative ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_volume_relative        (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> off_pct</code></em>);</pre>
+<p>
+Sets the volume relative to its current level, with <code class="literal">1</code>.0 being the
+maximum, and <code class="literal">0</code>.0 being the minimum level.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>off_pct</code></em> :</span></p></td>
+<td>the value by which to increase or decrease the volume
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_volume_toggle_mute ()">
+<a name="totem-action-volume-toggle-mute"></a><h3>totem_action_volume_toggle_mute ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_volume_toggle_mute     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Toggles the mute status.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_toggle_aspect_ratio ()">
+<a name="totem-action-toggle-aspect-ratio"></a><h3>totem_action_toggle_aspect_ratio ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_toggle_aspect_ratio    (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Toggles the aspect ratio selected in the menu to the
+next one in the list.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_get_aspect_ratio ()">
+<a name="totem-action-get-aspect-ratio"></a><h3>totem_action_get_aspect_ratio ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 totem_action_get_aspect_ratio       (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets the current aspect ratio as defined in <a class="link" href="BaconVideoWidget.html#BvwAspectRatio" title="enum BvwAspectRatio"><span class="type">BvwAspectRatio</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current aspect ratio
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_set_aspect_ratio ()">
+<a name="totem-action-set-aspect-ratio"></a><h3>totem_action_set_aspect_ratio ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_set_aspect_ratio       (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> ratio</code></em>);</pre>
+<p>
+Sets the aspect ratio selected in the menu to <em class="parameter"><code>ratio</code></em>,
+as defined in <a class="link" href="BaconVideoWidget.html#BvwAspectRatio" title="enum BvwAspectRatio"><span class="type">BvwAspectRatio</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ratio</code></em> :</span></p></td>
+<td>the aspect ratio to use
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_toggle_controls ()">
+<a name="totem-action-toggle-controls"></a><h3>totem_action_toggle_controls ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_toggle_controls        (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+If Totem's not fullscreened, this toggles the state of the "Show Controls"
+menu entry, and consequently shows or hides the controls in the UI.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_set_scale_ratio ()">
+<a name="totem-action-set-scale-ratio"></a><h3>totem_action_set_scale_ratio ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_set_scale_ratio        (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gfloat"><span class="type">gfloat</span></a> ratio</code></em>);</pre>
+<p>
+Sets the video scale ratio, as a float where, for example,
+1.0 is 1:1 and 2.0 is 2:1.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ratio</code></em> :</span></p></td>
+<td>the scale ratio to use
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_set_playlist_index ()">
+<a name="totem-action-set-playlist-index"></a><h3>totem_action_set_playlist_index ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_set_playlist_index     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> index</code></em>);</pre>
+<p>
+Sets the <code class="literal">0</code>-based playlist index to <em class="parameter"><code>index</code></em>, causing Totem to load and
+start playing that playlist entry.
+</p>
+<p>
+If <em class="parameter"><code>index</code></em> is higher than the current length of the playlist, this
+has the effect of restarting the current playlist entry.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>index</code></em> :</span></p></td>
+<td>the new playlist index
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_action_remote ()">
+<a name="totem-action-remote"></a><h3>totem_action_remote ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_action_remote                 (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#TotemRemoteCommand" title="enum TotemRemoteCommand"><span class="type">TotemRemoteCommand</span></a> cmd</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *url</code></em>);</pre>
+<p>
+Executes the specified <em class="parameter"><code>cmd</code></em> on this instance of Totem. If <em class="parameter"><code>cmd</code></em>
+is an operation requiring an MRL, <em class="parameter"><code>url</code></em> is required; it can be <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+otherwise.
+</p>
+<p>
+If Totem's fullscreened and the operation is executed correctly,
+the controls will appear as if the user had moved the mouse.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cmd</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html#TotemRemoteCommand" title="enum TotemRemoteCommand"><span class="type">TotemRemoteCommand</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>url</code></em> :</span></p></td>
+<td>an MRL to play, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_is_fullscreen ()">
+<a name="totem-is-fullscreen"></a><h3>totem_is_fullscreen ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_is_fullscreen                 (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if Totem is fullscreened.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if Totem is fullscreened
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_is_playing ()">
+<a name="totem-is-playing"></a><h3>totem_is_playing ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_is_playing                    (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if Totem is playing a stream.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if Totem is playing a stream
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_is_paused ()">
+<a name="totem-is-paused"></a><h3>totem_is_paused ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_is_paused                     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if playback is paused.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if playback is paused, <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_is_seekable ()">
+<a name="totem-is-seekable"></a><h3>totem_is_seekable ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_is_seekable                   (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the current stream is seekable.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the current stream is seekable
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_main_window ()">
+<a name="totem-get-main-window"></a><h3>totem_get_main_window ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="returnvalue">GtkWindow</span></a> *         totem_get_main_window               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets Totem's main window and increments its reference count.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Totem's main window
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_ui_manager ()">
+<a name="totem-get-ui-manager"></a><h3>totem_get_ui_manager ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="returnvalue">GtkUIManager</span></a> *      totem_get_ui_manager                (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets Totem's UI manager, but does not change its reference count.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Totem's UI manager
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_video_widget ()">
+<a name="totem-get-video-widget"></a><h3>totem_get_video_widget ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         totem_get_video_widget              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets Totem's video widget and increments its reference count.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Totem's video widget
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_video_widget_backend_name ()">
+<a name="totem-get-video-widget-backend-name"></a><h3>totem_get_video_widget_backend_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              totem_get_video_widget_backend_name (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets the name string of the backend video widget, typically the video library's
+version string (e.g. what's returned by <a href="http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gstreamer-Gst.html#gst-version-string"><code class="function">gst_version_string()</code></a>). Free with <a href="http://library.mate.org/devel/glib/unstable/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly-allocated string of the name of the backend video widget
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_current_mrl ()">
+<a name="totem-get-current-mrl"></a><h3>totem_get_current_mrl ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              totem_get_current_mrl               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Get the MRL of the current stream, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if nothing's playing.
+Free with <a href="http://library.mate.org/devel/glib/unstable/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly-allocated string containing the MRL of the current stream
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_current_time ()">
+<a name="totem-get-current-time"></a><h3>totem_get_current_time ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>              totem_get_current_time              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets the current position's time in the stream as a gint64.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current position in the stream
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_set_current_subtitle ()">
+<a name="totem-set-current-subtitle"></a><h3>totem_set_current_subtitle ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_set_current_subtitle          (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *subtitle_uri</code></em>);</pre>
+<p>
+Add the <em class="parameter"><code>subtitle_uri</code></em> subtitle file to the playlist, setting it as the subtitle for the current
+playlist entry.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>subtitle_uri</code></em> :</span></p></td>
+<td>the URI of the subtitle file to add
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_playlist_length ()">
+<a name="totem-get-playlist-length"></a><h3>totem_get_playlist_length ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               totem_get_playlist_length           (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Returns the length of the current playlist.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the playlist length
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_playlist_pos ()">
+<a name="totem-get-playlist-pos"></a><h3>totem_get_playlist_pos ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 totem_get_playlist_pos              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Returns the <code class="literal">0</code>-based index of the current entry in the playlist. If
+there is no current entry in the playlist, <code class="literal">-1</code> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the index of the current playlist entry, or <code class="literal">-1</code>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_title_at_playlist_pos ()">
+<a name="totem-get-title-at-playlist-pos"></a><h3>totem_get_title_at_playlist_pos ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              totem_get_title_at_playlist_pos     (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> playlist_index</code></em>);</pre>
+<p>
+Gets the title of the playlist entry at <em class="parameter"><code>index</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist_index</code></em> :</span></p></td>
+<td>the <code class="literal">0</code>-based entry index
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the entry title at <em class="parameter"><code>index</code></em>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>; free with <a href="http://library.mate.org/devel/glib/unstable/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_short_title ()">
+<a name="totem-get-short-title"></a><h3>totem_get_short_title ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              totem_get_short_title               (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets the title of the current entry in the playlist.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current entry's title, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>; free with <a href="http://library.mate.org/devel/glib/unstable/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_volume ()">
+<a name="totem-get-volume"></a><h3>totem_get_volume ()</h3>
+<pre class="programlisting"><span class="returnvalue">double</span>              totem_get_volume                    (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Gets the current volume level, as a value between <code class="literal">0</code>.0 and <code class="literal">1</code>.0.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the volume level
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_get_version ()">
+<a name="totem-get-version"></a><h3>totem_get_version ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              totem_get_version                   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Gets the application name and version (e.g. "Totem 2.28.0").
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly-allocated string of the name and version of the application
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_add_sidebar_page ()">
+<a name="totem-add-sidebar-page"></a><h3>totem_add_sidebar_page ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_add_sidebar_page              (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *page_id</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="type">GtkWidget</span></a> *main_widget</code></em>);</pre>
+<p>
+Adds a sidebar page to Totem's sidebar with the given <em class="parameter"><code>page_id</code></em>.
+<em class="parameter"><code>main_widget</code></em> is added into the page and shown automatically, while
+<em class="parameter"><code>title</code></em> is displayed as the page's title in the tab bar.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>page_id</code></em> :</span></p></td>
+<td>a string used to identify the page
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the page's title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>main_widget</code></em> :</span></p></td>
+<td>the main widget for the page
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_remove_sidebar_page ()">
+<a name="totem-remove-sidebar-page"></a><h3>totem_remove_sidebar_page ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_remove_sidebar_page           (<em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *page_id</code></em>);</pre>
+<p>
+Removes the page identified by <em class="parameter"><code>page_id</code></em> from Totem's sidebar.
+If <em class="parameter"><code>page_id</code></em> doesn't exist in the sidebar, this function does
+nothing.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>page_id</code></em> :</span></p></td>
+<td>a string used to identify the page
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="TotemObject.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "current-mrl" property'>
+<a name="TotemObject--current-mrl"></a><h3>The <code class="literal">"current-mrl"</code> property</h3>
+<pre class="programlisting">  "current-mrl"              <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read</pre>
+<p>
+The MRL of the current stream.
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" title='The "current-time" property'>
+<a name="TotemObject--current-time"></a><h3>The <code class="literal">"current-time"</code> property</h3>
+<pre class="programlisting">  "current-time"             <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a>                : Read</pre>
+<p>
+The player's position (time) in the current stream, in milliseconds.
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" title='The "fullscreen" property'>
+<a name="TotemObject--fullscreen"></a><h3>The <code class="literal">"fullscreen"</code> property</h3>
+<pre class="programlisting">  "fullscreen"               <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, Totem is in fullscreen mode.
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "playing" property'>
+<a name="TotemObject--playing"></a><h3>The <code class="literal">"playing"</code> property</h3>
+<pre class="programlisting">  "playing"                  <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, Totem is playing an audio or video file.
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "seekable" property'>
+<a name="TotemObject--seekable"></a><h3>The <code class="literal">"seekable"</code> property</h3>
+<pre class="programlisting">  "seekable"                 <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the current stream is seekable.
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "stream-length" property'>
+<a name="TotemObject--stream-length"></a><h3>The <code class="literal">"stream-length"</code> property</h3>
+<pre class="programlisting">  "stream-length"            <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a>                : Read</pre>
+<p>
+The length of the current stream, in milliseconds.
+</p>
+<p>Default value: 0</p>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
+<a name="TotemObject.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" title='The "file-closed" signal'>
+<a name="TotemObject-file-closed"></a><h3>The <code class="literal">"file-closed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)      : Run Last</pre>
+<p>
+The <a class="link" href="TotemObject.html#TotemObject-file-closed" title='The "file-closed" signal'><span class="type">"file-closed"</span></a> signal is emitted when Totem closes a stream.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>the <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "file-opened" signal'>
+<a name="TotemObject-file-opened"></a><h3>The <code class="literal">"file-opened"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>       *mrl,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)      : Run Last</pre>
+<p>
+The <a class="link" href="TotemObject.html#TotemObject-file-opened" title='The "file-opened" signal'><span class="type">"file-opened"</span></a> signal is emitted when a new stream is opened by Totem.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>the <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mrl</code></em> :</span></p></td>
+<td>the MRL of the opened stream
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "metadata-updated" signal'>
+<a name="TotemObject-metadata-updated"></a><h3>The <code class="literal">"metadata-updated"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>       *artist,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>       *title,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>       *album,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>        track_number,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>     user_data)         : Run Last</pre>
+<p>
+The <a class="link" href="TotemObject.html#TotemObject-metadata-updated" title='The "metadata-updated" signal'><span class="type">"metadata-updated"</span></a> signal is emitted when the metadata of a stream is updated, typically
+when it's being loaded.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>the <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>artist</code></em> :</span></p></td>
+<td>the name of the artist, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the stream title, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>album</code></em> :</span></p></td>
+<td>the name of the stream's album, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>track_number</code></em> :</span></p></td>
+<td>the stream's track number
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

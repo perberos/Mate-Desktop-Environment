@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>MateConfEngine</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-backend.html" title="mateconf-backend">
+<link rel="next" href="mateconf-mateconf-error.html" title="GError">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-backend.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-error.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2594694" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2527271" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-engine"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2594694"></a><span class="refentrytitle">MateConfEngine</span>
+</h2>
+<p>MateConfEngine &#8212; 
+a MateConf "database"</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>;
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-default">mateconf_engine_get_default</a>            (void);
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-for-address">mateconf_engine_get_for_address</a>        (const gchar *address,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-for-addresses">mateconf_engine_get_for_addresses</a>      (GSList *addresses,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-unref">mateconf_engine_unref</a>                  (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf);
+void                <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-ref">mateconf_engine_ref</a>                    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf);
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-local">mateconf_engine_get_local</a>              (const char *address,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-local-for-addresses">mateconf_engine_get_local_for_addresses</a>
+                                                        (GSList *addresses,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-set-user-data">mateconf_engine_set_user_data</a>          (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *engine,
+                                                         gpointer data,
+                                                         GDestroyNotify dnotify);
+gpointer            <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-user-data">mateconf_engine_get_user_data</a>          (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *engine);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2527271"></a><h2>Description</h2>
+<p>
+A <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> represents a connection to the MateConf database. The
+default <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>, returned from <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-default"><code class="function">mateconf_engine_get_default()</code></a>, represents the
+user's normal configuration source search path. Configuration-related
+utilities, such as a configuration editor tool, might wish to access a
+particular configuration source directly; they can obtain a
+non-default <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> with <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-for-address"><code class="function">mateconf_engine_get_for_address()</code></a>.
+</p>
+<p>
+Once you have a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>, you can query and manipulate
+configuration values.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2527342"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2527353"></a><h3>
+<a name="MateConfEngine"></a>MateConfEngine</h3>
+<a class="indexterm" name="id2527365"></a><pre class="programlisting">typedef struct _MateConfEngine MateConfEngine;</pre>
+<p>
+An opaque data type representing one or more configuration sources.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2527382"></a><h3>
+<a name="mateconf-engine-get-default"></a>mateconf_engine_get_default ()</h3>
+<a class="indexterm" name="id2527393"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        mateconf_engine_get_default            (void);</pre>
+<p>
+Returns the default <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>. All clients should use this, unless 
+they are special configuration-related tools. The caller of this
+function assumes one reference count, and must call
+<a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-unref"><code class="function">mateconf_engine_unref()</code></a> at some point. It's fairly important to unref the
+<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>, to cleanly close the connection to
+<span class="application">mateconfd</span>. So if possible close the connection
+before exiting your application. see ? <code class="function">printf()</code> <code class="function"><code class="function">printf()</code></code>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the default <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2617554"></a><h3>
+<a name="mateconf-engine-get-for-address"></a>mateconf_engine_get_for_address ()</h3>
+<a class="indexterm" name="id2617565"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        mateconf_engine_get_for_address        (const gchar *address,
+                                                         GError **err);</pre>
+<p>
+Obtains a special <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>; mostly useful for specialized
+MateConf-related tools. Normal clients shouldn't need to use it.
+As with <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-default"><code class="function">mateconf_engine_get_default()</code></a>, the returned <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> should be
+unreferenced by the caller of this function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>a configuration source address.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2617687"></a><h3>
+<a name="mateconf-engine-get-for-addresses"></a>mateconf_engine_get_for_addresses ()</h3>
+<a class="indexterm" name="id2617702"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        mateconf_engine_get_for_addresses      (GSList *addresses,
+                                                         GError **err);</pre>
+<p>
+Similar to <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-for-address"><code class="function">mateconf_engine_get_for_address()</code></a> , but takes a list of addresses 
+instead of a single address.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>addresses</code></em>&#160;:</span></p></td>
+<td>a list of configuration addresses.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.4
+
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2581413"></a><h3>
+<a name="mateconf-engine-unref"></a>mateconf_engine_unref ()</h3>
+<a class="indexterm" name="id2581426"></a><pre class="programlisting">void                mateconf_engine_unref                  (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf);</pre>
+<p>
+Decreases the reference count of a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> by one; if the
+reference count reaches 0, destroys the <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2581494"></a><h3>
+<a name="mateconf-engine-ref"></a>mateconf_engine_ref ()</h3>
+<a class="indexterm" name="id2581506"></a><pre class="programlisting">void                mateconf_engine_ref                    (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf);</pre>
+<p>
+Increases the reference count of a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2581567"></a><h3>
+<a name="mateconf-engine-get-local"></a>mateconf_engine_get_local ()</h3>
+<a class="indexterm" name="id2581578"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        mateconf_engine_get_local              (const char *address,
+                                                         GError **err);</pre>
+<p>
+Obtain a local (non-process-transparent) <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>. Local engines
+do not support notification, and can only access config databases
+directly (they do not use the multiple sources in a path system
+supported by nonlocal engines).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>address of local database.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>return location of an allocated <span class="type">GError</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2624229"></a><h3>
+<a name="mateconf-engine-get-local-for-addresses"></a>mateconf_engine_get_local_for_addresses ()</h3>
+<a class="indexterm" name="id2624245"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a>*        mateconf_engine_get_local_for_addresses
+                                                        (GSList *addresses,
+                                                         GError **err);</pre>
+<p>
+Obtains a local <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> similar to <a class="link" href="mateconf-mateconf-engine.html#mateconf-engine-get-local"><code class="function">mateconf_engine_get_local()</code></a>.
+Instead of taking the address of the local database, this function takes
+the addresses of the sources and gets the <a class="link" href="mateconf-mateconf-sources.html#MateConfSources"><span class="type">MateConfSources</span></a> using <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-new-from-addresses"><code class="function">mateconf_sources_new_from_addresses()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>addresses</code></em>&#160;:</span></p></td>
+<td>a list of addresses of <a class="link" href="mateconf-mateconf-sources.html#MateConfSources"><span class="type">MateConfSources</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.8
+
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2624392"></a><h3>
+<a name="mateconf-engine-set-user-data"></a>mateconf_engine_set_user_data ()</h3>
+<a class="indexterm" name="id2624404"></a><pre class="programlisting">void                mateconf_engine_set_user_data          (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *engine,
+                                                         gpointer data,
+                                                         GDestroyNotify dnotify);</pre>
+<p>
+Sets the user_data and the destroy notification function fields of a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>engine</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gpointer</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dnotify</code></em>&#160;:</span></p></td>
+<td>a pointer to the function to be called during destroy.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2624515"></a><h3>
+<a name="mateconf-engine-get-user-data"></a>mateconf_engine_get_user_data ()</h3>
+<a class="indexterm" name="id2624527"></a><pre class="programlisting">gpointer            mateconf_engine_get_user_data          (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *engine);</pre>
+<p>
+Returns the user_data field of a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>engine</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a pointer to the user_data.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2624600"></a><div class="refsect2" lang="en"><a name="id2624601"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2624602"></a></div>
+</div>
+</div>
+</body>
+</html>

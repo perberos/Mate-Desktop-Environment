@@ -1,0 +1,845 @@
+;; -*- scheme -*-
+; object definitions ...
+(define-object ChaptersModel
+  (in-module "Gucharmap")
+  (parent "GtkListStore")
+  (c-name "GucharmapChaptersModel")
+  (gtype-id "GUCHARMAP_TYPE_CHAPTERS_MODEL")
+)
+
+(define-object BlockChaptersModel
+  (in-module "Gucharmap")
+  (parent "GucharmapChaptersModel")
+  (c-name "GucharmapBlockChaptersModel")
+  (gtype-id "GUCHARMAP_TYPE_BLOCK_CHAPTERS_MODEL")
+)
+
+(define-object ChaptersView
+  (in-module "Gucharmap")
+  (parent "GtkTreeView")
+  (c-name "GucharmapChaptersView")
+  (gtype-id "GUCHARMAP_TYPE_CHAPTERS_VIEW")
+)
+
+(define-object Charmap
+  (in-module "Gucharmap")
+  (parent "GtkHPaned")
+  (c-name "GucharmapCharmap")
+  (gtype-id "GUCHARMAP_TYPE_CHARMAP")
+)
+
+(define-object Chartable
+  (in-module "Gucharmap")
+  (parent "GtkDrawingArea")
+  (c-name "GucharmapChartable")
+  (gtype-id "GUCHARMAP_TYPE_CHARTABLE")
+)
+
+(define-object CodepointList
+  (in-module "Gucharmap")
+  (parent "GObject")
+  (c-name "GucharmapCodepointList")
+  (gtype-id "GUCHARMAP_TYPE_CODEPOINT_LIST")
+)
+
+(define-object BlockCodepointList
+  (in-module "Gucharmap")
+  (parent "GucharmapCodepointList")
+  (c-name "GucharmapBlockCodepointList")
+  (gtype-id "GUCHARMAP_TYPE_BLOCK_CODEPOINT_LIST")
+)
+
+(define-object ScriptChaptersModel
+  (in-module "Gucharmap")
+  (parent "GucharmapChaptersModel")
+  (c-name "GucharmapScriptChaptersModel")
+  (gtype-id "GUCHARMAP_TYPE_SCRIPT_CHAPTERS_MODEL")
+)
+
+(define-object ScriptCodepointList
+  (in-module "Gucharmap")
+  (parent "GucharmapCodepointList")
+  (c-name "GucharmapScriptCodepointList")
+  (gtype-id "GUCHARMAP_TYPE_SCRIPT_CODEPOINT_LIST")
+)
+
+;; Enumerations and flags ...
+
+(define-enum CharmapPageType
+  (in-module "Gucharmap")
+  (c-name "GucharmapCharmapPageType")
+  (gtype-id "GUCHARMAP_TYPE_CHARMAP_PAGE_TYPE")
+  (values
+    '("chartable" "GUCHARMAP_CHARMAP_PAGE_CHARTABLE")
+    '("details" "GUCHARMAP_CHARMAP_PAGE_DETAILS")
+  )
+)
+
+(define-enum UnicodeVersion
+  (in-module "Gucharmap")
+  (c-name "GucharmapUnicodeVersion")
+  (gtype-id "GUCHARMAP_TYPE_UNICODE_VERSION")
+  (values
+    '("unassigned" "GUCHARMAP_UNICODE_VERSION_UNASSIGNED")
+    '("1-1" "GUCHARMAP_UNICODE_VERSION_1_1")
+    '("2-0" "GUCHARMAP_UNICODE_VERSION_2_0")
+    '("2-1" "GUCHARMAP_UNICODE_VERSION_2_1")
+    '("3-0" "GUCHARMAP_UNICODE_VERSION_3_0")
+    '("3-1" "GUCHARMAP_UNICODE_VERSION_3_1")
+    '("3-2" "GUCHARMAP_UNICODE_VERSION_3_2")
+    '("4-0" "GUCHARMAP_UNICODE_VERSION_4_0")
+    '("4-1" "GUCHARMAP_UNICODE_VERSION_4_1")
+    '("5-0" "GUCHARMAP_UNICODE_VERSION_5_0")
+    '("5-1" "GUCHARMAP_UNICODE_VERSION_5_1")
+    '("latest" "GUCHARMAP_UNICODE_VERSION_LATEST")
+  )
+)
+
+
+;; From gucharmap-block-chapters-model.h
+
+(define-function gucharmap_block_chapters_model_get_type
+  (c-name "gucharmap_block_chapters_model_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_block_chapters_model_new
+  (c-name "gucharmap_block_chapters_model_new")
+  (is-constructor-of "GucharmapBlockChaptersModel")
+  (return-type "GucharmapChaptersModel*")
+)
+
+
+
+;; From gucharmap-block-codepoint-list.h
+
+(define-function gucharmap_block_codepoint_list_get_type
+  (c-name "gucharmap_block_codepoint_list_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_block_codepoint_list_new
+  (c-name "gucharmap_block_codepoint_list_new")
+  (is-constructor-of "GucharmapBlockCodepointList")
+  (return-type "GucharmapCodepointList*")
+  (parameters
+    '("gunichar" "start")
+    '("gunichar" "end")
+  )
+)
+
+
+
+;; From gucharmap-chapters-model.h
+
+(define-function gucharmap_chapters_model_get_type
+  (c-name "gucharmap_chapters_model_get_type")
+  (return-type "GType")
+)
+
+(define-method get_codepoint_list
+  (of-object "GucharmapChaptersModel")
+  (c-name "gucharmap_chapters_model_get_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+  (parameters
+    '("GtkTreeIter*" "iter")
+  )
+)
+
+(define-method get_title
+  (of-object "GucharmapChaptersModel")
+  (c-name "gucharmap_chapters_model_get_title")
+  (return-type "const-char*")
+)
+
+(define-method get_book_codepoint_list
+  (of-object "GucharmapChaptersModel")
+  (c-name "gucharmap_chapters_model_get_book_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+)
+
+(define-method character_to_iter
+  (of-object "GucharmapChaptersModel")
+  (c-name "gucharmap_chapters_model_character_to_iter")
+  (return-type "gboolean")
+  (parameters
+    '("gunichar" "wc")
+    '("GtkTreeIter*" "iter")
+  )
+)
+
+(define-method id_to_iter
+  (of-object "GucharmapChaptersModel")
+  (c-name "gucharmap_chapters_model_id_to_iter")
+  (return-type "gboolean")
+  (parameters
+    '("const-char*" "id")
+    '("GtkTreeIter*" "iter")
+  )
+)
+
+
+
+;; From gucharmap-chapters-view.h
+
+(define-function gucharmap_chapters_view_get_type
+  (c-name "gucharmap_chapters_view_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_chapters_view_new
+  (c-name "gucharmap_chapters_view_new")
+  (is-constructor-of "GucharmapChaptersView")
+  (return-type "GtkWidget*")
+)
+
+(define-method set_model
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_set_model")
+  (return-type "none")
+  (parameters
+    '("GucharmapChaptersModel*" "model")
+  )
+)
+
+(define-method get_model
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_get_model")
+  (return-type "GucharmapChaptersModel*")
+)
+
+(define-method select_character
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_select_character")
+  (return-type "gboolean")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-method get_codepoint_list
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_get_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+)
+
+(define-method get_book_codepoint_list
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_get_book_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+)
+
+(define-method next
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_next")
+  (return-type "none")
+)
+
+(define-method previous
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_previous")
+  (return-type "none")
+)
+
+(define-method get_selected
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_get_selected")
+  (return-type "gchar*")
+)
+
+(define-method set_selected
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_set_selected")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-method select_locale
+  (of-object "GucharmapChaptersView")
+  (c-name "gucharmap_chapters_view_select_locale")
+  (return-type "gboolean")
+)
+
+
+
+;; From gucharmap-charmap.h
+
+(define-function gucharmap_charmap_get_type
+  (c-name "gucharmap_charmap_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_charmap_new
+  (c-name "gucharmap_charmap_new")
+  (is-constructor-of "GucharmapCharmap")
+  (return-type "GtkWidget*")
+)
+
+(define-method set_active_character
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_active_character")
+  (return-type "none")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-method get_active_character
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_active_character")
+  (return-type "gunichar")
+)
+
+(define-method set_active_chapter
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_active_chapter")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "chapter")
+  )
+)
+
+(define-method get_active_chapter
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_active_chapter")
+  (return-type "char*")
+)
+
+(define-method next_chapter
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_next_chapter")
+  (return-type "none")
+)
+
+(define-method previous_chapter
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_previous_chapter")
+  (return-type "none")
+)
+
+(define-method set_font_desc
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_font_desc")
+  (return-type "none")
+  (parameters
+    '("PangoFontDescription*" "font_desc")
+  )
+)
+
+(define-method get_font_desc
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_font_desc")
+  (return-type "PangoFontDescription*")
+)
+
+(define-method get_chapters_view
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_chapters_view")
+  (return-type "GucharmapChaptersView*")
+)
+
+(define-method set_chapters_model
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_chapters_model")
+  (return-type "none")
+  (parameters
+    '("GucharmapChaptersModel*" "model")
+  )
+)
+
+(define-method get_chapters_model
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_chapters_model")
+  (return-type "GucharmapChaptersModel*")
+)
+
+(define-method get_active_codepoint_list
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_active_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+)
+
+(define-method get_book_codepoint_list
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_book_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+)
+
+(define-method set_chapters_visible
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_chapters_visible")
+  (return-type "none")
+  (parameters
+    '("gboolean" "visible")
+  )
+)
+
+(define-method get_chapters_visible
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_chapters_visible")
+  (return-type "gboolean")
+)
+
+(define-method set_page_visible
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_page_visible")
+  (return-type "none")
+  (parameters
+    '("int" "page")
+    '("gboolean" "visible")
+  )
+)
+
+(define-method get_page_visible
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_page_visible")
+  (return-type "gboolean")
+  (parameters
+    '("int" "page")
+  )
+)
+
+(define-method set_active_page
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_active_page")
+  (return-type "none")
+  (parameters
+    '("int" "page")
+  )
+)
+
+(define-method get_active_page
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_active_page")
+  (return-type "int")
+)
+
+(define-method set_snap_pow2
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_set_snap_pow2")
+  (return-type "none")
+  (parameters
+    '("gboolean" "snap")
+  )
+)
+
+(define-method get_snap_pow2
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_snap_pow2")
+  (return-type "gboolean")
+)
+
+(define-method get_chartable
+  (of-object "GucharmapCharmap")
+  (c-name "gucharmap_charmap_get_chartable")
+  (return-type "GucharmapChartable*")
+)
+
+
+
+;; From gucharmap-chartable.h
+
+(define-function gucharmap_chartable_get_type
+  (c-name "gucharmap_chartable_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_chartable_new
+  (c-name "gucharmap_chartable_new")
+  (is-constructor-of "GucharmapChartable")
+  (return-type "GtkWidget*")
+)
+
+(define-method set_font_desc
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_set_font_desc")
+  (return-type "none")
+  (parameters
+    '("PangoFontDescription*" "font_desc")
+  )
+)
+
+(define-method get_font_desc
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_get_font_desc")
+  (return-type "PangoFontDescription*")
+)
+
+(define-method get_active_character
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_get_active_character")
+  (return-type "gunichar")
+)
+
+(define-method set_active_character
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_set_active_character")
+  (return-type "none")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-method set_zoom_enabled
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_set_zoom_enabled")
+  (return-type "none")
+  (parameters
+    '("gboolean" "enabled")
+  )
+)
+
+(define-method get_zoom_enabled
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_get_zoom_enabled")
+  (return-type "gboolean")
+)
+
+(define-method set_snap_pow2
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_set_snap_pow2")
+  (return-type "none")
+  (parameters
+    '("gboolean" "snap")
+  )
+)
+
+(define-method get_snap_pow2
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_get_snap_pow2")
+  (return-type "gboolean")
+)
+
+(define-method set_codepoint_list
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_set_codepoint_list")
+  (return-type "none")
+  (parameters
+    '("GucharmapCodepointList*" "list")
+  )
+)
+
+(define-method get_codepoint_list
+  (of-object "GucharmapChartable")
+  (c-name "gucharmap_chartable_get_codepoint_list")
+  (return-type "GucharmapCodepointList*")
+)
+
+
+
+;; From gucharmap-codepoint-list.h
+
+(define-function gucharmap_codepoint_list_get_type
+  (c-name "gucharmap_codepoint_list_get_type")
+  (return-type "GType")
+)
+
+(define-method get_char
+  (of-object "GucharmapCodepointList")
+  (c-name "gucharmap_codepoint_list_get_char")
+  (return-type "gunichar")
+  (parameters
+    '("gint" "index")
+  )
+)
+
+(define-method get_index
+  (of-object "GucharmapCodepointList")
+  (c-name "gucharmap_codepoint_list_get_index")
+  (return-type "gint")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-method get_last_index
+  (of-object "GucharmapCodepointList")
+  (c-name "gucharmap_codepoint_list_get_last_index")
+  (return-type "gint")
+)
+
+
+
+;; From gucharmap-script-chapters-model.h
+
+(define-function gucharmap_script_chapters_model_get_type
+  (c-name "gucharmap_script_chapters_model_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_script_chapters_model_new
+  (c-name "gucharmap_script_chapters_model_new")
+  (is-constructor-of "GucharmapScriptChaptersModel")
+  (return-type "GucharmapChaptersModel*")
+)
+
+
+
+;; From gucharmap-script-codepoint-list.h
+
+(define-function gucharmap_script_codepoint_list_get_type
+  (c-name "gucharmap_script_codepoint_list_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_script_codepoint_list_new
+  (c-name "gucharmap_script_codepoint_list_new")
+  (is-constructor-of "GucharmapScriptCodepointList")
+  (return-type "GucharmapCodepointList*")
+)
+
+(define-method set_script
+  (of-object "GucharmapScriptCodepointList")
+  (c-name "gucharmap_script_codepoint_list_set_script")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "script")
+  )
+)
+
+(define-method set_scripts
+  (of-object "GucharmapScriptCodepointList")
+  (c-name "gucharmap_script_codepoint_list_set_scripts")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar**" "scripts")
+  )
+)
+
+(define-method append_script
+  (of-object "GucharmapScriptCodepointList")
+  (c-name "gucharmap_script_codepoint_list_append_script")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "script")
+  )
+)
+
+
+
+;; From gucharmap-unicode-info.h
+
+(define-function gucharmap_get_unicode_name
+  (c-name "gucharmap_get_unicode_name")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_data_name
+  (c-name "gucharmap_get_unicode_data_name")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_data_name_count
+  (c-name "gucharmap_get_unicode_data_name_count")
+  (return-type "gint")
+)
+
+(define-function gucharmap_get_unicode_version
+  (c-name "gucharmap_get_unicode_version")
+  (return-type "GucharmapUnicodeVersion")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_get_unicode_category_name
+  (c-name "gucharmap_get_unicode_category_name")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unihan_count
+  (c-name "gucharmap_get_unihan_count")
+  (return-type "gint")
+)
+
+(define-function gucharmap_get_unicode_kDefinition
+  (c-name "gucharmap_get_unicode_kDefinition")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_kCantonese
+  (c-name "gucharmap_get_unicode_kCantonese")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_kMandarin
+  (c-name "gucharmap_get_unicode_kMandarin")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_kTang
+  (c-name "gucharmap_get_unicode_kTang")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_kKorean
+  (c-name "gucharmap_get_unicode_kKorean")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_kJapaneseKun
+  (c-name "gucharmap_get_unicode_kJapaneseKun")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_unicode_kJapaneseOn
+  (c-name "gucharmap_get_unicode_kJapaneseOn")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "uc")
+  )
+)
+
+(define-function gucharmap_get_nameslist_stars
+  (c-name "gucharmap_get_nameslist_stars")
+  (return-type "const-gchar**")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_get_nameslist_equals
+  (c-name "gucharmap_get_nameslist_equals")
+  (return-type "const-gchar**")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_get_nameslist_exes
+  (c-name "gucharmap_get_nameslist_exes")
+  (return-type "gunichar*")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_get_nameslist_pounds
+  (c-name "gucharmap_get_nameslist_pounds")
+  (return-type "const-gchar**")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_get_nameslist_colons
+  (c-name "gucharmap_get_nameslist_colons")
+  (return-type "const-gchar**")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_unichar_validate
+  (c-name "gucharmap_unichar_validate")
+  (return-type "gboolean")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_unichar_to_printable_utf8
+  (c-name "gucharmap_unichar_to_printable_utf8")
+  (return-type "gint")
+  (parameters
+    '("gunichar" "wc")
+    '("gchar*" "outbuf")
+  )
+)
+
+(define-function gucharmap_unichar_type
+  (c-name "gucharmap_unichar_type")
+  (return-type "GUnicodeType")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_unichar_isdefined
+  (c-name "gucharmap_unichar_isdefined")
+  (return-type "gboolean")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_unichar_isgraph
+  (c-name "gucharmap_unichar_isgraph")
+  (return-type "gboolean")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-function gucharmap_unicode_list_scripts
+  (c-name "gucharmap_unicode_list_scripts")
+  (return-type "const-gchar**")
+)
+
+(define-function gucharmap_unicode_get_script_for_char
+  (c-name "gucharmap_unicode_get_script_for_char")
+  (return-type "const-gchar*")
+  (parameters
+    '("gunichar" "wc")
+  )
+)
+
+(define-method to_string
+  (of-object "GucharmapUnicodeVersion")
+  (c-name "gucharmap_unicode_version_to_string")
+  (return-type "const-gchar*")
+)
+
+(define-function gucharmap_unicode_get_locale_character
+  (c-name "gucharmap_unicode_get_locale_character")
+  (return-type "gunichar")
+)
+
+
+
+;; From gucharmap-type-builtins.h
+
+(define-function gucharmap_charmap_page_type_get_type
+  (c-name "gucharmap_charmap_page_type_get_type")
+  (return-type "GType")
+)
+
+(define-function gucharmap_unicode_version_get_type
+  (c-name "gucharmap_unicode_version_get_type")
+  (return-type "GType")
+)
+
+
+
+;; From gucharmap.h
+
+

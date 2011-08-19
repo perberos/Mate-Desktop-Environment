@@ -1,0 +1,439 @@
+<mateconfschemafile>
+    <schemalist>
+
+        <!--
+
+            Note to plugin implementors: the correct naming scheme for MateConf
+            keys to support your plugin is:
+
+                /schemas/apps/music-applet/prefs/Plugin-Name/key_name
+
+            Plugin-Name is the name of your plugin, with spaces replaced with
+            dashes.  key_name can be whatever you want.
+
+            Note also that some plugin keys don't follow this format.  This is
+            for backwards compatibility with older versions of Music Applet,
+            and should not be used as a model for new key names.
+
+        -->
+
+        <!-- General applet preferences -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/show_song_information</key>
+            <owner>music-applet</owner>
+            <type>bool</type>
+            <default>1</default>
+            <locale name="C">
+                <short>Show song information</short>
+                <long>If true, show information about the current song in the applet.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/show_rating</key>
+            <owner>music-applet</owner>
+            <type>bool</type>
+            <default>1</default>
+            <locale name="C">
+                <short>Show rating</short>
+                <long>If true, show the current song's rating in the applet.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/show_time</key>
+            <owner>music-applet</owner>
+            <type>bool</type>
+            <default>1</default>
+            <locale name="C">
+                <short>Show time</short>
+                <long>If true, show the current song's elapsed time in the applet.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/show_controls</key>
+            <owner>music-applet</owner>
+            <type>bool</type>
+            <default>1</default>
+            <locale name="C">
+                <short>Show playback controls</short>
+                <long>If true, show the playback controls in the applet.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/show_notification</key>
+            <owner>music-applet</owner>
+            <type>bool</type>
+            <default>1</default>
+            <locale name="C">
+                <short>Show notification on song change</short>
+                <long>Show a brief notification popup whenever the current song changes.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/preferred_player</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>Rhythmbox</default>
+            <locale name="C">
+                <short>Name of the preferred music player</short>
+                <long>The name of the preferred music player.  This mainly controls which player to launch if none is currently running.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/enabled_plugins</key>
+            <owner>music-applet</owner>
+            <type>list</type>
+            <list_type>string</list_type>
+            <default>[Amarok,Amarok 2,Audacious,Banshee,Banshee 1.0,Exaile,MPD,Muine,Quod Libet,Rhythmbox,VLC,XMMS,XMMS2]</default>
+            <locale name="C">
+                <short>List of enabled plugins</short>
+                <long>The list of plugins that are enabled.  Each plugin implements support for a different music player.</long>
+            </locale>
+        </schema>
+
+        <!-- Rhythmbox plugin (uses some legacy keys) -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/rhythmbox_launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>D-Bus</default>
+            <locale name="C">
+                <short>Method for launching Rhythmbox</short>
+                <long>Method to use to launch Rhythmbox.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/rhythmbox_command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>rhythmbox</default>
+            <locale name="C">
+                <short>Command for launching Rhythmbox</short>
+                <long>Command to execute to launch Rhythmbox.</long>
+            </locale>
+        </schema>
+
+        <!-- Banshee plugin (uses some legacy keys) -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/banshee_launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>D-Bus</default>
+            <locale name="C">
+                <short>Method for launching Banshee</short>
+                <long>Method to use to launch Banshee.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/banshee_command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>banshee</default>
+            <locale name="C">
+                <short>Command for launching Banshee</short>
+                <long>Command to execute to launch Banshee.</long>
+            </locale>
+        </schema>
+
+        <!-- Banshee 1.0 plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Banshee-1.0/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>D-Bus</default>
+            <locale name="C">
+                <short>Method for launching Banshee</short>
+                <long>Method to use to launch Banshee.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Banshee-1.0/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>banshee-1</default>
+            <locale name="C">
+                <short>Command for launching Banshee</short>
+                <long>Command to execute to launch Banshee.</long>
+            </locale>
+        </schema>
+
+        <!-- Muine plugin (uses some legacy keys) -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Muine/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>D-Bus</default>
+            <locale name="C">
+                <short>Method for launching Muine</short>
+                <long>Method to use to launch Muine.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/muine_command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>muine</default>
+            <locale name="C">
+                <short>Command for launching Muine</short>
+                <long>Command to execute to launch Muine.</long>
+            </locale>
+        </schema>
+
+        <!-- XMMS2 plugin (uses some legacy keys) -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/xmms2_conn_path</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default></default>
+            <locale name="C">
+                <short>Connection path for XMMS2</short>
+                <long>The connection path where the XMMS2 server can be found.  This should be of the form &lt;protocol&gt;://&lt;path&gt;[:&lt;port&gt;].  If this is left blank, the contents of the XMMS_PATH environment variable, if defined, will be used.  Otherwise, the default path will be used.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/xmms2_command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>xmms2-launcher</default>
+            <locale name="C">
+                <short>Command for launching XMMS2</short>
+                <long>Command to execute to launch XMMS2.</long>
+            </locale>
+        </schema>
+
+        <!-- Exaile plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Exaile/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>Command</default>  <!-- Exaile (as of 0.2.7) has no .service file -->
+            <locale name="C">
+                <short>Method for launching Exaile</short>
+                <long>Method to use to launch Exaile.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Exaile/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>exaile</default>
+            <locale name="C">
+                <short>Command for launching Exaile</short>
+                <long>Command to execute to launch Exaile.</long>
+            </locale>
+        </schema>
+
+        <!-- XMMS plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/XMMS/session</key>
+            <owner>music-applet</owner>
+            <type>int</type>
+            <default>0</default>
+            <locale name="C">
+                <short>Session ID for XMMS</short>
+                <long>The Session ID of the instance of XMMS to work with.  Leave this set to 0 unless you have more than one instance of XMMS running.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/XMMS/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>xmms</default>
+            <locale name="C">
+                <short>Command for launching XMMS</short>
+                <long>Command to execute to launch XMMS.</long>
+            </locale>
+        </schema>
+
+        <!-- BMPx plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/BMPx/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>D-Bus</default>
+            <locale name="C">
+                <short>Method for launching BMPx</short>
+                <long>Method to use to launch BMPx.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/BMPx/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>bmpx</default>
+            <locale name="C">
+                <short>Command for launching BMPx</short>
+                <long>Command to execute to launch BMPx.</long>
+            </locale>
+        </schema>
+
+        <!-- MPD plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/MPD/host</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default></default>
+            <locale name="C">
+                <short>Host where the MPD server is.</short>
+                <long>Name or IP address of the host where the MPD server to connect to is.  Leave this blank for the default.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/MPD/port</key>
+            <owner>music-applet</owner>
+            <type>int</type>
+            <default>0</default>
+            <locale name="C">
+                <short>Port number of the MPD server.</short>
+                <long>The port number where the MPD server can be found.  Set this to 0 for the default.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/MPD/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>mpd</default>
+            <locale name="C">
+                <short>Command for launching BMPx</short>
+                <long>Command to execute to launch the MPD server.</long>
+            </locale>
+        </schema>
+
+        <!-- Quod Libet plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Quod-Libet/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>Command</default>
+            <locale name="C">
+                <short>Method for launching Quod Libet</short>
+                <long>Method to use to launch Quod Libet.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Quod-Libet/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>quodlibet</default>
+            <locale name="C">
+                <short>Command for launching Quod Libet</short>
+                <long>Command to execute to launch Quod Libet.</long>
+            </locale>
+        </schema>
+
+        <!-- Amarok plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Amarok/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>amarok</default>
+            <locale name="C">
+                <short>Command for launching Amarok</short>
+                <long>Command to execute to launch Amarok.</long>
+            </locale>
+        </schema>
+
+        <!-- Audacious plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Audacious/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>Command</default>
+            <locale name="C">
+                <short>Method for launching Audacious</short>
+                <long>Method to use to launch Audacious.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Audacious/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>audacious</default>
+            <locale name="C">
+                <short>Command for launching Audacious</short>
+                <long>Command to execute to launch Audacious.</long>
+            </locale>
+        </schema>
+
+        <!-- VLC plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/VLC/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>Command</default>
+            <locale name="C">
+                <short>Method for launching VLC</short>
+                <long>Method to use to launch VLC.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/VLC/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>vlc</default>
+            <locale name="C">
+                <short>Command for launching VLC</short>
+                <long>Command to execute to launch VLC.</long>
+            </locale>
+        </schema>
+
+        <!-- Amarok 2 plugin -->
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Amarok-2/launch</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>Command</default>
+            <locale name="C">
+                <short>Method for launching Amarok</short>
+                <long>Method to use to launch Amarok.  Can be either "D-Bus" or "Command".</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/music-applet/prefs/Amarok-2/command</key>
+            <owner>music-applet</owner>
+            <type>string</type>
+            <default>amarok</default>
+            <locale name="C">
+                <short>Command for launching Amarok</short>
+                <long>Command to execute to launch Amarok.</long>
+            </locale>
+        </schema>
+
+    </schemalist>
+</mateconfschemafile>
+
+<!-- vim: set ft=xml: -->

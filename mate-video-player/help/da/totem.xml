@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY appversion "2.26">
+<!ENTITY manrevision "3.0">
+<!ENTITY date "February 2009">
+<!ENTITY app "Totem Movie Player">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file. 
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the MATE Documentation Project
+  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Apr 11, 2002
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="da">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+    <title>Manual til <application>Totem</application></title>       
+    <copyright> 
+      <year>2003</year> 
+      <holder>Chee Bin HOH</holder>
+    </copyright>
+    <copyright>
+      <year>2009</year>
+      <holder>Philip Withnall</holder>
+    </copyright><copyright><year>2009.</year><holder>Ask Hjorth Larsen (asklarsen@gmail.com)</holder></copyright>
+    <releaseinfo revision="2.26" role="final">
+    	<ulink type="peerreview" url="http://bugzilla.mate.org/show_bug.cgi?id=574524"/>
+    </releaseinfo>
+
+    <abstract role="description">
+      <para><application>Totem</application> er en medieafspiller til MATE, der kører over GStreamer som standard, men som også kan køres over xine. Den understøtter de fleste lyd- og videocodec inklusive DVD'er og mange andre. Der understøttes TV-udgang, fuldskærm, undertekster med mere.</para>
+    </abstract>
+
+    <publisher> 
+      <publishername>MATE-dokumentationsprojektet</publishername> 
+    </publisher> 
+
+      <legalnotice id="legalnotice">
+	<para>Der gives tilladelse til at kopiere, distribuere og/eller ændre dette dokument under betingelserne for GNU Free Documentation License (GFDL), version 1.1 eller enhver nyere version udgivet af Free Software Foundation, uden invariante afsnit, uden forsidetekster, og uden bagsidetekster. Du kan finde en kopi af GFDL'en her: <ulink type="help" url="ghelp:fdl">link</ulink>, eller i filen COPYING-DOCS, der distribueres med denne manual.</para>
+         <para>Denne manual er en del af MATE-manualsamlingen distribueret under GFDL'en. Hvis du vil distribuere denne manual separat fra denne samling, kan du gøre det ved at tilføje en kopi af licensen til manualen, som beskrevet i sektion 6 af licensen.</para>
+
+	<para>Mange af navnene brugt af firmaer til at skelne deres produkter og tjenester er betegnet som mærkevarer. Der hvor de navne optræder i en MATE-dokumentation, og medlemmerne af MATE-dokumantationsprojektet er blevet gjort opmærksomme på disse varemærker, så er navnene skrevet med store bogstaver eller store forbogstaver.</para>
+
+	<para>DETTE DOKUMENT OG MODIFICEREDE VERSIONER GØRES TILGÆNGELIGT UNDER BETINGELSERNE I GNU FREE DOKUMENTATION LICENS UNDER DEN FORUDSÆTNING AT: <orderedlist>
+		<listitem>
+		  <para>DETTE DOKUMENT GØRES TILGÆNGELIGT SÅDAN SOM DET ER, UDEN NOGEN FORM FOR GARANTI, HVERKEN UDTALT ELLER ANTYDET, DERIBLANDT, UDEN BEGRÆNSNINGER, GARANTIER OM AT DOKUMENTET ELLER ÆNDREDE VERSIONER AF DOKUMENTET ER FRIT FOR DEFEKTER, PASSENDE TIL ET BESTEMT FORMÅL ELLER IKKE-KRÆNKENDE. DU HÆFTER SELV FOR HELE RISIKOEN VEDRØRENDE KVALITET, KORREKTHED OG YDELSE FOR DOKUMENTET ELLER ÆNDREDE VERSIONER AF DOKUMENTET. SKULLE ET DOKUMENT, ELLER EN ÆNDRET VERSION AF ET DOKUMENT VISE SIG AT VÆRE DEFEKT PÅ EN HVILKEN SOM HELST MÅDE, HÆFTER DU FOR BETALING FOR EVENTUEL NØDVENDIG SERVICE, REPARATION ELLER KORREKTION (OG IKKE HVERKEN DEN OPRINDELIGE FORFATTER, SKRIBENT ELLER NOGEN ANDEN BIDRAGYDER). DENNE ERKLÆRING OM GARANTIFORBEHOLD ER EN ESSENTIEL DEL AF DENNE LICENS. INGEN BRUG AF NOGET DOKUMENT ELLER ÆNDRET VERSION AF DOKUMENTET ER AUTORISERET HERUNDER BORTSET FRA DENNE FORBEHOLDSERKLÆRING; OG</para>
+		</listitem>
+		<listitem>
+		  <para>UNDER INGEN OMSTÆNDIGHEDER OG UNDER INGEN JURIDISK TEORI, UANSET OM DET ER EN BEVIDSTE SKADENDE HANDLING (INKLUSIV UFORSVARLIGHED) ELLER PÅ HVILKEN SOM HELST ANDEN MÅDE, KAN FORFATTEREN, SKRIBENT, BIDRAGYDERE, DISTRIBUTØRER ELLER FORSYNER AF DETTE DOKUMENT ELLER MODIFICEREDE VERSIONER GØRES ANSVARLIG OVERFOR NOGEN PERSON FOR NOGEN DIREKTE, INDIREKTE, SPECIEL, TILFÆLDIG ELLER FØLGENDE SKADE PÅFØRT NOGEN INKLUSIV, UDEN BEGRÆNSNING, SKADE SOM FØLGE AF TAB AF RYGTE, ARBEJDSSTOP, COMPUTER-FEJL ELLER -SVIGT, ELLER ENHVER ANDEN FORM FOR SKADE ELLER TAB SOM ER OPSTÅET I FORBINDELSE MED BRUG AF DETTE DOKUMENT ELLER MODIFICEREDE VERSIONER HERAF, SELV HVIS EN SÅDAN PART HAR VÆRET INFORMERET OM MULIGHEDEN FOR SÅDANNE SKADER.</para>
+		</listitem>
+	  </orderedlist></para>
+  </legalnotice>
+
+
+    <!-- This file  contains link to license for the documentation (GNU FDL), and 
+         other legal stuff such as "NO WARRANTY" statement. Please do not change 
+	 any of this. -->
+
+    <authorgroup> 
+      <author role="maintainer"> 
+	<firstname>Chee Bin</firstname> 
+	<surname>HOH</surname> 
+	<affiliation> 
+  	  <orgname>MATE-dokumentationsprojektet</orgname> 
+	</affiliation>
+	<email>cbhoh@mate.org</email>
+      </author>
+      <author>
+	<firstname>Baptiste</firstname> 
+	<surname>Mille-Mathias</surname> 
+	<affiliation> 
+          <orgname>MATE-dokumentationsprojektet</orgname>
+        </affiliation>
+        <contrib>Opdatér dokumentation</contrib>
+        <email>baptiste.millemathias@gmail.org</email>
+      </author>
+       <author>
+	<firstname>Philip</firstname> 
+	<surname>Withnall</surname>
+        <contrib>Opdatér dokumentation</contrib>
+	<email>philip@tecnocode.co.uk</email>
+      </author>   
+
+<!-- This is appropriate place for other contributors: translators,
+     maintainers,  etc. Commented out by default.
+      <othercredit role="translator">
+	<firstname>Latin</firstname> 
+	<surname>Translator 1</surname> 
+	<affiliation> 
+          <orgname>Latin Translation Team</orgname> 
+  	  <address> <email>translator@mate.org</email> </address> 
+        </affiliation>
+        <contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other -->
+<!-- than the current revision. -->
+<!-- The revision numbering system for MATE manuals is as follows: -->
+<!-- * the revision number consists of two components -->
+<!-- * the first component of the revision number reflects the release version of the MATE desktop. -->
+<!-- * the second component of the revision number is a decimal unit that is incremented with each revision of the manual. -->
+<!-- For example, if the MATE desktop release is V2.x, the first version of the manual that -->
+<!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
+<!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
+<!-- to V3.0, and so on. -->  
+    <revhistory>
+      <revision> 
+        <revnumber>Manual til Totem, V2.0</revnumber> 
+	<date>August 2006</date> 
+	<revdescription> 
+	  <para role="author">Chee Bin HOH <email>cbhoh@mate.org</email></para>
+	  <para role="publisher">MATE-dokumentationsprojektet</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Manual til Totem, V3.0</revnumber> 
+	<date>February 2009</date> 
+	<revdescription> 
+	  <para role="author">Philip Withnall <email>philip@tecnocode.co.uk</email></para>
+	  <para role="publisher">MATE-dokumentationsprojektet</para>
+        </revdescription> 
+      </revision>
+    </revhistory> 
+
+    <releaseinfo>Denne manual beskriver version 2.26 af Totem.</releaseinfo> 
+    <legalnotice> 
+      <title>Tilbagemelding</title> 
+      <para>Vil du indsende fejlrapporter eller forslag til programmet <application>Totem</application> eller denne manual, så følg vejledningen på <ulink url="ghelp:user-guide#feedback" type="help">MATE-feedbacksiden</ulink>.</para>
+    </legalnotice> 
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+    <primary>Totem Movie Player</primary> 
+  </indexterm> 
+  <indexterm zone="index"> 
+    <primary>totem</primary> 
+  </indexterm>
+
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+  <sect1 id="totem-introduction"> 
+    <title>Introduktion</title> 
+    <para>Programmet <application>Totem</application> er en filmafspiller til MATE-skrivebordet baseret på GStreamer samt xine-biblioteket, som lader dig afspille film og musik.</para>
+    <para><application>Totem</application> indeholder følgende funktionalitet:</para>
+    <itemizedlist> 
+      <listitem> 
+	<para>Understøttelse af diverse video- og lydfiltyper.</para>
+      </listitem>
+      <listitem>
+	<para>Diverse zoomniveauer og skærmforhold, samt fuldskærmsvisning.</para> 
+      </listitem>
+      <listitem>
+        <para>Søge- og volumenkontroller.</para>
+      </listitem>
+      <listitem>
+        <para>En afspilningsliste.</para>
+      </listitem>
+      <listitem>
+        <para>Understøttelse af undertekster.</para>
+      </listitem>
+      <listitem>
+	<para>Fuld navigation med tastatur.</para>
+      </listitem>
+      <listitem>
+	<para>Omfattende samling af udvidelsesmoduler, inklusive underteksthenter, YouTube-læser og diskbrænder.</para>
+      </listitem>
+    </itemizedlist> 
+    <note>
+      <para><application>Totem</application> inkluderer yderligere funktioner såsom:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>Videominiaturefunktion til MATE.</para>
+        </listitem>
+        <listitem>
+	  <para>Program til forhåndsafspilning af lyd til MATE.</para>
+        </listitem>
+	<listitem>
+	  <para>Caja-egenskabsfaneblad.</para>
+        </listitem>
+      </itemizedlist>
+    </note>
+  </sect1>
+<!-- =========== End of Introduction ========================= -->
+
+<!-- =========== Getting Started ============================= -->
+<!-- Use the Getting Started section to describe the steps required
+     to start the application and to describe the user interface components
+     of the application. If there is other information that it is important
+     for readers to know before they start using the application, you should
+     also include this information here. 
+     If the information about how to get started is very short, you can 
+     include it in the Introduction and omit this section. -->
+
+  <sect1 id="totem-getting-started"> 
+    <title>Kom godt i gang</title> 
+
+    <sect2 id="totem-start">
+      <title>Start filmafspilleren <application>Totem</application></title>
+      <para>Du kan starte <application>Totem</application> på følgende måder:</para> 
+      <variablelist>
+	<varlistentry>
+	  <term>Menuen <guimenu>Programmer</guimenu></term>
+	  <listitem>
+	    <para>Vælg <menuchoice><guisubmenu>Lyd &amp; video</guisubmenu><guimenuitem>Filmafspiller</guimenuitem></menuchoice>.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Kommandolinje</term>
+	  <listitem>
+	    <para>For at starte <application>Totem</application> fra kommandolinjen, skriver du følgende kommando efterfulgt af <keycap>Retur</keycap>:</para>
+	    <para> 
+            <command>totem</command> 
+            </para> 
+	    <tip>
+	      <para>Skriv <command>totem --help</command> efterfulgt af <keycap>Retur</keycap> for at se andre kommandolinjetilvalg.</para>
+	    </tip>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-when-start">
+      <title>Opstart af <application>Totem</application></title>
+      <para>Når du starter <application>Totem</application>, vises følgende vindue.</para>
+
+      <!-- ==== Figure ==== -->
+      <figure id="totem-start-fig"> 
+	<title><application>Totem</application>s opstartsvindue</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject>
+	      <imagedata fileref="figures/totem_start_window.png" format="PNG"/> 
+	    </imageobject>
+	    <textobject> 
+	      <phrase>Shows <application>Totem Movie Player</application> main window with
+		  sidebar opened on playlist. Contains
+		  menubar, display area, sidebar, elapsed time slider, seek control
+		  buttons, volume slider and statusbar.
+          </phrase>
+	    </textobject> 
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+      <!-- ==== End of Figure ==== -->
+
+      <!-- Include any descriptions of the GUI immediately after the screenshot of the main UI, -->
+      <!-- for example, the items on the menubar and on the toolbar. This section is optional. -->
+      <para><application>Totem</application>-vinduet indeholder følgende elementer:</para>
+      <variablelist>
+	<varlistentry>
+	  <term>Menubjælke.</term>
+  	  <listitem>
+  	    <para>Menuerne i menubjælken indeholder alle de kommandoer, du har brug for i <application>Totem</application>.</para>
+ 	  </listitem>
+   	</varlistentry>
+	<varlistentry>
+	  <term>Fremvisningsområde.</term>
+	  <listitem>
+	    <para>Fremvisningsområdet viser filmen eller en visualisering af den nuværende sang.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Sidepanel.</term>
+	  <listitem>
+	    <para>Sidepanelet viser egenskaberne for filen der afspilles, og fungerer som afspilningsliste. Den kan også bruges af forskellige udvidelsesmoduler, såsom MythTV-, YouTube- og Videosøgningsmodulerne. De kan anvendes ved at klikke på rullegardinslisten øverst på sidepanelet.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Tidsskydeknap.</term>
+	  <listitem>
+	    <para>Tidsskydeknappen viser den tid, der er gået af den film eller sang, der afspilles. Den lader dig også spole frem og tilbage i filmen eller sangen ved at trække skyderen langs bjælken, eller ved at klikke på et punkt andetsteds på bjælken.</para>
+	  </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Søgekontroller.</term>
+          <listitem>
+            <para>Søgekontrollerne lader dig skifte til næste eller foregående spor, samt afspille eller sætte en film eller sang på pause.</para>
+	  </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Volumenknap.</term>
+          <listitem>
+	    <para>Volumenknappen lader dig justere lydstyrken.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Statusbjælke.</term>
+	  <listitem>
+	    <para>Statusbjælken viser statusinformation om den film eller sang, der i øjeblikket afspilles.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+<!-- =========== End of Getting Started ====================== -->
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to use the application to perform the tasks for 
+  which the application is designed. -->
+  <sect1 id="totem-usage"> 
+    <title>Brug</title> 
+
+    <!-- ================ Usage Subsection ================================ -->
+    <sect2 id="totem-open-file"> 
+      <title>Åbn en fil</title> 
+      <para>For at åbne en video- eller lydfil vælges <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo></shortcut><guimenu>Film</guimenu><guisubmenu>Åbn</guisubmenu></menuchoice>. Dermed vises vinduet <application>Vælg film eller afspilningslister</application>. Vælg den eller de filer, du vil åbne, og klik så knappen <guibutton>Tilføj</guibutton>.</para>
+      <para>Du kan trække en fil fra et andet program, såsom et filhåndteringsprogram, ind i <application>Totem</application>-vinduet. Hvis du trækker filen til fremvisningsområdet, vil filen erstatte den aktuelle afspilningsliste, og blive afspillet med det samme. Hvis du trækker filen til afspilningslisten i sidepanelet, vil filen blive føjet til denne. Programmet <application>Totem</application> vil åbne filen og afspille filmen eller sangen. <application>Totem</application> viser titlen på filmen eller sangen i vinduets titelbjælke, samt på afspilningslisten i sidepanelet.</para>
+      <para>Prøver du at åbne et filformat, som <application>Totem</application> ikke genkender, vil programmet vise en fejlmeddelelse. Denne fejl ses som oftest, hvis du ikke har de nødvendige codec installeret. Du kan finde informationer på <ulink url="http://projects.mate.org/totem/#codecs" type="http"><application>Totem</application>s websted</ulink> om hvordan codec installeres.</para>
+      <tip>
+	<para>I filhåndteringsprogrammet <application>Caja</application>, kan du dobbeltklikke på en video- eller lydfil for at åbne den i <application>Totem</application>-vinduet.</para>
+      </tip>
+    </sect2> 
+
+    <sect2 id="totem-usage-open-location">
+      <title>Åbn et sted</title>
+      <para>Du kan åbne en fil via URI (sted): vælg <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Åbn sted</guimenuitem></menuchoice>. Dialogen <application>Åbn sted</application> vises derved. Brug rullekombinationsboksen til at angive den URI, du vil åbne (den anfører URI'er som tidligere er blevet åbnet), eller skriv adressen direkte, og klik så på <guibutton>Åbn</guibutton>-knappen.</para>
+      <para>Hvis du allerede har en URI i udklipsholderen, vil den automatisk indsættes i kombinationsboksen.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-play">
+      <title>Afspil en film (DVD eller VCD)</title>
+	      <para>Indsæt disken i din computers optiske enhed, og vælg dernæst <menuchoice><guimenu>Film</guimenu><guimenuitem>Afspil disk</guimenuitem></menuchoice>.</para>
+             <para>Brug <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Skub ud</guimenuitem></menuchoice> for at fjerne en DVD eller VCD.</para>
+       </sect2>
+
+    <sect2 id="totem-usage-pause">
+      <title>Sæt en film eller sang på pause</title>
+      <para>Vil du sætte en film eller sang på pause, så klik <inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_pause_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>Viser pauseknappen.</phrase></textobject>
+        </inlinemediaobject>-knappen eller vælg <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Afspil / pause</guimenuitem></menuchoice>. Dette kan også gøres ved at trykke på <keycap>P</keycap>-knappen.</para>
+      <para>Vil du fortsætte afspilningen af en film eller sang, så klik på <inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_play_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>Viser afspilningsknappen.</phrase></textobject>
+        </inlinemediaobject>-knappen igen, eller vælg <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>Mellemrum</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Afspil / pause</guimenuitem></menuchoice>.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-view-properties">
+      <title>Sådan ser du egenskaberne for en film eller sang</title>
+      <para>Du kan se egenskaberne for en film eller sang ved at vælge <menuchoice><guimenu>Vis</guimenu><guimenuitem>Sidepanel</guimenuitem></menuchoice>, hvorved sidepanelet vil blive vist, og dernæst vælge <guimenu>Egenskaber</guimenu> i rullegardinslisten øverst i sidepanelet.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-seek">
+      <title>Spol gennem film eller sange</title>
+      <para>Du kan springe mellem film eller sange på følgende måder:</para>
+      <variablelist>
+	<varlistentry>
+	  <term>Spol fremad</term>
+	  <listitem>
+	    <para>Vælg <menuchoice><shortcut><keycap>Højre</keycap></shortcut><guimenu>Start</guimenu><guimenuitem>Spring fremad</guimenuitem></menuchoice> for at spole fremad gennem en film eller en sang.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Spol tilbage</term>
+	  <listitem>
+	    <para>Vælg <menuchoice><shortcut><keycap>Venstre</keycap></shortcut><guimenu>Start</guimenu><guimenuitem>Spring tilbage</guimenuitem></menuchoice> for at spole tilbage gennem en film eller sang.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Spring til et bestemt tidspunkt</term>
+	  <listitem>
+	    <para>Vælg <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>K</keycap></keycombo></shortcut><guimenu>Start</guimenu><guimenuitem>Spring til</guimenuitem></menuchoice> for at springe til et bestemt tidspunkt i en film eller sang. Vinduet <application>Spring til</application> vil så blive vist. Brug rulleknappen til at angive det tidspunkt, du vil springe til, og klik <guibutton>O.k.</guibutton>.</para>
+            <para>Rulleknappen tillader også et mere naturligt sprog. Du kan angive en tid i formaterne "tt:mm:ss", "mm:ss" eller "ss"; her er "tt" timetallet, "mm" minuttallet og "ss" sekundtallet, der skal springes til.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Gå til næste film eller sang</term>
+	  <listitem>
+	    <para>Vælg <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Højre</keycap></keycombo></shortcut><guimenu>Start</guimenu><guimenuitem>Næste kapitel/film</guimenuitem></menuchoice> eller klik på <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_next_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>Viser en søg til næste-knap</phrase></textobject>
+              </inlinemediaobject>-knappen for at gå til næste film eller sang.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Gå til forrige film eller sang</term>
+	  <listitem>
+	    <para>Vælg <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Venstre</keycap></keycombo></shortcut><guimenu>Start</guimenu><guimenuitem>Forrige kapitel/film</guimenuitem></menuchoice> eller klik på <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_previous_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>Viser en gå til forrige-knap</phrase></textobject>
+              </inlinemediaobject>-knappen for at gå til forrige film eller sang.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-usage-change-zoom">
+      <title>Indstil zoomfaktoren</title>
+	  <sect3 id="totem-usage-change-size">
+		<title>Indstil videostørrelsen</title>
+      <para>Du kan ændre zoomfaktoren for fremvisningsområdet på følgende måder:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>For at skifte til fuldskærmstilstand, vælges <menuchoice><shortcut><keycap>F11</keycap></shortcut><guimenu>Vis</guimenu><guimenuitem>Fuldskærm</guimenuitem></menuchoice>. Du kan også bruge <keycap>F</keycap>-knappen til at slå fuldskærmstilstand til og fra. Fuldskærmstilstand kan slås fra igen ved at klikke på <guibutton>Forlad fuldskærm</guibutton>-knappen, eller ved at trykke <keycap>Esc</keycap>, <keycap>F11</keycap> eller <keycap>F</keycap>.</para>
+    </listitem>
+	<listitem>
+	  <para>Du kan ændre størrelsen af den originale film eller visualisering.  Vælg <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>0</keycap></keycombo></shortcut><guimenu>Vis</guimenu><guimenuitem>Tilpas vinduet til filmen</guimenuitem></menuchoice> og vælg et skaleringsforhold.</para>
+    </listitem>
+	</itemizedlist>
+	</sect3>
+	 <sect3 id="totem-usage-change-ratio">
+		<title>Indstil skærmforhold</title>
+	      <para>Vil du skifte mellem forskellige højde-/breddeforhold, så vælg <menuchoice><shortcut><keycap>A</keycap></shortcut><guimenu>Vis</guimenu><guisubmenu>Højde-/breddeforhold</guisubmenu></menuchoice>.</para>
+	  </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-adjust-volume">
+      <title>Justér lydstyrken</title>
+      <para>Vælg <menuchoice><shortcut><keycap>Op</keycap></shortcut><guimenu>Lyd</guimenu><guimenuitem>Lydstyrke op</guimenuitem></menuchoice> for at skrue op for lydstyrken. Vælg <menuchoice><shortcut><keycap>Ned</keycap></shortcut><guimenu>Lyd</guimenu><guimenuitem>Lydstyrke ned</guimenuitem></menuchoice> for at formindske den.</para>
+      <para>Du kan også bruge volumenknappen: klik på volumenknappen og vælg lydstyrken med skydebrikken.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-on-top">
+      <title>Få vinduet til altid at være øverst</title>
+      <para>Du kan få <application>Totem</application>-vinduet til, altid at blive vist over andre vinduer.  Dette gøres ved at vælge <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Udvidelsesmoduler</guimenuitem></menuchoice>. Vælg så <guilabel>Altid øverst</guilabel>-modulet. <application>Totem</application>-vinduet vil nu forblive over alle andre vinduer mens en film afspilles, men ikke når der kun afspilles lyd eller visualiseringer.</para>
+       <para>Du kan få vinduet til ikke længere altid at være øverst, ved igen at deaktivere <guilabel>Altid øverst</guilabel>-modulet. Se <xref linkend="totem-plugins-always-on-top"/> for yderligere information.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-show-control">
+      <title>Vis eller skjul kontroller</title>
+      <para>Du kan skjule eller vise kontrollerne i <application>Totem</application>-vinduet ved at vælge <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenu>Vis</guimenu><guimenuitem>Vis kontroller</guimenuitem></menuchoice>, eller ved at trykke på <keycap>H</keycap>-tasten.
+
+Du kan også højreklikke på <application>Totem</application>-vinduet, og dernæst vælge <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenuitem>Vis kontroller</guimenuitem></menuchoice> fra pop op-menuen.</para>
+      <para>Hvis du sætter flueben ved <guilabel>Vis kontroller</guilabel>, vil <application>Totem</application> vise menubjælken, tidsskydeknappen, søgekontrollerne, skydeknappen for lydstyrke samt statusbjælke i vinduet. Hvis <guilabel>Vis kontroller</guilabel> fluebenet fjernes, vil programmet skjulle disse kontroller og kun vise fremvisningsområdet.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-playlist">
+      <title>Håndtér afspilningslisten</title>
+
+      <sect3 id="totem-usage-playlist-show-hide">
+	<title>Vis eller skjul afspilningslisten</title>
+	<para>Vælg <menuchoice><guimenu>Vis</guimenu><guimenuitem>Sidepanel</guimenuitem></menuchoice>, eller klik på knappen <guibutton>Sidepanel</guibutton> efterfulgt af <guimenu>Afspilningsliste</guimenu> øverst i sidepanelet, for at vise eller skjule afspilningslisten.</para>
+      </sect3>
+
+      <sect3 id="totem-usage-playlist-manage">
+	<title>Håndtér en afspilningsliste</title>
+	<para>Du kan i vinduet <application>Afspilningsliste</application> gøre følgende: <variablelist>
+	    <varlistentry>
+	      <term>Tilføj et spor eller en film</term>
+	      <listitem>
+		<para>Klik på <guibutton>Tilføj</guibutton>-knappen for at føje et spor eller en film til afspilningslisten. Vinduet <application>Vælg film eller afspilningslister</application> vil derved blive vist.  Vælg den fil, du vil føje til afspilningslisten, og klik så <guibutton>Tilføj</guibutton>.</para>
+              </listitem>
+            </varlistentry>
+	    <varlistentry>
+	      <term>Fjern et spor eller en film</term>
+	      <listitem>
+		<para>Du kan fjerne et spor eller en film fra afspilningslisten, ved at markere det eller de pågældende punkter på afspilningslisten, og så klikke på knappen <guibutton>Fjern</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Gem afspilningslisten i en fil</term>
+	      <listitem>
+		<para>Klik på <guibutton>Gem afspilningsliste</guibutton> for at gemme afspilningslisten i en fil. Vinduet <application>Gem afspilningsliste</application> vil derved blive vist. Angiv navnet på den fil, hvori du vil gemme afspilningslisten, og klik så knappen <guibutton>Gem</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Flyt et spor eller en film op i afspilningslisten</term>
+	      <listitem>
+		<para>Vælg et spor eller en film i afspilningslisten og klik <guibutton>Flyt op</guibutton>-knappen for at flytte den et trin opad i listen.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Flyt et spor eller en film ned i afspilningslisten</term>
+	      <listitem>
+		<para>Vælg et spor eller en film i afspilningslisten og klik <guibutton>Flyt ned</guibutton>-knappen for at flytte den et trin nedad i listen.</para>
+              </listitem>
+	    </varlistentry>
+          </variablelist></para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-repeat">
+	<title>Slå gentagelse til eller fra</title>
+	<para>Brug <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Gentagelsestilstand</guimenuitem></menuchoice> til slå gentagelse til eller fra.</para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-shuffle">
+	<title>Slå tilfældig rækkefølge til eller fra</title>
+	<para>Vælg <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Blandingstilstand</guimenuitem></menuchoice> for at slå tilfældig rækkefølge til eller fra.</para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-subtitle">
+	  <title>Vælg undertekster</title>
+	  <para>Undertekstsprog vælges via <menuchoice><guimenu>Vis</guimenu><guisubmenu>Vælg undertekster</guisubmenu></menuchoice>; derfra kan du vælge, hvilket sprog du vil have undertekster på.</para>
+	  <para>Vælg <menuchoice><guimenu>Vis</guimenu><guisubmenu>Undertekster</guisubmenu><guimenuitem>Ingen</guimenuitem></menuchoice> for at deaktivere visning af undertekster.</para>
+	  <note><para>Som standard vil <application>Totem</application> vælge det samme sprog for underteksterne, som det du normalt bruger på din computer.</para></note>
+	  <para><application>Totem</application> vil automatisk indlæse og vise undertekster for en video, hvis det finder en undertekstfil med samme navn som videoen, der afspilles.  Undertekstfilen kan have enhver af følgende fil-endelser: <filename class="extension">asc</filename>, <filename class="extension">txt</filename>, <filename class="extension">sub</filename>, <filename class="extension">srt</filename>, <filename class="extension">smi</filename>, <filename class="extension">ssa</filename> eller <filename class="extension">ass</filename>.</para>
+	  <para>Hvis navnet på filen, der indeholder underteksterne, ikke stemmer overens med videoens filnavn, kan du højreklikke på videoen i afspilningslisten og klikke <menuchoice><guimenuitem>Vælg undertekster</guimenuitem></menuchoice> fra pop op-menuen for at indlæse den ønskede undertekstfil. Du kan også vælge undertekster via <menuchoice><guimenu>Vis</guimenu><guimenuitem>Vælg undertekster</guimenuitem></menuchoice>.</para>
+	  <para>Ved hjælp af udvidelsesmodulet <guilabel>Underteksthenter</guilabel> kan du også hente undertekster via tjenesten OpenSubtitles. Se <xref linkend="totem-plugins-opensubtitles"/> for yderligere information.</para>
+	</sect2>
+
+    <sect2 id="totem-usage-take-screenshot">
+      <title>Tag et skærmbillede</title>
+      <para>Du kan tage et skærmbillede af den film eller visualisering som afspilles. Vælg <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Gem skærmbillede</guimenuitem></menuchoice>. Vinduet <application>Gem skærmbillede</application> vises. Vælg en placering og anfør det filnavn, du vil have skærmbilledet gemt som. Klik så <guibutton>Gem</guibutton> for at gemme skærmbilledet.</para>
+      <tip><para><application>Totem</application> viser en miniature af skærmbilledet, der skal gemmes, i venstre side af <application>Gem skærmbillede</application>-vinduet.</para></tip>
+    </sect2>
+
+    <sect2 id="totem-usage-create-screenshot-gallery">
+      <title>Opret et galleri af skærmbilleder</title>
+      <para>Du kan oprette et galleri af skærmbilleder for den film eller visualisering, der afspilles, ved at vælge <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Opret galleri af skærmbilleder</guimenuitem></menuchoice>. Vinduet <application>Gem galleri</application> vil dermed blive vist. Vælg en placering, anfør det ønskede filnavn for galleribilledet, og klik så på knappen <guibutton>Gem</guibutton> for at gemme skærmbilledet.</para>
+      <tip><para>Du kan angive bredden af hver enkelt skærmbillede i galleriet ved at bruge feltet <guilabel>Bredde af skærmbillede</guilabel>. Standardbredden er 128 billedpunkter.</para>
+      <para>Du kan også angive antallet af skærmbilleder, der skal indgå i galleriet. Som standard udregnes antallet udfra filmens varighed; du kan tilsidesætte dette ved at fjerne fluebenet i afkrydsningsfeltet <guilabel>Udregn antallet af skærmbilleder</guilabel> og indtaste det ønskede antal i rulleboksen <guilabel>Antal skærmbilleder</guilabel>.</para></tip>
+    </sect2>
+  </sect1>
+
+<!-- =========== Plugins ======================================= -->
+  <sect1 id="totem-plugins">
+    <title>Udvidelsesmoduler</title>
+    <para><application>Totem</application> har mange funktioner som kan tilgås i form af udvidelsesmoduler - softwareenheder, som kun indlæses hvis dette er nødvendigt.</para>
+    <sect2 id="totem-plugins-load">
+      <title>Aktivér et udvidelsesmodul</title>
+      <para>Du kan se en liste af installerede udvidelsesmoduler ved at vælge <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Udvidelsesmoduler</guimenuitem></menuchoice>. Dermed vises vinduet <application>Konfigurér udvidelsesmoduler</application>. På venstre side findes en liste af alle de moduler, du har installeret, mens der til højre er en beskrivelse af det pt. markerede modul. Moduler som har indstillinger, som kan ændres, vil have en aktivérbar <guibutton>Konfigurér</guibutton>-knap til højre.</para>
+      <para>Et udvidelsesmodul aktiveres på simpel vis ved at sætte flueben i afkrydsningsfeltet til venstre for dets navn i listen af moduler, og modulet vil så indlæses omgående. Hvis der er nogen fejl under indlæsning, vil en fejlmeddelelse også blive vist med det samme.</para>
+      <para>Du kan deaktivere et udvidelsesmodul igen ved at fjerne fluebenet fra modulets afkrydsningsboks. Udvidelsesmoduler vil forblive aktiveret eller deaktiveret som her indstillet, selv efter <application>Totem</application> har været lukket.</para>
+    </sect2>
+    <sect2 id="totem-plugins-always-on-top">
+      <title>Altid øverst</title>
+      <para>Udvidelsesmodulet <guilabel>Altid øverst</guilabel> vil tvinge <application>Totem</application>s hovedvindue til at være placeret over alle andre vinduer mens en film bliver afspillet, men ikke når blot lyd eller visualiseringer afspilles. Deaktivér modulet for at lade andre vinduer være øverst.</para>
+    </sect2>
+    <sect2 id="totem-plugins-coherence">
+      <title>Klient til Coherence DLNA/UPnP</title>
+      <para>Udvidelsesmodulet <guilabel>Coherence DLNA/UPnP-klient</guilabel> lader <application>Totem</application> afspille multimedie-indhold fra UPnP-medieservere såsom Coherence-servere på lokalnetværket.</para>
+      <para>Med udvidelsesmodulet <guilabel>Coherence DLNA/UPnP-klient</guilabel> kan du vælge <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Vis</guimenu><guimenuitem>Sidepanel</guimenuitem></menuchoice> eller klikke på knappen <guibutton>Sidepanel</guibutton> for at få vist sidepanelet. Vælg <guilabel>Coherence DLNA/UPnP-klient</guilabel> fra rullegardinslisten øverst i sidepanelet for at vise sidepanelet for <guilabel>Coherence DLNA/UPnP-klient</guilabel>.</para>
+      <para>Trævisningen i sidepanelet vil vise en liste af tilgængelige medieservere. Klik på en af dem, for at udfolde den, således at dens tilgængelige mediefiler vises. Dobbeltklik på en mediefil for at føje den til <application>Totem</application>s afspilningsliste og afspille den. Du kan alternativt højreklikke på en fil og vælge <menuchoice><guimenuitem>Afspil</guimenuitem></menuchoice> eller <menuchoice><guimenuitem>Sæt i kø</guimenuitem></menuchoice> for henholdsvis at afspille den omgående eller blot føje den til afspilningslisten.</para>
+      <para>Hvis medieserveren tillader det, kan du slette en fil fra serveren ved at vælge <menuchoice><guimenuitem>Slet</guimenuitem></menuchoice> fra filens kontekstmenu.</para>
+    </sect2>
+    <sect2 id="totem-plugins-gromit">
+      <title>Gromit-annotationer</title>
+      <para>Udvidelsesmodulet <guilabel>Gromit-annotationer</guilabel> lader dig tegne på film mens de afspilles, ved hjælp af <ulink type="http" url="http://www.home.unix-ag.org/simon/gromit/"><application>Gromit</application></ulink>. Du skal have <application>Gromit</application> installeret for at kunne aktivere dette modul - se dokumentationen for dit operativsystem for information om hvordan dette gøres.</para>
+      <para>Når dette udvidelsesmodul er aktiveret, kan du trykke <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> for at slå <application>Gromit</application> til eller fra. Når <application>Gromit</application> er aktiveret, vil din musemarkør ændres til et sigtekorn. Du kan så tegne på skærmen ved at holde museknappen nede, trække markøren omkring, og så slippe den museknappen. Tryk <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> igen for at slå <application>Gromit</application> fra.</para>
+      <para>Du kan rydde skærmen for annotationer ved at trykke <keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo>, eller lukke <application>Totem</application>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-jamendo">
+      <title>Jamendo</title>
+      <para>Udvidelsesmodulet <guilabel>Jamendo</guilabel> lader dig lytte til en samling af musik, udgivet under Creative Commons-licensen, via <ulink type="http" url="http://www.jamendo.com/en/">Jamendo</ulink>-tjenesten.</para>
+      <sect3 id="totem-plugins-jamendo-configuration">
+        <title>Konfigurér udvidelsesmodulet</title>
+        <para>Modulet <guilabel>Jamendo</guilabel> kan konfigureres. Klik på <guibutton>Konfigurér</guibutton>-knappen når modulet aktiveres, og vinduet <application>Konfiguration af Jamendo-udvidelsesmodul</application> vil blive vist. Her kan du vælge om du vil hente sange i Ogg- eller MP3-format (Ogg-formatet er at foretrække på grund af dets fri natur), samt antallet af album, der skal hentes når der foretages en søgning (vælg flere album hvis du har en hurtigere internetforbindelse).</para>
+        <para>Klik på <guibutton>O.k.</guibutton>-knappen når du er færdig.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-setup">
+        <title>Vis Jamendo-sidepanelet</title>
+        <para>Når <guilabel>Jamendo</guilabel>-udvidelsesmodulet er aktiveret, kan du vælge <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Vis</guimenu><guimenuitem>Sidepanel</guimenuitem></menuchoice> eller klikke på <guibutton>Sidepanel</guibutton>-knappen for at få vist sidepanelet. Vælg <guilabel>Jamendo</guilabel> fra rullegardinslisten øverst i sidepanelet for at få vist <guilabel>Jamendo</guilabel>-sidepanelet.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-search">
+        <title>Søg efter musik</title>
+        <para>Indtast dine søgestrenge i indtastningsfeltet øverst i <guilabel>Jamendo</guilabel>-sidepanelet. Du kan søge enten på kunstner eller mærker. Klik på søgeknappen for at starte søgningen.</para>
+        <para>Søgeresultaterne anføres som en trævisning i sidepanelets <guilabel>Søgeresultater</guilabel>-faneblad, og kan gennemses ved brug af piletasterne for bunden af sidepanelet. Her vises en liste af album, som du kan klikke på for at få vist de tilhørende spor nedenunder. Klik igen for at skjule albummets spor.</para>
+        <para>Hvis du har valgt en kunstner, kan du klikke på knappen <guibutton>Jamendo-albumside</guibutton> for at åbne siden for dette album på Jamendo-webstedet. Dobbeltklik på et album, eller vælg <menuchoice><guimenuitem>Føj til afspilningsliste</guimenuitem></menuchoice> fra albummets kontekstmenu, for at erstatte den afspilningsliste med alle sporene fra dette album, og påbegynde streaming af det første spor fra Jamendos websted. Du kan også dobbeltklikke på et enkelt spor, for at erstatte din afspilningliste med blot dette spor.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-popular">
+        <title>Populære album og nyeste udgivelser</title>
+        <para>Fanebladet <guilabel>Populære</guilabel> i <guilabel>Jamendo</guilabel>-sidepanelet vil hente en liste af de mest populære album på Jamendo i øjeblikket, og disse kan afspilles på samme vis som andre søgeresultater. Fanebladet <guilabel>Sidste udgivelser</guilabel> vil tilsvarende hente en liste af de senest udgivne album på Jamendo.</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-tracker">
+      <title>Lokal søgning</title>
+      <para>Udvidelsesmodulet <guilabel>Lokal søgning</guilabel> lader dig søge efter film- og lydfiler på din computer direkte fra <application>Totem</application>. Når modulet er aktiveret, kan du vælge <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Vis</guimenu><guimenuitem>Sidepanel</guimenuitem></menuchoice> eller klik på knappen <guibutton>Sidepanel</guibutton> for at få vist sidepanelet. Vælg <guilabel>Lokal søgning</guilabel> fra rullegardinslisten øverst i sidepanelet for at få vist sidepanelet for <guilabel>Lokal søgning</guilabel>.</para>
+      <para>Angiv dine søgetermer i indtastningsfeltet øverst i sidepanelet og klik <guibutton>Find</guibutton> for at foretage en søgning. Dine søgetermer kan inkludere specialtegn såsom <literal>*</literal>, hvilket vil matche enhver tegnfølge. For eksempel vil søgningen <userinput>*.mpg</userinput> finde alle film med filendelsen <filename class="extension">.mpg</filename>.</para>
+      <para>Søgeresultater kan gennemses ved brug af knapperne <guibutton>Forrige</guibutton> og <guibutton>Næste</guibutton> ved bunden af sidepanelet, og du kan hoppe til en specifik resultatside ved at angive dens nummer i rulleboksen.</para>
+    </sect2>
+    <sect2 id="totem-plugins-publish">
+      <title>Udgiv afspilningsliste</title>
+      <para>Udvidelsesmodulet <guilabel>Offentliggør afspilningsliste</guilabel> lader dig offentliggøre afspilningslister på dit lokalnetværk, så andre computere kan tilgå og afspille dem.</para>
+      <sect3 id="totem-plugins-publish-configuration">
+        <title>Konfigurér udvidelsesmodulet</title>
+        <para>Udvidelsesmodulet <guilabel>Offentliggør afspilningsliste</guilabel> kan indstilles. Klik på knappen <guibutton>Konfigurér</guibutton> når modulet aktiveres, således at konfigurationsvinduet bliver vist. Her kan du ændre navnet, hvormed din delte afspilningsliste vil blive vist. Følgende tekststrenge vil blive erstattet når afspilningslisten deles: <variablelist>
+	    <varlistentry>
+	      <term><literal>%a</literal></term>
+	      <listitem><para>Erstattes med programmets navn: <application>Totem - filmafspiller</application>.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%h</literal></term>
+	      <listitem><para>Erstattes med din computers værtsnavn.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%u</literal></term>
+	      <listitem><para>Erstattes med dit brugernavn.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%U</literal></term>
+	      <listitem><para>Erstattes med dit rigtige navn.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%%</literal></term>
+	      <listitem><para>Erstattes med et procenttegn.</para></listitem>
+	    </varlistentry>
+	  </variablelist></para>
+	<para>Du kan også sætte flueben ved <guilabel>Brug krypteret transportprotokol</guilabel>, hvis du ønsker at kryptere de delte afspilningslister, når de sendes over netværket.</para>
+        <para>Klik på <guibutton>Luk</guibutton>-knappen når du er færdig.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-publishing">
+        <title>Udgiv afspilningslister</title>
+        <para>Når modulet er aktiveret, behøver du ikke eksplicit dele afspilningslister; de gøres automatisk tilgængelige på netværket som et Zeroconf-websted.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-neighborhood">
+        <title>Gennemse nabolaget</title>
+        <para>Vælg <guilabel>Naboer</guilabel> fra rullegardinslisten øverst i sidepanelet, for at få vist andres delte afspilningslister på netværket. Hvis nogen afspilningslister er blevet delt på netværket, vil de blive vist her. Dobbeltklik på en afspilningsliste for at hente den og afspille den på din computer.</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-opensubtitles">
+      <title>Underteksthenter</title>
+      <para>Udvidelsesmodulet <guilabel>Underteksthenter</guilabel> lader dig finde og hente undertekstfiler fra tjenesten <ulink type="http" url="http://www.opensubtitles.org/en">OpenSubtitles</ulink>.</para>
+      <para>Undertekster kan kun hentes til lokale film; ikke lydfiler, dvd'er, dvb-strømme, vcd'er eller http-strømme.
+
+Vælg <menuchoice><guimenu>Vis</guimenu><guimenuitem>Hent filmundertekster</guimenuitem></menuchoice> for at søge efter undertekster til den film, der i øjeblikket afspilles. Dette vil vise vinduet <application>Hent undertekster til film</application>.</para>
+      <para>Vælg det sprog, du ønsker undertekster i, fra rullegardinslisten øverst i vinduet, og klik så på <guibutton>Find</guibutton> for at søge efter undertekster for den aktuelle film. Undertekster findes baseret på filmens indhold, frem for dens filnavn eller mærker.</para>
+      <para>Søgeresultaterne anføres i trævisningen i midten af vinduet. I øjeblikket kan undertekster kun bruges ved at <emphasis>genindlæse</emphasis> den relevante film med underteksterne, så efter at have valgt undertekstfilen, så klik på knappen <guibutton>Afspil med undertekster</guibutton> for at hente filen samt genindlæse filmen.</para>
+        <note><para>Hentede undertekstfiler gemmes (som standard i <filename>~/.cache/totem/subtitles</filename>), så de ikke behøver blive hentet igen næste gang filmen afspilles. Når nye undertekster for en film hentes, vil eventuelle tidligere hentede undertekster for den pågældende film blive slettet.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-thumbnail">
+      <title>Miniature</title>
+      <para>Udvidelsesmodulet <guilabel>Miniature</guilabel> sætter <application>Totem</application>s hovedvindues ikon til en miniature af den aktuelle film, og opdaterer ikonet når nye film indlæses.</para>
+      <note><para>Hvis en miniature ikke findes for den aktuelle film (eller hvis du afspiller en lydfil), vil hovedvinduets ikon nulstilles til <application>Totem</application>s logo.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-brasero">
+      <title>Video-diskoptager</title>
+      <para>Udvidelsesmodulet <guilabel>Video-diskoptager</guilabel> lader dig brænde den aktuelle afspilningsliste til en dvd eller vcd ved hjælp af <application>Brasero</application>.</para>
+      <para>Vælg <menuchoice><guimenu>Film</guimenu><guimenuitem>Opret videodisk</guimenuitem></menuchoice> for at brænde den aktuelle afspilningliste. Et <application>Brasero</application>-vindue vil dermed blive vist, hvori det er muligt at konvertere film til et passende format og brænde dem til en disk. Se <ulink type="help" url="ghelp:brasero?brasero-new-project-video">dokumentationen for Brasero</ulink> for yderligere information.</para>
+    </sect2>
+    <sect2 id="totem-plugins-youtube">
+      <title>YouTube-læser</title>
+      <para>Udvidelsesmodulet <guilabel>YouTube-læser</guilabel> lader dig søge i og gennemse <ulink type="http" url="http://www.youtube.com/">YouTube</ulink>, og afspille YouTube-videoer direkte i <application>Totem</application>. Når modulet er aktiveret, kan du vælge <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Vis</guimenu><guimenuitem>Sidepanel</guimenuitem></menuchoice> eller klikke på knappen <guibutton>Sidepanel</guibutton>, for at få vist sidepanelet. Vælg så <guilabel>YouTube</guilabel> fra rullegardinslisten øverst i sidepanelet for at få vist <guilabel>YouTube</guilabel>-sidepanelet.</para>
+      <para>Angiv dine søgetermer i indtastningsfeltet øverst i sidepanelet og klik <guibutton>Find</guibutton> for søge efter en YouTube-video. Dine søgeresultater vil blive anført i trævisningen nedenfor. Flere resultater vil blive indlæst automatisk, efterhånden som du ruller gennem listen.</para>
+      <para>Dobbeltklik på en video i resultatlisten, eller vælg <menuchoice><guimenuitem>Føj til afspilningsliste</guimenuitem></menuchoice> fra dens kontekstmenu, for at afspille videoen. Når en video afspilles, vil en liste af relaterede videoer automatisk blive oprettet i fanebladet <guilabel>Relaterede videoer</guilabel> i <guilabel>YouTube</guilabel>-sidepanelet.</para>
+      <para>YouTube-videoer kan åbnes i en webbrowser ved at vælge <menuchoice><guimenuitem>Åbn i webbrowser</guimenuitem></menuchoice> fra deres kontekstmenu. Dette vil åbne videoen i dens originale placering på YouTube-webstedet.</para>
+    </sect2>
+    <sect2 id="totem-plugins-dbus-service">
+      <title>D-Bus-tjeneste</title>
+      <para>Udvidelsesmodulet <guilabel>D-Bus-tjeneste</guilabel> rundsender beskeder om, hvilket spor, der afspilles i <application>Totem</application> via D-Bus-sessionsbussen. Programmer såsom <application>Gajim</application> kan lytte efter sådanne beskeder og reagere, f.eks. ved at opdatere din statusmeddelelse i dit IM-program, så der står, hvilken video, der nu afspilles i <application>Totem</application>.</para>
+    </sect2>
+  </sect1>
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to customize the 
+     application. -->
+  <sect1 id="totem-prefs">
+    <title>Indstillinger</title>
+    <para>Vælg <menuchoice><guimenu>Redigér</guimenu><guimenuitem>Indstillinger</guimenuitem></menuchoice> for at ændre indstillinger for <application>Totem</application>.</para>
+
+    <sect2 id="totem-prefs-general">
+      <title>Generelt</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Netværk</term>
+	  <listitem>
+	    <para>Vælg hastigheden for din netværksforbindelse ved hjælp af rullegardinslisten <guilabel>Hastighed af netværksforbindelse</guilabel>.</para>
+          </listitem>
+        </varlistentry>	
+	<varlistentry>
+	  <term>Undertekster</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	      	<para><guilabel>Hent automatisk undertekster når filmen indlæses</guilabel>: sæt flueben for automatisk at indlæse eventuelle undertekstfiler med samme filnavn som filmen, når filmen indlæses.</para>
+	      </listitem>
+	      <listitem>
+                <para><guilabel>Skrifttype</guilabel>: lader dig ændre skrifttypen for underteksterne.</para>
+              </listitem>
+	          <listitem>
+				<para><guilabel>Kodning</guilabel>: lader dig ændre kodningen for underteksterne.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>	
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-display">
+      <title>Fremvisning</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Fremvisning</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	        <para>Sæt flueben ved indstillingen for automatisk ændring af størrelse, hvis du vil have <application>Totem</application> til automatisk at ændre vinduesstørrelsen når en ny video indlæses, så det passer med videoen.</para>
+              </listitem>
+              <listitem>
+                <para>Sæt flueben ved indstillingen for pauseskærm, hvis du vil tillade at pauseskærmen aktiveres når du afspiller lydfiler. Visse skærme med integrerede højttalere vil muligvis stoppe afspilningen når pauseskærmen aktiveres.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Visuelle effekter</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+                <para><guilabel>Visuelle effekter</guilabel>: brug denne indstilling til at vise visuelle effekter, når en lydfil afspilles.</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Visualiseringstype</guilabel>: vælg typen af visualisering fra rullegardinslisten.</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Visualiseringsstørrelse</guilabel>: vælg størrelsen af visualisering fra rullegardinslisten.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Farvebalance</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+		    <para><guilabel>Lysstyrke</guilabel>: brug skydeknappen til at angive lysstyrkeniveauet.</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>Kontrast</guilabel>: brug skydeknappen til at angive kontrastniveauet.</para>
+          </listitem>
+	      <listitem>
+		    <para><guilabel>Mætning</guilabel>: brug skydeknappen til at angive mætningsniveauet.</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>Farvetone</guilabel>: brug skydeknappen til at angive farvetonen.</para>
+          </listitem>
+	    </itemizedlist>
+	    <tip><para>Du kan bruge knappen <guilabel>Nulstil til forvalg</guilabel> til at nulstille farvebalancekontrollerne til deres standardpositioner.</para></tip>
+      </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-audio">
+      <title>Lyd</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Lyduddata</term>
+	  <listitem>
+	    <para>Vælg typen af lyduddata fra rullegardinslisten <guilabel>Lyduddata-type</guilabel>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+
+<!-- ============= Bugs ================================== -->
+<!-- This section is optional and is commented out by default. 
+     You can use it to describe known bugs and limitations of the 
+	  program if there are any - please be frank and list all
+     problems you know of. 
+  
+  <sect1 id="mayapp-bugs">
+  <title>Known Bugs and Limitations</title>
+  <para> </para>
+ </sect1>
+-->
+
+<!-- ============= About ================================== -->
+<!-- This section contains info about the program (not docs), such as
+      author's name(s), web page, license, feedback address. This
+      section is optional: primary place for this info is "About.." box of
+      the program. However, if you do wish to include this info in the
+      manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
+  <sect1 id="totem-about"> 
+    <title>Om <application>Totem</application></title> 
+    <para><application>Totem</application> er skrevet af Bastien Nocera (<email>hadess@hadess.net</email>), Julien Moutte (<email>julien@moutte.net</email>) for GStreamer-motoren, samt Guenter Bartsch (<email>guenter@users.sourceforge.net</email>). Besøg <ulink url="http://projects.mate.org/totem/" type="http"><application>Totem</application>Totems websted</ulink> for yderligere information om <application>Totem</application>.</para>
+    <para>Vil du indsende fejlrapporter eller forslag til programmet <application>Totem</application> eller denne manual, så følg vejledningen på <ulink url="ghelp:user-guide#feedback" type="help">MATE-feedbacksiden</ulink>.</para>
+    <para>Dette program distribueres under betingelserne for GNU General Public License som udgivet af Free Software Foundation; enten version 2 af licensen eller, efter dit valg, enhver senere version. En kopi af denne licens kan findes på dette <ulink url="ghelp:gpl" type="help">sted</ulink>, eller i filen COPYING som inkluderes med dette programs kildekode.</para>
+  </sect1> 
+</article>

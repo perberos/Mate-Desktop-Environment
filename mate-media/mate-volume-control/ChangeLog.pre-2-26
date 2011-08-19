@@ -1,0 +1,1245 @@
+2009-03-16  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/Makefile.am (*_SOURCES): Fix make dist. Include gvc-log.h.
+
+2009-03-12  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-stream-status-icon.c (on_stream_decibel_notify),
+	(gvc_stream_status_icon_set_mixer_stream): Also update the
+	tooltip when decibels change, fixes the dB value pretty much
+	always being wrong (the code notifies of the changed dB after the
+	changed volume) (Closes: #575093)
+
+2009-03-12  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-balance-bar.c (_scale_box_new),
+	(gvc_balance_bar_set_balance_type), (gvc_balance_bar_set_property),
+	(gvc_balance_bar_class_init), (on_adjustment_value_changed),
+	(gvc_balance_bar_init), (gvc_balance_bar_new): Fix use of the
+	zero_adjustment GtkAdjustment in slider callbacks, export
+	gvc_channel_bar_scroll
+	* src/gvc-balance-bar.h: Export gvc_channel_bar_scroll
+
+	* src/gvc-stream-status-icon.c (on_status_icon_scroll_event):
+	Use gvc_channel_bar_scroll instead of our own code
+
+	(Closes: #564313)
+
+2009-03-06  Matthias Clasen  <mclasne@redhat.com>
+
+	* src/applet-main.c:
+	* src/dialog-main.c: Wire up --debug
+
+	* src/gvc-log.[hc]: Add some trivial logging infrastructure
+
+	* src/Makefile.am: Add gvc-log.c
+
+2009-03-04  Bastien Nocera  <hadess@hadess.net>
+
+	* src/Makefile.am: Link to libsoundtheme.la, not using
+	-l against a static lib
+
+==================== 2.25.92 ====================
+
+2009-02-23  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 572665 – update sensitivity of input feedback checkbox
+
+	* src/gvc-sound-theme-chooser.c (update_theme): Make the window
+	and button sounds button insensitive too.
+
+2009-02-18  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-balance-bar.c (_scale_box_new),
+	(on_scale_button_press_event), (on_scale_button_release_event),
+	(on_scale_scroll_event): Make the balance bar instant-apply
+	(Closes: #566423)
+
+2009-02-18  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-stream-status-icon.c (popup_dock): Fix warning
+
+2009-02-18  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-stream-status-icon.c (popup_dock),
+	(gvc_stream_status_icon_constructor): Patch from Yanko Kaneti
+	<yaneti@declera.com> to fix the dock showing up off-screen
+	when the applet is at the bottom of the screen and is popped
+	up for the first time (Closes: #564312)
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-control.c (update_source): Don't filter out
+	non-hardware sources, only ignore sink monitors
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-control.c (update_sink): Don't filter out
+	sinks with PA_SINK_HARDWARE, otherwise things like network sinks
+	(Airport Express?) won't show up in the volume capplet
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-channel-bar.c (on_scale_scroll_event),
+	(gvc_channel_bar_set_is_amplified), (gvc_channel_bar_set_property),
+	(gvc_channel_bar_get_property), (gvc_channel_bar_class_init),
+	(gvc_channel_bar_init):
+	* src/gvc-channel-bar.h: Add "is-amplified" property. In this mode,
+	the volume can be set above 100% (150% tops actually) for inputs
+	that support giving us the dB information
+	* src/gvc-mixer-dialog.c (on_mixer_control_default_source_changed),
+	(add_stream): Disconnect the value-changed signal, and
+	reconnect it when we're done setting is_amplified for source streams
+	that support giving dB info
+	(Closes: #567536)
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-channel-map.c (gvc_channel_map_can_balance),
+	(set_from_pa_map):
+	* src/gvc-channel-map.h: Add API to detect whether a channel
+	map supports balancing
+	* src/gvc-mixer-dialog.c (update_output_settings): De-sensitivise
+	the balance bar if the output doesn't support balacing
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-balance-bar.c (on_adjustment_value_changed):
+	Remove fixed FIXME
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* src/applet-main.c: Remove unused macro
+
+2009-02-12  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-control.c (gvc_stream_collate): Fix run-time
+	warning when there's no name for a stream, such as some events
+	from libcanberra
+
+2009-02-12  Bastien Nocera  <hadess@hadess.net>
+
+	* src/dialog-main.c (on_control_ready), (warning_dialog_answered),
+	(dialog_popup_timeout), (main): When PulseAudio isn't running,
+	or takes a long time to connect to, popup a dialogue telling
+	the user what we're waiting for, and the ability to cancel
+	(Closes: #566835)
+
+2009-02-11  Bastien Nocera  <hadess@hadess.net>
+
+	* src/applet-main.c (main): Use libunique instead of D-Bus
+	and refuse to run if an applet is already running
+	* src/dialog-main.c (message_received_cb), (on_control_ready),
+	(main): present the application when it's already running
+	(Closes: #542727)
+
+2009-02-11  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-channel-bar.c (on_scale_button_release_event):
+	* src/gvc-sound-theme-chooser.c (play_preview_for_path):
+	* src/gvc-sound-theme-editor.c (play_sound_preview),
+	(play_sound_at_path): Don't call ca_gtk_context_get () when
+	we're not going to use the returned context, set the
+	application id for all the calls to ca_gtk_play_*()
+
+2009-02-10  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	Correct the label to mention that there are no recording apps as well
+	(Closes: #568900)
+
+2009-02-10  Bastien Nocera  <hadess@hadess.net>
+
+	* data/Makefile.am: Install the applet's desktop file in the
+	xdg autostart directory (Closes: #570114)
+
+2009-02-10  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-control.c (update_source_output):
+	* src/gvc-mixer-dialog.c (add_stream): Show recording applications
+	in addition to playback applications, use the microphone icon
+	for those applications (Closes: #568900)
+
+2009-02-10  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-applet.c (maybe_show_status_icons):
+	* src/gvc-mixer-control.c (set_application_id_from_proplist),
+	(update_sink_input), (update_source_output):
+	* src/gvc-mixer-dialog.c (create_monitor_stream_for_source):
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_get_application_id),
+	(gvc_mixer_stream_set_application_id),
+	(gvc_mixer_stream_set_property), (gvc_mixer_stream_get_property),
+	(gvc_mixer_stream_class_init), (gvc_mixer_stream_finalize):
+	* src/gvc-mixer-stream.h: Set the org.mate.VolumeControl application
+	ID for the input peak monitor, and ignore it when checking whether
+	an application is using the input. Also ignore Pavucontrol.
+	Stops the microphone showing up in the applet when the capplet is
+	running (Closes: #565146)
+
+2009-02-10  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-applet.c (maybe_show_status_icons): Revert accidentally
+	committing the rejected patch for bug #565146
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-balance-bar.c (gvc_balance_bar_init): Make sure the balance
+	bar stays Left to Right, so that the Left balance is really on the
+	left
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-balance-bar.c (_scale_box_new), (gvc_balance_bar_init):
+	Patch from Luca Ferretti <elle.uca@libero.it>, to use the new GTK+
+	scale marks for the balance widget (Closes: #565144)
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* src/dialog-main.c (on_dialog_response), (on_dialog_close):
+	Use gtk_main_quit () instead of exit (), so that all the
+	objects are unref'ed cleanly
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* src/dialog-main.c (on_dialog_response), (on_dialog_close),
+	(on_control_ready): Exit when Esc is pressed
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-level-bar.c (gvc_level_bar_finalize):
+	Remove any lingering timeouts when finalizing the object
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* src/Makefile.am: Fix automake warning
+
+	* src/gvc-applet.c (maybe_show_status_icons):
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	* src/gvc-stream-status-icon.c (on_status_icon_scroll_event),
+	(update_icon), (gvc_stream_status_icon_init): Remove ifdef's
+	from the volume control code, as GTK+ 2.15.1 is now required
+	(Closes: #564318)
+
+2009-01-24  Luca Ferretti  <elle.uca@libero.it>
+
+	* data/mate-volume-control.desktop.in.in:
+	Icon name is mate-volume-control, not mate-sound-properties.
+
+2009-01-23  Bastien Nocera  <hadess@hadess.net>
+
+	* data/icons/16x16/apps/Makefile.am:
+	* data/icons/22x22/apps/Makefile.am:
+	* data/icons/24x24/apps/Makefile.am:
+	* data/icons/32x32/apps/Makefile.am:
+	* data/icons/48x48/apps/Makefile.am:
+	* data/icons/scalable/apps/Makefile.am:
+	Install the application icon in the global
+	icon theme, not in our private directory
+	(Closes: #568635)
+
+	* data/icons/Makefile.am: Don't run gtk-update-icon-cache
+	for a private icons directory
+
+2009-01-20  Bastien Nocera  <hadess@hadess.net>
+
+	* data/Makefile.am:
+	* data/icons/48x48/apps/Makefile.am:
+	* data/icons/Makefile.am:
+	* src/Makefile.am: Fix distcheck
+
+2009-01-20  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-channel-bar.c (_scale_box_new),
+	(on_scale_button_press_event), (on_scale_button_release_event),
+	(on_scale_scroll_event), (gvc_channel_bar_init): Move the
+	setup of the press and release button events to _scale_box_new(),
+	otherwise it's not handled with horizontal scales.
+	When scrolling with the mouse wheel, swap the up/down directions
+	to work as expected (Closes: #567034)
+
+2009-01-20  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-control.c (set_is_event_stream_from_proplist),
+	(update_sink_input):
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_is_event_stream),
+	(gvc_mixer_stream_set_is_event_stream),
+	(gvc_mixer_stream_set_property), (gvc_mixer_stream_get_property),
+	(gvc_mixer_stream_class_init):
+	* src/gvc-mixer-stream.h: Add the "is-event-stream" property,
+	to check whether the role of a stream is to play an event
+
+	* src/gvc-mixer-dialog.c (add_stream): Don't show event streams
+	in the applications tab (Closes: #565145)
+
+2009-01-20  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	Add Close button, and change the spacing around it to
+	match existing capplets (Closes: #564314)
+
+2009-01-20  Bastien Nocera  <hadess@hadess.net>
+
+	* data/mate-volume-control-applet.desktop.in: Start
+	mate-volume-control after the panel, not at the same time,
+	spotted by Chris Coulson (Closes: #568320)
+
+2009-01-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	Don't show no apps message if there are apps.
+	Fixes #567250
+
+2009-01-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-stream-status-icon.c
+	(gvc_stream_status_icon_constructor):
+	Reduce border around volume slider dock
+
+2009-01-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (_scale_box_new),
+	(on_scale_button_press_event), (on_scale_button_release_event),
+	(on_zero_adjustment_value_changed), (gvc_channel_bar_init):
+	Make volume sliders instantaneous.
+
+	Patch from: Bastien Nocera  <hadess@hadess.net>
+	Fixes #564313
+
+2009-01-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-stream-status-icon.c (on_menu_mute_toggled),
+	(on_status_icon_popup_menu):
+	Add a mute toggle item to the context menu.
+
+	Patch from: Paolo Borelli <pborelli@katamail.com>
+	Fixes #567510
+
+2009-01-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (maybe_show_status_icons):
+	Don't leak a list of sources.
+
+	Patch from: Paolo Borelli <pborelli@katamail.com>
+	Fixes #567514
+
+2009-01-10  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-balance-bar.c (_scale_box_new):
+	Don't paint the scale trough.
+	Patch from: Matthias Clasen  <mclasen@redhat.com>
+	Fixes part of #565144
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-stream-status-icon.c (popup_dock):
+	addresses a bunch of positioning problems
+	Patch from: Matthias Clasen  <mclasen@redhat.com>
+	Fixes #564312
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-sound-theme-chooser.c (on_treeview_selection_changed):
+	Check for null selection.
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* data/sounds/Makefile.am:
+	* data/sounds/mate-sounds-default.xml.in.in:
+	Add drip, glass, and sonar sounds.
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* data/Makefile.am:
+	* data/sounds/Makefile.am:
+	* data/sounds/mate-sounds-default.xml.in.in:
+	* src/Makefile.am:
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	* src/gvc-sound-theme-chooser.c (set_combox_for_theme_name),
+	(xml_get_and_trim_names), (populate_model_from_node),
+	(populate_model_from_file), (populate_model_from_dir),
+	(save_alert_sounds), (update_alert_model), (update_alert),
+	(on_alert_toggled), (play_preview_for_path),
+	(create_alert_treeview), (get_file_type),
+	(update_alerts_from_theme_name), (update_theme),
+	(gvc_sound_theme_chooser_init):
+	* src/sound-theme-file-utils.c (custom_theme_dir_is_empty),
+	(delete_old_files), (delete_disabled_files), (add_disabled_file),
+	(add_custom_file), (create_custom_theme):
+	* src/sound-theme-file-utils.h:
+	Add sound set.  Properly set the active alert sound in the
+	model.
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-sound-theme-chooser.c (on_combobox_changed),
+	(set_input_feedback_enabled), (update_theme), (on_alert_toggled),
+	(play_preview_for_path), (on_treeview_row_activated),
+	(on_treeview_selection_changed), (create_alert_treeview),
+	(gvc_sound_theme_chooser_constructor),
+	(gvc_sound_theme_chooser_init):
+	* src/gvc-sound-theme-editor.c (theme_changed_custom_reinit),
+	(on_theme_changed), (load_index_theme_name), (sound_theme_in_dir),
+	(add_theme_to_store), (set_theme_name), (audible_bell_foreach),
+	(set_audible_bell_enabled), (input_feedback_foreach),
+	(set_input_feedback_enabled), (get_file_type),
+	(theme_changed_custom_init), (update_theme),
+	(setup_theme_selector), (play_sound_preview), (get_sound_filename),
+	(count_customised_sounds), (save_sounds), (save_custom_theme),
+	(dump_theme), (on_setting_column_edited), (fill_custom_model),
+	(on_combobox_editing_started), (play_sound_at_path),
+	(setting_set_func), (activatable_cell_renderer_pixbuf_activate),
+	(activatable_cell_renderer_pixbuf_init),
+	(activatable_cell_renderer_pixbuf_class_init),
+	(setup_theme_custom_selector),
+	(gvc_sound_theme_editor_constructor),
+	(gvc_sound_theme_editor_class_init), (on_click_feedback_toggled),
+	(on_key_changed), (on_treeview_row_activated),
+	(constrain_list_size), (setup_list_size_constraint),
+	(gvc_sound_theme_editor_init), (gvc_sound_theme_editor_finalize),
+	(gvc_sound_theme_editor_new):
+	* src/gvc-sound-theme-editor.h:
+	Simplify the theme selection.  Move the ability to
+	customize the sound theme into a separate widget.  We
+	should add a Customize button to access it.
+	This new approach will mirror the way we handle
+	wallpapers.  Next thing to do is to add a set
+	of standard alert sounds that one can choose from.
+	And have the widget customize the selected theme to
+	use them.
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	Move the sound effects tab back to the first one.
+
+2008-12-19  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	Move the sound effects tab to be the last one
+
+2008-12-19  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-sound-theme-chooser.c (setup_theme_custom_selector):
+	Change the ellipsising to be at the start
+
+2008-12-19  Bastien Nocera  <hadess@hadess.net>
+
+	* data/mate-volume-control.desktop.in.in:
+	Add a .desktop file to launch g-v-c from the
+	control-center (and preferences menu)
+
+	* data/Makefile.am: changes for the above
+
+	* data/icons/16x16/Makefile.am:
+	* data/icons/16x16/apps/*:
+	* data/icons/22x22/Makefile.am:
+	* data/icons/22x22/apps/*:
+	* data/icons/24x24/Makefile.am:
+	* data/icons/24x24/apps/*:
+	* data/icons/32x32/Makefile.am:
+	* data/icons/32x32/apps/*:
+	* data/icons/48x48/*:
+	* data/icons/scalable/Makefile.am:
+	* data/icons/scalable/apps/*:
+	Add icons for the .desktop file
+
+2008-12-18  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-sound-theme-chooser.c (setup_theme_custom_selector):
+	Set the first column's text to be ellipsised, and expanded,
+	fixes the window resizing on startup, but still some unsightly
+	resizing in the treeview itself
+
+2008-12-17  Bastien Nocera  <hadess@hadess.net>
+
+	* AUTHORS: Add myself, having written much of src/*theme*.[ch]
+
+2008-12-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-level-bar.c (gvc_level_bar_size_allocate):
+	Recalculate layout for allocation.
+
+2008-12-16  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-level-bar.c (layout_changed), (reset_max_peak),
+	(bar_calc_layout), (update_peak_value), (update_rms_value),
+	(gvc_level_bar_expose):
+	Separate the layout calculation from the draw.
+	Only queue a redraw if the layout actually changes.
+	Reduces cpu usage considerably.
+
+2008-12-14  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-level-bar.c (gvc_level_bar_expose):
+	Compress expose event queue.
+
+2008-12-14  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-balance-bar.c (_scale_box_new):
+	Add left and right labels.
+
+2008-12-14  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-level-bar.c (gvc_level_bar_expose):
+	Round corners a bit more.
+
+2008-12-14  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-level-bar.c (reset_max_peak), (update_peak_value),
+	(gvc_level_bar_expose):
+	Add peak of level indicator.
+
+2008-12-14  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-level-bar.c (fraction_from_adjustment),
+	(update_peak_value), (update_rms_value),
+	(gvc_level_bar_get_orientation), (gvc_level_bar_set_orientation),
+	(on_peak_adjustment_value_changed),
+	(on_rms_adjustment_value_changed),
+	(gvc_level_bar_set_peak_adjustment),
+	(gvc_level_bar_set_rms_adjustment),
+	(gvc_level_bar_get_peak_adjustment),
+	(gvc_level_bar_get_rms_adjustment), (gvc_level_bar_set_scale),
+	(gvc_level_bar_set_property), (gvc_level_bar_get_property),
+	(gvc_level_bar_constructor), (gvc_level_bar_size_request),
+	(gvc_level_bar_size_allocate), (curved_rectangle),
+	(gvc_level_bar_expose), (gvc_level_bar_class_init),
+	(gvc_level_bar_init), (gvc_level_bar_finalize),
+	(gvc_level_bar_new):
+	* src/gvc-level-bar.h:
+	* src/gvc-mixer-dialog.c (update_input_peak),
+	(gvc_mixer_dialog_constructor):
+	* src/rb-segmented-bar.c:
+	* src/rb-segmented-bar.h:
+	Remove rb-segmented-bar and add a new GvcLevelBar.
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-balance-bar.c (_scale_box_new),
+	(gvc_balance_bar_set_size_group),
+	(gvc_balance_bar_set_channel_map), (gvc_balance_bar_set_property),
+	(gvc_balance_bar_get_property), (gvc_balance_bar_constructor),
+	(gvc_balance_bar_class_init), (on_left), (on_right),
+	(on_adjustment_value_changed), (gvc_balance_bar_init),
+	(gvc_balance_bar_finalize), (gvc_balance_bar_new):
+	* src/gvc-balance-bar.h:
+	* src/gvc-channel-map.c (gvc_channel_map_class_init),
+	(gvc_channel_map_gains_changed), (set_from_pa_map):
+	* src/gvc-channel-map.h:
+	* src/gvc-mixer-control.c (gvc_mixer_control_set_default_sink),
+	(gvc_mixer_control_set_default_source),
+	(update_default_source_from_name), (update_default_sink_from_name),
+	(update_sink), (update_source), (update_sink_input),
+	(update_event_role_stream):
+	* src/gvc-mixer-dialog.c (update_output_settings),
+	(on_mixer_control_default_sink_changed), (add_stream),
+	(on_output_radio_toggled), (gvc_mixer_dialog_constructor):
+	* src/gvc-mixer-sink-input.c (gvc_mixer_sink_input_change_volume):
+	* src/gvc-mixer-sink.c (gvc_mixer_sink_change_volume):
+	* src/gvc-mixer-source.c (gvc_mixer_source_change_volume):
+	* src/gvc-mixer-stream.c (on_channel_map_gains_changed),
+	(gvc_mixer_stream_set_channel_map):
+	Add output balance control.
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* AUTHORS: updated email address
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-channel-map.c (gvc_channel_map_get_num_channels),
+	(gvc_channel_map_get_gains), (gvc_channel_map_get_positions),
+	(gvc_channel_map_class_init), (gvc_channel_map_init),
+	(gvc_channel_map_finalize), (gvc_channel_map_new),
+	(set_from_pa_map), (gvc_channel_map_new_from_pa_channel_map):
+	* src/gvc-channel-map.h:
+	* src/gvc-mixer-control.c (update_sink), (update_source),
+	(update_sink_input), (update_source_output):
+	* src/gvc-mixer-event-role.c (update_settings),
+	(gvc_mixer_event_role_new):
+	* src/gvc-mixer-sink-input.c (gvc_mixer_sink_input_change_volume),
+	(gvc_mixer_sink_input_new):
+	* src/gvc-mixer-sink-input.h:
+	* src/gvc-mixer-sink.c (gvc_mixer_sink_change_volume),
+	(gvc_mixer_sink_new):
+	* src/gvc-mixer-sink.h:
+	* src/gvc-mixer-source-output.c (gvc_mixer_source_output_new):
+	* src/gvc-mixer-source-output.h:
+	* src/gvc-mixer-source.c (gvc_mixer_source_change_volume),
+	(gvc_mixer_source_new):
+	* src/gvc-mixer-source.h:
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_get_channel_map),
+	(gvc_mixer_stream_set_channel_map),
+	(gvc_mixer_stream_set_property), (gvc_mixer_stream_get_property),
+	(gvc_mixer_stream_class_init):
+	* src/gvc-mixer-stream.h:
+	Add a ChannelMap class that we can use to manipulate channel
+	volume levels.
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (_scale_box_new), (update_layout),
+	(gvc_channel_bar_set_size_group),
+	(gvc_channel_bar_set_orientation), (gvc_channel_bar_constructor),
+	(gvc_channel_bar_init):
+	* src/gvc-channel-bar.h:
+	* src/gvc-mixer-dialog.c (create_bar), (add_stream),
+	(gvc_mixer_dialog_constructor):
+	Don't put the end box in the size group for app channel bars.
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (add_stream), (remove_stream),
+	(gvc_mixer_dialog_constructor):
+	Show explanation when no apps are playing.
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-channel-bar.c (_scale_box_new):
+	* src/gvc-mixer-control.c (gvc_mixer_control_get_pa_context),
+	(update_default_source_from_name):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-dialog.c (update_input_peak), (update_input_meter),
+	(on_monitor_suspended_callback), (on_monitor_read_callback),
+	(create_monitor_stream_for_source),
+	(on_mixer_control_default_source_changed), (add_stream),
+	(gvc_mixer_dialog_constructor):
+	* src/rb-segmented-bar.c (rb_segment_new), (rb_segment_free),
+	(rb_segmented_bar_init), (rb_segmented_bar_class_init),
+	(rb_segmented_bar_finalize), (rb_segmented_bar_get_property),
+	(rb_segmented_bar_set_property),
+	(rb_segmented_bar_default_value_formatter),
+	(rb_segmented_bar_size_request), (create_adapt_layout),
+	(compute_layout_size), (rb_segmented_bar_size_allocate),
+	(rb_segmented_bar_add_segment),
+	(rb_segmented_bar_add_segment_default_color),
+	(rb_segmented_bar_update_segment), (draw_rounded_rectangle),
+	(rb_segmented_bar_render_segments), (modula), (hsb_from_color),
+	(color_from_hsb), (color_shade), (make_segment_gradient),
+	(rb_segmented_bar_render_strokes), (rb_segmented_bar_render),
+	(rb_segmented_bar_render_labels), (rb_segmented_bar_expose),
+	(rb_segmented_bar_new), (rb_segmented_bar_set_value_formatter):
+	* src/rb-segmented-bar.h:
+	Add input level monitor.
+
+2008-12-13  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (_scale_box_new),
+	(gvc_channel_bar_set_orientation):
+	Use the same size group for the start and end of
+	the channel bar.
+
+2008-12-12  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-sound-theme-chooser.c (get_sound_filename):
+	Set a parent for the file chooser
+
+2008-12-12  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gvc-stream-status-icon.c (update_icon): Fix
+	last commit, we need to use commas, not dots to separate
+	major, minor and micro versions
+
+2007-12-12  Matthias Clasen  <mclasen@redhat.com>
+
+        Bug 564176 – dependency on API from gtk+ trunk
+
+        * mate-volume-control/src/gvc-stream-status-icon.c: Don't use
+        GTK+ 2.16 API unconditionally. Reported by Frederic Peters
+
+2008-12-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (update_sink), (update_source):
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_get_decibel),
+	(gvc_mixer_stream_set_decibel), (gvc_mixer_stream_get_can_decibel),
+	(gvc_mixer_stream_set_can_decibel),
+	(gvc_mixer_stream_set_property), (gvc_mixer_stream_get_property),
+	(gvc_mixer_stream_class_init):
+	* src/gvc-mixer-stream.h:
+	* src/gvc-stream-status-icon.c (update_icon):
+	Add decibel level support.
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-applet.c (maybe_show_status_icons), (gvc_applet_start),
+	(on_control_stream_removed), (on_control_stream_added),
+	(gvc_applet_constructor):
+	* src/gvc-mixer-control.c (gvc_mixer_control_get_source_outputs),
+	(update_source), (update_sink_input), (update_source_output),
+	(update_event_role_stream):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-source-output.c
+	(gvc_mixer_source_output_change_volume),
+	(gvc_mixer_source_output_change_is_muted),
+	(gvc_mixer_source_output_constructor),
+	(gvc_mixer_source_output_class_init),
+	(gvc_mixer_source_output_init), (gvc_mixer_source_output_finalize),
+	(gvc_mixer_source_output_new):
+	* src/gvc-mixer-source-output.h:
+	* src/gvc-stream-status-icon.c (update_icon),
+	(on_status_icon_visible_notify), (gvc_stream_status_icon_init):
+	Show/hide input level status icon based on presence of
+	a "source output" stream.
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (gvc_channel_bar_set_low_icon_name),
+	(gvc_channel_bar_set_high_icon_name),
+	(gvc_channel_bar_set_property), (gvc_channel_bar_get_property),
+	(gvc_channel_bar_class_init), (gvc_channel_bar_init),
+	(gvc_channel_bar_finalize):
+	* src/gvc-channel-bar.h:
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor),
+	(gvc_mixer_dialog_set_page):
+	Use the new input icons in the dialog.
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/applet-main.c (main):
+	* src/dialog-main.c (main):
+	Append the icon search path to the icon theme.
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c:
+	Use new icons.
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* data/Makefile.am:
+	* data/icons/*:
+	Add some input level icons from Mike Langlie.  Just
+	an initial draft.
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-applet.c (gvc_applet_start), (gvc_applet_dispose),
+	(update_default_source), (update_default_sink), (on_control_ready),
+	(on_control_default_sink_changed),
+	(on_control_default_source_changed), (gvc_applet_constructor),
+	(gvc_applet_class_init), (gvc_applet_init), (gvc_applet_finalize):
+	* src/gvc-stream-status-icon.c (on_adjustment_value_changed),
+	(popup_dock), (on_status_icon_activate),
+	(on_menu_activate_open_volume_control),
+	(on_status_icon_popup_menu), (on_status_icon_scroll_event),
+	(gvc_icon_release_grab), (on_dock_button_press), (popdown_dock),
+	(gvc_icon_grab_notify), (on_dock_grab_notify),
+	(on_dock_grab_broken_event), (on_dock_key_release),
+	(maybe_show_status_icon), (update_icon),
+	(gvc_stream_status_icon_set_icon_names), (on_stream_volume_notify),
+	(on_stream_is_muted_notify),
+	(gvc_stream_status_icon_set_display_name),
+	(gvc_stream_status_icon_set_mixer_stream),
+	(gvc_stream_status_icon_set_property),
+	(gvc_stream_status_icon_get_property), (on_bar_is_muted_notify),
+	(gvc_stream_status_icon_constructor),
+	(gvc_stream_status_icon_dispose),
+	(gvc_stream_status_icon_class_init), (gvc_stream_status_icon_init),
+	(gvc_stream_status_icon_finalize), (gvc_stream_status_icon_new):
+	* src/gvc-stream-status-icon.h:
+	Create a stream-status-icon class.  Create a status icon
+	for input stream.  Todo: only show input status icon
+	when an application is recording, use microphone images.
+
+2008-12-05  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (gvc_channel_bar_init):
+	Make label left aligned.
+
+2008-12-05  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (update_sink), (update_sink_input),
+	(update_client), (remove_client), (gvc_mixer_control_init):
+	Use application/client name instead of stream name.
+
+2008-12-05  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_set_page):
+	Added --page argument for compatibility reasons (used by g-s-r,
+	for instance). Closes: #563289
+
+2008-11-19  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (update_sink_input),
+	(update_event_role_stream):
+	Add debug for event stuff.
+
+2008-11-19  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (on_stream_volume_notify),
+	(on_stream_is_muted_notify):
+	Fix crash when can't find a bar for stream.
+
+2008-11-19  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (update_default_input),
+	(update_default_output), (on_mixer_control_default_sink_changed),
+	(on_mixer_control_default_source_changed), (add_stream),
+	(on_input_radio_toggled), (on_output_radio_toggled),
+	(create_stream_treeview), (gvc_mixer_dialog_constructor):
+	Use radio buttons instead of selection to change default in/out.
+
+2008-11-19  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (_scale_box_new), (gvc_channel_bar_new):
+	* src/gvc-mixer-control.c (_set_default_source),
+	(_set_default_sink):
+	Make range update policy discontinuous.
+
+2008-11-19  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-sound-theme-chooser.c (constrain_list_size),
+	(setup_list_size_constraint), (gvc_sound_theme_chooser_init):
+	Make the initial size of the scrolled window more reasonable.
+
+2008-11-18  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (create_stream_treeview):
+	* src/gvc-sound-theme-chooser.c (play_sound_at_path),
+	(activatable_cell_renderer_pixbuf_activate),
+	(setup_theme_custom_selector), (on_treeview_row_activated),
+	(gvc_sound_theme_chooser_init):
+	Hide treeview headers.  Make double click on tree rows
+	play sound preview.
+
+2008-11-18  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (maybe_show_status_icon), (update_icon),
+	(update_default_sink), (on_control_ready),
+	(on_control_default_sink_changed), (gvc_applet_init):
+	* src/gvc-mixer-control.c (remove_stream):
+	Hide the status icon when there is no output device.
+
+2008-11-18  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (gvc_mixer_control_set_default_sink),
+	(gvc_mixer_control_set_default_source), (_set_default_source),
+	(_set_default_sink), (_stream_has_name), (find_stream_for_name),
+	(update_default_source_from_name), (update_default_sink_from_name),
+	(update_server), (update_sink), (update_source),
+	(update_sink_input), (gvc_mixer_control_class_init):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-dialog.c (on_mixer_control_default_sink_changed),
+	(on_mixer_control_default_source_changed),
+	(gvc_mixer_dialog_set_mixer_control), (bar_set_stream),
+	(add_stream), (find_stream_by_id), (remove_stream),
+	(on_control_stream_removed), (create_stream_treeview),
+	(on_input_treeview_selection_changed),
+	(on_output_treeview_selection_changed),
+	(gvc_mixer_dialog_constructor):
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_set_property),
+	(gvc_mixer_stream_get_property), (gvc_mixer_stream_class_init):
+	* src/gvc-mixer-stream.h:
+	Add support for changing the default sink and source.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-mixer-control.c (update_event_role_stream):
+	* src/gvc-mixer-dialog.c (create_bar), (add_stream):
+	* src/gvc-mixer-event-role.c (update_settings),
+	(gvc_mixer_event_role_change_volume),
+	(gvc_mixer_event_role_change_is_muted),
+	(gvc_mixer_event_role_set_device),
+	(gvc_mixer_event_role_set_property),
+	(gvc_mixer_event_role_get_property),
+	(gvc_mixer_event_role_constructor),
+	(gvc_mixer_event_role_class_init), (gvc_mixer_event_role_init),
+	(gvc_mixer_event_role_finalize), (gvc_mixer_event_role_new):
+	* src/gvc-mixer-event-role.h:
+	Add event role stream.  Make setting event volume work.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor),
+	(gvc_mixer_dialog_init):
+	* src/gvc-sound-theme-chooser.c (theme_changed_custom_reinit),
+	(on_combobox_changed), (audible_bell_foreach),
+	(set_audible_bell_enabled), (input_feedback_foreach),
+	(set_input_feedback_enabled), (get_file_type),
+	(theme_changed_custom_init), (update_theme),
+	(setup_theme_selector), (count_customised_sounds), (save_sounds),
+	(on_setting_column_edited), (fill_custom_model),
+	(on_combobox_editing_started), (setting_set_func),
+	(setup_theme_custom_selector),
+	(gvc_sound_theme_chooser_constructor), (on_click_feedback_toggled),
+	(on_key_changed), (gvc_sound_theme_chooser_init),
+	(gvc_sound_theme_chooser_new):
+	Simplify the theme chooser a bit.  Remove the visual bell stuff
+	since that should go into the to-be-written Universal Access
+	control panel.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (on_key_changed):
+	Don't assume all changed keys are booleans.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (create_bar), (add_stream),
+	(gvc_mixer_dialog_constructor), (gvc_mixer_dialog_init):
+	Use a separate size group for application streams.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	Switch order of input and output tabs.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (_scale_box_new):
+	Add labels to size group instead of scale because
+	using expand/fill widgets in a size group doesn't really
+	work.  And in practice the label is the only variable
+	length widget.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_dispose):
+	Only disconnect signals once.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	* src/gvc-sound-theme-chooser.c (gvc_sound_theme_chooser_init):
+	Move alert and input sliders to the top.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	* src/gvc-sound-theme-chooser.c (setup_theme_selector),
+	(gvc_sound_theme_chooser_init):
+	Drop the frame and label from the effects chooser.
+	Move the enable effects toggle up to the top.
+
+2008-11-12  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor):
+	At mpt's suggestion, move the output slider to the top.
+
+2008-11-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (update_sink_input),
+	(update_source_output), (update_event_role_stream),
+	(remove_client), (remove_sink), (remove_source),
+	(remove_sink_input), (remove_source_output):
+	* src/gvc-mixer-dialog.c (on_bar_is_muted_notify), (create_bar),
+	(bar_set_stream), (add_stream), (on_control_stream_added),
+	(on_control_stream_removed):
+	Set the associated stream on the bar so mute works.
+	Hush some debugging.
+
+2008-11-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (update_sink), (update_source):
+	* src/gvc-mixer-dialog.c (add_stream):
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_get_description),
+	(gvc_mixer_stream_set_description),
+	(gvc_mixer_stream_set_property), (gvc_mixer_stream_get_property),
+	(gvc_mixer_stream_class_init), (gvc_mixer_stream_finalize):
+	* src/gvc-mixer-stream.h:
+	Add descriptions and use them instead of names when
+	displaying sinks and sources.
+
+2008-11-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (add_stream):
+	Don't show sinks/source in apps page.
+
+2008-11-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (add_stream), (find_stream_by_id),
+	(on_control_stream_removed), (create_stream_treeview):
+	Try to remove streams from models.
+
+2008-11-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (add_stream):
+	Also add default streams to tree models.
+
+2008-11-11  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (gvc_mixer_control_get_streams):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-dialog.c (create_bar), (bar_set_stream),
+	(add_stream), (create_stream_treeview),
+	(gvc_mixer_dialog_constructor):
+	Add beginnings of output and input selection.
+
+2008-11-10  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (add_stream),
+	(gvc_mixer_dialog_constructor):
+	Don't crash if we don't get a default sink/source.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-control.c (remove_stream), (update_sink_input),
+	(update_event_role_stream):
+	* src/gvc-mixer-dialog.c (on_control_stream_added),
+	(on_control_stream_removed):
+	Fix adding and remove streams.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (_gtk_label_make_bold),
+	(gvc_mixer_dialog_constructor):
+	* src/gvc-sound-theme-chooser.c (gvc_sound_theme_chooser_init):
+	Tweak layout and add some placeholder treeviews.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-channel-bar.c (_scale_box_new),
+	(gvc_channel_bar_set_size_group):
+	* src/gvc-channel-bar.h:
+	* src/gvc-mixer-dialog.c (add_stream), (gvc_mixer_dialog_init):
+	Put all the scales in a size group.  Doesn't seem
+	to work though.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (on_enable_effects_toggled),
+	(on_click_feedback_toggled), (on_audible_bell_toggled),
+	(gvc_mixer_dialog_constructor), (on_key_changed),
+	(gvc_mixer_dialog_init):
+	Hook up the check buttons.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-mixer-dialog.c (add_stream),
+	(gvc_mixer_dialog_constructor):
+	* src/gvc-sound-theme-chooser.c (setup_theme_selector),
+	(gvc_sound_theme_chooser_init):
+	Fix up some layout.  Hide the theme selector if there is
+	only one.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-applet.c (on_menu_activate_open_volume_control),
+	(on_status_icon_popup_menu):
+	* src/gvc-mixer-dialog.c (on_stream_is_muted_notify), (add_stream),
+	(gvc_mixer_dialog_constructor), (gvc_mixer_dialog_new):
+	* src/gvc-sound-theme-chooser.c (theme_changed_custom_reinit),
+	(on_combobox_changed), (load_index_theme_name),
+	(sound_theme_in_dir), (add_theme_to_store),
+	(set_combox_for_theme_name), (on_theme_changed),
+	(setup_theme_selector), (visual_bell_mateconf_to_setting),
+	(visual_bell_setting_to_mateconf), (play_sound_preview),
+	(get_sound_filename), (count_customised_sounds), (save_sounds),
+	(save_custom_theme), (dump_theme), (on_setting_column_edited),
+	(fill_visual_bell_model), (fill_custom_model),
+	(on_combobox_editing_started), (play_sound_at_path),
+	(on_treeview_button_press_event), (setting_set_func),
+	(activatable_cell_renderer_pixbuf_activate),
+	(activatable_cell_renderer_pixbuf_init),
+	(activatable_cell_renderer_pixbuf_class_init),
+	(input_feedback_foreach), (set_input_feedback_enabled),
+	(on_input_feedback_changed), (audible_bell_foreach),
+	(set_audible_bell_enabled), (on_audible_bell_changed),
+	(get_file_type), (theme_changed_custom_init),
+	(setup_theme_custom_selector),
+	(gvc_sound_theme_chooser_constructor),
+	(gvc_sound_theme_chooser_class_init), (_gtk_label_make_bold),
+	(gvc_sound_theme_chooser_init), (gvc_sound_theme_chooser_finalize),
+	(gvc_sound_theme_chooser_new):
+	* src/gvc-sound-theme-chooser.h:
+	* src/sound-theme-file-utils.c (custom_theme_update_time),
+	(custom_theme_dir_path), (directory_delete_recursive),
+	(capplet_file_delete_recursive), (delete_custom_theme_dir),
+	(delete_one_file), (delete_old_files), (delete_disabled_files),
+	(create_one_file), (add_disabled_file), (add_custom_file):
+	* src/sound-theme-file-utils.h:
+	Redesign a bit in order to incorporate the sound properties.
+
+2008-11-05  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (popup_dock), (on_bar_is_muted_notify),
+	(gvc_applet_init):
+	* src/gvc-channel-bar.c (on_zero_adjustment_value_changed),
+	(update_mute_button), (gvc_channel_bar_init):
+	Fix initial mute setting for applet.  When mute button
+	is not displayed use the "zero" position to indicate
+	muted state.
+
+2008-11-05  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (gvc_applet_init):
+	* src/gvc-channel-bar.c (_scale_box_new),
+	(gvc_channel_bar_set_orientation), (update_mute_button),
+	(gvc_channel_bar_set_show_mute), (gvc_channel_bar_get_show_mute),
+	(gvc_channel_bar_set_property), (gvc_channel_bar_get_property),
+	(gvc_channel_bar_constructor), (gvc_channel_bar_class_init),
+	(gvc_channel_bar_init):
+	* src/gvc-channel-bar.h:
+	* src/gvc-mixer-dialog.c (add_stream):
+	Hide mute in vertical mode.  Add icons to hint at scale direction
+	in horizontal mode.  Fix orientation changing.
+
+2008-11-05  William Jon McCann  <jmccann@redhat.com>
+
+	* src/Makefile.am:
+	* src/gvc-mixer-control.c (gvc_mixer_control_get_default_source),
+	(gvc_mixer_control_get_sources), (remove_stream), (add_stream),
+	(update_sink), (update_source), (update_sink_input),
+	(update_event_role_stream), (remove_sink), (remove_source),
+	(remove_sink_input), (remove_source_output):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-dialog.c (add_stream),
+	(gvc_mixer_dialog_constructor):
+	* src/gvc-mixer-source.c (gvc_mixer_source_change_volume),
+	(gvc_mixer_source_change_is_muted), (gvc_mixer_source_constructor),
+	(gvc_mixer_source_class_init), (gvc_mixer_source_init),
+	(gvc_mixer_source_finalize), (gvc_mixer_source_new):
+	* src/gvc-mixer-source.h:
+	Add support for input streams.  Only show default input and
+	output stream.
+
+2008-11-05  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (gvc_applet_dispose), (on_control_ready):
+	* src/gvc-channel-bar.c (gvc_channel_bar_finalize):
+	* src/gvc-mixer-control.c (gvc_mixer_control_get_event_sink_input),
+	(gvc_mixer_control_get_default_sink),
+	(gvc_mixer_control_lookup_stream_id), (update_sink),
+	(update_sink_input), (update_event_role_stream),
+	(gvc_mixer_control_dispose), (gvc_mixer_control_init):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-dialog.c (on_control_stream_added),
+	(on_control_stream_removed), (gvc_mixer_dialog_constructor),
+	(gvc_mixer_dialog_dispose), (gvc_mixer_dialog_class_init):
+	* src/gvc-mixer-stream.c (gvc_mixer_stream_finalize):
+	Fix leaks.  Use ids instead of indexes when possible.
+	Add method to lookup stream by id.
+
+2008-11-04  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_constructor): Compile
+	with gtk+ <= 2.14.
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (on_menu_activate_sounds),
+	(on_status_icon_popup_menu):
+	Add sound properties to menu.
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* src/gvc-applet.c (gvc_applet_init):
+	status-icon scroll events only available in gtk+ 2.15.0
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* Makefile.am (SUBDIRS):
+	Add data dir.
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* data/Makefile.am:
+	* data/mate-volume-control-applet.desktop.in:
+	Install an autostart file for the volume applet
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* AUTHORS:
+	* Makefile.am:
+	* src/Makefile.am:
+	* src/applet-main.c (on_bus_name_lost), (acquire_name_on_proxy),
+	(acquire_name), (main):
+	* src/dialog-main.c (on_bus_name_lost), (acquire_name_on_proxy),
+	(acquire_name), (on_dialog_response), (on_control_ready), (main):
+	* src/gvc-applet.c (maybe_show_status_icon), (gvc_applet_start),
+	(gvc_applet_dispose), (gvc_applet_constructor),
+	(gvc_applet_class_init), (on_adjustment_value_changed),
+	(popup_dock), (on_status_icon_activate),
+	(on_menu_activate_open_volume_control),
+	(on_status_icon_popup_menu), (on_status_icon_scroll_event),
+	(gvc_applet_release_grab), (on_dock_button_press), (popdown_dock),
+	(gvc_applet_grab_notify), (on_dock_grab_notify),
+	(on_dock_grab_broken_event), (on_dock_key_release), (update_icon),
+	(on_stream_volume_notify), (on_stream_is_muted_notify),
+	(on_control_ready), (on_bar_is_muted_notify), (gvc_applet_init),
+	(gvc_applet_finalize), (gvc_applet_new):
+	* src/gvc-applet.h:
+	* src/gvc-channel-bar.c (_scale_box_new), (update_image),
+	(update_label), (gvc_channel_bar_set_name),
+	(gvc_channel_bar_set_icon_name), (gvc_channel_bar_set_orientation),
+	(gvc_channel_bar_set_adjustment), (gvc_channel_bar_get_adjustment),
+	(update_mute_button), (gvc_channel_bar_set_is_muted),
+	(gvc_channel_bar_get_is_muted), (gvc_channel_bar_set_property),
+	(gvc_channel_bar_get_property), (gvc_channel_bar_constructor),
+	(gvc_channel_bar_class_init), (on_mute_button_toggled),
+	(gvc_channel_bar_init), (gvc_channel_bar_finalize),
+	(gvc_channel_bar_new):
+	* src/gvc-channel-bar.h:
+	* src/gvc-mixer-control.c (gvc_mixer_control_get_event_sink_input),
+	(gvc_mixer_control_get_default_sink), (listify_hash_values_hfunc),
+	(gvc_stream_collate), (gvc_mixer_control_get_sinks),
+	(gvc_mixer_control_get_sink_inputs), (dec_outstanding),
+	(gvc_mixer_control_is_ready), (update_server), (update_sink),
+	(update_source), (set_icon_name_from_proplist),
+	(update_sink_input), (update_source_output), (update_client),
+	(_pa_context_get_sink_info_cb), (_pa_context_get_source_info_cb),
+	(_pa_context_get_sink_input_info_cb),
+	(_pa_context_get_source_output_info_cb),
+	(_pa_context_get_client_info_cb), (_pa_context_get_server_info_cb),
+	(remove_event_role_stream), (update_event_role_stream),
+	(_pa_ext_stream_restore_read_cb),
+	(_pa_ext_stream_restore_subscribe_cb), (req_update_server_info),
+	(req_update_client_info), (req_update_sink_info),
+	(req_update_source_info), (req_update_sink_input_info),
+	(req_update_source_output_info), (remove_client), (remove_sink),
+	(remove_source), (remove_sink_input), (remove_source_output),
+	(_pa_context_subscribe_cb), (gvc_mixer_control_ready),
+	(_pa_context_state_cb), (gvc_mixer_control_open),
+	(gvc_mixer_control_close), (gvc_mixer_control_dispose),
+	(gvc_mixer_control_constructor), (gvc_mixer_control_class_init),
+	(gvc_mixer_control_init), (gvc_mixer_control_finalize),
+	(gvc_mixer_control_new):
+	* src/gvc-mixer-control.h:
+	* src/gvc-mixer-dialog.c (gvc_mixer_dialog_set_mixer_control),
+	(gvc_mixer_dialog_get_mixer_control),
+	(gvc_mixer_dialog_set_property), (gvc_mixer_dialog_get_property),
+	(on_adjustment_value_changed), (on_bar_is_muted_notify),
+	(lookup_bar_for_stream), (on_stream_volume_notify),
+	(on_stream_is_muted_notify), (save_bar_for_stream), (add_stream),
+	(gvc_mixer_dialog_constructor), (gvc_mixer_dialog_class_init),
+	(gvc_mixer_dialog_init), (gvc_mixer_dialog_finalize),
+	(gvc_mixer_dialog_new):
+	* src/gvc-mixer-dialog.h:
+	* src/gvc-mixer-sink-input.c (gvc_mixer_sink_input_change_volume),
+	(gvc_mixer_sink_input_change_is_muted),
+	(gvc_mixer_sink_input_constructor),
+	(gvc_mixer_sink_input_class_init), (gvc_mixer_sink_input_init),
+	(gvc_mixer_sink_input_finalize), (gvc_mixer_sink_input_new):
+	* src/gvc-mixer-sink-input.h:
+	* src/gvc-mixer-sink.c (gvc_mixer_sink_change_volume),
+	(gvc_mixer_sink_change_is_muted), (gvc_mixer_sink_constructor),
+	(gvc_mixer_sink_class_init), (gvc_mixer_sink_init),
+	(gvc_mixer_sink_finalize), (gvc_mixer_sink_new):
+	* src/gvc-mixer-sink.h:
+	* src/gvc-mixer-stream.c (get_next_stream_serial),
+	(gvc_mixer_stream_get_pa_context), (gvc_mixer_stream_get_index),
+	(gvc_mixer_stream_get_id), (gvc_mixer_stream_get_num_channels),
+	(gvc_mixer_stream_get_volume), (gvc_mixer_stream_set_volume),
+	(gvc_mixer_stream_get_is_muted), (gvc_mixer_stream_get_is_default),
+	(gvc_mixer_stream_set_is_muted), (gvc_mixer_stream_set_is_default),
+	(gvc_mixer_stream_get_name), (gvc_mixer_stream_set_name),
+	(gvc_mixer_stream_get_icon_name), (gvc_mixer_stream_set_icon_name),
+	(gvc_mixer_stream_set_property), (gvc_mixer_stream_get_property),
+	(gvc_mixer_stream_constructor),
+	(gvc_mixer_stream_real_change_volume),
+	(gvc_mixer_stream_real_change_is_muted),
+	(gvc_mixer_stream_change_volume),
+	(gvc_mixer_stream_change_is_muted), (gvc_mixer_stream_class_init),
+	(gvc_mixer_stream_init), (gvc_mixer_stream_finalize):
+	* src/gvc-mixer-stream.h:
+	Initial commit.
+

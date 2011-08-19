@@ -1,0 +1,2571 @@
+==================== 2.27.2 ====================
+
+==================== 2.27.1 ====================
+
+==================== 2.22.2 ====================
+
+==================== 2.22.1 ====================
+
+2008-04-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c (connection_save): Apply modified patch from Ubuntu
+	launchpad #185854. Mark interface as active if it wasn't previously
+	configured, and as auto if it's been (or already was) activated. Fixes
+	#526137.
+
+2008-03-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.22.0
+
+2008-02-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c (compare_interface) (save_interface): Take into
+	account the case where OobsIfacePPP::ethernet is NULL. Fixes #519268.
+
+2008-02-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c (replace_string) (get_location_key_file)
+	(gst_network_locations_save_current)
+	(gst_network_locations_delete_location): Slash can be prone to being
+	used in a location name, replace it with char 0x2044, so the location
+	file can be saved. Fixes #519270.
+
+2008-02-25  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.92
+
+2008-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.91
+
+2008-02-06  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c: Check the dialog fields when the essid changes, do not
+	take a wifi interface without essid as configured.
+
+2008-01-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.90
+
+2008-01-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.5.1
+
+2008-01-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.5
+
+2008-01-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* Makefile.am: Use Gio.
+	* network-locations.c: Use Gio file monitoring.
+
+2008-01-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c (get_ethernet_iface_by_name) (set_interface):
+	prevent a crash if the property didn't exist previously in the config
+	file.
+
+2008-01-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* ifaces-list.c (get_iface_secondary_text): Improve descriptive text 
+	for PPP interfaces.
+
+2008-01-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c: get the properties list from the object, instead
+	of using a closed list of property names and types. Made code a bit
+	more generic in general.
+
+2008-01-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* ifaces-list.c, network-tool.c, network.desktop.in.in: Use
+	preferences-system-network icon instead of the obsolete
+	mate-fs-network. Fixes #506777, patch by Jaap A. Haitsma
+	<jaap@haitsma.org>
+
+2007-12-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c (connection_dialog_prepare): Do not put a \n in the
+	dialog title. Fixes #500259, patch by Alex "week" Jones
+	<alex@weej.com>
+
+2007-12-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.3
+
+2007-12-18  Carlos Garnacho  <carlosg@mate.org>
+
+	Adapt to latest liboobs changes. Replace OobsIfaceModem and
+	OobsIfaceISDN with OobsIfacePPP.
+
+	* callbacks.[ch] (on_ppp_type_changed): added, updates PPP interface
+	configuration dialog when the connection type changes.
+	* connection.[ch]: Necessary changes to adapt to OobsIfacePPP, dialog
+	preparation, plus values checking, retrieving and saving.
+	* ifaces-list.c:
+	* network-tool.c:
+	* network-location.c: switch to OobsIfacePPP.
+	* main.c: connect new dialog fields signals.
+
+2007-12-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-tool.[ch]: keep a pointer to the hosts edition dialog.
+	* hosts.[ch] (host_aliases_run_dialog): pass a GstNetworkTool. Set
+	editing mode when the dialog is running.
+	* callbacks.c (on_iface_properties_clicked) (on_connection_response):
+	Set editing mode when the iface configuration dialog is running.
+	(on_table_popup_menu) (on_host_aliases_properties_clicked): update
+	host_aliases_run_dialog() callers.
+
+2007-11-25  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.[ch] (connection_dialog_update): Added, updates combo
+	boxes.
+	* network-tool.c (network_tool_update_gui): call
+	connection_dialog_update() when the configuration has changed.
+
+2007-11-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.2.1
+
+2007-11-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.2
+
+2007-10-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.1
+
+2007-10-15  Denis Washington  <denisw@svn.mate.org>
+
+	* main.c: Use gst_dialog_require_authentication_for_widgets() to
+	mark those widgets which need authentication to be used.
+
+2007-09-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-tool.c (gst_network_tool_init): update config/gui when the
+	interfaces configuration changes.
+
+2007-09-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c, network-tool.c: adapt to liboobs 2.21.x API
+	change.
+
+2007-09-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* network.desktop.in.in: Add back X-MATE-NetworkSettings. It's
+	necessary to appear in the Networking section in g-c-c
+
+2007-09-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c (connection_dialog_init): set text column for the
+	serial port combobox properly. It was relying on libglade before.
+	* main.c: remove glade include.
+
+2007-09-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* locations-combo.c: Do not create circular references with the
+	GstNetworkTool object.
+	* network-tool.c (gst_network_tool_finalize): unref the
+	GstLocationsCombo.
+	* ifaces-list.c: listen to OobsIface::state-changed to update the ui
+	properly.
+
+2007-09-03  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.92
+
+2007-08-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.91
+
+2007-07-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.1
+
+2007-07-26  Denis Washington  <denisw@svn.mate.org>
+
+	* connection.c (connection_dialog_prepare):
+	Change connection properties window title from "Settings for interface
+	eth[N]" to simply "eth[N] Properties". (Closes #428671)
+
+2007-07-10  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.0
+
+2007-07-06  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c (method_descriptions) (key_type_descriptions):
+	constify. Add WPA-PSK and WPA2-PSK descriptions.
+	(populate_combo): update parameter.
+
+2007-06-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.h: export connection_get_config_method()
+	* callbacks.c: include connection.h to use that function. Fixes
+	#441647 (Dann Frazier, Sven Arvidsson)
+
+2007-04-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.18.1
+
+2007-04-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c (migrate_old_parameters): Do a sanity check on
+	the integer value and bail out if it doesn't match what we expect.
+	Avoids #422969.
+
+2007-03-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.18.0
+
+2007-02-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.92
+
+2007-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.91
+
+2007-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c (migrate_old_parameters): new function to
+	migrate old config-method and key-type data types to the new ones.
+	(compare_interface) (set_interface): migrate old data to new format.
+
+2007-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+        * main.c (main): call g_thread_init() to avoid GSlice warning.
+
+2007-02-11  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c (connection_essids_combo_init): reuse GtkComboBoxEntry
+	cell renderer instead of setting our own.
+	(on_essid_list_changed): slight code improvement.
+	* locations-combo.c (select_matching_profile): code improvements.
+	* network-locations.c (array_to_list) (compare_static_hosts) 
+	(compare_location): code improvements.
+	(compare_static_host): Fix possible invalid memory free(), bug #354536
+	and many others.
+
+2007-01-22  Carlos Garnacho  <carlosg@mate.org>
+
+	* network.desktop.in.in: patch by Denis Washington <dwashington at gmx
+	dot net> to rename NetworkSettings category to
+	X-MATE-NetworkSettings.
+
+2007-01-11  Carlos Garnacho  <carlosg@mate.org>
+
+	* essid-list.c (get_scan_info): return something if there's no iwreq
+	data.
+	(query_essids): remove unused variables.
+
+2007-01-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* network.desktop.in.in: patch by Denis Washington <dwashington at gmx
+	dot net> to make network-admin appear in the Internet & Networking
+	category in g-c-c.
+
+2007-01-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.5
+
+2007-01-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.[ch], ifaces-list.c, callbacks.c: use new liboobs API to
+	get/set interface configuration method and key type.
+
+2007-01-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.4
+
+2007-01-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* nm-integration.[ch]: new files, contains functions to communicate
+	with NetworkManager daemon.
+	* Makefile.am: add DBus libs and cflags, add files above.
+	* ifaces-list.c (get_iface_secondary_text): show a different text if
+	the interface is deactivated and NM is running (so supposedly managing
+	it).
+	* network-tool.[ch] (gst_network_tool_init): get a DBus connection to
+	talk with NM.
+	* connection.[ch] (connection_dialog_init) (prepare_general):
+	* callbacks.c (on_iface_active_changed) (on_iface_roaming_changed)
+	(toggle_nm) (on_configuration_changed) (accept_connection_dialog):
+	* main.c: Add "enable roaming mode" checkbox, tell NM to "reboot" when
+	an interface has changed it's configuration.
+	* locations-combo.c: use new gst_tool_commit_async() API.
+
+2006-12-21  Carlos Garnacho  <carlosg@mate.org>
+
+	* essid-list.c (gst_essid_list_finalize): do not close the socket used
+	for ioctl with iw_sockets_close(), seems not to be available in all
+	libiw, instead use close() directly (iw_sockets_close() seem to be a
+	wrapper for it). Closes #387618.
+
+2006-12-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c: save config-method for wireless interfaces.
+
+2006-12-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_host_aliases_delete_clicked):
+	* hosts.c (host_aliases_dialog_save): plug a couple of leaks.
+
+2006-12-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.3
+
+2006-11-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* ifaces-list.c: now the interfaces with missing theme icon install
+	it's own one in hicolor, use them.
+
+2006-11-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* ifaces-list.[ch]: use icon theme for interfaces known to have one,
+	other slight UI improvements.
+
+2006-11-20  Carlos Garnacho  <carlosg@mate.org>
+
+	* main.c: do not destroy the connection dialog on ::delete-event.
+
+2006-11-19  Carlos Garnacho  <carlosg@mate.org>
+
+	* essid-list.[ch]: Added, retrieves a list of available ESSIDs (with
+	their characteristics)
+	* connection.[ch] (connection_essids_combo_init)
+	(wireless_essid_populate_model) (wireless_dialog_prepare): add back 
+	ESSIDs detection.
+	(connection_dialog_hide): new function, hides the dialog and does
+	additional cleanup
+	* callbacks.c (cancel_connection_dialog) (accept_connection_dialog):
+	use connection_dialog_hide().
+	* Makefile.am: optionally build essid-list.[ch] if libiw is available
+
+2006-11-17  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.[ch] (on_connection_cancel_clicked)
+	(on_connection_ok_clicked) (on_connection_dialog_close): rename and
+	make private.
+	(on_connection_response): added, use this to handle configuration 
+	dialog response.
+	* main.c: use on_connection_response.
+
+2006-11-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* network.desktop.in.in: rename name to "Network" to be more 
+	consistent with the other g-s-t desktop entries.
+
+2006-11-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* callbacks.c: (on_hostname_focus_out), (on_domain_focus_out):
+	* ifaces-list.c: (get_iface_secondary_text):
+	* main.c:
+	* network-tool.c: (gst_network_tool_init), (save_dns),
+	(save_search_domains), (gst_network_tool_constructor),
+	(gst_network_tool_update_gui), (gst_network_tool_update_config):
+	Fix more compiler warnings.
+
+2006-11-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.2
+
+2006-11-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* address-list.c (popup_menu_create): fix crash. #370686
+
+2006-11-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* ifaces-list.c, locations-combo.c, network-locations.c: plug a bunch
+	of leaks.
+
+2006-11-03  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.[ch]:
+	* connection.c:
+	* ifaces-list.[ch]:
+	* main.c:
+	* network-tool.[ch]: remove unused code.
+	* hosts.c (host_aliases_modify_at_iter):
+	* network-locations (get_location_key_file): plug a leak.
+
+2006-09-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.5
+
+2006-09-22  Jani Monoses  <jani.monoses@gmail.com>
+
+	* network-locations.c: do not include libmateui headers, define
+	MATE_DOT_MATE.
+
+2006-09-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c: do not throw a critical warning if hostname or
+	domainname are NULL (although if hostname is NULL, something is very
+	broken...)
+
+2006-09-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.4
+
+2006-09-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-tool.c, ifaces-list.[ch]: show the interface name in the GUI
+	when there are more than 1 interface of the same type.
+
+2006-09-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* locations-combo.c: set the last selected profile as the default name
+	in the "save location" dialog, plus some wording improvements and
+	other miscellaneous fixes.
+
+2006-09-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.3
+
+2006-09-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* main.c (init_standalone_dialog) (main): fix -c and -t command line
+	parameters.
+
+2006-09-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.c: end the plip properties array with NULL.
+
+2006-08-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* locations-combo.c (on_combo_changed): do not unref the model, leads
+	to early finalization.
+	(select_matching_profile): separated from fill_model().
+	(on_add_button_clicked) (gst_locations_combo_constructor)
+	(gst_locations_combo_changed): use select_matching_profile() there.
+	(fill_model): simplified.
+	* network-locations.c (concatenate_aliases) (save_hosts_config): do
+	not free those GList elements, we do not own them.
+	* network-tool.c (set_entry_text) (gst_network_tool_update_gui): avoid
+	a possible critical warning.
+
+2006-08-23  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-tool.c (gst_network_tool_update_config): added.
+
+2006-08-11  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.2
+
+2006-08-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* main.c: do not use nonexistent widgets
+
+2006-08-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.1
+
+2006-07-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* main.c: avoid a possible crasher
+
+2006-07-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-locations.[ch]: added. Generic object to deal with network
+	locations, it's easily embeddable in other applications
+	* locations-combo.[ch]: added. network-admin specific implementation
+	of the network locations
+	* Makefile.am: added these files
+	* network-tool.[ch]: added locations management.
+	* connection.c: set/get correctly the wireless key
+
+2006-06-06  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.0
+
+2006-06-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* address-list.c: save data on DnD reorder.
+	* callbacks.c (on_domain_focus_out): allow empty domains.
+
+2006-05-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_domain_focus_out): avoid saving configuration on
+	every focus_out
+
+2006-05-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c, connection.c: work nicely with switched positions
+
+2006-05-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* connection.c: switch DHCP/static IP positions in combo
+
+2006-05-27  Carlos Garnacho  <carlosg@mate.org>
+
+        * address-list.c, hosts.c, ifaces-list.c: set translation domain for
+	action_groups. Closes #342497 (patch by Sebastien Bacher)
+
+2006-05-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-tool.c: HIGify window title. Closes #343053
+
+2006-05-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* network-tool.c: set an icon name
+	* network.desktop.in.in: ditto, patch by Sebastien Bacher
+	<seb128@debian.org>
+
+2006-05-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* ifaces-list.c: let GstNetworkTool keep a reference to the interfaces
+	model. closes bug #167953.
+
+2006-05-24  Carlos Garnacho  <carlosg@mate.org>
+
+	* address-list.[ch] (gst_address_list_set_save_func): added. also use
+	it to save data.
+	* callbacks.[ch] (check_hostname_hook): removed
+	(on_entry_changed), (on_hostname_focus_out) (on_domain_focus_out):
+	added
+	* main.c: connect these callbacks
+	* hosts.c: do not set a corrupted OobsListIter
+	* ifaces-list.c (iface_to_type): added, use it to get a interface
+	configuration dialog from the interface type
+	* network-tool.c (save_dns) (save_search_domains): added. block
+	some signals for not prematurely saving the configuration
+
+2006-05-19  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c, connection.c, hosts.c, ifaces-list.c, main.c,
+	network-tool.c: correct the network-tool.h #include. Yay for last time
+	fixes
+
+2006-05-19  Carlos Garnacho  <carlosg@mate.org>
+
+	* transfer.[ch]: deleted, XML interface is now obsolete.
+	* network-iface.[ch], network-iface-ethernet.[ch],
+	network-iface-wireless.[ch], network-iface-irlan.[ch],
+	network-iface-plip.[ch], network-iface-modem.[ch],
+	network-iface-isdn.[ch]: deleted, their main functionality is mainly
+	in liboobs
+	* location.[ch]: deleted, used the XML interface and will be rewritten
+	from scratch.
+	* network-tool.[ch]: replaces gst-network-tool.[ch], GObject that
+	inherits from GstTool, providing what the old GstNetworkTool offered,
+	plus OobsObjects access.
+	* gst-network-tool.[ch]: deleted as a consequence.
+	* Makefile.am: reflect those changes.
+	* address-list.[ch]: use G_DEFINE_TYPE, do not implement treeview
+	reordering on its own
+	* callbacks.[ch], connection.[ch], hosts.[ch]: comment out lots of
+	code, use liboobs
+	* ifaces-list.[ch]: port to liboobs, show better at first sight the
+	interfaces configuration.
+	* main.c: minor changes to adapt to new GstTool API
+
+2006-03-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.14.0
+
+2006-01-31  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.2
+
+2006-01-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.1
+
+2006-01-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.0
+
+2005-11-28  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.4.1
+
+2005-11-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.c: fix crash reported in bug #317650
+
+2005-09-19  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* location.c: added some missing tags when creating and restoring
+	profiles
+
+2005-09-19  Rodrigo Moya <rodrigo@novell.com>
+
+	* location.c (compare_general_data): return expected value.
+
+2005-09-04  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.4.0
+
+2005-08-23  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.92
+
+2005-08-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.2
+
+2005-07-26  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.1
+
+2005-07-25  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.c: handle cases where users don't cancel the edition
+	operation with ESC, and instead click on another place in the table.
+	Should close #310720
+
+2005-07-15  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-*.c: don't use a const GdkPixbuf, it now will be
+	modified for adding emblem.
+	* network-iface.[ch]: don't use const GdkPixbuf, add emblem if it's
+	not configured
+	* ifaces-list.c (iface_to_priority), (ifaces_list_sort): added to
+	order the interfaces from most to least used/usual. Don't put the
+	unconfigured interfaces as insensitive
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.0.1
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.0
+
+2005-06-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c: added full stop at the end of secondary text in
+	GtkMessageDialogs. Fixes #152396
+
+2005-06-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-wireless.[ch]: added wep key type support (ASCII and
+	Hexa)
+	* connection.[ch], main.c: added some GUI glue for this
+
+2005-04-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callback.c: applied string suggestion from Kjartan. Fixes #301300
+
+2005-04-12  Jens Granseuer  <jensgr@gmx.net>
+
+	* location.c: compile fix for gcc 2.x. Fixes #170162
+
+2005-04-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* main.c, callbacks.[ch]: forgot to handle "delete-event" for the
+	interface configuration dialog. Very possibly fixes #300226
+
+2005-04-12  Stanislav Brabec  <sbrabec@suse.cz>
+
+        * address-list.c: fix a gcc 4.0 compile warning. Fixes #172932
+
+2005-04-12  Michael Vogt  <michael.vogt@ubuntu.com>
+
+	* connection.[ch], network-iface-isdn.c: Added option for the
+	"update_dns" tag in dialup interfaces
+
+2005-04-07  Carlos Garnacho Parro  <carlosg@mate.org>
+
+        * address-list.c: allow IPV6 DNSs too. Fixes #171826
+
+2005-03-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-isdn.c: fixed bug where "noauth" was only applied to
+	already configured interfaces
+
+2005-03-07  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.2.0
+
+2005-03-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c: make the "enabled" and "auto" interface values match
+	as they should
+
+2005-03-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.92
+
+2005-03-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch], ifaces-list.c, main.c: finally committed this
+	remaining patch to change gateways on the fly when there was none
+	selected and user activates an interface with default gateway
+
+2005-02-24  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* gst-network-tool.c: plug a leak
+
+2005-02-23  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface.c: show a string really translated
+
+2005-02-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-isdn.c: handle noauth stuff, default it to TRUE (quite
+	sane IMHO) until I can add some UI for this...
+
+2005-02-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* connection.c: only add cellrenderers once to the essids
+	GtkComboBoxEntry.
+
+2005-02-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.91
+
+2005-01-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch], hosts.[ch], main.c: added some extra checks to ensure 
+	that any IP address in the hosts file has alias(es)
+
+2005-01-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* hosts.c: prevent it to crash with wrong hosts file (i.e.: IP address
+	without aliases)
+
+2005-01-25  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* hosts.c: added ellipsizing to the table in the case that there are
+	too many hostnames for a single IP address
+
+2005-01-25  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.90
+
+2005-01-24  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* location.c: fuck me... really save essid and WEP key in locations
+
+2005-01-24  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* location.c: really delete the profile from the XML when removing it
+	from the combo
+
+2005-01-22  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* connection.c: remove ESSID checkings, ESSID may be empty for cards
+	that can do autodetection. Fixes #160227
+
+2005-01-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* main.c: added GST_FILTER_PHONE to phone and dial prefix entries
+
+2005-01-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.4.1
+
+2005-01-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.4
+
+2005-01-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-isdn.[ch]: added
+	* Makefile.am: ditto
+	* network-iface-modem.[ch]: inherit from GstIfaceIsdn
+	* callbacks.c, connection.[ch], gst-network-tool.h, ifaces-list.c:
+	minor changes for supporting ISDN interfaces
+
+2004-12-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-ethernet.c: fixed gateway loading/saving
+
+2004-12-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* ifaces-list.[ch] (ifaces_model_get_iface_by_name): replaced with
+	(ifaces_model_search_iface), which is a more general searching
+	function
+	* main.c: use this
+	* network-iface.[ch] (gst_iface_get_iface_type): made public
+
+2004-12-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.3
+
+2004-12-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* location.c: use the "save_profiles" and "set_profile" directives
+	for changing profiles
+
+2004-12-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c (enable_iface): added, common function that shows a
+	dialog if there was any error. (on_connection_ok_clicked),
+	(enable_disable_iface): use enable_iface ()
+	* network-iface.c (gst_iface_enable): added report text to the
+	directive
+
+2004-12-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.[ch] (gst_address_list_clear): added
+	* callbacks.c: update button status when clicking ok in the interface
+	configuration dialog
+	* connection.c: fixed some indenting
+	* hosts.[ch] (host_aliases_clear): added
+	* ifaces-list.[ch] (ifaces_model_set_interface_from_node_at_iter),
+	(ifaces_model_set_interface_at_iter): added.
+	(ifaces_model_add_iface_from_node),
+	(ifaces_model_add_iface): use them to add new ifaces
+	(ifaces_model_clear): added
+	* network-iface.c, network-iface-ethernet.c, network-iface-wireless.c,
+	network-iface-irlan.c, network-iface-plip.c, network-iface-modem.c:
+	implemented _get_iface_type.
+	* transfer.[ch]: clear dialog before applying config, export some
+	functions for saving locations
+	* location.[ch]: added files for managing locations/profiles
+	* Makefile.am: ditto
+	* gst-network-tool.[ch]: added locations widget
+
+2004-12-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-modem.c: silly me, s/dial_type/dial_command/
+
+2004-12-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-modem.c: fixed dial_prefix getting/setting in XML
+
+2004-12-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch], connection.[ch], main.c: added some more IP addresses
+	checking
+	* connection.c: really save the phone number for modem connections
+	* network-iface-modem.c: handled wvdial sections and provider names,
+	this might be an internal detail in the backend, though.
+
+2004-12-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.c, main.c: handled IP address parsing/filtering
+
+2004-11-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.c, connection.c: fixed some compile warnings
+	* main.c, ifaces-list.[ch], connection.[ch], callbacks.c: readded
+	command line option
+	* network-iface-modem.c: added _get_xml implementation
+
+2004-11-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.c: added DnD
+
+2004-11-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.c, hosts.c: added popup menus
+	* callbacks.[ch], ifaces-list.[ch]: generalized a bit the popup menu
+	stuff.
+
+2004-11-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* ifaces-list.c: fixed context menu for ifaces, now it
+	enables/disables correctly
+
+2004-11-27  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch], connection.[ch], main.c: handled dialog changing and
+	fields checking.
+	* callbacks.c: fixed a compile warning
+	* connection.c: fixed a function indent
+
+2004-11-26  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch] (callbacks_check_hostname_hook): added
+	* main.c: added apply hook for checking when the hostname is changed
+
+2004-11-26  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch] (on_detect_modem_clicked): added
+	(enable_disable_iface): warn when the iface could not be enabled
+	(on_host_aliases_delete_clicked): added gst_dialog_modify()
+	* connection.[ch], main.c: added some modem detection stuff
+	* hosts.c (host_aliases_run_dialog): added a gst_dialog_modify()
+
+2004-11-24  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* connection.[ch] (modem_dialog_prepare), (modem_dialog_save): added.
+	Handled modem GUI.
+	* network-iface-modem.[ch]: added missing properties
+
+2004-11-23  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-modem.[ch]: added files to handle PPP devices
+	* Makefile.am: ditto
+	* connection.c, gst-network-tool.h, ifaces-list.c: began to handle
+	PPP devices
+	* callbacks.c: somewhat prettify code
+
+2004-11-22  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* ifaces-list.[ch] (gateways_combo_get_selected): added
+	* transfer.c: save gateway settings
+
+2004-11-22  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* hosts.[ch]: abstracted a bit more, made it able to save the config
+	* transfer.[ch]: somewhat improved
+
+2004-11-22  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* hosts.[ch]: added for handling /etc/hosts editing
+	* Makefile.am: ditto
+	* callbacks.[ch], gst-network-tool.[ch], main.c, transfer.c: handled
+	hosts aliases editing
+
+2004-11-20  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c, network-iface.[ch]: made it able to enable ifaces
+
+2004-11-18  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.[ch], main.c, network-iface.c: it now disables interfaces
+	* transfer.c: do not delete loopback based on interface type, not dev
+	name
+	* connection.c, callbacks.c: moved a g_object_ref/unref to make the
+	code easier to read
+
+2004-11-17  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-ethernet.c: fixed silly bug that got me annoyed, woo!
+	* network-iface-plip.c: added "bootproto" tag
+
+2004-11-17  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-ethernet.c, network-iface-plip.c,
+	network-iface-wireless.c, network-iface.c, transfer.c: more iface
+	saving, fixed some issues generating the XML
+
+2004-11-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-ethernet.c: improved config saving
+	* network-iface.c: handled "file" tag
+	* transfer.c: delete all ifaces but loopback
+
+2004-11-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface.c network-iface-ethernet.c: implemented (get_xml)
+
+2004-11-15  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* connection.c (wireless_essid_get_model),
+	(wireless_dialog_prepare_essid_entry): added networks scanning
+	feature
+
+	* gst-network-tool.[ch]: added icon theme
+
+2004-11-10  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.[ch], main.c, transfer.[ch]: made it begin to save
+	information
+
+2004-11-09  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* ifaces-list.[ch], transfer.c: update the gatewaydev from the XML
+
+2004-11-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* network-iface-wireless.[ch] (gst_iface_wireless_new_from_xml):
+	get the parent class configuration before checking that it's
+	configured
+
+2004-11-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* address-list.[ch], gst-network-tool.[ch], ifaces-list.[ch],
+	network-iface.[ch], network-iface-ethernet.[ch],
+	network-iface-irlan.[ch], network-iface-plip.[ch],
+	network-iface-wireless.[ch]: Added files for the new network tool
+
+	* callbacks.[ch], connection.[ch], main.c, transfer.[ch], Makefile.am: 
+	Modified files for the new network tool
+
+	* dns.[ch], hosts.[ch], network-druid.[ch], profile.[ch],
+	profiles-table.[ch]: deleted files, any missing functionality will be
+	reimplemented
+
+2004-11-03  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1
+
+2004-10-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* connection.[ch], main.c, network-druid.c, profile.c: Patch by
+	Vincent Untz <vincent@vuntz.net> to add WEP keys management
+        to the UI. Fixes #147260
+
+2004-10-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c: changed the string to delete an interface, fixes
+	#154830
+
+2004-09-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.0
+
+2004-09-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 0.92
+
+2004-08-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.91.0
+
+2004-08-04  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c: fixed a serious and quite silly bug when storing the
+	default gatewaydev. I'm dumb
+
+2004-08-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* transfer.c: little UI improvement, made the default gateway stuff
+	appear if it's necessary, and not dissappear if it's not necessary,
+	it seems a more correct behavior
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.90
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: specified the help sections
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.c, main.c: added help buttons
+
+2004-07-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: somewhat improved IP parsing
+
+2004-07-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: made it compile if -fno-common flag is active.
+	  patch by Heikki Tauriainen <heikki.tauriainen@hut.fi> that fixes 
+	  bug #147357
+
+2004-06-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.34
+
+2004-06-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch]: fixed a couple of bugs, now it generates correctly
+	  images for all interface types and turns sensitive/unsensitive
+	  correctly the widgets when changing the IP config from/to automatic
+
+2004-06-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.c, main.c: replaced the default gateway
+	  GtkOptionMenu with a GtkComboBox
+
+2004-06-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+        * callbacks.c: Fixed a wrong cast
+        * connection.c, main.c: replaced the dial command GtkOptionMenu
+          with a GtkComboBox
+
+2004-06-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, main.c, connection.c: more porting to gtk+ 2.4, the
+	  modem device GtkCombo has been replaced with a GtkComboBoxEntry
+
+2004-06-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, main.c, network-druid.c: Porting network-admin to
+	  Gtk+ 2.4, chapter 4: wireless device GtkComboBoxEntry
+	* connection.c: fixed small bug when creating non IP_MANUAL eth-like
+	  devices and seeing its properties later
+
+2004-06-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.[ch], main.c, network-druid.c:
+	  Porting network-admin to Gtk+ 2.4, chapter 3: IP config type combo
+	  stuff
+
+2004-06-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, main.c, profile.c: Porting network-admin to Gtk+ 2.4,
+	  chapter 2: Profiles menu
+
+2004-06-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.c, dns.c, hosts.c: handled the
+	  "popup-menu" signal for tables
+
+2004-06-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.c, dns.c, hosts.c: Porting network-admin
+	  to Gtk+ 2.4, chapter 1: GtkAction
+
+2004-06-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: yet more strings improvements
+
+2004-06-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c, profile.c: improved some sentences
+
+2004-05-15  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.33.0
+
+2004-05-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* profile.c: added "essid" tag for saving profiles
+
+2004-05-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: made it sure that both strings exist before comparing.
+	  Fixes bug #141830
+
+2004-05-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c: used gst_tool_queue_directive () for
+	  polling the interfaces
+
+2004-05-04  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch]: added/removed some interface names, changed the 
+	  interfaces list column order, made it to get from the backend the
+	  interface name when creating a new connection, this is done because
+	  FreeBSD has it's own interface names 
+
+2004-05-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c, main.c: fixed a crash when applying the config in
+	  --configure mode
+
+2004-05-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: changed description strings for BOOTP and DHCP
+
+2004-04-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: added common FreeBSD interface names to the list
+
+2004-04-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.[ch], profile.[ch]: made the network
+	  tool to use the cool HIG message dialog
+
+2004-04-14  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.[ch], network-druid.[ch], main.c: unused 
+	  code removal. Removed connection description stuff. Added the 
+	  "apply and activate connection" checkbox in druid to enable 
+	  inmediatly an interface. Moved the Connections tab to the first 
+	  position, it's probably the most used feature
+
+2004-03-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c, transfer.c: made it to handle 
+	  correctly the interfaces with gateway, now it stores correctly 
+	  the gateway since the tool is run and adds/removes the 
+	  interface from the list depending on it's gateway ip existence
+
+2004-03-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c, network-druid.c: added again checks for telling the
+	  user that wvdial is not installed
+
+2004-03-27  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* network-druid.c: doesn't segfault if it cannot access the backend
+	  for guessing the modem
+
+2004-03-18  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: more fixes related to the last changelog entry
+
+2004-03-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c: some fixes related to reading PPP config
+	  from the XML, it can be both in the <interfaces> tag and inside the
+	  <dialing> section
+
+2004-02-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: (connection_dialog_setup_widgets) handled the case
+	  where the interface is unknown. Fixes bug #136262
+
+2004-02-26  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: made it to delete IP address related nodes when
+	  selecting DHCP or BOOTP, it might overwrite automatic values and
+	  turn configuration unusable
+
+2004-02-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], dns.c: enabled drag and drop to change the DNS IPs
+	  order, fixed some casts
+
+2004-02-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: added some checks for not trying to configure loopback
+	  interfaces
+
+2004-02-05  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.32.0
+
+2004-01-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* profile.c: made it to save the gateway too when creating a
+	  profile. fixes #132920
+
+2004-01-07  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.31.1
+
+2004-01-04  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: made the winsserver behave correctly when activating
+	  smb support
+
+2003-12-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.31.0
+
+2003-12-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.[ch], main.c, transfer.c: made it to hide the
+	  fewer/more options button. hopefully fixes bug #124209
+
+2003-12-14  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch]: (activate_directive_cb), (deactivate_directive_cb):
+	  moved functions to connection.c.
+	  (on_connection_de/activate_button_clicked): added callbacks
+	* connection.[ch]: (de/activate_directive_cb): moved from callbacks.c
+	  (connection_enable): added, this is the function that queues the
+	  "enable_iface" directive to the backend.
+	  s/connection_activate/connection_show_activated/
+	  Code improvements
+	* main.c: added the widgets
+
+2003-12-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* network.desktop.in.in: define X-MATE-Bugzilla-*, added patch by
+          Grzegorz Golawski <grzegol@pld.org.pl> to make the file
+          freedesktop standard's compliant
+
+2003-12-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: added a couple of error messages when an 
+	  interface isn't modified correctly
+	* callbacks.c: made it to close or leave correctly the interface 
+	  editing dialog if there is any error
+
+2003-12-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch], callbacks.c: added a function that polls the
+	  backend for knowing the enabled interfaces, it only works
+	  locally (not remotely, for performance purposes)
+	* connection.h: removed unused variable
+
+2003-12-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.30.0
+
+2003-12-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, profile.c: made it to save the nameservers in the
+	  profile, made it to reflect the nameservers and search domains
+	  profile changes in the UI again. fixes bug #128277
+
+2003-11-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, main.c, network-druid.[ch]: used generic strings for
+	  all the druid titles, fixes bug #125345
+
+2003-11-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* main.c: s/druid/assistant/g
+
+2003-11-10  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: removed trailing space in a translatable string. fixes
+	  bug #126007
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: made it compile again with gtk < 2.3
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c: added some feedback to let the user know
+	  what's going on when autodetecting modem device
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* network-druid.c: (network_druid_fill_wireless_devices_list) moved
+	  to make the compiler not to complain
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c: removed '\n' from several strings
+
+2003-10-26  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* network-druid.c: made it compile again with gcc < 3.2. fixes bug
+	  #125513
+
+2003-10-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.29.0
+
+2003-10-22  Carlos García Campos <elkalmail@yahoo.es>
+
+        * callbacks.[ch], connection.[ch], hosts.[ch]: added popup menus for
+          the different treeviews
+        * connection.c: removed unnecessary message dialog that is shown
+          when a host treeview entry is deleted
+
+2003-10-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: removed unused code
+
+2003-10-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.[ch], main.c, network-druid.c:
+	  added wireless support, general code cleaning and tidying.
+	* transfer.c: removed the loopback interface from the list
+
+2003-10-15  Carlos García Campos <elkalmail@yahoo.es>
+
+	* Makefile.am: added dns.c and dns.h files
+	* callbacks.[ch], main.c, transfer.[ch]: deleted the dns and search
+	  textviews and added treeviews instead
+	* dns.[ch]: files added for the dns tab code
+	
+2003-10-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* release 0.28.0
+
+2003-10-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c: made it not to crash when the user hits
+	  when the backend cannot answer to the modem_detect directive
+	  (because it's already busy with another directive)
+
+2003-10-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: (callbacks_check_hostname_hook) fixed an ancient and
+	  stupid bug which caused an inverted buttons behaviour when the
+	  "changed hostname" dialog appeared
+
+2003-10-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch], main.c: detects if it doesn't have any interface
+ 	  configured, if it doesn't, throws the druid
+
+2003-09-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.[ch], main.c, transfer.[ch]: added support
+	  for the --configure "interface" parameter through command line, so
+	  anyone can configure an interface directly without viewing the whole
+	  interface
+	* callbacks.c: (callbacks_check_dialer): fixed a stupid bug that tried
+	  to load a warning dialog from random memory
+
+2003-09-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* profile.[ch]: converted mega-xml-tags-comparison used in several 
+	  functions  into a single #define
+
+2003-09-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* profile.c: added profile_compare_* functions, to compare the current
+	  config with the profiles. Made the GtkOptionMenu with the profiles
+	  to show the current one.
+
+2003-08-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, connection.c, main.c: made network-admin to use
+	  gst_tool_main_with_hidden_dialog when running standalone druids,
+	  now they work again
+
+2003-08-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c (connection_iter): fixed a crasher bug when trying
+	  to add new interfaces. (connection_list_remove): made it to
+	  erase interfaces more correctly based on cxn->file	
+
+2003-08-25  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.27.0
+
+2003-08-21  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch]: (connection_get_stat_pixbuf) removed, changed
+	  the table to use checkboxes when showing the up/down status of
+	  an interface
+	* callbacks.[ch]: changed status changing callbacks to fit in the
+	  gtktogglecellrenderer "toggled" callback prototype
+
+2003-08-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch]: (connection_list_clear): added
+	* hosts.[ch]: (hosts_list_clear): added
+	* profiles-table.c: (profiles_table_populate): made it to clear the
+	  table before populating it, it now may be used again
+	* transfer.c: made it to clear the hosts and connection tables 
+	  before populating them
+	* network.desktop.in.in: added startup notify
+
+2003-07-29  William Jon McCann  <mccann@jhu.edu>
+
+	* connection.c (connection_iter): compare the file name instead
+	  of the device name when looking for duplicate entries in the
+	  connections list.
+
+2003-07-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* network.desktop.in.in: moved menu entry to "system tools"
+
+2003-06-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.c: added verbose volume to the volume
+	scale, mark translatable the strings
+
+2003-06-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: code style fixes, removed gdk_beep when the ip filter
+	failed
+	* connection.[ch], network-druid.c: added the possibility of dialing
+	to an external line
+
+2003-06-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], connection.c: removed the connect_editable_filter 
+	define
+	* hosts.c: block the "changed" signal from the alias text view when
+	the hosts treeview was clicked, it made the "apply" button turn
+	sensitive, removed a commented line
+
+2003-06-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: removed some unused code. fixed /etc/hosts edition,
+	now it works in a more sensible way
+	* main.c: ditto
+	* connection.[ch]: added a new field in the interfaces table to show 
+	the interface type
+	* hosts.c: removed some unused code
+
+2003-05-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.26.1
+
+2003-05-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* main.c: made the profiles button unsensitive when the tool runs
+	as user
+
+2003-05-26  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: fixed to make it compile under C99 compilers. fixes
+	bugs #113708 and #113389
+
+2003-05-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.26.0
+	 
+2003-05-18  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* profile.[ch], profiles-table.[ch]: added, here is all the network
+	profiles stuff
+	* Makefile.am: reflect this
+	* callbacks.[ch]: added network profiles callbacks
+	* main.c: removed unused callbacks, added network profiles callbacs to
+	the GstSignal array
+	* transfer.[ch]: (transfer_profile_to_gui) added
+
+2003-05-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.25.0
+
+2003-04-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* network-druid.[ch]: added, here is all the connection druids stuff
+	* ppp-druid.[ch]: removed, here was all the ppp druid stuff
+	* Makefile.am: reflect this
+	* callbacks.[ch], main.c: removed all ppp-druid stuff, added 
+	network-druid stuff
+	* connection.[ch]: s/GST_CONNECTION_WVLAN/GST_CONNECTION_WLAN/, 
+	changed some more things to reuse code
+
+2003-04-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch], hosts.[ch], ppp-druid.[ch]: removed all callbacks,
+	  moved to callbacks.[ch], this is for consistency with the other
+	  tools and for making the code less messy (IMHO)
+	* callbacks.[ch]: added all callbacks
+
+2003-03-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: mark "set modem as default route to internet" 
+	option by default in a PPP connection. Fixes bug #108434
+
+2003-03-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: made it to ask before enabling or disabling
+	  interfaces. Fixes bug #108724
+
+2003-03-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: added modem autodetection function
+
+2003-03-13  Christian Neumair  <chris@mate-de.org>
+
+	* *.(c|h): s/XST/GST/, s/Xst/Gst/, s/xst/gst/.
+	* Makefile.am: Reflect that.
+
+2003-03-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: (filter_editable): removed these eye-hurting gotos.
+	  (is_ip_text_ok): rewritten, this is against any structured
+	  programming principle, and is eye-hurting too, but works for
+	  IPv4, IPv6 and IPv4 embedded in IPv6
+	  (get_address_section_value) added
+	* transfer.c: removed a g_print()
+
+2003-03-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.24.0
+
+2003-02-21  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* hosts.c: fixed a little typo
+
+2003-02-21  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.23.0
+
+2003-02-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* moved from OK,Cancel to Cancel,OK in new interface dialog (patch
+	  from Carlos García Campos)
+	* connection.c, hosts.c: moved hosts and interfaces lists from code
+	  to glade.
+
+2003-02-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.[ch], main.c, callbacks.c: Added more modem options,
+	  such as modem volume and dialing type (tones, pulses)
+
+2003-01-14  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: come code did not follow the gst coding style, fixed
+
+2002-12-30  Carlos Garnacho on behalf of Carlos Garcia Campos <elkalmail@yahoo.es>
+
+	* connection.c, main.c: fixed bug #98813
+	* hosts.c: set rules hint in the GtkTreeView, just like the other tools
+
+2002-12-29  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: fixed bug #99844
+
+2002-12-18  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.*: fixed to make the ppp interface work (at least in
+	  debian)
+
+2002-12-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+        * Release 0.22
+
+2002-11-22  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: solved compile warnings
+
+2002-11-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: solved bug #98816
+
+2002-11-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* transfer.h: removed old mate-xml includes
+
+2002-11-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* connection.c: (on_ip_address_focus_out) made return FALSE to let the
+	  text box handle the focus out signal
+
+2002-09-13  Carlos Garnacho Parro  <garparr@teleline.es>
+	
+	* callbacks.c, connection.c, hosts.c, main.c, ppp-druid.c,
+          transfer.c: Made it compile with the *_DISABLE_DEPRECATED flags
+
+2002-09-03  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* Release 0.21.0
+
+2002-08-31  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* Release 0.20.0
+
+2002-04-22  Kjartan Maraas  <kmaraas@mate.org>
+
+	* callbacks.c: Fix a missing space in a string.
+	
+2002-04-10  Tambet Ingo  <tambet@ximian.com>
+
+	* hosts.c: Removed some old junk.
+
+	* connection.c (connection_list_select_connection): Check return value, doh.
+
+2002-04-08  Tambet Ingo  <tambet@ximian.com>
+
+	* Port to the MATE 2.0 platform, usable, with
+	some little bugs.
+
+2002-02-11  Seth Nickell  <snickell@stanford.edu>
+
+	reviewed by: <delete if not using a buddy>
+
+	* network.desktop.in.in:
+
+2002-02-10  Chema Celorio  <chema@celorio.com>
+
+	* Port to the MATE 2.0 platform
+
+2002-02-08  Chema Celorio  <chema@celorio.com>
+
+	* configure.in: 0.12.0 here we go
+
+2002-01-02  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (on_connection_deactivate_clicked): Use
+	async directives again.
+	POLL_HACK activated again.
+	Removed debug stuff.
+
+2001-12-20  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_string_list_gui_to_xml): Skip
+	(transfer_string_is_empty): Check if a string is not
+	composed of alnums.
+	(transfer_string_list_gui_to_xml): skip empty lines.
+	This avoids empty entries in /etc/resolv.conf.
+
+	* connection.c (connection_init_clist): Made the colum
+	titles passive: they don't do anything.
+
+2001-12-19  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (callbacks_tool_not_found_hook): removed
+	debug code.
+	(on_connection_deactivate_clicked): Don't use async
+	directive queuing.
+	(on_connection_activate_clicked): same.
+
+	* connection.c (connection_default_gw_set_manual): Check
+	remote_address first before g_strdup'ing.
+	(connection_default_gw_add): Receive the whole connection
+	structure and do a smarter detection of lo ifaces.
+
+2001-12-18  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_new_from_node): Don't derive
+	gateway from global gateway: they mean different things.
+
+	* transfer.c (transfer_interfaces_to_xml): save those
+	interfaces in the hidden list too.
+	(transfer_interfaces_to_gui): update the connection
+	complexity, to hide the lo ifaces if necesary.
+
+	* connection.c (connection_update_row_do): some wrappers
+	for the lo connection hiding hack.
+	(connection_add_to_list_do): same.
+	(connection_update_complexity_advanced): complexity handlers.
+	(connection_update_complexity_basic): same.
+	(connection_update_complexity): same.
+	(connection_actions_set_sensitive): moved from callbacks.c
+
+	* callbacks.c (on_connection_list_select_row): unsensitize
+	buttons only if in basic mode.
+	(on_network_admin_show): call connection_init_gui from here.
+
+	* connection.c (connection_dialog_set_visible_pages): Hide DHCP
+	options if configuring a lo iface.
+
+2001-12-18  Tambet Ingo  <tambet@ximian.com>
+
+	* callbacks.c (callbacks_has_dialer): Implement. Before I got warning
+	message about missing wvdial even though I didn't use PPP.
+	(callbacks_check_dialer): Use it!
+	(callbacks_check_dialer_hook): ditto.
+
+2001-12-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* hosts.c (on_hosts_delete_clicked): Take the first field, not the
+	second. This made the confirmation not to make sense.
+
+2001-12-11  Israel Escalante <israel@ximian.com>
+
+	* Release 0.10.0.
+
+2001-12-11  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c (main): add the new check_hostname hook.
+
+	* callbacks.c (callbacks_check_hostname_hook): was using freed memory
+	to set the old entrie's value. fixed.
+	(callbacks_tool_not_found_hook): Warn the user if some important program
+	ran by the backend was not found.
+
+2001-10-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (poll_connections_cb): Quick hack to make the
+	clist change if an interface changed status by an external program.
+
+2001-12-02  Chema Celorio  <chema@celorio.com>
+
+	* move more stuff into CommonMakefile
+
+	* Makefile.am: replace the @XST_TOOL_DESKTOP_IN_RULE@ with :
+	include ../common/CommonMakefile. If this does not break anything
+	i'll make the same for the rest of the tools.
+
+2001-10-16  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c: Relocated POLL_HACK #ifdef to avoid warnings.
+
+2001-10-06  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (on_network_notebook_switch_page): If the connections
+	page is selected, start polling timeouts, but only the first time.
+	(poll_connections): The timeout function that queues the directive.
+	(poll_connections_cb): The directive callback that processes the
+	XML and animates the clist rows.
+	Some other minor changes to make all this work.
+	All this is disabled: uncomment the POLL_HACK #define.
+
+2001-09-25  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c: In general, removed the tool global variable, but had to leave
+	it there because the callbacks depend to heavily on this.
+
+	* connection.c (load_icon): Hack to make pixmap be centered on row too,
+	required because of a bug in GtkCList.
+	(connection_init_clist): Set the rowheight to double the size.
+	(connection_add_to_list): Set the shift of every cell manually, to center
+	the text and pixmaps.
+
+2001-09-13  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* ppp-druid.c (ppp_druid_new): indentation.
+
+	* connection.c (connection_configure): removed minor leak.
+
+2001-09-05  Chema Celorio  <chema@celorio.com>
+
+	* connection.c (connection_configure): set cxn->tmp_ip_config everytime
+	the dialog is configured. Fixes a bug i found at LWE while demoing the tools
+	where the sensitivity of the IP entry fields will not be set correctly from
+	the connection type. Other code cleaning.
+
+2001-08-15  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.h: added #ifndef __CALLBACKS_H__ hack.
+
+2001-08-09  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_configure): Call the check every
+	time a ppp connection is going to be configured.
+
+	* callbacks.c (callbacks_check_dialer): Pop dialog complaining
+	wvdial is not installed if such is the case.
+
+2001-07-25  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_dev_get_next): Deprecated.
+	(connection_new_from_type): Figure a new device name. Just
+	gets the next dev number (eth0, eth1, etc). TODO: get a
+	list of detected (ifconfig -a) ifaces and take next from
+	there.
+	(connection_configure): Disabled wavelan settings tab
+	until this stuff is supported.
+
+	* callbacks.c (on_connection_add_clicked): irlan support.
+
+Wed Jul 25 03:13:49 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_addr_to_str): use %u, not %d.
+	(hookup_callbacks): Also check netmask when leaving
+	netmask entry.
+	(connection_updatedns_supported): PLIP is not supported
+	by pump.
+
+2001-07-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_configure): Change pixmap on
+	the General Tab for all connection types, now that we
+	have the pixmaps.
+	(connection_check_netmask_gui): Taken out from
+	on_ip_address_focus_out for empty_ip to use.
+	(connection_set_bcast_and_network): calculate this info
+	from cxn->address and cxn->netmask, if possible.
+	(connection_str_to_addr): helper.
+	(connection_addr_to_str): same.
+	(empty_ip): Do connection_check_netmask_gui befor getting info.
+	(connection_addr_to_str): Removed unused variable.
+
+2001-07-23  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (on_ip_address_focus_out): minor style edit.
+	(connection_type_is_lan): helper.
+	Added IRLAN support all over the place.
+	(connection_default_gw_check_manual): IRLAN is same as
+	ETH and WVLAN.
+	(connection_default_gw_set_manual): same.
+	(connection_type_is_lan): same.
+	(connection_new_from_type): same.
+	(connection_validate): same.
+	(connection_empty_gui): Made eth case explicit. Added irlan.
+	(fill_ip): Renamed "blah" array (wtf?) to bootproto_labels.
+	Waiting for IRLAN icon to be produced. #3059 marked NOTABUG.
+	(connection_configure): Change the pixmap on the General tab
+	depending on the connection type.
+
+2001-07-19  Joakim Ziegler  <joakim@ximian.com>
+
+  * connection.c: Some robustness fixes from Hans Petter.
+
+  * connection.c (on_ip_address_focus_out): Added netmask auto-fillin on
+  focus out from the ip address.
+
+Sun Jul 15 03:32:43 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_configure): If distro doesn't support
+	mortal user control of interface activation, hide corresponding
+	widget.
+	(on_connection_modified): Removed debug warning.
+
+	* callbacks.c (on_connection_deactivate_clicked): Save tool
+	if it has changed.
+	(on_connection_activate_clicked): same.
+
+	* main.c (main): removed update_connections hook registration.
+
+	* connection.c (connection_update_row_enabled): We're departing
+	from the "To (Ina/A)ctivate" model: just use "(Ina/A)ctivate".
+
+	* callbacks.c (callbacks_update_connections_hook): Use
+	connection_update_clist_enabled_apply now.
+
+	* connection.c (connection_update_clist_enabled_apply): Change all
+	connections from "To (Ina/A)ctivate" to "(Ina/A)ctive).
+
+Sat Jul 14 15:18:43 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_new_from_node): Set new file struct member.
+
+	* callbacks.c (on_connection_activate_clicked): Run enable_iface
+	directive to perform operation.
+	(on_connection_deactivate_clicked): same.
+
+Fri Jul 13 19:10:59 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c (update_notebook_complexity): Return trivialy if
+	hosts container has no page, because that could happen if
+	the tool starts in advanced mode.
+
+	* connection.c (connection_updatedns_supported): Tell if the
+	connection can handle the updatedns tag.
+	(connection_save_to_node): If it has support, then save the
+	updatedns node.
+	(on_connection_ok_clicked): Only connection_config_save
+	if cxn->modified, making OK button not highlight Apply if no
+	changes were made.
+
+2001-07-12  Chema Celorio  <chema@celorio.com>
+
+	* main.c (main): set the complexity before calling
+	xst_tool_main
+
+2001-07-11  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_gatewaydev_to_xml): Set gatewaydev
+	AND gateway tags. gatewaydev only if supported by distro.
+
+	* connection.c (connection_default_gw_init): Renamed from
+	connection_default_gw_init. Setup "Auto" entry, which comes
+	from the glade file too.
+	(connection_default_gw_get_connection): Get the connection
+	struct that has been chosen for gatewaydev.
+	(connection_default_gw_check_manual): Check if this connection
+	is ready to point to a default gw. Return first found problem.
+	(connection_default_gw_fix): Fix the problem.
+	(connection_default_gw_set_manual): Assuming the connection
+	is ready, go ahead and set the user_data accordingly.
+	(connection_default_gw_find_static): Try fo find an active
+	ethernet or wavelan connection with a static gateway definded.
+	(connection_default_gw_find_ppp): Try fo find an active PPP
+	connection with the default_gw bit on.
+	(connection_default_gw_find_dynamic): Try fo find an active
+	ethernet or wavelan connection with dynamic configuration.
+	(connection_default_gw_find_plip): Try fo find an active plip
+	connection with a set remote address.
+	(connection_default_gw_set_auto): Try all the above, in that
+	order, and use that connection as the default gw device.
+	(connection_find_by_dev): Find in connection_list a connection
+	with given dev name.
+	Changed FIXME #warnings to comments.
+
+	* main.c: cosmetic stuff.
+
+	* callbacks.c (callbacks_check_hostname_hook): cosmetic.
+	(callbacks_disabled_gatewaydev_warn): Tell the user
+	that the default gw is not activated, with option to
+	immediately activate.
+	(callbacks_check_manual_gatewaydev): The default gw
+	has been manually set. Check that the device can have a
+	default gateway, and if so, set it.
+	(callbacks_check_gateway_hook): Hook for checking that
+	the stuff from the default gw widget is ready.
+
+2001-07-10  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (callbacks_check_hostname_hook): memory
+	leak.
+
+	* main.c (connect_signals): Connect selection-done to
+	set selected device.
+	(update_notebook_complexity): Move from page only if
+	current page is the one to remove.
+
+	* transfer.c (transfer_gatewaydev_to_xml): Get selected
+	value and put into corresponding tag.
+	(transfer_xml_to_gatewaydev): converse.
+	(transfer_misc_tool_to_xml): Just to keep with the naming.
+	(transfer_misc_xml_to_tool): Do the gatewaydev stuff too.
+	(transfer_gui_to_xml): Do the misc stuff too.
+
+	* connection.c (connection_update_complexity): Removed:
+	using XstWidgetMode for this.
+
+2001-07-09  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_update_complexity):
+	Show/hide default gw option menu.
+	(connection_default_gw_exists): Check if a dev
+	is already in defgw omenu.
+	(connection_default_gw_add): Add a dev to the omenu.
+	(connection_default_gw_remove): Remove.
+
+	* main.c (update_notebook_complexity): Remove and
+	append Hosts tab depending on complexity.
+	(main): activate complexity support.
+	(update_complexity): callback.
+
+2001-06-18    <chema@celorio.com>
+
+	* connection.c: s/networking/network/g .png
+
+2001-05-31  Tambet Ingo  <tambet@ximian.com>
+
+	* connection.c: Removed (my_entry_set_text).
+	Replaced calls with xst_ui_entry_set_text.
+
+2001-05-29  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_validate): Check if
+	the information for a connection is consistent.
+	Display error message if not.
+	(strempty): helper.
+	(connection_config_save): Validate connection
+	info befor accepting changes.
+	(connection_empty_gui): Sepparated from
+	connection_config_save.
+	(connection_config_save): Also copy ip_config
+	struct members, fixing bug 3115.
+
+2001-05-28  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (hookup_callbacks): Do IP checks on
+	the pertinent connection entries too.
+
+	* callbacks.c (filter_editable): Special case check
+	for EF_ALLOW_IP
+	(str_insert_text): inserts one string into another.
+	(is_ip_text_ok): Routine that checks if a string
+	is not an invalid partial IP.
+
+2001-05-29  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am (network_admin_LDADD): use XST_LIBS
+	(network_admin_LDADD): clean
+
+2001-05-26  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_clist_cmp): tyring to strcmp
+	null strings? Refrain.
+	(my_strcmp): Part of the same fix to bug 3055.
+
+2001-05-25  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.h: removed peerdns from connection struct.
+
+2001-05-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* ppp-druid.c (ppp_druid_save): peerdns has been deprecated.
+	Using update_dns.
+
+2001-05-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* 0.5 RELEASE
+
+2001-05-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.[hc], callbacks.c: fixed a couple of trivial
+	warnings and made Unknown interfaces appear with the
+	default icon and device name in connections list.
+
+2001-05-23  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_misc_xml_to_tool): Added smartdhcpcd
+	userdata, although it is not required now.
+
+	* main.c: More dns_dhcp removing.
+
+	* connection.c: Lots of changes to make the update_dns
+	connection checkbox work and be hidden in unsupporting distros.
+
+	* callbacks.c (on_network_admin_show): removing dns_dhcp code.
+	(on_network_notebook_switch_page): Focus the domain entry when
+	witching now.
+	(on_dns_dhcp_toggled): removed.
+
+2001-05-24  Chema Celorio  <chema@celorio.com>
+
+	* callbacks.c : added g_return_if_fail checks.
+
+	* connection.c (connection_update_row): XST_CONNECTION_UNKNOWN is -1,
+	and we where using it as an array offset of mini_pm[cxt->type]. Fixed.
+	
+	- added a bunch of g_return_if_fail.
+
+2001-05-23  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* hosts.c (on_hosts_alias_changed): changed warning to simple
+	if/return: mortal users are allowed to view the information.
+
+2001-05-22  Carlos Perelló Marín <carlos@mate-db.org>
+
+	* connection.c: Marked xst_iface_desc[i].description to be translated
+	as Arturo has suggested me.
+
+2001-05-21  Chema Celorio  <chema@celorio.com>
+
+	* callbacks.c: minor cosmetic fix
+
+2001-05-18  Hans Petter Jansson  <hpj@ximian.com>
+
+	* *.pam: Modified PAM configuration so that invoking as root works.
+
+2001-05-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	* *.pam: Modified PAM configuration so that console-helper will ask
+	  for root auth.
+
+2001-05-14  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_xml_wvsection_has_name): Segmentation
+	fault bug fixed by Gérard Milmeister <gemi@bluewin.ch>.
+
+2001-05-13  Chema Celorio  <chema@celorio.com>
+
+	* ppp-druid.c (ppp_druid_check_last): don't include newlines in
+	strings, use \n instead
+
+2001-05-13  Chema Celorio  <chema@celorio.com>
+
+	* ppp-druid.c: s/..\/common/globa.h/xst.h/g
+
+2001-05-12  Chema Celorio  <chema@celorio.com>
+
+	* transfer.c (xst_xml_element_get_boolean): remove from here and put
+	in src/common/xst-xml
+
+2001-05-10  Chema Celorio  <chema@celorio.com>
+
+	* main.c (main): update to the new initialization method
+
+2001-05-09  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* 0.4 RELEASE
+
+2001-05-08  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (xst_xml_element_get_boolean): utility.
+	(transfer_misc_xml_to_tool): Also get the dialinstalled
+	flag from the XML.
+
+	* main.c (main): add check_dialer apply hook.
+
+	* callbacks.c (on_network_admin_show): hiding dns_dhcp
+	until it actually does sth.
+	(callbacks_check_dialer_hook): Warn the user if wvdial
+	is not installed.
+
+	* transfer.c (transfer_string_list_gui_to_xml): fixed
+	core dump caused by editables not ending in \n.
+
+2001-04-26  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am: add $(srcdir) to security.in
+
+2001-04-20  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c (main): Moved init_editable_filters inisde else
+	clause: it's not required for the ppp druid.
+
+	* connection.c (hookup_callbacks): put some filters to the
+	entries in the connection dialog too.
+
+	* callbacks.c (is_char_ok): Allow _ and - if EF_ALLOW_TEXT.
+	(init_editable_filters): Moved code from main() to here.
+
+2001-04-19  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c (main): spaces are not allowed for the alias text area.
+
+	* hosts.c (xst_hosts_update_sensitivity): change button is no longer used.
+	(on_hosts_alias_changed): record updating is done now as we type.
+
+	* connection.c (connection_update_row): Doesn't call connection_update_enabled
+	  anymore. Calling this by hand where needed in this file.
+
+	* callbacks.c (on_dns_dhcp_toggled): changes sensitivity for the whole
+	  dns_table.
+
+	* transfer.c (transfer_misc_xml_to_tool): add an object data that flags if
+	  the tool has passed the configuration phase, so the callback knows what's
+	  the conext.
+
+	* main.c: samba_use widget doesn't automatically call modify_cb: it depends
+	  on samba being actually installed.
+
+	* connection.c (connection_clist_cmp): comparisong function that sorts by
+	  dev, then by description.
+	(connection_init_clist): Configure the connections clist.
+	(connection_init_gui): call init_clist.
+	(connection_add_to_list): deleted spurious code.
+
+	* callbacks.c (on_connection_add_clicked): use new_from_type.
+	(on_samba_use_toggled): Check if we are in configuration fase. If so and
+	  samba is not installed and we are trying to activate smb, show message.
+	  Don't call modify_cb if !smb_installed.
+
+
+2001-04-17  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_misc_xml_to_tool): set flags and variables that don't
+	  have a related GUI element, such as smb_installed.
+	  In general, passed the tool var to all functions and deleted global tool
+	  pointer.
+
+	* callbacks.c (on_samba_use_toggled): if samba is not installed, don't allow
+	  windows networking activation, and send according message to user.
+
+	* connection.c (empty_general, fill_general, hookup_callbacks): removed code
+	regarding the old "enable" check, which caused warnings.
+
+2001-04-14  Chema Celorio  <chema@celorio.com>
+
+	* connection.c (connection_dev_get_next): add a g_return_if_fail to
+	avoid a crash. Add a #warning so that arturo fixes the real problem.
+
+2001-04-03  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c (main): add update_connections hook.
+
+	* connection.c (connection_set_row_pixtext): Sepparated this code
+	from connection_update_row_enabled to call from new hook.
+
+	* callbacks.c (callbacks_update_connections_hook): A hook to change
+	the connections labels when applying.
+
+2001-03-30  Tambet Ingo  <tambet@ximian.com>
+
+	* Makefile.am: Add mateconf cflags.
+
+2001-03-28  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_string_entry_table): Added smbuse entry.
+
+2001-03-23  Tambet Ingo  <tambet@ximian.com>
+
+	* connection.c (connection_xml_get_str): Removed. We already had that
+	  function in common/xst-xml.c Replaced in callers too.
+
+2001-03-22  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (on_connection_delete_clicked): If the connection has
+	  no name, don't try to display it when confirming.
+	* connection.c: PLIP connections don't require the netmask param
+	  anymore.
+	* connectioin.[hc]: When creating an interface, the configure
+	  dialog comes up. If Cancel is hit, delete the interface.
+
+2001-03-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* main.c: Added widget policy table.
+	  (main): Added call to xst_dialog_set_widget_policies ().
+
+	* callbacks.c (on_network_admin_show): Removed manual widget policing
+	  based on access.
+	  (connection_actions_set_sensitive): Use
+	  xst_dialog_widget_set_user_sensitive ().
+	  (on_dns_dhcp_toggled): Ditto.
+	  (on_samba_use_toggled): Ditto.
+	  (on_wins_use_toggled): Ditto.
+	  (callbacks_check_hostname_hook): Fixed spelling and broke up string
+	  for nicer source formatting.
+
+2001-03-12  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c: PLIP support. Don't care if nobody cares.
+	* hosts.c: deleted all debug messages.
+	* ppp-druid.c: deleted all debug messages.
+	* transfer.c: deleted all debug messages.
+	
+2001-03-12  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_update_row_enabled): Function that
+	  sets the "active" column, and if it is to enable, disables all
+	  other connection configurations that use the same device.
+	  (connection_update_row): Use the new function.
+
+	* callbacks.c (on_connection_activate_clicked): Use the new function.
+	(on_connection_deactivate_clicked): Use the new function.
+
+2001-03-05  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c (main): Add callbacks_check_hostname_hook to the list of
+	apply hooks.
+
+	* callbacks.c (callbacks_check_hostname_hook): Check if hostname
+	changed, and if so, warn the user with the option to revert the
+	host change.
+
+2001-03-01  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* main.c: added activation callbacks to table.
+
+	* connection.c (connection_update_row): Made this function public.
+
+	* callbacks.c (on_connection_deactivate_clicked): activation callback.
+	(on_connection_activate_clicked): activation callback.
+
+	* connection.c (load_icon): scale to 16x16, not 24x24. Now the list
+	looks much better.
+	* moved to new unified xst_iface_desc table, instead of a bunch of
+	little tables.
+
+2001-03-01  Chema Celorio  <chema@celorio.com>
+
+	* connection.c (load_icon): constify
+	move all the table of connection types outside. This is not compiling
+	but Arturo is going to finish it.
+
+2001-03-01  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (on_connection_delete_clicked): Better confirm message.
+
+	* connection.c (connection_free): free allocated strings and destroy
+	XML node.
+
+2001-02-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am: Disable control-center entry.
+
+2001-02-28  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_wvsection_name_generate): forgot ++i. it hung.
+
+2001-02-27  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_string_entry_table): add wins_use.
+	(transfer_string_entry_xml_to_gui): fix support for toggle buttons.
+	(transfer_string_entry_gui_to_xml): fix support for toggle buttons.
+
+	* main.c: signals for wins_use.
+
+	* hosts.c (xst_hosts_update_sensitivity): don't let loopback
+	statichost entry be modified.
+	(on_hosts_add_clicked): highlight newly added entry.
+
+	* connection.c (connection_new_from_node): take global gateway
+	param if one for the connection is not present.
+	(fill_ppp_adv): set wins_use state.
+
+	* callbacks.c (on_connection_delete_clicked): Activate "Apply".
+	(on_wins_use_toggled): callback for new check button.
+	
+
+2001-02-27  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am (EXTRA_DIST): distcheck fixes
+
+2001-02-27  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* ppp-druid.c (my_get_widget): support new widget name prefix.
+	  (ppp_druid_get_serial_port): to get the default serial port:
+	  most people have only 1 modem.
+	  (ppp_druid_save): get all required info into the connection
+	  structure and signal the tool to apply.
+	  (ppp_druid_gui_to_xml): tool callback to apply the ppp druid
+	  info into the XML.
+
+	* main.c (watch_it_now_watch_it): not pertinent anymore.
+	  all widgets connected to delete_text are now connected to changed.
+	  (main): popt options moved here.
+	  Due to glade file merge, start-up code is now better shared.
+	  
+
+	* connection.c (connection_wvsection_name_generate): replacement for
+	  devkey_generate. This one creates a less arbitrary name.
+	  (connection_dev_get_next): Try to find the next device of the requested
+	  type. Useful for ppp, but will probably have to be more intelligent for
+	  other interface types.
+	  (connection_get_serial_port_from_node): Get the modem device for a
+	  wvsection. Very useful for section "Defaults".
+	  (connection_new_from_type): don't call add_connection_to_list here.
+	  (connection_new_from_type_add): do it here. For code reusability. Also,
+	  pass the root node in these two, to use the system discovery tags.
+
+	* callbacks.c (on_connection_list_select_row): don't set the actions sensitive
+	  if a loopback interface is selected.
+	
+2001-02-26  Chema Celorio  <chema@celorio.com>
+
+	* hosts.c: more fixes for the hosts lists
+
+2001-02-26  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* transfer.c (transfer_string_clist2_gui_to_xml_item): Take data from correct rows.
+
+2001-02-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.[hc]: peerdns support.
+	
+2001-02-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_xml_wvsection_search): specify type you are looking for.
+	(connection_xml_wvsection_get_inherits_node): for the code's sake. Also, improves
+	wvdial support, as this function looks for the Defaults section if the section
+	doesn't inherit anything.
+	(connection_xml_wvsection_node_get_str): Finally, a compact function that gets it
+	right too.
+
+2001-02-23  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.h: struc Connection: use gchar, gint and gfloat types. file field.
+
+	* connection.c (connection_devkey_generate): name change from wvsection_generate.
+	(connection_get_ppp_from_node):	for code readability. Don't get if interface is
+	not CONNECTION_PPP type.
+	(connection_new_from_node): handle the file tag.
+	(connection_new_from_type): the default autoboot value varies on the type.
+	
+
+2001-02-23  Chema Celorio  <chema@celorio.com>
+
+	* main.c: update some signals
+
+	* hosts.c: and into here. Rewrite it is now smarter when the user
+	types an ip that is on the list. The button sensitivity now makes
+	a bit more sense than before.
+
+	* callbacks.c: remove all the statichosts from here
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* callbacks.c (on_statichost_add_clicked): remove the enable/disbale
+	thingie.
+
+	* transfer.c (transfer_string_clist2_xml_to_gui): remove the enable/disable
+	thingie
+
+	* callbacks.c (on_statichost_update_clicked): remove the enable thingie
+	(on_statichost_add_clicked): ditto
+	(on_statichost_changed): ditto
+
+2001-02-22  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* connection.c (connection_xml_wvsection_search): return the node of a wvsection, by name.
+	* connection.c (connection_xml_wvsection_save_str_to_node): and the boolean counterpart.
+	* connection.c (connection_wvsection_generate): generate a random wvsection name.
+	* connection.c: a bunch of widget renamings, for consistent naming, and PPP parameter saving.
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* transfer.c (transfer_string_clist2_xml_to_gui): plug a mem-leak
+	: remove g_prints
+	(transfer_string_clist2_xml_to_gui): another one
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* add xst_ prefix to the xml_ functions
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* connection.c: fix cvs conflicts
+
+2001-02-22  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* callbacks.c (scrolled_window_scroll_bottom): helper.
+	  Changed the connection_type* widget names.
+	* callbacks.c (on_connection_add_clicked): When adding a connection, 
+	  pop up its config dialog immediatly, and scroll clist to the bottom, 
+	  to see the newly created element.
+	* connection.c: Changed all status_button stuff to status_enabled.
+	  wvsection XML reading functions for ppp parameters.
+	* connection.c (connection_new_from_node): Fill all the ppp params.
+	* connection.c (fill_ppp): implemented.
+	* connection.c (fill_ppp_adv): implemented.
+	* connection.c (connection_configure): kill ip page when configuring for
+	  a ppp iface.
+	* connection.h (Connection): new ppp members in structure.
+
+2001-02-21  Chema Celorio  <chema@celorio.com>
+
+	* transfer.c (transfer_gui_to_xml): remove #if 0 that I left
+	here.
+
+2001-02-21  Chema Celorio  <chema@celorio.com>
+
+	* connection.c (connection_description_from_type): return a const
+	string. Avoids a crash.
+	(connection_new_from_node): g_strdup the string that goes
+	into cxt->name.
+
+2001-02-21  Arturo Espinosa  <arturo@ximian.com>
+
+	* connection.c: changed some callback names and set stuff up
+	  for the new OK/Cancel dialog form.
+	
+2001-02-20  Arturo Espinosa  <arturo@ximian.com>
+
+	* connection.c: added static directive to all functions that
+	  were not used elsewhere. Renamed some callbacks to follow
+	  glade naming.
+	  (my_get_widget): issues warning when widget could not be found.
+	  (my_entry_set_text): if text is NULL, use empty string.
+	  (connection_xml_get_str): saves from repetitive work.
+	  (connection_xml_get_boolean): same.
+	  (connection_xml_save_str_to_node): creates/destroys node if necessary.
+	  (connection_xml_save_boolean_to_node): same, just interpreting as a boolean.
+	  (connection_config_type_from_str): take XML string value, give a type.
+	  (connection_config_type_to_str): take connection type, give XML string value.
+	  (connection_init_icons): saner name for init_icons.
+	  Commented out add_connections_to_list.
+	  (connection_description_from_type): gives a default description to interfaces, by type.
+	  Handle PLIP and LO connection types.
+	  (connection_save_to_node): Write dev, name, enabled, user, auto, address, netmask, broadcast,
+	  network, gateway and bootproto features.
+	  (connection_new_from_node): same, but for reading. Save xml node used for subsequent saving.
+	* connection.h:
+	  (Connection): handle new features, and renamed others to match tag names.
+	    Member to keep xml node.
+	  Added "extern" directive to public functions.
+	  PLIP and LO connection types.
+	* main.c: call connection_init_icons instead.
+	* transfer.c: uncomment interface saving call.
+	
+2001-02-19  Chema Celorio  <chema@celorio.com>
+
+	* transfer.c (transfer_string_clist2_gui_to_xml): split into
+	(transfer_string_clist2_gui_to_xml_item): and clean 
+
+2001-02-19  Arturo Espinosa  <arturo@ximian.com>
+
+	* transfer.c: don't add "enabled" attribute.
+	  Fixed bug that repeated ip tag inside statichost tags.
+	* connection.c: (connection_new_from_node): set enabled bool.
+	  method tag is now named bootproto. comply.
+
+2001-02-17  Chema Celorio  <chema@celorio.com>
+
+	* main.c (options): add options to network. 
+	(main): only run the internet druid if "--internet" is specified on
+	the command line
+
+2001-02-17  Arturo Espinosa  <arturo@ximian.com>
+
+	* ppp-druid.c: support for password confirmation, a more general
+	  entry activation handler and command argument parsing: now you
+	  use --internet_druid to come up with the druid.
+	  
+2001-02-16  Chema Celorio  <chema@celorio.com>
+
+	* network.desktop.in: change the name to Newtworking
+	from Networking 2
+
+2001-02-16  Arturo Espinosa  <arturo@ximian.com>
+
+	* ppp-druid.c: the GUI is almost finished. Added some warning
+	  labels that come up when the user is trying to put invalid
+	  data. The code has been tested an bug fixed.
+	
+2001-02-15  Arturo Espinosa  <arturo@ximian.com>
+
+	* ppp-druid.[hc]: Initial experimental code for druid.
+	  Still lacking a couple of functions, but almost complete.
+	  No XML transferring yet.
+	
+2001-02-12  Arturo Espinosa  <arturo@ximian.com>
+
+	* ppp-druid.[hc]: We'll start coding in these files the
+	internet connection druid.
+	* Makefile.am: take these new files as sources too.
+
+2001-02-09  Chema Celorio  <chema@celorio.com>
+
+	* transfer.c (transfer_string_list_gui_to_xml): fix a bug
+	when we multiple entries where beeing merged.
+
+2001-02-06  jacob berkman  <jacob@ximian.com>
+
+	* main.c: add signals list
+
+2001-02-03  Christian Meyer  <chrisime@mate.org>
+
+	* network.desktop.in: Added German strings.
+	 
+2001-02-02  jacob berkman  <jacob@ximian.com>
+
+	* *.c: port to new api
+
+2001-01-29  Arturo Espinosa  <arturo@ximian.com>
+
+	* connection.c: connection_new_from_dev_name: take the connection
+	type from the device name, displaying the right icon for the loaded
+	configuration.
+
+2001-01-29  jacob berkman  <jacob@ximian.com>
+
+	* callbacks.c: use more helpful messages
+
+2001-01-18  jacob berkman  <jacob@ximian.com>
+
+	* connection.c (update_status): fixup activate stuff
+
+	* transfer.c: read the interfaces from the backend
+
+	* connection.c (connection_configure): fix up the help button, but
+	disable it for now since there is no help for this dialog
+
+2001-01-16  jacob berkman  <jacob@ximian.com>
+
+	* connection.c: fix sensitivity on ip page based on config type.
+	Also some other stuff.
+	
+2001-01-15  Chema Celorio  <chema@celorio.com>
+
+	*  Start ChangeLog
+

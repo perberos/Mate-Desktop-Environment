@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TotemPlugin</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Totem Reference Manual">
+<link rel="up" href="core-api.html" title="Core API">
+<link rel="prev" href="totem-Interface.html" title="Interface">
+<link rel="next" href="BaconVideoWidget.html" title="BaconVideoWidget">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="totem-Interface.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="core-api.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Totem Reference Manual</th>
+<td><a accesskey="n" href="BaconVideoWidget.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#TotemPlugin.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#TotemPlugin.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#TotemPlugin.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#TotemPlugin.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry" title="TotemPlugin">
+<a name="TotemPlugin"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="TotemPlugin.top_of_page"></a>TotemPlugin</span></h2>
+<p>TotemPlugin — base plugin class and loading/unloading functions</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1" title="Stability Level">
+<a name="TotemPlugin.stability-level"></a><h2>Stability Level</h2>
+Unstable, unless otherwise indicated
+</div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="TotemPlugin.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;totem-plugin.h&gt;
+
+                    <a class="link" href="TotemPlugin.html#TotemPlugin-struct" title="TotemPlugin">TotemPlugin</a>;
+                    <a class="link" href="TotemPlugin.html#TotemPluginClass" title="TotemPluginClass">TotemPluginClass</a>;
+enum                <a class="link" href="TotemPlugin.html#TotemPluginError" title="enum TotemPluginError">TotemPluginError</a>;
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="TotemPlugin.html#TotemPluginActivationFunc" title="TotemPluginActivationFunc ()">*TotemPluginActivationFunc</a>)        (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<span class="returnvalue">void</span>                (<a class="link" href="TotemPlugin.html#TotemPluginDeactivationFunc" title="TotemPluginDeactivationFunc ()">*TotemPluginDeactivationFunc</a>)      (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         (<a class="link" href="TotemPlugin.html#TotemPluginWidgetFunc" title="TotemPluginWidgetFunc ()">*TotemPluginWidgetFunc</a>)            (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>);
+#define             <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-DEFINE-TYPE:CAPS" title="TOTEM_PLUGIN_DEFINE_TYPE()">TOTEM_PLUGIN_DEFINE_TYPE</a>            (TypeName,
+                                                         type_name,
+                                                         TYPE_PARENT)
+#define             <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-REGISTER:CAPS" title="TOTEM_PLUGIN_REGISTER()">TOTEM_PLUGIN_REGISTER</a>               (PluginName,
+                                                         plugin_name)
+#define             <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-REGISTER-EXTENDED:CAPS" title="TOTEM_PLUGIN_REGISTER_EXTENDED()">TOTEM_PLUGIN_REGISTER_EXTENDED</a>      (PluginName,
+                                                         plugin_name,
+                                                         _C_)
+#define             <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-REGISTER-TYPE:CAPS" title="TOTEM_PLUGIN_REGISTER_TYPE()">TOTEM_PLUGIN_REGISTER_TYPE</a>          (type_name)
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlugin.html#totem-plugin-activate" title="totem_plugin_activate ()">totem_plugin_activate</a>               (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlugin.html#totem-plugin-deactivate" title="totem_plugin_deactivate ()">totem_plugin_deactivate</a>             (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="TotemPlugin.html#totem-plugin-create-configure-dialog" title="totem_plugin_create_configure_dialog ()">totem_plugin_create_configure_dialog</a>
+                                                        (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlugin.html#totem-plugin-is-configurable" title="totem_plugin_is_configurable ()">totem_plugin_is_configurable</a>        (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkBuilder.html"><span class="returnvalue">GtkBuilder</span></a> *        <a class="link" href="TotemPlugin.html#totem-plugin-load-interface" title="totem_plugin_load_interface ()">totem_plugin_load_interface</a>         (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fatal</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<span class="returnvalue">char</span> *              <a class="link" href="TotemPlugin.html#totem-plugin-find-file" title="totem_plugin_find_file ()">totem_plugin_find_file</a>              (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *file</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="TotemPlugin.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----TotemPlugin
+</pre>
+</div>
+<div class="refsect1" title="Properties">
+<a name="TotemPlugin.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="TotemPlugin.html#TotemPlugin--name" title='The "name" property'>name</a>"                     <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="TotemPlugin.description"></a><h2>Description</h2>
+<p>
+<a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> is a general-purpose architecture for adding plugins to Totem, with
+derived support for different programming languages.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="TotemPlugin.details"></a><h2>Details</h2>
+<div class="refsect2" title="TotemPlugin">
+<a name="TotemPlugin-struct"></a><h3>TotemPlugin</h3>
+<pre class="programlisting">typedef struct _TotemPlugin TotemPlugin;</pre>
+<p>
+All the fields in the <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> structure are private and should never be accessed directly.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TotemPluginClass">
+<a name="TotemPluginClass"></a><h3>TotemPluginClass</h3>
+<pre class="programlisting">typedef struct {
+	GObjectClass parent_class;
+
+	/* Virtual public methods */
+
+	TotemPluginActivationFunc activate;
+	TotemPluginDeactivationFunc deactivate;
+	TotemPluginWidgetFunc		create_configure_dialog;
+} TotemPluginClass;
+</pre>
+<p>
+The class structure for the <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html"><span class="type">TotemPlParser</span></a> type.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="TotemPluginClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="TotemPlugin.html#TotemPluginActivationFunc" title="TotemPluginActivationFunc ()"><span class="type">TotemPluginActivationFunc</span></a> <em class="structfield"><code><a name="TotemPluginClass.activate"></a>activate</code></em>;</span></p></td>
+<td>function called when activating a plugin using <a class="link" href="TotemPlugin.html#totem-plugin-activate" title="totem_plugin_activate ()"><code class="function">totem_plugin_activate()</code></a>.
+It must be set by inheriting classes, and should return <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if it successfully created/got handles to
+the resources needed by the plugin. If it returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>, loading the plugin is abandoned.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="TotemPlugin.html#TotemPluginDeactivationFunc" title="TotemPluginDeactivationFunc ()"><span class="type">TotemPluginDeactivationFunc</span></a> <em class="structfield"><code><a name="TotemPluginClass.deactivate"></a>deactivate</code></em>;</span></p></td>
+<td>function called when deactivating a plugin using <a class="link" href="TotemPlugin.html#totem-plugin-deactivate" title="totem_plugin_deactivate ()"><code class="function">totem_plugin_deactivate()</code></a>;
+It must be set by inheriting classes, and should free/unref any resources the plugin used.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a class="link" href="TotemPlugin.html#TotemPluginWidgetFunc" title="TotemPluginWidgetFunc ()"><span class="type">TotemPluginWidgetFunc</span></a> <em class="structfield"><code><a name="TotemPluginClass.create-configure-dialog"></a>create_configure_dialog</code></em>;</span></p></td>
+<td>function called when configuring a plugin using <a class="link" href="TotemPlugin.html#totem-plugin-create-configure-dialog" title="totem_plugin_create_configure_dialog ()"><code class="function">totem_plugin_create_configure_dialog()</code></a>.
+If non-<a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>, it should create and return the plugin's configuration dialog. If <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>, the plugin is not
+configurable.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum TotemPluginError">
+<a name="TotemPluginError"></a><h3>enum TotemPluginError</h3>
+<pre class="programlisting">typedef enum {
+	TOTEM_PLUGIN_ERROR_ACTIVATION
+} TotemPluginError;
+</pre>
+<p>
+Error codes returned by <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> operations.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><a name="TOTEM-PLUGIN-ERROR-ACTIVATION:CAPS"></a><span class="term"><code class="literal">TOTEM_PLUGIN_ERROR_ACTIVATION</code></span></p></td>
+<td>there was an error activating the plugin
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TotemPluginActivationFunc ()">
+<a name="TotemPluginActivationFunc"></a><h3>TotemPluginActivationFunc ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*TotemPluginActivationFunc)        (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Called when the user has requested <em class="parameter"><code>plugin</code></em> be activated, this function should be used to initialise
+any resources the plugin needs, and attach itself to the Totem UI.
+</p>
+<p>
+If an error is encountered while setting up the plugin, <em class="parameter"><code>error</code></em> should be set, and the function
+should return <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>. Totem will then not mark the plugin as activated, and will ensure it's not loaded
+again unless explicitly asked for by the user.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>the <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success, <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TotemPluginDeactivationFunc ()">
+<a name="TotemPluginDeactivationFunc"></a><h3>TotemPluginDeactivationFunc ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                (*TotemPluginDeactivationFunc)      (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);</pre>
+<p>
+Called when the user has requested <em class="parameter"><code>plugin</code></em> be deactivated, this function should destroy all resources
+created during the plugin's lifetime, especially those created in the activation function.
+</p>
+<p>
+It should be possible to activate and deactivate the plugin multiple times sequentially in a single Totem
+session without memory or resource leaks, or errors.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>the <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TotemPluginWidgetFunc ()">
+<a name="TotemPluginWidgetFunc"></a><h3>TotemPluginWidgetFunc ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         (*TotemPluginWidgetFunc)            (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>);</pre>
+<p>
+Called when the configuration dialogue for the plugin needs to be built, this function should return
+a complete window which will be shown by the Totem code. The widget needs to be capable of hiding itself
+when configuration is complete.
+</p>
+<p>
+If your plugin is not configurable, do not define this function.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>the <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="type">GtkWidget</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PLUGIN_DEFINE_TYPE()">
+<a name="TOTEM-PLUGIN-DEFINE-TYPE:CAPS"></a><h3>TOTEM_PLUGIN_DEFINE_TYPE()</h3>
+<pre class="programlisting">#define             TOTEM_PLUGIN_DEFINE_TYPE(TypeName, type_name, TYPE_PARENT)</pre>
+<p>
+Registers a type to be used inside a Totem plugin, but not the plugin's itself;
+use <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-REGISTER:CAPS" title="TOTEM_PLUGIN_REGISTER()"><code class="function">TOTEM_PLUGIN_REGISTER()</code></a> for that.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>TypeName</code></em> :</span></p></td>
+<td>the type name in camelcase
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type_name</code></em> :</span></p></td>
+<td>the type name in lowercase, with underscores
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>TYPE_PARENT</code></em> :</span></p></td>
+<td>the type's parent name in uppercase, with underscores
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PLUGIN_REGISTER()">
+<a name="TOTEM-PLUGIN-REGISTER:CAPS"></a><h3>TOTEM_PLUGIN_REGISTER()</h3>
+<pre class="programlisting">#define             TOTEM_PLUGIN_REGISTER(PluginName, plugin_name)</pre>
+<p>
+Registers a new Totem plugin type. A plugin is, at its core, just a class which is
+instantiated and activated on the user's request. This macro registers that class.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>PluginName</code></em> :</span></p></td>
+<td>the plugin's name in camelcase
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin_name</code></em> :</span></p></td>
+<td>the plugin's name in lowercase, with underscores
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PLUGIN_REGISTER_EXTENDED()">
+<a name="TOTEM-PLUGIN-REGISTER-EXTENDED:CAPS"></a><h3>TOTEM_PLUGIN_REGISTER_EXTENDED()</h3>
+<pre class="programlisting">#define             TOTEM_PLUGIN_REGISTER_EXTENDED(PluginName, plugin_name, _C_)</pre>
+<p>
+Registers a new Totem plugin type with custom code in the module type registration
+function. See <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-REGISTER:CAPS" title="TOTEM_PLUGIN_REGISTER()"><code class="function">TOTEM_PLUGIN_REGISTER()</code></a> for more information about the registration
+process.
+</p>
+<p>
+A variable named <em class="parameter"><code>our_info</code></em> is available with the module's <a href="http://library.mate.org/devel/gobject/unstable/gobject-Type-Information.html#GTypeInfo"><span class="type">GTypeInfo</span></a> information.
+<em class="parameter"><code>plugin_module_type</code></em> is the plugin's <a href="http://library.mate.org/devel/gobject/unstable/GTypeModule.html"><span class="type">GTypeModule</span></a>.
+@<em class="replaceable"><code>plugin_name</code></em>_type is the plugin's newly-registered <a href="http://library.mate.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a>
+(where <em class="replaceable"><code>plugin_name</code></em> is the plugin name passed to the
+<a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-REGISTER-EXTENDED:CAPS" title="TOTEM_PLUGIN_REGISTER_EXTENDED()"><code class="function">TOTEM_PLUGIN_REGISTER_EXTENDED()</code></a> macro).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>PluginName</code></em> :</span></p></td>
+<td>the plugin's name in camelcase
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin_name</code></em> :</span></p></td>
+<td>the plugin's name in lowercase, with underscores
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>_C_</code></em> :</span></p></td>
+<td>extra code to call in the module type registration function
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PLUGIN_REGISTER_TYPE()">
+<a name="TOTEM-PLUGIN-REGISTER-TYPE:CAPS"></a><h3>TOTEM_PLUGIN_REGISTER_TYPE()</h3>
+<pre class="programlisting">#define             TOTEM_PLUGIN_REGISTER_TYPE(type_name)</pre>
+<p>
+Calls the type registration function for a type inside a plugin module previously
+defined with <a class="link" href="TotemPlugin.html#TOTEM-PLUGIN-DEFINE-TYPE:CAPS" title="TOTEM_PLUGIN_DEFINE_TYPE()"><code class="function">TOTEM_PLUGIN_DEFINE_TYPE()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>type_name</code></em> :</span></p></td>
+<td>the type's name in lowercase, with underscores
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_plugin_activate ()">
+<a name="totem-plugin-activate"></a><h3>totem_plugin_activate ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_plugin_activate               (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Activates the passed <em class="parameter"><code>plugin</code></em> by calling its activate method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>return location for a <a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_plugin_deactivate ()">
+<a name="totem-plugin-deactivate"></a><h3>totem_plugin_deactivate ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_plugin_deactivate             (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a> *totem</code></em>);</pre>
+<p>
+Deactivates <em class="parameter"><code>plugin</code></em> by calling its deactivate method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_plugin_create_configure_dialog ()">
+<a name="totem-plugin-create-configure-dialog"></a><h3>totem_plugin_create_configure_dialog ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         totem_plugin_create_configure_dialog
+                                                        (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>);</pre>
+<p>
+Returns the plugin's configuration dialog, as created by
+the plugin's create_configure_dialog method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the configuration dialog, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_plugin_is_configurable ()">
+<a name="totem-plugin-is-configurable"></a><h3>totem_plugin_is_configurable ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_plugin_is_configurable        (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>);</pre>
+<p>
+Returns <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the plugin is configurable and has a
+configuration dialog. It calls the plugin's
+is_configurable method.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the plugin is configurable
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_plugin_load_interface ()">
+<a name="totem-plugin-load-interface"></a><h3>totem_plugin_load_interface ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkBuilder.html"><span class="returnvalue">GtkBuilder</span></a> *        totem_plugin_load_interface         (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *name</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fatal</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Loads an interface file (GtkBuilder UI file) for a plugin, given its filename and
+assuming it's installed in the plugin's data directory.
+</p>
+<p>
+This should be used instead of attempting to load interfaces manually in plugins.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td>interface filename
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fatal</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if it's a fatal error if the interface can't be loaded
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the interface's parent <a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>a pointer to be passed to each signal handler in the interface when they're called
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a href="http://library.mate.org/devel/gtk/unstable/GtkBuilder.html"><span class="type">GtkBuilder</span></a> instance for the interface
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_plugin_find_file ()">
+<a name="totem-plugin-find-file"></a><h3>totem_plugin_find_file ()</h3>
+<pre class="programlisting"><span class="returnvalue">char</span> *              totem_plugin_find_file              (<em class="parameter"><code><a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a> *plugin</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *file</code></em>);</pre>
+<p>
+Finds the specified <em class="parameter"><code>file</code></em> by looking in the plugin paths
+listed by <code class="function">totem_get_plugin_paths()</code> and then in the system
+Totem data directory.
+</p>
+<p>
+This should be used by plugins to find plugin-specific
+resource files.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>plugin</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlugin.html" title="TotemPlugin"><span class="type">TotemPlugin</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file</code></em> :</span></p></td>
+<td>the file to find
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly-allocated absolute path for the file, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="TotemPlugin.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "name" property'>
+<a name="TotemPlugin--name"></a><h3>The <code class="literal">"name"</code> property</h3>
+<pre class="programlisting">  "name"                     <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>
+The plugin's name. It should be a construction property, but due to the Python plugin hack, it
+can't be: do not change the name after construction. Should be the same as used for naming plugin-
+specific resources.
+</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

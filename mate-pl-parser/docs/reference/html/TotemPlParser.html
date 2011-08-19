@@ -1,0 +1,1363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TotemPlParser</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Totem Playlist Parser Reference Manual">
+<link rel="up" href="api-reference.html" title="API Reference">
+<link rel="prev" href="api-reference.html" title="API Reference">
+<link rel="next" href="TotemPlPlaylist.html" title="TotemPlPlaylist">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="api-reference.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="api-reference.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Totem Playlist Parser Reference Manual</th>
+<td><a accesskey="n" href="TotemPlPlaylist.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#TotemPlParser.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#TotemPlParser.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#TotemPlParser.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#TotemPlParser.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#TotemPlParser.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry" title="TotemPlParser">
+<a name="TotemPlParser"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="TotemPlParser.top_of_page"></a>TotemPlParser</span></h2>
+<p>TotemPlParser — playlist parser</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1" title="Stability Level">
+<a name="TotemPlParser.stability-level"></a><h2>Stability Level</h2>
+Stable, unless otherwise indicated
+</div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="TotemPlParser.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;totem-pl-parser.h&gt;
+
+                    <a class="link" href="TotemPlParser.html#TotemPlParser-struct" title="TotemPlParser">TotemPlParser</a>;
+typedef             <a class="link" href="TotemPlParser.html#TotemPlParserClass" title="TotemPlParserClass">TotemPlParserClass</a>;
+enum                <a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult">TotemPlParserResult</a>;
+enum                <a class="link" href="TotemPlParser.html#TotemPlParserType" title="enum TotemPlParserType">TotemPlParserType</a>;
+enum                <a class="link" href="TotemPlParser.html#TotemPlParserError" title="enum TotemPlParserError">TotemPlParserError</a>;
+<a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="returnvalue">TotemPlParser</span></a> *     <a class="link" href="TotemPlParser.html#totem-pl-parser-new" title="totem_pl_parser_new ()">totem_pl_parser_new</a>                 (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="returnvalue">TotemPlParserResult</span></a>  <a class="link" href="TotemPlParser.html#totem-pl-parser-parse" title="totem_pl_parser_parse ()">totem_pl_parser_parse</a>              (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-async" title="totem_pl_parser_parse_async ()">totem_pl_parser_parse_async</a>         (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="returnvalue">TotemPlParserResult</span></a>  <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-finish" title="totem_pl_parser_parse_finish ()">totem_pl_parser_parse_finish</a>       (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *async_result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="returnvalue">TotemPlParserResult</span></a>  <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-with-base" title="totem_pl_parser_parse_with_base ()">totem_pl_parser_parse_with_base</a>    (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *base</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-with-base-async" title="totem_pl_parser_parse_with_base_async ()">totem_pl_parser_parse_with_base_async</a>
+                                                        (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *base</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="TotemPlParser.html#totem-pl-parser-save" title="totem_pl_parser_save ()">totem_pl_parser_save</a>                (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *title</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemPlParser.html#TotemPlParserType" title="enum TotemPlParserType"><span class="type">TotemPlParserType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>              <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-duration" title="totem_pl_parser_parse_duration ()">totem_pl_parser_parse_duration</a>      (<em class="parameter"><code>const <span class="type">char</span> *duration</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> debug</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-date" title="totem_pl_parser_parse_date ()">totem_pl_parser_parse_date</a>          (<em class="parameter"><code>const <span class="type">char</span> *date_str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> debug</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlParser.html#totem-pl-parser-add-ignored-scheme" title="totem_pl_parser_add_ignored_scheme ()">totem_pl_parser_add_ignored_scheme</a>  (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *scheme</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="TotemPlParser.html#totem-pl-parser-add-ignored-mimetype" title="totem_pl_parser_add_ignored_mimetype ()">totem_pl_parser_add_ignored_mimetype</a>
+                                                        (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mimetype</code></em>);
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-URI:CAPS" title="TOTEM_PL_PARSER_FIELD_URI">TOTEM_PL_PARSER_FIELD_URI</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-GENRE:CAPS" title="TOTEM_PL_PARSER_FIELD_GENRE">TOTEM_PL_PARSER_FIELD_GENRE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-TITLE:CAPS" title="TOTEM_PL_PARSER_FIELD_TITLE">TOTEM_PL_PARSER_FIELD_TITLE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-AUTHOR:CAPS" title="TOTEM_PL_PARSER_FIELD_AUTHOR">TOTEM_PL_PARSER_FIELD_AUTHOR</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-ALBUM:CAPS" title="TOTEM_PL_PARSER_FIELD_ALBUM">TOTEM_PL_PARSER_FIELD_ALBUM</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-BASE:CAPS" title="TOTEM_PL_PARSER_FIELD_BASE">TOTEM_PL_PARSER_FIELD_BASE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-VOLUME:CAPS" title="TOTEM_PL_PARSER_FIELD_VOLUME">TOTEM_PL_PARSER_FIELD_VOLUME</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-AUTOPLAY:CAPS" title="TOTEM_PL_PARSER_FIELD_AUTOPLAY">TOTEM_PL_PARSER_FIELD_AUTOPLAY</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DURATION:CAPS" title="TOTEM_PL_PARSER_FIELD_DURATION">TOTEM_PL_PARSER_FIELD_DURATION</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DURATION-MS:CAPS" title="TOTEM_PL_PARSER_FIELD_DURATION_MS">TOTEM_PL_PARSER_FIELD_DURATION_MS</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-STARTTIME:CAPS" title="TOTEM_PL_PARSER_FIELD_STARTTIME">TOTEM_PL_PARSER_FIELD_STARTTIME</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-ENDTIME:CAPS" title="TOTEM_PL_PARSER_FIELD_ENDTIME">TOTEM_PL_PARSER_FIELD_ENDTIME</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-COPYRIGHT:CAPS" title="TOTEM_PL_PARSER_FIELD_COPYRIGHT">TOTEM_PL_PARSER_FIELD_COPYRIGHT</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-ABSTRACT:CAPS" title="TOTEM_PL_PARSER_FIELD_ABSTRACT">TOTEM_PL_PARSER_FIELD_ABSTRACT</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DESCRIPTION:CAPS" title="TOTEM_PL_PARSER_FIELD_DESCRIPTION">TOTEM_PL_PARSER_FIELD_DESCRIPTION</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-SUMMARY:CAPS" title="TOTEM_PL_PARSER_FIELD_SUMMARY">TOTEM_PL_PARSER_FIELD_SUMMARY</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-MOREINFO:CAPS" title="TOTEM_PL_PARSER_FIELD_MOREINFO">TOTEM_PL_PARSER_FIELD_MOREINFO</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-SCREENSIZE:CAPS" title="TOTEM_PL_PARSER_FIELD_SCREENSIZE">TOTEM_PL_PARSER_FIELD_SCREENSIZE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-UI-MODE:CAPS" title="TOTEM_PL_PARSER_FIELD_UI_MODE">TOTEM_PL_PARSER_FIELD_UI_MODE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-PUB-DATE:CAPS" title="TOTEM_PL_PARSER_FIELD_PUB_DATE">TOTEM_PL_PARSER_FIELD_PUB_DATE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-FILESIZE:CAPS" title="TOTEM_PL_PARSER_FIELD_FILESIZE">TOTEM_PL_PARSER_FIELD_FILESIZE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-LANGUAGE:CAPS" title="TOTEM_PL_PARSER_FIELD_LANGUAGE">TOTEM_PL_PARSER_FIELD_LANGUAGE</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-CONTACT:CAPS" title="TOTEM_PL_PARSER_FIELD_CONTACT">TOTEM_PL_PARSER_FIELD_CONTACT</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-IMAGE-URI:CAPS" title="TOTEM_PL_PARSER_FIELD_IMAGE_URI">TOTEM_PL_PARSER_FIELD_IMAGE_URI</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DOWNLOAD-URI:CAPS" title="TOTEM_PL_PARSER_FIELD_DOWNLOAD_URI">TOTEM_PL_PARSER_FIELD_DOWNLOAD_URI</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-ID:CAPS" title="TOTEM_PL_PARSER_FIELD_ID">TOTEM_PL_PARSER_FIELD_ID</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-IS-PLAYLIST:CAPS" title="TOTEM_PL_PARSER_FIELD_IS_PLAYLIST">TOTEM_PL_PARSER_FIELD_IS_PLAYLIST</a>
+#define             <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-SUBTITLE-URI:CAPS" title="TOTEM_PL_PARSER_FIELD_SUBTITLE_URI">TOTEM_PL_PARSER_FIELD_SUBTITLE_URI</a>
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="TotemPlParser.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----TotemPlParser
+</pre>
+</div>
+<div class="refsect1" title="Properties">
+<a name="TotemPlParser.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="TotemPlParser.html#TotemPlParser--debug" title='The "debug" property'>debug</a>"                    <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="TotemPlParser.html#TotemPlParser--disable-unsafe" title='The "disable-unsafe" property'>disable-unsafe</a>"           <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="TotemPlParser.html#TotemPlParser--force" title='The "force" property'>force</a>"                    <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="TotemPlParser.html#TotemPlParser--recurse" title='The "recurse" property'>recurse</a>"                  <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" title="Signals">
+<a name="TotemPlParser.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="TotemPlParser.html#TotemPlParser-entry-parsed" title='The "entry-parsed" signal'>entry-parsed</a>"                                   : Run Last
+  "<a class="link" href="TotemPlParser.html#TotemPlParser-playlist-ended" title='The "playlist-ended" signal'>playlist-ended</a>"                                 : Run Last
+  "<a class="link" href="TotemPlParser.html#TotemPlParser-playlist-started" title='The "playlist-started" signal'>playlist-started</a>"                               : Run Last
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="TotemPlParser.description"></a><h2>Description</h2>
+<p>
+<a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> is a general-purpose playlist parser and writer, with
+support for several different types of playlist. Note that totem-pl-parser requires a main loop
+to operate properly (e.g. for the <a class="link" href="TotemPlParser.html#TotemPlParser-entry-parsed" title='The "entry-parsed" signal'><span class="type">"entry-parsed"</span></a> signal to be emitted).
+</p>
+<p>
+</p>
+<div class="example">
+<a name="id491288"></a><p class="title"><b>Example 1. Reading a Playlist</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="usertype">TotemPlParser</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pl </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-new">totem_pl_parser_new</a></span><span class="normal"> </span><span class="symbol">();</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-set">g_object_set</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"recurse"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS">FALSE</a></span><span class="symbol">,</span><span class="normal"> </span><span class="string">"disable-unsafe"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS">TRUE</a></span><span class="symbol">,</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Signals.html#g-signal-connect">g_signal_connect</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#G-OBJECT:CAPS">G_OBJECT</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">),</span><span class="normal"> </span><span class="string">"playlist-started"</span><span class="symbol">,</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#G-CALLBACK:CAPS">G_CALLBACK</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist_started</span><span class="symbol">),</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Signals.html#g-signal-connect">g_signal_connect</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#G-OBJECT:CAPS">G_OBJECT</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">),</span><span class="normal"> </span><span class="string">"entry-parsed"</span><span class="symbol">,</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#G-CALLBACK:CAPS">G_CALLBACK</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">entry_parsed</span><span class="symbol">),</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+
+<span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-parse">totem_pl_parser_parse</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"http://example.com/playlist.pls"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS">FALSE</a></span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">!=</span><span class="normal"> <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-RESULT-SUCCESS:CAPS">TOTEM_PL_PARSER_RESULT_SUCCESS</a></span><span class="symbol">)</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-error">g_error</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Playlist parsing failed."</span><span class="symbol">);</span>
+
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref">g_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">);</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+<p>
+</p>
+<div class="example">
+<a name="id491309"></a><p class="title"><b>Example 2. Reading a Playlist Asynchronously</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="usertype">TotemPlParser</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pl </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-new">totem_pl_parser_new</a></span><span class="normal"> </span><span class="symbol">();</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-set">g_object_set</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"recurse"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS">FALSE</a></span><span class="symbol">,</span><span class="normal"> </span><span class="string">"disable-unsafe"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS">TRUE</a></span><span class="symbol">,</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Signals.html#g-signal-connect">g_signal_connect</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#G-OBJECT:CAPS">G_OBJECT</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">),</span><span class="normal"> </span><span class="string">"playlist-started"</span><span class="symbol">,</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#G-CALLBACK:CAPS">G_CALLBACK</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist_started</span><span class="symbol">),</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Signals.html#g-signal-connect">g_signal_connect</a></span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#G-OBJECT:CAPS">G_OBJECT</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">),</span><span class="normal"> </span><span class="string">"entry-parsed"</span><span class="symbol">,</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-Closures.html#G-CALLBACK:CAPS">G_CALLBACK</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">entry_parsed</span><span class="symbol">),</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+
+<span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-parse-async">totem_pl_parser_parse_async</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"http://example.com/playlist.pls"</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS">FALSE</a></span><span class="symbol">,</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">,</span><span class="normal"> parse_cb</span><span class="symbol">,</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+<span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref">g_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">);</span>
+
+<span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">parse_cb</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">TotemPlParser</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">parser</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">GAsyncResult</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">result</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">gpointer</span><span class="normal"> user_data</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="usertype">GError</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">error </span><span class="symbol">=</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-parse-finish">totem_pl_parser_parse_finish</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">parser</span><span class="symbol">,</span><span class="normal"> result</span><span class="symbol">,</span><span class="normal"> </span><span class="symbol">&amp;</span><span class="normal">error</span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">!=</span><span class="normal"> <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-RESULT-SUCCESS:CAPS">TOTEM_PL_PARSER_RESULT_SUCCESS</a></span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-error">g_error</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Playlist parsing failed: %s"</span><span class="symbol">,</span><span class="normal"> error</span><span class="symbol">-&gt;</span><span class="normal">message</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#g-error-free">g_error_free</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">error</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+<p>
+</p>
+<div class="example">
+<a name="id491333"></a><p class="title"><b>Example 3. Getting Metadata from Entries</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="keyword">static</span><span class="normal"> </span><span class="type">void</span>
+<span class="function">entry_parsed</span><span class="normal"> </span><span class="symbol">(</span><span class="usertype">TotemPlParser</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">parser</span><span class="symbol">,</span><span class="normal"> </span><span class="keyword">const</span><span class="normal"> </span><span class="usertype">gchar</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">uri</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">GHashTable</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">metadata</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">gpointer</span><span class="normal"> user_data</span><span class="symbol">)</span>
+<span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">gchar</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">title </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Hash-Tables.html#g-hash-table-lookup">g_hash_table_lookup</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">metadata</span><span class="symbol">,</span><span class="normal"> <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-FIELD-TITLE:CAPS">TOTEM_PL_PARSER_FIELD_TITLE</a></span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">title </span><span class="symbol">!=</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">)</span>
+<span class="normal">        </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-message">g_message</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Entry title: %s"</span><span class="symbol">,</span><span class="normal"> title</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">else</span>
+<span class="normal">        </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-message">g_message</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Entry (URI: %s) has no title."</span><span class="symbol">,</span><span class="normal"> uri</span><span class="symbol">);</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+<p>
+</p>
+<div class="example">
+<a name="id491353"></a><p class="title"><b>Example 4. Writing a Playlist</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="cbracket">{</span>
+<span class="normal">    </span><span class="usertype">TotemPlParser</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">pl</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="usertype">TotemPlPlaylist</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">playlist</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="usertype">TotemPlPlaylistIter</span><span class="normal"> iter</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="usertype">GFile</span><span class="normal"> </span><span class="symbol">*</span><span class="normal">file</span><span class="symbol">;</span>
+
+<span class="normal">    pl </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-new">totem_pl_parser_new</a></span><span class="normal"> </span><span class="symbol">();</span>
+<span class="normal">    playlist </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlPlaylist.html#totem-pl-playlist-new">totem_pl_playlist_new</a></span><span class="normal"> </span><span class="symbol">();</span>
+<span class="normal">    file </span><span class="symbol">=</span><span class="normal"> </span><span class="function"><a href="http://library.mate.org/devel/gio/unstable/GFile.html#g-file-new-for-path">g_file_new_for_path</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"/tmp/playlist.pls"</span><span class="symbol">);</span>
+
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlPlaylist.html#totem-pl-playlist-append">totem_pl_playlist_append</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist</span><span class="symbol">,</span><span class="normal"> </span><span class="symbol">&amp;</span><span class="normal">iter</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlPlaylist.html#totem-pl-playlist-set">totem_pl_playlist_set</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist</span><span class="symbol">,</span><span class="normal"> </span><span class="symbol">&amp;</span><span class="normal">iter</span><span class="symbol">,</span>
+<span class="normal">                   <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-FIELD-URI:CAPS">TOTEM_PL_PARSER_FIELD_URI</a></span><span class="symbol">,</span><span class="normal"> </span><span class="string">"file:///1.ogg"</span><span class="symbol">,</span>
+<span class="normal">                   <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-FIELD-TITLE:CAPS">TOTEM_PL_PARSER_FIELD_TITLE</a></span><span class="symbol">,</span><span class="normal"> </span><span class="string">"1.ogg"</span><span class="symbol">,</span>
+<span class="normal">                   <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlPlaylist.html#totem-pl-playlist-append">totem_pl_playlist_append</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist</span><span class="symbol">,</span><span class="normal"> </span><span class="symbol">&amp;</span><span class="normal">iter</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlPlaylist.html#totem-pl-playlist-set">totem_pl_playlist_set</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist</span><span class="symbol">,</span><span class="normal"> </span><span class="symbol">&amp;</span><span class="normal">iter</span><span class="symbol">,</span>
+<span class="normal">                   <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-FIELD-URI:CAPS">TOTEM_PL_PARSER_FIELD_URI</a></span><span class="symbol">,</span><span class="normal"> </span><span class="string">"file:///2.ogg"</span><span class="symbol">,</span>
+<span class="normal">                   <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">);</span>
+
+<span class="normal">    </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="function"><a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#totem-pl-parser-save">totem_pl_parser_save</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">,</span><span class="normal"> playlist</span><span class="symbol">,</span><span class="normal"> file</span><span class="symbol">,</span><span class="normal"> </span><span class="string">"Title"</span><span class="symbol">,</span>
+<span class="normal">                  <a href="http://library.mate.org/devel/totem-pl-parser/TotemPlParser.html#TOTEM-PL-PARSER-PLS:CAPS">TOTEM_PL_PARSER_PLS</a></span><span class="symbol">,</span><span class="normal"> <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS">NULL</a></span><span class="symbol">)</span><span class="normal"> </span><span class="symbol">!=</span><span class="normal"> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS">TRUE</a></span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="function"><a href="http://library.mate.org/devel/glib/unstable/glib-Message-Logging.html#g-error">g_error</a></span><span class="normal"> </span><span class="symbol">(</span><span class="string">"Playlist writing failed."</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref">g_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">playlist</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref">g_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">pl</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="function"><a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref">g_object_unref</a></span><span class="normal"> </span><span class="symbol">(</span><span class="normal">file</span><span class="symbol">);</span>
+<span class="cbracket">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<p><br class="example-break">
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="TotemPlParser.details"></a><h2>Details</h2>
+<div class="refsect2" title="TotemPlParser">
+<a name="TotemPlParser-struct"></a><h3>TotemPlParser</h3>
+<pre class="programlisting">typedef struct _TotemPlParser TotemPlParser;</pre>
+<p>
+All the fields in the <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> structure are private and should never be accessed directly.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TotemPlParserClass">
+<a name="TotemPlParserClass"></a><h3>TotemPlParserClass</h3>
+<pre class="programlisting">typedef struct TotemPlParserClass      TotemPlParserClass;
+</pre>
+<p>
+The class structure for the <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> type.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum TotemPlParserResult">
+<a name="TotemPlParserResult"></a><h3>enum TotemPlParserResult</h3>
+<pre class="programlisting">typedef enum {
+	TOTEM_PL_PARSER_RESULT_UNHANDLED,
+	TOTEM_PL_PARSER_RESULT_ERROR,
+	TOTEM_PL_PARSER_RESULT_SUCCESS,
+	TOTEM_PL_PARSER_RESULT_IGNORED,
+	TOTEM_PL_PARSER_RESULT_CANCELLED
+} TotemPlParserResult;
+</pre>
+<p>
+Gives the result of parsing a playlist.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-RESULT-UNHANDLED:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_RESULT_UNHANDLED</code></span></p></td>
+<td>The playlist could not be handled.
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-RESULT-ERROR:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_RESULT_ERROR</code></span></p></td>
+<td>There was an error parsing the playlist.
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-RESULT-SUCCESS:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_RESULT_SUCCESS</code></span></p></td>
+<td>The playlist was parsed successfully.
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-RESULT-IGNORED:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_RESULT_IGNORED</code></span></p></td>
+<td>The playlist was ignored due to its scheme or MIME type (see <a class="link" href="TotemPlParser.html#totem-pl-parser-add-ignored-scheme" title="totem_pl_parser_add_ignored_scheme ()"><code class="function">totem_pl_parser_add_ignored_scheme()</code></a>
+and <a class="link" href="TotemPlParser.html#totem-pl-parser-add-ignored-mimetype" title="totem_pl_parser_add_ignored_mimetype ()"><code class="function">totem_pl_parser_add_ignored_mimetype()</code></a>).
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-RESULT-CANCELLED:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_RESULT_CANCELLED</code></span></p></td>
+<td>Parsing of the playlist was cancelled part-way through.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum TotemPlParserType">
+<a name="TotemPlParserType"></a><h3>enum TotemPlParserType</h3>
+<pre class="programlisting">typedef enum {
+	TOTEM_PL_PARSER_PLS,
+	TOTEM_PL_PARSER_M3U,
+	TOTEM_PL_PARSER_M3U_DOS,
+	TOTEM_PL_PARSER_XSPF,
+	TOTEM_PL_PARSER_IRIVER_PLA,
+} TotemPlParserType;
+</pre>
+<p>
+The type of playlist a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> will parse.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-PLS:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_PLS</code></span></p></td>
+<td>PLS parser
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-M3U:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_M3U</code></span></p></td>
+<td>M3U parser
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-M3U-DOS:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_M3U_DOS</code></span></p></td>
+<td>M3U (DOS linebreaks) parser
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-XSPF:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_XSPF</code></span></p></td>
+<td>XSPF parser
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-IRIVER-PLA:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_IRIVER_PLA</code></span></p></td>
+<td>iRiver PLA parser
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum TotemPlParserError">
+<a name="TotemPlParserError"></a><h3>enum TotemPlParserError</h3>
+<pre class="programlisting">typedef enum {
+	TOTEM_PL_PARSER_ERROR_NO_DISC,
+	TOTEM_PL_PARSER_ERROR_MOUNT_FAILED,
+	TOTEM_PL_PARSER_ERROR_EMPTY_PLAYLIST
+} TotemPlParserError;
+</pre>
+<p>
+Allows you to differentiate between different
+errors occurring during file operations in a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-ERROR-NO-DISC:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_ERROR_NO_DISC</code></span></p></td>
+<td>Error attempting to open a disc device when no disc is present
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-ERROR-MOUNT-FAILED:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_ERROR_MOUNT_FAILED</code></span></p></td>
+<td>An attempted mount operation failed
+</td>
+</tr>
+<tr>
+<td><p><a name="TOTEM-PL-PARSER-ERROR-EMPTY-PLAYLIST:CAPS"></a><span class="term"><code class="literal">TOTEM_PL_PARSER_ERROR_EMPTY_PLAYLIST</code></span></p></td>
+<td>Playlist to be saved is empty
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_new ()">
+<a name="totem-pl-parser-new"></a><h3>totem_pl_parser_new ()</h3>
+<pre class="programlisting"><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="returnvalue">TotemPlParser</span></a> *     totem_pl_parser_new                 (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> object.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse ()">
+<a name="totem-pl-parser-parse"></a><h3>totem_pl_parser_parse ()</h3>
+<pre class="programlisting"><a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="returnvalue">TotemPlParserResult</span></a>  totem_pl_parser_parse              (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>);</pre>
+<p>
+Parses a playlist given by the absolute URI <em class="parameter"><code>uri</code></em>. This method is
+synchronous, and will block on (e.g.) network requests to slow
+servers. <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-async" title="totem_pl_parser_parse_async ()"><code class="function">totem_pl_parser_parse_async()</code></a> is recommended instead.
+</p>
+<p>
+Return values are as <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-with-base" title="totem_pl_parser_parse_with_base ()"><code class="function">totem_pl_parser_parse_with_base()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the playlist to parse
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fallback</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the parser should add the playlist URI to the
+end of the playlist on parse failure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="type">TotemPlParserResult</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse_async ()">
+<a name="totem-pl-parser-parse-async"></a><h3>totem_pl_parser_parse_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_parser_parse_async         (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Starts asynchronous parsing of a playlist given by the absolute URI <em class="parameter"><code>uri</code></em>. <em class="parameter"><code>self</code></em> and <em class="parameter"><code>uri</code></em> are both reffed/copied
+when this function is called, so can safely be freed after this function returns.
+</p>
+<p>
+For more details, see <a class="link" href="TotemPlParser.html#totem-pl-parser-parse" title="totem_pl_parser_parse ()"><code class="function">totem_pl_parser_parse()</code></a>, which is the synchronous version of this function.
+</p>
+<p>
+When the operation is finished, <em class="parameter"><code>callback</code></em> will be called. You can then call <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-finish" title="totem_pl_parser_parse_finish ()"><code class="function">totem_pl_parser_parse_finish()</code></a>
+to get the results of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the playlist to parse
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fallback</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the parser should add the playlist URI to the
+end of the playlist on parse failure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td> optional <a href="http://library.mate.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> object, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td> a <a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when parsing is finished. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>data to pass to the <em class="parameter"><code>callback</code></em> function
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse_finish ()">
+<a name="totem-pl-parser-parse-finish"></a><h3>totem_pl_parser_parse_finish ()</h3>
+<pre class="programlisting"><a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="returnvalue">TotemPlParserResult</span></a>  totem_pl_parser_parse_finish       (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *async_result</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Finishes an asynchronous playlist parsing operation started with <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-async" title="totem_pl_parser_parse_async ()"><code class="function">totem_pl_parser_parse_async()</code></a>
+or <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-with-base-async" title="totem_pl_parser_parse_with_base_async ()"><code class="function">totem_pl_parser_parse_with_base_async()</code></a>.
+</p>
+<p>
+If parsing of the playlist is cancelled part-way through, <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-RESULT-CANCELLED:CAPS"><code class="literal">TOTEM_PL_PARSER_RESULT_CANCELLED</code></a> is returned when
+this function is called.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async_result</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="type">TotemPlParserResult</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse_with_base ()">
+<a name="totem-pl-parser-parse-with-base"></a><h3>totem_pl_parser_parse_with_base ()</h3>
+<pre class="programlisting"><a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="returnvalue">TotemPlParserResult</span></a>  totem_pl_parser_parse_with_base    (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *base</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>);</pre>
+<p>
+Parses a playlist given by the absolute URI <em class="parameter"><code>uri</code></em>, using
+<em class="parameter"><code>base</code></em> to resolve relative paths where appropriate.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the playlist to parse
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>base</code></em> :</span></p></td>
+<td> the base path for relative filenames, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fallback</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the parser should add the playlist URI to the
+end of the playlist on parse failure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <a class="link" href="TotemPlParser.html#TotemPlParserResult" title="enum TotemPlParserResult"><span class="type">TotemPlParserResult</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse_with_base_async ()">
+<a name="totem-pl-parser-parse-with-base-async"></a><h3>totem_pl_parser_parse_with_base_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_parser_parse_with_base_async
+                                                        (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *base</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> fallback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+Starts asynchronous parsing of a playlist given by the absolute URI <em class="parameter"><code>uri</code></em>, using <em class="parameter"><code>base</code></em> to resolve relative paths where appropriate.
+<em class="parameter"><code>self</code></em> and <em class="parameter"><code>uri</code></em> are both reffed/copied when this function is called, so can safely be freed after this function returns.
+</p>
+<p>
+For more details, see <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-with-base" title="totem_pl_parser_parse_with_base ()"><code class="function">totem_pl_parser_parse_with_base()</code></a>, which is the synchronous version of this function.
+</p>
+<p>
+When the operation is finished, <em class="parameter"><code>callback</code></em> will be called. You can then call <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-finish" title="totem_pl_parser_parse_finish ()"><code class="function">totem_pl_parser_parse_finish()</code></a>
+to get the results of the operation.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the playlist to parse
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>base</code></em> :</span></p></td>
+<td> the base path for relative filenames, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fallback</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the parser should add the playlist URI to the
+end of the playlist on parse failure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
+<td> optional <a href="http://library.mate.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> object, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
+<td> a <a href="http://library.mate.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> to call when parsing is finished. <span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>data to pass to the <em class="parameter"><code>callback</code></em> function
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_save ()">
+<a name="totem-pl-parser-save"></a><h3>totem_pl_parser_save ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            totem_pl_parser_save                (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a> *playlist</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *title</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemPlParser.html#TotemPlParserType" title="enum TotemPlParserType"><span class="type">TotemPlParserType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Writes the playlist held by <em class="parameter"><code>parser</code></em> and <em class="parameter"><code>playlist</code></em> out to the path
+pointed by <em class="parameter"><code>dest</code></em>. The playlist is written in the format <em class="parameter"><code>type</code></em> and is
+given the title <em class="parameter"><code>title</code></em>.
+</p>
+<p>
+If the <em class="parameter"><code>output</code></em> file is a directory the <a href="http://library.mate.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-IS-DIRECTORY:CAPS"><span class="type">G_IO_ERROR_IS_DIRECTORY</span></a> error
+will be returned, and if the file is some other form of non-regular file
+then a <a href="http://library.mate.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-NOT-REGULAR-FILE:CAPS"><span class="type">G_IO_ERROR_NOT_REGULAR_FILE</span></a> error will be returned. Some file
+systems don't allow all file names, and may return a
+<a href="http://library.mate.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-INVALID-FILENAME:CAPS"><span class="type">G_IO_ERROR_INVALID_FILENAME</span></a> error, and if the name is too long,
+<a href="http://library.mate.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-FILENAME-TOO-LONG:CAPS"><span class="type">G_IO_ERROR_FILENAME_TOO_LONG</span></a> will be returned. Other errors are possible
+too, and depend on what kind of filesystem the file is on.
+</p>
+<p>
+In extreme cases, a <a href="http://library.mate.org/devel/gio/unstable/gio-GIOError.html#G-IO-ERROR-INVALID-ARGUMENT:CAPS"><span class="type">G_IO_ERROR_INVALID_ARGUMENT</span></a> error can be returned, if
+parts of the playlist to be written are too long.
+</p>
+<p>
+If writing a PLA playlist and there is an error converting a URI's encoding,
+a code from <a href="http://library.mate.org/devel/glib/unstable/glib-Character-Set-Conversion.html#GConvertError"><span class="type">GConvertError</span></a> will be returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>playlist</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlPlaylist.html" title="TotemPlPlaylist"><span class="type">TotemPlPlaylist</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>output <a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the playlist title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html#TotemPlParserType" title="enum TotemPlParserType"><span class="type">TotemPlParserType</span></a> for the outputted playlist
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>return loction for a <a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> on success
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse_duration ()">
+<a name="totem-pl-parser-parse-duration"></a><h3>totem_pl_parser_parse_duration ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>              totem_pl_parser_parse_duration      (<em class="parameter"><code>const <span class="type">char</span> *duration</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> debug</code></em>);</pre>
+<p>
+Parses the given duration string and returns it as a <span class="type">gint64</span>
+denoting the duration in seconds.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>duration</code></em> :</span></p></td>
+<td>the duration string to parse
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>debug</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if debug statements should be printed
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the duration in seconds, or -1 on error
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_parse_date ()">
+<a name="totem-pl-parser-parse-date"></a><h3>totem_pl_parser_parse_date ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             totem_pl_parser_parse_date          (<em class="parameter"><code>const <span class="type">char</span> *date_str</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> debug</code></em>);</pre>
+<p>
+Parses the given date string and returns it as a <span class="type">gint64</span>
+denoting the date in seconds since the UNIX Epoch.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>date_str</code></em> :</span></p></td>
+<td>the date string to parse
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>debug</code></em> :</span></p></td>
+<td>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if debug statements should be printed
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the date in seconds, or -1 on error
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_add_ignored_scheme ()">
+<a name="totem-pl-parser-add-ignored-scheme"></a><h3>totem_pl_parser_add_ignored_scheme ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_parser_add_ignored_scheme  (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *scheme</code></em>);</pre>
+<p>
+Adds a scheme to the list of schemes to ignore, so that
+any URI using that scheme is ignored during playlist parsing.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scheme</code></em> :</span></p></td>
+<td>the scheme to ignore
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_pl_parser_add_ignored_mimetype ()">
+<a name="totem-pl-parser-add-ignored-mimetype"></a><h3>totem_pl_parser_add_ignored_mimetype ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_pl_parser_add_ignored_mimetype
+                                                        (<em class="parameter"><code><a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *mimetype</code></em>);</pre>
+<p>
+Adds a mimetype to the list of mimetypes to ignore, so that
+any URI of that mimetype is ignored during playlist parsing.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mimetype</code></em> :</span></p></td>
+<td>the mimetype to ignore
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_URI">
+<a name="TOTEM-PL-PARSER-FIELD-URI:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_URI</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_URI		"url"
+</pre>
+<p>
+Metadata field for an entry's URI.
+</p>
+<p class="since">Since 2.26</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_GENRE">
+<a name="TOTEM-PL-PARSER-FIELD-GENRE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_GENRE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_GENRE		"genre"
+</pre>
+<p>
+Metadata field for an entry's genre.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_TITLE">
+<a name="TOTEM-PL-PARSER-FIELD-TITLE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_TITLE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_TITLE		"title"
+</pre>
+<p>
+Metadata field for an entry's displayable title.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_AUTHOR">
+<a name="TOTEM-PL-PARSER-FIELD-AUTHOR:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_AUTHOR</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_AUTHOR		"author"
+</pre>
+<p>
+Metadata field for an entry's author/composer/director.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_ALBUM">
+<a name="TOTEM-PL-PARSER-FIELD-ALBUM:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_ALBUM</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_ALBUM		"album"
+</pre>
+<p>
+Metadata field for an entry's album.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_BASE">
+<a name="TOTEM-PL-PARSER-FIELD-BASE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_BASE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_BASE		"base"
+</pre>
+<p>
+Metadata field for an entry's base path.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_VOLUME">
+<a name="TOTEM-PL-PARSER-FIELD-VOLUME:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_VOLUME</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_VOLUME		"volume"
+</pre>
+<p>
+Metadata field for an entry's playback volume.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_AUTOPLAY">
+<a name="TOTEM-PL-PARSER-FIELD-AUTOPLAY:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_AUTOPLAY</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_AUTOPLAY		"autoplay"
+</pre>
+<p>
+Metadata field for an entry's "autoplay" flag, which is <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the entry should play automatically.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_DURATION">
+<a name="TOTEM-PL-PARSER-FIELD-DURATION:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_DURATION</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_DURATION		"duration"
+</pre>
+<p>
+Metadata field for an entry's playback duration, which should be parsed using <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-duration" title="totem_pl_parser_parse_duration ()"><code class="function">totem_pl_parser_parse_duration()</code></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_DURATION_MS">
+<a name="TOTEM-PL-PARSER-FIELD-DURATION-MS:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_DURATION_MS</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_DURATION_MS "duration-ms"
+</pre>
+<p>
+Metadata field for an entry's playback duration, in milliseconds. It's only used when an entry's
+duration is available in that format, so one would get either the <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DURATION:CAPS" title="TOTEM_PL_PARSER_FIELD_DURATION"><code class="literal">TOTEM_PL_PARSER_FIELD_DURATION</code></a>
+or <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DURATION-MS:CAPS" title="TOTEM_PL_PARSER_FIELD_DURATION_MS"><code class="literal">TOTEM_PL_PARSER_FIELD_DURATION_MS</code></a> as metadata.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_STARTTIME">
+<a name="TOTEM-PL-PARSER-FIELD-STARTTIME:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_STARTTIME</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_STARTTIME		"starttime"
+</pre>
+<p>
+Metadata field for an entry's playback start time, which should be parsed using <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-duration" title="totem_pl_parser_parse_duration ()"><code class="function">totem_pl_parser_parse_duration()</code></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_ENDTIME">
+<a name="TOTEM-PL-PARSER-FIELD-ENDTIME:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_ENDTIME</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_ENDTIME		"endtime"
+</pre>
+<p>
+Metadata field for an entry's playback end time.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_COPYRIGHT">
+<a name="TOTEM-PL-PARSER-FIELD-COPYRIGHT:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_COPYRIGHT</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_COPYRIGHT		"copyright"
+</pre>
+<p>
+Metadata field for an entry's copyright line.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_ABSTRACT">
+<a name="TOTEM-PL-PARSER-FIELD-ABSTRACT:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_ABSTRACT</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_ABSTRACT		"abstract"
+</pre>
+<p>
+Metadata field for an entry's abstract text.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_DESCRIPTION">
+<a name="TOTEM-PL-PARSER-FIELD-DESCRIPTION:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_DESCRIPTION</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_DESCRIPTION "description"
+</pre>
+<p>
+Metadata field for an entry's description.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_SUMMARY">
+<a name="TOTEM-PL-PARSER-FIELD-SUMMARY:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_SUMMARY</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_SUMMARY		TOTEM_PL_PARSER_FIELD_DESCRIPTION
+</pre>
+<p>
+Metadata field for an entry's summary. (In practice, identical to <a class="link" href="TotemPlParser.html#TOTEM-PL-PARSER-FIELD-DESCRIPTION:CAPS" title="TOTEM_PL_PARSER_FIELD_DESCRIPTION"><code class="literal">TOTEM_PL_PARSER_FIELD_DESCRIPTION</code></a>.)
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_MOREINFO">
+<a name="TOTEM-PL-PARSER-FIELD-MOREINFO:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_MOREINFO</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_MOREINFO		"moreinfo"
+</pre>
+<p>
+Metadata field for an entry's "more info" URI.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_SCREENSIZE">
+<a name="TOTEM-PL-PARSER-FIELD-SCREENSIZE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_SCREENSIZE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_SCREENSIZE "screensize"
+</pre>
+<p>
+Metadata field for an entry's preferred screen size.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_UI_MODE">
+<a name="TOTEM-PL-PARSER-FIELD-UI-MODE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_UI_MODE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_UI_MODE		"ui-mode"
+</pre>
+<p>
+Metadata field for an entry's preferred UI mode.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_PUB_DATE">
+<a name="TOTEM-PL-PARSER-FIELD-PUB-DATE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_PUB_DATE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_PUB_DATE		"publication-date"
+</pre>
+<p>
+Metadata field for an entry's publication date, which should be parsed using <a class="link" href="TotemPlParser.html#totem-pl-parser-parse-date" title="totem_pl_parser_parse_date ()"><code class="function">totem_pl_parser_parse_date()</code></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_FILESIZE">
+<a name="TOTEM-PL-PARSER-FIELD-FILESIZE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_FILESIZE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_FILESIZE		"filesize"
+</pre>
+<p>
+Metadata field for an entry's filesize in bytes. This is only advisory, and can sometimes not match the actual filesize of the stream.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_LANGUAGE">
+<a name="TOTEM-PL-PARSER-FIELD-LANGUAGE:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_LANGUAGE</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_LANGUAGE		"language"
+</pre>
+<p>
+Metadata field for an entry's audio language.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_CONTACT">
+<a name="TOTEM-PL-PARSER-FIELD-CONTACT:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_CONTACT</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_CONTACT		"contact"
+</pre>
+<p>
+Metadata field for an entry's contact details for the webmaster.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_IMAGE_URI">
+<a name="TOTEM-PL-PARSER-FIELD-IMAGE-URI:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_IMAGE_URI</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_IMAGE_URI		"image-url"
+</pre>
+<p>
+Metadata field for an entry's thumbnail image URI.
+</p>
+<p class="since">Since 2.26</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_DOWNLOAD_URI">
+<a name="TOTEM-PL-PARSER-FIELD-DOWNLOAD-URI:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_DOWNLOAD_URI</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_DOWNLOAD_URI "download-url"
+</pre>
+<p>
+Metadata field for an entry's download URI. Only used if an alternate download
+location is available for the entry.
+</p>
+<p class="since">Since 2.26</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_ID">
+<a name="TOTEM-PL-PARSER-FIELD-ID:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_ID</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_ID		"id"
+</pre>
+<p>
+Metadata field for an entry's identifier. Its use is dependent on the format
+of the playlist parsed, and its origin.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_IS_PLAYLIST">
+<a name="TOTEM-PL-PARSER-FIELD-IS-PLAYLIST:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_IS_PLAYLIST</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_IS_PLAYLIST "is-playlist"
+</pre>
+<p>
+Metadata field used to tell the calling code that the parsing of a playlist
+started. It is only <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the metadata passed to <a class="link" href="TotemPlParser.html#TotemPlParser-playlist-started" title='The "playlist-started" signal'><span class="type">"playlist-started"</span></a> or
+<a class="link" href="TotemPlParser.html#TotemPlParser-playlist-ended" title='The "playlist-ended" signal'><span class="type">"playlist-ended"</span></a> signal handlers.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="TOTEM_PL_PARSER_FIELD_SUBTITLE_URI">
+<a name="TOTEM-PL-PARSER-FIELD-SUBTITLE-URI:CAPS"></a><h3>TOTEM_PL_PARSER_FIELD_SUBTITLE_URI</h3>
+<pre class="programlisting">#define TOTEM_PL_PARSER_FIELD_SUBTITLE_URI "subtitle-uri"
+</pre>
+<p>
+The URI of the entry's subtitle file.
+</p>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="TotemPlParser.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "debug" property'>
+<a name="TotemPlParser--debug"></a><h3>The <code class="literal">"debug"</code> property</h3>
+<pre class="programlisting">  "debug"                    <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the parser will output debug information.
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "disable-unsafe" property'>
+<a name="TotemPlParser--disable-unsafe"></a><h3>The <code class="literal">"disable-unsafe"</code> property</h3>
+<pre class="programlisting">  "disable-unsafe"           <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the parser will not parse unsafe locations, such as local devices
+and local files if the playlist isn't local. This is useful if the library
+is parsing a playlist from a remote location such as a website.
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "force" property'>
+<a name="TotemPlParser--force"></a><h3>The <code class="literal">"force"</code> property</h3>
+<pre class="programlisting">  "force"                    <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the parser will attempt to parse a playlist, even if it
+appears to be unsupported (usually because of its filename extension).
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "recurse" property'>
+<a name="TotemPlParser--recurse"></a><h3>The <code class="literal">"recurse"</code> property</h3>
+<pre class="programlisting">  "recurse"                  <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write / Construct</pre>
+<p>
+If <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the parser will recursively fetch playlists linked to by
+the current one.
+</p>
+<p>Default value: TRUE</p>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
+<a name="TotemPlParser.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" title='The "entry-parsed" signal'>
+<a name="TotemPlParser-entry-parsed"></a><h3>The <code class="literal">"entry-parsed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>         *parser,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>                 *uri,
+                                                        <span class="type">TotemPlParserMetadata</span> *metadata,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>               user_data)      : Run Last</pre>
+<p>
+The ::entry-parsed signal is emitted when a new entry is parsed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>the object which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the entry parsed
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>metadata</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTable"><span class="type">GHashTable</span></a> of metadata relating to the entry added
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "playlist-ended" signal'>
+<a name="TotemPlParser-playlist-ended"></a><h3>The <code class="literal">"playlist-ended"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a> *parser,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>         *uri,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)      : Run Last</pre>
+<p>
+The ::playlist-ended signal is emitted when a playlist is finished
+parsing. It is only called when <a class="link" href="TotemPlParser.html#TotemPlParser-playlist-started" title='The "playlist-started" signal'><span class="type">"playlist-started"</span></a>
+has been called for that playlist.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>the object which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the playlist that finished parsing.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "playlist-started" signal'>
+<a name="TotemPlParser-playlist-started"></a><h3>The <code class="literal">"playlist-started"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="TotemPlParser.html" title="TotemPlParser"><span class="type">TotemPlParser</span></a>         *parser,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>                 *uri,
+                                                        <span class="type">TotemPlParserMetadata</span> *metadata,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>               user_data)      : Run Last</pre>
+<p>
+The ::playlist-started signal is emitted when a playlist parsing has
+started. This signal isn't emitted for all types of playlists, but
+can be relied on to be called for playlists which support playlist
+metadata, such as title.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parser</code></em> :</span></p></td>
+<td>the object which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI of the new playlist started
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>metadata</code></em> :</span></p></td>
+<td>a <a href="http://library.mate.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTable"><span class="type">GHashTable</span></a> of metadata relating to the playlist that
+started.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

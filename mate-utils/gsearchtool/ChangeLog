@@ -1,0 +1,3340 @@
+2010-01-13  Vincent Untz  <vuntz@mate.org>
+
+	* Makefile.am: fix distcheck after the previous change.
+
+2009-10-23  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* Makefile.am:  Ensure a generated schema file is not included 
+	in the tarball. Based on patch submitted by Frederic Crozat.
+	Bug 599317.
+	
+2009-10-21  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Fix a compiler warning.
+
+2009-10-14  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.[ch]:  Resurrect the 
+	"--version" command line argument.
+	
+2009-09-29  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Properly handle invalid command line 
+	arguments.
+
+2009-09-28  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fix possible crash after
+	delete files.  Patch submitted by Sebastien Bacher.  
+	Bug 595371.
+	
+2009-08-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Always show application icons
+	for open with items.
+
+2009-08-10  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Rework 'Open With' menu layout
+	to match changes made to caja.  Mark 'Open with' 
+	strings for translation.
+	
+2009-05-18  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* configure.ac, Makefile.am, *.[ch]: Added libeggsmclient 
+	& libmateui-deprecated.  Remove the use of libgnomui from
+	mate-search-tool. This reduces the number of shared libraries 
+	required by mate-search-tool from 75 to 52. Bug 573670.
+	
+2009-05-17  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c,
+	* gsearchtool-support.c, 
+	* gsearchtool.c:  Fix build when using MAINTAINER_CFLAGS.
+	
+2009-05-17  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* configure.ac, Makefile.am: Use gio-unix.
+	* gsearchtool-callbacks.c: Remove mate-desktop-item.h
+	* gsearchtool-support.c (open_file_with_filemanager):  
+	Replace MateDesktopItem with GDesktopAppInfo, Bug 582785.
+	
+2009-04-29  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (build_popup_menu_for_file):  
+	Clean up the code.
+	
+2009-04-28  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (build_popup_menu_for_file):  
+	See bug 546916 -- Sync open menu with recent caja changes.
+	
+2009-04-27  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (compare_regex):  Minor logic fix.
+	
+	NOTE: Git is a usability nightmare.  I fear the number
+	of MATE volunteers will decrease as a result of this version
+	control change, but I hope I am wrong.
+	
+2009-04-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (compare_regex):  Fix memory leak.
+	Bug 579461.
+
+2009-03-29  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (setup_case_insensitive_arguments): If grep
+	supports the -I argument then use it. Bug 568840.
+
+2009-03-24  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (get_file_pixbuf): Use a better key
+	for the icon hash table, g_icon_to_string().
+
+2009-03-22  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (add_no_files_found_message),
+	(spawn_search_command), (create_search_results_section):
+	* gsearchtool.h: Hide the treeview columns when files
+	are not found. 
+
+2009-03-18  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (set_constraint_mateconf_boolean): Typo
+
+2009-03-18  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (open_file_cb), (open_folder_cb),
+	(move_to_trash_cb), (file_button_release_event_cb), 
+	(drag_file_cb), (save_results_cb):
+	* gsearchtool-support.c (open_file_with_filemanager),
+	(open_file_with_application):
+	* gsearchtool-support.h:
+	* gsearchtool.c (add_file_to_search_results),
+	(add_no_files_found_message), (handle_goption_args),
+	(handle_search_command_stdout_io), 
+	(create_search_results_section):
+	* gsearchtool.h:
+	Bug 557256: Find results missing files with incorrect 
+	filename encoding
+
+2009-03-16  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (click_help_cb): Replace deprecated
+	mate_help_display_desktop_on_screen() with gtk_show_uri().
+	
+2009-03-16  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.1:  Update man page
+
+2009-03-16  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* Makefile.am:
+	* mate-search-tool.schemas.in:
+	* gsearchtool-callbacks.c (look_in_folder_changed_cb),
+	(open_file_event_cb), (open_file_cb), (open_folder_cb),
+	(file_changed_cb), (move_to_trash_cb), (file_key_press_event_cb),
+	(open_with_list_sort), (build_popup_menu_for_file),
+	(file_button_release_event_cb), (file_event_after_cb),
+	(file_motion_notify_cb), (drag_file_cb):
+	* gsearchtool-callbacks.h:
+	* gsearchtool-spinner.c (gsearch_spinner_cache_data_load),
+	(bump_spinner_frame_cb):
+	* gsearchtool-support.c (gsearchtool_mateconf_set_string),
+	(escape_double_quotes), (backslash_backslash_characters),
+	(backslash_special_characters), (get_file_type_description),
+	(gsearchtool_get_thumbnail_image), (get_themed_icon_pixbuf),
+	(get_file_pixbuf), (open_file_with_application), (launch_file):
+	* gsearchtool-support.h:
+	* gsearchtool.c (setup_find_name_options), (start_animation),
+	(stop_animation), (build_search_command),
+	(add_file_to_search_results), (update_search_counts),
+	(intermediate_file_count_update), (tree_model_iter_free_monitor),
+	(set_constraint_mateconf_boolean), (handle_goption_args),
+	(create_search_results_section), (set_clone_command),
+	(handle_mateconf_settings), (gsearch_app_create), (main):
+	* gsearchtool.h:
+	Bug 543713: Port application from mate-vfs to gio 
+	Bug 524574: Use the new gio trash system
+	Bug 573670: Remove use of mate-thumbnail from libmateui
+	Bug 567159: Display resize cursor on column headers
+	Bug 544136: Popup menu enhancement - adds "Open With"
+	Bug 473474: Save and restore "Look in Folder" selection 
+	Bug 557253: Change the "Include other filesystems." option 
+	            to "Exclude other filesystems."
+	Bug 531134: Open folders with the default handler, allows 
+	            folders to open in thunar for XFCE
+	Bug 545304: Search fails on none UTF-8 locales
+	Bug 522396: Search fails if apostrophe in folder name
+	Bug 531193: Opening files of certain types fails
+		    
+2009-02-25  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* gsearchtool.h: get rid of deprecated GTK_CHECK_* macros.
+	Patch by Thomas Andersen (#573053).
+
+2009-02-15  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* gsearchtool-support.c: remove the libart include.
+
+2009-02-15  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* gsearchtool-support.c (gsearchtool_stretch_frame_image):
+	Replace a call to libart with a GDK equivalent (#571735).
+
+2008-12-03  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* gsearchtool-spinner.c:
+	* gsearchtool-spinner.h:
+	* gsearchtool-support.c:
+	* gsearchtool.c:
+	Use single GTK+ includes. Patch by Maxim Ermilov (#561257).
+
+2008-11-05  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am: Add back libmate includes and libs to make
+	this build.
+
+2007-10-23  Stéphane Loeuillet  <sloeuille@svn.mate.org>
+
+	* mate-search-tool.desktop.in: Trivial fix to .desktop file
+	to conform to latest fd.o .desktop specs.
+	Spoted by desktop-file-validate. Fixes #481721
+
+2007-09-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (compare_regex): Fix bug #456126, allow
+	extended regular expressions.
+
+2007-09-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (main): Fix bug #454650, translate messages in 
+	the  --help output.
+
+2007-08-29  Jaap Haitsma,  <jaap@haitsma.org>
+
+	* mate-search-tool.desktop.in:
+	* gsearchtool.h: Use system-search i.s.o. removed mate-searchtool
+	icon. Fixes bug #470196
+
+2007-02-08  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (move_to_trash_cb):
+	* gsearchtool-support.c: (make_valid_utf8), (extract_string_until),
+	(parse_previous_duplicate_name), (make_next_duplicate_name),
+	(get_duplicate_name), (gsearchtool_get_next_duplicate_name):
+	* gsearchtool-support.h: Fix bug #404158, do not overwrite files
+	in the trash folder.  Use same file renaming logic as caja.
+
+2007-01-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (move_to_trash_cb): Fix bug #395381,
+	cannot delete filenames containing %21 from the search window.
+
+2007-01-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (move_to_trash_cb): Fix bug #397945,
+	cursor goes away from found files list when deleting a file.
+
+2006-11-19  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: fix compiler warning
+	* gsearchtool.c: (main): gtk_window_set_policy() is deprecated,
+	use gtk_window_set_resizable()
+
+2006-11-04  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml: Fix documentation error.
+
+2006-10-08  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (file_key_press_event_cb): 
+	Fix bug #360395, numpad enter doesn't work.
+
+2006-09-12  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/figures/mate-search-tool_window.png:  Update.
+	
+2006-09-09  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-spinner.[ch]: Update to latest spinner code.
+	* gsearchtool.c: (gsearch_app_create): Update for spinner code.
+
+2006-06-15  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (open_file_cb), (open_folder_cb),
+	(move_to_trash_cb), (file_button_release_event_cb),
+	(drag_begin_file_cb), (drag_file_cb), (key_press_cb):  
+	Fix "dereferencing type-punned pointer will break 
+	strict-aliasing rules" compile warnings.  Add call to 
+	g_list_foreach (list, gtk_tree_path_free, NULL) to free 
+	lists returned by gtk_tree_selection_get_selected_rows().
+
+2006-06-15  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.1,
+	* gsearchtool-callbacks.c,
+	* gsearchtool-callbacks.h,
+	* gsearchtool-spinner.c,
+	* gsearchtool-support.c,
+	* gsearchtool-support.h,
+	* gsearchtool.c,
+	* gsearchtool.h: git-stripspace - Filter out empty lines
+
+2006-05-12  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.desktop.in:  Update the tooltip description.
+
+2006-04-17  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_locate_command_stdout_io),
+	(handle_search_command_stdout_io),
+	(handle_search_command_stderr_io): Should fix bug #337898.
+
+2006-03-25  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (compare_regex):  Fix bug #335977,
+	crash with invalid regular expressions.
+
+2006-02-24  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_locate_command_stdout_io):  Remove the
+	kill statement.  Fixes issue from bug #328044.  Based on patch 
+	provided by Emmanuele Bassi.
+
+2006-02-24  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (gsearchtool_setup_mateconf_notifications): cleanup
+	previous patch.
+	
+2006-02-24  Emmanuele Bassi  <ebassi@gmail.com>
+
+	* gsearchtool.c: (): handle case when caja preferences are not
+	installed (patch by Frederic Crozat, closes bug #332457).
+
+2006-02-19  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_locate_command_stdout_io): Remove
+	unneeded break statement.
+
+2006-02-19  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.1:  Version update.
+
+2006-02-19  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_locate_command_stdout_io),
+	(setup_case_insensitive_arguments), (start_animation),
+	(stop_animation), (build_search_command),
+	(handle_search_command_stdout_io), (spawn_search_command):
+	* gsearchtool.h:  Convert calls to "locate" to be asynchronous.
+	Fixes bug #330176.
+
+2006-01-21  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.desktop.in:  Add GTK category to the
+	desktop file.  Fixes bug #328044.
+
+2006-01-04  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (remove_constraint_cb):
+	* gsearchtool.c: (add_file_to_search_results),
+	(tree_model_iter_free_monitor), (add_constraint),
+	(gsearch_app_create):  Convert many g_new*() calls to use 
+	the faster g_slice*() functions.
+
+2005-12-21  Emmanuele Bassi  <ebassi@cvs.mate.org>
+
+	* gsearchtool-support.c (get_readable_date): use g_date_set_time_t and
+	include glib/gdate.h (patch by Kjartan Maraas, closes bug #324552).
+
+2005-12-20  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.schemas.in:  Add new keys.
+	* gsearchtool-callbacks.c: (store_window_state_and_geometry),
+	(quit_application), (die_cb), (quit_cb), (click_close_cb),
+	(columns_changed_cb), (window_state_event_cb):
+	* gsearchtool-callbacks.h:  Add window_state_event_cb().
+	* gsearchtool-support.c: (gsearchtool_mateconf_set_int),
+	(gsearchtool_set_columns_order),
+	(gsearchtool_get_stored_window_geometry):
+	* gsearchtool-support.h:  Add gsearchtool_mateconf_set_int() 
+	and gsearchtool_get_stored_window_geometry().
+	* gsearchtool.c: (gsearch_window_size_allocate),
+	(gsearch_app_create), (main):  Restore window size and state.
+	* gsearchtool.h:  Add window width, height, and state.
+	
+	Fix bug #324097, save window size and state.  
+	Thanks to Emmanuele Bassi for the initial patch.
+	
+2005-12-02  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (save_results_cb):  Make this
+	function more robust, i.e. handle rows being removed.
+
+2005-12-02  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (file_changed_cb), (move_to_trash_cb):
+	* gsearchtool-callbacks.h:
+	* gsearchtool.c: (tree_model_iter_free_monitor),
+	(add_file_to_search_results), (spawn_search_command),
+	(create_search_results_section):
+	* gsearchtool.h: Monitor files in the result list.  Update the list
+	when a file is removed.  Fixes bug 322763, "mate-search-tool does
+	not monitor fiels for removal".  Based on patch provided by Vincent 
+	Noel.
+
+2005-11-26  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_search_command_stdout_io):
+	Fix bug 322529.  If the selected folder is hidden then
+	show hidden files.
+	
+2005-11-05  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_search_command_stdout_io):
+	If the user has focused a widget after the start of a 
+	search then do not restore the focus.
+
+2005-11-05  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.h: Define NUM_VISIBLE_COLUMNS.
+	* gsearchtool-callbacks.c: (columns_changed_cb):  Do not
+	save order of columns if order length does not match
+	NUM_VISIBLE_COLUMNS.
+
+2005-11-05  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (gsearch_equal_func): Change comparision
+	to be case insensitive.
+
+2005-11-05  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.schemas.in: Add a key for storing the 
+	order of the columns.
+	* gsearchtool-callbacks.c: (columns_changed_cb): Save changes
+	to the order of the columns.
+	* gsearchtool-callbacks.h: Add a columns_changed_cb prototype.
+	* gsearchtool-support.c: (gsearchtool_mateconf_get_list),
+	(gsearchtool_mateconf_set_list), (is_quick_search_excluded_path),
+	(is_second_scan_excluded_path),
+	(gsearchtool_button_new_with_stock_icon),
+	(gsearchtool_get_columns_order),
+	(gsearchtool_gtk_tree_view_get_column_with_sort_column_id),
+	(gsearchtool_set_columns_order): Add a MateConfValueType parameter 
+	to the gsearchtool_mateconf_get_list function.  Add new functions
+	gsearchtool_mateconf_set_list, gsearchtool_get_colums_order,
+	gsearchtool_gtk_tree_view_get_column_with_sort_column_id,
+	gsearchtool_set_columns_order & gsearchtool_get_columns_order.
+	* gsearchtool-support.h:  Update and add function prototypes. 
+	* gsearchtool.c: (create_search_results_section): Restore 
+	the order of the columns.  Connect to the "columns-changed" 
+	signal.
+
+2005-11-05  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (gsearch_equal_func),
+	(create_search_results_section):  Enable reordering of the 
+	treeview columns.  Enable substring matches when using the 
+	gtk+ treeview filter. 
+
+2005-10-30  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (handle_search_command_stdout_io),
+	(spawn_search_command):  Fix bug 320161.  Restore widget 
+	focus after a search completes.
+	* gsearchtool.h: Add focus widget to GSearchWindow struct.
+
+2005-10-30  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	http://mail.mate.org/archives/performance-list/2005-October/msg00000.html
+
+	* gsearchtool-spinner.c: (select_spinner_image),
+	(gsearch_spinner_expose), (extract_frame),
+	(gsearch_spinner_load_images):
+	* gsearchtool-support.c: (gsearchtool_mateconf_handle_error):
+	* gsearchtool.c: (add_atk_namedesc), (add_atk_relation):
+	Replace g_return_* calls in static functions with a g_assert 
+	or a standard if statement.
+
+2005-10-14  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool-C.omf:  Fix bug 318876.  Change help 
+	documentation category to GNOME|Utilities.  Patch provided
+	by Brent Smith.
+
+2005-10-09  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	Discovered this CPU optimization while using sysprof from
+	http://www.daimi.au.dk/~sandmann/sysprof/.
+
+	* gsearchtool.h: Add thumbnail_factory to GSearchWindow.
+	* gsearchtool-support.c: (gsearchtool_icon_lookup):  Remove
+	the local thumbnail_factory and use the one added to the
+	GSearchWindow structure. Only call mate_thumbnail_factory_new()
+	if thumbnail_factory is null.
+	* gsearchtool.c: (handle_search_command_stdout_io):  Unref
+	and null thumbnail_factory.
+	
+2005-10-03  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (build_search_command):
+	Fix bug 317147, "search for files also search in the parent 
+	directory". Patch provided by Emmanuel Touzery.
+	(gsearch_app_create) Small HIG button spacing adjustment.
+
+==================== 2.12.0 ====================
+
+2005-08-10  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.1:  Update for 2.12.
+	* help/C/mate-search-tool.xml: Update for 2.12.
+
+2005-08-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (setup_case_insensitive_arguments):
+	Fix bug 312136, "gsearchtool tries to locate /dev/null
+	and fails on systems that don't index /dev".
+	
+2005-07-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (build_search_commmand):  Fix the mateconf
+	disable_quick_search_second_scan key name.
+	
+2005-07-23  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c  (spawn_search_command):  Do not set the
+	single_click_to_activate value here.
+	
+2005-07-23  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (get_file_pixbuf):  Protect against 
+	thumbnail_pixbuf == NULL warnings.
+	
+2005-07-23  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (get_file_pixbuf):  Add a workaround
+	for bugzilla report #311318, "gtk_icon_theme_load_icon () can 
+	return pixbufs larger than requested size".
+	 
+2005-07-22  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (gsearchtool_icon_lookup,
+	get_file_pixbuf)  If gdk_pixbuf_new_from_file_at_scale() fails, 
+	revert to the stock icon.
+	
+2005-07-18  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: new function,
+	  gsearchtool_setup_mateconf_notifications().
+	* gsearchtool-support.[ch]: new functions,
+	  gsearchtool_mateconf_add_dir() and gsearchtool_mateconf_watch_key().
+	* gsearchtool-callbacks.[ch]: new function, 
+	  single_click_to_activate_key_changed_cb().
+	
+	  Respond to "single click to activate" key change on the fly.
+	
+2005-07-17  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/figures/mate-search-tool_window.png:  Update.
+	
+2005-07-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  if the gtk+ version is at least
+	2.7.3 then use its new builtin overwrite confirmation dialog.
+	
+2005-07-13  Dennis Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool.c  (spawn_search_command): remove pango underlines.
+	(create_search_results_section): connect to the motion and leave 
+	notify events (filename_cell_data_func): new function.
+	
+	* gsearchtool-callbacks.[ch]  (file_motion_notify_cb,
+	file_leave_notify_cb):  New functions.
+	
+	* gsearchtool.h: Add search_results_hover_path.
+	
+	Fix single click to activate items to match CVS version of 
+	caja.
+	
+2005-07-09  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml:  Help prevent
+	confusion reported in Bug #303900 by adding 
+	information about disabling the search options.
+	
+2005-07-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix drag and drop to work with the
+	current CVS version of caja.
+	
+2005-07-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (get_desktop_item_name):  Fixes a bunch of 
+	memory leaks caused by strdup()'ing before appending with 
+	g_string_append(). (main):  Remove old and unused matecomponent code.
+	Patches provided by Jörgen Viksell.
+	
+2005-06-26  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Be a little more selective on when
+	to warn the user about quick search errors. 
+	 
+	* help/C/mate-search-tool.xml:  Apply update from 
+	Joachim Noreiko. (Closes bug #308501)
+	
+2005-06-21  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (add_file_to_search_results):  Fix
+	relative path. (Closes bug #308230)
+	
+2005-06-05  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* Makefile.am:  Add GREP_COMMAND.
+	* gsearchtool.c:  (setup_case_insensitive_arguments): 
+	Use GREP_COMMAND.
+	
+2005-05-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* help/C/figures/mate-search-tool_window.png:  Use the MATE 
+	icons theme.
+
+2005-05-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  (gsearchtool_icon_lookup),
+	(get_file_pixbuf):  Exempt non-images from the file size
+	limit check.
+
+2005-05-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	Add support for displaying thumbnails.  The thumbnail must 
+	already exist and will be shown according to the file manager's 
+	preview settings.
+
+	* Makefile.am:  Add data to SUBDIRS.
+	* gsearchtool.h:  Add show_thumbnails_file_size_limit
+	and show_thumbnails to GSearchWindow struct.
+	* gsearchtool-support.h:  Add gsearchtool_mateconf_get_int().
+	Rename function get_file_type_for_mime_type() to 
+	get_file_type_description() and add a MateVFSFileInfo
+	argument.  Rename function get_file_pixbuf_for_mime_type()
+	to get_file_pixbuf() and add MateVFSFileInfo argument.
+	* gsearchtool.c:  (build_search_command):  Load caja
+	show_image_thumbnails and thumbnail_limit mateconf values.
+	(add_file_to_search_results):  Use mate_vfs_get_file_info()
+	to determine the mime type.  Use the new functions, 
+	get_file_pixbuf() and get_file_type_description().  
+	* gsearchtool-support.c:  Add gsearchtool_mateconf_get_int(),
+	gsearchtool_pixmap_file(), gsearchtool_load_thumbnail_frame(),
+	gsearchtool_draw_frame_row(), gsearchtool_draw_frame_column(),
+	gsearchtool_stretch_frame_image(), gsearchtool_embed_image_in_frame(),
+	gsearchtool_thumbnail_frame_image(), gsearchtool_get_thumbnail_image(),
+	and gsearchtool_icon_lookup(). 
+	* data/Makefile.am: New file.
+	* data/thumbnail_frame.png:  New file.
+	
+2005-04-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (add_file_to_search_results): 
+	Do not filter broken links.
+
+2005-04-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (add_file_to_search_results): 
+	Call mate-vfs_escape_path_string() prior to using 
+	mate_vfs_get_file_info() to correct possible 
+	MATE_VFS_ERROR_NOT_FOUND errors.
+	
+2005-04-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (is_second_scan_excluded_path),
+	(is_quick_search_excluded_path):  Call g_free() on each list 
+	element.  Fixes another memory leak. 
+	(gsearchtool_mateconf_get_list): Fix g_return_val_if_fail()'s
+	return value.
+
+2005-04-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (get_file_type_for_mime_type):
+	Another memory leak fix.
+	
+2005-04-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (is_quick_search_excluded_path),
+	(is_second_scan_excluded_path):  Free the temporary GSList.
+
+2005-04-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (get_file_pixbuf_for_mime_type): Do
+	not free the key values after inserting them into the hash. 
+	* gsearchtool.c: (spawn_search_command):  Free the key values
+	on destroy.
+
+2005-04-14  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.[ch]: (get_file_type_for_mime_type):
+	Fix memory leaks reported by Kjartan Maraas in bug 300634.
+	* gsearchtool.c:  (add_file_to_search_results), 
+	(handle_search_command_stdout_io), (spawn_search_command):
+	Fix memory leaks reported by Kjartan Maraas in bug 300638.
+ 
+2005-04-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (open_file_with_application):
+	Fix bug 172351.  Append paths instead of uris.
+
+2005-03-29  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: Fix gcc 4.0 compiler warnings.
+
+2005-03-13  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (quit_application), (click_stop_cb):
+	Fix bug #170163, "Build failure with gcc 2.x".  Patch submitted 
+	by jensgr@gmx.net (Jens Granseuer).
+	
+2005-03-12  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: After previous commit, we don't need 
+	to include <matecomponent-activation/matecomponent-activation.h>.
+	
+2005-03-12  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (open_file_cb), (open_folder_cb):
+	Remove the is_caja_running () function since caja 
+	is launched with the '--no-desktop" command line argument.
+	* gsearchtool-support.[ch]: Removed is_caja_running().
+	Fixes the issue of opening a directory in caja when double
+	clicked in case of multihead. Fixes bug #168990.  Based on a 
+	patch submitted by Vinay M R  <vinay.mandyakoppal@wipro.com>.
+
+2005-03-11  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (open_file_cb): Use 
+	correct error dialog when caja is not running.
+
+2005-02-28  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (setup_case_insensitive_arguments):
+	Prevent a warning message about the locate database 
+	when locate is not installed.
+	
+2005-02-27  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (setup_case_insensitive_arguments):
+	Prevent possible crash if locate is not installed.
+	Reported by Shakti Sen <shprasad@novell.com>.
+	Fixes bug #168569.
+	
+2005-02-23  Dennis Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool-support.c: (open_file_with_caja):
+	Define the desktop icon and name.
+
+2005-02-20  Dennis Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool-support.c: (open_file_with_caja):
+	Remove caja launch time hack and use startup 
+	notification when opening folders.
+
+2005-02-10  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c: (file_button_release_event_cb):
+	Add single click to activate logic to open files.
+	(file_event_after_cb): Remove single click to activate
+	logic to open files.  Fixes bug #166905.
+	
+2005-02-09  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (build_search_command):
+	Check for the '?' wildcard in name contains.
+	Fixes bug #166895.
+
+2005-02-04  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (open_file_with_application): 
+	Use new mate_desktop_item_set_launch_time() API.  
+	Patch provided by Elijah Newren.  Fixes bug #166303.
+
+2005-02-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	Prevent crash if the glib character conversion 
+	routines fail. Bug #166049.
+	
+	* gsearchtool.c:  Added a new function,
+	display_dialog_character_set_conversion_error (). 
+	(build_search_command):  Call 
+	display_dialog_character_set_conversion_error ()
+	if g_locale_from_utf8 () fails. 
+	(handle_search_command_stdout_io):  Do not spawn 
+	search if the command is NULL.
+
+	* gsearchtool-callbacks.c: (click_find_cb):
+	Do not spawn search if the command is NULL.
+	
+2005-01-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (start_animation):  Respect the value
+	of the /desktop/mate/interface/enable_animations key.
+
+2005-01-25  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.h: Add is_locate_database_available.
+	* gsearchtool.c: (setup_case_insensitive_arguments):
+	Set value of is_locate_database_available, 
+	(build_search_command): Before running a locate 
+	command check value of is_locate_database_available.
+	
+2005-01-25  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml,
+	* mate-search-tool.1:  Update the date and version 
+	information.
+
+2005-01-24  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml:  Small description
+	fix.
+
+2005-01-24  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Accessibility fixes.  Cleanup 
+	widget atk names and descriptions.  Thanks to 
+	the at-poke tool.  Fixes Bug #165065.
+	
+2005-01-17  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.1, help/C/mate-search-tool.xml:  
+	Update for new menu bar layout for MATE 2.10.
+	
+2005-01-10  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.desktop.in:  The new menu layout 
+	code gets its name from the desktop file, so add "..." 
+	to the name field.
+	
+2005-01-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Convert from Popt to GOption
+	command line argument handling.
+
+	* mate-search-tool.1:  Small updates.
+	
+2004-12-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (create_search_results_section):
+	Fix the reproducible part of bug #162373, 
+	"search results label not accessible".
+	 
+2004-12-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.schemas.in:  Add one more
+	translator comment.
+
+2004-12-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.schemas.in:  Move translator 
+	comments so intltool will pick them up.  Based
+	on patch provided by Danilo Segan.
+	
+2004-12-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (main):  Fix argument passing
+	to "save_yourself" callback.
+	
+	* gsearchtool-callbacks.c: Convert file from DOS to
+	UNIX format.
+
+2004-12-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.1:  Update the man page.
+
+2004-12-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.schemas.in:  Add translator comments,
+	and rephrase some descriptions.  Fixes Bug #162536.
+
+2004-12-28  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Convert file from DOS to Unix 
+	format.
+	
+2004-12-28  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c: (open_file_with_caja):
+	Replace escape_single_quotes() with g_shell_quote().
+
+2004-12-27  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (gsearch_app_create):
+	Use the search tool's theme icon for the animation's
+	drag icon.
+	
+2004-12-27  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (add_file_to_search_results):  
+	Verify file exists before adding it to the search 
+	results. Fixes Bug #162344.
+
+2004-12-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Fix "zero-length printf format string"
+	found when compiled with -Wall.
+	
+2004-12-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (build_search_command):  If for 
+	some reason gtk-file-chooser-button does not 
+	return a path fallback to the user's home directory.  
+	Should prevent crash reported in Bug #161857.
+	 
+2004-12-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Blank  
+	the window title of the message dialogs.
+
+2004-12-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Replace
+	gsearch message dialogs with the new HIG compliant 
+	gtk+ 2.6 message dialog.
+	
+	* Makefile.am:  Remove gsearchtool-alert-dialog.[ch]
+	
+2004-12-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  (drag_begin_file_cb)
+	When dragging one file set the drag icon to match the 
+	icon of the file.
+ 
+2004-12-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Fix compilation error.
+	Fixes Bug #161456.
+
+2004-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  (open_file_with_caja)
+	Escape the folder names in the command line.
+
+2004-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.[ch]:  (drag_begin_file_cb)
+	Use the correct function prototype.
+
+2004-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch], gsearchtool-callbacks.c:  Finish code
+	cleanup.
+
+2004-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Toggle the sensitivity of the search
+	result's tree view.
+
+2004-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch], gsearchtool-callbacks.[ch],
+	gsearchtool-support.[ch], gsearchtool-spinner.[ch],
+	gsearchtool-alert-dialog.[ch]:
+	
+	  + Major code cleanup.
+	  + Remove unused functions.
+	  + Remove the extern(ed) interface and command structures, 
+	    and create a GSEARCH_WINDOW.
+	  + If getpgid() is available use it to kill spawned commands.
+	    This prevents creating zombie grep processes.
+	
+2004-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/figures/mate-search-tool_window.png:  Update for 
+	newest gtk+ 2.6 file chooser button widget changes.
+
+2004-12-10  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Move
+	gtk-ui-manager setup out of main() to improve
+	startup performance.
+	
+2004-12-10  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c,
+	gsearchtool-support.c: include <glib/gi18n.h>
+	
+2004-12-10  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch], gsearchtool-callbacks.c:  Do not 
+	use the mate-popup-menu deprecated API, instead use
+	gtk-ui-manager.
+		
+2004-12-09  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_application):
+	Do not leak the MateVFSMimeApplication.
+	
+2004-12-09  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (add_file_to_search_results),  
+	(add_no_files_found_message), 
+	(create_search_results_section):  Display the relative 
+	path in the folder column.
+	
+	* gsearchtool.h:  Add COLUMN_RELATIVE_PATH to the 
+	ResultColumn structure. 	
+	
+2004-12-08  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_application):
+	Add MATE_DESKTOP_ITEM_LAUNCH_APPEND_URIS flag to
+	mate_desktop_item_launch_on_screen () it works
+	around applications that do not support uris.
+	
+2004-12-07  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_application):
+	Check that the mime application supports uris before 
+	launching them with mate_desktop_item_launch_on_screen().
+	
+2004-12-07  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_application):
+	Use mate_vfs_mime_application_get_desktop_file_path()
+	to get the desktop file.
+	
+2004-12-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_application):
+	If a desktop file exists for the default application, 
+	launch it using mate_desktop_item_launch_on_screen()
+	to use startup notification if available.
+	  
+2004-12-05  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_caja):
+	Work around caja windows opening in the background, 
+	hopefully Elijah Newren will provide a better solution 
+	in the near future.
+	 
+2004-12-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (move_to_trash_cb):
+	Fix move to trash for broken links.
+	
+2004-12-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (get_file_type_for_mime_type):
+	A better solution for detecting broken links.
+	
+2004-12-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Updates for latest mime type
+	system.  Change 'application/x-executable-binary'
+	to 'application/x-executable'.  Also, special case
+	links to executables so Type column description matches
+	caja.
+	
+2004-12-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (add_no_files_found_message):
+	Do not underline the 'No Files Found' message.
+	
+2004-12-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (help_cb):  Open help on 
+	appropriate screen.  Use mate_help_display_desktop_on_screen().
+	
+2004-12-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c (file_button_release_event_cb):
+	Guard against zero selected rows.  (file_event_after_cb):
+	Don't open selection when control or shift is pressed.
+	 
+2004-12-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch], gsearchtool-callbacks.c:
+	Add support for the 'single click to activate items' 
+	selection mode.  Fixes Bug #160098.
+	
+2004-12-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c (open_file_with_application):
+	Do not open folders with default application.  Fixes Bug 
+	#160106.
+	
+2004-11-29  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml:  Small documentation fix.
+	
+2004-11-29  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c (create_additional_constraint_section):
+	Default gtk_combo_box_set_active to 0.
+	  
+2004-11-29  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch], gsearchtool-callbacks.[ch]: Do not use
+	gtk_option_menu deprecated API.  Use gtk_combo_box instead.  
+	
+2004-11-28  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gserachtool.c (create_additional_constraint_section):
+	Use GTK_SIZE_GROUP_BOTH.  Works around bug #159367.
+	
+2004-11-27  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c, gsearchtool-support.[ch]:  Do
+	not use mate-vfs mime deprecated API (Bug #159453) Patch
+	submitted by Marco Pesenti Gritti.
+
+2004-11-24  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (main):  Use gtk_window_set_default_icon_name().
+	
+2004-11-22  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: (main):  Use gtk_window_set_default_icon_from_file()
+	instead of mate_window_icon_set_default_from_file().
+	
+2004-10-31  James Bowes  <bowes@cs.dal.ca>
+
+	* Makefile.am: Minor fixes to pass make distcheck.
+	Add intltool rule for translating the schema file.
+	* mate-search-tool.schemas: Moved to mate-search-tool.schemas.in
+	for translation.
+
+2004-10-26  Dennis Cranston <dennis_cranston at yahoo com>
+
+	Fix bug #153563:  Add internal logic to perform a two scan search 
+	for simple filename searches.  A quick search will consist of an 
+	indexed search that uses the locate command followed by a thorough 
+	search that uses the find command.  The quick search and second 
+	scan logic can be disabled with mateconf keys.  Advanced users can 
+	fine tune the quick search and second scan logic by adjusting the 
+	new excluded path mateconf keys.  By default, a quick search is not 
+	performed for the paths: /mnt/*, /media/*, /dev/*, /tmp/*, /proc/*, 
+	and /var/*.  By default, a second scan is not performed for the 
+	path: /.
+	
+	* gsearchtool.[ch]:  Add first pass, disable second pass, and a 
+	file hash to the search_command structure;  build_search_command(),
+	handle_search_command_stdout_io(): add first pass logic handling;  
+	add_file_to_search_results():  do not add duplicate files in the 
+	search results.
+	
+	* gsearchtool-support.[ch]:  Add the function 
+	is_quick_search_excluded_path(), is_second_scan_excluded_path()
+	and gsearchtool_mateconf_get_list().
+	
+	* gsearchtool-callbacks.c:  Pass a boolean for the first pass to
+	build_search_command().
+	
+	* mate-search-tool.schemas:  Deprecate the force_quick_search key.
+	Add three new keys: quick_search_second_scan_exclude_path, 
+	quick_search_exclude_path and disable_quick_search_second_scan.
+	
+	* help/C/mate-search-tool.xml:  Remove section 3.7.  Add a new 
+	section 4.  Document the various mateconf keys in the new section.
+	
+	* help/C/figures/mate-search-tool_window.png:  Update for newest
+	gtk+ 2.5 file chooser button widget changes.
+	
+2004-10-24  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: Add new function intermediate_file_count_update()
+	and call it prior to handling pending gtk events.
+	
+2004-10-21  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Convert the look-in-folder-entry widget from a 
+	mate-file-entry to a new gtk+ 2.5 gtk-file-chooser-button. 
+
+	* gsearchtool-callbacks.[ch]: Remove look_in_folder_key_press_cb().
+	Replace legacy mate_file_entry_get_full_path() with 
+	gtk_file_chooser_get_current_folder(). 
+	
+	* help/C/mate-search-tool.xml:  Update for new gtk+ 2.5 file 
+	chooser button widget.
+	
+	* help/C/figures/mate-search-tool_window.png:  Update for new
+	gtk+ 2.5 file chooser button widget.
+	
+2004-10-15  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c: (compare_regex): Fix a potential
+	crash (although it has never been reported).
+	
+	* gsearchtool.c: (build_search_command): Fix logic to correctly 
+	determine if an additional option is selected.
+	
+	Fixes part of bug #153569 (Comments 3-6).
+	
+2004-09-24  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c: (is_path_in_mount_folder):
+	Add support for /media.
+	
+2004-08-01  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c:  Fixes for MATE's new mime 
+	system.
+	
+2004-07-31  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* mate-search-tool.schemas:  Add force_quick_search key.
+	
+	* gsearchtool.c: (build_search_command):  Check value of
+	force_quick_search key.
+
+2004-07-29  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* mate-search-tool.desktop.in:  Update comment description.
+	
+2004-07-23  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c, gsearchtool-support.c:
+	Fix all memory leaks found using "valgrind --tool=memcheck
+	--leak-check=yes".
+
+2004-07-16  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* help/C/mate-search-tool.xml:  Update documentation accordingly.
+
+	* help/C/figures/mate-search-tool_window.png:  Update.
+
+2004-07-13  Shakti Sen  <shprasad@novell.com>
+
+	* gsearchtool.c (build_search_command):
+	"at least", for comparison, includes the size which is specified.
+	Similarly, "at most" includes the size which is specified. 
+	
+	Fixes bug #147465.
+
+2004-07-16  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.h:  Add gsearchtool_mateconf_get_string().
+	
+	* gsearchtool-support.c:  (get_readable_date):  Remove
+	local date_format_pref and use a global variable.  This
+	way we don't perform a mateconf lookup for each file in the
+	search results list.
+	
+	* gsearchtool.c: (spawn_search_command): Set global
+	date_format_pref here.
+	
+	* gsearchtool.h:  Add global date_format_pref.
+	
+2004-07-16  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c:  (get_readable_date):  Use the
+	/apps/caja/preferences/date_format key to determine the
+	format of the date modified field in the search results list.
+	
+2004-07-13  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Add "'!' -type p" to the contains the text
+	searches; otherwise, we will deadlock when greping a fifo.
+	
+2004-07-13  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.[ch]:  Rename backslash_backslashes()
+	to backslash_special_characters().  Escape '-' characters in
+	backslash_special_characters().  Fixes bug #147480.
+	
+	* gsearchtool.c:  Rename backslash_backslashes() to 
+	backslash_special_characters().
+	 
+2004-07-12  Shakti Sen  <shprasad@novell.com>
+
+	* gsearchtool.c (build_search_command):
+	Removed "'!' -type p" to list the pipes as well.
+
+	Fixes bug #147410
+
+2004-07-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* help/C/mate-search-tool.xml:  Add Quick Search documentation.
+	
+2004-07-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (handle_search_command_stderr_io):  Fix
+	mnemonic conflict.
+	
+2004-07-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch], gsearchtool-alert-dialog.[ch], 
+	gsearchtool-callbacks.[ch], gsearchtool-support.[ch]:
+	Improve alert messages created when a search sends output to 
+	stderr.  Also, if performing a quick search and an error occurs
+	then prompt the user to disable the quick search option.  This
+	addresses the remaining part of bug #137404.
+ 
+2004-07-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  Toggle the sensitivity of the available 
+	options menu and its label.
+
+2004-06-23  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (create_constraint_box)  Follow the HIG and put 
+	the unit labels after the text entries where appropriate.
+	
+2004-06-18  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c: (file_key_press_event_cb)
+	Fix bug #144414, correct Ctrl+Space.
+ 
+2004-06-07  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c: (open_file_cb) (file_event_after_cb)
+	Display proper error message if the file/folder does not 
+	exist.  Fixes bug #143772.
+	
+2004-06-07  Dennis Cranston <dennis_cranston at yahoo com>
+	 
+	God bless President Reagan and his family.
+		
+	"Whatever else history may say about me when I'm gone, I hope it 
+	will record that I appealed to your best hopes, not your worst fears; 
+	to your confidence rather than your doubts. My dream is that you will 
+	travel the road ahead with liberty's lamp guiding your steps and 
+	opportunity's arm steadying your way."
+	
+	Ronald Wilson Reagan (February 6, 1911 - June 5, 2004)
+
+2004-05-13  Jorn Baayen  <jbaayen@mate.org>
+
+	* gsearchtool.c: (create_search_results_section):
+
+	Use GTK_SHADOW_IN for consistency.
+
+2004-04-23  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Fix bug #136073, "Dialog box shows incorrect
+	name with UI grab."
+	
+2004-04-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-support.[ch]:  Fix bug #140809,
+	"Searching for text containing backslashes inside of files 
+	requires you to escape the backslashes."
+	
+2004-04-20  Glynn Foster <glynn.foster@sun.com>
+
+	* Makefile.am: Fix distcheck.
+
+2004-04-02  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  Fix 'CFLAGS=-fdata-sections' compiler
+	errors.  Based on proposed patch from Heikki Tauriainen.
+	Fixes bug #137671.  
+	
+2004-04-01  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-alert-dialog.c:  (gsearch_alert_dialog_new):
+	Fix compiler warning.
+	
+2004-04-01  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c: Fixes bug #137404.  
+	
+2004-03-22  Glynn Foster  <glynn.foster@sun.com>
+
+	* help/*: Update online localized user help.
+
+2004-03-19 Breda McColgan <breda.mccolgan@sun.com>
+
+	* help/C/mate-search-tool.xml: Updated based on Bug #137596.
+        * help/C/mate-search-tool-C.omf: Updated date and manual version.
+	* help/C/l10n.txt: Updated for manual version 2.5.
+
+2004-03-07  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.[ch]: (gsearchtool_strdup_strftime):
+	Update this function to match the current eel version. 
+	Adds conditional support for the %E and %O strftime 
+	modifiers.  Fixes bug #136419.
+	
+2004-02-26 Breda McColgan <breda.mccolgan@sun.com>
+
+        * help/C/mate-search-tool.xml: Updated for MATE 2.6, technical review draft
+        * help/C/mate-search-tool-C.omf: Updated for MATE 2.6
+        * help/C/l10n.txt: Updated for MATE 2.6
+        * help/C/figures/mate-search-tool_window.png: Updated for MATE 2.6
+
+2004-02-19  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (create_main_window):  Use the 
+	GtkFileChooser dialog for the browse dialog. 
+
+2004-02-23  Julio M Merino Vidal <jmmv@menta.net>
+                                                                                
+        * Makefile.am: honour mateconf configure option
+                                                                                
+2004-02-20  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (create_constraint_box, create_main_window):
+	More accessibility fixes from Padraig Obriain.  Fixes bug
+	#134962.
+	
+2004-02-19  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (create_main_window):  Cleanup code and 
+	add a reference to the open libmateui bug #132043.
+	
+2004-02-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (create_additional_constraint_section):
+	Fix accessibility bug #128979.
+	 
+2004-02-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  (create_main_window):  Add code to
+	enable the new filechooser dialog for the 'Look in Folder'.
+	But disable it until the libmateui widget stabilized.
+	
+2004-02-06  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-alert-dialog.c: (gsearch_alert_dialog_new):
+	Set ATK_ROLE_ALERT role of dialogs.
+	
+2004-01-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (handle_search_command_stdout_io):
+	Add a GTimer and use it to refresh the search results.
+	 
+2004-01-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* Makefile.am:  Added new files.
+	
+2004-01-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-spinner.[ch]:  New files (borrowed from 
+	epiphany) for the search animation. 
+	
+	* gsearchtool.[ch]:  Use the new spinner functions for 
+	building and managing the search animation.  These 
+	animation files are in the mate-icon-theme module.  
+	The files are mate-searchtool-animation.png and
+	mate-searchtool-animation-rest.png.
+	
+2004-01-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (handle_search_command_stdout_io):
+	Small tweak to the gtk events handling.
+	
+2004-01-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c: (get_file_type_for_mime_type): Added 
+	logic for socket and fifo links.
+	
+	* gsearchtool-support.c (get_file_pixbuf_for_mime_type): Added
+	logic for fifos.
+	
+2004-01-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (handle_search_command_stdout_io):
+	Improved performance when building the search results.
+	
+	* gsearchtool-support.[ch]:  Fixed up a #define.
+	 
+2004-01-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-support.[ch]: 
+	(get_file_type_for_mime_type):  More shared-mime-info
+	related fixes.
+	
+2004-01-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-support.c: Replace 
+	mate_vfs_get_mime_type() function calls with 
+	mate_vfs_get_file_mime_type().
+
+2004-01-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchool.c (add_file_to_search_results):  Fallback
+	to mime type when the mime description is null.
+	
+2004-01-08  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c (show_file_selector_cb):
+	Added call to gtk_file_chooser_set_filename().
+	
+2004-01-08  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  Added a pixbuf hash.
+	Removed custom code to scale the icons.  The Gtk+ theme will 
+	handle it.
+	
+	* gsearchtool-support.[ch]: (get_file_pixbuf_for_mime_type):
+	Store the icon pixbufs in a hash table.  This decreases 
+	memory usage.
+	
+2004-01-05  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]: Replaced MateIconTheme with GtkIconTheme.
+	  Also, do not use locate for finding files in the /var, /dev, 
+	  & /proc directories.
+	  
+	* gsearchtool-support.[ch]:  Added is_path_in_[var|dev|proc]_folder().
+	
+2004-01-01  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: (update_search_counts):  Fix another fuck up 
+	in Christian Neumair's commit.  I strongly recommend building 
+	and testing a patch before committing it.
+	
+2003-12-13  Michael Terry <mterry@fastmail.fm>
+
+       * Makefile.am, mate-search-tool.desktop.in, gsearchtool.c,
+       gsearchtool.h: Use mate-icon-theme instead of built-in icons.  Fixes
+       #129283.
+
+2003-12-31  Glynn Foster  <glynn.foster@sun.com>
+
+	* gsearchtool-callbacks.c: (open_folder_cb): Fix broken build.
+
+2003-12-30  Christian Neumair  <chris@mate-de.org>
+
+	* gsearchtool-callbacks.c: (open_folder_cb, open_file_cb:
+	* gsearchtool.c: (update_search_counts): Use ngettext for plurals
+	(#106700).
+
+2003-12-14  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* A great day for celebration.
+	
+	THE PRESIDENT OF THE UNITED STATES OF AMERICA: "Good afternoon. 
+	Yesterday, December the 13th, at around 8:30 p.m. Baghdad time, 
+	United States military forces captured Saddam Hussein alive. 
+	He was found near a farmhouse outside the city of Tikrit, 
+	in a swift raid conducted without casualties. And now the 
+	former dictator of Iraq will face the justice he denied to 
+	millions.
+
+	The capture of this man was crucial to the rise of a free Iraq. 
+	It marks the end of the road for him, and for all who bullied 
+	and killed in his name. For the Baathist holdouts largely 
+	responsible for the current violence, there will be no return 
+	to the corrupt power and privilege they once held. For the 
+	vast majority of Iraqi citizens who wish to live as free 
+	men and women, this event brings further assurance that the 
+	torture chambers and the secret police are gone forever.
+
+	And this afternoon, I have a message for the Iraqi people: 
+	You will not have to fear the rule of Saddam Hussein ever 
+	again. All Iraqis who take the side of freedom have taken 
+	the winning side. The goals of our coalition are the same 
+	as your goals -- sovereignty for your country, dignity for
+	your great culture, and for every Iraqi citizen, the 
+	opportunity for a better life.
+
+	In the history of Iraq, a dark and painful era is over. A 
+	hopeful day has arrived. All Iraqis can now come together 
+	and reject violence and build a new Iraq.
+
+	The success of yesterday's mission is a tribute to our men 
+	and women now serving in Iraq. The operation was based on 
+	the superb work of intelligence analysts who found the 
+	dictator's footprints in a vast country. The operation was 
+	carried out with skill and precision by a brave fighting 
+	force. Our servicemen and women and our coalition allies 
+	have faced many dangers in the hunt for members of the fallen 
+	regime, and in their effort to bring hope and freedom to the 
+	Iraqi people. Their work continues, and so do the risks. 
+	Today, on behalf of the nation, I thank the members of our 
+	Armed Forces and I congratulate them.
+
+	I also have a message for all Americans: The capture of 
+	Saddam Hussein does not mean the end of violence in Iraq. 
+	We still face terrorists who would rather go on killing the 
+	innocent than accept the rise of liberty in the heart of 
+	the Middle East. Such men are a direct threat to the American 
+	people, and they will be defeated.
+
+	We've come to this moment through patience and resolve and 
+	focused action. And that is our strategy moving forward. 
+	The war on terror is a different kind of war, waged capture 
+	by capture, cell by cell, and victory by victory. Our security 
+	is assured by our perseverance and by our sure belief in the 
+	success of liberty. And the United States of America will not 
+	relent until this war is won.
+
+	May God bless the people of Iraq, and may God bless America. 
+	Thank you." 
+	
+2003-12-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c:  Small verbage change.
+
+2003-12-11  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c:  Remove gtk_window_set_default_size() 
+	for the GtkFileChooser.  Fixes bug 129115.
+
+2003-12-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* help/C/mate-search-tool.xml:  Updated for "Show hidden
+	and backup files" terminology change.
+	
+2003-12-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: Hide backup files by default.
+	 
+2003-12-09  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-alert-dialog.[ch]:  New files to implement 
+	an HIG compliant alert dialog.
+	
+	* Makefile.am:  Added gsearchtool-alert-dialog.[ch].
+	
+	* gsearchtool.c, gsearchtool-callbacks.c:  Modified to 
+	use the alert dialog.  
+	
+	* gsearchtool-support.[ch]:  Removed gsearchtool_hig_dialog_new().
+	Added gsearchtool_button_new_with_stock_icon().
+	
+	* gsearchtool-callbacks.c:  Modified open_file_cb() and
+	file_event_after_cb() to match the behavior of the
+	spacial caja.
+	
+2003-12-08  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c:  HIGify the primary message
+	of the alert dialog.  The correct format should be: 
+	<span weight="bold" size="larger">.
+	
+2003-12-06  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.[ch]: Replace GtkFileSelection 
+	with GtkFileChooser.  Based on patch provided by
+	Jan Arne Petersen  <jpetersen@uni-bonn.de>.
+
+2003-12-03  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Fix bug report 128454. Add atk relations 
+	for the expander widget. Based on patch submitted by
+	padraig.obriain@sun.com.
+	
+2003-12-02  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Add atk name description to the expander
+	widget.  Fixes the gsearchtool part of bug 128378.
+
+2003-11-18  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch], gsearchtool-callbacks.[ch]: Use the
+	new gtk expander widget. 
+	
+	* help/C/figures/mate-search-tool_window.png: Update
+	accordingly.
+	
+2003-11-18  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: Resolve bug report 127293.
+	
+2003-11-08  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.h:  Bye bye deprecated flags.
+	
+2003-11-06  Glynn Foster  <glynn.foster@sun.com>
+
+	* gsearchtool.h: remove disable deprecated flags temporarily
+	so we can at least distcheck easily - Dennis, if it builds 
+	nicely, please remove as I'm just trying to make a release.
+
+2003-10-20  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c:  Move translator comment.
+	
+2003-10-16  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  (Bug report 119720) Add support
+	for 'Move to Trash' to the search results list.  Add
+	update_search_counts() function.
+	
+	* gsearchtool-callbacks.[ch]:  Add 'Move to Trash'
+	item to popup menu.  Add get_trash_path() and 
+	move_to_trash_cb() functions.  Handle GDK_Delete
+	keyval event.
+	
+	* gsearchtool-support.c: Add a CANCEL/DELETE type
+	dialog to the gsearchtool_hig_dialog_new() function.
+	
+2003-10-15  Dennis Cranston <dennis_cranston at yahoo com>
+	
+	* gsearchtool.c, gsearchtool-callbacks.c, and 
+	  gsearchtool-support.c:  Various memory leak fixes
+	  for bug report #124656. Patch provided by Kjartan 
+	  Maraas <kmarass at mate org>.
+	  
+2003-10-14  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Add support for the GDK_ACTION_ASK
+	drag and drog method.  (Changes have been checked in 
+	to Caja 2.5+ to support it.)
+	
+2003-10-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c: Ditto.
+	
+2003-10-10  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Support drag and drop with BUTTON2.
+	
+2003-09-29  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Fix for a portability issue detected on 
+	AIX. See bug report 123191, "G_IO_HUP is not enough to
+	detect broken pipe".
+	(http://bugzilla.mate.org/show_bug.cgi?id=123191)
+	
+2003-09-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-support.c:  Add a comment for translators.
+	(http://bugzilla.mate.org/show_bug.cgi?id=120434)
+	
+2003-09-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  Fix for bug report 122704.
+	(http://bugzilla.mate.org/show_bug.cgi?id=122704)
+	
+2003-09-21  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* mate-search-tool-animation.png:  Small touch up.
+
+2003-09-18  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Fix for bug report 122419.
+	(http://bugzilla.mate.org/show_bug.cgi?id=122419)
+	
+	* gsearchtool-callbacks.[ch]:  Rename the callback function 
+	constraint_menu_toggled_cb to constraint_menu_item_activate_cb.
+	
+2003-09-18  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c:  Apply fix based on patch from
+	Hidetoshi Tajima (hidetoshi.tajima@sun.com) for bug report 
+	122402. (http://bugzilla.mate.org/show_bug.cgi?id=122402)
+
+2003-08-23  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* mate-search-tool.schemas, gsearchtool.c:  Clean up mateconf
+	key paths.
+
+2003-08-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  Do not use the locate command for finding
+	files in the /tmp directory.
+	
+	* gsearchtool-support.[ch]:  Added is_path_in_tmp_folder().
+	
+Thu Aug 21 17:03:22 2003  George Lebl <jirka@5z.com>
+
+	* gsearchtool.[ch]: the 'pixmap' field is not used anymore
+	  and was just causing trouble.  Fix the width being too large
+	  for drawing and so the icon is now back and no more
+	  runtime warnings.  Also don't screw up in case the icon
+	  with the animation is not found, handle pixbuf == NULL
+	  case.  Also set the interface structure to all 0 with
+	  memset just for anality
+
+	* gsearchtool.c: fix shell escaping, use g_shell_quote
+	  and not g_strescape which is not correct and could lead
+	  to errors and fix a leak when eascaping
+
+	* gsearchtool.c, gsearchtool-callbacks.c, gsearchtool-support.c:
+	  Never, ever under any circumstances do if (foo == TRUE), since
+	  foo could be something other then '1' (which is the value of
+	  the TRUE define) and still TRUE.  This leads to VERY subtle
+	  errors that are hard to catch.  foo == FALSE is fine since there
+	  is only one FALSE value (0).  foo != FALSE could be used but
+	  that adds more confusion then clarity.
+
+2003-06-18  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: According to the HIG use header capitalization 
+	for titlebar labels.
+ 
+2003-05-31  Christian Neumair  <chris@mate-de.org>
+
+	* gsearchtool.c: Moved gettext call for available options
+	menu so that it gets localized in spite of the
+	remove_mnemonic_character call.
+
+2003-05-30  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-callback.c:  HIGify the alert 
+	dialogs.  Replaced function calls to gtk_message_dialog_new () 
+	with gsearchtool_hig_dialog_new ().
+	
+	* gsearchtool-support.[ch]: Added gsearchtool_hig_dialog_new ().
+		
+2003-05-30  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (create_main_window):  Update a few atk 
+	name descriptions.
+	
+	* gsearchtool-callbacks.c (drag_data_animation_cb):  
+	Simplify code.
+
+2003-05-29  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c (drag_data_animation_cb):  Added
+	startup notification support to desktop files.
+	
+2003-05-29  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]: Added drag and drop support to the 
+	animation image.  Dragging the animation drops a desktop file
+	to launch a search with the same search options. Added a
+	get_desktop_item_name () function.  Added an argument to 
+	set_clone_command () to support escaping of arguments.
+	
+	* gsearchtool-callbacks.[ch]: Added drag_data_animation_cb ().
+	
+	* gsearchtool-support.[ch]: Added gsearchtool_unique_filename ().
+	
+	* Makefile.am:  Added MATEDESKTOP_CFLAGS & MATEDESKTOP_LIBS.
+	
+2003-05-28  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (add_constraint) , gsearchtool-callbacks.c
+	(click_check_button_cb):  Adjust minimum size of window
+	depending on whether more options are shown or hidden.
+	
+	* gsearchtool.h:  Added defines for minimum window width
+	and height.
+
+2003-05-28  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool-callbacks.c (save_results_cb):  Fix bug
+	report #113868 based on patch by hidetoshi.tajima@sun.com 
+	(Hidetoshi Tajima).
+
+2003-05-28  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (build_search_command):  Added a hidden 
+	'disable_quick_search' mateconf key and when set to TRUE the 
+	search tool will not use the locate command for performing 
+	simple file name searches.  By default the key is set to FALSE.
+
+	* mate-search-tool.schemas:  Added the 'disable_quick_search' 
+	mateconf key.
+ 
+2003-05-23  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c  (add_file_to_search_results): Modified sort order 
+	of the listview columns to match caja.
+	
+	* gsearchtool-support.[ch]:  Remove get_date().
+ 
+2003-05-23  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (main): Support svg icons.
+
+2003-05-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c: Fix recent added mnemonics clash.
+
+2003-05-22  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (update_animation_timeout_cb):  Fix displaying
+	frames at start and end of animation twice.
+
+2003-05-21  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* help/C/figures/mate-search-tool_window.png:  Updated.
+	
+2003-05-21  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  Convert the image into an animation.  
+	Remove the status and progress bar.  Place status information
+	across from the search results label and in the window title.
+	
+	* gsearchtool-callbacks.c: Remove duplicate code.
+		
+	* Makefile.am:  Add an animation file for installation.
+	
+	* mate-search-tool-animation.png:  Add a simple animation file,
+	maybe someday a graphic artist will put together a better file.	
+	
+2003-05-20  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-callbacks.[ch]:  Change function
+	toggle_check_button_cb() to click_check_button_cb().
+
+2003-05-20  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.[ch]:  Replace disclosure widget with a standard 
+	check button with mnemonic label.  This synchronizes the UI with 
+	recent changes made to the run application dialog.  
+	
+	* gsearchtool-callbacks.[ch]:  Add a toggle_check_button_cb()
+	function.
+	
+	* gsearchtool-support.[ch]:  Remove code for the custom 
+	disclosure widget.
+	
+	* help/C/figures/mate-search-tool_window.png:  Update for this
+	change.
+	
+	* help/C/mate-search-tool.xml: Update for this change.
+	  
+2003-05-19  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (create_main_window)  minor HIG spacing adjustment
+	to button spacing.
+
+2003-05-17  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (create_main_window)  convert g_get_current_dir()
+	value to utf8.
+
+2003-05-17  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c (setup_case_insensitive_arguments)  Correct
+	a typo.  This should fix bug 112945.
+
+2003-05-06  Kaushal Kumar <kaushal.kumar@wipro.com>
+
+	* gsearchtool.c (spawn_search_command): Removed the flag 
+	G_SPAWN_DO_NOT_REAP_CHILD from g_spawn_async_with_pipes call.
+	Fixes #112358.
+
+2004-04-29  Dennis M. Cranston <dennis_cranston at yahoo com>
+
+	* help/C/figures/mate-search-tool_window.png:  Update for
+	previous commit.
+	
+2004-04-26  Dennis M. Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Minor HIGification:
+	correct widget padding (remove MATE_PAD*). Also, set scrolled
+	window's shadow type to GTK_SHADOW_NONE.
+	
+2004-04-25  Dennis M. Cranston <dennis_cranston at yahoo com>
+
+	* gsearchtool.c:  HIGify the mnemonic label of the listview.
+	
+	* help/C/figures/mate-search-tool_window.png:  Update accordingly.
+	* help/C/mate-search-tool.xml: Update accordingly.
+	
+
+2004-04-09  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* help/Makefile.am:  Commented out recently checked-in
+	& broken translations (de es fr it sv ko zh_CN zh_TW).  
+	Looking at the screenshots, the documentation is 
+	outdated.
+
+2003-04-05  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  make_list_of_templates() emit the
+	activate signal.
+
+2003-03-30  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool-callbacks.c:  Prevent a click on the find 
+	button from starting a new search immediately after a 
+	search has either aborted or finished.  This modification 
+	is similar to the commit on 2003-03-02 for the escape
+	key.
+
+2003-03-30  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  Fix the find & stop button resizing 
+	problem (discovered in Galaxy widget theme).
+	
+2003-03-25  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Fix for bug 
+	report #107703, added a "Show hidden files and folders" 
+	option.
+
+	* mate-search-tool.schemas:  Added a
+	show_hidden_files_and_folders key to the schemas file.
+
+	* help/C/mate-search-tool.xml:  Updated documentation 
+	for additional options to include "Show hidden files and 
+	folders".  Also, converted a few 'directory' strings to 
+	'folder'.
+
+2003-03-17  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  Finished the remaining work for bug 
+	report #107805.  Based on a patch submitted by 
+	<pasupathi.duraisamy@wipro.com (Pasupathi)>.  
+
+2003-03-16  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool-support.c:  Disabled toggling of the 
+	show_additional_options mateconf key, but keep it around 
+	for advanced users.
+
+2003-03-16  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  In create_constraint_box() set the 
+	appropriate constraint data (text/time/number) to value.
+	
+2003-03-15  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.[ch]:  Applied 
+	a patch for bug report #107805: "gsearchtool is not 
+	fully session aware" based on a patch from  
+	<pasupathi.duraisamy@wipro.com (Pasupathi)>.
+
+	* gsearchtool.c:  Reordered popt argument handling
+	to match the order in the available options menu. 
+
+2003-03-14  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  Added g_set_application_name().
+	
+2003-03-14  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	Fix for bug report #107245, "gsearchtool does not retain
+	additional constraints".
+
+	* mate-search-tool.schemas:  New schemas file.
+
+	* Makefile.am:  Added the schemas file.
+  
+	* gsearchtool.[ch]:  Added set_constraint_mateconf_boolean()
+	and handle_mateconf_settings().
+	
+	* gsearchtool-callbacks.c:  When removing an option set 
+	its mateconf key to false.  Added gsearchtool_mateconf_get_boolean() 
+	and gsearchtool_mateconf_set_boolean().
+	
+	* gsearchtool-support.[ch]:  When toggling the disclosure
+	widget set its mateconf key accordingly.
+	   
+2003-03-05  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  Connected the key press event to 
+	file_key_press_event_cb() for search results.
+	
+	* gsearchtool-callbacks.[ch]:  Added file_key_press_event_cb()
+	to open a file if space or return is pressed like in caja'
+	list view.  Also, removed an unused variable in 
+	constraint_entry_changed_cb().
+	
+2003-03-02  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.[ch]:  Prevent the escape key from quiting
+	the application immediately after a search has either aborted 
+	or finished.  Also, replaced deprecated gtk_timeout_*() calls.
+	
+	* gsearchtool-callbacks.[ch]:  Added not_running_timeout_cb().
+	Replaced deprecated gtk_timeout_*() calls.
+	
+2003-02-28  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* help/C/mate-search-tool.xml:  Search rules table update.
+	
+2003-02-28  Dennis M. Cranston <dennis_cranston at yahoo.com>
+
+	* gsearchtool.c:  Remove unnecessary gtk_widget_set_sensitive().
+	
+2003-02-27  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Minor handle_search_command_stdout_io()
+	optimization.
+	
+2003-02-27  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* help/Makefile.am:  Comment out the broken ja directory
+	from SUBDIRS.
+	
+2003-02-27  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix for bug report #107118 based on patch 
+	from Kaushal Kumar <kaushal.kumar@wipro.com> to make the 
+	'Name contains' entry optional.  This means the 'Find' button 
+	is sensitive by default.  
+	
+	* gsearchtool-callbacks.c:  Fix for bug report #107118 
+	based on patch from Kaushal Kumar <kaushal.kumar@wipro.com> 
+	to make the 'Name contains' entry optional.
+	
+	* gsearchtool.c:  Include folders in search results!
+ 
+2003-02-23  Takeshi AIHANA <aihana@mate.gr.jp>
+
+	* help/ja/*: added Japanese translations by
+				KAMAGASAKO Masatoshi <emerald@mate.gr.jp>.
+	* help/ja/Makefile.am:  added ja into SUBDIRS.
+
+2003-02-19  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/figures/mate-search-tool_window.png:  Updated
+	screenshot.
+	
+2003-02-19  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Converted the search results section from 
+	a frame to a vbox and increased the padding between the result's 
+	label and window.  Also, added GTK_SHRINK flag to the filename
+	and folder entries.
+	
+2003-02-17  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Do not exclude .mate-desktop 
+	from the search results.  Fixes bug #106153.
+
+2003-01-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml,
+	* help/C/figures/mate-search-tool_window.png:
+	Updated the docs and screenshot for bugs #98548 and #100728.
+	
+2003-01-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix bug #102480.  Add mnemonics to additional 
+	options of type SEARCH_CONSTRAINT_TEXT.
+
+	* gsearchtool-support.[ch]:  Added remove_mnemonic_character().
+
+2003-01-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix bug #100728.  Default filename search 
+	constraint should be case insensitive (system dependent).  Also, 
+	converted the 'Contains the text' and 'File is not named' search 
+	constraints to be case insensitive for consistency.  
+
+2003-01-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix bug #98548.  Default filename search 
+	should be by substring.  As a result, the 'file is named' 
+	entry has been renamed to 'Name contains'.
+
+2003-01-09  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Do not use the locate command for finding
+	files in the /mnt directory.
+	
+	* gsearchtool-support.[ch]:  Added is_path_in_mount_folder().
+	
+2003-01-05  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Toggle the sensitivity of the contraints
+	while searching.
+	
+2003-01-04  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Minor LEFT_LABEL_SPACING adjustment.
+
+2003-01-04  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Toggle the sensitivity of the results frame 
+	rather than its scrolled window.
+	
+2002-12-29  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix bug #101771. Used "Select the '%s' 
+	constraint" for many of the popt argument descriptions.  Also, 
+	changed name->named as it conflicts with gtk+'s name argument.
+
+2002-12-29  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix bug #101767.  Removed cryptic use of 
+	%s from the 'No files found', 'One file found', and '%d files found' 
+	messages.
+
+2002-12-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Apply disclosure widget changes
+	from Arvind Samptur <arvind.samptur@wipro.com> provided
+	in bugzilla report 100992.
+	(class_init) Attached a destroy handler.
+	(cddb_disclosure_destroy) Removed the timer on a destroy.
+	(do_animation) Replaced gtk_timeout_remove() with g_source_remove().
+	
+2002-12-15  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Left indent the options contained in 
+	the disclosure widget.
+
+2002-12-07  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  (size_allocate_cb) 
+	Oops...use gtk_widget_set_size_request().
+	
+2002-12-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  (save_results_cb)  When the user 
+	fails to select a file name in the 'Save Search Results As...' 
+	dialog, don't ask to overwrite a folder.  Instead, display the 
+	appropriate error message.
+	
+2002-12-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  (size_allocate_cb) Call function
+	gtk_widget_set_usize() instead of gtk_widget_set_size_request().
+
+2002-12-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Connect the "size_allocate" signal of
+	the find button to size_allocate_cb().
+	
+	* gsearchtool-callbacks.[ch]:  Implement the size_allocate_cb()
+	function.
+	
+2002-12-06  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/mate-search-tool.xml:  Correct the description
+	for the 'contains the text' search rule.  Fixes bug 97363.
+	  
+2002-12-05  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Apply slightly modified patch from
+	Glynn Foster to fix bug report #100448, 'The icon in
+	mate-search-tool dialog doesn't theme'.
+	 
+2002-12-02  Glynn Foster  <glynn.foster@sun.com>
+
+	* mate-search-tool.desktop.in: Re-order stuff to be consistant
+	with the other mate-utils.
+
+2002-11-30  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* mate-search-tool.desktop.in:  Added StartupNotify=true.
+	 
+2002-11-29  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch]: Fixed (-Wall) compiler warnings.  
+	Replaced call to matecomponent_init() with matecomponent_init_full().
+	
+	* gsearchtool-callbacks.[ch]:  Fixed (-Wall) compiler 
+	warnings. Replaced calls to g_return_if_fail() with 
+	g_return_val_if_fail().
+	
+	* gsearchtool-support.[ch]:  Fixed (-Wall) compiler 
+	warnings.  Removed unused global_client_free() function.
+	
+2002-11-29  Fernando Herrera <fherrera@onirica.com>
+
+       * mate-search-tool.desktop.in: add X-MATE-BUGZILLA stuff
+
+2002-11-24  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fix key_press_cb() 
+	to correctly handle the shift F10 event.  It has 
+	not worked since multiselection was enabled in 
+	the results list.
+	
+2002-11-19  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Remove duplicate calls to
+	gtk_tree_view_column_set_sizing().
+	
+2002-11-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Replace use of 
+	_gtk_check_button_get_props() with gtk_widget_style_get().
+	This patch was supplied by the Gman.
+	  
+2002-11-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch]:  If constraints are unavailable
+	make the add button insensitive.
+	 
+2002-11-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Removed the horizontal separator from 
+	above the button box.
+	
+	* help/C/figures/mate-search-tool_window.png:  Updated
+	screenshot.
+	
+2002-11-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Patch from "jaiserca@inf.upv.es 
+	(jaiserca)" to fix disclosure widget drawing problems 
+	in RTL (right to left) environments.  Fixes bug 98215.
+	 
+2002-11-08  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix variable name confusion.
+
+2002-10-31  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.h: Add a look_in_folder variable to the 
+	search_command structure.
+	
+	* gsearchtool.c:  For handle_search_command_stdout_io(), add
+	a filter to ignore a string returned by the find and locate 
+	commands if the string does not have look_in_folder as its prefix.
+	
+	Solaris' default grep command does not support the q option.  
+	Use the c option as a work around, since counts will be 
+	filtered out of the results. 
+	
+	* gsearchtool.c, gsearchtool-callbacks.c:  When calling 
+	mate_file_entry_get_full_path() set the file_must_exist 
+	flag to FALSE.
+	
+2002-10-30  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Support searches of file sizes
+	greater than 2.0 GB by replacing "-size %dc" with 
+	"-size %uc".  Thanks to Pasupathi Duraisamy.
+	
+2002-10-29  Pasupathi Duraisamy <pasupathi.duraisamy@wipro.com>
+
+	* gsearchtool.c: For size type constraint use "-size %dc" 
+	option which is available both on GNU version "find" 
+	command and Solaris specific "find" command. 
+	Fixes Bug#96679
+
+2002-10-26  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Set the window placement
+	of the 'Save Search Results As...' dialog to 
+	GTK_WIN_POS_CENTER_ON_PARENT.
+	
+2002-10-22  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Prevent possible warnings in
+	add_file_to_search_results() when mate-icon-theme
+	is not installed.
+	
+	* gsearchtool-support.c:  Prevent possible warnings
+	in get_file_icon_with_mime_type().
+	  
+2002-10-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Remove work-around to get 
+	the icon for a directory as this has been fixed in
+	libmateui.  <<REQUIRES LIBMATEUI CVS HEAD>>
+	 
+2002-10-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* help/C/figures/mate-search-tool_window.png:  
+	Updated to include bug report #95339 and the widget 
+	padding changes.
+	
+2002-10-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Minor padding adjustment to the
+	additional options section.
+	
+2002-10-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Move the buttons to the bottom of
+	the window.  Fixes bug report #95339.
+	
+2002-10-15  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Applied patch to fix bug report #95875 
+	from Hidetoshi Tajima <hidetoshi.tajima@sun.com>. Fixes
+	utf8 conversion problems.  Thanks!!
+	
+2002-10-14  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Allow window manager to include the
+	minimize and maximize buttons.  Fix for bug report 
+	#95755.
+	
+2002-10-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Another fix for multiple
+	file selection.  It would be so much nicer if Gtk+
+	did this stuff correctly by default.
+	
+2002-10-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Improved drag and drop 
+	behavior when multiple files have been selected. 
+	
+2002-10-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fix a possible crash in 
+	file_event_after_cb().
+	
+2002-10-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Hooked up a handler for the drag_begin
+	signal.
+	
+	* gsearchtool-callbacks.[ch]:  Added drag_begin_file_cb()
+	and set drag image to the stock multiple dnd icon when
+	dragging multiple files.
+	
+2002-10-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Changed the gtk selection mode to 
+	multiple.  Added event-after and button-release-event
+	signal handlers.
+	
+	* gsearchtool-callbacks.h:  Added file_event_after_cb()
+	and file_button_release_event_cb().
+	
+	* gsearchtool-callbacks.c:  Implemented support for
+	selecting multiple files in the search results list.  
+	Fixes bug report #95457.
+	
+2002-10-11  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Added mate_entry_prepend_history()
+	calls to store the 'File is named' and 'Look in folder'
+	entry values.  <<REQUIRES LIBMATEUI CVS HEAD>>
+	
+2002-10-09  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Added ability to move files from
+	the results (i.e. added GDK_ACTION_MOVE action).
+	
+2002-10-08  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Autosize the tree view columns
+	when displaying the 'no files found' message to
+	prevent the message from being possibly truncated.
+	
+2002-10-08  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Renamed the 'autostart' command
+	line argument to 'start'.
+	
+2002-10-08  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Cleanup 
+	the last two error message dialogs.
+	
+2002-10-08  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Added escape_single_quotes()
+	for filename in open_file_with_application().
+	
+2002-10-08  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.c:  Cleanup the 
+	various error message dialogs.
+	
+2002-10-07  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Fixed open_file_with_application() 
+	to correctly handle MateVFSMimeApplication command strings
+	containing multiple arguments.
+	
+2002-10-07  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.[ch]:  Added function launch_file().
+	
+	* gsearchtool-callbacks.c:  Added ablity to execute
+	binary programs by calling launch_file() when attempting
+	to open the file.
+	
+2002-10-07  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Included the missing check
+	for unknown mime types - part of my previous commit.
+	
+2002-10-07  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Added code to detect the 
+	'link (broken)' file type.
+	
+2002-10-06  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.c:  Improved file type 
+	detection of symbolic links.
+	
+2002-10-06  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Updated the no viewer
+	available error message dialog.
+	
+2002-10-06  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch]:  Added icon theme structure to 
+	our interface structure and defined it in main().
+	
+	*gsearchtool-support.[ch]:  Removed get_mime_name().
+	Rewrote get_file_icon_with_mime_type() to use the
+	new icon theme lookup functions.  
+	<< REQUIRES LIBMATEUI CVS HEAD>>
+	  
+2002-10-06  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-support.c:  Improve 
+	file type recognition by replacing calls to the
+	function mate_vfs_mime_type_from_name() with 
+	mate_vfs_get_mime_type().
+	
+2002-10-05  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Minor string changes.
+	
+	* help/C/mate-search-tool.xml:  Updated for string
+	changes.
+	
+	* help/C/figures/mate-search-tool_window.png: Updated
+	for string changes.
+	
+2002-10-05  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.[ch]:  Added function 
+	is_component_action_type().
+	
+	* gsearchtool-callbacks.c:  Fix for bug report #94858, 
+	before opening a file with caja call 
+	is_component_action_type() to check that the file has 
+	a default action type of component.  
+	
+2002-10-05  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fixed popup menu for 
+	result window's scrolled horizontally.
+	
+2002-10-03  Dennis M. Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool.c:  Update command line argument parsing for 
+	the recent constraint changes.  Also, set the spin button's 
+	initial value based on command line arguments.
+	
+2002-10-03  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Use a Gtk spin button entry for
+	constraints of type time and number.
+	 
+2002-10-03  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Moved 'File is empty' constraint
+	into the size group.  
+	
+	* help/C/mate-search-tool.xml:  Updated to reflect
+	new order of constraints.
+	
+2002-10-03  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch]:  Added support for horizontal 
+	separators in the available search constraints 
+	option menu.  Added several separators to the option 
+	menu and grouped the similar options.  Also, 
+	simplified phrasing of a few the constraints.   
+	
+	* C/help/mate-search-tool.xml:  Updated to reflect
+	the new search constraint order and phrasing.
+	 
+2002-10-03  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  In handle_search_command_stderr_io()
+	reset truncate_error_msgs to false when handling
+	the G_IO_HUP signal.
+	
+2002-10-02  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Prevent possible search deadlock by 
+	rewriting handle_search_command_stderr_io() to handle 
+	both G_IO_IN and G_IO_HUP signals.
+	
+2002-09-27  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Do not escape the pattern string
+	passed to fnmatch().
+	
+2002-09-26  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Replace g_pattern_match_string()
+	with fnmatch() so that searches of the type "*.[ch]" 
+	will work.
+	
+2002-09-25  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Add "'!' -type p" argument to exclude 
+	FIFO pipes from find command results.
+	 
+2002-09-25  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+        * mate-search-tool.1: Update man page.
+	
+2002-09-25  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* AUTHORS: added myself.
+	
+2002-09-25  Pat Costello <patrick.costello@sun.com>
+
+	* mate-search-tool.xml
+	* mate-search-tool-C.omf
+	* mate-search-tool_window.png
+	Updates to reflect application UI changes.
+	
+2002-09-23  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Cleanup g_path_get_basename() and
+	g_pattern_match_string() warnings.
+	
+2002-09-18  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Substitute "-xdev" for "-mount".
+	The xdev option is compatible with the current GNU, 
+	Solaris, HP, and AIX versions of the find command.
+	
+2002-09-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Correct right click and double
+	click handling in the click_file_cb() function.
+	
+2002-09-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Toggle the sensitivity
+	of the "Save Results As..." popup menu option.
+	 
+2002-09-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fix bug #93435 -- for a
+	dialog window the escape key should close the dialog.
+	So, if a search is not running then close the dialog.
+	
+	* gsearchtool.c:  Append an "(aborted)" message to
+	the status bar text if a search is canceled. 
+	
+2002-09-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c, gsearchtool-callbacks.[ch]:  Fix bug 
+	#93395 "Popup menu cannot be invoked with the keyboard".
+	
+2002-09-16  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Limit the tree view hack to only 
+	the first few pixels.
+	 
+2002-09-15  Dennis M. Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool.c:  Fix the progress bar related warnings
+	caused when the user closes the window while a search 
+	is in progress.
+
+2002-09-15  Dennis M. Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool.c:  Take another 'crack' at my previous 
+	check-in.
+	
+2002-09-15  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Implement work around for an annoying tree 
+	view feature -- if the scroll position is at the top of the 
+	tree view then remain at the top.
+	 
+2002-09-14  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  correct typo in popt usage.
+	
+2002-09-14  Dennis M. Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool-callbacks.c:  (HIG) Remove the '...' from open 
+	and open folder in the popup menu.
+	
+2002-09-14  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Do not show the tree view headers unless
+	a file is found.
+	 
+2002-09-14  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.[ch]:  Add the rest of the popt command line 
+	arguments.  We have an argument for all available constraints.
+	This should finish up bug report #81198.  For details, run 
+	'mate-search-tool --help'. 
+	
+	* gsearchtool-callbacks.c:  Move window geometry adjustments
+	from add_constraint_cb() to add_constraint().
+	
+2002-09-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Add popt command line argument handling.
+	This is the first part of my changes for bug report #81198.  
+	The new application options are:
+  	  --name=STRING       Set the text of 'file is named'
+  	  --path=STRING       Set the text of 'look in folder'
+  	  --sortby=STRING     Sort files by one of the following:
+                              name, folder, size, type, or date
+  	  --descending        Set sort order to descending, the
+                              default is ascending
+  	  --autostart         Automatically start a search
+
+2002-09-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Adjust minimum width.
+	
+2002-09-13  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Add mate search tool image to the 
+	window.  I am told this makes the dialog more inviting.
+	 
+2002-09-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix 'file is named' entry to remember
+	text between runs.
+	
+2002-09-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fix escape_key_press_cb().
+	
+2002-09-11  Dennis M. Cranston <dennis_cranston@yahoo.com>	
+	 
+	"Time is passing. Yet, for the United States of America, there 
+	will be no forgetting September the 11th. We will remember 
+	every rescuer who died in honor. We will remember every family 
+	that lives in grief. We will remember the fire and ash, the last 
+	phone calls, the funerals of the children." 
+	-- President George W. Bush (11/11/2001)
+	
+	Remember those who lost their lives on September 11, 2001.  
+	Honor the spirit of freedom that will live forever.
+	
+	* gsearchtool.c:  Clicking on the OK button in the browse 
+	dialog would incorrectly start a search, so it had been 
+	commented out.  Fixed this by hooking up a 'key_press_event' 
+	signal for the look in folder entry widget.  Also, filter out 
+	the "No such file or directory" errors from our error message
+	dialog.
+	
+	* gsearchtool-callbacks.[ch]:  Add look_in_folder_key_press_cb().
+		
+2002-09-10  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Filter out grep errors from our error 
+	message dialog.  Remove a g_warning() debug statement.
+	
+2002-09-10  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Synchronize the default find commands
+	for when additional constraints are shown or hidden.  Since 
+	the "-mount" argument is enabled by default, this means 
+	negating the "Search only this filesystem" constraint.  
+	The constraint is now "Search other filesystems".
+
+2002-09-07  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Change the column sizing to use
+	auto mode.
+	
+2002-09-07  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Since the menu bar has been removed,
+	apply the dialog window type hint.
+	
+2002-09-05  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-callbacks.c:  Fix a minor drap and drop
+	crash that would occur if no files were found.
+	
+2002-09-05  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Keep the aspect ratio when scaling
+	the icons.
+	
+2002-09-05  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool-support.h:  Add file_extension_is().
+	
+	* gsearchtool-support.c:  Improve the code for grabbing 
+	the icons.  Use the current caja theme if available.
+	Fixes bug #92177.
+	
+	* gsearchtool-support.c:  Run caja with "--sm-disable 
+	--no-desktop --no-default-window" arguments.  
+	
+	* gsearchtool.c:  Increase the icon size from 20 to 24 pixels.
+	Append the G_DIR_SEPARATOR_S to the search path.
+	
+2002-08-24  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Implement drag and drop support to copy
+	files from search results. 
+	
+	* gsearchtool-callbacks.[ch]: Add drag_file_cb().
+	
+2002-08-20  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: ** FIX BUG #81821 **  GUI enhancements
+	
+	Merge tabs together.  Place advanced constraints in a 
+	disclosure widget.  
+	
+	Implement changes suggested from discussions on 
+	usability@mate.org.  (1) various string changes, (2) remove 
+	the menu bar, (3) add help and close buttons, and (4) add 
+	right click menu for search results.
+	
+	Also, add search by size constraints. Fixes bug #90774.
+	
+	* gsearchtool-support.[ch]:  new files for the support 
+	functions.
+	
+	* gsearchtool-callbacks.[ch]:  new files for callback 
+	functions.
+	
+	* Makefile.am:  build gsearchtool-support.[ch] and
+	gsearchtool-callbacks.[ch].
+	
+2002-08-12  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Use the stock button (GTK_STOCK_FIND).
+  	Also, remove a few unused #defines.
+	 
+2002-08-10  Dennis M. Cranston <dennis_cranston@yahoo.com>
+	
+	* gsearchtool.c:  Fix the 'Matches regular expression' 
+	advanced rule.  Use regcomp() & regexec() calls, since
+	the previous logic was not g_spawn_* compatible. 
+
+2002-08-10  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Add more appropriate accessibility
+	descriptions for both the 'enabled' check buttons and 
+	the 'remove' buttons.  Also, add a ":" to end of text, 
+	number, and time advanced rule types.  Bug #90278.
+
+2002-08-09  Glynn Foster <glynn.foster@sun.com>
+
+        * mate-search-tool.1: Update man page.
+
+2002-08-04  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Add "File contains text" rule
+	for advanced tab.  Bug #83444.
+	
+2002-08-01  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  For simple searches, filter out the hidden  
+	files from search results.  Bug #84723.
+
+2002-07-31  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Use the find command for simple searches of
+	the home directory.  Bug #89535.
+
+2002-07-30  Dennis M. Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Rewrite of custom fork/exec commands
+	to use glib's g_spawn_* functions.  Fixes #81199.
+	 
+2002-07-29  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* Makefile.am: don't add -I$(includedir), it causes
+	gcc 3.1.x warning when prefix=/usr
+	
+2002-07-16  Glynn Foster  <glynn.foster@sun.com>
+
+ 	* gsearchtool.c: (create_find_page): s/Starting in folder/Start         
+	in folder. Fixes bug #88221. We should do a UI/String review on                                                                                         
+	this stuff though :/                                                    
+
+2002-07-05  Glynn Foster  <glynn.foster@sun.com>
+
+        * mate-search-tool.desktop.in: s/DocPath/X-MATE-DocPath. Now
+        conforms to spec.
+
+2002-06-19  Aruna Pourohit <aruna.pou@wipro.com>
+
+        * gsearchtool.c: instead of just running search command, doing exec of
+        the search command. Completely fixes #85131.
+
+2002-06-13  Aruna Pourhit <aruna.pou@wipro.co>
+
+	* gsearchtool.c (stop_search): Don't break if status of 
+	child process is returned, since we want to kill the 
+	child process. Fixes #85131.
+
+2002-06-13  Glynn Foster  <glynn.foster@sun.com>
+
+	* gsearchtool.c: (stop_search): Don't run a search when
+	we just want to stop the search. Fixes part of #85131.
+
+2002-06-01  Ross Burton  <ross@burtonini.com>
+
+	* gsearchtool.c: Set the dialogs as a transient for the
+	parent window.  Also pass a reference to the main window as the
+	user data to the menu bar callbacks. Fixes #83799.
+
+2002-05-31  Hidetoshi Tajima <hidetoshi.tajima@sun.com>
+
+	* Makefile.am: Fix MATELOCALEDIR to point to correct
+	location. Fixes #83627.
+
+2002-05-28 Yogeesh MB <yogeeshappa.mathighatta@wipro.com>
+
+        * gsearchtool.c: Patch for the bug#82555 (exit before search
+        completion results in crash)
+
+2002-05-26 John Fleck <jfleck@inkstain.net>
+
+	* help/C/mate-search-tool.xml
+	* help/C/figures/mate-search-tool_window.png
+	quick update of doc and screenshot to fix #79366
+	The docs may be updated yet again by the Sun team, but this
+	gives us something shippable.
+
+2002-05-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Fix handling of searches for '*filename' 
+	and 'filename' as this is not the same search criteria. This 
+	is specific to simple searches that use the locate command.
+	
+2002-05-20  Glynn Foster <glynn.foster@sun.com>
+
+	* gsearchtool.c: Remove mnemonics from tabs.
+
+2002-05-16  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: UTF-8->locale corrections.  Should fix 
+	bug #80780.
+	  
+2002-05-09  Paolo Maggi <maggi@athena.polito.it>
+
+	* gsearchtool.c: added a status bar with an activity
+	bar
+
+2002-05-08 Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c:  Fix pattern matching bug introduced
+	with patch for bug #78865.  Thanks to Gman for spotting it.  
+
+2002-05-08  Paolo Maggi <maggi@athena.polito.it>
+
+	* gsearchtool.c: now you cannot double click on 
+	"No Files Found."
+
+2002-05-07 Rajeev Karale <rajeev.karale@wipro.com>
+
+	* gsearchtool/gsearchtool.c: Added "Matches regular expression"
+	  option to gsearchtool advance search.
+
+2002-05-06 Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Fix memory leaks and remove an
+	unused variable. Fixes #80528.
+
+2002-05-06 Gaute Lindkvist <lindkvis@stud.ntnu.no>
+
+	* gsearchtool.c: surpress the results that are found
+	that are only due to the fact of a match in the 
+	basename. Modified by Dennis Cranston. Fixes #78865.
+
+2002-05-07 Satyajit Kanungo  <satyajit.kanungo@wipro.com>
+
+	* mate-search-tool.desktop.in: Added DocPath in the 
+	desktop.in file. Fixes #80921.
+
+2002-05-03  Paolo Maggi <maggi@athena.polito.it>
+
+	* gsearchtool.c: fixed an accellerator conflict
+	(_Search <-> _Stop)
+
+2002-05-03  Paolo Maggi <maggi@athena.polito.it>
+
+	* gsearchtool.c: little UI changes to improve HIG
+	compliance (bug #76313)
+
+2002-05-03  Glynn Foster  <glynn.foster@sun.com>
+
+	* gsearchtool.c: (make_locate_cmd), (run_command),
+	(run_cmd_dialog): s/directory/folder as per documentation
+	style guide. Part fixes #70827 - the never ending saga. Thanks
+	to John for pointing this out.
+
+2002-05-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Add a "Starting in folder" field to the
+	simple tab.  Fixes solaris slow search problem in bug #70827.  
+	
+	* gsearchtool.c: Filter out the annoying "Permission denied" 
+	error messages.  Users do not want to see these errors. 
+	
+	* gsearchtool.c: Commented out code that connects the 
+	activate signal on the mate_file_entry_mate_entry widget.  
+	This was causing a search to begin when clicking on the 
+	OK button in the Browse dialog.
+	
+2002-04-09  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c Implement one of the UI suggestions
+	to improve HIG compliance.  Display "No files found."
+	message in the results list when there are no matches.
+	(bug 76313)
+
+Mon Apr 29 12:41:50 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* gsearchtool.c: Fix MATEUIINFO_MENU_EXIT_ITEM
+	to MATEUIINFO_MENU_EXIT_ITEM, since the former
+	has been deprecated.
+
+2002-04-29 Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: About dialog fixes #80109.
+
+2002-04-24 Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c: Change OAFIID for Caja_Factory 
+	to match a recent caja code change.
+
+2002-04-24 John Fleck <jfleck@inkstain.net>
+
+	* help/C/mate-search-tool-C.omf
+	updating OMF file to match that required by
+	ScrollKeeper >= 0.3.8
+
+2002-04-16 John Fleck <jfleck@inkstain.net>
+
+	* help/C/mate-search-tool.xml
+	change reference to old bugs web site
+
+2002-04-16  Kevin Vandersloot <kfv101@psu.edu>
+
+        * Makefile.am, gsearchtool.c: get help working
+
+2002-04-01  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c Replace the get_file_base_name(),
+	get_file_dir_name(), and get_file_full_path_name()
+	hacks with the appropriate built-in glib functions.
+	(may resolve bug 75219)
+
+2002-04-06  Narayana Pattipati  <narayana.pattipati@wipro.com>
+
+        * gsearchtool.c   Added code for stopping search with 
+        Escape, and for starting search by pressing Enter/Return
+        on the advanced search page. Bug#77699.
+
+2002-04-05  Narayana Pattipati  <narayana.pattipati@wipro.com>
+
+	* gsearchtool.c   Added accessibility code changes like
+	accessible names/descriptions, Atk relations etc.
+
+2002-04-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c For simple searches, if the locate
+	command is not installed fallback to the find command.
+	(bug 70827)
+
+2002-04-03  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsearchtool.c Fix arguments passed to the find command
+	for advanced rules.  (partial fix for bug 70827)
+	  
+2002-04-07 John Fleck <jfleck@inkstain.net>
+
+	* help/C/mate-search-tool.xml
+	* help/C/mate-search-gool.xml
+	editing doc, adding info to omf file
+	* removing help/C/gsearchtool.xml and 
+	gsearchtool-C.omf (replaced by newly named
+	versions)
+	
+2002-03-20  Kevin Vandersloot <kfv101@psu.edu>
+
+	* gsearchtool.c Apply patch from Dennis Cranston 
+	<dennis_cranston@yahoo.com> adding session management. 
+	Fixes bug 75082
+
+2002-03-14 John Fleck <jfleck@inkstain.net>
+
+	* help/C/mate-search-tool.xml, mate-search-tool-C.omf,
+	Makefile.am
+	Change docs to reflect new executable name
+	fixes bug #70081
+
+2002-02-22 Yogeesh MB <yogeeshappa.mathighatta@wipro.com>
+
+	* Patch for the bug#71555 (saving results before search
+	completion)
+
+2002-02-26  Lauris Kaplinski  <lauris@ximian.com>
+
+	* gsearchtool.c (main): s/gsearchtool/mate-search-tool/ to match
+	actual program name
+
+2002-02-21  Bastien Nocera  <hadess@hadess.net>
+
+	* gsearchtool.c: (make_find_cmd): make it work with folders
+	with spaces in their name (patch by dennis_cranston@yahoo.com)
+
+2002-02-21  Bastien Nocera  <hadess@hadess.net>
+
+	* gsearchtool.c: (save_results): ask the user if we should
+	overwrite (patch by dennis_cranston@yahoo.com)
+
+2002-02-21  Bastien Nocera  <hadess@hadess.net>
+
+	* gsearchtool.c: (make_find_cmd), (run_command): use -print
+	instead of -print0 (patch by dennis_cranston@yahoo.com)
+	Should fix problems on Solaris, still works on Linux
+
+2002-02-21  Bastien Nocera  <hadess@hadess.net>
+
+	* gsearchtool.c: (add_file_to_list_store), (really_run_command):
+	cast the filesize to gdouble to avoid warnings, and look for sh
+	in the path rather than using hardcoded /bin/sh path
+	(adapted from patch by <dennis_cranston@yahoo.com>, Closes:70827)
+
+2002-02-10 John Fleck <jfleck@inkstain.net>
+
+	* help/C/gsearchtool.xml, figures/*.png
+	* updated screenshots and docs to new UI
+
+Sun Feb 03 23:54:40 2002  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: applied a patch from "Dennis M. Cranston"
+	  <dennis_cranston@yahoo.com> which does a bunch of things to
+	  improve usability based on feedback from the usability
+	  list.  Also add Dennis to the authors list.
+
+2002-01-31  Zbigniew Chyla  <cyba@mate.pl>
+
+	* gsearchtool.c (about_cb): Don't try to translate empty string.
+
+2001-02-02  Zbigniew Chyla  <cyba@mate.pl>
+
+	* .cvsignore: s/gsearchtool/mate-search-tool/
+
+2002-01-31 John Fleck <jfleck@inkstain.net>
+
+	* help/C/Makefile.am - adding legal.xml to build
+
+2002-01-30 John Fleck <jfleck@inkstain.net>
+
+	* help/C/gsearchtool.xml, help/C/figures/*.png
+	updating docs based on editing comments from Kevin Breit
+
+2002-01-29 John Fleck <jfleck@inkstain.net>
+
+	* updated docs to reflect new UI
+	* help/C/gsearchtool.xml, help/C/figures/gsearchtool_advanced.png
+	* help/C/figures/gsearchtool_simple.png
+
+2002-01-28  Seth Nickell  <snickell@stanford.edu>
+
+	* mate-searchtool.png:
+
+	Add newer nicer icon.
+
+2002-01-27  Seth Nickell  <snickell@stanford.edu>
+
+	* Makefile.am:
+	* mate-search-tool.1:
+	* mate-search-tool.desktop.in:
+	* gsearchtool.1:
+	* gsearchtool.desktop.in:
+
+	Change to new binary name based on the menu name.
+	
+Mon Jan 21 01:21:32 2002  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c, Makefile.am: Apply patch from "Dennis M. Cranston"
+	  <dennis_cranston@yahoo.com> and massage it a bit to compile
+	  cleanly.  Makes the searchtool more 'nice' in mate2 terms and
+	  removes use of deprecated widgets etc...
+
+2002-02-07 John Fleck <jfleck@inkstain.net>
+
+	* help/C/gsearchtool.xml, gsearchtool-C.omf, Makefile.am
+	xmlizing the documentation
+
+2001-11-27  Seth Nickell  <snickell@stanford.edu>
+
+	* Makefile.am:
+
+	Install .desktop file into datadir/applications
+	
+	* gsearchtool.desktop.in:
+
+	Rename "Search Tool", add Categories field.
+
+2001-10-13  Bastien Nocera  <hadess@hadess.net>
+
+	* outdlg.c: (save_ok), (outdlg_double_click): ported to Mate2
+
+2001-10-13  Bastien Nocera  <hadess@hadess.net>
+
+	* Makefile.am, gsearchtool.c: (entry_changed), (run_locate_command),
+	(about_cb), outdlg.c: (outdlg_additem): nearly finished porting
+	to Mate2
+
+2001-08-08  Abel Cheung  <maddog@linux.org.hk>
+
+	* \*.desktop: Added zh_TW.Big5 (traditional Chinese) strings.
+
+Tue Jun 12 00:24:02 2001  George Lebl <jirka@5z.com>
+
+	* outdlg.c: fix filename corruption
+
+Thu Jun 07 14:40:22 2001  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: fix locate interface since that uses '\n' not '\0'
+	  for separating entries and make it start the search on enter
+
+2001-06-07  Kjartan Maraas  <kmaraas@mate.org>
+
+	* outdlg.c: Mark a string for translation.
+	
+Thu Apr 19 13:49:23 2001  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: limit number of errors to 20
+
+2000-02-20 Telsa Gwynne <hobbit@aloss.ukuu.org.uk>
+
+	* Typo fix closing bug 16743.
+
+2000-01-02 John Fleck <jfleck@inkstain.net>
+
+	* mv help/es/gsearch.sgml to gsearchtool.sgml, add topic.dat, and
+	needed .png files for working es docs
+
+2001-01-02 John Fleck <jfleck@inkstain.net>
+
+	* mv help/it/gsearch.sgml to help/it/gsearchtool.sgml (to match
+	Caja help file naming convention) updating Makefile.am to match
+	
+2000-12-26 John Fleck <jfleck@inkstain.net>
+
+	* mv help/C/gsearch.sgml to help/C/gsearchtool.sgml - name of
+	*.sgml file needs to = name of share/mate/help directory for
+	Caja to recognize it. Updated help/C/Makefile.am to accomodate
+	the change
+
+2000-10-17  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* help/C/gsearch.sgml: updated links, legalinfo, license for MATE
+	1.4; added "manual" to the title.
+
+Sun Sep 10 15:08:51 2000  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: fix buffer overflow by using GString.  Also make
+	  the running flag an enum.
+
+2000-06-28 John Fleck <jfleck@inkstain.net>
+	* updating version number in gsearch.sgml
+
+Tue Jun 06 15:31:30 2000  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: use the -0 and -Z and other tricks to make this
+	  work correctly for weird filenames.  The downside is it won't
+	  work on non-GNU versions of find, grep and xarg, but it's really
+	  unsafe if arbitrary things can be passed to programs.  Also add
+	  a dialog box to display the command used.
+
+Tue Jun  6 12:09:56 EDT 2000 Gregory McLean <gregm@comstar.net>
+
+	* help/* : Lots of loving going on so the documentation 
+	people will be happy with the result and I don't have much pain
+	to go through to maintain this mess.
+ 	Anyway.. Documentation generation should be perfect now, providing
+	you have the voodoo that they call docbook installed. If not fear
+	not young warrior. We copy the generated stuff into the dist so
+	only the maintainer has to pull hair getting docbook set up 
+	correctly.
+
+2000-04-22  Fatih Demir	<kabalak@gmx.net>
+
+	* gsearchtool.desktop : Added [tr] .
+
+Mon Mar 27 16:55:40 2000  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: pack the find and grep boxes in with no expanding
+	  so that removing looks saner, also leave the default window policy,
+	  also stop the commands on window close/quit.  Also make start
+	  button unsensitive during run
+
+2000-03-26  Karl EICHWALDER  <ke@suse.de>
+
+	* gsearchtool.c (create_locate_page): Add missing dot.
+
+2000-03-24  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* help/**/*: edited docs; changed license to FDL
+
+2000-02-23  Peter Hawkins  <peterhawkins@ozemail.com.ai>
+
+	* gsearchtool.c: Stopped about dialog from being shown multiple times at once.
+
+Wed Feb 16 22:25:28 2000  George Lebl <jirka@5z.com>
+
+	* help/**/*: added new documentation from Alexander Kirillov
+	  <kirillov@math.sunysb.edu>
+
+Sat Feb 12 22:47:05 2000  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c,outdlg.c: call gtk_widget_ensure_style so that
+	  the widget gets the style set so that our list adding function
+	  gets the correct font.  Also use gtk_window_set_default_size
+	  instead of set_usize on the clist and allow the dialog to be
+	  resized
+
+Mon Feb 07 14:52:28 2000  George Lebl <jirka@5z.com>
+
+	* help/C/*: added online help from Alexander Kirillov
+	  <kirillov@math.sunysb.edu>
+
+Sat Feb 05 16:43:42 2000  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: implement simple locate interface, make boolean
+	  options simpler, add nosubdirs and nomounted by default, implement
+	  saving from outdlg, cleanup running of programs, fix quoting of
+	  text fields, use mate_file_entry for the start directory entry
+
+Mon Nov 29 22:47:21 1999  George Lebl <jirka@5z.com>
+
+	* gsearchtool.c: applied patch from Martin Oberzalek
+	  <oberzalek@chello.at> and modified it to be a bit saner.  It gets
+	  and prints out the errors into a dialog box
+
+1999-08-15  Matthias Warkus  <mawa@iname.com>
+
+	* mate-searchtool.png: Icon by Ben Frantzdale.
+	* Makefile.am: Installs mate-searchtool.png.
+	* gsearchtool.desktop: Uses mate-searchtool.png.
+
+1999-05-05  JP Rosevear <jpr@arcavia.com>
+	* outdlg.c: Added support for double-clicking on results list and
+	  having the file open with the mime associated application.
+
+1999-03-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* gsearchtool.desktop: Added Italian translations.
+
+Wed Jan 06 17:49:11 1999  George Lebl  <jirka@5z.com>
+
+	* gsearchtool.c: standardized menus
+
+Sun Jan 03 14:48:31 1999  George Lebl  <jirka@5z.com>
+
+	* gsearchtool.c: use ! instead of -not to be compatible with
+	  other then GNU find
+
+Sun Nov 29 02:44:57 1998  George Lebl  <jirka@5z.com>
+
+	* outdlg.c: use scrolled window for clist
+
+1998-07-01  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
+
+	* gsearchtool.desktop: Added Portuguese translation.
+
+Sat Jun 20 22:25:46 1998  George Lebl  <jirka@5z.com>
+
+	* gsearchtool.c: use the new interface and get rid of the old one
+
+	* unixcmd.[ch]: removed, not really needed
+
+	* outdlg.[ch]: use mate dialog and clist
+
+Mon Jun 08 07:38:45 1998  George Lebl  <jirka@5z.com>
+
+	* gsearchtool.c: new interface work, but it's still
+	  all #if 0'ed out.  this seems like it will be a complete
+	  rewrite after all
+
+Tue May 26 02:05:35 1998  George Lebl  <jirka@5z.com>
+
+	* gsearchtool.[ch]: a lot of interface work, but almost
+	  no functionality yet on the new front end, so it's still
+	  #if 0'ed out and the old one is still in there
+
+Mon May 25 02:21:04 1998  George Lebl  <jirka@5z.com>
+
+	* gsearchtool.[ch]: a little bit of work on teh new
+	  way of doing things, but nothing is showing (yet).
+

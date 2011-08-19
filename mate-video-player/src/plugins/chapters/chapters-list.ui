@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkUIManager" id="totem-chapters-ui-manager">
+     <child>
+        <object class="GtkActionGroup" id="chapters-action-group">
+           <child>
+              <object class="GtkAction" id="remove">
+                 <property name="label" translatable="yes">_Remove</property>
+                 <property name="tooltip" translatable="yes">Remove chapter from the list</property>
+                 <property name="stock-id">gtk-remove</property>
+                 <signal name="activate" handler="popup_remove_action_cb"/>
+              </object>
+           </child>
+           <child>
+              <object class="GtkAction" id="goto">
+                 <property name="label" translatable="yes">_Go to</property>
+                 <property name="tooltip" translatable="yes">Go to chapter</property>
+                 <property name="stock-id">gtk-jump-to</property>
+                 <signal name="activate" handler="popup_goto_action_cb"/>
+              </object>
+           </child>
+        </object>
+     </child>
+     <ui>
+        <popup name="totem-chapters-popup">
+           <menuitem name="remove" action="remove"/>
+           <menuitem name="goto" action="goto"/>
+        </popup>
+     </ui>
+  </object>
+
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkTreeStore" id="clip_tree_store">
+    <columns>
+      <!-- column-name gdkpixbuf -->
+      <column type="GdkPixbuf"/>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+      <!-- column-name gchararray2 -->
+      <column type="gchararray"/>
+      <!-- column-name gint1 -->
+      <column type="gint64"/>
+    </columns>
+  </object>
+  <object class="GtkVBox" id="main_vbox">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkScrolledWindow" id="scrolledwindow1">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="hscrollbar_policy">automatic</property>
+        <property name="vscrollbar_policy">automatic</property>
+        <child>
+          <object class="GtkTreeView" id="chapters_tree_view">
+            <property name="visible">True</property>
+            <property name="sensitive">True</property>
+            <property name="can_focus">True</property>
+            <property name="model">clip_tree_store</property>
+            <property name="headers_visible">False</property>
+            <property name="show_expanders">False</property>
+            <property name="tooltip_column">2</property>
+            <signal name="button_press_event" handler="tree_view_button_press_cb"/>
+            <signal name="key_press_event" handler="tree_view_key_press_cb"/>
+            <signal name="row_activated" handler="tree_view_row_activated_cb"/>
+            <signal name="popup_menu" handler="tree_view_popup_menu_cb"/>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHBox" id="hbox1">
+        <property name="visible">True</property>
+        <property name="spacing">6</property>
+        <property name="homogeneous">True</property>
+        <child>
+          <object class="GtkButton" id="add_button">
+            <property name="visible">True</property>
+            <property name="sensitive">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Add...</property>
+            <property name="relief">none</property>
+            <signal name="clicked" handler="add_button_clicked_cb"/>
+            <child>
+              <object class="GtkImage" id="image1">
+                <property name="visible">True</property>
+                <property name="stock">gtk-add</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="remove_button">
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Remove</property>
+            <property name="relief">none</property>
+            <signal name="clicked" handler="remove_button_clicked_cb"/>
+            <child>
+              <object class="GtkImage" id="image2">
+                <property name="visible">True</property>
+                <property name="stock">gtk-remove</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="goto_button">
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go to chapter</property>
+            <property name="relief">none</property>
+            <signal name="clicked" handler="goto_button_clicked_cb"/>
+            <child>
+              <object class="GtkImage" id="image3">
+                <property name="visible">True</property>
+                <property name="stock">gtk-jump-to</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="save_button">
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Save Changes</property>
+            <property name="relief">none</property>
+            <signal name="clicked" handler="save_button_clicked_cb"/>
+            <child>
+              <object class="GtkImage" id="image4">
+                <property name="visible">True</property>
+                <property name="stock">gtk-save</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+
+  <object class="GtkVBox" id="load_vbox">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <property name="homogeneous">True</property>
+    <child>
+      <object class="GtkAlignment" id="alignment1">
+        <property name="visible">True</property>
+        <property name="yalign">1</property>
+        <property name="yscale">0</property>
+        <child>
+          <object class="GtkLabel" id="chapters_label">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">No chapters data</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkAlignment" id="alignment2">
+        <property name="visible">True</property>
+        <property name="yalign">0</property>
+        <property name="xscale">0</property>
+        <property name="yscale">0</property>
+        <child>
+          <object class="GtkHBox" id="hbox2">
+            <property name="visible">True</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkButton" id="load_button">
+                <property name="label" translatable="yes">Load chapters...</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="tooltip_text" translatable="yes">Load chapters from external file</property>
+                <signal name="clicked" handler="load_button_clicked_cb"/>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="continue_button">
+                <property name="label" translatable="yes">Continue without</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="tooltip_text" translatable="yes">Continue to watch movie without loaded chapters</property>
+                <signal name="clicked" handler="continue_button_clicked_cb"/>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+
+</interface>

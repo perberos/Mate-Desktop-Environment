@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<node name="/org/mate/totem/PluginViewer">
+  <interface name="org.mate.totem.PluginViewer">
+    <method name="DoCommand">
+      <arg type="s" name="Command" direction="in" />
+    </method>
+    <method name="SetWindow">
+      <arg type="s" name="Controls" direction="in" />
+      <arg type="u" name="XID" direction="in" />
+      <arg type="i" name="Width" direction="in" />
+      <arg type="i" name="Height" direction="in" />
+    </method>
+    <method name="UnsetWindow">
+      <arg type="u" name="XID" direction="in" />
+    </method>
+    <method name="SetupStream">
+      <arg type="s" name="URI" direction="in" />
+      <arg type="s" name="BaseURI" direction="in" />
+    </method>
+    <method name="OpenStream">
+      <arg type="x" name="Size" direction="in" />
+    </method>
+    <method name="CloseStream" />
+    <method name="OpenURI">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" value="totem_embedded_open_uri" />
+      <arg type="s" name="URI" direction="in" />
+      <arg type="s" name="BaseURI" direction="in" />
+    </method>
+    <method name="SetPlaylist">
+      <arg type="s" name="Path" direction="in" />
+      <arg type="s" name="URI" direction="in" />
+      <arg type="s" name="BaseURI" direction="in" />
+    </method>
+    <method name="SetLocalFile">
+      <arg type="s" name="Path" direction="in" />
+      <arg type="s" name="URI" direction="in" />
+      <arg type="s" name="BaseURI" direction="in" />
+    </method>
+    <method name="SetLocalCache">
+      <arg type="s" name="Path" direction="in" />
+    </method>
+    <method name="SetHref">
+      <arg type="s" name="HrefURI" direction="in" />
+      <arg type="s" name="Target" direction="in" />
+    </method>
+    <method name="SetErrorLogo" />
+    <method name="LaunchPlayer">
+       <arg type="s" name="URI" direction="in" />
+       <arg type="u" name="Time" direction="in" />
+    </method>
+    <method name="SetVolume">
+      <arg type="d" name="Volume" direction="in" />
+    </method>
+    <method name="ClearPlaylist" />
+    <method name="AddItem">
+      <arg type="s" name="BaseURI" direction="in" />
+      <arg type="s" name="URI" direction="in" />
+      <arg type="s" name="Title" direction="in" />
+      <arg type="s" name="Subtitle" direction="in" />
+    </method>
+    <method name="SetFullscreen">
+      <arg type="b" name="FullscreenEnabled" direction="in" />
+    </method>
+    <method name="SetTime">
+      <arg type="t" name="Time" direction="in" />
+    </method>
+
+    <signal name="ButtonPress">
+      <arg type="u" name="Time" />
+      <arg type="u" name="Button" />
+    </signal>
+    <signal name="Tick">
+      <arg type="u" name="Time" />
+      <arg type="u" name="Duration" />
+      <arg type="s" name="State" />
+    </signal>
+    <signal name="PropertyChange">
+      <arg type="s" name="PropertyType" />
+      <arg type="v" name="Value" />
+    </signal>
+    <signal name="StartStream" />
+    <signal name="StopStream" />
+  </interface>
+</node>

@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!--*- mode: xml -*-->
+<interface>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">65535</property>
+    <property name="lower">0</property>
+    <property name="page_increment">10</property>
+    <property name="value">0</property>
+    <property name="page_size">0</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkUIManager" id="uimanager1">
+    <child>
+      <object class="GtkActionGroup" id="actiongroup1">
+        <child>
+          <object class="GtkAction" id="copy_location1">
+            <property name="stock_id">gtk-copy</property>
+            <property name="name">copy_location1</property>
+            <signal handler="on_copy_location1_activate" name="activate"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkAction" id="preferences1">
+            <property name="stock_id">gtk-preferences</property>
+            <property name="name">preferences1</property>
+            <property name="visible">False</property>
+            <signal handler="on_preferences1_activate" name="activate"/>
+          </object>
+        </child>
+	<child>
+          <object class="GtkAction" id="fullscreen1">
+            <property name="stock_id">gtk-fullscreen</property>
+            <property name="name">fullscreen1</property>
+            <signal handler="on_fullscreen1_activate" name="activate"/>
+          </object>
+	</child>
+        <child>
+          <object class="GtkAction" id="about1">
+            <property name="stock_id">gtk-about</property>
+            <property name="name">about1</property>
+            <signal handler="on_about1_activate" name="activate"/>
+          </object>
+        </child>
+      </object>
+    </child>
+    <ui>
+      <popup name="menu">
+        <menuitem action="copy_location1"/>
+        <menuitem action="preferences1"/>
+        <menuitem action="fullscreen1"/>
+        <separator/>
+        <menuitem action="about1"/>
+      </popup>
+    </ui>
+  </object>
+  <object class="GtkVBox" id="content_box">
+    <property name="visible">True</property>
+    <property name="homogeneous">False</property>
+    <property name="spacing">0</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkHBox" id="video_box">
+        <property name="visible">True</property>
+        <property name="homogeneous">False</property>
+        <property name="spacing">0</property>
+        <!--Placeholder-->
+      </object>
+      <packing>
+        <property name="padding">0</property>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHBox" id="controls">
+        <property name="visible">True</property>
+        <property name="homogeneous">False</property>
+        <property name="spacing">0</property>
+        <child>
+          <object class="TotemGlowButton" id="pp_button">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHScale" id="time_hscale">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="draw_value">False</property>
+            <property name="value_pos">GTK_POS_TOP</property>
+            <property name="digits">1</property>
+            <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+            <property name="inverted">False</property>
+	    <property name="adjustment">adjustment1</property>
+	    <property name="sensitive">False</property>
+          </object>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVolumeButton" id="volume_button">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkToggleButton" id="popup_button">
+	    <property name="visible">True</property>
+	    <child>
+	      <object class="GtkArrow" id="button_arrow">
+	        <property name="visible">True</property>
+		<property name="arrow-type">GTK_ARROW_UP</property>
+             </object>
+            </child>
+          </object>
+          <packing>
+            <property name="padding">0</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="padding">0</property>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+      </packing>
+    </child>
+    <child>
+      <object class="TotemStatusbar" id="statusbar">
+        <property name="visible">True</property>
+      </object>
+      <packing>
+        <property name="padding">0</property>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkMenu" constructor="uimanager1" id="menu">
+</object>
+</interface>

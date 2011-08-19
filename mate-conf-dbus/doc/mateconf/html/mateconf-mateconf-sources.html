@@ -1,0 +1,760 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>mateconf-sources</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-schema.html" title="MateConfSchema">
+<link rel="next" href="mateconf-mateconf-value.html" title="MateConfValue, MateConfEntry, MateConfMetaInfo">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-schema.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-value.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2582197" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2577037" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-sources"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2582197"></a><span class="refentrytitle">mateconf-sources</span>
+</h2>
+<p>mateconf-sources</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a>;
+enum                <a class="link" href="mateconf-mateconf-sources.html#MateConfSourceFlags">MateConfSourceFlags</a>;
+<a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a>*        <a class="link" href="mateconf-mateconf-sources.html#mateconf-resolve-address">mateconf_resolve_address</a>               (const gchar *address,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-sources.html#mateconf-source-free">mateconf_source_free</a>                   (<a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a> *source);
+                    <a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a>;
+<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a>*       <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-new-from-addresses">mateconf_sources_new_from_addresses</a>    (GSList *addresses,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a>*       <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-new-from-source">mateconf_sources_new_from_source</a>       (<a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a> *source);
+void                <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-free">mateconf_sources_free</a>                  (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-query-value">mateconf_sources_query_value</a>           (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar **locales,
+                                                         gboolean use_schema_default,
+                                                         gboolean *value_is_default,
+                                                         gboolean *value_is_writable,
+                                                         gchar **schema_name,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-set-value">mateconf_sources_set_value</a>             (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value,
+                                                         <a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> **modified_sources,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-unset-value">mateconf_sources_unset_value</a>           (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         <a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> **modified_sources,
+                                                         GError **err);
+GSList*             <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-all-entries">mateconf_sources_all_entries</a>           (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         const gchar **locales,
+                                                         GError **err);
+GSList*             <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-all-dirs">mateconf_sources_all_dirs</a>              (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-dir-exists">mateconf_sources_dir_exists</a>            (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-remove-dir">mateconf_sources_remove_dir</a>            (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-set-schema">mateconf_sources_set_schema</a>            (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar *schema_key,
+                                                         GError **err);
+gboolean            <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-sync-all">mateconf_sources_sync_all</a>              (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfMetaInfo">MateConfMetaInfo</a>*      <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-query-metainfo">mateconf_sources_query_metainfo</a>        (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         <a class="link" href="mateconf-mateconf-sources.html#mateconf-sources-query-default-value">mateconf_sources_query_default_value</a>   (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar **locales,
+                                                         gboolean *is_writable,
+                                                         GError **err);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2577037"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2577053"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2587356"></a><h3>
+<a name="MateConfSource"></a>MateConfSource</h3>
+<a class="indexterm" name="id2587368"></a><pre class="programlisting">typedef struct {
+  guint flags;
+  gchar* address;
+  MateConfBackend* backend;
+} MateConfSource;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587385"></a><h3>
+<a name="MateConfSourceFlags"></a>enum MateConfSourceFlags</h3>
+<a class="indexterm" name="id2587398"></a><pre class="programlisting">typedef enum {
+  /* These are an optimization to avoid calls to
+   * the writable/readable methods in the backend
+   * vtable
+   */
+  MATECONF_SOURCE_ALL_WRITEABLE = 1 &lt;&lt; 0,
+  MATECONF_SOURCE_ALL_READABLE = 1 &lt;&lt; 1,
+  MATECONF_SOURCE_NEVER_WRITEABLE = 1 &lt;&lt; 2, 
+  MATECONF_SOURCE_ALL_FLAGS = ((1 &lt;&lt; 0) | (1 &lt;&lt; 1))
+} MateConfSourceFlags;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587418"></a><h3>
+<a name="mateconf-resolve-address"></a>mateconf_resolve_address ()</h3>
+<a class="indexterm" name="id2587429"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a>*        mateconf_resolve_address               (const gchar *address,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587507"></a><h3>
+<a name="mateconf-source-free"></a>mateconf_source_free ()</h3>
+<a class="indexterm" name="id2587520"></a><pre class="programlisting">void                mateconf_source_free                   (<a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a> *source);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>source</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587565"></a><h3>
+<a name="MateConfSources"></a>MateConfSources</h3>
+<a class="indexterm" name="id2587578"></a><pre class="programlisting">typedef struct {
+  GList* sources;
+} MateConfSources;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2587594"></a><h3>
+<a name="mateconf-sources-new-from-addresses"></a>mateconf_sources_new_from_addresses ()</h3>
+<a class="indexterm" name="id2587605"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a>*       mateconf_sources_new_from_addresses    (GSList *addresses,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>addresses</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2640367"></a><h3>
+<a name="mateconf-sources-new-from-source"></a>mateconf_sources_new_from_source ()</h3>
+<a class="indexterm" name="id2640377"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a>*       mateconf_sources_new_from_source       (<a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a> *source);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2640427"></a><h3>
+<a name="mateconf-sources-free"></a>mateconf_sources_free ()</h3>
+<a class="indexterm" name="id2640438"></a><pre class="programlisting">void                mateconf_sources_free                  (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2640483"></a><h3>
+<a name="mateconf-sources-query-value"></a>mateconf_sources_query_value ()</h3>
+<a class="indexterm" name="id2640495"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_sources_query_value           (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar **locales,
+                                                         gboolean use_schema_default,
+                                                         gboolean *value_is_default,
+                                                         gboolean *value_is_writable,
+                                                         gchar **schema_name,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locales</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>use_schema_default</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value_is_default</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value_is_writable</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>schema_name</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2640701"></a><h3>
+<a name="mateconf-sources-set-value"></a>mateconf_sources_set_value ()</h3>
+<a class="indexterm" name="id2640713"></a><pre class="programlisting">void                mateconf_sources_set_value             (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value,
+                                                         <a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> **modified_sources,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>modified_sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2640844"></a><h3>
+<a name="mateconf-sources-unset-value"></a>mateconf_sources_unset_value ()</h3>
+<a class="indexterm" name="id2640856"></a><pre class="programlisting">void                mateconf_sources_unset_value           (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar *locale,
+                                                         <a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> **modified_sources,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locale</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>modified_sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2640988"></a><h3>
+<a name="mateconf-sources-all-entries"></a>mateconf_sources_all_entries ()</h3>
+<a class="indexterm" name="id2641000"></a><pre class="programlisting">GSList*             mateconf_sources_all_entries           (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         const gchar **locales,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locales</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2641120"></a><h3>
+<a name="mateconf-sources-all-dirs"></a>mateconf_sources_all_dirs ()</h3>
+<a class="indexterm" name="id2641132"></a><pre class="programlisting">GSList*             mateconf_sources_all_dirs              (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2641231"></a><h3>
+<a name="mateconf-sources-dir-exists"></a>mateconf_sources_dir_exists ()</h3>
+<a class="indexterm" name="id2641242"></a><pre class="programlisting">gboolean            mateconf_sources_dir_exists            (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2641341"></a><h3>
+<a name="mateconf-sources-remove-dir"></a>mateconf_sources_remove_dir ()</h3>
+<a class="indexterm" name="id2641352"></a><pre class="programlisting">void                mateconf_sources_remove_dir            (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *dir,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2608005"></a><h3>
+<a name="mateconf-sources-set-schema"></a>mateconf_sources_set_schema ()</h3>
+<a class="indexterm" name="id2603940"></a><pre class="programlisting">void                mateconf_sources_set_schema            (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar *schema_key,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>schema_key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2641532"></a><h3>
+<a name="mateconf-sources-sync-all"></a>mateconf_sources_sync_all ()</h3>
+<a class="indexterm" name="id2641542"></a><pre class="programlisting">gboolean            mateconf_sources_sync_all              (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2641612"></a><h3>
+<a name="mateconf-sources-query-metainfo"></a>mateconf_sources_query_metainfo ()</h3>
+<a class="indexterm" name="id2641622"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfMetaInfo">MateConfMetaInfo</a>*      mateconf_sources_query_metainfo        (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2641711"></a><h3>
+<a name="mateconf-sources-query-default-value"></a>mateconf_sources_query_default_value ()</h3>
+<a class="indexterm" name="id2641724"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a>*         mateconf_sources_query_default_value   (<a class="link" href="mateconf-mateconf-sources.html#MateConfSources">MateConfSources</a> *sources,
+                                                         const gchar *key,
+                                                         const gchar **locales,
+                                                         gboolean *is_writable,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sources</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>locales</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>is_writable</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2641852"></a><div class="refsect2" lang="en"><a name="id2641853"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2641854"></a></div>
+</div>
+</div>
+</body>
+</html>

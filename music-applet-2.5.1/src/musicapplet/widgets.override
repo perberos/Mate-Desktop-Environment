@@ -1,0 +1,146 @@
+%%
+headers
+#include <config.h>
+#include <Python.h>
+#include "pygobject.h"
+#include "ma-constrain.h"
+#include "ma-deserialize.h"
+#include "ma-fancy-button.h"
+#include "ma-fancy-tooltips.h"
+#include "ma-scroller.h"
+%%
+modulename widgets
+%%
+import gobject.GObject as PyGObject_Type
+import gtk.gdk.Pixbuf as PyGdkPixbuf_Type
+import gtk.Button as PyGtkButton_Type
+import gtk.EventBox as PyGtkEventBox_Type
+import gtk.Tooltips as PyGtkTooltips_Type
+import gtk.Widget as PyGtkWidget_Type
+%%
+ignore-glob
+  *_get_type
+%%
+override ma_fancy_button_get_orientation kwargs
+static PyObject *
+_wrap_ma_fancy_button_get_orientation (PyGObject *self)
+{
+	int orient = ma_fancy_button_get_orientation (MA_FANCY_BUTTON (self->obj));
+	return PyInt_FromLong (orient);
+}
+%%
+override ma_fancy_button_set_orientation kwargs
+static PyObject *
+_wrap_ma_fancy_button_set_orientation (PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+	static char *kwlist[] = { "orient", NULL };
+	int orient;
+
+	if (!PyArg_ParseTupleAndKeywords (args, kwargs,
+					  "i:FancyButton.set_orientation", kwlist,
+					  &orient))
+	{
+		return NULL;
+	}
+
+	ma_fancy_button_set_orientation (MA_FANCY_BUTTON (self->obj), orient);
+	Py_INCREF (Py_None);
+	return Py_None;
+}
+%%
+override ma_scroller_get_orientation kwargs
+static PyObject *
+_wrap_ma_scroller_get_orientation (PyGObject *self)
+{
+	int orient = ma_scroller_get_orientation (MA_SCROLLER (self->obj));
+	return PyInt_FromLong (orient);
+}
+%%
+override ma_scroller_set_orientation kwargs
+static PyObject *
+_wrap_ma_scroller_set_orientation (PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+	static char *kwlist[] = { "orient", NULL };
+	int orient;
+
+	if (!PyArg_ParseTupleAndKeywords (args, kwargs,
+					  "i:Scroller.set_orientation", kwlist,
+					  &orient))
+	{
+		return NULL;
+	}
+
+	ma_scroller_set_orientation (MA_SCROLLER (self->obj), orient);
+	Py_INCREF (Py_None);
+	return Py_None;
+}
+%%
+override ma_deserialize_pixdata kwargs
+static PyObject *
+_wrap_ma_deserialize_pixdata (PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+	static char *kwlist[] = { "buffer", NULL };
+	GdkPixbuf *pixbuf;
+	char *buffer;
+	int buffer_size;
+	PyObject *ret;
+
+	if (!PyArg_ParseTupleAndKeywords (args, kwargs,
+					  "t#:deserialize_pixdata", kwlist,
+					  &buffer, &buffer_size))
+	{
+		return NULL;
+	}
+
+	pixbuf = ma_deserialize_pixdata ((const guint8 *) buffer, buffer_size);
+	if (pixbuf != NULL)
+	{
+		ret = pygobject_new ((GObject *) pixbuf);
+		g_object_unref (pixbuf);
+		return ret;
+	}
+	else
+	{
+		Py_INCREF (Py_None);
+		return Py_None;
+	}
+}
+%%
+override ma_constrain_applet_size_minimum kwargs
+static PyObject *
+_wrap_ma_constrain_applet_size_minimum (PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+	static char *kwlist[] = { "applet", "min_size", NULL };
+	PyObject *applet;
+	int min_size;
+
+	if (!PyArg_ParseTupleAndKeywords (args, kwargs,
+					  "Oi:constrain_applet_size", kwlist,
+					  &applet, &min_size))
+	{
+		return NULL;
+	}
+
+	ma_constrain_applet_size_minimum (MATE_PANEL_APPLET (((PyGObject *) applet)->obj), min_size);
+	Py_INCREF (Py_None);
+	return Py_None;
+}
+%%
+override ma_constrain_applet_size_clear kwargs
+static PyObject *
+_wrap_ma_constrain_applet_size_clear (PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+	static char *kwlist[] = { "applet", NULL };
+	PyObject *applet;
+
+	if (!PyArg_ParseTupleAndKeywords (args, kwargs,
+					  "O:constrain_applet_size_clear", kwlist,
+					  &applet))
+	{
+		return NULL;
+	}
+
+	ma_constrain_applet_size_clear (MATE_PANEL_APPLET (((PyGObject *) applet)->obj));
+	Py_INCREF (Py_None);
+	return Py_None;
+}

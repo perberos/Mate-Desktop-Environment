@@ -1,0 +1,49 @@
+Notes on the plugin's internals
+===============================
+
+
+Envars of interest
+===================
+
+export TOTEM_EMBEDDED_DEBUG_SYNC=1
+- Pass --sync to the totem-plugin-viewer
+
+export TOTEM_EMBEDDED_DEBUG_FATAL=1
+- Pass --g-fatal-warnings to the totem-plugin-viewer
+
+export TOTEM_EMBEDDED_GDB=1
+- Launch a gdb session inside an xterm to capture crashes and errors
+  from the totem-plugin-viewer
+
+export MOZ_PLUGIN_PATH=`pwd`
+- Mozilla/Gecko/Firefox envar to lookup the browser plugins in the current
+  directory
+
+Disabling specific mime-types
+=============================
+
+This can be achieved using 2 files. They are:
+/etc/totem/browser-plugins.ini ($(sysconfdir)/totem/browser-plugins.ini)
+and
+~/.config/totem/browser-plugins.ini
+
+The format is:
+[Plugins]
+[mimetype].disabled=true/false
+
+For example, to disable all the mime-types in the Complex plugin:
+[Plugins]
+audio/x-pn-realaudio-plugin.disabled=true
+
+The system-wide file will take precedence over any settings in the user-wide
+setting. Bear in mind that Firefox/Seamonkey might not re-read the plugin list
+once it's been cached. You might have to remove the pluginreg.dat from the Mozilla
+profile directory.
+
+Special topics: NarrowSpace plugin
+==================================
+
+The NarrowSpace plugin currently handles only a small portions of the possible
+PARAMETERS possible:
+http://developer.apple.com/documentation/QuickTime/Conceptual/QTScripting_HTML/QTScripting_HTML_Document/chapter_1000_section_5.html
+

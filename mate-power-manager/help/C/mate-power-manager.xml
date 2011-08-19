@@ -1,0 +1,770 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+    "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY GFDL  SYSTEM "fdl-appendix.xml">
+  <!ENTITY app "MATE Power Manager">
+  <!ENTITY application "<application>&app;</application>">
+  <!ENTITY appversion "2.27.3">
+  <!ENTITY manrevision "2.27.3">
+]>
+<!--
+      (Do not remove this comment block.)
+  Template Maintained by the MATE Documentation Project:
+	  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Feb 12, 2002
+-->
+
+<!-- =============Document Header ============================= -->
+<article id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+
+  <articleinfo>
+    <title>&application; Manual</title>
+    <abstract role="description">
+      <para>
+        &application; is a session daemon for the MATE Desktop that
+        manages the power settings for your laptop or desktop computer.
+      </para>
+    </abstract>
+    <copyright>
+      <year>2006-2009</year>
+      <holder>Richard Hughes (richard@hughsie.com)</holder>
+    </copyright>
+
+  <!-- translators: uncomment this:
+
+  <copyright>
+   <year>2006</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+
+  -->
+
+<!-- An address can be added to the publisher information.  If a role is
+     not specified, the publisher/author is the same for all versions of the
+     document.  -->
+    <publisher role="maintainer">
+      <publishername>Richard Hughes</publishername>
+    </publisher>
+
+   &legal;
+   <!-- This file  contains link to license for the documentation (GNU FDL), and
+        other legal stuff such as "NO WARRANTY" statement. Please do not change
+        any of this. -->
+
+    <authorgroup>
+      <author role="maintainer">
+        <firstname>Richard</firstname>
+        <surname>Hughes</surname>
+	<email>richard@hughsie.com</email>
+      </author>
+<!-- This is appropriate place for other contributors: translators,
+      maintainers,  etc. Commented out by default.
+       <othercredit role="translator">
+        <firstname>Latin</firstname>
+        <surname>Translator 1</surname>
+        <affiliation>
+          <orgname>Latin Translation Team</orgname>
+          <address> <email>translator@mate.org</email> </address>
+        </affiliation>
+        <contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+
+    <revhistory>
+      <revision>
+        <revnumber>2.0</revnumber>
+        <date>2006-08-30</date>
+        <revdescription>
+          <para role="author">Richard Hughes
+            <email>richard@hughsie.com</email>
+          </para>
+          <para role="publisher">Richard Hughes</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <title>Feedback</title>
+      <para>
+        To report a bug or make a suggestion regarding the &app; application or
+        this manual, follow the directions in the 
+        <ulink url="http://www.mate.org/projects/mate-power-manager/"
+	  type="http">&application; Contact Page</ulink>.
+      </para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice>
+  </articleinfo>
+
+  <indexterm zone="index">
+    <primary>&application;</primary>
+  </indexterm>
+  <indexterm zone="index">
+    <primary>mate-power-manager</primary>
+  </indexterm>
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<section id="intro">
+  <title>Introduction</title>
+  <!-- manrevision 2.0 compatibility -->
+  <anchor id="aboutex"/>
+  <anchor id="notice"/>
+  <indexterm>
+    <primary>&application;</primary>
+    <secondary>Manual</secondary>
+    <tertiary>mate-power-manager</tertiary>
+  </indexterm>
+
+  <para>
+  The &app; session daemon is a power management daemon
+  for the <systemitem>MATE desktop</systemitem>
+  </para>
+
+</section>
+
+<section id="using">
+  <title>Usage</title>
+  <para>
+    <application>&app;</application> is usually started in MATE startup, but
+    you can manually start <application>&app;</application> by doing:
+  </para>
+  <variablelist>
+    <varlistentry>
+      <term>Command line</term>
+      <listitem>
+    	<para>
+    	  Type <command>mate-power-manager --verbose --no-daemon</command>,
+          then press <keycap>Return</keycap>:
+        </para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</section>
+
+<section id="notify">
+  <title>Notification Messages</title>
+  <para>
+    When &application; has started, the following notifications may be displayed.
+  </para>
+
+  <section id="notify-unplugged">
+    <title>AC Adapter Unplugged</title>
+    <figure>
+      <title>&app; Notification when AC adapter is removed</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-unplugged.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <note>
+      <para>
+        You can disable this notification by changing the MateConf key
+        <command>/apps/mate-power-manager/notify/discharging</command>.
+      </para>
+    </note>
+  </section>
+
+  <section id="notify-fully-charged">
+    <title>Fully Charged</title>
+    <figure>
+      <title>&app; Notification when laptop primary battery is fully charged</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-charged.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <note>
+      <para>
+        You can disable this notification by changing the MateConf key
+        <command>/apps/mate-power-manager/notify/fully_charged</command>.
+      </para>
+    </note>
+    <note>
+      <para>
+        You will only get a repeat notification if your battery percentage charge
+        drops below 95% and then is again fully charged.
+        This prevents some machines from showing unwanted repeat notifications
+        if the battery is incorrectly reporting the charged status.
+      </para>
+    </note>
+  </section>
+
+  <section id="notify-low">
+  <title>Power Low</title>
+    <para>
+      When the battery is low, you will receive the following notification.
+      You should consider switching to AC power really soon.
+    </para>
+    <figure>
+      <title>&app; Notification when battery power is low</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-low.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <note>
+      <para>
+        You can disable this notification by changing the MateConf key
+        <command>/apps/mate-power-manager/notify/low_power</command>.
+      </para>
+    </note>
+  </section>
+
+  <section id="notify-critical">
+  <title>Power Critical</title>
+    <para>
+      When the computer has run out of power, it will show this notification
+      explaining what action is required.
+      You can change the critical low action using the preferences tool.
+    </para>
+    <figure>
+      <title>&app; Notification when the system power is critically low</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-critical.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  </section>
+
+  <section id="notify-suspend-failure">
+  <title>Suspend Failure</title>
+    <para>
+      When a suspend failure occurs you may get this following warning.
+      The most common reason for this notification is that the current user does
+      not have permission to suspend or hibernate the computer.
+    </para>
+    <figure>
+      <title>&app; Notification when suspend failure occurs</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-suspend-problem.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <note>
+      <para>
+        You can disable this notification by changing the MateConf key
+        <command>/apps/mate-power-manager/notify/sleep_failed</command>.
+      </para>
+    </note>
+  </section>
+</section>
+
+<section id="statistics">
+  <title>Statistics</title>
+  <para>
+    The statistics program allows you to visualize the power consumption
+    of your laptop hardware.
+  </para>
+  <note>
+    <para>
+      This has been removed from the information window of previous versions of
+      &app; as the data interface is now using DBUS rather than internal IPC.
+      This allows other applications to query and display the data if required.
+    </para>
+  </note>
+  <figure id="statistics-graph">
+    <title>Power History going from battery power to AC</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gpm-stats-graph.png" format="PNG"/>
+        </imageobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+  <note>
+    <para>
+      You may not see some options or graphs if your computer does not
+      have the required hardware.
+      You may also see other hardware not shown here (for example
+      UPS devices) but these are treated the same way as other devices.
+    </para>
+  </note>
+
+  <section id="statistics-charge">
+    <title>Charge History</title>
+    <para>
+      This graph shows the percentage charge available for the composite primary
+      battery, so if you have a main laptop battery and an auxiliary battery
+      then only the averaged value will be shown.
+      A legend is not shown with this graph.
+    </para>
+  </section>
+
+  <section id="statistics-power">
+    <title>Power History</title>
+    <para>
+      This graph shows the power history charge used by the composite
+      primary battery.
+      This line represents the amount of power that is either being used to
+      charge the batteries in the system, or the power being used by the system
+      from the batteries.
+      You should see the line go up when processor intensive tasks are
+      performed, and down when the system is at idle, or when the screen is
+      dimmed.
+      A legend is shown with this graph when data events have been received.
+    </para>
+
+    <note>
+      <para>
+        You do will not receive rate data from your computer if it is not
+        charging or discharging, or if the computer is suspended.
+        This is due to hardware limitations where the rate is only sent from
+        the battery management chip, rather than the power management chip on
+        the motherboard.
+      </para>
+    </note>
+  </section>
+
+  <section id="statistics-time">
+    <title>Estimated Time History</title>
+    <para>
+      This graph shows the estimated charge history for the composite primary
+      battery.
+      This line represents the amount of time required until charged, or the
+      amount of time until discharge.
+      This line should go proportionally up when the rate decreases and down
+      when the rate increases.
+      A legend is shown with this graph when data events have been received.
+    </para>
+  </section>
+</section>
+
+<section id="preferences">
+  <title>Preferences</title>
+
+  <para>The preferences window allows you to control:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        The LCD brightness when on AC and battery power
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        The idle time for the screen power-down and suspend action
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        The actions to perform when the laptop lid is closed
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        The notification area icon policy
+      </para>
+    </listitem>
+  </itemizedlist>
+
+  <note>
+    <para>
+      Some sliders or option boxes may be disabled if the MateConf policy keys are
+      not writable.
+      This allows administrators to lock-down the actions that a user can select.
+    </para>
+  </note>
+
+  <section id="preferences-ac">
+    <title>AC Preferences</title>
+    <figure id="prefs-ac">
+      <title>&app; AC tab</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-prefs-ac.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  </section>
+
+  <section id="preferences-battery">
+    <title>Battery Preferences</title>
+    <figure id="prefs-processor">
+      <title>&app; battery tab</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-prefs-battery.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      This allows a powerful computer to reduce the power usage when
+      idle, or when the full capabilities are not required.
+    </para>
+  </section>
+
+  <section id="preferences-general">
+    <title>General Preferences</title>
+    <figure id="prefs-general">
+      <title>&app; general tab</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-prefs-general.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  </section>
+
+  <section id="preferences-idletimes">
+    <title>Session and system idle times</title>
+    <para>
+      <command>mate-screensaver</command> is a session daemon that monitors user
+      input, and if the mouse has not been moved, or the keyboard been pressed then
+      it starts a timeout.
+      When the value of this timeout reaches the value set in
+      <command>mate-screensaver-preferences</command>, then the login is marked
+      as 'session idle'.
+      This is when &application; performs all the session idle actions such as
+      enabling low-power mode and lowering the laptop panel brightness.
+    </para>
+
+    <figure>
+      <title>
+      Changing the session idle timeout in <command>mate-screensaver-preferences</command>
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gs-prefs.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      As soon as the session is marked at idle, &application; starts its own
+      'system' timer.
+      When the timeout set in <command>mate-power-preferences</command> is reached,
+      and the CPU load is idle, then the idle action is
+      performed, which is usually to turn off the screen, or to suspend or hibernate.
+    </para>
+    <para>
+      To make this clearer, the sliders in <command>mate-power-preferences</command>
+      are set to start at the value of the session-timeout + 1 minute, as we cannot
+      logically trigger before the session is marked as idle.
+      If you adjust the value of the 'session idle' timeout in
+      <command>mate-screensaver-preferences</command> then the start of the sliders
+      in <command>mate-power-preferences</command> will change accordingly.
+    </para>
+  </section>
+</section>
+
+<section id="preferences-advanced">
+  <title>Advanced Preferences</title>
+
+  <section id="advanced-preferences-brightness">
+    <title>Screen Dim Brightness</title>
+    <note>
+      <para>
+        You can change the idle laptop panel brightness by changing the MateConf key
+        <command>/apps/mate-power-manager/backlight/idle_brightness</command>.
+      </para>
+    </note>
+  </section>
+
+  <section id="advanced-preferences-locking">
+    <title>Screen Locking</title>
+    <para>
+      By default, &application; supports a simple locking scheme.
+      This means that the screen will lock if set to "Lock screen" in
+      mate-screensaver when the lid is closed, or the system performs a suspend or
+      hibernate action.
+    </para>
+    <para>
+      There is a complex locking scheme available for power users that allows
+      locking policy to change for the lid, suspend and hibernate actions.
+      To enable this complex mode, you will have to disable the MateConf key:
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          <command>/apps/mate-power-manager/lock/use_screensaver_settings</command>
+        </para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      Then the policy keys can be set to force a mate-screensaver lock and unlock
+      when the action is performed:
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          <command>/apps/mate-power-manager/lock/blank_screen</command>
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <command>/apps/mate-power-manager/lock/suspend</command>
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <command>/apps/mate-power-manager/lock/hibernate</command>
+        </para>
+      </listitem>
+    </itemizedlist>
+
+    <note>
+      <para>
+        The lock policy for mate-screensaver is ignored until the simple mode
+        is re-enabled.
+      </para>
+    </note>
+  </section>
+</section>
+
+<section id="applets-general">
+  <title>MATE Power Applets</title>
+
+  <section id="applets-brightness">
+    <title>Brightness Applet</title>
+    <para>
+      The brightness applet allows the user to change the brightness
+      temporarily without changing the default policy.
+      This may be useful if you have got a laptop without brightness
+      buttons, as you can now change the brightness easily.
+    </para>
+    <figure>
+      <title>
+      Brightness applet drop-down.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/applet-brightness.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <note>
+      <para>
+        You will not get the slider if your hardware is not supported.
+      </para>
+    </note>
+  </section>
+
+  <section id="applets-inhibit">
+    <title>Inhibit Applet</title>
+    <para>
+      The inhibit applet allows the user to prevent the computer
+      auto-sleeping when inactive. This may be required with old or
+      proprietary programs such as VMWare or Matlab.
+      Just click the icon for the auto-suspend to be inhibited,
+      and click it again for normal operation.
+    </para>
+    <figure>
+      <title>
+      Inhibit applet in inhibited state.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/applet-inhibit.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <note>
+      <para>
+        Don't use this applet if you just use MATE software, instead
+        file a bug to make the application use the Inhibit() and
+        UnInhibit() methods as this should 'just work'.
+      </para>
+    </note>
+  </section>
+</section>
+
+<section id="faq">
+  <title>Frequently Asked Questions</title>
+  <para>
+    These are questions the mailing list gets asked frequently.
+  </para>
+  <section id="faq-capacity">
+    <title>What is battery capacity?</title>
+    <para>
+      Capacity is how much charge your battery can store compared to its
+      manufacturer's guidelines.
+    </para>
+    <figure>
+      <title>
+        This graph shows the capacity of a typical lithium ion battery over a
+        few hundred charge-discharge cycles.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/gpm-cell-capacity.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  </section>
+
+  <section id="faq-suspend-hibernate-differences">
+    <title>What's the difference between suspend and hibernate?</title>
+    <para>
+      The Suspend state is a power saving feature which is the lowest level of
+      power consumption that preserves program data in the computer's memory.
+      When your computer is in the Suspended state, computation will not be
+      performed until normal activity is resumed.
+      It will not resume until signaled by an external event such as a keyboard
+      button press.
+      It generally takes a few seconds to suspend and then resume your computer.
+    </para>
+    <caution>
+      <para>
+        You still use a small amount of battery power while suspended, so is
+        not recommended for the low power action.
+        If you remove AC power on a desktop, or run out of battery power on a
+        laptop then you will lose your work.
+      </para>
+    </caution>
+    <para>
+      The Hibernation state saves the complete state of the computer to hard
+      disk and turns off the power, so that the computer appears to be off.
+      It will not resume until signaled by an external event such as a
+      keyboard button press.
+      This is the lowest power sleeping state available.
+      If you remove AC power on a desktop, or run out of battery power on a
+      laptop then work will not be lost.
+      It can take up to a minute or more to hibernate and wake your computer.
+    </para>
+  </section>
+
+  <section id="faq-dpms-broken-monitor">
+    <title>
+      My monitor is broken and treats DPMS standby and off states as
+      'no-signal' which leaves the monitor powered on.
+    </title>
+    <para>
+      You have to change the DPMS suspend mode &application; uses.
+      Open <command>mateconf-editor</command>, and then change the keys 
+      <literal>/apps/mate-power-manager/backlight/dpms_method_ac</literal> and
+      <literal>/apps/mate-power-manager/backlight/dpms_method_battery</literal>
+      to one of the modes that work, e.g. standby, suspend or off.
+    </para>
+  </section>
+
+  <section id="faq-discharge-time-wrong">
+    <title>
+      My time to discharge is always incorrect due to a faulty battery, what
+      can I do?
+    </title>
+    <para>
+      You might be able to use the percentage charge for g-p-m to use as the
+      policy data.
+      Open <command>mateconf-editor</command>, and then change the key 
+      <command>/apps/mate-power-manager/general/use_time_for_policy</command> to false.
+      You can do this easily by doing:
+      <command>
+        mateconftool-2 --set --type bool
+        /apps/mate-power-manager/general/use_time_for_policy false
+      </command>
+    </para>
+    <para>
+      This should get the policy actions working for you, but of course the
+      time remaining will still be incorrect.
+    </para>
+  </section>
+
+  <section id="faq-inhibit">
+    <title>
+      How do I make my application stop the computer auto-suspending?
+    </title>
+    <para>
+      If your application is doing a long operation, you might want to
+      disable the ability to suspend for a little while.
+      You should use mate-session if you really don't want the user to be
+      able to suspend, or for the computer to save power by hibernating
+      or suspending.
+    </para>
+  </section>
+
+  <section id="faq-acpi-delay">
+    <title>
+      I'm running ACPI. Why do events (such as removing the AC adapter)
+      take so long to register?
+    </title>
+    <para>
+      One of two things might be the problem.
+    </para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          HAL might not be running the addon that captures the ACPI event.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          You BIOS could be faulty, and might need a work-around.
+          Please send a bug report.
+        </para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      For the first case, try to find the HAL processes that are running:
+      <command>ps -eaf | grep hal</command>
+    </para>
+    <para>
+      And check for the process <command>hald-addon-acpi</command>.
+      If it is not being run, then please make sure that HAL is being run
+      with the  <command>--retain-privileges</command> option in the
+       <command>haldaemon</command> initscript.
+      An alternative to this is to use acpid, rather than the kernel proc file.
+    </para>
+  </section>
+
+</section>
+
+<section id="about">
+  <title>About</title>
+  <para>
+    &app; was written by Richard Hughes <email>richard@hughsie.com</email>.
+    To find more information about &app;, please visit the
+    <ulink url="http://www.mate.org/projects/mate-power-manager" type="http">
+    &application; web page</ulink>.
+  </para>
+  <para>
+    To report a bug or make a suggestion regarding this application or
+    this manual, follow the directions at the
+    <ulink url="http://www.mate.org/projects/mate-power-manager/bugs.html" type="http">
+    &application; Bug Page</ulink>.
+  </para>
+  <para>This program is distributed under the terms of the GNU
+    General Public license as published by the Free Software
+    Foundation; either version 2 of the License, or (at your option)
+    any later version. A copy of this license can be found at this
+    <ulink url="mate-power-manager:gpl" type="help">link</ulink>, or in the file
+    COPYING included with the source code of this program.
+  </para>
+</section>
+
+</article>

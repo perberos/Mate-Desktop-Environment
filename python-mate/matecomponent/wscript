@@ -1,0 +1,80 @@
+# -*- python -*-
+# encoding: utf-8
+
+import os
+
+def configure(conf):
+    conf.env.append_value('MODULES_AVAILABLE', 'matecomponent')
+    conf.env.append_value('MODULES_AVAILABLE', 'matecomponent.ui')
+
+    if 'matecomponent' in conf.env['ENABLE_MODULES'] or 'all' in conf.env['ENABLE_MODULES']:
+        if conf.pkg_check_modules('MATECOMPONENT',
+                                  'libmatecomponent-2.0 >= 2.8.0 pygobject-2.0 pymatecorba-2 >= 2.0.1',
+                                  mandatory=False):
+            conf.env.append_value('MODULES_TO_BUILD', 'matecomponent')
+
+    if 'matecomponent.ui' in conf.env['ENABLE_MODULES'] or 'all' in conf.env['ENABLE_MODULES']:
+        if conf.pkg_check_modules('MATECOMPONENTUI',
+                                  'libmatecomponentui-2.0 >= 2.8.0 pygobject-2.0 pymatecorba-2 >= 2.0.1',
+                                  mandatory=False):
+            conf.env.append_value('MODULES_TO_BUILD', 'matecomponent.ui')
+
+
+def build(bld):
+    env = bld.env
+    
+    if 'matecomponent' in bld.env['MODULES_TO_BUILD']:
+        py = bld.new_task_gen('py')
+        py.install_path = '${PYTHONDIR}/gtk-2.0/matecomponent'
+        py.source = "__init__.py"
+
+        bld.codegen('matecomponent', local_load_types=['matecomponent-arg-types.py'],
+                    local_register=['../mate/mate-types.defs',
+                                    '../matecanvas/canvas.defs',
+                                    'matecomponent-types.defs'],
+                    register=[os.path.join(env['PYGTK_DEFSDIR'], 'pango-types.defs'),
+                              os.path.join(env['PYGTK_DEFSDIR'], 'gdk-types.defs'),
+                              os.path.join(env['PYGTK_DEFSDIR'], 'gtk-types.defs')])
+
+        pyext = bld.create_pyext()
+        pyext.source = 'matecomponentmodule.c matecomponent.c matecomponent-arg.c pymatecomponent.c'
+        pyext.target = '_matecomponent'
+        pyext.uselib = 'MATECOMPONENT'
+        pyext.includes = '.'
+        pyext.install_path = '${PYTHONDIR}/gtk-2.0/matecomponent'
+
+        defsdir = bld.install_files('${DATADIR}/pygtk/2.0/defs',
+                                    ['matecomponent.defs',
+                                     'matecomponent-types.defs',
+                                     ])
+
+        pyext = bld.create_pyext()
+        pyext.source = 'activationmodule.c'
+        pyext.target = 'activation'
+        pyext.uselib = 'MATECOMPONENT'
+        pyext.includes = '.'
+        pyext.install_path = '${PYTHONDIR}/gtk-2.0/matecomponent'
+
+    
+    if 'matecomponent.ui' in bld.env['MODULES_TO_BUILD']:
+        bld.codegen('matecomponentui', local_load_types=['matecomponent-arg-types.py'],
+                    local_register=['../mate/mate-types.defs',
+                                    '../matecanvas/canvas.defs',
+                                    'matecomponent-types.defs'],
+                    register=[os.path.join(env['PYGTK_DEFSDIR'], 'pango-types.defs'),
+                              os.path.join(env['PYGTK_DEFSDIR'], 'gdk-types.defs'),
+                              os.path.join(env['PYGTK_DEFSDIR'], 'gtk-types.defs')])
+
+        pyext = bld.create_pyext()
+        pyext.source = 'matecomponentuimodule.c matecomponentui.c'
+        pyext.target = 'ui'
+        pyext.uselib = 'MATECOMPONENTUI'
+        pyext.includes = '.'
+        pyext.install_path = '${PYTHONDIR}/gtk-2.0/matecomponent'
+
+        defsdir = bld.install_files('${DATADIR}/pygtk/2.0/defs',
+                                    ['matecomponentui.defs',
+                                     'matecomponentui-types.defs',
+                                     ])
+
+    bld.install_files('${DATADIR}/pygtk/2.0/argtypes', 'matecomponent-arg-types.py')

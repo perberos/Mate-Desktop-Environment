@@ -1,0 +1,1066 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EogImage</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
+<link rel="home" href="index.html" title="Eye of MATE Reference Manual">
+<link rel="up" href="ch02.html" title="Image data and manipulation">
+<link rel="prev" href="ch02.html" title="Image data and manipulation">
+<link rel="next" href="EogImageSaveInfo.html" title="EogImageSaveInfo">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch02.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Eye of MATE Reference Manual</th>
+<td><a accesskey="n" href="EogImageSaveInfo.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#eog-eog-image.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#eog-eog-image.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#eog-eog-image.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#eog-eog-image.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry" title="EogImage">
+<a name="eog-eog-image"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="eog-eog-image.top_of_page"></a>EogImage</span></h2>
+<p>EogImage</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="eog-eog-image.synopsis"></a><h2>Synopsis</h2>
+<a name="EogImage"></a><pre class="synopsis">enum                <a class="link" href="eog-eog-image.html#EogImageData" title="enum EogImageData">EogImageData</a>;
+#define             <a class="link" href="eog-eog-image.html#EOG-IMAGE-DATA-ALL:CAPS" title="EOG_IMAGE_DATA_ALL">EOG_IMAGE_DATA_ALL</a>
+enum                <a class="link" href="eog-eog-image.html#EogImageError" title="enum EogImageError">EogImageError</a>;
+#define             <a class="link" href="eog-eog-image.html#EOG-IMAGE-ERROR:CAPS" title="EOG_IMAGE_ERROR">EOG_IMAGE_ERROR</a>
+enum                <a class="link" href="eog-eog-image.html#EogImageStatus" title="enum EogImageStatus">EogImageStatus</a>;
+                    <a class="link" href="eog-eog-image.html#EogImage-struct" title="EogImage">EogImage</a>;
+<a href="http://library.mate.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              <a class="link" href="eog-eog-image.html#eog-image-error-quark" title="eog_image_error_quark ()">eog_image_error_quark</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="eog-eog-image.html#EogImage"><span class="returnvalue">EogImage</span></a> *          <a class="link" href="eog-eog-image.html#eog-image-new" title="eog_image_new ()">eog_image_new</a>                       (<em class="parameter"><code>const <span class="type">char</span> *txt_uri</code></em>);
+<a class="link" href="eog-eog-image.html#EogImage"><span class="returnvalue">EogImage</span></a> *          <a class="link" href="eog-eog-image.html#eog-image-new-file" title="eog_image_new_file ()">eog_image_new_file</a>                  (<em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a> *file</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-image.html#eog-image-load" title="eog_image_load ()">eog_image_load</a>                      (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImageData" title="enum EogImageData"><span class="type">EogImageData</span></a> data2read</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-jobs.html#EogJob"><span class="type">EogJob</span></a> *job</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-cancel-load" title="eog_image_cancel_load ()">eog_image_cancel_load</a>               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-image.html#eog-image-has-data" title="eog_image_has_data ()">eog_image_has_data</a>                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImageData" title="enum EogImageData"><span class="type">EogImageData</span></a> data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-data-ref" title="eog_image_data_ref ()">eog_image_data_ref</a>                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-data-unref" title="eog_image_data_unref ()">eog_image_data_unref</a>                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-set-thumbnail" title="eog_image_set_thumbnail ()">eog_image_set_thumbnail</a>             (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk-pixbuf/unstable/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-image.html#eog-image-save-as-by-info" title="eog_image_save_as_by_info ()">eog_image_save_as_by_info</a>           (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EogImageSaveInfo.html" title="EogImageSaveInfo"><span class="type">EogImageSaveInfo</span></a> *source</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EogImageSaveInfo.html" title="EogImageSaveInfo"><span class="type">EogImageSaveInfo</span></a> *target</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-image.html#eog-image-save-by-info" title="eog_image_save_by_info ()">eog_image_save_by_info</a>              (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EogImageSaveInfo.html" title="EogImageSaveInfo"><span class="type">EogImageSaveInfo</span></a> *source</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a href="http://library.mate.org/devel/gdk-pixbuf/unstable/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a>*          <a class="link" href="eog-eog-image.html#eog-image-get-pixbuf" title="eog_image_get_pixbuf ()">eog_image_get_pixbuf</a>                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/gdk-pixbuf/unstable/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a>*          <a class="link" href="eog-eog-image.html#eog-image-get-thumbnail" title="eog_image_get_thumbnail ()">eog_image_get_thumbnail</a>             (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-get-size" title="eog_image_get_size ()">eog_image_get_size</a>                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> *width</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> *height</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#goffset"><span class="returnvalue">goffset</span></a>             <a class="link" href="eog-eog-image.html#eog-image-get-bytes" title="eog_image_get_bytes ()">eog_image_get_bytes</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-image.html#eog-image-is-modified" title="eog_image_is_modified ()">eog_image_is_modified</a>               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-modified" title="eog_image_modified ()">eog_image_modified</a>                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a>*        <a class="link" href="eog-eog-image.html#eog-image-get-caption" title="eog_image_get_caption ()">eog_image_get_caption</a>               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="eog-eog-image.html#eog-image-get-collate-key" title="eog_image_get_collate_key ()">eog_image_get_collate_key</a>           (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="eog-eog-image.html#eog-image-get-exif-info" title="eog_image_get_exif_info ()">eog_image_get_exif_info</a>             (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            <a class="link" href="eog-eog-image.html#eog-image-get-xmp-info" title="eog_image_get_xmp_info ()">eog_image_get_xmp_info</a>              (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="returnvalue">GFile</span></a>*              <a class="link" href="eog-eog-image.html#eog-image-get-file" title="eog_image_get_file ()">eog_image_get_file</a>                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a>*              <a class="link" href="eog-eog-image.html#eog-image-get-uri-for-display" title="eog_image_get_uri_for_display ()">eog_image_get_uri_for_display</a>       (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a class="link" href="eog-eog-image.html#EogImageStatus" title="enum EogImageStatus"><span class="returnvalue">EogImageStatus</span></a>      <a class="link" href="eog-eog-image.html#eog-image-get-status" title="eog_image_get_status ()">eog_image_get_status</a>                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-transform" title="eog_image_transform ()">eog_image_transform</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-transform.html#EogTransform"><span class="type">EogTransform</span></a> *trans</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-jobs.html#EogJob"><span class="type">EogJob</span></a> *job</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-autorotate" title="eog_image_autorotate ()">eog_image_autorotate</a>                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">cmsHPROFILE</span>         <a class="link" href="eog-eog-image.html#eog-image-get-profile" title="eog_image_get_profile ()">eog_image_get_profile</a>               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-apply-display-profile" title="eog_image_apply_display_profile ()">eog_image_apply_display_profile</a>     (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><span class="type">cmsHPROFILE</span> display_profile</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-undo" title="eog_image_undo ()">eog_image_undo</a>                      (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="eog-eog-image.html#eog-image-get-supported-mime-types" title="eog_image_get_supported_mime_types ()">eog_image_get_supported_mime_types</a>  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-image.html#eog-image-is-supported-mime-type" title="eog_image_is_supported_mime_type ()">eog_image_is_supported_mime_type</a>    (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-image.html#eog-image-file-changed" title="eog_image_file_changed ()">eog_image_file_changed</a>              (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="eog-eog-image.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----EogImage
+</pre>
+</div>
+<div class="refsect1" title="Signals">
+<a name="eog-eog-image.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="eog-eog-image.html#EogImage-changed" title='The "changed" signal'>changed</a>"                                        : Run Last
+  "<a class="link" href="eog-eog-image.html#EogImage-file-changed" title='The "file-changed" signal'>file-changed</a>"                                   : Run Last
+  "<a class="link" href="eog-eog-image.html#EogImage-next-frame" title='The "next-frame" signal'>next-frame</a>"                                     : Run Last
+  "<a class="link" href="eog-eog-image.html#EogImage-save-progress" title='The "save-progress" signal'>save-progress</a>"                                  : Run Last
+  "<a class="link" href="eog-eog-image.html#EogImage-size-prepared" title='The "size-prepared" signal'>size-prepared</a>"                                  : Run Last
+  "<a class="link" href="eog-eog-image.html#EogImage-thumbnail-changed" title='The "thumbnail-changed" signal'>thumbnail-changed</a>"                              : Run Last
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="eog-eog-image.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="eog-eog-image.details"></a><h2>Details</h2>
+<div class="refsect2" title="enum EogImageData">
+<a name="EogImageData"></a><h3>enum EogImageData</h3>
+<pre class="programlisting">typedef enum {
+	EOG_IMAGE_DATA_IMAGE     = 1 &lt;&lt; 0,
+	EOG_IMAGE_DATA_DIMENSION = 1 &lt;&lt; 1,
+	EOG_IMAGE_DATA_EXIF      = 1 &lt;&lt; 2,
+	EOG_IMAGE_DATA_XMP       = 1 &lt;&lt; 3
+} EogImageData;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EOG_IMAGE_DATA_ALL">
+<a name="EOG-IMAGE-DATA-ALL:CAPS"></a><h3>EOG_IMAGE_DATA_ALL</h3>
+<pre class="programlisting">#define             EOG_IMAGE_DATA_ALL</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum EogImageError">
+<a name="EogImageError"></a><h3>enum EogImageError</h3>
+<pre class="programlisting">typedef enum {
+	EOG_IMAGE_ERROR_SAVE_NOT_LOCAL,
+	EOG_IMAGE_ERROR_NOT_LOADED,
+	EOG_IMAGE_ERROR_VFS,
+	EOG_IMAGE_ERROR_FILE_EXISTS,
+	EOG_IMAGE_ERROR_TMP_FILE_FAILED,
+	EOG_IMAGE_ERROR_GENERIC,
+	EOG_IMAGE_ERROR_UNKNOWN
+} EogImageError;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EOG_IMAGE_ERROR">
+<a name="EOG-IMAGE-ERROR:CAPS"></a><h3>EOG_IMAGE_ERROR</h3>
+<pre class="programlisting">#define EOG_IMAGE_ERROR eog_image_error_quark ()
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum EogImageStatus">
+<a name="EogImageStatus"></a><h3>enum EogImageStatus</h3>
+<pre class="programlisting">typedef enum {
+	EOG_IMAGE_STATUS_UNKNOWN,
+	EOG_IMAGE_STATUS_LOADING,
+	EOG_IMAGE_STATUS_LOADED,
+	EOG_IMAGE_STATUS_SAVING,
+	EOG_IMAGE_STATUS_FAILED
+} EogImageStatus;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EogImage">
+<a name="EogImage-struct"></a><h3>EogImage</h3>
+<pre class="programlisting">typedef struct _EogImage EogImage;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_error_quark ()">
+<a name="eog-image-error-quark"></a><h3>eog_image_error_quark ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              eog_image_error_quark               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_new ()">
+<a name="eog-image-new"></a><h3>eog_image_new ()</h3>
+<pre class="programlisting"><a class="link" href="eog-eog-image.html#EogImage"><span class="returnvalue">EogImage</span></a> *          eog_image_new                       (<em class="parameter"><code>const <span class="type">char</span> *txt_uri</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>txt_uri</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_new_file ()">
+<a name="eog-image-new-file"></a><h3>eog_image_new_file ()</h3>
+<pre class="programlisting"><a class="link" href="eog-eog-image.html#EogImage"><span class="returnvalue">EogImage</span></a> *          eog_image_new_file                  (<em class="parameter"><code><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a> *file</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_load ()">
+<a name="eog-image-load"></a><h3>eog_image_load ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_image_load                      (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImageData" title="enum EogImageData"><span class="type">EogImageData</span></a> data2read</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-jobs.html#EogJob"><span class="type">EogJob</span></a> *job</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data2read</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>job</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_cancel_load ()">
+<a name="eog-image-cancel-load"></a><h3>eog_image_cancel_load ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_cancel_load               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_has_data ()">
+<a name="eog-image-has-data"></a><h3>eog_image_has_data ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_image_has_data                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImageData" title="enum EogImageData"><span class="type">EogImageData</span></a> data</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_data_ref ()">
+<a name="eog-image-data-ref"></a><h3>eog_image_data_ref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_data_ref                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_data_unref ()">
+<a name="eog-image-data-unref"></a><h3>eog_image_data_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_data_unref                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_set_thumbnail ()">
+<a name="eog-image-set-thumbnail"></a><h3>eog_image_set_thumbnail ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_set_thumbnail             (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gdk-pixbuf/unstable/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_save_as_by_info ()">
+<a name="eog-image-save-as-by-info"></a><h3>eog_image_save_as_by_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_image_save_as_by_info           (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EogImageSaveInfo.html" title="EogImageSaveInfo"><span class="type">EogImageSaveInfo</span></a> *source</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EogImageSaveInfo.html" title="EogImageSaveInfo"><span class="type">EogImageSaveInfo</span></a> *target</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>target</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_save_by_info ()">
+<a name="eog-image-save-by-info"></a><h3>eog_image_save_by_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_image_save_by_info              (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="EogImageSaveInfo.html" title="EogImageSaveInfo"><span class="type">EogImageSaveInfo</span></a> *source</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>source</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_pixbuf ()">
+<a name="eog-image-get-pixbuf"></a><h3>eog_image_get_pixbuf ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gdk-pixbuf/unstable/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a>*          eog_image_get_pixbuf                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_thumbnail ()">
+<a name="eog-image-get-thumbnail"></a><h3>eog_image_get_thumbnail ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gdk-pixbuf/unstable/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a>*          eog_image_get_thumbnail             (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_size ()">
+<a name="eog-image-get-size"></a><h3>eog_image_get_size ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_get_size                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> *width</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> *height</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_bytes ()">
+<a name="eog-image-get-bytes"></a><h3>eog_image_get_bytes ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#goffset"><span class="returnvalue">goffset</span></a>             eog_image_get_bytes                 (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_is_modified ()">
+<a name="eog-image-is-modified"></a><h3>eog_image_is_modified ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_image_is_modified               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_modified ()">
+<a name="eog-image-modified"></a><h3>eog_image_modified ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_modified                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_caption ()">
+<a name="eog-image-get-caption"></a><h3>eog_image_get_caption ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a>*        eog_image_get_caption               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_collate_key ()">
+<a name="eog-image-get-collate-key"></a><h3>eog_image_get_collate_key ()</h3>
+<pre class="programlisting">const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       eog_image_get_collate_key           (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_exif_info ()">
+<a name="eog-image-get-exif-info"></a><h3>eog_image_get_exif_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            eog_image_get_exif_info             (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_xmp_info ()">
+<a name="eog-image-get-xmp-info"></a><h3>eog_image_get_xmp_info ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>            eog_image_get_xmp_info              (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_file ()">
+<a name="eog-image-get-file"></a><h3>eog_image_get_file ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="returnvalue">GFile</span></a>*              eog_image_get_file                  (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_uri_for_display ()">
+<a name="eog-image-get-uri-for-display"></a><h3>eog_image_get_uri_for_display ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a>*              eog_image_get_uri_for_display       (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_status ()">
+<a name="eog-image-get-status"></a><h3>eog_image_get_status ()</h3>
+<pre class="programlisting"><a class="link" href="eog-eog-image.html#EogImageStatus" title="enum EogImageStatus"><span class="returnvalue">EogImageStatus</span></a>      eog_image_get_status                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_transform ()">
+<a name="eog-image-transform"></a><h3>eog_image_transform ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_transform                 (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-transform.html#EogTransform"><span class="type">EogTransform</span></a> *trans</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-jobs.html#EogJob"><span class="type">EogJob</span></a> *job</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>trans</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>job</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_autorotate ()">
+<a name="eog-image-autorotate"></a><h3>eog_image_autorotate ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_autorotate                (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_profile ()">
+<a name="eog-image-get-profile"></a><h3>eog_image_get_profile ()</h3>
+<pre class="programlisting"><span class="returnvalue">cmsHPROFILE</span>         eog_image_get_profile               (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_apply_display_profile ()">
+<a name="eog-image-apply-display-profile"></a><h3>eog_image_apply_display_profile ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_apply_display_profile     (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>,
+                                                         <em class="parameter"><code><span class="type">cmsHPROFILE</span> display_profile</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>display_profile</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_undo ()">
+<a name="eog-image-undo"></a><h3>eog_image_undo ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_undo                      (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_get_supported_mime_types ()">
+<a name="eog-image-get-supported-mime-types"></a><h3>eog_image_get_supported_mime_types ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             eog_image_get_supported_mime_types  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_is_supported_mime_type ()">
+<a name="eog-image-is-supported-mime-type"></a><h3>eog_image_is_supported_mime_type ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_image_is_supported_mime_type    (<em class="parameter"><code>const <span class="type">char</span> *mime_type</code></em>);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mime_type</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_image_file_changed ()">
+<a name="eog-image-file-changed"></a><h3>eog_image_file_changed ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_image_file_changed              (<em class="parameter"><code><a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img</code></em>);</pre>
+<p>
+Emits EogImage::file-changed signal
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>a <a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
+<a name="eog-eog-image.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" title='The "changed" signal'>
+<a name="EogImage-changed"></a><h3>The <code class="literal">"changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *eogimage,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)      : Run Last</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>eogimage</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "file-changed" signal'>
+<a name="EogImage-file-changed"></a><h3>The <code class="literal">"file-changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *eogimage,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)      : Run Last</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>eogimage</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "next-frame" signal'>
+<a name="EogImage-next-frame"></a><h3>The <code class="literal">"next-frame"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *img,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>      delay,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)      : Run Last</pre>
+<p>
+The ::next-frame signal will be emitted each time an animated image
+advances to the next frame.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>img</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>delay</code></em> :</span></p></td>
+<td>number of milliseconds the current frame will be displayed.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "save-progress" signal'>
+<a name="EogImage-save-progress"></a><h3>The <code class="literal">"save-progress"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *eogimage,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gfloat"><span class="type">gfloat</span></a>    arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)      : Run Last</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>eogimage</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "size-prepared" signal'>
+<a name="EogImage-size-prepared"></a><h3>The <code class="literal">"size-prepared"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *eogimage,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>      arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>      arg2,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)      : Run Last</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>eogimage</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "thumbnail-changed" signal'>
+<a name="EogImage-thumbnail-changed"></a><h3>The <code class="literal">"thumbnail-changed"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a> *eogimage,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>  user_data)      : Run Last</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>eogimage</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

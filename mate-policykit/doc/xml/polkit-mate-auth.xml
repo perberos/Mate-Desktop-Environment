@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<refentry id="polkit-mate-polkit-mate-auth">
+<refmeta>
+<refentrytitle role="top_of_page" id="polkit-mate-polkit-mate-auth.top_of_page">Authentication Dialogs</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>POLKIT-MATE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>Authentication Dialogs</refname>
+<refpurpose>Show authentication dialogs to gain privileges</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="polkit-mate-polkit-mate-auth.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                (<link linkend="PolKitMateAuthCB">*PolKitMateAuthCB</link>)                (<link linkend="PolKitAction">PolKitAction</link> *action,
+                                                         <link linkend="gboolean">gboolean</link> gained_privilege,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="gboolean">gboolean</link>            <link linkend="polkit-mate-auth-obtain">polkit_mate_auth_obtain</link>            (<link linkend="PolKitAction">PolKitAction</link> *action,
+                                                         <link linkend="guint">guint</link> xid,
+                                                         <link linkend="pid-t">pid_t</link> pid,
+                                                         <link linkend="PolKitMateAuthCB">PolKitMateAuthCB</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data,
+                                                         <link linkend="GError">GError</link> **error);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="polkit-mate-polkit-mate-auth.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+Show authentication dialogs to gain privileges.</para>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="polkit-mate-polkit-mate-auth.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="PolKitMateAuthCB" role="function">
+<title>PolKitMateAuthCB ()</title>
+<indexterm zone="PolKitMateAuthCB"><primary>PolKitMateAuthCB</primary></indexterm><programlisting><link linkend="void">void</link>                (*PolKitMateAuthCB)                (<link linkend="PolKitAction">PolKitAction</link> *action,
+                                                         <link linkend="gboolean">gboolean</link> gained_privilege,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+The type of the callback function for
+<link linkend="polkit-mate-auth-show-dialog"><function>polkit_mate_auth_show_dialog()</function></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="PolKitAction"><type>PolKitAction</type></link> passed in <link linkend="polkit-mate-auth-show-dialog"><function>polkit_mate_auth_show_dialog()</function></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>gained_privilege</parameter>&nbsp;:</term>
+<listitem><simpara> whether the user gained the privilege. Set to
+<link linkend="FALSE:CAPS"><type>FALSE</type></link> if error is set. If set to <link linkend="TRUE:CAPS"><type>TRUE</type></link>, error will not be set.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara> if the call failed, this parameter will be non-<link linkend="NULL:CAPS"><type>NULL</type></link>. The
+callee shall free the error.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara> user data
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="polkit-mate-auth-obtain" role="function">
+<title>polkit_mate_auth_obtain ()</title>
+<indexterm zone="polkit-mate-auth-obtain"><primary>polkit_mate_auth_obtain</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            polkit_mate_auth_obtain            (<link linkend="PolKitAction">PolKitAction</link> *action,
+                                                         <link linkend="guint">guint</link> xid,
+                                                         <link linkend="pid-t">pid_t</link> pid,
+                                                         <link linkend="PolKitMateAuthCB">PolKitMateAuthCB</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+Applications can use this function to show a dialog for the user
+asking her to authenticate in order to gain privileges to do the
+given action. The authentication, for security reasons, happens in
+a separate process; this function is merely a wrapper around a
+D-Bus call across the session message bus to the
+<literal>org.freedesktop.PolicyKit.AuthenticationAgent</literal>
+service. Depending on the setup, this may be the Authentication
+Agent shipped with PolicyKit-mate or it may be another
+implementation. For example, if the user is in KDE it may be an
+Authentication Agent using the Qt toolkit.
+</para>
+<para>
+The Authentication Agent shipped with PolicyKit-mate is described
+in <link linkend="ref-auth-daemon">this section</link>.
+</para>
+<para>
+This function is similar to the <link linkend="polkit-auth-obtain"><function>polkit_auth_obtain()</function></link> function
+supplied in <literal>libpolkit-dbus</literal> except that this
+function is asynchronous.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>action</parameter>&nbsp;:</term>
+<listitem><simpara> The <link linkend="PolKitAction"><type>PolKitAction</type></link> to make the user authenticate for
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>xid</parameter>&nbsp;:</term>
+<listitem><simpara> X11 window ID for the window that the dialog will be transient for. If there is no window, pass 0.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>pid</parameter>&nbsp;:</term>
+<listitem><simpara> Process ID of process to grant authorization to. Normally one wants to pass result of <link linkend="getpid"><function>getpid()</function></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&nbsp;:</term>
+<listitem><simpara> Function to call when authentication is done
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara> Data to pass to the callback function
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara> Return location for error
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><type>TRUE</type></link> if the authentication session was scheduled to
+start. <link linkend="FALSE:CAPS"><type>FALSE</type></link> if error is set (and no callback will be made).
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

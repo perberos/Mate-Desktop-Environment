@@ -1,0 +1,707 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GeditDocument</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="gedit Reference Manual">
+<link rel="up" href="ch01.html" title="gedit">
+<link rel="prev" href="gedit-gedit-app.html" title="GeditApp">
+<link rel="next" href="gedit-gedit-encodings-option-menu.html" title="GeditEncodingsOptionMenu">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gedit-gedit-app.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">gedit Reference Manual</th>
+<td><a accesskey="n" href="gedit-gedit-encodings-option-menu.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gedit-gedit-document.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gedit-gedit-document.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gedit-gedit-document.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gedit-gedit-document.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#gedit-gedit-document.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry" title="GeditDocument">
+<a name="gedit-gedit-document"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gedit-gedit-document.top_of_page"></a>GeditDocument</span></h2>
+<p>GeditDocument</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gedit-gedit-document.synopsis"></a><h2>Synopsis</h2>
+<a name="GeditDocument"></a><pre class="synopsis">enum                <a class="link" href="gedit-gedit-document.html#GeditSearchFlags" title="enum GeditSearchFlags">GeditSearchFlags</a>;
+                    <a class="link" href="gedit-gedit-document.html#GeditDocumentPrivate" title="GeditDocumentPrivate">GeditDocumentPrivate</a>;
+                    <a class="link" href="gedit-gedit-document.html#GeditDocument-struct" title="GeditDocument">GeditDocument</a>;
+enum                <a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags">GeditDocumentSaveFlags</a>;
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-DOCUMENT-ERROR:CAPS" title="GEDIT_DOCUMENT_ERROR">GEDIT_DOCUMENT_ERROR</a>
+<a href="http://library.mate.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              <a class="link" href="gedit-gedit-document.html#gedit-document-error-quark" title="gedit_document_error_quark ()">gedit_document_error_quark</a>          (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="returnvalue">GeditDocument</span></a> *     <a class="link" href="gedit-gedit-document.html#gedit-document-new" title="gedit_document_new ()">gedit_document_new</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gedit-gedit-document.html#gedit-document-get-uri" title="gedit_document_get_uri ()">gedit_document_get_uri</a>              (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gedit-gedit-document.html#gedit-document-get-uri-for-display" title="gedit_document_get_uri_for_display ()">gedit_document_get_uri_for_display</a>  (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gedit-gedit-document.html#gedit-document-get-short-name-for-display" title="gedit_document_get_short_name_for_display ()">gedit_document_get_short_name_for_display</a>
+                                                        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gedit-gedit-document.html#gedit-document-get-mime-type" title="gedit_document_get_mime_type ()">gedit_document_get_mime_type</a>        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-get-readonly" title="gedit_document_get_readonly ()">gedit_document_get_readonly</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-document.html#gedit-document-load" title="gedit_document_load ()">gedit_document_load</a>                 (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> line_pos</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> create</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-insert-file" title="gedit_document_insert_file ()">gedit_document_insert_file</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-load-cancel" title="gedit_document_load_cancel ()">gedit_document_load_cancel</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-document.html#gedit-document-save" title="gedit_document_save ()">gedit_document_save</a>                 (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a> flags</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-document.html#gedit-document-save-as" title="gedit_document_save_as ()">gedit_document_save_as</a>              (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a> flags</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-is-untouched" title="gedit_document_is_untouched ()">gedit_document_is_untouched</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-is-untitled" title="gedit_document_is_untitled ()">gedit_document_is_untitled</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-get-deleted" title="gedit_document_get_deleted ()">gedit_document_get_deleted</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-goto-line" title="gedit_document_goto_line ()">gedit_document_goto_line</a>            (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> line</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-document.html#gedit-document-set-search-text" title="gedit_document_set_search_text ()">gedit_document_set_search_text</a>      (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gedit-gedit-document.html#gedit-document-get-search-text" title="gedit_document_get_search_text ()">gedit_document_get_search_text</a>      (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> *flags</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-get-can-search-again" title="gedit_document_get_can_search_again ()">gedit_document_get_can_search_again</a> (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-search-forward" title="gedit_document_search_forward ()">gedit_document_search_forward</a>       (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *start</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_start</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_end</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-search-backward" title="gedit_document_search_backward ()">gedit_document_search_backward</a>      (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *start</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_start</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_end</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="gedit-gedit-document.html#gedit-document-replace-all" title="gedit_document_replace_all ()">gedit_document_replace_all</a>          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *find</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *replace</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-document.html#gedit-document-set-language" title="gedit_document_set_language ()">gedit_document_set_language</a>         (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gtksourceview-2.0/GtkSourceLanguage.html"><span class="type">GtkSourceLanguage</span></a> *lang</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gedit-gedit-document.html#gedit-document-set-enable-search-highlighting" title="gedit_document_set_enable_search_highlighting ()">gedit_document_set_enable_search_highlighting</a>
+                                                        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> enable</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gedit-gedit-document.html#gedit-document-get-enable-search-highlighting" title="gedit_document_get_enable_search_highlighting ()">gedit_document_get_enable_search_highlighting</a>
+                                                        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-SEARCH-IS-DONT-SET-FLAGS:CAPS" title="GEDIT_SEARCH_IS_DONT_SET_FLAGS()">GEDIT_SEARCH_IS_DONT_SET_FLAGS</a>      (sflags)
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-SEARCH-SET-DONT-SET-FLAGS:CAPS" title="GEDIT_SEARCH_SET_DONT_SET_FLAGS()">GEDIT_SEARCH_SET_DONT_SET_FLAGS</a>     (sflags,
+                                                         state)
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-SEARCH-IS-ENTIRE-WORD:CAPS" title="GEDIT_SEARCH_IS_ENTIRE_WORD()">GEDIT_SEARCH_IS_ENTIRE_WORD</a>         (sflags)
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-SEARCH-SET-ENTIRE-WORD:CAPS" title="GEDIT_SEARCH_SET_ENTIRE_WORD()">GEDIT_SEARCH_SET_ENTIRE_WORD</a>        (sflags,
+                                                         state)
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-SEARCH-IS-CASE-SENSITIVE:CAPS" title="GEDIT_SEARCH_IS_CASE_SENSITIVE()">GEDIT_SEARCH_IS_CASE_SENSITIVE</a>      (sflags)
+#define             <a class="link" href="gedit-gedit-document.html#GEDIT-SEARCH-SET-CASE-SENSITIVE:CAPS" title="GEDIT_SEARCH_SET_CASE_SENSITIVE()">GEDIT_SEARCH_SET_CASE_SENSITIVE</a>     (sflags,
+                                                         state)
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="gedit-gedit-document.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="http://library.mate.org/devel/gtk/unstable/GtkTextBuffer.html">GtkTextBuffer</a>
+         +----<a href="/usr/share/gtk-doc/html/gtksourceview-2.0/GtkSourceBuffer.html">GtkSourceBuffer</a>
+               +----GeditDocument
+</pre>
+</div>
+<div class="refsect1" title="Properties">
+<a name="gedit-gedit-document.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--can-search-again" title='The "can-search-again" property'>can-search-again</a>"         <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--content-type" title='The "content-type" property'>content-type</a>"             <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--enable-search-highlighting" title='The "enable-search-highlighting" property'>enable-search-highlighting</a>" <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--encoding" title='The "encoding" property'>encoding</a>"                 <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a>*        : Read
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--mime-type" title='The "mime-type" property'>mime-type</a>"                <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--newline-type" title='The "newline-type" property'>newline-type</a>"             <span class="type">GeditDocumentNewlineType</span>  : Read / Write
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--read-only" title='The "read-only" property'>read-only</a>"                <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--shortname" title='The "shortname" property'>shortname</a>"                <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument--uri" title='The "uri" property'>uri</a>"                      <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
+</pre>
+</div>
+<div class="refsect1" title="Signals">
+<a name="gedit-gedit-document.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-cursor-moved" title='The "cursor-moved" signal'>cursor-moved</a>"                                   : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-load" title='The "load" signal'>load</a>"                                           : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-loaded" title='The "loaded" signal'>loaded</a>"                                         : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-loading" title='The "loading" signal'>loading</a>"                                        : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-save" title='The "save" signal'>save</a>"                                           : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-saved" title='The "saved" signal'>saved</a>"                                          : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-saving" title='The "saving" signal'>saving</a>"                                         : Run Last
+  "<a class="link" href="gedit-gedit-document.html#GeditDocument-search-highlight-updated" title='The "search-highlight-updated" signal'>search-highlight-updated</a>"                       : Run Last
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="gedit-gedit-document.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1" title="Details">
+<a name="gedit-gedit-document.details"></a><h2>Details</h2>
+<div class="refsect2" title="enum GeditSearchFlags">
+<a name="GeditSearchFlags"></a><h3>enum GeditSearchFlags</h3>
+<pre class="programlisting">typedef enum
+{
+	GEDIT_SEARCH_DONT_SET_FLAGS = 1 &lt;&lt; 0, 
+	GEDIT_SEARCH_ENTIRE_WORD = 1 &lt;&lt; 1,
+	GEDIT_SEARCH_CASE_SENSITIVE = 1 &lt;&lt; 2
+
+} GeditSearchFlags;
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="GeditDocumentPrivate">
+<a name="GeditDocumentPrivate"></a><h3>GeditDocumentPrivate</h3>
+<pre class="programlisting">typedef struct _GeditDocumentPrivate GeditDocumentPrivate;</pre>
+</div>
+<hr>
+<div class="refsect2" title="GeditDocument">
+<a name="GeditDocument-struct"></a><h3>GeditDocument</h3>
+<pre class="programlisting">typedef struct _GeditDocument GeditDocument;</pre>
+</div>
+<hr>
+<div class="refsect2" title="enum GeditDocumentSaveFlags">
+<a name="GeditDocumentSaveFlags"></a><h3>enum GeditDocumentSaveFlags</h3>
+<pre class="programlisting">typedef enum
+{
+	GEDIT_DOCUMENT_SAVE_IGNORE_MTIME 	= 1 &lt;&lt; 0,
+	GEDIT_DOCUMENT_SAVE_IGNORE_BACKUP = 1 &lt;&lt; 1,
+	GEDIT_DOCUMENT_SAVE_PRESERVE_BACKUP = 1 &lt;&lt; 2
+} GeditDocumentSaveFlags;
+</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="GEDIT-DOCUMENT-SAVE-IGNORE-MTIME:CAPS"></a><span class="term"><code class="literal">GEDIT_DOCUMENT_SAVE_IGNORE_MTIME</code></span></p></td>
+<td>save file despite external modifications.
+</td>
+</tr>
+<tr>
+<td><p><a name="GEDIT-DOCUMENT-SAVE-IGNORE-BACKUP:CAPS"></a><span class="term"><code class="literal">GEDIT_DOCUMENT_SAVE_IGNORE_BACKUP</code></span></p></td>
+<td>write the file directly without attempting to backup.
+</td>
+</tr>
+<tr>
+<td><p><a name="GEDIT-DOCUMENT-SAVE-PRESERVE-BACKUP:CAPS"></a><span class="term"><code class="literal">GEDIT_DOCUMENT_SAVE_PRESERVE_BACKUP</code></span></p></td>
+<td>preserve previous backup file, needed to support autosaving.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_DOCUMENT_ERROR">
+<a name="GEDIT-DOCUMENT-ERROR:CAPS"></a><h3>GEDIT_DOCUMENT_ERROR</h3>
+<pre class="programlisting">#define GEDIT_DOCUMENT_ERROR gedit_document_error_quark ()
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_error_quark ()">
+<a name="gedit-document-error-quark"></a><h3>gedit_document_error_quark ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              gedit_document_error_quark          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_new ()">
+<a name="gedit-document-new"></a><h3>gedit_document_new ()</h3>
+<pre class="programlisting"><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="returnvalue">GeditDocument</span></a> *     gedit_document_new                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_uri ()">
+<a name="gedit-document-get-uri"></a><h3>gedit_document_get_uri ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gedit_document_get_uri              (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_uri_for_display ()">
+<a name="gedit-document-get-uri-for-display"></a><h3>gedit_document_get_uri_for_display ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gedit_document_get_uri_for_display  (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_short_name_for_display ()">
+<a name="gedit-document-get-short-name-for-display"></a><h3>gedit_document_get_short_name_for_display ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gedit_document_get_short_name_for_display
+                                                        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_mime_type ()">
+<a name="gedit-document-get-mime-type"></a><h3>gedit_document_get_mime_type ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gedit_document_get_mime_type        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_readonly ()">
+<a name="gedit-document-get-readonly"></a><h3>gedit_document_get_readonly ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_get_readonly         (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_load ()">
+<a name="gedit-document-load"></a><h3>gedit_document_load ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_document_load                 (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> line_pos</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> create</code></em>);</pre>
+<p>
+Load a document. This results in the "load" signal to be emitted.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>doc</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the uri where to load the document from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoding</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> to encode the document.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>line_pos</code></em> :</span></p></td>
+<td>the line to show.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>create</code></em> :</span></p></td>
+<td>whether the document should be created if it doesn't exist.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_insert_file ()">
+<a name="gedit-document-insert-file"></a><h3>gedit_document_insert_file ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_insert_file          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *iter</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_load_cancel ()">
+<a name="gedit-document-load-cancel"></a><h3>gedit_document_load_cancel ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_load_cancel          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+<p>
+Cancel load of a document.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>doc</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_save ()">
+<a name="gedit-document-save"></a><h3>gedit_document_save ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_document_save                 (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a> flags</code></em>);</pre>
+<p>
+Save the document to its previous location. This results in the "save"
+signal to be emitted.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>doc</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>optionnal <a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_save_as ()">
+<a name="gedit-document-save-as"></a><h3>gedit_document_save_as ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_document_save_as              (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                                                         <em class="parameter"><code>const <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a> flags</code></em>);</pre>
+<p>
+Save the document to a new location. This results in the "save" signal
+to be emitted.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>doc</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the uri where to save the document.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoding</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> to encode the document.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>optionnal <a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_is_untouched ()">
+<a name="gedit-document-is-untouched"></a><h3>gedit_document_is_untouched ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_is_untouched         (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_is_untitled ()">
+<a name="gedit-document-is-untitled"></a><h3>gedit_document_is_untitled ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_is_untitled          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_deleted ()">
+<a name="gedit-document-get-deleted"></a><h3>gedit_document_get_deleted ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_get_deleted          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_goto_line ()">
+<a name="gedit-document-goto-line"></a><h3>gedit_document_goto_line ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_goto_line            (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> line</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_set_search_text ()">
+<a name="gedit-document-set-search-text"></a><h3>gedit_document_set_search_text ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_document_set_search_text      (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *text</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_search_text ()">
+<a name="gedit-document-get-search-text"></a><h3>gedit_document_get_search_text ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gedit_document_get_search_text      (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> *flags</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_can_search_again ()">
+<a name="gedit-document-get-can-search-again"></a><h3>gedit_document_get_can_search_again ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_get_can_search_again (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_search_forward ()">
+<a name="gedit-document-search-forward"></a><h3>gedit_document_search_forward ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_search_forward       (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *start</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_start</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_end</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_search_backward ()">
+<a name="gedit-document-search-backward"></a><h3>gedit_document_search_backward ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_search_backward      (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *start</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *end</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_start</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a> *match_end</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_replace_all ()">
+<a name="gedit-document-replace-all"></a><h3>gedit_document_replace_all ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                gedit_document_replace_all          (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *find</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *replace</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_set_language ()">
+<a name="gedit-document-set-language"></a><h3>gedit_document_set_language ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_document_set_language         (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gtksourceview-2.0/GtkSourceLanguage.html"><span class="type">GtkSourceLanguage</span></a> *lang</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_set_enable_search_highlighting ()">
+<a name="gedit-document-set-enable-search-highlighting"></a><h3>gedit_document_set_enable_search_highlighting ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gedit_document_set_enable_search_highlighting
+                                                        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> enable</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="gedit_document_get_enable_search_highlighting ()">
+<a name="gedit-document-get-enable-search-highlighting"></a><h3>gedit_document_get_enable_search_highlighting ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gedit_document_get_enable_search_highlighting
+                                                        (<em class="parameter"><code><a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *doc</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_SEARCH_IS_DONT_SET_FLAGS()">
+<a name="GEDIT-SEARCH-IS-DONT-SET-FLAGS:CAPS"></a><h3>GEDIT_SEARCH_IS_DONT_SET_FLAGS()</h3>
+<pre class="programlisting">#define GEDIT_SEARCH_IS_DONT_SET_FLAGS(sflags) ((sflags &amp; GEDIT_SEARCH_DONT_SET_FLAGS) != 0)
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_SEARCH_SET_DONT_SET_FLAGS()">
+<a name="GEDIT-SEARCH-SET-DONT-SET-FLAGS:CAPS"></a><h3>GEDIT_SEARCH_SET_DONT_SET_FLAGS()</h3>
+<pre class="programlisting">#define             GEDIT_SEARCH_SET_DONT_SET_FLAGS(sflags,state)</pre>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_SEARCH_IS_ENTIRE_WORD()">
+<a name="GEDIT-SEARCH-IS-ENTIRE-WORD:CAPS"></a><h3>GEDIT_SEARCH_IS_ENTIRE_WORD()</h3>
+<pre class="programlisting">#define GEDIT_SEARCH_IS_ENTIRE_WORD(sflags) ((sflags &amp; GEDIT_SEARCH_ENTIRE_WORD) != 0)
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_SEARCH_SET_ENTIRE_WORD()">
+<a name="GEDIT-SEARCH-SET-ENTIRE-WORD:CAPS"></a><h3>GEDIT_SEARCH_SET_ENTIRE_WORD()</h3>
+<pre class="programlisting">#define             GEDIT_SEARCH_SET_ENTIRE_WORD(sflags,state)</pre>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_SEARCH_IS_CASE_SENSITIVE()">
+<a name="GEDIT-SEARCH-IS-CASE-SENSITIVE:CAPS"></a><h3>GEDIT_SEARCH_IS_CASE_SENSITIVE()</h3>
+<pre class="programlisting">#define GEDIT_SEARCH_IS_CASE_SENSITIVE(sflags) ((sflags &amp;  GEDIT_SEARCH_CASE_SENSITIVE) != 0)
+</pre>
+</div>
+<hr>
+<div class="refsect2" title="GEDIT_SEARCH_SET_CASE_SENSITIVE()">
+<a name="GEDIT-SEARCH-SET-CASE-SENSITIVE:CAPS"></a><h3>GEDIT_SEARCH_SET_CASE_SENSITIVE()</h3>
+<pre class="programlisting">#define             GEDIT_SEARCH_SET_CASE_SENSITIVE(sflags,state)</pre>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="gedit-gedit-document.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "can-search-again" property'>
+<a name="GeditDocument--can-search-again"></a><h3>The <code class="literal">"can-search-again"</code> property</h3>
+<pre class="programlisting">  "can-search-again"         <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read</pre>
+<p>Wheter it's possible to search again in the document.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "content-type" property'>
+<a name="GeditDocument--content-type"></a><h3>The <code class="literal">"content-type"</code> property</h3>
+<pre class="programlisting">  "content-type"             <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>The document's Content Type.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" title='The "enable-search-highlighting" property'>
+<a name="GeditDocument--enable-search-highlighting"></a><h3>The <code class="literal">"enable-search-highlighting"</code> property</h3>
+<pre class="programlisting">  "enable-search-highlighting" <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>Whether all the occurences of the searched string must be highlighted.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "encoding" property'>
+<a name="GeditDocument--encoding"></a><h3>The <code class="literal">"encoding"</code> property</h3>
+<pre class="programlisting">  "encoding"                 <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a>*        : Read</pre>
+<p>The GeditEncoding used for the document.</p>
+</div>
+<hr>
+<div class="refsect2" title='The "mime-type" property'>
+<a name="GeditDocument--mime-type"></a><h3>The <code class="literal">"mime-type"</code> property</h3>
+<pre class="programlisting">  "mime-type"                <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read</pre>
+<p>The document's MIME Type.</p>
+<p>Default value: "text/plain"</p>
+</div>
+<hr>
+<div class="refsect2" title='The "newline-type" property'>
+<a name="GeditDocument--newline-type"></a><h3>The <code class="literal">"newline-type"</code> property</h3>
+<pre class="programlisting">  "newline-type"             <span class="type">GeditDocumentNewlineType</span>  : Read / Write</pre>
+<p>
+The :newline-type property determines what is considered
+as a line ending when saving the document
+</p>
+<p>Default value: GEDIT_DOCUMENT_NEWLINE_TYPE_LF</p>
+</div>
+<hr>
+<div class="refsect2" title='The "read-only" property'>
+<a name="GeditDocument--read-only"></a><h3>The <code class="literal">"read-only"</code> property</h3>
+<pre class="programlisting">  "read-only"                <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read</pre>
+<p>Whether the document is read only or not.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "shortname" property'>
+<a name="GeditDocument--shortname"></a><h3>The <code class="literal">"shortname"</code> property</h3>
+<pre class="programlisting">  "shortname"                <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>The document's short name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" title='The "uri" property'>
+<a name="GeditDocument--uri"></a><h3>The <code class="literal">"uri"</code> property</h3>
+<pre class="programlisting">  "uri"                      <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read</pre>
+<p>The document's URI.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
+<a name="gedit-gedit-document.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" title='The "cursor-moved" signal'>
+<a name="GeditDocument-cursor-moved"></a><h3>The <code class="literal">"cursor-moved"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *geditdocument,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)          : Run Last</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "load" signal'>
+<a name="GeditDocument-load"></a><h3>The <code class="literal">"load"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *document,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>         *uri,
+                                                        <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> *encoding,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>           line_pos,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>       create,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)      : Run Last</pre>
+<p>
+The "load" signal is emitted when a document is loaded.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the uri where to load the document from.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoding</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> to encode the document.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>line_pos</code></em> :</span></p></td>
+<td>the line to show.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>create</code></em> :</span></p></td>
+<td>whether the document should be created if it doesn't exist.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.22</p>
+</div>
+<hr>
+<div class="refsect2" title='The "loaded" signal'>
+<a name="GeditDocument-loaded"></a><h3>The <code class="literal">"loaded"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *geditdocument,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)          : Run Last</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "loading" signal'>
+<a name="GeditDocument-loading"></a><h3>The <code class="literal">"loading"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *geditdocument,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>        arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>        arg2,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)          : Run Last</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "save" signal'>
+<a name="GeditDocument-save"></a><h3>The <code class="literal">"save"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>         *document,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>                 *uri,
+                                                        <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a>         *encoding,
+                                                        <a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a> flags,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>               user_data)      : Run Last</pre>
+<p>
+The "save" signal is emitted when the document is saved.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>document</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the uri where the document is about to be saved.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>encoding</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-encodings.html#GeditEncoding" title="GeditEncoding"><span class="type">GeditEncoding</span></a> used to save the document.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the <a class="link" href="gedit-gedit-document.html#GeditDocumentSaveFlags" title="enum GeditDocumentSaveFlags"><span class="type">GeditDocumentSaveFlags</span></a> for the save operation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.20</p>
+</div>
+<hr>
+<div class="refsect2" title='The "saved" signal'>
+<a name="GeditDocument-saved"></a><h3>The <code class="literal">"saved"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *geditdocument,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)          : Run Last</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "saving" signal'>
+<a name="GeditDocument-saving"></a><h3>The <code class="literal">"saving"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *geditdocument,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>        arg1,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>        arg2,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)          : Run Last</pre>
+</div>
+<hr>
+<div class="refsect2" title='The "search-highlight-updated" signal'>
+<a name="GeditDocument-search-highlight-updated"></a><h3>The <code class="literal">"search-highlight-updated"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gedit-gedit-document.html#GeditDocument"><span class="type">GeditDocument</span></a> *geditdocument,
+                                                        <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a>   *arg1,
+                                                        <a href="http://library.mate.org/devel/gtk/unstable/gtk-GtkTextIter.html#GtkTextIter"><span class="type">GtkTextIter</span></a>   *arg2,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>       user_data)          : Run Last</pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

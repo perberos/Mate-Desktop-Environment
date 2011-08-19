@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY appversion "2.26">
+<!ENTITY manrevision "3.0">
+<!ENTITY date "February 2009">
+<!ENTITY app "Totem Movie Player">
+<!-- Information about the entities
+       The legal.xml file contains legal information, there is no need to edit the file. 
+       Use the appversion entity to specify the version of the application.
+       Use the manrevision entity to specify the revision number of this manual.
+       Use the date entity to specify the release date of this manual.
+       Use the app entity to specify the name of the application. -->]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the MATE Documentation Project
+  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Apr 11, 2002
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="cs">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+    <title>Příručka k <application>přehrávači filmů Totem</application></title>       
+    <copyright> 
+      <year>2003</year> 
+      <holder>Chee Bin HOH</holder>
+    </copyright>
+    <copyright>
+      <year>2009</year>
+      <holder>Philip Withnall</holder>
+    </copyright><copyright><year>2009</year><holder>Martin Picek (picek.martin@mate-cesko.cz)</holder></copyright>
+    <releaseinfo revision="2.26" role="final">
+    	<ulink type="peerreview" url="http://bugzilla.mate.org/show_bug.cgi?id=574524"/>
+    </releaseinfo>
+
+    <abstract role="description">
+      <para><application>Přehrávač filmů Totem</application> je multimediální přehrávač pro prostředí MATE používající standardně GStreamer, ale fungující i s Xine. Pracuje s většinou video i zvukových kodeků včetně DVD. Podporuje televizní výstup, režim celé obrazovky, titulky a mnoho dalšího.</para>
+    </abstract>
+
+    <publisher> 
+      <publishername>Dokumentační projekt MATE</publishername> 
+    </publisher> 
+
+      <legalnotice id="legalnotice">
+	<para>Je povoleno kopírovat, šířit a/nebo upravovat tento dokument za podmínek GNU Free Documentation License (GFDL) ve verzi 1.1 nebo v jakékoli další verzi vydané nadací Free Software Foundation; bez neměnných oddílů, bez textů předních desek a bez textů zadních desek. Kopii licence GFDL naleznete pod <ulink type="help" url="ghelp:fdl">tímto odkazem</ulink> nebo v souboru COPYING-DOCS dodávaném s touto příručkou.</para>
+         <para>Tato příručka je součástí kolekce příruček MATE, distribuovaných pod licencí GNU FDL. Pokud chcete tento dokument šířit odděleně od kolekce, musíte přiložit kopii licence dle popisu v sekci 6 dané licence.</para>
+
+	<para>Mnoho užívaných jmen určených k zviditelnění produktů nebo služeb jsou ochranné známky. Na místech, kde jsou tato jména v dokumentaci užita a členové Dokumentačního projektu MATE jsou si vědomi skutečnosti, že se jedná o ochrannou známku, je takové jméno psáno velkými písmeny celé nebo s velkým písmenem na začátku.</para>
+
+	<para>DOKUMENT A JEHO UPRAVENÉ VERZE JSOU ŠÍŘENY V SOULADU SE ZNĚNÍM LICENCE GNU FREE DOCUMENTATION LICENSE S NÁSLEDUJÍCÍM USTANOVENÍM: <orderedlist>
+		<listitem>
+		  <para>DOKUMENT JE POSKYTOVÁN V PODOBĚ „JAK JE“ BEZ ZÁRUKY V JAKÉKOLIV PODOBĚ, NEPOSKYTUJÍ SE ANI ODVOZENÉ ZÁRUKY, ZÁRUKY, ŽE DOKUMENT, NEBO JEHO UPRAVENÁ VERZE, JE BEZCHYBNÝ NEBO ZÁRUKY PRODEJNOSTI, VHODNOSTI PRO URČITÝ ÚČEL NEBO NEPORUŠENOSTI. RIZIKO NEKVALITY, NEPŘESNOSTI A ŠPATNÉHO PROVEDENÍ DOKUMENTU, NEBO JEHO UPRAVENÉ VERZE, LEŽÍ NA VÁS. POKUD KVŮLI TOMUTO DOKUMENTU, NEBO JEHO UPRAVENÉ VERZI, NASTANE PROBLÉM, VY (NIKOLIV PŮVODNÍ AUTOR NEBO JAKÝKOLIV PŘISPĚVATEL) PŘEBÍRÁTE JAKÉKOLIV NÁKLADY ZA NUTNÉ ÚPRAVY, OPRAVY ČI SLUŽBY. TOTO PROHLÁŠENÍ O ZÁRUCE PŘEDSTAVUJE ZÁKLADNÍ SOUČÁST TÉTO LICENCE. BEZ TOHOTO PROHLÁŠENÍ NENÍ, PODLE TÉTO DOHODY, POVOLENO UŽÍVÁNÍ ANI ÚPRAVY TOHOTO DOKUMENTU; DÁLE</para>
+		</listitem>
+		<listitem>
+		  <para>ZA ŽÁDNÝCH OKOLNOSTÍ A ŽÁDNÝCH PRÁVNÍCH PŘEDPOKLADŮ, AŤ SE JEDNÁ O PŘEČIN (VČETNĚ NEDBALOSTNÍCH), SMLOUVU NEBO JINÉ, NENÍ AUTOR, PŮVODNÍ PISATEL, KTERÝKOLIV PŘISPĚVATEL NEBO KTERÝKOLIV DISTRIBUTOR TOHOTO DOKUMENTU NEBO UPRAVENÉ VERZE DOKUMENTU NEBO KTERÝKOLIV DODAVATEL NĚKTERÉ Z TĚCHTO STRAN ODPOVĚDNÝ NĚJAKÉ OSOBĚ ZA PŘÍMÉ, NEPŘÍMÉ, SPECIÁLNÍ, NAHODILÉ NEBO NÁSLEDNÉ ŠKODY JAKÉHOKOLIV CHARAKTERU, VČETNĚ, ALE NEJEN, ZA POŠKOZENÍ ZE ZTRÁTY DOBRÉHO JMÉNA, PŘERUŠENÍ PRÁCE, PORUCHY NEBO NESPRÁVNÉ FUNKCE POČÍTAČE NEBO JINÉHO A VŠECH DALŠÍCH ŠKOD NEBO ZTRÁT VYVSTÁVAJÍCÍCH Z NEBO VZTAHUJÍCÍCH SE K POUŽÍVÁNÍ TOHOTO DOKUMENTU NEBO UPRAVENÝCH VERZÍ DOKUMENTU, I KDYŽ BY TAKOVÁTO STRANA BYLA INFORMOVANÁ O MOŽNOSTI TAKOVÉHOTO POŠKOZENÍ.</para>
+		</listitem>
+	  </orderedlist></para>
+  </legalnotice>
+
+
+    <!-- This file  contains link to license for the documentation (GNU FDL), and 
+         other legal stuff such as "NO WARRANTY" statement. Please do not change 
+	 any of this. -->
+
+    <authorgroup> 
+      <author role="maintainer"> 
+	<firstname>Chee Bin</firstname> 
+	<surname>HOH</surname> 
+	<affiliation> 
+  	  <orgname>Dokumentační projekt MATE</orgname> 
+	</affiliation>
+	<email>cbhoh@mate.org</email>
+      </author>
+      <author>
+	<firstname>Baptiste</firstname> 
+	<surname>Mille-Mathias</surname> 
+	<affiliation> 
+          <orgname>Dokumentační projekt MATE</orgname>
+        </affiliation>
+        <contrib>Aktualizace dokumentace</contrib>
+        <email>baptiste.millemathias@gmail.org</email>
+      </author>
+       <author>
+	<firstname>Philip</firstname> 
+	<surname>Withnall</surname>
+        <contrib>Aktualizace dokumentace</contrib>
+	<email>philip@tecnocode.co.uk</email>
+      </author>   
+
+<!-- This is appropriate place for other contributors: translators,
+     maintainers,  etc. Commented out by default.
+      <othercredit role="translator">
+	<firstname>Latin</firstname> 
+	<surname>Translator 1</surname> 
+	<affiliation> 
+          <orgname>Latin Translation Team</orgname> 
+  	  <address> <email>translator@mate.org</email> </address> 
+        </affiliation>
+        <contrib>Latin translation</contrib>
+      </othercredit>
+-->
+    </authorgroup>
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other -->
+<!-- than the current revision. -->
+<!-- The revision numbering system for MATE manuals is as follows: -->
+<!-- * the revision number consists of two components -->
+<!-- * the first component of the revision number reflects the release version of the MATE desktop. -->
+<!-- * the second component of the revision number is a decimal unit that is incremented with each revision of the manual. -->
+<!-- For example, if the MATE desktop release is V2.x, the first version of the manual that -->
+<!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
+<!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
+<!-- to V3.0, and so on. -->  
+    <revhistory>
+      <revision> 
+        <revnumber>Příručka V2.0 k Přehrávači filmů Totem</revnumber> 
+	<date>Srpen 2006</date> 
+	<revdescription> 
+	  <para role="author">Chee Bin HOH <email>cbhoh@mate.org</email></para>
+	  <para role="publisher">Dokumentační projekt MATE</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Příručka V3.0 k Přehrávači filmů Totem</revnumber> 
+	<date>Únor 2009</date> 
+	<revdescription> 
+	  <para role="author">Philip Withnall <email>philip@tecnocode.co.uk</email></para>
+	  <para role="publisher">Dokumentační projekt MATE</para>
+        </revdescription> 
+      </revision>
+    </revhistory> 
+
+    <releaseinfo>Tato příručka popisuje Přehrávač filmů Totem ve verzi 2.26.</releaseinfo> 
+    <legalnotice> 
+      <title>Ohlasy</title> 
+      <para>Pokud chcete oznámit chybu nebo navrhnout vylepšení vztahující se k aplikaci <application>přehrávač filmů Totem</application> nebo této příručce, postupujte dle instrukcí na <ulink url="ghelp:user-guide?feedback-bugs" type="help">stránce s ohlasy na MATE</ulink>.</para>
+    </legalnotice> 
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+    <primary>Přehrávač filmů Totem</primary> 
+  </indexterm> 
+  <indexterm zone="index"> 
+    <primary>totem</primary> 
+  </indexterm>
+
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+  <sect1 id="totem-introduction"> 
+    <title>Úvod</title> 
+    <para>Aplikace <application>přehrávač filmů Totem</application> je multimediální přehrávač pro prostředí MATE založený na frameworku GStreamer a knihovně Xine.</para>
+    <para><application>Přehrávač filmů Totem</application> má následující funkce, vlastnosti a schopnosti:</para>
+    <itemizedlist> 
+      <listitem> 
+	<para>Podpora pro různé filmové a hudební soubory.</para>
+      </listitem>
+      <listitem>
+	<para>Různé úrovně přiblížení, poměry stran a režim přes celou obrazovku.</para> 
+      </listitem>
+      <listitem>
+        <para>Ovládací prvky hlasitosti a přehrávání.</para>
+      </listitem>
+      <listitem>
+        <para>Seznam stop.</para>
+      </listitem>
+      <listitem>
+        <para>Podpora titulků.</para>
+      </listitem>
+      <listitem>
+	<para>Plnohodnotné ovládání klávesnicí.</para>
+      </listitem>
+      <listitem>
+	<para>Velká sada zásuvných modulů včetně nástroje pro stahování titulků, prohlížeče YouTube a vypalování disků.</para>
+      </listitem>
+    </itemizedlist> 
+    <note>
+      <para><application>Přehrávač filmů Totem</application> také nabízí dodatečné funkce, například:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>Náhledy filmů v MATE.</para>
+        </listitem>
+        <listitem>
+	  <para>Aplikace pro ukázky hudby v MATE.</para>
+        </listitem>
+	<listitem>
+	  <para>Karta s vlastnostmi souboru v Nautilu.</para>
+        </listitem>
+      </itemizedlist>
+    </note>
+  </sect1>
+<!-- =========== End of Introduction ========================= -->
+
+<!-- =========== Getting Started ============================= -->
+<!-- Use the Getting Started section to describe the steps required
+     to start the application and to describe the user interface components
+     of the application. If there is other information that it is important
+     for readers to know before they start using the application, you should
+     also include this information here. 
+     If the information about how to get started is very short, you can 
+     include it in the Introduction and omit this section. -->
+
+  <sect1 id="totem-getting-started"> 
+    <title>Začínáme</title> 
+
+    <sect2 id="totem-start">
+      <title>Spuštění <application>přehrávače filmů Totem</application></title>
+      <para><application>Přehrávač filmů Totem</application> lze spustit následujícími způsoby:</para> 
+      <variablelist>
+	<varlistentry>
+	  <term>Nabídka <guimenu>Aplikace</guimenu></term>
+	  <listitem>
+	    <para>Vyberte <menuchoice><guisubmenu>Zvuk a video</guisubmenu><guimenuitem>Přehrávač filmů</guimenuitem></menuchoice>.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Příkazová řádka</term>
+	  <listitem>
+	    <para>Chcete-li spustit <application>přehrávač filmů Totem</application> z příkazové řádky, zadejte následující příkaz a stisknětě <keycap>Enter</keycap>:</para>
+	    <para> 
+            <command>totem</command> 
+            </para> 
+	    <tip>
+	      <para>Chcete-li zobrazit další dostupné volby příkazové řádky, zadejte <command>totem --help</command> a stisknětě <keycap>Enter</keycap>.</para>
+	    </tip>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-when-start">
+      <title>Když spustíte <application>přehrávač filmů Totem</application>…</title>
+      <para>Když spustíte <application>přehrávač filmů Totem</application>, zobrazí se následující okno.</para>
+
+      <!-- ==== Figure ==== -->
+      <figure id="totem-start-fig"> 
+	<title>Úvodní okno <application>přehrávače filmů Totem</application></title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject>
+	      <imagedata fileref="figures/totem_start_window.png" format="PNG"/> 
+	    </imageobject>
+	    <textobject> 
+	      <phrase>Zobrazuje hlavní okno <application>přehrávače filmů Totem</application> se seznamem stop v postranní liště. Obsahuje nabídkovou lištu, oblast zobrazování, postranní lištu, táhlo uplynulého času, tlačítka ovládání přehrávání, táhlo hlasitosti a stavovou lištu.</phrase>
+	    </textobject> 
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+      <!-- ==== End of Figure ==== -->
+
+      <!-- Include any descriptions of the GUI immediately after the screenshot of the main UI, -->
+      <!-- for example, the items on the menubar and on the toolbar. This section is optional. -->
+      <para>Okno <application>přehrávače filmů Totem</application> obsahuje následující prvky:</para>
+      <variablelist>
+	<varlistentry>
+	  <term>Nabídková lišta.</term>
+  	  <listitem>
+  	    <para>Nabídky této lišty obsahují všechny příkazy potřebné k používání <application>přehrávače filmů Totem</application>.</para>
+ 	  </listitem>
+   	</varlistentry>
+	<varlistentry>
+	  <term>Oblast zobrazování.</term>
+	  <listitem>
+	    <para>V oblasti zobrazování se zobrazují filmy nebo vizualizace skladeb.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Postranní lišta.</term>
+	  <listitem>
+	    <para>Postranní lišta zobrazuje vlastnosti přehrávaného souboru a funguje jako seznam stop. Mohou ji také využívat nejrůznější zásuvné moduly, například MythTV, YouTube a Místní hledání. Mezi zobrazenými moduly lze přepínat pomocí rozbalovacího seznamu v horní části postranní lišty.</para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Táhlo uplynulého času.</term>
+	  <listitem>
+	    <para>Táhlo uplynulého času zobrazuje uplynulý čas přehrávaného filmu nebo přehrávané skladby. Pomocí přetahování táhla nebo kliknutím na určité místo dráhy táhla je též možné ve filmu nebo skladbě přecházet vpřed a zpět.</para>
+	  </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Tlačítka ovládání přehrávání.</term>
+          <listitem>
+            <para>Tlačítka ovládání přehrávání umožňují přejít na předchozí nebo následující stopu a přehrát nebo pozastavit film nebo skladbu.</para>
+	  </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Tlačítko hlasitosti.</term>
+          <listitem>
+	    <para>Tlačítko hlasitosti umožňuje měnit hlasitost.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Stavová lišta.</term>
+	  <listitem>
+	    <para>Stavová lišta zobrazuje informace o stavu přehrávaného filmu nebo přehrávané skladby.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+<!-- =========== End of Getting Started ====================== -->
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to use the application to perform the tasks for 
+  which the application is designed. -->
+  <sect1 id="totem-usage"> 
+    <title>Používání</title> 
+
+    <!-- ================ Usage Subsection ================================ -->
+    <sect2 id="totem-open-file"> 
+      <title>Otevření souboru</title> 
+      <para>Chcete-li otevřít filmový nebo hudební soubor, vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>O</keycap></keycombo></shortcut><guimenu>Film</guimenu><guisubmenu>Otevřít…</guisubmenu></menuchoice>. Zobrazí se dialogové okno <application>Zvolte filmy nebo seznamy stop</application>. Zvolte soubor nebo soubory, které chcete otevřít, a klikněte na <guibutton>Budiž</guibutton>.</para>
+      <para>Soubory můžete do okna <application>přehrávače filmů Totem</application> také přetahovat z jiných aplikací, například ze správce souborů. Přetáhnete-li soubor do okna zobrazení, nahradí právě přehrávaný seznam stop a ihned se začne přehrávat. Přetáhnete-li soubor do seznamu stop v postranní liště, soubor se k němu připojí. Aplikace <application>přehrávač filmů Totem</application> otevře soubor a začne přehrávat film nebo skladbu. <application>Přehrávač filmů Totem</application> zobrazuje název filmu nebo skladby v záhlaví okna a v seznamu stop v postranní liště.</para>
+      <para>Snažíte-li se přehrát formát souboru, se kterým <application>přehrávač filmů Totem</application> neumí pracovat, aplikace zobrazí chybovou zprávu. Chyba nejčastěji nastává, nemáte-li nainstalovány příslušné kodeky. Informace o získávání kodeků lze najít na <ulink url="http://projects.mate.org/totem/#codecs" type="http">stránkách <application>přehrávače filmů Totem</application></ulink>.</para>
+      <tip>
+	<para>Na filmové nebo hudební soubory můžete dvakrát kliknout ve správci souborů <application>Caja</application> – otevřou se v okně <application>přehrávače filmů Totem</application>.</para>
+      </tip>
+    </sect2> 
+
+    <sect2 id="totem-usage-open-location">
+      <title>Otevření umístění</title>
+      <para>Chcete-li otevřít soubor na zadaném URI (umístění), vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Otevřít umístění…</guimenuitem></menuchoice>. Zobrazí se dialogové okno <application>Otevřít umístění…</application>. Do vstupního políčka zadejte URI, které si přejete otevřít, nebo vyberte nějaké již použité (políčko vypisuje již zadaná URI). Pak klikněte na tkačítko <guibutton>Otevřít</guibutton>.</para>
+      <para>Jestliže máte URI zkopírované ve schránce, bude automaticky vloženo do políčka.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-play">
+      <title>Přehrání filmu (z DVD nebo VCD)</title>
+	      <para>Do optické mechaniky počítače vložte disk a vyberte <menuchoice><guimenu>Film</guimenu><guimenuitem>Přehrát disk</guimenuitem></menuchoice>.</para>
+             <para>Chcete-li DVD nebo VCD vysunout z mechaniky, vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Vysunout</guimenuitem></menuchoice>.</para>
+       </sect2>
+
+    <sect2 id="totem-usage-pause">
+      <title>Pozastavení filmu nebo skladby</title>
+      <para>Chcete-li přehrávaný film nebo přehrávanou skladbu pozastavit, klikněte na tlačítko <inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_pause_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>Zobrazuje tlačítko pro pozastavení.</phrase></textobject>
+        </inlinemediaobject>, nebo vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>Mezerník</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Přehrávat nebo pozastavit</guimenuitem></menuchoice>. K pozastavení nebo přehrávání můžete také použít klávesu <keycap>P</keycap>.</para>
+      <para>Chcete-li znovu spustit přehrávání, opět klikněte na tlačítko <inlinemediaobject>
+	  <imageobject><imagedata fileref="figures/totem_play_button.png" format="PNG"/></imageobject>
+          <textobject><phrase>Zobrazuje tlačítko pro přehrávání.</phrase></textobject>
+        </inlinemediaobject>, nebo vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>Mezerník</keycap></keycombo></shortcut><guimenu>Film</guimenu><guimenuitem>Přehrávat nebo pozastavit</guimenuitem></menuchoice>.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-view-properties">
+      <title>Zobrazení vlastností filmu nebo skladby</title>
+      <para>Chcete-li zobrazit vlastnosti filmu nebo skladby, zaškrtněte <menuchoice><guimenu>Zobrazit</guimenu><guimenuitem>Postranní lišta</guimenuitem></menuchoice>, aby se zobrazila postranní lišta, a pak v rozbalovacím seznamu v její horní části zvolte <guimenu>Vlastnosti</guimenu>.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-seek">
+      <title>Pohyb filmy a skladbami</title>
+      <para>K pohybu filmy a skladbami můžete provést následující činnosti:</para>
+      <variablelist>
+	<varlistentry>
+	  <term>Přechod vpřed</term>
+	  <listitem>
+	    <para>Chcete-li ve filmu nebo skladbě přejít vpřed, vyberte <menuchoice><shortcut><keycap>Doprava</keycap></shortcut><guimenu>Přejít</guimenu><guimenuitem>Přejít vpřed</guimenuitem></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Přechod zpět</term>
+	  <listitem>
+	    <para>Chcete-li ve filmu nebo skladbě přejít zpět, vyberte <menuchoice><shortcut><keycap>Doleva</keycap></shortcut><guimenu>Přejít</guimenu><guimenuitem>Přejít zpět</guimenuitem></menuchoice>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Přechod na určitý čas</term>
+	  <listitem>
+	    <para>Chcete-li ve filmu nebo skladbě přejít na určitý čas, vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>K</keycap></keycombo></shortcut><guimenu>Přejít</guimenu><guimenuitem>Přejít na…</guimenuitem></menuchoice>. Zobrazí se dialogové okno <application>Přejít na</application>, jehož číselník můžete použít k zadání času (v sekundách), na který se má přejít. Pak klikněte na <guibutton>Budiž</guibutton>.</para>
+            <para>Číselník umožňuje i přirozenější použití – čas lze zadat i ve formátech „hh:mm:ss“, „mm:ss“ nebo „ss“, kde „hh“ jsou hodiny, „mm“ minuty a „ss“ sekundy, na které se má přejít.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Přechod na následující film nebo skladbu</term>
+	  <listitem>
+	    <para>Chcete-li přejít na následující film nebo skladbu, vyberte <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Doprava</keycap></keycombo></shortcut><guimenu>Přejít</guimenu><guimenuitem>Následující kapitola nebo film</guimenuitem></menuchoice>, nebo klikněte na tlačítko <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_next_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>Zobrazuje tlačítko pro přechod na následující.</phrase></textobject>
+              </inlinemediaobject>.</para>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Přechod na předchozí film nebo skladbu</term>
+	  <listitem>
+	    <para>Chcete-li přejít na předchozí film nebo skladbu, vyberte <menuchoice><shortcut><keycombo><keycap>Alt</keycap><keycap>Doleva</keycap></keycombo></shortcut><guimenu>Přejít</guimenu><guimenuitem>Předchozí kapitola nebo film</guimenuitem></menuchoice>, nebo klikněte na tlačítko <inlinemediaobject> 
+	        <imageobject><imagedata fileref="figures/totem_previous_button.png" format="PNG"/></imageobject>
+	        <textobject><phrase>Zobrazuje tlačítko pro přechod na předchozí.</phrase></textobject>
+              </inlinemediaobject>.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <sect2 id="totem-usage-change-zoom">
+      <title>Změna úrovně přiblížení</title>
+	  <sect3 id="totem-usage-change-size">
+		<title>Změna velikosti videa</title>
+      <para>Chcete-li změnit přiblížení oblasti zobrazování, můžete provést následující činnosti:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>Chcete-li se dostat do režimu celé obrazovky, vyberte <menuchoice><shortcut><keycap>F11</keycap></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Celá obrazovka</guimenuitem></menuchoice>. Ke stejnému účelu můžete použít také klávesu <keycap>F</keycap>. Chcete-li režim celé obrazovky opustit, klikněte na tlačítko <guibutton>Opustit celou obrazovku</guibutton>, nebo stiskněte klávesu <keycap>Esc</keycap>, <keycap>F11</keycap> nebo <keycap>F</keycap>.</para>
+    </listitem>
+	<listitem>
+	  <para>Chcete-li změnit velikost videa nebo vizualizace, vyberte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>0</keycap></keycombo></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Přizpůsobit okno filmu</guimenuitem></menuchoice> a pak vyberte velikost.</para>
+    </listitem>
+	</itemizedlist>
+	</sect3>
+	 <sect3 id="totem-usage-change-ratio">
+		<title>Změna poměru stran videa</title>
+	      <para>Chcete-li přepnout na jiný poměr stran, vyberte požadovaný z nabídky <menuchoice><shortcut><keycap>A</keycap></shortcut><guimenu>Zobrazit</guimenu><guisubmenu>Poměr stran</guisubmenu></menuchoice>.</para>
+	  </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-adjust-volume">
+      <title>Změna hlasitosti</title>
+      <para>Chcete-li zvýšit hlasitost, vyberte <menuchoice><shortcut><keycap>Nahoru</keycap></shortcut><guimenu>Zvuk</guimenu><guimenuitem>Zvýšit hlasitost</guimenuitem></menuchoice>. Chcete-li snížit hlasitost, vyberte <menuchoice><shortcut><keycap>Dolů</keycap></shortcut><guimenu>Zvuk</guimenu><guimenuitem>Snížit hlasitost</guimenuitem></menuchoice>.</para>
+      <para>Můžete také použít tlačítko hlasitosti – klikněte na něj a pomocí táhla zvolte požadovanou hlasitost.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-on-top">
+      <title>Zobrazení okna vždy navrchu</title>
+      <para>Chcete-li okno <application>přehrávače filmů Totem</application> zobrazovat vždy nad okny jiných aplikací, vyberte <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Zásuvné moduly…</guimenuitem></menuchoice> a povolte modul <guilabel>Vždy navrchu</guilabel>. Okno <application>přehrávače filmů Totem</application> nyní bude při přehrávání filmu (ale nikoli při přehrávání hudby) vždy nad okny jiných aplikací.</para>
+       <para>Chcete-li přestat zobrazovat okno vždy nahoře, zakažte modul <guilabel>Vždy navrchu</guilabel>. Chcete-li se dovědět více informací, přečtěte si <xref linkend="totem-plugins-always-on-top"/>.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-show-control">
+      <title>Zobrazení nebo skrytí ovládacích prvků</title>
+      <para>Chcete-li zobrazit nebo skrýt ovládací prvky okna <application>přehrávače filmů Totem</application>, zaškrtněte nebo odškrtněte <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Zobrazovat ovládací prvky</guimenuitem></menuchoice>, nebo stiskněte klávesu <keycap>H</keycap>. Můžete také v okně <application>přehrávače filmů Totem</application> kliknout pravým tlačítkem a v kontextové nabídce zaškrtnout <menuchoice><shortcut><keycombo><keycap>Ctrl</keycap><keycap>H</keycap></keycombo></shortcut><guimenuitem>Zobrazovat ovládací prvky</guimenuitem></menuchoice>.</para>
+      <para>Je-li volba <guilabel>Zobrazovat ovládací prvky</guilabel> zaškrtnuta, okno <application>přehrávače filmů Totem</application> bude zobrazovat nabídkovou lištu, táhlo uplynulého času, tlačítka ovládání přehrávání, táhlo hlasitosti a stavovou lištu. Není-li volba <guilabel>Zobrazovat ovládací prvky</guilabel> zaškrtnuta, aplikace tyto prvky bude skrývat a viditelná zůstane jen oblast zobrazování.</para>
+    </sect2>
+
+    <sect2 id="totem-usage-playlist">
+      <title>Správa seznamu stop</title>
+
+      <sect3 id="totem-usage-playlist-show-hide">
+	<title>Zobrazení a skrytí seznamu stop</title>
+	<para>Chcete-li zobrazit či skrýt seznam stop, zaškrtněte nebo odškrtněte <menuchoice><guimenu>Zobrazit</guimenu><guimenuitem>Postranní lišta</guimenuitem></menuchoice>, nebo klikněte na stejnojmenné tlačítko. V rozbalovacím seznamu v horní části postranní lišty zvolte <guimenu>Seznam stop</guimenu>.</para>
+      </sect3>
+
+      <sect3 id="totem-usage-playlist-manage">
+	<title>Práce se seznamem stop</title>
+	<para><application>Seznam stop</application> lze používat k následujícím činnostem: <variablelist>
+	    <varlistentry>
+	      <term>Přidání skladby nebo filmu</term>
+	      <listitem>
+		<para>Chcete-li do seznamu stop přidat skladbu nebo film, klikněte na tlačítko <guibutton>Přidat</guibutton>. Zobrazí se dialogové okno <application>Zvolte filmy nebo seznamy stop</application>, kde vyberete požadovaný soubor. Pak klikněte na <guibutton>Přidat</guibutton>.</para>
+              </listitem>
+            </varlistentry>
+	    <varlistentry>
+	      <term>Odstranění skladby nebo filmu</term>
+	      <listitem>
+		<para>Chcete-li ze seznamu stop odstranit některé ze skladeb nebo filmů, vyberte je a pak klikněte na tlačítko <guibutton>Odstranit</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Uložení seznamu stop do souboru</term>
+	      <listitem>
+		<para>Chcete-li seznam stop uložit do souboru, klikněte na tlačítko <guibutton>Uložit seznam stop</guibutton>. Zobrazí se dialogové okno <application>Uložit seznam stop</application> – v něm zadejte název souboru, do kterého chcete seznam stop uložit, a klikněte na tlačítko <guibutton>Uložit</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Posunutí skladby nebo filmu v seznamu stop nahoru</term>
+	      <listitem>
+		<para>Chcete-li v seznamu stop posunout skladbu nebo film nahoru, vyberte je a pak klikněte na tlačítko <guibutton>Posunout nahoru</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Posunutí skladby nebo filmu v seznamu stop dolů</term>
+	      <listitem>
+		<para>Chcete-li v seznamu stop posunout skladbu nebo film dolů, vyberte je a pak klikněte na tlačítko <guibutton>Posunout dolů</guibutton>.</para>
+              </listitem>
+	    </varlistentry>
+          </variablelist></para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-repeat">
+	<title>Povolení a zákaz režimu opakování</title>
+	<para>Chcete-li povolit (zakázat) režim opakování, zaškrtněte (odškrtněte) <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Režim opakování</guimenuitem></menuchoice>.</para>
+      </sect3>
+      <sect3 id="totem-usage-playlist-shuffle">
+	<title>Povolení a zákaz náhodného režimu</title>
+	<para>Chcete-li povolit (zakázat) náhodný režim, zaškrtněte (odškrtněte) <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Náhodný režim</guimenuitem></menuchoice>.</para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="totem-usage-subtitle">
+	  <title>Výběr titulků</title>
+	  <para>Chcete-li vybrat jazyk titulků, vyberte <menuchoice><guimenu>Zobrazit</guimenu><guisubmenu>Titulky</guisubmenu></menuchoice> a pak jazyk, který chcete zobrazit.</para>
+	  <para>Chcete-li zakázat zobrazování titulků, vyberte <menuchoice><guimenu>Zobrazit</guimenu><guisubmenu>Titulky</guisubmenu><guimenuitem>Žádné</guimenuitem></menuchoice>.</para>
+	  <note><para><application>Přehrávač filmů Totem</application> standardně vybírá stejný jazyk titulků, jako je jazyk používaný ve vašem sezení.</para></note>
+	  <para><application>Přehrávač filmů Totem</application> automaticky načítá a zobrazuje titulky k filmu, pokud soubor, ve kterém jsou uložené, má stejný název jako soubor s přehrávaným filmem a navíc příponu <filename>asc</filename>, <filename>txt</filename>, <filename>sub</filename>, <filename>srt</filename>, <filename>smi</filename>, <filename>ssa</filename> nebo <filename>ass</filename>.</para>
+	  <para>Má-li soubor s titulky jiný název než přehrávaný film, můžete na film v seznamu stop kliknout pravým tlačítkem, v kontextové nabídce vybrat <menuchoice><guimenuitem>Zvolit textové titulky</guimenuitem></menuchoice> a zvolit požadované titulky. Titulky můžete zvolit také vybráním <menuchoice><guimenu>Zobrazit</guimenu><guimenuitem>Zvolit textové titulky</guimenuitem></menuchoice>.</para>
+	  <para>Pomocí zásuvného modulu <guilabel>Stahování titulků</guilabel> také můžete stahovat titulky ze služby OpenSubtitles. Chcete-li se dovědět více informací, přečtěte si <xref linkend="totem-plugins-opensubtitles"/>.</para>
+	</sect2>
+
+    <sect2 id="totem-usage-take-screenshot">
+      <title>Vytvoření snímku obrazovky</title>
+      <para>Chcete-li vytvořit snímek filmu nebo vizualizace, vyberte <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Sejmout obrazovku</guimenuitem></menuchoice> – zobrazí se dialogové okno <application>Uložit snímek obrazovky</application>. Zvolte umístění, kam bude snímek uložen, a zadejte název souboru. Pak klikněte na tlačítko <guibutton>Uložit</guibutton>, aby se snímek uložil.</para>
+      <tip><para><application>Přehrávač filmů Totem</application> zobrazuje v levé části dialogového okna <application>Uložit snímek obrazovky</application> náhled ukládaného snímku.</para></tip>
+    </sect2>
+
+    <sect2 id="totem-usage-create-screenshot-gallery">
+      <title>Vytvoření galerie snímků obrazovky</title>
+      <para>Chcete-li vytvořit galerii snímků obrazovek přehrávaného filmu nebo vizualizace, vyberte <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Vytvořit galerii snímků obrazovek</guimenuitem></menuchoice> – zobrazí se dialogové okno <application>Uložit galerii</application>. Zvolte umístění, kam bude obrázek s galerií uložen, a zadejte název souboru. Pak klikněte na tlačítko <guibutton>Uložit</guibutton>, aby se galerie uložila.</para>
+      <tip><para>Do políčka <guilabel>Šířka snímku</guilabel> můžete zadat šířku jednotlivých snímků v galerii. Výchozí šířka je 128 pixelů.</para>
+      <para>Můžete také zadat počet snímků v galerii. Ve výchozím nastavení je počet snímků vypočítán v závislosti na délce filmu, nicméně můžete toto nastavení upravit, pokud odškrtnete zaškrtávací políčko <guilabel>Vypočítat počet snímků</guilabel> a vložíte vlastní počet do číselníku <guilabel>Počet snímků</guilabel>.</para></tip>
+    </sect2>
+  </sect1>
+
+<!-- =========== Plugins ======================================= -->
+  <sect1 id="totem-plugins">
+    <title>Zásuvné moduly</title>
+    <para><application>Přehrávač filmů Totem</application> má mnoho funkcí dostupných ve formě zásuvných modulů – částí softwaru načtených pouze tehdy, je-li to potřeba.</para>
+    <sect2 id="totem-plugins-load">
+      <title>Povolení zásuvného modulu</title>
+      <para>Chcete-li zobrazit seznam instalovaných zásuvných modulů, vyberte <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Zásuvné moduly…</guimenuitem></menuchoice> – zobrazí se dialogové okno <application>Nastavení zásuvných modulů</application>. Vlevo je seznam všech instalovaných modulů, vpravo se zobrazuje popis vlevo vybraného modulu. U modulů, které mají upravitelná nastavení, je vpravo aktivováno tlačítko <guibutton>Nastavit…</guibutton>.</para>
+      <para>Chcete-li modul povolit, v seznamu modulů zaškrtněte zaškrtávací políčko umístěné nalevo od jeho názvu. Pokud se při načítání modulu vyskytne nějaká chyba, ihned se zobrazí dialogové okno s chybovou zprávou.</para>
+      <para>Chcete-li modul zakázat, odškrtněte zaškrtávací políčko. Zásuvné moduly zůstávají povolené nebo zakázené tak, jak byly nastaveny, i po ukončení <application>přehrávače filmů Totem</application>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-always-on-top">
+      <title>Vždy navrchu</title>
+      <para>Je-li povolen, zásuvný modul <guilabel>Vždy navrchu</guilabel> bude zajišťovat, aby hlavní okno <application>přehrávače filmů Totem</application> bylo nad všemi ostatními okny, pokud probíhá přehrávání filmu (ale nikoli přehrávání hudby nebo vizualizace). Chcete-li, aby se <application>přehrávač filmů Totem</application> přestal zobrazovat vždy navrchu, zásuvný modul zakažte.</para>
+    </sect2>
+    <sect2 id="totem-plugins-coherence">
+      <title>Klient Coherence DLNA/UPnP</title>
+      <para>Zásuvný modul <guilabel>Klient Coherence DLNA/UPnP</guilabel> umožňuje <application>přehrávači filmů Totem</application> přehrávat multimediální obsah ze serverů UPnP (jako například Coherence) na lokální síti.</para>
+      <para>Je-li modul <guilabel>Klient Coherence DLNA/UPnP</guilabel> povolen, zaškrtněte <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Postranní lišta</guimenuitem></menuchoice>, nebo klikněte na tlačítko <guibutton>Postranní lišta</guibutton>, aby se zobrazila postranní lišta. V rozbalovacím seznamu v horní části postranní lišty zvolte <guilabel>Klient Coherence DLNA/UPnP Client</guilabel>.</para>
+      <para>V postranní liště je vypsán strom s dostupnými multimediálními servery. Kliknutím na některý ze serverů se rozbalí seznam typů médií, které může server obsluhovat. Kliknutím na složku se rozbalí seznam dotupných souborů. Pokud na soubor dvakrát kliknete, bude přidán do seznamu stop <application>přehrávače filmů Totem</application> a začne se přehrávat. Případně na soubor můžete kliknout pravým tlačítkem a vybrat <menuchoice><guimenuitem>Přehrát</guimenuitem></menuchoice> (začne se přehrávat ihned) nebo <menuchoice><guimenuitem>Zařadit</guimenuitem></menuchoice> (přidá se do seznamu stop).</para>
+      <para>Pokud to server povoluje, vybráním <menuchoice><guimenuitem>Odstranit</guimenuitem></menuchoice> z kontextové nabídky souboru odstraníte soubor ze serveru.</para>
+    </sect2>
+    <sect2 id="totem-plugins-gromit">
+      <title>Poznámky Gromit</title>
+      <para>Zásuvný modul <guilabel>Poznámky Gromit</guilabel> vám pomocí technologie <ulink type="http" url="http://www.home.unix-ag.org/simon/gromit/"><application>Gromit</application></ulink> umožňuje kreslit na film při jeho přehrávání. Než budete moci povolit tento modul, musíte <application>Gromit</application> nainstalovat. Nahlédněte do dokumentace vašeho operačního systému, chcete-li se dovědět, jak to provést.</para>
+      <para>Máte-li modul povolen, pomocí <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> můžete <application>Gromit</application> spouštět a ukončovat. Je-li <application>Gromit</application> spuštěný, váš kurzor se změní na zaměřovač. Kreslení na obrazovku provedete tak, že stisknete tlačítko myši a se stále stisknutým tlačítkem potáhnete zaměřovačem. Chcete-li <application>Gromit</application> ukončit, stiskněte znovu <keycombo><keycap>Ctrl</keycap><keycap>D</keycap></keycombo>.</para>
+      <para>Chcete-li obrazovku od poznámek vyčistit, stiskněte <keycombo><keycap>Ctrl</keycap><keycap>E</keycap></keycombo>, nebo zavřete okno <application>přehrávače filmů Totem</application>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-jamendo">
+      <title>Jamendo</title>
+      <para>Zásuvný modul <guilabel>Jamendo</guilabel> umožňuje poslouchat kolekci hudby ze služby <ulink type="http" url="http://www.jamendo.com/en/">Jamendo</ulink>, šířenou za podmínek licence Creative Commons.</para>
+      <sect3 id="totem-plugins-jamendo-configuration">
+        <title>Nastavení zásuvného modulu</title>
+        <para>Zásuvný modul <guilabel>Jamendo</guilabel> lze nastavit. Při jeho povolování klikněte na tlačítko <guibutton>Nastavit…</guibutton> – zobrazí se dialogové okno <application>Nastavení zásuvného modulu Jamendo</application>. V něm můžete nastavit, jestli se skladby mají stahovat ve formátu Ogg nebo MP3 (Ogg je preferován kvůli jeho kořenům v otevřeném softwaru), a počet alb získávaných jako výsledek vyhledávání (zvolte tím více alb, čím máte rychlejší připojení k Internetu).</para>
+        <para>Jste-li hotovi, klikněte na <guibutton>Budiž</guibutton>.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-setup">
+        <title>Zobrazení služby Jamendo v postranní liště</title>
+        <para>Máte-li modul <guilabel>Jamendo</guilabel> povolen, zaškrtněte <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Postranní lišta</guimenuitem></menuchoice>, nebo klikněte na tlačítko <guibutton>Postranní lišta</guibutton> – zobrazí se postranní lišta. Pak v rozbalovacím seznamu v horní části postranní lišty zvolte <guilabel>Jamendo</guilabel>.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-search">
+        <title>Vyhledávání hudby</title>
+        <para>Do vyhledávacího políčka v horní části postranní lišty zadejte hledaný výraz (můžete hledat umělce a štítky). Pak klikněte na tlačítko <guibutton>Hledat</guibutton>.</para>
+        <para>Strom s výsledky hledání se zobrazí v kartě <guilabel>Výsledky hledání</guilabel> v postranní liště. Pomocí šipek v dolní části postranní lišty lze výsledky listovat. Ve výsledcích jsou vypsána alba. Pokud na album kliknete, zobrazí se pod ním jeho skladby. Chcete-li skladby skrýt, klikněte znovu na album.</para>
+        <para>Je-li vybrán umělec, můžete kliknout na tlačítko <guibutton>Stránka alba na Jamendo</guibutton>, kterým otevřete webovou stránku alba na službě Jamendo. Dvojité kliknutí na album nebo vybrání <menuchoice><guimenuitem>Přidat do seznamu stop</guimenuitem></menuchoice> z kontextové nabídky alba nahradí aktuální seznam stop skladbami na tomto albu a spustí přehrávání první skladby. Dvojité kliknutí na jednu skladbu nahradí seznam stop pouze touto skladbou.</para>
+      </sect3>
+      <sect3 id="totem-plugins-jamendo-popular">
+        <title>Populární a nejnovější alba</title>
+        <para>Zobrazením karty <guilabel>Popularní</guilabel> v postranní liště <guilabel>Jamendo</guilabel> se načte aktuální seznam nejpopulárnějších alb na službě Jamendo, který lze přehrávat jako výsledky vyhledávání. Zobrazením karty <guilabel>Nejnovější alba</guilabel> se obdobným způsobem načte seznam nejnovějších alb vydaných na službě Jamendo.</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-tracker">
+      <title>Místní hledání</title>
+      <para>Zásuvný modul <guilabel>Místní hledání</guilabel> umožňuje přímo z <application>přehrávače filmů Totem</application> vyhledávat filmové a hudební soubory uložené na vašem počítači. Máte-li tento modul povolen, zaškrtněte <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Postranní lišta</guimenuitem></menuchoice>, nebo klikněte na tlačítko <guibutton>Postranní lišta</guibutton>, aby se zobrazila postranní lišta. V rozbalovacím seznamu v horní části postranní lišty zvolte <guilabel>Místní hledání</guilabel>.</para>
+      <para>Chcete-li vyhledávat, zadejte hledaný výraz do vyhledávacího políčka v horní šásti postranní lišty a klikněte na <guibutton>Hledat</guibutton>. Hledané výrazy mohou obsahovat žolíkové znaky, například <literal>*</literal>, kterému odpovídá libovolný znak. Například, výraz <userinput>*.mpg</userinput> najde všechny filmy s příponou souboru <filename class="extension">.mpg</filename>.</para>
+      <para>Výsledky hledání lze listovat pomocí tlačítek <guibutton>Předchozí</guibutton> a <guibutton>Další</guibutton> v dolní části postranní lišty. Pomocí číselníku <guilabel>Stránka</guilabel> lze také přejít na určitou stránku s výsledky hledání.</para>
+    </sect2>
+    <sect2 id="totem-plugins-publish">
+      <title>Publikování seznamu stop</title>
+      <para>Zásuvný modul <guilabel>Publikování seznamu stop</guilabel> umožňuje publikovat seznamy stop po vaší lokální síti, aby k nim mohly jiné počítače přistupovat a přehrávat je.</para>
+      <sect3 id="totem-plugins-publish-configuration">
+        <title>Nastavení zásuvného modulu</title>
+        <para>Zásuvný modul <guilabel>Publikování seznamu stop</guilabel> lze nastavit. Při jeho povolování klikněte na tlačítko <guibutton>Nastavit…</guibutton> – zobrazí se dialogové okno s nastavením zásuvného modulu. V něm můžete nastavit název, který se u vašeho sdílení seznamu stop zobrazí. Následující řetězce jsou při publikování seznamu stop nahrazovány: <variablelist>
+	    <varlistentry>
+	      <term><literal>%a</literal></term>
+	      <listitem><para>Nahrazeno názvem aplikace – <application>Přehrávač filmů Totem</application>.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%h</literal></term>
+	      <listitem><para>Nahrazeno názvem vašeho počítače.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%u</literal></term>
+	      <listitem><para>Nahrazeno vaším uživatelským jménem.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%U</literal></term>
+	      <listitem><para>Nahrazeno vaším celým jménem.</para></listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><literal>%%</literal></term>
+	      <listitem><para>Nahrazeno znakem procenta.</para></listitem>
+	    </varlistentry>
+	  </variablelist></para>
+	<para>Můžete také zaškrtnout zaškrtávací políčko <guilabel>Používat šifrovaný přenosový protokol</guilabel>, pokud chcete, aby sdílené seznamy skladeb byly při přenosu po síti šifrovány.</para>
+        <para>Jste-li hotovi, klikněte na <guibutton>Zavřít</guibutton>.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-publishing">
+        <title>Publikování seznamů stop</title>
+        <para>Pokud je tento zásuvný modul povolen, nemusíte publikovat seznamy stop sami – jsou na síti zpřístupněny automaticky jako webová stránka Zeroconf.</para>
+      </sect3>
+      <sect3 id="totem-plugins-publish-neighborhood">
+        <title>Procházení okolí</title>
+        <para>Chcete-li si prohlížet sdílené seznamy stop ostatních lidí na vaší síti, v rozbalovacím seznamu v horní části postranní lišty zvolte <guilabel>Okolí</guilabel>. Pokud jsou na síti publikovány nějaké seznamy stop, budou zde zobrazeny. Chcete-li seznam stop načíst a přehrát ve svém počítači, dvakrát na něj klikněte.</para>
+      </sect3>
+    </sect2>
+    <sect2 id="totem-plugins-opensubtitles">
+      <title>Stahování titulků</title>
+      <para>Zásuvný modul <guilabel>Stahování titulků</guilabel> umožňuje hledat a stahovat titulky prostřednictvím služby <ulink type="http" url="http://www.opensubtitles.org/en">OpenSubtitles</ulink>.</para>
+      <para>Titulky mohou být stahovány pouze pro místní filmy, nikoli pro huební soubory, disky DVD, vysílání DVB, disky VCD nebo proudy HTTP. Chcete-li najít titulky pro právě přehrávaný film, vyberte <menuchoice><guimenu>Zobrazit</guimenu><guimenuitem>Stáhnout titulky</guimenuitem></menuchoice> – zobrazí se dialogové okno <application>Stáhnout titulky</application>.</para>
+      <para>V rozbalovacím seznamu v horní části okna zvolte jazyk, v němž chcete titulky stáhnout, a pak klikněte na tlačítko <guibutton>Hledat</guibutton>. Titulky jsou hledány podle obsahu filmu, ne podle názvu souboru nebo štítků.</para>
+      <para>Strom s výsledky hledání je vypsaný ve střední části dialogového okna. V současné době lze titulky použít pouze tehdy, když se film <emphasis>znovu načte</emphasis>, proto po výběru titulků, které chcete stáhnout, klikněte na tlačítko <guibutton>Přehrát s titulky</guibutton>, aby se titulky stáhly a film znovu načetl.</para>
+        <note><para>Stažené soubory s titulky jsou ukládány do mezipaměti (výchozí místo je <filename>~/.cache/totem/subtitles</filename>), takže není třeba je znovu stahovat při dalším přehrávání stejného filmu. Při stahování nových titulků pro určitý film jsou všechny dříve stažené titulky pro tento film odstraněny.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-thumbnail">
+      <title>Náhled</title>
+      <para>Zásuvný modul <guilabel>Náhled</guilabel> nastavuje ikonku hlavního okna <application>přehrávače filmů Totem</application> na náhled právě přehrávaného filmu. Při načtení dalšího filmu se ikonka aktualizuje.</para>
+      <note><para>Pokud pro přehrávaný film neexistuje náhled (nebo při přehrávání hudby), ikonka hlavního okna bude nastavena na logo <application>přehrávače filmů Totem</application>.</para></note>
+    </sect2>
+    <sect2 id="totem-plugins-brasero">
+      <title>Vypalování filmových disků</title>
+      <para>Zásuvný modul <guilabel>Vypalování filmových disků</guilabel> umožňuje vypalovat právě otevřený seznam stop na disky DVD nebo VCD pomocí aplikace <application>Brasero</application>.</para>
+      <para>Chcete-li vypálit aktuální seznam stop, vyberte <menuchoice><guimenu>Film</guimenu><guimenuitem>Vytvořit filmový disk</guimenuitem></menuchoice>. Zobrazí se dialogové okno aplikace <application>Brasero</application> nabízející volby týkající se převodu filmů do příslušného formátu a umožňující vypálení stop na disk. Chcete-li se dovědět více informací, přečtěte si <ulink type="help" url="ghelp:brasero?brasero-new-project-video">příručku k aplikaci Brasero</ulink>.</para>
+    </sect2>
+    <sect2 id="totem-plugins-youtube">
+      <title>Prohlížeč YouTube</title>
+      <para>Zásuvný modul <guilabel>Prohlížeč YouTube</guilabel> umožňuje vyhledávání, procházení a přehrávání videí ze služby <ulink type="http" url="http://www.youtube.com/">YouTube</ulink> přímo v <application>přehrávači filmů Totem</application>. Je-li tento modul povolen, zaškrtněte <menuchoice><shortcut><keycap>F9</keycap></shortcut><guimenu>Zobrazit</guimenu><guimenuitem>Postranní lišta</guimenuitem></menuchoice>, nebo klikněte na tlačítko <guibutton>Postranní lišta</guibutton>, aby se zobrazila postranní lišta. Pak v rozbalovacím seznamu v horní části postranní lišty zvolte <guilabel>YouTube</guilabel>.</para>
+      <para>Chcete-li na YouTube vyhledat video, zadejte hledaný výraz do vyhledávacího políčka v horní části postranní lišty a klikněte na <guibutton>Hledat</guibutton>. Strom s výsledky hledání bude zobrazen dole. Další výsledky budou automaticky načteny při posouvání seznamu dolů.</para>
+      <para>Chcete-li video přehrát, dvakrát na něj klikněte ve výsledcích hledání, nebo vyberte <menuchoice><guimenuitem>Přidat do seznamu stop</guimenuitem></menuchoice> z kontextové nabídky. Když se video přehrává, je do karty <guilabel>Podobná videa</guilabel> načten seznam podobných videí.</para>
+      <para>Videa z YouTube mohou být otevřena ve webovém prohlížeči – vyberte <menuchoice><guimenuitem>Otevřít ve webovém prohlížeči</guimenuitem></menuchoice> z jejich kontextové nabídky. Tímto se načte původní umístění videa na webové stránce YouTube.</para>
+    </sect2>
+    <sect2 id="totem-plugins-dbus-service">
+      <title>Služba D-Bus</title>
+      <para>Zásuvný modul <guilabel>Služba D-Bus</guilabel> rozesílá na sběrnici sezení D-Bus hromadné oznámení o tom, která skladba se v <application>Přehrávači film Totem</application> právě přehrává. Aplikace, jako je např. <application>Gajim</application>, mohou těmto oznámením naslouchat a patřičně zareagovat, např. aktualizovat stavovou zprávu o tom, které video se právě v <application>Přehrávači film Totem</application> přehrává.</para>
+    </sect2>
+  </sect1>
+
+<!-- =========== Usage ======================================= -->
+<!-- Use this section to describe how to customize the 
+     application. -->
+  <sect1 id="totem-prefs">
+    <title>Nastavení</title>
+    <para>Chcete-li upravit nastavení <application>přehrávače filmů Totem</application>, vyberte <menuchoice><guimenu>Upravit</guimenu><guimenuitem>Nastavení</guimenuitem></menuchoice>.</para>
+
+    <sect2 id="totem-prefs-general">
+      <title>Obecné</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Síť</term>
+	  <listitem>
+	    <para>V rozbalovacím seznamu <guilabel>Rychlost připojení</guilabel> zvolte rychlost připojení k síti.</para>
+          </listitem>
+        </varlistentry>	
+	<varlistentry>
+	  <term>Textové titulky</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	      	<para><guilabel>Automaticky načítat soubory s titulky</guilabel> – zaškrtněte tuto volbu, aby se při přehrávání filmu automaticky načítaly titulky se stejným názvem souboru, jako má soubor s filmem.</para>
+	      </listitem>
+	      <listitem>
+                <para><guilabel>Písmo</guilabel> – pomocí této volby můžete měnit písmo použité k zobrazování titulků.</para>
+              </listitem>
+	          <listitem>
+				<para><guilabel>Kódování</guilabel> – pomocí této volby můžete nastavit kódování, ve kterém se budou titulky zobrazovat.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>	
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-display">
+      <title>Zobrazení</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Zobrazení</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+	        <para>Zaškrtněte volbu změny velikosti okna, pokud chcete, aby <application>přehrávač filmů Totem</application> při načtení nového filmu automaticky měnil velikost okna na velikost filmu.</para>
+              </listitem>
+              <listitem>
+                <para>Zaškrtněte volbu šetřiče obrazovky, pokud chcete povolit spouštění šetřiče obrazovky při přehrávání hudby. Některé monitory s integrovanými reproduktory mohou pozastavit přehrávání hudby při aktivaci šetřiče obrazovky.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Vizuální efekty</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+                <para><guilabel>Vizualizovat</guilabel> – zaškrtněte tuto volbu, mají-li se při přehrávání hudby zobrazovat vizuální efekty.</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Typ vizualizace</guilabel> – v rozbalovacím seznamu zvolte typ vizualizace.</para>
+              </listitem>
+	      <listitem>
+		<para><guilabel>Velikost vizualizace</guilabel> – v rozbalovacím seznamu zvolte velikost vizualizace.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term>Vyvážení barev</term>
+	  <listitem>
+	    <itemizedlist>
+	      <listitem>
+		    <para><guilabel>Jas</guilabel> – použijte táhlo k nastavení jasu.</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>Kontrast</guilabel> – použijte táhlo k nastavení kontrastu.</para>
+          </listitem>
+	      <listitem>
+		    <para><guilabel>Sytost</guilabel> – použijte táhlo k nastavení sytosti.</para>
+          </listitem>
+	      <listitem>
+		     <para><guilabel>Odstín</guilabel> – použijte táhlo k nastavení odstínu.</para>
+          </listitem>
+	    </itemizedlist>
+	    <tip><para>Chcete-li vyvážení barev nastavit na výchozí hodnoty, můžete použít tlačítko <guilabel>Vrátit na výchozí</guilabel>.</para></tip>
+      </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+    <sect2 id="totem-prefs-audio">
+      <title>Zvuk</title>
+      <variablelist>
+	<varlistentry>
+	  <term>Zvukový výstup</term>
+	  <listitem>
+	    <para>V rozbalovacím seznamu <guilabel>Typ zvukového výstupu</guilabel> zvolte typ zvukového výstupu.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+
+<!-- ============= Bugs ================================== -->
+<!-- This section is optional and is commented out by default. 
+     You can use it to describe known bugs and limitations of the 
+	  program if there are any - please be frank and list all
+     problems you know of. 
+  
+  <sect1 id="mayapp-bugs">
+  <title>Known Bugs and Limitations</title>
+  <para> </para>
+ </sect1>
+-->
+
+<!-- ============= About ================================== -->
+<!-- This section contains info about the program (not docs), such as
+      author's name(s), web page, license, feedback address. This
+      section is optional: primary place for this info is "About.." box of
+      the program. However, if you do wish to include this info in the
+      manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
+  <sect1 id="totem-about"> 
+    <title>O aplikaci <application>přehrávač filmů Totem</application></title> 
+    <para><application>Přehrávač filmů Totem</application> je napsán Bastienem Nocerou (<email>hadess@hadess.net</email>), Julienem Mouttem (<email>julien@moutte.net</email>) pro podpůrnou vrstvu GStreamer a Guenterem Bartschem (<email>guenter@users.sourceforge.net</email>). Chcete-li se o <application>přehrávači filmů Totem</application> dovědět více, navštivte jeho <ulink url="http://projects.mate.org/totem/" type="http">webové stránky</ulink>.</para>
+    <para>Pokud chcete oznámit chybu nebo navrhnout vylepšení vztahující se k aplikaci <application>přehrávač filmů Totem</application> nebo této příručce, postupujte dle instrukcí na <ulink url="ghelp:user-guide?feedback-bugs" type="help">stránce s ohlasy na MATE</ulink>.</para>
+    <para>Tento program je šířen podle ustanovení GNU General Public License, vydávané Free Software Foundation; a to buď verze 2 této licence anebo (podle vlastního uvážení) kterékoliv pozdější verze. Kopii této licence naleznete na <ulink url="ghelp:gpl" type="help">stránce projektu GNU</ulink> nebo v souboru COPYING přiloženém ke zdrojovým kódům tohoto programu.</para>
+  </sect1> 
+</article>

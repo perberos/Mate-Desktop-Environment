@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Interface</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Totem Reference Manual">
+<link rel="up" href="core-api.html" title="Core API">
+<link rel="prev" href="TotemObject.html" title="TotemObject">
+<link rel="next" href="TotemPlugin.html" title="TotemPlugin">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TotemObject.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="core-api.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Totem Reference Manual</th>
+<td><a accesskey="n" href="TotemPlugin.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#totem-Interface.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#totem-Interface.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="Interface">
+<a name="totem-Interface"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="totem-Interface.top_of_page"></a>Interface</span></h2>
+<p>Interface — interface utility/loading/error functions</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1" title="Stability Level">
+<a name="totem-Interface.stability-level"></a><h2>Stability Level</h2>
+Unstable, unless otherwise indicated
+</div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="totem-Interface.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;totem-interface.h&gt;
+
+<span class="returnvalue">void</span>                <a class="link" href="totem-Interface.html#totem-interface-error" title="totem_interface_error ()">totem_interface_error</a>               (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="totem-Interface.html#totem-interface-error-blocking" title="totem_interface_error_blocking ()">totem_interface_error_blocking</a>      (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="totem-Interface.html#totem-interface-error-with-link" title="totem_interface_error_with_link ()">totem_interface_error_with_link</a>     (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *label</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="totem-Interface.description"></a><h2>Description</h2>
+<p>
+A collection of interface utility functions, for loading interfaces and displaying errors.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="totem-Interface.details"></a><h2>Details</h2>
+<div class="refsect2" title="totem_interface_error ()">
+<a name="totem-interface-error"></a><h3>totem_interface_error ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_interface_error               (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>);</pre>
+<p>
+Display a modal error dialogue with <em class="parameter"><code>title</code></em> as its primary error text, and <em class="parameter"><code>reason</code></em>
+as its secondary text.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the error title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>reason</code></em> :</span></p></td>
+<td>the error reason (secondary text)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the error dialogue's parent <a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_interface_error_blocking ()">
+<a name="totem-interface-error-blocking"></a><h3>totem_interface_error_blocking ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_interface_error_blocking      (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>);</pre>
+<p>
+Display a modal error dialogue like <a class="link" href="totem-Interface.html#totem-interface-error" title="totem_interface_error ()"><code class="function">totem_interface_error()</code></a> which blocks until the user has
+dismissed it.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the error title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>reason</code></em> :</span></p></td>
+<td>the error reason (secondary text)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the error dialogue's parent <a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="totem_interface_error_with_link ()">
+<a name="totem-interface-error-with-link"></a><h3>totem_interface_error_with_link ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                totem_interface_error_with_link     (<em class="parameter"><code>const <span class="type">char</span> *title</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *reason</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *uri</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">char</span> *label</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a> *parent</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="TotemObject.html#Totem" title="Totem"><span class="type">Totem</span></a> *totem</code></em>);</pre>
+<p>
+Display a modal error dialogue like <a class="link" href="totem-Interface.html#totem-interface-error" title="totem_interface_error ()"><code class="function">totem_interface_error()</code></a>,
+but add a button which will open <em class="parameter"><code>uri</code></em> in a browser window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>title</code></em> :</span></p></td>
+<td>the error title
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>reason</code></em> :</span></p></td>
+<td>the error reason (secondary text)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>uri</code></em> :</span></p></td>
+<td>the URI to open
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>label</code></em> :</span></p></td>
+<td>a label for the URI's button, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> to use <em class="parameter"><code>uri</code></em> as the label
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>the error dialogue's parent <a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html"><span class="type">GtkWindow</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>totem</code></em> :</span></p></td>
+<td>a <a class="link" href="TotemObject.html" title="TotemObject"><span class="type">TotemObject</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

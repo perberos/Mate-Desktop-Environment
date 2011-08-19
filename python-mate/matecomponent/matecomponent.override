@@ -1,0 +1,917 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+
+#include <Python.h>
+#define NO_IMPORT_PYGOBJECT
+#include <pygobject.h>
+#include <pymatecorba.h>
+#include <libmatecomponent.h>
+#include <matecomponent/matecomponent-persist-client.h>
+#include <matecomponent/matecomponent-item-handler.h>
+#include <matecomponent/matecomponent-foreign-object.h>
+#include "pymatecomponent.h"
+#include "config.h"
+
+%%
+modulename matecomponent
+%%
+import gobject.GObject as PyGObject_Type
+%%
+init
+    init_pymatecorba();
+%%
+ignore-glob
+  *_get_type
+  *_construct
+  matecomponent_config_*
+%%
+ignore
+  matecomponent_setup_x_error_handler
+  matecomponent_shlib_factory_*
+  matecomponent_generic_factory_new
+  matecomponent_item_handler_new  
+  matecomponent_listener_new
+  matecomponent_moniker_simple_new
+  matecomponent_property_bag_new
+%%
+override matecomponent_generic_factory_new_closure kwargs
+static int
+_wrap_matecomponent_generic_factory_new_closure (PyGObject * self,
+					  PyObject *  args,
+					  PyObject * kwargs)
+{
+    static char *kwlist[] = { "act_iid", "func", "extra_data", NULL };
+    gchar *act_iid;
+    PyObject *callback;
+    PyObject *params = NULL;
+    GClosure *closure;
+    
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "sO|O:MateComponentGenericFactory.__init__",
+				     kwlist, &act_iid, &callback, &params)) {
+        return -1;
+    }
+
+    if (!PyCallable_Check (callback)) {
+        PyErr_SetString (PyExc_TypeError, "second arg not callable");
+	return -1;
+    }
+
+    self->obj = (GObject*)matecomponent_generic_factory_new_closure (act_iid,
+                                 (closure = pyg_closure_new (callback, params, NULL)));
+    if (!self->obj) {
+	PyErr_SetString(PyExc_RuntimeError,
+			"could not create MateComponentGenericFactory");
+        g_closure_invalidate(closure);
+	return -1;
+    }
+    g_object_ref (self->obj);
+    pygobject_register_wrapper ((PyObject *)self);
+    pygobject_watch_closure((PyObject *)self, closure);
+    return 0;
+}
+%%
+override matecomponent_moniker_simple_new_closure kwargs
+static int
+_wrap_matecomponent_moniker_simple_new_closure (PyGObject * self,
+					  PyObject *  args,
+					  PyObject * kwargs)
+{
+    static char *kwlist[] = { "name", "func", "extra_data", NULL };
+    gchar *name;
+    PyObject *callback;
+    PyObject *params = NULL;
+    GClosure *closure;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "sO|O:MateComponentMonikerSimple.__init__",
+				     kwlist, &name, &callback, &params)) {
+        return -1;
+    }
+
+    if (!PyCallable_Check (callback)) {
+        PyErr_SetString (PyExc_TypeError, "second arg not callable");
+	return -1;
+    }
+    closure = pymatecomponent_closure_new (callback, params, NULL);
+    self->obj = (GObject*) matecomponent_moniker_simple_new_closure (name, closure);
+    if (!self->obj) {
+	PyErr_SetString(PyExc_RuntimeError,
+			"could not create MateComponentMonikerSimple");
+        g_closure_invalidate(closure);
+	return -1;
+    }
+    g_object_ref (self->obj);
+    pygobject_register_wrapper ((PyObject *)self);
+    pygobject_watch_closure((PyObject *)self, closure);
+    
+    return 0;
+}
+%%
+override matecomponent_listener_new_closure kwargs
+static int
+_wrap_matecomponent_listener_new_closure (PyGObject * self,
+			           PyObject *  args,
+				   PyObject * kwargs)
+{
+    static char *kwlist[] = { "func", "extra_data", NULL };
+    PyObject *callback;
+    PyObject *params = NULL;
+    GClosure *closure;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "O|O:MateComponentListener.__init__",
+				     kwlist, &callback, &params)) {
+        return -1;
+    }
+
+    if (!PyCallable_Check (callback)) {
+        PyErr_SetString (PyExc_TypeError, "second arg not callable");
+	return -1;
+    }
+
+    self->obj = (GObject*)matecomponent_listener_new_closure (
+        (closure = pymatecomponent_closure_new (callback, params, NULL)));
+    if (!self->obj) {
+	PyErr_SetString(PyExc_RuntimeError,
+			"could not create MateComponentListener");
+        g_closure_invalidate(closure);
+	return -1;
+    }
+    g_object_ref (self->obj);
+    pygobject_register_wrapper ((PyObject *) self);
+    pygobject_watch_closure((PyObject *) self, closure);
+    
+    return 0; 
+}
+%%
+override matecomponent_property_bag_new_closure kwargs
+static int
+_wrap_matecomponent_property_bag_new_closure (PyGObject * self,
+			           PyObject *  args,
+				   PyObject * kwargs)
+{
+    static char *kwlist[] = { "get_prop", "set_prop", "extra_data", NULL };
+    PyObject *get_prop_cb;
+    PyObject *set_prop_cb;    
+    PyObject *params = NULL;
+    GClosure *closure1, *closure2;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "OO|O:MateComponentPropertyBag.__init__",
+				     kwlist, &get_prop_cb, &set_prop_cb, &params)) {
+        return -1;
+    }
+
+    if (!PyCallable_Check (get_prop_cb)) {
+        PyErr_SetString (PyExc_TypeError, "first arg not callable");
+	return -1;
+    }
+    
+    if (!PyCallable_Check (set_prop_cb)) {
+        PyErr_SetString (PyExc_TypeError, "second arg not callable");
+	return -1;
+    }    
+
+    self->obj = (GObject*)matecomponent_property_bag_new_closure (
+                          (closure1 = pymatecomponent_closure_new (get_prop_cb, params, NULL)),
+                          (closure2 = pymatecomponent_closure_new (set_prop_cb, params, NULL)));
+    if (!self->obj) {
+	PyErr_SetString(PyExc_RuntimeError,
+			"could not create MateComponentPropertyBag");
+        g_closure_invalidate(closure1);
+        g_closure_invalidate(closure2);
+	return -1;
+    }
+    g_object_ref (self->obj);
+    pygobject_register_wrapper ((PyObject *)self);
+    pygobject_watch_closure((PyObject *) self, closure1);
+    pygobject_watch_closure((PyObject *) self, closure2);
+    return 0;
+}
+%%
+override matecomponent_event_source_client_add_listener kwargs
+static PyObject *
+_wrap_matecomponent_event_source_client_add_listener (PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "object", "callback", "opt_mask", "extra_data", NULL };
+    PyObject *object;
+    PyObject *callback;
+    gchar *opt_mask = NULL;
+    PyObject *params = NULL;
+    CORBA_Environment ev;
+    MateComponent_Listener listener;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, 
+                                     "O!O|sO:matecomponent.event_source_client_add_listener", 
+                                     kwlist,             
+                                     &PyCORBA_Object_Type, &object, &callback,
+				     &opt_mask, &params))
+        return NULL;
+    
+    if (!PyCallable_Check(callback)) {
+        PyErr_SetString (PyExc_TypeError, "second arg not callable");
+        return NULL;
+    }
+	
+    CORBA_exception_init(&ev);
+    
+    listener = matecomponent_event_source_client_add_listener_full(
+        ((PyCORBA_Object *)object)->objref,
+        pymatecomponent_closure_new (callback, params, NULL), opt_mask, &ev);
+
+    if (pymatecorba_check_ex(&ev))
+	return NULL;
+
+    return pycorba_object_new(listener);
+}
+%%
+override matecomponent_item_handler_new_closure kwargs
+static int
+_wrap_matecomponent_item_handler_new_closure (PyGObject * self,
+			           PyObject *  args,
+				   PyObject * kwargs)
+{
+    static char *kwlist[] = { "enum_objects", "get_objects", "extra_data", NULL };
+    PyObject *enum_objects_cb;
+    PyObject *get_objects_cb;    
+    PyObject *params = NULL;
+    GClosure *closure1, *closure2;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "OO|O:MateComponentItemHandler.__init__",
+				     kwlist, &enum_objects_cb, &get_objects_cb, &params)) {
+        return -1;
+    }
+
+    if (!PyCallable_Check (enum_objects_cb)) {
+        PyErr_SetString (PyExc_TypeError, "first arg not callable");
+	return -1;
+    }
+    
+    if (!PyCallable_Check (get_objects_cb)) {
+        PyErr_SetString (PyExc_TypeError, "second arg not callable");
+	return -1;
+    }    
+
+    self->obj = (GObject*)matecomponent_item_handler_new_closure (
+                          (closure1 = pymatecomponent_closure_new (enum_objects_cb, params, NULL)),
+                          (closure2 = pymatecomponent_closure_new (get_objects_cb, params, NULL)));
+    if (!self->obj) {
+	PyErr_SetString(PyExc_RuntimeError,
+			"could not create MateComponentItemHandler");
+        g_closure_invalidate(closure1);
+        g_closure_invalidate(closure2);
+	return -1;
+    }
+    g_object_ref (self->obj);
+    pygobject_register_wrapper ((PyObject *)self);
+    pygobject_watch_closure((PyObject *)self, closure1);
+    pygobject_watch_closure((PyObject *)self, closure2);
+    
+    return 0;
+}
+
+%%
+override matecomponent_generic_factory_main kwargs
+
+static MateComponentObject*
+_wrap_matecomponent_generic_factory_main_callback(MateComponentGenericFactory *factory,
+					   const char           *component_id,
+					   gpointer              data)
+{
+    gpointer *tmpdata   = data;
+    PyObject *callback  = tmpdata[0];
+    PyObject *user_data = tmpdata[1];
+    PyObject *result;
+    PyObject *pyfactory;
+    GObject  *rv;
+    PyGILState_STATE state;
+
+    state = pyg_gil_state_ensure();
+    pyfactory = pygobject_new(G_OBJECT(factory));
+    if (user_data)
+	result = PyObject_CallFunction(callback, "OsO", pyfactory,
+				       component_id, user_data);
+    else
+	result = PyObject_CallFunction(callback, "Os", pyfactory, component_id);
+    Py_DECREF(pyfactory);
+    if (!result) {
+	PyErr_Print();
+	PyErr_Clear();
+        pyg_gil_state_release(state);
+	return NULL;
+    }
+    if (PyObject_TypeCheck(result, &PyGObject_Type)) {
+	rv = ((PyGObject *) result)->obj;
+	if (g_type_is_a(G_OBJECT_TYPE(rv), MATECOMPONENT_TYPE_OBJECT)) {
+	    g_object_ref(rv);
+	    Py_DECREF(result);
+            pyg_gil_state_release(state);
+	    return MATECOMPONENT_OBJECT(rv);
+	}
+    }
+    PyErr_SetString(PyExc_TypeError, "return value of factory callback is not a matecomponent.Object");
+    PyErr_Print();
+    PyErr_Clear();
+    pyg_gil_state_release(state);
+    return NULL;
+}
+
+static PyObject *
+_wrap_matecomponent_generic_factory_main(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "act_iid", "callback", "data",
+			      "timeout",
+			      NULL };
+    char        *act_iid;
+    PyObject    *user_data = NULL;
+    PyObject    *callback;
+    int          timeout = -1;
+    int          ret;
+    gpointer     tmpdata[2];
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "sO|Oi:matecomponent.generic_factory_main",
+				     kwlist, &act_iid, &callback, &user_data, &timeout))
+        return NULL;
+    if (!PyCallable_Check(callback)) {
+        PyErr_SetString(PyExc_TypeError, "second arg not callable");
+	return NULL;
+    }
+    tmpdata[0] = callback;
+    tmpdata[1] = user_data;
+    if (timeout != -1) {
+        pyg_begin_allow_threads;
+	ret = matecomponent_generic_factory_main_timeout
+	    (act_iid, _wrap_matecomponent_generic_factory_main_callback, tmpdata, timeout);
+        pyg_end_allow_threads;
+    } else {
+        pyg_begin_allow_threads;
+	ret = matecomponent_generic_factory_main
+	    (act_iid, _wrap_matecomponent_generic_factory_main_callback, tmpdata);
+        pyg_end_allow_threads;
+    }
+    if (!ret) {
+	Py_INCREF(Py_None);
+	return Py_None;
+    }
+    PyErr_SetString(PyExc_RuntimeError,
+		    "could not create matecomponent generic factory");
+    return NULL;
+}
+
+%%
+override matecomponent_stream_mem_create kwargs
+static int
+_wrap_matecomponent_stream_mem_create(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "buffer", "read_only", "resizable", NULL };
+    char        *buffer;
+    Py_ssize_t   len;
+    int          read_only, resizable;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s#ii:MateComponentStreamMem.__init__",
+				     kwlist, &buffer, &len, &read_only, &resizable))
+        return -1;
+    self->obj = (GObject *)matecomponent_stream_mem_create(buffer, len, read_only, resizable);
+
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError, "could not create MateComponentStreamMem object");
+        return -1;
+    }
+    g_object_ref (self->obj);
+    pygobject_register_wrapper((PyObject *)self);
+    return 0;
+}
+
+%%
+override matecomponent_stream_mem_get_buffer kwargs
+static PyObject *
+_wrap_matecomponent_stream_mem_get_buffer(PyGObject *self)
+{
+    const gchar *ret;
+    int size;
+    ret = matecomponent_stream_mem_get_buffer(MATECOMPONENT_STREAM_MEM(self->obj));
+    size = matecomponent_stream_mem_get_size(MATECOMPONENT_STREAM_MEM(self->obj));
+    if (ret)
+        return PyString_FromStringAndSize(ret, size);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override matecomponent_main noargs
+
+
+  /* This code (pymatecomponent main watch) was copied with minor changes from
+   * pygobject/gobject/pygmainloop.c */
+static gboolean
+pymatecomponent_main_watch_prepare(GSource *source,
+			 int     *timeout)
+{
+    /* Python only invokes signal handlers from the main thread,
+     * so if a thread other than the main thread receives the signal
+     * from the kernel, PyErr_CheckSignals() from that thread will
+     * do nothing. So, we need to time out and check for signals
+     * regularily too.
+     * Also, on Windows g_poll() won't be interrupted by a signal
+     * (AFAIK), so we need the timeout there too.
+     */
+#ifndef PLATFORM_WIN32
+    if (pyg_threads_enabled)
+#endif
+	*timeout = 100;
+
+    return FALSE;
+}
+
+static gboolean
+pymatecomponent_main_watch_check(GSource *source)
+{
+    PyGILState_STATE state;
+
+    state = pyg_gil_state_ensure();
+
+    if (PyErr_CheckSignals() == -1 && matecomponent_main_level() > 0) {
+	PyErr_SetNone(PyExc_KeyboardInterrupt);
+	matecomponent_main_quit();
+    }
+
+    pyg_gil_state_release(state);
+
+    return FALSE;
+}
+
+static gboolean
+pymatecomponent_main_watch_dispatch(GSource    *source,
+			  GSourceFunc callback,
+			  gpointer    user_data)
+{
+    /* We should never be dispatched */
+    g_assert_not_reached();
+    return TRUE;
+}
+
+static GSourceFuncs pymatecomponent_main_watch_funcs =
+{
+    pymatecomponent_main_watch_prepare,
+    pymatecomponent_main_watch_check,
+    pymatecomponent_main_watch_dispatch,
+    NULL
+};
+
+static GSource *
+pymatecomponent_main_watch_new(void)
+{
+    return g_source_new(&pymatecomponent_main_watch_funcs, sizeof(GSource));
+}
+
+
+static PyObject *
+_wrap_matecomponent_main(PyObject *self)
+{
+    GSource *main_watch;
+    // Call enable_threads again to ensure that the thread state is recorded
+    if (pyg_threads_enabled)
+	pyg_enable_threads();
+
+    main_watch = pymatecomponent_main_watch_new();
+    pyg_begin_allow_threads;
+    g_source_attach(main_watch, NULL);
+    matecomponent_main();
+    g_source_destroy(main_watch);
+    pyg_end_allow_threads;
+    if (PyErr_Occurred())
+        return NULL;
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+
+%%
+override matecomponent_application_register_message_v kwargs
+static PyObject *
+_wrap_matecomponent_application_register_message_v(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", "description", "return_type", "arg_types", "closure", "data", NULL };
+    char        *name, *description;
+    PyObject    *py_return_type, *py_arg_types;
+    PyObject    *py_closure = NULL, *closure_data = NULL;
+    GArray      *arg_types;
+    GType        return_type, arg_type;
+    int          i, arg_types_len;
+    GClosure    *closure;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssOO|OO:MateComponentApplication.register_message",
+				     kwlist, &name, &description, &py_return_type, &py_arg_types,
+				     &py_closure, &closure_data))
+        return NULL;
+
+    if (!(return_type = pyg_type_from_object(py_return_type)))
+	return NULL;
+
+    if (!PySequence_Check(py_arg_types)) {
+        PyErr_SetString(PyExc_TypeError, "'arg_types' must be a sequence of types");
+        return NULL;
+    }
+    arg_types_len = PySequence_Size(py_arg_types);
+    arg_types = g_array_sized_new(FALSE, FALSE, sizeof(GType), arg_types_len + 1);
+    for (i = 0; i < arg_types_len; ++i) {
+	arg_type = pyg_type_from_object(PySequence_Fast_GET_ITEM(py_arg_types, i));
+	if (!arg_type) {
+	    g_array_free(arg_types, TRUE);
+	    return NULL;
+	}
+	g_array_append_val(arg_types, arg_type);
+    }
+    arg_type = G_TYPE_NONE;
+    g_array_append_val(arg_types, arg_type);
+
+    if (py_closure) {
+	if (!PyCallable_Check(py_closure)) {
+	    PyErr_SetString(PyExc_TypeError, "'closure' not callable");
+	    g_array_free(arg_types, TRUE);
+	    return NULL;
+	}
+	closure = pyg_closure_new(py_closure, closure_data, NULL);
+	pygobject_watch_closure((PyObject *)self, closure);
+    } else
+	closure = NULL;
+
+    matecomponent_application_register_message_v(MATECOMPONENT_APPLICATION(self->obj), name, description,
+					  closure, return_type, (GType *) arg_types->data);
+    g_array_free(arg_types, TRUE);
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override matecomponent_application_new_instance kwargs
+static PyObject *
+_wrap_matecomponent_application_new_instance(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "argv", NULL };
+    int argc, ret, i;
+    GPtrArray *argv;
+    PyObject *py_argv, *pyarg;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:MateComponentApplication.new_instance", kwlist, &py_argv))
+        return NULL;
+    if (!PySequence_Check(py_argv)) {
+        PyErr_SetString(PyExc_TypeError, "'argv' must be a sequence of strings");
+        return NULL;
+    }
+    argc = PySequence_Size(py_argv);
+    argv = g_ptr_array_sized_new(argc);
+
+    for (i = 0; i < argc; ++i) {
+	pyarg = PySequence_Fast_GET_ITEM(py_argv, i);
+	if (!PyString_Check(pyarg)) {
+	    g_ptr_array_free(argv, TRUE);
+	    PyErr_SetString(PyExc_TypeError, "'argv' must be a sequence of strings");
+	    return NULL;
+	}
+	g_ptr_array_add(argv, PyString_AsString(pyarg));
+    }
+    ret = matecomponent_application_new_instance(MATECOMPONENT_APPLICATION(self->obj), argc,
+					  (gchar **) argv->pdata);
+    g_ptr_array_free(argv, TRUE);
+    return PyInt_FromLong(ret);
+}
+
+%%
+override matecomponent_app_client_msg_send_argv kwargs
+static PyObject *
+_wrap_matecomponent_app_client_msg_send_argv(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "message", "argv", NULL };
+    char *message;
+    int argc, i;
+    PyObject *py_argv, *pyarg, *py_ret = NULL;
+    GPtrArray *argv;
+    GValue *value;
+    GType value_type;
+    CORBA_Environment ev;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "sO:MateComponentAppClient.msg_send",
+				     kwlist, &message, &py_argv))
+        return NULL;
+    if (!PySequence_Check(py_argv) || PyString_Check(py_argv)) {
+        PyErr_SetString(PyExc_TypeError, "'argv' must be a sequence");
+        return NULL;
+    }
+
+    argc = PySequence_Size(py_argv);
+    argv = g_ptr_array_sized_new(argc);
+
+    for (i = 0; i < argc; ++i) {
+	pyarg = PySequence_ITEM(py_argv, i);
+	value_type = pyg_type_from_object((PyObject *) pyarg->ob_type);
+	if (!value_type) {
+            Py_XDECREF(pyarg);
+            goto exit;
+        }
+	value = g_new0(GValue, 1);
+	g_value_init(value, value_type);
+	g_ptr_array_add(argv, value);
+	if (pyg_value_from_pyobject(value, pyarg)) {
+            Py_XDECREF(pyarg);
+	    PyErr_Format(PyExc_RuntimeError, "couldn't convert argv[%i] to GValue", i);
+	    goto exit;
+	}
+        Py_XDECREF(pyarg);
+    }
+    g_ptr_array_add(argv, NULL);
+    CORBA_exception_init(&ev);
+    value = matecomponent_app_client_msg_send_argv(MATECOMPONENT_APP_CLIENT(self->obj), message,
+					    (GValue const **) argv->pdata, &ev);
+    if (pymatecorba_check_ex(&ev))
+	return NULL;
+
+    if (value) {
+	py_ret = pyg_value_as_pyobject(value, TRUE);
+	g_value_unset(value);
+	g_free(value);
+    } else {
+	Py_INCREF(Py_None);
+	py_ret = Py_None;
+    }
+exit:
+    for (i = 0; i < argv->len; ++i) {
+	value = (GValue *) g_ptr_array_index(argv, i);
+	if (value) {
+	    g_value_unset(value);
+	    g_free(value);
+	}
+    }
+    g_ptr_array_free(argv, TRUE);
+    return py_ret;
+}
+
+%%
+override matecomponent_app_client_new_instance kwargs
+static PyObject *
+_wrap_matecomponent_app_client_new_instance(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "argv", NULL };
+    int argc, ret, i;
+    GPtrArray *argv;
+    PyObject *py_argv, *pyarg;
+    CORBA_Environment ev;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:MateComponentAppClient.new_instance", kwlist, &py_argv))
+        return NULL;
+    if (!PySequence_Check(py_argv)) {
+        PyErr_SetString(PyExc_TypeError, "'argv' must be a sequence of strings");
+        return NULL;
+    }
+    argc = PySequence_Size(py_argv);
+    argv = g_ptr_array_sized_new(argc);
+
+    for (i = 0; i < argc; ++i) {
+	pyarg = PySequence_Fast_GET_ITEM(py_argv, i);
+	if (!PyString_Check(pyarg)) {
+	    g_ptr_array_free(argv, TRUE);
+	    PyErr_SetString(PyExc_TypeError, "'argv' must be a sequence of strings");
+	    return NULL;
+	}
+	g_ptr_array_add(argv, PyString_AsString(pyarg));
+    }
+    CORBA_exception_init(&ev);
+    ret = matecomponent_app_client_new_instance(MATECOMPONENT_APP_CLIENT(self->obj), argc,
+					 (gchar **) argv->pdata, &ev);
+    if (pymatecorba_check_ex(&ev))
+	return NULL;
+    g_ptr_array_free(argv, TRUE);
+    return PyInt_FromLong(ret);
+}
+
+%%
+override matecomponent_app_client_msg_list noargs
+static PyObject *
+_wrap_matecomponent_app_client_msg_list(PyGObject *self)
+{
+    MateComponentAppClientMsgDesc const *msg_descs, *msg_desc;
+    int msg_descs_len, types_len, i, j;
+    PyObject *py_ret, *types;
+
+    msg_descs = matecomponent_app_client_msg_list(MATECOMPONENT_APP_CLIENT(self->obj));
+
+    for (msg_descs_len = 0, msg_desc = msg_descs; msg_desc->name;
+	 ++msg_desc, ++msg_descs_len);
+    py_ret = PyTuple_New(msg_descs_len);
+
+    for (i = 0, msg_desc = msg_descs; i < msg_descs_len; ++i, ++msg_desc)
+    {
+	for (types_len = 0; msg_desc->types[types_len] != G_TYPE_NONE; ++types_len);
+	types = PyTuple_New(types_len);
+
+	for (j = 0; j < types_len; ++j)
+	    PyTuple_SET_ITEM(types, j, pyg_type_wrapper_new(msg_desc->types[j]));
+
+	PyTuple_SET_ITEM(py_ret, i, Py_BuildValue("sNNs", msg_desc->name,
+						  pyg_type_wrapper_new(msg_desc->return_type),
+						  types, msg_desc->description));
+    }
+    return py_ret;
+}
+
+%%
+override matecomponent_application_create_serverinfo kwargs
+static PyObject *
+_wrap_matecomponent_application_create_serverinfo(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char  *kwlist[] = { "envp", NULL };
+    PyObject     *py_envp;
+    guint         i, py_envp_len;
+    gchar        *ret;
+    gchar const **envp;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O:MateComponentApplication.create_serverinfo",
+				     kwlist, &py_envp))
+        return NULL;
+
+    if (!PySequence_Check(py_envp)) {
+	PyErr_SetString(PyExc_TypeError, "first argument must be sequence of strings");
+	return NULL;
+    }
+    py_envp_len = PySequence_Length(py_envp);
+    for (i = 0; i < py_envp_len; ++i)
+	if (!PyString_Check(PySequence_Fast_GET_ITEM(py_envp, i))) {
+	    PyErr_SetString(PyExc_TypeError, "first argument must be sequence of strings");
+	    return NULL;
+	}
+    envp = g_newa(gchar const *, py_envp_len + 1);
+    for (i = 0; i < py_envp_len; ++i)
+	envp[i] = PyString_AsString(PySequence_Fast_GET_ITEM(py_envp, i));
+    envp[i] = NULL;
+
+    ret = matecomponent_application_create_serverinfo(MATECOMPONENT_APPLICATION(self->obj), envp);
+
+    if (ret) {
+        PyObject *py_ret = PyString_FromString(ret);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override matecomponent_application_register_unique kwargs
+static PyObject *
+_wrap_matecomponent_application_register_unique(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "serverinfo", NULL };
+    char *serverinfo;
+    MateComponentAppClient *client;
+    MateComponent_RegistrationResult res;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:MateComponentApplication.register_unique",
+				     kwlist, &serverinfo))
+        return NULL;
+    res = matecomponent_application_register_unique(MATECOMPONENT_APPLICATION(self->obj), serverinfo, &client);
+
+    switch (res)
+    {
+    case MateComponent_ACTIVATION_REG_ALREADY_ACTIVE:
+	return pygobject_new((GObject *)client);
+
+    case MateComponent_ACTIVATION_REG_SUCCESS:
+	Py_INCREF(Py_None);
+	return Py_None;
+    case MateComponent_ACTIVATION_REG_ERROR:
+    default:
+	PyErr_Format(PyExc_RuntimeError, "matecomponent activation error (%d)", res);
+	return NULL;
+    }
+}
+%%
+override matecomponent_stream_client_read kwargs
+static PyObject *
+_wrap_matecomponent_stream_client_read(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "stream", "size", NULL };
+    PyObject *stream;
+    int size = -1;
+    guint8 *ret;
+    CORBA_Environment ev;
+    CORBA_long length_read = 0;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!|i:stream_client_read", kwlist,
+                                     &PyCORBA_Object_Type, &stream, &size))
+        return NULL;
+    CORBA_exception_init(&ev);
+    ret = matecomponent_stream_client_read((const MateComponent_Stream)((PyCORBA_Object *)stream)->objref,
+                                    size, &length_read, &ev);
+    if (pymatecorba_check_ex(&ev))
+        return NULL;
+    if (ret) {
+        PyObject *py_ret = PyString_FromStringAndSize((char *) ret, length_read);
+        g_free(ret);
+        return py_ret;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+%%
+override matecomponent_get_object_async kwargs
+
+typedef struct {
+    PyObject *callback;
+    PyObject *user_data;
+} WrapMateComponentGetObjectAsync;
+
+static void
+_wrap_matecomponent_get_object_async_cb(MateComponent_Unknown object,
+                                 CORBA_Environment *ev,
+                                 gpointer user_data)
+{
+    PyGILState_STATE state;
+    WrapMateComponentGetObjectAsync *data = (WrapMateComponentGetObjectAsync *) user_data;
+    PyObject *py_activated_object = pycorba_object_new(object);
+    PyObject *py_exception = NULL;
+    PyObject *retobj;
+    
+    state = pyg_gil_state_ensure();
+
+    if (pymatecorba_check_ex(ev)) {
+        PyObject *ptype, *pvalue, *ptraceback;
+        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+        py_exception = Py_BuildValue("NN", ptype, pvalue);
+        Py_XDECREF(ptraceback);
+    } else {
+        Py_INCREF(Py_None);
+        py_exception = Py_None;
+    }
+
+    if (data->user_data)
+        retobj = PyEval_CallFunction(data->callback, "OOO",
+                                     py_activated_object,
+                                     py_exception,
+                                     data->user_data);
+    else
+        retobj = PyEval_CallFunction(data->callback, "OO",
+                                     py_activated_object,
+                                     py_exception);
+    Py_DECREF(data->callback);
+    Py_XDECREF(data->user_data);
+    g_free(data);
+    Py_XDECREF(py_exception);
+
+    if (retobj == NULL) {
+	PyErr_Print();
+	PyErr_Clear();
+    }
+    Py_DECREF(py_activated_object);
+    Py_XDECREF(retobj);
+
+    pyg_gil_state_release(state);
+}
+
+static PyObject *
+_wrap_matecomponent_get_object_async(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "name", "interface_name", "cb", "user_data", NULL };
+    char *name, *interface_name;
+    CORBA_Environment opt_ev;
+    PyObject *callback, *user_data = NULL;
+    WrapMateComponentGetObjectAsync *data;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "ssO|O:get_object_async",
+                                     kwlist, &name, &interface_name,
+                                     &callback, &user_data))
+        return NULL;
+    if (!PyCallable_Check(callback)) {
+        PyErr_SetString(PyExc_TypeError, "second argument must be callable");
+        return NULL;
+    }
+    
+    data = g_new0(WrapMateComponentGetObjectAsync, 1);
+    data->callback = callback;
+    Py_INCREF(callback);
+    data->user_data = user_data;
+    Py_XINCREF(user_data);
+    
+    CORBA_exception_init(&opt_ev);
+    matecomponent_get_object_async(name, interface_name, &opt_ev,
+                            _wrap_matecomponent_get_object_async_cb, data);
+    if (pymatecorba_check_ex(&opt_ev))
+        return NULL;
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+%%
+override matecomponent_main_quit noargs
+static PyObject *
+_wrap_matecomponent_main_quit(PyObject *self)
+{
+    if (matecomponent_main_level() == 0) {
+        PyErr_SetString(PyExc_RuntimeError, "not running a matecomponent main loop");
+        return NULL;
+    }
+    matecomponent_main_quit();
+    
+    Py_INCREF(Py_None);
+    return Py_None;
+}

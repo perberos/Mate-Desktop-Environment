@@ -1,0 +1,79 @@
+# DarContact: Noah Levitt <nlevitt аt columbia.edu>
+
+Summary: A featureful Unicode character map. 
+Name: gucharmap
+Version: @VERSION@
+Release: 0
+Group: Applications/System
+License: GPL
+URL: http://gucharmap.sourceforge.net/
+
+Packager: Dag Wieers <dag@wieers.com>
+Vendor: Dag Apt Repository, http://dag.wieers.com/home-made/apt/
+
+Source: http://ftp.mate.org/pub/mate/sources/gucharmap/0.6/%{name}-%{version}.tar.bz2
+BuildRoot: %{_tmppath}/root-%{name}-%{version}
+Prefix: %{_prefix}
+
+%description
+gucharmap is a featureful Unicode character map and font viewer.
+
+%package devel
+Summary: Header files, libraries and development documentation for %{name}.
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+
+%description devel
+This package contains the header files, static libraries and development
+documentation for %{name}.
+
+%prep
+%setup
+
+%build
+%configure
+%{__make} %{?_smp_mflags}
+
+%install
+%{__rm} -rf %{buildroot}
+%makeinstall
+%find_lang %{name}
+
+%{__rm} -f %{buildroot}%{_bindir}/charmap
+ln -sf %{_bindir}/gucharmap %{buildroot}%{_bindir}/charmap
+
+### Clean up buildroot
+%{__rm} -f %{buildroot}%{_libdir}/*.la \
+		%{buildroot}%{_libdir}/gucharmap/immodules/*.a \
+		%{buildroot}%{_libdir}/gucharmap/immodules/*.la
+
+%clean
+%{__rm} -rf %{buildroot}
+
+%files -f %{name}.lang
+%defattr(-, root, root, 0755)
+%doc ChangeLog COPYING* README TODO
+%config %{_sysconfdir}/gucharmap/
+%{_bindir}/*
+%{_libdir}/*.so.*
+%{_libdir}/gucharmap/immodules/im-gucharmap.so
+%{_datadir}/pixmaps/*
+%{_datadir}/applications/*
+
+%files devel
+%defattr(-, root, root, 0755)
+%{_libdir}/*.a
+%{_libdir}/*.so
+%{_libdir}/pkgconfig/*
+%{_includedir}/%{name}/
+#exclude %{_libdir}/*.la
+
+%changelog
+* Fri May 02 2003 Dag Wieers <dag@wieers.com> - 0.6.0-0
+- Updated to release 0.6.0.
+
+* Tue Mar 25 2003 Dag Wieers <dag@wieers.com> - 0.4.0-1
+- Added extra documents.
+
+* Tue Mar 18 2003 Dag Wieers <dag@wieers.com> - 0.4.0-0
+- Initial package. (using DAR)

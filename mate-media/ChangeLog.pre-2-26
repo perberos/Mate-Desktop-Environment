@@ -1,0 +1,5447 @@
+2009-03-30  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/element.c, gst-mixer/src/preferences.c:
+	Initialize the whitelist before using it.  Fixes bug #576022.
+
+	Patch by Robert Ancell <robert.ancell@gmail.com>
+
+2009-03-16  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.ac: post-release bump to 2.26.1
+
+==================== 2.26.0 ====================
+
+2009-03-16  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: 2.26.0 release.
+	* Makefile.am (DIST_SUBDIRS): add sound-theme.
+
+2009-03-05  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* sound-theme/sound-theme-file-utils.h: minor define fix.
+
+2009-03-05  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.ac: if --enable-gstmix, then build gst-mixer.
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/element.c: I noticed that when switching devices,
+	the "Sound Theme" tab was not rebuilding properly.  Avoiding to ever
+	remove the "Sound Theme" tab fixes this problem.
+
+2009-03-04  Bastien Nocera  <hadess@hadess.net>
+
+	* gst-mixer/src/Makefile.am:
+	* sound-theme/Makefile.am: Use properly linked libtool libs,
+	not static libs
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/track.c: Add new icons mappings.  Fixes bug #571084.
+	Patch by Garrett D'Amore <garrett.damore@sun.com>
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/element.c: Fix code so that options are updated upon
+	change.  Fixes bug #571083.  Patch by Garrett D'Amore
+	<garrett.damore@sun.com>
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/preferences.c: Add the pagenum directly to the
+	gtk_list_store, and avoid having to look up the pagenum in the
+	sort_by_page_num function.  This makes the code simpler and avoids
+	needless string comparisons.  Fixes bug #571068.  Patch by Garrett
+	D'Amore.  <garrett.damore@sun.com>
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/element.c: Use get_page_description() to get the labels
+	rather than duplicating the values in the content structure.  Fixes bug
+	#570979.  Patch by Garrett D'Amore <garrett.damore@sun.com>
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* gst-mixer/src/element.[ch], gst-mixer/src/preferences.c: Move the
+	whitelist_init_list from the element.h to element.c file.  This makes
+	for more efficient code since the structure only needs to be defined
+	once, not twice (once in element.c and once in preferences.c).  Fixes
+	bug #570978.  Patch by Garrett D'Amore <garrett.damore@sun.com>
+
+2009-03-04  Brian Cameron  <brian.cameron@sun.com>
+
+	* configure.ac, Makefile.am, gst-mixer/src/Makefile.am,
+	gst-mixer/src/element.c, mate-volume-control/src/Makefile.am,
+	mate-volume-control/data/Makefile.am: Now the sound-theme widgets
+	and the sound files are built in the sound-theme directory.  The
+	sound-theme widgets are built into a static library that is linked
+	into both gst-mixer and mate-volume-control so that both
+	applications can provide the ability to edit the Sound Theme
+	configuration.  This fixes bug #570736.
+	* sound-theme/Makefile.am, sound-theme/gvc-sound-theme-editor.[ch],
+	sound-theme/gvc-sound-theme-chooser.[ch],
+	sound-theme/sound-theme-file-utils.[ch]: Move sound-theme widget
+	files from mate-volume-control/src and provide Makefile.am to build
+	them into a static library.
+	* sound-theme/sounds: Move from mate-volume-control/data/sounds.
+
+2009-03-03  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.26.0
+
+==================== 2.25.92 ====================
+
+2009-03-03  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: version 2.25.92
+
+2009-02-25  Mart Raudsepp  <leio@gentoo.org>
+
+	reviewed by: Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.ac: Fix automagic dep on pulseaudio (bug #571396).
+
+	Patch by: Nirbheek Chauhan
+
+2009-02-17  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.ac: Detect whether we have PA 0.9.15,
+	to use some of the new API
+
+2009-02-11  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.ac: Require libunique for the new
+	volume control, and don't use dbus-glib directly
+
+2009-01-26  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.ac: Require GTK+ 2.15.x
+
+==== 2.25.5 ====
+
+2009-01-20  Bastien Nocera  <hadess@hadess.net>
+
+	* NEWS: upd
+	* configure.ac: 2.25.5
+
+2008-12-21  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Add new sounds directory.
+
+2008-12-19  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.ac: Add a desktop file and icons
+	for mate-volume-control
+
+2008-12-19  Bastien Nocera  <hadess@hadess.net>
+
+	* gst-mixer/src/track.c: Add an icon for "cap"
+	tracks
+
+2008-12-16  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Post release bump
+
+==== 2.25.1 ====
+
+2008-12-16  William Jon McCann  <jmccann@redhat.com>
+
+	* NEWS: Update for release
+
+2008-12-15  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.ac:
+	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS):
+	* profiles/Makefile.am (libmate_media_profiles_la_CFLAGS): I wish
+	distcheck would pass (again).
+
+2008-12-15  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* grecord/src/gsr-window.h, gst-mixer/src/button.h,
+	gst-mixer/src/element.h, gst-mixer/src/preferences.h,
+	gst-mixer/src/volume.h, profiles/audio-profile-choose.h,
+	profiles/audio-profile-edit.h, profiles/audio-profiles-edit.h,
+	profiles/mate-audio-profiles-properties.c: clean up GLib and GTK+
+	includes. Closes #563573
+
+	Patch by: Luis Menina <liberforce@freeside.fr>
+
+2008-12-15  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/audio-profile.c (gm_audio_profile_forget): Remove
+	audio profile from hashtable with id instead of name, fix "can't
+	delete profile with '#' in its name". Closes: #553383
+
+2008-12-14  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/mate-audio-profiles.schemas.in.in: Use 32kHz for
+	Speex. Closes: #564060
+
+2008-12-14  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/mate-audio-profiles.schemas.in.in: Add MP2
+	profile. Closes: #557043
+
+2008-12-14  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/mate-audio-profiles.schemas.in.in: Use LC profile by
+	default for AAC (m4a). Closes: #498617
+
+2008-12-11  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Add makefile generation
+
+2008-12-05  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/mate-audio-profiles.schemas.in.in: Use .ogg extension
+	back (revert .oga changes). Closes again: #543306
+
+2008-12-05  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/mate-audio-profiles.schemas.in.in:
+	Make speex voice encoder mono. (Closes: #552420)
+
+2008-11-08  Kjartan Maraas  <kmaraas@mate.org>
+
+	* gst-mixer/src/button.c: (mate_volume_control_button_class_init),
+	(mate_volume_control_button_dispose):
+	* gst-mixer/src/element.c: (mate_volume_control_element_change):
+	* gst-mixer/src/main.c: (main):
+	* gst-mixer/src/misc.c:
+	* gst-mixer/src/preferences.c: (cb_toggle):
+	* gst-mixer/src/track.c: (mate_volume_control_track_add_playback):
+	* gst-mixer/src/volume.c: (mate_volume_control_volume_new),
+	(mate_volume_control_volume_size_req),
+	(mate_volume_control_volume_size_alloc):
+	* gst-mixer/src/window.c: (mate_volume_control_window_dispose),
+	(mate_volume_control_window_new):
+	* profiles/audio-profile-edit.c:
+	* profiles/audio-profiles-edit.c: (gm_audio_profiles_edit_init):
+	* profiles/glade/mate-media-profiles-glade.c:
+	(glade_module_register_widgets):
+	* profiles/gmp-util.c: (gmp_util_run_error_dialog):
+	* profiles/mate-audio-profiles-properties.c:
+	* profiles/mate-audio-profiles-test.c: (main):
+	* profiles/mate-media-profiles.c:
+	General cleanups: Remove unused variables, mark code static, add
+	missing prototypes and includes etc. Bug #552748.
+
+2008-11-07  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.ac: Raise glib dependency to 2.18 for the new
+	translations functions used in mate-volume-control.
+
+2008-11-06  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Add canberra dep.
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Add new directory.
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* Makefile.am:
+	* configure.ac:
+	Added mate-volume-control sub-module.  Only
+	built if pulseaudio is available.
+
+2008-11-03  William Jon McCann  <jmccann@redhat.com>
+
+	* configure.ac: Post branch version bump
+
+=== release 2.24.0.1 ===
+
+2008-09-24  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: Prepare release.
+
+2008-09-23  Brian Cameron  <brian.cameron@sun.com>
+
+	* COPYING, COPYING.gst-mixer, COPYING.profiles, COPYING.vu-meter:
+	  Add new COPYING files so that license information is more clear.
+	* Makefile.am: Add new COPYING files to EXTRA_DIST.
+	* grecord/COPYING, grecord/Makefile.am: Remove extra COPYING file
+	  since the top-level directory already contains the same information.
+	* README: Add some information about which license files relate to
+	  which sub-components.
+
+=== release 2.24.0 ===
+
+2008-09-23  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: Prepare release.
+
+2008-09-13  Patryk Zawadzki  <patrys@pld-linux.org>
+
+	* grecord/mate-sound-recorder.desktop.in.in: add Audio
+	category (#552047)
+
+2008-09-08  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.ac: Post release increment 2.24.0
+
+=== release 2.23.92 ===
+
+2008-09-08  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: Prepare release.
+
+2008-09-07  Gilles Dartiguelongue  <gdartigu@svn.mate.org>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* configure.in:
+	* gst-mixer/src/Makefile.am:
+	* m4/as-version.m4: Modernize autofoo, bug #550919.
+	Rename configure.in to configure.ac, use a modern
+	version of AS_VERSION, remove duplicate of ACLOCAL flags,
+	remove tabs and trailing ws, print CFLAGS, use
+	MATE_COMPILE_FLAGS, change autogen.sh accordingly,
+	remove the weird unused MAIL_TRANSFERT_AGENT, make a more
+	appropriate summary by moving mate-cd and deprecated stuff
+	to the end.
+	Patch by Marc-André Lureau  <marcandre.lureau@gmail.com>
+	and Gilles Dartiguelongue  <gdartigu@svn.mate.org>.
+
+2008-09-05  Matthias Clasen  <mclasen@redhat.com>
+
+	Bug 550931 – use standard icon name for cd icon
+
+	* gst-mixer/src/track.c: Use the standard icon name
+	media-optical instead of media-cdrom.
+
+2008-09-04  Gilles Dartiguelongue  <gdartigu@svn.mate.org>
+
+	reviewed by: Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: allow building without esd, bug #550307.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: Post release increment 2.23.92
+
+=== release 2.23.91 ===
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: Prepare release.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: Add automatic stow support.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: Bump version number to 2.23.91
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.in: Remove last bit of mate-vfs from the configure
+	(Closes: #516090)
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.in: Port mate-sound-recorder to GIO (Helps: #516090)
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.in:
+	* profiles/audio-profile-choose.c (gm_audio_profile_choose_new):
+	Patch from Gustavo Noronha <gns@mate.org> to port the media profiles
+	to use GIO (Helps: #516090)
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.in: Remove recent-files sub-directory
+
+2008-07-30  Sebastien Bacher  <seb128@ubuntu.com>
+
+	* profiles/mate-audio-profiles.schemas.in.in:use oga naming
+          rather than ogg for the ogg vorbis audio profile (bug #543306)
+
+2008-06-21  Kjartan Maraas  <kmaraas@mate.org>
+
+	* gst-mixer/src/track.c: Remove non-existing include to fix build.
+
+2008-06-21  Kjartan Maraas  <kmaraas@mate.org>
+
+	* gst-mixer/src/element.c: (mate_volume_control_element_change):
+	* gst-mixer/src/preferences.c: (cb_toggle):
+	* gst-mixer/src/track.c: (mate_volume_control_track_add_playback):
+	* gst-mixer/src/volume.c: (mate_volume_control_volume_size_req),
+	(mate_volume_control_volume_size_alloc):
+	* profiles/audio-profiles-edit.c: (gm_audio_profiles_edit_init):
+	* profiles/gmp-util.c: (gmp_util_run_error_dialog):
+	* profiles/mate-audio-profiles-test.c: (main):
+
+2008-06-16  Brian Cameron  <brian.cameron@sun.com>
+
+	* volume.[ch], track.c: Remove call to mate_volume_control_volume_sync
+	  in cb_mute_toggled.  This causes problems for the SunAudio mixer.  It
+	  is better for the mixer plugin itself to update state as needed.
+	  Also remove the mate_volume_control_volume_sync function itself
+	  since nothing more calls it.  Fixes bug #537028.
+
+=== release 2.23.3 ===
+
+2008-06-02  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: Release 2.23.3
+
+2008-06-02  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/track.c (mate_volume_control_track_update):
+	* gst-mixer/src/volume.c (mate_volume_control_volume_update):
+	Stop muting the track when volume is zero, and doing weird things
+	that do more harm than good.
+	(Closes #341021)
+
+2008-06-02  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/element.c (cb_notify_message): Fix warning
+	introduced by previous change.
+
+2008-06-02  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/element.c:
+	* gst-mixer/src/track.{c,h}:
+	* gst-mixer/src/volume.{c,h}:
+
+	Listen to GStreamer bus events for mixers that supports it.
+	(Closes #462164)
+
+2008-06-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* Makefile.am (INTLTOOL_BUILT): Add back intltool*.
+	I screwed up with last dist?! crap.
+
+2008-06-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/element.{c,h}:
+	* gst-mixer/src/preferences.c (get_mateconf_key):
+	* gst-mixer/src/window.c (mate_volume_control_window_new):
+
+	Fix wrong track list displayed on startup.
+	(Closes #535058)
+
+	Fix enable/disable the wrong tracks, again.
+	(bug #528252)
+
+2008-06-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/track.c (mate_volume_control_track_add_option),
+	* gst-mixer/src/element.c (cb_mateconf),
+
+	Use g_str_equal () and check arguments.
+	(Closes #441641)
+
+2008-06-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/window.c (cb_change),
+	gst-mixer/src/preferences.c (set_mateconf_track_active):
+
+	Remove MateConf values and use higher level functions instead.
+
+2008-05-26  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	Based on patch by: Louis-Francis Ratté-Boulianne
+
+	* mate-volume-control-ui.xml: deleted.
+
+	* src/button.{c,h}, src/element.{c,h}, src/track.{c,h},
+	src/volume.{c,h}, src/window.{c,h}: Make g-v-c a capplet, with
+	some custom accelerators.
+	(Closes #349951)
+
+2008-05-26  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: version 2.23.3
+
+2008-05-26  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	Patch by: Sam Morris
+
+	* gst-mixer/src/misc.c (get_page_description): match the title of
+	the tabs.
+	(Closes #534090)
+
+2008-05-20  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	Patch by: Sam Morris
+
+	* gst-mixer/src/preferences.c (g_v_c_preferences_change):
+	Display the track column in "Preferences" dialog.
+
+2008-05-09  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	Patch by: Sam Morris
+
+	* gst-mixer/src/preferences.c (sort_by_page_num)
+	(mate_volume_control_preferences_init):
+	Sort mixer tracks by their type.
+	(Closes #528064)
+
+2008-04-21  Jens Granseuer  <jensgr@gmx.net>
+
+	* gst-mixer/src/button.c: (mate_volume_control_button_clicked):
+	* gst-mixer/src/window.c: (mate_volume_control_window_new): don't
+	declare variables in the middle of a code block. Fixes build with
+	older compilers (bug #529083)
+
+=== release 2.23.1.1 ===
+
+2008-04-20  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: release 2.23.1.1: intltool 0.35 is enough
+	according to dobey. Fix a mate-record configure regression.
+
+2008-04-20  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in (MATE_MEDIA_VERSION): 2.23.2, back to dev.
+
+=== release 2.23.1 ===
+
+2008-04-20  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: upd
+	* configure.in: version 2.23.1
+
+2008-04-20  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* autogen.sh, configure.in: depends on intltool 0.39.99
+	* Makefile.am (INTLTOOL_BUILT): no more necessary to ship
+
+2008-04-19  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: remove gst-inspect build dependencies.
+
+2008-04-17  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* gst-mixer/src/preferences.c (cb_mateconf): mixer track
+	enable/disable toggles toggle the wrong tracks!
+	(Closes: #528252)
+
+2008-03-27  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* grecord/src/gsr-window.c (seconds_to_full_string): use ngettext
+	for plural forms. Based on rhythmdb_compute_status_normal.
+	(Closes: #504419)
+
+2008-03-25  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: added AM_PROG_CC_C_O, as per autofoo warning:
+	compiling `mate-audio-profiles-properties.c' with per-target
+	flags requires `AM_PROG_CC_C_O' in `configure.in'
+
+	* acinclude.m4->m4/esd.m4, Makefile.am (EXTRA_DIST): move
+	acinclude.m4 to m4 directory.
+
+2008-03-25  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* AUTHORS (Maintainers): updated.
+
+2008-03-25  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* autogen.sh (REQUIRED_INTLTOOL_VERSION): 0.35.
+	* omf-install/.cvsignore, omf-install/Makefile.am, omf.make,
+	xmldocs.make: removed
+
+2008-03-25  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* BUGS, HACKING, TODO, mate-media.spec.in: deleted.
+	* README: updated.
+
+2008-03-24  Jaap A. Haitsma  <jaap@haitsma.org>
+
+	reviewed by: Marc-Andre Lureau
+
+	* configure.in: Disable mate-cd and cddb-slave by default
+	(Closes: #524097)
+
+2008-03-24  Jaap Haitsma  <jaap@haitsma.org>
+
+	reviewed by: Marc-Andre Lureau
+
+	* gst-mixer/src/preferences.c:
+	(mate_volume_control_preferences_class_init),
+	(mate_volume_control_preferences_dispose),
+	(mate_volume_control_preferences_response):
+	Use G_DEFINE_TYPE for preferences type
+
+2008-03-24  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	reviewed by: Marc-Andre Lureau
+
+	* grecord/src/mate-recorder.c: (gsr_open_window):
+	* grecord/src/gsr-window.c: (fill_in_information):
+	  Use g_filename_from/to_utf8() so that grecord doen't crash.
+	  (Closes: #524099)
+
+2008-03-24  Jaap Haitsma  <jaap@haitsma.org>
+
+	reviewed by: Marc-Andre Lureau
+
+	* configure.in:
+	* gst-mixer/Makefile.am:
+	* gst-mixer/mate-volume-control-ui.xml:
+	* gst-mixer/icons/16x16/Makefile.am:
+	* gst-mixer/icons/16x16/devices/Makefile.am:
+	* gst-mixer/icons/16x16/status/Makefile.am:
+	* gst-mixer/icons/Makefile.am:
+	* gst-mixer/pixmaps/Makefile.am:
+	* gst-mixer/src/Makefile.am:
+	* gst-mixer/src/button.c: (mate_volume_control_button_class_init),
+	(mate_volume_control_button_init),
+	(mate_volume_control_button_dispose),
+	(mate_volume_control_button_new),
+	(mate_volume_control_button_clicked),
+	(mate_volume_control_button_mouseover),
+	(mate_volume_control_button_mouseout):
+	* gst-mixer/src/button.h:
+	* gst-mixer/src/element.c:
+	(mate_volume_control_element_class_init),
+	(mate_volume_control_element_init),
+	(mate_volume_control_element_new),
+	(mate_volume_control_element_dispose),
+	(mate_volume_control_element_change):
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/main.c: (main):
+	* gst-mixer/src/misc.c:
+	* gst-mixer/src/preferences.c:
+	* gst-mixer/src/stock.h:
+	* gst-mixer/src/track.c: (mate_volume_control_track_add_title),
+	(mate_volume_control_track_put_switch),
+	(mate_volume_control_track_add_playback),
+	(mate_volume_control_track_add_recording),
+	(mate_volume_control_track_add_switch),
+	(mate_volume_control_track_add_option):
+	* gst-mixer/src/track.h:
+	* gst-mixer/src/volume.c: (mate_volume_control_volume_class_init),
+	(mate_volume_control_volume_init), (cb_mouseover), (cb_mouseout),
+	(get_button), (mate_volume_control_volume_new),
+	(mate_volume_control_volume_dispose),
+	(mate_volume_control_volume_size_alloc),
+	(mate_volume_control_volume_expose):
+	* gst-mixer/src/volume.h:
+	* gst-mixer/src/window.c: (menu_item_select_cb),
+	(menu_item_deselect_cb), (connect_proxy_cb), (disconnect_proxy_cb),
+	(cb_change), (cb_exit), (cb_preferences_destroy), (cb_preferences),
+	(open_uri), (cb_help), (cb_about),
+	(mate_volume_control_window_dispose),
+	(mate_volume_control_window_class_init),
+	(mate_volume_control_window_init),
+	(mate_volume_control_window_new):
+	* gst-mixer/src/window.h:
+	Use GtkUIManager i.s.o. deprecated libmateui
+	Remove libmateui as a dependency
+	Use tango icons if possible and make all icons themeable
+	Install deprecated icons from the application itself. Now we just need
+	a pixel pusher to make us some nice tango icons for the remaining icons
+	Use G_DEFINE_TYPE macro for our own types
+	Fixes bug #494031 and bug #310883
+
+2008-03-23  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/audio-profile.c (gm_audio_profile_get_type): use
+	G_DEFINE_TYPE, use "self" where appropriate instead of "profile"
+	for object methods.
+
+2008-03-23  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	reviewed by: Marc-Andre Lureau
+
+	* grecord/src/gsr-window.c (file_open_cb, do_save_file,
+	file_save_as_cb, close_confirmation_dialog, fill_in_information,
+	play_cb, gsr_window_set_property): Use g_filename_to_utf8() so
+	that grecord doen't crash.
+	(Closes: #483254)
+
+2008-03-22  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/audio-profile-choose.c (audio_profile_forgotten):
+	Remove deleted profiles from the profile choose combo-box.
+	Replace GMP_DEBUG macro with GST_DEBUG.
+
+	* grecord/src/gsr-window.c: more checking before string
+	comparisons. (Bug #493503)
+
+2008-03-22  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* mate-cd/linux-cdrom.c: return FALSE when track_info is NULL.
+	(Closes: #430824)
+
+2008-03-18  LoÃ¯c Minier <lool@dooz.org>
+
+	* gst-mixer/src/element.c: Only show a separator at the left of the
+	Playback control if a previous control has been visible; patch by
+	Matt Krai; fixes #415353
+
+2008-03-17  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* gst-mixer/src/track.c: (mate_volume_control_track_add_option):
+	Use gst_mixer_options_list_values() instead of accessing the
+	mixer options structure directly; this gives implementations
+	a change to return an updated list on request (and know when
+	it's safe to update the structure value). This is required
+	for mixer implementations where the list of available options
+	may change, such as OSSv4.
+	(Closes: #519544)
+
+2008-03-17  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/audio-profiles-edit.c (gm_audio_profiles_edit_init):
+	* gst-mixer/src/track.c, profiles/audio-profiles-edit.c: Move code
+	comments to avoid them being close to translatable strings.
+	(Closes: #504422)
+
+2008-03-17  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* profiles/audio-profiles-edit.c: Use gtk_stock_add to avoid crash
+	when started multiple times.
+	(Closes: #448706)
+
+2008-03-17  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	patch by: Andrea Del Signore
+	reviewed by: Ronald Bultje & Bastien Nocera
+
+	* gst-mixer/src/main.c, gst-mixer/src/window.c,
+	gst-mixer/src/window.h: Specify tab at startup. Removed
+	unnecessary g_print, as suggested by Bastien from the original
+	patch.
+	(Closes: #349106)
+
+2008-03-11  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* configure.in: 2.23.0, back to dev.
+	* MAINTAINERS: Removed Thomas and Ronald: thank you both!
+	Adding Bastien and me.
+
+=== release 2.22.0 ===
+
+2008-03-10  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* NEWS: upd
+	* configure.in: 2.22.0
+
+2008-03-10  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* gstreamer-properties/help/gstreamer-properties.omf.in: Generate
+	a "seriesid" different from g-s-r, as suggested by ChPe:
+	4b74e078-eebf-11dc-9b4b-a29c33073fb7
+	(Closes #405821)
+
+2007-10-22  Brian Cameron  <brian.cameron@sun.com>
+
+	* profiles/audio-profiles-edit.c: Change definition of edit_item to
+	  "static const" instead of "const".  This fixes a bug on Solaris
+	  using Sun Studio compiler where the Edit label was not appearing.
+
+2007-10-18  Bastien Nocera  <hadess@hadess.net>
+
+	* gst-mixer/src/window.c: (mate_volume_control_window_init),
+	(mate_volume_control_window_new):
+	 - Sanitise the height/width values we get from MateConf so we get a decent
+	 width/height on the main window on startup
+	 - reset the "active-element" MateConf key to the currently selected
+	 element if the one in MateConf isn't available
+	(Closes: #485411)
+
+2007-10-17  Bastien Nocera  <hadess@hadess.net>
+
+	* gst-mixer/src/element.h: Fix no tracks showing up
+	at all with newer laptops that only have a "Front" track
+	(Closes: #487623)
+
+2007-10-12  Christian Persch  <chpe@mate.org>
+
+	* gst-mixer/src/element.c:
+	* gst-mixer/src/main.c:
+	* gst-mixer/src/misc.c:
+	* gst-mixer/src/preferences.c:
+	* gst-mixer/src/track.c:
+	* gst-mixer/src/volume.c: Include <glib/gi18n.h>. Bug #483876.
+	* gst-mixer/src/window.c: (cb_about): Fix programme name with gtk+
+	2.12. Bug #483893.
+
+2007-09-20  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* mate-cd/doc/mate-cd.omf.in:
+	* grecord/doc/mate-sound-recorder.omf.in:
+	* gst-mixer/doc/mate-volume-control.omf.in:
+	* gstreamer-properties/help/gstreamer-properties.omf.in:
+	Adding missing files from the doc-utils migration.
+
+=== release 2.20.1 ===
+
+2007-09-19  Bastien Nocera  <hadess@hadess.net>
+
+	* NEWS: upd
+	* configure.in: 2.20.1
+
+=== release 2.20.0 ===
+
+2007-09-17  Bastien Nocera  <hadess@hadess.net>
+
+	* NEWS: upd
+	* configure.in: 2.20.0
+
+2007-09-08  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* configure.in:
+	  Fix build of gstreamer-properties against an
+	  uninstalled copy of GStreamer.
+
+=== release 2.19.92 ===
+
+2007-09-07  Bastien Nocera  <hadess@hadess.net>
+
+	* NEWS: upd
+	* configure.in: 2.19.92
+
+2007-09-07  Bastien Nocera  <hadess@hadess.net>
+
+	* gst-mixer/src/track.c: (cb_option_changed): Simplify
+	getting the text from the combobox
+
+2007-09-06  Bastien Nocera  <hadess@hadess.net>
+
+	* configure.in: No need to check for scrollkeeper anymore,
+	we use mate-doc-utils
+
+2007-08-23  Yannig Marchegay <yannig@marchegay.org>
+
+	* oc/oc.po: Added Occitan translation
+
+2007-07-20  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	reviewed by: Danilo Segan & folks
+
+	* .cvsignore:
+	* Makefile.am:
+	* configure.in:
+	* mate-cd/doc/C/Makefile.am:
+	* mate-cd/doc/C/mate-cd-C.omf:
+	* mate-cd/doc/C/mate-cd.xml:
+	* mate-cd/doc/Makefile.am:
+	* mate-cd/doc/de/Makefile.am:
+	* mate-cd/doc/es/Makefile.am:
+	* mate-cd/doc/fr/Makefile.am:
+	* mate-cd/doc/it/Makefile.am:
+	* mate-cd/doc/ja/Makefile.am:
+	* mate-cd/doc/ko/Makefile.am:
+	* mate-cd/doc/nl/Makefile.am:
+	* mate-cd/doc/sv/Makefile.am:
+	* mate-cd/doc/uk/Makefile.am:
+	* mate-cd/doc/zh_CN/Makefile.am:
+	* mate-cd/doc/zh_TW/Makefile.am:
+	* grecord/doc/C/Makefile.am:
+	* grecord/doc/C/mate-sound-recorder.xml:
+	* grecord/doc/C/grecord-C.omf:
+	* grecord/doc/Makefile.am:
+	* grecord/doc/de/Makefile.am:
+	* grecord/doc/es/Makefile.am:
+	* grecord/doc/fr/Makefile.am:
+	* grecord/doc/it/Makefile.am:
+	* grecord/doc/ja/Makefile.am:
+	* grecord/doc/ko/Makefile.am:
+	* grecord/doc/sv/Makefile.am:
+	* grecord/doc/uk/Makefile.am:
+	* grecord/doc/zh_CN/Makefile.am:
+	* grecord/doc/zh_TW/Makefile.am:
+	* gst-mixer/doc/C/mate-volume-control-C.omf:
+	* gst-mixer/doc/C/mate-volume-control.xml:
+	* gst-mixer/doc/Makefile.am:
+	* gst-mixer/doc/uk/Makefile.am:
+	* gstreamer-properties/help/C/Makefile.am:
+	* gstreamer-properties/help/C/gstreamer-properties-C.omf:
+	* gstreamer-properties/help/C/gstreamer-properties.xml:
+	* gstreamer-properties/help/Makefile.am:
+	* gstreamer-properties/help/uk/Makefile.am:
+	mate-doc-utils migration (#405821).
+
+2007-06-15  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@mate.org>
+
+	* gst-mixer/src/element.c:
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/preferences.c:
+	* gst-mixer/src/track.c:
+	  Use "untranslated-label" property from GstMixerTrack since 0.10.13.
+	  Based on Tim-Philipp MÃ¼ller  <tim at centricular dot net> (#416595).
+
+2007-05-16  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	* profiles/audio-profiles-edit.c:
+	* profiles/gmp-util.h:
+	  Use gi18n-lib.h instead of gi18n.h (#438866).
+
+2007-05-14  Michael Terry  <mterry@mate.org>
+
+	* gst-mixer/mate-volume-control.desktop.in.in: Remove png
+	suffix from icon
+
+	* gst-mixer/src/main.c: (main): Use "multimedia-volume-control"
+	from theme not "mixer.png" from pixmaps
+
+	* gst-mixer/src/window.c: (cb_about): Use
+	"multimedia-volume-control" not "volume-knob"
+
+	* gst-mixer/pixmaps/Makefile.am: Don't install mate-mixer.png
+
+	* gst-mixer/pixmaps/mate-mixer.png: Delete unused icon
+
+2007-05-06  Kjartan Maraas  <kmaraas@mate.org>
+
+	* gst-mixer/mate-volume-control.desktop.in.in:
+	Add category for the new control-center shell. Alex Smith.
+	Closes bug #429904.
+
+2007-04-19  Bastien Nocera  <hadess@hadess.net>
+
+	* profiles/audio-profile-edit.c: (gm_audio_profile_edit_new):
+	* profiles/audio-profiles-edit.c: (edit_button_clicked),
+	(delete_button_clicked), (gm_audio_profiles_edit_new),
+	(gm_audio_profiles_edit_new_profile):
+	Make the edit dialogues modal so that they are editable in
+	sound-juicer and Rhythmbox, remove an unused and unexported
+	function (Closes: #406739)
+
+2007-03-12  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.18.0 ===
+
+2007-03-12  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.18.0.
+
+2007-03-11  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+
+	* gst-mixer/mate-volume-control.desktop.in.in:
+	* gstreamer-properties/gstreamer-properties.desktop.in.in:
+	* cddb-slave2/cddb-slave.desktop.in.in:
+	* mate-cd/mate-cd.desktop.in.in:
+	* vu-meter/reclevel.desktop.in.in:
+	* vu-meter/vumeter.desktop.in.in:
+	Removed invalid categories that are not part of the
+	freedesktop.org specification.
+
+2007-03-05  Brian Cameron  <brian.cameron@sun.com>
+
+	* profiles/audio-profile-private.h, profiles/audio-profile.c,
+	  profiles/mate-audio-profiles-test.c: Add missing LGPL license.
+	  Fixes bug #413736.
+
+2007-02-16  Bastien Nocera  <hadess@hadess.net>
+
+	* gstreamer-properties/gstreamer-properties.desktop.in.in:
+	Don't display the "Multimedia Systems Selector" item in the menus
+	(Closes: #408292)
+
+2007-02-12  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.17.91 ===
+
+2007-02-12  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.17.91.
+
+2007-02-12  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* grecord/src/gsr-window.c: (gsr_window_init):
+	  Make statusbar accessible using tab-browsing (#365176). Patch by
+	  Patrick Wade <Patrick.Wade@sun.com>.
+
+2007-02-12  Ronald S. Bultje  <rbultje@mate.org>
+
+	* gst-mixer/mate-volume-control.desktop.in.in:
+	  Remove invalid Application category (#405427).
+
+2007-02-12  Ronald S. Bultje  <rbultje@mate.org>
+
+	* Makefile.am:
+	* configure.in:
+	  Allow to disable components individually. Patch by Rene Vahtel
+	  <vahtel@starman.ee> (#319277).
+
+2007-02-12  Brian Cameron  <brian.cameron@sun.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@mate.org>
+
+	* mate-cd/gst-cdrom.c: (gst_cdrom_is_cdrom_device):
+	  Ignore GST_CDROM_IOCTL_CDCAPABILITY_REQUEST (#326628).
+
+2007-02-12  Irene Huang  <Irene.Huang@sun.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@mate.org>
+
+	* grecord/src/gsr-window.c: (gsr_window_init):
+	  Add relationship labelled by for priv->input and priv->profile
+	  combobox and their labels.
+
+2007-02-06  Sebastien Bacher  <seb128@ubuntu.com>
+
+	* gst-mixer/src/volume.c: (get_scale):
+	- don't use int values for gtk_adjustment_new (), fix scrollwheel
+	  not working to adjust the volume (Closes: #400498)
+
+2007-02-03  Jens Granseuer  <jensgr@gmx.net>
+
+	* gst-mixer/src/track.c: (cb_check):
+	Make sure we don't call gst_mixer_get_volume() with a NULL pointer.
+	Closes #402165.
+
+2007-01-23  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* mate-cd/mate-cd.c: (main):
+	* grecord/src/mate-recorder.c: (main):
+	* gstreamer-properties/gstreamer-properties.c: (main):
+	  Call g_thread_init() before calling any other GLib function here too.
+	  Closes #399807.
+
+2007-01-23  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/src/main.c: (main):
+	  Add g_thread_init() call to workaround new glib "feature" where
+	  lazy loading no longer works (#399710, plus see bugs referenced
+	  in there).
+
+2007-01-22  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	  And development continues.
+
+=== release 2.17.90 ===
+
+2007-01-22  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.17.90.
+
+2007-01-22  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* profiles/audio-profile.c: (gm_audio_profile_create):
+	  Don't mark file extension for i18n.
+
+2007-01-22  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gstreamer-properties/gstreamer-properties.desktop.in.in:
+	  Hide by default (see also #397949).
+
+2007-01-14  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* mate-cd/display.c: (cd_display_parse_theme):
+	* mate-cd/preferences.c: (do_theme_changed):
+	  Don't crash when changing theme without being displayed (#380124).
+
+2007-01-14  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gstreamer-properties/gstreamer-properties.desktop.in.in:
+	  For new control center categories, add gstreamer-properties to the
+	  system-settings group, also (#395499). Patch by Denis Washington
+	  <dwashington@gmx.net>.
+
+2007-01-14  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/src/track.c: (cb_check):
+	  Fix segfault (#396023).
+
+2007-01-08  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/doc/C/mate-volume-control.xml:
+	  s/Settings/Edit/ (#316363).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* mate-cd/mate-cd.schemas.in.in:
+	  Remove whitespace before punctuation (#327012).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* mate-cd/mate-cd.c: (main):
+	  s/tray/notification area/, patch by Michael Arnauts
+	  <michael.arnauts+bgo@gmail.com> (#308340).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* grecord/src/gsr-window.c: (gsr_window_init):
+	  Set show_arrow to FALSE, so that the toolbar cannot be hidden
+	  when the text of the labels is too large. Idea provided by
+	  Jeff Fortin <nekohayo@gmail.com> (#355085).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/src/track.c: (cb_check):
+	  C89 fix by Jens Franseuer <jensgr@gmx.net> (#393998).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* profiles/mate-audio-profiles.glade2:
+	  Increase default width so that more text fits on the screen
+	  (e.g. the description or the gst-pipeline). Patch provided by
+	  Harm Hilvers <harm@tweakers.net> (#330050).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* profiles/audio-profile-edit.c: (on_profile_description_changed),
+	(gm_audio_profile_edit_new), (textview_set_text_if_changed),
+	(gm_audio_profile_edit_update_description):
+	* profiles/mate-audio-profiles.glade2:
+	  Change entry into a textview, so that the big description fits
+	  on the screen of unsuspecting users (#330050).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	  Back to dev mode.
+
+=== release 2.17.2 ===
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.17.2.
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* grecord/src/gsr-window.c: (do_save_file), (file_save_as_cb),
+	(record_state_changed_cb), (gsr_window_set_property):
+	  Save extension when recording start, so that if the profile
+	  selection changes, we don't provide a false extension hint for
+	  the already-recorded file (#300571).
+
+2007-01-07  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* grecord/src/gsr-window.c: (pipeline_error_cb), (file_save_cb),
+	(play_state_changed_cb), (record_state_changed_cb),
+	(gsr_window_set_property):
+	* grecord/src/ui.xml:
+	  Remove save-as from toolbar, make save behave as save-as if no
+	  filename has been given yet.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* profiles/mate-audio-profiles.schemas.in.in:
+	  Change speex extension from ogg to spx (#328386).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* profiles/audio-profiles-edit.c: (profile_activated_callback),
+	(edit_button_clicked):
+	  Don't run edit dialogs, no need to, plus it makes them modal
+	  (#317430).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	* profiles/audio-profile.c: (gm_audio_profile_get_active_list):
+	* profiles/mate-audio-profiles.schemas.in.in:
+	  Include AAC and MP3 profiles. Only show profiles if they parse
+	  (i.e. if the plugins exist). Fixes #317257. Based on a patch by
+	  Ed Catmur <ed@catmur.co.uk>.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* vu-meter/gtkled.c: (gtk_led_init), (gtk_led_size_request),
+	(gtk_led_size_allocate), (gtk_led_expose):
+	* vu-meter/gtkled.h:
+	* vu-meter/gtkledbar.c: (led_bar_new):
+	* vu-meter/main.c: (main):
+	  Implement dynamic resizing (#315257), patch by Brent Smith
+	  <mate@nextreality.net>.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/src/Makefile.am:
+	* gst-mixer/src/element.c: (mate_volume_control_element_dispose):
+	* gst-mixer/src/misc.c: (get_page_num), (get_page_description):
+	* gst-mixer/src/misc.h:
+	* gst-mixer/src/preferences.c:
+	(mate_volume_control_preferences_init),
+	(mate_volume_control_preferences_change):
+	* gst-mixer/src/track.c: (should_toggle_record_switch),
+	(cb_toggle_changed), (cb_check),
+	(mate_volume_control_track_add_title),
+	(mate_volume_control_track_add_switch):
+	  Don't duplicate devices for the Audigy (#313495). Patch by
+	  Sam Morris <sam@robots.org.uk>.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/src/volume.c: (get_scale):
+	  Dynamically set the step-size and change page-size so it is more
+	  accessible for keyboard-use.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* profiles/mate-audio-profiles.glade2:
+	  Remove cancel/ok buttons, change to close, since it's instant-apply
+	  anyway (#346386).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gst-mixer/src/element.c: (mate_volume_control_element_dispose),
+	(mate_volume_control_element_change):
+	* gst-mixer/src/track.c: (mate_volume_control_track_free):
+	* gst-mixer/src/window.c: (mate_volume_control_window_dispose):
+	  Clean up on close, so that we don't crash if the idle handler
+	  comes in between the final exit() and the cleanup (#361887).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	  Set correct gtk version dependency for GtkStatusIcon.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* grecord/src/gsr-window.c: (file_save_as_cb):
+	  Patch by jerry tan <jerry.tan@sun.com> to not crash after we
+	  close the window though saving the file (#367442).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gstreamer-properties/gstreamer-properties.c:
+	(gst_properties_mateconf_get_string),
+	(gst_properties_mateconf_set_string):
+	  Use G_GNUC_PRETTY_FUNCTION instead of __FUNCTION__, so that it
+	  works on non-gcc compilers (#383106).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gstreamer-properties/gstreamer-properties.c:
+	  Fix indenting.
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gstreamer-properties/gstreamer-properties.c:
+	(update_device_menu):
+	* profiles/gmp-util.c: (gmp_util_run_error_dialog):
+	  C89 compile fixes by Jens Granseuer <jensgr@gmx.net> (#387868).
+
+2007-01-06  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* gstreamer-properties/gstreamer-properties.c:
+	(create_pipeline_menu):
+	  Use gettext(), not _(), since it's not a constant string.
+	* gstreamer-properties/pipeline-constants.c:
+	  Mark pipeline descriptors for translation, patch provided by
+	  Gabor Kelemen <kelemeng@mate.hu> (#393527).
+
+2007-01-06  Ronald S. Bultje  <rbultje@mate.org>
+
+	* configure.in:
+	* mate-cd/access/Makefile.am:
+	  Explicit dependency on libxml2 (#388728).
+
+2007-01-06  Ronald S. Bultje  <rbultje@mate.org>
+
+	* profiles/audio-profile.c: (gm_audio_profile_create):
+	  Don't internationalize a gstreamer element (#383469).
+
+2006-12-19  Ronald S. Bultje  <rbultje@mate.org>
+
+	* configure.in: Dev mode.
+
+=== Release 2.17.1 ===
+
+2006-12-19  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* NEWS: Release 2.17.1.
+
+2006-12-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* profiles/Makefile.am:
+	* profiles/audio-profile-edit.c: (gm_audio_profile_edit_init),
+	(gm_audio_profile_edit_class_init),
+	(gm_audio_profile_edit_finalize), (gm_audio_profile_edit_response),
+	(gm_audio_profile_edit_dispose), (gm_audio_profile_edit_new):
+	* profiles/audio-profiles-edit.c:
+	(gm_audio_profile_manage_register_stock),
+	(on_gm_audio_profiles_edit_response),
+	(gm_audio_profiles_edit_init), (gm_audio_profiles_edit_class_init),
+	(gm_audio_profiles_edit_finalize):
+	* profiles/gmp-util.h:
+	* profiles/mate-audio-profiles-properties.c: (main):
+	* profiles/mate-audio-profiles.glade2:
+	HIGify the dialogs. Patch from Christian Persch. Closes bug #332563.
+
+2006-12-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* profiles/audio-profiles-edit.c: (delete_button_clicked),
+	(new_profile_response_callback),
+	(gm_audio_profiles_edit_new_profile):
+	* profiles/gmp-util.c: (gmp_util_run_error_dialog):
+	* profiles/gmp-util.h:
+	Fix for error dialogues that can't be closed. Patch from Stephen Cook
+	Closes bug #323600.
+
+2006-12-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Link to -lgstinterfaces too.
+
+2006-12-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* grecord/.cvsignore:
+	* gst-mixer/src/element.c: (mate_volume_control_element_change):
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/track.c:
+	(mate_volume_control_track_add_recording):
+	* gst-mixer/src/track.h: Fix terminology. s/Capture/Record.
+	Reported by Calum Benson. Patch from Brian Cameron. Closes
+	bug #348253.
+
+2006-12-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version and use IT_PROG_INTLTOOL.
+
+2006-10-01  Wouter Bolsterlee  <wbolster@mate.org>
+
+	* profiles/mate-audio-profiles-properties.c: (main):
+	Use a fancy window icon. Fixes bug #340303.
+
+2006-09-04  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* vu-meter/Makefile.am:
+	  Almost right!
+
+2006-09-04  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* configure.in:
+	  Back to dev.
+
+=== release 2.16.1 ===
+
+2006-09-04  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* NEWS:
+	* configure.in:
+	  2.16.1.
+
+2006-09-04  Ronald S. Bultje,,,  <rbultje@mate.org>
+
+	* vu-meter/Makefile.am:
+	  Fix .desktop installation (#354362).
+
+2006-09-03  Ronald S. Bultje  <rbultje@mate.org>
+
+	* configure.in:
+	  Back to development.
+
+=== release 2.16.0 ===
+
+2006-09-03  Ronald S. Bultje  <rbultje@mate.org>
+
+	* cddb-slave2/cddb-slave.desktop.in:
+	* cddb-slave2/cddb-slave.desktop.in.in:
+	* mate-cd/mate-cd.desktop.in:
+	* mate-cd/mate-cd.desktop.in.in:
+	* grecord/mate-sound-recorder.desktop.in:
+	* grecord/mate-sound-recorder.desktop.in.in:
+	* gst-mixer/mate-volume-control.desktop.in:
+	* gst-mixer/mate-volume-control.desktop.in.in:
+	* gstreamer-properties/gstreamer-properties.desktop.in:
+	* gstreamer-properties/gstreamer-properties.desktop.in.in:
+	* vu-meter/reclevel.desktop.in:
+	* vu-meter/reclevel.desktop.in.in:
+	* vu-meter/vumeter.desktop.in:
+	* vu-meter/vumeter.desktop.in.in:
+	  .desktop.in -> .desktop.in.in conversion
+
+2006-09-03  Ronald S. Bultje  <rbultje@mate.org>
+
+	* Makefile.am:
+	  Fix distdir target.
+	* NEWS:
+	* configure.in:
+	  Release update (2.16.0).
+	* configure.in:
+	* cddb-slave2/Makefile.am:
+	* cddb-slave2/cddb-slave.desktop.in:
+	* mate-cd/Makefile.am:
+	* mate-cd/mate-cd.desktop.in:
+	* grecord/Makefile.am:
+	* grecord/mate-sound-recorder.desktop.in:
+	* gst-mixer/Makefile.am:
+	* gst-mixer/mate-volume-control.desktop.in:
+	* gstreamer-properties/Makefile.am:
+	* gstreamer-properties/gstreamer-properties.desktop.in:
+	* po/POTFILES.in:
+	* vu-meter/Makefile.am:
+	* vu-meter/vumeter.desktop.in:
+	  Add X-MATE-Bugzilla-Version (#348851).
+
+2006-08-25  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Up the requirement for gtk+ in mate-cd.
+
+2006-08-25  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am:
+	* cddb-slave2/Makefile.am:
+	* grecord/src/Makefile.am:
+	* profiles/Makefile.am: Cygwin build fixes
+	from Cygwin ports maintainer. Closes bug #329409.
+
+2006-08-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Fix intltool req.
+
+2006-08-07  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+        * gst-mixer/src/element.c:
+        * gst-mixer/src/preferences.c:
+        * gst-mixer/src/preferences.h:
+          Fixed "Preferences" dialog sync with MateConf.
+          Fixed "Full row in checkbox listing should be clickable" (#336315).
+
+2006-06-17  Stefan Kost  <ensonic@users.sf.net>
+
+	* gst-mixer/src/button.h:
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/preferences.h:
+	* gst-mixer/src/volume.h:
+	* gst-mixer/src/window.h:
+	fix GObject mmacros
+
+2006-06-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/mate-cd.desktop.in:
+	  Add player category (#333450).
+
+2006-05-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Development.
+
+=== release 2.14.2 ===
+
+2006-05-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.14.2.
+
+2006-05-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (record_input_changed_cb):
+	  Leave unselected capture boxes alone (#333476).
+
+2006-05-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.h:
+	  Add capture (for capturing microphone) to whitelist (#169441).
+
+2006-05-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.h:
+	  Add dig. output to whitelist (#336186).
+
+2006-05-29  Vincent Fretin  <vincent.fretin@gmail.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/mate-cd.desktop.in:
+	* grecord/mate-sound-recorder.desktop.in:
+	  Fix desktop categories as in latest freedesktop spec (#333450).
+
+2006-05-29  Mike Auty  <ikelos@gentoo.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/Makefile.am:
+	  Correct order for proper compilation with -Wl,--as-needed (#341361).
+
+2006-05-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Use new intltool (for po file packaging).
+
+2006-05-28  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* gstreamer-properties/pipeline-constants.c:
+	  Change 'XWindows' to 'X Window System' (#343030).
+
+2006-05-24  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* mate-cd/mate-cd.c: (make_popup_menu):
+	  Don't crash when creating the context menu and we
+	  don't have a status (like when there's an error).
+	  Fixes #333442.
+
+2006-05-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* mate-cd/Makefile.am: Patch from Mikhail Zabaluev
+	to fix linking with -Wl,--as-needed. Closes bug #334301.
+
+2006-04-21  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Fix the LINGUAS thing.
+
+2006-04-14  Michael Terry  <mterry@cvs.mate.org>
+
+        * vu-meter/main.c: Convert from popt to GOption (#336147)
+
+2006-04-10  Wouter Bolsterlee  <uws+mate@xs4all.nl>
+
+	* configure.in: use po/LINGUAS
+
+	* po/LINGUAS: new file listing all linguas
+
+2006-04-06  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* configure.in:
+	  Revert bogus commit to configure.in that broke
+	  the build (#337153).
+
+2006-04-04  Gora Mohanty  <gmohanty@cvs.mate.org>
+
+        * configure.in: Added 'or' (Oriya) to ALL_LINGUAS.
+
+2006-03-29  JÃ©rÃ©my Ar Floc'h  <jeremy.lefloch@gmail.com>
+
+	* configure.in (ALL_LINGUAS): Added Breton (br).
+
+2006-03-24  Tommi Vainikainen  <thv@iki.fi>
+
+	* configure.in (ALL_LINGUAS): Added Dzongkha (dz).
+
+2006-03-20  Vladimer Sichinava  <vlsichinava@gmail.com>
+
+        * configure.in: Added "ka" (Georgian) to ALL_LINGUAS
+
+2006-03-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	  back to head
+
+=== release 2.14.0 ===
+
+2006-03-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* NEWS:
+	* configure.in:
+	  releasing
+
+2006-03-03  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* mate-cd/cdrom.c: (timeout_update_cd):
+	* mate-cd/gst-cdrom.c: (gst_cdrom_get_status):
+	  Fix critical warnings when there is no CD drive (#331256).
+
+2006-02-27  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	  back to dev
+
+=== release 2.13.93 ===
+
+2006-02-27  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* NEWS:
+	* configure.in:
+	  releasing
+
+2006-02-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	  back to dev
+
+=== release 2.13.92 ===
+
+2006-02-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* NEWS:
+	* configure.in:
+	  releasing
+
+2006-02-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: Tim-Philipp MÃ¼ller
+
+	* grecord/src/gsr-window.c: (stop_cb), (record_state_changed_cb):
+	  - makes input selection combo box insensitive while recording
+	  - fixes a problem when stopping to record ('Internal Data Flow'
+	    error dialog might pop up when pressing 'Stop')
+	  Fixes #324508
+
+2006-02-10  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* configure.in:
+	* mate-cd/mate-cd.c: (main):
+	* grecord/src/mate-recorder.c: (main):
+	* gst-mixer/src/main.c: (main):
+	* gstreamer-properties/gstreamer-properties.c: (main):
+	  Move options parsing to GOption to make it work properly
+	  in connection with GStreamer 0.10 (which doesn't support
+	  popt). Bumping requirements for libmate/libmateui to 2.13
+	  for the GOptions stuff. (see #324508).
+
+2006-02-10  Tim-Philipp MÃ¼ller  <tim at centricular dot net>
+
+	* configure.in:
+	* grecord/src/gsr-window.c: (make_record_pipeline):
+	  Use newly-added gst_parse_bin_from_description() utility
+	  function from core instead of home-grown stuff, and bump
+	  requirements to 0.10.3 for that. (see #324508)
+
+2006-01-31  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	  back to dev
+
+=== release 2.13.91 ===
+
+2006-01-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.13.91.
+
+2006-01-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* grecord/src/gsr-window.c: (show_missing_known_element_error),
+	(show_profile_error), (make_play_pipeline), (make_record_source),
+	(make_record_pipeline):
+	  Write proper functions and text for error dialogs.  Fixes #321536.
+
+2006-01-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.13.90 ===
+
+2006-01-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.13.90.
+
+2006-01-29  Tim-Philipp MÃ¼ller  <t.i.m@zen.co.uk>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdrom.c: (gst_cdrom_eject):
+	   Fix copyright/ugly comments.
+	* gstreamer-properties/gstreamer-properties.c:
+	(gst_properties_mateconf_get_string),
+	(gst_properties_mateconf_set_string), (main):
+	  Don't recreate MateConf client object for each use.
+
+2006-01-29  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* mate-cd/images: renamed all theme dirs to match installed
+
+2006-01-29  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* mate-cd/display.c: (make_fullname):
+	* mate-cd/images/None-theme/Makefile.am:
+	* mate-cd/images/lcd-theme/Makefile.am:
+	* mate-cd/images/media-theme/Makefile.am:
+	* mate-cd/images/red-lcd-theme/Makefile.am:
+	* mate-cd/theme.c: (theme_check):
+	  revert theme patch, since the list of themes gets built by
+	  listing all directories in the theme dir (ugh).
+	  Will fix by CVS moving the uninstalled dirs instead.
+
+2006-01-21  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	  fix build without GStreamer
+	  fix mate-cd without GStreamer
+	  output a reason for mate-sound-recorder not building at the end
+
+2006-01-21  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* cddb-slave2/cddb-slave.desktop.in:
+	* mate-cd/mate-cd.desktop.in:
+	* grecord/mate-sound-recorder.desktop.in:
+	* gst-mixer/mate-volume-control.desktop.in:
+	* gstreamer-properties/gstreamer-properties.desktop.in:
+	* vu-meter/reclevel.desktop.in:
+	* vu-meter/vumeter.desktop.in:
+	  add GTK to Categories
+
+2006-01-21  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/Makefile.am:
+	  don't build test without GStreamer
+
+2006-01-21  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* autogen.sh:
+	  update requirements for intltoolize; 0.33 contains references to
+	  non-shipped patches
+
+2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gstreamer-properties/pipeline-tests.c: (build_test_pipeline),
+	(user_test_pipeline):
+	  commit another missing patch from the 0.10 branch
+
+2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* README:
+	  remove the transmogrify stuff and patch, now that the branch
+	  has landed
+
+2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* mate-cd/gst-cdrom.c: (gst_cdrom_is_cdrom_device):
+	  commit missing patch from the 0.10 branch
+
+2006-01-19  Elijah Newren  <newren gmail com>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.13.7 ===
+
+2006-01-19  Elijah Newren  <newren gmail com>
+
+	* NEWS:
+	* configure.in:
+	  release 2.13.7.
+
+
+	* grecord/src/gsr-window.c: Remove extraneous 'm' character at the
+	beginning of the file
+
+2006-01-19  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.13.6 ===
+
+2006-01-19  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  release 2.13.6.
+
+2006-01-19  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* Makefile.am:
+	* configure.in:
+	* mate-cd/Makefile.am:
+	* mate-cd/cdrom.c: (cdrom_update_cd):
+	* mate-cd/display.c: (make_fullname):
+	* mate-cd/mate-cd.c: (main):
+	* mate-cd/gst-cdparanoia-cdrom.c:
+	* mate-cd/gst-cdparanoia-cdrom.h:
+	* mate-cd/gst-cdrom.c: (nanoseconds_to_msf),
+	(gst_cdrom_set_playbin_state_to_null), (gst_cdrom_is_cdrom_device),
+	(gst_cdrom_set_volume), (gst_cdrom_pause), (gst_cdrom_eject),
+	(gst_cdrom_next), (gst_cdrom_back), (gst_cdrom_seek_to_time),
+	(gst_cdrom_skip), (gst_cdrom_ffwd), (gst_cdrom_rewind),
+	(gst_cdrom_stop), (gst_cdrom_finalize), (gst_cdrom_init),
+	(gst_cdrom_class_init), (gst_cdrom_error_msg), (gst_cdrom_eos_msg),
+	(gst_cdrom_state_change_msg), (gst_cdrom_tag_msg),
+	(mate_cdrom_new), (object_has_property),
+	(gst_cdrom_notify_source_cb), (gst_cdrom_is_open),
+	(gst_cdrom_ensure_open), (gst_cdrom_set_device),
+	(gst_cdrom_update_cd), (gst_cdrom_update_tray_status),
+	(gst_cdrom_get_status), (gst_cdrom_play),
+	(gst_cdrom_set_cddb_data_from_tags), (gst_cdrom_get_cddb_data):
+	* mate-cd/gst-cdrom.h:
+	* mate-cd/images/None-theme/Makefile.am:
+	* mate-cd/images/lcd-theme/Makefile.am:
+	* mate-cd/images/media-theme/Makefile.am:
+	* mate-cd/images/red-lcd-theme/Makefile.am:
+	* mate-cd/theme.c: (theme_check), (theme_load), (theme_free):
+	* grecord/src/Makefile.am:
+	* grecord/src/mate-recorder.c: (gsr_open_window), (main):
+	* grecord/src/gsr-window.c: (show_error_dialog),
+	(set_pipeline_state_to_null), (shutdown_pipeline), (file_open_cb),
+	(handle_ebusy_error), (notgst_element_get_toplevel),
+	(pipeline_error_cb), (do_save_file), (file_save_as_cb),
+	(run_mixer_cb), (close_confirmation_dialog), (fill_in_information),
+	(about_cb), (play_cb), (stop_cb), (record_cb), (seek_to),
+	(play_tick_callback), (record_tick_callback),
+	(play_state_changed_cb), (pipeline_deep_notify_caps_cb),
+	(profile_changed_cb), (play_eos_msg_cb), (make_play_pipeline),
+	(record_eos_msg_cb), (record_start), (record_state_changed_cb),
+	(notgst_bin_find_unconnected_pad),
+	(notgst_render_bin_from_description), (make_record_source),
+	(record_input_changed_cb), (fill_record_input),
+	(make_record_pipeline), (calculate_format_value), (find_ui_file),
+	(gsr_window_init), (gsr_window_finalize), (gsr_window_class_init),
+	(gsr_window_new):
+	* grecord/src/gsr-window.h:
+	* grecord/src/gst/Makefile.am:
+	* grecord/src/gst/assistant.c:
+	* grecord/src/gst/assistant.h:
+	* grecord/src/gst/manager.c:
+	* grecord/src/gst/manager.h:
+	* gst-mixer/src/element.c:
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/main.c: (mixer_filter_func),
+	(create_mixer_collection), (main):
+	* gst-mixer/src/preferences.c:
+	* gst-mixer/src/preferences.h:
+	* gst-mixer/src/track.h:
+	* gst-mixer/src/volume.c:
+	* gst-mixer/src/volume.h:
+	* gst-mixer/src/window.c: (mate_volume_control_window_dispose):
+	* gstreamer-0.10.patch:
+	* gstreamer-properties/Makefile.am:
+	* gstreamer-properties/gstreamer-properties.c:
+	(gst_properties_mateconf_get_full_key),
+	(gst_properties_mateconf_get_string),
+	(gst_properties_mateconf_set_string), (dialog_response),
+	(test_button_clicked), (update_from_option),
+	(set_menuitem_by_pipeline), (update_from_mateconf),
+	(pipeline_option_changed), (entry_changed), (element_available),
+	(create_pipeline_menu), (init_pipeline_editor), (create_dialog),
+	(main):
+	* gstreamer-properties/pipeline-constants.c:
+	* gstreamer-properties/pipeline-tests.c:
+	(user_test_pipeline_response), (user_test_pipeline_timeout),
+	(build_test_pipeline), (pipeline_error_dlg), (user_test_pipeline):
+	* gstreamer-properties/pipeline-tests.h:
+	* po/POTFILES.in:
+	* profiles/audio-profile-choose.c:
+	* profiles/audio-profiles-edit.c: (count_selected_profiles_func),
+	(selection_changed_callback), (profile_activated_callback),
+	(gm_audio_profiles_edit_init):
+	* profiles/gmp-conf.h:
+	* profiles/mate-audio-profiles-test.c: (edit_clicked_cb),
+	(test_clicked_cb), (main):
+	* profiles/mate-audio-profiles.schemas.in.in:
+	* transmogrify-into-gstreamer-0.10:
+	  Integrate gst-0.10 patch in CVS tree. Needs lots of work.
+
+2006-01-19  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* grecord/src/Makefile.am:
+	* grecord/src/gsr-window.c: (record_cb), (make_record_source),
+	(record_input_changed_cb), (fill_record_input),
+	(make_record_pipeline), (gsr_window_init):
+	  add a drop-down box for selecting the recording channel.
+	  Fixes #305926.
+
+2006-01-19  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/mate-audio-profiles.schemas.in.in:
+	  Add a lossy voice compression, using speex.
+	  Fixes #322900.
+
+2006-01-19  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profiles-edit.c: (count_selected_profiles_func),
+	(selection_changed_callback), (gm_audio_profiles_edit_init):
+	  Correctly handle sensitivity of Edit and Delete.
+	  Fixes #317186.
+
+2006-01-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.13.5 ===
+
+2006-01-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* .cvsignore:
+	* Makefile.am:
+	* NEWS:
+	* README:
+	* configure.in:
+	* gstreamer-0.10.patch:
+	* transmogrify-into-gstreamer-0.10:
+	  Release 2.13.5.
+
+2006-01-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (make_record_pipeline):
+	* gst-mixer/src/main.c: (main):
+	* gstreamer-properties/gstreamer-properties.glade:
+	  Re-remove GStreamer slang.
+
+2006-01-14  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+
+	* configure.in: Added "zh_HK" to ALL_LINGUAS.
+
+2006-01-10  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: Gabor Kelemen
+
+	* gst-mixer/src/volume.c: (get_button):
+	  mark a user-visible string for translation (#326151)
+
+2006-01-10  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* grecord/src/gsr-window.c: (make_play_pipeline),
+	(make_record_pipeline):
+	* gst-mixer/src/main.c: (main):
+	* gstreamer-properties/gstreamer-properties.glade:
+	  Plugins are not elements - plugins provide features, which
+	  can be elements.  Fix the strings back.
+
+2006-01-10  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	Patch by: Raphael Slinckx
+
+	* mate-cd/mate-cd.c: (tray_icon_create):
+	  do not leak the cd pixbuf (#313511)
+
+2005-12-21  Frederic Crozat  <fcrozat@mandriva.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/window.c: (mate_volume_control_window_init),
+	(mate_volume_control_window_new), (cb_change):
+	* gst-mixer/src/window.h:
+	  Fix warnings/crash when selecting default mixer (#315052).
+
+2005-12-21  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/mate-cd.schemas.in.in:
+	  Change default volume from 0 to max. Should fix silence on start
+	  such as reported in #321356.
+
+2005-12-21  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c:
+	* mate-cd/solaris-cdrom.c: (solaris_cdrom_get_status):
+	  Remove spurious warnings when opening without CD in drive.
+
+2005-12-21  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	Reviewed by:  Ronald S. Bultje <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (status_ok), (remainingtime_mode_changed_cb),
+	  (volume_changed): Set the tool tip for the display.
+	* mate-cd/callbacks.h:
+	* mate-cd/display.c: (button_press_event), (class_init)
+	* mate-cd/display.h:
+	* mate-cd/mate-cd.c: (window_destroy_cb), (set_volue), (init_player)
+	  Add events to the display to show tool tip.
+	* mate-cd/mate-cd.h:
+	* mate-cd/mate-cd.schemas.in.in:
+	* mate-cd/preferences.c:
+	  Remaining time mode. Fixes Bug #72802.
+
+2005-12-21  Christian Neumair  <chris@mate-de.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (make_play_pipeline),
+	(make_record_pipeline):
+	* gst-mixer/src/main.c: (main):
+	* gstreamer-properties/gstreamer-properties.glade:
+	  Prevent use of GStreamer slang words ("element", "sink", "source")
+	  and fix window position for gstreamer-properties (#321536).
+
+2005-10-29  Erdal Ronahi  <erdal.ronahi@gmail.com>
+
+	* configure.in: Added ku (Kurdish) to ALL_LINGUAS
+
+2005-09-04  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode again.
+
+=== release 2.12.0 ===
+
+2005-09-04  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.12.0.
+
+2005-08-27  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/Makefile.am:
+	* mate-cd/Makefile.am:
+	  Do not dist generated files; they may be build-env-dependent.
+	  Fixes #314660.
+
+2005-08-26  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/main.c: (sort_by_rank), (create_mixer_collection):
+	  Sort mixers by elementfactory rank.
+
+2005-08-24  Maxim Dziumanenko <mvd@mylinux.ua>
+
+	* configure.in:
+	* grecord/doc/Makefile.am:
+	* grecord/doc/uk/*:
+	* mate-cd/doc/Makefile.am:
+	* mate-cd/doc/uk/*:
+	* gst-mixer/doc/Makefile.am:
+	* gst-mixer/doc/uk/*:
+	* gstreamer-properties/help/Makefile.am:
+	* gstreamer-properties/help/uk/*:
+	Added Ukrainian translation of the manual.
+
+=== release 2.11.91 ===
+
+2005-08-24  Madhan Raj M  <madhanrm@mate.org>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.11.92.
+
+2005-08-18  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* gst-mixer/mate-volume-control.schemas.in:
+	Fix typo in schema.
+
+2005-08-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c:
+	* gst-mixer/src/volume.c: (cb_volume_changed),
+	(mate_volume_control_volume_ask):
+	  s/lrint/rint/ for BSD portability (#309634).
+
+2005-08-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.11.91 ===
+
+2005-08-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.11.91.
+
+2005-08-06  Madhan Raj M  <madhanrm@mate.org>
+
+	* mate-cd/callbacks.c: (status_ok)
+	  Repeat the track in Loop mode. Fixes #312636.
+
+2005-08-06  Madhan Raj M  <madhanrm@mate.org>
+
+	* mate-cd/callbacks.c: (play_cb), (position_changed)
+	* mate-cd/mate-cd.c: (skip_to_track)
+	  For playing the last track, set end_track = -1.
+	  Fixes Bug #312654
+
+2005-08-05  Madhan Raj M  <madhanrm@mate.org>
+
+	* mate-cd/callbacks.c: (play_cb), (stop_cb), (status_ok)
+	  Stop should stop play while in Loop mode.
+	  Fixes Bug #312658
+
+2005-07-25  Madhan Raj M  <madhanrm@mate.org>
+
+	* profiles/mate-media-profiles.h:
+	* profiles/audio-profile-private.h:
+	* profiles/mate-audio-profiles-properties.c:
+	  Use audio-profile-private.h instead of mate-media-profiles.h
+	  for private functions.
+	  Fixes Bug #311458
+
+2005-07-24  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* mate-cd/callbacks.c: (status_ok), (remainingtime_mode_changed_cb),
+	  (volume_changed): Set the tool tip for the display.
+	* mate-cd/callbacks.h:
+	* mate-cd/display.c: (button_press_event), (class_init)
+	* mate-cd/display.h:
+	* mate-cd/mate-cd.c: (window_destroy_cb), (set_volue), (init_player)
+	  Add events to the display to show tool tip.
+	* mate-cd/mate-cd.h:
+	* mate-cd/mate-cd.schemas.in.in:
+	* mate-cd/preferences.c:
+	  Remaining time mode. Fixes Bug #72802.
+
+2005-07-24  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* profiles/mate-media-profiles.h:
+	* profiles/mate-media-profiles.c: (gtk_dialog_build_children),
+	  (dialog_find_internal_child): Moved the definitions from
+	  mate-audio-profiles-properties.c.
+	* profiles/mate-audio-profiles-properties.c:
+	* profiles/audio-profiles-edit.c: (profile_activated_callback),
+	  (edit_button_clicked), (delete_button_clicked),
+	  (gm_audio_profiles_edit_new_profile):
+	  Make the dialog run. Also based on the patch from Luca Cavalli.
+	  Fixes Bug#309883.
+
+2005-07-17  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* mate-cd/callbacks.c: (cd_status_changed_cb)
+	  Check for empty disc.
+	* mate-cd/cdrom.h: (_MateCDRomDriveStatus)
+	  New status MATE_CDROM_STATUS_EMPTY_DISC.
+	* mate-cd/gst-cdparanoia-cdrom.c: (gst_cdparanoia_cdrom_get_status)
+	  Use gst_cdparanoia_cdrom_get_cddb_data and check
+	  for Null data (empty disc).
+	  Fix crash #310626
+	* mate-cd/mate-cd.c: (make_popup_menu)
+	  Set popup menu sensitivity.
+
+2005-07-13  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode once more.
+
+=== release 2.11.5 ===
+
+2005-07-13  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Update 2.11.5.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/ne.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/rw.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/xh.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Bla bla.
+
+2005-07-13  Brent Smith  <mate@nextreality.net>
+
+	* gst-mixer/window.c (mate_volume_control_window_dispose):
+	another small leak.
+
+2005-07-13  Paolo Borelli  <pborelli@katamail.com>
+
+	* gst-mixer/window.c (mate_volume_control_window_new): plug
+	a small leak.
+
+2005-07-11  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* mate-cd/mate-cd.c: (make_popup_menu):
+	  Update the Popup menu stock items.
+
+2005-07-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev mode.
+
+=== release 2.11.4 ===
+
+2005-07-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.11.4.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/ne.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/rw.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/xh.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Translation updates.
+
+2005-07-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/mate-cd.c: (make_popup_menu), (init_player):
+	  Re-order menu items a bit.
+	* gstreamer-properties/pipeline-constants.c:
+	  Add autovideo/audiosink.
+
+2005-06-13  Ross Burton  <ross@burtonini.com>
+
+	* mate-cd/bsd-cdrom.c:
+	* mate-cd/callbacks.c:
+	* mate-cd/cdrom.c:
+	* mate-cd/display.c:
+	* mate-cd/gst-cdparanoia-cdrom.c:
+	* mate-cd/linux-cdrom.c:
+	* mate-cd/preferences.c:
+	* profiles/audio-profile-choose.c:
+	* profiles/audio-profile-edit.c:
+	* profiles/audio-profile.c:
+	* profiles/audio-profiles-edit.c:
+	* profiles/gmp-util.c:
+	* profiles/gmp-util.h:
+	* profiles/mate-media-profiles.c:
+	* vu-meter/gtkled.c:
+	* vu-meter/gtkledbar.c:
+	Use gi18n.h instead of mate-i18n.h, and G_DEFINE_TYPE instead of
+	MATE_CLASS_BOILERPLATE.
+
+2005-06-08  John (J5) Palmieri  <johnp@martianrock.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c: (stop_playback_idle_func),
+	(check_playtime):
+	  Idle handler for EOS handling (#305228).
+
+2005-06-08  Alan Horkan  <horkana@maths.tcd.ie>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/doc/C/mate-cd.xml:
+	  Change docs after some small UI changes (#306798).
+
+2005-06-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* vu-meter/reclevel.desktop.in:
+	* vu-meter/vumeter.desktop.in:
+	  Fix incorrect capitalization (#304063).
+
+2005-06-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gstreamer-properties/gstreamer-properties.c: (main):
+	  Give error dialog if registry is missing (#306052). Fix error
+	  if glade file not found.
+
+2005-06-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c: (build_pipeline):
+	  Remember volume (#302156).
+
+2005-06-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/mate-cd.c: (make_popup_menu), (init_player):
+	* mate-cd/mate-cd.h:
+	* mate-cd/images/Makefile.am:
+	* mate-cd/images/media-ffwd.png:
+	* mate-cd/images/media-next.png:
+	* mate-cd/images/media-pause.png:
+	* mate-cd/images/media-play.png:
+	* mate-cd/images/media-prev.png:
+	* mate-cd/images/media-record.png:
+	* mate-cd/images/media-rewind.png:
+	* mate-cd/images/media-stop.png:
+	  Use Gtk+ stock icons instead of our own (#306323).
+
+2005-06-08  Alan Horkan  <horkana@maths.tcd.ie>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/mate-cd.c: (init_player):
+	  put track list edit button after list (#300408).
+
+2005-06-08  Alan Horkan  <horkana@maths.tcd.ie>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c:
+	  Don't override stock labels for menu items (#306698).
+
+2005-06-08  Kjartan Maraas  <kmaraas@mate.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (do_save_file):
+	* profiles/audio-profile.c: (gm_audio_profile_init):
+	  String typos (#303630).
+
+=== release 2.11.3 ===
+
+2005-06-08  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.11.3.
+	* grecord/src/Makefile.am:
+	  Add ui.xml to EXTRA_DIST.
+	* grecord/src/gsr-window.c:
+	  Remove unused macro.
+	* po/POTFILES.in:
+	  Remove gsr.xml.
+	* po/POTFILES.skip:
+	  Add .schemas.in files (intltool-update complains...).
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/ne.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/rw.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/xh.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Translation updates.
+
+2005-05-16  Olav Vitters <olav@bkor.dhs.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: Always free cddb cache, prevents a crash when
+	quickly re-interting a cd. Patch by Frederic Crozat. Fixes bug
+	#169511.
+
+2005-05-10  Nirmal Kumar  <nirmalk@cvs.mate.org>
+
+        * audio-profile-choose.c:
+          Record as Combo box is modified to reflect mime type too (#170350).
+
+2005-04-23  Felix Riemann  <felix@hsgheli.de>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/cddb-slave-capplet.c: (get_hostname),
+	(no_info_toggled), (real_info_toggled), (create_dialog), (main):
+	  Make dialog look pretty (#110686).
+
+2005-04-23  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/inetaddr.c: (gnet_inetaddr_new_async_cb),
+	(gnet_inetaddr_get_name_async_cb),
+	(gnet_inetaddr_get_canonical_name):
+	* cddb-slave2/socks-private.c: (gnet_private_negotiate_socks5),
+	(gnet_private_negotiate_socks4):
+	* cddb-slave2/tcp.c: (gnet_tcp_socket_new_async_cb):
+	* mate-cd/display.c: (cd_display_parse_theme):
+	* mate-cd/gst-cdparanoia-cdrom.c: (check_playtime):
+	* mate-cd/theme.c: (theme_load):
+	* grecord/src/gsr-window.c: (replace_dialog),
+	(gsr_window_set_property):
+	* gst-mixer/src/volume.c:
+	  GCC4 warning fixes, based on patch from Kjartan Maraas
+	  <kmaraas@mate.org> (fixes #300658).
+
+2005-04-23  James Henstridge  <james@jamesh.id.au>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Remove double mateconf/libglade entries (#300450).
+
+2005-04-22  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* profiles/mate-audio-profiles-properties.c: (main):
+	Initialize gettext and include config.h.
+
+2005-04-15  Kjartan Maraas  <kmaraas@mate.org>
+
+	* gst-mixer/src/button.c: (mate_volume_control_button_clicked):
+	Plug a leak
+	* gst-mixer/src/track.c: (cb_option_changed): Plug a leak.
+	* gst-mixer/src/volume.c: _ISOC99_SOURCE. Closes bug #300719
+
+2005-04-11  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/Makefile.am:
+	* configure.in:
+	  Fix build if matecorba/matecomponent is in a non-standard dir (#300117).
+
+2005-04-08  Philip Langdale  <philipl@mail.utexas.edu>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.c: (mate_volume_control_element_change):
+	  Numbering gets screwed up by destroying, so just hide it instead,
+	  fixes one more crash (#172697).
+
+2005-04-03  jylefort@brutele.be
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/main.c: (create_mixer_collection):
+	  Don't set a NULL title, fix memleak (#172538).
+
+2005-04-03  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/volume.c: (cb_volume_changed),
+	(mate_volume_control_volume_ask):
+	  Fix stupid rounding bug.
+
+2005-04-03  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/preferences.c:
+	(mate_volume_control_preferences_init):
+	  Fix focus bug (see #171367). Thanks to Christian Persch
+	  <chpe@mate.org> for the patch.
+
+2005-03-31  Steve Murphy  <murf@e-tools.com>
+
+        * configure.in: Added "rw" to ALL_LINGUAS.
+
+2005-03-30  Nirmal Kumar R <nirmalk@cvs.mate.org>
+
+	* mate-cd/callbacks.c (about_cb): use GtkAboutDialog instead
+	of deprecated MateAbout.
+
+2005-03-30  Nirmal Kumar R <nirmalk@cvs.mate.org>
+
+	* grecord/src/gsr-window.c (help_about): use GtkAboutDialog instead
+	of deprecated MateAbout.
+
+2005-03-30  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* cddb-slave2/cddb-slave-capplet.c (notify_cb): Do
+	appropriate changes when notified.
+	(destroy_window): Remove the notify
+	(create_dialog): Add a notify (Fixes #90792)
+
+2005-03-30  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* mate-cd/mate-cd.c (menuitems): Added quit menu item.
+	(make_popup_menu): Create quit menu item for tray popup.
+
+2005-03-30  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* cddb-slave2/cddb-slave-capplet.c (other_freedb_toggled): Get
+	the selection and set it in mateconf.
+
+2005-03-30  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (open_track_editor):
+	  Fix grammar errors (#172036/#172034).
+
+2005-03-28  Nirmal Kumar  <nirmalk@cvs.mate.org>
+
+	* mate-cd/callbacks.c (status_ok ):
+	* mate-cd/mate-cd.c (tray_icon_create): Sets the
+	tooltip for the mate-cd status tray icon to show the
+	name of the album currently playing and Current time.
+	(Fixes #144163).
+
+2005-03-28  Nirmal Kumar  <nirmalk@cvs.mate.org>
+
+	 * mate-cd/callbacks.c (open_track_editor): Displays
+	dialog that pops up when the track editor is clicked again
+	after changing discs (Fixes #105703).
+
+2005-03-28  Nirmal Kumar  <nirmalk@cvs.mate.org>
+
+	* gst-mixer/Makefile.am:
+	* gst-mixer/src/keys.h:
+	* gst-mixer/src/main.c (cb_check_resize):
+	* gst-mixer/src/window.c (mate_volume_control_window_init) :
+	Sets the window geometry accordingly (Fixes #148689).
+
+2005-03-28  Nirmal Kumar  <nirmalk@cvs.mate.org>
+
+	* mate-cd/callbacks.c (popup_menu_cb):
+	* mate-cd/mate-cd.c (make_popup_menu):
+	* mate-cd/mate-cd.h: Establishes "Iconify to tray" option
+	(Fixes #139808)
+
+2005-03-28  Madhan Raj M  <madhanrm@cvs.mate.org>
+
+	* mate-cd/callbacks.c (volume_changed): Update the tooltip.
+	Read the volume from mateconf.
+	* mate-cd/mate-cd.c (init_player): Created a new mateconf
+	key "volume"
+	(volume_changed_cb): callback for mateconf notify
+	(set_volume): Setting the volume when mateconf notifies and also to
+	intialise.
+	* mate-cd/mate-cd.h:
+	* mate-cd/preferences.c:
+	* mate-cd/mate-cd.schemas.in.in: Added the new key "volume"
+
+2005-03-25  Pedro Villavicencio Garrido  <pvillavi@mate.org>
+
+	* gst-mixer/src/window.c (cb_about): use GtkAboutDialog instead
+	of deprecated MateAbout.
+
+2005-03-22  Adi Attar  <aattar@cvs.mate.org>
+
+	* configure.in: Added 'xh' to ALL_LINGUAS.
+
+2005-03-21  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/CDDB-Slave2.schemas.in:
+	  Fix port (changed from 888 to 8880) - see #152878.
+
+2005-03-21  jsc  <yovivoenmetaluna@gmail.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/Makefile.am:
+	* cddb-slave2/cddb-disclosure.c:
+	* cddb-slave2/cddb-disclosure.h:
+	* cddb-slave2/cddb-track-editor.c:
+	(disc_options_expanded_notify_cb),
+	(track_options_expanded_notify_cb), (make_track_editor_control):
+	  Use gtk-expander instead of our own (fixes a11y bug in #98195).
+
+2005-03-21  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (cb_rec_eos), (media_stop):
+	  Remove debug.
+	* gstreamer-properties/pipeline-constants.c:
+	  Remove aasink (fix #161973).
+
+2005-03-21  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* grecord/src/Makefile.am:
+	  Add grecord/src/gst/.
+	* grecord/src/mate-recorder.c: (main):
+	* grecord/src/gsr-window.c: (cb_rec_eos), (media_stop),
+	(tick_callback), (play_state_changed_cb), (make_play_pipeline),
+	(make_record_pipeline):
+	  Add EOS handling to recording, stolen from cupid. On 'stop' while
+	  recording, send EOS in pipeline rather than just stopping the
+	  pipeline. This results in valid wav- and ogg-files.
+	  Besides that, always read the length at every iteration, similar
+	  to Totem.
+	* grecord/src/gst/Makefile.am:
+	* grecord/src/gst/assistant.c: (gst_rec_assistant_get_type),
+	(gst_rec_assistant_base_init), (gst_rec_assistant_class_init),
+	(gst_rec_assistant_init), (gst_rec_assistant_chain),
+	(gst_rec_assistant_src_event), (gst_rec_assistant_change_state):
+	* grecord/src/gst/assistant.h:
+	* grecord/src/gst/manager.c: (gst_rec_manager_get_type),
+	(gst_rec_manager_base_init), (gst_rec_manager_class_init),
+	(gst_rec_manager_init), (gst_rec_manager_dispose),
+	(gst_rec_manager_child_eos), (gst_rec_manager_child_add),
+	(gst_rec_manager_child_del), (gst_rec_register_elements),
+	(gst_rec_elements_init):
+	* grecord/src/gst/manager.h:
+	  Recorder EOS managing code stolen from cupid.
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (maybe_close_tray), (eject_cb), (play_cb),
+	(stop_cb), (ffwd_timeout_cb), (next_cb), (back_cb),
+	(rewind_timeout_cb), (status_ok), (open_track_editor),
+	(volume_changed), (position_changed):
+	* mate-cd/mate-cd.c: (gcd_error), (skip_to_track):
+	* mate-cd/mate-cd.h:
+	* mate-cd/gst-cdparanoia-cdrom.c: (build_pipeline):
+	  Show error dialog to user if something fatal went wrong while
+	  doing an actual user action (press a button or so), e.g. because
+	  the GStreamer element was missing. Fixes #164120.
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/mate-recorder.c: (gsr_open_window):
+	* grecord/src/gsr-window.c: (record_start):
+	  Update title bar when we record a new file while another file
+	  was opened, which fixes #170685. Based on patch from Nirmal
+	  kumar <nirmal_cool@rediffmail.com>.
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  -> 2.11.
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c:
+	  Fix seek while paused (#149451).
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c: (build_pipeline):
+	  Set device property correctly. Should fix #168370.
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c: (build_pipeline):
+	  Fix volume setting using cdparanoia backend.
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (tray_icon_destroyed):
+	  Set variable to NULL when destroying it (for debugging).
+	* grecord/src/mate-recorder.c: (gsr_open_window):
+	* grecord/src/gsr-window.c: (profile_changed_cb), (gsr_window_new):
+	  Never update extension in the title bar. It is supposed to
+	  represent the current file. Extensions only change in the
+	  save-as dialog.
+
+2005-03-20  Nirmal kumar  <nirmal_cool@rediffmail.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/mate-recorder.c: (gsr_open_window):
+	* grecord/src/gsr-window.c: (set_extension), (gsr_window_new):
+	  Do not append the extension in the new window if we are opening
+	  a file. Fixes #170658.
+
+2005-03-20  Nirmal kumar  <nirmal_cool@rediffmail.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (do_save_file), (file_save_as):
+	  Replace extension in the save-dialog if we changed the type
+	  of the file that we are trying to save (#170785).
+
+2005-03-20  Lorenzo Colitti  <lorenzo@colitti.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/cddb-slave.c: (do_query_response):
+	  Prompt user if multiple exact matches were found (return code
+	  210, similar to response code 211); fixes #168691.
+
+2005-03-20  Ross Burton  <ross@burtonini.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* profiles/audio-profile-choose.c:
+	(gm_audio_profile_choose_get_active):
+	  Don't get profile if there was no selection (fixes crash in
+	  #167467).
+
+2005-03-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Back to development mode.
+
+=== Release 2.10.0
+
+2005-03-07  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  2.10.0, here we go.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/ne.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Hmm...
+
+2005-03-04  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.c: (mate_volume_control_element_change):
+	  Fix for crasher (#169021).
+
+2005-03-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev.
+
+=== Release 2.9.92 ===
+
+2005-03-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.9.92.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/ne.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Update .po files.
+
+2005-02-24  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Make it build with gstreamer-0.9 as well.
+	Maybe we could remove the fallback to 0.7 by now?
+
+2005-02-15  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/window.c: (cb_about):
+	  Add translator credits (#167338).
+
+2005-02-06  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* profiles/audio-profile.c: (gm_audio_profile_create):
+	  Fix double free (resulting in crash when creating new profile).
+
+2005-02-06  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/gst-cdparanoia-cdrom.c: (build_pipeline):
+	  Implement basic buffering (should prevent hickups) and add
+	  a max. speed of 2 so that it doesnÂ´t get too loud (#164857).
+
+2005-02-06  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (handle_ebusy_error):
+	  Check which pipeline to change state on. Makes testcase in #162302
+	  work for me.
+
+2005-02-06  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (media_record):
+	  DonÂ´t segfault if pipeline creation failed.
+
+2005-02-06  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/mate-recorder.c: (gsr_open_window):
+	* grecord/src/gsr-window.c: (file_save), (gsr_window_class_init):
+	  Add translator comments to 'Untitled' and mark for translation.
+	  Fixes #162607.
+
+2005-02-04  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (gsr_button_new_with_stock_image),
+	(gsr_dialog_add_button), (replace_dialog), (replace_existing_file),
+	(do_save_file):
+	  Add confirmation dialog if overwriting an existing file (#130653).
+	  Based on patch by Sun (from JDS), proposed by Glynn Foster
+	  <glynn.foster@sun.com> and Archana Shah <archana.shah@wipro.com>.
+
+2005-02-04  Vincent Untz  <vincent@vuntz.net>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* profiles/mate-audio-profiles-properties.c:
+	(gtk_dialog_build_children), (dialog_find_internal_child), (main):
+	  Don't crash (#153496).
+
+2005-02-04  Ed Catmur  <ed@catmur.co.uk>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* vu-meter/main.c: (handle_read):
+	  Fix for wrong pointer handling (#158222).
+
+2005-02-04  John Spray  <jcs116@york.ac.uk>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/track.c: (mate_volume_control_track_show):
+	  Patch to not try to call gtk_table_set_[col|row]_spacing for
+	  negative (0 - 1) row/col numbers.
+
+2005-02-04  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/preferences.c: (preferences_dialog_show):
+	  Fix label (as proposed in #150450 by Ranganathan Chandrasekaran
+	  <rangac@gmail.com> and Kjartan Maraas <kmaraas@mate.org>.
+
+2005-01-31  David Schleef  <ds@schleef.org>
+
+	* gstreamer-properties/pipeline-constants.c: Add polypaudio
+	src and sink.
+
+2005-01-28  Jeff Markham  <dragonking@carolina.rr.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (tray_icon_destroyed):
+	* mate-cd/callbacks.h:
+	* mate-cd/mate-cd.c: (init_player), (tray_icon_create):
+	* mate-cd/mate-cd.h:
+	  Don't crash if the notification area is destroyed (#109909).
+
+2005-01-28  Joe Marcus Clarke  <marcus@freebsd.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* grecord/src/gsr-window.c: (do_save_file):
+	  Use MATE-VFS to save files instead of /bin/cp (#162185).
+
+2005-01-25  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Devel.
+
+=== Release 2.9.90 ===
+
+2005-01-25  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* NEWS:
+	  Release 2.9.90.
+	* mate-cd/callbacks.c: (button_press_event_cb), (popup_menu_cb):
+	* mate-cd/callbacks.h:
+	* mate-cd/mate-cd.c: (popup_menu_detach), (make_popup_menu),
+	(init_player):
+	* mate-cd/mate-cd.h:
+	  Desensitize menu options when no CD present (#164229). Patch
+	  contributed by Madhan Raj M <raj_madan@rediffmail.com>.
+	* po/*.po:
+	  Translation sync with release.
+
+2005-01-24  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* gst-mixer/src/main.c (main): Check for the registry if its not there
+	give an error dialog and exit. Fixes bug #138582
+
+2005-01-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/cddb-track-editor.c: (dialog_response):
+	  Fix crash (#105709).
+
+2005-01-15  Chris Kelso  <ckelso@heliosphere.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/Makefile.am:
+	  Fix build (#155150).
+
+2005-01-15  Breda McColgan  <Breda.McColgan@sun.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (file_properties):
+	  fix label (#150452).
+
+2005-01-12  Ed Catmur  <ed@catmur.co.uk>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/track.c: (cb_check):
+	  Fix wrong mateconf loading of alsa-options (#163718).
+
+2005-01-11  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.c: (get_page_num), (update_tab_visibility),
+	(mate_volume_control_element_change), (cb_mateconf):
+	  Small refactoring, hide empty pages.
+
+2005-01-11  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/track.c: (cb_mute_toggled), (cb_check):
+	* gst-mixer/src/volume.c: (mate_volume_control_volume_sync),
+	(mate_volume_control_volume_ask), (cb_check):
+	* gst-mixer/src/volume.h:
+	  Add workarounds for interaction with other applications that
+	  do evil stuff to the soundcard when trying to mute.
+
+2005-01-10  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev.
+
+=== Release 2.9.4 ===
+
+2005-01-10  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  2.9.4.
+	* gst-mixer/src/element.h:
+	  Some translation fixes.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/ne.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Po file updates for release.
+
+2005-01-09  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/volume.c: (cb_mouseover):
+	  Add translator comment for LFE (#162608).
+	* gstreamer-properties/gstreamer-properties.glade:
+	  rename to Multimedia Systems Selector (##148650).
+
+2005-01-09  Madhan Raj M  <raj_madan@rediffmail.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (status_ok):
+	  Update labels on loading new CD. Fixes #163345.
+
+2005-01-06  Jakub Steiner  <jimmac@musichall.cz>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/pixmaps/mate-mixer.png:
+	* gst-mixer/pixmaps/mixer.png:
+	  New icon art.
+
+2005-01-06  James M. Cape  <jcape@ignore-your.tv>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* mate-cd/preferences.c: (device_changed_cb),
+	(preferences_dialog_show):
+
+2005-01-04  Zaheer Abbas Merali  <zaheerabbas@merali.org>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (make_play_pipeline):
+	  Fix typo.
+
+2005-01-03  Kaushal Kumar  <kakumar@novell.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/cddb.c: (cddb_free_disc_info), (cddb_get_query):
+	  Remove hack to workaround broken entries and apply patch from
+	  #105768 instead.
+
+2004-12-22  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev...
+
+=== Release 2.9.3 ===
+
+2004-12-22  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Release 2.9.3.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  I hate string changes.
+
+2004-12-11  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/window.c: (mate_volume_control_window_new),
+	(cb_change):
+	  Add mnemonics for detected mixers (#153499).
+
+2004-12-11  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.c:
+	(mate_volume_control_element_whitelist),
+	(mate_volume_control_element_change):
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/preferences.c:
+	(mate_volume_control_preferences_change):
+	  Whitelists (#158346).
+	* gst-mixer/src/track.c: (cb_check):
+	  Some more checkbox work.
+
+2004-12-11  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/element.c: (mate_volume_control_element_change),
+	(cb_mateconf):
+	* gst-mixer/src/track.c: (cb_toggle_changed),
+	(mate_volume_control_track_put_switch),
+	(mate_volume_control_track_add_playback),
+	(mate_volume_control_track_add_switch),
+	(mate_volume_control_track_show):
+	* gst-mixer/src/track.h:
+	  Add checkboxes in a separate tab. They now take less space and
+	  actually look somewhat integrated (#159428). Also workaround a
+	  GtkTable redraw problem (#157117).
+
+2004-11-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Dev...
+
+=== release 2.9.2 ===
+
+2004-11-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Release 2.9.2
+
+2004-11-26  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/cddb.c: (cddb_get_query):
+	* mate-cd/gst-cdparanoia-cdrom.c: (build_pipeline):
+	  Fix new-device handling. Fix segfault because the cache seems
+	  corrupted (need to look into that).
+
+2004-11-26  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/Makefile.am:
+	* mate-cd/mate-cd.c: (main):
+	* mate-cd/gst-cdparanoia-cdrom.c: (cb_error), (build_pipeline):
+	  Add CDDA-based CD (as default). For those poor Mac/Dell users
+	  whose computer suppliers are too crapped to add a cable between
+	  CD drive and soundcard (#51152).
+
+2004-11-25  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/preferences.c: (preferences_dialog_show):
+	  Some HIGification. Fixes #156874.
+
+2004-11-06  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* profiles/audio-profile-choose.c: (gm_audio_profile_choose_new):
+	* profiles/audio-profile.c: (gm_audio_profile_get_active_list),
+	(gm_audio_profile_create):
+	* profiles/mate-media-profiles.c: (mate_media_profiles_init):
+	  Fix some leaks (based on a patch by Christophe Fergeau
+	  <teuf@mate.org> (#150072).
+
+2004-11-06  Christophe Fergeau  <teuf@mate.org>
+
+	Reviewed by: Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* profiles/audio-profile.c:
+	* profiles/audio-profile.h:
+	  Compile fix (#154547).
+
+2004-11-05  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gst-mixer/src/window.c:
+	  Small capitalization fix missed by Ronald
+
+2004-11-02  Archana Shah <archana.shah@wipro.com>
+
+	reviewed by: Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (do_save_file):
+	  use g_spawn_command_line_sync () instead of rename () to save
+	  the recorded file. Fixes #155088
+
+2004-11-02  Dennis Cranston <dennis_cranston at yahoo com>
+
+	reviewed by: Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/window.c:
+	  missing mnemonic for the new change device menu item.
+
+2004-11-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Back to CVS.
+
+=== release 2.9.1 ===
+
+2004-11-01  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gstreamer-properties/pipeline-tests.c: (build_test_pipeline):
+	  Some more test pipeline fixes.
+	* NEWS:
+	* configure.in:
+	  Release 2.9.1.
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/bs.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_CA.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/gu.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pa.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/th.po:
+	* po/tk.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Update line numbers etc. for release.
+
+2004-10-31  Christophe Fergeau  <teuf@mate.org>
+
+	* mate-cd/Makefile.am: fix lib link order, based on a patch by
+	Chris Kelso (ckelso@heliosphere.org)
+
+2004-10-28  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: check for libcaja-burn for mate-cd.
+
+2004-10-27  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gstreamer-properties/gstreamer-properties.c: (create_dialog):
+	* gstreamer-properties/pipeline-constants.c:
+	  Add missing newline. Use audioscale for audio as well. Use
+	  conversion elements for sources as well.
+
+2004-10-27  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/track.c: (cb_check):
+	  I hate booleans.
+
+2004-10-23  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/main.c: (create_mixer_collection):
+	  Hide modems and such devices with no tracks.
+
+2004-09-16  Dennis Cranston <dennis_cranston at yahoo com>
+
+	* gst-mixer/src/window.c:  Use proper sentence case and add
+	missing mnemonic for the new change device menu item.
+
+2004-09-16  Dennis Cranston <dennis_cranston at yahoo com>
+
+	Reviewed by: Ronald S. Bultje <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/preferences.c: (mate_volume_control_preferences_init):
+	HIGify the preferences dialog: Use proper widget padding; remove
+	the separator; add shadow to list view; and add mnemonic for tree
+	view widget.
+
+2004-09-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* po/POTFILES.in:
+	  Add missing files (egg widget from mate-cd, new files from
+	  mate-volume-control) and remove obsolete file (olf file from
+	  mate-volume-control).
+
+2004-09-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/inetaddr.c: (gethostbyname_async_child),
+	(gnet_inetaddr_get_canonical_name),
+	(gnet_inetaddr_get_interface_to):
+	* cddb-slave2/inetaddr.h:
+	* cddb-slave2/socks-private.c: (gnet_private_negotiate_socks5):
+	* cddb-slave2/tcp.c: (gnet_tcp_socket_new_async):
+	  Fix some compiler issues (why didn't I see those?), see #111423).
+	  Thanks to Malcolm Tredinnick <malcolm@commsecure.com.au> and
+	  Christophe Fergeau <teuf@users.sourceforge.net>.
+
+2004-09-16  Matthias Clasen  <mclasen@redhat.com>
+
+	reviewed by: Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gstreamer-properties/Makefile.am:
+	* gstreamer-properties/gstreamer-properties.c: (dialog_response),
+	(main):
+	  Hook up help button (#151744).
+
+2004-09-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/Makefile.am:
+	  Proper linking patch from Sebastien Bacher <seb128@debian.org>.
+
+2004-06-30  Archana Shah  <archana.shah@wipro.com>
+
+	Reviewed by: Ronald S. Bultje <rbultje@ronald.bitfreak.net>
+
+	* configure.in: Added check to test IPv6 support on
+	  system. IPv6 code will be compiled only when IPv6 support
+	  and getaddrinfo() is there.
+
+2004-09-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Solaris installation fix (#145087).
+
+2004-09-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/pixmaps/3dsound.png:
+	* gst-mixer/pixmaps/Makefile.am:
+	* gst-mixer/pixmaps/chain-broken.png:
+	* gst-mixer/pixmaps/chain.png:
+	* gst-mixer/pixmaps/headphones.png:
+	* gst-mixer/pixmaps/noplay.png:
+	* gst-mixer/pixmaps/norecord.png:
+	* gst-mixer/pixmaps/play.png:
+	* gst-mixer/pixmaps/record.png:
+	* gst-mixer/src/Makefile.am:
+	* gst-mixer/src/button.c: (mate_volume_control_button_get_type),
+	(mate_volume_control_button_class_init),
+	(mate_volume_control_button_init),
+	(mate_volume_control_button_dispose),
+	(mate_volume_control_button_new),
+	(mate_volume_control_button_get_active),
+	(mate_volume_control_button_set_active),
+	(mate_volume_control_button_clicked),
+	(mate_volume_control_button_mouseover),
+	(mate_volume_control_button_mouseout):
+	* gst-mixer/src/button.h:
+	* gst-mixer/src/element.c: (mate_volume_control_element_get_type),
+	(mate_volume_control_element_class_init),
+	(mate_volume_control_element_init),
+	(mate_volume_control_element_new),
+	(mate_volume_control_element_dispose),
+	(mate_volume_control_element_change), (cb_mateconf):
+	* gst-mixer/src/element.h:
+	* gst-mixer/src/keys.h:
+	* gst-mixer/src/main.c: (create_mixer_collection),
+	(register_stock_icons), (cb_destroy), (main):
+	* gst-mixer/src/mixer.c:
+	* gst-mixer/src/preferences.c:
+	(mate_volume_control_preferences_get_type),
+	(mate_volume_control_preferences_class_init),
+	(mate_volume_control_preferences_init),
+	(mate_volume_control_preferences_new),
+	(mate_volume_control_preferences_dispose),
+	(mate_volume_control_preferences_response), (get_mateconf_key),
+	(mate_volume_control_preferences_change), (cb_toggle):
+	* gst-mixer/src/preferences.h:
+	* gst-mixer/src/stock.h:
+	* gst-mixer/src/track.c: (cb_mute_toggled), (cb_record_toggled),
+	(cb_option_changed), (cb_check),
+	(mate_volume_control_track_add_title),
+	(mate_volume_control_track_add_switch),
+	(mate_volume_control_track_add_playback),
+	(mate_volume_control_track_add_capture),
+	(mate_volume_control_track_add_option),
+	(mate_volume_control_track_free),
+	(mate_volume_control_track_show):
+	* gst-mixer/src/track.h:
+	* gst-mixer/src/volume.c: (mate_volume_control_volume_get_type),
+	(mate_volume_control_volume_class_init),
+	(mate_volume_control_volume_init), (cb_mouseover), (cb_mouseout),
+	(get_scale), (get_button), (mate_volume_control_volume_new),
+	(mate_volume_control_volume_dispose),
+	(mate_volume_control_volume_size_req),
+	(mate_volume_control_volume_size_alloc),
+	(mate_volume_control_volume_expose), (cb_volume_changed),
+	(cb_lock_toggled), (cb_check):
+	* gst-mixer/src/volume.h:
+	* gst-mixer/src/window.c: (mate_volume_control_window_get_type),
+	(mate_volume_control_window_class_init),
+	(mate_volume_control_window_init),
+	(mate_volume_control_window_new),
+	(mate_volume_control_window_dispose), (cb_change), (cb_exit),
+	(cb_preferences_destroy), (cb_preferences), (cb_about), (cb_mateconf),
+	(cb_error):
+	* gst-mixer/src/window.h:
+	  New volume control. Full ALSA integration, better maintainable
+	  code, updates if other apps change volume and some really cute
+	  icons. What else could one wish for?
+
+2004-09-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Go to 2.9 development.
+
+=== release 2.8.0 ===
+
+2004-09-13  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* NEWS:
+	  Prepare release.
+	* mate-cd/Makefile.am:
+	* mate-cd/mate-cd.c: (main):
+	  Disable GStreamer backend for now. We'll re-enable it if there's
+	  some more testing. Following approval from release-team.
+	* mate-cd/bsd-cdrom.c:
+	  Fix BSD backend (#151573) with approval from release-team.
+	* mate-cd/cdrom.c: (timeout_update_cd):
+	* mate-cd/linux-cdrom.c: (linux_cdrom_update_cd):
+	  Those two free()es are occasionally causing crashes elsewhere.
+	  Don't know what else to do right now, so just pushing back to
+	  the MATE 2.6 code status basically.
+	  The problem appears to be that the Linux native CD backend touches
+	  those variables when they shouldn't be. The GStreamer backend
+	  doesn't, so those reversals are basically part of the disabling
+	  of the GStreamer backend. Anyway, those are leaks. This needs
+	  careful looking over.
+	* mate-cd/gst-cdparanoia-cdrom.c: (msf_struct_to_frames),
+	(frames_to_msf_struct), (build_pipeline):
+	  This fixes BSD support in the (now unused) GStreamer backend.
+
+2004-09-04  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	  set ACLOCAL_AMFLAGS
+
+2004-08-31  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  And we're in CVS mode again.
+
+=== release 2.7.92 ===
+
+2004-08-31  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* NEWS:
+	* configure.in:
+	  Set version number for release.
+
+2004-08-31  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (create_options_widget):
+	  Unbreak string freeze. Accidently had intltool mark an #if 0'ed
+	  string (in new code) for translation, unmarked for now.
+
+2004-08-31  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* gst-mixer/src/mixer.c: (cb_opt_changed), (create_track_header),
+	(create_track_widget), (create_options_widget),
+	(create_switch_widget), (create_mixer_widget), (cb_about):
+	  Add switches (ALSA uses those, and is unusable on several sound
+	  cards without). Add options, but #ifdef'ed out because the UI is
+	  so severely uglified by it that it doesn't belong in there at all.
+	  Also up GStreamer requirement to 0.8.2 because that's when the
+	  required API was added to the mixer interface.
+
+2004-08-29  Ronald S. Bultje  <Ronald S. Bultje <rbultje@ronald.bitfreak.net>>
+
+	* cddb-slave2/cddb-parser.c: (cddb_entry_new_from_file):
+	* cddb-slave2/cddb-slave.h:
+	* cddb-slave2/tcp.c: (gnet_tcp_socket_connect_inetaddr_cb):
+	* mate-cd/access/cddisplayaccessiblefactory.c:
+	(cddisplay_accessible_factory_get_type),
+	(cddisplay_accessible_factory_new):
+	* mate-cd/access/cddisplayaccessiblefactory.h:
+	* mate-cd/access/pangoaccessiblefactory.h:
+	* mate-cd/callbacks.c:
+	* mate-cd/cdrom.c: (cdrom_set_device):
+	* mate-cd/eggtrayicon.c: (egg_tray_icon_init),
+	(egg_tray_icon_class_init), (egg_tray_icon_get_property),
+	(egg_tray_icon_get_orientation_property),
+	(egg_tray_icon_manager_filter), (egg_tray_icon_unrealize),
+	(egg_tray_icon_send_manager_message),
+	(egg_tray_icon_update_manager_window), (egg_tray_icon_realize),
+	(egg_tray_icon_new_for_screen), (egg_tray_icon_new),
+	(egg_tray_icon_send_message), (egg_tray_icon_cancel_message),
+	(egg_tray_icon_get_orientation):
+	* mate-cd/eggtrayicon.h:
+	* mate-cd/mate-cd.c: (client_die):
+	* mate-cd/gst-cdparanoia-cdrom.c: (eos), (build_pipeline),
+	(gst_cdparanoia_cdrom_play), (gst_cdparanoia_cdrom_pause),
+	(gst_cdparanoia_cdrom_stop), (gst_cdparanoia_cdrom_get_status):
+	* mate-cd/linux-cdrom.c: (linux_cdrom_update_cd):
+	* grecord/src/mate-recorder.c: (main):
+	* grecord/src/gsr-window.c: (file_close):
+	* gst-mixer/src/mixer.c:
+	* gstreamer-properties/gstreamer-properties.c: (create_dialog),
+	(main):
+	* profiles/audio-profile-choose.c: (gm_audio_profile_choose_new),
+	(gm_audio_profile_choose_get_active),
+	(gm_audio_profile_choose_set_active):
+	* profiles/audio-profile-choose.h:
+	* profiles/audio-profile-edit.c: (gm_audio_profile_edit_init):
+	* profiles/audio-profile-private.h:
+	* profiles/audio-profile.c: (gm_audio_profile_create):
+	* profiles/audio-profile.h:
+	* profiles/audio-profiles-edit.c: (profile_activated_callback),
+	(on_profile_changed), (edit_button_clicked),
+	(gm_audio_profiles_edit_new), (new_profile_response_callback):
+	* profiles/mate-audio-profiles-properties.c: (main):
+	* profiles/mate-audio-profiles-test.c: (edit_cb), (test_cb),
+	(main):
+	* profiles/mate-media-profiles.c:
+	* vu-meter/gtkled.c: (gtk_led_new):
+	* vu-meter/main.c: (main):
+	  Compile using -Wall -Werror and fix all. Also includes the cleanup
+	  patch from bug #151306 (thanks to Kjartan Maraas <kmaraas@mate.org>)
+	  and updates the egg widgets to their latest version.
+
+2004-08-29  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (seek_to):
+	  Remove unused variable, always return a boolean (fix #151305).
+
+2004-08-28  Akagic Amila  <bono@linux.org.ba>
+
+	* configure.in: Added 'bs' to ALL_LINGUAS.
+
+2004-08-17  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: Sylvain.Pasche@switzerland.org
+
+	* mate-cd/cdrom.c:
+	  fix unitialized GError.  Fixes #148353.
+
+2004-08-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Add nb to ALL_LINGUAS.
+
+2004-06-16  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (make_record_pipeline):
+	  Don't g_error() when common problems occur like a non-found
+	  element. Don't ever even use g_error() at all, basically. Also
+	  add a graphical error dialog instead and use this also if no
+	  audio source could be loaded (which appears to happen a lot on
+	  recent FC2/JDS installs...).
+
+2004-06-15  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/gnet-private.h:
+	  Define socklen_t properly, and only if needed. Fixes #142828.
+
+2004-06-15  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	reviewed by: Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (record_start):
+	  Also update the record status slider the second time. Fixes
+	  #123937.
+
+2004-06-15  Padraig O'Briain <draig.obriain@sun.com>
+
+	reviewed by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/preferences.c: (preferences_dialog_show):
+	  Give proper accessibility name to themes widget. Fixes #143327.
+
+2004-06-15  Padraig O'Briain <draig.obriain@sun.com>
+
+	reviewed by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/callbacks.c: (status_ok):
+	  Don't fire name-change events unless we change name, because
+	  otherwise we confuse accessibility tools. Fixes #140082.
+
+2004-06-15  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	reviewed by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/solaris-cdrom.c: (set_audio_port),
+	(solaris_cdrom_get_status):
+	  Set audio port on Solaris so that audio actually works.
+
+2004-06-15  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	* mate-cd/Makefile.am:
+	* mate-cd/mate-cd.c: (main):
+	* mate-cd/gst-cdparanoia-cdrom.c: *:
+	* mate-cd/gst-cdparanoia-cdrom.h:
+	  Add GStreamer-based (cdparanoia) option. Based on work from Iain
+	  Holmes <bugs@prettypeople.org>. Fixes bug #51152.
+
+2004-06-14  Fernando Herrera  <fherrera@onirica.com>
+
+	Reviewed by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/cddb.c: (cddb_get_query): don't free discid and free
+	  offsets. Fixes #144341.
+
+2004-06-15  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/cdrom.c: (timeout_update_cd):
+	  Fix memleak.
+
+2004-06-02  Mariano SuÃ¡rez-Alvarez  <mariano@mate.org>
+
+	* autogen.sh: do not overwrite ACLOCAL_FLAGS, but append to it.
+
+=== release 2.7.1 ===
+
+2004-06-01  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* configure.in:
+	* m4/as-compiler-flag.m4:
+	* m4/as-version.m4:
+	  adding m4 files for compiler flags and versioning
+
+2004-05-29  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "tk" to ALL_LINGUAS.
+
+2004-05-26  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (create_mixer_widget):
+	  Workaround for not showing options without depending on a CVS
+	  version of GStreamer.
+
+2004-05-10  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* cddb-slave2/cddb-disclosure.c: (get_x_y),
+	(expand_collapse_timeout), (do_animation):
+	* cddb-slave2/cddb-disclosure.h:
+	* cddb-slave2/cddb-parser.c:
+	* cddb-slave2/cddb-parser.h:
+	* cddb-slave2/cddb-slave-client.h:
+	* cddb-slave2/cddb-slave.c: (do_goodbye), (do_read_response),
+	(display_results), (read_from_server),
+	(impl_MATE_Media_CDDBSlave2_query),
+	(impl_MATE_Media_CDDBSlave2_isValid),
+	(impl_MATE_Media_CDDBSlave2_setAllTracks):
+	* cddb-slave2/cddb-track-editor.c: (make_tree_model),
+	(load_new_track_data), (make_track_editor_control), (main):
+	* cddb-slave2/main.c: (factory_fn), (main):
+	  fix loads of -Wall -Werror-related bugs
+	* configure.in:
+	  turn on -Wall -Werror for CDDBSLAVE
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* mate-cd/mate-cd.schemas.in.in:
+          Its funny how hard its eems to be to have an its y bits'y schema
+          entry have it's translation spelled correctly
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/mate-audio-profiles.schemas.in.in:
+          i18n-ize profile names and descriptions.  Fixes #130233
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profile.c: (gm_audio_profile_forget):
+          change dir to path in source. Fixes #134339
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profiles-edit.c: (delete_button_clicked):
+          Use ngettext. Fixes #134340.
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/mate-audio-profiles.glade2:
+          Fix #134341
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profile.c: (gm_audio_profile_initialize):
+	  change terminal to profile.  Fixes #137139
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: Julio M. Merino Vidal <jmmv at menta dot net>
+
+	* configure.in:
+	* mate-cd/Makefile.am:
+	* mate-cd/bsd-cdrom.c: (bsd_cdrom_finalize), (msf_to_frames),
+	(frames_to_msf), (add_msf), (bsd_cdrom_open), (bsd_cdrom_close),
+	(bsd_cdrom_invalidate), (calculate_track_lengths):
+	* mate-cd/bsd-cdrom.h:
+          add NetBSD support.
+          rename FREEBSD functions/variables to BSD
+          Fixes #135139
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* cddb-slave2/cddb-slave.desktop.in:
+          change name and comment.  Fixes #130651.
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* autogen.sh: don't use common doc stuff until it passes distcheck
+	* acconfig.h: removed
+	* configure.in: add third argument for AC_DEFINE*
+
+2004-05-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* autogen.sh: use mate-common.  Fixes #140344
+
+2004-04-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gstreamer-properties/pipeline-constants.c:
+          use ffmpegcolorspace (from gst-plugins) over ffcolorspace
+          (from gst-ffmpeg) (#141406)
+
+2004-04-29  Julio M. Merino Vidal  <jmmv@menta.net>
+
+	reviewed by: Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gstreamer-properties/Makefile.am:
+	  Install gstreamer-properties shortcut in proper location so
+	  it's found by contor-center. Fixes #137198.
+
+2004-04-23  Jorn Baayen  <jbaayen@mate.org>
+
+	reviewed by: Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c:
+	  Swap "About" and "Help" menu items for consistency.
+
+2004-04-24  Kaushal Kumar  <kaushal.kumar@wipro.com>
+
+	reviewed by: Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* cddb-slave2/ChangeLog:
+	* cddb-slave2/cddb-slave-capplet.c: (dialog_button_clicked_cb):
+	  s/wgoscustlookandfeel.xml/user-guide.xml.
+
+2004-04-24  Leena Gunda  <leena.gunda@wipro.com>
+
+	reviewed by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* mate-cd/ChangeLog:
+	* mate-cd/display.c: (cd_display_set_style):
+	* mate-cd/display.h:
+	  Callback to redraw the display text when the style changes. Fixes
+	  #125409.
+	* mate-cd/mate-cd.c: (init_player):
+	  Connect cd_display_set_style callback for the style_set signal
+	  of the CDDisplay.
+
+2004-04-24  Fernando Herrera  <fherrera@onirica.com>
+
+	reviewed by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* grecord/ChangeLog:
+	* grecord/src/mate-recorder.c: (main):
+          use gtk_icon_theme. Fix #137464.
+
+=== release 2.6.1 ===
+
+2004-04-19  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in: releasing 2.6.1, "Maintain in Vain"
+
+2004-04-19  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: nos@utel.no
+
+	* cddb-slave2/cddb-slave.c: (do_open_response), (cddb_send_cmd):
+          fix g_print format (#134094)
+
+2004-04-19  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: Alexander Winston
+
+	* acinclude.m4:
+          Fix underquotedness (#133217)
+
+2004-04-18  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (create_track_widget):
+	  Fix up icons for the ALSA mixer.
+
+2004-04-09  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+        * configure.in: Added "gu" (Gujarati) to ALL_LINGUAS.
+
+=== release 2.6.0 ===
+
+2004-03-22  Ted Gould <ted@gould.cx>
+
+	* configure.in: Upping to 2.6.0
+
+2004-03-22  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+        * configure.in: Added "pa" (Punjabi) to ALL_LINGUAS.
+
+2004-03-11  Alexander Winston  <alexander.winston@comcast.net>
+
+	* configure.in: Added en_CA to ALL_LINGUAS.
+
+2004-03-11  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in: require gtk 2.3 for recorder and profiles (#135549)
+
+2004-03-09  Ted Gould <ted@gould.cx>
+
+	* configure.in: Upping to 2.5.5
+
+2004-03-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+ 	* gstreamer-properties/gstreamer-properties.c:
+ 	(create_pipeline_menu):
+ 	* gstreamer-properties/pipeline-constants.c:
+           - Add "audioconvert ! audioscale" to the pipeline for testing
+ 	  audio sinks.  This makes esdsink 'work' and fixes #136407
+ 	  - Wrap lines in pipeline-constants to 80 chars for readability.
+ 	  - Use gst_parse_launch to evaluate the validity of a sink pipeline, i
+ 	  rather than assuming that they contain only a single sink.
+ 	  Resurrects Ascii Art.
+ 	  - Add a disabled cacasink destination. Disabled because apparently
+ 	  cacasink briefly creates an empty window, even though we never
+ 	  set the element to READY.
+ 	  - Disable jack source & sink, since they're not working.
+ 	  - Remove ossgst audio source which no longer exists.
+ 	  - Remove fakesrc as a video source.
+
+2004-03-09  Ted Gould <ted@gould.cx>
+
+	* grecord/src/gsr-window.c, gst-mixer/src/mixer.c: Adding
+	Sun Microsystems at the documenters as requested by Breda McColgan
+	who did the documentation for those.
+
+2004-03-07  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+    * configure.in: check for 0.8 and 0.7 GStreamer
+
+2004-03-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* gstreamer-properties/gstreamer-properties.c:
+	(update_from_option), (entry_changed), (init_pipeline_editor),
+	(main):
+	* gstreamer-properties/pipeline-constants.c:
+	  Use gst-mateconf library for mateconf access
+
+2004-03-07  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Check for gst-mateconf lib correctly.
+
+2004-03-01  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/Makefile.am:
+	* gst-mixer/src/mixer.c: (main):
+	  Fix docs display (fixes #135692).
+
+2004-02-29  Seth Nickell  <seth@mate.org>
+
+	Reviews by: Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (create_mixer_widget):
+	  Remove borders that are automatically put around GtkViewports.
+	  Fixes #134331.
+
+2004-02-29  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (cb_about), (main):
+	  s/GStreamer Volume Control/Volume Control/. Fixes #134329.
+
+2004-02-27 Breda McColgan <breda.mccolgan@sun.com>
+
+	* gst-mixer/doc/C/mate-volume-control.xml: Updated for MATE 2.6, technical review draft
+	* gst-mixer/doc/C/mate-volume-control-C.omf: Updated for MATE 2.6
+	* gst-mixer/doc/C/l10n.txt: Added for MATE 2.6
+	* gst-mixer/doc/C/figures/mate-volume-control_window.png: Added for MATE 2.6
+
+
+2004-02-25  Ted Gould <ted@gould.cx>
+
+	* configure.in: release 2.5.4
+
+2004-02-25  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in: add gstreamer-mateconf to requirements for GSR
+
+2004-02-24  Johan Dahlin  <johan@mate.org>
+
+	* profiles/audio-profile-choose.c
+	(gm_audio_profile_choose_set_active): And fix leak(s)
+	(gm_audio_profile_choose_get_active): One more leak fix,
+	thanks Richard.
+
+	* profiles/audio-profile-choose.[ch] New function,
+	gm_audio_profile_choose_set_active
+
+2004-02-23  Ted Gould <ted@gould.cx>
+
+	* configure.in: release 2.5.3
+
+2004-02-23  Ted Gould <ted@gould.cx>
+
+	* gst-mixer/mate-volume-control.desktop.in: Patch from
+	Grzegorz Golawski which makes this more fd.o
+	compatible.  This is bug #129207.
+
+2004-02-23  Ted Gould <ted@gould.cx>
+
+	* cddb-slave2/Makefile.am, mate-cd/Makefile.am, grecord/Makefile.am
+	profiles/Makefile.am:  Patch from Elijah Newren to clean
+	up the usage of MateConf.  Fixes bug #135135 (cool number).
+
+2004-02-23  Ted Gould <ted@gould.cx>
+
+	* profiles/schemas.in.in: Adding a default value
+	to active.  Patch from Julio M. Merino Vidal for
+	bug #135133
+
+2004-02-21  Paisa Seeluangsawat  <paisa@users.sf.net>
+
+	* configure.in: Added Thai (th) to ALL_LINGUAS.
+
+2004-02-19  Kaushal Kumar  <kaushal.kumar@wipro.com>
+
+ 	* gst-mixer/src/mixer.c (create_track_widget):
+ 	Make all the slider and checkbox widgets accessible.
+ 	Fix bugzilla #133208.
+
+2004-02-18  Ted Gould <ted@gould.cx>
+
+	* autogen.sh, configure.in:  Applying a patch by
+	Malcolm Tredinnick which is located in bug #133384 and
+	fully fixes everything for versions of intltool greater
+	than 0.30.
+
+2004-02-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* grecord/Makefile.am:
+	* grecord/src/Makefile.am:
+          fix cleaning of schemas/desktop files to make make distcheck work
+
+Sun Feb  8 00:53:23 2004  Matthias Clasen  <maclas@gmx.de>
+
+	* autogen.sh (have_intltoolize): Make the version check pass
+	for 0.30.
+
+2004-01-17  Ted Gould <ted@gould.cx>
+
+	* mate-cd/callbacks.c, mate-cd/mate-cd.c:
+	Applying patch by padraig.obriain@sun.com for bug # 125321 that
+	deals with the title getting updated too much.
+
+2004-01-17  Ted Gould <ted@gould.cx>
+
+	* mate-cd/cdda.c, mate-cd/callbacks.c:
+	Applying a patch done by Sanjiv Agarwala.  It fixes a sleu of
+	bugs but has been placed in an umbrella bug #131799
+
+2004-01-14  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (create_mixer_widget):
+	  Make UI somewhat bigger by default.
+
+2004-01-14  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gst-mixer/src/mixer.c: (create_mixer_collection):
+	  Fix for crash if array from propertyprobe is NULL.
+
+2004-01-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* grecord/src/Makefile.am:
+	* grecord/src/mate-recorder.c: (gsr_open_window), (main):
+	* grecord/src/gsr-window.c: (set_extension), (profile_changed),
+	(gsr_window_new):
+	* profiles/mate-media-profiles.c: (mate_media_profiles_init):
+          use audio profile selection to record
+
+2004-01-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/mate-audio-profiles.schemas.in.in:
+          fix defaults
+
+2004-01-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/Makefile.am:
+	* profiles/README:
+	* profiles/audio-profile-choose.c:
+	* profiles/audio-profile-choose.h:
+	* profiles/audio-profile-edit.c:
+	* profiles/audio-profile-private.h:
+	* profiles/audio-profile.c:
+	* profiles/audio-profile.h:
+	* profiles/audio-profiles-edit.c:
+	* profiles/mate-audio-profiles-test.c:
+	* profiles/mate-media-profiles.c:
+	* profiles/mate-media-profiles.h:
+          separate AudioProfile in public and private bits and prefix with GM
+          make test code to show how it works
+
+2004-01-11  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profile-edit.c:
+	* profiles/audio-profile-private.h:
+	* profiles/audio-profile.c:
+	* profiles/audio-profile.h:
+	* profiles/audio-profiles-edit.c:
+          privatise audio-profile bits that are internal
+
+2004-01-11  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	* profiles/README:
+	* profiles/audio-profile-edit.c: (gm_audio_profile_edit_init),
+	(gm_audio_profile_edit_new):
+	* profiles/audio-profile-edit.h:
+	* profiles/audio-profile.h:
+	* profiles/audio-profiles-edit.c: (gm_audio_profiles_edit_new):
+	* profiles/audio-profiles-edit.h:
+          assorted changes and notes
+
+2004-01-11  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profile-choose.c: (gm_audio_profile_choose_new),
+	(gm_audio_profile_choose_get_active):
+	* profiles/audio-profile-choose.h:
+	* profiles/mate-media-profiles.h:
+          adding profile choose combo box
+
+2004-01-11 Christian Schaller <Uraeus@mate.org>
+
+	* Switch gstreamer-properties to use new videosinks
+	* Switch gstreamer-properties to use ffcolorspace
+
+2004-01-10 Christian Schaller <Uraeus@mate.org>
+
+	* Some updates to the spec file (re-enablind gsr)
+	* fix mate-sound-recorder desktop file
+	 to point to actuall binary
+	* Update TODO
+
+2004-01-05  Ted Gould <ted@gould.cx>
+
+	* mate-cd/linux-cdrom.c:
+	* mate-cd/freebsd-cdrom.c:
+	* mate-cd/solaris-cdrom.c:
+	Changing some errors to warnings.  Patch submitted by
+	Srinivasa Ragavan to fix bug #119715
+
+	The patch was for the linux files, I changed the Solaris and FreeBSD
+	ones.
+
+2004-01-05  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* gmix/.cvsignore:
+	* gmix/AUTHORS:
+	* gmix/BUGS:
+	* gmix/CHANGES:
+	* gmix/ChangeLog:
+	* gmix/Makefile.am:
+	* gmix/README:
+	* gmix/TODO:
+	* gmix/device_labels_alsa.h:
+	* gmix/device_labels_alsa.sed:
+	* gmix/device_labels_linux.h:
+	* gmix/device_labels_linux.sed:
+	* gmix/doc/.cvsignore:
+	* gmix/doc/C/.cvsignore:
+	* gmix/doc/C/Makefile.am:
+	* gmix/doc/C/figures/gmix-prefs.eps:
+	* gmix/doc/C/figures/gmix-prefs.png:
+	* gmix/doc/C/figures/gmix.eps:
+	* gmix/doc/C/figures/gmix.png:
+	* gmix/doc/C/mate-volume-control-C.omf:
+	* gmix/doc/C/mate-volume-control.xml:
+	* gmix/doc/C/legal.xml:
+	* gmix/doc/C/topic.dat:
+	* gmix/doc/Makefile.am:
+	* gmix/doc/it/.cvsignore:
+	* gmix/doc/it/Makefile.am:
+	* gmix/doc/it/figures/gmix-prefs.png:
+	* gmix/doc/it/figures/gmix.png:
+	* gmix/doc/it/gmix-it.omf:
+	* gmix/doc/it/gmix.sgml:
+	* gmix/doc/it/topic.dat:
+	* gmix/gmix.c:
+	* gmix/gmix.h:
+	* gmix/mate-fader.c:
+	* gmix/mate-mixer.c:
+	* gmix/mate-mixer.h:
+	* gmix/mate-mixer.png:
+	* gmix/mate-volume-control.desktop.in.in:
+	* gmix/mate-volume-control.schemas.in:
+	* gmix/prefs.c:
+	* gmix/prefs.h:
+	* mate-volume-control/.cvsignore:
+	* mate-volume-control/ChangeLog:
+	* mate-volume-control/Makefile.am:
+	* mate-volume-control/alsa-channel.c:
+	* mate-volume-control/alsa-channel.h:
+	* mate-volume-control/alsa-device.c:
+	* mate-volume-control/alsa-mixer.c:
+	* mate-volume-control/alsa-mixer.h:
+	* mate-volume-control/debug.c:
+	* mate-volume-control/debug.h:
+	* mate-volume-control/device-module.h:
+	* mate-volume-control/mate-channel-group.c:
+	* mate-volume-control/mate-channel-group.h:
+	* mate-volume-control/mate-channel-widget.c:
+	* mate-volume-control/mate-channel-widget.h:
+	* mate-volume-control/mate-channel.c:
+	* mate-volume-control/mate-channel.h:
+	* mate-volume-control/mate-mixer.c:
+	* mate-volume-control/mate-mixer.h:
+	* mate-volume-control/mate-volume-control.c:
+	* mate-volume-control/mate-volume-control.desktop.in:
+	* mate-volume-control/mate-volume-control.png:
+	* mate-volume-control/oss-channel.c:
+	* mate-volume-control/oss-channel.h:
+	* mate-volume-control/oss-device.c:
+	* mate-volume-control/oss-mixer.c:
+	* mate-volume-control/oss-mixer.h:
+	* mate-volume-control/volume-marshal.list:
+	* grecord/src/grec.c:
+	* grecord/src/grec.h:
+	* grecord/src/gui.c:
+	* grecord/src/gui.h:
+	* grecord/src/main.c:
+	* grecord/src/preferences.c:
+	* grecord/src/preferences.h:
+	* grecord/src/sound.c:
+	* grecord/src/sound.h:
+	  Remove old/unused files of sound recorder and mixer.
+
+2004-01-04  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* configure.in:
+	  Fix grecord not being compiled.
+
+2004-01-04  Ronald Bultje  <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/gsr-window.c: (eos_done), (save_sink_eos),
+	(cb_iterate), (cb_error), (do_save_file), (make_play_pipeline),
+	(make_record_pipeline), (init):
+	  Fix crashes when saving file, add some checks in various places,
+	  and recording works again (well, a bit). Other bugs are likely
+	  GStreamer bugs, not GSR bugs.
+
+2004-01-03  Robert Sedak  <robert.sedak@sk.htnet.hr>
+
+        * configure.in: Added "hr" in ALL_LINGUAS.
+
+2003-12-31  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in: release 2.5.2 - "no more no make distcheck"
+        * cddb-slave2/Makefile.am: fix distcheck issues, rewrite for clarity
+        * Makefile.am:
+        * mate-cd/Makefile.am:
+        * gst-mixer/Makefile.am:
+        * gstreamer-properties/Makefile.am:
+        * vu-meter/Makefile.am:
+          fix distcheck
+
+2003-12-31  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+        * omf.make:
+	* xmldocs.make:
+	  fix DESTDIR for uninstalling
+	  remove strange regeneration rule for legal.xml that caused
+          stray files after distcleaning caused by cvs commit time
+          difference between legal.xml and mate-cd.xml
+
+2003-12-31  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* po/POTFILES.in:
+	* po/am.po:
+	* po/ar.po:
+	* po/az.po:
+	* po/be.po:
+	* po/bg.po:
+	* po/bn.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/cy.po:
+	* po/da.po:
+	* po/de.po:
+	* po/el.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/et.po:
+	* po/eu.po:
+	* po/fa.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/ga.po:
+	* po/gl.po:
+	* po/he.po:
+	* po/hi.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ko.po:
+	* po/lt.po:
+	* po/lv.po:
+	* po/mk.po:
+	* po/ml.po:
+	* po/mn.po:
+	* po/ms.po:
+	* po/nl.po:
+	* po/nn.po:
+	* po/no.po:
+	* po/pl.po:
+	* po/pt.po:
+	* po/pt_BR.po:
+	* po/ro.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sl.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sr@Latn.po:
+	* po/sv.po:
+	* po/ta.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/wa.po:
+	* po/zh_CN.po:
+	* po/zh_TW.po:
+	  Remove files that aren't disted anymore
+
+2003-12-29  Christian Schaller <Uraeus@mate.org>
+
+	* Commit po updates
+	* Fix gst-mixer menu icon
+
+2003-12-21  Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* grecord/src/mate-record.c:
+	  fix command-line option mess up, add a dummy -p option so that
+	  it no longer crashes when evocated using caja.
+
+2003-12-21  Ronald Bultje <rbultje@ronald.bitfreak.net>
+
+	* configure.in: fix detection of mixer/interface headers
+	* gst-mixer/src/Makefile.am:
+	* gst-mixer/pixmaps/Makefile.am: change installation directory
+	  for pixmaps so that it goes in pkgdatadir instead of datadir.
+	  datadir is being cluttered with icons that don't belong there.
+	* gst-mixer/src/mixer.c: add a scrollbar so that it won't fill
+	  up your whole screen (which happens with ALSA, for example).
+	  Patch from Leif Johnson. Since he wrote ALSA mixer support in
+	  GStreamer too, I've added him to the about dialog, too.
+
+2003-12-17  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/audio-profiles-edit.c: (profile_activated_callback),
+	(edit_button_clicked), (new_profile_response_callback):
+	* profiles/mate-audio-profiles.schemas.in.in:
+	* profiles/mate-media-profiles.c: (mate_media_profiles_init):
+ 	  initialize the custom widget in the library, doh :)
+          cosmetic fixes and print removal
+
+2003-12-17  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+        * Makefile.am: undid the stupid gettextize m4 additions
+
+2003-12-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+	* profiles/Makefile.am:
+	* profiles/glade/Makefile.am:
+	* profiles/glade/mate-media-profiles-glade.c:
+	(gm_audio_profile_edit_new_2), (glade_module_register_widgets):
+	* profiles/mate-audio-profiles.glade2:
+          adding .so for glade
+
+2003-12-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+        * configure.in: rework so that it doesn't fail without gst 0.7
+
+2003-12-14  Christian Schaller <uraeus@mate.org>
+
+	* Fix gstreamer properties icon name
+	* Add docs to gstreamer properties
+	* Update docs to gst-mixer
+	* Update spec to reflect other changes
+
+2003-12-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* profiles/mate-audio-profiles.schemas.in.in: add defaults
+
+2003-12-13  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+          profiles/Makefile.am:
+          profiles/mate-media-profiles.pc.in:
+          Add pkg-config stuff
+
+2003-12-04  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.in:
+          Makefile.am:
+          profiles/:
+          Add media profile code
+
+2003-12-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gstreamer-properties/pipeline-tests.c: remove gstautoplug.h
+
+2003-11-25 Ted Gould <ted@gould.cx>
+
+	* configure.in: release 2.5.1
+
+2003-10-26 Christian Schaller <Uraeus@mate.org>
+
+	* Adding config.rpath. Generated file, shouldn't be here
+	* Fixing the calling of the mixer from mate-sound-recorder
+
+2003-10-25 Christian Schaller <Uraeus@mate.org>
+
+	* Fix so that gstreamer-properties works
+	* Put gstreamer-properties.desktop file back in action
+	* Move and somewhat update docs from gmix to gst-mixer
+	* Get appicon working for gst-mixer
+
+2003-10-25  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add m4.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath.
+	* configure.in (AC_OUTPUT): Add m4/Makefile.
+
+2003-10-25 Christian Schaller <Uraeus@mate.org>
+
+	* Replace gmixer with the new gst-mixer
+	* Remove build dependency on mate-common
+	* Update GStreamer dependency to 0.7.1
+	* Comment out some mixer tie in code in sound-recorder,
+	  should be re-enabled by someone with the right skills
+	* Update SPEC file for latest changes
+
+2003-10-15  Thomas Vander Stichele <thomas at apestaart dot org>
+	* configure.in: release 2.5.0
+
+
+2003-10-15  Thomas Vander Stichele <thomas at apestaart dot org>
+
+	* configure.in, mate-cd/Makefile.am:
+	  fix conditionals for cdrom host source
+
+2003-09-17  Ted Gould   <ted@gould.cx>
+
+	* configure.in:  Finially figured out how to make a branch
+	in CVS, so I did for mate-2-4 and now I've labeled this
+	2.5.0 in the main branch - just so if someone posts a bug
+	I'll know a little bit more.
+
+2003-09-17  Fatih Demir <kabalak@gtranslator.org>
+
+	* configure.in: Added "ta" (Tamil) to the languages' list.
+
+2003-09-08  Ted Gould   <ted@gould.cx>
+
+	* configure.in:  Updating version number to 2.4.0
+
+2003-09-05  Taneem Ahmed  <taneem@bengalinux.org>
+
+	* configure.in: Added "bn" to ALL_LINGUAS.
+
+2003-08-25  Ted Gould   <ted@gould.cx>
+
+	* configure.in:  Updating version number to 2.3.8
+
+2003-08-11  Ted Gould   <ted@gould.cx>
+
+	* configure.in:  Updating version number to 2.3.7
+
+2003-08-04  Ted Gould   <ted@gould.cx>
+
+	* configure.in:  Updating version number to 2.3.6
+
+2003-07-25  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Macedonian (mk) to ALL_LINGUAS
+
+2003-07-16  Ted Gould   <ted@gould.cx>
+
+	* configure.in:  Updating version number to 2.3.5
+
+2003-07-03  Ted Gould   <ted@gould.cx>
+	* configure.in:  Updating version number to 2.3.4
+
+	* configure.in:
+	* mate-cd/images/None-theme/*:
+	* mate-cd/images/Makefile.am:
+	* mate-cd/mate-cd.schemas.in.in:
+	Adding a new default theme for mate-cd.  Basically this theme
+	is a NULL theme, in that it looks basically like the GTK theme
+	that is being used.  I called it 'None' because this is most
+	likely how a user will think about it.  Calum Benson contributed
+	the theme itself, and it was all discussed in bugzilla
+	bug 82190.
+
+	* cddb-slave2/Makefile.am:
+	* mate-cd/Makefile.am:
+	Changed these so that the IDL generated files are not included
+	in a distribution.  These had some ripple through effects that made
+	distcheck not work, but those issues are resolved also.
+
+2003-06-30  Mohammad DAMT  <mdamt@bisnisweb.com>
+
+	* po/id.po: Added Indonesian translation
+	* configure.in: Added "id" to ALL_LINGUAS
+
+2003-06-23  Ted Gould   <ted@gould.cx>
+
+	* gmix/gmix.c:
+	Added a patch given to Iain, unknown origin.  It adds FreeBSD
+	name support to the mixer.
+
+2003-06-20  Ted Gould  <ted@gould.cx>
+
+	* AUTHORS:
+	* HACKING:
+	* MAINTAINERS:
+	Made myself into the maintainer.
+
+2003-06-18  Alex Duggan  <aldug@mate.org>
+
+	* gmix/gmix.c:
+	* mate-cd/Makefile.am:
+	* mate-cd/callbacks.c:
+	* grecord/src/gsr-window.c:
+	Add use the logos of these programs in their about dialogs.
+	Fixes #102983.
+
+2003-05-20  Danilo Å egan  <dsegan@gmx.net>
+
+	* configure.in: Added "sr" and "sr@Latn" to ALL_LINGUAS.
+
+2003-05-05  Telsa Gwynne  <hobbit@aloss.ukuu.org.uk>
+
+        * configure.in: Added cy to ALL_LINGUAS
+        * po/cy.po: Added
+
+2003-04-08  Mike Lei <mike.lei@sun.com>
+
+	* configure.in: Added l10n doc Makefile support for
+	  mate-cd and grecord
+
+	* Added l10n doc files for mate-cd and grecord
+
+2003-03-21  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.in: Added "ml" to ALL_LINGUAS
+
+2003-02-22  Abel Cheung  <maddog@linux.org.hk>
+
+	* cddb-slave2/cddb-track-editor.c: Fix tyop in genres name.
+
+2003-02-21  Roozbeh Pournader  <roozbeh@sharif.edu>
+
+	* configure.in: Added "fa" to ALL_LINGUAS.
+
+2003-01-29  Laurent Dhima  <laurenti@alblinux.net>
+
+	* configure.in: Added "sq" to ALL_LINGUAS.
+
+2003-01-22  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "mn" to ALL_LINGUAS.
+
+2003-01-10  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Amharic (am) to ALL_LINGUAS
+
+2003-01-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	Fix for 64-bit platforms. Probably better do the other way round
+	(aka guint -> gsize) since underlying g_io_channel_read()/...
+	operate the same way. This would change cddb-slave2
+	visible API.
+
+	* cddb-slave2/cddb-slave-capplet.c: (do_goodbye), (do_sites),
+	(do_hello):
+	* cddb-slave2/cddb-slave.c: (do_goodbye), (do_read), (do_query),
+	(do_hello):
+	* cddb-slave2/iochannel.c: (gnet_io_channel_writen),
+	(gnet_io_channel_readn): Use guint instead of gsize to comply with
+	cddb-slave API.
+
+
+2003-01-07  Naba Kumar <naba@mate.org>
+
+	* configure.in: Added hi (hindi) in ALL_LINGUAS
+
+2002-12-16  Thomas Vander Stichele <thomas at apestaart dot org>
+
+        * gstreamer-properties/Makefile.am: don't install desktop stuff
+          until proper UI review is done
+
+2002-12-11  Alex Duggan <aldug@mate.org>
+
+   * gmix/mate-volume-control.desktop.in.in:
+   * mate-cd/mate-cd.desktop.in:
+   * record/mate-sound-recorder.desktop.in:
+   * gstreamer-properties/gstreamer-properties.desktop.in:
+   * vu-meter/vumeter.desktop.in:
+   Add startup-notification support to all .desktop files
+   Fixes #100958
+
+2002-12-10  Thomas Vander Stichele <thomas at apestaart dot org>
+
+        * configure.in: require GStreamer >= 0.5.0
+
+2002-12-01  Thomas Vander Stichele <thomas at apestaart dot org>
+
+        * configure.in, Makefile.am: added gstreamer-properties
+	  gstreamer-properties: merged in thaytan's capplet, needs cleaning
+
+2002-11-03  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+
+	* configure.in: Added Belarusian to ALL_LINGUAS
+
+2002-11-01  Iain <iain@prettypeople.org>
+
+	* configure.in: Bump version number and require the new GST
+
+2002-10-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Require a newer intltool for better .schemas
+	support.
+
+2002-10-10 Iain <iain@prettypeople.org>
+
+	* : Applied Bala's patch for some solaris issues.
+
+2002-08-11  Ross Burton  <ross@burtonini.com>
+
+	* **/*.deskop.in: Add Encoding keyword, remove old Info keyword,
+	fix Terminal keyword and add MATE to the Categories keyword.
+
+2002-08-02  Iain <iain@prettypeople.org>
+
+	* configure.in: Generate the correct schemas files.
+
+2002-07-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* cddb-slave2/cddb-slave2.desktop.in: Fix the name and tooltip in
+	this file. #87760
+
+2002-06-18  Shivram U  <shivaram.upadhyayula@wipro.com>
+
+	* cddb-slave2/Makefile.am, gmix/Makefile.am, mate-cd/Makefile.am,
+	mate-volume-control/Makefile.am, vu-meter/Makefile.am: Changed
+	-DMATELOCALEDIR to "${prefix}/${DATADIRNAME}/locale".
+	 Fix for #83624, as per the suggestions given by
+	Hidetoshi Tajima <hidetoshi.tajima@sun.com>
+
+2002-06-10  Iain <iain@ximian.com>
+
+	* configure.in: TWO POINT OH POINT OH!
+
+2002-06-10  Yanko Kaneti <yaneti@declera.com>
+
+	* configure.in: (ALL_LINGUAS) Added Bulgarian (bg).
+
+2002-05-29  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* configure.in: Build gmix desktop files only in Solaris
+
+2002-05-27  Chris Lyttle  <chris@wilddev.net>
+
+	* omf.make: Added for new scrollkeeper system
+	* xmldocs.make: Changed for new scrollkeeper system
+	* Makefile.am: Added omf.make to EXTRA_DIST
+	* gmix/doc/C/Makefile.am: Changed figs to figdir
+	* gmix/doc/C/gmix-C.omf: Updated to new scrollkeeper format
+	* mate-cd/doc/C/Makefile.am: Changed figs to figdir
+	* grecord/doc/C/Makefile.am: Changed figs to figdir
+
+2002-05-22  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* acconfig.h configure.in:Check for sdtaudiocontrol in the proper
+	path. Define HAVE_MIXER if we have a audio mixer
+
+2002-05-16  Sander Vesik <sander.vesik@sun.com>
+
+	* grecord/doc/C: integrated sun docs for sound recorder
+
+2002-05-16  Sander Vesik <sander.vesik@sun.com>
+
+	* mate-cd/doc/C: integrated sun docs for cd player
+
+2002-05-14  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Vietnamese (vi) to ALL_LINGUAS
+
+2002-05-13  Iain <iain@ximian.com>
+
+	* configure.in: Bump version number
+
+2002-05-06  Satyajit Kanungo  <satyajit.kanungo@wipro.com>
+
+	* grecord/mate-sound-recorder.desktop.in:
+       	* mate-cd/mate-cd.desktop.in :
+          Added the Docpath  to open the help document from panel (launcher menu)
+2002-04-30  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Basque (eu) and Walloon (wa) to ALL_LINGUAS
+
+2002-04-25 Iain <iain@ximian.com>
+
+	* configure.in: Bump version number to indicate a change.
+
+2002-04-18  jacob berkman  <jacob@ximian.com>
+
+	* configure.in: fix checks for network libs (stolen from linc,
+	fixes bug #78548)
+
+2002-04-15  Iain <iain@ximian.com>
+
+	* configure.in: Bump version number slightly to indicate that there's
+	a new icon.
+
+2002-04-15  Iain <iain@ximian.com>
+
+	* configure.in: Version++
+	Check for some socket libs.
+
+2002-04-04  Iain <iain@ximian.com>
+
+	* configure.in: Fix the check for the host name
+
+2002-04-02  Iain <iain@ximian.com>
+
+	* configure.in: Updated version :)
+	Check sdtaudiocontrol if we're not going to build gmix and we're ont
+	Solaris.
+
+2002-04-01  jacob berkman  <jacob@ximian.com>
+
+	* xmldocs.make:
+	* Makefile.am (EXTRA_DIST): add xmldocs.make (fixes build bustage)
+
+2002-04-01  Iain <iain@ximian.com>
+
+	* added documentation.
+
+2002-03-30  Iain <iain@ximian.com>
+
+	* configure.in: Change version to something.
+	Check for the presence of CDROMCLOSETRAY in the cdrom header.
+
+2002-03-14  Laszlo Peter  <laca@ireland.sun.com>
+
+	* mate-cd/callbacks.c: s/__FUNCTION__/G_GNUC_FUNCTION/
+	* mate-cd/cdrom.c: ditto
+	* mate-cd/mate-cd.c: ditto
+	* mate-cd/linux-cdrom.c: ditto
+	* mate-cd/solaris-cdrom.c: ditto
+
+2002-03-13  Theo van Klaveren <t.vanklaveren@student.utwente.nl>
+
+	* configure.in: Add FreeBSD platform detection for MateCD.
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* TODO: Add some TODO stuff.
+
+	* Makefile.am: Disable building the new mate-volume-control
+
+	* configure.in: Ditto.
+
+2002-02-27  Iain <iain@ximian.com>
+
+	* configure.in: Use the mateconf2 AM rule
+
+2002-02-27  Iain <iain@ximian.com>
+
+	* tcd/*: Removed.
+
+	* gnomovision/*: Removed.
+
+	* cddbslave/*: Removed.
+
+	* debian/*: Removed.
+
+2002-02-27  Iain <iain@ximian.com>
+
+	* AUTHORS: Ego got the better of me.
+
+	* TODO: Update.
+
+2002-02-27  Iain <iain@ximian.com>
+
+	* configure.in: Add the Solaris detection stuff from Balamurali
+	Viswanathan. Substitute default devices for Solaris and Linux.
+	Generate mate-cd/mate-cd.schemas
+	Print some stats about whats going on.
+
+2002-02-20  Iain <iain@ximian.com>
+
+	* configure.in: Add a check for sys/sockio.h
+
+2002-02-15  jacob berkman  <jacob@ximian.com>
+
+	* Makefile.am (DIST_SUBDIRS):
+	* configure.in (AC_OUTPUT): it's mate-volume-control, not
+	volume-control
+
+2002-02-05  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in (ALL_LINGUAS): zh_CN.GB2312 -> zh_CN
+
+2002-02-02  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Update version number.
+
+2002-01-17 Hasbullah Bin Pit <sebol@ikhlas.com>
+
+	* configure.in: Added 'ms' at ALL_LINGUAS.
+	* po/ms.po: Added Malay Translation.
+
+2002-01-12  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Remove some line, that I've forgotten and create the
+	Makefile in the lcd-theme dir
+
+2001-12-03  Sander Vesik <Sander.Vesik@sun.com>
+	* autogen.sh: Remove test for CERTIFIED_GNOMIE
+	* configure.in: Remove test for CERTIFIED_GNOMIE and add
+	  missing [] to AC_MESSAGE_ERROR for the case of missing
+	  scrollkeeper
+
+2001-12-02  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Add a check for esd.
+
+2001-12-02  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Remove the matecomponent-config check.
+
+2001-11-17  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Make a stripped down link list for CDDBSlave.
+
+2001-11-03  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Use the new glib-gettext stuff
+
+2001-10-30  Iain Holmes  <iain@ximian.com>
+
+	* branched for mate2. Old branch is at mate-media-1-0
+
+	* Added cddb-slave2 and mate-cd
+
+2001-10-07  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* configure.in (ALL_LINGUAS): added lv
+
+2001-08-31  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in (ALL_LINGUAS): zh_TW.Big5 -> zh_TW
+
+2001-07-28  Dan Mueth  <d-mueth@uchicago.edu>
+
+	Adding line so help docs are included in RPMs.
+
+	* mate-media.spec.in:
+
+2001-07-27  Dan Mueth  <d-mueth@uchicago.edu>
+
+	Updating doc build stuff to use jw on RH 7.1 and any other dist which
+	has moved to docbook-utils.
+
+	* configure.in:
+	* sgmldocs.make:
+
+2001-06-07  Peter Teichman  <peter@phb>
+
+	* release 1.2.3
+
+2001-06-02  Peter Teichman  <peter@ximian.com>
+
+	* gmix/.cvsignore, gmix/Makefile.am, gmix/gmix.desktop*,
+	grecord/.cvsignore, grecord/Makefile.am, grecord/gmix.desktop*,
+	tcd/.cvsignore, tcd/Makefile.am, tcd/gmix.desktop*,
+	vu-meter/.cvsignore, vu-meter/Makefile.am, vu-meter/gmix.desktop*:
+	infrastructure changes for handling .desktop translations with
+	xml-i18n-tools
+
+2001-06-01  Peter Teichman  <peter@ximian.com>
+
+	* use xml-i18n-tools
+
+2001-05-29  Peter Teichman  <peter@ximian.com>
+
+	* configure.in: move mate initialization beyond AC_PROG_CC. Patch
+	from David Hampton <hampton@employees.org>
+
+2001-05-28  Peter Teichman  <peter@ximian.com>
+
+	* configure.in, gmix/Makefile.am: only configure ALSA when the
+	user asks for it (patch from David Hampton <hampton@employees.org>)
+
+2001-05-26  Peter Teichman  <peter@ximian.com>
+
+	* .cvsignore maintenance - many files weren't included, and a
+	couple .cvsignore files needed to be created
+
+2001-04-25  Peter Teichman  <peter@ximian.com>
+
+	* fix gtcd to look for its help files in the 'gtcd' path
+	* release 1.2.2
+
+2001-03-28  Peter Teichman  <pat@gnu.org>
+
+	* AUTHORS, HACKING: fix up some of the docs to establish myself
+	as maintainer
+
+2001-03-23  Dan Mueth  <dan@eazel.com>
+
+	Adding a file which slipped through last commit.
+
+	* omf-install/Makefile.am:
+
+2001-03-23  Dan Mueth  <dan@eazel.com>
+
+	Fixed a couple problems with the build.  Updated doc
+	build stuff and added OMF metadata.
+
+	* COPYING-DOCS:
+	* Makefile.am:
+	* configure.in:
+	* gmix/doc/C/Makefile.am:
+	* gmix/doc/C/figs/gmix-prefs.png:
+	* gmix/doc/C/figs/gmix.png:
+	* gmix/doc/C/figures/gmix-prefs.png:
+	* gmix/doc/C/figures/gmix.png:
+	* gmix/doc/C/gmix-C.omf:
+	* gmix/doc/C/gmix.sgml:
+	* gmix/doc/it/Makefile.am:
+	* gmix/doc/it/figs/gmix-prefs.png:
+	* gmix/doc/it/figs/gmix.png:
+	* gmix/doc/it/figures/gmix-prefs.png:
+	* gmix/doc/it/figures/gmix.png:
+	* gmix/doc/it/gmix-it.omf:
+	* gmix/doc/it/gmix.sgml:
+	* grecord/Makefile.am:
+	* sgmldocs.make:
+	* tcd/doc/C/Makefile.am:
+	* tcd/doc/C/figures/gtcd-props.png:
+	* tcd/doc/C/figures/gtcd-window.png:
+	* tcd/doc/C/figures/gtcd.png:
+	* tcd/doc/C/figures/track-number.png:
+	* tcd/doc/C/figures/track-time.png:
+	* tcd/doc/C/figures/trackeditor.png:
+	* tcd/doc/C/gtcd-C.omf:
+	* tcd/doc/C/gtcd.sgml:
+	* tcd/doc/C/images/gtcd-props.png:
+	* tcd/doc/C/images/gtcd-window.png:
+	* tcd/doc/C/images/gtcd.png:
+	* tcd/doc/C/images/track-number.png:
+	* tcd/doc/C/images/track-time.png:
+	* tcd/doc/C/images/trackeditor.png:
+
+2000-12-06  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* configure.in (ALL_LINGUAS): added Slovak [sk] language
+
+2000-10-20  Christopher R. Gabriel  <cgabriel@softwarelibero.org>
+
+	* configure.in (AC_OUTPUT): added italian documentation for gmix.
+
+2000-10-10  Christophe Merlet  <christophe@merlet.net>
+
+	* */*.desktop: Updated French strings.
+
+2000-08-05  Dan Mueth <d-mueth@uchicago.edu>
+
+	* configure.in: added /tcd/doc/ and /tcd/doc/C
+
+2000-05-21  Tim Gerla  <timg@means.net>
+
+	* configure.in: Update to 1.2.0
+	* README: Same
+
+2000-05-11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* configure.in (ALL_LINGUAS): added Catalan language
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* configure.in: Added grecord/src/Makefile.
+	* Makefile.am: Added grecord.
+	* grecord/src/Makefile.am: Removed all subdirs but src.
+	* grecord/src/main.c: Some stuff.
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* AUTHORS: Added myself.
+	* README: Added grecord.
+	* configure.in: Added grecord/Makefile.
+	Grecord added.
+
+2000-04-08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* configure.in (ALL_LINGUAS): added Lithuanian language
+	* *.desktop: added Lithuanian strings from Gediminas Paulauskas
+          <menesis@delfi.lt> to the desktop menu files
+
+2000-02-12  Fatih Demir <kabalak@gmx.net>
+
+	* configure.in: Added tr to ALL_LINGUAS .
+
+2000-01-31  Yuan-Chung Cheng <platin@linux.org.tw>
+
+        * configure.in: Added "zh_CN.GB2312" to ALL_LINGUAS.
+
+2000-01-13  Tim Gerla  <timg@means.net>
+
+	* configure.in: Added check for ucdrom.h for Linux 2.0.x users.
+
+2000-01-11  Tim Gerla  <timg@means.net>
+
+	* mate-media.spec.in: Added cddb-submit-methods (Peter Wainwright)
+
+1999-11-17  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* configure.in (ALL_LINGUAS): Added Greek (el).
+
+1999-11-02  Yuri Syrota <rasta@renome.rovno.ua>
+
+	* configure.in (ALL_LINGUAS): Added Ukrainian (uk).
+
+1999-10-12  Dan Damian <dand@dnttm.ro>
+
+	* configure.in (ALL_LINGUAS): Added Romanian (ro).
+
+1999-10-07  Jesus Bravo Alvarez  <jba@pobox.com>
+
+	* configure.in (ALL_LINGUAS): Added Galician (gl)
+
+1999-10-05  Tim Gerla  <timg@means.net>
+
+	* configure.in: Bump to 1.0.51, final release
+
+1999-10-04  Stanislav Brabec  <utx@penguin.cz>
+
+	* configure.in: Alphabetical resort of languages.
+
+1999-28-09  Tim P. Gerla  <timg@means.net>
+
+	* configure.in: Bump to 1.0.50, whee!
+
+1999-22-09  Tim P. Gerla  <timg@means.net>
+
+	* configure.in: Bump to 1.0.41
+
+1999-09-28  Martin Baulig  <martin@home-of-linux.org>
+
+	* configure.in (ALL_LINGUAS): Added cs.
+
+1999-09-27  Richard Hult  <rhult@hem2.passagen.se>
+
+	* configure.in (ALL_LINGUAS): Added sv.
+
+1999-09-26  Lauris Kaplinski <lauris@ariman.ee>
+
+        * configure.in: Added et (Estonian) to ALL_LINGUAS
+
+1999-19-09  Tim P. Gerla  <timg@means.net>
+
+	* configure.in: Bumped version to 1.0.40.
+	* README: Updates
+	* NEWS: Updates
+	* TODO: Removed old info
+
+1999-07-09  Tim P. Gerla  <timg@means.net>
+
+	* configure.in/AUTHORS/MAINTAINERS: Removed extace traces
+	* README.extace: Document pointing to new extace maintainer's page.
+
+1999-07-09  Tim P. Gerla  <timg@means.net>
+
+	* configure.in, Makefile.am: Disabled extace because of compiliation problems
+	* configure.in, Makefile.am: Include intl/ in dist please
+
+1999-05-25  Yukihiro Nakai <nacai@iname.com>
+
+	* Add Japanese entry to *.desktop
+
+1999-04-29  James Henstridge  <james@daa.com.au>
+
+	* acconfig.h, configure.in: added a test to find the system's mail
+	transfer agent.  It is used by cddbsubmit for email type submissions.
+
+1999-04-17  James Henstridge <james@daa.com.au>
+
+	* configure.in, acconfig.h: check for libghttp, and if found define
+	WITH_LIBGHTTP.  If not found, set GHTTP_LIB to empty.
+
+1999-03-18 Tuomas J. Lukka <lukka@iki.fi>
+
+	* configure.in - fix the test for we_have_esd to test -n "$we_have_esd"
+	  now mate-media compiles on my system without ESD again
+
+1999-03-09 Mark Crichton <crichton@gimp.org>
+
+	* configure.in: Fixed chicken-and-egg problem with the AM_ESD_PATH
+	macro.  That macro is now in acinclude.m4.  Also set up vu-meter and
+	extace to compile only if ESD is found.
+
+	* Makefile.am: changes to support above.  Also, if/when tcd becomes its
+	own module, we should remove this.
+
+	* acinclude.m4: Added AM_ESD_PATH.
+
+1999-02-25 Shooby Ban <bansz@szif.hu>
+
+        * configure.in: Added hungarian po
+        po/hu.po Hungarian translations
+
+Wed Feb 10 22:42:39 EST 1999 Gregory McLean <gregm@comstar.net>
+
+	* Bumped version to 0.99.8
+
+Wed Jan 20 23:48:16 EST 1999 Mandrake <mandrake@mandrake.net>
+
+	* vu-meter/Makefile.am: fixes to make this puppy actually BUILD again.
+
+1999-01-18  Christopher Blizzard  <blizzard@appliedtheory.com>
+
+	* configure.in (PROGRAMS_EXTACE): Add check to find the gsl header
+ 	files.
+
+1998-12:31  Mark Crichton <crichton@gimp.org>
+
+ 	* Makefile.am: Disabled building gnomovision...see gnomovision
+	changelog for more info.
+
+1998-12-28  Mark Crichton <crichton@gimp.org>
+
+	* Makefile.am
+	* configure.in: got gnomovision back to life...somewhat
+	Also checks for Specific XFree86 extensions now.
+
+Fri Dec 25 23:25:02 PST 1998 Manish Singh <yosh@gimp.org>
+
+	* Makefile.am
+	* configure.in: reenabled extace, redid the gsl check for gsl 0.4
+
+	* extace/extace.c: make it work with gsl 0.4
+
+1998-12-15  Mark Crichton <crichton@gimp.org>
+
+	* Makefile.am: Included configure as an EXTRA_DIST target
+	(needed for people who d/l tarball, but DON'T have auto*)
+
+	* vu-meter/Makefile.am: Removed dependency on vu-meter/NEWS.
+	File does not exist
+
+1998-12-04  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* configure.in (AC_OUTPUT): Removed the `sed ... POTFILES'.
+	* acinclude.m4: Removed.
+
+Wed Nov 25 12:56:36 EST 1998 Gregory McLean <gregm@comstar.net>
+
+	* vu-meter: Added a new toy.
+
+1998-11-17  Tuomas J. Lukka  <lukka@iki.fi>
+
+	* configure.in (ALL_LINGUAS): Add da, fi
+
+1998-10-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* configure.in (ALL_LINGUAS): Added Japanese to the translations.
+	Thanks to Mitsuru Oka for the ja.po file!
+
+Sun Aug 30 21:06:10 1998  Tim P. Gerla	<timg@means.net>
+
+	* Added new directory `cddbslave'. It's a program to request
+	cddb information from cddb servers.
+
+	* Makefile.am: Added cddbslave.
+
+	* configure.in: Added cddbslave.
+
+1998-08-24  Tim P. Gerla  <timg@means.net>
+
+	* configure.in: Added checks for later linux kernel headers, to enable cd
+	  changer support. I haven't tried using the cd changer code on a kernel that
+	  doesn't support it, so when we release we may want to disable it.
+
+1998-08-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* configure.in: Bumped version number to 0.27.
+
+1998-07-02  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
+
+	* configure.in (ALL_LINGUAS): Added `pt' for Portuguese translation.
+
+1998-05-15  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in (PROGRAMS_EXTACE): Define only if both `libesd' and
+	`libgslfft' exist.
+
+1998-02-26  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in (ALL_LINGUAS): Add `it'.
+
+1998-02-22  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
+
+	* configure.in (ALL_LINGUAS): Added 'de' for German language support.
+
+1998-02-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnomovision/tvset.c (main): Added app_id "gnomovision".
+
+1998-02-17  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in: Use `AM_ACLOCAL_INCLUDE'.
+
+Tue Feb 17 11:06:43 KST 1998  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* Makefile.am (macros/macros.dep): Maintainer rule to
+	auto-regenerate aclocal.m4.
+	(SUBDIRS): Add `macros'.
+	* autogen.sh: Use macros/autogen.sh.
+
+

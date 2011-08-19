@@ -1,0 +1,136 @@
+AC_INIT([MateDialog],[2.32.0],[http://bugzilla.mate.org/enter_bug.cgi?product=matedialog],[matedialog])
+
+AC_PREREQ([2.59])
+
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_SRCDIR([src])
+
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
+
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
+MATE_COMMON_INIT
+MATE_DOC_INIT
+
+AM_MAINTAINER_MODE
+
+IT_PROG_INTLTOOL([0.40.0])
+
+AC_PROG_CC
+
+GTK_REQUIRED=2.18.0
+
+AC_MSG_CHECKING([which gtk+ version to compile against])
+AC_ARG_WITH([gtk],
+  [AS_HELP_STRING([--with-gtk=2.0|3.0],[which gtk+ version to compile against (default: 2.0)])],
+  [case "$with_gtk" in
+     2.0|3.0) ;;
+     *) AC_MSG_ERROR([invalid gtk version specified]) ;;
+   esac],
+  [with_gtk=2.0])
+AC_MSG_RESULT([$with_gtk])
+
+case "$with_gtk" in
+  2.0) GTK_API_VERSION=2.0
+       GTK_REQUIRED=2.18.0
+       ;;
+  3.0) GTK_API_VERSION=3.0
+       GTK_REQUIRED=2.90.4
+       ;;
+esac
+
+PKG_CHECK_MODULES([MATEDIALOG],[gtk+-$GTK_API_VERSION >= $GTK_REQUIRED glib-2.0])
+AC_SUBST([MATEDIALOG_CFLAGS])
+AC_SUBST([MATEDIALOG_LIBS])
+
+dnl *************************
+dnl Check for the GTK+ backend, if it's X11, we -lX11
+dnl *************************
+
+matedialog_save_cflags="$CFLAGS"
+# pull in the CFLAGS to locate gdkconfig.h
+CFLAGS=`$PKG_CONFIG --cflags gtk+-2.0`
+AC_COMPILE_IFELSE([
+#include <gdkconfig.h>
+
+int main(void) {
+#ifndef GDK_WINDOWING_X11
+#error GDK_WINDOWING_X11 not defined
+#endif
+    return 0;
+}
+],
+        GDK_BACKEND_X11=yes,
+        GDK_BACKEND_X11=no)
+
+CFLAGS="$matedialog_save_cflags"
+
+if test "x$GDK_BACKEND_X11" = "xyes"; then
+	PKG_CHECK_MODULES(X, x11)
+	MATEDIALOG_CFLAGS="$MATEDIALOG_CFLAGS $X_CFLAGS"
+	MATEDIALOG_LIBS="$MATEDIALOG_LIBS $X_LIBS"
+fi
+
+# *******************************
+# perl check
+# *******************************
+
+AC_PATH_PROG([PERL],[perl],)
+
+# *******************************
+# libmatenotify check
+# *******************************
+
+LIBMATENOTIFY_REQUIRED=0.4.1
+
+AC_ARG_ENABLE([libmatenotify],
+              AC_HELP_STRING([--enable-libmatenotify],[enable libmatenotify support]),,
+              [enable_libmatenotify=yes])
+
+if test x$enable_libmatenotify = xyes ; then
+   PKG_CHECK_MODULES([LIBMATENOTIFY],[libmatenotify >= $LIBMATENOTIFY_REQUIRED],
+                     [HAVE_LIBMATENOTIFY="yes"],[HAVE_LIBMATENOTIFY="no"])
+
+   AC_SUBST([LIBMATENOTIFY_CFLAGS])
+   AC_SUBST([LIBMATENOTIFY_LIBS])
+
+   if test "x$HAVE_LIBMATENOTIFY" = "xyes"; then
+      AC_DEFINE([HAVE_LIBMATENOTIFY],[1],[libmatenotify is available on this machine])
+   fi
+fi
+
+# *******************************
+# Debug
+# ******************************* 
+
+MATE_DEBUG_CHECK
+MATE_COMPILE_WARNINGS([maximum])
+
+# *******************************
+# Internationalization
+# ******************************* 
+
+GETTEXT_PACKAGE=matedialog
+AC_SUBST([GETTEXT_PACKAGE])
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[Gettext domain])
+
+AM_GLIB_GNU_GETTEXT
+
+# *******************************
+
+AC_SUBST([AM_CPPFLAGS])
+AC_SUBST([AM_CFLAGS])
+AC_SUBST([AM_LDFLAGS])
+
+# *******************************
+
+AC_CONFIG_FILES([
+Makefile 
+po/Makefile.in
+src/Makefile
+src/gdialog
+data/Makefile
+help/Makefile
+])
+
+AC_OUTPUT

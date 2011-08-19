@@ -1,0 +1,612 @@
+<?xml version="1.0"?>
+<mateconfschemafile>
+  <schemalist>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/global/profile_list</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/global/profile_list</applyto>
+      <owner>mate-media</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[cdlossy,cdlossless,aac,mp2,mp3,voicelossy,voicelossless]</default>
+      <locale name="C">
+        <short>List of profiles</short>
+        <long>
+          List of audio recording profiles.  The list contains
+          strings naming subdirectories relative to
+          /system/gstreamer/@GST_MAJORMINOR@/audio/profiles.
+        </long>
+      </locale>
+    </schema>
+
+<!-- template schema for each of the profiles -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/name</key>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/description</key>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/pipeline</key>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/extension</key>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+<!-- each of the profiles we supply by default -->
+    <!-- CD quality, lossy compression -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>CD Quality, Lossy</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to CD-quality audio, but with a lossy compression codec. Use this for CD extraction and radio recordings.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-float,rate=44100,channels=2 ! vorbisenc name=enc quality=0.5 ! oggmux</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>ogg</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossy/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <!-- CD quality, lossless compression -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>CD Quality, Lossless</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to CD-quality audio, but with a lossless compression codec. Use this if you later want to edit the file or burn it to CD.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-int,rate=44100,channels=2 ! flacenc name=enc</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>flac</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/cdlossless/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+
+    <!-- Voice quality, lossless compression -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Voice, Lossless</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to lossless voice-quality audio. Use this for recording and editing speech.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-int,rate=22050,channels=1 ! wavenc name=enc</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>wav</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossless/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <!-- Voice quality, lossy compression -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Voice, Lossy</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to lossy voice-quality audio. Use this for recording speech that doesn't need to be edited.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-int,rate=32000,channels=1 ! speexenc name=enc ! oggmux</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>spx</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/voicelossy/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <!-- MP2 -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>CD Quality, MP2</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to CD-quality audio, but with the lossy MP2 codec. Use this for preparing files for copying to devices that only support the MP2 codec. Note that using this format may be illegal in your jurisdiction; contact your lawyer for advice.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-int,rate=44100,channels=2 ! twolame name=enc mode=0 bitrate=192 ! id3v2mux</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>mp2</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp2/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <!-- MP3 -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>CD Quality, MP3</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to CD-quality audio, but with the lossy MP3 codec. Use this for preparing files for copying to devices that only support the MP3 codec. Note that using this format may be illegal in your jurisdiction; contact your lawyer for advice.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-int,rate=44100,channels=2 ! lamemp3enc name=enc target=0 quality=6 ! xingmux ! id3v2mux</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>mp3</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/mp3/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <!-- AAC -->
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/name</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/name</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>CD Quality, AAC</default>
+        <short>A short name for the audio profile</short>
+        <long>
+          A short name for the audio profile, to be used in selections
+          and uniquely identifying the profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/description</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/description</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <locale name="C">
+        <default>Used for converting to CD-quality audio, but with the lossy AAC codec. Use this for preparing files for copying to devices that only support the AAC codec. Note that using this format may be illegal in your jurisdiction; contact your lawyer for advice.</default>
+        <short>A description for the audio profile</short>
+        <long>
+          A description of the profile, containing more information and
+          describing when to use this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/pipeline</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/pipeline</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>audio/x-raw-int,rate=44100,channels=2 ! faac profile=2 ! ffmux_mp4</default>
+      <locale name="C">
+        <short>The partial GStreamer pipeline used</short>
+        <long>
+          A partial GStreamer pipeline to use for this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/extension</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/extension</applyto>
+      <owner>mate-media</owner>
+      <type>string</type>
+      <default>m4a</default>
+      <locale name="C">
+        <short>The default file extension for this profile</short>
+        <long>
+          A filename extension to be used when storing files encoded
+          with this profile.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/active</key>
+      <applyto>/system/gstreamer/@GST_MAJORMINOR@/audio/profiles/aac/active</applyto>
+      <owner>mate-media</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Whether this profile is to be used</short>
+        <long>
+          Whether to use and display this profile.
+        </long>
+      </locale>
+    </schema>
+
+  </schemalist>
+</mateconfschemafile>

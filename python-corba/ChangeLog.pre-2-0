@@ -1,0 +1,657 @@
+2003-09-01  James Henstridge  <james@daa.com.au>
+
+	* README: add some info about dynamically loading IDL.
+
+	* setup.py (MICRO_VERSION): increment version number.
+
+	* configure.in: increment version number.
+
+	* NEWS: add news items.
+
+2003-08-27  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-method.c (pycorba_method_call): get rid of arg_tc
+	array, which was not being used.  Found by Olivier Andrieu.
+
+2003-08-24  James Henstridge  <james@daa.com.au>
+
+	* NEWS: add news items.
+
+	* configure.in, setup.py: increment version number.
+
+	* src/pycorba-orb.c (pycorba_orb_work_pending): add orb method.
+	(pycorba_orb_perform_work): add orb method.
+
+2003-08-21  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (pymatecorba_generate_iinterface_stubs): set
+	__slots__ to () in the class dict.  This saves a small amount of
+	memory in stub instances, and prevents the user from assigning to
+	an unknown attribute, which is pretty much always a typo or error.
+
+2003-08-05  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-exceptions.c (pymatecorba_check_ex): set the type field
+	back to null, so that our typecode doesn't get released.
+	(pymatecorba_register_exceptions): use PyCFunction_New() to create the
+	__init__ function for exceptions rather than PyDescr_MethodNew(),
+	since the descriptor doesn't work for old style classes (which
+	exceptions are).
+	(pymatecorba_exception_init): adjust to take the "self" argument from
+	the args tuple.
+
+	* src/stub-gen.c (pymatecorba_generate_iinterface_stubs): fix loop
+	upper bound.
+
+2003-07-31  James Henstridge  <james@daa.com.au>
+
+	* configure.in: increment version number.
+
+	* NEWS: add news items.
+
+2003-07-23  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-method.c (pycorba_method_call): check if argument
+	name is NULL in PyErr_Format calls (bug #118092).
+
+2003-07-20  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (pymatecorba_generate_iinterface_stubs): remove
+	unneeded bases when building a stub.  This is an attempt to
+	reverse engineer the inheritance heirachy from the info MateCORBA
+	gives us.  Needed to get it to work with Python 2.3.
+
+2003-07-16  James Henstridge  <james@daa.com.au>
+
+	* src/MateCORBAmodule.c (initMateCORBA): expose pymatecorba version as
+	MateCORBA.__version__.
+
+	* setup.py (MICRO_VERSION): increment version number.
+
+	* configure.in: increment version number.
+
+	* tests/constants.py (SEQ_LONG_RETN): change sequence constants to
+	lists, since that is the form we return sequences as.
+
+2003-07-12  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* src/pycorba-marshal.c (marshal_value): Special case of
+	marshalling sequence<octet> to accept a python string.
+
+2003-07-02  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-typecode.c (pycorba_typecode_get_subtypes): return a
+	list instead of a tuple.
+	(pycorba_typecode_get_subnames): same here.
+	(pycorba_typecode_get_sublabels): and here.
+
+	* src/pycorba-orb.c (pycorba_orb_list_initial_services): return a
+	list instead of a tuple.
+
+	* src/pycorba-marshal.c (demarshal_value): demarshal sequences to
+	lists rather than tuples (according to a python-dev thread, this
+	is the correct sequence type for homogeneous data).
+	(demarshal_value): same for arrays.
+
+2003-07-01  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-marshal.c (marshal_value): None is not a valid
+	string value.
+	(marshal_value): or wstring.
+
+2003-06-27  James Henstridge  <james@daa.com.au>
+
+	* src/pymatecorba-servant.c (MATECORBA_VERSION_CHECK): define a macro to
+	help with MateCORBA version checks.
+	(MATECORBA2_INTERNAL_API): only define this if MateCORBA < 2.7.0
+	(_pymatecorba_register_skel): use MATECORBA_VERSION_CHECK.
+
+	* src/Makefile.am (python_PYTHON): install dummy modules.
+
+	* src/CORBA.py, src/PortableServer.py: dummy modules that simply
+	initialise PyMateCORBA, which replaces them with the real versions.
+
+	* src/MateCORBAmodule.c (initMateCORBA): create the CORBA and
+	PortableServer modules as submodules of MateCORBA, and create links
+	back to the official toplevel names.  This is what OmniORBpy does,
+	which gives the possibility that you might be able to fit two ORBs
+	into a single process.
+
+2003-03-23  James Henstridge  <james@daa.com.au>
+
+	* setup.py (MICRO_VERSION): increment version number.
+
+	* configure.in: increment version number.
+
+	* NEWS: add news items.
+
+2003-03-21  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
+
+	* src/pymatecorba-servant.c (_pymatecorba_register_skel): Handle the
+	rename of the PortableServer_ClassInfo field small_relay_call to
+	impl_finder_func conditionally considering the MateCORBA version in
+	use (>= 2.7.0 or not).
+
+2003-03-14  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-marshal.c (demarshal_value): fix marshalling of long
+	long and unsigned long long values.  It wasn't aligning the
+	pointer or advancing it, which it should have been :(.
+
+2003-02-23  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-method.c (pycorba_method_get_doc): handle case where
+	argument name is NULL (happens with imodule service).
+
+	* src/MateCORBAmodule.c (pymatecorba_load_file): don't free ifaces and
+	types (at least temporarily).
+
+	* src/stub-gen.c (pymatecorba_register_stub): if the repo id is like
+	IDL:omg.org/CORBA..., also register the stub for IDL:CORBA...
+
+2003-02-22  James Henstridge  <james@daa.com.au>
+
+	* src/MateCORBAmodule.c (pymatecorba_load_file): MateCORBA.load_file()
+	function to load interface definitions from a file.
+
+	* configure.in: check to see if MateCORBA's imodule service is
+	available.
+
+2003-01-21  Johan Dahlin  <jdahlin@async.com.br>
+
+	* Makefile.am (EXTRA_DIST): Added setup.py, dsextras.py and
+	MANIFEST.in here 
+
+	* dsextras.py, setup.py: Initial distutils support.
+
+	* .cvsignore: Ignore dist, build and MANIFEST
+
+	* MANIFEST.in: New file
+
+2002-12-27  James Henstridge  <james@daa.com.au>
+
+	* NEWS: update news file.
+
+	* configure.in: increment version number.
+
+	* src/pymatecorba-utils.c (_pymatecorba_get_container): remove g_message()
+	calls.  This function is working fine.
+
+2002-12-23  James Henstridge  <james@daa.com.au>
+
+	* configure.in (PYMATECORBA_LIBS): add code to get rid of the
+	"-export-dynamic" from the link flags, since we want to limit the
+	number of exported symbols.
+
+	* autogen.sh (AUTOMAKE): allow building with automake 1.7 or 1.6.
+
+	* src/MateCORBAmodule.c (add_tc_constants): new function to add
+	CORBA.TC_* constants.
+
+2002-11-16  James Henstridge  <james@daa.com.au>
+
+	* NEWS: update news.
+
+	* src/*.c: add copyright headers to the tops of all source files
+	(which should have been there from the start ...).
+
+	* pymatecorba-2.pc.in (Requires): add a version requirement for MateCORBA2
+	(substituted from configure.in).
+
+2002-11-12  James Henstridge  <james@daa.com.au>
+
+	* configure.in: require MateCORBA 2.4.4 or newer.
+
+	* src/pycorba-fixed.c (pycorba_fixed_new): start of "fixed"
+	wrapper.  Only supports __new__ and __repr__ at the moment.  Need
+	to wait til fixed's work in MateCORBA2 before this is that useful ...
+
+2002-11-08  James Henstridge  <james@daa.com.au>
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_new): don't chain to
+	GenericNew.  Just call tp_alloc() directly.
+
+2002-11-07  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-typecode.c (pycorba_typecode_get_kind): return an
+	TCKind enum value.
+
+	* src/pycorba-marshal.c (demarshal_value): demarshal enumeration
+	values to the correct wrapper type, rather than ints.
+
+	* src/stub-gen.c (generate_enum_stub): create enumeration stub
+	types.
+
+	* src/pycorba-enum.c: new file implementing wrappers for
+	enumerations.  The enum values are int subclasses with repr
+	overriden.
+
+	* src/*.c: turn off Py_TPFLAGS_BASETYPE for types that shouldn't
+	be getting subclassed.
+
+2002-11-05  James Henstridge  <james@daa.com.au>
+
+	* tests/c-inproc/c-impl.c (_wrap_create_TestCall): balance objrefs.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant__this): balance objrefs.
+
+	* src/pymatecorba-poa.c (pymatecorba_poa_servant_to_reference): balance
+	objrefs.
+
+	* src/pycorba-orb.c (pycorba_orb_string_to_object): release the
+	objref to balance objrefs.
+	(pycorba_orb_resolve_initial_references): and here.
+
+	* src/pycorba-marshal.c (demarshal_value): don't need to duplicate
+	reference here.
+
+	* src/pycorba-object.c (pycorba_object_new): duplicate the objref
+	here, so that the API matches the other wrapper types.
+
+2002-11-04  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-exceptions.c (pymatecorba_check_python_ex): if we can't
+	identify the exception, print the traceback as it is probably an
+	error.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_members): add code to
+	manage _delegate member.
+	(pymatecorba_servant_init): add constructor that sets _delegate.
+	(pymatecorba_servant_dealloc): release the delegate here.
+	(pymatecorba_servant_generic_skel_func): if delegate is not None, look
+	up the method on the delegate.
+
+	* src/pymatecorba-private.h: add delegate member.
+
+2002-11-01  James Henstridge  <james@daa.com.au>
+
+	* src/MateCORBAmodule.c (INIT_TYPE): only set type members if they are
+	NULL.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_new): change init
+	function for base servant type to a __new__ function, so that it
+	will be called even if the constructor isn't chained up to.
+
+	* src/pycorba-exceptions.c (pymatecorba_check_ex): improve handling of
+	unknown exceptions.
+
+	* src/pycorba-marshal.c (demarshal_value): handle NULL
+	CORBA_strings and CORBA_wstrings.
+	(marshal_value): allow passing None for strings and wstrings.
+	(demarshal_value): align seqval, rather than val while looping
+	through sequence.
+	(demarshal_value): add missing advanceptr for sequence values.
+
+	* src/pymatecorba.h: fix typo ...
+
+2002-10-30  James Henstridge  <james@daa.com.au>
+
+	* pymatecorba-2.pc.in (Cflags): add a pkg-config file.
+
+	* README: add some info about typelibs and interface discovery.
+
+	* tests/c-inproc/: test case that demonstrates Python code calling
+	an in-process servant implemented in C and vice versa.
+
+	* src/pymatecorba-servant.c (_pymatecorba_register_skel): make the vepv
+	length 2, and set the second epv to be long enough to cover any of
+	the base type epv's.  Set the vepvmap for all Python servants to
+	map all classids to the empty epv, so that fast local path can't
+	be used.  Yes this is a hack.
+
+2002-10-27  James Henstridge  <james@daa.com.au>
+
+	* src/MateCORBAmodule.c (pymatecorba_load_typelib): print a warning if we
+	get a typecode of kind tk_null, as this most likely represents a
+	broken typelib.
+
+2002-10-26  James Henstridge  <james@daa.com.au>
+
+	* src/Makefile.am: install pymatecorba.h header.
+
+	* src/MateCORBAmodule.c (initMateCORBA): set up API vector.
+
+	* src/pymatecorba.h: setup header to allow other modules to
+	interoperate with us.
+
+	* src/pymatecorba-servant.c (_pymatecorba_register_skel): simplify servant
+	a bit more (get rid of stuff that was in Martin's impl but not
+	needed for mine).
+
+	* src/pycorba-struct.c: to save some memory, add _d and _v member
+	descriptors and store the values in the object itself.
+	(pycorba_union_init): use direct access to _d and _v members of
+	the struct.
+	(branch_matches): directly access _d member.
+	(pycorba_union_member_descr_get): directly access _v.
+	(pycorba_union_member_descr_set): directly access _v.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_generic_skel_func):
+	raise CORBA.DATA_CONVERSION exception when we have trouble
+	converting to/from Python types.
+
+	* README: fix uri to the specification.
+
+	* tests/Makefile.am: move tests to a separate directory, and add
+	an inproc test that puts the client and server in the same address
+	space.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_generic_skel_func):
+	convert Python exception to CORBA exception.
+	(impl_finder_func): get rid of warning message for unknown
+	opnames.  This way the ops provided by MateCORBA itself don't result
+	in warnings.
+
+	* src/pycorba-exceptions.c (pymatecorba_check_python_ex): new function
+	to set CORBA exception from Python exception.
+
+2002-10-25  James Henstridge  <james@daa.com.au>
+
+	* src/everything-server.py: implement some more of the server.
+
+	* src/pycorba-struct.c: activate the union member for default case
+	correctly.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant__this): save a pointer to
+	the objref when activating it, and return it if the object has
+	already been activated.
+	(pymatecorba_servant_generic_skel_func): add missing break;
+	(pymatecorba_servant_generic_skel_func): set tc to the dealiased
+	typecode.
+
+	* src/everything-client.py: check the TEST_SERVER_IORFILE
+	environment for the IOR file.
+
+	* src/everything-server.py (MyFactory.getBasicServer): write the
+	IOR to a file.
+
+	* src/pymatecorba-servant.c (pymatecorba_servant_generic_skel_func): free
+	the child allocations for inout values when writing out return
+	values.
+
+	* src/everything-server.py: start of everything server
+	implementation.
+
+	* src/constants.py: move constants from everything-client.py to a
+	separate file, so they can be used by the test server.
+
+	* src/pymatecorba-servant.c: rename to PortableServer.Servant, to
+	follow the specification.
+	(pymatecorba_servant_generic_skel_func): start of stub marshal code.
+
+2002-10-24  James Henstridge  <james@daa.com.au>
+
+	* src/pymatecorba-servant.c (pymatecorba_servant__default_POA): implement
+	_default_POA operation.
+	(pymatecorba_servant__this): use _default_POA().
+
+	* src/pymatecorba-utils.c (_pymatecorba_get_container): fix reference
+	problem with _GlobalIDL.
+
+	* src/pycorba-orb.c (pycorba_orb_resolve_initial_references):
+	handle "RootPOA" specially, since it is not a real CORBA.Object.
+
+	* src/pycorba-object.c: Python language mapping says that these
+	methods should be underscore prefixed.
+
+	* src/pymatecorba-poa.c: wrappers for POA and POAManager.
+
+	* src/pymatecorba-servant.c: POA servant impl for Python
+
+	* src/pymatecorba-utils.c (_pymatecorba_escape_name): simplify
+	implementation a bit by using keyword.kwdict directly, rather than
+	the keyword.iskeyword() function.
+
+2002-10-23  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (add_stub_to_container): escape type name.
+	(generate_enum_stub): same here.
+
+	* src/pycorba-marshal.c (marshal_value): escape struct/exception
+	member names.
+	(demarshal_value): and here.
+
+	* src/pycorba-struct.c (pymatecorba_add_union_members_to_stub): and
+	here ...
+
+	* src/pycorba-method.c (pymatecorba_add_imethods_to_stub): escape
+	keywords in method and attribute names.
+
+	* src/pymatecorba-utils.c (_pymatecorba_get_container): move
+	get_container() here, add support for generating "POA" module
+	names, and perform keyword escaping.
+
+2002-10-19  James Henstridge  <james@daa.com.au>
+
+	* README: add readme file.
+
+2002-10-18  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (generate_union_stub): add union member
+	descriptors.
+
+	* src/MateCORBAmodule.c (initMateCORBA): initialise the union member type.
+
+	* src/pycorba-struct.c (pymatecorba_add_union_members_to_stub): add a
+	new descriptor type to represent the extra members on unions.
+
+2002-10-17  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-struct.c (pycorba_union_init): support the keyword
+	argument form of the union constructor (which works now that bug
+	#95581 has been fixed).
+
+	* src/MateCORBAmodule.c (pymatecorba_load_typelib): remove hack, as the
+	fix for bug #95591 makes the hack unnecessary.
+
+2002-10-16  James Henstridge  <james@daa.com.au>
+
+	* src/MateCORBAmodule.c (register_corba_types): load types defined in
+	matecorba/orb-core/corba-defs.h.
+
+	* src/stub-gen.c (add_stub_to_container): support adding child
+	members to containers that are new style types ...
+
+2002-10-15  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-typecode.c (_typecode_hash): move typecode hash
+	function here, since it is not needed in pycorba-typecode.c
+	anymore.
+
+	* src/stub-gen.c: change stubs hash to map repo_id -> stub,
+	instead of using TypeCodes as keys.
+
+	* src/pycorba-typecode.c (pycorba_typecode_cmp): don't call
+	CORBA_TypeCode_equal if the two typecode pointers are equal.
+
+	* src/pycorba-orb.c (pycorba_orb_shutdown): add shutdown method.
+
+	* src/MateCORBAmodule.c (pymatecorba_corba_orb_init): unref the orb after
+	creating the wrapper.
+
+	* src/pycorba-orb.c (pycorba_orb_new): ref and unref the orb when
+	creating and freeing the orb wrapper.
+
+	* src/stub-gen.c (pymatecorba_get_stub_from_objref): call
+	MateCORBA_small_get_iinterface() for base interfaces as needed when
+	generating stubs for unknown types.
+
+	* src/pycorba-marshal.c (marshal_value): error out if the sequence
+	is longer than the maximum sequence length (if any is specified).
+	(marshal_value): similar for bounded strings.
+	(marshal_value): and for wstrings.
+
+2002-10-14  James Henstridge  <james@daa.com.au>
+
+	* src/everything-client.py (test_misc_union): get rid of hack, as
+	the pymatecorba_load_typelib() hack removes the need for it.
+	(*): convert to use unittest framework.
+
+	* src/MateCORBAmodule.c (pymatecorba_load_typelib): hack to work around
+	bad ordering of enum discriminators for unions.
+
+	* src/pycorba-any.c: s/CORBA.any/CORBA.Any/ to match python
+	language mapping.
+
+	* src/pycorba-object.c (*): return either Py_True or Py_False for
+	functions that return bool.  This will make them use the True and
+	False boolean constants when upgrading to Python 2.3.
+
+	* src/stub-gen.c (pymatecorba_get_stub_from_objref): since
+	MateCORBA_small_get_iinterface() doesn't crash remote objects now,
+	re-enable this bit of code.
+
+2002-10-12  James Henstridge  <james@daa.com.au>
+
+	* src/everything-client.py (main): add more tests.
+
+	* src/pycorba-marshal.c (marshal_value): fix up marshalling of
+	typecodes.
+
+	* src/pycorba-any.c (pycorba_any_cmp): add ability to compare anys.
+
+	* src/stub-gen.c (pycorba_typecode_hash): hash function for
+	TypeCodes based on implementation of CORBA_TypeCode_equal.
+
+	* src/everything-client.py (test_misc_union): manually set up
+	matecorba.test.EnumUnion.Colour enum while waiting for bug 95591 to be
+	fixed.
+
+	* src/pycorba-marshal.c (marshal_value): fix bug in boolean
+	marshalling.
+
+	* src/MateCORBAmodule.c (initMateCORBA): add CORBA.TRUE and CORBA.FALSE
+	constants to match specification.
+
+	* src/pycorba-marshal.c (demarshal_value): support demarshalling
+	of CORBA.any's.
+	(marshal_value): support marshalling of CORBA.any's.
+
+	* src/stub-gen.c (pymatecorba_lookup_typecode): don't dereference NULL
+	pointer.
+
+	* src/pycorba-typecode.c: add cmp() and init() methods for TypeCode.
+
+	* src/pycorba-any.c: add CORBA.any implementation
+
+	* src/everything-client.py (main): add union tests.
+
+	* src/pycorba-method.c (pycometh_call): make exception messages a
+	bit more informative.
+
+	* src/pycorba-struct.c (pycounion_init): __init__ function for
+	unions.  Doesn't implement initialisation with keyword arguments
+	due to bug #95581.
+
+	* src/pycorba-marshal.c (demarshal_value): for boolean values,
+	return Py_True or Py_False, so that they get returned as boolean
+	values with Python 2.3.
+	(marshal_value): support marshalling of unions.
+	(demarshal_value): support demarshalling of unions.
+
+2002-10-11  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-struct.c: new file to hold base types for structures
+	and unions.  This is mainly to implement their constructors.
+
+2002-10-10  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (generate_struct_stub): add constructor to
+	structs, as required by the Python mapping.
+
+	* src/pycorba-exceptions.c (pymatecorba_exception_init): constructor
+	for exceptions.
+
+2002-10-07  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (get_container): increment the reference on the
+	module created by Py_InitModule().
+
+	* src/everything-client.py (main): add many type marshal/demarshal
+	tests.
+
+	* src/pycorba-method.c (pycometh_call): handle "fixed length"
+	array returns.
+
+	* src/everything-client.py (main): start of port of the
+	"everything" test client to python, for testing against the server
+	distributed with python.  Only ported the attribute and string op
+	tests so far.
+
+	* src/pycorba-method.c (pycometh_call): handle void return type
+	correctly.
+
+2002-10-06  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-method.c (pycometh_call): handle out arguments
+	better.
+
+2002-10-02  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-method.c (pycometh_call): pass a pointer to ret to
+	MateCORBA_invoke_stub().
+
+2002-10-01  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-marshal.c (demarshal_value): we have successfully
+	demarshalled the sequence if i == sval->_length (not tc->length).
+
+2002-09-28  James Henstridge  <james@daa.com.au>
+
+	* src/MateCORBAmodule.c (initMateCORBA): add MateCORBA.matecorba_version constant
+	so programs can check what version of MateCORBA they are running
+	against.
+
+2002-09-26  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-marshal.c (demarshal_value): support demarshalling
+	of arrays.
+	(marshal_value): support marshalling of arrays.
+	(marshal_value): support marshalling of sequences.
+	(demarshal_value): support for demarshalling sequences.
+
+	* src/stub-gen.c (pymatecorba_generate_typecode_stubs): generate
+	exception stubs.
+	(generate_exception_stub): function to generate exception stubs.
+
+	* src/pycorba-marshal.c (marshal_value, demarshal_value): fix up
+	marshalling and demarshalling (added a macro to make it a bit more
+	difficult to screw up).
+
+2002-09-25  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-exceptions.c (pymatecorba_check_ex): properly handle the
+	exception by demarshalling it (so we get exception attributes).
+
+	* src/pycorba-marshal.c (demarshal_value): many changes to the
+	marshalling routines.
+
+2002-09-23  James Henstridge  <james@daa.com.au>
+
+	* src/pycorba-object.c (pyco_init): dummy __init__ function that
+	just raises an exception (object references can't be directly
+	constructed).
+
+2002-09-22  James Henstridge  <james@daa.com.au>
+
+	* src/stub-gen.c (pymatecorba_get_stub_from_objref): skip the
+	MateCORBA_small_get_iinterface() call, as it seems to crash remote
+	objects :(
+
+	* src/stub-gen.c (pymatecorba_get_stub_from_objref): new function for
+	getting a stub for an objref.  Will generate new stub types if
+	needed (and the IInterface can be looked up).
+
+	* src/pycorba-object.c (pyco_repr): don't use MateCORBA internal APIs
+	here.
+	(pycorba_object_new): don't use internal interfaces, and make use
+	of pymatecorba_get_stub_from_objref() to find stub.
+
+	* autogen.sh (TEST_TYPE): fix autogen.sh detection of srcdir.
+
+	* *: add autoconf/automake build stuff.
+
+2002-09-21  James Henstridge  <james@daa.com.au>
+
+	* src/*.[ch]: initial import into CVS.
+

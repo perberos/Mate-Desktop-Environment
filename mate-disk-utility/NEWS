@@ -1,0 +1,734 @@
+-------------------------
+mate-disk-utility 2.32.0
+-------------------------
+
+The mate-disk-utility project provides libraries and applications for
+dealing with storage devices. It relies on the udisks project.
+
+David Yu-Chia Chang (1):
+      Bug 594088 — Palimpsest GUI impossible to use on small screen
+
+David Zeuthen (5):
+      Bug 613004 – Crash in gdu_adapter_get_object_path at gdu-adapter.c:288
+      Bump version to 2.32.0
+      Revert "Bug 594088 — Palimpsest GUI impossible to use on small screen"
+      Nuke gtk-doc usage for now
+      Update NEWS for release
+
+Jonh Wendell (2):
+      Compile against latest gtk+
+      Fix an error in previous commit
+
+Matthias Clasen (2):
+      RH Bug 560336 – Rendering broken for some part of application
+      Make the Apply button in edit-name dialogs default.
+
+Salomon Sickert (1):
+      Use accessor functions instead direct access
+
+Many many translation updates.
+
+David Zeuthen,
+September 15, 2010
+
+-------------------------
+mate-disk-utility 2.30.0
+-------------------------
+
+The mate-disk-utility project provides libraries and applications for
+dealing with storage devices. It relies on the udisks project.
+
+Bruce Cowan (1):
+      Bug 608423 – String Review
+
+David Zeuthen (16):
+      Post-release version bump to 2.29.91
+      Fix typo when figuring out if remote access is enabled
+      Handle loop devices
+      Rudimentary support for loop files
+      Don't include non-working Help menu item
+      Bug 606663 – Change default chunk size to match mdadm (512KiB)
+      Use gtk_widget_has_focus() instead of deprecated GTK_WIDGET_HAS_FOCUS()
+      Unify mix color handling
+      Fix theming for the volume grid widget respect
+      Mark string for translation
+      Don't build API docs by default
+      Yank TODO file
+      Update version to 2.30.0
+      Update NEWS for release
+      Revert "Don't build API docs by default"
+      Update NEWS for release
+
+Matthias Clasen (1):
+      Add StartupNotify=true to the desktop file
+
+David Zeuthen,
+March 15, 2010
+
+-------------------------
+mate-disk-utility 2.29.90
+-------------------------
+
+The mate-disk-utility project provides libraries and applications for
+dealing with storage devices. It relies on the udisks project.
+
+NOTE NOTE NOTE: This is an unstable release of mate-disk-utility, all
+                API is subject to change.
+
+NOTE NOTE NOTE: This release requires a git snapshot of udisks from
+                Feb 23, 2010. Find a tarball here
+
+                http://people.freedesktop.org/~david/udisks-1.0.0-0.git20100223_1311.tar.gz
+
+Andre Klapper (1):
+      Add missing files; sort by alphabet
+
+David Zeuthen (163):
+      Start reworking the UI
+      Fix build
+      Merge branch 'master' into new-ui
+      Merge branch 'master' into new-ui
+      Add a new error dialog class
+      Merge branch 'master' into new-ui
+      Bump version to 2.29.0
+      Add new GduButtonElement and GduButtonTable to unify UI and code
+      Show partition flags in details tables
+      Factor common bits of GduErrorDialog into a new abstract GduDialog class
+      Add a dialog for editing partition type and flags
+      Semi clean-up of API docs
+      Make logical partitions appear in the right order in the volume grid
+      Add a GduConfirmationDialog and use it for deleting partitions
+      Fix VPD name for logical partitions
+      Move GduFormatDialog into libgdu-gtk and make Palimpsest use it too
+      Don't offer to create an extended partition when formatting a volume
+      Merge branch 'master' into new-ui
+      Handle LUKS volumes and show spinner in grid
+      Add a expander with detailed error message
+      Show filesystem details in GduFormatDialog
+      Implement "Format Drive" button
+      Update GPT partition types
+      Reorder GPT partition order to better handle conflicting GUIDs
+      Use _new_for_ instead of just _for_ in constructors
+      Wrap the text in the Details of the error dialog
+      Implement the "Create Partition" dialog
+      Add a way to change filesystem labels
+      Default to "Linux Swap Partition" GPT partition type for swap
+      Avoid being clever when a volume changes
+      Use "–" for partition flags, label when showing a non-partition volume
+      Don't show any buttons if media is unavailable
+      Ensure minimum width for elements in volume grid
+      Small UI fix for filesystems without labels
+      Use GduErrorDialog in newly written code
+      Make the "Check Filesystem" button work
+      Implement Linux MD RAID handling for the new-ui branch
+      Handle adding a component on a unpartitioned drive
+      Avoid showing "Not Partitioned" if there's no media in the drive
+      For swap volumes, show "Swap Space"  instead of "–" in the volume details
+      Add support for minix fs and Error.Filesystem{Driver,Tools}Missing
+      Turn some warnings that are not fatal into debug messages
+      Add a benchmark dialog a show WWN, Write-Cache and Rotational Rate
+      Clean up UI in the SMART dialog
+      Add an icon for Host Adapters
+      Show HBAs in the tree view
+      Use _get_enclosing_presentable(), not _get_toplevel() to get the drive
+      Rename Controller to Adapter
+      Show port number of device, if available
+      Kill debug spew
+      Rework size/details in the pool tree view
+      Avoid using <small> twice for the pool treeview
+      Use "Location" instead of "Port Number" to convey the location of the disk
+      Show Fabric and NumPorts for HBAs
+      The number in "Number of Ports" for SAS HBAs really is number of PHYs
+      Handle DrivePort -> DrivePorts change in the daemon
+      Add support for SAS expanders
+      Unify Host Adapters and Expanders in the GduHub presentable
+      Use the name from GduHub in the Location: element for drives
+      Initialize drive_parent to NULL
+      Catch up with DeviceKit-disks being renamed to udisks
+      Nuke unused GduSection subclasses
+      Update translator comments
+      Nuke playground - the grid is now available in the GduVolumeGrid widget
+      Include correct i18n headers
+      Update POTFILES.in
+      Merge branch 'master' into new-ui
+      Update NEWS
+      Add experimental --address option to connect to a remote udisks daemon
+      Drop Linux prefix for Linux filesystems
+      Pick up ConnectorType property on the Port object
+      Rework remote connection handling - in particular tunnel it over ssh
+      For now, rely on $SSH_ASKPASS for user interaction when authentication
+      Add a connect to server dialog and use it in Palimpsest
+      Improve robustness / error handling for the client TCP bridging bits
+      Update for new location of udisks-tcp-bridge
+      Misc visual design fixes for the "Connect to Server" dialog
+      Clean up menu items
+      Fix logic error when constructing pool
+      Fix icon name computation for GduVolume objects
+      Make the "Connect to server..." menu item actually work
+      Ellipsize the text in the pool tree view
+      Use sftp:// and caja for mount point links for remote devices
+      Never track visited links for GtkLabel
+      Include name/vpd-name of selected presentable in window title
+      Track ssh connection and emit GduPool::disconnected as appropriate
+      Remove debug spew
+      Include the pool ssh address in the presentable identifier for GduMachine
+      Don't compare GduPresentable pointers - use stable identifiers instead
+      Include the parent id in the id for GduDrive and GduLinuxMdDrive
+      Use the same GduMachine for the life-time of the GduPool object
+      Handle no presentable being selected
+      Remove debug spew
+      Don't assume only GduDrive presentables are shown in GduDiskSelectionWidget
+      Fix up GduDiskSelectionDialog so it looks like GduPoolTreeView
+      Fix reference count issue with the singleton GduMachine
+      Use GduDiskSelectionWidget in GduCreateLinuxMdDialog
+      Include parent id in the id for GduHub
+      Fix tree view allocation snafu for GduDiskSelectionWidget
+      Add a "Use entire disks instead of creating partitions" check box
+      Log to stderr if we can't connect to the udisks daemon
+      First cut at LVM2 support
+      Track dynamic LV data (e.g. name and size) from the PV
+      Rename GduEditFilesystemDialog to GduEditNameDialog and generalize
+      Add a way to change the name of a Volume Group
+      Add a way to change the name of a Logical Volume
+      Make it possible to delete a LVM2 LV
+      Make MATE Keyring usage optional
+      First cut add creating LVM2 Logical Volumes
+      Add UI for editing (add/remove) PVs in a VG
+      Update POTFILES.in
+      Fix typo in "Remove Physical Volume" button text
+      Don't add presentables to tree store unless they are part of the pool
+      Update for ABI change in udisks' LinuxLvm2VGRemovePV() method
+      If applicable, remove partition for LVM2 PV when removing the PV from the VG
+      Actually show the device in the Edit PVs dialog
+      Include a GtkSpinButton in the size widget
+      Add drive emblems and use them for RAID and LVM2
+      First cut at device-mapper multipath support
+      Don't show a list of components on the main screen
+      Show a cluebar if multipath is not set up
+      Make the icons in the storage list a bit bigger
+      Create virtual GduHub objects for various virtual devices
+      Unify look and feel of GduDiskSelectionWidget and GduPoolTreeView
+      Parse and export the LinuxDmmpParameters D-Bus property
+      Show a cluebar when selecting a multipath component
+      Make Drive + Volume sections insensitive when selecting a multipath component
+      Also show an emblem for paths of a multipathed disks
+      Add some new icons
+      Use abstract interface to create volumes
+      Rework how to ignore drives in DiskSelectionWidget
+      Also use the create_volume() method on GduDrive to add PVs to a VG
+      Use "Partially Synchronized" for slaves being integrated into the array
+      Catch up with udisks API changes and implement Expansion for Linux's MD RAID
+      Provide 24x24 application icon
+      Show a warning if a partition is not properly aligned
+      Handle quirky mate_keyring_find_password_sync() behavior
+      lvm2: Implement various GduDrive vfuncs related to activation
+      Add gitignore file
+      Add a get_volumes() method to GduDrive
+      Make GduVolume's get_names_and_desc() usable by subclasses
+      Add open padlock to icon for LUKS cleartext volumes
+      lvm2: Use GduVolume's get_names_and_desc when activated
+      lvm2: Make it possible to get the LV name and use it
+      lvm2: Implement activate() and deactivate() GduDrive methods
+      Export methods used to identify volumes
+      Bug 610230 – Do not mark empty string for translation
+      md-raid: Don't offer non-working "Use entire disk instead of partitions" option
+      Don't enable tree lines for tree views
+      Add gdu_device_should_ignore() method
+      Use gdu_device_should_ignore() when creating VG and RAID drives
+      Make ignored GduDevice objects unselectable
+      lvm2: Don't include ignored devices in the PV list
+      md-raid: Don't include ignored devices in the component list
+      lvm2: Use device_file_presentation in dialog
+      md-raid: Use device_file_presentation in dialog
+      lvm2: Use P (instead of Y) as the accelerator for editing PVs
+      Use MP emblems for volume icons
+      md-raid: Properly ignore RAID components on MP components
+      Make it possible to turn off remote access
+      Update bug-report address
+      Bump version number to 2.29.90
+      Update NEWS for release
+
+Frederic Peters (1):
+      Remove deprecated Encoding key from desktop files
+
+Javier Jardón (1):
+      Substitute deprecated Glib symbol
+
+Martin Pitt (1):
+      Add assertions to gdu-pool
+
+Matthias Clasen (8):
+      Use stock delete and apply buttons
+      Fix library translations
+      Fix ngettext uses
+      Fix a number of string issues
+      Fix another string issue
+      Some forgotten strings
+      Translate file system types
+      Fix another string issue
+
+Michael Biebl (3):
+      Bug 600996 — Add support for ReiserFS
+      Bug 600998 — We are using Xkb* functions, so make sure we link against libX11
+      Bug 600998 — General configure.ac cleanup
+
+Tomas Bzatek (4):
+      Caja extension: ref and unref objects correctly
+      Remove obsolete define and require glib-2.22
+      Don't crash when presentable has no device
+      Install missing include
+
+David Zeuthen,
+February 23, 2010
+
+-------------------------
+mate-disk-utility 2.28.0
+-------------------------
+
+mate-disk-utility provides libraries and applications for dealing
+with storage devices.
+
+NOTE NOTE NOTE: This is an unstable release of mate-disk-utility, all
+                API is subject to change.
+
+David Zeuthen (19):
+      Start reworking the ATA SMART dialogs
+      Merge branch 'master' into ata-smart-ui-rework
+      Include a graph in the ATA SMART dialog
+      Iterate a bit more over the ATA SMART graphs
+      More work in progress for new ATA smart graphs
+      Add dynamic y axis markers
+      Forgot to add file
+      Post-release version bump to 0.6
+      Bug 592006 - Untranslatable string construction in gdu-drive.c
+      Merge branch 'master' into ata-smart-ui-rework
+      Land new ATA SMART user interface
+      Merge branch 'ata-smart-ui-rework'
+      Fix build
+      Fix POTFILES.in
+      Forgot to add gdu-spinner.[ch]
+      Bug 593381 - fix error caused by zh_CN translation
+      Depend on the latest DeviceKit-disks API
+      Bump version to 2.28.0
+      Update NEWS for release
+
+Translations:
+ A S Alam (pa)
+ Alexander Shopov (bg)
+ Amitakhya Phukan (as)
+ Ani (ml)
+ António Lima (pt)
+ Aron Xu (zh_CN)
+ Ask H. Larsen (da)
+ Baris Cicek (tr)
+ Bruce Cowan (en_GB)
+ Chao-Hsiung Liao (zh_HK)
+ Christian Kirbach (de)
+ Claude Paroz (fr)
+ Daniel Nylander (sv)
+ Dumitru Mișu Moldovan (ro)
+ Enrico Nicoletto (pt_BR)
+ Fran Diéguez (gl)
+ Fábio Nogueira (pt_BR)
+ Gabor Kelemen (hu)
+ Gintautas Miliauskas (lt)
+ Ilkka Tuohela (fi)
+ Inaki Larranaga Murgoitio (eu)
+ Ivaylo Valkov (bg)
+ Jamil Ahmed (bn)
+ Jorge González (es)
+ Khaled Hosny (ar)
+ Kjartan Maraas (nb)
+ Kostas Papadimas (el)
+ Krix Apolinário (pt_BR)
+ Lucas Azevedo (pt_BR)
+ Lucian Adrian Grijincu (ro)
+ Manoj Kumar Giri (or)
+ Mark Krapivner (he)
+ Matej Urbančič (sl)
+ Mattias Põldaru (et)
+ Maxim V. Dziumanenko (uk)
+ Milo Casagrande (it)
+ Miloš Popović (sr)
+ Namhyung Kim (ko)
+ Og B. Maciel (pt_BR)
+ Piotr Drąg (pl)
+ Rajesh Ranjan (mai, hi)
+ Runa Bhattacharjee (bn_IN)
+ Sandeep Shedmake (mr)
+ Shankar Prasad (kn)
+ Sweta Kothari (gu)
+ Takayuki KUSANO (ja)
+ Yaron Shahrabani (he)
+ ifelix (ta)
+ krishnababu k (te)
+ Μάριος Ζηντίλης (el)
+
+David Zeuthen
+September 18, 2009
+
+----------------------
+mate-disk-utility 0.5
+----------------------
+
+mate-disk-utility provides libraries and applications for dealing
+with storage devices.
+
+NOTE NOTE NOTE: This is an unstable release of mate-disk-utility, all
+                API is subject to change.
+
+A S Alam (1):
+      Updating Punjabi Translaiton by A S Alam
+
+Andre Klapper (5):
+      Clean up POTFILES.in so l10n.mate.org does not complain
+      Removed whitespace so l10n.mate.org does not complain.
+      Fixed a typo. Fixes bug #591012.
+      Add initial Czech translation.
+      Add additional fuzzy strings based on poedit's .mo database
+
+Antón Méixome (3):
+      Added Galician Translation.
+      Updated Galician translation
+      Updated Galician Translation
+
+António Lima (2):
+      Updated Portuguese translation
+      Updated Portuguese translation
+
+Chao-Hsiung Liao (3):
+      Added Traditional Chinese translation(Hong Kong and Taiwan)
+      Updated Traditional Chinese translation(Hong Kong and Taiwan)
+      Updated Traditional Chinese translation(Hong Kong and Taiwan)
+
+Christian Kirbach (2):
+      Bug 591170 – fix smartmoontools URL
+      Updated German translation.
+
+César Veiga (1):
+      Updated the Brazilian Portuguese translation.
+
+Daniel Nylander (6):
+      Updated Swedish translation
+      Updated Swedish translation
+      Updated Swedish translation
+      Updated Swedish translation
+      Updated Swedish translation
+      Updated Swedish translation
+
+David Zeuthen (14):
+      Post-release version bump to 0.5
+      Add support for new :drive-can-spindown property
+      Start writing a dialog to set up Software RAID
+      More detail in the TreeView and incremental work on the Create RAID dialog
+      Add some more translator comments
+      First usable version of the Create RAID Array dialog
+      Fix a crasher when determining unallocated on unactivated drives
+      Fix up drive name for non-USB SD drives
+      Bug 582881 – Typos in original strings
+      grid: Clarify property comment
+      Add API for new :device-presentation-nopolicy property in DKD
+      Use g_mount_unmount_with_operation() in the format tool
+      Fix distcheck
+      Update NEWS for release
+
+Ilkka Tuohela (1):
+      Added Finnish translation
+
+Ivar Smolin (3):
+      Updating Estonian translation
+      Updating Estonian translation
+      Updating Estonian translation
+
+Jorge González (11):
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Updated Spanish translation
+      Added Spanish screenshot
+      Updated Spanish translation
+
+Kenneth Nielsen (1):
+      Added da to list of laguages
+
+Kjartan Maraas (1):
+      Updated Norwegian bokmål translation.
+
+Leonardo Ferreira Fontenelle (1):
+      Fixed blank space before interrogation marks in the translation.
+
+Mads Lundby (1):
+      Added Danish translation
+
+Mark Krapivner (2):
+      Updated Hebrew translation
+      Updated Hebrew translation
+
+Matthias Clasen (4):
+      Drop polkit references from pc files
+      String review, part I
+      String review, part II
+      String review, part III
+
+Mattias Põldaru (3):
+      Updating Estonian translation
+      Updating Estonian translation
+      Updating Estonian translation
+
+Maxim V. Dziumanenko (1):
+      Updated Ukrainian translation
+
+Milo Casagrande (2):
+      Fixed a typo in a string similar to another one: one less string to transl
+      Fixed in the right way the string of the previous commit
+
+Pavlos Tournaris (1):
+      Added Greek translation for documentation
+
+Piotr Drąg (1):
+      Updated Polish translation
+
+Priit Laes (1):
+      Added Estonian translation.
+
+Sandeep Shedmake (1):
+      Updated Marathi Translations
+
+Seán de Búrca (1):
+      Updated Irish translation
+
+Simos Xenitellis (1):
+      Added el to DOC_LINGUAS
+
+Timo Jyrinki (1):
+      Add fi to LINGUAS since it got translated.
+
+Zhang Miao (1):
+      Added Simplified Chinese translation.
+
+David Zeuthen
+August 17, 2009
+
+----------------------
+mate-disk-utility 0.4
+----------------------
+
+mate-disk-utility provides libraries and applications for dealing
+with storage devices.
+
+NOTE NOTE NOTE: This is an unstable release of mate-disk-utility, all
+                API is subject to change.
+
+David Zeuthen (22):
+      Rip out PolicyKit support and bump version after release
+      Check for DeviceKit-disks pkg-config file so the build can fail earlier
+      Add support for new DriveDetach() method and :drive-can-detach property
+      Expose a way to detach devices
+      Catch up with latest DeviceKit-disks API where :drive-requires-eject is go
+      Bug 584962 – palimpsest SIGTRAPs on unknown flag
+      Bug 581179 – Don't expose branding to the user
+      Bug 582881 – Typos in original strings
+      Bug 585332 – Wrong spelling "The mininum size of the element" in original 
+      Bug 585384 – "Blank" - adjective or verb
+      Bug 585388 – Translation comment needed "Operations should go here"
+      Bug 585392 – Spelling error "incomptible"
+      Bug 581841 – String typos
+      Use themed icons for Zip and Jaz drives
+      Rework formatting tool so it's simpler and easier to use
+      Use new API to add UI for checking/repairing Linux MD RAID arrays
+      Use GtkInfoBar to show job progress
+      Port from SexyUrlLabel to GtkLabel
+      Fix a bug where GduLinuxMdDrive didn't emit ::job-changed signals
+      Remove gdu-section-job.[ch] from POTFILES.in since they no longer exist
+      Use AM_SILENT_RULES if available
+      Update NEWS for release
+
+Matthias Clasen (1):
+      Don't show markup in the UI
+
+Translations:
+
+A S Alam (1):
+      Adding Punjabi Translation for Satluj Team
+
+António Lima (1):
+      Updated Portuguese translation
+
+Aron Xu (1):
+      Added zh_CN to LINGUAS
+
+Gabor Kelemen (1):
+      Hungarian translation added
+
+Jorge Gonzalez (4):
+      Updated Spanish translation by Benjamin Valero
+      Updated Spanish translation
+      Added es to DOC_LINGUAS
+      Added Spanish translation
+
+Kjartan Maraas (2):
+      Updated Norwegian bokmål translation.
+      Add Norwegian bokmål
+
+Leonid Kanter (2):
+      Updated Russian translation
+      Updated Russian translation
+
+Mario Blättermann (2):
+      Updated German translation
+      Updated German translation
+
+Mark Krapivner (2):
+      Add Hebrew translation
+      Updated Hebrew translation
+
+Maxim V. Dziumanenko (2):
+      Added Ukrainian translation
+      Updated Ukrainian translation
+
+Piotr Drąg (2):
+      Added Polish translation
+      Added Polish translation
+
+Simos Xenitellis (1):
+      Added el to LINGUAS
+
+Tomasz Dominikowski (2):
+      Added pl
+      Added pl
+
+Wei Mingzhi (1):
+      Updated Simplified Chinese translation.
+
+Βασίλης Κοντογιάνης (1):
+      Added Greek translation for UI
+
+David Zeuthen
+June 19, 2009
+
+----------------------
+mate-disk-utility 0.3
+----------------------
+
+mate-disk-utility provides libraries and applications for dealing
+with storage devices.
+
+NOTE NOTE NOTE: This is an unstable release of mate-disk-utility, all
+                API is subject to change.
+
+Claude Paroz (1):
+      Removed non-existent files from POTFILES.in
+
+Daniel Nylander (2):
+      Added sv translation
+      Added sv translation
+
+David Zeuthen (58):
+      don't use g_free on a GIcon, use g_object_unref instead
+      update to DeviceKit-disks HEAD that only exports a single Linux MD action
+      handle inactive and partitioned md devices
+      add support for device-is-media-change-detection-polling property
+      update MAINTAINERS file
+      port to new DeviceKit-disks that uses libatasmart
+      fix up docs
+      show "Passphrase can't be empty" hint if the passphrase is empty
+      update HACKING file
+      more i18n fixups
+      add some notes about terminology
+      use the term "Name" instead of "Label" when creating a partition
+      rework terminology for filesystem labels / partition labels
+      fix compiler warnings introduced by the last set of patches
+      add some experimental code for grid-based layout
+      fix some criticals where we tried to access non-existant widgets
+      rework partition table handling
+      start working on a details view for the grid playground
+      nuke nagging dialog
+      return non-zero exit code if volume/drive to show does not exist
+      fix volume hole detection
+      forgot to add gdu-grid-details.[ch]
+      bug 576435 – confusing luks labeling
+      grid: add a spinner
+      update for daemon ABI changes for device-mount-path -> device-mount-paths
+      add gdu_device_get_dev() to get the dev_t for a device
+      remove gdu_device_is_busy() since device-is-busy was removed from the daem
+      update to trimmed set of errors returned by the daemon
+      update to latest DKD API where erase= and tasks within jobs has been remov
+      grid: draw free/unrecognized space in a slightly darker color
+      update to latest daemon API for some ATA SMART changes
+      all D-Bus object paths are now prefixed with /org/freedesktop/DeviceKit/Di
+      fix volume hole detection, logical partitions start at five, not four
+      mark grid stuff for translation to pass 'make distcheck'
+      post-release version bump
+      for now, prepend the D-Bus error name to the error string from the daemon
+      allow sections to expand, otherwise the treeview for RAID is never shown
+      setup textdomain so translations work
+      grid: misc changes
+      add notification daemon
+      Merge branch 'master' of ssh://git.mate.org/git/mate-disk-utility
+      show an icon in the notification area if one or more disks are failing
+      only spew debug if GDU_DEBUG is set to 1
+      clean up some more debug spew
+      export :device-presentation-hide property in the API
+      export new property device-detection-time
+      use libmatenotify to show a notification when a disk is failing
+      work around notification-daemon brokenness
+      nuke the "It's now safe to remove" dialog after four seconds
+      allow passing options to gdu_device_op_filesystem_mount()
+      Bug 579997 – don't show notifications before the panel is there
+      add support for ext2
+      Fix up Caja extension
+      Rework/refactor formatting tool
+      Fix up POTFILES.in
+      Update commit message guidelines to use a capital letter
+      Fix distcheck
+      Export :device-media-detection-time property in the API
+
+Jorge Gonzalez (2):
+      Added es to LINGUAS
+      Added initial Spanish translation by Benjamin Valero
+
+Mario Blättermann (2):
+      Added German doc translation
+      Added German translation
+
+Matthias Clasen (19):
+      HIG fixes
+      trivial coding style fix
+      avoid dialog resizing
+      don't allow empty passphrases
+      improved spacing for sections
+      string/i18n fixups
+      fix the initial window size
+      sync GduError to DevkitDisksError
+      don't show dbus error names
+      add a missing 'else'
+      improve the error dialog
+      toolbar label improvements
+      don't show tasks if the number of tasks is undefined or less than 2
+      unique application support
+      add cmdline options to specify a device
+      bug 576431 – better warning
+      Add a caja extension and a formatting tool
+      Add a forgotten file
+      dist TODO
+
+David Zeuthen
+May 1, 2009
+
+----------------------
+mate-disk-utility 0.2
+----------------------
+
+mate-disk-utility provides libraries and applications for dealing
+with storage devices.
+
+NOTE NOTE NOTE: This is an unstable release of mate-disk-utility, all
+                API is subject to change.
+
+David Zeuthen
+March 2, 2009

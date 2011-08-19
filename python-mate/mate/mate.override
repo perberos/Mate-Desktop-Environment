@@ -1,0 +1,738 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+
+#include <signal.h>
+#include <locale.h>
+
+#define NO_IMPORT_PYGOBJECT
+#include "pygobject.h"
+#include <libmate/libmate.h>
+#include <libmate/libmatetypebuiltins.h>
+#include <popt.h>
+#include <config.h>
+#ifdef HAVE_PRCTL
+#include <sys/prctl.h>
+#endif
+#ifdef HAVE_SETPROCTITLE
+#include <sys/types.h>
+#include <unistd.h>
+#endif
+#include "config.h"
+
+static struct poptOption * popt_build_table   (PyObject          *table);
+static void                popt_destroy_table (struct poptOption *table);
+
+
+%%
+modulename mate
+%%
+import gobject.GObject as PyGObject_Type
+%%
+ignore-glob 
+  *_get_type
+%%
+override mate_program_init kwargs
+
+static void __py_object_free(gpointer data)
+{
+    Py_DECREF((PyObject *) data);
+}
+
+static void
+popt_cb(poptContext con, 
+        enum poptCallbackReason reason, 
+        const struct poptOption *opt, 
+        const char *arg, void *data)
+{
+    PyObject *dict = data;
+    PyObject *item = NULL, *existing;
+    PyObject *key;
+    char aux[] = " ";
+
+    switch (opt->argInfo & POPT_ARG_MASK) {
+    case POPT_ARG_INT:
+        item = PyInt_FromLong(*(int *)(opt->arg));
+        break;
+    case POPT_ARG_DOUBLE:
+        item = PyFloat_FromDouble(*(double *)(opt->arg));
+        break;
+    case POPT_ARG_STRING:
+        item = PyString_FromString(arg);
+        break;
+    case POPT_ARG_LONG:
+        item = PyLong_FromLong(*(long *)(opt->arg));
+        break;
+    case POPT_ARG_NONE:
+        item = PyInt_FromLong(1L);
+        break;
+    default:
+        break;
+    }
+    if (!item)
+        return;
+
+    if (opt->longName) {
+        key = PyString_FromString(opt->longName);
+    } else {
+        aux[0] = opt->shortName;
+        key = PyString_FromString(aux);
+    }
+
+    existing = PyDict_GetItem(dict, key);
+    if (existing && PyList_Check(existing))
+        PyList_Append(existing, item);
+    else
+        PyDict_SetItem(dict, key, item);
+    Py_DECREF(item);
+}
+
+static void
+popt_destroy_table(struct poptOption *table)
+{
+    int i = 1;
+
+    if (table[0].descrip) {
+        Py_DECREF((PyObject *) table[0].descrip);
+    }
+    while ((table[i].longName != NULL) || (table[i].shortName != '\0') || 
+           (table[i].argInfo != 0)) {
+        if (table[i].longName)
+            g_free((gpointer) table[i].longName);
+        if (table[i].descrip)
+            g_free((gpointer) table[i].descrip);
+        if (table[i].argDescrip)
+            g_free((gpointer) table[i].argDescrip);
+        if ((table[i].argInfo != POPT_ARG_CALLBACK) && 
+            (table[i].arg != NULL))
+            g_free((gpointer) table[i].arg);
+        i++;
+    }
+    g_free(table);
+}
+
+static struct poptOption *
+popt_build_table(PyObject *table)
+{
+    int optslen;
+    int i;
+    struct poptOption *popt_table = NULL;
+    PyObject *tmpobj;
+    char *lname, *sname, *desc = NULL, *adesc = NULL;
+    PyTypeObject *tinfo;
+    PyObject *dict_key = Py_None, *dict, *defval, *defval1;
+    int flags;
+
+    optslen = PyList_Size(table);
+    /* save one row for the callback definition, and another for
+     * end of table */
+    popt_table = g_new0(struct poptOption, optslen + 2);
+
+    if (popt_table != NULL) {
+
+        dict = PyDict_New();
+        if (dict == NULL) {
+            g_free(popt_table);
+            return NULL;
+        }
+
+        /* Hey popt, we want to be called back */
+        popt_table[0].longName = NULL;
+        popt_table[0].shortName = 0;
+        popt_table[0].argInfo = POPT_ARG_CALLBACK;
+        popt_table[0].arg = popt_cb;
+        popt_table[0].val = 0;
+        popt_table[0].descrip = (char *) dict;
+        popt_table[0].argDescrip = NULL;
+
+        for (i = 0; i < optslen; i++) {
+
+            desc = NULL;
+            adesc = NULL;
+
+            tmpobj = PyList_GetItem(table, i);
+
+            if (!PyTuple_Check(tmpobj)) {
+                PyErr_SetString(PyExc_TypeError,
+                                "table must be a list of tuples");
+                popt_destroy_table(popt_table);
+                return NULL;
+            }
+
+            if (!PyArg_ParseTuple(tmpobj, "zzOOi|ss", 
+                                  &lname, &sname, &tinfo,
+                                  &defval, &flags, &desc, &adesc)) {
+                popt_destroy_table(popt_table);
+                return NULL;
+            }
+
+            if (strlen(lname) == 0)
+                lname = NULL;
+
+            if (strlen(sname) == 0)
+                sname = NULL;
+
+            if (sname && strlen(sname) > 1) {
+                PyErr_Format(PyExc_ValueError,
+                             "popt table row %d short option"
+                             " must be one character only", i);
+                popt_destroy_table(popt_table);
+                return NULL;
+            } else {
+                if (lname) {
+                    dict_key = PyString_FromString(lname);
+                } else if (sname) {
+                    dict_key = PyString_FromString(sname);
+                }
+            }
+
+            if (!sname & !lname) {
+                PyErr_Format(PyExc_ValueError,
+                             "popt table row %d at least short"
+                             " or long name must be set", i);
+                popt_destroy_table(popt_table);
+                return NULL;
+            }
+
+            if (dict_key != Py_None) {
+                if ((defval != Py_None && !PyList_Check(defval)) && 
+                    (!PyObject_TypeCheck(defval, (PyTypeObject *) tinfo))) {
+                    PyErr_Format(PyExc_ValueError,
+                                 "popt table row %d type info and default "
+                                 "value must have same type", i);
+                    popt_destroy_table(popt_table);
+                    return NULL;
+                }
+
+                /* If one doesnt want to have keys created only when
+                   a parameter is found in the command line this has to
+                   be done only when defval is not Py_None */
+                if (PyList_Check(defval))
+                    defval1 = PyList_New(0);
+                else {
+                    Py_INCREF(defval);
+                    defval1 = defval;
+                }
+                if (PyDict_SetItem(dict, dict_key, defval1)) {
+                    Py_DECREF(defval1);
+                    popt_destroy_table(popt_table);
+                    return NULL;
+                }
+                Py_DECREF(defval1);
+            }
+
+            /* ARG_FLOAT is not set here - we use DOUBLE */
+            if (tinfo == &PyInt_Type) {
+                popt_table[i + 1].argInfo = POPT_ARG_INT;
+                popt_table[i + 1].arg = g_new(int, 1);
+                if (PyInt_Check(defval))
+                    *((int *)popt_table[i + 1].arg) = PyInt_AS_LONG(defval);
+            } else if (tinfo == &PyFloat_Type) {
+                popt_table[i + 1].argInfo = POPT_ARG_DOUBLE;
+                popt_table[i + 1].arg = g_new(double, 1);
+                if (PyFloat_Check(defval))
+                    *((double *)popt_table[i + 1].arg) = PyFloat_AS_DOUBLE(defval);
+            } else if (tinfo == &PyString_Type) {
+                popt_table[i + 1].argInfo = POPT_ARG_STRING;
+                popt_table[i + 1].arg = NULL;
+            } else if (tinfo == &PyLong_Type) {
+                popt_table[i + 1].argInfo = POPT_ARG_LONG;
+                popt_table[i + 1].arg = g_new(long, 1);
+                if (PyLong_Check(defval))
+                    *((long *)popt_table[i + 1].arg) = PyInt_AS_LONG(defval);
+            } else if (tinfo == (PyTypeObject *) Py_None) {
+                popt_table[i + 1].argInfo = POPT_ARG_NONE;
+                popt_table[i + 1].arg = NULL;
+            } else {
+                PyErr_Format(PyExc_ValueError,
+                             "popt table row %d type info must be"
+                             " None, int, str, float or long", i);
+                popt_destroy_table(popt_table);
+                return NULL;
+            }
+
+            popt_table[i + 1].longName = lname ? g_strdup(lname) : NULL;
+            popt_table[i + 1].shortName = sname ? sname[0] : '\0';
+            popt_table[i + 1].argInfo |= flags;
+            popt_table[i + 1].val = 0;
+            popt_table[i + 1].descrip = desc ? g_strdup(desc) : NULL;
+            popt_table[i + 1].argDescrip = adesc ? g_strdup(adesc) : NULL;
+
+        }
+        /* finally the end mark */
+        popt_table[optslen + 1].longName = NULL;
+        popt_table[optslen + 1].shortName = 0;
+        popt_table[optslen + 1].argInfo = 0;
+        popt_table[optslen + 1].arg = NULL;
+        popt_table[optslen + 1].val = 0;
+        popt_table[optslen + 1].descrip = NULL;
+        popt_table[optslen + 1].argDescrip = NULL;
+
+        return popt_table;
+
+    } else {
+        PyErr_NoMemory();
+    }
+
+    return NULL;
+}
+
+static PyTypeObject *
+get_option_context_type()
+{
+    PyObject *module;
+    PyTypeObject *type;
+    if ((module = PyImport_ImportModule("glib")) != NULL) {
+        type = (PyTypeObject *)PyObject_GetAttrString(module, "OptionContext");
+        Py_DECREF(module);
+        if (type == NULL) {
+            PyErr_SetString(PyExc_ImportError,
+                            "cannot import OptionContext from glib");
+            return NULL;
+        } else
+            return type;
+    } else {
+        PyErr_SetString(PyExc_ImportError, "could not import glib");
+        return NULL;
+    }
+}
+
+static int
+build_mate_init_params(PyObject *py_properties,
+                        struct poptOption *popt_table, int flags,
+                        PyObject *option_context,
+                        PyObject **py_properties_items, Py_ssize_t *nparams,
+                        GParameter **params_ptr)
+{
+    Py_ssize_t py_properties_len = -1;
+    PyObject *items = NULL;
+    if (py_properties) {
+        *py_properties_items = items = PyMapping_Items(py_properties);
+        if (!items)
+            return 0;
+        *nparams = py_properties_len = PyList_GET_SIZE(items);
+    } else
+        *nparams = 0;
+    if (popt_table)
+        *nparams += 2;
+    if (option_context)
+        *nparams += 1;
+
+    GParameter *params = NULL;
+    if (*nparams) {
+        params = g_new0(GParameter, *nparams);
+        if (!params) {
+            PyErr_NoMemory();
+            return 0;
+        }
+    }
+    Py_ssize_t i = 0;
+    if (py_properties) {
+        PyObject *item, *key, *val;
+        GType type;
+        for (; i < py_properties_len; ++i) {
+            item = PyList_GET_ITEM(items, i);
+            key = PyTuple_GET_ITEM(item, 0);
+            val = PyTuple_GET_ITEM(item, 1);
+            type = pyg_type_from_object((PyObject *) val->ob_type);
+            if (type == 0)
+                goto error;
+            params[i].name = PyString_AsString(key);
+            g_value_init(&params[i].value, type);
+            if (pyg_value_from_pyobject(&params[i].value, val))
+                goto error;
+            continue;
+            error:
+            {
+                int j;
+                for (j = 0; j < i; ++j)
+                    g_value_unset(&params[j].value);
+                g_free(params);
+                Py_DECREF(items);
+                return 0;
+            }
+        }
+    }
+    if (popt_table) {
+        params[i].name = MATE_PARAM_POPT_TABLE;
+        g_value_init(&params[i].value, G_TYPE_POINTER);
+        g_value_set_pointer(&params[i].value, popt_table);
+        i++;
+        params[i].name = MATE_PARAM_POPT_FLAGS;
+        g_value_init(&params[i].value, G_TYPE_INT);
+        g_value_set_int(&params[i].value, flags);
+    }
+    if (option_context) {
+        params[i].name = MATE_PARAM_GOPTION_CONTEXT;
+        g_value_init(&params[i].value, G_TYPE_POINTER);
+        PyObject* context = PyObject_CallMethod(option_context, "_get_context", NULL);
+        g_value_set_pointer(&params[0].value, PyCObject_AsVoidPtr(context));
+        Py_DECREF(context);
+    }
+
+    *params_ptr = params;
+    return 1;
+}
+
+static void
+free_mate_init_params(PyObject *py_properties_items, Py_ssize_t nparams,
+                       GParameter *params)
+{
+    Py_XDECREF(py_properties_items);
+    if (nparams)
+    {
+        Py_ssize_t i;
+        for (i = 0; i < nparams; ++i)
+            g_value_unset(&params[i].value);
+        g_free(params);
+    }
+}
+
+static PyObject *
+_wrap_mate_program_init(PyObject *self, 
+                         PyObject *args, 
+                         PyObject *kwargs)
+{
+    static char *kwlist[] = { "app_id", "app_version", "module_info", 
+                              "argv", "popt_table", "popt_flags",
+                              "option_context", "properties", NULL };
+    gchar *app_id;
+    gchar *app_version;
+    PyObject *av = NULL;
+    int argc;
+    char **argv, **leftover_args;
+    int i;
+    MateModuleInfo *moduleinfo;
+    MateProgram *program;
+    struct sigaction sa;
+    struct poptOption *popt_table = NULL;
+    int flags = 0;
+    PyObject *table = NULL;
+    PyObject *m = NULL;
+    PyObject *argdict, *py_leftover_args;
+    PyObject *tmpobj;
+    PyObject *option_context = NULL;
+    PyObject *py_properties = NULL;
+    PyObject *py_properties_items = NULL;
+    GParameter *params;
+    Py_ssize_t nparams;
+    poptContext ctx = NULL;
+
+    PyTypeObject *py_goption_context_type = get_option_context_type();
+    if (!py_goption_context_type) {
+        return NULL;
+    }
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "ss|OO!O!iO!O!:mate.program_init",
+                                     kwlist,
+                                     &app_id, &app_version, &m,
+                                     &PyList_Type, &av,
+                                     &PyList_Type, &table,
+                                     &flags,
+                                     py_goption_context_type, &option_context,
+                                     &PyDict_Type, &py_properties)) {
+        return NULL;
+    }
+
+    Py_DECREF(py_goption_context_type);
+
+    if (m == NULL) {
+        moduleinfo = (MateModuleInfo *) libmate_module_info_get();
+    } else {
+        if (pyg_boxed_check(m, MATE_TYPE_MODULE_INFO))
+            moduleinfo = pyg_boxed_get(m, MateModuleInfo);
+        else {
+            PyErr_SetString(PyExc_TypeError,
+                            "module_info should be a MateModuleInfo");
+            return NULL;
+        }
+    }
+
+    if (av == NULL) {
+          /* ... use argc and argv from sys */
+        av = PySys_GetObject("argv");
+    }
+    argc = PyList_Size(av);
+    argv = g_new(char *, argc);
+    if (!argv)
+        return PyErr_NoMemory();
+    for (i = 0; i < argc; i++)
+        argv[i] = PyString_AsString(PyList_GetItem(av, i));
+
+    if (table != NULL) {
+        popt_table = popt_build_table(table);
+        if (!popt_table)
+            return NULL;
+    }
+
+    if (!build_mate_init_params(py_properties, popt_table, flags,
+                                 option_context,
+                                 &py_properties_items, &nparams, &params)) {
+        if (popt_table)
+            popt_destroy_table(popt_table);
+        return NULL;
+    }
+
+    memset(&sa, 0, sizeof(sa));
+    sigaction(SIGCHLD, NULL, &sa);
+
+    program = mate_program_init_paramv(MATE_TYPE_PROGRAM,
+                                        app_id, app_version,
+                                        moduleinfo,  argc, argv,
+                                        (guint) nparams, params);
+
+    free_mate_init_params(py_properties_items, nparams, params);
+
+    if (!program) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "could not create MateProgram object");
+        if (popt_table)
+            popt_destroy_table(popt_table);
+        g_free(argv);
+        return NULL;
+    }
+      /* --- */
+
+    sigaction(SIGCHLD, &sa, NULL);
+#if PY_VERSION_HEX < 0x020400F0
+    setlocale(LC_NUMERIC, "C");
+#endif
+
+    if (popt_table) {
+          /* get argdict, store in object for later use */
+        argdict = (PyObject *) popt_table[0].descrip;
+        Py_INCREF(argdict);
+        g_object_set_data_full(G_OBJECT(program),
+                               "mate-python-popt-argdict",
+                               argdict, __py_object_free);
+
+          /* get leftover args, store in object for later use */
+        g_object_get(G_OBJECT(program), MATE_PARAM_POPT_CONTEXT, &ctx, NULL);
+        leftover_args = (char **) poptGetArgs(ctx);
+        py_leftover_args = PyList_New(0);
+        if (!py_leftover_args) {
+            return PyErr_NoMemory();
+        }
+        if (leftover_args) {
+            for (i = 0; leftover_args[i]; i++) {
+                tmpobj = PyString_FromString(leftover_args[i]);
+                if (!tmpobj) {
+                    Py_DECREF(py_leftover_args);
+                    return NULL;
+                }
+                if (PyList_Append(py_leftover_args, tmpobj)) {
+                    Py_DECREF(tmpobj);
+                    Py_DECREF(py_leftover_args);
+                    return NULL;
+                }
+                Py_DECREF(tmpobj);
+            }
+        }
+        g_object_set_data_full(G_OBJECT(program),
+                               "mate-python-popt-leftover-args",
+                               py_leftover_args, __py_object_free);
+
+        popt_destroy_table(popt_table);
+    }
+
+#if (defined(HAVE_PRCTL) && defined(PR_SET_NAME)) || defined(HAVE_SETPROCTITLE)
+    if (argv && argv[0]) {
+#if defined(HAVE_PRCTL) && defined(PR_SET_NAME)
+    if (prctl(PR_SET_NAME, (unsigned long) argv[0], 0, 0, 0)) {
+            g_warning("prctl() failed");
+        }
+#elif defined(HAVE_SETPROCTITLE)
+    setproctitle("-%s", argv[0]);
+#endif
+    }
+#endif
+
+    g_free (argv);
+    return pygobject_new((GObject *) program);
+}
+
+%%
+override mate_get_popt_args noargs
+static PyObject *
+_wrap_mate_get_popt_args(PyGObject *self, PyObject *args)
+{
+    PyObject *argdict, *leftover_args;
+
+    argdict = g_object_get_data(G_OBJECT(self->obj),
+                                "mate-python-popt-argdict");
+    leftover_args = g_object_get_data(G_OBJECT(self->obj),
+                                      "mate-python-popt-leftover-args");
+    if (argdict) {
+        Py_INCREF(argdict);
+    } else
+        argdict = PyDict_New();
+
+    if (leftover_args) {
+        Py_INCREF(leftover_args);
+    } else
+        leftover_args = PyList_New(0);
+
+    return Py_BuildValue("(NN)", leftover_args, argdict);
+}
+
+%%
+override mate_popt_parse kwargs
+static PyObject *
+_wrap_mate_popt_parse(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "argv", "table", "flags", NULL };
+    PyObject *pytable, *pyargv, *tmpobj;
+    PyObject *argdict, *py_leftover_args;
+    poptContext ctx = NULL;
+    struct poptOption *table = NULL;
+    MateProgram *program;
+    const char *program_name;
+    int i, argc, flags = 0;
+    const char **argv = NULL;
+    const char **leftover_args = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!O!|i:popt_parse",
+                                     kwlist,
+                                     &PyList_Type, &pyargv,
+                                     &PyList_Type, &pytable,
+                                     &flags))
+        return NULL;
+
+    table = popt_build_table(pytable);
+    if (table == NULL)
+        return NULL;
+
+      /* so much code just to get the program name :| */
+    program = mate_program_get();
+    if (program)
+        program_name = mate_program_get_app_id(program);
+    else {
+        PyObject *sysargv, *arg0;
+        sysargv = PySys_GetObject("argv");
+        arg0 = PyList_GetItem(sysargv, 0);
+        if (!arg0) {
+            PyErr_Clear();
+            program_name = "mate-python";
+        } else {
+            program_name = PyString_AsString(arg0);
+            if (!program_name) {
+                PyErr_Clear();
+                program_name = "mate-python";
+            }
+        }
+    }
+
+    argc = PyList_Size(pyargv);
+    argv = g_new(const char *, argc);
+    for (i = 0; i < argc; i++)
+        argv[i] = PyString_AsString(PyList_GetItem(pyargv, i));
+
+    ctx = poptGetContext(program_name, argc, argv, table, flags);
+    while (poptGetNextOpt(ctx) >= 0);
+    
+    argdict = (PyObject *) table[0].descrip;
+    Py_INCREF(argdict);
+
+    leftover_args = poptGetArgs(ctx);
+    py_leftover_args = PyList_New(0);
+    if (leftover_args)
+        for (i = 0; leftover_args[i]; i++) {
+            tmpobj = PyString_FromString(leftover_args[i]);
+            PyList_Append(py_leftover_args, tmpobj);
+            Py_DECREF(tmpobj);
+        }
+
+    popt_destroy_table(table);
+    poptFreeContext(ctx);
+    g_free(argv);
+
+    return Py_BuildValue("(NN)", py_leftover_args, argdict);
+}
+%%
+override mate_help_display kwargs
+static PyObject *
+_wrap_mate_help_display(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "doc_name", "link_id", NULL };
+    char *doc_name, *link_id = NULL;
+    int ret;
+    GError *error = NULL;
+    PyObject *py_ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s|z:help_display", kwlist, &doc_name, &link_id))
+        return NULL;
+    ret = mate_help_display(doc_name, link_id, &error);
+    if (pyg_error_check(&error))
+        return NULL;
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+    return py_ret;
+}
+%%
+override libmate_module_info_get noargs
+static PyObject *
+_wrap_libmate_module_info_get(PyObject *self)
+{
+    MateModuleInfo *ret;
+
+    ret = (MateModuleInfo *) libmate_module_info_get();
+    /* pyg_boxed_new handles NULL checking */
+    return pyg_boxed_new(MATE_TYPE_MODULE_INFO, ret, TRUE, TRUE);
+}
+%%
+override mate_program_locate_file kwargs
+static PyObject *
+_wrap_mate_program_locate_file(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "domain", "file_name", "only_if_exists", NULL };
+    PyObject *py_domain = NULL;
+    MateFileDomain domain;
+    char *file_name;
+    int only_if_exists, i;
+    GSList *ret_locations = NULL, *l;
+    PyObject *py_ret_locations;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "Osi:MateProgram.locate_file",
+                                     kwlist, &py_domain, &file_name, &only_if_exists))
+        return NULL;
+    if (pyg_enum_get_value(MATE_TYPE_FILE_DOMAIN, py_domain, (gint *)&domain))
+        return NULL;
+    mate_program_locate_file(MATE_PROGRAM(self->obj), domain, file_name,
+                              only_if_exists, &ret_locations);
+    py_ret_locations = PyList_New(g_slist_length(ret_locations));
+    for (l = ret_locations, i = 0; l; l = l->next, ++i) {
+        PyList_SET_ITEM(py_ret_locations, i, PyString_FromString(l->data));
+        g_free(l->data);
+    }
+    g_slist_free(ret_locations);
+    return py_ret_locations;
+}
+%%
+override mate_matecomponent_module_info_get noargs
+static PyObject *
+_wrap_mate_matecomponent_module_info_get(PyObject *self)
+{
+    MateModuleInfo *ret;
+
+    ret = (MateModuleInfo *) mate_matecomponent_module_info_get();
+    /* pyg_boxed_new handles NULL checking */
+    return pyg_boxed_new(MATE_TYPE_MODULE_INFO, ret, TRUE, TRUE);
+}
+%%
+override mate_program_module_load kwargs
+static PyObject *
+_wrap_mate_program_module_load(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "mod_name", NULL };
+    char *mod_name;
+    MateModuleInfo *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "s:program_module_load", kwlist, &mod_name))
+        return NULL;
+    ret = (MateModuleInfo *) mate_program_module_load(mod_name);
+    /* pyg_boxed_new handles NULL checking */
+    return pyg_boxed_new(MATE_TYPE_MODULE_INFO, ret, TRUE, TRUE);
+}
+

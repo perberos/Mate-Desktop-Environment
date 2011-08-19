@@ -1,0 +1,1532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PolKitMateAction</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.0">
+<link rel="home" href="index.html" title="PolicyKit-mate Library Reference Manual">
+<link rel="up" href="ref-core.html" title="API Reference">
+<link rel="prev" href="PolKitMateContext.html" title="PolKitMateContext">
+<link rel="next" href="PolKitMateToggleAction.html" title="PolKitMateToggleAction">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="reference" href="ref-core.html" title="API Reference">
+<link rel="reference" href="ref-auth-daemon.html" title="Authentication Agent">
+<link rel="appendix" href="license.html" title="Appendix A. License">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="PolKitMateContext.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ref-core.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">PolicyKit-mate Library Reference Manual</th>
+<td><a accesskey="n" href="PolKitMateToggleAction.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#PolKitMateAction.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#PolKitMateAction.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#PolKitMateAction.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#PolKitMateAction.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#PolKitMateAction.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#PolKitMateAction.signals" class="shortcut">Signals</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="PolKitMateAction"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="PolKitMateAction.top_of_page"></a>PolKitMateAction</span></h2>
+<p>PolKitMateAction — A GtkAction subclass where instances can be tied to a specific PolicyKit action.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="PolKitMateAction.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="PolKitMateAction.html#PolKitMateActionPrivate" title="PolKitMateActionPrivate">PolKitMateActionPrivate</a>;
+                    <a class="link" href="PolKitMateAction.html#PolKitMateAction-struct" title="PolKitMateAction">PolKitMateAction</a>;
+<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a>*  <a class="link" href="PolKitMateAction.html#polkit-mate-action-new" title="polkit_mate_action_new ()">polkit_mate_action_new</a>             (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name);
+<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a>*  <a class="link" href="PolKitMateAction.html#polkit-mate-action-new-default" title="polkit_mate_action_new_default ()">polkit_mate_action_new_default</a>     (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name,
+                                                         <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+>PolKitAction</a> *polkit_action,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *label,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *tooltip);
+<a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-result.html#PolKitResult"
+>PolKitResult</a>        <a class="link" href="PolKitMateAction.html#polkit-mate-action-get-polkit-result" title="polkit_mate_action_get_polkit_result ()">polkit_mate_action_get_polkit_result</a>
+                                                        (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="PolKitMateAction.html#polkit-mate-action-get-sensitive" title="polkit_mate_action_get_sensitive ()">polkit_mate_action_get_sensitive</a>   (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);
+void                <a class="link" href="PolKitMateAction.html#polkit-mate-action-set-sensitive" title="polkit_mate_action_set_sensitive ()">polkit_mate_action_set_sensitive</a>   (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a> sensitive);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="PolKitMateAction.html#polkit-mate-action-get-visible" title="polkit_mate_action_get_visible ()">polkit_mate_action_get_visible</a>     (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);
+void                <a class="link" href="PolKitMateAction.html#polkit-mate-action-set-visible" title="polkit_mate_action_set_visible ()">polkit_mate_action_set_visible</a>     (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a> visible);
+<a
+href="/usr/share/gtk-doc/html/gtk/GtkWidget.html"
+>GtkWidget</a>*          <a class="link" href="PolKitMateAction.html#polkit-mate-action-create-button" title="polkit_mate_action_create_button ()">polkit_mate_action_create_button</a>   (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a
+href="/usr/share/gtk-doc/html/gtk/GtkAction.html"
+>GtkAction</a>
+         +----PolKitMateAction
+               +----<a class="link" href="PolKitMateToggleAction.html" title="PolKitMateToggleAction">PolKitMateToggleAction</a>
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+PolKitMateAction implements
+ <a
+href="/usr/share/gtk-doc/html/gtk/gtk-gtkbuildable.html#GtkBuildable"
+>GtkBuildable</a>.</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--auth-icon-name" title='The "auth-icon-name" property'>auth-icon-name</a>"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--auth-label" title='The "auth-label" property'>auth-label</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--auth-sensitive" title='The "auth-sensitive" property'>auth-sensitive</a>"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--auth-short-label" title='The "auth-short-label" property'>auth-short-label</a>"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--auth-tooltip" title='The "auth-tooltip" property'>auth-tooltip</a>"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--auth-visible" title='The "auth-visible" property'>auth-visible</a>"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--master-sensitive" title='The "master-sensitive" property'>master-sensitive</a>"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--master-visible" title='The "master-visible" property'>master-visible</a>"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--no-icon-name" title='The "no-icon-name" property'>no-icon-name</a>"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--no-label" title='The "no-label" property'>no-label</a>"                 <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--no-sensitive" title='The "no-sensitive" property'>no-sensitive</a>"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--no-short-label" title='The "no-short-label" property'>no-short-label</a>"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--no-tooltip" title='The "no-tooltip" property'>no-tooltip</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--no-visible" title='The "no-visible" property'>no-visible</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--polkit-action" title='The "polkit-action" property'>polkit-action</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>              : Read / Write / Construct
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--polkit-action-sufficient" title='The "polkit-action-sufficient" property'>polkit-action-sufficient</a>" <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
+>GValueArray</a>*          : Read / Write / Construct
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--self-blocked-icon-name" title='The "self-blocked-icon-name" property'>self-blocked-icon-name</a>"   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--self-blocked-label" title='The "self-blocked-label" property'>self-blocked-label</a>"       <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--self-blocked-sensitive" title='The "self-blocked-sensitive" property'>self-blocked-sensitive</a>"   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--self-blocked-short-label" title='The "self-blocked-short-label" property'>self-blocked-short-label</a>" <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--self-blocked-tooltip" title='The "self-blocked-tooltip" property'>self-blocked-tooltip</a>"     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--self-blocked-visible" title='The "self-blocked-visible" property'>self-blocked-visible</a>"     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--target-pid" title='The "target-pid" property'>target-pid</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--yes-icon-name" title='The "yes-icon-name" property'>yes-icon-name</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--yes-label" title='The "yes-label" property'>yes-label</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--yes-sensitive" title='The "yes-sensitive" property'>yes-sensitive</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--yes-short-label" title='The "yes-short-label" property'>yes-short-label</a>"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--yes-tooltip" title='The "yes-tooltip" property'>yes-tooltip</a>"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction--yes-visible" title='The "yes-visible" property'>yes-visible</a>"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction-auth-end" title='The "auth-end" signal'>auth-end</a>"                                       : Run Last
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction-auth-start" title='The "auth-start" signal'>auth-start</a>"                                     : Run Last
+  "<a class="link" href="PolKitMateAction.html#PolKitMateAction-polkit-result-changed" title='The "polkit-result-changed" signal'>polkit-result-changed</a>"                          : Run Last
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.description"></a><h2>Description</h2>
+<p>
+Actions in GTK+ represent operations that the user can be perform,
+along with some information how it should be presented in the
+interface. Each action provides methods to create icons, menu items
+and toolbar items representing itself. Each action can have one or
+more proxy menu item, toolbar button or other proxy
+widgets. Proxies mirror the state of the action (text label,
+tooltip, icon, visible, sensitive, etc), and should change when the
+action's state changes. When the proxy is activated, it should
+activate its action.
+</p>
+<p>
+Instances of <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> class updates the label, tooltip,
+icon-name, visible and properties of the parent <a
+href="/usr/share/gtk-doc/html/gtk/GtkAction.html"
+><span class="type">GtkAction</span></a> instance
+according to what result PolicyKit gives about a given
+<a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> object. The <a class="link" href="PolKitMateContext.html" title="PolKitMateContext"><span class="type">PolKitMateContext</span></a> class is used
+internally to track changes. This means that external events (such
+as the editing of the /etc/PolicyKit/PolicyKit.conf file,
+ConsoleKit session activity changes or if the user gains a
+privilege via authentication) will trigger the action, and thus
+connected proxy widgets, to be updated.
+</p>
+<p>
+In addition, the <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> class intercepts the ::activate
+signal defined in <a
+href="/usr/share/gtk-doc/html/gtk/GtkAction.html"
+><span class="type">GtkAction</span></a>. When the result from PolicyKit is
+yes, the signal is propagated. If the result is auth,
+<code class="function">polkit_mate_auth_show_dialog()</code> will be used to bring up an
+authentication dialog for the given <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a>. If the user
+succesfully gained the privilege, a ::activate signal will be
+synthesized. If the result is no, the signal is also propagated.
+</p>
+<p>
+As a result, everything happens under the covers; the application
+programmer using <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> will only get the ::activate
+signal when the answer from PolicyKit is yes and as such don't have
+to worry about bringing up authentication dialogs if the property
+"no-sensitive" is set to <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+><span class="type">FALSE</span></a>.
+</p>
+<p>
+When an authentication dialog is show, the <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> class
+will pass the XID of the top-level window that the proxy widget
+causing the activation to <code class="function">polkit_mate_auth_show_dialog()</code>.
+</p>
+<p>
+An example of how to use <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> follows. First, build
+the following program
+</p>
+<p>
+</p>
+<pre class="programlisting">/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+ *
+ * polkit-mate-example: Simple example showing how a GTK+ application
+ * can use PolicyKit.
+ *
+ * Copyright (C) 2007 David Zeuthen &lt;david@fubar.dk&gt;
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;glib/gi18n.h&gt;
+#include &lt;polkit-mate/polkit-mate.h&gt;
+
+static GtkWidget *toplevel_window;
+static PolKitMateContext *pkgc;
+
+static void 
+_button_toggled (GtkToggleButton *toggle_button, PolKitMateAction *action)
+{
+        g_debug ("in _button_toggled for action '%s'", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void 
+_button_clicked (GtkToggleButton *toggle_button, PolKitMateAction *action)
+{
+        g_debug ("in _button_clicked for '%s'", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+/* This function is called when the following two conditions are true
+ *
+ *  - the user clicks one of the buttons created via the method
+ *    polkit_mate_action_create_button() (see main() below)
+ *
+ *  - For the PolKitAction associated with the button, PolicyKit
+ *    reports either 'no' or 'yes'.
+ *
+ *  In the event the user clicks a button and he is not privileged
+ *  (e.g. PolicyKit returns one of the 'auth' results) he will be
+ *  asked to authenticate; this all happens behind the scenes; the
+ *  application _only_ gets the ::activate signal on PolKitMateAction
+ *  instances when PolicyKit reports that the user is privileged.
+ *
+ *  Note that for action org.mate.policykit.examples.tweak, the
+ *  corresponding PolKitMateAction is configured to be sensitive (see
+ *  main() below) even when PolicyKit reports 'no'. Hence we need to
+ *  handle that case too and we do that by popping up a dialog. Note
+ *  that this can only be triggered by adding a stanza like
+ *
+ *  &lt;match action="org.mate.policykit.examples.tweak"&gt;
+ *    &lt;return result="no"/&gt;
+ *  &lt;/match&gt;
+ *
+ *  to the /etc/PolicyKit/PolicyKit.conf file.
+ */
+static void
+activate_polkit_mate_action (PolKitMateAction *action, gpointer user_data)
+{
+        PolKitCaller *pk_caller;
+        PolKitAction *pk_action;
+        PolKitResult pk_result;
+        DBusError dbus_error;
+
+        if (strcmp (gtk_action_get_name (GTK_ACTION (action)), "toggle") == 0) {
+                /* we're not supposed to run actions when the
+                 * authorization is flipped.. we're supposed to make
+                 * some UI sensitive and de-sensitive.. (one use at least) */
+                g_debug ("toggled for '%s'", gtk_action_get_name (GTK_ACTION (action)));
+                return;
+        }
+
+        g_debug ("pretending to be the mechanism for action '%s'", gtk_action_get_name (GTK_ACTION (action)));
+
+        g_object_get (action, "polkit-action", &amp;pk_action, NULL);
+        
+        dbus_error_init (&amp;dbus_error);        
+        pk_caller = polkit_tracker_get_caller_from_pid (pkgc-&gt;pk_tracker, 
+                                                        getpid (),
+                                                        &amp;dbus_error);
+        if (pk_caller == NULL) {
+                g_warning ("Cannot get PolKitCaller object for ourselves (pid=%d): %s: %s",
+                           getpid (), dbus_error.name, dbus_error.message);
+                dbus_error_free (&amp;dbus_error);
+        } else {
+                /* note how we pass #TRUE to revoke_if_one_shot - this is because we're
+                 * pretending to be the mechanism
+                 */
+                pk_result = polkit_context_is_caller_authorized (pkgc-&gt;pk_context, 
+                                                                 pk_action, 
+                                                                 pk_caller,
+                                                                 TRUE,
+                                                                 NULL);
+                
+                polkit_caller_unref (pk_caller);
+        }
+
+        polkit_action_unref (pk_action);
+
+}
+
+static void
+activate_action (GtkAction *action, gpointer user_data)
+{
+        if (g_ascii_strcasecmp (gtk_action_get_name (action), "Quit") == 0) {
+                exit (0);
+        } else if (g_ascii_strcasecmp (gtk_action_get_name (action), "About") == 0) {
+                const char *authors[] = {
+                        "David Zeuthen &lt;david@fubar.dk&gt;",
+                        NULL};
+                const char *documenters[] = {
+                        "David Zeuthen &lt;david@fubar.dk&gt;",
+                        NULL};
+
+
+                gtk_show_about_dialog (NULL,
+                                       "version", VERSION,
+                                       "copyright", _("Copyright © 2007 David Zeuthen"),
+                                       "website-label", _("PolicyKit-mate Website"),
+                                       "website", "http://hal.freedesktop.org/docs/PolicyKit-mate/",
+                                       "program-name", _("PolicyKit-mate demo"),
+                                       "comments", _("PolicyKit for the MATE desktop"),
+                                       "logo-icon-name", GTK_STOCK_DIALOG_AUTHENTICATION,
+                                       "authors", authors,
+                                       "documenters", documenters,
+                                       NULL);
+
+        }
+}
+
+static GtkActionEntry entries[] = {
+        { "FileMenu", NULL, N_("_File") },               /* name, stock id, label */
+        { "ActionsMenu", NULL, N_("_Actions") },         /* name, stock id, label */
+        { "HelpMenu", NULL, N_("_Help") },               /* name, stock id, label */
+
+        { "Quit", GTK_STOCK_QUIT,                        /* name, stock id */
+          N_("_Quit"), "&lt;control&gt;Q",                     /* label, accelerator */     
+          N_("Quit"),                                    /* tooltip */
+          G_CALLBACK (activate_action) },
+
+        { "About", GTK_STOCK_ABOUT,                      /* name, stock id */
+          N_("_About"), "&lt;control&gt;A",                    /* label, accelerator */     
+          N_("About"),                                   /* tooltip */  
+          G_CALLBACK (activate_action) },
+};
+static guint n_entries = G_N_ELEMENTS (entries);
+
+static const gchar *ui_info = 
+"&lt;ui&gt;"
+"  &lt;menubar name='MenuBar'&gt;"
+"    &lt;menu action='FileMenu'&gt;"
+"      &lt;menuitem action='Quit'/&gt;"
+"    &lt;/menu&gt;"
+"    &lt;menu action='ActionsMenu'&gt;"
+"      &lt;menuitem action='frobnicate'/&gt;"
+"      &lt;menuitem action='jump'/&gt;"
+"      &lt;menuitem action='tweak'/&gt;"
+"      &lt;menuitem action='twiddle'/&gt;"
+"      &lt;menuitem action='punch'/&gt;"
+"      &lt;menuitem action='toggle'/&gt;"
+"    &lt;/menu&gt;"
+"    &lt;menu action='HelpMenu'&gt;"
+"      &lt;menuitem action='About'/&gt;"
+"    &lt;/menu&gt;"
+"  &lt;/menubar&gt;"
+"  &lt;toolbar  name='ToolBar'&gt;"
+"    &lt;toolitem action='Quit'/&gt;"
+"    &lt;toolitem action='About'/&gt;"
+"    &lt;separator action='Sep1'/&gt;"
+"    &lt;toolitem action='frobnicate'/&gt;"
+"    &lt;toolitem action='jump'/&gt;"
+"    &lt;toolitem action='tweak'/&gt;"
+"    &lt;toolitem action='twiddle'/&gt;"
+"    &lt;toolitem action='punch'/&gt;"
+"    &lt;toolitem action='toggle'/&gt;"
+"  &lt;/toolbar&gt;"
+"&lt;/ui&gt;";
+
+int
+main (int argc, char **argv)
+{
+        GtkWidget *hbox;
+        GtkWidget *vbox;
+        GtkWidget *vbox2;
+        GtkWidget *label;
+        GMainLoop*loop;
+        PolKitAction *pk_action;
+        PolKitMateAction *action;
+        GtkWidget *button;
+        GtkUIManager *ui;
+        GtkActionGroup *actions;
+
+        gtk_init (&amp;argc, &amp;argv);
+
+        pkgc = polkit_mate_context_get (NULL);
+
+        loop = g_main_loop_new (NULL, FALSE);
+        
+        toplevel_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+        actions = gtk_action_group_new ("Actions");
+        gtk_action_group_add_actions (actions, entries, n_entries, NULL);
+
+        ui = gtk_ui_manager_new ();
+        gtk_ui_manager_insert_action_group (ui, actions, 0);
+
+        gtk_window_add_accel_group (GTK_WINDOW (toplevel_window), 
+                                    gtk_ui_manager_get_accel_group (ui));
+
+
+        gtk_ui_manager_add_ui_from_string (ui, ui_info, -1, NULL);
+
+        /*----------------------------------------------------------------*/
+
+        vbox = gtk_vbox_new (FALSE, 10);
+        gtk_container_add (GTK_CONTAINER (toplevel_window), vbox);
+
+        vbox2 = gtk_vbox_new (FALSE, 0);
+        gtk_box_pack_start (GTK_BOX (vbox), vbox2, FALSE, FALSE, 0);
+
+        /*----------------------------------------------------------------*/
+
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("Making the helper &lt;b&gt;Frobnicate&lt;/b&gt; requires the "
+                                                   "user to authenticate. The authorization is kept for "
+                                                   "the life time of the process"));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+        pk_action = polkit_action_new ();
+        polkit_action_set_action_id (pk_action, "org.mate.policykit.examples.frobnicate");
+        action = polkit_mate_action_new_default ("frobnicate", pk_action, _("Frobnicate!"), NULL);
+        polkit_action_unref (pk_action);
+        g_signal_connect (action, "activate", G_CALLBACK (activate_polkit_mate_action), NULL);
+        gtk_action_group_add_action (actions, GTK_ACTION (action));
+        button = polkit_mate_action_create_button (action);
+        gtk_box_pack_start (GTK_BOX (vbox), 
+                            button, 
+                            FALSE, FALSE, 0);
+        g_signal_connect (button, "clicked", G_CALLBACK (_button_clicked), action);
+
+        /*----------------------------------------------------------------*/
+        gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), FALSE, FALSE, 0);
+        /*----------------------------------------------------------------*/
+
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("Making the helper &lt;b&gt;Jump&lt;/b&gt; requires the "
+                                                   "user to authenticate. This is a one-shot authorization."));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+        pk_action = polkit_action_new ();
+        polkit_action_set_action_id (pk_action, "org.mate.policykit.examples.jump");
+        action = polkit_mate_action_new_default ("jump", pk_action, _("Jump!"), NULL);
+        polkit_action_unref (pk_action);
+        g_signal_connect (action, "activate", G_CALLBACK (activate_polkit_mate_action), NULL);
+        gtk_action_group_add_action (actions, GTK_ACTION (action));
+        button = polkit_mate_action_create_button (action);
+        gtk_box_pack_start (GTK_BOX (vbox), 
+                            button, 
+                            FALSE, FALSE, 0);
+        g_signal_connect (button, "clicked", G_CALLBACK (_button_clicked), action);
+
+        /*----------------------------------------------------------------*/
+        gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), FALSE, FALSE, 0);
+        /*----------------------------------------------------------------*/
+
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("Making the helper &lt;b&gt;Tweak&lt;/b&gt; requires a system "
+                                                   "administrator to authenticate. This instance "
+                                                   "overrides the defaults set in polkit_mate_action_new()."));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+        pk_action = polkit_action_new ();
+        polkit_action_set_action_id (pk_action, "org.mate.policykit.examples.tweak");
+        action = polkit_mate_action_new_default ("tweak", pk_action, _("Tweak!"), NULL);
+        polkit_action_unref (pk_action);
+
+        /* For this particular GtkAction instance, we want to customize the appearence */
+        g_object_set (action,
+                      "no-visible",       TRUE,
+                      "no-sensitive",     TRUE,
+                      "no-short-label",   _("Tweak"),
+                      "no-label",         _("Tweak (long)"),
+                      "no-tooltip",       _("If your admin wasn't annoying, you could do this"),
+                      "no-icon-name",     GTK_STOCK_NO,
+                      
+                      "auth-visible",     TRUE,
+                      "auth-sensitive",   TRUE,
+                      "auth-short-label", _("Tweak..."),
+                      "auth-label",       _("Tweak... (long)"),
+                      "auth-tooltip",     _("Only card carrying tweakers can do this!"),
+                      "auth-icon-name",   GTK_STOCK_DIALOG_AUTHENTICATION,
+                      
+                      "yes-visible",      TRUE,
+                      "yes-sensitive",    TRUE,
+                      "yes-short-label",  _("Tweak!"),
+                      "yes-label",        _("Tweak! (long)"),
+                      "yes-tooltip",      _("Go ahead, tweak tweak tweak!"),
+                      "yes-icon-name",    GTK_STOCK_YES,
+                      NULL);
+
+        g_signal_connect (action, "activate", G_CALLBACK (activate_polkit_mate_action), NULL);
+        gtk_action_group_add_action (actions, GTK_ACTION (action));
+        button = polkit_mate_action_create_button (action);
+        gtk_box_pack_start (GTK_BOX (vbox), 
+                            button, 
+                            FALSE, FALSE, 0);
+        g_signal_connect (button, "clicked", G_CALLBACK (_button_clicked), action);
+
+        /*----------------------------------------------------------------*/
+        gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), FALSE, FALSE, 0);
+        /*----------------------------------------------------------------*/
+
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("Making the helper &lt;b&gt;Twiddle&lt;/b&gt; requires a system "
+                                                   "administrator to authenticate. Once authenticated, this "
+                                                   "privilege can be retained indefinitely."));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+        pk_action = polkit_action_new ();
+        polkit_action_set_action_id (pk_action, "org.mate.policykit.examples.twiddle");
+        action = polkit_mate_action_new_default ("twiddle", pk_action, _("Twiddle!"), NULL);
+        polkit_action_unref (pk_action);
+        g_signal_connect (action, "activate", G_CALLBACK (activate_polkit_mate_action), NULL);
+        gtk_action_group_add_action (actions, GTK_ACTION (action));
+        button = polkit_mate_action_create_button (action);
+        gtk_box_pack_start (GTK_BOX (vbox), 
+                            button, 
+                            FALSE, FALSE, 0);
+        g_signal_connect (button, "clicked", G_CALLBACK (_button_clicked), action);
+
+        /*----------------------------------------------------------------*/
+        gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), FALSE, FALSE, 0);
+        /*----------------------------------------------------------------*/
+
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("Making the helper &lt;b&gt;Punch&lt;/b&gt; requires the user to "
+                                                   "authenticate. Once authenticated, this privilege can "
+                                                   "be retained for the remainder of the desktop session."));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+        pk_action = polkit_action_new ();
+        polkit_action_set_action_id (pk_action, "org.mate.policykit.examples.punch");
+        action = polkit_mate_action_new_default ("punch", pk_action, _("Punch!"), NULL);
+        polkit_action_unref (pk_action);
+        g_signal_connect (action, "activate", G_CALLBACK (activate_polkit_mate_action), NULL);
+        gtk_action_group_add_action (actions, GTK_ACTION (action));
+        button = polkit_mate_action_create_button (action);
+        gtk_box_pack_start (GTK_BOX (vbox), 
+                            polkit_mate_action_create_button (action), 
+                            FALSE, FALSE, 0);
+        g_signal_connect (button, "clicked", G_CALLBACK (_button_clicked), action);
+
+        /*----------------------------------------------------------------*/
+        gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), FALSE, FALSE, 0);
+        /*----------------------------------------------------------------*/
+
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("The &lt;b&gt;Toggle&lt;/b&gt; action demonstrates the use of "
+                                                   "PolicyKit to drive a GtkToggleButton; it's an intuitive "
+                                                   "way to ask users to give up authorizations when they "
+                                                   "are done with them. E.g. the button is 'pressed in' exactly"
+                                                   "when the authorization is held. Toggling the button means "
+                                                   "obtaining resp. revoking the authorization in question."));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+        pk_action = polkit_action_new ();
+        polkit_action_set_action_id (pk_action, "org.mate.policykit.examples.toggle");
+        PolKitMateToggleAction *toggle_action;
+        toggle_action = polkit_mate_toggle_action_new_default ("toggle", pk_action, 
+                                                                _("Click to make changes..."),
+                                                                _("Click to prevent changes"));
+        //g_object_set (toggle_action, "target-pid", 24887, NULL);
+        polkit_action_unref (pk_action);
+        g_signal_connect (toggle_action, "activate", G_CALLBACK (activate_polkit_mate_action), NULL);
+        gtk_action_group_add_action (actions, GTK_ACTION (toggle_action));
+        GtkWidget *toggle_button;
+        toggle_button = polkit_mate_toggle_action_create_toggle_button (toggle_action);
+        g_signal_connect (toggle_button, "toggled", G_CALLBACK (_button_toggled), toggle_action);
+        gtk_box_pack_start (GTK_BOX (vbox), 
+                            toggle_button, 
+                            FALSE, FALSE, 0);
+
+        /*----------------------------------------------------------------*/
+        gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), FALSE, FALSE, 0);
+        /*----------------------------------------------------------------*/
+
+        hbox = gtk_hbox_new (FALSE, 5);
+        gtk_box_pack_start (GTK_BOX (hbox), gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, 
+                                                                      GTK_ICON_SIZE_SMALL_TOOLBAR), FALSE, FALSE, 0);
+        label = gtk_label_new (NULL);
+        gtk_label_set_markup (GTK_LABEL (label), _("&lt;i&gt;Tip: try editing /etc/PolicyKit/Policy.conf and see the proxy widgets update in real-time.&lt;/i&gt;."));
+        gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+        gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+        gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+        gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+
+        /*----------------------------------------------------------------*/
+
+        g_object_unref (actions);
+
+        gtk_box_pack_start (GTK_BOX (vbox2),
+                            gtk_ui_manager_get_widget (ui, "/MenuBar"),
+                            FALSE, FALSE, 0);
+
+        GtkWidget *toolbar;
+        toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
+        gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH);
+        gtk_box_pack_start (GTK_BOX (vbox2),
+                            toolbar,
+                            FALSE, FALSE, 0);
+
+        /*----------------------------------------------------------------*/
+
+        gtk_window_set_default_size (GTK_WINDOW (toplevel_window), 700, 0);
+        gtk_window_set_title (GTK_WINDOW (toplevel_window), _("PolicyKit-mate demo"));
+        g_signal_connect (toplevel_window, "delete-event", (GCallback) exit, NULL);
+        gtk_widget_show_all (toplevel_window);
+
+        g_main_loop_run (loop);
+        return 0;
+}
+</pre>
+<p>
+</p>
+<p>
+with
+</p>
+<p>
+</p>
+<pre class="programlisting">gcc -o polkit-mate-example `pkg-config --cflags --libs polkit-mate` polkit-mate-example.c</pre>
+<p>
+</p>
+<p>
+Then, put the following content
+</p>
+<p>
+</p>
+<pre class="programlisting">FIXME: MISSING XINCLUDE CONTENT</pre>
+<p>
+</p>
+<p>
+into a file
+<code class="literal">/usr/share/PolicyKit/policy/polkit-mate-example.policy</code>. Finally,
+run <code class="literal">polkit-mate-example</code>. It should display a
+window like this:
+</p>
+<p>
+<img src="polkit-mate-example-screenshot.png">
+</p>
+<p>
+If the "Twiddle!" button is pressed, an authentication dialog
+should pop up
+</p>
+<p>
+<img src="polkit-mate-example-auth-dialog-twiddle.png">
+</p>
+<p>
+Here is how what the application looks like if the user gains
+authorization for all the actions:
+</p>
+<p>
+<img src="polkit-mate-example-screenshot-authorized.png">
+</p>
+<p>
+Regarding how to build an example mechanism that this GTK+
+application can take advantage of, please refer to the
+<a
+href="/usr/share/gtk-doc/html/polkit/polkit-polkit-context.html#PolKitContext"
+><span class="type">PolKitContext</span></a> class for examples.</p>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="PolKitMateActionPrivate"></a><h3>PolKitMateActionPrivate</h3>
+<pre class="programlisting">typedef struct _PolKitMateActionPrivate PolKitMateActionPrivate;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction-struct"></a><h3>PolKitMateAction</h3>
+<pre class="programlisting">typedef struct _PolKitMateAction PolKitMateAction;</pre>
+<p>
+The PolKitMateAction struct contains only private data members and should not be accessed directly.</p>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-new"></a><h3>polkit_mate_action_new ()</h3>
+<pre class="programlisting"><a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a>*  polkit_mate_action_new             (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name);</pre>
+<p>
+Creates a new <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object. The typical use for this
+function is for specialized use where
+<a class="link" href="PolKitMateAction.html#polkit-mate-action-new-default" title="polkit_mate_action_new_default ()"><code class="function">polkit_mate_action_new_default()</code></a> does not meet the needs of the
+application. A short example of the usage of this contructor
+follows.
+</p>
+<p>
+If the 'polkit-action' property is <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+><span class="type">NULL</span></a> the behavior is similar to
+as if a <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> returned <span class="type">POLKIT_RESULT_YES</span>.
+</p>
+<p>
+One can set the 'polkit-action-sufficient' property to a
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
+><span class="type">GValueArray</span></a> of pointers to <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> objects. The semantics of
+this property is that if the user is authorized for any of the
+given actions in 'polkit-action-sufficient' then the behavior is
+the same as if they're authorized for the action denoted by
+'polkit-action'. This is useful in a setup where you have two
+similar actions and one implies the other. For example, in
+mate-system-monitor there are two actions
+<code class="literal">org.mate.system-monitor.increase-own-priority</code>
+(Increase the priority of a process owned by yourself) and
+<code class="literal">org.mate.system-monitor.change-priorty</code> (Change
+priority of any process). As the latter clearly implies the former,
+one would set the latter in the 'polkit-action-sufficient'
+property when constructing a <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> for the former.
+</p>
+<p>
+</p>
+<pre class="programlisting">
+PolKitAction *polkit_action;
+PolKitMateAction *action;
+
+polkit_action = polkit_action_new ();
+polkit_action_set_action_id (polkit_action, "org.example.some-policykit-action");
+
+action = polkit_mate_action_new ("blabla", NULL);
+g_object_set (action,
+              "polkit-action",    polkit_action,
+              "no-visible",       TRUE,
+              "no-sensitive",     FALSE,
+              "no-short-label",   "The Action no can do!",
+              "no-label",         "The Action is not permitted!",
+              "no-tooltip",       "The Tooltip (no)",
+              "no-icon-name",     GTK_STOCK_NO,
+
+              "auth-visible",     TRUE,
+              "auth-sensitive",   TRUE,
+              "auth-short-label", "The Action requires auth...",
+              "auth-label",       "The Action requires auth...",
+              "auth-tooltip",     "The Tooltip (auth)",
+              "auth-icon-name",   GTK_STOCK_DIALOG_AUTHENTICATION,
+
+              "yes-visible",      TRUE,
+              "yes-sensitive",    TRUE,
+              "yes-short-label",  "Action!",
+              "yes-label",        "Just do the Action!",
+              "yes-tooltip",      "The Tooltip (yes)",
+              "yes-icon-name",    GTK_STOCK_YES,
+              NULL);
+</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td> A unique name for the action
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> or <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+><span class="type">NULL</span></a> if error is set
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-new-default"></a><h3>polkit_mate_action_new_default ()</h3>
+<pre class="programlisting"><a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a>*  polkit_mate_action_new_default     (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name,
+                                                         <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+>PolKitAction</a> *polkit_action,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *label,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *tooltip);</pre>
+<p>
+Creates a new <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object with the default
+behavior for a given <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> object.
+</p>
+<p>
+Default behavior is defined by the label and tooltip being
+identical across all three four states, the action being visible in
+all four states, and the action being insensitive only in the state
+where the result from PolicyKit is no and self-blocked. Only when
+PolicyKit returns one of the 'auth*' results, the icon_name
+property will be set to <a
+href="/usr/share/gtk-doc/html/gtk/gtk-Stock-Items.html#GTK-STOCK-DIALOG-AUTHENTICATION:CAPS"
+><span class="type">GTK_STOCK_DIALOG_AUTHENTICATION</span></a>.
+</p>
+<p>
+The caller can always modify individual aspects of the action after
+creation, e.g. change the tooltip for the self-blocked, no, auth
+and yes states.
+</p>
+<p>
+If the given polkit_action is <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+><span class="type">NULL</span></a> the behavior is similar to as
+if a <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> returned <span class="type">POLKIT_RESULT_YES</span>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td> A unique name for the action
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>polkit_action</code></em> :</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> to track
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>label</code></em> :</span></p></td>
+<td> the label to use (will also apply to short-label)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>tooltip</code></em> :</span></p></td>
+<td> the tool tip to use
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> or <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+><span class="type">NULL</span></a> if error is set
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-get-polkit-result"></a><h3>polkit_mate_action_get_polkit_result ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-result.html#PolKitResult"
+>PolKitResult</a>        polkit_mate_action_get_polkit_result
+                                                        (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);</pre>
+<p>
+Gets the <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-result.html#PolKitResult"
+><span class="type">PolKitResult</span></a> that indicates whether the user is
+privileged to do the <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> associated with this
+<a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> The <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> object. The caller shall not unref this object.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-get-sensitive"></a><h3>polkit_mate_action_get_sensitive ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            polkit_mate_action_get_sensitive   (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);</pre>
+<p>
+Get the master sensitivity, see PolKitMateAction:master-sensitive:
+for details.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> The <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the master sensitivity
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-set-sensitive"></a><h3>polkit_mate_action_set_sensitive ()</h3>
+<pre class="programlisting">void                polkit_mate_action_set_sensitive   (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a> sensitive);</pre>
+<p>
+Set the master sensitivity, see PolKitMateAction:master-sensitive:
+for details.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> The <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sensitive</code></em> :</span></p></td>
+<td> master sensitivity
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-get-visible"></a><h3>polkit_mate_action_get_visible ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            polkit_mate_action_get_visible     (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);</pre>
+<p>
+Get the master visibility, see PolKitMateAction:master-visible:
+for details.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> The <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the master visibility
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-set-visible"></a><h3>polkit_mate_action_set_visible ()</h3>
+<pre class="programlisting">void                polkit_mate_action_set_visible     (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a> visible);</pre>
+<p>
+Set the master visibility, see PolKitMateAction:master-visible:
+for details.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> The <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>visible</code></em> :</span></p></td>
+<td> master visibility
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="polkit-mate-action-create-button"></a><h3>polkit_mate_action_create_button ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gtk/GtkWidget.html"
+>GtkWidget</a>*          polkit_mate_action_create_button   (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action);</pre>
+<p>
+Create a button for the given action that displays the label,
+tooltip and icon_name corresponding to whether the state, according
+to PolicyKit, is no, auth or yes.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> The <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <a
+href="/usr/share/gtk-doc/html/gtk/GtkButton.html"
+><span class="type">GtkButton</span></a> instance connected to the action
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--auth-icon-name"></a><h3>The <code class="literal">"auth-icon-name"</code> property</h3>
+<pre class="programlisting">  "auth-icon-name"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'auth', use this icon-name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--auth-label"></a><h3>The <code class="literal">"auth-label"</code> property</h3>
+<pre class="programlisting">  "auth-label"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'auth', use this label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--auth-sensitive"></a><h3>The <code class="literal">"auth-sensitive"</code> property</h3>
+<pre class="programlisting">  "auth-sensitive"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'auth', whether the action will be sensitive.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--auth-short-label"></a><h3>The <code class="literal">"auth-short-label"</code> property</h3>
+<pre class="programlisting">  "auth-short-label"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'auth', use this short-label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--auth-tooltip"></a><h3>The <code class="literal">"auth-tooltip"</code> property</h3>
+<pre class="programlisting">  "auth-tooltip"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'auth', use this tooltip.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--auth-visible"></a><h3>The <code class="literal">"auth-visible"</code> property</h3>
+<pre class="programlisting">  "auth-visible"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'auth', whether the action will be visible.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--master-sensitive"></a><h3>The <code class="literal">"master-sensitive"</code> property</h3>
+<pre class="programlisting">  "master-sensitive"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Can be set to FALSE to force insensitivity no matter what PolicyKit reports.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--master-visible"></a><h3>The <code class="literal">"master-visible"</code> property</h3>
+<pre class="programlisting">  "master-visible"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Can be set to FALSE to force invisibility no matter what PolicyKit reports.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--no-icon-name"></a><h3>The <code class="literal">"no-icon-name"</code> property</h3>
+<pre class="programlisting">  "no-icon-name"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no', use this icon-name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--no-label"></a><h3>The <code class="literal">"no-label"</code> property</h3>
+<pre class="programlisting">  "no-label"                 <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no', use this label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--no-sensitive"></a><h3>The <code class="literal">"no-sensitive"</code> property</h3>
+<pre class="programlisting">  "no-sensitive"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no', whether the action will be sensitive.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--no-short-label"></a><h3>The <code class="literal">"no-short-label"</code> property</h3>
+<pre class="programlisting">  "no-short-label"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no', use this short-label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--no-tooltip"></a><h3>The <code class="literal">"no-tooltip"</code> property</h3>
+<pre class="programlisting">  "no-tooltip"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no', use this tooltip.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--no-visible"></a><h3>The <code class="literal">"no-visible"</code> property</h3>
+<pre class="programlisting">  "no-visible"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no', whether the action will be visible.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--polkit-action"></a><h3>The <code class="literal">"polkit-action"</code> property</h3>
+<pre class="programlisting">  "polkit-action"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>              : Read / Write / Construct</pre>
+<p>The PolKitAction object this GTK+ action is tracking.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--polkit-action-sufficient"></a><h3>The <code class="literal">"polkit-action-sufficient"</code> property</h3>
+<pre class="programlisting">  "polkit-action-sufficient" <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
+>GValueArray</a>*          : Read / Write / Construct</pre>
+<p>An array of PolKitAction objects that are sufficient to have authorizations for.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--self-blocked-icon-name"></a><h3>The <code class="literal">"self-blocked-icon-name"</code> property</h3>
+<pre class="programlisting">  "self-blocked-icon-name"   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this icon-name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--self-blocked-label"></a><h3>The <code class="literal">"self-blocked-label"</code> property</h3>
+<pre class="programlisting">  "self-blocked-label"       <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--self-blocked-sensitive"></a><h3>The <code class="literal">"self-blocked-sensitive"</code> property</h3>
+<pre class="programlisting">  "self-blocked-sensitive"   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, whether the action will be sensitive.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--self-blocked-short-label"></a><h3>The <code class="literal">"self-blocked-short-label"</code> property</h3>
+<pre class="programlisting">  "self-blocked-short-label" <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this short-label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--self-blocked-tooltip"></a><h3>The <code class="literal">"self-blocked-tooltip"</code> property</h3>
+<pre class="programlisting">  "self-blocked-tooltip"     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, use this tooltip.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--self-blocked-visible"></a><h3>The <code class="literal">"self-blocked-visible"</code> property</h3>
+<pre class="programlisting">  "self-blocked-visible"     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'no' and the reason is that the user has a self-granted negative authorization, whether the action will be visible.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--target-pid"></a><h3>The <code class="literal">"target-pid"</code> property</h3>
+<pre class="programlisting">  "target-pid"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>The target process id to receive the authorization; if 0 it is the current process.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--yes-icon-name"></a><h3>The <code class="literal">"yes-icon-name"</code> property</h3>
+<pre class="programlisting">  "yes-icon-name"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'yes', use this icon-name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--yes-label"></a><h3>The <code class="literal">"yes-label"</code> property</h3>
+<pre class="programlisting">  "yes-label"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'yes', use this label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--yes-sensitive"></a><h3>The <code class="literal">"yes-sensitive"</code> property</h3>
+<pre class="programlisting">  "yes-sensitive"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'yes', whether the action will be sensitive.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--yes-short-label"></a><h3>The <code class="literal">"yes-short-label"</code> property</h3>
+<pre class="programlisting">  "yes-short-label"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'yes', use this short-label.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--yes-tooltip"></a><h3>The <code class="literal">"yes-tooltip"</code> property</h3>
+<pre class="programlisting">  "yes-tooltip"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'yes', use this tooltip.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction--yes-visible"></a><h3>The <code class="literal">"yes-visible"</code> property</h3>
+<pre class="programlisting">  "yes-visible"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>If PolicyKit evaluates the result as 'yes', whether the action will be visible.</p>
+<p>Default value: TRUE</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="PolKitMateAction.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction-auth-end"></a><h3>The <code class="literal">"auth-end"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>           gained_privilege,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>           user_data)             : Run Last</pre>
+<p>
+The ::auth-end signal is emitted when the an authentication
+session ends and carries information about whether the
+privilege was obtained or not.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> the object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gained_privilege</code></em> :</span></p></td>
+<td> whether the privilege was gained
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction-auth-start"></a><h3>The <code class="literal">"auth-start"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>           user_data)      : Run Last</pre>
+<p>
+The ::auth-start signal is emitted when an authentication
+session starts.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> the object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="PolKitMateAction-polkit-result-changed"></a><h3>The <code class="literal">"polkit-result-changed"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="PolKitMateAction.html" title="PolKitMateAction">PolKitMateAction</a> *action,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>               current_result,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>           user_data)           : Run Last</pre>
+<p>
+The ::polkit-result-changed signal is emitted when the
+PolicyKit result changes. This can happen when external
+factors (config file, ConsoleKit, privilege granted /
+revoked) change since the <a class="link" href="PolKitMateAction.html" title="PolKitMateAction"><span class="type">PolKitMateAction</span></a> class listens
+for events using the <a class="link" href="PolKitMateContext.html" title="PolKitMateContext"><span class="type">PolKitMateContext</span></a> class.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>action</code></em> :</span></p></td>
+<td> the object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>current_result</code></em> :</span></p></td>
+<td> current <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-result.html#PolKitResult"
+><span class="type">PolKitResult</span></a> from PolicyKit regarding given <a
+href="/usr/share/gtk-doc/html/polkit-1/polkit-1-polkit-action.html#PolKitAction"
+><span class="type">PolKitAction</span></a> object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

@@ -1,0 +1,1222 @@
+;; -*- scheme -*-
+; object definitions ...
+(define-object Application
+  (in-module "Eog")
+  (parent "GObject")
+  (c-name "EogApplication")
+  (gtype-id "EOG_TYPE_APPLICATION")
+)
+
+(define-object Dialog
+  (in-module "Eog")
+  (parent "GObject")
+  (c-name "EogDialog")
+  (gtype-id "EOG_TYPE_DIALOG")
+)
+
+(define-object Image
+  (in-module "Eog")
+  (parent "GObject")
+  (c-name "EogImage")
+  (gtype-id "EOG_TYPE_IMAGE")
+)
+
+(define-object Job
+  (in-module "Eog")
+  (parent "GObject")
+  (c-name "EogJob")
+  (gtype-id "EOG_TYPE_JOB")
+)
+
+(define-object JobLoad
+  (in-module "Eog")
+  (parent "EogJob")
+  (c-name "EogJobLoad")
+  (gtype-id "EOG_TYPE_JOB_LOAD")
+)
+
+(define-object JobModel
+  (in-module "Eog")
+  (parent "EogJob")
+  (c-name "EogJobModel")
+  (gtype-id "EOG_TYPE_JOB_MODEL")
+)
+
+(define-object JobSave
+  (in-module "Eog")
+  (parent "EogJob")
+  (c-name "EogJobSave")
+  (gtype-id "EOG_TYPE_JOB_SAVE")
+)
+
+(define-object JobSaveAs
+  (in-module "Eog")
+  (parent "EogJobSave")
+  (c-name "EogJobSaveAs")
+  (gtype-id "EOG_TYPE_JOB_SAVE_AS")
+)
+
+(define-object JobThumbnail
+  (in-module "Eog")
+  (parent "EogJob")
+  (c-name "EogJobThumbnail")
+  (gtype-id "EOG_TYPE_JOB_THUMBNAIL")
+)
+
+(define-object JobTransform
+  (in-module "Eog")
+  (parent "EogJob")
+  (c-name "EogJobTransform")
+  (gtype-id "EOG_TYPE_JOB_TRANSFORM")
+)
+
+(define-object ListStore
+  (in-module "Eog")
+  (parent "GtkListStore")
+  (c-name "EogListStore")
+  (gtype-id "EOG_TYPE_LIST_STORE")
+)
+
+(define-object Plugin
+  (in-module "Eog")
+  (parent "GObject")
+  (c-name "EogPlugin")
+  (gtype-id "EOG_TYPE_PLUGIN")
+)
+
+(define-object PropertiesDialog
+  (in-module "Eog")
+  (parent "EogDialog")
+  (c-name "EogPropertiesDialog")
+  (gtype-id "EOG_TYPE_PROPERTIES_DIALOG")
+)
+
+(define-object ScrollView
+  (in-module "Eog")
+  (parent "GtkTable")
+  (c-name "EogScrollView")
+  (gtype-id "EOG_TYPE_SCROLL_VIEW")
+)
+
+(define-object Sidebar
+  (in-module "Eog")
+  (parent "GtkVBox")
+  (c-name "EogSidebar")
+  (gtype-id "EOG_TYPE_SIDEBAR")
+)
+
+(define-object Statusbar
+  (in-module "Eog")
+  (parent "GtkStatusbar")
+  (c-name "EogStatusbar")
+  (gtype-id "EOG_TYPE_STATUSBAR")
+)
+
+(define-object ThumbNav
+  (in-module "Eog")
+  (parent "GtkHBox")
+  (c-name "EogThumbNav")
+  (gtype-id "EOG_TYPE_THUMB_NAV")
+)
+
+(define-object ThumbView
+  (in-module "Eog")
+  (parent "GtkIconView")
+  (c-name "EogThumbView")
+  (gtype-id "EOG_TYPE_THUMB_VIEW")
+)
+
+(define-object Window
+  (in-module "Eog")
+  (parent "GtkWindow")
+  (c-name "EogWindow")
+  (gtype-id "EOG_TYPE_WINDOW")
+)
+
+;; Enumerations and flags ...
+
+(define-flags ImageData
+  (in-module "Eog")
+  (c-name "EogImageData")
+  (gtype-id "EOG_TYPE_IMAGE_DATA")
+  (values
+    '("image" "EOG_IMAGE_DATA_IMAGE")
+    '("dimension" "EOG_IMAGE_DATA_DIMENSION")
+    '("exif" "EOG_IMAGE_DATA_EXIF")
+  )
+)
+
+(define-enum ImageError
+  (in-module "Eog")
+  (c-name "EogImageError")
+  (gtype-id "EOG_TYPE_IMAGE_ERROR")
+  (values
+    '("save-not-local" "EOG_IMAGE_ERROR_SAVE_NOT_LOCAL")
+    '("not-loaded" "EOG_IMAGE_ERROR_NOT_LOADED")
+    '("vfs" "EOG_IMAGE_ERROR_VFS")
+    '("file-exists" "EOG_IMAGE_ERROR_FILE_EXISTS")
+    '("tmp-file-failed" "EOG_IMAGE_ERROR_TMP_FILE_FAILED")
+    '("generic" "EOG_IMAGE_ERROR_GENERIC")
+    '("unknown" "EOG_IMAGE_ERROR_UNKNOWN")
+  )
+)
+
+(define-enum ImageStatus
+  (in-module "Eog")
+  (c-name "EogImageStatus")
+  (gtype-id "EOG_TYPE_IMAGE_STATUS")
+  (values
+    '("unknown" "EOG_IMAGE_STATUS_UNKNOWN")
+    '("loading" "EOG_IMAGE_STATUS_LOADING")
+    '("loaded" "EOG_IMAGE_STATUS_LOADED")
+    '("failed" "EOG_IMAGE_STATUS_FAILED")
+  )
+)
+
+(define-enum JobSaveResponse
+  (in-module "Eog")
+  (c-name "EogJobSaveResponse")
+  (gtype-id "EOG_TYPE_JOB_SAVE_RESPONSE")
+  (values
+    '("none" "EOG_SAVE_RESPONSE_NONE")
+    '("retry" "EOG_SAVE_RESPONSE_RETRY")
+    '("skip" "EOG_SAVE_RESPONSE_SKIP")
+    '("overwrite" "EOG_SAVE_RESPONSE_OVERWRITE")
+    '("cancel" "EOG_SAVE_RESPONSE_CANCEL")
+    '("last" "EOG_SAVE_RESPONSE_LAST")
+  )
+)
+
+(define-enum ListStoreColumn
+  (in-module "Eog")
+  (c-name "EogListStoreColumn")
+  (gtype-id "EOG_TYPE_LIST_STORE_COLUMN")
+  (values
+    '("thumbnail" "EOG_LIST_STORE_THUMBNAIL")
+    '("thumb-set" "EOG_LIST_STORE_THUMB_SET")
+    '("eog-image" "EOG_LIST_STORE_EOG_IMAGE")
+    '("eog-job" "EOG_LIST_STORE_EOG_JOB")
+    '("num-columns" "EOG_LIST_STORE_NUM_COLUMNS")
+  )
+)
+
+(define-enum PropertiesDialogPage
+  (in-module "Eog")
+  (c-name "EogPropertiesDialogPage")
+  (gtype-id "EOG_TYPE_PROPERTIES_DIALOG_PAGE")
+  (values
+    '("general" "EOG_PROPERTIES_DIALOG_PAGE_GENERAL")
+    '("exif" "EOG_PROPERTIES_DIALOG_PAGE_EXIF")
+  )
+)
+
+(define-enum TransparencyStyle
+  (in-module "Eog")
+  (c-name "EogTransparencyStyle")
+  (gtype-id "EOG_TYPE_TRANSPARENCY_STYLE")
+  (values
+    '("background" "EOG_TRANSP_BACKGROUND")
+    '("checked" "EOG_TRANSP_CHECKED")
+    '("color" "EOG_TRANSP_COLOR")
+  )
+)
+
+(define-enum ThumbNavMode
+  (in-module "Eog")
+  (c-name "EogThumbNavMode")
+  (gtype-id "EOG_TYPE_THUMB_NAV_MODE")
+  (values
+    '("one-row" "EOG_THUMB_NAV_MODE_ONE_ROW")
+    '("one-column" "EOG_THUMB_NAV_MODE_ONE_COLUMN")
+    '("multiple-rows" "EOG_THUMB_NAV_MODE_MULTIPLE_ROWS")
+    '("multiple-columns" "EOG_THUMB_NAV_MODE_MULTIPLE_COLUMNS")
+  )
+)
+
+(define-enum ThumbViewSelectionChange
+  (in-module "Eog")
+  (c-name "EogThumbViewSelectionChange")
+  (gtype-id "EOG_TYPE_THUMB_VIEW_SELECTION_CHANGE")
+  (values
+    '("left" "EOG_THUMB_VIEW_SELECT_LEFT")
+    '("right" "EOG_THUMB_VIEW_SELECT_RIGHT")
+    '("first" "EOG_THUMB_VIEW_SELECT_FIRST")
+    '("last" "EOG_THUMB_VIEW_SELECT_LAST")
+  )
+)
+
+(define-enum WindowMode
+  (in-module "Eog")
+  (c-name "EogWindowMode")
+  (gtype-id "EOG_TYPE_WINDOW_MODE")
+  (values
+    '("unknown" "EOG_WINDOW_MODE_UNKNOWN")
+    '("normal" "EOG_WINDOW_MODE_NORMAL")
+    '("fullscreen" "EOG_WINDOW_MODE_FULLSCREEN")
+    '("slideshow" "EOG_WINDOW_MODE_SLIDESHOW")
+  )
+)
+
+(define-enum WindowError
+  (in-module "Eog")
+  (c-name "EogWindowError")
+  (gtype-id "EOG_TYPE_WINDOW_ERROR")
+  (values
+    '("control-not-found" "EOG_WINDOW_ERROR_CONTROL_NOT_FOUND")
+    '("ui-not-found" "EOG_WINDOW_ERROR_UI_NOT_FOUND")
+    '("no-persist-file-interface" "EOG_WINDOW_ERROR_NO_PERSIST_FILE_INTERFACE")
+    '("io" "EOG_WINDOW_ERROR_IO")
+    '("trash-not-found" "EOG_WINDOW_ERROR_TRASH_NOT_FOUND")
+    '("generic" "EOG_WINDOW_ERROR_GENERIC")
+    '("unknown" "EOG_WINDOW_ERROR_UNKNOWN")
+  )
+)
+
+(define-flags StartupFlags
+  (in-module "Eog")
+  (c-name "EogStartupFlags")
+  (gtype-id "EOG_TYPE_STARTUP_FLAGS")
+  (values
+    '("fullscreen" "EOG_STARTUP_FULLSCREEN")
+    '("slide-show" "EOG_STARTUP_SLIDE_SHOW")
+    '("disable-collection" "EOG_STARTUP_DISABLE_COLLECTION")
+  )
+)
+
+
+;; From eog-application.h
+
+(define-function eog_application_get_type
+  (c-name "eog_application_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_application_get_instance
+  (c-name "eog_application_get_instance")
+  (return-type "EogApplication*")
+)
+
+(define-method shutdown
+  (of-object "EogApplication")
+  (c-name "eog_application_shutdown")
+  (return-type "none")
+)
+
+(define-method open_window
+  (of-object "EogApplication")
+  (c-name "eog_application_open_window")
+  (return-type "gboolean")
+  (parameters
+    '("guint" "timestamp")
+    '("EogStartupFlags" "flags")
+    '("GError**" "error")
+  )
+)
+
+(define-method open_uri_list
+  (of-object "EogApplication")
+  (c-name "eog_application_open_uri_list")
+  (return-type "gboolean")
+  (parameters
+    '("GSList*" "uri_list")
+    '("guint" "timestamp")
+    '("EogStartupFlags" "flags")
+    '("GError**" "error")
+  )
+)
+
+(define-method get_windows
+  (of-object "EogApplication")
+  (c-name "eog_application_get_windows")
+  (return-type "GList*")
+)
+
+
+
+
+;; From eog-dialog.h
+
+(define-function eog_dialog_get_type
+  (c-name "eog_dialog_get_type")
+  (return-type "GType")
+)
+
+(define-method construct
+  (of-object "EogDialog")
+  (c-name "eog_dialog_construct")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "glade_file")
+    '("const-gchar*" "dlg_node")
+  )
+)
+
+(define-method show
+  (of-object "EogDialog")
+  (c-name "eog_dialog_show")
+  (return-type "none")
+)
+
+(define-method hide
+  (of-object "EogDialog")
+  (c-name "eog_dialog_hide")
+  (return-type "none")
+)
+
+(define-method get_controls
+  (of-object "EogDialog")
+  (c-name "eog_dialog_get_controls")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "property_id")
+  )
+  (varargs #t)
+)
+
+
+
+;; From eog-image.h
+
+(define-function eog_image_get_type
+  (c-name "eog_image_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_image_new
+  (c-name "eog_image_new")
+  (is-constructor-of "EogImage")
+  (return-type "EogImage*")
+  (parameters
+    '("const-char*" "txt_uri")
+  )
+)
+
+(define-function eog_image_new_file
+  (c-name "eog_image_new_file")
+  (return-type "EogImage*")
+  (parameters
+    '("GFile*" "file")
+  )
+)
+
+(define-method has_data
+  (of-object "EogImage")
+  (c-name "eog_image_has_data")
+  (return-type "gboolean")
+  (parameters
+    '("EogImageData" "data")
+  )
+)
+
+(define-method load
+  (of-object "EogImage")
+  (c-name "eog_image_load")
+  (return-type "gboolean")
+  (parameters
+    '("EogImageData" "data2read")
+    '("EogJob*" "job" (null-ok))
+    '("GError**" "error")
+  )
+)
+
+(define-method set_thumbnail
+  (of-object "EogImage")
+  (c-name "eog_image_set_thumbnail")
+  (return-type "none")
+  (parameters
+    '("GdkPixbuf*" "pixbuf")
+  )
+)
+
+(define-method get_pixbuf
+  (of-object "EogImage")
+  (c-name "eog_image_get_pixbuf")
+  (return-type "GdkPixbuf*")
+)
+
+(define-method get_thumbnail
+  (of-object "EogImage")
+  (c-name "eog_image_get_thumbnail")
+  (return-type "GdkPixbuf*")
+)
+
+(define-method get_size
+  (of-object "EogImage")
+  (c-name "eog_image_get_size")
+  (return-type "none")
+  (parameters
+    '("gint*" "width")
+    '("gint*" "height")
+  )
+)
+
+(define-method get_bytes
+  (of-object "EogImage")
+  (c-name "eog_image_get_bytes")
+  (return-type "goffset")
+)
+
+(define-method is_modified
+  (of-object "EogImage")
+  (c-name "eog_image_is_modified")
+  (return-type "gboolean")
+)
+
+(define-method modified
+  (of-object "EogImage")
+  (c-name "eog_image_modified")
+  (return-type "none")
+)
+
+(define-method get_caption
+  (of-object "EogImage")
+  (c-name "eog_image_get_caption")
+  (return-type "const-gchar*")
+)
+
+(define-method get_exif_info
+  (of-object "EogImage")
+  (c-name "eog_image_get_exif_info")
+  (return-type "gpointer")
+)
+
+(define-method get_file
+  (of-object "EogImage")
+  (c-name "eog_image_get_file")
+  (return-type "GFile*")
+)
+
+(define-method get_uri_for_display
+  (of-object "EogImage")
+  (c-name "eog_image_get_uri_for_display")
+  (return-type "gchar*")
+)
+
+(define-method undo
+  (of-object "EogImage")
+  (c-name "eog_image_undo")
+  (return-type "none")
+)
+
+
+
+;; From eog-job-queue.h
+
+(define-method queue_add_job
+  (of-object "EogJob")
+  (c-name "eog_job_queue_add_job")
+  (return-type "none")
+)
+
+(define-method queue_remove_job
+  (of-object "EogJob")
+  (c-name "eog_job_queue_remove_job")
+  (return-type "gboolean")
+)
+
+
+
+;; From eog-jobs.h
+
+(define-function eog_job_get_type
+  (c-name "eog_job_get_type")
+  (return-type "GType")
+)
+
+(define-method finished
+  (of-object "EogJob")
+  (c-name "eog_job_finished")
+  (return-type "none")
+)
+
+(define-method run
+  (of-object "EogJob")
+  (c-name "eog_job_run")
+  (return-type "none")
+)
+
+(define-method set_progress
+  (of-object "EogJob")
+  (c-name "eog_job_set_progress")
+  (return-type "none")
+  (parameters
+    '("float" "progress")
+  )
+)
+
+(define-function eog_job_thumbnail_get_type
+  (c-name "eog_job_thumbnail_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_job_thumbnail_new
+  (c-name "eog_job_thumbnail_new")
+  (is-constructor-of "EogJobThumbnail")
+  (return-type "EogJob*")
+  (parameters
+    '("EogImage*" "image")
+  )
+)
+
+(define-function eog_job_load_get_type
+  (c-name "eog_job_load_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_job_load_new
+  (c-name "eog_job_load_new")
+  (is-constructor-of "EogJobLoad")
+  (return-type "EogJob*")
+  (parameters
+    '("EogImage*" "image")
+    '("EogImageData" "data")
+  )
+)
+
+(define-function eog_job_model_get_type
+  (c-name "eog_job_model_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_job_model_new
+  (c-name "eog_job_model_new")
+  (is-constructor-of "EogJobModel")
+  (return-type "EogJob*")
+  (parameters
+    '("GSList*" "uri_list")
+  )
+)
+
+(define-function eog_job_transform_get_type
+  (c-name "eog_job_transform_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_job_transform_new
+  (c-name "eog_job_transform_new")
+  (is-constructor-of "EogJobTransform")
+  (return-type "EogJob*")
+  (parameters
+    '("GList*" "images")
+    '("EogTransform*" "trans")
+  )
+)
+
+;; From eog-list-store.h
+
+(define-function eog_list_store_get_type
+  (c-name "eog_list_store_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_list_store_new
+  (c-name "eog_list_store_new")
+  (is-constructor-of "EogListStore")
+  (return-type "GtkListStore*")
+)
+
+(define-method append_image
+  (of-object "EogListStore")
+  (c-name "eog_list_store_append_image")
+  (return-type "none")
+  (parameters
+    '("EogImage*" "image")
+  )
+)
+
+(define-method add_uris
+  (of-object "EogListStore")
+  (c-name "eog_list_store_add_uris")
+  (return-type "none")
+  (parameters
+    '("GList*" "uri_list")
+  )
+)
+
+(define-method remove_image
+  (of-object "EogListStore")
+  (c-name "eog_list_store_remove_image")
+  (return-type "none")
+  (parameters
+    '("EogImage*" "image")
+  )
+)
+
+(define-method get_pos_by_image
+  (of-object "EogListStore")
+  (c-name "eog_list_store_get_pos_by_image")
+  (return-type "gint")
+  (parameters
+    '("EogImage*" "image")
+  )
+)
+
+(define-method get_image_by_pos
+  (of-object "EogListStore")
+  (c-name "eog_list_store_get_image_by_pos")
+  (return-type "EogImage*")
+  (parameters
+    '("gint" "pos")
+  )
+)
+
+(define-method get_pos_by_iter
+  (of-object "EogListStore")
+  (c-name "eog_list_store_get_pos_by_iter")
+  (return-type "gint")
+  (parameters
+    '("GtkTreeIter*" "iter")
+  )
+)
+
+(define-method length
+  (of-object "EogListStore")
+  (c-name "eog_list_store_length")
+  (return-type "gint")
+)
+
+(define-method get_initial_pos
+  (of-object "EogListStore")
+  (c-name "eog_list_store_get_initial_pos")
+  (return-type "gint")
+)
+
+;; From eog-plugin.h
+
+(define-function eog_plugin_get_type
+  (c-name "eog_plugin_get_type")
+  (return-type "GType")
+)
+
+(define-method activate
+  (of-object "EogPlugin")
+  (c-name "eog_plugin_activate")
+  (return-type "none")
+  (parameters
+    '("EogWindow*" "window")
+  )
+)
+
+(define-method deactivate
+  (of-object "EogPlugin")
+  (c-name "eog_plugin_deactivate")
+  (return-type "none")
+  (parameters
+    '("EogWindow*" "window")
+  )
+)
+
+(define-method update_ui
+  (of-object "EogPlugin")
+  (c-name "eog_plugin_update_ui")
+  (return-type "none")
+  (parameters
+    '("EogWindow*" "window")
+  )
+)
+
+(define-method is_configurable
+  (of-object "EogPlugin")
+  (c-name "eog_plugin_is_configurable")
+  (return-type "gboolean")
+)
+
+(define-method create_configure_dialog
+  (of-object "EogPlugin")
+  (c-name "eog_plugin_create_configure_dialog")
+  (return-type "GtkWidget*")
+)
+
+
+
+;; From eog-properties-dialog.h
+
+(define-function eog_properties_dialog_get_type
+  (c-name "eog_properties_dialog_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_properties_dialog_new
+  (c-name "eog_properties_dialog_new")
+  (is-constructor-of "EogPropertiesDialog")
+  (return-type "GObject*")
+  (parameters
+    '("GtkWindow*" "parent")
+    '("EogThumbView*" "thumbview")
+    '("GtkAction*" "next_image_action")
+    '("GtkAction*" "previous_image_action")
+  )
+)
+
+(define-method update
+  (of-object "EogPropertiesDialog")
+  (c-name "eog_properties_dialog_update")
+  (return-type "none")
+  (parameters
+    '("EogImage*" "image")
+  )
+)
+
+(define-method set_page
+  (of-object "EogPropertiesDialog")
+  (c-name "eog_properties_dialog_set_page")
+  (return-type "none")
+  (parameters
+    '("EogPropertiesDialogPage" "page")
+  )
+)
+
+
+
+;; From eog-scroll-view.h
+
+(define-function eog_scroll_view_get_type
+  (c-name "eog_scroll_view_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_scroll_view_new
+  (c-name "eog_scroll_view_new")
+  (is-constructor-of "EogScrollView")
+  (return-type "GtkWidget*")
+)
+
+(define-method set_image
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_image")
+  (return-type "none")
+  (parameters
+    '("EogImage*" "image")
+  )
+)
+
+(define-method set_zoom_upscale
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_zoom_upscale")
+  (return-type "none")
+  (parameters
+    '("gboolean" "upscale")
+  )
+)
+
+(define-method set_zoom_multiplier
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_zoom_multiplier")
+  (return-type "none")
+  (parameters
+    '("gdouble" "multiplier")
+  )
+)
+
+(define-method set_antialiasing_in
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_antialiasing_in")
+  (return-type "none")
+  (parameters
+    '("gboolean" "state")
+  )
+)
+
+(define-method set_antialiasing_out
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_antialiasing_out")
+  (return-type "none")
+  (parameters
+    '("gboolean" "state")
+  )
+)
+
+(define-method set_transparency
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_transparency")
+  (return-type "none")
+  (parameters
+    '("EogTransparencyStyle" "style")
+    '("GdkColor*" "color")
+  )
+)
+
+(define-method scrollbars_visible
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_scrollbars_visible")
+  (return-type "gboolean")
+)
+
+(define-method zoom_in
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_zoom_in")
+  (return-type "none")
+  (parameters
+    '("gboolean" "smooth")
+  )
+)
+
+(define-method zoom_out
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_zoom_out")
+  (return-type "none")
+  (parameters
+    '("gboolean" "smooth")
+  )
+)
+
+(define-method zoom_fit
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_zoom_fit")
+  (return-type "none")
+)
+
+(define-method set_zoom
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_set_zoom")
+  (return-type "none")
+  (parameters
+    '("double" "zoom")
+  )
+)
+
+(define-method get_zoom
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_get_zoom")
+  (return-type "double")
+)
+
+(define-method get_zoom_is_min
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_get_zoom_is_min")
+  (return-type "gboolean")
+)
+
+(define-method get_zoom_is_max
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_get_zoom_is_max")
+  (return-type "gboolean")
+)
+
+(define-method show_cursor
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_show_cursor")
+  (return-type "none")
+)
+
+(define-method hide_cursor
+  (of-object "EogScrollView")
+  (c-name "eog_scroll_view_hide_cursor")
+  (return-type "none")
+)
+
+
+
+;; From eog-sidebar.h
+
+(define-function eog_sidebar_get_type
+  (c-name "eog_sidebar_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_sidebar_new
+  (c-name "eog_sidebar_new")
+  (is-constructor-of "EogSidebar")
+  (return-type "GtkWidget*")
+)
+
+(define-method add_page
+  (of-object "EogSidebar")
+  (c-name "eog_sidebar_add_page")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "title")
+    '("GtkWidget*" "main_widget")
+  )
+)
+
+(define-method remove_page
+  (of-object "EogSidebar")
+  (c-name "eog_sidebar_remove_page")
+  (return-type "none")
+  (parameters
+    '("GtkWidget*" "main_widget")
+  )
+)
+
+(define-method set_page
+  (of-object "EogSidebar")
+  (c-name "eog_sidebar_set_page")
+  (return-type "none")
+  (parameters
+    '("GtkWidget*" "main_widget")
+  )
+)
+
+(define-method get_n_pages
+  (of-object "EogSidebar")
+  (c-name "eog_sidebar_get_n_pages")
+  (return-type "gint")
+)
+
+(define-method is_empty
+  (of-object "EogSidebar")
+  (c-name "eog_sidebar_is_empty")
+  (return-type "gboolean")
+)
+
+
+
+;; From eog-statusbar.h
+
+(define-function eog_statusbar_get_type
+  (c-name "eog_statusbar_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_statusbar_new
+  (c-name "eog_statusbar_new")
+  (is-constructor-of "EogStatusbar")
+  (return-type "GtkWidget*")
+)
+
+(define-method set_image_number
+  (of-object "EogStatusbar")
+  (c-name "eog_statusbar_set_image_number")
+  (return-type "none")
+  (parameters
+    '("gint" "num")
+    '("gint" "tot")
+  )
+)
+
+(define-method set_progress
+  (of-object "EogStatusbar")
+  (c-name "eog_statusbar_set_progress")
+  (return-type "none")
+  (parameters
+    '("gdouble" "progress")
+  )
+)
+
+
+
+;; From eog-thumb-nav.h
+
+(define-function eog_thumb_nav_get_type
+  (c-name "eog_thumb_nav_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_thumb_nav_new
+  (c-name "eog_thumb_nav_new")
+  (is-constructor-of "EogThumbNav")
+  (return-type "GtkWidget*")
+  (parameters
+    '("GtkWidget*" "thumbview")
+    '("EogThumbNavMode" "mode")
+    '("gboolean" "show_buttons")
+  )
+)
+
+(define-method get_show_buttons
+  (of-object "EogThumbNav")
+  (c-name "eog_thumb_nav_get_show_buttons")
+  (return-type "gboolean")
+)
+
+(define-method set_show_buttons
+  (of-object "EogThumbNav")
+  (c-name "eog_thumb_nav_set_show_buttons")
+  (return-type "none")
+  (parameters
+    '("gboolean" "show_buttons")
+  )
+)
+
+(define-method get_mode
+  (of-object "EogThumbNav")
+  (c-name "eog_thumb_nav_get_mode")
+  (return-type "EogThumbNavMode")
+)
+
+(define-method set_mode
+  (of-object "EogThumbNav")
+  (c-name "eog_thumb_nav_set_mode")
+  (return-type "none")
+  (parameters
+    '("EogThumbNavMode" "mode")
+  )
+)
+
+
+
+;; From eog-thumb-view.h
+
+(define-function eog_thumb_view_get_type
+  (c-name "eog_thumb_view_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_thumb_view_new
+  (c-name "eog_thumb_view_new")
+  (is-constructor-of "EogThumbView")
+  (return-type "GtkWidget*")
+)
+
+(define-method set_model
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_set_model")
+  (return-type "none")
+  (parameters
+    '("EogListStore*" "store")
+  )
+)
+
+(define-method set_item_height
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_set_item_height")
+  (return-type "none")
+  (parameters
+    '("gint" "height")
+  )
+)
+
+(define-method get_n_selected
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_get_n_selected")
+  (return-type "guint")
+)
+
+(define-method get_first_selected_image
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_get_first_selected_image")
+  (return-type "EogImage*")
+)
+
+(define-method get_selected_images
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_get_selected_images")
+  (return-type "GList*")
+)
+
+(define-method select_single
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_select_single")
+  (return-type "none")
+  (parameters
+    '("EogThumbViewSelectionChange" "change")
+  )
+)
+
+(define-method set_current_image
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_set_current_image")
+  (return-type "none")
+  (parameters
+    '("EogImage*" "image")
+    '("gboolean" "deselect_other")
+  )
+)
+
+(define-method set_thumbnail_popup
+  (of-object "EogThumbView")
+  (c-name "eog_thumb_view_set_thumbnail_popup")
+  (return-type "none")
+  (parameters
+    '("GtkMenu*" "menu")
+  )
+)
+
+
+
+;; From eog-window.h
+
+(define-function eog_window_get_type
+  (c-name "eog_window_get_type")
+  (return-type "GType")
+)
+
+(define-function eog_window_new
+  (c-name "eog_window_new")
+  (is-constructor-of "EogWindow")
+  (return-type "GtkWidget*")
+  (parameters
+    '("EogStartupFlags" "flags")
+  )
+)
+
+(define-method get_mode
+  (of-object "EogWindow")
+  (c-name "eog_window_get_mode")
+  (return-type "EogWindowMode")
+)
+
+(define-method set_mode
+  (of-object "EogWindow")
+  (c-name "eog_window_set_mode")
+  (return-type "none")
+  (parameters
+    '("EogWindowMode" "mode")
+  )
+)
+
+(define-method get_ui_manager
+  (of-object "EogWindow")
+  (c-name "eog_window_get_ui_manager")
+  (return-type "GtkUIManager*")
+)
+
+(define-method get_store
+  (of-object "EogWindow")
+  (c-name "eog_window_get_store")
+  (return-type "EogListStore*")
+)
+
+(define-method get_view
+  (of-object "EogWindow")
+  (c-name "eog_window_get_view")
+  (return-type "GtkWidget*")
+)
+
+(define-method get_sidebar
+  (of-object "EogWindow")
+  (c-name "eog_window_get_sidebar")
+  (return-type "GtkWidget*")
+)
+
+(define-method get_thumb_view
+  (of-object "EogWindow")
+  (c-name "eog_window_get_thumb_view")
+  (return-type "GtkWidget*")
+)
+
+(define-method get_thumb_nav
+  (of-object "EogWindow")
+  (c-name "eog_window_get_thumb_nav")
+  (return-type "GtkWidget*")
+)
+
+(define-method get_statusbar
+  (of-object "EogWindow")
+  (c-name "eog_window_get_statusbar")
+  (return-type "GtkWidget*")
+)
+
+(define-method get_image
+  (of-object "EogWindow")
+  (c-name "eog_window_get_image")
+  (return-type "EogImage*")
+)
+
+(define-method open_uri_list
+  (of-object "EogWindow")
+  (c-name "eog_window_open_uri_list")
+  (return-type "none")
+  (parameters
+    '("GSList*" "uri_list")
+  )
+)
+
+(define-method is_empty
+  (of-object "EogWindow")
+  (c-name "eog_window_is_empty")
+  (return-type "gboolean")
+)
+
+

@@ -1,0 +1,1018 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>MateConfChangeSet</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-mateconf-locale.html" title="mateconf-locale">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-mateconf-locale.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td>&#160;</td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2581928" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2658800" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-changeset"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2581928"></a><span class="refentrytitle">MateConfChangeSet</span>
+</h2>
+<p>MateConfChangeSet &#8212; 
+a set of configuration changes to be made.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>;
+void                (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSetForeachFunc">*MateConfChangeSetForeachFunc</a>)        (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value,
+                                                         gpointer user_data);
+gboolean            <a class="link" href="mateconf-mateconf-changeset.html#mateconf-engine-commit-change-set">mateconf_engine_commit_change_set</a>      (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         gboolean remove_committed,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     <a class="link" href="mateconf-mateconf-changeset.html#mateconf-engine-reverse-change-set">mateconf_engine_reverse_change_set</a>     (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     <a class="link" href="mateconf-mateconf-changeset.html#mateconf-engine-change-set-from-currentv">mateconf_engine_change_set_from_currentv</a>
+                                                        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar **keys,
+                                                         GError **err);
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     <a class="link" href="mateconf-mateconf-changeset.html#mateconf-engine-change-set-from-current">mateconf_engine_change_set_from_current</a>
+                                                        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err,
+                                                         const gchar *first_key,
+                                                         ...);
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-new">mateconf_change_set_new</a>                (void);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-ref">mateconf_change_set_ref</a>                (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-unref">mateconf_change_set_unref</a>              (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-clear">mateconf_change_set_clear</a>              (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);
+guint               <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-size">mateconf_change_set_size</a>               (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-remove">mateconf_change_set_remove</a>             (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-foreach">mateconf_change_set_foreach</a>            (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSetForeachFunc">MateConfChangeSetForeachFunc</a> func,
+                                                         gpointer user_data);
+gboolean            <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-check-value">mateconf_change_set_check_value</a>        (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> **value_retloc);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set">mateconf_change_set_set</a>                (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-nocopy">mateconf_change_set_set_nocopy</a>         (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-unset">mateconf_change_set_unset</a>              (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-float">mateconf_change_set_set_float</a>          (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         gdouble val);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-int">mateconf_change_set_set_int</a>            (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         gint val);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-string">mateconf_change_set_set_string</a>         (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         const gchar *val);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-bool">mateconf_change_set_set_bool</a>           (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         gboolean val);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-schema">mateconf_change_set_set_schema</a>         (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a> *val);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-list">mateconf_change_set_set_list</a>           (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GSList *list);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-pair">mateconf_change_set_set_pair</a>           (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gconstpointer address_of_car,
+                                                         gconstpointer address_of_cdr);
+void                <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set-user-data">mateconf_change_set_set_user_data</a>      (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         gpointer data,
+                                                         GDestroyNotify dnotify);
+gpointer            <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-get-user-data">mateconf_change_set_get_user_data</a>      (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2658800"></a><h2>Description</h2>
+<p>
+a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> allows you to collect a set of changes to
+configuration keys (set/unset operations). You can then commit 
+all the changes at once. This is convenient for something like a
+preferences dialog; you can collect all the pending changes in a
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>, then when the user clicks "apply" send them all to
+the configuration database. The <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> allows you to avoid
+sending every preferences setting when "apply" is clicked; you only 
+have to send the settings the user changed.
+</p>
+<p>
+In the future, MateConf may also have optimizations so that
+changing a group of values with <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> is faster than calling 
+<a class="link" href="mateconf-mateconf.html#mateconf-engine-set"><code class="function">mateconf_engine_set()</code></a> for each value. In the future, <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> may also
+represent an atomic transaction, where all or none of the values are
+set; however, for now the operation is <span class="emphasis"><em>not</em></span>
+atomic.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2658880"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2658891"></a><h3>
+<a name="MateConfChangeSet"></a>MateConfChangeSet</h3>
+<a class="indexterm" name="id2658903"></a><pre class="programlisting">typedef struct _MateConfChangeSet MateConfChangeSet;</pre>
+<p>
+An opaque data type representing a set of changes to be made. 
+A change set can contain "set" and "unset" operations.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2646371"></a><h3>
+<a name="MateConfChangeSetForeachFunc"></a>MateConfChangeSetForeachFunc ()</h3>
+<a class="indexterm" name="id2646382"></a><pre class="programlisting">void                (*MateConfChangeSetForeachFunc)        (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value,
+                                                         gpointer user_data);</pre>
+<p>
+The type of a function passed to <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-foreach"><code class="function">mateconf_change_set_foreach()</code></a>. 
+The <em class="parameter"><code>cs</code></em> argument is the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> you're iterating over. <em class="parameter"><code>key</code></em> is
+a key in the change set. <em class="parameter"><code>value</code></em> is the value the key will be set to,
+or <span class="symbol">NULL</span> if the key will be unset. <em class="parameter"><code>user_data</code></em> is the
+user data passed to <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-foreach"><code class="function">mateconf_change_set_foreach()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> being iterated over.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the current key.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></p></td>
+<td>the current value, or <span class="symbol">NULL</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>user data passed to <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-foreach"><code class="function">mateconf_change_set_foreach()</code></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2646562"></a><h3>
+<a name="mateconf-engine-commit-change-set"></a>mateconf_engine_commit_change_set ()</h3>
+<a class="indexterm" name="id2646575"></a><pre class="programlisting">gboolean            mateconf_engine_commit_change_set      (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         gboolean remove_committed,
+                                                         GError **err);</pre>
+<p>
+Applies the changes in the change set to the <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a> passed as
+the first argument. If <em class="parameter"><code>remove_committed</code></em> is <span class="symbol">TRUE</span>,
+then any successfully-committed changes are removed from the change
+set. If <em class="parameter"><code>remove_committed</code></em> is <span class="symbol">FALSE</span>, the
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> is left unmodified.
+</p>
+<p>
+If any set or unset operation results in an error, then processing
+terminates and the error is returned in <em class="parameter"><code>err</code></em> (unless <em class="parameter"><code>err</code></em> was
+<span class="symbol">NULL</span>). If <em class="parameter"><code>remove_committed</code></em> was
+<span class="symbol">TRUE</span>, then all the changes committed before the error
+occurred will have been removed from the set. If any error occurs,
+<span class="symbol">FALSE</span> is returned.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>remove_committed</code></em>&#160;:</span></p></td>
+<td>whether to remove successfully-committed changes from the set
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on success, <span class="symbol">FALSE</span> if an error occurs.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2646801"></a><h3>
+<a name="mateconf-engine-reverse-change-set"></a>mateconf_engine_reverse_change_set ()</h3>
+<a class="indexterm" name="id2646814"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     mateconf_engine_reverse_change_set     (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         GError **err);</pre>
+<p>
+Creates a change set that would reverse <em class="parameter"><code>cs</code></em>. That is, for each change in <em class="parameter"><code>cs</code></em>,
+save the current state of that key in the returned change set.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> to be reverted.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the modified <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2646961"></a><h3>
+<a name="mateconf-engine-change-set-from-currentv"></a>mateconf_engine_change_set_from_currentv ()</h3>
+<a class="indexterm" name="id2646975"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     mateconf_engine_change_set_from_currentv
+                                                        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         const gchar **keys,
+                                                         GError **err);</pre>
+<p>
+Creates a change set that will change the keys in 
+<span class="symbol">NULL</span>terminated array <em class="parameter"><code>keys</code></em> to their current state.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>keys</code></em>&#160;:</span></p></td>
+<td>
+<span class="symbol">NULL</span>terminated array of key names.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the newly allocated <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2647114"></a><h3>
+<a name="mateconf-engine-change-set-from-current"></a>mateconf_engine_change_set_from_current ()</h3>
+<a class="indexterm" name="id2647128"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     mateconf_engine_change_set_from_current
+                                                        (<a class="link" href="mateconf-mateconf-engine.html#MateConfEngine">MateConfEngine</a> *conf,
+                                                         GError **err,
+                                                         const gchar *first_key,
+                                                         ...);</pre>
+<p>
+Convenient Varags version of <a class="link" href="mateconf-mateconf-changeset.html#mateconf-engine-change-set-from-current"><code class="function">mateconf_engine_change_set_from_current()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conf</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-engine.html#MateConfEngine"><span class="type">MateConfEngine</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>the return location for an allocated <span class="type">GError</span>, or <span class="symbol">NULL</span> to ignore errors.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>first_key</code></em>&#160;:</span></p></td>
+<td>the first key, a char* value.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em>&#160;:</span></p></td>
+<td>the keys to be set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the newly allocated <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2647281"></a><h3>
+<a name="mateconf-change-set-new"></a>mateconf_change_set_new ()</h3>
+<a class="indexterm" name="id2647292"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a>*     mateconf_change_set_new                (void);</pre>
+<p>
+Creates a new, empty <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>. The caller assumes one reference
+count, and must call <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-unref"><code class="function">mateconf_change_set_unref()</code></a> eventually.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a new <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2647352"></a><h3>
+<a name="mateconf-change-set-ref"></a>mateconf_change_set_ref ()</h3>
+<a class="indexterm" name="id2647364"></a><pre class="programlisting">void                mateconf_change_set_ref                (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);</pre>
+<p>
+Increases the reference count of a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2647425"></a><h3>
+<a name="mateconf-change-set-unref"></a>mateconf_change_set_unref ()</h3>
+<a class="indexterm" name="id2647436"></a><pre class="programlisting">void                mateconf_change_set_unref              (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);</pre>
+<p>
+Decreases the reference count of a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> by one. If the
+reference count reaches 0, destroys the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2647505"></a><h3>
+<a name="mateconf-change-set-clear"></a>mateconf_change_set_clear ()</h3>
+<a class="indexterm" name="id2647516"></a><pre class="programlisting">void                mateconf_change_set_clear              (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);</pre>
+<p>
+Clears all changes from a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>, so that committing the
+change set would have no effect.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2655627"></a><h3>
+<a name="mateconf-change-set-size"></a>mateconf_change_set_size ()</h3>
+<a class="indexterm" name="id2655638"></a><pre class="programlisting">guint               mateconf_change_set_size               (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);</pre>
+<p>
+Returns the size of the changeset, a <span class="type">guint</span> value.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>the size, a <span class="type">guint</span> value.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2655717"></a><h3>
+<a name="mateconf-change-set-remove"></a>mateconf_change_set_remove ()</h3>
+<a class="indexterm" name="id2655728"></a><pre class="programlisting">void                mateconf_change_set_remove             (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key);</pre>
+<p>
+Removes a change from a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>. The key given as the <em class="parameter"><code>key</code></em>
+argument will not be modified if this change set is committed.
+If <em class="parameter"><code>key</code></em> is not in the change set, this function has no effect.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>key to remove from the change set.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2655824"></a><h3>
+<a name="mateconf-change-set-foreach"></a>mateconf_change_set_foreach ()</h3>
+<a class="indexterm" name="id2655835"></a><pre class="programlisting">void                mateconf_change_set_foreach            (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSetForeachFunc">MateConfChangeSetForeachFunc</a> func,
+                                                         gpointer user_data);</pre>
+<p>
+Iterates over a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> by calling a
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSetForeachFunc"><span class="type">MateConfChangeSetForeachFunc</span></a> for each change in the set. See the
+description of <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSetForeachFunc"><span class="type">MateConfChangeSetForeachFunc</span></a> for details.  You may not
+call <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-remove"><code class="function">mateconf_change_set_remove()</code></a> during the iteration, because you'll
+confuse the internal data structures and cause memory corruption.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em>&#160;:</span></p></td>
+<td>function to call for each change in the change set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>user data to pass to the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSetForeachFunc"><span class="type">MateConfChangeSetForeachFunc</span></a>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2655970"></a><h3>
+<a name="mateconf-change-set-check-value"></a>mateconf_change_set_check_value ()</h3>
+<a class="indexterm" name="id2655983"></a><pre class="programlisting">gboolean            mateconf_change_set_check_value        (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> **value_retloc);</pre>
+<p>
+Looks up the hash table associated with the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> for the key <em class="parameter"><code>key</code></em>. If the key
+is found , the value is set in value_retloc.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to be searched in the changeset.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value_retloc</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a> ** to hold the key, if found.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+<span class="symbol">TRUE</span> on finding the key, <span class="symbol">FALSE</span> if key is not found.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656119"></a><h3>
+<a name="mateconf-change-set-set"></a>mateconf_change_set_set ()</h3>
+<a class="indexterm" name="id2656130"></a><pre class="programlisting">void                mateconf_change_set_set                (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value);</pre>
+<p>
+Adds a "set" operation to a change set. This function is similar to
+<a class="link" href="mateconf-mateconf.html#mateconf-engine-set"><code class="function">mateconf_engine_set()</code></a>, except that no errors can occur (errors occur later, when
+you try to commit the change set).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to change.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></p></td>
+<td>the value to change the key to.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656238"></a><h3>
+<a name="mateconf-change-set-set-nocopy"></a>mateconf_change_set_set_nocopy ()</h3>
+<a class="indexterm" name="id2656250"></a><pre class="programlisting">void                mateconf_change_set_set_nocopy         (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValue">MateConfValue</a> *value);</pre>
+<p>
+Like <a class="link" href="mateconf-mateconf-changeset.html#mateconf-change-set-set"><code class="function">mateconf_change_set_set()</code></a>, except that the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> takes
+ownership of the <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>. You should not use the value again.  It
+will be destroyed when the change is removed from the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>,
+the change is modified, or the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a> is destroyed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to change.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656392"></a><h3>
+<a name="mateconf-change-set-unset"></a>mateconf_change_set_unset ()</h3>
+<a class="indexterm" name="id2656403"></a><pre class="programlisting">void                mateconf_change_set_unset              (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key);</pre>
+<p>
+Adds an "unset" operation to a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>. This function
+schedules a <a class="link" href="mateconf-mateconf.html#mateconf-engine-unset"><code class="function">mateconf_engine_unset()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to unset.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656495"></a><h3>
+<a name="mateconf-change-set-set-float"></a>mateconf_change_set_set_float ()</h3>
+<a class="indexterm" name="id2656507"></a><pre class="programlisting">void                mateconf_change_set_set_float          (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         gdouble val);</pre>
+<p>
+Adds a "set" operation; takes a <span class="type">gdouble</span> argument, so you can avoid
+creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656624"></a><h3>
+<a name="mateconf-change-set-set-int"></a>mateconf_change_set_set_int ()</h3>
+<a class="indexterm" name="id2656635"></a><pre class="programlisting">void                mateconf_change_set_set_int            (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         gint val);</pre>
+<p>
+Adds a "set" operation; takes a <span class="type">gint</span> argument, so you can avoid
+creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656753"></a><h3>
+<a name="mateconf-change-set-set-string"></a>mateconf_change_set_set_string ()</h3>
+<a class="indexterm" name="id2656764"></a><pre class="programlisting">void                mateconf_change_set_set_string         (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         const gchar *val);</pre>
+<p>
+Adds a "set" operation; takes a <span class="type">gchar</span>* argument, so you can avoid
+creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2656882"></a><h3>
+<a name="mateconf-change-set-set-bool"></a>mateconf_change_set_set_bool ()</h3>
+<a class="indexterm" name="id2656894"></a><pre class="programlisting">void                mateconf_change_set_set_bool           (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         gboolean val);</pre>
+<p>
+Adds a "set" operation; takes a <span class="type">gboolean</span> argument, so you can avoid
+creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2657011"></a><h3>
+<a name="mateconf-change-set-set-schema"></a>mateconf_change_set_set_schema ()</h3>
+<a class="indexterm" name="id2657023"></a><pre class="programlisting">void                mateconf_change_set_set_schema         (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema">MateConfSchema</a> *val);</pre>
+<p>
+Adds a "set" operation; takes a <a class="link" href="mateconf-mateconf-schema.html#MateConfSchema"><span class="type">MateConfSchema</span></a> argument, so you can
+avoid creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>. The schema is copied, <em class="parameter"><code>val</code></em> is left
+unmodified.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em>&#160;:</span></p></td>
+<td>the new value of <em class="parameter"><code>key</code></em>.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2657145"></a><h3>
+<a name="mateconf-change-set-set-list"></a>mateconf_change_set_set_list ()</h3>
+<a class="indexterm" name="id2657157"></a><pre class="programlisting">void                mateconf_change_set_set_list           (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> list_type,
+                                                         GSList *list);</pre>
+<p>
+Adds a "set" operation; takes a <span class="type">GList</span> argument and the type of the
+list, so you can avoid creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>. This results in the 
+list of values being set for the key.  
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list_type</code></em>&#160;:</span></p></td>
+<td>the type of the list.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em>&#160;:</span></p></td>
+<td>a <span class="type">GList</span> containing the values to be set.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2657299"></a><h3>
+<a name="mateconf-change-set-set-pair"></a>mateconf_change_set_set_pair ()</h3>
+<a class="indexterm" name="id2657310"></a><pre class="programlisting">void                mateconf_change_set_set_pair           (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         const gchar *key,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> car_type,
+                                                         <a class="link" href="mateconf-mateconf-value.html#MateConfValueType">MateConfValueType</a> cdr_type,
+                                                         gconstpointer address_of_car,
+                                                         gconstpointer address_of_cdr);</pre>
+<p>
+Adds a "set" operation; takes a pointer to the addresses of the pair
+of values, so you can avoid creating a <a class="link" href="mateconf-mateconf-value.html#MateConfValue"><span class="type">MateConfValue</span></a>. This results in 
+the pair of values being set for the key.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td>the key to set.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>car_type</code></em>&#160;:</span></p></td>
+<td>the type of the pair's first field. (car)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cdr_type</code></em>&#160;:</span></p></td>
+<td>the type of the pair's second field. (cdr)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_car</code></em>&#160;:</span></p></td>
+<td>address of the car.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address_of_cdr</code></em>&#160;:</span></p></td>
+<td>address of the cdr.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2657482"></a><h3>
+<a name="mateconf-change-set-set-user-data"></a>mateconf_change_set_set_user_data ()</h3>
+<a class="indexterm" name="id2657495"></a><pre class="programlisting">void                mateconf_change_set_set_user_data      (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs,
+                                                         gpointer data,
+                                                         GDestroyNotify dnotify);</pre>
+<p>
+Sets the user_data and the destroy notification function fields of the 
+<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em>&#160;:</span></p></td>
+<td>a <span class="type">gpointer</span>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dnotify</code></em>&#160;:</span></p></td>
+<td>a pointer to the function to be called during destroy.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2657608"></a><h3>
+<a name="mateconf-change-set-get-user-data"></a>mateconf_change_set_get_user_data ()</h3>
+<a class="indexterm" name="id2657622"></a><pre class="programlisting">gpointer            mateconf_change_set_get_user_data      (<a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet">MateConfChangeSet</a> *cs);</pre>
+<p>
+Returns the user_data field of the <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cs</code></em>&#160;:</span></p></td>
+<td>a <a class="link" href="mateconf-mateconf-changeset.html#MateConfChangeSet"><span class="type">MateConfChangeSet</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>a pointer to the user_data.
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2657696"></a><div class="refsect2" lang="en"><a name="id2657697"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2657698"></a></div>
+</div>
+</div>
+</body>
+</html>

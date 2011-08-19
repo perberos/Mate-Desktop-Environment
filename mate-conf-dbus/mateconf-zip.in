@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Build zipfile distribution of MateConf for Win32. Separate runtime and
+# developer zipfiles. Run after make install.
+
+ZIP=/tmp/MateConf-@VERSION@.zip
+DEVZIP=/tmp/MateConf-dev-@VERSION@.zip
+
+cd @prefix@
+rm $ZIP
+
+current_minus_age=`expr @MATECONF_CURRENT@ - @MATECONF_AGE@`
+
+zip $ZIP -@ <<EOF
+etc/mateconf/2/path
+bin/mateconftool-2.exe
+bin/libmateconf-2-$current_minus_age.dll
+libexec/mateconfd-2.exe
+libexec/mateconf-sanity-check-2.exe
+lib/MateConf/2/libmateconfbackend-oldxml.dll
+lib/MateConf/2/libmateconfbackend-xml.dll
+EOF
+
+zip $ZIP lib/locale/*/LC_MESSAGES/MateConf2.mo
+
+rm $DEVZIP
+zip -r $DEVZIP -@ <<EOF
+bin/mateconf-merge-tree.exe
+include/mateconf/2
+lib/libmateconf-2.dll.a
+lib/pkgconfig/mateconf-2.0.pc
+man/man1/mateconftool-2.1
+share/aclocal/mateconf-2.m4
+share/sgml/mateconf/mateconf-1.0.dtd
+EOF

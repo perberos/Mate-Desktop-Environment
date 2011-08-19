@@ -1,0 +1,62 @@
+code.
+
+Short-term:
+  DONE, NEEDS_TESTING - refresh after operation succesfully finished, make Revert button work as expected (need to retrieve GduPresentable again)
+  DONE - PolicyKit integration
+  DONE - Stop button (once PolicyKit integration is done)
+    DONE - window close action should be ignored (+ Escape, Alt+F4 keybindings...)
+  DONE - simple standalone mode
+  REMOVED - do we need Bootable flag for something?
+  DONE - make a Fedora package
+  DONE, NEEDS_TESTING - !! set partition type too !!  (only for MBR?)
+  OK - check label length before formatting (should be done automatically) -- DK returning wrong values for FAT and NTFS
+  DONE - get rid of the Revert button
+  DONE - call luks_lock() beside unmount, that would allow formatting active LUKS devices
+  DONE - install to libexec
+  DONE - add Palimpsest button
+  - display mount warning and perform unmount of all nested partitions, in case of LUKS
+
+Standalone mode:
+  DONE - refresh volume selector on hotplug/unplug
+  DONE - carefully count references (valgrind)
+  DONE - UI cleanup: get rid of those twin icons (show them only when expanded)
+                     find a way how to expand the combo box to full width
+  DONE - desktop file
+  DONE - icon
+  DONE - display insensitive placeholder item "Please select a volume to format"
+
+
+
+- handle LUKS encrypted volumes -- creating new encrypted media works fine, but reverting back to non-encrypted doesn't (device /dev/sdb1 vs. /dev/dm-0)
+DONE, NEEDS_TESTING - monitor device/presentable events like eject, umount etc. (try to pull the USB key out and window should disappear)
+- show custom icon if user has set it in Caja
+REMOVED- is firmware needed for some devices?
+DONE - different partition tables?
+DONE - what to do if device is blank (zeroed, no MBR)?
+DONE - handle read only device - gdu_device_is_read_only() - test with DVD-RAM media
+- stay consistent with volume labels in Caja and gdu (requires gvfs-devicekit port)
+NOT NEEDED- localization (transifex? -- ask hughsie)
+- test multihead (need to ref screen of the source caja window)
+- caja integration: be able to spawn the dialog from sidebar
+DONE - make standalone mode optional (configure --enable-standalone)
+DONE - duplicate /dev/sr0 device in the list when media is present
+- don't show Caja menu item when no media is in drive or device is readonly
+
+
+Ideas:
+ - allow NTFS formatting and popup a PackageKit window when ntfs-3g is not available (shamelessly stolen from mate-format discussion)
+ DONE - make standalone executable with a device/volume combo box to format
+ - maybe add a button to unmount the volume so user can close all applications properly?
+ - mount volume back if we did unmount before formatting?
+
+Bugs:
+ - Busy dialog eats too much CPU and freezes UI
+ - DeviceKit-disks should require mtools (for FAT labeling)
+ - libgdu should return always valid presentable names
+ NO - should the presentable instance from the pool::presentable-{added,changed,removed} signals be unreffed?
+ - complete CD-RW medium is not marked as readonly -- are we gonna have burning backend in DK-disks?
+ - would be great to have gdu_pool_get_toplevel_presentables()
+ - gdu_presentable_get_toplevel() always returns valid presentable even if it's already toplevel (i.e. /dev/md0), never returns NULL
+ - gdu_device_drive_get_media_compatibility() returns const char* pointers - check and document properly
+ - BUG !! gdu_device_op_partition_create() and gdu_device_op_partition_table_create() should spawn their finish callbacks only after device is ready (and pool up-to-date) so we can start another operation right away
+ SOLVED - find a way to reliably detect active LUKS on the device

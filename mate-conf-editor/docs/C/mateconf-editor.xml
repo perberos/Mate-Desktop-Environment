@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- -*- indent-tabs-mode: nil -*- -->
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY appversion "2.8">
+  <!ENTITY manrevision "2.8">
+  <!ENTITY date "September 2004">
+  <!ENTITY app "Configuration Editor">
+]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the MATE Documentation Project
+  http://developer.mate.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Feb 12, 2002
+-->
+
+<article id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <articleinfo> 
+    <title>Configuration Editor Manual</title>       
+    <copyright> 
+      <year>2004</year>
+      <holder>Sun Microsystems</holder> 
+    </copyright>
+    <!-- translators: uncomment this:
+         <copyright>
+         <year>2003</year>
+         <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+         </copyright>
+    -->
+
+    <publisher role="maintainer"> 
+      <publishername>MATE Documentation Project</publishername> 
+    </publisher> 
+
+    &legal;
+    <!-- This file  contains link to license for the documentation (GNU FDL), and 
+         other legal stuff such as "NO WARRANTY" statement. Please do not change 
+         any of this. -->
+
+    <authorgroup>
+      <author>
+        <firstname>Sun</firstname>
+        <surname>MATE Documentation Team</surname>
+        <affiliation><orgname>Sun Microsystems</orgname></affiliation>
+      </author>
+      <author>
+        <firstname>Angela</firstname>
+        <surname>Boyle</surname>
+        <affiliation>
+          <orgname>MATE Documentation Project</orgname>
+        </affiliation>
+      </author>
+      <editor>
+        <firstname>Shaun</firstname>
+        <surname>McCance</surname>
+        <affiliation>
+          <orgname>MATE Documentation Project</orgname>
+        </affiliation>
+      </editor>
+      <!-- This is appropriate place for other contributors: translators,
+           maintainers,  etc. Commented out by default.
+           <othercredit role="translator">
+           <firstname>Latin</firstname> 
+           <surname>Translator 1</surname> 
+           <affiliation> 
+           <orgname>Latin Translation Team</orgname> 
+           <address> <email>translator@mate.org</email> </address> 
+           </affiliation>
+           <contrib>Latin translation</contrib>
+           </othercredit>
+      -->
+    </authorgroup>
+    <abstract role="description"><para>&app; can be used to change configuration options used by applications that may not be available through Preference dialogs</para></abstract>
+
+    <revhistory>
+      <revision>
+        <revnumber>Version &manrevision;</revnumber>
+        <date>&date;</date>
+        <revdescription>
+          <para role="author">MATE Documentation Project</para>
+          <para role="publisher">MATE Documentation Project</para>
+          <para role="status">unreviewed</para>
+        </revdescription>
+      </revision>
+      <revision> 
+        <revnumber>Version 2.1</revnumber> 
+        <date>August 2004</date> 
+        <revdescription> 
+          <para role="author">Sun MATE Documentation Team</para>
+          <para role="publisher">MATE Documentation Project</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Version 2.0.1</revnumber> 
+        <date>January 2004</date> 
+        <revdescription> 
+          <para role="author">Sun MATE Documentation Team</para>
+          <para role="publisher">MATE Documentation Project</para>
+        </revdescription> 
+      </revision>
+    </revhistory> 
+    <releaseinfo>This manual describes version &appversion; of &app;.</releaseinfo> 
+    <legalnotice> 
+      <title>Feedback</title> 
+      <para>To report a bug or make a suggestion regarding the &app; application or
+      this manual, follow the directions in the 
+      <ulink url="ghelp:mate-feedback"
+             type="help">MATE Feedback Page</ulink>. 
+      </para>
+      <!-- Translators may also add here feedback address for translations -->
+    </legalnotice> 
+</articleinfo> 
+
+<indexterm> 
+  <primary>MateConf Editor</primary> 
+</indexterm>
+
+<sect1 id="introduction">
+  <title>Introduction</title>
+  <para>The MATE Desktop and many applications use
+  <application>MateConf</application> to store user preferences and
+  system configuration data.  <application>MateConf</application>
+  provides a central storage location for preferences, simplifying
+  configuration management for users and system administrators.  More
+  information about <application>MateConf</application> can be found in the
+  <ulink url="ghelp:system-admin-guide#mateconf-0">MATE System
+  Administrator's Guide</ulink>.</para>
+  <para><application>&app;</application> allows users to modify their
+  preferences for the entire MATE Desktop and any applications which
+  use <application>MateConf</application>.  Additionally, system administrators
+  can use <application>&app;</application> to set default and mandatory
+  settings which will affect all users.</para>
+  <para>Preferences are stored in <application>MateConf</application> in a
+  hierarchy of keys.  Each key has an associated value which specifies
+  your setting for that preference.  For instance, the key
+  <literal>/apps/glines/preferences/ball_theme</literal> stores which theme
+  you use in the game <application>Five or More</application>.</para>
+  <caution><para><application>&app;</application> enables you to modify your
+  configuration source directly. If you are not an experienced user, do not
+  use <application>&app;</application> to set preferences for the MATE
+  Desktop. Instead, use the preference tools in the MATE Desktop. For
+  information about how to use preference tools, see the latest version
+  of the <ulink url="ghelp:user-guide">MATE Desktop User Guide</ulink> for 
+  your platform.</para></caution>
+</sect1>
+
+<sect1 id="getting-started"> 
+  <title>Getting Started</title>
+
+  <sect2 id="to-start"> 
+    <title>To Start &app;</title>
+    <para>You can start <application>&app;</application> in the following
+    ways:</para>
+    <variablelist>
+      <varlistentry>
+        <term><guimenu>Applications</guimenu> menu</term>
+        <listitem>
+          <para>Choose <menuchoice><guisubmenu>System Tools</guisubmenu>
+          <guimenuitem>Configuration Editor</guimenuitem></menuchoice>.</para>
+          <note><para>Some distributions hide this menu. In this case, use the 
+          second method described below.</para></note>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Command line</term>
+        <listitem>
+          <para>Execute the following command:
+          <command>mateconf-editor</command></para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect2>
+
+  <sect2 id="when-you-start">
+    <title>When You Start &app;</title>
+    <para>When you start <application>&app;</application>, the following
+    window is displayed.</para>
+    <figure id="mateconf_editor_window"> 
+      <title><application>&app;</application> Window</title>
+      <screenshot> 
+        <mediaobject> 
+          <imageobject>
+            <imagedata fileref="figures/mateconf_editor_anno_window.png"
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>Shows MateConf Editor window. Callouts: Tree pane,
+            Modification pane, Documentation pane.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>The <application>&app;</application> window contains
+    the following panes:</para>
+    <variablelist>
+      <varlistentry>
+        <term>Tree pane</term>
+        <listitem><para>Enables you to navigate the hierarchy of keys in
+        <application>MateConf</application>.  Use this pane to display the keys
+        that you want to modify in the modification pane. The tree pane is on
+        the left side of the window.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Modification pane</term>
+        <listitem>
+          <para>Displays the keys in the selected
+          <application>MateConf</application> location in the tree pane. Use
+          this pane to select keys that you want to modify and to modify the
+          values of keys. The modification pane is in the upper part of the
+          right side of the window.</para>
+          <para>The icons beside the keys in the modification pane indicate
+          what type of value you can enter for the key. For example, the check
+          mark icon beside the
+          <literal>/system/http_proxy/use_http_proxy</literal> key indicates
+          that you can enter a Boolean value (true or false) for the key.  See
+          <xref linkend="icons"/> for more information on each icon.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Documentation pane</term>
+        <listitem><para>Displays documentation for the currently selected
+        key. Use this pane to read more information about the
+        <application>MateConf</application> preference keys.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Results pane (not shown)</term>
+        <listitem><para>Enables you to view the results of a search or to
+        search through the list of your recently viewed key names. The rest
+        of the window will show the information for whichever key you have
+        selected in this pane. The results pane will appear on the bottom of
+        the window when you list the recent keys or perform a search.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect2>
+</sect1>
+
+<sect1 id="workwindows">
+  <title>Working with Windows</title>
+  <sect2 id="workwindows-opennew">
+    <title>Opening New Windows</title>
+    <para>There are a three types of window you can open in
+    <application>&app;</application>: <application>Settings</application>,
+    <application>Defaults</application>, and <application>Mandatory</application>.
+    What values <application>&app;</application> sets depends on what type
+    of window you have open.  You can open each type of window with the
+    appropriate item under the <guimenu>File</guimenu> menu.</para>
+    <note><para>Since the settings in <application>Defaults</application> and
+    <application>Mandatory</application> windows affect all users of the
+    computer, only a system administrator can use these types of windows.
+    To change your preferences, you should use the
+    <application>Settings</application> window.</para></note>
+    <variablelist>
+      <varlistentry>
+        <term><application>Settings</application></term>
+        <listitem><para>You can use the <application>Settings</application>
+        window to set your personal preferences.  Changes made in the
+        <application>Settings</application> window only affect your desktop.
+        You cannot change the settings that the system administrator has
+        made mandatory.</para></listitem>
+      </varlistentry>
+    </variablelist>
+    <variablelist>
+      <varlistentry>
+        <term><application>Defaults</application></term>
+        <listitem><para>If you are a system administrator, you can use the
+        <application>Defaults</application> window to edit the default
+        settings for all users.  If a user does not set the value of a key
+        explicitly, the value will be taken from the default settings.  Users
+        can always override the default settings.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><application>Mandatory</application></term>
+        <listitem><para>If you are a system administrator, you can use the
+        <application>Mandatory</application> window to edit the mandatory
+        settings for all users.  When a mandatory value is set for a key,
+        users are not able to change that value.  This can be used to lock
+        down certain options.</para></listitem>
+      </varlistentry>
+    </variablelist>
+  </sect2>
+
+  <sect2 id="workwindows-close">
+    <title>Closing and Quitting</title>
+    <para>You can close a <application>&app;</application> window by selecting
+    <menuchoice><guimenu>File</guimenu><guimenuitem>Close Window</guimenuitem>
+    </menuchoice> in that window.  To close all <application>&app;</application>
+    windows and quit the application completely, select <menuchoice>
+    <guimenu>File</guimenu><guimenuitem>Quit</guimenuitem></menuchoice> in any
+    <application>&app;</application> window.</para>
+  </sect2>
+</sect1>
+
+<sect1 id="workkeys">
+  <title>Working with Keys</title>
+  <para>Keys are a way of looking up a value.  Every preference stored in
+  <application>MateConf</application> is assigned to a key.  Applications which
+  use <application>MateConf</application> access the values of keys to determine
+  how to look and behave.  When you change something in the
+  <guilabel>Preferences</guilabel> of an application, you are changing the
+  value associated to a key in <application>MateConf</application>.</para>
+
+  <sect2 id="copy-key">
+    <title>Copying a Key Name</title>
+    <para>To copy a key name to the clipboard, select the key name you want to
+    copy in the modification pane.  Choose <menuchoice><guimenu>Edit</guimenu>
+    <guimenuitem>Copy Key Name</guimenuitem></menuchoice>.  You can paste the
+    key name into any other application.</para>
+  </sect2>
+  <sect2 id="list-key">
+    <title>Viewing Recent Key Names</title>
+    <para>To view recent key names, choose <menuchoice><guimenu>Edit</guimenu>
+    <guimenuitem>List Recent Keys</guimenuitem></menuchoice>. This action will
+    open the results pane at the bottom of the current window. You can move
+    through the results list by scrolling up and down with the scroll bar or
+    the arrow keys. The information for the selected key or folder will appear
+    in the rest of the window.</para>
+    <para>Viewing recent keys is useful if you need to get back to a key you
+    just changed and don't remember where it is.</para>
+    <!-- REMARK -->
+    <remark>A screenshot may be in order.  In particular, The close, copy, and
+    clear buttons on the results pane should be explained.</remark>
+  </sect2>
+  <sect2 id="modify-key">
+    <title>Modifying the Value of a Key</title>
+    <para>The icons next to the key name show what kind of value that key can
+    take. See <xref linkend="icons"/> for more information on each icon.  To
+    modify the value of a key, perform the following steps:</para>
+    <procedure>
+      <step><para>Use the tree pane to display the key that you want to modify
+      in the modification pane.</para></step>
+      <step><para>Select the key to modify in the modification pane.</para></step>
+      <step>
+        <para>To change the value of an integer key or a string key, click
+        in the <guilabel>Value</guilabel> column of the key. Type the new value
+        for the key.  Alternatively, right-click on the key and select
+        <guimenuitem>Edit Key</guimenuitem> from the popup menu.</para>
+        <para>To change the value of a Boolean key, click in the
+        <guilabel>Value</guilabel> column of the key to select or
+        deselect the check box.  Alternatively, right-click on the
+        key and select <guimenuitem>Edit Key</guimenuitem> from the
+        popup menu.</para>
+        <para>To change the value of a list key, right-click on the key and
+        select <guimenuitem>Edit Key</guimenuitem> from the popup menu.  The
+        <application>Edit Key</application> dialog provides a list of the
+        values associated to that key.  You can use this dialog to edit each
+        particular value in the list, add or remove values from the list, and
+        move each value up or down in the list.</para>
+      </step>
+    </procedure>
+    <para>Your system administrator may have locked down certain keys by
+    providing mandatory values.  If the selected key has a mandatory value
+    set, you will not be able to edit the value.  The documentation pane
+    will display the label <guilabel>This key is not writable</guilabel>
+    if you are not allowed to edit the value of that key.</para>
+  </sect2>
+</sect1>
+
+<sect1 id="finding">
+  <title>Finding Keys Quickly</title>
+  <para>To locate keys quickly, <application>&app;</application> allows you
+  to search the key names in <application>MateConf</application>.  Additionally,
+  you can use bookmarks to find directories of keys that you need to access
+  frequently.</para>
+
+  <sect2 id="using-bookmark">
+    <title>Using Bookmarks</title>
+    <para>To access a directory location in your bookmarks, choose the location
+    from the <guimenu>Bookmarks</guimenu> menu. You can add and remove directory
+    locations to your <guimenu>Bookmarks</guimenu> menu.</para>
+    <para>To add a bookmark, select the location that you want to bookmark in the
+    tree pane. Choose <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add
+    Bookmark</guimenuitem></menuchoice>.</para>
+    <para>To delete a bookmark, perform the following steps:</para>
+    <procedure>
+      <step><para>Choose <menuchoice><guimenu>Bookmarks</guimenu>
+      <guimenuitem>Edit bookmarks</guimenuitem></menuchoice>.</para></step>
+      <step><para>Select the bookmark in the
+      <application>Edit bookmarks</application> dialog, then click
+      <guibutton>Delete</guibutton>.</para></step>
+      <step><para>Click <guibutton>Close</guibutton>.</para></step>
+    </procedure>
+  </sect2>
+  <sect2 id="search">
+    <title>Searching for Keys</title>
+    <para>To search for keys, perform the following steps:</para>
+    <procedure>
+      <step><para>Choose <menuchoice><guimenu>Edit</guimenu>
+      <guimenuitem>Find</guimenuitem></menuchoice>.</para></step>
+      <step><para>Enter the keyword you want to search for in the
+      <guilabel>Search for</guilabel> field. You can also select the
+      optional check boxes <guilabel>Search also in key names</guilabel>
+      and <guilabel>Search also in key values</guilabel>. If these check boxes
+      are not selected, the search will only be performed on folder names.
+      Selecting these boxes will expand the search parameters.</para></step>
+      <step><para>Click <guibutton>Find</guibutton>.</para></step>
+    </procedure>
+    <para>The results from the search will appear in the results pane.  To move
+    through the results list, first select that pane. Then you can move through
+    the results with the scroll bar or the arrow keys. The information for the
+    selected key or folder will appear in the rest of the window.</para>
+    <!-- REMARK -->
+    <remark>A screenshot may be in order.  In particular, The close, copy, and
+    clear buttons on the results pane should be explained.</remark>
+  </sect2> 
+</sect1>
+
+<sect1 id="defaults-mandatory">
+  <title>Default and Mandatory Settings</title>
+  <para>If you are a system administrator, you can set default and mandatory
+  settings in <application>MateConf</application> which will affect all users.
+  Default settings are used when the user has not set a value explicitly, and
+  users can always override them.  Mandatory settings are always used for all
+  users, and they cannot override them.</para>
+  <para>You can use the <application>Defaults</application> and
+  <application>Mandatory</application> windows to edit and remove default
+  and mandatory settings.  The <application>Defaults</application> and
+  <application>Mandatory</application> windows will only show you those
+  settings which have already been made default or mandatory.  You cannot
+  use these windows to create new default and mandatory settings.  Instead,
+  you can set settings from the <application>Settings</application> window
+  to be default or mandatory.</para>
+  <para>To open a <application>Defaults</application> window, choose
+  <menuchoice><guimenu>File</guimenu><guimenuitem>New Defaults
+  Window</guimenuitem></menuchoice>.  To open a
+  <application>Mandatory</application> window, choose <menuchoice>
+  <guimenu>File</guimenu><guimenuitem>New Mandatory Window</guimenuitem>
+  </menuchoice>.</para>
+
+  <sect2 id="creating-defaults">
+    <title>Creating Default Settings</title>
+    <para>To create a default setting, perform the following steps:</para>
+    <procedure>
+      <step><para>In the <application>Settings</application> window, use the
+      tree pane to display the key that you want to set as default.</para></step>
+      <step><para>Right-click on the key and select <guimenuitem>Set as
+      Default</guimenuitem> from the popup menu.</para></step>
+    </procedure>
+  </sect2>
+  <sect2 id="creating-mandatory">
+    <title>Creating Mandatory Settings</title>
+    <para>To create a mandatory setting, perform the following steps:</para>
+    <procedure>
+      <step><para>In the <application>Settings</application> window, use the
+      tree pane to display the key that you want to set as
+      mandatory.</para></step>
+      <step><para>Right-click on the key and select <guimenuitem>Set as
+      Mandatory</guimenuitem> from the popup menu.</para></step>
+    </procedure>
+  </sect2>
+  <sect2 id="modifying-defaults-mandatory">
+    <title>Modifying and Removing Default and Mandatory Settings</title>
+    <para>You can use the <application>Defaults</application> and
+    <application>Mandatory</application> windows to modify and remove
+    default and mandatory settings.  To modify a default or mandatory
+    setting, use the appropriate window and modify the key as you would
+    for keys in the <application>Settings</application> window.  See
+    <xref linkend="modify-key"/> for more information on modifying
+    keys.</para>
+    <para>To remove a default or mandatory key, perform the following
+    steps:</para>
+    <procedure>
+      <step><para>In the appropriate window, use the tree pane to display
+      the key that you want to remove from the default or mandatory
+      settings.</para></step>
+      <step><para>Right-click on the key and select <guimenuitem>Unset
+      Key</guimenuitem> from the popup menu.</para></step>
+    </procedure>
+  </sect2>
+</sect1>
+
+<sect1 id="icons">
+  <title>Icons and Key Types</title>
+  <para>The icons beside the keys in the modification pane indicate what type
+  of value you can enter for the key.  The following list shows the possible
+  icons and what types of values they represent.</para>
+  <variablelist>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+        <imagedata fileref="figures/entry-bool.png" format="PNG"/>
+      </imageobject></inlinemediaobject> Boolean key</term>
+      <listitem><para>Can be either true or false.
+      <application>&app;</application> will provide a check box for
+      this type of key.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+      <imagedata fileref="figures/entry-number.png" format="PNG"/>
+      </imageobject></inlinemediaobject> Number key</term>
+      <listitem><para>Can hold numbers.  These can be either integer or
+      floating point (fractional) numbers.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+      <imagedata fileref="figures/entry-string.png" format="PNG"/>
+      </imageobject></inlinemediaobject> String key</term>
+      <listitem><para>Can hold any string of text.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+      <imagedata fileref="figures/entry-schema.png" format="PNG"/>
+      </imageobject></inlinemediaobject> Schema key</term>
+      <listitem><para>Used for documenting other keys.  The documentation
+      for each key is provided by a seperate key, typically under the
+      <literal>/schemas</literal> directory.  Users and system administrators
+      usually will not need to work with schema keys directly.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+      <imagedata fileref="figures/entry-list.png" format="PNG"/>
+      </imageobject></inlinemediaobject> List key</term>
+      <listitem><para>Lists of arbitrary length.  Each element of the list must
+      be of the same type, and one of the primitive types of boolean, number, or
+      string.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+      <imagedata fileref="figures/entry-blank.png" format="PNG"/>
+      </imageobject></inlinemediaobject> Pair key</term>
+      <listitem><para>Can hold exactly two values.  The two values must
+      be one of the primitive types, but they do not have to be the same
+      type.  Currently, <application>&app;</application> is unable to edit
+      pair keys.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><inlinemediaobject><imageobject>
+      <imagedata fileref="figures/entry-blank.png" format="PNG"/>
+      </imageobject></inlinemediaobject> Blank</term>
+      <listitem><para>Used when <application>&app;</application> does not
+      understand the type of key.  The blank icon is also currently used
+      for pair keys.</para></listitem>
+    </varlistentry>
+  </variablelist>
+</sect1>
+</article>

@@ -1,0 +1,1820 @@
+==================== 2.25.92 ====================
+
+2008-12-05  Frederic Peters  <fpeters@0d.be>
+
+	* mate-sound-recorder.schemas.in.in: removed duplicated endtag.
+
+2008-12-05  Frederic Peters  <fpeters@0d.be>
+
+	* mate-sound-recorder.schemas.in.in:
+	* src/gsr-window.c: (record_input_changed_cb), (fill_record_input),
+	(gsr_window_init): remember last input channel (in a last-input mateconf
+	key).  Closes: #558720
+
+2008-12-05  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c (gsr_window_init): Fixes critical warning when
+	starting g-s-r. Closes: #561726
+
+2008-09-18  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mate-recorder.c:
+	* src/gsr-window.c: (seconds_to_full_string), (fill_record_input),
+	(level_message_handler_cb), (gsr_window_init):
+	Cleanups: make functions static, add prototypes, remove unused
+	variables etc. Bug #552748.
+
+2008-09-07  Gilles Dartiguelongue  <gdartigu@svn.mate.org>
+
+	* Makefile.am: Modernize autofoo, bug #550919
+	move INCLUDES to AM_CPPFLAGS, patch by
+	Marc-Andre Lureau <marcandre.lureau@gmail.com>
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c (about_cb): Fix email address.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* doc/C/mate-sound-recorder.xml: Update documentation about
+	".oga" (OGG audio) file extension.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c: Hide the input selector when there is no
+	choice.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c: Set profile/input sensitive when record
+	paused/finished.
+
+2008-09-01  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c: Don't abort() when the system settings are
+	wrong.
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* src/mate-recorder.c (gsr_add_recent): Another use of mate-vfs
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gsr-window.c (do_save_file), (fill_in_information),
+	(play_cb): Port to GIO from mate-vfs, based on patch by  Kalle
+	Vahlman <zuh@iki.fi> (Helps: #516090)
+
+2008-08-29  Bastien Nocera  <hadess@hadess.net>
+
+	* src/Makefile.am:
+	* src/mate-recorder.c (gsr_add_recent), (main):
+	* src/gsr-window.c (file_open_recent_cb), (gsr_window_init),
+	(gsr_window_set_property):
+	Port mate-sound-recorder to using GtkRecent (Closes: #404877)
+	* src/recent-files/*: Remove
+
+2008-04-21  Jens Granseuer  <jensgr@gmx.net>
+
+	* src/gsr-window.c: (gsr_window_init): don't declare variables in the
+	middle of a code block. Fixes build with older compilers (bug #529083)
+
+2008-04-20  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	* mate-sound-recorder.desktop.in.in, icons/16x16/Makefile.am,
+	icons/16x16/mate-grecord.png ->
+	icons/16x16/mate-sound-recorder.png, icons/22x22/Makefile.am,
+	icons/22x22/mate-grecord.png ->
+	icons/22x22/mate-sound-recorder.png, icons/24x24/Makefile.am,
+	icons/24x24/mate-grecord.png ->
+	icons/24x24/mate-sound-recorder.png, icons/32x32/Makefile.am,
+	icons/32x32/mate-grecord.png ->
+	icons/32x32/mate-sound-recorder.png, icons/48x48/Makefile.am,
+	icons/48x48/mate-grecord.png ->
+	icons/48x48/mate-sound-recorder.png,
+	icons/SOURCE/grecord16x16.svg ->
+	icons/SOURCE/mate-sound-recorder-16x16.svg,
+	icons/SOURCE/grecord22x22.svg ->
+	icons/SOURCE/mate-sound-recorder-22x22.svg,
+	icons/SOURCE/grecord32x32.svg ->
+	icons/SOURCE/mate-sound-recorder-32x32.svg,
+	icons/SOURCE/grecord48x48.svg ->
+	icons/SOURCE/mate-sound-recorder-48x48.svg,
+	icons/scalable/Makefile.am, icons/scalable/mate-grecord.svg ->
+	icons/scalable/mate-sound-recorder.svg, src/mate-recorder.c,
+	src/gsr-window.c:
+	Renamed icon "mate-grecord" -> "mate-sound-recorder"
+	(see #526933)
+
+
+2008-04-17  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	Patch by: Patrick Wade
+
+	* src/gsr-window.c (gsr_window_init): Add navigations shortcut
+	("_Record as" and "Record from _input") (Closes: #466685)
+
+2008-04-05  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	Icon by: Stephen Brandt
+
+	* icons/{16x16,22x22,24x24,32x32,48x48}: add Tango style icons
+	(see #462551)
+
+2008-03-25  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c (menu_entries): use more GTK stock text
+	(see #504420)
+
+2008-03-23  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c (fill_in_information):
+	Fix crash introduced by utf8 fix (see #483254)
+
+2008-03-23  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c (fill_record_input, record_state_changed_cb):
+	Make sure the input selector is insensitive if the source does not
+	implement GST_MIXER.
+
+2008-03-23  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* grecord/src/gsr-window.c: Changed the error message when
+	the capture settings are not working.
+
+2008-03-23  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c (make_record_source, fill_record_input): Accept
+	audio sources that do not implement GST_MIXER.
+
+2008-03-23  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	Initial patch by: Tilman Weiers
+
+	* src/gsr-window.c (gsr_window_init, make_record_pipeline): Add
+	recording level indication in the statusbar.
+	(Closes: #430616)
+
+2008-03-22  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c: more checking before string comparisons, use
+	g_str_equal instead of strcmp.
+
+2008-03-21  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	* src/gsr-window.c: "Help/Help Ctrl+H" renamed to "Help/Contents F1".
+	(Closes: #521919)
+
+2008-03-19  Gabor Kelemen <kelemeng@mate.hu>
+
+	* src/gsr-window.c: Mark window title for translation.
+	 (Closes: #516831)
+
+2008-03-17  Marc-Andre Lureau  <marcandre.lureau@gmail.com>
+
+	patch by: Andrea Del Signore
+
+	* src/gsr-window.c: Open "capture" page of g-v-c by default.
+	(Closes: #349106)
+
+2007-09-07  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gsr-window.c: (record_start), (record_state_changed_cb):
+	Remove the record timeout tick when we're done recording, so
+	the timeout isn't called after we've destroyed the window
+	(Closes: #333351)
+
+2007-09-07  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gsr-window.c: (record_cb), (record_input_changed_cb),
+	(fill_record_input), (gsr_window_init): Remember the current
+	capture track when restarting a record, so it doesn't
+	revert back to "Capture", Avoid a warning when trying to set
+	the new capture track after the pipeline has been stopped
+	(Closes: #335556)
+
+2007-09-07  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gsr-window.c: (make_record_source): Fail to startup if
+	the source selected ends up not having a mixer
+
+2007-09-06  Bastien Nocera  <hadess@hadess.net>
+
+	* mate-sound-recorder.schemas.in.in: Remove unused tempdir key
+	* src/gsr-window.c: (do_save_file), (play_cb), (gsr_window_new):
+	Use g_filename_to_uri instead of crappy printfs when converting
+	filenames to URIs (Closes: #437875)
+
+2007-09-06  Bastien Nocera  <hadess@hadess.net>
+
+	* mate-sound-recorder.schemas.in.in: Remove obsolete reference
+	to sox (Closes: #412670)
+
+2007-09-06  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gsr-window.c: (record_input_changed_cb): Patch from
+	Boris DuÅ¡ek <boris.dusek@gmail.com> to avoid crashing when
+	strcmp'ing NULL strings (Helps: #329922)
+
+2007-09-06  Bastien Nocera  <hadess@hadess.net>
+
+	* src/gsr-window.c: (file_save_cb), (play_cb):
+	Patch from Mark Siner <msiner@gmail.com> to avoid crashing when
+	pressing save for a new file (Closes: #430101)
+
+2007-09-06  Bastien Nocera  <hadess@hadess.net>
+
+	* Makefile.am: Put the intltool rules next to what they modify,
+	otherwise they don't work
+
+2007-05-14  Michael Terry  <mterry@mate.org>
+
+	* Makefile.am: Don't install unused icon mate_mixer.xpm and
+	install the app icon into hicolor theme, not .../pixmaps
+
+	* mate-sound-recorder.desktop.in.in: Remove png suffix from icon
+
+	* pixmaps/:
+	* pixmaps/mate_mixer.xpm:
+
+	Deleted unused directory/icon
+
+2006-12-23  Daniel Nylander <po@danielnylander.se>
+
+	* doc/sv/grecord.xml: Updated Swedish translation.
+	* doc/sv/figures/grecord_window.png: Updated screenshot.
+	* doc/sv/grecord-sv.omf: Updated translation.
+
+2006-12-19  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/gsr-window.c: (pipeline_deep_notify_caps_cb): Fix
+	a crash reported by matebugs.20.naru at spamgourmet.com.
+	Closes bug #352135.
+
+2006-11-16  Irene Huang  <irene.huang@sun.com>
+
+	* src/gsr-window.c: (gsr_window_init): add relationship 
+	labelled by for label of length and filename. Set length to be
+	selectable. (fixes bug 364652, 364656)
+
+2006-08-18  Sebastien Bacher  <seb128@debian.org>
+
+	* src/gsr-window.c: (fill_record_input): 
+	"Clear combo_box first before add inputs", patch based on the work 
+	from Baptiste Mille-Mathias <baptiste.millemathias@gmail.com>
+	(Closes: #329922)
+
+2005-11-26  Dennis Cranston  <dennis_cranston@yahoo.com>
+
+	* src/gsr-window.c: (file_open_cb):  Use title capitalization for
+	window title, (file_properties_cb): Use HIG recommended widget 
+	spacing, and fix window resizing issues, and add a missing colon 
+	to record as label, (gsr_window_init): HIG widget padding fixes.  
+	Add missing ellipses to 'open' and 'save as' menu items.  Rename 'run 
+	mixer' menu item to 'open volume control'.
+
+2005-09-02  Rodrigo Moya <rodrigo@novell.com>
+
+	* Makefile.am: install grecord pixmap for menu.
+
+2005-06-07  Archana Shah  <archana.shah@wipro.com>
+	* src/mate-recorder.c: (delete_event_cb): Callback attached for
+	delete_event.
+	* src/gsr-window.c: If any recorded file is unsaved, throw up a dialog
+	asking if the user wants to save the file before exiting.
+	Fixes bug #306755
+
+2005-06-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/gsr-window.c: (about_cb): Previous commit broke
+	the build. Fix it. Also include <string.h>
+
+2005-05-08  Alan Horkan <horkana tcd ie>
+	* README: Updated contact information and links
+	* src/gsr-window.c: added more AUTHORS, added the list address to 
+	main window of about dialog.  
+
+2005-05-03  Paolo Borelli  <pborelli@katamail.com>
+
+	* src/recent-files/*:
+	* src/gsr-window.c:
+	* src/mate-recorder.c:
+
+	Recent files support using egg-recent.
+
+2005-05-02  Paolo Borelli  <pborelli@katamail.com>
+
+	* src/gsr-window.[ch]
+	* src/mate-recorder.c:
+	* src/ui.xml:
+
+	Port to GtkUIManager and other cleanups.
+
+2005-04-03  jylefort@brutele.be
+
+	Reviewed by:  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* src/gsr-window.c: (record_start):
+	  Fix leak (#172538).
+
+2005-02-04  Archana Shah  <archana.shah@wipro.com>
+
+	* src/gsr-window.c (pipeline_error_cb), (play_state_changed_cb):	
+	Add timeout function of 3 seconds if we encounter EBUSY while trying to
+	get the device.
+	(handles_ebusy_error): Try to grab the device just once more
+	(is_set_timeout_exists), (set_timeout_exists): Use them
+	Fixes bug #160340
+
+2005-01-24  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/mate-recorder.c (main): Check for the registry if its not there
+	give an error dialog and exit. Fixes bug #138582
+
+2005-01-15  Sebastien Bacher  <seb128@debian.org>
+
+	* src/gsr-window.c: (fill_in_information): use ngettext to add a string
+	to the translations (Closes: #162610).
+
+2005-01-15  Sebastien Bacher  <seb128@debian.org>
+
+	* src/gsr-window.c: (do_save_file): removed an extra space in 
+	  two strings (Closes: #162606).
+
+2004-10-12  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/gsr-window.c (media_stop): Don't do a g_object_set on the play
+	pipeline. Since play pipeline is created now in media_play. This
+	stops a crash when the recording is stopped.
+
+2004-09-24  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/gsr-window.c (media_play): If we have a play pipeline already
+	destroy it and create a new one.
+
+2004-03-17  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mate-recorder.c: (main): use gtk_icon_theme. Fix #137464
+
+2004-03-08  Johan Dahlin  <johan@mate.org>
+
+	* src/gsr-window.c (media_record): If we already have a record
+	pipeline, destroy it before trying to record again.
+
+2004-03-01  Alex Duggan <aldug@astrolinux.com>
+
+	* src/gsr-window.c: s/gst-mixer/mate-volume-control/
+
+2004-02-26 Breda McColgan <breda.mccolgan@sun.com>
+
+	* doc/C/mate-sound-recorder.xml: Updated for MATE 2.6, technical review draft
+	* doc/C/grecord-C.omf: Updated for MATE 2.6
+	* doc/C/l10n.txt: Updated for MATE 2.6
+	* doc/C/figures/grecord_window.png: Updated for MATE 2.6
+
+2004-02-25  Johan Dahlin  <johan@mate.org>
+
+	* src/gsr-window.c: Major cleanups. Add support for audio
+	profiles. More error checking and better gstreamer integration.
+
+2004-02-24  Ted Gould <ted@gould.cx>
+
+	* src/gsr-window.c: Adding in checking to see if the file
+	name has already been used.  This is a patch from
+	Glynn Foster and is related to bug #130653.
+
+2004-02-19  Ted Gould <ted@gould.cx>
+
+	* gsr.xml, Makefile.am, media-rec.png, media-record.png,
+	  src/mate-recorder.h:
+    Applying a patch by Balamurali Viswanathan to fix bug #128091
+	which deals with the fact that media-rec.png should be
+	media-record.png.  This changes that in all places it should be.
+
+2003-12-13  Jan Arne Petersen  <jpetersen@uni-bonn.de>
+
+	* src/grec.c: (on_open_activate_cb), (store_filename),
+	(save_filename), (save_dialog):
+	* src/gsr-window.c: (fchooser_response), (file_open),
+	(fchooser_save_response), (file_save_as): Replace GtkFileSelection
+	with GtkFileChooser.
+
+2003-10-14  Ted Gould <ted@gould.cx>
+
+	* src/gsr-window.c: Undid part of the patch below, because it
+	was using the slider.  The problem here is that the slider implies
+	that there is a fixed length of something, and really, we can
+	record for quite a long time.  So, just using the counter to
+	show that we're recording.
+
+2003-10-08  Ted Gould <ted@gould.cx>
+
+	* src/gsr-window.c: Fix for bug 123937 to make the mate-recorder
+	have a time status so that people know it's recording.  Patch
+	contributed by Balamurali Viswanathan.
+
+2003-09-05  Ted Gould <ted@gould.cx>
+
+	* gsr-window.c: Adding in a couple of patches at the eleventh hour
+	for GSR.  But they all really help.  111820 is about playing multiple
+	files sequencially - this was submitted by Balamurali Viswanathan.  The
+	second is 118077 and done by Frederic Crozat.  It fixes a problem where
+	a matecomponent call was in a callback.
+
+2003-09-05  Irene Ryan <irene.ryan@sun.com>
+
+	* doc/C/mate-sound-recorder.xml: updates to reflect Sound Recorder 2.2.2 for
+     the MATE 2.4 release
+	* doc/C/grecord.xml: updated manual release/date information
+	* doc/C/l10n.txt: updated instuctions for L10N teams
+	* doc/C/figures/grecord_window.png: new screenshot of application
+
+2003-07-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mate-recorder.c: Pull up fix from stable to make
+	recording work again. Should fix bug #110738.
+
+2003-07-02  Jordi Mallach  <jordi@sindominio.net>
+
+	* mate-sound-recorder.desktop.in: Add X-MATE-Bugzilla entries.
+
+2003-06-09  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/grec.c: (save_dialog):
+	* src/gsr-window.c: (fill_in_information), (file_properties):
+	* src/preferences.c: (sox_command_changed): Pull up changes from stable.
+
+2003-04-28  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* src/gsr-window.c: (finalize), (seek_started), (seek_to),
+	(tick_callback), (error_handler), (make_play_pipeline),
+	(make_record_pipeline), (init), (gsr_window_new):
+	- use g_get_tmp_dir().
+	- fix seeking.
+	- pop-up error dialog if gst reports error.
+
+2003-04-26  Christian Neumair  <chris@mate-de.org>
+
+	* gsr.xml: Fixed a typo (#110819).
+
+2003-03-28 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (shutdown_pipeline): Destroy the pipeline.
+	(finalize): Shutdown the pipelines. Turn off the tick id.
+	(make_play_pipeline): Store the state change ID.
+	(make_record_piipeline): Ditto.
+
+2003-01-22  Irene Ryan <irene.ryan@sun.com>
+
+	* help/C/mate-sound-recorder.xml, record-C.omf: updated to reflect changes for 
+	  MATE 2.2 release.
+	  
+2003-01-07  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/gsr-window.c: (get_length), (tick_callback): update
+	for gstreamer API changes.
+
+2002-12-16  Christian Neumair  <chris@mate-de.org>
+
+	* .cvsignore: Updated.
+	* src/gsr-window.c: Revamped about dialog.
+	* src/gui.c: Revamped about dialog.
+
+2002-12-09 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (help_about): Removed translation, and fixed copyright
+
+2002-12-03  Christian Neumair  <chris@mate-de.org>
+ 
+	* src/gsr-window.c: renamed "Directory:" to "Folder:", revamped about
+       dialog.
+	* src/gui.c: Revamped about dialog.
+	* gsr.xml: renamed "program" to "application".
+
+2002-11-30  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* gsr.xml: Add mnemonics to run mixer, file information, play,
+	stop, record, and about menu items.  Change 'Run mixer' to 
+	'Run Mixer' and 'About Sound Recorder' to 'About'. Add
+	accelerators to play, stop, and record.  Fix the 'save as'
+	accelerator.  Also, add a 'Contents' menu item to the help menu.
+
+	* src/mate-recorder.c (gsr_open_window):  Fix compiler warning.
+	* src/gsr-window.c (gsr_window_close):  Fix compiler warning.
+	* src/gsr-window.c (fill_in_information):  Dialog clean up. Fix 
+	padding.  Remove colons from file and audio information titles.
+	Reduce excessive use of bold labels. Use consistent wording for
+	unknown labels. Disable resizing of the dialog. 
+	* src/gsr-window.c (help_contents):  New function to display 
+	the help documentation.
+	
+	* docs/C/Makefile.am:  Set docname to mate-sound-recorder.
+	* docs/C/mate-sound-recorder.xml:  Rename grecord.xml. 
+
+2002-11-30 Iain <iain@prettypeople.org>
+
+	* src/mate-recorder.c (main): Set the default icon.
+
+2002-10-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/sound.c (get_play_time): Fix a leak.
+	* src/sound.c (store_filename): Fix a leak.
+	* src/sound.c (soundfile_supported): Fix a leak.
+	
+2002-10-25 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (fill_in_information): Fill in the rest of the 
+	details
+	(file_properties): Enable the window to be closed, and switch the
+	channels and sample rate around.
+	(play_deep_notify): Find out the details.
+	(make_play_pipeline) : Attach to deep notify
+
+2002-10-24 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (fill_in_information): Use mate-vfs to format
+	bytes into MB
+
+2002-10-24 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (gsr_window_new): Word wrap the filename.
+	(file_properties): Create a sexy new dialog
+	(fill_in_information): Fill in the file info.
+
+2002-10-24 Iain <iain@prettypeople.org>
+
+	* gsr.xml: Add a Media menu
+
+2002-10-24 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (file_quit): Call gsr_quit.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (file_mixer): Start the mixer.
+
+	* gsr.xml: Add the mixer and the info menu items.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (play_state_changed): Start the tick_callback every
+	time.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (tick_callback): Check the state of the pipeline
+	first.
+	(play_state_changed): Reset the seekbar to 0.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (do_save_file): Set the cursor for the ev to wait
+	Ghost all buttons that can't be used. Set the status bar.
+	(save_sink_eos): Reset the pipeline start an idle t set up the gui
+	(eos_done): Fix up the GUI,
+	(play_state_changed): Set the statusbar.
+	(record_state_changed): ditto.
+	(init): Ditto.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (do_save_file): Save the file.
+	(get_encoder_for_mimetype): Get the encoder.
+
+2002-10-24 Iain <iain@prettypeople.org>
+
+	* src/gr-window.c (file_save): Implement.
+	(file_save_as): Open a directory and save the file.
+	(file_sel_save_respone): Save file and store last dir.
+
+	* src/mate-recorder.c: Default name is now got .wav appended.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (media_play): Put some stuff into the state change
+	(media_stop): Ditto.
+	(media_record): Ditto.
+	(record_state_changed): state change callback for record pipeline.
+	(make_record_pipeline): Hook up to the state change.
+	
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gsr-window.c (media_play): We can seek now that we're playing.
+	(media_stop): We can't seek anymore.
+	(get_length): Can't seek yet.
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* src/gst-window.c (gsr_window_new): Use the basename.
+	(set_propety): Ditto
+
+2002-10-23 Iain <iain@prettypeople.org>
+
+	* mate-sound-recorder.schemas: Add a key for the open file dir path
+	
+	* src/gsr-window.c (media_play): Grey out the Save and Save As buttons.
+	(media_stop): Ungrey them again.
+	(file_sel_response): Store the directory.
+	(file_open): Set the stored directory.
+
+2002-10-22 Iain <iain@prettypeople.org>
+
+	* gsr-window.c (finalize): Free working filename.
+	(set_property): Set the location property.
+	(get_property): Get the property
+	(class_init): Add the property.
+	(file_sel_response): Open the file.
+	(file_open): Open a file selector.
+	(gsr_window_new): Use the property.
+
+2002-10-22 Iain <iain@prettypeople.org>
+
+	* gsr-window.c (file_about): Removed the reference to MATE.
+	(media_play): Check if the file exists before playing.
+	Set the correct state on the toolbar buttons.
+	(media_stop): Set the correct state on the toolbar buttons.
+	(media_record): Ditto.
+	(get_length): If the get_length fails, set the length label to Unknown.
+	(gsr_window_new): Set the buttons correctly.
+
+2002-10-20 Iain <iain@prettypeople.org>
+
+	* gsr-window.c (finalize): Destroy the pipelines.
+	(seconds_to_string): Convert seconds to hr:mn:sec
+	(seconds_to_full_string): Convert seconds to HH hours MM minutes SS 
+	seconds
+	(get_length): Try to get the length from the sink.
+	(seek_to): Seek to a position.
+	(tick_callback): Get the position, set the scale.
+	(play_iterate): Iterate the play pipeline.
+	(play_state_changed): Start all the timeouts and idles for the play
+	pipeline.
+	(make_play_pipeline): Make play pipeline a normal pipeline.
+	Add a real spider.
+	(make_record_pipeline): Use the wavenc. Add a warning if you don't
+	have wavenc.
+	(init): Set temppath;
+	(calculate_format_value): print the format.
+ 	(gsr_window_new): Add the info strings. Tidy the dialog.
+
+2002-10-19 Iain <iain@prettypeople.org>
+
+	* src/mate-recorder.[ch]
+	  src/gsr-window.[ch]: New code for gst based recorder.
+
+2002-10-07 Iain <iain@prettypeople.org.
+
+	* Lots: Applied Bala's patch for bug 90626
+
+2002-10-07 Iain <iain@prettypeople.org>
+
+	* src/grec.c: Destroy the dialog after the dialog is closed
+
+2002-09-23 Iain <iain@prettypeople.org>
+
+	* mate-sound-recorder.desktop.in: Fix spelling
+
+2002-09-23  Iain <iain@prettypeople.org>
+
+	* src/grec.c: Hook up a dialog to a close function. Patch from He
+	Qiangqiang
+
+2002-09-23  Iain <iain@prettypeople.org>
+
+	* src/grec.c (save_dont_or_cancel): Fix typo.
+
+2002-08-30  Narayana Pattipati <narayana.pattipati@wipro.com>
+
+	* src/grec.c: Made changes so that mate-sound-recorder saves the 
+	file and exits when user tries to kill the application when recording
+	is going on. Also fixes the crash in Linux. Bug#91209
+
+2002-08-22  Rashmi Agrawal <rashmi.agrawal@wipro.com>
+
+	* src/grec.c: Changing the tmp file permission to user read only
+
+2002-07-16  Rajkumar Sivasamy <rajkumar.siva@wipro.com>
+
+	* src/gui.c: Added accelerators for menus. Bug id: 88024
+
+2002-07-09  Mark McLoughlin  <mark@skynet.ie>
+
+	* mate-sound-recorder.desktop.in: use X-MATE-DocPath
+	instead of DocPath.
+
+2002-05-31  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/prog.c: Don't include <config.h> in a header file that doesn't
+	need it.
+	
+2002-05-30  Iain <iain@ximian.com>
+
+	* src/grec.[ch]
+	  src/sound.c: Apply patch from godless@hermes.slipstream.com to allow
+	  files with spaces in their name, and not use system for running 
+	  commands.
+
+2002-05-29  Iain <iain@ximian.com>
+
+	* src/grec.c (record_sound): Check if the samplerate is NULL and if so
+	set it to 22050
+
+2002-05-29  Iain <iain@ximian.com>
+
+	* src/grec.c (check_if_sounddevice_ready): Use the correct esd
+	function to check if it's ok.
+
+	* gui.c: Don't allow the main window to be resized.
+
+2002-05-18  Satyajit Kanungp <satyajit.kanungo@wipro.com>
+
+	* src/gui.c: Added help button in the preference dialog box 
+	 and put a help callback for it.
+
+2002-05-22  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/grec.c: Have Run Mixer option only if we have a audio mixer
+
+2002-05-13  Iain <iain@ximian.com>
+
+	* src/gui.c: Change Mb to MB
+
+2002-04-25  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/grec.c (UpdateStatusbarRecord): Pops up the save dialog
+	box at all times and when recording stops on reaching a 
+	particular size. Bug id #75378
+
+2002-04-15  Iain <iain@ximian.com>
+
+	* grec.c (grecord_set_sensitive_nofile): Set the record button on only
+	if we can record.
+
+2002-04-13  Abel Cheung  <maddog@linux.org.hk>
+
+	* src/grec.c (store_filename): Fix typo.
+	* src/gui.c (create_about): Added translator_credit.
+
+2002-04-10  Jagadeesh B.G. <jagadeesh.bana@wipro.com>
+
+       * src/gui.c (create_grecord_propertybox): Missing accessibility changes
+
+2002-04-10  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/grec.c (UpdateStatusbarRecord): Show the warning the message when
+	recording reaches a particular size and stop at set size
+
+2002-04-07  Iain <iain@ximian.com>
+
+	* src/grec.c (check_for_sox): Check if sox exists and show a warnign
+	if it doesn't.
+	(on_record_activate_cb): Check for sox.
+
+2002-04-07  Iain <iain@ximian.com>
+
+	* src/gui.c (bit8_toggled): Use the toggle buttons
+	(bit16_toggled): Ditto
+	(mono_toggled): Ditto.
+	(stereo_toggled): Ditto.
+	(create_grecord_propertybox): Use radiobuttons instead of combos
+
+2002-04-06  Iain <iain@ximian.com>
+
+	* src/gui.c (playxtimes_changed): ghost or unghost the spinbutton.
+	(create_grecord_propertybox): Use radiobuttons instead of the strange
+	radiobutton/checkbox combo for the repetitions.
+
+2002-04-04  Iain <iain@ximian.com>
+
+	* src/grec.c (on_record_activate_cb): Unghost the save buttons.
+	(on_new_activae_cb): Ghost them.
+	(on_add_echo_activatE_cb): Unghost.
+	(store_filename): ghost.
+	(save_filename): ghost.
+	(save_sound_file): Ghost.
+	(grec_button_new_with_stock_image): Steal code to make a pretty button
+	from Gedit.
+	(grec_dialog_add_button): Make a pretty button and add it to the
+	dialog.
+	(save_dont_or_cancel): Add pretty buttons to the dialog.
+
+	* gui.c (save_set_sensitive): Set the sensitivity on the save menu
+	items.
+	(create_grecord_window): Ghost the save items.
+
+2002-04-02  Iain <iain@ximian.com>
+
+	* src/grec.c (on_runmixer_activate_cb): USe DEFAULT_MIXER instead of
+	hard coding mate-volume-control
+
+2002-04-02  Iain <iain@ximian.com>
+
+	* src/gui.c (create_grecord_propertybox): Set mnemonics.
+
+2002-04-02  Balamurali Viswanathan <balamurali.viswanathan@Wipro.com>i
+
+	* src/grec.c (UpdateStatusbarRecord) : Stops recording exactly at
+	the recordtimeout
+
+2002-04-01  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/grec.c: Stops the timeout function when record times out
+	  bug id # 76207
+
+2002-04-01  Iain <iain@ximian.com>
+
+	* src/gui.c (create_grecord_propertybox): Change directory to folder.
+
+	* src/grec.c (store_filename): Ditto.
+	(save_filename): Ditto.
+
+2002-04-01  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/main.c (main): Disable the record button when sox is not there 
+	and user closes the preferences dialog with out doing anything to the 
+	sox path field
+
+2002-03-30  Iain <iain@ximian.com>
+
+	* src/gui.c: Moved the menus around a bit. No more preferences menu.
+	(create_grecord_window): Removed the gratuitous use of vboxes.
+	Turned the info labels on always, removed the frame.
+
+	* preferences.c: Removed the UI pane, and made some other minor
+	changes to the wording of things.
+
+	* mate-sound-recorder.schemas.in: Removed the show info/sound schemas
+
+2002-03-30  Iain <iain@ximian.com>
+
+	* src/grec.c (on_exit_activate_cb): Change text to Cancel.
+
+2002-03-26  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/grec.c (UpdateStatusbarRecord) : Pops up save dialog when 
+	recording timesout and if save when finished is set, bug #75378
+
+2002-03-23  Iain <iain@ximian.com>
+
+	* src/grec.c (record_sound): Apply patch from 
+	wolfgang.ortner@kfunigraz.ac.at to fix mono recording.
+
+2002-03-23  Iain <iain@ximian.com>
+
+	* src/main.c (main): If sox_command is NULL (mateconf error) set it to
+	sox.
+
+	* src/grec.c (store_filename): Fix warning.
+
+2002-03-22  Iain <iain@ximian.com>
+
+	* Makefile.am: Add media-volume-16.xpm to the EXTRA_DIST
+
+	* src/gui.c: Use media-volume-16.xpm
+
+2002-03-22  Iain <iain@ximian.com>
+
+	* src/grec.c (check_if_loading_finished): Clear the appbar stack.
+	(on_stop_activate_cb): Clear the appbar stack.
+
+2002-03-22  Iain <iain@ximian.com>
+
+	* src/gui.c (create_grecord_window): Remove the stuff that sets the
+	window size. Window manager function.
+	Set the sensitivity on the record button.
+
+	* src/main.c: Add a global able_to_record.
+	(main): Set the able_to_record var.
+
+	* preferences.c (sox_command_changed): Set the able_to_record var, and
+	the sensitivity on the record button.
+
+2002-03-22  Iain <iain@ximian.com>
+
+	* mate-sound-recorder.schemas.in: Add schema for
+	show-warning-messages.
+
+	* src/main.c (main): Remove extra vars.
+	Change the official name from grecord to mate-sound-recorder.
+	Get the config from mateconf.
+	Replace the check for sox in path.
+	(on_dontshowagain_dialog_destroy_activate): Use mateconf.
+
+	* src/preferences.c (on_propertybox_apply_activate): Remove.
+	
+2002-03-21  Jagadeesh B. G  <jagadeesh.bana@wipro.com>
+
+	* src/gui.c (create_grecord_window): Enable expansion of Info frame
+	to support theme compliance
+
+2002-03-21  Balamurali Viswanathan <balamurali.viswanathan@wipro.com>
+
+	* src/gui.c:
+	* src/grec.c:
+	* src/main.c:
+	* src/preferences.c:
+	* src/sound.c: Removed some deprecated calls
+
+2002-03-20  jacob berkman  <jacob@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): add pixmap and icons to EXTRA_DIST
+
+2002-03-20  Iain <iain@ximian.com>
+
+	* src/gui.c (create_grecord_window): Neaten some text.
+	(create_grecord_propertybox): Connect the sound widgets to their
+	callbacks.
+
+	* src/preferences.c (audio_format_changed): If the file is the default
+	file then change the info label.
+	(samepl_rate_changed): ditto.
+	(channels_changed): ditto.
+
+2002-03-20  Iain <iain@ximian.com>
+
+	* src/grec.c (on_play_activate_cb): Remove the repeat stuff here. I've
+	worked out how it works :)
+	(UpdateStatusbarPlay): Repeat the correct number of times.
+	: Make dialogs go away when Okay is clicked.
+
+2002-03-19  Iain <iain@ximian.com>
+
+	* Makefile.am: Add the new icons.
+
+	* src/grec.c (on_play_activate_cb): Actually repeat the sample.
+
+	* src/gui.c (create_grecord_window): Use the new Tigert icons :)
+
+	* src/preferences.c: Work around some MateConf bugs.
+
+2002-03-14  Iain <iain@ximian.com>
+
+	* src/grec-c: Include mateconf-client.h
+	(on_runmixer_activate_cb): Use gspawn to get errors and not to suck.
+	(on_show_time_activete): Get MateConfClient and set the value correctly.
+	(on_show_soundinfo_activate_cb): Ditto.
+
+	* src/gui.c: Include mateconf-client.h
+	(create_grecord_window): Neaten some var names.
+	(response_cb): Callback to destroy the window.
+	(Lots of callbacks): Set the mateconf values.
+	(create_grecord_propertybox): Make better variable names.
+	Set some accessibility things (based on a patch from
+	jagadeesh.bana@wipro.com.)
+	Hook everything back up to the mateconf callbacks.
+	Add some buttons and neaten the dialog code :)
+	(add_relation): form a relation between widgets (from Jagadeesh)
+	(add_paired_relations): Ditto.
+	
+	* main.c (main): rearrange code so that gui functions don't get called
+	before the gui is created.
+
+	* preferences.c: Include mateconf-client.h.
+	(Lots of callbacks): To set values from the mateconf values.
+	(load_config_file): Use mateconf instead of mate-config.
+	(save_config_file): Not needed anymore.
+	
+	* Makefile.am: Install the schemas.
+
+2002-03-05  Iain <iain@ximian.com>
+	
+	* src/grec.c (save_dont_or_cancel): Fix i18n issues.
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* src/gui.c: Call it the mate volume control, and remove the ...
+
+	* src/preferences.c (load_config_file): The mixer command is
+	mate-volume-control, not mate-sound-recorder.
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* src/grec.c (check_if_sounddevice_ready): Use GtkMessageDialog again.
+	Make the error message read better.
+	(on_new_activate_cb): Use new sig for set_min_sec_time.
+	(store_filename): Ditto. Fix memory leak.
+	(UpdateStatusbarPlay): Ditto (not mem leak :).
+	(UpdateStatusbarRecord): Ditto.
+	(check_if_loading_fininshed): Ditto.
+	(save_filename): Fix memory leak.
+	Fix some other dialogs too.
+
+	* src/gui.c (set_window_title): Utility function to set the window
+	title properly.
+	(create_grecord_window): Set the default title.
+
+	* src/sound.[ch] (set_min_sec_time): Remove the crap to set the
+	window title.
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* src/grec.c (save_dont_or_cancel): Display the current filename in
+	the error message.
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* src/grec.c (save_dont_or_cancel): Set the parent window correctly
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* src/grec.c (save_filename): Make all dialogs use gtk_message_dialog
+
+2002-03-04  Iain <iain@ximian.com>
+
+	* src/grec.c (store_filename): Fix memory leak. Make all the dialogs
+	use gtk_message_dialog
+
+2002-03-03  Iain <iain@ximian.com>
+
+	* src/grec.c (on_new_activate_cb): Update for new signature.
+	(on_open_activate_cb): Ditto.
+	(on_exit_activate_cb): Ditto.
+	(save_dont_or_cancel): Rewrite using GtkMessageDialog so that the
+	buttons and text are the same as the HIG would like us to be.
+
+2002-02-09  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* src/gui.c: remove Exit from toolbar
+	* src/main.c: use mate2 initialization to get entries history
+	working
+	* src/preferences.c: make default mixer mate-volume-control
+
+2002-02-22  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/gui.c: Remove unsupported #ifdef ENABLE_NLS.
+	
+2002-01-31  Seth Nickell  <snickell@stanford.edu>
+
+	* Makefile.am:
+	* Soundrecorder.desktop.in:
+	* mate-sound-recorder.desktop.in:
+	* src/Makefile.am:
+	* src/grec.c:
+	* src/gui.c: (create_about):
+
+	Use a consistent name throughout the program
+	(Sound Recorder) and renname the .desktop file
+	and binary to match the menu name.
+	
+2002-01-26  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* main.c: get translations in UTF-8
+
+2001-12-09  Seth Nickell  <snickell@stanford.edu>
+
+	* Makefile.am:
+
+	fix install location of .desktop files
+
+2001-12-09  Seth Nickell  <snickell@stanford.edu>
+
+	* Makefile.am:
+
+	install .desktop files into datadir/applications
+
+	Use INTL_DESKTOP_RULE rather than SERVER_RULE
+
+	Don't deal with .keys and .mime files.
+	
+	* Soundrecorder.desktop.in:
+
+	Add categories field.
+	
+	* grecord.keys.in:
+	* grecord.mime:
+
+	Whenever possible, applications should not install
+	MIME or Keys files but should have types registered
+	in the central registry. WAV has been in both KDE
+	and MateVFS registries for a while. Remove these files.
+	
+2001-12-02  Iain Holmes <iain@ximian.com>
+
+	* Makefile.am: Comment out the .desktop lines.
+
+2001-11-03  Iain Holmes  <iain@ximian.com>
+
+	* src/main.c (main): Updated for new glib-gettext
+
+2001-06-01  Peter Teichman  <peter@ximian.com>
+
+	* src/grec.c, src/gui.c, src/sound.c: purge c++ style comments
+
+2001-05-29  Peter Teichman  <peter@ximian.com>
+
+	* src/grec.c: fix a reference to a wrong variable
+	* src/main.c: #include libmateui/mate-window-icon.h
+	* src/preferences.c: fix a couple printfs that had more arguments
+	than they wanted
+	* src/sound.c: remove g_free of an uninitialized variable.
+	* These four changes are from a patch by 
+	David Hampton <hampton@employees.org>
+	
+2001-05-28  Peter Teichman  <peter@ximian.com>
+
+	* preferences.c: search the full path for the sox and gmix
+	binaries
+
+2001-05-26  Peter Teichman  <peter@ximian.com>
+
+	* src/grec.c (on_record_activate_cb): Reset the recording time
+	when a new record session is started
+
+2001-01-07  Karl Eichwalder  <ke@suse.de>
+
+	* Soundrecorder.desktop (Name, Comment): Sort alphabetically.
+
+2001-01-06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* src/gui.c: changed the author name to us-ascii charset in the
+	  sources, with a comment to tell translators how to write it if
+	  their languages accept the right chars.
+
+2001-01-02  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* Soundrecorder.desktop: Corrected Slovak translation.
+
+2000-12-06  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* Soundrecorder.desktop: Added Slovak translation.
+
+2000-06-06  Kenneth Christainsen  <kenneth@gnu.org>
+
+        * mate-grecord.png: Added icon from tigert
+	* Makefile.am: Modified for new icon
+	* Soundrecorder.desktop: Added new icon
+
+2000-06-05  Stanislav Brabec  <utx@penguin.cz>
+
+	* Soundrecorder.desktop: Added Czech desktop entry.
+
+2000-05-25  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/preferences.c: Added 'fullpath = FALSE' after the first check.
+
+2000-05-25  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c: Check if the sox command is a fullpath or not.
+
+2000-05-25  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c: Don't show the sox-warning-dialog.
+
+2000-05-21  Jacob Berkman  <jacob@helixcode.com>
+
+	* src/main.c (main): set the default icon
+
+2000-05-20  Jacob Berkman  <jacob@helixcode.com>
+
+	* src/preferences.c (load_config_file): don't hard code in the
+	path of sox and gmix, since not everyone puts every binary in
+	/usr/bin
+
+2000-05-20  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/sound.c:
+	  Include audiofile.h. 
+	  Function get_play_time () now uses audiofile
+	  and it calculates/shows the playtime correct now.
+
+	* src/grec.c:
+	  Removed the g_print's used for bugtracking.
+
+2000-05-19  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function on_new_activate_cb ():
+	  Call on_stop_activate_cb () if converter running. (Checks convert_is_running)
+
+2000-05-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/sound.c: Include config.h. 'Topic' in grecord
+	  no gets translated.
+
+2000-05-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/prog.h:
+	  Added 'gboolean convert_is_running'.
+
+	* src/grec.c:
+	  Use the varible in UpdateStatusbarRecord ()
+	  to check if the converter is running. Just
+	  return FALSE, instead of changing the sensitivity
+	  of the widgets.
+
+2000-05-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c: Commented out increase/decrease stuff
+	  from effects (will finish that another day).
+	
+	  Fixed a spelling error in one of the comments.
+	  Thanks to Fredrik Andersson for pointing this out.
+
+2000-05-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function on_exit_activate_cb ():
+	  Don't try to copy backupfile if it doesn't exist.
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c: Fixed a string.
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: Also remove the backup file when exiting.
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: Not saving the changes now works, when
+	  it asks you if you want to save the changes.
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.h src/grec.c:
+	  Removed function delete_event_cb ().
+	* src/gui.c:
+	  Replaced function delete_event_cb () with on_exit_activate_cb () in
+	  the signal connection.
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/sound.c:
+	  More work in add_echo (). Should now work :)
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/gui.h src/gui.c:
+	  Make the menu insensitive while loading (run_command ()),
+	  so the user can't try to save etc.
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/grec.h src/gui.c src/sound.h src/sound.c:
+	  Removed 'remove echo'-menuitem and the related functions. 
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: Removed some code that was commented,
+	  changed a string (sorry translators).
+
+2000-05-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function on_play_activate ():
+	  Only one play_engine=TRUE.
+	* src/sound.c:
+	  Only make backup once.
+
+2000-05-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c: Fixed a string in the new error-dialog.
+
+2000-05-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c: Added dialog that warns you if it
+	  can't find sox. Added a 'don't show this message again..' checkbutton.
+
+2000-05-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: More checks when saving/opening files (more strings).
+	  The filedialog doesn't crash anymore when pressing
+	  ok with no file selected.
+
+2000-05-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: Some memoryleaks fixed.
+	  Fixed the saving-stuff, should always work ok now.
+
+2000-05-14  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/preferences.c in function on_propertybox_apply_activate ():
+	  Check if the user have read-write permissions for the temp directory.
+
+2000-05-14  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: added vars play_id and record_id, values
+	  set from gtk_timeout_add (). Used when calling
+	  function gtk_timeout_remove ().
+	  It now works to stop playing a file when repeting is set.
+
+2000-05-13 Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* src/Makefile.am,src/main.c: use MATELOCALEDIR
+	* src/preferences.c: don't translate show_mess multiple times
+	  (i18n patches from Gediminas Paulauskas <menesis@delfi.lt>)
+
+2000-05-09  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c: Changed a string with 'MB' to 'Mb'.
+	* src/grec.c in save_sound_file ():
+	  Recorded files now get saved correctly, and it
+	  tells you what it's doing.
+
+2000-05-08  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c:
+	  Strings with MB changed to Mb.
+
+2000-05-08  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c
+	  Changed string "GUI" to "User interface" so it will
+	  be easier for translators.
+
+2000-05-07  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c
+	  Some GUI changes, some final messages changed (sorry translators).
+
+2000-05-05  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  Fixed stuff in save_sound_file ().
+
+2000-05-03  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  Remove old files when selecting new, and set the time to 00:00.
+
+2000-05-03  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c
+	  Make the right buttons get insensitive after pressing stop while recording.
+	  Same thing when playing of file is finished.
+
+2000-05-03  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  The right buttons get insensitive after pressing "new" just while playing.
+
+2000-05-02  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/preferences.c:
+	  Do not complain about 'command not' found if
+	  just the command is given, not the whole path.
+
+2000-04-30  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c:
+	  Added extra space to the "path"-entries in preferences-dialog.
+	  (for translations).
+	
+2000-04-29  Karl EICHWALDER  <ke@suse.de>
+
+	* Soundrecorder.desktop: Add de.
+
+2000-04-28  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c:
+	  Commented out help stuff, because there are now documentation avalible yet.
+	  Changed message "# of channels" to "mono/stereo", makes it a bit easier
+	  to understand.
+
+	* src/preferences.c:
+	  Fixed the bug that didn't save the properties in the preferences-dialog
+	  when you changed a tab.
+
+	* src/grec.c:
+	  Make the play-button sensitive again after adding echo.
+
+	  Thanks to Richard Hult for finding the bugs.
+
+2000-04-28  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  The function that checks if the sounddevice is ready or not,
+	  now works (it calls esd_audio_open () and checks errno).
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  The undoall function now uses the internal function
+	  run_command ().
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/sound.c:
+	  It now also shows the time in the mainwindow when set_title is TRUE.
+
+	* src/grec.c:
+	  Update the new time when the recording is finished, instead of
+	  just after the forking.
+	
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  Added some statusbar-messages used when recording/playing.
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/grec.h:
+	  Added function check_if_loading_finished ().
+	  The loading process now get forked, instead of just
+	  blocking the main loop.
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/grec.h:
+	  Renamed function save_wav_file () to save_sound_file ().
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c:
+	  Some messages changed (use the term "sound" instead of ".wav").
+	  Marked a string for translation.
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/grec.h:
+
+	  Renamed function soundtype_supported () to soundfile_supported ().
+	  More work in soundfile_supported (), it can now check if
+	  the file is valid or not.
+	  Some messages changed.
+
+	* src/gui.c:
+
+	  It doesn't check if the file is valid if you start grecord with
+	  none arguments.
+	  Some messages changed.
+
+2000-04-24  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: Removed the function call to
+	  afIdentifyFD ().
+
+2000-04-23  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.h: Removed functon run_command_internaly (), because
+	  it's now used anymore.
+
+2000-04-23  Andreas hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function save_dialog ():
+	 
+	  Default save location for recorded files
+	  are now your homedirectory.
+
+2000-04-22  Fatih Demir	<kabalak@gmx.net>
+
+	* Soundrecorder.desktop : Added [tr] .
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* Makefile.am: Removed all subdirs but src, because
+	  grecord is now a part of mate-multimedia.
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* Released Grecord 0.3.4.
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/sound.c: Function run_command
+	  now used when executing commands internaly (like sox).
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c src/gui.h: Removed Info_label from
+	  the mainwindow and from the grecord_widgets structure.
+	  (Because it isn't used, and never will :)
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/grec.h: Added function run_command,
+	  which takes care of running the command, setting
+	  sensitivity for the widgets and setting
+	  some info in the mate_appbar.
+
+2000-04-21  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: Removed "file_changed=FALSE" from
+	  some functions, and added it to save_filename ().
+	  This make grecord not to think the file has been
+	  saved, when you cancel the saving.
+
+2000-04-19  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/sound.c src/gui.c src/gui.h
+	  src/preferences.c:
+
+	  Added structure grecord_widgets to gui.h, with
+	  pointers to some of the widgets in the main window (gui.c).
+	  
+	  Widgets in grecord are no longer global (the struct takes care of that).
+
+	  Added some functions to grec.c grec.h for making the toolbar buttons sensitive/insensitive.
+
+2000-04-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: You can now disable "Stop recording on timeout".
+
+2000-04-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: The recording now stops when
+	  timeout is reached (if that option is used).
+
+2000-04-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: The size-warningmessage now shows
+	  the size of the file it warns about (not just "blah" :)
+
+2000-04-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* Released Grecord 0.3.3.
+
+2000-04-18  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* Makefile.am: Added grecord.spec to EXTRA_DIST.
+	
+2000-04-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* grecord.spec: Added, thanks to:
+	  Marc LavallÃ©e <odradek@videotron.ca>
+
+2000-04-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/gui.c: Use the term sample instead of file.
+	  (in the user interface).
+
+2000-04-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function UpdateStatusbarPlay:
+	  Fixed the bug with the progressbar and timestatus
+	  where "jumping" to fast, when repeating where
+	  enabled.
+
+2000-04-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function UpdateStatusbarPlay:
+	  Specified times of repeating now works.
+
+	* src/gui.c:
+	  Set the lowest value of the "repeat nr of times"
+	  spinbutton to 1 (instead of 0).
+
+2000-04-17  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function UpdateStatusbarPlay:
+	  "Popup warning message when size is bigger than X MB"-option
+	  now works.
+
+2000-04-16  Andreas Hyden <a.hyden@cyberpoint.se>
+
+	* Released Grecord 0.3.2.
+
+2000-04-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/sound.c: Don't show the whole path in topic, just
+	  the filename (and it doesn't crash, like it did before).
+
+2000-04-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c in function UpdateStatusbarPlay:
+	  Repeat playing forever now works.
+
+2000-04-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: "Stop recording when size
+	  of file becomes bigger than a specified vaule"
+	  now works.
+
+2000-04-16  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/properties.c: Renamed to preferences.c.
+	* src/properties.h: Renamed to preferences.h.
+	* po/POTFILES.in: Added src/sound.c.
+
+2000-04-15  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/properties.c src/properties.h src/prog.h
+	  src/gui.c src/gui.h src/grec.c src/grec.h:
+	  
+	  Changed stored numbers as int instead of char*.
+
+2000-04-15  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c src/grec.h src/prog.h src/properties.h
+	  src/properties.c src/gui.c src/gui.h: Added tab
+	  "Playing" to preferences dialog. Added
+	   "Repeat" checkbox and some other stuff.
+
+2000-04-14  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* configure.in: Added nl and ru to ALL_LINGUAS.
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	Released Grecord 0.3.1
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* AUTHORS, README: Changed my email.
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/grec.c: It now checks if the file that
+	  is going to be "echoed" exists. If not
+	  it returns.
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* grecord.keys.in: When opening a
+	  .wav file from gmc it now plays the file.
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c src/grec.c src/grec.h
+	  src/properties.c src/properties.h
+	  src/prog.h src/gui.c src/gui.h:
+	
+	  Changed e-mail and the description in the license.
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* src/main.c: You can now specify a file
+	  to be opened, a file to be opened and played
+	  and a file to be opened and recorded.
+
+2000-04-12  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* configure.in: Changed to version 3.1.
+	* src/sound.c: in function set_min_sec_time ():
+	  Removed static from two vars, should not
+	  crash anymore.
+	  Show the whole path and file, instead
+	  of just the filename (caused a crash).
+
+2000-04-09  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* Released grecord 0.3.
+
+2000-04-09  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* grec.c sound.c: Setting filename and time
+	  on topic works again (without any segment fault).
+	  The '/' doesn't show up in the topic anymore.
+
+2000-04-09  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* grec.c: "Undo all changes" now works.
+
+2000-04-09  Andreas Hyden  <a.hyden@cyberpoint.se>
+
+	* support.c support.h: Removed, not needed.
+	* gui.c: Changed GUI, added Undo, undo all
+	  and Redo. Added effects to Edit-menu.
+	* grec.c grec.h sound.c sound.h: Added echo, works and
+	  bugfixes.
+	* prog.h: Added some strings for new tempfiles.
+	* main.c: Remove tempstrings. Two memoryleaks fixed.
+	Other small bugfixes and changes.
+
+2000-03-05  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* grecord.mime grecord.keys.in added.
+
+	* Makefile.am: Added mime stuff.
+	Grecord now register .wav files.
+
+2000-03-05  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/gui.c src/grec.c: Added "show time"
+	and "show soundinfo" to the settings menu
+	as toggle buttons. Works.
+
+2000-03-03  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/sound.h src/sound.c src/grec.c src/gui.c:
+	Shows the playtime of the current file in topic.
+
+2000-03-02  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c src/grec.h: Removed function
+	UpdateStatusbarStop ().
+	Use function _exit() to kill child process.
+	Now plays the whole file. Thanks to Richard Hult
+	for helping.
+
+2000-03-01  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/sound.h src/sound.c: Added function,
+	taking seconds as argument, and shows the
+	time in min and sec on the main window.
+	
+	* src/grec.c: Replaced some code in
+	Update* functions with the new function.
+
+2000-02-29  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c: Converting from raw to wav now
+	following the configuration.
+
+2000-02-28  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* configure.in: Changed to version 0.3.
+
+2000-02-28  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	Released Grecord 0.2.
+
+2000-02-28  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c: When playing/recording finish,
+	force the statusbar to go to 100%.
+
+2000-02-27  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c: Stop during recording/playing
+	when pressing "exit".
+
+2000-02-27  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c: Avoid on_stop_activate_cb ()
+	being called twice.
+
+2000-02-27  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c: Stop during recording/playing
+	when pressing "new", and avoid a crash.
+
+2000-02-25  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/properties.c: Marked warningmessages
+	for translation.
+
+2000-02-25  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.h src/grec.c: Added function
+	UpdateStatusbarStop (). It's called
+	once after the playing or the recording
+	timeout.
+
+2000-02-25  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/grec.c: In Update* functions:
+	Showing time when recording and playing
+	in minutes/seconds now works.
+
+2000-02-23  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/gui.h src/gui.c src/properties.c:
+	Soundinfo / time are show/not shown depending
+	on the preferences.
+
+2000-02-23  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/gui.c src/properties.h src/properties.c:
+	Checkbuttons state in the GUI tab get saved.
+
+2000-02-23  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/gui.c: Added tab "GUI" to preferences
+	dialog and added to checkbuttons:
+	Show time and Show sound information.
+	Changed label in tab "Sound options" to "Sound".
+
+2000-02-23  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/gui.h src/gui.c: Added labels to
+	show time in mainwindow.
+	* src/grec.c: Shows time when recording
+	and playing files, in the UpdateBlabla
+	functions.
+
+2000-02-20  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/gui.c: Corrected 'New' in the
+	MATEUIINFO stuff (menus).
+	
+2000-02-20  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/properties.c: Tempdirpath default
+	is now /tmp again. Removed adding of
+	a '/' in the tempdir.
+	Memory leaks fixed.
+	* src/grec.c: Use of the g_concat_dir_and_file ()
+	instead of g_strconcat ().
+	Memory leaks fixed.
+	* src/gui.c: Memory leaks fixed.
+
+2000-02-20  Andreas Hyden  <ahyden@staffanstorp.net>
+
+	* src/properties.c: Checking for commands
+	and tempdirectories before the actual
+	saving.
+
+2000-02-20  Andreas Hyden <ahyden@staffanstorp.net>
+
+	* configure.in: Changed version to 0.2
+
+2000-02-20  Andreas Hyden <ahyden@staffanstorp.net>
+
+	* configure.in: Changed version to 0.1.1
+
+2000-02-19  Andreas Hyden <ahyden@staffanstorp.net>
+
+	* src/properties.c: Changed default temp
+	path from /tmp to /tmp/ to avoid problems
+	with a missing /.
+
+2000-02-19  Andreas Hyden <ahyden@staffanstorp.net>
+
+	* Initial release (0.1)

@@ -1,0 +1,2418 @@
+2009-04-21  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* mateconf-editor.doap: add the DOAP file for this project.
+
+2009-04-21  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_finalize):
+	We can always unref the MateConfClient object now that bug #579751 has
+	been fixed.
+
+2009-04-21  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-list-model.c (mateconf_list_model_finalize),
+	(mateconf_list_model_set_client):
+	* src/mateconf-tree-model.c (mateconf_tree_model_set_client):
+	Ref the MateConfClient object when setting it to a model (#579751).
+
+2009-03-17  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.26.1
+
+==================== 2.26.0 ====================
+
+2009-03-17  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: version 2.26.0
+
+==================== 2.25.91 ====================
+
+2009-02-16  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* NEWS:
+	* configure.in: update for 2.25.91 release.
+
+2008-11-18  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-bookmarks-dialog.c:
+	(mateconf_bookmarks_dialog_populate_model):
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_update_menu):
+	* src/mateconf-editor-window.c: (mateconf_add_recent_key),
+	(strip_whitespace):
+	* src/mateconf-key-editor.c: (mateconf_key_editor_init):
+	* src/mateconf-list-model.c: (mateconf_list_model_set_root_path),
+	(mateconf_list_model_finalize):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_iter_has_child):
+	* src/mateconf-util.c: (mateconf_client_get_schema_for_key):
+	Fix a bunch of memory leaks.
+
+2008-10-31  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-util.c: (can_edit_source):
+	Use a MateConfClient to decide whether we can edit a source instead
+	of using the MateConfEngine directly.
+
+2008-10-31  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-editor-window.c: (help_cb),
+	(mateconf_editor_popup_window_set_as_default),
+	(mateconf_editor_popup_window_set_as_mandatory):
+	Fix some double-frees of GErrors.
+
+2008-10-31  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_finalize):
+	Don't unref the MateConfClient if the window type is not the normal one.
+
+2008-10-30  Vincent Untz  <vuntz@mate.org>
+
+	Add some preliminary PolicyKit support for setting default/mandatory
+	values. This only works with the popup context menu because of
+	limitations of the API provided by the mateconf PolicyKit helper.
+	Part of bug #512494.
+
+	* configure.in: depend on polkit-dbus and dbus-glib-1
+	* src/Makefile.am:
+	* src/mateconf-policykit.[ch]: add new files
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_popup_policykit_callback): new, callback used when
+	calling the PolicyKit asynchronous API.
+	(mateconf_editor_popup_window_set_as_default),
+	(mateconf_editor_popup_window_set_as_mandatory): rework to handle both
+	direct write and write through PolicyKit
+	(list_view_button_press_event),
+	(mateconf_editor_window_list_view_popup_menu): update to have the right
+	sensitivity of popup menu items with the new PolicyKit stuff.
+
+2008-10-30  Vincent Untz  <vuntz@mate.org>
+
+	* src/mateconf-editor-application.c:
+	(mateconf_editor_application_create_editor_window):
+	* src/mateconf-editor-window.c: (list_view_button_press_event),
+	(mateconf_editor_window_list_view_popup_menu):
+	Correctly set sensitivity of context menu items for
+	Unset/SetDefault/SetMandatory instead of having the items nearly always
+	sensitive.
+	Fix bug #558483
+
+2008-10-19  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* configure.in:
+	Bump to 2.25.1, enforce GLib/GTK+ deprecation CFLAGS under
+	maintainer mode.
+
+	* src/Makefile.am:
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_init):
+	* src/mateconf-key-editor.c: (mateconf_key_editor_init):
+	* src/mateconf-search.c: (mateconf_tree_model_build_match_list):
+	* src/mateconf-tree-model.c:
+	(mateconf_tree_model_get_tree_path_from_mateconf_path):
+	* src/gedit-output-window.c: (gedit_output_window_init),
+	(gedit_output_window_finalize):
+	Port to GtkTooltip and avoid using deprecated functions.	
+
+2008-10-19  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* data/mateconf-editor.desktop.in.in:
+	Drop deprecated "Encoding" field.
+
+2008-10-02  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_go_to):
+	Remove the checks for existence of the key, as mateconf_client_get () is
+	unable to distinguish between a key that doesn't exist and one with no
+	value. The code should anyway be smart enough to stop at the right
+	level when we supply a key that doesn't exist (#554629).
+
+2008-10-01  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* COPYING: Add this.
+
+2008-10-01  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-bookmarks-dialog.c: (mateconf_bookmarks_dialog_destroy),
+	(mateconf_bookmarks_dialog_populate_model),
+	(mateconf_bookmarks_dialog_update_mateconf_key),
+	(mateconf_bookmarks_dialog_init):
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_update_menu),
+	(mateconf_bookmarks_add_bookmark), (remove_notify_id),
+	(mateconf_bookmarks_hook_up_menu):
+	* src/mateconf-editor-window.c: (mateconf_editor_window_finalize):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_finalize),
+	(mateconf_tree_model_class_init):
+	Always unref the MateConfClient objects retrieved with
+	mateconf_client_get_default ().
+
+2008-09-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/main.c: Remove <mate.h> and include <stdlib.h> for
+	exit().
+
+2008-09-25  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-tree-model.c:
+	Add the GPLv2 license header (part of #551943).
+
+2008-09-25  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-key-editor.c: (mateconf_key_editor_create_combo_box):
+	Add a comment for translators (#521592).
+
+2008-09-25  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/mateconf-search-dialog.c: (mateconf_search_not_found_dialog),
+	(mateconf_search_dialog_search), (mateconf_search_dialog_init):
+	Set the right parent on the "Pattern not found" dialog, so that
+	focus will return to the right dialog after closing (#349844).
+
+2008-09-25  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* configure.in:
+	* src/mateconf-bookmarks-dialog.c: (mateconf_bookmarks_dialog_init):
+	* src/mateconf-editor-window.c: (help_cb):
+	* src/main.c: (build_accel_filename), (load_accel_map),
+	(save_accel_map), (main):
+	Drop dependency on libmate and libmate-ui.
+	Thanks to Kristof Vansant (#342635).
+
+2008-09-25  Cosimo Cecchi  <cosimoc@mate.org>
+
+	* src/*: Use single GTK+ includes.
+
+2008-09-24  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.24.1.
+
+==================== 2.24.0.1 ====================
+
+2008-09-24  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: version 2.24.0.1
+
+2008-09-23  Vincent Untz  <vuntz@mate.org>
+
+	* configure.in: post-release bump to 2.24.1.
+
+==================== 2.24.0 ====================
+
+2008-09-23  Vincent Untz  <vuntz@mate.org>
+
+	* NEWS:
+	* configure.in: version 2.24.0
+
+2008-08-18  Christian Persch  <chpe@mate.org>
+
+	Bug 341288 – move to G_DEFINE_TYPE reduces code
+
+	* src/mateconf-bookmarks-dialog.c: (mateconf_bookmarks_dialog_destroy),
+	(mateconf_bookmarks_dialog_class_init), (mateconf_bookmarks_dialog_new):
+	* src/mateconf-bookmarks-dialog.h:
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_finalize),
+	(mateconf_cell_renderer_class_init), (mateconf_cell_renderer_new):
+	* src/mateconf-cell-renderer.h:
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window),
+	(mateconf_editor_window_finalize), (mateconf_editor_window_class_init),
+	(tree_view_style_set_cb):
+	* src/mateconf-editor-window.h:
+	* src/mateconf-key-editor.c:
+	* src/mateconf-key-editor.h:
+	* src/mateconf-list-model.h:
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_init),
+	(mateconf_search_dialog_new):
+	* src/mateconf-search-dialog.h:
+	* src/mateconf-tree-model.c:
+	* src/mateconf-tree-model.h:
+	* src/gedit-output-window.c: (gedit_output_window_class_init),
+	(gedit_output_window_copy_selection),
+	(gedit_output_window_append_line):
+	* src/gedit-output-window.h: Use G_DEFINE_TYPE. Patch by Kristof
+	Vansant.
+
+2008-08-18  Christian Persch  <chpe@mate.org>
+
+	* src/mateconf-bookmarks-dialog.h:
+	* src/mateconf-cell-renderer.h:
+	* src/mateconf-editor-window.h:
+	* src/mateconf-key-editor.h:
+	* src/mateconf-list-model.h:
+	* src/mateconf-search-dialog.h:
+	* src/mateconf-tree-model.h:
+	* src/gedit-output-window.h: Don't use deprecated gtk type macros. Bug
+	#341252, patch by Kristof Vansant.
+
+2008-08-18  Christian Persch  <chpe@mate.org>
+
+        * data/icons/Makefile.am:
+        * data/icons/*.png:
+        * src/Makefile.am:
+        * src/mateconf-tree-model.[ch]:
+        * src/mateconf-list-model.[ch]:
+        * src/mateconf-stock-icons.[ch]:
+        * src/mateconf-editor-window.c: Use themed icons. Bug #348822; partially
+        based on patches by Christopher Bratusek.
+
+2008-08-18  Christian Persch  <chpe@mate.org>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.in: Fix distcheck with intltool 0.40.0.
+
+2008-08-04  Jonathon Jongsma  <jjongsma@mate.org>
+
+	* src/gedit-output-window.c: Modify the buttons for the search results pane
+	so that the icons aren't clipped and difficult to determine what they are
+	(bug #518297).
+
+2008-07-26  Matthias Clasen  <mclasen@redhat.com>
+
+	* src/mateconf-stock-icons.h: Use standard icon names where
+	available. Fixes a missing icon. 
+
+2008-03-10  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Release 2.22.0
+
+2008-02-05  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_search): Don't add
+	a memory address on the stack as a weak pointer. Fixes segfault when
+	closing the search dialog with Esc (bug #483382).
+
+2007-05-02  Jonathon Jongsma  <jjongsma@mate.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_style_set): Set the text
+	color to the 'fg' color so that it matches the other text regardless of GTK+
+	theme (bug #435396)
+
+2007-09-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Release 2.20.0
+
+2007-09-11  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.19.92
+
+2007-08-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update. 
+	* src/main.c: (main): Translate program description correctly.
+	Patch from Gabor Kelemen. Closes bug #450152.
+
+2007-05-03  David Farning <dfarning@gmail.com>
+
+	* data/icons/Makefile.am (update-icon-cache): fix
+	gtk-update-icon-cache for install-hook and uninstall-hook.
+	Closes bug #422860.
+
+2007-08-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* NEWS: Update
+	* configure.in: Bump again.
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_search):
+	Revert accidental commit that broke search.
+
+2007-08-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Bump version.
+	* src/mateconf-editor-window.c: (mateconf_editor_window_get_client):
+	Clean up some unused code. Patch from Kristof Vansant. Closes
+	bug #341469.
+
+2007-08-27  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mateconf-bookmarks.c: Mark a function static.
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_activate):
+	Mark a function static and fix signature.
+	* src/mateconf-editor-window.c: Remove trailing comma from enum. 
+	* src/mateconf-list-model.c: Fix return type.
+	* src/mateconf-search-dialog.c: (mateconf_search_entry_changed),
+	(mateconf_search_dialog_search): Disconnect signal handlers before
+	destroying the dialog.
+	* src/mateconf-search.c: (mateconf_tree_model_build_match_list):
+	Fix an invalid memory acces by introducing a tiny leak.
+	* src/mateconf-tree-model.c:
+	(mateconf_tree_model_get_tree_path_from_mateconf_path),
+	(mateconf_tree_model_build_level), (mateconf_tree_model_iter_next),
+	(mateconf_tree_model_iter_children): Fix a larger leak to compensate.
+	This could fix a large amount of crashes reported when searching
+	the mateconf-database for key names and values.
+
+2007-08-08  Fernando Herrera  <fherrera@onirica.com>
+
+        * MAINTAINERS: updated with userid
+
+2007-03-13  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Release 2.18.0
+
+2007-03-11  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+
+        * data/mateconf-editor.desktop.in.in:
+        "Application" is not a valid category in the freedesktop.org
+        specification.
+
+2007-02-20  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am: Dist MAINTAINERS.
+
+2006-12-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in:Released 2.17.0. Version bumped to
+	2.17.1
+
+2006-12-03  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Bump version to 2.17.0
+
+2006-12-03  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-search.c: (mateconf_tree_model_search_iter_foreach):
+	Fix a double-free crashing in searchs. Fix bug #361137
+
+2006-11-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mateconf-editor-window.c: Re-commit the fix for
+	bug #355310.
+
+2006-11-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mateconf-editor-window.c: Revert string change until
+	we've branched.
+
+2006-11-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_go_to):
+	Use strrchr() instead of rindex() for portability.
+	Reported by Andreas Köhler. Closes bug #355472.
+
+2006-11-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mateconf-editor-window.c: Remove ellipsis
+	from the Unset Key menuitem as per HIG. Reported by
+	Ken Harris. Closes bug #355310.
+
+2006-08-14  Kjartan Maraas  <kmaraas@mate.org>
+
+	* Makefile.am: Fix distcheck.
+	* configure.in: Require intltool 0.35.0.
+	(both these were released in the 2.15.92 tarball
+	but never commited to CVS :-/)
+
+2006-09-05  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Release 2.16.0
+
+2006-08-07  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Release 2.15.91
+	* Makefile.am: added missing m4 subdir
+
+2006-08-07  Kjartan Maraas  <kmaraas@mate.org>
+
+	* .cvsignore:
+	* Makefile.am:
+	* configure.in:
+	* docs/.cvsignore:
+	* docs/C/mateconf-editor.xml:
+	* docs/Makefile.am: Port to mate-doc-utils. Patch from
+	Don Scorgie. Closes bug #346919.
+
+2006-08-07  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/gedit-output-window.c: (my_popup_handler),
+	(gedit_output_window_init): Port to gtk+ from deprecated
+	libmateui API. Kristof Vansant. Closes bug #166882.
+
+2006-07-23  Luca Ferretti  <elle.uca@libero.it>
+
+	* autogen.sh: add "USE_COMMON_DOC_BUILD=yes", fix bug # 348238 
+
+2006-07-11  Kjartan Maraas  <kmaraas@mate.org>
+
+	* autogen.sh: Convert to use mate-autogen.sh. Fixes
+	bug #341344. Patch from Frederic Peters.
+
+2006-05-19  Fernando Herrera  <fherrera@onirica.com>
+
+	* docs/de/mateconf-editor-de.omf: Converted to UTF-8
+	(pointed by Kjartan Maraas)
+
+2006-05-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in:
+	* src/main.c: (main): Port to GOption. Patches and code from
+	Paolo Borelli, Christian Persch and Kristof Vansant. Fixes
+	bugs #335032 and #320390.
+
+2006-05-09  Brian Pepple  <bdpepple@gmail.com>
+
+	* po/LINGUAS: New file listing all supported languages.
+	* configure.in: Use po/LINGUAS instead of including all languages
+	directly in this file. See the wiki for more information:
+	http://live.mate.org/MateGoals/PoLinguas
+
+2006-05-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-search.c: (mateconf_tree_model_search_iter_foreach):
+	Show search results when more than one has been found on the
+	path. Fixes #339316
+
+2006-05-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_popup_error_dialog),
+	(mateconf_editor_window_go_to):
+	* src/main.c: (main): remove invalid_arg_error_dialog. Reuse
+	mateconf_editor_window_popup_error_dialog and made this dialog HIG
+	compliant. Patch from Kristof Vansant. Fixes #340241
+
+2006-05-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: version 2.15.0
+
+2006-04-27  Wouter Bolsterlee  <uws+mate@xs4all.nl>
+
+	* src/main.c: Call mate_accelerators_sync() to save the keyboard
+	shortcuts on exit. Fixes bug #162902.
+
+2006-04-21  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: 
+	* docs/fr/Makefile.am:
+
+	Adding missing docs/fr/Makefile.am .
+	
+2006-04-17  Benoît Dejean  <benoit@placenet.org>
+
+	* docs/Makefile.am:
+	* docs/fr/*:
+	
+	Added French translation.
+
+2006-04-17  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Remove obsolete entry for no_NO.
+	* po/no.po: And the translation.
+
+2006-03-27 Vladimer Sichinava  <vlsichinava@gmail.com>
+
+        * configure.in: Added "ka" (Georgian) to ALL_LINGUAS
+
+2006-03-26  Claudio Saavedra  <csaavedra@alumnos.utalca.cl>
+
+	* configure.in: Adding "de" documentation entry.
+	* docs/de/Makefile.am: Fixing build (#336005).
+
+2006-03-25  Christian Neumair  <chris@mate-de.org>
+
+	* docs/Makefile.am: (SUBDIRS): Add "de". Thanks to Keywan Najafi
+	Tonekaboni.
+
+2006-03-22  Tommi Vainikainen  <thv@iki.fi>
+
+	* configure.in (ALL_LINGUAS): Added Dzongkha (dz).
+
+2006-03-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_mateconf_value_changed): Fix 
+	memory corruption. GconfValue should be freed with mateconf_value_free
+	not with g_free.
+	* src/mateconf-list-model.c: (mateconf_list_model_notify_func): Fix a tiny
+	leak.
+	Patch from Paolo Borelli. Closes bug #332931.
+
+2006-03-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Bump version to 2.14.1
+
+2006-03-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Release 2.14.0
+
+2006-03-04  Jérémy Ar Floc'h <jeremy.lefloch@gmail.com>
+
+	* configure.in: Added Breton translation
+
+2006-01-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-key-editor.c: (update_list_buttons): Fix button sensitivity
+	illness on the key list dialog. Patch from Christian Persch. Fixes bug
+	#166112
+
+2006-01-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_selection_changed): Remove duplicated strings
+	and fix capitalization. Patch from Benoît Dejean. Fixes bug #167350
+
+2006-01-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/main.c: (invalid_arg_error_dialog): HIGfy error dialog.
+	Patch from Kristof Vansant. Fixes bug #325058.
+
+2006-01-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* po/POTFILES.in:
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_get_size),
+	(mateconf_cell_renderer_render): Translate "<no value>" string.
+	Patch from Gabor Kelemen. Fixes bug #327525
+
+2006-01-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* data/mateconf-editor.desktop.in.in: Added GTK; to Category entry.
+	Fixes bug #328037
+
+2006-01-14  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+
+	* configure.in: Add "zh_HK" to ALL_LINGUAS.
+
+2006-01-08  Sebastien Bacher  <seb128@debian.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	use "translator-credits" instead of "translator_credits",
+	patch by Vincent van Adrighem <adrighem@mate.org> (Closes: #300958)
+
+2006-01-03  Mark McLoughlin  <mark@skynet.ie>
+
+	* configure.in: remove some redundant code which
+	set MATECONF_DEFAULTS_SOURCE with a value which was
+	later overwritten.
+
+2005-11-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.12.1 ("Cazuelazo")
+
+2005-11-29  Sebastien Bacher  <seb128@debian.org>
+
+	* src/mateconf-key-editor.c: (mateconf_key_editor_create_list_type_menu):
+	fix a crasher with the combobox selection, 
+	patch by Felix Riemann <felix@hsgheli.de> (Closes: #318050).
+
+2005-11-29  Sebastien Bacher  <seb128@debian.org>
+
+	* src/mateconf-editor-window.c: (help_cb):
+	fix a crasher when pressing F1 without yelp installed,
+	patch by Felix Riemann <felix@hsgheli.de> (Closes: #318878).
+
+2005-09-23  Erdal Ronahi  <erdal.ronahi@gmail.com>
+
+	* configure.in: Added "ku" to ALL_LINGUAS
+
+2005-09-07  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Release 2.12.0 "I only care when I miss it"
+
+2005-08-31  Shaun McCance  <shaunm@mate.org>
+
+	* docs/uk/Makefile.am:
+	* docs/uk/mateconf-editor-uk.omf:
+	- Got the uk documentation translation working, #314947
+
+2005-08-29  Maxim Dziumanenko <mvd@mylinux.ua>
+
+	* configure.in:
+	* docs/Makefile.am:
+	* docs/uk/*:
+	Added Ukrainian translation of the manual.
+	
+2005-08-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Postrelease version bumping to 2.12.0
+
+2005-08-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in:
+	* NEWS: Released 2.11.92 (and forgot ChangeLog entry)
+
+2005-08-02  Abduxukur Abdurixit <abdurixit@gmail.com>
+
+        * configure.in: Added "ug" to ALL_LINGUAS.
+
+2005-06-25  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-key-editor.c: (combo_box_changed),
+	(list_type_menu_changed), (mateconf_key_editor_create_combo_box),
+	(mateconf_key_editor_create_list_type_menu), (list_add_clicked),
+	(list_edit_element), (mateconf_key_editor_init),
+	(mateconf_key_editor_set_value), (mateconf_key_editor_get_value):
+	* src/mateconf-key-editor.h: Port to GtkComboBox.
+
+	Patch by Michael Gossard <michael.gossard@free.fr>
+	Fix bug #171000
+
+2005-06-25  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: branch for mate-2-10 and bump version to
+	2.11.0
+
+2005-06-25  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Bump version to 2.10.1
+	* src/mateconf-editor-window.c: (mateconf_editor_popup_window_unset_key),
+	(list_view_button_press_event),
+	(mateconf_editor_window_list_view_popup_menu): Only make some popup
+	options sensitive when there is a key selected. Fixes bug #167547.
+
+2005-06-20  Runa Bhattacharjee <runa@bengalinux.org>
+
+        * configure.in: Added "te" (Telegu) to ALL_LINGUAS.
+
+2005-03-31  Steve Murphy  <murf@e-tools.com>
+
+        * configure.in: Added "rw" to ALL_LINGUAS.
+
+2005-03-23  Adi Attar  <aattar@cvs.mate.org>
+
+	* configure.in: Added 'xh' to ALL_LINGUAS.
+
+2005-03-07  Fernando Herrera  <fernando.herrera@tecsidel.es>
+
+	* NEWS:
+	* configure.in: Release 2.10.0: "Maria Stuarda"
+
+2005-03-03  Hendrik Richter  <hendrik@mate-de.org>
+
+        * docs/de/mateconf-editor.xml: Fixed German translation by Keywan
+		Najafi Tonekaboni <keywan@uni-duisburg.de>
+
+2005-02-28  Fernando Herrera  <fernando.herrera@tecsidel.es>
+
+	* NEWS:
+	* configure.in: Release 2.9.92: "Drexler singing"
+
+2005-02-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	* src/mateconf-search-dialog.c:
+	* src/gedit-output-window.c: Use glib/gi18n.h and GTK_STOCK_ABOUT
+	instead of deprecated ones in libmate*. Patch from Kristof Vansant
+
+2005-02-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* data/icons/Makefile.am:
+	* data/icons/folder-closed.png: Re-add folder closed icon.
+
+2005-02-10  Fernando Herrera  <fernando.herrera@tecsidel.es>
+
+	* NEWS:
+	* configure.in: Release 2.9.91: "Spectacular, Spectacular"
+
+2005-02-10  Fernando Herrera  <fernando.herrera@tecsidel.es>
+
+	* src/mateconf-list-model.c: (mateconf_list_model_finalize): removes the 
+	notify handler when the list model is finalized. Fixes bug #166438.
+	Patch from John Ellis <johne@bellatlantic.net>
+
+2005-01-24  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Post release version bumping.
+
+2005-01-24  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.9.3 "Bang Bang"
+
+2005-01-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_set_property),
+	(mateconf_cell_renderer_finalize), (mateconf_cell_renderer_get_size),
+	(mateconf_cell_renderer_render), (mateconf_cell_renderer_class_init),
+	(mateconf_cell_renderer_init): Implement a finalize method.
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_hook_up_menu):
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_selection_changed),
+	(mateconf_editor_window_update_list_selection): Tooons of leaks fixes.
+
+	Patch by Paolo Borelli.
+
+2005-01-10  Madhan Raj  <raj_madan@rediffmail.com>
+
+	* src/mateconf-search.c: (mateconf_tree_model_search_iter_foreach): After
+	finding a pattern in the final key name, continue the list. Do not return.
+
+2004-11-30  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.9.2 "Con la frente marchita"
+
+2004-11-28  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_init): Set the
+	window icon for the dialog.
+	
+2004-11-28  Fernando Herrera  <fherrera@onirica.com>
+
+	* data/icons/Makefile.am: Install icon on $prefix/share/icons/hicolor
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	Use gtk_about_dialog_new() instead of mate_about_new(). (Patch from
+	Dennis Cranston). Add Shaun McCance to documentors credits.
+
+2004-11-28  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_about_window):
+	
+2004-11-24  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_selection_changed): 
+	Cleanup the main window's title.  Use proper capitalization; fix
+	default/mandatory window title confusion; and remove the trailing 
+	'-' from the title bar if the key name is blank.
+
+2004-11-24  Christoffer Olsen  <co@deworks.net>
+
+	* configure.in: Added data/mateconf-editor.desktop.in to AC_OUTPUT
+	* data/mateconf-editor.desktop.in: Removed, will be generated
+	* data/mateconf-editor.desktop.in.in: Created this file, will
+	generate *.desktop.in from this one.
+	* po/POTFILES.in: Replaced *.desktop.in with *.desktop.in.in
+
+2004-11-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_class_init): Fix a 
+	typo (in ttype :) ). Thanks to David Lodge for pointing this. Fixes
+	bug #158300.
+
+2004-11-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-key-editor.[ch]: HIGify capitalization, alignment, and 
+	padding for New Key and Edit Key dialogs.
+	
+2004-11-20  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_init):  HIGify
+	capitalization, alignment, and padding for Key Documenation pane.
+	
+2004-11-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Require gtk+ >= 2.5.5
+	* src/mateconf-editor-application.c:
+	(mateconf_editor_application_create_editor_window): Disable defaults
+	and mandatory windows menu entry as well as the shortcut. Fixes
+	bug #157243
+
+2004-11-05  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/main.c: (main): Ops, forgot to update the main window creation
+	to the new type. Kudos to Luis' build sheriff hat.
+
+2004-11-03  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (help_cb): Show the _real_
+	error message if help cannot be displayed. Patch by
+	Paolo Borelli.
+
+2004-11-03  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Require mateconf >= 2.8.2
+	* src/mateconf-editor-application.c:
+	(mateconf_editor_application_create_editor_window):
+	* src/mateconf-editor-application.h:
+	* src/mateconf-editor-window.c: (mateconf_editor_window_new_window),
+	(mateconf_editor_window_new_defaults_window),
+	(mateconf_editor_window_new_mandatory_window),
+	(mateconf_editor_popup_window_set_as_default),
+	(mateconf_editor_popup_window_set_as_mandatory),
+	(mateconf_editor_window_selection_changed),
+	(mateconf_editor_window_get_client),
+	(mateconf_editor_window_set_property),
+	(mateconf_editor_window_get_property),
+	(mateconf_editor_window_class_init), (mateconf_editor_window_init):
+	* src/mateconf-editor-window.h:
+	* src/mateconf-util.c: (mateconf_client_get_schema_for_key),
+	(mateconf_util_can_edit_defaults), (mateconf_util_can_edit_mandatory): Set window type
+	as a property. Set title based on this property. Use only mateconf_client API (now
+	that mateconf bug is fixed) but for guessing write perms on defaults and mandatory
+	(queried at the first time only). Disable "Set as default/mandatory" popup entry
+	when browsing them.
+
+2004-10-31  Fernando Herrera  <fherrera@onirica.com>
+
+	* data/icons/Makefile.am:
+	* data/icons/folder-closed.png:
+	* src/mateconf-bookmarks-dialog.c: (mateconf_bookmarks_dialog_init):
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_update_menu):
+	* src/mateconf-editor-window.c:
+	* src/mateconf-stock-icons.c: (mateconf_stock_icons_register):
+	* src/mateconf-stock-icons.h: Use hicolor stock bookmarks icons. Thanks to
+	Bryan W Clark for finding them. Fix bug #123986
+
+2004-10-31  Dave Ahlswede <mightyquinn@letterboxes.org>
+
+	* src/mateconf-editor-window.c: Change "MateConf editor" to
+	"Configuration Editor" in the UI.
+
+2004-10-22  James Henstridge  <james@jamesh.id.au>
+
+	* data/Makefile.am: clean some files.  Include the intltool
+	schemas rule.
+
+	* Makefile.am: remove intltool stuff on "make distclean".  Ignore
+	scrollkeeper indices during "make distcheck"'s uninstall check.
+
+	* configure.in: modernise configure script a bit.
+
+	* autogen.sh: request a modern version of automake, and cause the
+	script to fail if any of the build tools fail.  Call
+	mate-doc-common to pull in current xmldocs.make and omf.make
+	files.
+
+2004-10-11  Christian Neumair  <chris@mate-de.org>
+
+	* docs/de/figures/mateconf_editor_anno_window.png 
+	* docs/de/figures/mateconf_editor_anno_window.xcf 
+	* docs/de/Makefile.am
+	* docs/de/mateconf-editor-de.omf 
+	* docs/de/mateconf-editor.xml
+	* docs/de/l10n.txt
+	* docs/de/legal.xml: Added German documentation. Kudos to Keywan
+	Najafi Tonekaboni <keywan@uni-duisburg.de>.
+
+2004-10-07  James Bowes  <bowes@cs.dal.ca>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_have_tearoffs_notify),
+	(mateconf_editor_window_setup_ui_prefs_handler): Handle menu
+	tearoffs correctly, using the ui_manager.
+
+2004-10-07  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Branched. Now HEAD is for MATE 2.9. 
+	Bumped version to 2.9.0
+
+2004-10-04  Mark McLoughlin  <mark@skynet.ie>
+
+	Fix for spewing warnings on startup - bug #144833
+
+	* configure.in: require MateConf 2.8.1.
+	
+	* src/mateconf-util.[ch]:
+	(can_edit_source): assume the  backend will correctly
+	report whether the key is writable.
+	(mateconf_util_can_edit_defaults),
+	(mateconf_util_can_edit_mandatory): re-name from
+	mateconf_client_can_edit_...() to avoid possible future
+	conflicts.
+	
+	* src/mateconf-editor-window.c: (mateconf_editor_window_init): upd.
+
+2004-10-01  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Release 2.8.1 "Puerto Rico"
+
+2004-09-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/main.c: (main): parse correcly gtk/mate command line
+	arguments. Based on patch from Julio M. Merino Vidal. Fix bug
+	#151829.
+
+2004-09-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Post release version bumping.
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_hook_up_menu): don't 
+	crash if have_icons key is not present. Fix bug #151720.
+
+2004-09-13  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Release 2.8.0 "Joshua Bell"
+
+2004-09-12  Shaun McCance  <shaunm@mate.org>
+
+	* docs/C/mateconf-editor.xml:
+	- Minor fixes
+
+2004-09-12  Shaun McCance  <shaunm@mate.org>
+
+	* docs/C/mateconf-editor.xml:
+	- Typo fixes from Keywan Najafi Tonekaboni
+
+2004-09-11  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "en_CA" to ALL_LINGUAS.
+
+2004-09-08  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Post release version bumping to 2.8.0
+
+2004-09-08  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.7.92 ("Morte della Madonna").
+
+2004-09-08  Gora Mohanty  <gmohanty@cvs.mate.org>
+                                                                                
+        * configure.in: Added 'or' to ALL_LINGUAS.
+ 
+2004-09-06  Shaun McCance  <shaunm@mate.org>
+
+	* docs/C/mateconf-editor.xml:
+	- Adding revision status information
+
+2004-09-02  Shaun McCance  <shaunm@mate.org>
+
+	* docs/C/Makefile.am:
+	* docs/C/mateconf-editor-C.omf:
+	* docs/C/mateconf-editor.xml:
+	- Full revisions for 2.8
+
+2004-09-02  Shaun McCance  <shaunm@mate.org>
+
+	* docs/C/mateconf-editor.xml:
+	* docs/C/figures/mateconf_editor_anno_window.png:
+	* docs/C/figures/mateconf_editor_anno_window.xcf:
+	- Partial documentation updates for 2.8
+
+2004-08-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.7.91 ("Que fuerte me parece").
+
+2004-08-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_search):
+	* src/mateconf-search.c: (mateconf_tree_model_search_iter_foreach),
+	(mateconf_tree_model_build_match_list):
+	* src/mateconf-search.h: Fix search cancelation. (Bugs #150728, #146790)
+
+2004-08-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_update_list_selection): Check for NULL values
+	before showing/hiding the non-schema warning. Fix bug #149805.
+
+2004-08-16  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "bs" to ALL_LINGUAS.
+
+2004-08-16  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Added nb to ALL_LINGUAS.
+
+2004-08-02  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.7.90
+
+	* NEWS: Update.
+
+2004-07-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c:  Use stock add icon in 'Add Bookmark' menu.
+	
+	* src/mateconf-bookmarks-dialog.c:  Use HIG widget spacing for edit
+	bookmarks dialog. Use header capitalization for dialog's window title. 
+
+2004-07-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c:  Use header capitalization for newly added
+	menu item and add mnemonic.
+
+2004-07-31  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-search-dialog.c:  (mateconf_search_dialog_init):  Use HIG
+	widget spacing for find dialog.  Add missing mnemonic to the search
+	entry's label.
+	 
+2004-07-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in:
+	Post release version bump
+
+2004-07-20  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Released 2.7.4
+
+2004-07-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/gedit-output-window.c: (gedit_output_window_prepend_line):
+	* src/gedit-output-window.h: added prepend function.
+	* src/mateconf-editor-window.c: (mateconf_add_recent_key),
+	(mateconf_editor_show_recent_keys), (mateconf_editor_new_key_response),
+	(mateconf_editor_edit_key_response), (mateconf_editor_window_recents_init),
+	(mateconf_editor_mateconf_value_changed), (mateconf_editor_window_init):
+	* src/mateconf-editor-window.h:
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_search): Add every
+	modified key to recents and add an entry in the menu for showing them
+	all in the output window.
+
+2004-07-18  Dennis Cranston <dennis_cranston@yahoo.com>
+
+	* src/mateconf-editor-window.c:  Use header capitalization for
+	menu items. Fix bug #147753
+
+2004-07-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_go_to): Go to
+	the rigth key also in the list view if location is a full key.
+
+2004-07-17  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_search):
+	* src/mateconf-search.c: (mateconf_tree_model_search_iter_foreach),
+	(mateconf_tree_model_build_match_list):
+	* src/mateconf-search.h: Search asyncronously and add results to the 
+	output window as soon as they come. Search in mateconf_client_all_entries
+	instead of the list_model to allow user interation during the search.
+
+2004-07-17  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_init): Put the output
+	window in a vpane so it can be resized. Fixs #146776
+
+2004-07-14  Pawan Chitrakar  <pawan@nplinux.org>
+
+	* configure.in: Added ne Nepali in ALL_LINGUS
+
+2004-07-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Post-release version bumping.
+
+2004-07-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in:
+	* NEWS: Release 2.7.3
+
+2004-07-09  Anders Carlsson  <andersca@mate.org>
+
+	* src/mateconf-search-dialog.c: 
+	(mateconf_search_not_found_dialog):
+	Translate dialog title
+	
+	(mateconf_search_entry_changed):
+	Make the find button insensitive if there's no text entered.
+
+	(mateconf_search_dialog_init):
+	Remove the dialog separator and make the window non-resizable.
+
+2004-07-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Release 2.7.2 (never released :) )
+
+2004-07-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* po/POTFILES.in: removed src/mateconf-message-dialog.c and added
+	mateconf-search-dialog.c
+
+2004-07-09  Fernando Herrera  <fherrera@onirica.com>
+
+	* data/mateconf-editor.schemas.in:
+	* src/Makefile.am:
+	* src/mateconf-message-dialog.c:
+	* src/mateconf-message-dialog.h:
+	* src/main.c: (main): Removed warning dialog. Patch from Christian Neumair
+
+2004-07-08  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/Makefile.am: Added new files.
+	* src/mateconf-editor-window.c: (mateconf_editor_window_search),
+	(mateconf_editor_window_close_output_window),
+	(mateconf_editor_window_output_window_changed),
+	(mateconf_editor_window_init): 
+	* src/mateconf-editor-window.h: Added the output window. Change default size.
+	* src/mateconf-search-dialog.c: (mateconf_search_dialog_response),
+	(mateconf_search_dialog_class_init), (mateconf_search_not_found_dialog),
+	(mateconf_search_dialog_search), (mateconf_search_dialog_init),
+	(mateconf_search_dialog_get_type), (mateconf_search_dialog_new):
+	* src/mateconf-search-dialog.h: New files for the search dialog.
+	* src/mateconf-search.c: (mateconf_tree_model_search_iter_foreach),
+	(mateconf_tree_model_build_match_list):
+	* src/mateconf-search.h: New files for doing the search.
+	* src/gedit-output-window.c: (gedit_output_window_get_type),
+	(gedit_output_window_class_init),
+	(gedit_output_window_copy_selection), (close_clicked_callback),
+	(clear_clicked_callback), (copy_clicked_callback),
+	(gedit_output_window_key_press_event_cb), (create_popup_menu),
+	(gedit_output_window_treeview_selection_changed),
+	(gedit_output_window_init), (gedit_output_window_finalize),
+	(gedit_output_window_destroy), (gedit_output_window_new),
+	(gedit_output_window_clear), (gedit_output_window_append_line),
+	(gedit_output_window_set_select_multiple):
+	* src/gedit-output-window.h: Class borrowed from gedit. Minor changes
+	for disabling multiple selection and adding a new signal when the
+	selection has changed.
+
+	With this we have a new fancy search system :) Fixed bugs #82902 and
+	#113235.
+
+2004-07-04  Christian Neumair  <chris@mate-de.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_init):
+	Enable menu internationalization by setting the menu action group's
+	translation domain to NULL.
+
+2004-06-22  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Post-release version bumping.
+
+2004-06-22  Breda McColgan  <breda.mccolgan@sun.com>
+
+	* docs/C/mateconf-editor.xml: updated menu path (Getting Started)
+	* docs/C/mateconf-editor-C.omf: updated manual date and version numbers
+	* docs/C/l10n.txt: updated manual date and version number
+
+2004-06-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Release 2.7.1
+
+2004-06-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_mateconf_value_changed): Check 
+	if we are changing values of the same type. Because we can get a changed 
+	signal from a cell_renderer corresponfing to a previous list_model.
+	This finally fixes bug #136148.
+
+2004-06-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-list-model.c: (mateconf_list_model_finalize): Free root_path.
+
+2004-06-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_mateconf_value_changed): Free the path.
+
+2004-06-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-application.c:
+	(mateconf_editor_application_create_editor_window):
+	* src/mateconf-editor-window.c: (mateconf_editor_window_init): Fix keybindings.
+	* src/mateconf-editor-window.h:
+	* src/mateconf-list-model.h:
+	* src/mateconf-tree-model.h: add missing function definitions.
+
+2004-06-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_init): Unsensitivice new 
+	defaut/mandatory windows menu entries if the user cannot edit them.
+
+2004-06-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-application.c:
+	(mateconf_editor_application_create_editor_window):
+	* src/mateconf-editor-application.h:
+	* src/mateconf-editor-window.c: (mateconf_editor_window_go_to),
+	(mateconf_editor_window_new_window),
+	(mateconf_editor_window_new_defaults_window),
+	(mateconf_editor_window_new_mandatory_window),
+	(mateconf_editor_popup_window_unset_key),
+	(mateconf_editor_new_key_response),
+	(mateconf_editor_popup_window_new_key),
+	(mateconf_editor_edit_key_response),
+	(mateconf_editor_popup_window_edit_key),
+	(mateconf_editor_mateconf_value_changed), (mateconf_editor_check_writable),
+	(mateconf_editor_window_update_list_selection),
+	(mateconf_editor_window_expand_first), (mateconf_editor_window_finalize),
+	(mateconf_editor_window_init):
+	* src/mateconf-editor-window.h:
+	* src/mateconf-list-model.c: (mateconf_list_model_notify_func),
+	(mateconf_list_model_init), (mateconf_list_model_set_client):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_set_client):
+	* src/main.c: (main): Open new windows for browsing/editing defaults and
+	mandatory settings. Use always the MateConf client asociated to the window.
+
+2004-06-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_popup_window_set_as_default): set defaults in
+	mateconf.xml.defaults instead of on schemas.
+	(mateconf_editor_popup_window_set_as_mandatory): set a value as
+	mandatory.
+	(mateconf_editor_window_init): Unsensitive "set as default" and "set as
+	mandatory" if the user cannot do it.
+	* src/mateconf-util.c: (mateconf_client_can_edit_defaults),
+	(mateconf_client_can_edit_mandatory):
+	* src/mateconf-util.h: new helper functions.
+
+2004-06-18  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in:
+	* data/Makefile.am:
+	* data/mateconf-editor.schemas.in:
+	* po/POTFILES.in: Add an schema file.
+
+2004-05-28  Anders Carlsson  <andersca@mate.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_about_window): 
+	Add Fernando.
+
+2004-05-28  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Post release bump to 2.7.1
+	* src/mateconf-editor-window.c: (mateconf_editor_popup_window_new_key): new
+	key are writable, so don't show the warning.
+	* src/mateconf-key-editor.c: (update_list_buttons),
+	(list_edit_element), (list_edit_clicked),
+	(list_view_row_activated), (mateconf_key_editor_init):
+	* src/mateconf-key-editor.h: Implement list element editing and add a
+	button for it. Fixes bug #141034.
+
+2004-05-28  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS: Release 2.7.0
+
+2004-05-28  Alberto Ruíz  <arc@gulic.org>
+
+	* src/mateconf-key-editor.c: (list_remove_clicked): When removing an
+	item, select the next one or the previous. Fixes bug #142994.
+
+2004-05-28  Fernando Herrera  <fherrera@onirica.com>
+
+	* data/icons/Makefile.am
+	* data/icons/stock-about-16.png: removed unused icon.
+
+2004-05-19  James Bowes  <bowes@cs.dal.ca>
+
+	* src/mateconf-stock-icons.h:
+	* src/mateconf-stock-icons.c: Remove mateconf-stock-about icon.
+	* src/mateconf-editor-window.c (mateconf_editor_window_close_window,
+	mateconf_editor_window_copy_key_name, mateconf_editor_window_add_bookmark,
+	mateconf_editor_window_edit_bookmarks, mateconf_editor_window_new_window,
+	help_cb, mateconf_editor_window_about_window, 
+	mateconf_editor_popup_window_unset_key, mateconf_editor_popup_window_new_key,
+	mateconf_editor_popup_window_edit_key, 
+	mateconf_editor_popup_window_set_as_default, list_view_button_press_event,
+	mateconf_editor_window_list_view_popup_position, 
+	mateconf_editor_window_list_view_popup_menu, 
+	mateconf_editor_window_set_have_tearoffs, 
+	mateconf_editor_window_set_item_has_icon, mateconf_editor_window_finalize,
+	mateconf_editor_window_init):
+	* src/mateconf-editor-window.h: Replace use of item factory with ui 
+	manager. Remove function 
+	mateconf_editor_window_item_factory_translate_func.
+	* src/mateconf-editor-window.c (mateconf_editor_window_init):
+	Put number of rows and columns in the correct order in gtk_table_new
+	for the details area table. Remove shadow from details_frame and
+	indent its contents to follow the HIG
+
+2004-04-27  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Removed AC_SUBST CFLAGS, CPPFLAGS, LDFLAGS because
+	autoconf does it automatically.
+
+2004-04-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_new_window): Don't
+	show all widgets in new window, because we have hidden ones.
+
+2004-04-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: Translate "Contents" string added by
+	Shakti patch.
+
+2004-04-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_update_list_selection),
+	(mateconf_editor_window_init):
+	* src/mateconf-editor-window.h: Show an alert when the key has no schema.
+	Fixes #110745
+
+2004-04-23  Mariano Suárez-Alvarez  <msuarezalvarez@arnet.com.ar>
+
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_set_item_has_icon),
+	(mateconf_bookmarks_set_have_icons),
+	(mateconf_bookmarks_have_icons_notify),
+	(mateconf_bookmarks_hook_up_menu): Make menu icons follow
+	menus_have_icons preference key.
+
+2004-04-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window): use
+	mate_about_window. (Fix #88279)
+
+2004-04-23  Fernando Herrera  <fherrera@onirica.com>
+
+	* xmldocs.make: added for build docs.
+	* omf.make: added for build docs.
+
+2004-04-23  Shakti Sen <shprasad@novell.com>
+
+	* configure.in: Made changes to provide mate libraries support.
+	* src/main.c (main): Initialized the application with mate_program_init
+	* src/mateconf-editor-window.c (help_cb): Added this function to provide
+	Help support.
+	* src/mateconf-editor-application.h: <mate.h> is included
+	* docs/Makefile.am: Added the C subdirectory.
+	* omf.make and xmldocs.make: Added to provide Help support.
+ 	Fixes #133052
+ 
+2004-04-19  Richard Hult  <richard@imendio.com>
+
+	* src/mateconf-editor-window.c (mateconf_editor_popup_window_edit_key):
+	Fix crash when nothing is selected.
+	(mateconf_editor_window_edit_bookmarks): Fix warning.
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: branched for mate 2.7. Bump version number to 2.7.0
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-key-editor.c: (mateconf_key_editor_init): allow the notebook
+	in the key editor to fill and expand. (Fix #138557)
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_go_to): Check if
+	location is a valid key/dir. Fix #136381
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-cell-renderer.c:
+	(mateconf_cell_renderer_text_editing_done): Cast to gdouble for float
+	keys in the cell editor. Fix bug #137468
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-tree-model.c: (mateconf_tree_model_free_node),
+	(mateconf_tree_model_clear_node), (mateconf_tree_model_unref_node): Reverted
+	wrong patch for #124662 . New unref code. Real Fix(tm) for 
+	#124662 and #136631
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_selection_changed):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_build_level),
+	(mateconf_tree_model_iter_has_child):
+	* src/mateconf-tree-model.h: Reverted patch for #96744, because it
+	introduced two worse bugs (#135807 and #136400)
+
+2004-04-12  Fernando Herrera  <fherrera@onirica.com>
+
+	* configure.in: Bump version to 2.6.1
+
+2004-04-09  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+        * configure.in: Added "gu" (Gujarati) to ALL_LINGUAS.
+
+2004-04-05  Iñaki Larrañaga  <dooteo@euskalgnu.org>
+
+	* configure.in:  Added "eu" (Basque) to ALL_LINGUAS.
+
+2004-03-22  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.6.0
+
+2004-03-20  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+        * configure.in: Added "pa" (Punjabi) to ALL_LINGUAS.
+
+2004-03-18  Gareth Owen  <gowen72@yahoo.com>
+
+	* configure.in: Added en_GB to ALL_LINGUAS
+
+2004-03-16  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.5.92
+
+2004-03-06  Fernando Herrera  <fherrera@onirica.com>
+
+	* NEWS:
+	* configure.in: Release 2.5.91
+
+2004-03-05  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-util.c:
+	(mateconf_client_get_schema_for_key): Retrieve the entry
+	using mateconf_engine API to get the schema name, beacuse
+	getting it with mateconf_client doesn't work (MateConf bug #131011).
+	So this Fixes #121813.
+
+2004-02-21  Paisa Seeluangsawat  <paisa@users.sf.net>
+
+	* configure.in: Added Thai (th) to ALL_LINGUAS.
+
+2004-02-03  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.4
+
+2004-02-03 Sanjiv Agarwala <sagarwala@novell.com>
+	* src/mateconf-tree-model.c:(mateconf_tree_model_unref_node):
+	When unreffing the node, node->parent->children must be 
+	assigned to node->children. Fix (#105884 and #124662)
+
+2004-02-01  Robert Sedak  <robert.sedak@sk.htnet.hr>
+
+        * configure.in: Added "hr" (Croatian) to ALL_LINGUAS.
+
+2004-01-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_copy_key_name):
+	When copying keys, check if there is one selected on the list and
+	if so, copy full path, otherwise, copy only the tree path. (Fix
+	#132085)
+
+2004-01-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_update_list_selection): Update statusbar on key
+	selection.
+
+2004-01-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-tree-model.c: (mateconf_tree_model_get_value): Check if
+	node is NULL before getting value (Fix #128272)
+
+2004-01-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window): 
+	Unify copyright strings. Patch from Christian Neumair Fixes bug
+	#101728
+
+2004-01-21  Anders Carlsson  <andersca@mate.org>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_selection_changed):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_get_mateconf_escape_path),
+	(mateconf_tree_model_build_level), (mateconf_tree_model_iter_has_child):
+	* src/mateconf-tree-model.h:
+	Handle escaping of keys correctly.
+	(#96744, fix by Hidetoshi Tajima).
+	
+2004-01-21  Fernando Herrera  <fherrera@onirica.com>
+
+	* src/mateconf-cell-renderer.h:
+	* src/mateconf-key-editor.h:
+	* src/mateconf-list-model.h:
+	* src/mateconf-tree-model.h: Removed final "," in enums and make AIX
+	compiler happy
+
+2003-12-11  Fernando Herrera  <fherrera@onirica.com>
+
+	* Makefile.am:
+	* configure.in:
+	* docs/mateconf-editor.1: added man page from Sebastien Bacher
+
+2003-11-12  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.5.1
+
+2003-11-11  Sebastien Bacher  <seb128@debian.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_new_key_response),
+	(mateconf_editor_popup_window_edit_key):
+	Commited patch to fix the crash with unset values 
+	(Closes: 121084).
+
+2003-10-28  Federico Mena Quintero  <federico@ximian.com>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_test_expand_row):
+	New callback, set the cursor to GDK_WATCH while we are figuring
+	out the child nodes.
+	(mateconf_editor_window_row_expanded): New callback, reset the cursor
+	to normal.
+	(mateconf_editor_window_init): Install signal handlers for the
+	callbacks above.
+
+2003-10-23 Mark Finlay <sisob@tuxfamilyDOTorg>
+
+	* src/mateconf-editor-window.c:
+
+	Commiting Patch by Christophe Fergeau <teuf@mate.org> 
+	to make the tree items expand when double clicked.
+
+2003-10-14  Ross Burton  <ross@burtonini.com>
+
+	* src/mateconf-key-editor.c:
+	Added float support to the list editor, fixing a crash.
+
+2003-10-06  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "mr" to ALL_LINGUAS.
+
+2003-10-06  Arvind Samptur  <arvind.samptur@wipro.com>
+
+	* src/Makefile.am: GtkItemFactory has been depricated
+	Remove the GTK_DISABLE_DEPRECATED flag. Thanks to Anders for
+	the right fix. Fix #123932
+
+2003-09-06  Anders Carlsson  <andersca@mate.org>
+
+	* configure.in: Release 2.4.0
+
+2003-09-05  Taneem Ahmed  <taneem@bengalinux.org>
+
+	* configure.in: Added "bn" to ALL_LINGUAS.
+
+2003-09-02  Gediminas Paulauskas  <menesis@delfi.lt>
+
+	* configure.in: Added lt to ALL_LINGUAS.
+
+2003-08-10  Anders Carlsson  <andersca@codefactory.se>
+
+	* configure.in: Release 2.3.6
+
+Wed Jul 23 14:43:43 2003  George Lebl <jirka@5z.com>
+
+	* src/mateconf-bookmarks.[ch], src/mateconf-editor-window.c:
+	  Don't allow changing bookmarks when the bookmarks key is not
+	  writable
+
+	* src/mateconf-message-dialog.c: If the key for the show toggle
+	  is not writable, don't even show the toggle
+
+	* src/mateconf-cell-renderer.[ch]: Fix signature of the changed signal
+	  and add a "check_writable" signal which has a boolean return 
+	  value and can be used to make the cell not writable.
+
+	* src/mateconf-key-editor.[ch]:  Add a non-writable label and show it
+	  if the key is not writable, also in that case make the notebook
+	  insensitive since we can't set the key.
+
+	* src/mateconf-editor-window.[ch]: Don't set a key if it's not writable,
+	  fix crash when setting a key resulted in an error,  Also
+	  set the key editor not to be writable and connect the
+	  "check_writable" signal for the list items and check writability
+	  there.  In the information pane add a non-writable label thing
+	  and show that if the key is not writable.
+
+	* src/mateconf-marshal.[ch], src/mateconf-marshal.list: the glib signal
+	  marshaller generating stuff did some changes here.  I added
+	  a BOOLEAN:STRING
+
+2003-07-02  Jordi Mallach  <jordi@sindominio.net>
+
+	* data/mateconf-editor.desktop.in: Use "false" instead of "0" in Terminal
+	entry.
+
+2003-06-26  Anders Carlsson  <andersca@codefactory.se>
+
+	* src/mateconf-editor-window.c (mateconf_editor_popup_window_edit_key): 
+	Fix typo (reported by Dafydd Harries).
+
+2003-06-24  Anders Carlsson  <andersca@codefactory.se>
+
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_set_property),
+	(mateconf_cell_renderer_get_size), (mateconf_cell_renderer_render):
+	* src/mateconf-list-model.c: (mateconf_list_model_get_value):
+	Add support for showing pairs. (#90729, Mathias Warkus)
+	
+2003-06-05  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/Makefile.am: remove -I$(includedir).
+	Patch from Matt Keenan, matt.keenan@sun.com.
+
+2003-06-05 Kenneth Rohde Christiansen <kenneth@gnu.org>
+
+	* configure.in: Added li to ALL_LINGUAS.
+
+2003-06-04  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added "sr@Latn" to ALL_LINGUAS.
+
+2003-06-03  Anders Carlsson  <andersca@codefactory.se>
+
+	* configure.in: Release 0.5.0
+
+2003-05-26  Telsa Gwynne  <hobbit@aloss.ukuu.org.uk>
+
+	* configure.in: Added "cy" to ALL_LINGUAS
+
+2003-05-13  Ross Burton  <ross@burtonini.com>
+
+	* src/mateconf-editor-window.c: Implement Set As Default on arbitary
+	keys. Requires that the user has write access to the defaults
+	tree.
+
+	* configure.in: Find the MateConf defaults and mandatory
+	configuration sources. Also comment the AC_DEFINEs.
+
+	* acconfig.h: Remove, thanks to the commenting done above.
+	
+2003-05-08  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added "am" "mk" "nl" "tr" to ALL_LINGUAS.
+
+2003-05-07  Richard Hult  <rhult@codefactory.se>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_init),
+	(mateconf_editor_window_style_set): Set the bg color for the textview
+	in a style_set callback instead of in _init to make it work with
+	other themes than the default. Start out with the name column
+	sorted for keys.
+
+2003-05-07  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.in: Added "sr" and "sr@Latn" to ALL_LINGUAS.
+
+2003-03-18  Paul Duffy <dubhthach@zion.nuigalway.ie>
+
+	* configure.in: Added "ga" to ALL_LINGUAS.
+
+2003-03-13  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "ml" to ALL_LINGUAS.
+
+2003-03-09  Pauli Virtanen  <pauli.virtanen@hut.fi>
+
+	* configure.in: Added "fi" to ALL_LINGUAS.
+
+2003-02-17  Roozbeh Pournader  <roozbeh@sharif.edu>
+
+	* configure.in: Added "fa" to ALL_LINGUAS.
+
+2003-02-14  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/mateconf-editor-window.[ch]: (mateconf_editor_window_go_to):
+	Split this out from mateconf-bookmarks.c.
+
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_bookmark_activated):
+	Upd.
+
+	* src/mateconf-tree-model.c:
+	(mateconf_tree_model_get_tree_path_from_mateconf_path): Return the
+	last matching element of the path - better than nothing if we
+	don't have an exact match. Also, don't leak the strv.
+
+	* src/main.c: (invalid_arg_error_dialog), (main): add support
+	for passing in an initial MateConf key as an argument.
+
+2003-02-09  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "kn" to ALL_LINGUAS.
+
+2003-02-06  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "id" to ALL_LINGUAS.
+
+2003-01-26  Fatih Demir <kabalak@gtranslator.org>
+
+	* configure.in: Added "ta" (Tamil) to the languages' list.
+
+2003-01-21  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "mn" to ALL_LINGUAS.
+
+2002-12-10  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_init): Don't use a white
+	background in the long description view.
+
+	* src/mateconf-list-model.c (mateconf_list_model_notify_func): Don't monitor
+	keys we're not interested in.
+
+	* data/mateconf-editor.desktop.in: Turn on startup notification.
+
+2002-12-09  Artis Trops  <hornet@navigator.lv>
+
+	* configure.in: Added Latvian (lv) to ALL_LINGUAS.
+
+2002-12-08  Daniel Elstner  <daniel.elstner@gmx.net>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_set_have_tearoffs):
+	Don't translate the item paths passed to gtk_item_factory_get_item().
+	Apparently you aren't supposed to do so since GtkItemFactory takes
+	care of the translation, and passing in a translated string causes
+	the lookup to fail.
+	(mateconf_editor_window_set_have_icons): ditto.
+
+2002-11-18  Fernando Herrera <fherrera@onirica.com>
+
+	* data/mateconf-editor.desktop.in: add X-MATE-BUGZILLA stuff
+
+2002-11-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_about_window):
+	Make the about window a transient child of the main window, fixing
+	bug 97918.
+
+2002-11-05  Mark McLoughlin  <mark@skynet.ie>
+
+	* configure.in: bump version to 0.4.0. It was
+	0.2 which is less than what's on mate-2-0 and
+	I think 0.4.0 is what we agreed on ...
+
+2002-11-03  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+
+	* configure.in: Added Belarusian to ALL_LINGUAS
+
+2002-09-09  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_set_property),
+	(mateconf_cell_renderer_get_size),
+	(mateconf_cell_renderer_text_editing_done),
+	(mateconf_cell_renderer_start_editing),
+	(mateconf_cell_renderer_activate), (mateconf_cell_renderer_render):
+	* src/mateconf-list-model.c: (mateconf_list_model_get_value):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_get_value):
+	use break; in default switch cases to keep the AIX compiler
+	happy. #91801.
+
+2002-09-03  Marius Andreiana <mandreiana@yahoo.com>
+
+	* configure.in: added 'ro' to ALL_LINGUAS
+
+2002-08-23  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-bookmarks.c (mateconf_bookmarks_bookmark_activated): 
+	Fix scrolling correctly.
+
+	* src/mateconf-key-editor.c: (list_add_clicked):
+	Fix focus issue.
+	
+	* src/main.c: (main):
+	Use better wording for the caveat dialog.
+	
+2002-08-22  Shahms E. King <shahms@shahms.com> and
+            Jan Arne Petersen <jpeterson@uni-bonn.de>
+
+	* src/mateconf-key-editor.c (mateconf_key_editor_create_option_menu),
+	(mateconf_key_editor_get_value, mateconf_key_editor_init): implement
+	list item editing.
+	(mateconf_key_editor_list_entry_changed, list_type_menu_changed),
+	(mateconf_key_editor_create_list_type_menu, update_list_buttons),
+	(list_selection_changed, list_add_clicked, list_remove_clicked),
+	(list_go_up_clicked, list_go_down_clicked, fix_button_align): impl.
+
+	* src/mateconf-editor-window.c
+	(mateconf_editor_new_key_response): allow lists to be edited.
+
+	Commit bug #76973 to stop other people re-implementing it.
+
+2002-08-22  Michael Meeks  <michael@ximian.com>
+
+	* src/mateconf-key-editor.c (bool_button_toggled): 
+	fix boolean accelerator; #90908
+
+2002-08-22  Michael Meeks  <michael@ximian.com>
+
+	* src/mateconf-editor-window.c
+	(mateconf_editor_window_list_view_row_activated),
+	(mateconf_editor_window_init): make double click on a
+	key do something useful #90909
+
+2002-08-18  Havoc Pennington  <hp@pobox.com>
+
+	* autogen.sh: hardcode aclocal-1.4/automake-1.4 so that users with
+	both automake 1.6 and 1.4 installed get the right automake. Means
+	compilation from CVS will now require the latest automake 1.4
+	release, or manually creating symlinks called "automake-1.4" and
+	"aclocal-1.4"
+
+2002-08-11  Ross Burton  <ross@burtonini.com>
+
+	* data/mateconf-editor.desktop.in: Add encoding keyword, and fix up
+	Terminal and Categories keywords.
+
+2002-08-11  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/mateconf-key-editor.[ch]: Implement support
+	for floating point values.
+
+2002-08-07  Mark McLoughlin  <mark@skynet.ie>
+
+	* data/icons/Makefile.am:
+	* data/icons/about-logo.png: remove about logo.
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_about_window): use the mateconf
+	editor logo as an about dialog picture.
+
+2002-08-01  Mark McLoughlin  <mark@skynet.ie>
+
+	Implement support for menus_have_icons too. #88569.
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_set_item_has_icon),
+	(mateconf_editor_window_set_have_icons),
+	(mateconf_editor_window_have_icons_notify): impl.
+	(mateconf_editor_window_setup_ui_prefs_handler): rename
+	from mateconf_editor_window_setup_tearoffs_handler and
+	add menus_have_icons handler.
+	(mateconf_editor_window_finalize): remove the mateconf notify.
+	(mateconf_editor_window_init): update.
+
+2002-07-31  Mark McLoughlin  <mark@skynet.ie>
+
+	Implement support for tearoff menus and respecting
+	/desktop/mate/interface/menus_have_tearoff. #89347.
+
+	* src/mateconf-editor-window.[cf]:
+	(mateconf_editor_window_set_have_tearoffs): impl showing
+	and hiding the tearoffs.
+	(mateconf_editor_window_have_tearoffs_notify): mateconf notify
+	handler.
+	(mateconf_editor_window_setup_tearoffs_handler): hook up the
+	notify handler and get the initial value.
+	(mateconf_editor_window_finalize): unref the item factory and
+	remove the notify.
+	(mateconf_editor_window_class_init): hook up finalize.
+	(mateconf_editor_window_init): setup the tearoffs handler.
+
+2002-07-31  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_start_editing):
+	remove finish editing on focus out hack to be consistent with
+	text cell renderer. Fixes #85516.
+
+2002-07-31  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_init):
+	slightly modified version of a patch by Jan Arne Petersen
+	(jpetersen@uni-bonn.de) to but the key documentation
+	frame into a paned widget, allowing it to be resizable.
+	Fixes #83573.
+
+2002-07-31  Mark McLoughlin  <mark@skynet.ie>
+
+	* src/mateconf-list-model.c: (mateconf_list_model_notify_func):
+	keep model->length updated here. Fixes #89347.
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_popup_error_dialog): implement.
+	(mateconf_editor_new_key_response): split this out and
+	fix leak of the path. Correctly handle errors.
+	(mateconf_editor_popup_window_new_key): free the path and
+	hook up the response handler.
+	(mateconf_editor_edit_key_response): split this out and use
+	mateconf_key_editor_get_key_name. Correctly handle errors.
+	(mateconf_editor_popup_window_edit_key): hook up the response
+	handler and free the path.
+
+	* src/mateconf-key-editor.[ch]:
+	(mateconf_key_editor_get_key_name): add new method.
+	(mateconf_key_editor_get_full_key_path): kill debug. Remove
+	unneeded function calls.
+
+2002-07-30  Mark McLoughlin <mark@skynet.ie>
+
+	* src/Makefile.am: apply patch from Toshi to
+	get locale directory correct. #83643.
+
+	* src/mateconf-util.c: don't use c++ comment.
+
+2002-07-28  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "sq" to ALL_LINGUAS.
+
+2002-07-26  Gustavo Noronha Silva <kov@debian.org>
+
+	* configure.in: (ALL_LINGUAS) Added Brazilian Portuguese (pt_BR).
+
+2002-06-14  Yanko Kaneti <yaneti@declera.com>
+
+	* configure.in: (ALL_LINGUAS) Added Bulgarian (bg).
+
+2002-06-07  Jesus Bravo Alvarez  <jba@pobox.com>
+
+	* configure.in: Added gl (Galician) to ALL_LINGUAS.
+
+2002-06-02  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Catalan (ca) to ALL_LINGUAS.
+
+2002-05-24  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	Set the window icon, as suggested by Mikael and Glynn.
+	
+2002-05-20  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in: 0.2
+
+	* autogen.sh: Get rid of the mate-common dependancy. Woo!
+
+	* src/mateconf-editor-window.c: (strip_whitespace),
+	(set_label_and_strip_whitespace),
+	(mateconf_editor_window_update_list_selection),
+	(mateconf_editor_window_init):
+	* src/mateconf-editor-window.h:
+	Add Owner from the schema and remove leading whitespace from
+	the long and short desc.
+	
+2002-05-20  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-bookmarks-dialog.c: (mateconf_bookmarks_dialog_destroy),
+	(mateconf_bookmarks_dialog_class_init),
+	(mateconf_bookmarks_dialog_populate_model),
+	(mateconf_bookmarks_dialog_update_mateconf_key),
+	(mateconf_bookmarks_dialog_row_deleted),
+	(mateconf_bookmarks_dialog_delete_bookmark),
+	(mateconf_bookmarks_dialog_bookmarks_key_changed),
+	(mateconf_bookmarks_dialog_init):
+	* src/mateconf-bookmarks-dialog.h:
+	Make the bookmarks dialog catch notification messages.
+	
+2002-05-20  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_popup_window_edit_key):
+	Add a NULL check. Fixes #74533. 
+	
+2002-05-20  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_update_list_selection):
+	Tolerate NULL short and long descriptions.
+
+2002-05-20  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_list_view_popup_menu), (strip_whitespace),
+	(mateconf_editor_window_update_list_selection),
+	(mateconf_editor_window_init):
+	* src/mateconf-editor-window.h:
+	* src/mateconf-tree-model.c:
+	(mateconf_tree_model_get_tree_path_from_mateconf_path):
+	* src/mateconf-util.c: (mateconf_client_get_schema_for_key):
+	* src/mateconf-util.h:
+	Integrate a patch from Erwann Chenede that adds key doc
+	support, using the descriptions stored in the schemas.
+	
+2002-05-12  Christophe Merlet  <christophe@merlet.net>
+
+	* src/mateconf-editor-window.c: Mark a string translatable.
+
+2001-05-10  Naba Kumar  <kh_naba@users.sourceforge.net>
+
+	* configure.in: Added "hi" to ALL_LINGUAS.
+
+2002-05-01  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added "zh_TW" to ALL_LINGUAS.
+
+2002-04-27  Simos Xenitellis  <simos@hellug.gr>
+
+	* configure.in: Added "el" to ALL_LINGUAS.
+
+Fri Apr 26 11:29:48 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-list-model.c (mateconf_list_model_notify_func): ignore the
+	notify if the key given is a directory, and fix the list handling,	
+	which created looping lists :)
+
+2002-04-25  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added "vi" to ALL_LINGUAS.
+
+Sat Apr 13 13:54:49 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_selection_change):
+	just set the title to "MateConf editor" if there isn't a node selected.
+
+2002-03-29  Christophe Merlet  <christophe@merlet.net>
+
+	* configure.in: Added fr to ALL_LINGUAS.
+
+2002-03-28  Changwoo Ryu  <cwryu@debian.org>
+
+	* configure.in: Added ko to ALL_LINGUAS.
+
+2002-03-25  Wang Jian   <lark@linux.net.cn>
+
+	* configure.in: Added "zh_CN" to ALL_LINGUAS.
+
+2002-03-17  Tõivo Leedjärv  <toivo@linux.ee>
+
+	* configure.in: Added et to ALL_LINGUAS.
+
+2002-03-16  Szabolcs Ban <shooby@mate.hu>
+
+	* configure.in: Added "hu" to ALL_LINGUAS.
+
+2002-03-11  Richard Hult  <rhult@codefactory.se>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_init): Expand the
+	children immediately below the root.
+
+2002-03-05  Carlos Perello Marin <carlos@mate-db.org>
+
+	* configure.in: Added "es" to ALL_LINGUAS.
+
+2002-03-02  Ole Laursen  <olau@hardworking.dk>
+
+	* configure.in: Added da (Danish) to ALL_LINGUAS.
+
+2002-03-02  Yuriy Syrota  <yuri@renome.rovno.ua>
+
+	* configure.in: Added uk (Ukrainian) into ALL_LINGUAS.
+
+2002-03-01  Zbigniew Chyla  <cyba@mate.pl>
+
+	* configure.in (ALL_LINGUAS): Added pl (Polish).
+
+2002-02-25  Seth Nickell  <snickell@stanford.edu>
+
+	* data/mateconf-editor.desktop.in:
+
+	Add a comment in verb form.
+
+2002-02-22  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* configure.in:  Added "sk" to ALL_LINGUAS.
+
+2002-02-18  Takayuki KUSANO  <AE5T-KSN@asahi-net.or.jp>
+
+	* configure.in: Added "ja" to ALL_LINGUAS.
+
+2002-02-13  Duarte Loreto <happyguy_pt@hotmail.com>
+
+        * configure.in: Added pt (Portuguese) to ALL_LINGUAS
+
+2002-02-13  Kjartan Maraas  <kmaraas@mate.org>
+
+	* src/mateconf-message-dialog.c: #include <config.h>
+	* src/mateconf-key-editor.c: Same here.
+	
+2002-02-11  Anders Carlsson  <andersca@gnu.org>
+
+       * Released version 0.1
+	
+2002-02-11  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_selection_changed): 
+	Use correct cast to GTK_TREE_MODEL_SORT.
+
+	* src/mateconf-bookmarks.c (mateconf_bookmarks_bookmark_activated): Use
+	sort model path when expanding nodes.
+	(mateconf_bookmarks_bookmark_activated): Use correct cast.
+
+	* src/mateconf-editor-window.c (menu_items): Comment out the edit
+	bookmarks menu item.
+	(mateconf_editor_popup_window_edit_key): Show a warning dialog
+	if we can't edit the value.
+
+	* src/mateconf-cell-renderer.c (mateconf_cell_renderer_get_size): 
+	use mateconf_value_to_string for lists.
+	(mateconf_cell_renderer_render): Likewise.
+
+Sat Feb  9 23:04:19 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_copy_key_name),
+	(mateconf_editor_window_add_bookmark),
+	(mateconf_editor_popup_window_new_key),
+	(mateconf_editor_window_selection_changed): convert modelsort iter
+	to mateconftreemodel iter
+	(mateconf_editor_window_init): put the treemodel in a modelsort
+
+	* src/mateconf-editor-window.h: add sorted_tree_model member
+
+	* src/mateconf-tree-model.c (mateconf_tree_model_build_level): new
+	function
+	(mateconf_tree_model_iter_nth_child): build level if it isn't there
+	(mateconf_tree_model_iter_children): use mateconf_tree_model_build_level
+	(mateconf_tree_model_iter_n_children): new function, was missing
+	(mateconf_tree_model_iter_parent): set stamp on the iter we return
+
+2002-01-31  jacob berkman  <jacob@ximian.com>
+
+	* data/icons/Makefile.am (EXTRA_DIST): fix typo
+
+2002-01-30  Hasbullah Bin Pit <sebol@ikhlas.com>
+
+	* configure.in: Added Malay (ms)to ALL_LINGUAS.
+	* po/ms.po: Added Malay Translation.
+
+2002-01-30  Johan Dahlin  <jdahlin@telia.com>
+
+	* src/mateconf-key-editor.c (mateconf_key_editor_init): Make 3 more
+	strings translatable.
+
+2002-01-20  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c: 
+	(mateconf_editor_window_copy_key_name): Implement copy key name.
+	
+	(mateconf_editor_popup_window_new_key),
+	(mateconf_editor_popup_window_edit_key): Remove debugging msgs.
+	
+2002-01-20  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-bookmarks.c (mateconf_bookmarks_hook_up_menu): Doh,
+	switch argument order for g_object_set_data_full.
+
+	* src/Makefile.am (INCLUDES): Add -DIMAGEDIR.
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_init): 
+	Set appicon.
+
+	* data/mateconf-editor.desktop.in:
+	Use the correct icon. Also, move program to System.
+	
+	* data/icons/Makefile.am:
+	Install icon.
+	
+	* data/icons/mateconf-editor.png:
+	New application icon.
+	
+	* src/mateconf-bookmarks.c: (mateconf_bookmarks_update_menu),
+	(mateconf_bookmarks_key_changed), (mateconf_bookmarks_add_bookmark),
+	(remove_notify_id), (mateconf_bookmarks_hook_up_menu):
+	Add support for bookmark change notifications.
+	
+Tue Jan 15 23:13:44 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-list-model.c (mateconf_list_model_set_root_path): duh! put
+	iter.user_data (new slist address) in the hash and not list (some
+	local list). Side effect of late night coding. Also fix some (usual :)
+	line ends here
+
+Tue Jan 15 01:16:23 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_popup_window_unset_key),
+	(mateconf_editor_popup_window_edit_key),
+	(mateconf_editor_mateconf_value_changed),
+	(mateconf_editor_window_init): wrap list_model in sorted_list_model,
+	so we can sort the 'key list'
+
+	* src/mateconf-editor-window.h: add sorted_list_model
+
+	* src/mateconf-list-model.c (mateconf_list_model_notify_func): increase
+	stamp before emitting signal,
+	(mateconf_list_model_set_root_path): increase stamp before row_deleted
+	emission, rewrote loop to add one item each time, so models (like
+	(GtkTreeModelSort ...) won't be confused
+	(mateconf_list_model_get_flags): add,
+	(mateconf_list_model_iter_n_children): add,
+	(mateconf_list_model_tree_model_init): add newly implemented methods
+	to interface
+
+	* src/mateconf-tree-model.c
+	(mateconf_tree_model_get_tree_path_from_mateconf_path): special case root
+	node
+
+Mon Jan 14 20:10:43 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-bookmarks.c (mateconf_bookmarks_bookmark_activated): our
+	own recursive row collapse code, the treeview thing seem to be
+	meant for other things, scroll to the cell and various line end
+	cleanups,
+	src/mateconf-tree-model.c
+	(mateconf_tree_model_get_tree_path_from_mateconf_path): set iter before
+	starting a new iteration of the loop, so we actually end up in the
+	new level, added a FIXME, some line end cleanups,
+	(mateconf_tree_model_iter_children): finish row inserted notification
+
+2002-01-13  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_close_window),
+	(mateconf_editor_popup_window_edit_key):
+	* src/mateconf-message-dialog.c: (mateconf_message_dialog_should_show),
+	(mateconf_message_dialog_button_toggled):
+	* src/mateconf-tree-model.c: (mateconf_tree_model_iter_nth_child),
+	(mateconf_tree_model_unref_node):
+	Various things.
+	
+Mon Jan 14 00:43:23 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-tree-model.c (struct _Node): add an offset field,
+	fix open line ends,
+	(mateconf_tree_model_iter_nth_child): we want the nth child of a level,
+	while the node stored in the parent iter doesn't have to be the
+	_root_ of the level so it went wrong there. This offset thing will
+	fix. Also set iter->stamp = 0 for invalid iters.
+	(mateconf_tree_model_iter_children), (mateconf_tree_model_init): set
+	offset
+
+Sun Jan 13 23:57:06 2002  Kristian Rietveld  <kris@gtk.org>
+
+	* src/mateconf-message-dialog.c (mateconf_message_dialog_should_show),
+	(mateconf_message_dialog_button_toggled): changed the logic behind
+	the caveat dialog settings and made it work
+
+2002-01-13  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-key-editor.c: (mateconf_key_editor_set_value):
+	* src/mateconf-list-model.c: (mateconf_list_model_set_root_path),
+	(mateconf_list_model_finalize), (mateconf_list_model_class_init),
+	(mateconf_list_model_init):
+	* src/mateconf-message-dialog.c: (mateconf_message_dialog_should_show):
+	* src/mateconf-message-dialog.h:
+	* src/mateconf-tree-model.c: (mateconf_tree_model_iter_children),
+	(mateconf_tree_model_ref_node), (mateconf_tree_model_unref_node),
+	(mateconf_tree_model_tree_model_init), (mateconf_tree_model_init):
+	* src/main.c: (main):
+	Plug some memory leaks and add a caveat dialog.
+	
+2002-01-13  Anders Carlsson  <andersca@gnu.org>
+
+	* src/Makefile.am:
+	* src/mateconf-editor-window.c:
+	(mateconf_editor_window_item_factory_translate_func),
+	(mateconf_editor_window_about_window),
+	(mateconf_editor_window_popup_error_dialog),
+	(mateconf_editor_popup_window_unset_key),
+	(mateconf_editor_popup_window_new_key),
+	(mateconf_editor_popup_window_edit_key),
+	(list_view_button_press_event), (mateconf_editor_window_init):
+	* src/mateconf-editor-window.h:
+	* src/mateconf-key-editor.c: (mateconf_key_editor_init),
+	(mateconf_key_editor_new), (mateconf_key_editor_set_value),
+	(mateconf_key_editor_set_key_path), (mateconf_key_editor_set_key_name),
+	(mateconf_key_editor_get_full_key_path):
+	* src/mateconf-key-editor.h:
+	* src/mateconf-list-model.c: (mateconf_list_model_notify_func):
+	* src/main.c: (main):
+	Added support for editing keys, adding new keys, and unsetting keys.
+	
+2002-01-13  Anders Carlsson  <andersca@gnu.org>
+
+	* configure.in:
+	* data/Makefile.am:
+	* data/mateconf-editor.desktop.in:
+	Add .desktop file and intltool support.
+	
+2002-01-12  Kjartan Maraas  <kmaraas@mate.org>
+
+	* configure.in: Added "no" to ALL_LINGUAS.
+	
+2002-01-10  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-application.c: Only include gtkmain.h
+
+	* src/mateconf-list-model.c (mateconf_list_model_get_value): 
+	Don't switch on NULL value.
+
+Thu Jan 10 11:30:00 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* data/Makefile.am (SUBDIRS): Add missing Makefile.am.
+
+2002-01-10  Anders Carlsson  <andersca@gnu.org>
+
+	* Makefile.am:
+	* configure.in:
+	* data/icons/Makefile.am:
+	* data/icons/about-logo.png:
+	* data/icons/entry-blank.png:
+	* data/icons/entry-bool.png:
+	* data/icons/entry-list.png:
+	* data/icons/entry-number.png:
+	* data/icons/entry-schema.png:
+	* data/icons/entry-string.png:
+	* data/icons/folder-closed.png:
+	* data/icons/folder-open.png:
+	* data/icons/stock-about-16.png:
+	* src/Makefile.am:
+	* src/dir-closed.png:
+	* src/dir-open.png:
+	* src/file.png:
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_set_property):
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	* src/mateconf-list-model.c: (mateconf_list_model_get_value),
+	(mateconf_list_model_class_init):
+	* src/mateconf-marshal.c: (mateconf_marshal_VOID__STRING_BOXED):
+	* src/mateconf-marshal.h:
+	* src/mateconf-stock-icons.c: (create_icon_set_from_filename),
+	(mateconf_stock_icons_register):
+	* src/mateconf-stock-icons.h:
+	* src/mateconf-tree-model.c: (mateconf_tree_model_get_value),
+	(mateconf_tree_model_class_init):
+	* src/main.c: (main):
+	Lots of changes. add about stock icon, check in the marshallers and rebuild
+	them by hand instead. Add different icons for different mateconf types. 
+	
+2002-01-10  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-editor-window.c (mateconf_editor_window_about_window): Split
+	the translatable strings out of the markup string.
+	(mateconf_editor_window_about_window): Split out the Copyright string too.
+
+Wed Jan  9 15:05:35 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* src/mateconf-cell-renderer.c (mateconf_cell_renderer_set_property):
+	A few further fixups.
+
+Wed Jan  9 14:57:30 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* src/mateconf-cell-renderer.c (mateconf_cell_renderer_set_property): 
+	Set the mode here.
+
+	* src/mateconf-editor-window.c (list_view_button_press_event): 
+	Remove the completely unworkable "set cell renderer
+	mode in the button press handler code".
+
+	* src/mateconf-editor-window.c: Use gtk_tree_model_get() to simplify
+	a couple of places.
+
+Wed Jan  9 12:37:21 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* src/mateconf-cell-renderer.c: There is no guarantee at
+	all that the properties of the cell renderer will be
+	pointing to the right cell when ::editing-done occurs.
+	Save cellvalue->value in object data separately.
+
+Wed Jan  9 12:21:22 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* src/mateconf-tree-model.c (mateconf_tree_model_get_iter): 
+	fix 'model = (MateConfTreeModel *)model'
+
+	* src/mateconf-key-editor.c: Include gtkmenuitem.h, remove
+	unused variables.
+
+	* src/mateconf-editor-application.c: Include <gtk/gtk.h>,
+	since we need gtk_main_quit().
+
+	* configure.in: Add magic for setting -Wall for GCC;
+	remove AC_ISC_POSIX, which isn't what you think it is...
+
+Wed Jan  9 11:51:01 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* src/mateconf-editor-window.c: Remove libmate includes
+	so it compiles again.
+
+2002-01-08  Josh Barrow  <drleary@mac.com>
+
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	Make the code just a tiny bit cleaner
+
+2002-01-08  Josh Barrow  <drleary@mac.com>
+
+	* configure.in:
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	Removed the dependency on libmateui just for an about box.
+
+2002-01-05  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "az" to ALL_LINGUAS.
+
+2002-01-05  Anders Carlsson  <andersca@gnu.org>
+
+	* src/mateconf-key-editor.c: Some minor tweaks, add
+	a value label for all types.
+
+	* src/mateconf-message-dialog.h: Add.
+
+	* src/mateconf-message-dialog.c: Add.
+
+2002-01-05  Havoc Pennington  <hp@pobox.com>
+
+	* src/mateconf-key-editor.c: get it mildly closer to being useful
+
+	* src/mateconf-cell-renderer.c (mateconf_cell_renderer_get_size): handle
+	schemas
+	(mateconf_cell_renderer_render): handle schemas
+
+2001-12-28  Josh Barrow  <drleary@mac.com>
+
+	* src/Makefile.am:
+	* src/mateconf-cell-renderer.c: (mateconf_cell_renderer_class_init):
+	* src/mateconf-key-editor.c: (mateconf_key_editor_create_option_menu),
+	(mateconf_key_editor_init):
+	Make to compile with G_DISABLE_DEPRECATED and GTK_DISABLE_DEPRECATED.
+
+2001-12-28  Josh Barrow  <drleary@mac.com>
+
+	* .cvsignore:
+	* src/.cvsignore:
+	Make it not gripe when updating.
+
+2001-12-19  Anders Carlsson  <andersca@gnu.org>
+
+	* mateconf-editor-window.c: i18n stuff.
+
+	* Makefile.am (SUBDIRS): Add po
+
+	* configure.in: Add i18n support.
+
+2001-12-14  Josh Barrow  <drleary@mac.com>
+
+	* configure.in: Added dependency to libmateui-2.0
+	* src/mateconf-editor-window.c: (mateconf_editor_window_about_window):
+	Added an about box.
+
+2001-12-10  Anders Carlsson  <andersca@gnu.org>
+
+	* Initial checkin.
+

@@ -1,0 +1,69 @@
+# -*- python -*-
+# encoding: utf-8
+
+import os
+
+def configure(conf):
+    conf.env.append_value('MODULES_AVAILABLE', 'matevfs')
+    conf.env.append_value('MODULES_AVAILABLE', 'matevfs.matecomponent')
+    conf.env.append_value('MODULES_AVAILABLE', 'matevfs.module')
+
+    if 'matevfs' in conf.env['ENABLE_MODULES'] or 'all' in conf.env['ENABLE_MODULES']:
+        if conf.pkg_check_modules('MATEVFS', 'mate-vfs-2.0 >= 2.14 pygobject-2.0',
+                                  mandatory=False):
+            conf.env.append_value('MODULES_TO_BUILD', 'matevfs')
+
+    if 'matevfs.matecomponent' in conf.env['ENABLE_MODULES'] or 'all' in conf.env['ENABLE_MODULES']:
+        if conf.pkg_check_modules('MATEVFSMATECOMPONENT', 'mate-vfs-2.0 >= 2.14 matecomponent-activation-2.0 >= 2.8.0'
+                                  ' pymatecorba-2 >= 2.0.1 pygobject-2.0',
+                                  mandatory=False):
+            conf.env.append_value('MODULES_TO_BUILD', 'matevfs.matecomponent')
+
+    if 'matevfs.module' in conf.env['ENABLE_MODULES'] or 'all' in conf.env['ENABLE_MODULES']:
+        if conf.pkg_check_modules('MATEVFSMODULE', 'mate-vfs-module-2.0 >= 2.14 matecomponent-activation-2.0 >= 2.8.0'
+                                  ' pymatecorba-2 >= 2.0.1 pygobject-2.0',
+                                  mandatory=False):
+            conf.env.append_value('MODULES_TO_BUILD', 'matevfs.module')
+
+
+def build(bld):
+    
+    if 'matevfs' in bld.env['MODULES_TO_BUILD']:
+        vfsdir = '${PYTHONDIR}/gtk-2.0/matevfs'
+        py = bld.new_task_gen('py')
+        py.install_path = vfsdir
+        py.source = "__init__.py"
+
+        pyext = bld.create_pyext()
+        pyext.source = '''
+vfsmodule.c vfs-uri.c vfs-file-info.c vfs-dir-handle.c
+vfs-handle.c vfs-xfer-progress-info.c vfs-context.c
+vfs-async-handle.c vfs-volume.c vfs-drive.c vfs-volume-monitor.c
+'''
+        pyext.target = '_matevfs'
+        pyext.uselib = 'MATEVFS'
+        pyext.includes = '.'
+        pyext.install_path = vfsdir
+
+    if 'matevfs.matecomponent' in bld.env['MODULES_TO_BUILD']:
+        pyext = bld.create_pyext()
+        pyext.source = 'vfsmatecomponentmodule.c'
+        pyext.target = 'matevfsmatecomponent'
+        pyext.uselib = 'MATEVFSMATECOMPONENT'
+        pyext.includes = '.'
+        pyext.install_path = vfsdir
+
+    if 'matevfs.module' in bld.env['MODULES_TO_BUILD']:
+        pyembed = bld.new_task_gen('cc', 'shlib', 'pyembed')
+        pyembed.mac_bundle = True
+        pyembed.source = 'mate-vfs-python-method.c'
+        pyembed.target = 'pythonmethod'
+        pyembed.uselib = 'MATEVFSMODULE'
+        pyembed.includes = '.'
+        pyembed.install_path = '${LIBDIR}/mate-vfs-2.0/modules'
+
+        vfsmethoddir = os.path.join(pyembed.env['LIBDIR'], 'mate-vfs-2.0', 'modules')
+        pyembed.env.append_value('CCDEFINES', 'MATE_VFS_PYTHON_DIR="\\"%s\\""' % vfsmethoddir)
+
+    bld.install_files('${PREFIX}/include/mate-python-2.0',
+                      ['pymatevfs.h', 'pymatevfsmatecomponent.h'])

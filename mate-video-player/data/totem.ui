@@ -1,0 +1,2370 @@
+<?xml version="1.0" ?>
+<!--*- mode: xml -*--><!DOCTYPE glade-interface
+  SYSTEM 'http://glade.mate.org/glade-2.0.dtd'>
+<interface>
+<requires lib="gtk+" version="2.20"/>
+
+<object class="GtkUIManager" id="totem-ui-manager">
+   <child>
+      <object class="GtkActionGroup" id="main-action-group">
+         <child>
+            <object class="GtkAction" id="movie-menu">
+               <property name="label" translatable="yes">_Movie</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="open">
+               <property name="label" translatable="yes">_Open...</property>
+               <property name="stock-id">gtk-open</property>
+               <property name="tooltip" translatable="yes">Open a file</property>
+               <signal name="activate" handler="open_action_callback"/>
+            </object>
+            <accelerator key="O" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="open-location">
+               <property name="label" translatable="yes">Open _Location...</property>
+               <property name="tooltip" translatable="yes">Open a non-local file</property>
+               <signal name="activate" handler="open_location_action_callback"/>
+            </object>
+            <accelerator key="L" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="eject">
+               <property name="label" translatable="yes">_Eject</property>
+               <property name="icon-name">media-eject</property>
+               <property name="tooltip" translatable="yes">Eject the current disc</property>
+               <signal name="activate" handler="eject_action_callback"/>
+            </object>
+            <accelerator key="E" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="properties">
+               <property name="label" translatable="yes">_Properties</property>
+               <property name="stock-id">gtk-properties</property>
+               <property name="tooltip" translatable="yes">View the properties of the current stream</property>
+               <signal name="activate" handler="properties_action_callback"/>
+            </object>
+            <accelerator key="P" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="play">
+               <property name="label" translatable="yes">Play / P_ause</property>
+               <property name="stock-id">gtk-media-play</property>
+               <property name="tooltip" translatable="yes">Play or pause the movie</property>
+               <signal name="activate" handler="play_action_callback"/>
+            </object>
+            <accelerator key="space" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="quit">
+               <property name="label" translatable="yes">_Quit</property>
+               <property name="stock-id">gtk-quit</property>
+               <property name="tooltip" translatable="yes">Quit the program</property>
+               <signal name="activate" handler="quit_action_callback"/>
+            </object>
+            <accelerator key="Q" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="edit-menu">
+               <property name="label" translatable="yes">_Edit</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="clear-playlist">
+               <property name="label" translatable="yes">_Clear Playlist</property>
+               <property name="icon-name">gtk-clear</property>
+               <property name="tooltip" translatable="yes">Clear the playlist</property>
+               <signal name="activate" handler="clear_playlist_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="preferences">
+               <property name="label" translatable="yes">Prefere_nces</property>
+               <property name="stock-id">gtk-preferences</property>
+               <property name="tooltip" translatable="yes">Configure the application</property>
+               <signal name="activate" handler="preferences_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="plugins">
+               <property name="label" translatable="yes">Plugins...</property>
+               <property name="tooltip" translatable="yes">Configure plugins to extend the application</property>
+               <signal name="activate" handler="plugins_action_callback"/>
+            </object>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="view-menu">
+               <property name="label" translatable="yes">_View</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="fullscreen">
+               <property name="label" translatable="yes">_Fullscreen</property>
+               <property name="stock-id">gtk-fullscreen</property>
+               <property name="tooltip" translatable="yes">Switch to fullscreen</property>
+               <signal name="activate" handler="fullscreen_action_callback"/>
+            </object>
+            <accelerator key="F11"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="zoom-window-menu">
+               <property name="label" translatable="yes">Fit Window to Movie</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="zoom-1-2">
+               <property name="label" translatable="yes">_Resize 1:2</property>
+               <property name="tooltip" translatable="yes">Resize to half the original video size</property>
+               <signal name="activate" handler="zoom_1_2_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="zoom-1-1">
+               <property name="label" translatable="yes">Resize _1:1</property>
+               <property name="tooltip" translatable="yes">Resize to the original video size</property>
+               <signal name="activate" handler="zoom_1_1_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="zoom-2-1">
+               <property name="label" translatable="yes">Resize _2:1</property>
+               <property name="tooltip" translatable="yes">Resize to double the original video size</property>
+               <signal name="activate" handler="zoom_2_1_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="aspect-ratio-menu">
+               <property name="label" translatable="yes">_Aspect Ratio</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="next-angle">
+               <property name="label" translatable="yes">Switch An_gles</property>
+               <property name="tooltip" translatable="yes">Switch camera angles</property>
+               <signal name="activate" handler="next_angle_action_callback"/>
+            </object>
+            <accelerator key="G" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="go-menu">
+               <property name="label" translatable="yes">_Go</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="dvd-root-menu">
+               <property name="label" translatable="yes">_DVD Menu</property>
+               <property name="stock-id">gtk-index</property>
+               <property name="tooltip" translatable="yes">Go to the DVD menu</property>
+               <signal name="activate" handler="dvd_root_menu_action_callback"/>
+            </object>
+            <accelerator key="M" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="dvd-title-menu">
+               <property name="label" translatable="yes">_Title Menu</property>
+               <property name="tooltip" translatable="yes">Go to the title menu</property>
+               <signal name="activate" handler="dvd_title_menu_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="dvd-audio-menu">
+               <property name="label" translatable="yes">A_udio Menu</property>
+               <property name="tooltip" translatable="yes">Go to the audio menu</property>
+               <signal name="activate" handler="dvd_audio_menu_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="dvd-angle-menu">
+               <property name="label" translatable="yes">_Angle Menu</property>
+               <property name="tooltip" translatable="yes">Go to the angle menu</property>
+               <signal name="activate" handler="dvd_angle_menu_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="dvd-chapter-menu">
+               <property name="label" translatable="yes">_Chapter Menu</property>
+               <property name="stock-id">gtk-index</property>
+               <property name="tooltip" translatable="yes">Go to the chapter menu</property>
+               <signal name="activate" handler="dvd_chapter_menu_action_callback"/>
+            </object>
+            <accelerator key="C" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="next-chapter">
+               <property name="label" translatable="yes">_Next Chapter/Movie</property>
+               <property name="stock-id">gtk-media-next</property>
+               <property name="tooltip" translatable="yes">Next chapter or movie</property>
+               <signal name="activate" handler="next_chapter_action_callback"/>
+            </object>
+            <accelerator key="Right" modifiers="GDK_MOD1_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="previous-chapter">
+               <property name="label" translatable="yes">_Previous Chapter/Movie</property>
+               <property name="stock-id">gtk-media-previous</property>
+               <property name="tooltip" translatable="yes">Previous chapter or movie</property>
+               <signal name="activate" handler="previous_chapter_action_callback"/>
+            </object>
+            <accelerator key="Left" modifiers="GDK_MOD1_MASK"/>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="sound-menu">
+               <property name="label" translatable="yes">_Sound</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="volume-up">
+               <property name="label" translatable="yes">Volume _Up</property>
+               <property name="icon-name">audio-volume-high</property>
+               <property name="tooltip" translatable="yes">Increase volume</property>
+               <signal name="activate" handler="volume_up_action_callback"/>
+            </object>
+            <accelerator key="Up"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="volume-down">
+               <property name="label" translatable="yes">Volume _Down</property>
+               <property name="icon-name">audio-volume-low</property>
+               <property name="tooltip" translatable="yes">Decrease volume</property>
+               <signal name="activate" handler="volume_down_action_callback"/>
+            </object>
+            <accelerator key="Down"/>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="help-menu">
+               <property name="label" translatable="yes">_Help</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="contents">
+               <property name="label" translatable="yes">_Contents</property>
+               <property name="stock-id">gtk-help</property>
+               <property name="tooltip" translatable="yes">Help contents</property>
+               <signal name="activate" handler="contents_action_callback"/>
+            </object>
+            <accelerator key="F1"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="about">
+               <property name="label" translatable="yes">_About</property>
+               <property name="stock-id">gtk-about</property>
+               <property name="tooltip" translatable="yes">About this application</property>
+               <signal name="activate" handler="about_action_callback"/>
+            </object>
+         </child>
+
+         <child>
+            <object class="GtkToggleAction" id="repeat-mode">
+               <property name="label" translatable="yes">_Repeat Mode</property>
+               <property name="tooltip" translatable="yes">Set the repeat mode</property>
+               <property name="active">False</property>
+               <signal name="activate" handler="repeat_mode_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkToggleAction" id="shuffle-mode">
+               <property name="label" translatable="yes">Shuff_le Mode</property>
+               <property name="tooltip" translatable="yes">Set the shuffle mode</property>
+               <property name="active">False</property>
+               <signal name="activate" handler="shuffle_mode_action_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkToggleAction" id="show-controls">
+               <property name="label" translatable="yes">Show _Controls</property>
+               <property name="tooltip" translatable="yes">Show controls</property>
+               <property name="active">TRUE</property>
+               <signal name="activate" handler="show_controls_action_callback"/>
+            </object>
+            <accelerator key="H" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkToggleAction" id="sidebar">
+               <property name="label" translatable="yes">S_idebar</property>
+               <property name="tooltip" translatable="yes">Show or hide the sidebar</property>
+               <property name="active">TRUE</property>
+               <signal name="activate" handler="show_sidebar_action_callback"/>
+            </object>
+            <accelerator key="F9"/>
+         </child>
+
+         <child>
+            <object class="GtkRadioAction" id="aspect-ratio-auto">
+               <property name="label" translatable="yes">Auto</property>
+	       <property name="tooltip" translatable="yes">Sets automatic aspect ratio</property>
+	       <!-- BVW_RATIO_AUTO -->
+	       <property name="value">0</property>
+	       <property name="current-value">0</property>
+               <signal name="changed" handler="aspect_ratio_changed_callback"/>
+            </object>
+         </child>
+         <child>
+            <object class="GtkRadioAction" id="aspect-ratio-square">
+               <property name="label" translatable="yes">Square</property>
+               <property name="tooltip" translatable="yes">Sets square aspect ratio</property>
+	       <!-- BVW_RATIO_SQUARE -->
+	       <property name="group">aspect-ratio-auto</property>
+               <property name="value">1</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkRadioAction" id="aspect-ratio-fbt">
+               <property name="label" translatable="yes">4:3 (TV)</property>
+               <property name="tooltip" translatable="yes">Sets 4:3 (TV) aspect ratio</property>
+	       <!-- BVW_RATIO_FOURBYTHREE -->
+	       <property name="group">aspect-ratio-auto</property>
+               <property name="value">2</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkRadioAction" id="aspect-ratio-anamorphic">
+               <property name="label" translatable="yes">16:9 (Widescreen)</property>
+               <property name="tooltip" translatable="yes">Sets 16:9 (widescreen) aspect ratio</property>
+	       <!-- BVW_RATIO_ANAMORPHIC -->
+	       <property name="group">aspect-ratio-auto</property>
+               <property name="value">3</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkRadioAction" id="aspect-ratio-dvb">
+               <property name="label" translatable="yes">2.11:1 (DVB)</property>
+               <property name="tooltip" translatable="yes">Sets 2.11:1 (DVB) aspect ratio</property>
+	       <!-- BVW_RATIO_DVB -->
+	       <property name="group">aspect-ratio-auto</property>
+               <property name="value">4</property>
+            </object>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="subtitles-menu">
+               <property name="label" translatable="yes">S_ubtitles</property>
+               <property name="hide-if-empty">False</property>
+            </object>
+         </child>
+         <child>
+            <object class="GtkAction" id="select-subtitle">
+               <property name="label" translatable="yes">_Select Text Subtitles...</property>
+               <property name="tooltip" translatable="yes">Select a file to use for text subtitles</property>
+               <signal name="activate" handler="select_subtitle_action_callback"/>
+            </object>
+         </child>
+
+         <child>
+            <object class="GtkAction" id="languages-menu">
+               <property name="label" translatable="yes">_Languages</property>
+               <property name="hide-if-empty">False</property>
+            </object>
+         </child>
+      </object>
+   </child>
+   <child>
+      <object class="GtkActionGroup" id="zoom-action-group">
+         <child>
+            <object class="GtkAction" id="zoom-in">
+               <property name="label" translatable="yes">Zoom In</property>
+               <property name="stock-id">gtk-zoom-in</property>
+               <property name="tooltip" translatable="yes">Zoom in</property>
+               <signal name="activate" handler="zoom_in_action_callback"/>
+            </object>
+            <accelerator key="R" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="zoom-reset">
+               <property name="label" translatable="yes">Zoom Reset</property>
+               <property name="stock-id">gtk-zoom-100</property>
+               <property name="tooltip" translatable="yes">Zoom reset</property>
+               <signal name="activate" handler="zoom_reset_action_callback"/>
+            </object>
+            <accelerator key="0" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="zoom-out">
+               <property name="label" translatable="yes">Zoom Out</property>
+               <property name="stock-id">gtk-zoom-out</property>
+               <property name="tooltip" translatable="yes">Zoom out</property>
+               <signal name="activate" handler="zoom_out_action_callback"/>
+            </object>
+            <accelerator key="T" modifiers="GDK_CONTROL_MASK"/>
+         </child>
+      </object>
+   </child>
+   <child>
+      <object class="GtkActionGroup" id="skip-action-group">
+         <child>
+            <object class="GtkAction" id="skip-forward">
+               <property name="label" translatable="yes">Skip _Forward</property>
+               <property name="tooltip" translatable="yes">Skip forward</property>
+               <property name="stock-id">gtk-media-forward</property>
+               <signal name="activate" handler="skip_forward_action_callback"/>
+            </object>
+            <accelerator key="Right"/>
+         </child>
+         <child>
+            <object class="GtkAction" id="skip-backwards">
+               <property name="label" translatable="yes">Skip _Backwards</property>
+               <property name="tooltip" translatable="yes">Skip backwards</property>
+               <property name="stock-id">gtk-media-rewind</property>
+               <signal name="activate" handler="skip_backwards_action_callback"/>
+            </object>
+            <accelerator key="Left"/>
+         </child>
+      </object>
+   </child>
+   <ui>
+      <menubar name="tmw-menubar">
+         <menu name="movie" action="movie-menu">
+            <menuitem name="open" action="open"/>
+            <menuitem name="open-location" action="open-location"/>
+            <placeholder name="devices-placeholder"/>
+            <separator name="recent-separator"/>
+            <placeholder name="recent-placeholder"/>
+	    <separator/>
+	    <placeholder name="burn-placeholder"/>
+            <menuitem name="properties" action="properties"/>
+            <separator/>
+            <menuitem name="eject" action="eject"/>
+            <separator/>
+            <menuitem name="play" action="play"/>
+            <separator/>
+            <menuitem name="quit" action="quit"/>
+         </menu>
+         <menu name="edit" action="edit-menu">
+            <menuitem name="repeat-mode" action="repeat-mode"/>
+            <menuitem name="shuffle-mode" action="shuffle-mode"/>
+            <separator/>
+            <menuitem name="clear-playlist" action="clear-playlist"/>
+            <separator/>
+            <menuitem name="plugins" action="plugins"/>
+            <menuitem name="preferences" action="preferences"/>
+         </menu>
+         <menu name="view" action="view-menu">
+            <menuitem name="fullscreen" action="fullscreen"/>
+            <menu name="zoom-window" action="zoom-window-menu">
+               <menuitem name="zoom-1-2" action="zoom-1-2"/>
+               <menuitem name="zoom-1-1" action="zoom-1-1"/>
+               <menuitem name="zoom-2-1" action="zoom-2-1"/>
+            </menu>
+            <menuitem name="zoom-in" action="zoom-in"/>
+            <menuitem name="zoom-reset" action="zoom-reset"/>
+            <menuitem name="zoom-out" action="zoom-out"/>
+            <separator/>
+            <menu name="aspect-ratio" action="aspect-ratio-menu">
+               <menuitem name="aspect-ratio-auto" action="aspect-ratio-auto"/>
+               <menuitem name="aspect-ratio-square" action="aspect-ratio-square"/>
+               <menuitem name="aspect-ratio-fbt" action="aspect-ratio-fbt"/>
+               <menuitem name="aspect-ratio-anamorphic" action="aspect-ratio-anamorphic"/>
+               <menuitem name="aspect-ratio-dvb" action="aspect-ratio-dvb"/>
+            </menu>
+            <menuitem name="next-angle" action="next-angle"/>
+	    <menuitem name="show-controls" action="show-controls"/>
+            <separator/>
+            <menu name="subtitles" action="subtitles-menu">
+               <menuitem name="select-subtitle" action="select-subtitle"/>
+	       <placeholder name="subtitle-download-placeholder"/>
+	       <separator/>
+               <placeholder name="placeholder"/>
+            </menu>
+            <separator/>
+            <menuitem name="sidebar" action="sidebar"/>         
+         </menu>
+         <menu name="go" action="go-menu">
+            <menuitem name="dvd-root-menu" action="dvd-root-menu"/>
+            <menuitem name="dvd-title-menu" action="dvd-title-menu"/>
+            <menuitem name="dvd-audio-menu" action="dvd-audio-menu"/>
+            <menuitem name="dvd-angle-menu" action="dvd-angle-menu"/>
+            <menuitem name="dvd-chapter-menu" action="dvd-chapter-menu"/>
+            <separator/>
+            <menuitem name="next-chapter" action="next-chapter"/>
+            <menuitem name="previous-chapter" action="previous-chapter"/>
+            <separator/>
+            <menuitem name="skip-forward" action="skip-forward"/>
+            <menuitem name="skip-backwards" action="skip-backwards"/>
+         </menu>
+         <menu name="sound" action="sound-menu">
+            <menu name="languages" action="languages-menu">
+               <placeholder name="placeholder"/>
+            </menu>
+            <menuitem name="volume-up" action="volume-up"/>
+            <menuitem name="volume-down" action="volume-down"/>
+         </menu>
+         <menu name="help" action="help-menu">
+            <menuitem name="contents" action="contents"/>
+            <menuitem name="about" action="about"/>
+         </menu>
+      </menubar>
+      <popup name="totem-main-popup">
+         <menuitem name="play" action="play"/>
+         <menuitem name="next-chapter" action="next-chapter"/>
+         <menuitem name="previous-chapter" action="previous-chapter"/>
+         <menuitem name="skip-forward" action="skip-forward"/>
+         <menuitem name="skip-backwards" action="skip-backwards"/>
+         <menuitem name="show-controls" action="show-controls"/>
+         <menuitem name="fullscreen" action="fullscreen"/>
+         <menuitem name="select-subtitle" action="select-subtitle"/>
+         <separator/>
+         <placeholder name="burn-placeholder"/>
+         <separator/>
+         <menu name="popup-languages" action="languages-menu">
+            <placeholder name="placeholder"/>
+         </menu>
+         <menu name="popup-subtitles" action="subtitles-menu">
+            <placeholder name="placeholder"/>
+         </menu>
+      </popup>
+   </ui>
+</object>
+
+<object class="GtkListStore" id="tpw_speed_liststore">
+  <columns>
+    <column type="gchararray"/>
+  </columns>
+  <data>
+    <row>
+      <col id="0" translatable="yes">14.4 Kbps Modem</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">19.2 Kbps Modem</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">28.8 Kbps Modem</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">33.6 Kbps Modem</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">34.4 Kbps Modem</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">56 Kbps Modem/ISDN</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">112 Kbps Dual ISDN/DSL</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">256 Kbps DSL/Cable</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">384 Kbps DSL/Cable</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">512 Kbps DSL/Cable</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">1.5 Mbps T1/Intranet/LAN</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">Intranet/LAN</col>
+    </row>
+  </data>
+</object>
+
+<object class="GtkListStore" id="tpw_visuals_size_liststore">
+  <columns>
+    <column type="gchararray"/>
+  </columns>
+  <data>
+    <row>
+      <col id="0" translatable="yes" comments="Audio visualization dimensions">Normal</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes" comments="Audio visualization dimensions">Large</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes" comments="Audio visualization dimensions">Extra Large</col>
+    </row>
+  </data>
+</object>
+
+<object class="GtkListStore" id="tpw_visuals_type_liststore">
+  <columns>
+    <column type="gchararray"/>
+  </columns>
+  <data>
+  </data>
+</object>
+
+<object class="GtkListStore" id="tpw_sound_output_liststore">
+  <columns>
+    <column type="gchararray"/>
+  </columns>
+  <data>
+    <row>
+      <col id="0" translatable="yes">Stereo</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">4-channel</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">4.1-channel</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">5.0-channel</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">5.1-channel</col>
+    </row>
+    <row>
+      <col id="0" translatable="yes">AC3 Passthrough</col>
+    </row>
+  </data>
+</object>
+
+<object class="GtkAdjustment" id="tpw_bright_adjustment">
+  <property name="lower">0</property>
+  <property name="upper">65535</property>
+  <property name="step-increment">1000</property>
+  <property name="page-increment">2000</property>
+  <property name="page-size">250</property>
+  <property name="value">32767</property>
+</object>
+
+<object class="GtkAdjustment" id="tpw_contrast_adjustment">
+  <property name="lower">0</property>
+  <property name="upper">65535</property>
+  <property name="step-increment">1000</property>
+  <property name="page-increment">2000</property>
+  <property name="page-size">250</property>
+  <property name="value">32767</property>
+</object>
+
+<object class="GtkAdjustment" id="tpw_saturation_adjustment">
+  <property name="lower">0</property>
+  <property name="upper">65535</property>
+  <property name="step-increment">1000</property>
+  <property name="page-increment">2000</property>
+  <property name="page-size">250</property>
+  <property name="value">32767</property>
+</object>
+
+<object class="GtkAdjustment" id="tpw_hue_adjustment">
+  <property name="lower">0</property>
+  <property name="upper">65535</property>
+  <property name="step-increment">1000</property>
+  <property name="page-increment">2000</property>
+  <property name="page-size">250</property>
+  <property name="value">32767</property>
+</object>
+
+<object class="GtkAdjustment" id="tmw_seek_adjustment">
+  <property name="lower">0</property>
+  <property name="upper">65535</property>
+  <property name="step-increment">1</property>
+  <property name="page-increment">10</property>
+  <property name="page-size">0</property>
+  <property name="value">0</property>
+  <signal name="value-changed" handler="seek_slider_changed_cb"/>
+</object>
+
+<object class="GtkDialog" id="totem_preferences_window">
+  <property name="border_width">5</property>
+  <property name="title" translatable="yes">Totem Preferences</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
+  <property name="modal">False</property>
+  <property name="resizable">False</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
+  <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
+  <property name="has_separator">False</property>
+
+  <child internal-child="vbox">
+    <object class="GtkVBox" id="tpw_dialog_vbox">
+      <property name="visible">True</property>
+      <property name="homogeneous">False</property>
+      <property name="spacing">2</property>
+      <property name="orientation">vertical</property>
+
+      <child internal-child="action_area">
+	<object class="GtkHButtonBox" id="tpw_dialog_action_area">
+	  <property name="visible">True</property>
+	  <property name="layout_style">GTK_BUTTONBOX_END</property>
+
+	  <child>
+	    <object class="GtkButton" id="tpw_close_button">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-close</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
+	      
+	    </object>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">True</property>
+	  <property name="pack_type">GTK_PACK_END</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="GtkNotebook" id="tpw_notebook">
+	  <property name="border_width">5</property>
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="show_tabs">True</property>
+	  <property name="show_border">True</property>
+	  <property name="tab_pos">GTK_POS_TOP</property>
+	  <property name="scrollable">False</property>
+	  <property name="enable_popup">False</property>
+
+	  <child>
+	    <object class="GtkVBox" id="tpw_general_vbox">
+	      <property name="border_width">12</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">18</property>
+              <property name="orientation">vertical</property>
+
+	      <child>
+		<object class="GtkVBox" id="vbox2">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkLabel" id="tpw_playback_label">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Playback</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		      <property name="width_chars">-1</property>
+		      <property name="single_line_mode">False</property>
+		      <property name="angle">0</property>
+		      <attributes>
+		        <attribute name="weight" value="bold"/>
+                      </attributes>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment2">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			    <object class="GtkCheckButton" id="tpw_remember_position_checkbutton">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">Start playing files from last position</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <property name="active">False</property>
+			      <property name="inconsistent">False</property>
+			      <property name="draw_indicator">True</property>
+			      <signal name="toggled" handler="remember_position_checkbutton_toggled_cb" />
+		        </object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child><child>
+		<object class="GtkVBox" id="vbox3">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkLabel" id="tpw_network_label">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Networking</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		      <property name="width_chars">-1</property>
+		      <property name="single_line_mode">False</property>
+		      <property name="angle">0</property>
+		      <attributes>
+		        <attribute name="weight" value="bold"/>
+                      </attributes>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment1">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<object class="GtkHBox" id="hbox6">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">12</property>
+
+			  <child>
+			    <object class="GtkLabel" id="tpw_speed_label">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Connection _speed:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">tpw_speed_combobox</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkComboBox" id="tpw_speed_combobox">
+			      <property name="visible">True</property>
+			      <property name="model">tpw_speed_liststore</property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			      <signal name="changed" handler="connection_combobox_changed"/>
+			      <child>
+			        <object class="GtkCellRendererText" id="tpw_speed_cell"/>
+			        <attributes>
+			          <attribute name="text">0</attribute>
+			        </attributes>
+			      </child>
+			    </object>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+			</object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<object class="GtkVBox" id="vbox6">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkLabel" id="tpw_text_subtitles_label">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Text Subtitles</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		      <property name="width_chars">-1</property>
+		      <property name="single_line_mode">False</property>
+		      <property name="angle">0</property>
+		      <attributes>
+		        <attribute name="weight" value="bold"/>
+                      </attributes>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment3">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<object class="GtkTable" id="table3">
+			  <property name="visible">True</property>
+			  <property name="n_rows">3</property>
+			  <property name="n_columns">2</property>
+			  <property name="homogeneous">False</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
+
+			  <child>
+			    <object class="GtkCheckButton" id="tpw_auto_subtitles_checkbutton">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">_Load subtitle files when movie is loaded</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <property name="active">False</property>
+			      <property name="inconsistent">False</property>
+			      <property name="draw_indicator">True</property>
+			      <signal name="toggled" handler="checkbutton3_toggled_cb"/>
+		            </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+		            </packing>
+		          </child>
+
+			  <child>
+			    <object class="GtkLabel" id="label32">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_Font:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">font_sel_button</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkLabel" id="label35">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_Encoding:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">subtitle_encoding_combo</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkComboBox" id="subtitle_encoding_combo">
+			      <property name="visible">True</property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			      <signal name="changed" handler="encoding_set_cb"/>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkFontButton" id="font_sel_button">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="show_style">True</property>
+			      <property name="show_size">True</property>
+			      <property name="use_font">False</property>
+			      <property name="use_size">False</property>
+			      <property name="focus_on_click">True</property>
+			      <signal name="font-set" handler="font_set_cb"/>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+			</object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<object class="GtkVBox" id="vbox7">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkLabel" id="tpw_ext_chapters_label">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">External Chapters</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		      <property name="width_chars">-1</property>
+		      <property name="single_line_mode">False</property>
+		      <property name="angle">0</property>
+		      <attributes>
+		        <attribute name="weight" value="bold"/>
+                      </attributes>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment3_2">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<object class="GtkTable" id="table3_2">
+			  <property name="visible">True</property>
+			  <property name="n_rows">1</property>
+			  <property name="n_columns">2</property>
+			  <property name="homogeneous">False</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
+
+			  <child>
+			    <object class="GtkCheckButton" id="tpw_auto_chapters_checkbutton">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">Load _chapter files when movie is loaded</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <property name="active">False</property>
+			      <property name="inconsistent">False</property>
+			      <property name="draw_indicator">True</property>
+			      <signal name="toggled" handler="auto_chapters_toggled_cb"/>
+		            </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+		            </packing>
+		          </child>
+			</object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </object>
+	    <packing>
+	      <property name="tab_expand">False</property>
+	      <property name="tab_fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child type="tab">
+	    <object class="GtkLabel" id="tpw_general_notebook_label">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">General</property>
+	      <property name="use_underline">True</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </object>
+	    
+	  </child>
+
+	  <child>
+	    <object class="GtkVBox" id="vbox1">
+	      <property name="border_width">12</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">18</property>
+              <property name="orientation">vertical</property>
+
+	      <child>
+		<object class="GtkVBox" id="tpw_visuals_display_vbox">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkLabel" id="tpw_display_label">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes" comments="Tab label in the Preferences dialogue">Display</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		      <property name="width_chars">-1</property>
+		      <property name="single_line_mode">False</property>
+		      <property name="angle">0</property>
+		      <attributes>
+		        <attribute name="weight" value="bold"/>
+                      </attributes>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment4">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<object class="GtkCheckButton" id="tpw_display_checkbutton">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">_Resize the window when a new video is loaded</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			  <signal name="toggled" handler="checkbutton1_toggled_cb"/>
+			</object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+	    </child>
+		  <child>
+			  <object class="GtkAlignment" id="alignment9">
+				  <property name="visible">True</property>
+				  <property name="left_padding">12</property>
+				  <child>
+					  <object class="GtkCheckButton" id="tpw_no_deinterlace_checkbutton">
+						  <property name="label" translatable="yes">Disable _deinterlacing of interlaced videos</property>
+						  <property name="visible">True</property>
+						  <property name="can_focus">False</property>
+						  <property name="receives_default">False</property>
+						  <property name="use_action_appearance">False</property>
+						  <property name="use_underline">True</property>
+						  <property name="draw_indicator">True</property>
+						  <signal name="toggled" handler="no_deinterlace_toggled_cb"/>
+					  </object>
+				  </child>
+			  </object>
+			  <packing>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				  <property name="position">3</property>
+			  </packing>
+		  </child>
+                    <child>
+                      <object class="GtkAlignment" id="alignment8">
+                        <property name="visible">True</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <object class="GtkHBox" id="hbox1">
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label1">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Disable screensaver when playing </property>
+                              </object>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="tpw_video_toggle_button">
+                                <property name="label" translatable="yes">Video</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">tpw_audio_toggle_button</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="tpw_audio_toggle_button">
+                                <property name="label" translatable="yes">Video or Audio</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="active">True</property>
+				<property name="draw_indicator">True</property>
+				<signal name="toggled" handler="audio_screensaver_button_toggled_cb"/>
+                              </object>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+
+
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<object class="GtkVBox" id="tpw_visuals_effects_vbox">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkLabel" id="tpw_visuals_label">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Visual Effects</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+		      <property name="width_chars">-1</property>
+		      <property name="single_line_mode">False</property>
+		      <property name="angle">0</property>
+		      <attributes>
+		        <attribute name="weight" value="bold"/>
+                      </attributes>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment5">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<object class="GtkVBox" id="vbox9">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">6</property>
+                          <property name="orientation">vertical</property>
+
+			  <child>
+			    <object class="GtkCheckButton" id="tpw_visuals_checkbutton">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">Show _visual effects when an audio file is played</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <property name="active">False</property>
+			      <property name="inconsistent">False</property>
+			      <property name="draw_indicator">True</property>
+			      <signal name="toggled" handler="checkbutton2_toggled_cb"/>
+			    </object>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkTable" id="table1">
+			      <property name="visible">True</property>
+			      <property name="n_rows">2</property>
+			      <property name="n_columns">2</property>
+			      <property name="homogeneous">False</property>
+			      <property name="row_spacing">6</property>
+			      <property name="column_spacing">12</property>
+
+			      <child>
+				<object class="GtkLabel" id="tpw_visuals_type_label">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">_Type of visualization:</property>
+				  <property name="use_underline">True</property>
+				  <property name="use_markup">False</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				  <property name="mnemonic_widget">tpw_visuals_type_combobox</property>
+				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+				  <property name="width_chars">-1</property>
+				  <property name="single_line_mode">False</property>
+				  <property name="angle">0</property>
+				</object>
+				<packing>
+				  <property name="left_attach">0</property>
+				  <property name="right_attach">1</property>
+				  <property name="top_attach">0</property>
+				  <property name="bottom_attach">1</property>
+				  <property name="x_options">fill</property>
+				  <property name="y_options"/>
+				</packing>
+			      </child>
+
+			      <child>
+				<object class="GtkLabel" id="tpw_visuals_size_label">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">Visualization _size:</property>
+				  <property name="use_underline">True</property>
+				  <property name="use_markup">False</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				  <property name="mnemonic_widget">tpw_visuals_size_combobox</property>
+				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+				  <property name="width_chars">-1</property>
+				  <property name="single_line_mode">False</property>
+				  <property name="angle">0</property>
+				</object>
+				<packing>
+				  <property name="left_attach">0</property>
+				  <property name="right_attach">1</property>
+				  <property name="top_attach">1</property>
+				  <property name="bottom_attach">2</property>
+				  <property name="x_options">fill</property>
+				  <property name="y_options"/>
+				</packing>
+			      </child>
+
+			      <child>
+				<object class="GtkComboBox" id="tpw_visuals_size_combobox">
+				  <property name="visible">True</property>
+				  <property name="model">tpw_visuals_size_liststore</property>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
+				  <signal name="changed" handler="visual_quality_menu_changed"/>
+				  <child>
+				    <object class="GtkCellRendererText" id="tpw_visuals_size_cell"/>
+				    <attributes>
+				      <attribute name="text">0</attribute>
+				    </attributes>
+				  </child>
+				</object>
+				<packing>
+				  <property name="left_attach">1</property>
+				  <property name="right_attach">2</property>
+				  <property name="top_attach">1</property>
+				  <property name="bottom_attach">2</property>
+				  <property name="x_options">fill</property>
+				  <property name="y_options">fill</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<object class="GtkComboBox" id="tpw_visuals_type_combobox">
+				  <property name="visible">True</property>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
+				  <property name="model">tpw_visuals_type_liststore</property>
+				  <signal name="changed" handler="visual_menu_changed"/>
+				  <child>
+				    <object class="GtkCellRendererText" id="renderer1"/>
+				    <attributes>
+				      <attribute name="text">0</attribute>
+				    </attributes>
+				  </child>
+				</object>
+				<packing>
+				  <property name="left_attach">1</property>
+				  <property name="right_attach">2</property>
+				  <property name="top_attach">0</property>
+				  <property name="bottom_attach">1</property>
+				  <property name="y_options">fill</property>
+				</packing>
+			      </child>
+			    </object>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+			</object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<object class="GtkVBox" id="tpw_bright_contr_vbox">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkHBox" id="hbox14">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">6</property>
+
+		      <child>
+			<object class="GtkLabel" id="tpw_color_balance_label">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Color Balance</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">True</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">-1</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
+			  <attributes>
+		            <attribute name="weight" value="bold"/>
+                          </attributes>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkAlignment" id="alignment6">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">12</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<object class="GtkTable" id="table2">
+			  <property name="visible">True</property>
+			  <property name="n_rows">5</property>
+			  <property name="n_columns">2</property>
+			  <property name="homogeneous">False</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
+
+			  <child>
+			    <object class="GtkLabel" id="tpw_brightness_label">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_Brightness:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">tpw_bright_scale</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkLabel" id="tpw_contrast_label">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Co_ntrast:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">tpw_contrast_scale</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkHScale" id="tpw_bright_scale">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="draw_value">False</property>
+			      <property name="value_pos">GTK_POS_TOP</property>
+			      <property name="digits">1</property>
+			      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+			      <property name="inverted">False</property>
+			      <property name="adjustment">tpw_bright_adjustment</property>
+			      <signal name="value-changed" handler="brightness_changed"/>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkHScale" id="tpw_contrast_scale">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="draw_value">False</property>
+			      <property name="value_pos">GTK_POS_TOP</property>
+			      <property name="digits">1</property>
+			      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+			      <property name="inverted">False</property>
+			      <property name="adjustment">tpw_contrast_adjustment</property>
+			      <signal name="value-changed" handler="contrast_changed"/>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkLabel" id="tpw_saturation_label">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Sat_uration:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">tpw_saturation_scale</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkLabel" id="tpw_hue_label">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_Hue:</property>
+			      <property name="use_underline">True</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">tpw_hue_scale</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </object>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">3</property>
+			      <property name="bottom_attach">4</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"/>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkHScale" id="tpw_saturation_scale">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="draw_value">False</property>
+			      <property name="value_pos">GTK_POS_TOP</property>
+			      <property name="digits">1</property>
+			      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+			      <property name="inverted">False</property>
+			      <property name="adjustment">tpw_saturation_adjustment</property>
+			      <signal name="value-changed" handler="saturation_changed"/>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">2</property>
+			      <property name="bottom_attach">3</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkHScale" id="tpw_hue_scale">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="draw_value">False</property>
+			      <property name="value_pos">GTK_POS_TOP</property>
+			      <property name="digits">1</property>
+			      <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+			      <property name="inverted">False</property>
+			      <property name="adjustment">tpw_hue_adjustment</property>
+			      <signal name="value-changed" handler="hue_changed"/>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">3</property>
+			      <property name="bottom_attach">4</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <object class="GtkHButtonBox" id="hbox23">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">0</property>
+			      <property name="layout_style">GTK_BUTTONBOX_END</property>
+
+			      <child>
+				<object class="GtkButton" id="tpw_color_reset">
+				  <property name="visible">True</property>
+				  <property name="can_focus">True</property>
+				  <property name="label" translatable="yes">Reset to _Defaults</property>
+				  <property name="use_underline">True</property>
+				  <property name="relief">GTK_RELIEF_NORMAL</property>
+				  <property name="focus_on_click">True</property>
+				  <signal name="clicked" handler="tpw_color_reset_clicked_cb"/>
+				</object>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
+			    </object>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">4</property>
+			      <property name="bottom_attach">5</property>
+			      <property name="x_options">shrink|fill</property>
+			    </packing>
+			  </child>
+			</object>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </object>
+	    <packing>
+	      <property name="tab_expand">False</property>
+	      <property name="tab_fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child type="tab">
+	    <object class="GtkLabel" id="tpw_visuals_notebook_label">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Display</property>
+	      <property name="use_underline">True</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </object>
+	    
+	  </child>
+
+	  <child>
+	    <object class="GtkVBox" id="vbox12">
+	      <property name="border_width">12</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">18</property>
+              <property name="orientation">vertical</property>
+
+	      <child>
+		<object class="GtkVBox" id="vbox13">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">0</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkVBox" id="vbox22">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">6</property>
+                      <property name="orientation">vertical</property>
+
+		      <child>
+			<object class="GtkLabel" id="tpw_audio_output_label">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Audio Output</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">True</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">-1</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
+			  <attributes>
+		            <attribute name="weight" value="bold"/>
+                          </attributes>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<object class="GtkAlignment" id="alignment7">
+			  <property name="visible">True</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xscale">1</property>
+			  <property name="yscale">1</property>
+			  <property name="top_padding">0</property>
+			  <property name="bottom_padding">0</property>
+			  <property name="left_padding">12</property>
+			  <property name="right_padding">0</property>
+
+			  <child>
+			    <object class="GtkHBox" id="hbox22">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">12</property>
+
+			      <child>
+				<object class="GtkLabel" id="tpw_audio_output_type_label">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">_Audio output type:</property>
+				  <property name="use_underline">True</property>
+				  <property name="use_markup">False</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				  <property name="mnemonic_widget">tpw_sound_output_combobox</property>
+				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+				  <property name="width_chars">-1</property>
+				  <property name="single_line_mode">False</property>
+				  <property name="angle">0</property>
+				</object>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<object class="GtkComboBox" id="tpw_sound_output_combobox">
+				  <property name="visible">True</property>
+				  <property name="model">tpw_sound_output_liststore</property>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
+				  <signal name="changed" handler="audio_out_menu_changed"/>
+				  <child>
+				    <object class="GtkCellRendererText" id="tpw_sound_output_cell"/>
+				    <attributes>
+				      <attribute name="text">0</attribute>
+				    </attributes>
+				  </child>
+				</object>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">True</property>
+				  <property name="fill">True</property>
+				</packing>
+			      </child>
+			    </object>
+			  </child>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <!--Placeholder-->
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </object>
+	    <packing>
+	      <property name="tab_expand">False</property>
+	      <property name="tab_fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child type="tab">
+	    <object class="GtkLabel" id="label11">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Audio</property>
+	      <property name="use_underline">True</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </object>
+	    
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+    </object>
+  </child>
+<action-widgets><action-widget response="-7">tpw_close_button</action-widget></action-widgets></object>
+
+<object class="GtkWindow" id="totem_main_window">
+  <property name="title" translatable="yes">Movie Player</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="modal">False</property>
+  <property name="resizable">True</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
+  <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
+  <signal name="delete-event" handler="main_window_destroy_cb"/>
+  <signal name="window-state-event" handler="window_state_event_cb"/>
+  <signal name="key-press-event" handler="window_key_press_event_cb"/>
+  <signal name="key-release-event" handler="window_key_press_event_cb"/>
+  <signal name="scroll-event" handler="window_scroll_event_cb"/>
+
+  <child>
+    <object class="GtkVBox" id="totem_main_vbox">
+      <property name="visible">True</property>
+      <property name="homogeneous">False</property>
+      <property name="spacing">0</property>
+      <property name="orientation">vertical</property>
+
+      <child>
+	<object class="GtkVBox" id="tmw_menubar_box">
+	  <property name="visible">True</property>
+	  <property name="homogeneous">False</property>
+	  <property name="spacing">0</property>
+          <property name="orientation">vertical</property>
+
+	  <child>
+	    <object class="GtkMenuBar" id="tmw-menubar" constructor="totem-ui-manager"/>
+	    <packing>
+	       <property name="pack-type">start</property>
+	       <property name="expand">False</property>
+	       <property name="fill">False</property>
+	       <property name="padding">0</property>
+	    </packing>
+	  </child>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="GtkHPaned" id="tmw_main_pane">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <signal name="size-allocate" handler="main_pane_size_allocated"/>
+
+	  <child>
+	    <object class="GtkVBox" id="tmw_main_vbox">
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
+              <property name="orientation">vertical</property>
+
+	      <child>
+	        <object class="GtkEventBox" id="tmw_bvw_box">
+		  <property name="border_width">0</property>
+		  <property name="visible">True</property>
+		  <property name="visible_window">True</property>
+		  <property name="above_child">False</property>
+
+		  <!--Placeholder-->
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<object class="GtkVBox" id="tmw_controls_vbox">
+		  <property name="border_width">6</property>
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+                  <property name="orientation">vertical</property>
+
+		  <child>
+		    <object class="GtkHBox" id="tmw_seek_hbox">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">6</property>
+
+		      <child>
+			<object class="GtkLabel" id="tmw_time_label">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Time:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">-1</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
+			  <accessibility>
+			    <relation target="tmw_seek_hscale" type="label-for"/>
+			  </accessibility>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<object class="GtkHScale" id="tmw_seek_hscale">
+			  <property name="visible">True</property>
+			  <property name="sensitive">False</property>
+			  <property name="can_focus">True</property>
+			  <property name="draw_value">False</property>
+			  <property name="value_pos">GTK_POS_TOP</property>
+			  <property name="digits">1</property>
+			  <property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
+			  <property name="inverted">False</property>
+			  <property name="adjustment">tmw_seek_adjustment</property>
+			  <signal name="button-press-event" handler="seek_slider_pressed_cb"/>
+			  <signal name="button-release-event" handler="seek_slider_released_cb"/>
+			  <signal name="scroll-event" handler="window_scroll_event_cb"/>
+			  <child internal-child="accessible">
+                            <object class="AtkObject" id="a11y-tmw_seek_hscale">
+                              <property name="AtkObject::accessible-name" translatable="yes">Time seek bar</property>
+                            </object>
+                          </child>
+			  <accessibility>
+			    <relation target="tmw_time_label" type="labelled-by"/>
+			  </accessibility>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <object class="GtkHBox" id="tmw_buttons_hbox">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">6</property>
+
+		      <child>
+			<object class="GtkHBox" id="tmw_sidebar_button_hbox">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">0</property>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			  <property name="pack_type">GTK_PACK_END</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<object class="GtkVolumeButton" id="tmw_volume_button">
+			  <property name="visible">True</property>
+			  <property name="sensitive">False</property>
+			  <signal name="value-changed" handler="volume_button_value_changed_cb"/>
+			</object>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">True</property>
+			  <property name="pack_type">GTK_PACK_END</property>
+			</packing>
+		      </child>
+		    </object>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</object>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </object>
+	    <packing>
+	      <property name="shrink">False</property>
+	      <property name="resize">True</property>
+	    </packing>
+	  </child>
+
+	  <!--Placeholder-->
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+
+      <child>
+	<object class="TotemStatusbar" id="tmw_statusbar">
+	  <property name="visible">True</property>
+	</object>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+    </object>
+  </child>
+</object>
+
+</interface>

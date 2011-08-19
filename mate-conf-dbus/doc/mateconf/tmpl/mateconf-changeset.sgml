@@ -1,0 +1,339 @@
+<!-- ##### SECTION Title ##### -->
+MateConfChangeSet
+
+<!-- ##### SECTION Short_Description ##### -->
+
+a set of configuration changes to be made.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+a #MateConfChangeSet allows you to collect a set of changes to
+configuration keys (set/unset operations). You can then commit 
+all the changes at once. This is convenient for something like a
+preferences dialog; you can collect all the pending changes in a
+#MateConfChangeSet, then when the user clicks "apply" send them all to
+the configuration database. The #MateConfChangeSet allows you to avoid
+sending every preferences setting when "apply" is clicked; you only 
+have to send the settings the user changed.
+</para>
+
+<para>
+In the future, MateConf may also have optimizations so that
+changing a group of values with #MateConfChangeSet is faster than calling 
+mateconf_engine_set () for each value. In the future, #MateConfChangeSet may also
+represent an atomic transaction, where all or none of the values are
+set; however, for now the operation is <emphasis>not</emphasis>
+atomic.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT MateConfChangeSet ##### -->
+<para>
+An opaque data type representing a set of changes to be made. 
+A change set can contain "set" and "unset" operations.
+</para>
+
+
+<!-- ##### USER_FUNCTION MateConfChangeSetForeachFunc ##### -->
+<para>
+The type of a function passed to mateconf_change_set_foreach(). 
+The @cs argument is the #MateConfChangeSet you're iterating over. @key is
+a key in the change set. @value is the value the key will be set to,
+or <symbol>NULL</symbol> if the key will be unset. @user_data is the
+user data passed to mateconf_change_set_foreach().
+</para>
+
+@cs: the #MateConfChangeSet being iterated over.
+@key: the current key.
+@value: the current value, or <symbol>NULL</symbol>.
+@user_data: user data passed to mateconf_change_set_foreach().
+
+
+<!-- ##### FUNCTION mateconf_engine_commit_change_set ##### -->
+<para>
+Applies the changes in the change set to the #MateConfEngine passed as
+the first argument. If @remove_committed is <symbol>TRUE</symbol>,
+then any successfully-committed changes are removed from the change
+set. If @remove_committed is <symbol>FALSE</symbol>, the
+#MateConfChangeSet is left unmodified.
+</para>
+
+<para>
+If any set or unset operation results in an error, then processing
+terminates and the error is returned in @err (unless @err was
+<symbol>NULL</symbol>). If @remove_committed was
+<symbol>TRUE</symbol>, then all the changes committed before the error
+occurred will have been removed from the set. If any error occurs,
+<symbol>FALSE</symbol> is returned.
+</para>
+
+@conf: a #MateConfEngine.
+@cs: a #MateConfChangeSet.
+@remove_committed: whether to remove successfully-committed changes from the set
+@err: the return location for an allocated #GError, or <symbol>NULL</symbol> to ignore errors.
+@Returns: <symbol>TRUE</symbol> on success, <symbol>FALSE</symbol> if an error occurs.
+
+
+<!-- ##### FUNCTION mateconf_engine_reverse_change_set ##### -->
+<para>
+Creates a change set that would reverse @cs. That is, for each change in @cs,
+save the current state of that key in the returned change set.
+</para>
+
+@conf: a #MateConfEngine.
+@cs: the #MateConfChangeSet to be reverted.
+@err: the return location for an allocated #GError, or <symbol>NULL</symbol> to ignore errors.
+@Returns: the modified #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_engine_change_set_from_currentv ##### -->
+<para>
+Creates a change set that will change the keys in 
+<symbol>NULL</symbol>terminated array @keys to their current state.
+</para>
+
+@conf: a #MateConfEngine.
+@keys: <symbol>NULL</symbol>terminated array of key names.
+@err: the return location for an allocated #GError, or <symbol>NULL</symbol> to ignore errors.
+@Returns: the newly allocated #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_engine_change_set_from_current ##### -->
+<para>
+Convenient Varags version of mateconf_engine_change_set_from_current().
+</para>
+
+@conf: a #MateConfEngine.
+@err: the return location for an allocated #GError, or <symbol>NULL</symbol> to ignore errors.
+@first_key: the first key, a char* value.
+@Varargs: the keys to be set.
+@Returns: the newly allocated #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_change_set_new ##### -->
+<para>
+Creates a new, empty #MateConfChangeSet. The caller assumes one reference
+count, and must call mateconf_change_set_unref() eventually.
+</para>
+
+@Returns: a new #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_change_set_ref ##### -->
+<para>
+Increases the reference count of a #MateConfChangeSet by one.
+</para>
+
+@cs: a #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_change_set_unref ##### -->
+<para>
+Decreases the reference count of a #MateConfChangeSet by one. If the
+reference count reaches 0, destroys the #MateConfChangeSet.
+</para>
+
+@cs: a #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_change_set_clear ##### -->
+<para>
+Clears all changes from a #MateConfChangeSet, so that committing the
+change set would have no effect.
+</para>
+
+@cs: a #MateConfChangeSet.
+
+
+<!-- ##### FUNCTION mateconf_change_set_size ##### -->
+<para>
+Returns the size of the changeset, a #guint value.
+</para>
+
+@cs: a #MateConfChangeSet.
+@Returns: the size, a #guint value.
+
+
+<!-- ##### FUNCTION mateconf_change_set_remove ##### -->
+<para>
+Removes a change from a #MateConfChangeSet. The key given as the @key
+argument will not be modified if this change set is committed.
+If @key is not in the change set, this function has no effect.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: key to remove from the change set.
+
+
+<!-- ##### FUNCTION mateconf_change_set_foreach ##### -->
+<para>
+Iterates over a #MateConfChangeSet by calling a
+#MateConfChangeSetForeachFunc for each change in the set. See the
+description of #MateConfChangeSetForeachFunc for details.  You may not
+call mateconf_change_set_remove() during the iteration, because you'll
+confuse the internal data structures and cause memory corruption.
+</para>
+
+@cs: a #MateConfChangeSet.
+@func: function to call for each change in the change set.
+@user_data: user data to pass to the #MateConfChangeSetForeachFunc.
+
+
+<!-- ##### FUNCTION mateconf_change_set_check_value ##### -->
+<para>
+Looks up the hash table associated with the #MateConfChangeSet for the key @key. If the key
+is found , the value is set in value_retloc.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to be searched in the changeset.
+@value_retloc: a #MateConfValue ** to hold the key, if found.
+@Returns: <symbol>TRUE</symbol> on finding the key, <symbol>FALSE</symbol> if key is not found.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set ##### -->
+<para>
+Adds a "set" operation to a change set. This function is similar to
+mateconf_engine_set (), except that no errors can occur (errors occur later, when
+you try to commit the change set).
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to change.
+@value: the value to change the key to.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_nocopy ##### -->
+<para>
+Like mateconf_change_set_set(), except that the #MateConfChangeSet takes
+ownership of the #MateConfValue. You should not use the value again.  It
+will be destroyed when the change is removed from the #MateConfChangeSet,
+the change is modified, or the #MateConfChangeSet is destroyed.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to change.
+@value: the new value of @key.
+
+
+<!-- ##### FUNCTION mateconf_change_set_unset ##### -->
+<para>
+Adds an "unset" operation to a #MateConfChangeSet. This function
+schedules a mateconf_engine_unset().
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to unset.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_float ##### -->
+<para>
+Adds a "set" operation; takes a #gdouble argument, so you can avoid
+creating a #MateConfValue.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@val: the new value of @key.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_int ##### -->
+<para>
+Adds a "set" operation; takes a #gint argument, so you can avoid
+creating a #MateConfValue.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@val: the new value of @key.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_string ##### -->
+<para>
+Adds a "set" operation; takes a #gchar* argument, so you can avoid
+creating a #MateConfValue.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@val: the new value of @key.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_bool ##### -->
+<para>
+Adds a "set" operation; takes a #gboolean argument, so you can avoid
+creating a #MateConfValue.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@val: the new value of @key.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_schema ##### -->
+<para>
+Adds a "set" operation; takes a #MateConfSchema argument, so you can
+avoid creating a #MateConfValue. The schema is copied, @val is left
+unmodified.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@val: the new value of @key.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_list ##### -->
+<para>
+Adds a "set" operation; takes a #GList argument and the type of the
+list, so you can avoid creating a #MateConfValue. This results in the 
+list of values being set for the key.  
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@list_type: the type of the list.
+@list: a #GList containing the values to be set.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_pair ##### -->
+<para>
+Adds a "set" operation; takes a pointer to the addresses of the pair
+of values, so you can avoid creating a #MateConfValue. This results in 
+the pair of values being set for the key.
+</para>
+
+@cs: a #MateConfChangeSet.
+@key: the key to set.
+@car_type: the type of the pair's first field. (car)
+@cdr_type: the type of the pair's second field. (cdr)
+@address_of_car: address of the car.
+@address_of_cdr: address of the cdr.
+
+
+<!-- ##### FUNCTION mateconf_change_set_set_user_data ##### -->
+<para>
+Sets the user_data and the destroy notification function fields of the 
+#MateConfChangeSet.
+</para>
+
+@cs: a #MateConfChangeSet.
+@data: a #gpointer.
+@dnotify: a pointer to the function to be called during destroy.
+
+
+<!-- ##### FUNCTION mateconf_change_set_get_user_data ##### -->
+<para>
+Returns the user_data field of the #MateConfChangeSet.
+</para>
+
+@cs: a #MateConfChangeSet.
+@Returns: a pointer to the user_data.
+
+

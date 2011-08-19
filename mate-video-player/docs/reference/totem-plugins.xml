@@ -1,0 +1,147 @@
+<refentry id="totem-plugins">
+	<refmeta>
+		<refentrytitle role="top_of_page" id="totem-plugins.top_of_page">Writing Totem Plugins</refentrytitle>
+		<manvolnum>3</manvolnum>
+		<refmiscinfo>Totem</refmiscinfo>
+	</refmeta>
+	<refnamediv>
+		<refname>Writing Totem Plugins</refname>
+		<refpurpose>brief tutorial on writing Totem plugins</refpurpose>
+	</refnamediv>
+
+	<refsect1>
+		<title>Introduction</title>
+		<para>Totem is extensible by means of small, dynamically-loadable plugins, which add functionality wanted by some but not others.</para>
+
+		<refsect2>
+			<title>Locations</title>
+			<para>Totem plugins can either be installed in the system path
+				(e.g. <filename class="directory">/usr/lib/totem/plugins/</filename>), or in a user's home directory
+				(e.g. <filename class="directory">~/.local/share/totem/plugins/</filename>). In either case, each plugin resides in a
+				subdirectory named after the plugin itself.</para>
+			<para>In addition, each plugin needs a <filename class="extension">.totem-plugin</filename> index file, residing inside the plugin
+				directory. This gives the code name of the plugin, as well as some metadata about the plugin such as its human-readable
+				name, description and author.</para>
+			<example>
+				<title>Example Plugin Directory</title>
+				<para>A system-installed plugin called <literal>subtitle-downloader</literal> would reside in
+					<filename class="directory">/usr/lib/totem/plugins/subtitle-downloader</filename>, and would (at a
+					minimum) have the following files:
+					<itemizedlist>
+						<listitem><filename>subtitle-downloader.totem-plugin</filename></listitem>
+						<listitem><filename>libsubtitle-downloader.so</filename></listitem>
+					</itemizedlist>
+				</para>
+				<para>If installed in a user's home directory, it would reside in
+					<filename class="extension">~/.local/share/totem/plugins/subtitle-downloader</filename> and have the same
+					files.</para>
+			</example>
+		</refsect2>
+
+		<refsect2>
+			<title>The <filename class="extension">.totem-plugin</filename> File</title>
+			<para>The file should use the following template:
+				<programlisting>[Totem Plugin]
+	Module=<replaceable>plugin-name</replaceable>
+	IAge=<replaceable>plugin interface age (starting at 1)</replaceable>
+	Builtin=<replaceable><literal>true</literal> or <literal>false</literal></replaceable>
+	Name=<replaceable>Human-Readable Plugin Name</replaceable>
+	Description=<replaceable>Simple sentence describing the plugin's functionality.</replaceable>
+	Authors=<replaceable>Plugin Author Name</replaceable>
+	Copyright=Copyright © <replaceable>year</replaceable> <replaceable>Copyright Holder</replaceable>
+	Website=<replaceable>http://plugin/website/</replaceable></programlisting>
+				Most of the values in the template are fairly self-explanatory. One thing to note is that the plugin name should be
+				in lowercase, and contain no spaces. The plugin interface age should start at <literal>1</literal>, and only be
+				incremented when the binary interface of the plugin (as used by Totem) changes. If the plugin does not have its own
+				website, Totem's website (<literal>http://projects.mate.org/totem/</literal>) can be used.</para>
+			<para>The library file containing the plugin's code should be named
+				<filename>lib<replaceable>plugin-name</replaceable>.so</filename> (for C, or other compiled-language, plugins) or
+				<filename><replaceable>plugin-name</replaceable>.py</filename> (for Python plugins).</para>
+		</refsect2>
+
+		<refsect2>
+			<title>Writing a Plugin</title>
+			<para>Writing a plugin in C is a matter of creating a new <type><link linkend="GObject">GObject</link></type> which inherits
+				from <type><link linkend="TotemPlugin">TotemPlugin</link></type>. The following code will create a simple plugin
+				called <literal>foobar</literal>:
+				<example>
+					<title>Example Plugin Code</title>
+					<programlisting>
+#define TOTEM_TYPE_FOOBAR_PLUGIN		(totem_foobar_plugin_get_type ())
+#define TOTEM_FOOBAR_PLUGIN(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), TOTEM_TYPE_FOOBAR_PLUGIN, TotemFoobarPlugin))
+#define TOTEM_FOOBAR_PLUGIN_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST((k), TOTEM_TYPE_FOOBAR_PLUGIN, TotemFoobarPluginClass))
+#define TOTEM_IS_FOOBAR_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), TOTEM_TYPE_FOOBAR_PLUGIN))
+#define TOTEM_IS_FOOBAR_PLUGIN_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), TOTEM_TYPE_FOOBAR_PLUGIN))
+#define TOTEM_FOOBAR_PLUGIN_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), TOTEM_TYPE_FOOBAR_PLUGIN, TotemFoobarPluginClass))
+
+typedef struct {
+	TotemPlugin parent;
+	/* plugin object members */
+} TotemFoobarPlugin;
+
+typedef struct {
+	TotemPluginClass parent_class;
+} TotemFoobarPluginClass;
+
+G_MODULE_EXPORT GType register_totem_plugin (GTypeModule *module);
+GType totem_foobar_plugin_get_type (void) G_GNUC_CONST;
+
+static gboolean impl_activate (TotemPlugin *plugin, TotemObject *totem, GError **error);
+static void impl_deactivate (TotemPlugin *plugin, TotemObject *totem);
+
+TOTEM_PLUGIN_REGISTER (TotemFoobarPlugin, totem_foobar_plugin)
+
+static void
+totem_foobar_plugin_class_init (TotemFoobarPluginClass *klass)
+{
+	TotemPluginClass *plugin_class = TOTEM_PLUGIN_CLASS (klass);
+
+	plugin_class->activate = impl_activate;
+	plugin_class->deactivate = impl_deactivate;
+}
+
+static void
+totem_foobar_plugin_init (TotemFoobarPlugin *plugin)
+{
+	/* Initialise resources, but only ones which should exist for the entire lifetime of Totem;
+	 * those which should only exist for the lifetime of the plugin (which may be short, and may
+	 * occur several times during one Totem session) should be created in impl_activate, and destroyed
+	 * in impl_deactivate. */
+}
+
+static gboolean
+impl_activate (TotemPlugin *plugin, TotemObject *totem, GError **error)
+{
+	TotemFoobarPlugin *self = TOTEM_FOOBAR_PLUGIN (plugin);
+
+	/* Initialise resources, connect to events, create menu items and UI, etc., here.
+	 * Note that impl_activate and impl_deactivate can be called multiple times in one
+	 * Totem instance, though impl_activate will always be followed by impl_deactivate before
+	 * it is called again. Similarly, impl_deactivate cannot be called twice in succession. */
+
+	return TRUE;
+}
+
+static void
+impl_deactivate	(TotemPlugin *plugin, TotemObject *totem)
+{
+	TotemFoobarPlugin *self = TOTEM_FOOBAR_PLUGIN (plugin);
+
+	/* Destroy resources created in impl_activate here. e.g. Disconnect from signals
+	 * and remove menu entries and UI. */
+}</programlisting>
+				</example></para>
+			<para>Once resources have been created, and the plugin has been connected to Totem's UI in the <function>impl_activate</function>
+				function, the plugin is free to go about its tasks as appropriate. If the user deactivates the plugin, or Totem decides
+				to deactivate it, the <function>impl_deactivate</function> will be called. The plugin should free any resources
+				grabbed or allocated in the <function>impl_activate</function> function, and remove itself from the Totem
+				interface.</para>
+			<para>Note that plugins can be activated and deactivated (e.g. from Totem's plugin manager) many times during one Totem session,
+				so the <function>impl_activate</function> and <function>impl_deactivate</function> functions must be able to cope with
+				this.</para>
+			<para>Any of the API documented in the rest of the Totem API reference can be used by plugins, though the bindings for Python
+				plugins are incomplete. Otherwise, Python plugins are written in the same way as C plugins, and are similarly implemented
+				as classes derived from <type><link linkend="TotemPlugin">TotemPlugin</link></type>.</para>
+		</refsect2>
+	</refsect1>
+</refentry>

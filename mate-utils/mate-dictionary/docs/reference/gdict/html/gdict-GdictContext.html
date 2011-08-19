@@ -1,0 +1,871 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GdictContext</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="MATE Dictionary Library Reference Manual">
+<link rel="up" href="context.html" title="Dictionary Context">
+<link rel="prev" href="context.html" title="Dictionary Context">
+<link rel="next" href="context-types.html" title="Context Implementations">
+<meta name="generator" content="GTK-Doc V1.15.1 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="context.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="context.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MATE Dictionary Library Reference Manual</th>
+<td><a accesskey="n" href="context-types.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gdict-GdictContext.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gdict-GdictContext.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="GdictContext">
+<a name="gdict-GdictContext"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gdict-GdictContext.top_of_page"></a>GdictContext</span></h2>
+<p>GdictContext — Interface for dictionary transports</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gdict-GdictContext.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">                    <a class="link" href="gdict-GdictContext.html#GdictContextIface" title="GdictContextIface">GdictContextIface</a>;
+enum                <a class="link" href="gdict-GdictContext.html#GdictContextError" title="enum GdictContextError">GdictContextError</a>;
+<span class="returnvalue">void</span>                <a class="link" href="gdict-GdictContext.html#gdict-context-set-local-only" title="gdict_context_set_local_only ()">gdict_context_set_local_only</a>        (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> local_only</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="gdict-GdictContext.html#gdict-context-get-local-only" title="gdict_context_get_local_only ()">gdict_context_get_local_only</a>        (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="gdict-GdictContext.html#gdict-context-lookup-databases" title="gdict_context_lookup_databases ()">gdict_context_lookup_databases</a>      (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="gdict-GdictContext.html#gdict-context-lookup-strategies" title="gdict_context_lookup_strategies ()">gdict_context_lookup_strategies</a>     (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="gdict-GdictContext.html#gdict-context-match-word" title="gdict_context_match_word ()">gdict_context_match_word</a>            (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *database</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *strategy</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *word</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+<span class="returnvalue">gboolean</span>            <a class="link" href="gdict-GdictContext.html#gdict-context-define-word" title="gdict_context_define_word ()">gdict_context_define_word</a>           (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *database</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *word</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);
+
+                    <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase">GdictDatabase</a>;
+<a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="returnvalue">GdictDatabase</span></a> *     <a class="link" href="gdict-GdictContext.html#gdict-database-ref" title="gdict_database_ref ()">gdict_database_ref</a>                  (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdict-GdictContext.html#gdict-database-unref" title="gdict_database_unref ()">gdict_database_unref</a>                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-database-get-name" title="gdict_database_get_name ()">gdict_database_get_name</a>             (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-database-get-full-name" title="gdict_database_get_full_name ()">gdict_database_get_full_name</a>        (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);
+
+                    <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy">GdictStrategy</a>;
+<a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="returnvalue">GdictStrategy</span></a> *     <a class="link" href="gdict-GdictContext.html#gdict-strategy-ref" title="gdict_strategy_ref ()">gdict_strategy_ref</a>                  (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdict-GdictContext.html#gdict-strategy-unref" title="gdict_strategy_unref ()">gdict_strategy_unref</a>                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-strategy-get-name" title="gdict_strategy_get_name ()">gdict_strategy_get_name</a>             (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-strategy-get-description" title="gdict_strategy_get_description ()">gdict_strategy_get_description</a>      (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);
+
+                    <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch">GdictMatch</a>;
+<a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="returnvalue">GdictMatch</span></a> *        <a class="link" href="gdict-GdictContext.html#gdict-match-ref" title="gdict_match_ref ()">gdict_match_ref</a>                     (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdict-GdictContext.html#gdict-match-unref" title="gdict_match_unref ()">gdict_match_unref</a>                   (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-match-get-word" title="gdict_match_get_word ()">gdict_match_get_word</a>                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-match-get-database" title="gdict_match_get_database ()">gdict_match_get_database</a>            (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);
+
+                    <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition">GdictDefinition</a>;
+<a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="returnvalue">GdictDefinition</span></a> *   <a class="link" href="gdict-GdictContext.html#gdict-definition-ref" title="gdict_definition_ref ()">gdict_definition_ref</a>                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdict-GdictContext.html#gdict-definition-unref" title="gdict_definition_unref ()">gdict_definition_unref</a>              (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);
+<span class="returnvalue">gint</span>                <a class="link" href="gdict-GdictContext.html#gdict-definition-get-total" title="gdict_definition_get_total ()">gdict_definition_get_total</a>          (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-definition-get-word" title="gdict_definition_get_word ()">gdict_definition_get_word</a>           (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-definition-get-database" title="gdict_definition_get_database ()">gdict_definition_get_database</a>       (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);
+const <span class="returnvalue">gchar</span> *       <a class="link" href="gdict-GdictContext.html#gdict-definition-get-text" title="gdict_definition_get_text ()">gdict_definition_get_text</a>           (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="gdict-GdictContext.description"></a><h2>Description</h2>
+<p>
+<span class="type">GdictContext</span> is an interface used to uniformly access dictionary
+transport objects. Each implementation of <span class="type">GdictContext</span> must provide
+functions for accessing the list of databases available on a dictionary
+source and the available matching strategies; a function for retrieving
+all words matching a given string, inside one (or more) of those databases
+and using one of those strategies; a function for querying one (or more)
+of those databases for a definition of a word.
+</p>
+<p>
+Implementations of the <span class="type">GdictContext</span> interface should query their
+dictionary sources asynchronously; methods of the <span class="type">GdictContext</span> interface
+should return immediately, and each time a new database, strategy, match
+or definition has been found, a signal should be fired by those
+implementations.
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="gdict-GdictContext.details"></a><h2>Details</h2>
+<div class="refsect2" title="GdictContextIface">
+<a name="GdictContextIface"></a><h3>GdictContextIface</h3>
+<pre class="programlisting">typedef struct {
+  /* methods, not signals */
+  gboolean (*get_databases)     (GdictContext  *context,
+  			         GError       **error);
+  gboolean (*get_strategies)    (GdictContext  *context,
+  			         GError       **error);
+  gboolean (*match_word)        (GdictContext  *context,
+  			         const gchar   *database,
+  			         const gchar   *strategy,
+  			         const gchar   *word,
+  			         GError       **error);
+  gboolean (*define_word)       (GdictContext  *context,
+  			         const gchar   *database,
+  			         const gchar   *word,
+  			         GError       **error);  
+  
+  /* signals */
+  void (*lookup_start)     (GdictContext    *context);
+  void (*lookup_end)       (GdictContext    *context);
+  
+  void (*database_found)   (GdictContext    *context,
+  			    GdictDatabase   *database);
+  void (*strategy_found)   (GdictContext    *context,
+  			    GdictStrategy   *strategy);
+  void (*match_found)      (GdictContext    *context,
+  			    GdictMatch      *match);
+  void (*definition_found) (GdictContext    *context,
+  			    GdictDefinition *definition);
+  
+  /* fired each time there's an error; the GError is owned
+   * by the context, and should never be modified or freed
+   */
+  void (*error)            (GdictContext    *context,
+  			    const GError    *error);
+} GdictContextIface;
+</pre>
+<p>
+Interface defintion
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum GdictContextError">
+<a name="GdictContextError"></a><h3>enum GdictContextError</h3>
+<pre class="programlisting">typedef enum {
+  GDICT_CONTEXT_ERROR_PARSE,
+  GDICT_CONTEXT_ERROR_NOT_IMPLEMENTED,
+  GDICT_CONTEXT_ERROR_INVALID_DATABASE,
+  GDICT_CONTEXT_ERROR_INVALID_STRATEGY,
+  GDICT_CONTEXT_ERROR_INVALID_COMMAND,
+  GDICT_CONTEXT_ERROR_NO_MATCH,
+  GDICT_CONTEXT_ERROR_NO_DATABASES,
+  GDICT_CONTEXT_ERROR_NO_STRATEGIES
+} GdictContextError;
+</pre>
+<p>
+<span class="type">GdictContext</span> error enumeration.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_context_set_local_only ()">
+<a name="gdict-context-set-local-only"></a><h3>gdict_context_set_local_only ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdict_context_set_local_only        (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code><span class="type">gboolean</span> local_only</code></em>);</pre>
+<p>
+Sets whether only local resources will be used when querying for databases,
+strategies, matches or definitions.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>a <span class="type">GdictContext</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>local_only</code></em> :</span></p></td>
+<td>
+<code class="literal">TRUE</code> if only local resources will be used
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_context_get_local_only ()">
+<a name="gdict-context-get-local-only"></a><h3>gdict_context_get_local_only ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gdict_context_get_local_only        (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>);</pre>
+<p>
+Gets whether only local resources will be used when querying.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>a <span class="type">GdictContext</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if only local resources will be used.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_context_lookup_databases ()">
+<a name="gdict-context-lookup-databases"></a><h3>gdict_context_lookup_databases ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gdict_context_lookup_databases      (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Query <em class="parameter"><code>context</code></em> for the list of databases available.  Each time a
+database is found, the "database-found" signal is fired.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>a <span class="type">GdictContext</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>return location for a <span class="type">GError</span>, or <code class="literal">NULL</code>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the query was successfully started.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_context_lookup_strategies ()">
+<a name="gdict-context-lookup-strategies"></a><h3>gdict_context_lookup_strategies ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gdict_context_lookup_strategies     (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Query <em class="parameter"><code>context</code></em> for the list of matching strategies available.  Each
+time a new strategy is found, the "strategy-found" signal is fired.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>a <span class="type">GdictContext</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>return location for a <span class="type">GError</span>, or <code class="literal">NULL</code>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the query was successfully started.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_context_match_word ()">
+<a name="gdict-context-match-word"></a><h3>gdict_context_match_word ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gdict_context_match_word            (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *database</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *strategy</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *word</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Query <em class="parameter"><code>context</code></em> for a list of word matching <em class="parameter"><code>word</code></em> inside <em class="parameter"><code>database</code></em>,
+using <em class="parameter"><code>strategy</code></em> as a matching strategy.  Each time a matching word
+is found, the "match-found" signal is fired.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>a <span class="type">GdictContext</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>database</code></em> :</span></p></td>
+<td>a database name to search into, or <code class="literal">NULL</code> for the
+   default database
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>strategy</code></em> :</span></p></td>
+<td>a strategy name to use for matching, or <code class="literal">NULL</code> for
+   the default strategy
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>word</code></em> :</span></p></td>
+<td>the word to match
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>return location for a <span class="type">GError</span>, or <code class="literal">NULL</code>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the query was successfully started.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_context_define_word ()">
+<a name="gdict-context-define-word"></a><h3>gdict_context_define_word ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>            gdict_context_define_word           (<em class="parameter"><code><span class="type">GdictContext</span> *context</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *database</code></em>,
+                                                         <em class="parameter"><code>const <span class="type">gchar</span> *word</code></em>,
+                                                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+Query <em class="parameter"><code>context</code></em> for a list of definitions of <em class="parameter"><code>word</code></em> inside <em class="parameter"><code>database</code></em>.  Each
+time a new definition is found, the "definition-found" signal is fired.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>context</code></em> :</span></p></td>
+<td>a <span class="type">GdictContext</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>database</code></em> :</span></p></td>
+<td>a database name to search into, or <code class="literal">NULL</code> for the
+   default database
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>word</code></em> :</span></p></td>
+<td>the word to search
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>return location for a <span class="type">GError</span>, or <code class="literal">NULL</code>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <code class="literal">TRUE</code> if the query was successfully sent.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="GdictDatabase">
+<a name="GdictDatabase"></a><h3>GdictDatabase</h3>
+<pre class="programlisting">typedef struct _GdictDatabase GdictDatabase;</pre>
+<p>
+A <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> represents a database inside a dictionary source.
+</p>
+<p>
+The <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> structure is private and should only be accessed
+using the available functions.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_database_ref ()">
+<a name="gdict-database-ref"></a><h3>gdict_database_ref ()</h3>
+<pre class="programlisting"><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="returnvalue">GdictDatabase</span></a> *     gdict_database_ref                  (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);</pre>
+<p>
+Increases the reference count of <em class="parameter"><code>db</code></em> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>db</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <em class="parameter"><code>db</code></em> with its reference count increased
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_database_unref ()">
+<a name="gdict-database-unref"></a><h3>gdict_database_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdict_database_unref                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);</pre>
+<p>
+Decreases the reference count of <em class="parameter"><code>db</code></em> by one.  If the reference count reaches
+zero, <em class="parameter"><code>db</code></em> is destroyed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>db</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a>
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_database_get_name ()">
+<a name="gdict-database-get-name"></a><h3>gdict_database_get_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_database_get_name             (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);</pre>
+<p>
+Gets the short name of the database, to be used with functions like
+<a class="link" href="gdict-GdictContext.html#gdict-context-match-word" title="gdict_context_match_word ()"><code class="function">gdict_context_match_word()</code></a> or <a class="link" href="gdict-GdictContext.html#gdict-context-define-word" title="gdict_context_define_word ()"><code class="function">gdict_context_define_word()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>db</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the short name of the database.  The string is owned by
+  the <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> object, and should never be modified or freed.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_database_get_full_name ()">
+<a name="gdict-database-get-full-name"></a><h3>gdict_database_get_full_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_database_get_full_name        (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> *db</code></em>);</pre>
+<p>
+Gets the full name of the database, suitable for display.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>db</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the full name of the database.  The string is owned by
+  the <a class="link" href="gdict-GdictContext.html#GdictDatabase" title="GdictDatabase"><span class="type">GdictDatabase</span></a> object, and should never be modified or freed.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="GdictStrategy">
+<a name="GdictStrategy"></a><h3>GdictStrategy</h3>
+<pre class="programlisting">typedef struct _GdictStrategy GdictStrategy;</pre>
+<p>
+A <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> represents a matching strategy implemented by
+a dictionary source.
+</p>
+<p>
+The <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> structure is private and should only be accessed
+using the available functions.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_strategy_ref ()">
+<a name="gdict-strategy-ref"></a><h3>gdict_strategy_ref ()</h3>
+<pre class="programlisting"><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="returnvalue">GdictStrategy</span></a> *     gdict_strategy_ref                  (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);</pre>
+<p>
+Increases the reference count of <em class="parameter"><code>strat</code></em> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>strat</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> object  with its reference count
+  increased
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_strategy_unref ()">
+<a name="gdict-strategy-unref"></a><h3>gdict_strategy_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdict_strategy_unref                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);</pre>
+<p>
+Decreases the reference count of <em class="parameter"><code>strat</code></em> by one.  If the reference count
+reaches zero, the <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> object is freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>strat</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a>
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_strategy_get_name ()">
+<a name="gdict-strategy-get-name"></a><h3>gdict_strategy_get_name ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_strategy_get_name             (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);</pre>
+<p>
+FIXME
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>strat</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> FIXME
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_strategy_get_description ()">
+<a name="gdict-strategy-get-description"></a><h3>gdict_strategy_get_description ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_strategy_get_description      (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a> *strat</code></em>);</pre>
+<p>
+FIXME
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>strat</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictStrategy" title="GdictStrategy"><span class="type">GdictStrategy</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> FIXME
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="GdictMatch">
+<a name="GdictMatch"></a><h3>GdictMatch</h3>
+<pre class="programlisting">typedef struct _GdictMatch GdictMatch;</pre>
+<p>
+A <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> represents a single match for the searched word.
+</p>
+<p>
+The <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> structure is private and should only be accessed
+using the available functions.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_match_ref ()">
+<a name="gdict-match-ref"></a><h3>gdict_match_ref ()</h3>
+<pre class="programlisting"><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="returnvalue">GdictMatch</span></a> *        gdict_match_ref                     (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);</pre>
+<p>
+FIXME
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>match</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> FIXME
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_match_unref ()">
+<a name="gdict-match-unref"></a><h3>gdict_match_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdict_match_unref                   (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);</pre>
+<p>
+FIXME
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>match</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a>
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_match_get_word ()">
+<a name="gdict-match-get-word"></a><h3>gdict_match_get_word ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_match_get_word                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);</pre>
+<p>
+FIXME
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>match</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> FIXME
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_match_get_database ()">
+<a name="gdict-match-get-database"></a><h3>gdict_match_get_database ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_match_get_database            (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a> *match</code></em>);</pre>
+<p>
+FIXME
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>match</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictMatch" title="GdictMatch"><span class="type">GdictMatch</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> FIXME
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="GdictDefinition">
+<a name="GdictDefinition"></a><h3>GdictDefinition</h3>
+<pre class="programlisting">typedef struct _GdictDefinition GdictDefinition;</pre>
+<p>
+A <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> represents a single definition for the searched
+word.
+</p>
+<p>
+The <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> structure is private and should only be
+accessed using the available functions.
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_definition_ref ()">
+<a name="gdict-definition-ref"></a><h3>gdict_definition_ref ()</h3>
+<pre class="programlisting"><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="returnvalue">GdictDefinition</span></a> *   gdict_definition_ref                (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);</pre>
+<p>
+Increases the reference count of <em class="parameter"><code>def</code></em> by one.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>def</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> object with its reference count
+  increased.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_definition_unref ()">
+<a name="gdict-definition-unref"></a><h3>gdict_definition_unref ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdict_definition_unref              (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);</pre>
+<p>
+Decreases the reference count of <em class="parameter"><code>def</code></em> by one.  If the reference count
+reaches zero, the <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> object is freed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>def</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a>
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_definition_get_total ()">
+<a name="gdict-definition-get-total"></a><h3>gdict_definition_get_total ()</h3>
+<pre class="programlisting"><span class="returnvalue">gint</span>                gdict_definition_get_total          (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);</pre>
+<p>
+Retrieves the total number of definitions that were found on a
+dictionary.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>def</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the number of definitions.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_definition_get_word ()">
+<a name="gdict-definition-get-word"></a><h3>gdict_definition_get_word ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_definition_get_word           (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);</pre>
+<p>
+Retrieves the word used by the dictionary database to store
+the definition.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>def</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a word.  The returned string is owned by the
+  <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> object and should not be modified or freed.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_definition_get_database ()">
+<a name="gdict-definition-get-database"></a><h3>gdict_definition_get_database ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_definition_get_database       (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);</pre>
+<p>
+Retrieves the full name of the dictionary database where the
+definition is stored.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>def</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the full name of a database.  The returned string
+  is owned by the <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> object and should not be
+  modified or freed.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+<hr>
+<div class="refsect2" title="gdict_definition_get_text ()">
+<a name="gdict-definition-get-text"></a><h3>gdict_definition_get_text ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *       gdict_definition_get_text           (<em class="parameter"><code><a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> *def</code></em>);</pre>
+<p>
+Retrieves the text of the definition.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>def</code></em> :</span></p></td>
+<td>a <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the text of the definition.  The returned string
+  is owned by the <a class="link" href="gdict-GdictContext.html#GdictDefinition" title="GdictDefinition"><span class="type">GdictDefinition</span></a> object, and should not be
+  modified or freed.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 1.0</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15.1</div>
+</body>
+</html>

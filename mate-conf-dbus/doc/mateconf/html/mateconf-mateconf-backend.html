@@ -1,0 +1,619 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>mateconf-backend</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="MateConf Reference Manual">
+<link rel="up" href="ch01.html" title="Using the MateConf library">
+<link rel="prev" href="mateconf-MateConfClient.html" title="MateConfClient">
+<link rel="next" href="mateconf-mateconf-engine.html" title="MateConfEngine">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="Using the MateConf library">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="mateconf-MateConfClient.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">MateConf Reference Manual</th>
+<td><a accesskey="n" href="mateconf-mateconf-engine.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2598997" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2582576" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="mateconf-mateconf-backend"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2598997"></a><span class="refentrytitle">mateconf-backend</span>
+</h2>
+<p>mateconf-backend</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a class="link" href="mateconf-mateconf-backend.html#MateConfBackendVTable">MateConfBackendVTable</a>;
+                    <a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a>;
+gchar*              <a class="link" href="mateconf-mateconf-backend.html#mateconf-address-backend">mateconf_address_backend</a>               (const gchar *address);
+gchar*              <a class="link" href="mateconf-mateconf-backend.html#mateconf-address-resource">mateconf_address_resource</a>              (const gchar *address);
+gchar*              <a class="link" href="mateconf-mateconf-backend.html#mateconf-backend-file">mateconf_backend_file</a>                  (const gchar *address);
+<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a>*       <a class="link" href="mateconf-mateconf-backend.html#mateconf-get-backend">mateconf_get_backend</a>                   (const gchar *address,
+                                                         GError **err);
+void                <a class="link" href="mateconf-mateconf-backend.html#mateconf-backend-ref">mateconf_backend_ref</a>                   (<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a> *backend);
+void                <a class="link" href="mateconf-mateconf-backend.html#mateconf-backend-unref">mateconf_backend_unref</a>                 (<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a> *backend);
+<a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a>*        <a class="link" href="mateconf-mateconf-backend.html#mateconf-backend-resolve-address">mateconf_backend_resolve_address</a>       (<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a> *backend,
+                                                         const gchar *address,
+                                                         GError **err);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2582576"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2582592"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2582603"></a><h3>
+<a name="MateConfBackendVTable"></a>MateConfBackendVTable</h3>
+<a class="indexterm" name="id2621151"></a><pre class="programlisting">typedef struct {
+  /* Set to sizeof (MateConfBackendVTable) - used for future proofing */
+  gsize                  vtable_size;
+
+  void                (* shutdown)        (GError** err);
+
+  MateConfSource*        (* resolve_address) (const gchar* address,
+                                           GError** err);
+
+  /* Thread locks. If the backend is thread-safe, then these
+   * can be NULL. If per-source locks are needed, then these
+   * calls should lock a mutex stored in the MateConfSource.
+   * If a per-backend lock is needed, then the calls can ignore
+   * their source argument and lock the whole backend.
+   */
+  void                (* lock)            (MateConfSource* source,
+                                           GError** err);
+
+  void                (* unlock)          (MateConfSource* source,
+                                           GError** err);
+
+  /* Report whether a given key (and its subkeys) can be read/written.
+   * Sources may not permit reading/writing from/to /foo but forbid
+   * writing to /foo/bar; if a key can be read or written then its
+   * subkeys may also be read/written.
+   *
+   * This field allows backends to be configured so that they only
+   * store certain kinds of data in certain sections of the MateConf
+   * namespace.
+   *
+   * If these functions return an error, they MUST return FALSE as
+   * well.
+   */
+
+  gboolean           (* readable)         (MateConfSource* source,
+                                           const gchar* key,
+                                           GError** err);
+
+  gboolean           (* writable)        (MateConfSource* source,
+                                           const gchar* key,
+                                           GError** err);
+  
+  /* schema_name filled if NULL or MATECONF_VALUE_IGNORE_SUBSEQUENT returned.
+     if schema_name is NULL, it isn't filled */
+  MateConfValue*         (* query_value)     (MateConfSource* source, 
+                                           const gchar* key,
+                                           const gchar** locales,
+                                           gchar** schema_name,
+                                           GError** err);
+  
+  MateConfMetaInfo*      (* query_metainfo)  (MateConfSource* source,
+                                           const gchar* key,
+                                           GError** err);
+  
+  void                (* set_value)       (MateConfSource* source, 
+                                           const gchar* key, 
+                                           const MateConfValue* value,
+                                           GError** err);
+
+  /* Returns list of MateConfEntry with key set to a relative
+   * pathname. In the public client-side API the key
+   * is always absolute though.
+   */
+  GSList*             (* all_entries)     (MateConfSource* source,
+                                           const gchar* dir,
+                                           const gchar** locales,
+                                           GError** err);
+
+  /* Returns list of allocated strings, relative names */
+  GSList*             (* all_subdirs)     (MateConfSource* source,
+                                           const gchar* dir,
+                                           GError** err);
+
+  void                (* unset_value)     (MateConfSource* source,
+                                           const gchar* key,
+                                           const gchar* locale,
+                                           GError** err);
+
+  gboolean            (* dir_exists)      (MateConfSource* source,
+                                           const gchar* dir,
+                                           GError** err);
+        
+  void                (* remove_dir)      (MateConfSource* source,
+                                           const gchar* dir,
+                                           GError** err);
+  
+  void                (* set_schema)      (MateConfSource* source,
+                                           const gchar* key,
+                                           const gchar* schema_key,
+                                           GError** err);
+
+  gboolean            (* sync_all)        (MateConfSource* source,
+                                           GError** err);
+
+  void                (* destroy_source)  (MateConfSource* source);
+
+  /* This is basically used by the test suite */
+  void                (* clear_cache)     (MateConfSource* source);
+
+  /* used by mateconf-sanity-check */
+  void                (* blow_away_locks) (const char *address);
+
+  void                (* set_notify_func) (MateConfSource           *source,
+					   MateConfSourceNotifyFunc  notify_func,
+					   gpointer               user_data);
+
+  void                (* add_listener)    (MateConfSource           *source,
+					   guint                  id,
+					   const gchar           *namespace_section);
+
+  void                (* remove_listener) (MateConfSource           *source,
+					   guint                  id);
+} MateConfBackendVTable;
+</pre>
+<p>
+The <a class="link" href="mateconf-mateconf-backend.html#MateConfBackendVTable"><span class="type">MateConfBackendVTable</span></a> is a table of methods that any MateConf backend must
+implement.  The dynamically loaded library module should export a function
+called <code class="function">mateconf_backend_get_vtable()</code> that returns a pointer to a
+<a class="link" href="mateconf-mateconf-backend.html#MateConfBackendVTable"><span class="type">MateConfBackendVTable</span></a>.
+</p>
+<p>
+Here is the specification of the vtable members:
+
+</p>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><em class="parameter"><code>vtable_size</code></em></td>
+<td>
+The size of the vtable structure. This is used by the daemon to ensure that
+a mismatch between the version of MateConf the backend was compiled against and
+the version the daemon was compiled against can be handled gracefully. Set
+this field to sizeof (MateConfBackendVtable).
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>shutdown</code></em></td>
+<td>Called prior to unloading the dynamic
+module. Should ensure that no functions or static/global variables from the
+module will ever be accessed again. Should free any memory that the backend
+no longer needs.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>resolve_address</code></em></td>
+<td>
+Should create a <a class="link" href="mateconf-mateconf-sources.html#MateConfSource"><span class="type">MateConfSource</span></a> for accessing the supplied address. Should set the
+<code class="literal">MATECONF_SOURCE_ALL_READABLE</code> and <code class="literal">MATECONF_SOURCE_ALL_WRITEABLE</code> flags if
+appropriate. If these are not set, the backend must implement the <em class="parameter"><code>writable</code></em> and
+<em class="parameter"><code>readable</code></em> methods. If <span class="symbol">NULL</span> is returned, then the error should
+be set.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>lock</code></em></td>
+<td>If the backend is thread safe (does its own locking or whatever), then
+<em class="parameter"><code>lock</code></em> and <em class="parameter"><code>unlock</code></em> can be <span class="symbol">NULL</span>.  If the backend requires a lock
+for each source, then <em class="parameter"><code>lock</code></em> and <em class="parameter"><code>unlock</code></em> should lock/unlock that lock. If the
+backend has a global lock for all uses of the backend, then <em class="parameter"><code>lock</code></em> and <em class="parameter"><code>unlock</code></em>
+should ignore their arguments and lock the entire backend.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>unlock</code></em></td>
+<td>See description of <em class="parameter"><code>lock</code></em>.</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>readable</code></em></td>
+<td>
+If the <code class="literal">MATECONF_SOURCE_ALL_READABLE</code> flag is set, this method is never called and
+may be <span class="symbol">NULL</span>. If <code class="literal">MATECONF_SOURCE_ALL_READABLE</code> is unset, and this
+method is <span class="symbol">NULL</span>, then the source is write-only. If this method
+is implemented, it should return <span class="symbol">TRUE</span> if the given key could be
+read from the given source. <span class="symbol">TRUE</span> should be returned even if the
+key is unset; this function returns something similar to permissions, it is not
+asking whether the key exists. <span class="emphasis"><em>If an error is set, then
+<span class="symbol">FALSE</span> must be returned.</em></span>
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>writable</code></em></td>
+<td>Analagous to <em class="parameter"><code>readable</code></em>, but for writing.</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>query_value</code></em></td>
+<td>This method must be implemented if the source is readable. It returns the
+value of a key.  The "locales" argument is a <span class="symbol">NULL</span>-terminated
+vector of locale names, where the first locale in the vector is the preferred
+locale, the next is the second choice, etc. if the "schema_name" argument is
+non-<span class="symbol">NULL</span>, then it should be filled with an allocated string
+giving the name of the schema attached to the key, if and only if
+<span class="symbol">NULL</span> is returned. This is an optimization to avoid looking up
+the same key again in the database if it's unset and we need to ask for its
+default value from the schema. If <span class="symbol">NULL</span> is returned, indicating
+that the key is unset, then schema_name should not be filled in. If this method
+sets an error, <span class="symbol">NULL</span> must be returned. It may not set an error
+while also returning a value. The returned value will be destroyed by the
+caller, so should be a copy of the backend's internal data.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>query_metainfo</code></em></td>
+<td>This method must be implemented. If any metainfo is
+available about a key, it returns a <a class="link" href="mateconf-mateconf-value.html#MateConfMetaInfo"><span class="type">MateConfMetaInfo</span></a> with that metainfo set.  If
+none is available, <span class="symbol">NULL</span> is returned. <span class="symbol">NULL</span>
+should also be returned if an error is set.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>set_value</code></em></td>
+<td>This method must be implemented if the source is
+writable. It sets the value of a key. If the key is already set, its value
+should be replaced. Setting a value should update the modification time of the
+key.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>all_entries</code></em></td>
+<td>This method must be implemented. It returns a list of all keys in the
+given directory for which some information is available (metainfo or
+values). The returned list should contain <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a> objects. On error,
+<span class="symbol">NULL</span> should be returned and the error set. Subdirectories
+should not be included in the returned list. The list and the <a class="link" href="mateconf-mateconf-value.html#MateConfEntry"><span class="type">MateConfEntry</span></a>
+objects will be freed by the caller.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>all_subdirs</code></em></td>
+<td>This method must be implemented. It returns a list of all the subdirectories in a given
+directory.  It should return the subdirectories as relative paths, i.e. there
+should not be any slashes in the subdirectory name. Each subdirectory in the list
+should be an allocated string; the list and the strings will be freed by the caller.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>unset_value</code></em></td>
+<td>If the given key has a value, then this method should unset the value.
+If a value is unset, subsequent calls to <em class="parameter"><code>query_value</code></em> should return
+<span class="symbol">NULL</span>. If the locale string passed in to <em class="parameter"><code>unset_value</code></em> is
+non-<span class="symbol">NULL</span>, then only the value for that locale should be
+unset. If <span class="symbol">NULL</span>, the value should be globally unset for all
+locales.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>dir_exists</code></em></td>
+<td>
+Determines whether a directory exists. Should return
+<span class="symbol">TRUE</span> if there is a directory with the given name.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>remove_dir</code></em></td>
+<td>
+Should remove a directory, recursively: including all its subdirectories and 
+all the values and keys inside the directory.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>set_schema</code></em></td>
+<td>Should associate a schema name with a key.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>sync_all</code></em></td>
+<td>
+Should ensure that all data is stored on permanent media, or whatever makes
+sense for the backend. Called periodically by the MateConf daemon.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>destroy_source</code></em></td>
+<td>
+Should destroy a source obtained with <em class="parameter"><code>resolve_address</code></em>.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>clear_cache</code></em></td>
+<td>
+Discard any cached data after saving the data to permanent storage.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>blow_away_locks</code></em></td>
+<td>
+Unconditionally discard any locks whether they are stale or otherwise in
+order to force the backend to be able to obtain access to its data store.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>set_notify_func</code></em></td>
+<td>
+If the backend wishes to notify the daemon of changes in the value of
+keys it must implement this method. In order to notify the daemon
+of a change, the backend should invoke the supplied <em class="parameter"><code>notify_func</code></em> with
+<em class="parameter"><code>user_data</code></em>. Backends must not notify the daemon of changes which the
+daemon has not expressed interest in by adding a listener with
+<em class="parameter"><code>add_listener</code></em>. Also, the backend must make every effort to minimise the
+number of notifications it emits. For example, if the daemon has added
+a listener for /apps and another for /apps/foo and the value of
+/apps/foo/bar changes, the backend should only emit a single notification.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>add_listener</code></em></td>
+<td>
+If it is possible for entries to be changed concurrently by another
+daemon, the backend may support notifying the daemon (and any listening
+clients) of such changes. This function should add a listener to a
+section of the tree and when any of the following events occur, the
+backend should invoke the notify function with the key that has changed:
+ <div class="itemizedlist"><ul type="bullet">
+<li style="list-style-type: disc"><p>If the entry is set or unset</p></li>
+<li style="list-style-type: disc"><p>If the entry's value changes</p></li>
+<li style="list-style-type: disc"><p>If the entry's schema name changes</p></li>
+<li style="list-style-type: disc"><p>
+      If the entry is a schema and its value in <span class="emphasis"><em>any</em></span>
+      locale changes
+    </p></li>
+</ul></div>
+Note, the backend should <span class="emphasis"><em>not</em></span> notify the daemon of
+any changes that originated from the daemon itself.
+</td>
+</tr>
+<tr>
+<td><em class="parameter"><code>remove_listener</code></em></td>
+<td>
+Remove a listener added with <em class="parameter"><code>add_listener</code></em>. The listener is identified
+by the integer supplied.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2622707"></a><h3>
+<a name="MateConfBackend"></a>MateConfBackend</h3>
+<a class="indexterm" name="id2622720"></a><pre class="programlisting">typedef struct {
+  const gchar* name;
+  guint refcount;
+  MateConfBackendVTable vtable;
+  GModule* module;
+} MateConfBackend;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2622737"></a><h3>
+<a name="mateconf-address-backend"></a>mateconf_address_backend ()</h3>
+<a class="indexterm" name="id2622748"></a><pre class="programlisting">gchar*              mateconf_address_backend               (const gchar *address);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2622805"></a><h3>
+<a name="mateconf-address-resource"></a>mateconf_address_resource ()</h3>
+<a class="indexterm" name="id2622816"></a><pre class="programlisting">gchar*              mateconf_address_resource              (const gchar *address);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2622872"></a><h3>
+<a name="mateconf-backend-file"></a>mateconf_backend_file ()</h3>
+<a class="indexterm" name="id2622885"></a><pre class="programlisting">gchar*              mateconf_backend_file                  (const gchar *address);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2622941"></a><h3>
+<a name="mateconf-get-backend"></a>mateconf_get_backend ()</h3>
+<a class="indexterm" name="id2622954"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a>*       mateconf_get_backend                   (const gchar *address,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2623032"></a><h3>
+<a name="mateconf-backend-ref"></a>mateconf_backend_ref ()</h3>
+<a class="indexterm" name="id2623044"></a><pre class="programlisting">void                mateconf_backend_ref                   (<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a> *backend);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>backend</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2623090"></a><h3>
+<a name="mateconf-backend-unref"></a>mateconf_backend_unref ()</h3>
+<a class="indexterm" name="id2623102"></a><pre class="programlisting">void                mateconf_backend_unref                 (<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a> *backend);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>backend</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2623148"></a><h3>
+<a name="mateconf-backend-resolve-address"></a>mateconf_backend_resolve_address ()</h3>
+<a class="indexterm" name="id2623160"></a><pre class="programlisting"><a class="link" href="mateconf-mateconf-sources.html#MateConfSource">MateConfSource</a>*        mateconf_backend_resolve_address       (<a class="link" href="mateconf-mateconf-backend.html#MateConfBackend">MateConfBackend</a> *backend,
+                                                         const gchar *address,
+                                                         GError **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>backend</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2623260"></a><div class="refsect2" lang="en"><a name="id2623261"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2623262"></a></div>
+</div>
+</div>
+</body>
+</html>

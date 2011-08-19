@@ -1,0 +1,175 @@
+<?xml version="1.0" ?>
+<!--*- mode: xml -*--><!DOCTYPE glade-interface
+	SYSTEM 'http://glade.mate.org/glade-2.0.dtd'>
+<interface>
+<object class="GtkListStore" id="yt_list_store_search">
+	<columns>
+		<column type="GdkPixbuf"/><!--Thumbnail-->
+		<column type="gchararray"/><!--Title-->
+		<column type="gchararray"/><!--MRL-->
+		<column type="GObject"/><!--Video entry; TODO: should be GDataYouTubeVideo, see bug #576285-->
+	</columns>
+</object>
+<object class="GtkListStore" id="yt_list_store_related">
+	<columns>
+		<column type="GdkPixbuf"/><!--Thumbnail-->
+		<column type="gchararray"/><!--Title-->
+		<column type="gchararray"/><!--MRL-->
+		<column type="GObject"/><!--Video entry; TODO: should be GDataYouTubeVideo, see bug #576285-->
+	</columns>
+</object>
+
+<object class="GtkVBox" id="yt_vbox">
+	<property name="border-width">0</property>
+	<property name="homogeneous">False</property>
+	<property name="spacing">6</property>
+	<child>
+		<object class="GtkEntry" id="yt_search_entry">
+			<signal name="activate" handler="search_entry_activate_cb"/>
+		</object>
+		<packing>
+			<property name="padding">0</property>
+			<property name="expand">False</property>
+			<property name="fill">True</property>
+		</packing>
+	</child>
+	<child>
+		<object class="GtkHBox" id="yt_hbox">
+			<property name="spacing">6</property>
+			<child>
+				<object class="GtkButton" id="yt_search_button">
+					<property name="use-stock">True</property>
+					<property name="label">gtk-find</property>
+					<signal name="clicked" handler="search_button_clicked_cb"/>
+				</object>
+				<packing>
+					<property name="padding">0</property>
+					<property name="expand">True</property>
+					<property name="fill">True</property>
+				</packing>
+			</child>
+			<child>
+				<object class="GtkButton" id="yt_cancel_button">
+					<property name="use-stock">True</property>
+					<property name="label">gtk-cancel</property>
+					<property name="sensitive">False</property>
+					<signal name="clicked" handler="cancel_button_clicked_cb"/>
+				</object>
+				<packing>
+					<property name="padding">0</property>
+					<property name="expand">True</property>
+					<property name="fill">True</property>
+				</packing>
+			</child>
+		</object>
+		<packing>
+			<property name="padding">0</property>
+			<property name="expand">False</property>
+			<property name="fill">True</property>
+		</packing>
+	</child>
+	<child>
+		<object class="GtkNotebook" id="yt_notebook">
+			<signal name="switch-page" handler="notebook_switch_page_cb"/>
+			<child>
+				<object class="GtkVBox" id="yt_vbox_search">
+					<property name="spacing">6</property>
+					<child>
+						<object class="GtkScrolledWindow" id="yt_scrolled_window_search">
+							<property name="hscrollbar-policy">GTK_POLICY_NEVER</property>
+							<property name="vscrollbar-policy">GTK_POLICY_AUTOMATIC</property>
+							<property name="shadow-type">GTK_SHADOW_IN</property>
+							<property name="window-placement">GTK_CORNER_TOP_LEFT</property>
+							<child>
+								<object class="TotemVideoList" id="yt_treeview_search">
+									<property name="headers-visible">False</property>
+									<property name="fixed-height-mode">False</property>
+									<property name="tooltip-column">1</property>
+									<property name="mrl-column">2</property>
+									<property name="model">yt_list_store_search</property>
+									<signal name="starting-video" handler="starting_video_cb"/>
+									<child>
+										<object class="GtkTreeViewColumn" id="yt_treeview_search_column">
+											<property name="title" translatable="yes">Videos</property>
+											<property name="expand">True</property>
+											<!-- Placeholder -->
+										</object>
+									</child>
+								</object>
+							</child>
+						</object>
+					</child>
+					<child>
+						<object class="GtkProgressBar" id="yt_progress_bar_search"/>
+						<packing>
+							<property name="padding">0</property>
+							<property name="expand">False</property>
+							<property name="fill">True</property>
+						</packing>
+					</child>
+				</object>
+			</child>
+			<child type="tab">
+				<object class="GtkLabel" id="label1">
+					<property name="label" translatable="yes">Search Results</property>
+				</object>
+				<packing>
+					<property name="tab-fill">False</property>
+				</packing>
+			</child>
+			<child>
+				<object class="GtkVBox" id="yt_vbox_related">
+					<property name="spacing">6</property>
+					<child>
+						<object class="GtkScrolledWindow" id="yt_scrolled_window_related">
+							<property name="hscrollbar-policy">GTK_POLICY_AUTOMATIC</property>
+							<property name="vscrollbar-policy">GTK_POLICY_AUTOMATIC</property>
+							<property name="shadow-type">GTK_SHADOW_IN</property>
+							<property name="window-placement">GTK_CORNER_TOP_LEFT</property>
+							<child>
+								<object class="TotemVideoList" id="yt_treeview_related">
+									<property name="headers-visible">False</property>
+									<property name="fixed-height-mode">False</property>
+									<property name="tooltip-column">1</property>
+									<property name="mrl-column">2</property>
+									<property name="model">yt_list_store_related</property>
+									<signal name="starting-video" handler="starting_video_cb"/>
+									<child>
+										<object class="GtkTreeViewColumn" id="yt_treeview_related_column">
+											<property name="title" translatable="yes">Videos</property>
+											<property name="expand">True</property>
+											<!-- Placeholder -->
+										</object>
+									</child>
+								</object>
+							</child>
+						</object>
+					</child>
+					<child>
+						<object class="GtkProgressBar" id="yt_progress_bar_related"/>
+						<packing>
+							<property name="padding">0</property>
+							<property name="expand">False</property>
+							<property name="fill">True</property>
+						</packing>
+					</child>
+				</object>
+			</child>
+			<child type="tab">
+				<object class="GtkLabel" id="label2">
+					<property name="label" translatable="yes">Related Videos</property>
+				</object>
+				<packing>
+					<property name="tab-fill">False</property>
+				</packing>
+			</child>
+		</object>
+		<packing>
+			<property name="padding">0</property>
+			<property name="expand">True</property>
+			<property name="fill">True</property>
+		</packing>
+	</child>
+</object>
+
+</interface>

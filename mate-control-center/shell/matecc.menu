@@ -1,0 +1,111 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+  <Name>Control Center</Name>
+  <Directory>matecc.directory</Directory>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Read in overrides and child menus from matecc-merged/ -->
+  <DefaultMergeDirs/>
+
+   <!-- Sort the control center categories -->
+   <Layout>
+     <Menuname>Personal</Menuname>
+     <Menuname>Internet and Network</Menuname>
+     <Menuname>Hardware</Menuname>
+     <Menuname>System</Menuname>
+     <Merge type="all" />
+   </Layout>
+
+  <!-- Stuff in the toplevel (Other category) -->
+  <Include>
+    <And>
+      <Category>Settings</Category>
+      <Not>
+        <Or>
+          <Category>X-MATE-PersonalSettings</Category>
+          <Category>DesktopSettings</Category>
+          <Category>X-MATE-NetworkSettings</Category>
+          <Category>HardwareSettings</Category>
+          <Category>X-MATE-SystemSettings</Category>
+          <Category>System</Category>
+        </Or>
+      </Not>
+    </And>
+  </Include>
+
+  <!-- Avoid the shell having a launcher for itself -->
+  <Exclude>
+    <Filename>matecc.desktop</Filename>
+  </Exclude>
+
+  <!-- Personal category -->
+  <Menu>
+    <Name>Personal</Name>
+    <Directory>Personal.directory</Directory>
+    <Include>
+      <And>
+        <Category>Settings</Category>
+        <Category>X-MATE-PersonalSettings</Category>
+      </And>
+      <And>
+        <Category>Settings</Category>
+        <Category>DesktopSettings</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Personal -->
+
+  <!-- Internet and Network category -->
+  <Menu>
+    <Name>Internet and Network</Name>
+    <Directory>InternetAndNetwork.directory</Directory>
+    <Include>
+      <And>
+        <Category>Settings</Category>
+        <Category>X-MATE-NetworkSettings</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Internet and Network -->
+  
+  <!-- Hardware category -->
+  <Menu>
+    <Name>Hardware</Name>
+    <Directory>Hardware.directory</Directory>
+    <Include>
+      <And>
+        <Category>Settings</Category>
+        <Category>HardwareSettings</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Hardware -->
+
+  <!-- System category -->
+  <Menu>
+    <Name>System</Name>
+    <Directory>System.directory</Directory>
+    <Include>
+      <And>
+        <Category>Settings</Category>
+        <Or>
+          <Category>X-MATE-SystemSettings</Category>
+          <And>
+            <Category>System</Category>
+            <Not>
+              <Or>
+                <Category>X-MATE-PersonalSettings</Category>
+                <Category>DesktopSettings</Category>
+                <Category>HardwareSettings</Category>
+                <Category>X-MATE-NetworkSettings</Category> 
+              </Or>
+            </Not>
+          </And>
+        </Or>
+      </And>
+    </Include>
+  </Menu> <!-- End System -->
+
+</Menu>     <!-- End CC -->

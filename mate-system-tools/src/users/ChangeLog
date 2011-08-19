@@ -1,0 +1,1775 @@
+==================== 2.27.2 ====================
+
+==================== 2.27.1 ====================
+
+==================== 2.22.2 ====================
+
+==================== 2.22.1 ====================
+
+2008-03-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.22.0
+
+2008-02-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* privileges-table.c (privilege_search): Check that the group name is
+	not NULL. Fixes #518785.
+
+2008-02-25  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.92
+
+2008-02-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_table_button_press): Check that we're receiving the
+	event on treeview's bin_window.
+
+2008-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.91
+
+2008-01-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.90
+
+2008-01-16  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_user_settings_clicked): plug a potential leak.
+
+2008-01-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.5.1
+
+2008-01-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.5
+
+2008-01-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (user_settings_dialog_new) (check_login)
+	(check_comments) (check_home) (check_uid) (check_shell)
+	(check_password) (user_settings_dialog_run)
+	(user_settings_dialog_get_data): avoid having to call
+	user_settings_dialog_get_data() too early, creating a NULL OobsUser in
+	consequence.
+
+2008-01-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (check_home): Check whether the home directory
+	doesn't exist, Fixes #300016.
+
+2008-01-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (user_settings_dialog_new): Do not set anything in
+	the password fields when editing an user, so it doesn't mislead users
+	believing that it contains the actual user password. Fixes #169574.
+	(check_password): Only check it if it has changed.
+
+2008-01-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_user_new_clicked): Do not create an user with NULL
+	login name here.
+	(on_user_settings_login_changed): Do not check whether the user is
+	new, old users can't change login name anymore.
+	* user-settings.[ch] (user_settings_dialog_get_data): Instead create
+	the user here if we're creating a new user. Fixes #505115.
+	(set_main_group) (user_settings_dialog_new) (is_user_root)
+	(check_login) (user_settings_dialog_run): Adapt to the possibility of
+	having a NULL user.
+	(user_settings_dialog_is_new): Remove, no longer used.
+
+2007-12-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* users-tool.c: Use HIG compliant capitalization for window title.
+	Fixes #474645.
+
+2007-12-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.3
+
+2007-12-12  Carlos Garnacho  <carlosg@mate.org>
+
+	Use editing mode, which will ask whether to update the configuration
+	if a modifiation is in course and the underlying configuration changes
+	(file monitoring was added in s-t-b 2.5.4). Everything together fixes
+	#488859.
+
+	* group-settings.c (check_group_delete) (group_settings_dialog_run):
+	* user-settings.c (check_user_delete) (user_settings_dialog_run): Turn
+	editing mode on when the dialogs are running.
+
+	* groups-table.[ch] (groups_table_clear): Added.
+	* privileges-table.[ch] (privileges_table_clear): Added.
+	* users-table.[ch] (users_table_clear): Added.
+	* users-tool.c (update_users) (update_groups): Use these here.
+
+2007-11-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.2.1
+
+2007-11-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c: cover all PolicyKit usage under HAVE_POLKIT.
+
+2007-11-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.21.2
+
+2007-11-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (user_settings_dialog_new)
+	(user_settings_dialog_get_data): disallow changing login name.
+	* group-settings.c (group_settings_dialog_new)
+	(group_settings_dialog_get_data): ditto for group name.
+
+2007-11-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* privileges-table.c: use a GtkTreeModelFilter so groups with no
+	description are not shown, but taken into account anyway.
+
+2007-11-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (set_main_group): make sure that the combobox
+	selection is resetted if the user has no main group.
+
+2007-11-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_user_settings_clicked): use OobsSelfConfig if the
+	tool is not authenticated and the edited user is the requester one.
+	* users-tool.[ch]: add OobsSelfConfig.
+
+2007-10-30  Carlos Garnacho  <carlosg@mate.org>
+
+        * Release 2.21.1
+
+2007-10-18  Denis Washington  <denisw@svn.mate.org>
+
+	* callbacks.[ch]:
+	* main.c:
+	* users-table.c:
+	* users-tool.c: Allow an unauthenticated user to change some of his
+	own properties, e.g. the password. All other users are shown insensitive
+	and cannot be edited (frontend-wise; restrictions in s-t-b will follow).
+
+2007-10-15  Denis Washington  <denisw@svn.mate.org>
+
+	* main.c: Use gst_dialog_require_authentication_for_widgets() to
+	mark those widgets which need authentication to be used.
+
+2007-09-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* users-tool.c: Adapt to liboobs 2.21.x API change.
+
+2007-09-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* table.c (setup_shells_combo): setup text column properly, it was
+	relying on libglade before.
+
+2007-09-13  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (check_user_delete): check whether the user is
+	active and show a warning if he/she is in the delete dialog.
+
+2007-09-06  Carlos Garnacho  <carlosg@mate.org>
+
+	* users-tool.c (gst_users_tool_constructor): Added, get mateconf values
+	there, after tool->name has been set. Fixes #466183
+	(on_showall_changed): actually get the MateConfValue.
+
+2007-09-03  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.92
+
+2007-08-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.91
+
+2007-07-28  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.1
+
+2007-07-10  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.19.0
+
+2007-06-18  Carlos Garnacho  <carlosg@mate.org>
+
+	* privileges-table.c: constify privilege descriptions array
+	(privilege_search): use correct key for bsearch(), fix a compiler
+	warning.
+
+2007-04-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.18.1
+
+2007-04-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* group-members-table.c (user_name_cell_data_func): Added, cell data
+	func to ensure that at least the login name will be shown if there's
+	no full name. Fixes #425020.
+
+2007-03-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.18.0
+
+2007-02-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.92
+
+2007-02-12  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.91
+
+2007-02-11  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c: mark a few dialogs as transient for another ones. Fixes
+	#392720.
+
+2007-01-09  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.5
+
+2007-01-08  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.4
+
+2006-12-01  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.3
+
+2006-11-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* main.c:
+	* callbacks.c (on_manage_groups_clicked) (on_groups_dialog_show_help):
+	show help correctly in the groups dialog. Fixes bug #378425.
+
+2006-11-15  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (check_user_delete) (check_password): string
+	improvements (hopefully!)
+
+2006-11-14  Carlos Garnacho  <carlosg@mate.org>
+
+	* user-settings.c (check_password): patch by Sebastien Bacher 
+	<seb128@debian.org> to allow random passwords. Fixes #355432.
+
+2006-11-10  Kjartan Maraas  <kmaraas@mate.org>
+
+	* callbacks.c: (on_user_settings_profile_changed):
+	* main.c:
+	* privileges-table.c: (find_group_in_profile):
+	* user-profiles.c: (gst_user_profiles_init):
+	* user-settings.c: (set_main_group):
+	Fix compiler warnings.
+
+2006-11-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.17.2
+
+2006-11-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c, group-settings.c, groups-table.c, user-settings.c,
+	users-table.c: better memory management for OobsUser, OobsGroup and
+	OobsListIter objects inside tree models. plug some leaks on the way.
+
+2006-09-30  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.5
+
+2006-09-07  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.4
+
+2006-09-04  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.3
+
+2006-08-28  Carlos Garnacho  <carlosg@mate.org>
+
+	Add back profiles support to users-admin, now the profiles will be a
+	read-only key file located in /etc/mate-system-tools/users/profiles,
+	distros are supposed to implement that file according to their
+	requirements, I doubt that users ever created a profile, so that's no
+	longer supported.
+
+	* user-profiles.[ch]: added, object to manage user profiles
+	* Makefile.am: add these files.
+	* callbacks.[ch] (on_user_settings_login_changed): add a way to 
+	override the default homedir prefix.
+	(on_user_settings_profile_changed): added, applies a profile when the
+	profiles combo changes.
+	* main.c: connect that callback to the profiles combo
+	* privileges-table.c (find_group_in_profile)
+	(privileges_table_set_from_profile): new functions, set the
+	privileges table state from a profile
+	* table.[ch] (table_populate_profiles) (table_set_default_profile): 
+	Added.
+	* user-settings.[ch] (find_new_uid): pass max_uid and min_uid as
+	parameters.
+	(setup_profiles_visibility): Added.
+	(user_settings_dialog_new): Setup GUI initially according to the 
+	profile.
+	(user_settings_apply_profile): added, changes the UI given a profile.
+	* users-tool.[ch]: add profiles object.
+
+2006-08-23  Carlos Garnacho  <carlosg@mate.org>
+
+	* users-tool.c (gst_users_tool_update_config): added.
+
+2006-08-11  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.2
+
+2006-08-02  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.1
+
+2006-06-06  Carlos Garnacho  <carlosg@mate.org>
+
+	* Release 2.15.0
+
+2006-06-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* md5.[ch], md5_crypt.c: deleted. Functionality moved to Liboobs
+	* profile-settings.[ch]: deleted
+	* profiles-table.[ch]: ditto
+	* user-group-xml.[ch]: ditto
+	* user_group.[ch]: ditto
+
+2006-06-05  Carlos Garnacho  <carlosg@mate.org>
+
+	* callbacks.c (on_user_new_clicked) (on_user_settings_clicked): commit
+	the groups too
+
+2006-05-29  Carlos Garnacho  <carlosg@mate.org>
+
+	* group-settings.c, privileges-table.c, user-settings.c: apply some
+	string improvement suggestions. Closes #340689
+
+2006-05-27  Carlos Garnacho  <carlosg@mate.org>
+
+        * table.c: set translation domain for action_groups. Closes #342497
+	(patch by Sebastien Bacher)
+
+2006-05-27  Carlos Garnacho  <carlosg@mate.org>
+
+	* users-tool.c: set an icon name
+	* users.desktop.in.in: ditto, patch by Sebastien Bacher
+	<seb128@debian.org>
+
+2006-05-26  Carlos Garnacho  <carlosg@mate.org>
+
+	* group-settings.[ch] (group_settings_find_new_gid): export this
+	function
+	* user-settings.c: use default group for new users, if necessary,
+	create a new one
+
+2006-05-22  Carlos Garnacho  <carlosg@mate.org>
+
+	* privileges-table.c: remove an unnecessary cast
+
+2006-05-19  Carlos Garnacho  <carlosg@mate.org>
+
+	* users-tool.[ch]: new GObject, inherits from GstTool, and provides
+	access to the necessary OobsObjects.
+	* group-members-table.[ch]: added. It's table to show users/group
+	members.
+	* test-battery.[ch]: added. Provides functions to run series of tests
+	over something (say an user or a group), replaces the former 
+	if/else if/else if/else if/... mess.
+	* transfer.[ch]: to the Attic, XML interface is deprecated.
+	* Makefile.am: reflect those changes. Do not compile the search bar.
+	* callbacks.[ch], group-settings.[ch], user-settings.[ch]: adapt to
+	liboobs. remove/comment out unused code.
+	* groups-table.[ch], users-table.[ch]: store pointers to user/group
+	objects.
+	* main.c, passwd.[ch]: code cleanup
+	* privileges-table.c: store the mapping table of groups -> privilege
+	here, no longer use the <allows_to> hack
+	* table.[ch]: cleanup and code improvements. Use the same model in
+	several places, filtering where necessary.
+
+2006-03-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.14.0
+
+2006-01-31  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.2
+
+2006-01-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.1
+
+2006-01-16  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* user-settings.c, group-settings.c: use ngettext for a couple of
+	strings, closes bug #327109, suggested by Slobodan D. Sredojevic
+	<slobo@akrep.be>
+
+2006-01-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 2.13.0
+
+2005-11-28  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.4.1
+
+2005-09-04  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.4.0
+
+2005-08-23  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.92
+
+2005-08-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.2
+
+2005-07-26  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.1
+
+2005-07-15  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* user-settings.c: Changed a string. Fixes #308028
+
+2005-07-15  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c: Really close the profiles dialog when pressing the "X"
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.0.1
+
+2005-07-05  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.3.0
+
+2005-06-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* group-settings.c, profile-settings.c, user-settings.c: added full
+	stop at the end of secondary text in GtkMessageDialogs. Fixes #152396
+
+2005-04-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* user-settings.c: applied string improvement suggestion from Kjartan. 
+	Fixes #301305
+
+2005-04-13  Jaap A. Haitsma  <jaap@haitsma.org>
+
+	* users-table.[ch]: Remove unnecessary commas when displaying users'
+	data. Fixes #171868. fix some coding style
+
+2005-04-07  Jaap A. Haitsma  <jaap@haitsma.org>
+
+        * user-group-xml.c: plugged some leaks. Fixes #172158
+
+2005-03-07  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.2.0
+
+2005-03-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.92
+
+2005-02-25  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* user-group-xml.c, user-settings.[ch]: manage somewhat elegantly the 
+	"other data" field in the GECOS fields. Fixes #161082
+
+2005-02-08  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.91
+
+2005-01-31  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* passwd.c: detect whether to use md5 from the backend. Closes
+	#161269. Fixed a couple of leaks
+
+2005-01-25  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.90
+
+2005-01-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* group-settings.c, profile-settings.c, user-settings.c, user_group.c:
+	use new GtkMessageDialog API for HIG dialogs
+
+2005-01-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.4.1
+
+2005-01-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c, privileges-table.[ch], user-settings.c: removed
+	redundant or duplicated code, fixed groups in profiles stuff
+
+2005-01-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.4
+
+2004-01-12  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* callbacks.c, privileges-table.[ch], profile-settings.c, table.c,
+	user-settings.c: Patch from Sivan Greenberg <sivan@workaround.org>
+	to add privileges to profiles, so users can have default groups
+
+2004-12-21  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1.3
+
+2004-12-06  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* privileges-table.[ch], user-settings.c: made it to preserve 
+	"unknown" groups
+	* user-group-xml.[ch]: readded user_get_groups
+
+2004-11-03  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.1
+
+2004-09-14  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* privileges-table.[ch]: added, it's the table which contains the
+	user privileges
+	* Makefile.am: ditto
+	* table.c, user-settings.c: used this new table
+	* main.c, user-group-xml.[ch]: removed unused code
+
+2004-09-13  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 1.0
+
+2004-09-01  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* Release 0.92
+
+2004-08-29  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* user-group-xml.c, user_group.c: fixed some memleaks
+
+2004-08-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.91.0
+
+2004-08-02  Carlos Garnacho Parro  <carlosg@mate.org>
+
+	* user-group-xml.c: remove user visibility check. Fixes #145049
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.90
+
+2004-07-19  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], main.c, table.[ch], user_group.c, users-table.[ch]:
+	  removed complexity thing, added help buttons
+
+2004-06-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.34
+
+2004-06-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* passwd.c, user-settings.c: yet more strings improvements
+
+2004-06-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* group-settings.c, profile-settings.c, profile-settings.c: improved
+	  some sentences
+
+2004-05-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], groups-table.c, main.c, profile-settings.c,
+	  profiles-table.c, table.[ch], user-settings.c, user_group.[ch],
+	  users-table.c: replaced deprecated widgets with the new Gtk+ 2.4
+	  ones, removed unused code, small misc code improvements
+	* search-bar/search-bar.[ch]: Replaced deprecated widgets with the
+	  Gtk+ 2.4 ones in the search bar
+
+2004-05-15  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.33.0
+
+2004-05-05  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: fixed a crash, made it to hide the password life
+	  settings if the tags doesn't exist, this is done because FreeBSD
+	  can't set these values
+	* user-settings.c: ditto
+	* profile-settings.[ch]: improved code and fixed some indents
+
+2004-04-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* user-settings.c: turned the "duplicate UID error" into a warning,
+	  this way we get rid of the "root" and "toor" duplicated UID 
+	  problems in FreeBSD
+
+2004-04-17  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* group-settings.c: added some control for not modifying root group
+	* user-settings.c: improved some strings
+
+2004-04-16  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, group-settings.c, profile-settings.c,
+	  user-settings.c, user_group.[ch]: Made the users tool to
+	  use the cool HIG message dialog
+
+2004-04-14  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* user_group.c: fixed some leaks and Debian bug #211736
+
+2004-03-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* groups-table.c, users-table.c: (*_set_cursor): improved some code
+
+2004-03-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], table.[ch], user-settings.c, group-settings.c:
+	  improved the adding/removing users/groups code, making it more
+	  generic and robust, also added D&D for this task
+
+2004-02-20  Carlos Garcia Campos <elkalmail@yahoo.es>
+
+	* callbacks.c: catched double click event to show settings dialog for
+          the current selection
+
+2004-02-05  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.32.0
+
+2003-12-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* users.desktop.in.in: define X-MATE-Bugzilla-*, added patch by
+          Grzegorz Golawski <grzegol@pld.org.pl> to make the file
+          freedesktop standard's compliant
+
+2003-12-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.30.0
+
+2003-11-23  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* main.c: removed references to the "user_profiles" button, that no
+	  longer exists in the glade interface
+
+2003-10-31  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* main.c: removed some references to no-longer-existing widgets in
+	  the glade interface
+
+2003-10-24  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.29.0
+
+2003-10-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* release 0.28.0
+
+2003-10-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* users-table.[ch]: changed some fields in the users table
+
+2003-09-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* user-settings.c (user_new_prepare): made it to generate the groups
+	  option menu before the profiles option menu, so the group values
+	  are set correctly from the default profile when adding a new user.
+	  Fixes bug #113423
+
+2003-09-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c: make unsensitive the buttons beside the profiles table 
+	  when adding or modifying a profile, fixes bug #122174. 
+	  make unsensitive buttons beside all tables when the number of
+	  selected rows returns to 0
+
+2003-08-25  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.27.0
+
+2003-08-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* groups-table.c: (populate_groups_table): made it to clear the table
+	  before filling it, it now may be used again
+	* users-table.c: (populate_users_table): ditto
+	* users.desktop.in.in: added startup notify
+
+2003-08-06  Manuel Clos  <llanero@jazzfree.com>
+
+	* user-settings.c: (user_update) initialize correctly a structure,
+	  so g_free() doesn't possibly free trash. Fixes bug #111924
+
+2003-07-23  Christian Neumair  <chris@mate-de.org>
+
+	* profile-settings.c: Include config.h to enable i18n.
+
+2003-07-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * users.desktop.in.in: moved menu entry to "system tools"
+
+2003-05-30  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.26.1
+
+2003-05-27  Carlos García Campos <elkalmail@yahoo.es>
+	* user-settings.c: UI label changes. Fixes bug #113430
+	* users-table.c: fixed a bug that made the "settings" and "delete" 
+	  buttons sensitive, when changing between more/less options, 
+	  independently of having a row selected.
+	
+2003-05-20  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.26.0
+	 
+2003-05-18  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* user-group-xml.c: fixed bug #113246
+
+2003-05-06  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+ 
+        * Release 0.25.0
+
+2003-05-06  Christian Neumair  <chris@mate-de.org>
+
+	* main.c: added buttonvboxes in the "users" and "groups" tabs 
+	in the same GtkSizeGroup
+	* search-bar/search-bar.c: (add_spacer) removed
+
+2003-05-05  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch]: (on_user_settings_dialog_delete_event): made it
+	gboolean and made it return TRUE for not destroying the window
+
+2003-04-08  Carlos García Campos  <elkalmail@yahoo.es>
+
+	* callbacks.[ch], table.[ch], users-table.c, groups-table.c: added 
+        all stuff for popup menus.
+
+2003-03-23  Christian Neumair  <chris@mate-de.org>
+
+	* search-bar/search-bar.c: Added mnemonics and images to search and
+	clear buttons.
+
+2003-03-15  Christian Neumair  <chris@mate-de.org>
+
+	* users-table.c, groups-table.c: Made translated column descriptions
+	actually visible in UI.
+
+2003-03-13  Christian Neumair  <chris@mate-de.org>
+
+	* search-bar/.cvsignore: Added.
+	* *.(c|h): s/XST/GST/, s/Xst/Gst/, s/xst/gst/.
+	* search-bar/Makefile.am, Makefile.am: Reflect that.
+
+2003-03-08  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.24.0
+
+2003-02-21  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.23.0
+
+2003-02-12  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* groups-table.[ch], users-table.[ch], main.c, profiles-table.[ch],
+	  table.[ch]: moved GtkTreeViews from code to glade. (patch from 
+	  Carlos García Campos with minor changes by me)
+	  
+2003-02-11  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* search-bar/search-bar.[ch]: added all search bar widgets in a
+	  GtkSizeGroup, made search bar work like in evolution.
+
+2003-01-18  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.[ch], group-settings.c, main.c, profile-settings.[ch],
+	  table.[ch], user-group-xml.[ch], user-settings.[ch],
+	  user_group.[ch]: added user profiles, removed unused functions and
+	  some functions moved to user_group.[ch]
+	* closed bug #98821
+
+2003-01-13  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Makefile.am, callbacks.*, group-settings.c, groups-table.c,
+	  main.c, table.*, user-group-xml.*, user-settings.c, user-group.*,
+	  users-table.c: modified to include user profiles, these aren't enabled
+	  at the moment.
+	* profile-settings.*, profiles-table.*: added to include user
+	  profiles, these are not enabled at the moment.
+	* user-group-xml.*: unneccesary code removal.
+
+2003-01-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* search-bar/Makefile.am: I am really stupid, it now compiles again
+
+2003-01-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* main.c, callbacks.c, search-bar/search-bar.[ch],
+	  search-bar/Makefile.am: modified to enable again search-bar for
+	  users.
+	* search-bar/dropdown-button.[ch]: deleted, now the search bar seems
+	  to the evolution 1.2 search bar.
+	* search-bar/search-bar-marshal.list: added.
+	* fixed bug #98820
+
+2003-01-01  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* callbacks.c, user-settings.[ch], group-settings.[ch]: now it doesn't
+	  make sensitive the "apply" button when you hit delete and then "no"
+	  in the message box. Fixed a compile warning.
+
+2003-01-01  Carlos Garcia Campos  <elkalmail@yahoo.es>
+
+	* callbacks.[ch], users-table.c, groups-table.c: made on_table_click
+	  callback common to both tables, now it makes unsensitive the 
+	  "settings" button if there is more than 1 row selected.
+
+2002-12-02  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+        * Release 0.22
+
+2002-10-17  Carlos Garnacho Parro <garnacho@tuxerver.net>
+
+	* group_settings.c: code improvements, enabled multiple selection in
+	  the GtkTreeViews of the group settings/add dialog.
+	* callbacks.[ch]: Code improvements, added multiple deletion of
+	  users/groups.
+	  (on_notebook_switch_page) removed, it wasn't being used.
+	* groups-table.[ch]: set columns resizable and sortable, enabled multiple
+	  selection.
+	* main.c: removed notebook's "switch page" signal, it wasn't being
+	  used.
+	* user-group-xml.c: made it to insert sorted elements in the
+ 	  GtkTreeViews of the user/group settings/add dialog.
+	  (find_node_with_name) removed, it was no longer used.
+	* user-settings.c: code improvements, enabled multiple selection in
+          the GtkTreeViews of the user settings/add dialog.
+	  Made it to delete the old member groups before adding the current.
+	* users-table.[ch]: set columns resizable and sortable, enabled
+	  multiple selection.
+
+2002-09-20  Tambet Ingo  <tambet@ximian.com>
+
+	* users-table.c: Marked column headers translatable.
+
+	* groups-table.c: ditto.
+
+2002-09-18  Tambet Ingo  <tambet@ximian.com>
+
+	* table.c (create_gtktree_list): Don't etch in scrolled window, done
+	in glade now.
+
+	* groups-table.c (construct_groups_table): Don't etch_in "groups_table",
+	done in glade now.
+
+	* users-table.c (construct_users_table): Don't etch_in "users_table",
+	done in glade now.
+
+	* main.c: Don't make "users_table" widget insensitive in
+	user mode.
+
+2002-09-13  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* callbacks.c, group-settings.c: made it compile with the
+	  *_DISABLE_DEPRECATED flags.
+
+2002-09-03  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* Release 0.21.0
+
+2002-08-31  Carlos Garnacho Parro  <garparr@teleline.es>
+
+	* Release 0.20.0
+
+2002-08-29  Theo van Klaveren <t.vanklaveren@student.utwente.nl>
+
+	* src/users/user-settings.c: Fix compilation on FreeBSD.
+
+2002-08-29  Carlos Garnacho Parro <garparr@teleline.es>
+
+	* src/users/*: almost rewritten from scratch for the GTK2 platform
+
+2002-02-11  Seth Nickell  <snickell@stanford.edu>
+
+	reviewed by: <delete if not using a buddy>
+
+	* users.desktop.in.in:
+
+2002-02-10  Chema Celorio  <chema@celorio.com>
+
+	* Port to the MATE 2.0 platform
+
+2002-02-08  Chema Celorio  <chema@celorio.com>
+
+	* configure.in: 0.12.0 here we go
+2001-12-11  Israel Escalante <israel@ximian.com>
+
+	* Release 0.10.0.
+
+2001-12-02  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am: use CommonMakefile
+
+2001-11-02  Tambet Ingo  <tambet@ximian.com>
+
+	* callbacks.c (on_group_settings_dialog_show): Added widget to change group id
+	from group settings page.
+
+2001-10-05  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c: Updated to support changed XML format backend sends.
+
+2001-10-01  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c (profile_tab_connect_signals): Make "Assign random pwd"
+	widget update it's dialog's changed state.
+
+2001-09-24  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c: Re-enabled profiles.
+
+	* user_settings.c (setup_advanced_add): ditto.
+
+2001-09-18 Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (is_valid_name): Rewrote.
+	(check_user_login): Fixed login name length check.
+
+2001-07-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* e-table.c (id_compare): No need to warn about this:
+	null ids mean new records, which will receive an ID later.
+	#4774 fixed.
+
+2001-07-24  Zbigniew Chyla  <cyba@mate.pl>
+
+	* user_settings.c, user_group.c, user-account-editor.c:
+	Added missing #include <config.h>.
+
+2001-07-19  Christian Rose  <menthos@menthos.com>
+
+	* user_group.c: Fixed a tab typo.
+
+2001-07-18  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* user_group.c (user_account_check_home_warnings): cosmetic.
+	Added warning in case the home directory already exists
+	and the user is being created (new).
+	(user_account_check_home_warnings): interpolate home dir
+	before checking.
+
+	* user_settings.c (setup_advanced_add): hide profile box.
+
+	* main.c: hiding user_profiles for now.
+
+	* user_settings.c (warnings_join): cosmetic.
+
+Sat Jul 14 12:04:31 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* user-account-editor.c (ok_clicked): Only user_account_save
+	if the account's GUI data has been modified.
+
+	* user_settings.c (user_account_connect_signals): Changed code
+	to a big table. Some widgets are connected to "clicked" or
+	"insert-text" to flag if the gui data has been modified.
+	(user_account_set_modified): Callback that sets this.
+	(user_account_gui_setup): Disable allow_mofify so that the
+	modify flag is not set when filling the dialog in.
+
+2001-07-14  Chema Celorio  <chema@celorio.com>
+
+	* main.c (main): set the usize of the window. This is not optimal
+	but calculating size of the hiden widgets is going to be nasty
+
+Thu Jul 12 12:22:14 2001  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* passwd.c (passwd_check): Minor compilation warning removed.
+
+2001-07-12  Chema Celorio  <chema@celorio.com>
+
+	* user_group.c (check_user_login): add a more descriptive message
+
+2001-07-02  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (check_node_visibility): Renamed. Has old name which
+	wasn't very descriptive with new add-ons.
+
+2001-06-29  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* user-group-xml.h (user_set_value_pwd_mindays): typo in passwd_min_life.
+
+2001-06-26  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* user_settings.c (warnings_join): Make text for the warning dialog
+	from the collected warnings list.
+	(gui_warnings_cb): Sets the reply status.
+	(user_account_gui_warnings): Show warnings with a mate dialog, asking
+	if you want to proceed or fix them.
+	(user_account_gui_save): If there are warnings, show dialog notifying.
+
+	* user_group.c (user_account_check_home_warnings): Check correctness
+	for the home directory, building a list of warnings.
+	(user_account_check_home): Do some more checks about the home directory,
+	using stat.
+	(user_account_check_warnings): Build a list of warnings related to
+	an user account.
+	(user_account_destroy_warnings): Erase list.
+
+2001-06-25  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c: Made e-table f-ns more readable by giving names to cols.
+	(is_editable): Made description col editable.
+	(set_value_at): modify profile. Fixes bug #3483.
+	(pro_prepare): Connect "activate" signal to move focus better.
+
+	* user_settings.c (user_account_comment_changed): Implement.
+	(user_account_connect_signals): Implement, moved signal connection here
+	from (user_account_gui_new). Added new signals to check comment on the fly.
+	Fixes bug #3471
+
+	* user_group.c (user_account_check_comment): Improved check.
+
+2001-06-14  Tambet Ingo  <tambet@ximian.com>
+
+	* user_settings.c (user_account_gui_profile_changed): Implement.
+	(user_account_gui_setup_profile): Implement.
+
+2001-06-09  Tambet Ingo  <tambet@ximian.com>
+
+	* user_settings.c (setup_basic_add): Cleaned, add contact frame to druid.
+	(user_account_gui_new): get contact frame.
+	(setup_advanced_add): add contact frame.
+	(setup_basic): ditto.
+	(setup_advanced): ditto.
+
+2001-06-08  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (user_account_check): Implement, centralizes all different checks.
+	(user_account_check_group): Cleaned.
+	(user_account_check_comment): Implement, fixes bug #3238.
+	(check_user_comment): Removed, was empty and useless anyway.
+	(user_account_check_home): declare as static, clean.
+
+	* user_settings.c (user_account_gui_save): Cleaned, checking is moved to proper place.
+
+2001-06-07  Tambet Ingo  <tambet@ximian.com>
+
+	* e-search-bar/Makefile.am: GAL_CFLAGS -> XST_CFLAGS (thanks, clahey).
+
+	* user_settings.c: Fixes buf #3015
+	(user_account_comment_setup): Implement.
+	(user_account_gui_save_comment): Implement.
+
+	* user_group.c (user_account_get_by_node): Changed UserAccount->comment to be **gchar.
+
+	* user-group-xml.c (user_set_value_comment_array): Implement.
+	(user_value_comment_array): Implement.
+
+	* user-druid.c (construct): Changed last entry on druid's first page.
+
+2001-06-01  Chema Celorio  <chema@celorio.com>
+
+	* passwd.c (passwd_check): add #ifdef HAVE_CRACKLIB so that it
+	can be built witout cracklib support
+	(passwd_get_random): ditto
+
+2001-06-01  Chema Celorio  <chema@celorio.com>
+
+	* passwd.c: implement.
+	(passwd_get_cracklib_dictionary_path): implement.
+	Fixes : http://bugzilla.ximian.com/show_bug.cgi?id=3009
+
+2001-05-31  Tambet Ingo  <tambet@ximian.com>
+
+	* *.c: Removed compiler warnings fixing bug #3127.
+	
+	* callbacks.c (my_gtk_entry_set_text): Removed, use xst_ui_entry_set_text.	
+
+	* user-group-xml.c (generic_value_string_peek): Implement.
+	(user_value_group_peek): Implement.
+
+	* e-table.c (user_value_at): Peek xmlNode's content, don't duplicate it.
+	Fixes bug #2844.
+	(group_value_at): ditto.
+
+2001-05-29  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am (users_admin_LDADD): clean
+
+2001-05-28  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c (create_searchbar): Show/hide depends on complexity.
+	(update_searchbar_complexity): Show searchbar only in advanced mode.
+
+	* profile.c (create_profile_table): Use xst_ui_load_etspec.
+	(PROFILE_TABLE_SPEC): Fixed typo.
+
+	* e-table.c (create_user_table): Use xst_ui_load_etspec.
+	(create_group_table): ditto.
+	(create_network_group_table): ditto.
+	(create_network_user_table): ditto.
+
+2001-05-26  Carlos Perelló Marín <carlos@mate-db.org>
+
+        * e-table.c, profile.c: Extracted the ETableSpecification to an
+	external file.
+	
+2001-05-25  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c (profile_tab_connect_signals): Connect "activate" signals to make
+	keyboard navigation a bit more pleasant.
+
+	* user_settings.c (setup_basic): "Comment:" -> "Real name:"
+
+2001-05-24  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* 0.5 RELEASE
+
+2001-05-23  Tambet Ingo  <tambet@ximian.com>
+
+	* user-account-editor.c (user_account_editor_new): return NULL if can't get account.
+
+	* user_group.c (check_user_uid): Added g_warning to give out more information.
+
+	* profile.c: Removed typo, fixes bug 2998 (New user's shell has a trailing slash)
+
+2001-05-22  JP Rosevear  <jpr@ximian>
+
+	* e-search-bar/Makefile.am: include gal cflags
+
+2001-05-22  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* user_group.c (find_new_id): g_warning message had arguments
+	in the wrong order.
+	(find_new_id): When looking for an id, start at the minimum
+	and check the compared ids are < the maximum.
+	(find_new_id): Made min, max and ret guints.
+
+2001-05-22  Tambet Ingo  <tambet@ximian.com>
+
+	* user_settings.c (user_account_gui_error): If no given parent just use unparented error dialog.
+	(user_account_gui_destroy): Free and destroy only if there is anything to free or destroy.
+
+	* user_group.c (find_new_id): return NULL if can't get new id.
+	(user_account_get_default): Check return values, act accordingly.
+
+	* user-druid.c (user_druid_new): return NULL on error.
+
+	* user-account-editor.c (user_account_editor_new): return NULL if account == NULL
+
+	* callbacks.c (on_user_new_clicked): Give appropriate error if something is wrong.
+
+	* profile.c (profile_table_from_xml): Disable reading profile skel files.
+
+2001-05-21  Carlos Perelló Marín <carlos@mate-db.org>
+
+	* e-table.c, profile.c: Marked to translate the ETableSpecification labels.
+	
+2001-05-20  Theo van Klaveren <t.vanklaveren@student.utwente.nl>
+
+	* passwd.c: Conditionally include <crypt.h>.
+
+2001-05-21  Tambet Ingo  <tambet@ximian.com>
+
+	* user_settings.c (user_account_gui_setup): Removed set_primary (group) button cause it was unused.
+	(user_account_gui_new): Connect focusing callbacks here so all dialogs can have sane defaults.
+
+	* user_group.c (check_user_group): Now it detects more states (not valid/exists/valid new).
+
+	* user-group-xml.c (user_set_value_group): Add new group if group not found.
+	(user_add_blank_xml): Add ETable row from here (makes it more common).
+	(group_add_blank_xml): Ditto.
+
+	* user-druid.c: Removed focus handling from here to more common place.
+
+	* profile.c: Initial work with profile skel files, isn't visibile in current version.
+
+	* main.c (update_searchbar_complexity): Implement.
+	(create_searchbar): Check initial complexity first and make searchbar accordingly.
+
+2001-05-18  Tambet Ingo  <tambet@ximian.com>
+
+	* callbacks.c (on_user_settings_clicked): Don't show settings unless access is
+	granted.
+
+2001-05-18  Hans Petter Jansson  <hpj@ximian.com>
+
+	* *.pam: Modified PAM configuration so that invoking as root works.
+
+2001-05-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	* *.pam: Modified PAM configuration so that console-helper will ask
+	  for root auth.
+
+2001-05-17  Tambet Ingo  <tambet@ximian.com>
+
+	* transfer.c: Removed old login_defs crap.
+
+	* profile.c (file_list_select): Implement.
+	(file_list_add): Implement.
+	(file_list_del): Implement.
+	(profile_tab_init): Add file_list_* Widgets and connect callbacks.
+	(profile_save): Save files also.
+	(profile_add): Add files
+	(profile_get_default): Did it right. Earlier we used login_defs struct,
+	now it's cleaned and done here.
+	(profile_table_from_xml): Add files.
+	(set_files): Save files.
+	(save_xml): ditto.
+
+2001-05-16  Tambet Ingo  <tambet@ximian.com>
+
+	* user-druid.c (druid_finish): Removed password writing from here,
+	it's done on the lower level.
+
+	* passwd.c (passwd_set): Don't return anything.
+
+	* user_settings.c (user_account_passwd_toggled): Implement.
+	(user_account_passwd_random_new): Implement.
+	(user_account_passwd_changed): Implement.
+	(user_account_gui_new): Add more useful widgets to gui struct. Connect their signals.
+	(user_account_gui_setup): Set asteriscs if password exists.
+	Show password quality checkbox only if libcrack is installed.
+	(user_account_gui_save): Save password if modified.
+
+	* user_group.c (user_account_save): Set password too.
+	(user_account_get_by_node): Get password.
+
+	* passwd.c (passwd_get_random): Made it public, unified with other checks.
+
+	* main.c (config_clists): Removed user dialog's clists from here.
+
+	* e-table.c (tables_set_state): Renamed to (tables_update_complexity). Changed
+	parameter from gboolean to XstDialogComplexity.
+
+	* main.c (update_complexity): Hide/Show Group's tab.
+	(update_notebook_complexity): Implement.
+
+2001-05-15  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (user_account_add): Removed, unified with (user_account_save).
+
+	* user_settings.c (setup_advanced_add): Implement.
+	(setup_basic_add): Implement.
+	(setup_basic): Implement.
+	(setup_advanced): Implement.
+
+	* user-group-xml.c (user_set_groups): Don't modify group GSList here!
+
+	* user_group.c (user_account_get_default): strdup profile fields to avoid memory corruption.
+
+2001-05-14  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c (pro_name_changed): Moved here from callbacks.c
+	(pro_del_clicked): Ditto.
+	(pro_ask_name): Ditto.
+	(pro_prepare): Ditto.
+	(pro_new_clicked): Ditto.
+	(pro_copy_clicked): Ditto.
+	(profile_tab_connect_signals): Implement. Add xst_dialog_modify callbacks.
+	(profile_update_ui): Block those signals until we change ui programmatically.
+	(profile_table_run): Implement. 
+
+	* user-account-editor.c: New file.
+
+	* user-account-editor.h: New file.
+
+	* *.[ch]: Rewrote most of the user handling functions.
+
+2001-05-11  Chema Celorio  <chema@celorio.com>
+
+	* main.c: enable them again
+
+2001-05-11  Chema Celorio  <chema@celorio.com>
+
+	* main.c: disable again the profiles button for 0.4.1
+
+2001-05-10  Chema Celorio  <chema@celorio.com>
+
+	* main.c: enable the profiles button back
+	(main): update to the new initilization method
+
+2001-05-09  Arturo Espinosa Aldama  <arturo@ximian.com>
+
+	* 0.4 RELEASE
+
+2001-05-09  Chema Celorio  <chema@celorio.com>
+
+	* main.c: disable profiles for the release casue they are not fully
+	working
+
+2001-05-08  Tambet Ingo  <tambet@ximian.com>
+
+	* passwd.c (passwd_set): return uncrypted password (for random pwd).
+
+	* user-druid.c (druid_finish): Made it actually save password.
+
+	* callbacks.c (on_user_passwd_random_clicked): Fixed to use new
+	set_passd (and friends) functions.
+	(on_user_passwd_change_clicked): Ditto.
+	(passwd_change): Ditto.
+
+2001-05-06  Tambet Ingo  <tambet@ximian.com>
+
+	* user-druid.c (druid_exit): Destroy dialog instead of hiding.
+	(user_druid_run): Moved all the UI struc initialization here.
+	Replaced xst_dialog_get_widget -> glade_xml_get_widget.
+
+2001-05-05  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c: Profiles have now their own XstDialog.
+
+	* passwd.c: Reorganized code to make using it simpler.
+
+	* user-druid.c: Finished.
+
+	* user_group.c: check_* functions take GtkWindow argument to have parent for error dialogs.
+
+2001-05-02  Tambet Ingo  <tambet@ximian.com>
+
+	* user-druid.c (connect_signals): Removed random password from druid.
+
+	* user_group.c (user_update): Removed old password stuff.
+
+	* user-druid.c: (user_druid_pwd_new) Removed.
+	(user_druid_pwd_toggled): Removed.
+
+	* profile.c: Continued work on new profiles dialog. It's almost ready now.
+
+2001-04-29  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (user_update): Display only one error message at time.
+
+2001-04-26  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am: add $(srcdir) to security.in
+
+2001-04-26  Tambet Ingo  <tambet@ximian.com>
+
+	* Makefile.am: include new files into build.
+	
+	* user-druid.[ch]: New file.
+
+	* profile.c: Adopted new UI. 
+
+2001-04-17  Tambet Ingo  <tambet@ximian.com>
+
+	* e-search-bar/e-dropdown-button.c: Removed compiler warning.
+
+	* *.[ch]: Fixed tons of little bugs:
+	home and shell HAVE to start with "/"
+	don't allow root account modifications (login, uid, group, home, gid)
+	add shell list to user_settings_dialog
+	user_settings_dialog doesn't allow bigger uid's than 1000
+	don't allow negative numbers for uid and gid
+	add check for setting too long login (32 chars seems to be max)
+	add check for setting too long groupname (16 chars seems to be max)
+	add check for setting too big gid (2147483647 seems to be max)
+	add check for setting too big uid (2147483647 seems to be max)
+	don't allow text in uid and gid in ETable
+
+2001-04-10  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c: Some fixes to make it build again.
+
+2001-04-03  Tambet Ingo  <tambet@ximian.com>
+
+	* user-group-xml.c: Added user_set_value* functions.
+
+	* e-table.c: Use user-group-xml.
+
+	* user_settings.c: ditto.
+
+	* user-group-xml.c: New. Plan is to put all xml functions here,
+	so that You don't call xst_xml functions but for example user_value_login()
+
+	* e-table.c (user_set_value_at): Added col GID, cleaned.
+	(user_value_at): Added GID.
+	(group_set_value_at): Cleaned.
+
+	* main.c (user_query_changed): Added search by uid, modified "contains gid" to
+	"is gid".
+
+	* user_group.c (user_filter): Added exact searching capability, cleaned.
+
+2001-04-02  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c (table_structure_change): (and couple of helpers):
+	Save ETable state and use it next time asked.
+
+	* callbacks.c (on_showall_toggled): Save state.
+
+	* main.c (main_window_prepare): New. Moved main dialog's init and conf
+	stuff here. Added "Showall" button to xst_conf.
+
+2001-04-01  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c (create_user_table): Get ETable specs and state from gonf.
+	(create_group_table): ditto.
+	(tables_set_state): ditto.
+
+2001-03-30  Tambet Ingo  <tambet@ximian.com>
+
+	* Makefile.am: Add mateconf cflags.
+
+2001-03-29  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c (quit_cb): Removed debug and other stupidity.
+
+	* profile.c (profile_tab_prefill): Fill shells combo.
+	(on_home_activate): Implement. Add "$user" to the end of path.
+	(profile_save): Check entries before saving.
+	(validate_var): Implement.
+
+2001-03-28  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c (user_query_changed): Added search by group name.
+
+	* e-table.c (user_value_group): return value not xmlNodePtr.
+
+	* callbacks.c (user_password_change): Act by "Random password" rules.
+
+	* profile.c (profile_tab_init): Added "Random password" toggle to profiles.
+
+2001-03-27  Tambet Ingo  <tambet@ximian.com>
+
+	* profile.c (save_xml): Fixed typo.
+
+	* user_settings.c (user_settings_helper): Deleted, we don't need that anymore.
+
+	* user_group.c (parse_group): Implement.
+	(parse_home): Ditto.
+
+	* profile.c: Added new field (group) to profiles. Also added
+	  convinient aliases for home_prefix and group ($user).
+	  (profile_table_add_profile): Block signal while updating combo.
+
+	* main.c (quit_cb): Implement
+
+	* e-table.c (destroy_tables): Implement.
+
+	* callbacks.c (on_pro_name_changed): Update tables with new filters.
+	(on_pro_save_clicked): ditto.
+
+2001-03-26  Tambet Ingo  <tambet@ximian.com>
+
+	* *.c: Fixed bugs: Password changing didn't work right.
+	login.defs structure didn't get written.
+
+2001-03-25  Tambet Ingo  <tambet@ximian.com>
+
+	* callbacks.c (actions_set_sensitive): New argument (which table should be updated).
+	(user_actions_set_sensitive): Removed
+	(group_actions_set_sensitive): ditto.
+	(net_actions_set_sensitive): ditto.
+
+	* e-table.c: Cleanup.
+
+2001-03-23  Tambet Ingo  <tambet@ximian.com>
+
+	* transfer.c (transfer_gui_to_xml): Don't destroy profile_table here!
+
+	* callbacks.c (on_pro_del_clicked): xst_dialog_modify if modified.
+	(on_pro_save_clicked): ditto.
+	(pro_ask_name): ditto.
+
+	* profile.c (profile_add): Check name uniqueness before adding new.
+	Cleaned interface.
+
+	* callbacks.c (pro_ask_name): 
+	(on_pro_new_clicked): 
+	(on_pro_copy_clicked): Adding and copying profiles works.
+
+2001-03-22  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c: Connect couple of signals. Profiles work
+	now (with couple of bugs of course :)
+
+	* callbacks.c (on_pro_copy_clicked): Implement.
+	(on_pro_new_clicked): Implement
+
+	* profile.c (profile_add): Implement.
+
+	* e-table.c: Converted to use e-table-memory.
+
+2001-03-21  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c (value_to_string): Fixed memory leak.
+
+	*.[ch]: Continued work on profiles.
+
+2001-03-20  Tambet Ingo  <tambet@ximian.com>
+
+	* *.[ch]: Improved Profile stuff. logindefs is almost discarded (noone uses it
+	anymore, but it haven't been removed. 
+
+2001-03-19  Tambet Ingo  <tambet@ximian.com>
+
+	* Makefile.am: Added profiles into build.
+	
+	* profile.[ch]: Inital work for profiles support.
+
+	* transfer.c (transfer_xml_to_gui): init profiles.
+
+	* user_settings.c (user_settings_prepare): Made determining if new more readable.
+
+2001-03-16  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c: Remove user_chpasswd button (and cbs) from main window.
+
+	* user_group.c (user_update_xml): Save password properties.
+
+	* user_settings.c (user_settings_pwd_prepare): Implement.
+	(user_settings_pwd_fill): Implement.
+	(user_settings_prepare): Use new functions.
+
+	* callbacks.c (on_user_settings_clicked): Fill in defaults for basic mode.
+
+	* user_settings.c (user_settings_helper): Implement.
+
+	* user_group.c (add_user_groups): Optimized.
+	(adv_user_settings): go away! we don't need You!
+
+	* user_settings.c (user_settings_group_fill): Fixed stupidity where we got wrong list (we
+	wanted list of groups, got list of users).
+
+2001-03-15  Tambet Ingo  <tambet@ximian.com>
+	
+	* main.c (config_clists): New func, clists_set_autosort TRUE.
+		
+2001-03-15  Hans Petter Jansson <hpj@ximian.com>
+
+	* main.c (policies): Added table describing widget visibility policies.
+	  (set_access_sensitivity): Removed.
+	  (update_complexity): Removed all but one line.
+	  (main): Added call to load policy table, removed call to
+	  set_access_sensitivity ().
+
+	* callbacks.c (user_actions_set_sensitive): Re-implemented using
+	  xst_dialog_widget_set_user_sensisitve ().
+	  (group_actions_set_sensitive): Ditto.
+	  (net_actions_set_sensitive): Ditto.
+
+2001-03-15  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c (create_extras): We don't need centering *again* :)
+
+	* main.c (create_searchbar): GUI love.
+
+2001-03-14  Tambet Ingo  <tambet@ximian.com>
+
+	* Makefile.am: Added e-search-bar to build.
+	
+	* main.c (create_searchbar): Make e-search-bar.
+	(user_query_changed): 
+	(user_menu_activated): callbacks for e-search-bar.
+
+	* user_group.c (adv_user_settings): Removed all user_settings_dialog stuff from here,
+	made it use structures of widgets.
+	(user_filter): New function for searching.
+
+	* user_settings.c: New file for user_settings_dialog.
+
+2001-03-08  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c: Cleaned up to remove compiler warnings.
+	(user_settings_prepare): Removed all group stuff from here and put it
+	(user_settings_groups): here.
+	(node_exsists): Removed REALLY nasty bug.
+	(user_update_xml): update user's secondary groups too.
+	(del_user_groups): New function.
+	(add_user_groups): New function.
+	(user_settings_groups): Fixed bug what happened if  group didn't exist.
+
+2001-03-07  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (get_group_list): Optimized, made it use update_complexity.
+	(get_user_list): Same here.
+	*.[ch]: Continued work on new user_settings dialog, lots of cleanups also.
+
+	* main.c (update_complexity): Hide or show new toggle.
+
+2001-03-06  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (user_settings_prepare): Set user_settings_comment_label accordingly,
+	ie ("Comment:" or "Full Name:").
+	(user_settings_prepare): Removed some stupidity.
+	(group_fill_members_list): Code cleanup.
+	(user_settings_groups): Fill user_settings_gmember and user_settings_gall.
+	(my_gtk_clist_append): 
+	(my_gtk_clist_append_items): Two new helper functions.
+
+	* e-table.c (show_all): New function for user_showall toggle from GUI.
+	(populate_table): Use that new function on populating tables.
+
+2001-03-05  Tambet Ingo  <tambet@ximian.com>
+
+	* user_group.c (get_user_groups): New function. 
+	(get_group_mainusers): New function. Noone uses those yet though...
+
+	* callbacks.c (on_group_settings_add_clicked): Now works with multiple selections.
+	(on_group_settings_remove_clicked): Same here.
+
+2001-03-02  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c (tables_set_state): Fixed another bug where wrong settings dialog was shown.
+
+	* main.c: Connect new signal.
+
+	* e-table.c: use (set_active_table) everywhere.
+
+	* callbacks.c (on_notebook_switch_page): New function, calls (set_active_table).
+
+	* e-table.c (set_active_table): New function.
+
+2001-02-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am: Disable control-center entry.
+
+2001-02-28  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c: Justify right cells that start with slash.
+		
+2001-02-27  Chema Celorio  <chema@celorio.com>
+
+	* Makefile.am (EXTRA_DIST): distcheck fixes
+
+2001-02-27  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c (update_complexity): Moved tables flush/fill and widgets sensitivity stuff
+	from here.
+	Connect some more signals.
+	(set_access_sensitivity): Fixed sensitivity bug in user_settings add and remove buttons.
+
+	* e-table.c (tables_set_state): Save selected node before flush nad restore selection
+	after new fill.
+	(table_set_cursor_node): New function, to set selection by node.
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* add xst_ prefix to the xml_ functions
+
+2001-02-22  Chema Celorio  <chema@celorio.com>
+
+	* transfer.c (transfer_logindefs_from_xml): use xml_element_get_content
+	from xml.c
+
+2001-02-17  Chema Celorio  <chema@celorio.com>
+
+	* main.c (main): pass NULL as options
+
+2001-02-06  jacob berkman  <jacob@ximian.com>
+
+	* main.c: add the signals list
+
+2001-02-05  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c: Added new ETable column to user_spec.
+	(user_value_at): Show group name in users' table.
+
+	* user_group.c (get_node_by_data): New function.
+	(get_group_by_data): Discarded, made other stuff use more general (get_node_by_data).
+
+2001-02-03  Christian Meyer  <chrisime@mate.org>
+
+	* users.desktop.in: Added German strings.
+
+2001-02-02  jacob berkman  <jacob@ximian.com>
+
+	* user_group.c (adv_user_new): call the new get widget API
+
+2001-02-02  Tambet Ingo  <tambet@ximian.com>
+
+	* main.c (main): enable complexity in RIGHT way. The right way is the right way.
+
+	* user_group.c (check_group_delete): get the right parent for warning dialogs.
+	(check_login_delete): same.
+
+	* *.[ch]: NIS support is in.
+
+2001-01-31  Tambet Ingo  <tambet@ximian.com>
+
+	* *.[ch]: Ported to use xst_* functions.
+
+2001-01-30  Arturo Espinosa  <arturo@ximian.com>
+
+	* user_group.c: default home dir for new users is /home/%s, not
+	  home/%s.
+	  (adv_user_new): set /bin/bash as the default shell.
+	
+2001-01-28  Arturo Espinosa  <arturo@ximian.com>
+
+	* e-table.h: use blue as COLOR_NORMAL.
+	
+2001-01-28  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c: Better readable column names.
+	(create_extras): Added color column.
+	(get_row_color): Function to get right color.
+
+	* user_group.c (get_corresp_field): Now gets only field, no min & max anymore.
+	(get_min_max): New function.
+	Fixed all functions using get_corresp_field.
+
+2001-01-27  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c: included e-cell-text.h I forgot before.
+
+	* user_group.c (check_user_home): Now checks if home dir != empty
+	(user_update_xml): Fill in defaults for home and shell if ! advanced mode.
+
+2001-01-23  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c: all e-table cells are centered from now on. I'm not exactly
+	sure it looks better now, but at least it's unified with other tools.
+	(create_extras): make that new cell.
+
+2001-01-22  Tambet Ingo  <tambet@ximian.com>
+
+	* e-table.c (group_set_value_at): now checks whether name and gid are valid.
+	(user_set_value_at): checks all cols before settings.
+
+	* user_group.c (check_group_gid): new function.
+	(check_user_shell): new blank function.
+	(check_user_home): new blank function.
+
+2001-01-19  Tambet Ingo  <tambet@ximian.com>
+
+	* callbacks.c: Added empty functions (on_network_delete_clicked),
+	  (on_network_settings_clicked), (on_network_user_new_clicked),
+          (on_network_group_new_clicked) to sush users-admin at runtime.
+
+2001-01-19  Tambet Ingo  <tambet@ximian.com>
+
+	* network.[ch]: new version.
+	* e-table.[ch]: new version.
+	* callbacks.[ch]: new version.
+	* user_group.[ch]: new version.
+
+2001-01-19  Tambet Ingo  <tambet@ximian.com>
+
+	* network.[ch]: deleted.
+	* e-table.[ch]: deleted.
+	* callbacks.[ch]: deleted.
+	* user_group.[ch]: deleted.
+
+2001-01-16  Chema Celorio  <chema@celorio.com>
+
+	* main.c (main): call transfer_logindefs_from_xml before creating
+	the e-table because the e-table uses the logindefs to know which users
+	to display. This was causing a bug in which only one user would be
+	displayed.
+
+	* transfer.c (transfer_logindefs_from_xml): make non-static
+	* transfer.h (transfer_logindefs_from_xml): add to header
+	* transfer.c (transfer_xml_to_gui): and remove from here.
+	We only load the logindefs once.
+	
+2001-01-15  Chema Celorio  <chema@celorio.com>
+
+	* Start ChangeLog
+

@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EogWindow</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
+<link rel="home" href="index.html" title="Eye of MATE Reference Manual">
+<link rel="up" href="ch01.html" title="User Interface">
+<link rel="prev" href="EogScrollView.html" title="EogScrollView">
+<link rel="next" href="EogStatusbar.html" title="EogStatusbar">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="EogScrollView.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Eye of MATE Reference Manual</th>
+<td><a accesskey="n" href="EogStatusbar.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#eog-eog-window.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#eog-eog-window.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#eog-eog-window.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#eog-eog-window.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#eog-eog-window.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#eog-eog-window.signals" class="shortcut">Signals</a>
+</td></tr>
+</table>
+<div class="refentry" title="EogWindow">
+<a name="eog-eog-window"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="eog-eog-window.top_of_page"></a>EogWindow</span></h2>
+<p>EogWindow</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="eog-eog-window.synopsis"></a><h2>Synopsis</h2>
+<a name="EogWindow"></a><pre class="synopsis">#define             <a class="link" href="eog-eog-window.html#EOG-WINDOW-ERROR:CAPS" title="EOG_WINDOW_ERROR">EOG_WINDOW_ERROR</a>
+enum                <a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode">EogWindowMode</a>;
+enum                <a class="link" href="eog-eog-window.html#EogWindowError" title="enum EogWindowError">EogWindowError</a>;
+enum                <a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags">EogStartupFlags</a>;
+                    <a class="link" href="eog-eog-window.html#EogWindow-struct" title="EogWindow">EogWindow</a>;
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-window.html#eog-window-new" title="eog_window_new ()">eog_window_new</a>                      (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags"><span class="type">EogStartupFlags</span></a> flags</code></em>);
+<a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="returnvalue">EogWindowMode</span></a>       <a class="link" href="eog-eog-window.html#eog-window-get-mode" title="eog_window_get_mode ()">eog_window_get_mode</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-window.html#eog-window-set-mode" title="eog_window_set_mode ()">eog_window_set_mode</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="type">EogWindowMode</span></a> mode</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="returnvalue">GtkUIManager</span></a> *      <a class="link" href="eog-eog-window.html#eog-window-get-ui-manager" title="eog_window_get_ui_manager ()">eog_window_get_ui_manager</a>           (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a class="link" href="eog-eog-list-store.html#EogListStore"><span class="returnvalue">EogListStore</span></a> *      <a class="link" href="eog-eog-window.html#eog-window-get-store" title="eog_window_get_store ()">eog_window_get_store</a>                (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-window.html#eog-window-get-view" title="eog_window_get_view ()">eog_window_get_view</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-window.html#eog-window-get-sidebar" title="eog_window_get_sidebar ()">eog_window_get_sidebar</a>              (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-window.html#eog-window-get-thumb-view" title="eog_window_get_thumb_view ()">eog_window_get_thumb_view</a>           (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-window.html#eog-window-get-thumb-nav" title="eog_window_get_thumb_nav ()">eog_window_get_thumb_nav</a>            (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         <a class="link" href="eog-eog-window.html#eog-window-get-statusbar" title="eog_window_get_statusbar ()">eog_window_get_statusbar</a>            (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<a class="link" href="eog-eog-image.html#EogImage"><span class="returnvalue">EogImage</span></a> *          <a class="link" href="eog-eog-window.html#eog-window-get-image" title="eog_window_get_image ()">eog_window_get_image</a>                (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="eog-eog-window.html#eog-window-open-file-list" title="eog_window_open_file_list ()">eog_window_open_file_list</a>           (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *file_list</code></em>);
+<a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="eog-eog-window.html#eog-window-is-empty" title="eog_window_is_empty ()">eog_window_is_empty</a>                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="eog-eog-window.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="http://library.mate.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GInitiallyUnowned">GInitiallyUnowned</a>
+         +----<a href="http://library.mate.org/devel/gtk/unstable/GtkObject.html">GtkObject</a>
+               +----<a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html">GtkWidget</a>
+                     +----<a href="http://library.mate.org/devel/gtk/unstable/GtkContainer.html">GtkContainer</a>
+                           +----<a href="http://library.mate.org/devel/gtk/unstable/GtkBin.html">GtkBin</a>
+                                 +----<a href="http://library.mate.org/devel/gtk/unstable/GtkWindow.html">GtkWindow</a>
+                                       +----EogWindow
+</pre>
+</div>
+<div class="refsect1" title="Implemented Interfaces">
+<a name="eog-eog-window.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+EogWindow implements
+ AtkImplementorIface and  <a href="http://library.mate.org/devel/gtk/unstable/gtk-gtkbuildable.html#GtkBuildable">GtkBuildable</a>.</p>
+</div>
+<div class="refsect1" title="Properties">
+<a name="eog-eog-window.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="eog-eog-window.html#EogWindow--startup-flags" title='The "startup-flags" property'>startup-flags</a>"            <a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags"><span class="type">EogStartupFlags</span></a>       : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" title="Signals">
+<a name="eog-eog-window.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="eog-eog-window.html#EogWindow-prepared" title='The "prepared" signal'>prepared</a>"                                       : Run Last
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="eog-eog-window.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="eog-eog-window.details"></a><h2>Details</h2>
+<div class="refsect2" title="EOG_WINDOW_ERROR">
+<a name="EOG-WINDOW-ERROR:CAPS"></a><h3>EOG_WINDOW_ERROR</h3>
+<pre class="programlisting">#define EOG_WINDOW_ERROR           (eog_window_error_quark ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum EogWindowMode">
+<a name="EogWindowMode"></a><h3>enum EogWindowMode</h3>
+<pre class="programlisting">typedef enum {
+	EOG_WINDOW_MODE_UNKNOWN,
+	EOG_WINDOW_MODE_NORMAL,
+	EOG_WINDOW_MODE_FULLSCREEN,
+	EOG_WINDOW_MODE_SLIDESHOW
+} EogWindowMode;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum EogWindowError">
+<a name="EogWindowError"></a><h3>enum EogWindowError</h3>
+<pre class="programlisting">typedef enum {
+	EOG_WINDOW_ERROR_CONTROL_NOT_FOUND,
+	EOG_WINDOW_ERROR_UI_NOT_FOUND,
+	EOG_WINDOW_ERROR_NO_PERSIST_FILE_INTERFACE,
+	EOG_WINDOW_ERROR_IO,
+	EOG_WINDOW_ERROR_TRASH_NOT_FOUND,
+	EOG_WINDOW_ERROR_GENERIC,
+	EOG_WINDOW_ERROR_UNKNOWN
+} EogWindowError;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum EogStartupFlags">
+<a name="EogStartupFlags"></a><h3>enum EogStartupFlags</h3>
+<pre class="programlisting">typedef enum {
+	EOG_STARTUP_FULLSCREEN         = 1 &lt;&lt; 0,
+	EOG_STARTUP_SLIDE_SHOW         = 1 &lt;&lt; 1,
+	EOG_STARTUP_DISABLE_COLLECTION = 1 &lt;&lt; 2
+} EogStartupFlags;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="EogWindow">
+<a name="EogWindow-struct"></a><h3>EogWindow</h3>
+<pre class="programlisting">typedef struct _EogWindow EogWindow;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_new ()">
+<a name="eog-window-new"></a><h3>eog_window_new ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_window_new                      (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags"><span class="type">EogStartupFlags</span></a> flags</code></em>);</pre>
+<p>
+Creates a new and empty <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>. Use <em class="parameter"><code>flags</code></em> to indicate
+if the window should be initialized fullscreen, in slideshow mode,
+and/or without the thumbnails collection visible. See <a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags"><span class="type">EogStartupFlags</span></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em> :</span></p></td>
+<td>the initialization parameters for the new window.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly created <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_mode ()">
+<a name="eog-window-get-mode"></a><h3>eog_window_get_mode ()</h3>
+<pre class="programlisting"><a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="returnvalue">EogWindowMode</span></a>       eog_window_get_mode                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the mode of <em class="parameter"><code>window</code></em>. See <a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="type">EogWindowMode</span></a> for details.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>An <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> An <a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="type">EogWindowMode</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_set_mode ()">
+<a name="eog-window-set-mode"></a><h3>eog_window_set_mode ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_window_set_mode                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="type">EogWindowMode</span></a> mode</code></em>);</pre>
+<p>
+Changes the mode of <em class="parameter"><code>window</code></em> to normal, fullscreen, or slideshow.
+See <a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="type">EogWindowMode</span></a> for details.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mode</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindowMode" title="enum EogWindowMode"><span class="type">EogWindowMode</span></a> value.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_ui_manager ()">
+<a name="eog-window-get-ui-manager"></a><h3>eog_window_get_ui_manager ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="returnvalue">GtkUIManager</span></a> *      eog_window_get_ui_manager           (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="type">GtkUIManager</span></a> that describes the UI of <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>An <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A <a href="http://library.mate.org/devel/gtk/unstable/GtkUIManager.html"><span class="type">GtkUIManager</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_store ()">
+<a name="eog-window-get-store"></a><h3>eog_window_get_store ()</h3>
+<pre class="programlisting"><a class="link" href="eog-eog-list-store.html#EogListStore"><span class="returnvalue">EogListStore</span></a> *      eog_window_get_store                (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a class="link" href="eog-eog-list-store.html#EogListStore"><span class="type">EogListStore</span></a> that contains the images in the collection
+of <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>An <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an <a class="link" href="eog-eog-list-store.html#EogListStore"><span class="type">EogListStore</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_view ()">
+<a name="eog-window-get-view"></a><h3>eog_window_get_view ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_window_get_view                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the <a class="link" href="EogScrollView.html" title="EogScrollView"><span class="type">EogScrollView</span></a> in the window.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>An <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="EogScrollView.html" title="EogScrollView"><span class="type">EogScrollView</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_sidebar ()">
+<a name="eog-window-get-sidebar"></a><h3>eog_window_get_sidebar ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_window_get_sidebar              (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the sidebar widget of <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>An <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the <a class="link" href="EogSidebar.html" title="EogSidebar"><span class="type">EogSidebar</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_thumb_view ()">
+<a name="eog-window-get-thumb-view"></a><h3>eog_window_get_thumb_view ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_window_get_thumb_view           (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the thumbnails view in <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an <a class="link" href="eog-eog-thumb-view.html#EogThumbView"><span class="type">EogThumbView</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_thumb_nav ()">
+<a name="eog-window-get-thumb-nav"></a><h3>eog_window_get_thumb_nav ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_window_get_thumb_nav            (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the thumbnails navigation pane in <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an <a class="link" href="eog-eog-thumb-nav.html#EogThumbNav"><span class="type">EogThumbNav</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_statusbar ()">
+<a name="eog-window-get-statusbar"></a><h3>eog_window_get_statusbar ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/gtk/unstable/GtkWidget.html"><span class="returnvalue">GtkWidget</span></a> *         eog_window_get_statusbar            (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the statusbar in <em class="parameter"><code>window</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a <span class="type">EogStatusBar</span>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_get_image ()">
+<a name="eog-window-get-image"></a><h3>eog_window_get_image ()</h3>
+<pre class="programlisting"><a class="link" href="eog-eog-image.html#EogImage"><span class="returnvalue">EogImage</span></a> *          eog_window_get_image                (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Gets the image currently displayed in <em class="parameter"><code>window</code></em> or <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if
+no image is being displayed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> an <a class="link" href="eog-eog-image.html#EogImage"><span class="type">EogImage</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_open_file_list ()">
+<a name="eog-window-open-file-list"></a><h3>eog_window_open_file_list ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                eog_window_open_file_list           (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.mate.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"><span class="type">GSList</span></a> *file_list</code></em>);</pre>
+<p>
+Opens a list of files, adding them to the collection in <em class="parameter"><code>window</code></em>.
+Files will be checked to be readable and later filtered according
+with <a class="link" href="eog-eog-list-store.html#eog-list-store-add-files" title="eog_list_store_add_files ()"><code class="function">eog_list_store_add_files()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>An <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>file_list</code></em> :</span></p></td>
+<td>A <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>-terminated list of <a href="http://library.mate.org/devel/gio/unstable/GFile.html"><span class="type">GFile</span></a>'s.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="eog_window_is_empty ()">
+<a name="eog-window-is-empty"></a><h3>eog_window_is_empty ()</h3>
+<pre class="programlisting"><a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            eog_window_is_empty                 (<em class="parameter"><code><a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window</code></em>);</pre>
+<p>
+Tells whether <em class="parameter"><code>window</code></em> is currently empty or not.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>an <a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if <em class="parameter"><code>window</code></em> has no images, <a href="http://library.mate.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="eog-eog-window.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "startup-flags" property'>
+<a name="EogWindow--startup-flags"></a><h3>The <code class="literal">"startup-flags"</code> property</h3>
+<pre class="programlisting">  "startup-flags"            <a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags"><span class="type">EogStartupFlags</span></a>       : Read / Write / Construct Only</pre>
+<p>
+A bitwise OR of <a class="link" href="eog-eog-window.html#EogStartupFlags" title="enum EogStartupFlags"><span class="type">EogStartupFlags</span></a> elements, indicating how the window
+should behave upon creation.
+</p>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
+<a name="eog-eog-window.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" title='The "prepared" signal'>
+<a name="EogWindow-prepared"></a><h3>The <code class="literal">"prepared"</code> signal</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="eog-eog-window.html#EogWindow"><span class="type">EogWindow</span></a> *window,
+                                                        <a href="http://library.mate.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>   user_data)      : Run Last</pre>
+<p>
+The <a class="link" href="eog-eog-window.html#EogWindow-prepared" title='The "prepared" signal'><span class="type">"prepared"</span></a> signal is emitted when the <em class="parameter"><code>window</code></em> is ready
+to be shown.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>window</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

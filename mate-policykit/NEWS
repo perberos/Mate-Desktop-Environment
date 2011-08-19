@@ -1,0 +1,308 @@
+==========
+PolicyKit-mate 0.9.2
+==========
+
+Released on August 20th 2008.
+
+Highlights of this release
+
+ o Don't rely on libsexy headers (Michael Biebl)
+
+Requirements for PolicyKit-mate 0.9.2
+
+ - PolicyKit        == 0.9
+ - GTK+             >= 2.13.6
+ - dbus             >= 1.0
+ - dbus-glib        >= 0.71
+ - MateConf            >= 2.8
+
+==========
+PolicyKit-mate 0.9.1
+==========
+
+Released on August 19th 2008.
+
+Highlights of this release
+
+ o Avoid libsexy dep; ship with local copies of SexyURLLabel
+ o Avoid libmate-vfs dep; use recent GTK+ instead
+ o Use standard icon names (Matthias Clasen)
+ o New translations: ar
+ o Updated translations: pt_BR, pt, ja, ar, pl
+
+Requirements for PolicyKit-mate 0.9.1
+
+ - PolicyKit        == 0.9
+ - GTK+             >= 2.13.6
+ - dbus             >= 1.0
+ - dbus-glib        >= 0.71
+ - MateConf            >= 2.8
+
+==========
+PolicyKit-mate 0.9
+==========
+
+Release on July 22th 2008.
+
+Highlights of this release
+
+ o Bug fixes
+ o Avoid grabbing the pointer when showing dialog
+ o Remember state for "remember authorization" check box per action.
+ o New translations: ca, po, pt, ru, sk, cs, pt_BR, zh_CN, de
+
+Requirements for PolicyKit-mate 0.9
+
+ - PolicyKit        == 0.9
+ - GTK+             >= 2.12
+ - dbus             >= 1.0
+ - dbus-glib        >= 0.71
+ - mate-vfs        >= 2.4
+ - libsexy          >= 0.1.11
+ - MateConf            >= 2.8
+
+==========
+PolicyKit-mate 0.8
+==========
+
+Released on April 16th 2008.
+
+Highlights of this release
+
+ o  Bug fixes
+ o  Translations: el, en_GB, es, fi, fr, he, hu, ja, sv
+
+David Zeuthen (9):
+      post release version bump to 0.8
+      add support for new constraint types: exe and selinux_context
+      don't crash when showing block authorizations for a user without .face
+      use gtk_window_present() to show the dialog
+      fix a few g_warnings when handling icons
+      test commit
+      use gtk_window_present_with_time() to circumvent focus stealing prevention
+      comment out check for policy file until SCM situation is under control
+      merge translations from svn.mate.org
+
+Michael Biebl (1):
+      make sure build works with -Wl,--as-needed
+
+Requirements for PolicyKit-mate 0.8
+
+ - PolicyKit        == 0.8
+ - GTK+             >= 2.12
+ - dbus             >= 1.0
+ - dbus-glib        >= 0.71
+ - mate-vfs        >= 2.4
+ - libsexy          >= 0.1.11
+
+==========
+PolicyKit-mate 0.7
+==========
+
+Released on December 5th 2007.
+
+This is the fifth release of PolicyKit-mate.
+
+Highlights of this release
+
+ o  Also listen on the new desktop-neutral session bus interface as
+    defined by PolicyKit
+    http://hal.freedesktop.org/docs/PolicyKit/model-authentication-agent.html
+
+ o  New libpolkit-mate library with lots of cool features
+
+ o  New polkit-mate-authorizations tool for managing authorizations
+
+ o  Support for vendor name, site and icon. The icon will be blended over
+    the south-east quarter of the lock icon
+
+ o  Various bug fixes
+
+David Zeuthen (65):
+      post-release version bump
+      grab the pointer and keyboard when showing an auth dialog
+      don't grab the X keyboard; only grab the X pointer
+      do grab the keyboard anyway
+      add infrastructure for building a library
+      forgot to add gtk-doc.make
+      first stab at subclassing GtkAction for the libpolkit-mate library
+      add authentication convience function and make PolKitMateAction smarter
+      add a polkit_mate_action_create_button() convenience method
+      remove functionality to pass the X11 XID in PolKitMateAction
+      pass XID for top-level of the widget that caused the ::activate signal
+      show labels in buttons created by polkit_mate_action_create_button()
+      add signals for ::auth_start, ::auth_end on PolKitMateAction
+      make all setters of PolKitMateAction private
+      clean up the example, include it in inline docs and remove the helper
+      ref the PolKitAction when returning it as a property
+      in the example, unref the PolKitAction objects to plug memory leaks
+      require (unreleased) PolicyKit 0.7 instead of 0.5
+      update label for buttons created with polkit_mate_action_create_button()
+      show an example of properties of PolKitMateAction can be overridden
+      also propagate the ::activate signal if PolicyKit says 'no'
+      update example
+      add support for the 'short-label' property in PolKitMateAction
+      add toolbar and menubar to the example
+      minor style / translation fixes for polkit-mate-example
+      fixed some i18n issues with polkit-mate-example
+      add documentation for the authentication daemon
+      add some warning flags from gcc and fix up some warnings
+      the auth daemon is not multi-threaded, no need to init threads
+      we don't use libmate nor libmateui so don't check for it in configure.ac
+      separate library dependencies into separate pkg-config modules
+      clean TODO - yay, down to one single trivial entry
+      for PolKitMateAction define what happens if PolKitAction is set to NULL
+      assorted libpolkit-mate fixes
+      fix description of the Kick actions in the example
+      add a "Manage Authorization" application
+      various fixed for PolKitMateAction
+      include png
+      new class PolKitMateToggleAction
+      include PolKitMateToggleAction and update a screenshot
+      use PolKitMateToggleAction in example
+      various work-in-progress bits for the authorization tool
+      update for recent changes on PolicyKit HEAD
+      add support for one-shot authorizations
+      update screenshots in docs
+      update to slightly modified iterator API in PolicyKit HEAD
+      update to gtk-doc.make to handle parallel builds
+      use a tree for the actions and their namespaces instead of a flat list
+      add support for grant, revoke and editing implicit authorizations
+      add notebook to avoid showing summary when an action isn't selected
+      add support for vendor and icon
+      pull in sexy and mate-vfs for better presentation and handling of vendor url's
+      make auth dialog show a link to the auth manager and add a .desktop file
+      actually do single instance by refusing to run if we can't claim the Name
+      add support for negative auths
+      fix corner case for the toggle action
+      also claim the name org.freedesktop.PolicyKit.AuthenticationAgent
+      add support for "target-pid" property and streamline auth interface
+      fix up POLKIT_TYPE_MATE_CONTEXT to be POLKIT_MATE_TYPE_CONTEXT
+      update docs to reflect the interface switch from org.mate to org.freedesktop
+      for negative auths, make the face bw to make the stop icon stand out
+      update to latest PolicyKit API changes
+      introduce new polkit-action-sufficient property
+      update for latest PolicyKit API changes
+      update NEWS file
+
+Requirements for PolicyKit-mate 0.7
+
+ - PolicyKit        == 0.7
+ - GTK+             >= 2.12
+ - dbus             >= 1.0
+ - dbus-glib        >= 0.71
+ - mate-vfs        >= 2.4
+ - libsexy          >= 0.1.11
+
+==========
+PolicyKit-mate 0.6
+==========
+
+Released on October 11th 2007.
+
+This is the fourth release of PolicyKit-mate. This release should be
+compatible with the PolicyKit-mate 0.5 release.
+
+David Zeuthen (9):
+      post-release version bump
+      Revert "post-release version bump"
+      removed bogus aclocal.m4 file from repository
+      build example by default
+      post release bump to 0.6
+      fix heuristics for localizing PAM strings and support thinkfinger better
+      fix danish translations
+      exit authentication daemon after 30 seconds of inactivity
+      add a --no-exit option to polkit-mate-manager
+
+Michael Biebl (1):
+      make it possible to build without the demo application
+
+Requirements for PolicyKit-mate 0.6
+
+ - PolicyKit        == 0.6
+ - GTK+             >= 2.11 (2.10 will do if you don't build the demos)
+ - dbus             >= 1.0
+ - dbus-glib        >= 0.71
+ - libmate         >= 2.14.0
+ - libmate-ui      >= 2.14.0
+
+==========
+PolicyKit-mate 0.5
+==========
+
+Released on August 31st 2007.
+
+This is the third release of PolicyKit-mate. An incompatible change
+from the 0.4 release has been introduced; the signature of the method
+ShowDialog() has changed; it now takes an X11 window ID. Pass zero
+as the identifier if you don't have a window.
+
+David Zeuthen (12):
+      post-release version bump to version 0.5
+      fix up i18n framework and add Danish translations
+      fix make distcheck
+      put icons on buttons to signify whether the action is permitted
+      update to work with PolicyKit HEAD's support for <define_admin_auth/>
+      break the D-Bus by taking an X11 window ID
+      add en_CA translations
+      update to be compatible with PolicyKit HEAD
+      add an example of how annotations are used
+      update danish translations and remove en_CA translations
+      rename the session daemon from polkit-mate to polkit-mate-manager
+      update NEWS
+
+WARNING WARNING WARNING: do not use this software in a stable
+distribution; there are still security sensitive things that needs to
+be audited.
+
+Requirements for PolicyKit-mate 0.5
+
+ - PolicyKit        == 0.5
+ - GTK+             >= 2.11
+ - dbus             >= 0.90
+ - dbus-glib        >= 0.71
+ - libmate         >= 2.14.0
+ - libmate-ui      >= 2.14.0
+
+==========
+PolicyKit-mate 0.4
+==========
+
+Released on July 25th 2007.
+
+This is the second release of PolicyKit-mate. 
+
+WARNING WARNING WARNING: do not use this software in a stable
+distribution; there are still security sensitive things that needs to
+be audited.
+
+Requirements for PolicyKit-mate 0.4
+
+ - PolicyKit        == 0.4
+ - GTK+             >= 2.6
+ - dbus             >= 0.90
+ - dbus-glib        >= 0.71
+ - libmate         >= 2.14.0
+ - libmate-ui      >= 2.14.0
+
+==========
+PolicyKit-mate 0.3
+==========
+
+Released on June 20th 2007.
+
+This is the first release of PolicyKit-mate.
+
+WARNING WARNING WARNING: do not use this software in a stable
+distribution; there are still security sensitive things that needs to
+be audited.
+
+Requirements for PolicyKit-mate 0.3
+
+ - PolicyKit        == 0.3
+ - GTK+             >= 2.6
+ - dbus             >= 0.90
+ - dbus-glib        >= 0.71
+ - libmate         >= 2.14.0
+ - libmate-ui      >= 2.14.0
+
