@@ -50,7 +50,7 @@ BUILT_SOURCES = 			\
 	mate-settings-client.h		\
 	$(NULL)
 
-apidir   = $(includedir)/mate-settings-daemon/mate-settings-daemon
+apidir   = $(includedir)/mate-settings-daemon
 api_DATA = 				\
 	mate-settings-client.h		\
 	mate-settings-plugin.h
