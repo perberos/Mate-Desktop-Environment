@@ -13,15 +13,15 @@ INCLUDES = \
 glademoduledir = $(libdir)/libglade/2.0
 
 if USE_GLADE
-glademodule_LTLIBRARIES = libcanvas.la
+glademodule_LTLIBRARIES = libgladematecanvas.la
 endif
 
-libcanvas_la_LIBADD = \
+libgladematecanvas_la_LIBADD = \
 	$(top_builddir)/libmatecanvas/libmatecanvas-2.la	\
 	$(CANVAS_GLADE_LIBS)
 
-libcanvas_la_LDFLAGS = \
+libgladematecanvas_la_LDFLAGS = \
 	-export-dynamic -module -avoid-version $(no_undefined)
 
-libcanvas_la_SOURCES = \
+libgladematecanvas_la_SOURCES = \
 	glade-canvas.c

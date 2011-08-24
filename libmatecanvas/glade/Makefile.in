@@ -68,15 +68,16 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(glademoduledir)"
 LTLIBRARIES = $(glademodule_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libcanvas_la_DEPENDENCIES =  \
+libgladematecanvas_la_DEPENDENCIES =  \
 	$(top_builddir)/libmatecanvas/libmatecanvas-2.la \
 	$(am__DEPENDENCIES_1)
-am_libcanvas_la_OBJECTS = glade-canvas.lo
-libcanvas_la_OBJECTS = $(am_libcanvas_la_OBJECTS)
-libcanvas_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+am_libgladematecanvas_la_OBJECTS = glade-canvas.lo
+libgladematecanvas_la_OBJECTS = $(am_libgladematecanvas_la_OBJECTS)
+libgladematecanvas_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(libcanvas_la_LDFLAGS) $(LDFLAGS) -o $@
-@USE_GLADE_TRUE@am_libcanvas_la_rpath = -rpath $(glademoduledir)
+	$(libgladematecanvas_la_LDFLAGS) $(LDFLAGS) -o $@
+@USE_GLADE_TRUE@am_libgladematecanvas_la_rpath = -rpath \
+@USE_GLADE_TRUE@	$(glademoduledir)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -90,8 +91,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libcanvas_la_SOURCES)
-DIST_SOURCES = $(libcanvas_la_SOURCES)
+SOURCES = $(libgladematecanvas_la_SOURCES)
+DIST_SOURCES = $(libgladematecanvas_la_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -263,15 +264,15 @@ INCLUDES = \
 	$(CANVAS_GLADE_CFLAGS)
 
 glademoduledir = $(libdir)/libglade/2.0
-@USE_GLADE_TRUE@glademodule_LTLIBRARIES = libcanvas.la
-libcanvas_la_LIBADD = \
+@USE_GLADE_TRUE@glademodule_LTLIBRARIES = libgladematecanvas.la
+libgladematecanvas_la_LIBADD = \
 	$(top_builddir)/libmatecanvas/libmatecanvas-2.la	\
 	$(CANVAS_GLADE_LIBS)
 
-libcanvas_la_LDFLAGS = \
+libgladematecanvas_la_LDFLAGS = \
 	-export-dynamic -module -avoid-version $(no_undefined)
 
-libcanvas_la_SOURCES = \
+libgladematecanvas_la_SOURCES = \
 	glade-canvas.c
 
 all: all-am
@@ -339,8 +340,8 @@ clean-glademoduleLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libcanvas.la: $(libcanvas_la_OBJECTS) $(libcanvas_la_DEPENDENCIES) 
-	$(libcanvas_la_LINK) $(am_libcanvas_la_rpath) $(libcanvas_la_OBJECTS) $(libcanvas_la_LIBADD) $(LIBS)
+libgladematecanvas.la: $(libgladematecanvas_la_OBJECTS) $(libgladematecanvas_la_DEPENDENCIES) 
+	$(libgladematecanvas_la_LINK) $(am_libgladematecanvas_la_rpath) $(libgladematecanvas_la_OBJECTS) $(libgladematecanvas_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
