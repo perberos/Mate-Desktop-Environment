@@ -19,10 +19,13 @@ build() {
 	aclocal || return 1
 	autoconf || return 1
 	automake || return 1
+
+	# Remove --disable-pulse if you want pulseaudio support
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-		--libexecdir=/usr/bin \
+		--libexecdir=/usr/bin/${pkgname} \
 		--disable-static --disable-pulse --disable-schemas-install \
 		--enable-polkit || return 1
+
 	make
 }
 
