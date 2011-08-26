@@ -2,7 +2,7 @@
 NULL=
 man_MANS = matecomponent-activation-server.1
 
-bin_PROGRAMS=activation-client
+bin_PROGRAMS=matecomponent-activation-client
 libexec_PROGRAMS=matecomponent-activation-server
 noinst_PROGRAMS=test-performance
 
@@ -49,7 +49,7 @@ LDADD= \
 	$(top_builddir)/matecomponent-activation/libmatecomponent-activation.la \
 	 -lname-matecorba-server-2 $(SERVER_LIBS) @INTLLIBS@
 
-activation_client_SOURCES=client.c
+matecomponent_activation_client_SOURCES=client.c
 
 test_performance_SOURCES =	\
 	test-performance.c	\

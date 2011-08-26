@@ -41,7 +41,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 samples_PROGRAMS = matecomponent-echo-2$(EXEEXT)
-bin_PROGRAMS = echo-client-2$(EXEEXT)
+bin_PROGRAMS = matecomponent-echo-client-2$(EXEEXT)
 subdir = samples/echo
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	ChangeLog
@@ -71,18 +71,19 @@ libEcho_a_OBJECTS = $(am_libEcho_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(samplesdir)" \
 	"$(DESTDIR)$(idldir)" "$(DESTDIR)$(serverdir)"
 PROGRAMS = $(bin_PROGRAMS) $(samples_PROGRAMS)
-am_echo_client_2_OBJECTS = echo-client.$(OBJEXT)
-echo_client_2_OBJECTS = $(am_echo_client_2_OBJECTS)
+am_matecomponent_echo_2_OBJECTS = main.$(OBJEXT) echo.$(OBJEXT)
+matecomponent_echo_2_OBJECTS = $(am_matecomponent_echo_2_OBJECTS)
 am__DEPENDENCIES_1 =
-echo_client_2_DEPENDENCIES = libEcho.a \
+matecomponent_echo_2_DEPENDENCIES = libEcho.a \
 	$(top_builddir)/matecomponent/libmatecomponent-2.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
-am_matecomponent_echo_2_OBJECTS = main.$(OBJEXT) echo.$(OBJEXT)
-matecomponent_echo_2_OBJECTS = $(am_matecomponent_echo_2_OBJECTS)
-matecomponent_echo_2_DEPENDENCIES = libEcho.a \
+am_matecomponent_echo_client_2_OBJECTS = echo-client.$(OBJEXT)
+matecomponent_echo_client_2_OBJECTS =  \
+	$(am_matecomponent_echo_client_2_OBJECTS)
+matecomponent_echo_client_2_DEPENDENCIES = libEcho.a \
 	$(top_builddir)/matecomponent/libmatecomponent-2.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -108,10 +109,10 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(libEcho_a_SOURCES) $(echo_client_2_SOURCES) \
-	$(matecomponent_echo_2_SOURCES)
-DIST_SOURCES = $(libEcho_a_SOURCES) $(echo_client_2_SOURCES) \
-	$(matecomponent_echo_2_SOURCES)
+SOURCES = $(libEcho_a_SOURCES) $(matecomponent_echo_2_SOURCES) \
+	$(matecomponent_echo_client_2_SOURCES)
+DIST_SOURCES = $(libEcho_a_SOURCES) $(matecomponent_echo_2_SOURCES) \
+	$(matecomponent_echo_client_2_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -327,8 +328,8 @@ matecomponent_echo_2_LDADD = \
 	$(LIBMATECOMPONENT_LIBS)			\
 	$(INTLLIBS)
 
-echo_client_2_SOURCES = echo-client.c
-echo_client_2_LDADD = \
+matecomponent_echo_client_2_SOURCES = echo-client.c
+matecomponent_echo_client_2_LDADD = \
 	libEcho.a				\
 	$(top_builddir)/matecomponent/libmatecomponent-2.la	\
 	$(LIBMATECOMPONENT_LIBS)			\
@@ -483,12 +484,12 @@ clean-samplesPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-echo-client-2$(EXEEXT): $(echo_client_2_OBJECTS) $(echo_client_2_DEPENDENCIES) 
-	@rm -f echo-client-2$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(echo_client_2_OBJECTS) $(echo_client_2_LDADD) $(LIBS)
 matecomponent-echo-2$(EXEEXT): $(matecomponent_echo_2_OBJECTS) $(matecomponent_echo_2_DEPENDENCIES) 
 	@rm -f matecomponent-echo-2$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(matecomponent_echo_2_OBJECTS) $(matecomponent_echo_2_LDADD) $(LIBS)
+matecomponent-echo-client-2$(EXEEXT): $(matecomponent_echo_client_2_OBJECTS) $(matecomponent_echo_client_2_DEPENDENCIES) 
+	@rm -f matecomponent-echo-client-2$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(matecomponent_echo_client_2_OBJECTS) $(matecomponent_echo_client_2_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

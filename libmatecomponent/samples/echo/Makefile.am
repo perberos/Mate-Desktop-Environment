@@ -10,7 +10,7 @@ $(server_dot_in): $(server_dot_in).in
 samplesdir = $(libdir)/matecomponent-2.0/samples
 samples_PROGRAMS = matecomponent-echo-2
 
-bin_PROGRAMS     = echo-client-2
+bin_PROGRAMS     = matecomponent-echo-client-2
 noinst_LIBRARIES = libEcho.a
 
 matecomponent_echo_2_SOURCES =		\
@@ -24,8 +24,8 @@ matecomponent_echo_2_LDADD =				\
 	$(LIBMATECOMPONENT_LIBS)			\
 	$(INTLLIBS)
 
-echo_client_2_SOURCES = echo-client.c
-echo_client_2_LDADD =				\
+matecomponent_echo_client_2_SOURCES = echo-client.c
+matecomponent_echo_client_2_LDADD =				\
 	libEcho.a				\
 	$(top_builddir)/matecomponent/libmatecomponent-2.la	\
 	$(LIBMATECOMPONENT_LIBS)			\

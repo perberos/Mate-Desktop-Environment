@@ -35,7 +35,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = activation-client$(EXEEXT)
+bin_PROGRAMS = matecomponent-activation-client$(EXEEXT)
 libexec_PROGRAMS = matecomponent-activation-server$(EXEEXT)
 noinst_PROGRAMS = test-performance$(EXEEXT)
 TESTS = test-performance$(EXEEXT)
@@ -53,11 +53,12 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" \
 	"$(DESTDIR)$(man1dir)" "$(DESTDIR)$(serverinfodir)"
 PROGRAMS = $(bin_PROGRAMS) $(libexec_PROGRAMS) $(noinst_PROGRAMS)
-am_activation_client_OBJECTS = client.$(OBJEXT)
-activation_client_OBJECTS = $(am_activation_client_OBJECTS)
-activation_client_LDADD = $(LDADD)
+am_matecomponent_activation_client_OBJECTS = client.$(OBJEXT)
+matecomponent_activation_client_OBJECTS =  \
+	$(am_matecomponent_activation_client_OBJECTS)
+matecomponent_activation_client_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
-activation_client_DEPENDENCIES =  \
+matecomponent_activation_client_DEPENDENCIES =  \
 	$(top_builddir)/matecomponent/libmatecomponent-2.la \
 	$(top_builddir)/matecomponent-activation/libmatecomponent-activation.la \
 	$(am__DEPENDENCIES_1)
@@ -120,10 +121,10 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(activation_client_SOURCES) \
+SOURCES = $(matecomponent_activation_client_SOURCES) \
 	$(matecomponent_activation_server_SOURCES) \
 	$(test_performance_SOURCES)
-DIST_SOURCES = $(activation_client_SOURCES) \
+DIST_SOURCES = $(matecomponent_activation_client_SOURCES) \
 	$(matecomponent_activation_server_SOURCES) \
 	$(test_performance_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -374,7 +375,7 @@ LDADD = \
 	$(top_builddir)/matecomponent-activation/libmatecomponent-activation.la \
 	 -lname-matecorba-server-2 $(SERVER_LIBS) @INTLLIBS@
 
-activation_client_SOURCES = client.c
+matecomponent_activation_client_SOURCES = client.c
 test_performance_SOURCES = \
 	test-performance.c	\
 	object-directory-load.c	\
@@ -521,9 +522,9 @@ clean-noinstPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-activation-client$(EXEEXT): $(activation_client_OBJECTS) $(activation_client_DEPENDENCIES) 
-	@rm -f activation-client$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(activation_client_OBJECTS) $(activation_client_LDADD) $(LIBS)
+matecomponent-activation-client$(EXEEXT): $(matecomponent_activation_client_OBJECTS) $(matecomponent_activation_client_DEPENDENCIES) 
+	@rm -f matecomponent-activation-client$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(matecomponent_activation_client_OBJECTS) $(matecomponent_activation_client_LDADD) $(LIBS)
 matecomponent-activation-server$(EXEEXT): $(matecomponent_activation_server_OBJECTS) $(matecomponent_activation_server_DEPENDENCIES) 
 	@rm -f matecomponent-activation-server$(EXEEXT)
 	$(AM_V_CCLD)$(matecomponent_activation_server_LINK) $(matecomponent_activation_server_OBJECTS) $(matecomponent_activation_server_LDADD) $(LIBS)
