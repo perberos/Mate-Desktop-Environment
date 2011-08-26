@@ -1,6 +1,6 @@
 pkgname=libmate
 pkgver=0.0.0
-pkgrel=7
+pkgrel=8
 pkgdesc="Common libraries for MATE"
 arch=(i686 x86_64)
 license=('LGPL')
@@ -17,7 +17,9 @@ build() {
 	cd "${srcdir}/${pkgname}"
 	./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/libmate --disable-esd --disable-schemas-install --enable-canberra || return 1
+		--libexecdir=/usr/lib/libmate \
+		--disable-schemas-install || return 1
+	# --disable-esd   --enable-canberra
 	make || return 1
 }
 

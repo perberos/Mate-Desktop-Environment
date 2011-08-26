@@ -14,7 +14,7 @@ optdepends=('unrar: for RAR uncompression'
 'p7zip: 7zip compression utility' 'arj: for ARJ archives'
 'unace: extraction tool for the proprietary ace archive format')
 options=('!libtool' '!emptydirs')
-install='file-roller.install'
+install=mate-extract.install
 url="http://matsusoft.com.ar/projects"
 groups=('mate-extras')
 source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
@@ -42,8 +42,8 @@ package() {
 	cd "$srcdir/$pkgname"
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="$pkgdir/" install
 	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} "${pkgdir}/etc/mateconf/schemas/"*.schemas
-	rm -f "${pkgdir}/etc/mateconf/schemas/"*.schemas
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} "${pkgdir}/etc/mateconf/schemas/*.schemas"
+	rm -f "${pkgdir}/etc/mateconf/schemas/*.schemas"
 }
 
 # vim:set ts=2 sw=2 et:

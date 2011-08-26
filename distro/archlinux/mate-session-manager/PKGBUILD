@@ -1,6 +1,6 @@
 pkgname=mate-session-manager
 pkgver=0.0.0
-pkgrel=3
+pkgrel=4
 pkgdesc="The MATE Session Handler"
 arch=(i686 x86_64)
 license=('GPL' 'LGPL')
@@ -15,7 +15,7 @@ sha256sums=('bf6c239b87c0714b946d210dd9fbe6d42debe9ef430aabb8631e2c0f86b4cfd4')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	
+
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
 		--libexecdir=/usr/lib --enable-splash || return 1
 
@@ -29,7 +29,7 @@ package() {
 
 	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
 	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
-	
+
 	# --disable-schemas-compile <- check if work <- nop
 	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

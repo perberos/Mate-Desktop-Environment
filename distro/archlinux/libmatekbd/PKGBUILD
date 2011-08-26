@@ -1,13 +1,13 @@
 pkgname=libmatekbd
 pkgver=0.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="MATE keyboard library"
 arch=('i686' 'x86_64')
 license=('LGPL')
 depends=('libxklavier' 'mate-conf') #  'dconf'
 makedepends=('intltool' 'pkgconfig')
-url="http://matsusoft.com.ar/projects"
 groups=('mate')
+url="http://matsusoft.com.ar/projects"
 options=('!emptydirs')
 install=libmatekbd.install
 source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
@@ -15,15 +15,15 @@ sha256sums=('4a47d0b2778b4871e058b7d46606c252a2cbbf048703da448155265de6fa4ba2')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --sysconfdir=/etc
-	automake
-	make
+	./configure --prefix=/usr --sysconfdir=/etc --disable-static || return 1
+	automake || return 1
+	make || return 1
 }
 
 package() {
 	cd "${srcdir}/${pkgname}"
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
-	
+
 	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
 	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
 	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas

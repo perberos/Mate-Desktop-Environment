@@ -1,7 +1,6 @@
 pkgname=mate-file-manager
-_pkgname=caja
 pkgver=0.0.0
-pkgrel=1
+pkgrel=3
 pkgdesc="The MATE shell and file manager"
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -16,10 +15,10 @@ groups=('mate')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	
+
 	./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/${_pkgname} \
+		--libexecdir=/usr/lib/caja \
 		--disable-update-mimedb || return 1
 
 	make || return 1
@@ -27,11 +26,11 @@ build() {
 
 package() {
 	cd "${srcdir}/${pkgname}"
-	
+
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
 	install -m755 -d ${pkgdir}/usr/share/mateconf/schemas
 
-	mateconf-merge-schema ${pkgdir}/usr/share/mateconf/schemas/${_pkgname}.schemas --domain ${_pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	mateconf-merge-schema ${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
 	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

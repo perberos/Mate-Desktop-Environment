@@ -1,6 +1,6 @@
 pkgname=mate-character-map
 pkgver=0.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="MATE Unicode Charmap"
 arch=(i686 x86_64)
 license=('GPL')
@@ -8,7 +8,7 @@ depends=('mate-conf' 'hicolor-icon-theme')
 makedepends=('mate-doc-utils' 'pkgconfig' 'intltool')
 options=('!libtool' '!emptydirs')
 url="http://matsusoft.com.ar/projects"
-groups=('mate')
+groups=('mate-extras')
 install=mate-character-map.install
 conflicts=('gucharmap')
 provides=('gucharmap')
@@ -28,7 +28,7 @@ build() {
 
 package() {
 	cd "${srcdir}/${pkgname}"
-    
+
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
 	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"

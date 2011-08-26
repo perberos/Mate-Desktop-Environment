@@ -6,11 +6,11 @@ arch=(i686 x86_64)
 license=('LGPL')
 depends=('mate-corba' 'libxml2' 'polkit' 'libldap' 'dbus-glib' 'gtk2' 'mate-conf')
 makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'gobject-introspection')
+groups=('mate-extras')
 install=mate-conf.install
 url="http://matsusoft.com.ar/projects"
 source=(http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz)
 sha256sums=('990931870be4964a72a43b60046db8849624103c873e7b44c303af0a11d34ea5')
-groups=('mate')
 
 build() {
 	cd "${srcdir}/${pkgname}"
@@ -24,7 +24,7 @@ build() {
 
 package() {
 	cd "${srcdir}/${pkgname}"
-	
+
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
 	install -m755 -d ${pkgdir}/usr/share/mateconf/schemas

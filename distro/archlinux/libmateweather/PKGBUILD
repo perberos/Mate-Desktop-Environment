@@ -1,11 +1,12 @@
 pkgname=libmateweather
 pkgver=0.0.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Provides access to weather information from the net"
 arch=('i686' 'x86_64')
 license=('LGPL')
 depends=('mate-conf' 'mate-icon-theme') #  'libsoup-mate'
 makedepends=('pkgconfig' 'intltool' 'gtk-doc')
+groups=('mate')
 options=('!emptydirs')
 url="http://www.gnome.org/"
 install=libmateweather.install
@@ -27,7 +28,7 @@ build() {
 
 package() {
 	cd "${srcdir}/${pkgname}"
-	
+
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
 	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"

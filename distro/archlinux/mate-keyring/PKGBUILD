@@ -1,6 +1,6 @@
 pkgname=mate-keyring
 pkgver=0.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="MATE Password Management daemon"
 arch=(i686 x86_64)
 license=('GPL' 'LGPL')
@@ -20,15 +20,15 @@ build() {
 		--localstatedir=/var --disable-static \
 		--libexecdir=/usr/lib/mate-keyring \
 		--with-pam-dir=/lib/security --with-root-certs=/etc/ssl/certs || return 1
-	
+
 	make || return 1
 }
 
 package() {
 	cd "${srcdir}/${pkgname}"
-	
+
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
-	
+
 	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
 	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
 	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
