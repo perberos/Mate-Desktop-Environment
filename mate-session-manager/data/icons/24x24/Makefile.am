@@ -2,7 +2,7 @@ size = 24x24
 
 iconsdir = $(datadir)/icons/hicolor/$(size)/apps
 
-icons_DATA = session-properties.png
+icons_DATA = mate-session-properties.png
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 

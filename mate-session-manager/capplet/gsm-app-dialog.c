@@ -178,7 +178,7 @@ setup_dialog (GsmAppDialog *dialog)
 
         gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
         gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-        gtk_window_set_icon_name (GTK_WINDOW (dialog), "session-properties");
+        gtk_window_set_icon_name (GTK_WINDOW (dialog), "mate-session-properties");
 
         g_object_set (dialog,
                       "allow-shrink", FALSE,

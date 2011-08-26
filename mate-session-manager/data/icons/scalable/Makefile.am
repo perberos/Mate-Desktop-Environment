@@ -2,7 +2,7 @@ size = scalable
 
 iconsdir = $(datadir)/icons/hicolor/$(size)/apps
 
-icons_DATA = session-properties.svg
+icons_DATA = mate-session-properties.svg
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
