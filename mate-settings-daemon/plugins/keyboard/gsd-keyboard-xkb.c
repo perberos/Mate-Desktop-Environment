@@ -31,11 +31,11 @@
 #include <gtk/gtk.h>
 #include <mateconf/mateconf-client.h>
 
-#include <libmatekbd/gkbd-status.h>
-#include <libmatekbd/gkbd-keyboard-drawing.h>
-#include <libmatekbd/gkbd-desktop-config.h>
-#include <libmatekbd/gkbd-keyboard-config.h>
-#include <libmatekbd/gkbd-util.h>
+#include <libmatekbd/matekbd-status.h>
+#include <libmatekbd/matekbd-keyboard-drawing.h>
+#include <libmatekbd/matekbd-desktop-config.h>
+#include <libmatekbd/matekbd-keyboard-config.h>
+#include <libmatekbd/matekbd-util.h>
 
 #include "gsd-xmodmap.h"
 #include "gsd-keyboard-xkb.h"
@@ -49,11 +49,11 @@ static GsdKeyboardManager *manager = NULL;
 static XklEngine *xkl_engine;
 static XklConfigRegistry *xkl_registry = NULL;
 
-static GkbdDesktopConfig current_config;
-static GkbdKeyboardConfig current_kbd_config;
+static MatekbdDesktopConfig current_config;
+static MatekbdKeyboardConfig current_kbd_config;
 
 /* never terminated */
-static GkbdKeyboardConfig initial_sys_kbd_config;
+static MatekbdKeyboardConfig initial_sys_kbd_config;
 
 static gboolean inited_ok = FALSE;
 
@@ -169,10 +169,10 @@ apply_desktop_settings (void)
 		return;
 
 	gsd_keyboard_manager_apply_settings (manager);
-	gkbd_desktop_config_load_from_mateconf (&current_config);
+	matekbd_desktop_config_load_from_mateconf (&current_config);
 	/* again, probably it would be nice to compare things
 	   before activating them */
-	gkbd_desktop_config_activate (&current_config);
+	matekbd_desktop_config_activate (&current_config);
 
 	conf_client = mateconf_client_get_default ();
 	show_leds =
@@ -217,7 +217,7 @@ popup_menu_show_layout ()
 	gpointer p = g_hash_table_lookup (preview_dialogs,
 					  GINT_TO_POINTER
 					  (xkl_state->group));
-	gchar **group_names = gkbd_status_get_group_names ();
+	gchar **group_names = matekbd_status_get_group_names ();
 
 	if (xkl_state->group < 0
 	    || xkl_state->group >= g_strv_length (group_names)) {
@@ -231,7 +231,7 @@ popup_menu_show_layout ()
 	}
 
 	dialog =
-	    gkbd_keyboard_drawing_new_dialog (xkl_state->group,
+	    matekbd_keyboard_drawing_new_dialog (xkl_state->group,
 					      group_names
 					      [xkl_state->group]);
 	g_signal_connect (GTK_OBJECT (dialog), "destroy",
@@ -245,7 +245,7 @@ static void
 popup_menu_set_group (GtkMenuItem * item, gpointer param)
 {
 	gint group_number = GPOINTER_TO_INT (param);
-	XklEngine *engine = gkbd_status_get_xkl_engine ();
+	XklEngine *engine = matekbd_status_get_xkl_engine ();
 	XklState st;
 	Window cur;
 
@@ -274,7 +274,7 @@ status_icon_popup_menu_cb (GtkStatusIcon * icon, guint button, guint time)
 	GtkMenu *popup_menu = GTK_MENU (gtk_menu_new ());
 	GtkMenu *groups_menu = GTK_MENU (gtk_menu_new ());
 	int i = 0;
-	gchar **current_name = gkbd_status_get_group_names ();
+	gchar **current_name = matekbd_status_get_group_names ();
 
 	GtkWidget *item = gtk_menu_item_new_with_mnemonic (_("_Layouts"));
 	gtk_widget_show (item);
@@ -295,7 +295,7 @@ status_icon_popup_menu_cb (GtkStatusIcon * icon, guint button, guint time)
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
 
 	for (i = 0; *current_name; i++, current_name++) {
-		gchar *image_file = gkbd_status_get_image_filename (i);
+		gchar *image_file = matekbd_status_get_image_filename (i);
 
 		if (image_file == NULL) {
 			item =
@@ -345,7 +345,7 @@ show_hide_icon ()
 				return;
 
 			xkl_debug (150, "Creating new icon\n");
-			icon = gkbd_status_new ();
+			icon = matekbd_status_new ();
 			g_signal_connect (icon, "popup-menu",
 					  G_CALLBACK
 					  (status_icon_popup_menu_cb),
@@ -362,13 +362,13 @@ show_hide_icon ()
 }
 
 static gboolean
-try_activating_xkb_config_if_new (GkbdKeyboardConfig *
+try_activating_xkb_config_if_new (MatekbdKeyboardConfig *
 				  current_sys_kbd_config)
 {
 	/* Activate - only if different! */
-	if (!gkbd_keyboard_config_equals
+	if (!matekbd_keyboard_config_equals
 	    (&current_kbd_config, current_sys_kbd_config)) {
-		if (gkbd_keyboard_config_activate (&current_kbd_config)) {
+		if (matekbd_keyboard_config_activate (&current_kbd_config)) {
 			if (pa_callback != NULL) {
 				(*pa_callback) (pa_callback_user_data);
 				return TRUE;
@@ -405,7 +405,7 @@ filter_xkb_config (void)
 	item = xkl_config_item_new ();
 	while (lv) {
 		xkl_debug (100, "Checking [%s]\n", lv->data);
-		if (gkbd_keyboard_config_split_items
+		if (matekbd_keyboard_config_split_items
 		    (lv->data, &lname, &vname)) {
 			g_snprintf (item->name, sizeof (item->name), "%s",
 				    lname);
@@ -455,7 +455,7 @@ static void
 apply_xkb_settings (void)
 {
 	MateConfClient *conf_client;
-	GkbdKeyboardConfig current_sys_kbd_config;
+	MatekbdKeyboardConfig current_sys_kbd_config;
 	int group_to_activate = -1;
 	char *gdm_layout;
 	char *s;
@@ -491,7 +491,7 @@ apply_xkb_settings (void)
 		    MAX (xkl_engine_get_max_num_groups (xkl_engine), 1);
 		layouts =
 		    mateconf_client_get_list (conf_client,
-					   GKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
+					   MATEKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
 					   MATECONF_VALUE_STRING, NULL);
 
 		/* Use system layouts as a default if we do not have
@@ -543,7 +543,7 @@ apply_xkb_settings (void)
 			}
 
 			mateconf_client_set_list (conf_client,
-					       GKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
+					       MATEKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
 					       MATECONF_VALUE_STRING, layouts,
 					       NULL);
 		}
@@ -552,13 +552,13 @@ apply_xkb_settings (void)
 		g_slist_free (layouts);
 	}
 
-	gkbd_keyboard_config_init (&current_sys_kbd_config,
+	matekbd_keyboard_config_init (&current_sys_kbd_config,
 				   conf_client, xkl_engine);
 
-	gkbd_keyboard_config_load_from_mateconf (&current_kbd_config,
+	matekbd_keyboard_config_load_from_mateconf (&current_kbd_config,
 					      &initial_sys_kbd_config);
 
-	gkbd_keyboard_config_load_from_x_current (&current_sys_kbd_config,
+	matekbd_keyboard_config_load_from_x_current (&current_sys_kbd_config,
 						  NULL);
 
 	if (!try_activating_xkb_config_if_new (&current_sys_kbd_config)) {
@@ -601,7 +601,7 @@ apply_xkb_settings (void)
 	if (group_to_activate != -1)
 		xkl_engine_lock_group (current_config.engine,
 				       group_to_activate);
-	gkbd_keyboard_config_term (&current_sys_kbd_config);
+	matekbd_keyboard_config_term (&current_sys_kbd_config);
 	show_hide_icon ();
 }
 
@@ -614,9 +614,9 @@ gsd_keyboard_xkb_analyze_sysconfig (void)
 		return;
 
 	conf_client = mateconf_client_get_default ();
-	gkbd_keyboard_config_init (&initial_sys_kbd_config,
+	matekbd_keyboard_config_init (&initial_sys_kbd_config,
 				   conf_client, xkl_engine);
-	gkbd_keyboard_config_load_from_x_initial (&initial_sys_kbd_config,
+	matekbd_keyboard_config_load_from_x_initial (&initial_sys_kbd_config,
 						  NULL);
 	g_object_unref (conf_client);
 }
@@ -814,9 +814,9 @@ gsd_keyboard_xkb_init (MateConfClient * client,
 
 		gdm_keyboard_layout = g_getenv ("GDM_KEYBOARD_LAYOUT");
 
-		gkbd_desktop_config_init (&current_config,
+		matekbd_desktop_config_init (&current_config,
 					  client, xkl_engine);
-		gkbd_keyboard_config_init (&current_kbd_config,
+		matekbd_keyboard_config_init (&current_kbd_config,
 					   client, xkl_engine);
 		xkl_engine_backup_names_prop (xkl_engine);
 		gsd_keyboard_xkb_analyze_sysconfig ();
@@ -828,13 +828,13 @@ gsd_keyboard_xkb_init (MateConfClient * client,
 
 		notify_desktop =
 		    register_config_callback (client,
-					      GKBD_DESKTOP_CONFIG_DIR,
+					      MATEKBD_DESKTOP_CONFIG_DIR,
 					      (MateConfClientNotifyFunc)
 					      apply_desktop_settings);
 
 		notify_keyboard =
 		    register_config_callback (client,
-					      GKBD_KEYBOARD_CONFIG_DIR,
+					      MATEKBD_KEYBOARD_CONFIG_DIR,
 					      (MateConfClientNotifyFunc)
 					      apply_xkb_settings);
 
@@ -899,14 +899,14 @@ gsd_keyboard_xkb_shutdown (void)
 	client = mateconf_client_get_default ();
 
 	if (notify_desktop != 0) {
-		mateconf_client_remove_dir (client, GKBD_DESKTOP_CONFIG_DIR,
+		mateconf_client_remove_dir (client, MATEKBD_DESKTOP_CONFIG_DIR,
 					 NULL);
 		mateconf_client_notify_remove (client, notify_desktop);
 		notify_desktop = 0;
 	}
 
 	if (notify_keyboard != 0) {
-		mateconf_client_remove_dir (client, GKBD_KEYBOARD_CONFIG_DIR,
+		mateconf_client_remove_dir (client, MATEKBD_KEYBOARD_CONFIG_DIR,
 					 NULL);
 		mateconf_client_notify_remove (client, notify_keyboard);
 		notify_keyboard = 0;

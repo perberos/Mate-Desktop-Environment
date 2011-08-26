@@ -26,14 +26,14 @@
 
 #include <mateconf/mateconf-client.h>
 
-#include "libmatekbd/gkbd-keyboard-config.h"
+#include "libmatekbd/matekbd-keyboard-config.h"
 
 G_BEGIN_DECLS
 #define CWID(s) GTK_WIDGET (gtk_builder_get_object (chooser_dialog, s))
 extern XklEngine *engine;
 extern XklConfigRegistry *config_registry;
 extern MateConfClient *xkb_mateconf_client;
-extern GkbdKeyboardConfig initial_config;
+extern MatekbdKeyboardConfig initial_config;
 
 extern void setup_xkb_tabs (GtkBuilder * dialog,
 			    MateConfChangeSet * changeset);
@@ -73,12 +73,12 @@ extern GSList *xkb_options_get_selected_list (void);
 
 #define xkb_layouts_set_selected_list(list) \
         mateconf_client_set_list (mateconf_client_get_default (), \
-                               GKBD_KEYBOARD_CONFIG_KEY_LAYOUTS, \
+                               MATEKBD_KEYBOARD_CONFIG_KEY_LAYOUTS, \
                                MATECONF_VALUE_STRING, (list), NULL)
 
 #define xkb_options_set_selected_list(list) \
         mateconf_client_set_list (mateconf_client_get_default (), \
-                               GKBD_KEYBOARD_CONFIG_KEY_OPTIONS, \
+                               MATEKBD_KEYBOARD_CONFIG_KEY_OPTIONS, \
                                MATECONF_VALUE_STRING, (list), NULL)
 
 extern GtkWidget *xkb_layout_preview_create_widget (GtkBuilder *

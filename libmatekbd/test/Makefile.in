@@ -34,8 +34,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = gkbd-indicator-test$(EXEEXT) \
-	gkbd-keyboard-drawing-test$(EXEEXT) gkbd-status-test$(EXEEXT)
+noinst_PROGRAMS = matekbd-indicator-test$(EXEEXT) \
+	matekbd-keyboard-drawing-test$(EXEEXT) \
+	matekbd-status-test$(EXEEXT)
 subdir = test
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -50,32 +51,33 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-gkbd_indicator_test_SOURCES = gkbd-indicator-test.c
-gkbd_indicator_test_OBJECTS =  \
-	gkbd_indicator_test-gkbd-indicator-test.$(OBJEXT)
-gkbd_indicator_test_LDADD = $(LDADD)
+matekbd_indicator_test_SOURCES = matekbd-indicator-test.c
+matekbd_indicator_test_OBJECTS =  \
+	matekbd_indicator_test-matekbd-indicator-test.$(OBJEXT)
+matekbd_indicator_test_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
-gkbd_indicator_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+matekbd_indicator_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(gkbd_indicator_test_CFLAGS) $(CFLAGS) \
-	$(gkbd_indicator_test_LDFLAGS) $(LDFLAGS) -o $@
-gkbd_keyboard_drawing_test_SOURCES = gkbd-keyboard-drawing-test.c
-gkbd_keyboard_drawing_test_OBJECTS = gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.$(OBJEXT)
-gkbd_keyboard_drawing_test_LDADD = $(LDADD)
-gkbd_keyboard_drawing_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(matekbd_indicator_test_CFLAGS) $(CFLAGS) \
+	$(matekbd_indicator_test_LDFLAGS) $(LDFLAGS) -o $@
+matekbd_keyboard_drawing_test_SOURCES =  \
+	matekbd-keyboard-drawing-test.c
+matekbd_keyboard_drawing_test_OBJECTS = matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.$(OBJEXT)
+matekbd_keyboard_drawing_test_LDADD = $(LDADD)
+matekbd_keyboard_drawing_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(gkbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) \
-	$(gkbd_keyboard_drawing_test_LDFLAGS) $(LDFLAGS) -o $@
-gkbd_status_test_SOURCES = gkbd-status-test.c
-gkbd_status_test_OBJECTS =  \
-	gkbd_status_test-gkbd-status-test.$(OBJEXT)
-gkbd_status_test_LDADD = $(LDADD)
-gkbd_status_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(matekbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) \
+	$(matekbd_keyboard_drawing_test_LDFLAGS) $(LDFLAGS) -o $@
+matekbd_status_test_SOURCES = matekbd-status-test.c
+matekbd_status_test_OBJECTS =  \
+	matekbd_status_test-matekbd-status-test.$(OBJEXT)
+matekbd_status_test_LDADD = $(LDADD)
+matekbd_status_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(gkbd_status_test_CFLAGS) $(CFLAGS) \
-	$(gkbd_status_test_LDFLAGS) $(LDFLAGS) -o $@
+	$(matekbd_status_test_CFLAGS) $(CFLAGS) \
+	$(matekbd_status_test_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -102,10 +104,10 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = gkbd-indicator-test.c gkbd-keyboard-drawing-test.c \
-	gkbd-status-test.c
-DIST_SOURCES = gkbd-indicator-test.c gkbd-keyboard-drawing-test.c \
-	gkbd-status-test.c
+SOURCES = matekbd-indicator-test.c matekbd-keyboard-drawing-test.c \
+	matekbd-status-test.c
+DIST_SOURCES = matekbd-indicator-test.c \
+	matekbd-keyboard-drawing-test.c matekbd-status-test.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -286,12 +288,12 @@ common_LDFLAGS = $(GTK_LIBS) \
 	$(top_builddir)/libmatekbd/libmatekbd.la	\
 	$(top_builddir)/libmatekbd/libmatekbdui.la
 
-gkbd_indicator_test_CFLAGS = $(common_CFLAGS)
-gkbd_indicator_test_LDFLAGS = $(common_LDFLAGS)
-gkbd_keyboard_drawing_test_CFLAGS = $(common_CFLAGS)
-gkbd_keyboard_drawing_test_LDFLAGS = $(common_LDFLAGS)
-gkbd_status_test_CFLAGS = $(common_CFLAGS)
-gkbd_status_test_LDFLAGS = $(common_LDFLAGS)
+matekbd_indicator_test_CFLAGS = $(common_CFLAGS)
+matekbd_indicator_test_LDFLAGS = $(common_LDFLAGS)
+matekbd_keyboard_drawing_test_CFLAGS = $(common_CFLAGS)
+matekbd_keyboard_drawing_test_LDFLAGS = $(common_LDFLAGS)
+matekbd_status_test_CFLAGS = $(common_CFLAGS)
+matekbd_status_test_LDFLAGS = $(common_LDFLAGS)
 all: all-am
 
 .SUFFIXES:
@@ -335,15 +337,15 @@ clean-noinstPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-gkbd-indicator-test$(EXEEXT): $(gkbd_indicator_test_OBJECTS) $(gkbd_indicator_test_DEPENDENCIES) 
-	@rm -f gkbd-indicator-test$(EXEEXT)
-	$(AM_V_CCLD)$(gkbd_indicator_test_LINK) $(gkbd_indicator_test_OBJECTS) $(gkbd_indicator_test_LDADD) $(LIBS)
-gkbd-keyboard-drawing-test$(EXEEXT): $(gkbd_keyboard_drawing_test_OBJECTS) $(gkbd_keyboard_drawing_test_DEPENDENCIES) 
-	@rm -f gkbd-keyboard-drawing-test$(EXEEXT)
-	$(AM_V_CCLD)$(gkbd_keyboard_drawing_test_LINK) $(gkbd_keyboard_drawing_test_OBJECTS) $(gkbd_keyboard_drawing_test_LDADD) $(LIBS)
-gkbd-status-test$(EXEEXT): $(gkbd_status_test_OBJECTS) $(gkbd_status_test_DEPENDENCIES) 
-	@rm -f gkbd-status-test$(EXEEXT)
-	$(AM_V_CCLD)$(gkbd_status_test_LINK) $(gkbd_status_test_OBJECTS) $(gkbd_status_test_LDADD) $(LIBS)
+matekbd-indicator-test$(EXEEXT): $(matekbd_indicator_test_OBJECTS) $(matekbd_indicator_test_DEPENDENCIES) 
+	@rm -f matekbd-indicator-test$(EXEEXT)
+	$(AM_V_CCLD)$(matekbd_indicator_test_LINK) $(matekbd_indicator_test_OBJECTS) $(matekbd_indicator_test_LDADD) $(LIBS)
+matekbd-keyboard-drawing-test$(EXEEXT): $(matekbd_keyboard_drawing_test_OBJECTS) $(matekbd_keyboard_drawing_test_DEPENDENCIES) 
+	@rm -f matekbd-keyboard-drawing-test$(EXEEXT)
+	$(AM_V_CCLD)$(matekbd_keyboard_drawing_test_LINK) $(matekbd_keyboard_drawing_test_OBJECTS) $(matekbd_keyboard_drawing_test_LDADD) $(LIBS)
+matekbd-status-test$(EXEEXT): $(matekbd_status_test_OBJECTS) $(matekbd_status_test_DEPENDENCIES) 
+	@rm -f matekbd-status-test$(EXEEXT)
+	$(AM_V_CCLD)$(matekbd_status_test_LINK) $(matekbd_status_test_OBJECTS) $(matekbd_status_test_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -351,9 +353,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gkbd_status_test-gkbd-status-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matekbd_status_test-matekbd-status-test.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -379,53 +381,53 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-gkbd_indicator_test-gkbd-indicator-test.o: gkbd-indicator-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_indicator_test_CFLAGS) $(CFLAGS) -MT gkbd_indicator_test-gkbd-indicator-test.o -MD -MP -MF $(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Tpo -c -o gkbd_indicator_test-gkbd-indicator-test.o `test -f 'gkbd-indicator-test.c' || echo '$(srcdir)/'`gkbd-indicator-test.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Tpo $(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Po
+matekbd_indicator_test-matekbd-indicator-test.o: matekbd-indicator-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_indicator_test_CFLAGS) $(CFLAGS) -MT matekbd_indicator_test-matekbd-indicator-test.o -MD -MP -MF $(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Tpo -c -o matekbd_indicator_test-matekbd-indicator-test.o `test -f 'matekbd-indicator-test.c' || echo '$(srcdir)/'`matekbd-indicator-test.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Tpo $(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-indicator-test.c' object='gkbd_indicator_test-gkbd-indicator-test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-indicator-test.c' object='matekbd_indicator_test-matekbd-indicator-test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_indicator_test_CFLAGS) $(CFLAGS) -c -o gkbd_indicator_test-gkbd-indicator-test.o `test -f 'gkbd-indicator-test.c' || echo '$(srcdir)/'`gkbd-indicator-test.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_indicator_test_CFLAGS) $(CFLAGS) -c -o matekbd_indicator_test-matekbd-indicator-test.o `test -f 'matekbd-indicator-test.c' || echo '$(srcdir)/'`matekbd-indicator-test.c
 
-gkbd_indicator_test-gkbd-indicator-test.obj: gkbd-indicator-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_indicator_test_CFLAGS) $(CFLAGS) -MT gkbd_indicator_test-gkbd-indicator-test.obj -MD -MP -MF $(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Tpo -c -o gkbd_indicator_test-gkbd-indicator-test.obj `if test -f 'gkbd-indicator-test.c'; then $(CYGPATH_W) 'gkbd-indicator-test.c'; else $(CYGPATH_W) '$(srcdir)/gkbd-indicator-test.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Tpo $(DEPDIR)/gkbd_indicator_test-gkbd-indicator-test.Po
+matekbd_indicator_test-matekbd-indicator-test.obj: matekbd-indicator-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_indicator_test_CFLAGS) $(CFLAGS) -MT matekbd_indicator_test-matekbd-indicator-test.obj -MD -MP -MF $(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Tpo -c -o matekbd_indicator_test-matekbd-indicator-test.obj `if test -f 'matekbd-indicator-test.c'; then $(CYGPATH_W) 'matekbd-indicator-test.c'; else $(CYGPATH_W) '$(srcdir)/matekbd-indicator-test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Tpo $(DEPDIR)/matekbd_indicator_test-matekbd-indicator-test.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-indicator-test.c' object='gkbd_indicator_test-gkbd-indicator-test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-indicator-test.c' object='matekbd_indicator_test-matekbd-indicator-test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_indicator_test_CFLAGS) $(CFLAGS) -c -o gkbd_indicator_test-gkbd-indicator-test.obj `if test -f 'gkbd-indicator-test.c'; then $(CYGPATH_W) 'gkbd-indicator-test.c'; else $(CYGPATH_W) '$(srcdir)/gkbd-indicator-test.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_indicator_test_CFLAGS) $(CFLAGS) -c -o matekbd_indicator_test-matekbd-indicator-test.obj `if test -f 'matekbd-indicator-test.c'; then $(CYGPATH_W) 'matekbd-indicator-test.c'; else $(CYGPATH_W) '$(srcdir)/matekbd-indicator-test.c'; fi`
 
-gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.o: gkbd-keyboard-drawing-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -MT gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.o -MD -MP -MF $(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Tpo -c -o gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.o `test -f 'gkbd-keyboard-drawing-test.c' || echo '$(srcdir)/'`gkbd-keyboard-drawing-test.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Tpo $(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Po
+matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.o: matekbd-keyboard-drawing-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -MT matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.o -MD -MP -MF $(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Tpo -c -o matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.o `test -f 'matekbd-keyboard-drawing-test.c' || echo '$(srcdir)/'`matekbd-keyboard-drawing-test.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Tpo $(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-keyboard-drawing-test.c' object='gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-keyboard-drawing-test.c' object='matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -c -o gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.o `test -f 'gkbd-keyboard-drawing-test.c' || echo '$(srcdir)/'`gkbd-keyboard-drawing-test.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -c -o matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.o `test -f 'matekbd-keyboard-drawing-test.c' || echo '$(srcdir)/'`matekbd-keyboard-drawing-test.c
 
-gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.obj: gkbd-keyboard-drawing-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -MT gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.obj -MD -MP -MF $(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Tpo -c -o gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.obj `if test -f 'gkbd-keyboard-drawing-test.c'; then $(CYGPATH_W) 'gkbd-keyboard-drawing-test.c'; else $(CYGPATH_W) '$(srcdir)/gkbd-keyboard-drawing-test.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Tpo $(DEPDIR)/gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.Po
+matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.obj: matekbd-keyboard-drawing-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -MT matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.obj -MD -MP -MF $(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Tpo -c -o matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.obj `if test -f 'matekbd-keyboard-drawing-test.c'; then $(CYGPATH_W) 'matekbd-keyboard-drawing-test.c'; else $(CYGPATH_W) '$(srcdir)/matekbd-keyboard-drawing-test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Tpo $(DEPDIR)/matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-keyboard-drawing-test.c' object='gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-keyboard-drawing-test.c' object='matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -c -o gkbd_keyboard_drawing_test-gkbd-keyboard-drawing-test.obj `if test -f 'gkbd-keyboard-drawing-test.c'; then $(CYGPATH_W) 'gkbd-keyboard-drawing-test.c'; else $(CYGPATH_W) '$(srcdir)/gkbd-keyboard-drawing-test.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_keyboard_drawing_test_CFLAGS) $(CFLAGS) -c -o matekbd_keyboard_drawing_test-matekbd-keyboard-drawing-test.obj `if test -f 'matekbd-keyboard-drawing-test.c'; then $(CYGPATH_W) 'matekbd-keyboard-drawing-test.c'; else $(CYGPATH_W) '$(srcdir)/matekbd-keyboard-drawing-test.c'; fi`
 
-gkbd_status_test-gkbd-status-test.o: gkbd-status-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_status_test_CFLAGS) $(CFLAGS) -MT gkbd_status_test-gkbd-status-test.o -MD -MP -MF $(DEPDIR)/gkbd_status_test-gkbd-status-test.Tpo -c -o gkbd_status_test-gkbd-status-test.o `test -f 'gkbd-status-test.c' || echo '$(srcdir)/'`gkbd-status-test.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/gkbd_status_test-gkbd-status-test.Tpo $(DEPDIR)/gkbd_status_test-gkbd-status-test.Po
+matekbd_status_test-matekbd-status-test.o: matekbd-status-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_status_test_CFLAGS) $(CFLAGS) -MT matekbd_status_test-matekbd-status-test.o -MD -MP -MF $(DEPDIR)/matekbd_status_test-matekbd-status-test.Tpo -c -o matekbd_status_test-matekbd-status-test.o `test -f 'matekbd-status-test.c' || echo '$(srcdir)/'`matekbd-status-test.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/matekbd_status_test-matekbd-status-test.Tpo $(DEPDIR)/matekbd_status_test-matekbd-status-test.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-status-test.c' object='gkbd_status_test-gkbd-status-test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-status-test.c' object='matekbd_status_test-matekbd-status-test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_status_test_CFLAGS) $(CFLAGS) -c -o gkbd_status_test-gkbd-status-test.o `test -f 'gkbd-status-test.c' || echo '$(srcdir)/'`gkbd-status-test.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_status_test_CFLAGS) $(CFLAGS) -c -o matekbd_status_test-matekbd-status-test.o `test -f 'matekbd-status-test.c' || echo '$(srcdir)/'`matekbd-status-test.c
 
-gkbd_status_test-gkbd-status-test.obj: gkbd-status-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_status_test_CFLAGS) $(CFLAGS) -MT gkbd_status_test-gkbd-status-test.obj -MD -MP -MF $(DEPDIR)/gkbd_status_test-gkbd-status-test.Tpo -c -o gkbd_status_test-gkbd-status-test.obj `if test -f 'gkbd-status-test.c'; then $(CYGPATH_W) 'gkbd-status-test.c'; else $(CYGPATH_W) '$(srcdir)/gkbd-status-test.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/gkbd_status_test-gkbd-status-test.Tpo $(DEPDIR)/gkbd_status_test-gkbd-status-test.Po
+matekbd_status_test-matekbd-status-test.obj: matekbd-status-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_status_test_CFLAGS) $(CFLAGS) -MT matekbd_status_test-matekbd-status-test.obj -MD -MP -MF $(DEPDIR)/matekbd_status_test-matekbd-status-test.Tpo -c -o matekbd_status_test-matekbd-status-test.obj `if test -f 'matekbd-status-test.c'; then $(CYGPATH_W) 'matekbd-status-test.c'; else $(CYGPATH_W) '$(srcdir)/matekbd-status-test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/matekbd_status_test-matekbd-status-test.Tpo $(DEPDIR)/matekbd_status_test-matekbd-status-test.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-status-test.c' object='gkbd_status_test-gkbd-status-test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-status-test.c' object='matekbd_status_test-matekbd-status-test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(gkbd_status_test_CFLAGS) $(CFLAGS) -c -o gkbd_status_test-gkbd-status-test.obj `if test -f 'gkbd-status-test.c'; then $(CYGPATH_W) 'gkbd-status-test.c'; else $(CYGPATH_W) '$(srcdir)/gkbd-status-test.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(matekbd_status_test_CFLAGS) $(CFLAGS) -c -o matekbd_status_test-matekbd-status-test.obj `if test -f 'matekbd-status-test.c'; then $(CYGPATH_W) 'matekbd-status-test.c'; else $(CYGPATH_W) '$(srcdir)/matekbd-status-test.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

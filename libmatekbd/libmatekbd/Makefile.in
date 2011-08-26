@@ -78,9 +78,9 @@ am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 libmatekbd_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
-am_libmatekbd_la_OBJECTS = libmatekbd_la-gkbd-desktop-config.lo \
-	libmatekbd_la-gkbd-keyboard-config.lo \
-	libmatekbd_la-gkbd-util.lo
+am_libmatekbd_la_OBJECTS = libmatekbd_la-matekbd-desktop-config.lo \
+	libmatekbd_la-matekbd-keyboard-config.lo \
+	libmatekbd_la-matekbd-util.lo
 libmatekbd_la_OBJECTS = $(am_libmatekbd_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -90,13 +90,14 @@ libmatekbd_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(CFLAGS) $(libmatekbd_la_LDFLAGS) $(LDFLAGS) -o $@
 libmatekbdui_la_DEPENDENCIES = libmatekbd.la $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_1)
-am_libmatekbdui_la_OBJECTS = libmatekbdui_la-gkbd-indicator-config.lo \
-	libmatekbdui_la-gkbd-indicator.lo \
-	libmatekbdui_la-gkbd-status.lo \
-	libmatekbdui_la-gkbd-indicator-marshal.lo \
-	libmatekbdui_la-gkbd-indicator-plugin-manager.lo \
-	libmatekbdui_la-gkbd-keyboard-drawing-marshal.lo \
-	libmatekbdui_la-gkbd-keyboard-drawing.lo
+am_libmatekbdui_la_OBJECTS =  \
+	libmatekbdui_la-matekbd-indicator-config.lo \
+	libmatekbdui_la-matekbd-indicator.lo \
+	libmatekbdui_la-matekbd-status.lo \
+	libmatekbdui_la-matekbd-indicator-marshal.lo \
+	libmatekbdui_la-matekbd-indicator-plugin-manager.lo \
+	libmatekbdui_la-matekbd-keyboard-drawing-marshal.lo \
+	libmatekbdui_la-matekbd-keyboard-drawing.lo
 libmatekbdui_la_OBJECTS = $(am_libmatekbdui_la_OBJECTS)
 libmatekbdui_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
@@ -338,42 +339,42 @@ libmatekbdui_la_LIBADD = libmatekbd.la \
                            $(GTK_LIBS)
 
 libmatekbd_la_SOURCES = \
-                         gkbd-desktop-config.c \
-                         gkbd-keyboard-config.c \
-                         gkbd-util.c
+                         matekbd-desktop-config.c \
+                         matekbd-keyboard-config.c \
+                         matekbd-util.c
 
 libmatekbdui_la_SOURCES = \
-                         gkbd-indicator-config.c \
-                         gkbd-indicator.c \
-                         gkbd-status.c \
-                         gkbd-indicator-marshal.c \
-                         gkbd-indicator-plugin-manager.c \
-                         gkbd-keyboard-drawing-marshal.c \
-                         gkbd-keyboard-drawing.c
+                         matekbd-indicator-config.c \
+                         matekbd-indicator.c \
+                         matekbd-status.c \
+                         matekbd-indicator-marshal.c \
+                         matekbd-indicator-plugin-manager.c \
+                         matekbd-keyboard-drawing-marshal.c \
+                         matekbd-keyboard-drawing.c
 
-BUILT_SOURCES = gkbd-indicator-marshal.c \
-	gkbd-indicator-marshal.h         \
-        gkbd-keyboard-drawing-marshal.c            \
-        gkbd-keyboard-drawing-marshal.h
+BUILT_SOURCES = matekbd-indicator-marshal.c \
+	matekbd-indicator-marshal.h         \
+        matekbd-keyboard-drawing-marshal.c            \
+        matekbd-keyboard-drawing-marshal.h
 
 CLEANFILES = $(BUILT_SOURCES) $(schema_DATA)
 matekbdincdir = $(includedir)/libmatekbd
 matekbdinc_HEADERS = \
-                      gkbd-desktop-config.h \
-                      gkbd-keyboard-config.h \
-                      gkbd-indicator.h \
-                      gkbd-status.h \
-                      gkbd-indicator-config.h \
-                      gkbd-indicator-plugin.h \
-                      gkbd-keyboard-drawing.h \
-                      gkbd-util.h
+                      matekbd-desktop-config.h \
+                      matekbd-keyboard-config.h \
+                      matekbd-indicator.h \
+                      matekbd-status.h \
+                      matekbd-indicator-config.h \
+                      matekbd-indicator-plugin.h \
+                      matekbd-keyboard-drawing.h \
+                      matekbd-util.h
 
-noinst_HEADERS = gkbd-indicator-plugin-manager.h \
+noinst_HEADERS = matekbd-indicator-plugin-manager.h \
                  $(extra_nih) \
-                 gkbd-config-private.h
+                 matekbd-config-private.h
 
-EXTRA_DIST = gkbd-indicator-marshal.list \
-             gkbd-keyboard-drawing-marshal.list \
+EXTRA_DIST = matekbd-indicator-marshal.list \
+             matekbd-keyboard-drawing-marshal.list \
              $(schema_in_files) $(ui_DATA)
 
 GLIB_GENMARSHAL = $(shell pkg-config --variable=glib_genmarshal glib-2.0)
@@ -457,16 +458,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbd_la-gkbd-desktop-config.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbd_la-gkbd-keyboard-config.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbd_la-gkbd-util.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-indicator-config.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-indicator-marshal.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-indicator-plugin-manager.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-indicator.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing-marshal.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-gkbd-status.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbd_la-matekbd-desktop-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbd_la-matekbd-keyboard-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbd_la-matekbd-util.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-indicator-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-indicator-marshal.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-indicator-plugin-manager.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-indicator.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing-marshal.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmatekbdui_la-matekbd-status.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -492,85 +493,85 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-libmatekbd_la-gkbd-desktop-config.lo: gkbd-desktop-config.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -MT libmatekbd_la-gkbd-desktop-config.lo -MD -MP -MF $(DEPDIR)/libmatekbd_la-gkbd-desktop-config.Tpo -c -o libmatekbd_la-gkbd-desktop-config.lo `test -f 'gkbd-desktop-config.c' || echo '$(srcdir)/'`gkbd-desktop-config.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbd_la-gkbd-desktop-config.Tpo $(DEPDIR)/libmatekbd_la-gkbd-desktop-config.Plo
+libmatekbd_la-matekbd-desktop-config.lo: matekbd-desktop-config.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -MT libmatekbd_la-matekbd-desktop-config.lo -MD -MP -MF $(DEPDIR)/libmatekbd_la-matekbd-desktop-config.Tpo -c -o libmatekbd_la-matekbd-desktop-config.lo `test -f 'matekbd-desktop-config.c' || echo '$(srcdir)/'`matekbd-desktop-config.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbd_la-matekbd-desktop-config.Tpo $(DEPDIR)/libmatekbd_la-matekbd-desktop-config.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-desktop-config.c' object='libmatekbd_la-gkbd-desktop-config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-desktop-config.c' object='libmatekbd_la-matekbd-desktop-config.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -c -o libmatekbd_la-gkbd-desktop-config.lo `test -f 'gkbd-desktop-config.c' || echo '$(srcdir)/'`gkbd-desktop-config.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -c -o libmatekbd_la-matekbd-desktop-config.lo `test -f 'matekbd-desktop-config.c' || echo '$(srcdir)/'`matekbd-desktop-config.c
 
-libmatekbd_la-gkbd-keyboard-config.lo: gkbd-keyboard-config.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -MT libmatekbd_la-gkbd-keyboard-config.lo -MD -MP -MF $(DEPDIR)/libmatekbd_la-gkbd-keyboard-config.Tpo -c -o libmatekbd_la-gkbd-keyboard-config.lo `test -f 'gkbd-keyboard-config.c' || echo '$(srcdir)/'`gkbd-keyboard-config.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbd_la-gkbd-keyboard-config.Tpo $(DEPDIR)/libmatekbd_la-gkbd-keyboard-config.Plo
+libmatekbd_la-matekbd-keyboard-config.lo: matekbd-keyboard-config.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -MT libmatekbd_la-matekbd-keyboard-config.lo -MD -MP -MF $(DEPDIR)/libmatekbd_la-matekbd-keyboard-config.Tpo -c -o libmatekbd_la-matekbd-keyboard-config.lo `test -f 'matekbd-keyboard-config.c' || echo '$(srcdir)/'`matekbd-keyboard-config.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbd_la-matekbd-keyboard-config.Tpo $(DEPDIR)/libmatekbd_la-matekbd-keyboard-config.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-keyboard-config.c' object='libmatekbd_la-gkbd-keyboard-config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-keyboard-config.c' object='libmatekbd_la-matekbd-keyboard-config.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -c -o libmatekbd_la-gkbd-keyboard-config.lo `test -f 'gkbd-keyboard-config.c' || echo '$(srcdir)/'`gkbd-keyboard-config.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -c -o libmatekbd_la-matekbd-keyboard-config.lo `test -f 'matekbd-keyboard-config.c' || echo '$(srcdir)/'`matekbd-keyboard-config.c
 
-libmatekbd_la-gkbd-util.lo: gkbd-util.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -MT libmatekbd_la-gkbd-util.lo -MD -MP -MF $(DEPDIR)/libmatekbd_la-gkbd-util.Tpo -c -o libmatekbd_la-gkbd-util.lo `test -f 'gkbd-util.c' || echo '$(srcdir)/'`gkbd-util.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbd_la-gkbd-util.Tpo $(DEPDIR)/libmatekbd_la-gkbd-util.Plo
+libmatekbd_la-matekbd-util.lo: matekbd-util.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -MT libmatekbd_la-matekbd-util.lo -MD -MP -MF $(DEPDIR)/libmatekbd_la-matekbd-util.Tpo -c -o libmatekbd_la-matekbd-util.lo `test -f 'matekbd-util.c' || echo '$(srcdir)/'`matekbd-util.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbd_la-matekbd-util.Tpo $(DEPDIR)/libmatekbd_la-matekbd-util.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-util.c' object='libmatekbd_la-gkbd-util.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-util.c' object='libmatekbd_la-matekbd-util.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -c -o libmatekbd_la-gkbd-util.lo `test -f 'gkbd-util.c' || echo '$(srcdir)/'`gkbd-util.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbd_la_CFLAGS) $(CFLAGS) -c -o libmatekbd_la-matekbd-util.lo `test -f 'matekbd-util.c' || echo '$(srcdir)/'`matekbd-util.c
 
-libmatekbdui_la-gkbd-indicator-config.lo: gkbd-indicator-config.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-indicator-config.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-indicator-config.Tpo -c -o libmatekbdui_la-gkbd-indicator-config.lo `test -f 'gkbd-indicator-config.c' || echo '$(srcdir)/'`gkbd-indicator-config.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-indicator-config.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-indicator-config.Plo
+libmatekbdui_la-matekbd-indicator-config.lo: matekbd-indicator-config.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-indicator-config.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-indicator-config.Tpo -c -o libmatekbdui_la-matekbd-indicator-config.lo `test -f 'matekbd-indicator-config.c' || echo '$(srcdir)/'`matekbd-indicator-config.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-indicator-config.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-indicator-config.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-indicator-config.c' object='libmatekbdui_la-gkbd-indicator-config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-indicator-config.c' object='libmatekbdui_la-matekbd-indicator-config.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-indicator-config.lo `test -f 'gkbd-indicator-config.c' || echo '$(srcdir)/'`gkbd-indicator-config.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-indicator-config.lo `test -f 'matekbd-indicator-config.c' || echo '$(srcdir)/'`matekbd-indicator-config.c
 
-libmatekbdui_la-gkbd-indicator.lo: gkbd-indicator.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-indicator.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-indicator.Tpo -c -o libmatekbdui_la-gkbd-indicator.lo `test -f 'gkbd-indicator.c' || echo '$(srcdir)/'`gkbd-indicator.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-indicator.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-indicator.Plo
+libmatekbdui_la-matekbd-indicator.lo: matekbd-indicator.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-indicator.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-indicator.Tpo -c -o libmatekbdui_la-matekbd-indicator.lo `test -f 'matekbd-indicator.c' || echo '$(srcdir)/'`matekbd-indicator.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-indicator.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-indicator.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-indicator.c' object='libmatekbdui_la-gkbd-indicator.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-indicator.c' object='libmatekbdui_la-matekbd-indicator.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-indicator.lo `test -f 'gkbd-indicator.c' || echo '$(srcdir)/'`gkbd-indicator.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-indicator.lo `test -f 'matekbd-indicator.c' || echo '$(srcdir)/'`matekbd-indicator.c
 
-libmatekbdui_la-gkbd-status.lo: gkbd-status.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-status.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-status.Tpo -c -o libmatekbdui_la-gkbd-status.lo `test -f 'gkbd-status.c' || echo '$(srcdir)/'`gkbd-status.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-status.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-status.Plo
+libmatekbdui_la-matekbd-status.lo: matekbd-status.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-status.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-status.Tpo -c -o libmatekbdui_la-matekbd-status.lo `test -f 'matekbd-status.c' || echo '$(srcdir)/'`matekbd-status.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-status.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-status.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-status.c' object='libmatekbdui_la-gkbd-status.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-status.c' object='libmatekbdui_la-matekbd-status.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-status.lo `test -f 'gkbd-status.c' || echo '$(srcdir)/'`gkbd-status.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-status.lo `test -f 'matekbd-status.c' || echo '$(srcdir)/'`matekbd-status.c
 
-libmatekbdui_la-gkbd-indicator-marshal.lo: gkbd-indicator-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-indicator-marshal.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-indicator-marshal.Tpo -c -o libmatekbdui_la-gkbd-indicator-marshal.lo `test -f 'gkbd-indicator-marshal.c' || echo '$(srcdir)/'`gkbd-indicator-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-indicator-marshal.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-indicator-marshal.Plo
+libmatekbdui_la-matekbd-indicator-marshal.lo: matekbd-indicator-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-indicator-marshal.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-indicator-marshal.Tpo -c -o libmatekbdui_la-matekbd-indicator-marshal.lo `test -f 'matekbd-indicator-marshal.c' || echo '$(srcdir)/'`matekbd-indicator-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-indicator-marshal.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-indicator-marshal.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-indicator-marshal.c' object='libmatekbdui_la-gkbd-indicator-marshal.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-indicator-marshal.c' object='libmatekbdui_la-matekbd-indicator-marshal.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-indicator-marshal.lo `test -f 'gkbd-indicator-marshal.c' || echo '$(srcdir)/'`gkbd-indicator-marshal.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-indicator-marshal.lo `test -f 'matekbd-indicator-marshal.c' || echo '$(srcdir)/'`matekbd-indicator-marshal.c
 
-libmatekbdui_la-gkbd-indicator-plugin-manager.lo: gkbd-indicator-plugin-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-indicator-plugin-manager.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-indicator-plugin-manager.Tpo -c -o libmatekbdui_la-gkbd-indicator-plugin-manager.lo `test -f 'gkbd-indicator-plugin-manager.c' || echo '$(srcdir)/'`gkbd-indicator-plugin-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-indicator-plugin-manager.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-indicator-plugin-manager.Plo
+libmatekbdui_la-matekbd-indicator-plugin-manager.lo: matekbd-indicator-plugin-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-indicator-plugin-manager.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-indicator-plugin-manager.Tpo -c -o libmatekbdui_la-matekbd-indicator-plugin-manager.lo `test -f 'matekbd-indicator-plugin-manager.c' || echo '$(srcdir)/'`matekbd-indicator-plugin-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-indicator-plugin-manager.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-indicator-plugin-manager.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-indicator-plugin-manager.c' object='libmatekbdui_la-gkbd-indicator-plugin-manager.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-indicator-plugin-manager.c' object='libmatekbdui_la-matekbd-indicator-plugin-manager.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-indicator-plugin-manager.lo `test -f 'gkbd-indicator-plugin-manager.c' || echo '$(srcdir)/'`gkbd-indicator-plugin-manager.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-indicator-plugin-manager.lo `test -f 'matekbd-indicator-plugin-manager.c' || echo '$(srcdir)/'`matekbd-indicator-plugin-manager.c
 
-libmatekbdui_la-gkbd-keyboard-drawing-marshal.lo: gkbd-keyboard-drawing-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-keyboard-drawing-marshal.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing-marshal.Tpo -c -o libmatekbdui_la-gkbd-keyboard-drawing-marshal.lo `test -f 'gkbd-keyboard-drawing-marshal.c' || echo '$(srcdir)/'`gkbd-keyboard-drawing-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing-marshal.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing-marshal.Plo
+libmatekbdui_la-matekbd-keyboard-drawing-marshal.lo: matekbd-keyboard-drawing-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-keyboard-drawing-marshal.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing-marshal.Tpo -c -o libmatekbdui_la-matekbd-keyboard-drawing-marshal.lo `test -f 'matekbd-keyboard-drawing-marshal.c' || echo '$(srcdir)/'`matekbd-keyboard-drawing-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing-marshal.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing-marshal.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-keyboard-drawing-marshal.c' object='libmatekbdui_la-gkbd-keyboard-drawing-marshal.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-keyboard-drawing-marshal.c' object='libmatekbdui_la-matekbd-keyboard-drawing-marshal.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-keyboard-drawing-marshal.lo `test -f 'gkbd-keyboard-drawing-marshal.c' || echo '$(srcdir)/'`gkbd-keyboard-drawing-marshal.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-keyboard-drawing-marshal.lo `test -f 'matekbd-keyboard-drawing-marshal.c' || echo '$(srcdir)/'`matekbd-keyboard-drawing-marshal.c
 
-libmatekbdui_la-gkbd-keyboard-drawing.lo: gkbd-keyboard-drawing.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-gkbd-keyboard-drawing.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing.Tpo -c -o libmatekbdui_la-gkbd-keyboard-drawing.lo `test -f 'gkbd-keyboard-drawing.c' || echo '$(srcdir)/'`gkbd-keyboard-drawing.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing.Tpo $(DEPDIR)/libmatekbdui_la-gkbd-keyboard-drawing.Plo
+libmatekbdui_la-matekbd-keyboard-drawing.lo: matekbd-keyboard-drawing.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -MT libmatekbdui_la-matekbd-keyboard-drawing.lo -MD -MP -MF $(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing.Tpo -c -o libmatekbdui_la-matekbd-keyboard-drawing.lo `test -f 'matekbd-keyboard-drawing.c' || echo '$(srcdir)/'`matekbd-keyboard-drawing.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing.Tpo $(DEPDIR)/libmatekbdui_la-matekbd-keyboard-drawing.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gkbd-keyboard-drawing.c' object='libmatekbdui_la-gkbd-keyboard-drawing.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='matekbd-keyboard-drawing.c' object='libmatekbdui_la-matekbd-keyboard-drawing.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-gkbd-keyboard-drawing.lo `test -f 'gkbd-keyboard-drawing.c' || echo '$(srcdir)/'`gkbd-keyboard-drawing.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmatekbdui_la_CFLAGS) $(CFLAGS) -c -o libmatekbdui_la-matekbd-keyboard-drawing.lo `test -f 'matekbd-keyboard-drawing.c' || echo '$(srcdir)/'`matekbd-keyboard-drawing.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -853,23 +854,23 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-matekbdincHEADERS \
 
 @INTLTOOL_SCHEMAS_RULE@
 
-gkbd-indicator-marshal.h: gkbd-indicator-marshal.list
-	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=gkbd_indicator $(srcdir)/gkbd-indicator-marshal.list --header > $@
+matekbd-indicator-marshal.h: matekbd-indicator-marshal.list
+	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=matekbd_indicator $(srcdir)/matekbd-indicator-marshal.list --header > $@
 
-gkbd-indicator-marshal.c: gkbd-indicator-marshal.h
-	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=gkbd_indicator $(srcdir)/gkbd-indicator-marshal.list --body > $@
+matekbd-indicator-marshal.c: matekbd-indicator-marshal.h
+	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=matekbd_indicator $(srcdir)/matekbd-indicator-marshal.list --body > $@
 
-gkbd-keyboard-drawing-marshal.h: gkbd-keyboard-drawing-marshal.list
-	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=gkbd_keyboard_drawing $(srcdir)/gkbd-keyboard-drawing-marshal.list \
-                            --header > gkbd-keyboard-drawing-marshal.tmp \
-          && mv gkbd-keyboard-drawing-marshal.tmp gkbd-keyboard-drawing-marshal.h ) \
-        || ( rm -f gkbd-keyboard-drawing-marshal.tmp && exit 1 )
+matekbd-keyboard-drawing-marshal.h: matekbd-keyboard-drawing-marshal.list
+	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=matekbd_keyboard_drawing $(srcdir)/matekbd-keyboard-drawing-marshal.list \
+                            --header > matekbd-keyboard-drawing-marshal.tmp \
+          && mv matekbd-keyboard-drawing-marshal.tmp matekbd-keyboard-drawing-marshal.h ) \
+        || ( rm -f matekbd-keyboard-drawing-marshal.tmp && exit 1 )
 
-gkbd-keyboard-drawing-marshal.c: gkbd-keyboard-drawing-marshal.h
-	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=gkbd_keyboard_drawing $(srcdir)/gkbd-keyboard-drawing-marshal.list \
-                            --body > gkbd-keyboard-drawing-marshal.tmp \
-          && mv gkbd-keyboard-drawing-marshal.tmp gkbd-keyboard-drawing-marshal.c ) \
-        || ( rm -f gkbd-keyboard-drawing-marshal.tmp && exit 1 )
+matekbd-keyboard-drawing-marshal.c: matekbd-keyboard-drawing-marshal.h
+	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=matekbd_keyboard_drawing $(srcdir)/matekbd-keyboard-drawing-marshal.list \
+                            --body > matekbd-keyboard-drawing-marshal.tmp \
+          && mv matekbd-keyboard-drawing-marshal.tmp matekbd-keyboard-drawing-marshal.c ) \
+        || ( rm -f matekbd-keyboard-drawing-marshal.tmp && exit 1 )
 
 # don't do this if we are building in eg. rpm
 @MATECONF_SCHEMAS_INSTALL_TRUE@install-data-local:

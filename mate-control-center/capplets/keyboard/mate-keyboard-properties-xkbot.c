@@ -53,7 +53,7 @@ xkb_options_get_selected_list (void)
 	GSList *retval;
 
 	retval = mateconf_client_get_list (xkb_mateconf_client,
-					GKBD_KEYBOARD_CONFIG_KEY_OPTIONS,
+					MATEKBD_KEYBOARD_CONFIG_KEY_OPTIONS,
 					MATECONF_VALUE_STRING, NULL);
 	if (retval == NULL) {
 		GSList *cur_option;
@@ -80,7 +80,7 @@ xkb_options_expander_selcounter_get (void)
 			      SELCOUNTER_PROP));
 }
 
-/* Increments the selection counter in the expander (static current_expander) 
+/* Increments the selection counter in the expander (static current_expander)
    using the value (can be 0)*/
 static void
 xkb_options_expander_selcounter_add (int value)
@@ -217,7 +217,7 @@ xkb_options_add_option (XklConfigRegistry * config_registry,
 	gchar *utf_option_name = xci_desc_to_utf8 (config_item);
 	/* Copy this out because we'll load it into the widget with set_data */
 	gchar *full_option_name =
-	    g_strdup (gkbd_keyboard_config_merge_items
+	    g_strdup (matekbd_keyboard_config_merge_items
 		      (current1st_level_id, config_item->name));
 	gboolean initial_state;
 
@@ -236,7 +236,7 @@ xkb_options_add_option (XklConfigRegistry * config_registry,
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON
 						      (option_check),
 						      TRUE);
-			/* Make option name underscore - 
+			/* Make option name underscore -
 			   to enforce its first position in the list */
 			g_object_set_data_full (G_OBJECT (option_check),
 						"utfOptionName",
@@ -466,7 +466,7 @@ xkb_options_update_option_counters (XklConfigRegistry * config_registry,
 				    XklConfigItem * config_item)
 {
 	gchar *full_option_name =
-	    g_strdup (gkbd_keyboard_config_merge_items
+	    g_strdup (matekbd_keyboard_config_merge_items
 		      (current1st_level_id, config_item->name));
 	gboolean current_state =
 	    xkb_options_is_selected (full_option_name);
@@ -510,7 +510,7 @@ void
 xkb_options_register_mateconf_listener (GtkBuilder * dialog)
 {
 	mateconf_client_notify_add (xkb_mateconf_client,
-				 GKBD_KEYBOARD_CONFIG_KEY_OPTIONS,
+				 MATEKBD_KEYBOARD_CONFIG_KEY_OPTIONS,
 				 (MateConfClientNotifyFunc)
 				 xkb_options_update, dialog, NULL, NULL);
 }

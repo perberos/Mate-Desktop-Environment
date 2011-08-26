@@ -301,7 +301,7 @@ xkb_model_chooser_response (GtkDialog * dialog,
 					    1, &model_name, -1);
 
 			mateconf_client_set_string (xkb_mateconf_client,
-						 GKBD_KEYBOARD_CONFIG_KEY_MODEL,
+						 MATEKBD_KEYBOARD_CONFIG_KEY_MODEL,
 						 model_name, NULL);
 			g_free (model_name);
 		}
@@ -313,7 +313,7 @@ choose_model (GtkBuilder * dialog)
 {
 	GtkBuilder *chooser_dialog;
     GtkWidget *chooser;
-    
+
     chooser_dialog = gtk_builder_new ();
     gtk_builder_add_from_file (chooser_dialog, MATECC_UI_DIR
                                "/mate-keyboard-properties-model-chooser.ui",
@@ -324,7 +324,7 @@ choose_model (GtkBuilder * dialog)
 						  ("keyboard_dialog")));
 	current_model_name =
 	    mateconf_client_get_string (xkb_mateconf_client,
-				     GKBD_KEYBOARD_CONFIG_KEY_MODEL, NULL);
+				     MATEKBD_KEYBOARD_CONFIG_KEY_MODEL, NULL);
 
 
 	prepare_vendors_list (chooser_dialog);

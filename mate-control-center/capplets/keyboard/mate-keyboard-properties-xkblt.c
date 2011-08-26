@@ -29,8 +29,8 @@
 #include <mateconf/mateconf-client.h>
 #include <glib/gi18n.h>
 
-#include <libmatekbd/gkbd-desktop-config.h>
-#include <libmatekbd/gkbd-keyboard-drawing.h>
+#include <libmatekbd/matekbd-desktop-config.h>
+#include <libmatekbd/mate-keyboard-drawing.h>
 
 #include "capplet-util.h"
 #include "mate-keyboard-properties-xkb.h"
@@ -91,7 +91,7 @@ xkb_layouts_get_selected_list (void)
 	GSList *retval;
 
 	retval = mateconf_client_get_list (xkb_mateconf_client,
-					GKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
+					MATEKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
 					MATECONF_VALUE_STRING, NULL);
 	if (retval == NULL) {
 		GSList *cur_layout;
@@ -112,7 +112,7 @@ gint
 xkb_get_default_group ()
 {
 	return mateconf_client_get_int (xkb_mateconf_client,
-				     GKBD_DESKTOP_CONFIG_KEY_DEFAULT_GROUP,
+				     MATEKBD_DESKTOP_CONFIG_KEY_DEFAULT_GROUP,
 				     NULL);
 }
 
@@ -121,7 +121,7 @@ xkb_save_default_group (gint default_group)
 {
 	if (default_group != xkb_get_default_group ())
 		mateconf_client_set_int (xkb_mateconf_client,
-				      GKBD_DESKTOP_CONFIG_KEY_DEFAULT_GROUP,
+				      MATEKBD_DESKTOP_CONFIG_KEY_DEFAULT_GROUP,
 				      default_group, NULL);
 }
 
@@ -284,9 +284,9 @@ gchar *
 xkb_layout_description_utf8 (const gchar * visible)
 {
 	char *l, *sl, *v, *sv;
-	if (gkbd_keyboard_config_get_descriptions
+	if (matekbd_keyboard_config_get_descriptions
 	    (config_registry, visible, &sl, &l, &sv, &v))
-		visible = gkbd_keyboard_config_format_full_layout (l, v);
+		visible = matekbd_keyboard_config_format_full_layout (l, v);
 	return g_strstrip (g_strdup (visible));
 }
 
@@ -360,7 +360,7 @@ show_selected_layout (GtkWidget * button, GtkBuilder * dialog)
 		const gchar *id = g_slist_nth_data (layouts_list, idx);
 		char *descr = xkb_layout_description_utf8 (id);
 		GtkWidget *parent = WID ("keyboard_dialog");
-		GtkWidget *popup = gkbd_keyboard_drawing_new_dialog (idx, descr);
+		GtkWidget *popup = matekbd_keyboard_drawing_new_dialog (idx, descr);
 		gtk_widget_set_parent (popup, parent);
 		clear_xkb_elements_list (layouts_list);
 		g_free (descr);
@@ -468,7 +468,7 @@ void
 xkb_layouts_register_mateconf_listener (GtkBuilder * dialog)
 {
 	mateconf_client_notify_add (xkb_mateconf_client,
-				 GKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
+				 MATEKBD_KEYBOARD_CONFIG_KEY_LAYOUTS,
 				 (MateConfClientNotifyFunc)
 				 xkb_layouts_update_list, dialog, NULL,
 				 NULL);

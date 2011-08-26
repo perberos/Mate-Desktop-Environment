@@ -39,68 +39,68 @@ libmatekbdui_la_LIBADD = libmatekbd.la \
                            $(GTK_LIBS)
 
 libmatekbd_la_SOURCES = \
-                         gkbd-desktop-config.c \
-                         gkbd-keyboard-config.c \
-                         gkbd-util.c
+                         matekbd-desktop-config.c \
+                         matekbd-keyboard-config.c \
+                         matekbd-util.c
 
 libmatekbdui_la_SOURCES = \
-                         gkbd-indicator-config.c \
-                         gkbd-indicator.c \
-                         gkbd-status.c \
-                         gkbd-indicator-marshal.c \
-                         gkbd-indicator-plugin-manager.c \
-                         gkbd-keyboard-drawing-marshal.c \
-                         gkbd-keyboard-drawing.c
+                         matekbd-indicator-config.c \
+                         matekbd-indicator.c \
+                         matekbd-status.c \
+                         matekbd-indicator-marshal.c \
+                         matekbd-indicator-plugin-manager.c \
+                         matekbd-keyboard-drawing-marshal.c \
+                         matekbd-keyboard-drawing.c
 
-BUILT_SOURCES = gkbd-indicator-marshal.c \
-	gkbd-indicator-marshal.h         \
-        gkbd-keyboard-drawing-marshal.c            \
-        gkbd-keyboard-drawing-marshal.h
+BUILT_SOURCES = matekbd-indicator-marshal.c \
+	matekbd-indicator-marshal.h         \
+        matekbd-keyboard-drawing-marshal.c            \
+        matekbd-keyboard-drawing-marshal.h
 
 CLEANFILES = $(BUILT_SOURCES) $(schema_DATA)
 
 matekbdincdir = $(includedir)/libmatekbd
 matekbdinc_HEADERS = \
-                      gkbd-desktop-config.h \
-                      gkbd-keyboard-config.h \
-                      gkbd-indicator.h \
-                      gkbd-status.h \
-                      gkbd-indicator-config.h \
-                      gkbd-indicator-plugin.h \
-                      gkbd-keyboard-drawing.h \
-                      gkbd-util.h
+                      matekbd-desktop-config.h \
+                      matekbd-keyboard-config.h \
+                      matekbd-indicator.h \
+                      matekbd-status.h \
+                      matekbd-indicator-config.h \
+                      matekbd-indicator-plugin.h \
+                      matekbd-keyboard-drawing.h \
+                      matekbd-util.h
 
 @INTLTOOL_DESKTOP_RULE@
 
 @INTLTOOL_SCHEMAS_RULE@
 
-noinst_HEADERS = gkbd-indicator-plugin-manager.h \
+noinst_HEADERS = matekbd-indicator-plugin-manager.h \
                  $(extra_nih) \
-                 gkbd-config-private.h
+                 matekbd-config-private.h
 
-EXTRA_DIST = gkbd-indicator-marshal.list \
-             gkbd-keyboard-drawing-marshal.list \
+EXTRA_DIST = matekbd-indicator-marshal.list \
+             matekbd-keyboard-drawing-marshal.list \
              $(schema_in_files) $(ui_DATA)
 
 GLIB_GENMARSHAL = $(shell pkg-config --variable=glib_genmarshal glib-2.0)
 
-gkbd-indicator-marshal.h: gkbd-indicator-marshal.list
-	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=gkbd_indicator $(srcdir)/gkbd-indicator-marshal.list --header > $@
+matekbd-indicator-marshal.h: matekbd-indicator-marshal.list
+	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=matekbd_indicator $(srcdir)/matekbd-indicator-marshal.list --header > $@
 
-gkbd-indicator-marshal.c: gkbd-indicator-marshal.h
-	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=gkbd_indicator $(srcdir)/gkbd-indicator-marshal.list --body > $@
+matekbd-indicator-marshal.c: matekbd-indicator-marshal.h
+	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=matekbd_indicator $(srcdir)/matekbd-indicator-marshal.list --body > $@
 
-gkbd-keyboard-drawing-marshal.h: gkbd-keyboard-drawing-marshal.list
-	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=gkbd_keyboard_drawing $(srcdir)/gkbd-keyboard-drawing-marshal.list \
-                            --header > gkbd-keyboard-drawing-marshal.tmp \
-          && mv gkbd-keyboard-drawing-marshal.tmp gkbd-keyboard-drawing-marshal.h ) \
-        || ( rm -f gkbd-keyboard-drawing-marshal.tmp && exit 1 )
+matekbd-keyboard-drawing-marshal.h: matekbd-keyboard-drawing-marshal.list
+	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=matekbd_keyboard_drawing $(srcdir)/matekbd-keyboard-drawing-marshal.list \
+                            --header > matekbd-keyboard-drawing-marshal.tmp \
+          && mv matekbd-keyboard-drawing-marshal.tmp matekbd-keyboard-drawing-marshal.h ) \
+        || ( rm -f matekbd-keyboard-drawing-marshal.tmp && exit 1 )
  
-gkbd-keyboard-drawing-marshal.c: gkbd-keyboard-drawing-marshal.h
-	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=gkbd_keyboard_drawing $(srcdir)/gkbd-keyboard-drawing-marshal.list \
-                            --body > gkbd-keyboard-drawing-marshal.tmp \
-          && mv gkbd-keyboard-drawing-marshal.tmp gkbd-keyboard-drawing-marshal.c ) \
-        || ( rm -f gkbd-keyboard-drawing-marshal.tmp && exit 1 )
+matekbd-keyboard-drawing-marshal.c: matekbd-keyboard-drawing-marshal.h
+	$(AM_V_GEN)( $(GLIB_GENMARSHAL) --prefix=matekbd_keyboard_drawing $(srcdir)/matekbd-keyboard-drawing-marshal.list \
+                            --body > matekbd-keyboard-drawing-marshal.tmp \
+          && mv matekbd-keyboard-drawing-marshal.tmp matekbd-keyboard-drawing-marshal.c ) \
+        || ( rm -f matekbd-keyboard-drawing-marshal.tmp && exit 1 )
 
 schemadir   = $(MATECONF_SCHEMA_FILE_DIR)
 schema_in_files= desktop_mate_peripherals_keyboard_xkb.schemas.in

@@ -35,13 +35,13 @@
 
 #include "mate-keyboard-properties-xkb.h"
 
-#include <libmatekbd/gkbd-desktop-config.h>
+#include <libmatekbd/matekbd-desktop-config.h>
 
 XklEngine *engine;
 XklConfigRegistry *config_registry;
 
-GkbdKeyboardConfig initial_config;
-GkbdDesktopConfig desktop_config;
+MatekbdKeyboardConfig initial_config;
+MatekbdDesktopConfig desktop_config;
 
 MateConfClient *xkb_mateconf_client;
 
@@ -100,13 +100,13 @@ setup_model_entry (GtkBuilder * dialog)
 	MateConfValue *value;
 
 	value = mateconf_client_get (xkb_mateconf_client,
-				  GKBD_KEYBOARD_CONFIG_KEY_MODEL, NULL);
+				  MATEKBD_KEYBOARD_CONFIG_KEY_MODEL, NULL);
 	set_model_text (WID ("xkb_model_pick"), value);
 	if (value != NULL)
 		mateconf_value_free (value);
 
 	mateconf_client_notify_add (xkb_mateconf_client,
-				 GKBD_KEYBOARD_CONFIG_KEY_MODEL,
+				 MATEKBD_KEYBOARD_CONFIG_KEY_MODEL,
 				 (MateConfClientNotifyFunc) model_key_changed,
 				 dialog, NULL, NULL);
 }
@@ -114,8 +114,8 @@ setup_model_entry (GtkBuilder * dialog)
 static void
 cleanup_xkb_tabs (GtkBuilder * dialog)
 {
-	gkbd_desktop_config_term (&desktop_config);
-	gkbd_keyboard_config_term (&initial_config);
+	matekbd_desktop_config_term (&desktop_config);
+	matekbd_keyboard_config_term (&initial_config);
 	g_object_unref (G_OBJECT (config_registry));
 	config_registry = NULL;
 	g_object_unref (G_OBJECT (engine));
@@ -127,15 +127,15 @@ cleanup_xkb_tabs (GtkBuilder * dialog)
 static void
 reset_to_defaults (GtkWidget * button, GtkBuilder * dialog)
 {
-	GkbdKeyboardConfig empty_kbd_config;
+	MatekbdKeyboardConfig empty_kbd_config;
 
-	gkbd_keyboard_config_init (&empty_kbd_config, xkb_mateconf_client,
+	matekbd_keyboard_config_init (&empty_kbd_config, xkb_mateconf_client,
 				   engine);
-	gkbd_keyboard_config_save_to_mateconf (&empty_kbd_config);
-	gkbd_keyboard_config_term (&empty_kbd_config);
+	matekbd_keyboard_config_save_to_mateconf (&empty_kbd_config);
+	matekbd_keyboard_config_term (&empty_kbd_config);
 
 	mateconf_client_unset (xkb_mateconf_client,
-			    GKBD_DESKTOP_CONFIG_KEY_DEFAULT_GROUP, NULL);
+			    MATEKBD_DESKTOP_CONFIG_KEY_DEFAULT_GROUP, NULL);
 
 	/* all the rest is g-s-d's business */
 }
@@ -173,21 +173,21 @@ setup_xkb_tabs (GtkBuilder * dialog, MateConfChangeSet * changeset)
 	engine = xkl_engine_get_instance (GDK_DISPLAY ());
 	config_registry = xkl_config_registry_get_instance (engine);
 
-	gkbd_desktop_config_init (&desktop_config, xkb_mateconf_client,
+	matekbd_desktop_config_init (&desktop_config, xkb_mateconf_client,
 				  engine);
-	gkbd_desktop_config_load_from_mateconf (&desktop_config);
+	matekbd_desktop_config_load_from_mateconf (&desktop_config);
 
 	xkl_config_registry_load (config_registry,
 				  desktop_config.load_extra_items);
 
-	gkbd_keyboard_config_init (&initial_config, xkb_mateconf_client,
+	matekbd_keyboard_config_init (&initial_config, xkb_mateconf_client,
 				   engine);
-	gkbd_keyboard_config_load_from_x_initial (&initial_config, NULL);
+	matekbd_keyboard_config_load_from_x_initial (&initial_config, NULL);
 
 	setup_model_entry (dialog);
 
 	peditor = mateconf_peditor_new_boolean
-	    (changeset, (gchar *) GKBD_DESKTOP_CONFIG_KEY_GROUP_PER_WINDOW,
+	    (changeset, (gchar *) MATEKBD_DESKTOP_CONFIG_KEY_GROUP_PER_WINDOW,
 	     WID ("chk_separate_group_per_window"), NULL);
 
 	g_signal_connect (peditor, "value-changed", (GCallback)
@@ -241,14 +241,14 @@ setup_xkb_tabs (GtkBuilder * dialog, MateConfChangeSet * changeset)
 void
 enable_disable_restoring (GtkBuilder * dialog)
 {
-	GkbdKeyboardConfig gswic;
+	MatekbdKeyboardConfig gswic;
 	gboolean enable;
 
-	gkbd_keyboard_config_init (&gswic, xkb_mateconf_client, engine);
-	gkbd_keyboard_config_load_from_mateconf (&gswic, NULL);
+	matekbd_keyboard_config_init (&gswic, xkb_mateconf_client, engine);
+	matekbd_keyboard_config_load_from_mateconf (&gswic, NULL);
 
-	enable = !gkbd_keyboard_config_equals (&gswic, &initial_config);
+	enable = !matekbd_keyboard_config_equals (&gswic, &initial_config);
 
-	gkbd_keyboard_config_term (&gswic);
+	matekbd_keyboard_config_term (&gswic);
 	gtk_widget_set_sensitive (WID ("xkb_reset_to_defaults"), enable);
 }
