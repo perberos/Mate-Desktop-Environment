@@ -54,7 +54,7 @@ main (int argc, char *argv[])
 
 	textdomain (GETTEXT_PACKAGE);
 
-	program = mate_program_init ("test-filesel", VERSION,
+	program = mate_program_init ("mate-test-filesel", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 

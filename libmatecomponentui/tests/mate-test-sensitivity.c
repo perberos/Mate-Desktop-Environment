@@ -5,7 +5,7 @@
  * Used to be:
  *
  * sample-control-container.c
- * 
+ *
  * Authors:
  *   Nat Friedman  (nat@ximian.com)
  *   Michael Meeks (michael@ximian.com)
@@ -50,7 +50,7 @@ make_inprocess_control (MateComponentUIContainer *uic)
 		(MATECOMPONENT_OBJREF (control), MATECOMPONENT_OBJREF (uic));
 
 	matecomponent_object_unref (MATECOMPONENT_OBJECT (control));
-	
+
 	return controlw;
 }
 
@@ -68,7 +68,7 @@ container_create (void)
 				 "Sample MateComponent Control Container");
 
 	window = GTK_WINDOW (app);
-	
+
 	uic = matecomponent_window_get_ui_container (MATECOMPONENT_WINDOW (app));
 
 	gtk_window_set_default_size (window, 500, 440);
@@ -87,8 +87,8 @@ container_create (void)
 		GtkWidget *w;
 
 		gtk_widget_set_sensitive (GTK_WIDGET (control), FALSE);
-		
-		gtk_box_pack_start (GTK_BOX (box), 
+
+		gtk_box_pack_start (GTK_BOX (box),
 				    gtk_label_new ("Initially insensitive:"),
 				    FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (box), control, TRUE, TRUE, 0);
@@ -99,13 +99,13 @@ container_create (void)
 				    control);
 	}
 
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
 
@@ -115,7 +115,7 @@ container_create (void)
 	if (control) {
 		GtkWidget *w;
 
-		gtk_box_pack_start (GTK_BOX (box), 
+		gtk_box_pack_start (GTK_BOX (box),
 				    gtk_label_new ("Initially sensitive:"),
 				    FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (box), control, TRUE, TRUE, 0);
@@ -126,13 +126,13 @@ container_create (void)
 				    control);
 	}
 
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
 
@@ -143,8 +143,8 @@ container_create (void)
 		GtkWidget *w;
 
 		gtk_widget_set_sensitive (GTK_WIDGET (control), FALSE);
-		
-		gtk_box_pack_start (GTK_BOX (box), 
+
+		gtk_box_pack_start (GTK_BOX (box),
 				    gtk_label_new ("inprocess initially insensitive:"),
 				    FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (box), control, TRUE, TRUE, 0);
@@ -155,13 +155,13 @@ container_create (void)
 				    control);
 	}
 
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), 
+	gtk_box_pack_start (GTK_BOX (box),
 			    gtk_hseparator_new (),
 			    FALSE, FALSE, 0);
 
@@ -170,7 +170,7 @@ container_create (void)
 	if (control) {
 		GtkWidget *w;
 
-		gtk_box_pack_start (GTK_BOX (box), 
+		gtk_box_pack_start (GTK_BOX (box),
 				    gtk_label_new ("inprocess initially sensitive:"),
 				    FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (box), control, TRUE, TRUE, 0);
@@ -197,7 +197,7 @@ main (int argc, char **argv)
 	/* Encorage -lefence to play ball */
 	{ char *tmp = malloc (4); if (tmp) free (tmp); }
 
-	program = mate_program_init ("test-sensitivity", VERSION,
+	program = mate_program_init ("mate-test-sensitivity", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 

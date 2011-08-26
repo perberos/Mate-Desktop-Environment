@@ -188,7 +188,7 @@ mainloop_for (gulong interval)
 
 	while (g_main_context_pending (NULL))
 		g_main_context_iteration (NULL, FALSE);
-	
+
 	while (g_main_context_iteration (NULL, TRUE) && !mainloop_done)
 		;
 }
@@ -247,7 +247,7 @@ run_tests (GtkContainer *parent,
 		tests [t] = create_test (fake_remote);
 
 		gtk_box_pack_start (
-			GTK_BOX (vbox), 
+			GTK_BOX (vbox),
 			GTK_WIDGET (tests [t]->matecomponent_widget),
 			TRUE, TRUE, 2);
 	}
@@ -282,7 +282,7 @@ run_tests (GtkContainer *parent,
 				      tests [t]->matecomponent_widget);
 
 		gtk_box_pack_start (
-			GTK_BOX (vbox), 
+			GTK_BOX (vbox),
 			GTK_WIDGET (tests [t]->matecomponent_widget),
 			TRUE, TRUE, 2);
 
@@ -338,7 +338,7 @@ main (int argc, char **argv)
 
 	textdomain (GETTEXT_PACKAGE);
 
-	if (!matecomponent_ui_init ("test-focus", VERSION, &argc, argv))
+	if (!matecomponent_ui_init ("mate-test-focus", VERSION, &argc, argv))
 		g_error ("Can not matecomponent_ui_init");
 
 	matecomponent_activate ();

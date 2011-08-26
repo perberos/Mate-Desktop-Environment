@@ -48,13 +48,13 @@ main (int argc, char **argv)
 	gchar     *iid;
 
 	if (argc != 2 || strncmp (argv [1], "OAFIID", 6))
-		g_error (_("usage: test-events <oaf-iid>"));
+		g_error (_("usage: mate-test-events <oaf-iid>"));
 
 	iid = argv [1];
 
 	textdomain (GETTEXT_PACKAGE);
 
-	program = mate_program_init ("test-events", VERSION,
+	program = mate_program_init ("mate-test-events", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 

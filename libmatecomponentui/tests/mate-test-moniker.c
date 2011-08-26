@@ -192,7 +192,7 @@ display_control_async_cb (MateComponentWidget       *widget,
 		g_warning ("Exception '%s'", (err = matecomponent_exception_get_text (ev)));
 		g_free (err);
 		gtk_widget_destroy (GTK_WIDGET (widget));
-		matecomponent_window_set_contents (MATECOMPONENT_WINDOW (user_data), label); 
+		matecomponent_window_set_contents (MATECOMPONENT_WINDOW (user_data), label);
 	} else
 		matecomponent_control_frame_control_activate (
 			matecomponent_widget_get_control_frame (MATECOMPONENT_WIDGET (widget)));
@@ -278,12 +278,12 @@ main (int argc, char **argv)
 	GOptionContext *context = NULL;
 
 	free (malloc (8)); /* -lefence */
-	
-	context = g_option_context_new ("- test-moniker");
-	
+
+	context = g_option_context_new ("- mate-test-moniker");
+
 	g_option_context_add_main_entries (context, moniker_test_options, GETTEXT_PACKAGE);
 
-	program = mate_program_init ("- test-moniker", VERSION,
+	program = mate_program_init ("- mate-test-moniker", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv,
 			    MATE_PARAM_GOPTION_CONTEXT, context,

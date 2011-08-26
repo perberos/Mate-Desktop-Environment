@@ -258,7 +258,7 @@ test_engine_default_placeholder (CORBA_Environment *ev)
 	node = node->next;
 	g_assert (node->name_id == g_quark_from_string ("nodec"));
 	g_assert (node->next == NULL);
-	
+
 	g_object_unref (engine);
 }
 
@@ -344,7 +344,7 @@ test_ui_performance (CORBA_Environment *ev)
 	}
 	fprintf (stderr, "  path lookup: %g(ns)\n",
 		 g_timer_elapsed (timer, NULL) * 100);
-	
+
 	g_object_unref (engine);
 }
 
@@ -359,7 +359,7 @@ main (int argc, char **argv)
 
 	free (malloc (8)); /* -lefence */
 
-	program = mate_program_init ("test-ui-uao", VERSION,
+	program = mate_program_init ("mate-test-ui-uao", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 

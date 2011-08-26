@@ -1,5 +1,5 @@
 noinst_PROGRAMS =		\
-	test-control
+	mate-test-control
 
 INCLUDES =	\
         -DMATELOCALEDIR=\""$(datadir)/locale"\"        \
@@ -12,5 +12,5 @@ INCLUDES =	\
 
 LDADD =	$(top_builddir)/matecomponent/libmatecomponentui-2.la $(MATECOMPONENTUI_LIBS)
 
-test_control_SOURCES = test-control.c
+mate_test_control_SOURCES = mate-test-control.c
 

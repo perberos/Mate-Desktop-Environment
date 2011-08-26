@@ -77,7 +77,7 @@ main (int argc, char **argv)
 
 	textdomain (GETTEXT_PACKAGE);
 
-	program = mate_program_init ("test-focus", VERSION,
+	program = mate_program_init ("mate-test-focus", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 

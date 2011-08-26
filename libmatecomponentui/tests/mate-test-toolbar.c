@@ -48,7 +48,7 @@ main (int argc, char **argv)
 	/* ElectricFence rules. */
 	free (malloc (1));
 
-	program = mate_program_init ("test-toolbar", VERSION,
+	program = mate_program_init ("mate-test-toolbar", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 

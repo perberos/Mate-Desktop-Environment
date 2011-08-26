@@ -314,7 +314,7 @@ main (int argc, char **argv)
 
 	free (malloc (8));
 
-	program = mate_program_init ("test-ui", VERSION,
+	program = mate_program_init ("mate-test-ui", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 
@@ -326,7 +326,7 @@ main (int argc, char **argv)
 
 	win = MATECOMPONENT_WINDOW (matecomponent_window_new ("Win", "My Test Application"));
 	container = matecomponent_window_get_ui_container (win);
-	
+
 	matecomponent_ui_engine_config_set_path (matecomponent_window_get_ui_engine (win),
 					  "/test-ui/UIConfig/kvps");
 
@@ -377,7 +377,7 @@ main (int argc, char **argv)
 		matecomponent_window_set_contents (win, box);
 	}
 
-	g_signal_connect (GTK_OBJECT (win), "size_request", 
+	g_signal_connect (GTK_OBJECT (win), "size_request",
 			    G_CALLBACK (slow_size_request), NULL);
 
 	componenta = matecomponent_ui_component_new ("A");
@@ -473,7 +473,7 @@ main (int argc, char **argv)
 
 	{
 		GtkWidget *widget = gtk_entry_new ();
-		
+
 		gtk_entry_set_text (GTK_ENTRY (widget), "Example text");
 		gtk_widget_show (widget);
 		matecomponent_ui_component_widget_set (componenta,
@@ -538,7 +538,7 @@ main (int argc, char **argv)
  		const char *good = "<item name=\"main\">WhatA6&gt;</item>\n";
 
   		txt = matecomponent_ui_component_get (componenta, "/status/main", TRUE, NULL);
- 
+
  		if (!txt || strcmp (txt, good)) {
  			g_warning ("Broken merging code '%s' should be '%s'", txt, good);
  			matecomponent_window_dump (win, "on fatal error");
@@ -608,14 +608,14 @@ main (int argc, char **argv)
 	for (i = 0; i < 100; i++) {
 		matecomponent_ui_component_freeze (componentc, ev);
 		g_assert (!MATECOMPONENT_EX (ev));
-		
+
 		matecomponent_ui_component_set_translate (componentc, "/commands",
 						   "<cmd name=\"MyFoo\" sensitive=\"0\"/>", ev);
 		g_assert (!MATECOMPONENT_EX (ev));
 
 		matecomponent_ui_component_set_translate (componentc, "/menu", simplec, ev);
 		g_assert (!MATECOMPONENT_EX (ev));
-	
+
 		matecomponent_ui_component_set_translate (componentc, "/menu/File", simpled, ev);
 		g_assert (!MATECOMPONENT_EX (ev));
 

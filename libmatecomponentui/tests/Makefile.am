@@ -1,18 +1,18 @@
 SUBDIRS = control
 
 noinst_PROGRAMS =		\
-	test-ui			\
-	test-ui-auto		\
-	test-toolbar		\
-	test-selector		\
-	test-filesel		\
-	test-focus		\
-	test-sensitivity	\
-	test-reparent		\
-	test-events
+	mate-test-ui			\
+	mate-test-ui-auto		\
+	mate-test-toolbar		\
+	mate-test-selector		\
+	mate-test-filesel		\
+	mate-test-focus		\
+	mate-test-sensitivity	\
+	mate-test-reparent		\
+	mate-test-events
 
 bin_PROGRAMS = \
-	test-moniker
+	mate-test-moniker
 
 INCLUDES =	\
         -DMATELOCALEDIR=\""$(datadir)/locale"\"        \
@@ -27,14 +27,14 @@ INCLUDES =	\
 
 LDADD =	$(top_builddir)/matecomponent/libmatecomponentui-2.la $(MATECOMPONENTUI_LIBS)
 
-test_ui_SOURCES = test-ui.c
-test_ui_auto_SOURCES = test-ui-auto.c
-test_focus_SOURCES = test-focus.c
-test_toolbar_SOURCES = test-toolbar.c
-test_selector_SOURCES =	test-selector.c
-test_sensitivity_SOURCES = test-sensitivity.c
-test_reparent_SOURCES = test-reparent.c
-test_moniker_SOURCES = test-moniker.c
-test_filesel_SOURCES = test-filesel.c
+mate_test_ui_SOURCES = mate-test-ui.c
+mate_test_ui_auto_SOURCES = mate-test-ui-auto.c
+mate_test_focus_SOURCES = mate-test-focus.c
+mate_test_toolbar_SOURCES = mate-test-toolbar.c
+mate_test_selector_SOURCES =	mate-test-selector.c
+mate_test_sensitivity_SOURCES = mate-test-sensitivity.c
+mate_test_reparent_SOURCES = mate-test-reparent.c
+mate_test_moniker_SOURCES = mate-test-moniker.c
+mate_test_filesel_SOURCES = mate-test-filesel.c
 
 TESTS = test-ui-auto

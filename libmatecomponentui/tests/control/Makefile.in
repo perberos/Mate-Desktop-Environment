@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = test-control$(EXEEXT)
+noinst_PROGRAMS = mate-test-control$(EXEEXT)
 subdir = tests/control
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -46,11 +46,11 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-am_test_control_OBJECTS = test-control.$(OBJEXT)
-test_control_OBJECTS = $(am_test_control_OBJECTS)
-test_control_LDADD = $(LDADD)
+am_mate_test_control_OBJECTS = mate-test-control.$(OBJEXT)
+mate_test_control_OBJECTS = $(am_mate_test_control_OBJECTS)
+mate_test_control_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
-test_control_DEPENDENCIES =  \
+mate_test_control_DEPENDENCIES =  \
 	$(top_builddir)/matecomponent/libmatecomponentui-2.la \
 	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -66,8 +66,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(test_control_SOURCES)
-DIST_SOURCES = $(test_control_SOURCES)
+SOURCES = $(mate_test_control_SOURCES)
+DIST_SOURCES = $(mate_test_control_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -244,7 +244,7 @@ INCLUDES = \
 	$(MATECOMPONENTUI_CFLAGS)
 
 LDADD = $(top_builddir)/matecomponent/libmatecomponentui-2.la $(MATECOMPONENTUI_LIBS)
-test_control_SOURCES = test-control.c
+mate_test_control_SOURCES = mate-test-control.c
 all: all-am
 
 .SUFFIXES:
@@ -288,9 +288,9 @@ clean-noinstPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-test-control$(EXEEXT): $(test_control_OBJECTS) $(test_control_DEPENDENCIES) 
-	@rm -f test-control$(EXEEXT)
-	$(LINK) $(test_control_OBJECTS) $(test_control_LDADD) $(LIBS)
+mate-test-control$(EXEEXT): $(mate_test_control_OBJECTS) $(mate_test_control_DEPENDENCIES) 
+	@rm -f mate-test-control$(EXEEXT)
+	$(LINK) $(mate_test_control_OBJECTS) $(mate_test_control_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -298,7 +298,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-control.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate-test-control.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

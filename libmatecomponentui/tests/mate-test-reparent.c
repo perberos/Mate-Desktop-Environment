@@ -89,7 +89,7 @@ make_inproc_widget (void)
 	gtk_container_add (GTK_CONTAINER (placeholder2), inproc_widget);
 }
 
-			
+
 static gboolean
 idle_init (gpointer data)
 {
@@ -117,7 +117,7 @@ main (int argc, char **argv)
 {
 	MateProgram *program;
 
-	program = mate_program_init ("test-reparent", VERSION,
+	program = mate_program_init ("mate-test-reparent", VERSION,
 			    LIBMATECOMPONENTUI_MODULE,
 			    argc, argv, NULL);
 
@@ -138,7 +138,7 @@ main (int argc, char **argv)
 	gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
 	g_signal_connect (G_OBJECT (button), "clicked",
 			  G_CALLBACK (remove_and_add), NULL);
-  
+
 	gtk_widget_show_all (window);
 	g_timeout_add (0, idle_init, NULL);
 	matecomponent_main ();
