@@ -74,12 +74,11 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 man7dir = $(mandir)/man7
-am__installdirs = "$(DESTDIR)$(man7dir)" "$(DESTDIR)$(backgrounddir)" \
-	"$(DESTDIR)$(metadatadir)" "$(DESTDIR)$(soundlistdir)"
+am__installdirs = "$(DESTDIR)$(man7dir)" "$(DESTDIR)$(metadatadir)" \
+	"$(DESTDIR)$(soundlistdir)"
 NROFF = nroff
 MANS = $(man_MANS)
-DATA = $(background_DATA) $(metadata_DATA) $(noinst_DATA) \
-	$(soundlist_DATA)
+DATA = $(metadata_DATA) $(noinst_DATA) $(soundlist_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 A11Y_ENABLED = @A11Y_ENABLED@
 ACLOCAL = @ACLOCAL@
@@ -252,16 +251,12 @@ soundlist_in_files = \
 
 soundlist_DATA = $(soundlist_in_files:.soundlist.in=.soundlist)
 man_MANS = mate-options.7
-backgrounddir = $(datadir)/pixmaps/backgrounds/mate
-background_DATA = \
-	background-default.jpg
-
 metadata_in_files = mate-default.xml.in
 metadatadir = $(datadir)/mate-background-properties
 metadata_DATA = $(metadata_in_files:.xml.in=.xml)
 noinst_DATA = mate-default.xml.in
 CLEANFILES = $(soundlist_DATA) mate-default.xml mate-default.xml.in
-EXTRA_DIST = $(soundlist_in_files) $(soundlist_DATA) $(man_MANS) $(background_DATA) mate-default.xml.in.in
+EXTRA_DIST = $(soundlist_in_files) $(soundlist_DATA) $(man_MANS) mate-default.xml.in.in
 all: all-am
 
 .SUFFIXES:
@@ -339,26 +334,6 @@ uninstall-man7:
 	test -z "$$files" || { \
 	  echo " ( cd '$(DESTDIR)$(man7dir)' && rm -f" $$files ")"; \
 	  cd "$(DESTDIR)$(man7dir)" && rm -f $$files; }
-install-backgroundDATA: $(background_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(backgrounddir)" || $(MKDIR_P) "$(DESTDIR)$(backgrounddir)"
-	@list='$(background_DATA)'; test -n "$(backgrounddir)" || list=; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(backgrounddir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(backgrounddir)" || exit $$?; \
-	done
-
-uninstall-backgroundDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(background_DATA)'; test -n "$(backgrounddir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(backgrounddir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(backgrounddir)" && rm -f $$files
 install-metadataDATA: $(metadata_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(metadatadir)" || $(MKDIR_P) "$(DESTDIR)$(metadatadir)"
@@ -453,7 +428,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(MANS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(man7dir)" "$(DESTDIR)$(backgrounddir)" "$(DESTDIR)$(metadatadir)" "$(DESTDIR)$(soundlistdir)"; do \
+	for dir in "$(DESTDIR)$(man7dir)" "$(DESTDIR)$(metadatadir)" "$(DESTDIR)$(soundlistdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -502,8 +477,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-backgroundDATA install-man \
-	install-metadataDATA install-soundlistDATA
+install-data-am: install-man install-metadataDATA \
+	install-soundlistDATA
 
 install-dvi: install-dvi-am
 
@@ -547,8 +522,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-backgroundDATA uninstall-man \
-	uninstall-metadataDATA uninstall-soundlistDATA
+uninstall-am: uninstall-man uninstall-metadataDATA \
+	uninstall-soundlistDATA
 
 uninstall-man: uninstall-man7
 
@@ -557,16 +532,16 @@ uninstall-man: uninstall-man7
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am html html-am info info-am install install-am \
-	install-backgroundDATA install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-man7 install-metadataDATA install-pdf \
-	install-pdf-am install-ps install-ps-am install-soundlistDATA \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	uninstall uninstall-am uninstall-backgroundDATA uninstall-man \
-	uninstall-man7 uninstall-metadataDATA uninstall-soundlistDATA
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-man7 \
+	install-metadataDATA install-pdf install-pdf-am install-ps \
+	install-ps-am install-soundlistDATA install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-man uninstall-man7 uninstall-metadataDATA \
+	uninstall-soundlistDATA
 
 
 mate-default.xml.in: mate-default.xml.in.in Makefile
