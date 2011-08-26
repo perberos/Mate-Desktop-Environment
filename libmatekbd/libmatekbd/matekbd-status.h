@@ -40,7 +40,7 @@ extern "C" {
 #define MATEKBD_STATUS_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), MATEKBD_TYPE_STATUS, MatekbdStatusClass))
 
 	struct _MatekbdStatus {
-		GStatusIcon parent;
+		GtkStatusIcon parent;
 		MatekbdStatusPrivate *priv;
 	};
 
