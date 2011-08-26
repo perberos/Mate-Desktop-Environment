@@ -55,7 +55,7 @@ mate_keyring_daemon_LDADD = \
 
 service_in_files = \
 	org.mate.keyring.service.in \
-	org.freedesktop.secrets.service.in
+	org.mate-freedesktop.secrets.service.in
 
 servicedir       = $(DBUS_SERVICES_DIR)
 service_DATA     = $(service_in_files:.service.in=.service)
