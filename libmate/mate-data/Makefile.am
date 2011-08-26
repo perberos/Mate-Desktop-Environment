@@ -1,8 +1,8 @@
 soundlistdir = $(sysconfdir)/sound/events
 
 soundlist_in_files = \
-	mate-2.soundlist.in		\
-	gtk-events-2.soundlist.in
+	mate.soundlist.in		\
+	gtk2-events.soundlist.in
 
 soundlist_DATA = $(soundlist_in_files:.soundlist.in=.soundlist)
 
