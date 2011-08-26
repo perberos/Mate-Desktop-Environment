@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 
 #include <libmatekbd/matekbd-desktop-config.h>
-#include <libmatekbd/mate-keyboard-drawing.h>
+#include <libmatekbd/matekbd-keyboard-drawing.h>
 
 #include "capplet-util.h"
 #include "mate-keyboard-properties-xkb.h"

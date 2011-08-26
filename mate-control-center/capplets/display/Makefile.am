@@ -37,15 +37,15 @@ dist_polkit_policy_DATA =					\
 @INTLTOOL_DESKTOP_RULE@
 
 icons16dir = $(datadir)/icons/hicolor/16x16/apps
-dist_icons16_DATA = icons/16x16/preferences-desktop-display.png
+dist_icons16_DATA = icons/16x16/mate-preferences-desktop-display.png
 icons22dir = $(datadir)/icons/hicolor/22x22/apps
-dist_icons22_DATA = icons/22x22/preferences-desktop-display.png
+dist_icons22_DATA = icons/22x22/mate-preferences-desktop-display.png
 icons24dir = $(datadir)/icons/hicolor/24x24/apps
-dist_icons24_DATA = icons/24x24/preferences-desktop-display.png
+dist_icons24_DATA = icons/24x24/mate-preferences-desktop-display.png
 icons32dir = $(datadir)/icons/hicolor/32x32/apps
-dist_icons32_DATA = icons/32x32/preferences-desktop-display.png
+dist_icons32_DATA = icons/32x32/mate-preferences-desktop-display.png
 iconssvgdir = $(datadir)/icons/hicolor/scalable/apps
-dist_iconssvg_DATA = icons/scalable/preferences-desktop-display.svg
+dist_iconssvg_DATA = icons/scalable/mate-preferences-desktop-display.svg
 
 desktopdir = $(datadir)/applications
 Desktop_in_files = display-properties.desktop.in

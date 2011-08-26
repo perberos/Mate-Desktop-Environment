@@ -484,7 +484,7 @@ rebuild_mirror_screens (App *app)
 
     /* If mirror_is_active, then it *must* be possible to turn mirroring off */
     mirror_is_supported = mirror_is_active || mirror_screens_is_supported (app);
-    
+
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (app->clone_checkbox), mirror_is_active);
     gtk_widget_set_sensitive (app->clone_checkbox, mirror_is_supported);
 
@@ -2431,9 +2431,9 @@ run_application (App *app)
     g_signal_connect_after (app->dialog, "map-event",
 			    G_CALLBACK (dialog_map_event_cb), app);
 
-    gtk_window_set_default_icon_name ("preferences-desktop-display");
+    gtk_window_set_default_icon_name ("mate-preferences-desktop-display");
     gtk_window_set_icon_name (GTK_WINDOW (app->dialog),
-			      "preferences-desktop-display");
+			      "mate-preferences-desktop-display");
 
     app->current_monitor_event_box = _gtk_builder_get_widget (builder,
     						   "current_monitor_event_box");
