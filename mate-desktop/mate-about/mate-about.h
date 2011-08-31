@@ -11,7 +11,7 @@
 	const gchar* locale_dir = LOCALE_DIR; // /usr/local/share/locale
 
 	const gchar* program_name = "MATE Desktop Environment"; // MATE @PACKAGE_NAME@
-	const gchar* version = "v0.0.0"; //  PACKAGE_VERSION
+	const gchar* version = "2011.08.31"; //  PACKAGE_VERSION
 	const gchar* icon = "mate";
 	const gchar* website = "http://www.matsusoft.com.ar/projects";
 
