@@ -12,11 +12,14 @@ optdepends=('texlive-bin: DVI support')
 groups=('mate-extra')
 install=mate-document-viewer.install
 options=('!libtool' '!emptydirs')
+conflicts=('evince')
+provides=('evince')
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
 sha256sums=('4adbcfab482edaa5e873131421ee27cd7d90e2a9745acf64f90de7d8725a4583')
 
 build() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/${pkgname}"
+
 
 	autoreconf -fi
 
@@ -28,11 +31,12 @@ build() {
 		--enable-t1lib          --enable-comics \
 		--disable-scrollkeeper \
 		--enable-introspection || return 1
-	make
+	make clean
+	make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/${pkgname}"
 	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
 	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
