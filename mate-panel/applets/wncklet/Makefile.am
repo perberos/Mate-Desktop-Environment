@@ -85,7 +85,7 @@ xmlui_DATA  = \
 	window-list-menu.xml
 
 schemasdir       = $(MATECONF_SCHEMA_FILE_DIR)
-schemas_in_files = workspace-switcher.schemas.in window-list.schemas.in 
+schemas_in_files = workspace-switcher.schemas.in window-list.schemas.in
 schemas_DATA     = $(schemas_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@

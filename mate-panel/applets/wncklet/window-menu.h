@@ -34,7 +34,7 @@
 
 G_BEGIN_DECLS
 
-gboolean window_menu_applet_fill (MatePanelApplet *applet);
+gboolean window_menu_applet_fill(MatePanelApplet* applet);
 
 G_END_DECLS
 

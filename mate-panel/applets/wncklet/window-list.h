@@ -1,6 +1,6 @@
 /*
  * libwnck based tasklist Applet.
- * (C) 2001 Alexander Larsson 
+ * (C) 2001 Alexander Larsson
  *
  * Authors: Alexander Larsson
  *
@@ -14,7 +14,7 @@
 
 G_BEGIN_DECLS
 
-gboolean window_list_applet_fill (MatePanelApplet *applet);
+gboolean window_list_applet_fill(MatePanelApplet* applet);
 
 G_END_DECLS
 
