@@ -14,7 +14,6 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -39,9 +38,9 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(srcdir)/mate-version.xml.in.in $(top_srcdir)/configure \
-	AUTHORS COPYING COPYING.LIB ChangeLog NEWS config.guess \
-	config.sub depcomp install-sh ltmain.sh missing mkinstalldirs
+	$(top_srcdir)/configure AUTHORS COPYING COPYING.LIB ChangeLog \
+	NEWS config.guess config.sub depcomp install-sh ltmain.sh \
+	missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -55,7 +54,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = mate-version.xml.in
+CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
@@ -72,29 +71,6 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-pdf-recursive install-ps-recursive install-recursive \
 	installcheck-recursive installdirs-recursive pdf-recursive \
 	ps-recursive uninstall-recursive
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(versiondir)"
-DATA = $(version_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
@@ -102,8 +78,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir dist dist-all distcheck
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = po libmate-desktop pixmaps docs man mate-about \
-	desktop-docs
+DIST_SUBDIRS = po libmate-desktop docs man mate-about desktop-docs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -216,7 +191,6 @@ MATE_DATE_COMMENT_END = @MATE_DATE_COMMENT_END@
 MATE_DATE_COMMENT_START = @MATE_DATE_COMMENT_START@
 MATE_DESKTOP_CFLAGS = @MATE_DESKTOP_CFLAGS@
 MATE_DESKTOP_LIBS = @MATE_DESKTOP_LIBS@
-MATE_DISTRIBUTOR = @MATE_DISTRIBUTOR@
 MATE_MICRO = @MATE_MICRO@
 MATE_MINOR = @MATE_MINOR@
 MATE_PLATFORM = @MATE_PLATFORM@
@@ -332,16 +306,12 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = po libmate-desktop pixmaps docs man $(am__append_1) \
-	$(am__append_2)
+SUBDIRS = po libmate-desktop docs man $(am__append_1) $(am__append_2)
 @MATE_ABOUT_ENABLED_TRUE@versiondir = $(datadir)/mate-about
-@MATE_ABOUT_ENABLED_TRUE@version_DATA = mate-version.xml
 EXTRA_DIST = \
 	COPYING-DOCS		\
 	HACKING			\
 	MAINTAINERS		\
-	ChangeLog.pre-git	\
-	mate-version.xml.in.in	\
 	mate-doc-utils.make
 
 CLEANFILES = \
@@ -422,8 +392,6 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-mate-version.xml.in: $(top_builddir)/config.status $(srcdir)/mate-version.xml.in.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -433,26 +401,6 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool config.lt
-install-versionDATA: $(version_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(versiondir)" || $(MKDIR_P) "$(DESTDIR)$(versiondir)"
-	@list='$(version_DATA)'; test -n "$(versiondir)" || list=; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(versiondir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(versiondir)" || exit $$?; \
-	done
-
-uninstall-versionDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(version_DATA)'; test -n "$(versiondir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(versiondir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(versiondir)" && rm -f $$files
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -765,12 +713,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(DATA) config.h
+all-am: Makefile config.h
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(versiondir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
@@ -821,7 +766,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-versionDATA
+install-data-am:
 
 install-dvi: install-dvi-recursive
 
@@ -867,7 +812,7 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-versionDATA
+uninstall-am:
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all \
 	ctags-recursive install-am install-strip tags-recursive
@@ -883,11 +828,10 @@ uninstall-am: uninstall-versionDATA
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
 	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip install-versionDATA installcheck installcheck-am \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-versionDATA
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
+	ps ps-am tags tags-recursive uninstall uninstall-am
 
 @INTLTOOL_XML_RULE@
 
