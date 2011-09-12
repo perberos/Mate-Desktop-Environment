@@ -24,30 +24,30 @@
 
 #ifdef G_OS_WIN32
 
-const char *_mate_get_prefix (void) G_GNUC_CONST;
-const char *_mate_get_localedir (void) G_GNUC_CONST;
-const char *_mate_get_libdir (void) G_GNUC_CONST;
-const char *_mate_get_datadir (void) G_GNUC_CONST;
-const char *_mate_get_localstatedir (void) G_GNUC_CONST;
-const char *_mate_get_sysconfdir (void) G_GNUC_CONST;
+	const char* _mate_get_prefix(void) G_GNUC_CONST;
+	const char* _mate_get_localedir(void) G_GNUC_CONST;
+	const char* _mate_get_libdir(void) G_GNUC_CONST;
+	const char* _mate_get_datadir(void) G_GNUC_CONST;
+	const char* _mate_get_localstatedir(void) G_GNUC_CONST;
+	const char* _mate_get_sysconfdir(void) G_GNUC_CONST;
 
-#undef LIBMATE_PREFIX
-#define LIBMATE_PREFIX _mate_get_prefix ()
+	#undef LIBMATE_PREFIX
+	#define LIBMATE_PREFIX _mate_get_prefix()
 
-#undef LIBMATE_LOCALEDIR
-#define LIBMATE_LOCALEDIR _mate_get_localedir ()
+	#undef LIBMATE_LOCALEDIR
+	#define LIBMATE_LOCALEDIR _mate_get_localedir()
 
-#undef LIBMATE_LIBDIR
-#define LIBMATE_LIBDIR _mate_get_libdir ()
+	#undef LIBMATE_LIBDIR
+	#define LIBMATE_LIBDIR _mate_get_libdir()
 
-#undef LIBMATE_DATADIR
-#define LIBMATE_DATADIR _mate_get_datadir ()
+	#undef LIBMATE_DATADIR
+	#define LIBMATE_DATADIR _mate_get_datadir()
 
-#undef LIBMATE_LOCALSTATEDIR
-#define LIBMATE_LOCALSTATEDIR _mate_get_localstatedir ()
+	#undef LIBMATE_LOCALSTATEDIR
+	#define LIBMATE_LOCALSTATEDIR _mate_get_localstatedir()
 
-#undef LIBMATE_SYSCONFDIR
-#define LIBMATE_SYSCONFDIR _mate_get_sysconfdir ()
+	#undef LIBMATE_SYSCONFDIR
+	#define LIBMATE_SYSCONFDIR _mate_get_sysconfdir()
 
 #endif
 

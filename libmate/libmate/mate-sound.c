@@ -38,7 +38,7 @@
 #include <glib.h>
 
 #ifdef HAVE_CANBERRA
-#include <canberra.h>
+	#include <canberra.h>
 #endif
 
 G_GNUC_INTERNAL void _mate_sound_set_enabled (gboolean);
@@ -46,41 +46,37 @@ G_GNUC_INTERNAL void _mate_sound_set_enabled (gboolean);
 #ifdef HAVE_CANBERRA
 
 static gboolean mate_sound_enabled = TRUE;
-static ca_context *global_context = NULL;
+static ca_context* global_context = NULL;
 
-static ca_context *
-get_ca_context (const char *hostname)
+static ca_context* get_ca_context(const char* hostname)
 {
-  int rv;
+	int rv;
 
-  if (global_context != NULL)
-    return global_context;
+	if (global_context != NULL)
+		return global_context;
 
-  if ((rv = ca_context_create (&global_context)) != CA_SUCCESS)
-    {
-      g_warning ("Failed to create canberra context: %s\n", ca_strerror (rv));
-      global_context = NULL;
-      return NULL;
-    }
+	if ((rv = ca_context_create(&global_context)) != CA_SUCCESS)
+	{
+		g_warning ("Failed to create canberra context: %s\n", ca_strerror(rv));
+		global_context = NULL;
+		return NULL;
+	}
 
-  if (hostname != NULL)
-    {
-      ca_context_change_props (global_context,
-                               CA_PROP_APPLICATION_PROCESS_HOST, hostname,
-                               NULL);
-    }
+	if (hostname != NULL)
+	{
+		ca_context_change_props(global_context, CA_PROP_APPLICATION_PROCESS_HOST, hostname, NULL);
+	}
 
-  return global_context;
+	return global_context;
 }
 
-#endif
+#endif /* HAVE_CANBERRA */
 
-void G_GNUC_INTERNAL
-_mate_sound_set_enabled (gboolean enabled)
+void G_GNUC_INTERNAL _mate_sound_set_enabled(gboolean enabled)
 {
-#ifdef HAVE_CANBERRA
-  mate_sound_enabled = enabled;
-#endif
+	#ifdef HAVE_CANBERRA
+		mate_sound_enabled = enabled;
+	#endif
 }
 
 /**
@@ -96,38 +92,33 @@ _mate_sound_set_enabled (gboolean enabled)
  *
  * @Deprecated: 2.30: Use ca_context_cache() or ca_context_cache_full() instead
  */
-int
-mate_sound_sample_load(const char *sample_name, const char *filename)
+int mate_sound_sample_load(const char* sample_name, const char* filename)
 {
-#ifdef HAVE_CANBERRA
-  ca_context *context;
-  int rv;
+	#ifdef HAVE_CANBERRA
+		ca_context* context;
+		int rv;
 
-  g_return_val_if_fail (sample_name != NULL, -2);
+		g_return_val_if_fail(sample_name != NULL, -2);
 
-  if (!mate_sound_enabled)
-    return -2;
+		if (!mate_sound_enabled)
+			return -2;
 
-  if(!filename || !*filename)
-    return -2;
+		if (!filename || !*filename)
+			return -2;
 
-  if ((context = get_ca_context (NULL)) == NULL)
-    return -1;
+		if ((context = get_ca_context (NULL)) == NULL)
+			return -1;
 
-  rv = ca_context_cache (context,
-                         CA_PROP_MEDIA_NAME, sample_name,
-                         CA_PROP_MEDIA_FILENAME, filename,
-                         NULL);
-  
+		rv = ca_context_cache(context, CA_PROP_MEDIA_NAME, sample_name, CA_PROP_MEDIA_FILENAME, filename, NULL);
 
-  if (rv != CA_SUCCESS)
-    g_warning ("Failed to cache sample '%s' from '%s': %s\n",
-               sample_name, filename, ca_strerror (rv));
-                    
-  return -1;
-#else
-  return -1;
-#endif
+
+		if (rv != CA_SUCCESS)
+			g_warning ("Failed to cache sample '%s' from '%s': %s\n", sample_name, filename, ca_strerror(rv));
+
+		return -1;
+	#else /* !HAVE_CANBERRA */
+		return -1;
+	#endif
 }
 
 /**
@@ -139,30 +130,28 @@ mate_sound_sample_load(const char *sample_name, const char *filename)
  *
  * @Deprecated: 2.30: Use ca_context_play(), ca_gtk_play_for_widget() or ca_gtk_play_for_event() instead
  */
-void
-mate_sound_play (const char * filename)
+void mate_sound_play(const char* filename)
 {
-#ifdef HAVE_CANBERRA
-  ca_context *context;
-  int rv;
+	#ifdef HAVE_CANBERRA
+		ca_context* context;
+		int rv;
 
-  if (!mate_sound_enabled)
-    return;
+		if (!mate_sound_enabled)
+			return;
 
-  if(!filename || !*filename)
-    return;
+		if (!filename || !*filename)
+			return;
 
-  if ((context = get_ca_context (NULL)) == NULL)
-    return;
+		if ((context = get_ca_context(NULL)) == NULL)
+			return;
 
-  rv = ca_context_play (context, 0,
-                        CA_PROP_MEDIA_FILENAME, filename,
-                        NULL);
+		rv = ca_context_play(context, 0, CA_PROP_MEDIA_FILENAME, filename, NULL);
 
-  if (rv != CA_SUCCESS)
-    g_warning ("Failed to play file '%s': %s\n",
-               filename, ca_strerror (rv));
-#endif
+		if (rv != CA_SUCCESS)
+		{
+			g_warning("Failed to play file '%s': %s\n", filename, ca_strerror(rv));
+		}
+	#endif
 }
 
 /**
@@ -173,12 +162,11 @@ mate_sound_play (const char * filename)
  *
  * @Deprecated: 2.30
  */
-void
-mate_sound_init(const char *hostname)
+void mate_sound_init(const char* hostname)
 {
-#ifdef HAVE_CANBERRA
-  get_ca_context (hostname);
-#endif
+	#ifdef HAVE_CANBERRA
+		get_ca_context (hostname);
+	#endif
 }
 
 /**
@@ -188,16 +176,15 @@ mate_sound_init(const char *hostname)
  *
  * @Deprecated: 2.30
  */
-void
-mate_sound_shutdown(void)
+void mate_sound_shutdown(void)
 {
-#ifdef HAVE_ESD
-  if (global_context != NULL)
-    {
-      ca_context_destroy (global_context);
-      global_context = NULL;
-    }
-#endif
+	#ifdef HAVE_ESD
+		if (global_context != NULL)
+		{
+			ca_context_destroy (global_context);
+			global_context = NULL;
+		}
+	#endif
 }
 
 /**
@@ -207,8 +194,7 @@ mate_sound_shutdown(void)
  *
  * @Deprecated: 2.30
  **/
-int
-mate_sound_connection_get (void)
+int mate_sound_connection_get(void)
 {
 	return -1;
 }

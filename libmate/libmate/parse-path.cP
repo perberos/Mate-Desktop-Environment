@@ -1,25 +1,26 @@
 /* This is a -*- C -*- file fragment.  Please don't compile it, however.  */
 
 typedef struct {
-	char *file, *section, *key, *def;
-	char *path, *opath;
+	char* file, *section, *key, *def;
+	char* path, *opath;
 } ParsedPath;
 
-static const char * MATE_CONFIG_PARSE_ERROR = "__(null)__";
+static const char* MATE_CONFIG_PARSE_ERROR = "__(null)__";
 
-static void
-release_path (ParsedPath *p)
+static void release_path(ParsedPath* p)
 {
-	if(p->file != MATE_CONFIG_PARSE_ERROR)
-		g_free (p->file);
-	g_free (p->opath);
-	g_free (p);
+	if (p->file != MATE_CONFIG_PARSE_ERROR)
+	{
+		g_free(p->file);
+	}
+
+	g_free(p->opath);
+	g_free(p);
 }
 
-static ParsedPath *
-parse_path (const char *path, gboolean priv)
+static ParsedPath* parse_path(const char* path, gboolean priv)
 {
-	ParsedPath *p = g_malloc (sizeof (ParsedPath));
+	ParsedPath* p = g_malloc (sizeof (ParsedPath));
 
 	g_assert(path != NULL);
 
@@ -29,43 +30,61 @@ parse_path (const char *path, gboolean priv)
 		p->opath = g_strconcat (prefix, path,NULL);
 
 	p->path    = p->opath;
-	p->file    = (char *)MATE_CONFIG_PARSE_ERROR;
-	p->section = (char *)MATE_CONFIG_PARSE_ERROR;
-	p->key     = (char *)MATE_CONFIG_PARSE_ERROR;
+	p->file    = (char*) MATE_CONFIG_PARSE_ERROR;
+	p->section = (char*) MATE_CONFIG_PARSE_ERROR;
+	p->key     = (char*) MATE_CONFIG_PARSE_ERROR;
 
-	if (*p->path == '='){
-		char *token;
+	if (*p->path == '=')
+	{
+		char* token;
 		/* If it is an absolute path name */
 		p->path++;
-		if ((token = strtok (p->path, "="))) {
-			if (token[0]=='/')
-				p->file = g_strdup (token);
-			else {
-				char *cwd = g_get_current_dir();
-				p->file = config_concat_dir_and_key (cwd,token);
+
+		if ((token = strtok(p->path, "=")))
+		{
+			if (token[0] == '/')
+			{
+				p->file = g_strdup(token);
+			}
+			else
+			{
+				char* cwd = g_get_current_dir();
+				p->file = config_concat_dir_and_key(cwd,token);
 				g_free(cwd);
 			}
 		}
-		if ((token = strtok (NULL, "/=")))
+
+		if ((token = strtok(NULL, "/=")))
 			p->section = token;
-		if ((token = strtok (NULL, "=")))
-			p->key     = token;
-		p->def     = strtok (NULL, "=");
-	} else {
+		if ((token = strtok(NULL, "=")))
+			p->key = token;
+
+		p->def = strtok(NULL, "=");
+	}
+	else
+	{
 		char *end;
 
-		p->file    = p->path;
-		p->def     = NULL;
-		if ((end = strchr (p->path, '='))) {
+		p->file = p->path;
+		p->def = NULL;
+
+		if ((end = strchr(p->path, '=')))
+		{
 			*end = 0;
 			p->def = end + 1;
-		} else
-			end = p->path + strlen (p->path);
+		}
+		else
+		{
+			end = p->path + strlen(p->path);
+		}
 
 		/* Look backwards for a slash, to split key from the filename/section */
-		while (end > p->path){
+		while (end > p->path)
+		{
 			end--;
-			if (*end == '/'){
+
+			if (*end == '/')
+			{
 				*end = 0;
 				p->key = end + 1;
 				break;
@@ -73,29 +92,35 @@ parse_path (const char *path, gboolean priv)
 		}
 
 		/* Look backwards for the next slash, to get the section name */
-		while (end > p->path){
+		while (end > p->path)
+		{
 			end--;
-			if (*end == '/'){
+
+			if (*end == '/')
+			{
 				*end = 0;
 				p->section = end + 1;
 				break;
 			}
 		}
+
 		if (*p->file == '/')
 			p->file++;
 
-		if (priv){
-			p->file = g_build_filename (mate_user_private_dir_get (),
-                                                    (p->file), NULL);
-		} else {
-                        p->file = g_build_filename (mate_user_dir_get (),
-                                                    (p->file), NULL);
+		if (priv)
+		{
+			p->file = g_build_filename(mate_user_private_dir_get(), (p->file), NULL);
+		}
+		else
+		{
+			p->file = g_build_filename(mate_user_dir_get(), (p->file), NULL);
 		}
 	}
-	if (p->file    == MATE_CONFIG_PARSE_ERROR ||
-	    p->section == MATE_CONFIG_PARSE_ERROR ||
-	    p->section == MATE_CONFIG_PARSE_ERROR) {
-		g_warning ("invalid mate config path \'%s\'\n", path);
+
+	if (p->file == MATE_CONFIG_PARSE_ERROR || p->section == MATE_CONFIG_PARSE_ERROR || p->section == MATE_CONFIG_PARSE_ERROR)
+	{
+		g_warning("invalid mate config path \'%s\'\n", path);
 	}
+
 	return p;
 }

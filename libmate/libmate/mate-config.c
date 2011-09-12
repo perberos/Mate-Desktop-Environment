@@ -42,11 +42,11 @@
 #include "mate-config.h"
 
 #if !defined getc_unlocked && !defined HAVE_GETC_UNLOCKED
-# define getc_unlocked(fp) getc (fp)
+	#define getc_unlocked(fp) getc(fp)
 #endif
 
 #define STRSIZE 4096
-#define overflow (next == &CharBuffer [STRSIZE-1])
+#define overflow (next == &CharBuffer[STRSIZE - 1])
 
 enum {
 	FirstBrace,
@@ -60,7 +60,7 @@ enum {
 
 typedef struct {
 	int type;
-	void *value;
+	void* value;
 } iterator_type;
 
 typedef enum {
@@ -69,21 +69,21 @@ typedef enum {
 } access_type;
 
 typedef struct TKeys {
-	char *key_name;
-	char *value;
-	struct TKeys *link;
+	char* key_name;
+	char* value;
+	struct TKeys* link;
 } TKeys;
 
 typedef struct TSecHeader {
-	char *section_name;
-	TKeys *keys;
-	struct TSecHeader *link;
+	char* section_name;
+	TKeys* keys;
+	struct TSecHeader* link;
 } TSecHeader;
 
 typedef struct TProfile {
-	char *filename;
-	TSecHeader *section;
-	struct TProfile *link;
+	char* filename;
+	TSecHeader* section;
+	struct TProfile* link;
 	time_t last_checked;
 	time_t mtime;
 	gboolean written_to;
@@ -97,410 +97,544 @@ typedef struct TProfile {
 
 #define prefix (prefix_list ? prefix_list->data : NULL)
 
-static GSList *prefix_list = NULL;
+static GSList* prefix_list = NULL;
 
-static TProfile *Current = NULL;
+static TProfile* Current = NULL;
 
 /*
  * This one keeps track of all of the opened files
  */
-static TProfile *Base = NULL;
+static TProfile* Base = NULL;
 
-static char *
-config_concat_dir_and_key (const char *dir, const char *key)
+static char* config_concat_dir_and_key(const char* dir, const char* key)
 {
-	g_return_val_if_fail (dir != NULL, NULL);
-	g_return_val_if_fail (key != NULL, NULL);
+	g_return_val_if_fail(dir != NULL, NULL);
+	g_return_val_if_fail(key != NULL, NULL);
 
-        /* If the directory name doesn't have a / on the end, we need
-	   to add one so we get a proper path to the file */
-	if (dir[0] != '\0' && dir [strlen(dir) - 1] != '/')
-		return g_strconcat (dir, "/", key, NULL);
+	/* If the directory name doesn't have a / on the end, we need
+	 * to add one so we get a proper path to the file
+	 */
+	if (dir[0] != '\0' && dir[strlen(dir) - 1] != '/')
+	{
+		return g_strconcat(dir, "/", key, NULL);
+	}
 	else
-		return g_strconcat (dir, key, NULL);
+	{
+		return g_strconcat(dir, key, NULL);
+	}
 }
 
 /* The `release_path' and `parse_path' routines are inside the
-   following file.  It is in a separate file to allow the test-suite
-   to get at it, without needing to export special symbols.
+	following file.  It is in a separate file to allow the test-suite
+	to get at it, without needing to export special symbols.
 
-   typedef struct {
-	char *file, *section, *key, *def;
-	char *path, *opath;
-   } ParsedPath;
+	typedef struct {
+		char *file, *section, *key, *def;
+		char *path, *opath;
+	} ParsedPath;
 
-   static void release_path (ParsedPath *p);
-   static ParsedPath *parse_path (const char *path, gboolean priv); */
+	static void release_path (ParsedPath *p);
+	static ParsedPath *parse_path (const char *path, gboolean priv); */
 #include "parse-path.cP"
 
-static void
-free_keys (TKeys *p)
+static void free_keys(TKeys* p)
 {
 	if (!p)
+	{
 		return;
-	free_keys (p->link);
-	g_free (p->key_name);
-	g_free (p->value);
-	g_free (p);
+	}
+
+	free_keys(p->link);
+	g_free(p->key_name);
+	g_free(p->value);
+	g_free(p);
 }
 
-static void
-free_sections (TSecHeader *p)
+static void free_sections(TSecHeader* p)
 {
 	if (!p)
+	{
 		return;
-	free_sections (p->link);
-	free_keys (p->keys);
-	g_free (p->section_name);
+	}
+
+	free_sections(p->link);
+	free_keys(p->keys);
+	g_free(p->section_name);
 	p->link = NULL;
 	p->keys = NULL;
-	g_free (p);
+	g_free(p);
 }
 
-static void
-free_profile (TProfile *p)
+static void free_profile(TProfile* p)
 {
 	if (!p)
+	{
 		return;
-	if(Current == p)
+	}
+
+	if (Current == p)
+	{
 		Current = NULL;
-	free_profile (p->link);
-	free_sections (p->section);
-	g_free (p->filename);
-	g_free (p);
+	}
+
+	free_profile(p->link);
+	free_sections(p->section);
+	g_free(p->filename);
+	g_free(p);
 }
 
-static int
-is_loaded (const char *filename, TSecHeader **section)
+static int is_loaded(const char* filename, TSecHeader** section)
 {
-	TProfile *p = Base;
-	TProfile *lastp = NULL;
+	TProfile* p = Base;
+	TProfile* lastp = NULL;
 	struct stat st;
 
 	/*
 	 * if the last one we accessed was this one we don't want to
 	 * search
 	 */
-	if (Current && strcasecmp (filename, Current->filename) == 0){
-		if (Current->last_checked != time (NULL)){
-			if (g_stat (filename, &st) == -1)
+	if (Current && strcasecmp(filename, Current->filename) == 0)
+	{
+		if (Current->last_checked != time(NULL))
+		{
+			if (g_stat(filename, &st) == -1)
+			{
 				st.st_mtime = 0;
-			if (Current->mtime != st.st_mtime) {
-				free_sections (Current->section);
+			}
+
+			if (Current->mtime != st.st_mtime)
+			{
+				free_sections(Current->section);
+
 				Current->section = NULL;
 				Current->filename[0] = '\0';
 				Current->written_to = TRUE;
 				Current->to_be_deleted = FALSE;
 				Current = NULL;
+
 				return 0;
 			}
-			Current->last_checked = time (NULL);
+
+			Current->last_checked = time(NULL);
 		}
+
 		*section = Current->section;
+
 		return 1;
 	}
 
-	while (p){
+	while (p)
+	{
 		/*search and destroy empty nodes*/
-		if (p->filename[0]=='\0') {
-			TProfile *next = p->link;
-			if(lastp)
+		if (p->filename[0]=='\0')
+		{
+			TProfile* next = p->link;
+
+			if (lastp)
+			{
 				lastp->link = next;
+			}
 			else /*the next one is the first one actually*/
+			{
 				Base = next;
+			}
+
 			g_free(p->filename);
 			g_free(p);
+
 			p = next;
-		} else if (strcasecmp (filename, p->filename) == 0){
-			if (p->last_checked != time (NULL)){
-				if (g_stat (filename, &st) == -1)
+		}
+		else if (strcasecmp(filename, p->filename) == 0)
+		{
+			if (p->last_checked != time(NULL))
+			{
+				if (g_stat(filename, &st) == -1)
+				{
 					st.st_mtime = 0;
-				if (p->mtime != st.st_mtime) {
-					if(p == Current)
+				}
+
+				if (p->mtime != st.st_mtime)
+				{
+					if (p == Current)
+					{
 						Current = NULL;
-					free_sections (p->section);
+					}
+
+					free_sections(p->section);
+
 					p->section = NULL;
 					p->filename[0] = '\0';
 					p->written_to = TRUE;
 					p->to_be_deleted = FALSE;
+
 					return 0;
 				}
-				p->last_checked = time (NULL);
+
+				p->last_checked = time(NULL);
 			}
+
 			Current = p;
 			*section = p->section;
+
 			return 1;
-		} else {
+		}
+		else
+		{
 			lastp = p;
 			p = p->link;
 		}
 	}
+
 	return 0;
 }
 
-static char *
-decode_string_and_dup (char *s)
+static char* decode_string_and_dup(char* s)
 {
-	char *p = g_malloc (strlen (s) + 1);
-	char *q = p;
+	char* p = g_malloc(strlen(s) + 1);
+	char* q = p;
 
-	do {
-		if (*s == '\\'){
-			switch (*(++s)){
-			case 'n':
-				*p++ = '\n';
-				break;
-			case '\\':
-				*p++ = '\\';
-				break;
-			case 'r':
-				*p++ = '\r';
-				break;
-			default:
-				*p++ = '\\';
-				*p++ = *s;
+	do
+	{
+		if (*s == '\\')
+		{
+			switch (*(++s))
+			{
+				case 'n':
+					*p++ = '\n';
+					break;
+				case '\\':
+					*p++ = '\\';
+					break;
+				case 'r':
+					*p++ = '\r';
+					break;
+				default:
+					*p++ = '\\';
+					*p++ = *s;
 			}
-		} else
+		}
+		else
+		{
 			*p++ = *s;
-	} while (*s++);
+		}
+	}
+	while (*s++);
+
 	return q;
 }
 
-static char *
-escape_string_and_dup (char *s)
+static char* escape_string_and_dup(char* s)
 {
-	char *return_value, *p = s;
+	char* return_value, *p = s;
 	int len = 0;
 
-	if(!s)
+	if (!s)
+	{
 		return g_strdup("");
+	}
 
-	while (*p){
+	while (*p)
+	{
 		len++;
+
 		if (*p == '\n' || *p == '\\' || *p == '\r' || *p == '\0')
+		{
 			len++;
+		}
 		p++;
 	}
-	return_value = p = (char *) g_malloc (len + 1);
+
+	return_value = p = (char*) g_malloc(len + 1);
+
 	if (!return_value)
+	{
 		return NULL;
-	do {
-		switch (*s){
-		case '\n':
-			*p++ = '\\';
-			*p++ = 'n';
-			break;
-		case '\r':
-			*p++ = '\\';
-			*p++ = 'r';
-			break;
-		case '\\':
-			*p++ = '\\';
-			*p++ = '\\';
-			break;
-		default:
-			*p++ = *s;
+	}
+
+	do
+	{
+		switch (*s)
+		{
+			case '\n':
+				*p++ = '\\';
+				*p++ = 'n';
+				break;
+			case '\r':
+				*p++ = '\\';
+				*p++ = 'r';
+				break;
+			case '\\':
+				*p++ = '\\';
+				*p++ = '\\';
+				break;
+			default:
+				*p++ = *s;
 		}
-	} while (*s++);
+	}
+	while (*s++);
+
 	return return_value;
 }
 
-static TSecHeader *
-load (const char *file)
+static TSecHeader* load(const char* file)
 {
-	FILE *f;
+	FILE* f;
 	int state;
-	TSecHeader *SecHeader = NULL;
-	char CharBuffer [STRSIZE];
-	char *next = "";		/* Not needed */
+	TSecHeader* SecHeader = NULL;
+	char CharBuffer[STRSIZE];
+	char* next = "";		/* Not needed */
 	int c;
 
-	if ((f = g_fopen (file, "r"))==NULL)
+	if ((f = g_fopen(file, "r")) == NULL)
+	{
 		return NULL;
+	}
 
 	state = FirstBrace;
-	while ((c = getc_unlocked (f)) != EOF){
+
+	while ((c = getc_unlocked(f)) != EOF)
+	{
 		if (c == '\r')		/* Ignore Carriage Return */
+		{
 			continue;
+		}
 
-		switch (state){
+		switch (state)
+		{
+			case OnSecHeader:
 
-		case OnSecHeader:
-			if (c == ']' || overflow){
-				*next = '\0';
-				next = CharBuffer;
-				SecHeader->section_name = g_strdup (CharBuffer);
-				state = IgnoreToEOL;
-			} else
-				*next++ = c;
-			break;
-
-		case IgnoreToEOL:
-		case IgnoreToEOLFirst:
-			if (c == '\n'){
-				if (state == IgnoreToEOLFirst)
-					state = FirstBrace;
-				else
-					state = KeyDef;
-				next = CharBuffer;
-			}
-			break;
-
-		case FirstBrace:
-		case KeyDef:
-		case KeyDefOnKey:
-			if (c == '#') {
-				if (state == FirstBrace)
-					state = IgnoreToEOLFirst;
-				else
+				if (c == ']' || overflow)
+				{
+					*next = '\0';
+					next = CharBuffer;
+					SecHeader->section_name = g_strdup(CharBuffer);
 					state = IgnoreToEOL;
-				break;
-			}
+				}
+				else
+				{
+					*next++ = c;
+				}
 
-			if (c == '[' && state != KeyDefOnKey){
-				TSecHeader *temp;
-
-				temp = SecHeader;
-				SecHeader = (TSecHeader *) g_malloc (sizeof (TSecHeader));
-				SecHeader->link = temp;
-				SecHeader->keys = NULL;
-				state = OnSecHeader;
-				next = CharBuffer;
-				break;
-			}
-			/* On first pass, don't allow dangling keys */
-			if (state == FirstBrace)
 				break;
 
-			if ((c == ' ' && state != KeyDefOnKey) || c == '\t')
+			case IgnoreToEOL:
+			case IgnoreToEOLFirst:
+
+				if (c == '\n')
+				{
+					if (state == IgnoreToEOLFirst)
+					{
+						state = FirstBrace;
+					}
+					else
+					{
+						state = KeyDef;
+					}
+
+					next = CharBuffer;
+				}
+
 				break;
 
-			if (c == '\n' || overflow) { /* Abort Definition */
-				next = CharBuffer;
-				state = KeyDef;
-                                break;
-                        }
+			case FirstBrace:
+			case KeyDef:
+			case KeyDefOnKey:
 
-			if (c == '=' || overflow){
-				TKeys *temp;
+				if (c == '#')
+				{
+					if (state == FirstBrace)
+					{
+						state = IgnoreToEOLFirst;
+					}
+					else
+					{
+						state = IgnoreToEOL;
+					}
 
-				temp = SecHeader->keys;
-				*next = '\0';
-				SecHeader->keys = (TKeys *) g_malloc (sizeof (TKeys));
-				SecHeader->keys->link = temp;
-				SecHeader->keys->key_name = g_strdup (CharBuffer);
-				state = KeyValue;
-				next = CharBuffer;
-			} else {
-				*next++ = c;
-				state = KeyDefOnKey;
-			}
-			break;
+					break;
+				}
+
+				if (c == '[' && state != KeyDefOnKey)
+				{
+					TSecHeader* temp;
+
+					temp = SecHeader;
+					SecHeader = (TSecHeader*) g_malloc(sizeof(TSecHeader));
+					SecHeader->link = temp;
+					SecHeader->keys = NULL;
+					state = OnSecHeader;
+					next = CharBuffer;
+
+					break;
+				}
+
+				/* On first pass, don't allow dangling keys */
+				if (state == FirstBrace)
+				{
+					break;
+				}
+
+				if ((c == ' ' && state != KeyDefOnKey) || c == '\t')
+				{
+					break;
+				}
+
+				if (c == '\n' || overflow)
+				{ /* Abort Definition */
+					next = CharBuffer;
+					state = KeyDef;
+					break;
+				}
+
+				if (c == '=' || overflow)
+				{
+					TKeys* temp;
+
+					temp = SecHeader->keys;
+					*next = '\0';
+					SecHeader->keys = (TKeys*) g_malloc(sizeof(TKeys));
+					SecHeader->keys->link = temp;
+					SecHeader->keys->key_name = g_strdup(CharBuffer);
+					state = KeyValue;
+					next = CharBuffer;
+				}
+				else
+				{
+					*next++ = c;
+					state = KeyDefOnKey;
+				}
+
+				break;
 
 		case KeyValue:
-			if (overflow || c == '\n'){
+
+			if (overflow || c == '\n')
+			{
 				*next = '\0';
-				SecHeader->keys->value = decode_string_and_dup (CharBuffer);
+				SecHeader->keys->value = decode_string_and_dup(CharBuffer);
 				state = c == '\n' ? KeyDef : IgnoreToEOL;
 				next = CharBuffer;
-			} else
+			}
+			else
+			{
 				*next++ = c;
-			break;
+			}
 
+			break;
 		} /* switch */
 
 	} /* while ((c = getc_unlocked (f)) != EOF) */
-	if (c == EOF && state == KeyValue){
+
+	if (c == EOF && state == KeyValue)
+	{
 		*next = '\0';
-		SecHeader->keys->value = decode_string_and_dup (CharBuffer);
+		SecHeader->keys->value = decode_string_and_dup(CharBuffer);
 	}
+
 	fclose (f);
 	return SecHeader;
 }
 
-static void
-new_key (TSecHeader *section, const char *key_name, const char *value)
+static void new_key(TSecHeader* section, const char* key_name, const char* value)
 {
-	TKeys *key;
+	TKeys* key;
 
-	key = (TKeys *) g_malloc (sizeof (TKeys));
-	key->key_name = g_strdup (key_name);
-	key->value   = g_strdup (value);
+	key = (TKeys*) g_malloc(sizeof(TKeys));
+	key->key_name = g_strdup(key_name);
+	key->value   = g_strdup(value);
 	key->link = section->keys;
 	section->keys = key;
 }
 
-static const char *
-access_config (access_type mode, const char *section_name,
-	       const char *key_name, const char *def, const char *filename,
-	       gboolean *def_used)
+static const char* access_config(access_type mode, const char* section_name, const char* key_name, const char* def, const char* filename, gboolean* def_used)
 {
 
-	TProfile   *New;
-	TSecHeader *section;
-	TKeys      *key;
+	TProfile* New;
+	TSecHeader* section;
+	TKeys* key;
 
 	if (def_used)
+	{
 		*def_used = FALSE;
-	if (!is_loaded (filename, &section)){
-		struct stat st;
-		
-		if (g_stat (filename, &st) == -1)
-			st.st_mtime = 0;
+	}
 
-		New = (TProfile *) g_malloc (sizeof (TProfile));
+	if (!is_loaded(filename, &section))
+	{
+		struct stat st;
+
+		if (g_stat (filename, &st) == -1)
+		{
+			st.st_mtime = 0;
+		}
+
+		New = (TProfile*) g_malloc (sizeof(TProfile));
 		New->link = Base;
-		New->filename = g_strdup (filename);
+		New->filename = g_strdup(filename);
 		New->section = load (filename);
 		New->mtime = st.st_mtime;
 		New->written_to = FALSE;
 		New->to_be_deleted = FALSE;
-		New->last_checked = time (NULL);
+		New->last_checked = time(NULL);
 		Base = New;
 		section = New->section;
 		Current = New;
 	}
 
 	/* Start search */
-	for (; section; section = section->link){
+	for (; section; section = section->link)
+	{
 		/*if section name empty or deleted or not the one we're
 		  looking for, then search on*/
-		if (!section->section_name ||
-		    !*section->section_name ||
-		    strcasecmp (section->section_name, section_name))
+		if (!section->section_name || !*section->section_name || strcasecmp(section->section_name, section_name))
+		{
 			continue;
+		}
 
-		for (key = section->keys; key; key = key->link){
-			if (strcasecmp (key->key_name, key_name))
+		for (key = section->keys; key; key = key->link)
+		{
+			if (strcasecmp(key->key_name, key_name))
+			{
 				continue;
-			if (mode == SET){
+			}
+
+			if (mode == SET)
+			{
 				g_free (key->value);
-				key->value = g_strdup (def);
+				key->value = g_strdup(def);
 				Current->written_to = TRUE;
 			}
+
 			return key->value;
 		}
 
 		/* No key found */
-		if (mode == SET){
-			new_key (section, key_name, def);
+		if (mode == SET)
+		{
+			new_key(section, key_name, def);
 			Current->written_to = TRUE;
 			return NULL;
 		}
 	}
 
 	/* Non existent section */
-	if ((mode == SET) && def){
-		section = (TSecHeader *) g_malloc (sizeof (TSecHeader));
-		section->section_name = g_strdup (section_name);
+	if ((mode == SET) && def)
+	{
+		section = (TSecHeader*) g_malloc(sizeof(TSecHeader));
+
+		section->section_name = g_strdup(section_name);
 		section->keys = NULL;
-		new_key (section, key_name, def);
+
+		new_key(section, key_name, def);
+
 		section->link = Current->section;
 		Current->section = section;
 		Current->written_to = TRUE;
 	}
 	if (def_used)
+	{
 		*def_used = TRUE;
+	}
+
 	return def;
 }
 
@@ -516,131 +650,152 @@ access_config (access_type mode, const char *section_name,
  * ~/.mate_private data (IMHO), so I haven't addressed it in this
  * interface. It probably isn't suitable for absolute config file names */
 static const char *
-access_config_extended (access_type mode, const char *section_name,
-			const char *key_name, const char *def,
-			const char *rel_file, gboolean *def_used)
+access_config_extended (access_type mode, const char* section_name, const char* key_name, const char* def, const char* rel_file, gboolean* def_used)
 {
-	char *tmp, *filename;
-	const char *ret_val;
+	char* tmp, *filename;
+	const char* ret_val;
 	gboolean internal_def;
 
 	static time_t cache_time = 0;
-	static char *cache_filename = NULL;
-	static char *cache_overrride_filename = NULL;
-	static char *cache_global_filename = NULL;
+	static char* cache_filename = NULL;
+	static char* cache_overrride_filename = NULL;
+	static char* cache_global_filename = NULL;
 	gboolean cache_valid;
 	time_t now;
 
-	switch (mode) {
-	case SET:
-		/* fall through to normal behaviour */
-		filename = mate_util_home_file (rel_file);
-		ret_val = access_config (mode, section_name, key_name, def,
-					 filename, def_used);
-		g_free(filename);
- 		cache_time = 0;  /* Invalidate cache.  */
-		return ret_val;
-	case LOOKUP:
- 		now = time (NULL);
- 		cache_valid = (cache_filename &&
- 			       strcmp (cache_filename, rel_file) == 0 &&
- 			       now - cache_time <= 2);
- 		if (!cache_valid) {
-			g_free (cache_filename);
+	switch (mode)
+	{
+		case SET:
+			/* fall through to normal behaviour */
+			filename = mate_util_home_file(rel_file);
+			ret_val = access_config(mode, section_name, key_name, def, filename, def_used);
+			g_free(filename);
+			cache_time = 0;  /* Invalidate cache.  */
+			return ret_val;
 
- 			cache_filename = g_strdup (rel_file);
- 			cache_time = now;
+		case LOOKUP:
+			now = time (NULL);
+			cache_valid = (cache_filename && strcmp(cache_filename, rel_file) == 0 && now - cache_time <= 2);
 
-			g_free (cache_overrride_filename);
+			if (!cache_valid)
+			{
+				g_free(cache_filename);
 
- 			tmp = config_concat_dir_and_key ("mate/config-override",rel_file);
- 			filename = mate_program_locate_file
-			    (mate_program_get (), MATE_FILE_DOMAIN_CONFIG,
-			     tmp, TRUE, NULL);
- 			g_free (tmp);
- 			cache_overrride_filename = g_strdup (filename);
+				cache_filename = g_strdup(rel_file);
+				cache_time = now;
 
-			g_free (cache_global_filename);
+				g_free(cache_overrride_filename);
 
-			tmp = config_concat_dir_and_key ("mate/config", rel_file);
- 			filename = mate_program_locate_file
-			    (mate_program_get (), MATE_FILE_DOMAIN_CONFIG,
-			     tmp, TRUE, NULL);
- 			g_free (tmp);
-			cache_global_filename = g_strdup (filename);
- 		}
+				tmp = config_concat_dir_and_key("mate/config-override", rel_file);
+				filename = mate_program_locate_file(mate_program_get(), MATE_FILE_DOMAIN_CONFIG, tmp, TRUE, NULL);
+				g_free(tmp);
+				cache_overrride_filename = g_strdup(filename);
 
-		if (cache_overrride_filename) {
-			/* the required config file exists */
-			ret_val = access_config (mode, section_name, key_name,
-						 NULL,
-						 cache_overrride_filename,
-						 &internal_def);
-			if (!internal_def) {
+				g_free(cache_global_filename);
+
+				tmp = config_concat_dir_and_key("mate/config", rel_file);
+
+				filename = mate_program_locate_file(mate_program_get(), MATE_FILE_DOMAIN_CONFIG, tmp, TRUE, NULL);
+				g_free(tmp);
+				cache_global_filename = g_strdup(filename);
+			}
+
+			if (cache_overrride_filename)
+			{
+				/* the required config file exists */
+				ret_val = access_config(mode, section_name, key_name, NULL, cache_overrride_filename, &internal_def);
+
+				if (!internal_def)
+				{
+					if (def_used)
+					{
+						*def_used = FALSE;
+					}
+
+					return ret_val;
+				}
+
+				g_assert(ret_val == NULL);
+			}
+
+			/* fall through to the user config section */
+			filename = mate_util_home_file(rel_file);
+			ret_val = access_config(mode, section_name, key_name, NULL, filename, &internal_def);
+			g_free(filename);
+
+			if (!internal_def)
+			{
 				if (def_used)
+				{
 					*def_used = FALSE;
+				}
+
 				return ret_val;
 			}
+
 			g_assert (ret_val == NULL);
-		}
 
-		/* fall through to the user config section */
-		filename = mate_util_home_file (rel_file);
-		ret_val = access_config (mode, section_name, key_name, NULL,
-					 filename, &internal_def);
-		g_free (filename);
-		if (!internal_def) {
-			if (def_used)
-				*def_used = FALSE;
-			return ret_val;
-		}
-		g_assert (ret_val == NULL);
+			/* fall through to the system wide config default tree */
+			if (cache_global_filename)
+			{
+				/* the file exists */
+				ret_val = access_config(mode, section_name, key_name, def, cache_global_filename, def_used);
 
-		/* fall through to the system wide config default tree */
-		if (cache_global_filename) {
-			/* the file exists */
-			ret_val = access_config (mode, section_name, key_name,
-						 def,
-						 cache_global_filename,
-						 def_used);
-			return ret_val;
-		} else {
-			/* it doesn't -- use the default value */
-			if (def_used)
-				*def_used = TRUE;
-			return def;
-		}
+				return ret_val;
+			}
+			else
+			{
+				/* it doesn't -- use the default value */
+				if (def_used)
+				{
+					*def_used = TRUE;
+				}
+
+				return def;
+			}
 	}
-	g_assert_not_reached ();
+
+	g_assert_not_reached();
 
 	/* keep the compiler happy */
 	if (def_used)
+	{
 		*def_used = TRUE;
+	}
+
 	return def;
 }
 
-static void
-dump_keys (GString *profile, TKeys *p)
+static void dump_keys(GString* profile, TKeys* p)
 {
 	if (!p)
+	{
 		return;
-	dump_keys (profile, p->link);
-	if (*p->key_name) {
-		char *t = escape_string_and_dup (p->value);
-		g_string_append_printf (profile, "%s=%s\n", p->key_name, t);
-		g_free (t);
+	}
+
+	dump_keys(profile, p->link);
+
+	if (*p->key_name)
+	{
+		char* t = escape_string_and_dup(p->value);
+		g_string_append_printf(profile, "%s=%s\n", p->key_name, t);
+		g_free(t);
 	}
 }
 
-static void
-dump_sections (GString *profile, TSecHeader *p)
+static void dump_sections(GString* profile, TSecHeader* p)
 {
 	if (!p)
+	{
 		return;
-	dump_sections (profile, p->link);
-	if (p->section_name && p->section_name [0]){
-		g_string_append_printf (profile, "\n[%s]\n", p->section_name);
-		dump_keys (profile, p->keys);
+	}
+
+	dump_sections(profile, p->link);
+
+	if (p->section_name && p->section_name[0])
+	{
+		g_string_append_printf(profile, "\n[%s]\n", p->section_name);
+		dump_keys(profile, p->keys);
 	}
 }
 
@@ -648,78 +803,103 @@ dump_sections (GString *profile, TSecHeader *p)
   mode newmode, it needs an absolute path name or it will fail, it
   needs to be passed the dir and the filename since it will take the
   filename off*/
-static gint
-check_path(char *path, mode_t newmode)
+static gint check_path(char* path, mode_t newmode)
 {
-	gchar *dir, *root, *p, *cur;
-	GString *newpath = NULL;
+	gchar* dir, *root, *p, *cur;
+	GString* newpath = NULL;
 	struct stat s;
 
-	g_return_val_if_fail (path != NULL, FALSE);
+	g_return_val_if_fail(path != NULL, FALSE);
 
 	/*not absolute, we refuse to work*/
 	if (!g_path_is_absolute(path))
 		return FALSE;
 
-	dir = g_path_get_dirname (path);
+	dir = g_path_get_dirname(path);
 
 	/*special case if directory exists, this is probably gonna happen
 	  a lot so we don't want to go though checking it part by part*/
-	if (g_stat(dir, &s) == 0) {
+	if (g_stat(dir, &s) == 0)
+	{
 		g_free(dir);
 		/*check if a directory*/
 		if (!S_ISDIR(s.st_mode))
+		{
 			return FALSE;
+		}
 		else
+		{
 			return TRUE;
+		}
 	}
 
 
-	p = (gchar *) g_path_skip_root(dir);
+	p = (gchar*) g_path_skip_root(dir);
 	root = g_strndup(dir, p-dir);
 
 	cur = p;
-	while ((p = cur)) {
-	       	cur = strchr (p, G_DIR_SEPARATOR);
-#ifdef G_OS_WIN32
+
+	while ((p = cur))
+	{
+		cur = strchr (p, G_DIR_SEPARATOR);
+
+		#ifdef G_OS_WIN32
 		{
-			gchar *cur2 = strchr (p, '/');
+			gchar* cur2 = strchr(p, '/');
+
 			if (cur == NULL || (cur2 != NULL && cur2 < cur))
+			{
 				cur = cur2;
+			}
 		}
-#endif
-		if (cur) {
+		#endif
+
+		if (cur)
+		{
 			*cur = '\0';
 			cur++;
 		}
 
 		if (newpath == NULL)
+		{
 			newpath = g_string_new(root);
+		}
 		else
+		{
 			newpath = g_string_append_c(newpath, G_DIR_SEPARATOR);
-		newpath = g_string_append(newpath,p);
-		if(g_stat(newpath->str,&s)==0) {
+		}
+
+		newpath = g_string_append(newpath, p);
+
+		if (g_stat(newpath->str, &s) == 0)
+		{
 			/*check if a directory*/
-			if(!S_ISDIR(s.st_mode)) {
-				g_string_free(newpath,TRUE);
-				g_free(root);
-				g_free(dir);
-				return FALSE;
-			}
-		} else {
-			/*we couldn't stat it .. let's try making the
-			  directory*/
-			if(g_mkdir(newpath->str,newmode)!=0) {
-				/*error, return false*/
-				g_string_free(newpath,TRUE);
+			if(!S_ISDIR(s.st_mode))
+			{
+				g_string_free(newpath, TRUE);
 				g_free(root);
 				g_free(dir);
 				return FALSE;
 			}
 		}
+		else
+		{
+			/* we couldn't stat it .. let's try making the
+			 * directory
+			 */
+			if (g_mkdir(newpath->str,newmode) != 0)
+			{
+				/*error, return false*/
+				g_string_free(newpath, TRUE);
+				g_free(root);
+				g_free(dir);
+
+				return FALSE;
+			}
+		}
 	}
 
-	g_string_free(newpath,TRUE);
+	g_string_free(newpath, TRUE);
 	g_free(root);
 	g_free(dir);
 
@@ -727,21 +907,21 @@ check_path(char *path, mode_t newmode)
 }
 
 
-static gboolean
-dump_sections_to_file (TProfile *p)
+static gboolean dump_sections_to_file(TProfile* p)
 {
-	GError *err = NULL;
-	GString *profile = g_string_new("");
+	GError* err = NULL;
+	GString* profile = g_string_new("");
 
-	dump_sections (profile, p->section);
+	dump_sections(profile, p->section);
 
 	g_file_set_contents(p->filename, profile->str, profile->len, &err);
 
-	g_string_free(profile,TRUE);
+	g_string_free(profile, TRUE);
 
-	if (err != NULL) {
+	if (err != NULL)
+	{
 		/* TODO Maybe the error should be displayed */
-		g_error_free (err);
+		g_error_free(err);
 		return FALSE;
 	}
 
@@ -749,16 +929,21 @@ dump_sections_to_file (TProfile *p)
 }
 
 
-static gboolean
-dump_profile (TProfile *p, gboolean one_only)
+static gboolean dump_profile(TProfile* p, gboolean one_only)
 {
 	gboolean ret = TRUE;
 
 	if (!p)
+	{
 		return ret;
-	if(!one_only) {
-		if(!dump_profile (p->link, FALSE))
+	}
+
+	if (!one_only)
+	{
+		if (!dump_profile(p->link, FALSE))
+		{
 			ret = FALSE;
+		}
 	}
 
 	/*
@@ -766,18 +951,24 @@ dump_profile (TProfile *p, gboolean one_only)
 	 * it to disk
 	 */
 	if (!p->to_be_deleted && !p->written_to)
+	{
 		return ret;
+	}
 
 	/* .ado: p->filename can be empty, it's better to jump over */
-	if (p->filename[0] != '\0') {
-
+	if (p->filename[0] != '\0')
+	{
 		/*
 		 * this file was added to after it was cleaned so it doesn't
 		 * want to be deleted
 		 */
-		if(p->to_be_deleted && p->section)
+		if (p->to_be_deleted && p->section)
+		{
 			p->to_be_deleted = FALSE;
-		if(p->to_be_deleted) {
+		}
+
+		if (p->to_be_deleted)
+		{
 			/*remove the file and remove all it's ramaints
 			  from memory*/
 			g_unlink(p->filename);
@@ -786,12 +977,18 @@ dump_profile (TProfile *p, gboolean one_only)
 			p->filename [0] = '\0';
 			p->written_to = TRUE;
 			p->to_be_deleted = FALSE;
-			if(p==Current)
+
+			if (p == Current)
+			{
 				Current = NULL;
-		} else if (check_path(p->filename,0755) &&
-			dump_sections_to_file(p)){
+			}
+		}
+		else if (check_path(p->filename, 0755) && dump_sections_to_file(p))
+		{
 			/* File written correctly */
-		} else {
+		}
+		else
+		{
 			/* we failed at actually writing to the file */
 			ret = FALSE;
 		}
@@ -815,12 +1012,13 @@ dump_profile (TProfile *p, gboolean one_only)
  * Returns: %TRUE if everything went well. %FALSE if any file
  * could not be written to disk.
  */
-gboolean
-mate_config_sync (void)
+gboolean mate_config_sync(void)
 {
 	gboolean ret;
-	ret = dump_profile (Base, FALSE);
+
+	ret = dump_profile(Base, FALSE);
 	mate_config_drop_all();
+
 	return ret;
 }
 
@@ -854,32 +1052,38 @@ mate_config_sync (void)
  * could not be written to for some reason.  %FALSE is only returned
  * when a write was actually attempted and failed.
  */
-gboolean
-mate_config_sync_file_ (char *path, gboolean priv)
+gboolean mate_config_sync_file_(char *path, gboolean priv)
 {
 	gboolean ret = TRUE;
-	TProfile *p;
-	ParsedPath *pp;
-	char *fake_path;
+	TProfile* p;
+	ParsedPath* pp;
+	char* fake_path;
 
 	if (!path)
+	{
 		return ret;
+	}
 
 	fake_path = config_concat_dir_and_key (path, "section/key");
 	pp = parse_path (fake_path, priv);
 	g_free (fake_path);
 
-	for (p = Base; p; p = p->link){
-		if (strcmp (pp->file, p->filename) != 0)
+	for (p = Base; p; p = p->link)
+	{
+		if (strcmp(pp->file, p->filename) != 0)
 			continue;
-		if(!p->written_to)
+
+		if (!p->written_to)
 			break;
-		if(!dump_profile (p, TRUE))
+
+		if (!dump_profile(p, TRUE))
 			ret = FALSE;
+
 		mate_config_drop_file(path);
 		break;
 	}
-	release_path (pp);
+
+	release_path(pp);
 
 	return ret;
 }
@@ -902,34 +1106,40 @@ mate_config_sync_file_ (char *path, gboolean priv)
  *
  * Changes will take place after mate_config_sync() has been invoked.
  */
-void
-mate_config_clean_file_ (const char *path, gboolean priv)
+void mate_config_clean_file_(const char* path, gboolean priv)
 {
-	TProfile *p;
-	ParsedPath *pp;
-	char *fake_path;
+	TProfile* p;
+	ParsedPath* pp;
+	char* fake_path;
 
 	if (!path)
+	{
 		return;
+	}
 
-	fake_path = config_concat_dir_and_key (path, "section/key");
-	pp = parse_path (fake_path, priv);
-	g_free (fake_path);
+	fake_path = config_concat_dir_and_key(path, "section/key");
+	pp = parse_path(fake_path, priv);
+	g_free(fake_path);
 
 	Current = NULL;
 
-	for (p = Base; p; p = p->link){
-		if (strcmp (pp->file, p->filename) != 0)
+	for (p = Base; p; p = p->link)
+	{
+		if (strcmp(pp->file, p->filename) != 0)
+		{
 			continue;
+		}
 
-		free_sections (p->section);
+		free_sections(p->section);
 		p->section = NULL;
 		p->written_to = TRUE;
 		p->to_be_deleted = TRUE;
-		release_path (pp);
+		release_path(pp);
+
 		return;
 	}
-	release_path (pp);
+
+	release_path(pp);
 }
 
 /**
@@ -947,39 +1157,46 @@ mate_config_clean_file_ (const char *path, gboolean priv)
  * Releases any memory resources that were allocated from accessing the
  * private configuration file in @path.
  */
-void
-mate_config_drop_file_ (const char *path, gboolean priv)
+void mate_config_drop_file_(const char* path, gboolean priv)
 {
-	TProfile *p;
-	TProfile *last;
-	ParsedPath *pp;
-	char *fake_path;
+	TProfile* p;
+	TProfile* last;
+	ParsedPath* pp;
+	char* fake_path;
 
 	if (!path)
+	{
 		return;
+	}
 
-	fake_path = config_concat_dir_and_key (path, "section/key");
-	pp = parse_path (fake_path, priv);
-	g_free (fake_path);
+	fake_path = config_concat_dir_and_key(path, "section/key");
+	pp = parse_path(fake_path, priv);
+	g_free(fake_path);
 
 	Current = NULL;
 
-	for (last = NULL,p = Base; p; last = p, p = p->link){
-		if (strcmp (pp->file, p->filename) != 0)
+	for (last = NULL, p = Base; p; last = p, p = p->link)
+	{
+		if (strcmp(pp->file, p->filename) != 0)
 			continue;
 
-		if(last)
+		if (last)
+		{
 			last->link = p->link;
+		}
 		else
+		{
 			Base = p->link;
+		}
 
-		free_sections (p->section);
+		free_sections(p->section);
 		g_free(p->filename);
 		g_free(p);
-		release_path (pp);
+		release_path(pp);
 		return;
 	}
-	release_path (pp);
+
+	release_path(pp);
 }
 
 /**
@@ -1004,49 +1221,55 @@ mate_config_drop_file_ (const char *path, gboolean priv)
  *
  * Returns: The iterator handle.
  */
-void *
-mate_config_init_iterator_ (const char *path, gboolean priv)
+void* mate_config_init_iterator_(const char *path, gboolean priv)
 {
-	TProfile   *New;
-	TSecHeader *section;
-	ParsedPath *pp;
-	char *fake_path;
-	iterator_type *iter;
+	TProfile* New;
+	TSecHeader* section;
+	ParsedPath* pp;
+	char* fake_path;
+	iterator_type* iter;
 
 
 	fake_path = config_concat_dir_and_key (path, "key");
-	pp = parse_path (fake_path, priv);
-	g_free (fake_path);
+	pp = parse_path(fake_path, priv);
+	g_free(fake_path);
 
-	if (!is_loaded (pp->file, &section)){
+	if (!is_loaded(pp->file, &section))
+	{
 		struct stat st;
-		
-		if (g_stat (pp->file, &st) == -1){
+
+		if (g_stat(pp->file, &st) == -1)
+		{
 			st.st_mtime = 0;
 		}
 
-		New = (TProfile *) g_malloc (sizeof (TProfile));
+		New = (TProfile*) g_malloc(sizeof(TProfile));
 		New->link = Base;
-		New->filename = g_strdup (pp->file);
-		New->section = load (pp->file);
+		New->filename = g_strdup(pp->file);
+		New->section = load(pp->file);
 		New->mtime = st.st_mtime;
-		New->last_checked = time (NULL);
+		New->last_checked = time(NULL);
 		New->written_to = FALSE;
 		New->to_be_deleted = FALSE;
 		Base = New;
 		section = New->section;
 		Current = New;
 	}
-	for (; section; section = section->link){
-		if (strcasecmp (section->section_name, pp->section))
+
+	for (; section; section = section->link)
+	{
+		if (strcasecmp(section->section_name, pp->section))
 			continue;
-		iter = g_new (iterator_type, 1);
+
+		iter = g_new(iterator_type, 1);
 		iter->type = 0;
 		iter->value = section->keys;
-		release_path (pp);
+		release_path(pp);
+
 		return iter;
 	}
-	release_path (pp);
+
+	release_path(pp);
 	return NULL;
 }
 
@@ -1073,42 +1296,46 @@ mate_config_init_iterator_ (const char *path, gboolean priv)
  *
  * Returns: The iterator handle.
  */
-void *
-mate_config_init_iterator_sections_ (const char *path, gboolean priv)
+void* mate_config_init_iterator_sections_(const char* path, gboolean priv)
 {
-	TProfile   *New;
-	TSecHeader *section;
-	ParsedPath *pp;
-	char *fake_path;
-	iterator_type *iter;
+	TProfile* New;
+	TSecHeader* section;
+	ParsedPath* pp;
+	char* fake_path;
+	iterator_type* iter;
 
 
-	fake_path = config_concat_dir_and_key (path, "section/key");
-	pp = parse_path (fake_path, priv);
-	g_free (fake_path);
+	fake_path = config_concat_dir_and_key(path, "section/key");
+	pp = parse_path(fake_path, priv);
+	g_free(fake_path);
 
-	if (!is_loaded (pp->file, &section)){
+	if (!is_loaded (pp->file, &section))
+	{
 		struct stat st;
-		
-		if (g_stat (pp->file, &st) == -1)
-			st.st_mtime = 0;
 
-		New = (TProfile *) g_malloc (sizeof (TProfile));
+		if (g_stat(pp->file, &st) == -1)
+		{
+			st.st_mtime = 0;
+		}
+
+		New = (TProfile*) g_malloc(sizeof(TProfile));
 		New->link = Base;
-		New->filename = g_strdup (pp->file);
-		New->section = load (pp->file);
+		New->filename = g_strdup(pp->file);
+		New->section = load(pp->file);
 		New->mtime = st.st_mtime;
-		New->last_checked = time (NULL);
+		New->last_checked = time(NULL);
 		New->written_to = FALSE;
 		New->to_be_deleted = FALSE;
 		Base = New;
 		section = New->section;
 		Current = New;
 	}
-	iter = g_new (iterator_type, 1);
+
+	iter = g_new(iterator_type, 1);
 	iter->type = 1;
 	iter->value = section;
-	release_path (pp);
+	release_path(pp);
+
 	return iter;
 }
 
@@ -1125,17 +1352,16 @@ mate_config_init_iterator_sections_ (const char *path, gboolean priv)
  * If @value is non-NULL, then @value will point to a g_malloc()ed region that
  * holds the key.
  */
-void *
-mate_config_iterator_next (void *iterator_handle, char **key, char **value)
+void* mate_config_iterator_next(void* iterator_handle, char** key, char** value)
 {
-	iterator_type *iter = iterator_handle;
+	iterator_type* iter = iterator_handle;
 
-        /*
+	/*
 	 * g_return_if_fail is not appropriate since this is not
 	 * really a failure, but passing in an "empty" iterator (we
 	 * return NULL at times)
 	 */
-	if(!iterator_handle)
+	if (!iterator_handle)
 		return NULL;
 
 	if (key)
@@ -1143,22 +1369,32 @@ mate_config_iterator_next (void *iterator_handle, char **key, char **value)
 	if (value)
 		*value = NULL;
 
-	if (iter->type == 0){
-		TKeys *keys;
+	if (iter->type == 0)
+	{
+		TKeys* keys;
 		keys = iter->value;
-		if (keys){
+
+		if (keys)
+		{
 			if (key)
-				*key   = g_strdup (keys->key_name);
+				*key = g_strdup (keys->key_name);
+
 			if (value)
 				*value = g_strdup (keys->value);
-			keys   = keys->link;
+
+			keys = keys->link;
 			iter->value = keys;
+
 			return iter;
-		} else {
+		}
+		else
+		{
 			g_free (iter);
 			return NULL;
 		}
-	} else {
+	}
+	else
+	{
 		TSecHeader *section;
 		section = iter->value;
 
@@ -1191,30 +1427,31 @@ mate_config_iterator_next (void *iterator_handle, char **key, char **value)
  * configuration information.  Changes will only take place after
  * mate_config_sync() has been invoked.
  */
-void
-mate_config_clean_section_ (const char *path, gboolean priv)
+void mate_config_clean_section_(const char* path, gboolean priv)
 {
-	TProfile   *New;
-	TSecHeader *section;
-	ParsedPath *pp;
-	char *fake_path;
+	TProfile* New;
+	TSecHeader* section;
+	ParsedPath* pp;
+	char* fake_path;
 
-	fake_path = config_concat_dir_and_key (path, "key");
-	pp = parse_path (fake_path, priv);
-	g_free (fake_path);
+	fake_path = config_concat_dir_and_key(path, "key");
+	pp = parse_path(fake_path, priv);
+	g_free(fake_path);
 
-	if (!is_loaded (pp->file, &section)){
+	if (!is_loaded(pp->file, &section))
+	{
 		struct stat st;
 
-		if (g_stat (pp->file, &st) == -1)
+		if (g_stat(pp->file, &st) == -1)
 			st.st_mtime = 0;
 
-		New = (TProfile *) g_malloc (sizeof (TProfile));
+		New = (TProfile*) g_malloc(sizeof(TProfile));
+
 		New->link = Base;
-		New->filename = g_strdup (pp->file);
+		New->filename = g_strdup(pp->file);
 		New->section = load (pp->file);
 		New->mtime = st.st_mtime;
-		New->last_checked = time (NULL);
+		New->last_checked = time(NULL);
 		New->written_to = FALSE;
 		New->to_be_deleted = FALSE;
 		Base = New;
@@ -1224,12 +1461,15 @@ mate_config_clean_section_ (const char *path, gboolean priv)
 	/* We only disable the section, so it will still be g_freed, but it */
 	/* won't be found by further walks of the structure */
 
-	for (; section; section = section->link){
-		if (strcasecmp (section->section_name, pp->section))
+	for (; section; section = section->link)
+	{
+		if (strcasecmp(section->section_name, pp->section))
 			continue;
+
 		section->section_name [0] = '\0';
 		Current->written_to = TRUE;
 	}
+
 	release_path (pp);
 }
 
@@ -1250,46 +1490,50 @@ mate_config_clean_section_ (const char *path, gboolean priv)
  *
  * Changes will take place after mate_config_sync() has been invoked.
  */
-void
-mate_config_clean_key_ (const char *path, gboolean priv)
-	/* *section_name, char *file */
+void mate_config_clean_key_(const char* path, gboolean priv) /* *section_name, char *file */
 {
-	TProfile   *New;
-	TSecHeader *section;
-	TKeys *key;
-	ParsedPath *pp;
+	TProfile* New;
+	TSecHeader* section;
+	TKeys* key;
+	ParsedPath* pp;
 
-	pp = parse_path (path, priv);
+	pp = parse_path(path, priv);
 
-	if (!is_loaded (pp->file, &section)){
+	if (!is_loaded(pp->file, &section))
+	{
 		struct stat st;
-		
-		if (g_stat (pp->file, &st) == -1)
+
+		if (g_stat(pp->file, &st) == -1)
 			st.st_mtime = 0;
 
-		New = (TProfile *) g_malloc (sizeof (TProfile));
+		New = (TProfile *) g_malloc(sizeof(TProfile));
 		New->link = Base;
-		New->filename = g_strdup (pp->file);
-		New->section = load (pp->file);
+		New->filename = g_strdup(pp->file);
+		New->section = load(pp->file);
 		New->mtime = st.st_mtime;
 		New->written_to = FALSE;
-		New->last_checked = time (NULL);
+		New->last_checked = time(NULL);
 		New->to_be_deleted = FALSE;
 		Base = New;
 		section = New->section;
 		Current = New;
 	}
-	for (; section; section = section->link){
-	        if (strcasecmp (section->section_name, pp->section))
-		        continue;
-		for (key = section->keys; key; key = key->link){
-			if (strcasecmp (key->key_name, pp->key))
+
+	for (; section; section = section->link)
+	{
+			if (strcasecmp(section->section_name, pp->section))
 				continue;
+		for (key = section->keys; key; key = key->link)
+		{
+			if (strcasecmp(key->key_name, pp->key))
+				continue;
+
 			key->key_name [0] = 0;
 			Current->written_to = TRUE;
 		}
 	}
-	release_path (pp);
+
+	release_path(pp);
 }
 
 /**
@@ -1310,29 +1554,28 @@ mate_config_clean_key_ (const char *path, gboolean priv)
  *
  * Returns: %TRUE if the section exists, %FALSE otherwise.
  */
-gboolean
-mate_config_has_section_ (const char *path, gboolean priv)
-	/* char *section_name, char *profile */
+gboolean mate_config_has_section_(const char* path, gboolean priv) /* char *section_name, char *profile */
 {
-	TProfile   *New;
-	TSecHeader *section;
-	ParsedPath *pp;
-	char *fake_path;
+	TProfile* New;
+	TSecHeader* section;
+	ParsedPath* pp;
+	char* fake_path;
 
-	fake_path = config_concat_dir_and_key (path, "key");
-	pp = parse_path (fake_path,priv);
-	g_free (fake_path);
+	fake_path = config_concat_dir_and_key(path, "key");
+	pp = parse_path(fake_path,priv);
+	g_free(fake_path);
 
-	if (!is_loaded (pp->file, &section)){
+	if (!is_loaded(pp->file, &section))
+	{
 		struct stat st;
-		
-		if (g_stat (pp->file, &st) == -1)
+
+		if (g_stat(pp->file, &st) == -1)
 			st.st_mtime = 0;
 
-		New = (TProfile *) g_malloc (sizeof (TProfile));
+		New = (TProfile*) g_malloc(sizeof(TProfile));
 		New->link = Base;
-		New->filename = g_strdup (pp->file);
-		New->section = load (pp->file);
+		New->filename = g_strdup(pp->file);
+		New->section = load(pp->file);
 		New->mtime = st.st_mtime;
 		New->written_to = FALSE;
 		New->last_checked = time (NULL);
@@ -1341,13 +1584,16 @@ mate_config_has_section_ (const char *path, gboolean priv)
 		section = New->section;
 		Current = New;
 	}
-	for (; section; section = section->link){
-		if (strcasecmp (section->section_name, pp->section))
+
+	for (; section; section = section->link)
+	{
+		if (strcasecmp(section->section_name, pp->section))
 			continue;
-		release_path (pp);
+		release_path(pp);
 		return 1;
 	}
-	release_path (pp);
+
+	release_path(pp);
 	return 0;
 }
 
@@ -1358,10 +1604,10 @@ mate_config_has_section_ (const char *path, gboolean priv)
  * mate config. Any pending information that has not been
  * written to disk is discarded.
  */
-void
-mate_config_drop_all (void)
+void mate_config_drop_all(void)
 {
-	free_profile (Base);
+	free_profile(Base);
+
 	Base = NULL;
 	Current = NULL;
 }
@@ -1406,30 +1652,32 @@ mate_config_drop_all (void)
  * Returns: The value of a configuration item as an integer or @def if the
  * configuration item does not exist.
  */
-gint
-mate_config_get_int_with_default_ (const char *path, gboolean *def, gboolean priv)
+gint mate_config_get_int_with_default_(const char* path, gboolean* def, gboolean priv)
 {
-	ParsedPath *pp;
-	const char *r;
+	ParsedPath* pp;
+	const char* r;
 	int  v;
 
-	pp = parse_path (path, priv);
+	pp = parse_path(path, priv);
 	/*is there a better way to check if an absolute path has been given?*/
 	if (!priv && pp->opath[0] != '=')
-		r = access_config_extended (LOOKUP, pp->section, pp->key,
-					    pp->def, pp->path, def);
+	{
+		r = access_config_extended(LOOKUP, pp->section, pp->key, pp->def, pp->path, def);
+	}
 	else
-		r = access_config (LOOKUP, pp->section, pp->key, pp->def,
-				   pp->file, def);
+	{
+		r = access_config(LOOKUP, pp->section, pp->key, pp->def, pp->file, def);
+	}
 
 	/* It isn't an error if the key is not found.  */
-	if (r == NULL) {
-		release_path (pp);
+	if (r == NULL)
+	{
+		release_path(pp);
 		return 0;
 	}
 
-	v = atoi (r);
-	release_path (pp);
+	v = atoi(r);
+	release_path(pp);
 	return v;
 }
 
@@ -1474,53 +1722,61 @@ mate_config_get_int_with_default_ (const char *path, gboolean *def, gboolean pri
  * Returns: The value of a configuration item as a floating-point
  * number or @def if the configuration item does not exist.
  */
-gdouble
-mate_config_get_float_with_default_ (const char *path, gboolean *def, gboolean priv)
+gdouble mate_config_get_float_with_default_(const char* path, gboolean* def, gboolean priv)
 {
-	ParsedPath *pp;
-	const char *r;
+	ParsedPath* pp;
+	const char* r;
 	gdouble v;
 
-	pp = parse_path (path, priv);
+	pp = parse_path(path, priv);
+
 	if (!priv && pp->opath[0] != '=')
-		r = access_config_extended (LOOKUP, pp->section, pp->key,
-					    pp->def, pp->path, def);
+	{
+		r = access_config_extended (LOOKUP, pp->section, pp->key, pp->def, pp->path, def);
+	}
 	else
-		r = access_config (LOOKUP, pp->section, pp->key, pp->def,
-				   pp->file, def);
+	{
+		r = access_config (LOOKUP, pp->section, pp->key, pp->def, pp->file, def);
+	}
 
 	/* It isn't an error if the key is not found.  */
-	if (r == NULL) {
-		release_path (pp);
+	if (r == NULL)
+	{
+		release_path(pp);
 		return 0;
 	}
 
-        /* make sure we read values in a consistent manner */
-	mate_i18n_push_c_numeric_locale ();
+		/* make sure we read values in a consistent manner */
+	mate_i18n_push_c_numeric_locale();
 	v = strtod(r, NULL);
-	mate_i18n_pop_c_numeric_locale ();
+	mate_i18n_pop_c_numeric_locale();
 
-	release_path (pp);
+	release_path(pp);
 	return v;
 }
 
 /*
  * same as mate_config_get_string_with_default_, but using (ParsedPath *)
  */
-static char *
-get_string_with_default_from_pp (ParsedPath *pp, gboolean *def, gboolean priv)
+static char* get_string_with_default_from_pp(ParsedPath* pp, gboolean* def, gboolean priv)
 {
-	const char *r;
-	char *ret = NULL;
+	const char* r;
+	char* ret = NULL;
 
 	if (!priv && pp->opath[0] != '=')
-		r = access_config_extended (LOOKUP, pp->section, pp->key,
-					    pp->def, pp->path, def);
+	{
+		r = access_config_extended(LOOKUP, pp->section, pp->key, pp->def, pp->path, def);
+	}
 	else
-		r = access_config (LOOKUP, pp->section, pp->key, pp->def,
-				   pp->file, def);
+	{
+		r = access_config(LOOKUP, pp->section, pp->key, pp->def, pp->file, def);
+	}
+
 	if (r)
-		ret = g_strdup (r);
+	{
+		ret = g_strdup(r);
+	}
+
 	return ret;
 }
 
@@ -1529,21 +1785,17 @@ get_string_with_default_from_pp (ParsedPath *pp, gboolean *def, gboolean priv)
  * This is because we must work on the parsed path to add the language
  * thingie.
  */
-static char *
-get_string_with_default_from_pp_with_lang (ParsedPath *pp,
-					   const char *lang,
-					   gboolean *def,
-					   gboolean priv)
+static char* get_string_with_default_from_pp_with_lang (ParsedPath* pp, const char* lang, gboolean* def, gboolean priv)
 {
-	char *value;
-	char *oldkey;
+	char* value;
+	char* oldkey;
 
 	/* switch the key in the key from underneath it, then
 	 * return it back */
 	oldkey = pp->key;
-	pp->key = g_strconcat (oldkey, "[", lang, "]", NULL);
-	value = get_string_with_default_from_pp (pp, def, priv);
-	g_free (pp->key);
+	pp->key = g_strconcat(oldkey, "[", lang, "]", NULL);
+	value = get_string_with_default_from_pp(pp, def, priv);
+	g_free(pp->key);
 	pp->key = oldkey;
 
 	return value;
@@ -1597,30 +1849,29 @@ get_string_with_default_from_pp_with_lang (ParsedPath *pp,
  * Returns: The value of the configuration item or @def if the configuration
  * item does not exist.
  */
-char *
-mate_config_get_translated_string_with_default_ (const char *path,
-						  gboolean *def,
-						  gboolean priv)
+char* mate_config_get_translated_string_with_default_(const char* path, gboolean* def, gboolean priv)
 {
-	ParsedPath *pp;
-	const char * const *language_list;
+	ParsedPath* pp;
+	const char* const* language_list;
 	gboolean local_def = FALSE;
 	int i;
 
-	char *value= NULL;
+	char* value= NULL;
 
-	language_list = g_get_language_names ();
+	language_list = g_get_language_names();
 
-	pp = parse_path (path, priv);
+	pp = parse_path(path, priv);
 
 	i = 0;
-	while (!value && language_list[i] != NULL) {
-		const char *lang = language_list[i];
 
-		value = get_string_with_default_from_pp_with_lang
-			(pp, lang, &local_def, priv);
+	while (!value && language_list[i] != NULL)
+	{
+		const char* lang = language_list[i];
 
-		if (local_def || !value || *value == '\0') {
+		value = get_string_with_default_from_pp_with_lang(pp, lang, &local_def, priv);
+
+		if (local_def || !value || *value == '\0')
+		{
 			size_t n;
 
 			g_free (value);
@@ -1629,30 +1880,38 @@ mate_config_get_translated_string_with_default_ (const char *path,
 			/* Sometimes the locale info looks
 			   like `pt_PT@verbose'.  In this case
 			   we want to try `pt' as a backup.  */
-			n = strcspn (lang, "@_");
-			if (lang[n]) {
-				char *copy = g_strndup (lang, n);
+			n = strcspn(lang, "@_");
 
-				value = get_string_with_default_from_pp_with_lang (pp, copy, &local_def, priv);
-				g_free (copy);
-				if (local_def || ! value || *value == '\0') {
-					g_free (value);
+			if (lang[n])
+			{
+				char* copy = g_strndup(lang, n);
+
+				value = get_string_with_default_from_pp_with_lang(pp, copy, &local_def, priv);
+				g_free(copy);
+
+				if (local_def || ! value || *value == '\0')
+				{
+					g_free(value);
 					value = NULL;
 				}
 			}
 		}
+
 		i++;
 	}
 
-	if (def != NULL) {
+	if (def != NULL)
+	{
 		*def = local_def;
 	}
 
-	if (!value){
-		value = get_string_with_default_from_pp (pp, def, priv);
+	if (!value)
+	{
+		value = get_string_with_default_from_pp(pp, def, priv);
 
-		if (!value || *value == '\0'){
-			g_free (value);
+		if (!value || *value == '\0')
+		{
+			g_free(value);
 			value = NULL;
 		}
 	}
@@ -1706,16 +1965,14 @@ mate_config_get_translated_string_with_default_ (const char *path,
  * Returns: The value of the configuration item as a string, or @def if the
  * configuration key does not exist.
  */
-char *
-mate_config_get_string_with_default_ (const char *path, gboolean *def,
-				       gboolean priv)
+char* mate_config_get_string_with_default_ (const char* path, gboolean* def, gboolean priv)
 {
-	ParsedPath *pp;
-	char *ret;
+	ParsedPath* pp;
+	char* ret;
 
-	pp = parse_path (path, priv);
-	ret = get_string_with_default_from_pp (pp, def, priv);
-	release_path (pp);
+	pp = parse_path(path, priv);
+	ret = get_string_with_default_from_pp(pp, def, priv);
+	release_path(pp);
 
 	return ret;
 }
@@ -1758,35 +2015,38 @@ mate_config_get_string_with_default_ (const char *path, gboolean *def,
  * Returns: The value of a configuration item as a boolean, or @def if the
  * configuration item does not exist.
  */
-gboolean
-mate_config_get_bool_with_default_ (const char *path, gboolean *def,
-				     gboolean priv)
+gboolean mate_config_get_bool_with_default_(const char* path, gboolean* def, gboolean priv)
 {
-	ParsedPath *pp;
-	const char *r;
+	ParsedPath* pp;
+	const char* r;
 	int  v;
 
 	pp = parse_path (path, priv);
+
 	if (!priv && pp->opath[0] != '=')
-		r = access_config_extended (LOOKUP, pp->section, pp->key,
-					    pp->def, pp->path, def);
+		r = access_config_extended(LOOKUP, pp->section, pp->key, pp->def, pp->path, def);
 	else
-		r = access_config (LOOKUP, pp->section, pp->key, pp->def,
-				   pp->file, def);
+		r = access_config(LOOKUP, pp->section, pp->key, pp->def, pp->file, def);
 
 	/* It isn't an error if the key is not found.  */
-	if (r == NULL) {
-		release_path (pp);
+	if (r == NULL)
+	{
+		release_path(pp);
 		return 0;
 	}
 
-	if (g_ascii_tolower(*r) == 't' || g_ascii_tolower(*r) == 'y' || atoi(r)) {
+	if (g_ascii_tolower(*r) == 't' || g_ascii_tolower(*r) == 'y' || atoi(r))
+	{
 	  v = 1;
-	} else {
+	}
+	else
+	{
 	  /* If it's not true it has to be false :) */
 	  v = 0;
 	}
-	release_path (pp);
+
+	release_path(pp);
+
 	return v;
 }
 
@@ -1801,10 +2061,9 @@ mate_config_get_bool_with_default_ (const char *path, gboolean *def,
  * backslash.
  *
  */
-void
-mate_config_make_vector (const char *string, int *argcp, char ***argvp)
+void mate_config_make_vector(const char* string, int* argcp, char*** argvp)
 {
-	char *p;
+	char* p;
 	int count, esc_spcs;
 	int space_seen;
 
@@ -1814,52 +2073,74 @@ mate_config_make_vector (const char *string, int *argcp, char ***argvp)
 	 */
 	count = 2;
 	space_seen = 0;
-	for (p = (char *) string; *p; ++p) {
-	        if (*p == '\\' && *(p+1)) {
+
+	for (p = (char*) string; *p; ++p)
+	{
+		if (*p == '\\' && *(p+1))
+		{
 			++p;
-			if (space_seen){
+
+			if (space_seen)
+			{
 				count++;
 				space_seen = 0;
 			}
-		} else if (*p == ' ') {
+		}
+		else if (*p == ' ')
+		{
 			space_seen = 1;
-		} else if (space_seen){
+		}
+		else if (space_seen)
+		{
 			count++;
 			space_seen = 0;
 		}
 	}
 
 	*argcp = count - 1;
-	*argvp = (char **) g_malloc0 (count * sizeof (char *));
+	*argvp = (char**) g_malloc0(count * sizeof(char*));
 
-	p = (char *) string;
+	p = (char*) string;
 	count = 0;
-	do {
-		char *s, *tmp = p;
+
+	do
+	{
+		char* s, *tmp = p;
 
 		esc_spcs = 0;
-		while (*p && (esc_spcs ? 1 : (*p != ' '))){
+
+		while (*p && (esc_spcs ? 1 : (*p != ' ')))
+		{
 			esc_spcs = 0;
+
 			if (*p == '\\')
 				esc_spcs = 1;
+
 			p++;
 		}
 
- 		s = (char *) g_strndup (tmp, p - tmp);
+		s = (char*) g_strndup(tmp, p - tmp);
 
 		(*argvp)[count++] = tmp = s;
 
-		while (*s) {
+		while (*s)
+		{
 			if (*s == '\\')
 				s++;
-			if (!*s) break;
+			if (!*s)
+				break;
+
 			*tmp++ = *s++;
 		}
+
 		*tmp = '\0';
 
 		while (*p && *p == ' ')
+		{
 			p++;
-	} while (*p);
+		}
+	}
+	while (*p);
 }
 
 /**
@@ -1907,26 +2188,32 @@ mate_config_make_vector (const char *string, int *argcp, char ***argvp)
  * configuration value is retrieved from the user's private configuration
  * storage area.
  */
-void
-mate_config_get_vector_with_default_ (const char *path, int *argcp,
-				       char ***argvp, gboolean *def, gboolean priv)
+void mate_config_get_vector_with_default_(const char* path, int* argcp, char*** argvp, gboolean* def, gboolean priv)
 {
-	ParsedPath *pp;
-	const char *rr;
+	ParsedPath* pp;
+	const char* rr;
 
-	pp = parse_path (path, priv);
+	pp = parse_path(path, priv);
+
 	if (!priv && pp->opath[0] != '=')
-		rr = access_config_extended (LOOKUP, pp->section, pp->key,
-					     pp->def, pp->path, def);
+	{
+		rr = access_config_extended (LOOKUP, pp->section, pp->key, pp->def, pp->path, def);
+	}
 	else
-		rr = access_config (LOOKUP, pp->section, pp->key, pp->def,
-				    pp->file, def);
+	{
+		rr = access_config (LOOKUP, pp->section, pp->key, pp->def, pp->file, def);
+	}
 
-	if (rr == NULL) {
+	if (rr == NULL)
+	{
 		*argvp = NULL;
 		*argcp = 0;
-	} else
+	}
+	else
+	{
 		mate_config_make_vector (rr, argcp, argvp);
+	}
+
 	release_path (pp);
 }
 
@@ -1948,23 +2235,25 @@ mate_config_get_vector_with_default_ (const char *path, int *argcp,
  * @path on the proper section for the current language set by by the user.
  * The configuration value is stored in the user's private storage area.
  */
-void
-mate_config_set_translated_string_ (const char *path, const char *value,
-				     gboolean priv)
+void mate_config_set_translated_string_(const char* path, const char* value, gboolean priv)
 {
-	const char * const *language_list;
-	const char *lang;
-	char *tkey;
+	const char* const* language_list;
+	const char* lang;
+	char* tkey;
 
-	language_list = g_get_language_names ();
+	language_list = g_get_language_names();
 	lang = language_list[0];
 
-	if (lang && (strcmp (lang, "C") != 0)) {
-		tkey = g_strconcat (path, "[", lang, "]", NULL);
+	if (lang && (strcmp(lang, "C") != 0))
+	{
+		tkey = g_strconcat(path, "[", lang, "]", NULL);
 		mate_config_set_string_(tkey, value, priv);
-		g_free (tkey);
-	} else
-		mate_config_set_string_ (path, value, priv);
+		g_free(tkey);
+	}
+	else
+	{
+		mate_config_set_string_(path, value, priv);
+	}
 }
 
 /**
@@ -1984,16 +2273,14 @@ mate_config_set_translated_string_ (const char *path, const char *value,
  * defined by the @path. The configuration value is stored in the user's
  * private storage area.
  */
-void
-mate_config_set_string_ (const char *path, const char *new_value, gboolean priv)
+void mate_config_set_string_(const char* path, const char* new_value, gboolean priv)
 {
-	ParsedPath *pp;
-	const char *r;
+	ParsedPath* pp;
+	const char* r G_GNUC_UNUSED;
 
-	pp = parse_path (path, priv);
-	r = access_config (SET, pp->section, pp->key, new_value, pp->file,
-			   NULL);
-	release_path (pp);
+	pp = parse_path(path, priv);
+	r = access_config(SET, pp->section, pp->key, new_value, pp->file, NULL);
+	release_path(pp);
 }
 
 /**
@@ -2013,18 +2300,16 @@ mate_config_set_string_ (const char *path, const char *new_value, gboolean priv)
  * defined by the @path. The value is stored in the user's private
  * configuration storage area.
  */
-void
-mate_config_set_int_ (const char *path, int new_value, gboolean priv)
+void mate_config_set_int_(const char* path, int new_value, gboolean priv)
 {
-	ParsedPath *pp;
+	ParsedPath* pp;
 	char intbuf [40];
-	const char *r;
+	const char* r G_GNUC_UNUSED;
 
-	pp = parse_path (path, priv);
-	g_snprintf (intbuf, sizeof(intbuf), "%d", new_value);
-	r = access_config (SET, pp->section, pp->key, intbuf, pp->file,
-			   NULL);
-	release_path (pp);
+	pp = parse_path(path, priv);
+	g_snprintf(intbuf, sizeof(intbuf), "%d", new_value);
+	r = access_config(SET, pp->section, pp->key, intbuf, pp->file, NULL);
+	release_path(pp);
 }
 
 /**
@@ -2044,22 +2329,20 @@ mate_config_set_int_ (const char *path, int new_value, gboolean priv)
  * defined by the @path. The value is stored in the user's private
  * configuration storage area.
  */
-void
-mate_config_set_float_ (const char *path, gdouble new_value, gboolean priv)
+void mate_config_set_float_(const char* path, gdouble new_value, gboolean priv)
 {
-	ParsedPath *pp;
+	ParsedPath* pp;
 	char floatbuf [40];
-	const char *r;
+	const char* r G_GNUC_UNUSED;
 
-	pp = parse_path (path, priv);
+	pp = parse_path(path, priv);
 
         /* make sure we write values in a consistent manner */
-	mate_i18n_push_c_numeric_locale ();
-	g_snprintf (floatbuf, sizeof(floatbuf), "%.17g", new_value);
-	mate_i18n_pop_c_numeric_locale ();
+	mate_i18n_push_c_numeric_locale();
+	g_snprintf(floatbuf, sizeof(floatbuf), "%.17g", new_value);
+	mate_i18n_pop_c_numeric_locale();
 
-	r = access_config (SET, pp->section, pp->key, floatbuf, pp->file,
-			   NULL);
+	r = access_config(SET, pp->section, pp->key, floatbuf, pp->file, NULL);
 	release_path (pp);
 }
 
@@ -2079,16 +2362,14 @@ mate_config_set_float_ (const char *path, gdouble new_value, gboolean priv)
  * Stores boolean value @new_value in the file/section/key defined by @path.
  * The value is stored in the user's private configuration storage area.
  */
-void
-mate_config_set_bool_ (const char *path, gboolean new_value, gboolean priv)
+void mate_config_set_bool_(const char*path, gboolean new_value, gboolean priv)
 {
-	ParsedPath *pp;
-	const char *r;
+	ParsedPath* pp;
+	const char* r G_GNUC_UNUSED;
 
-	pp = parse_path (path, priv);
-	r = access_config (SET, pp->section, pp->key,
-			   new_value ? "true" : "false", pp->file, NULL);
-	release_path (pp);
+	pp = parse_path(path, priv);
+	r = access_config(SET, pp->section, pp->key, new_value ? "true" : "false", pp->file, NULL);
+	release_path(pp);
 }
 
 /**
@@ -2102,11 +2383,10 @@ mate_config_set_bool_ (const char *path, gboolean new_value, gboolean priv)
  *
  * Returns: A string with the concatenation results.
  */
-char *
-mate_config_assemble_vector (int argc, const char *const argv [])
+char* mate_config_assemble_vector(int argc, const char* const argv[])
 {
-	char *value, *p;
-	const char *s;
+	char* value, *p;
+	const char* s;
 	int i;
 	size_t len;
 
@@ -2115,18 +2395,24 @@ mate_config_assemble_vector (int argc, const char *const argv [])
 	 * twice the sum of the lengths of all the strings.
 	 */
 	len = 1;
-	for (i = 0; i < argc; ++i)
-		len += 2 * strlen (argv [i]) + 1 + argc;
 
-	p = value = g_malloc (len);
-	for (i = 0; i < argc; ++i) {
-		for (s = argv [i]; *s; ++s) {
+	for (i = 0; i < argc; ++i)
+		len += 2 * strlen(argv [i]) + 1 + argc;
+
+	p = value = g_malloc(len);
+
+	for (i = 0; i < argc; ++i)
+	{
+		for (s = argv[i]; *s; ++s)
+		{
 			if (*s == ' ' || *s == '\\')
 				*p++ = '\\';
 			*p++ = *s;
 		}
+
 		*p++ = ' ';
 	}
+
 	*p = '\0';
 
 	return value;
@@ -2150,19 +2436,16 @@ mate_config_assemble_vector (int argc, const char *const argv [])
  * Stores vector @argv in the file/section/key defined by @path. The
  * configuration value is set in the user's private storage area.
  */
-void
-mate_config_set_vector_ (const char *path, int argc,
-			  const char *const argv[],
-			  gboolean priv)
+void mate_config_set_vector_(const char *path, int argc, const char *const argv[], gboolean priv)
 {
-	ParsedPath *pp;
-	char *s;
+	ParsedPath* pp;
+	char* s;
 
-	pp = parse_path (path, priv);
-	s = mate_config_assemble_vector (argc, argv);
-	access_config (SET, pp->section, pp->key, s, pp->file, NULL);
-	g_free (s);
-	release_path (pp);
+	pp = parse_path(path, priv);
+	s = mate_config_assemble_vector(argc, argv);
+	access_config(SET, pp->section, pp->key, s, pp->file, NULL);
+	g_free(s);
+	release_path(pp);
 }
 
 /**
@@ -2178,8 +2461,7 @@ mate_config_set_vector_ (const char *path, int argc,
  * any mate-configuration access, since the application might
  * be using their own prefix.
  */
-void
-mate_config_push_prefix (const char *path)
+void mate_config_push_prefix(const char* path)
 {
 	prefix_list = g_slist_prepend(prefix_list, g_strdup(path));
 }
@@ -2189,11 +2471,11 @@ mate_config_push_prefix (const char *path)
  *
  * Call this routine to remove the current configuration prefix from the stack.
  */
-void
-mate_config_pop_prefix (void)
+void mate_config_pop_prefix(void)
 {
-	if(prefix_list) {
-		GSList *plist = prefix_list;
+	if (prefix_list)
+	{
+		GSList*plist = prefix_list;
 		g_free(prefix_list->data);
 		prefix_list = prefix_list->next;
 		g_slist_free_1(plist);
@@ -2207,9 +2489,11 @@ mate_config_pop_prefix (void)
  *
  * Internal Obsolete.
  */
-void
-mate_config_set_set_handler(void (*func)(void *),void *data)
+void mate_config_set_set_handler(void (*func)(void*), void* data)
 {
+	/*
+	 * NOTE: zOMG, what is obscolete?
+	 */
 	g_warning("mate_config_set_set_handler is obscolete and has no replacement");
 }
 
@@ -2220,36 +2504,33 @@ mate_config_set_set_handler(void (*func)(void *),void *data)
  *
  * Internal routine
  */
-void
-mate_config_set_sync_handler(void (*func)(void *),void *data)
+void mate_config_set_sync_handler(void (*func)(void*), void* data)
 {
 	g_warning("mate_config_set_sync_handler is obscolete and has no replacement");
 }
 
 #ifdef TEST
 
-static
-x (char *str, char *file, char *sec, char *key, char *val)
+static x(char* str, char* file, char* sec, char* key, char* val)
 {
 	ParsedPath *pp;
 
-	printf ("%s\n", str);
-	pp = parse_path (str, FALSE);
-	printf ("   file: %s [%s]\n", pp->file, file);
-	printf ("   sect: %s [%s]\n", pp->section, sec);
-	printf ("   key:  %s [%s]\n", pp->key, key);
-	printf ("   def:  %s [%s]\n", pp->def, val);
+	printf("%s\n", str);
+	pp = parse_path(str, FALSE);
+	printf("   file: %s [%s]\n", pp->file, file);
+	printf("   sect: %s [%s]\n", pp->section, sec);
+	printf("   key:  %s [%s]\n", pp->key, key);
+	printf("   def:  %s [%s]\n", pp->def, val);
 }
 
-
-main ()
+main()
 {
 	mate_user_dir = "USERDIR";
-	x ("=/tmp/file=seccion/llave=valor", "/tmp/file", "seccion", "llave", "valor");
-	x ("=/tmp/file=seccion/llave", "/tmp/file", "seccion", "llave", NULL);
-	x ("/file/seccion/llave=valor", "USERDIR/file", "seccion", "llave", "valor");
-	x ("/file/seccion/llave", "USERDIR/file", "seccion", "llave", NULL);
-	x ("/file/archivo/archivo/seccion/llave", "USERDIR/file/archivo/archivo", "seccion", "llave", NULL);
-	x ("/file/archivo/archivo/seccion/llave=valor", "USERDIR/file/archivo/archivo", "seccion", "llave", "valor");
+	x("=/tmp/file=seccion/llave=valor", "/tmp/file", "seccion", "llave", "valor");
+	x("=/tmp/file=seccion/llave", "/tmp/file", "seccion", "llave", NULL);
+	x("/file/seccion/llave=valor", "USERDIR/file", "seccion", "llave", "valor");
+	x("/file/seccion/llave", "USERDIR/file", "seccion", "llave", NULL);
+	x("/file/archivo/archivo/seccion/llave", "USERDIR/file/archivo/archivo", "seccion", "llave", NULL);
+	x("/file/archivo/archivo/seccion/llave=valor", "USERDIR/file/archivo/archivo", "seccion", "llave", "valor");
 }
 #endif

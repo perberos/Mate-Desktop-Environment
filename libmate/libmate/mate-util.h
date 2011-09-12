@@ -36,7 +36,7 @@ G_BEGIN_DECLS
 
 /* Return pointer to the character after the last .,
    or "" if no dot. */
-const char * g_extension_pointer (const char * path);
+const char* g_extension_pointer(const char* path);
 
 
 /* pass in a string, and it will add the users home dir ie,
@@ -44,7 +44,7 @@ const char * g_extension_pointer (const char * path);
  * /home/imain/.mate2/bookmarks.html
  *
  * Remember to g_free() returned value! */
-#define mate_util_prepend_user_home(x) (g_build_filename (g_get_home_dir(), (x), NULL))
+#define mate_util_prepend_user_home(x) (g_build_filename(g_get_home_dir(), (x), NULL))
 
 /* very similar to above, but adds $HOME/.mate2/ to beginning
  * This is meant to be the most useful version.
@@ -52,7 +52,7 @@ const char * g_extension_pointer (const char * path);
 #define mate_util_home_file(afile) (g_build_filename(g_get_home_dir(), MATE_DOT_MATE, (afile), NULL))
 
 /* Find the name of the user's shell.  */
-char *mate_util_user_shell (void);
+char* mate_util_user_shell(void);
 
 #ifndef MATE_DISABLE_DEPRECATED
 
@@ -60,31 +60,31 @@ char *mate_util_user_shell (void);
 
 /* Note: setenv will leak on some systems (those without setenv) so
  * do NOT use inside a loop.  Semantics are the same as those in glibc */
-int	mate_setenv (const char *name, const char *value, gboolean overwrite);
-void	mate_unsetenv (const char *name);
-void	mate_clearenv (void);
+int mate_setenv(const char* name, const char* value, gboolean overwrite);
+void mate_unsetenv(const char* name);
+void mate_clearenv(void);
 
 /* Some deprecated functions macroed to their new equivalents */
 
-#define g_file_exists(filename)		g_file_test ((filename), G_FILE_TEST_EXISTS)
-#define g_unix_error_string(error_num)	g_strerror ((error_num))
-#define mate_util_user_home()		g_get_home_dir ()
-#define g_copy_vector(vec)		g_strdupv ((vec))
-#define g_concat_dir_and_file(dir,file)	g_build_filename ((dir), (file), NULL)
+#define g_file_exists(filename) g_file_test((filename), G_FILE_TEST_EXISTS)
+#define g_unix_error_string(error_num) g_strerror((error_num))
+#define mate_util_user_home() g_get_home_dir()
+#define g_copy_vector(vec) g_strdupv((vec))
+#define g_concat_dir_and_file(dir,file)	g_build_filename((dir), (file), NULL)
 
 #define mate_is_program_in_path(program)	g_find_program_in_path((program))
 
-#define mate_libdir_file(f)  (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_LIBDIR,  (f), TRUE, NULL))
-#define mate_datadir_file(f) (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_DATADIR, (f), TRUE, NULL))
-#define mate_sound_file(f)   (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_SOUND,   (f), TRUE, NULL))
-#define mate_pixmap_file(f)  (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_PIXMAP,  (f), TRUE, NULL))
-#define mate_config_file(f)  (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_CONFIG,  (f), TRUE, NULL))
+#define mate_libdir_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_LIBDIR, (f), TRUE, NULL))
+#define mate_datadir_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_DATADIR, (f), TRUE, NULL))
+#define mate_sound_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_SOUND, (f), TRUE, NULL))
+#define mate_pixmap_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_PIXMAP, (f), TRUE, NULL))
+#define mate_config_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_CONFIG, (f), TRUE, NULL))
 
-#define mate_unconditional_libdir_file(f)  (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_LIBDIR,  (f), FALSE, NULL))
-#define mate_unconditional_datadir_file(f) (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_DATADIR, (f), FALSE, NULL))
-#define mate_unconditional_sound_file(f)   (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_SOUND,   (f), FALSE, NULL))
-#define mate_unconditional_pixmap_file(f)  (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_PIXMAP,  (f), FALSE, NULL))
-#define mate_unconditional_config_file(f)  (mate_program_locate_file (NULL, MATE_FILE_DOMAIN_CONFIG,  (f), FALSE, NULL))
+#define mate_unconditional_libdir_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_LIBDIR, (f), FALSE, NULL))
+#define mate_unconditional_datadir_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_DATADIR, (f), FALSE, NULL))
+#define mate_unconditional_sound_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_SOUND, (f), FALSE, NULL))
+#define mate_unconditional_pixmap_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_PIXMAP, (f), FALSE, NULL))
+#define mate_unconditional_config_file(f) (mate_program_locate_file(NULL, MATE_FILE_DOMAIN_CONFIG, (f), FALSE, NULL))
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

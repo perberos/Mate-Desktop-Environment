@@ -74,105 +74,80 @@ G_BEGIN_DECLS
    be set.  */
 
 /*use the wrappers below*/
-char *mate_config_get_string_with_default_    (const char *path,
-					        gboolean *def,
-						gboolean priv);
-char *mate_config_get_translated_string_with_default_(const char *path,
-						       gboolean *def,
-						       gboolean priv);
-gint  mate_config_get_int_with_default_       (const char *path,
-					        gboolean *def,
-						gboolean priv);
-gdouble  mate_config_get_float_with_default_  (const char *path,
-					        gboolean *def,
-						gboolean priv);
-gboolean mate_config_get_bool_with_default_   (const char *path,
-					        gboolean *def,
-					        gboolean priv);
-void mate_config_get_vector_with_default_     (const char *path, gint *argcp,
-					        char ***argvp,
-					        gboolean *def,
-					        gboolean priv);
+char* mate_config_get_string_with_default_(const char* path, gboolean* def, gboolean priv);
+char* mate_config_get_translated_string_with_default_(const char* path, gboolean* def, gboolean priv);
+gint  mate_config_get_int_with_default_(const char *path, gboolean *def, gboolean priv);
+gdouble  mate_config_get_float_with_default_(const char* path, gboolean* def, gboolean priv);
+gboolean mate_config_get_bool_with_default_(const char* path, gboolean* def, gboolean priv);
+void mate_config_get_vector_with_default_(const char* path, gint* argcp, char*** argvp, gboolean* def, gboolean priv);
 
 /*these just call the above functions, but devide them into two groups,
   in the future these may be different functions, so use these defines*/
 /*normal functions*/
-#define mate_config_get_string_with_default(path,def) \
-	(mate_config_get_string_with_default_((path),(def),FALSE))
-#define mate_config_get_translated_string_with_default(path,def) \
-	(mate_config_get_translated_string_with_default_((path),(def),FALSE))
-#define mate_config_get_int_with_default(path,def) \
-	(mate_config_get_int_with_default_((path),(def),FALSE))
-#define mate_config_get_float_with_default(path,def) \
-	(mate_config_get_float_with_default_((path),(def),FALSE))
-#define mate_config_get_bool_with_default(path,def) \
-	(mate_config_get_bool_with_default_((path),(def),FALSE))
+#define mate_config_get_string_with_default(path, def) \
+	(mate_config_get_string_with_default_((path), (def), FALSE))
+#define mate_config_get_translated_string_with_default(path, def) \
+	(mate_config_get_translated_string_with_default_((path), (def), FALSE))
+#define mate_config_get_int_with_default(path, def) \
+	(mate_config_get_int_with_default_((path), (def),FALSE))
+#define mate_config_get_float_with_default(path, def) \
+	(mate_config_get_float_with_default_((path), (def), FALSE))
+#define mate_config_get_bool_with_default(path, def) \
+	(mate_config_get_bool_with_default_((path), (def), FALSE))
 #define mate_config_get_vector_with_default(path, argcp, argvp, def) \
-        (mate_config_get_vector_with_default_ ((path),(argcp),(argvp), \
-						(def),FALSE))
+	(mate_config_get_vector_with_default_((path), (argcp), (argvp), (def), FALSE))
 
 /*private functions*/
-#define mate_config_private_get_string_with_default(path,def) \
-	(mate_config_get_string_with_default_((path),(def),TRUE))
-#define mate_config_private_get_translated_string_with_default(path,def) \
-	(mate_config_get_translated_string_with_default_((path), (def),TRUE))
-#define mate_config_private_get_int_with_default(path,def) \
-	(mate_config_get_int_with_default_((path),(def),TRUE))
-#define mate_config_private_get_float_with_default(path,def) \
-	(mate_config_get_float_with_default_((path),(def),TRUE))
-#define mate_config_private_get_bool_with_default(path,def) \
-	(mate_config_get_bool_with_default_((path),(def),TRUE))
+#define mate_config_private_get_string_with_default(path, def) \
+	(mate_config_get_string_with_default_((path), (def), TRUE))
+#define mate_config_private_get_translated_string_with_default(path, def) \
+	(mate_config_get_translated_string_with_default_((path), (def), TRUE))
+#define mate_config_private_get_int_with_default(path, def) \
+	(mate_config_get_int_with_default_((path), (def), TRUE))
+#define mate_config_private_get_float_with_default(path, def) \
+	(mate_config_get_float_with_default_((path), (def), TRUE))
+#define mate_config_private_get_bool_with_default(path, def) \
+	(mate_config_get_bool_with_default_((path), (def), TRUE))
 #define mate_config_private_get_vector_with_default(path, argcp, argvp, def) \
-        (mate_config_get_vector_with_default_ ((path),(argcp), (argvp), \
-        					(def), TRUE))
+	(mate_config_get_vector_with_default_ ((path), (argcp), (argvp), (def), TRUE))
 
 /* Convenience wrappers for the case when you don't care if you see
    the default.  */
 /*normal functions*/
 #define mate_config_get_string(path) \
-	(mate_config_get_string_with_default_ ((path), NULL, FALSE))
+	(mate_config_get_string_with_default_((path), NULL, FALSE))
 #define mate_config_get_translated_string(path) \
-	(mate_config_get_translated_string_with_default_ ((path), NULL, FALSE))
+	(mate_config_get_translated_string_with_default_((path), NULL, FALSE))
 #define mate_config_get_int(path) \
-	(mate_config_get_int_with_default_ ((path), NULL, FALSE))
+	(mate_config_get_int_with_default_((path), NULL, FALSE))
 #define mate_config_get_float(path) \
-	(mate_config_get_float_with_default_ ((path), NULL, FALSE))
+	(mate_config_get_float_with_default_((path), NULL, FALSE))
 #define mate_config_get_bool(path) \
-	(mate_config_get_bool_with_default_ ((path), NULL, FALSE))
+	(mate_config_get_bool_with_default_((path), NULL, FALSE))
 #define mate_config_get_vector(path, argcp, argvp) \
-        (mate_config_get_vector_with_default_ ((path), (argcp), (argvp), \
-        					NULL, FALSE))
+	(mate_config_get_vector_with_default_((path), (argcp), (argvp), NULL, FALSE))
 
 /*private functions*/
 #define mate_config_private_get_string(path) \
-	(mate_config_get_string_with_default_ ((path), NULL, TRUE))
+	(mate_config_get_string_with_default_((path), NULL, TRUE))
 #define mate_config_private_get_translated_string(path) \
-	(mate_config_get_translated_string_with_default_ ((path), NULL, TRUE))
+	(mate_config_get_translated_string_with_default_((path), NULL, TRUE))
 #define mate_config_private_get_int(path) \
-	(mate_config_get_int_with_default_ ((path), NULL, TRUE))
+	(mate_config_get_int_with_default_((path), NULL, TRUE))
 #define mate_config_private_get_float(path) \
-	(mate_config_get_float_with_default_ ((path), NULL, TRUE))
+	(mate_config_get_float_with_default_((path), NULL, TRUE))
 #define mate_config_private_get_bool(path) \
-	(mate_config_get_bool_with_default_ ((path), NULL, TRUE))
+	(mate_config_get_bool_with_default_((path), NULL, TRUE))
 #define mate_config_private_get_vector(path, argcp, argvp) \
-        (mate_config_get_vector_with_default_ ((path), (argcp), (argvp), \
-        					NULL, TRUE))
+	(mate_config_get_vector_with_default_((path), (argcp), (argvp), NULL, TRUE))
 
 /* Set a config variable.  Use the warppers below*/
-void mate_config_set_string_     (const char *path, const char *value,
-				   gboolean priv);
-void mate_config_set_translated_string_ (const char *path, const char *value,
-					  gboolean priv);
-void mate_config_set_int_        (const char *path, int value,
-				   gboolean priv);
-void mate_config_set_float_        (const char *path, gdouble value,
-				     gboolean priv);
-void mate_config_set_bool_       (const char *path, gboolean value,
-				   gboolean priv);
-void mate_config_set_vector_     (const char *path,
-				   int argc,
-				   const char * const argv[],
-				   gboolean priv);
+void mate_config_set_string_(const char* path, const char* value, gboolean priv);
+void mate_config_set_translated_string_ (const char* path, const char* value, gboolean priv);
+void mate_config_set_int_(const char* path, int value, gboolean priv);
+void mate_config_set_float_(const char* path, gdouble value, gboolean priv);
+void mate_config_set_bool_(const char* path, gboolean value, gboolean priv);
+void mate_config_set_vector_(const char* path, int argc, const char* const argv[], gboolean priv);
 
 
 /* normal functions */
@@ -204,92 +179,74 @@ void mate_config_set_vector_     (const char *path,
 	(mate_config_set_vector_((path),(argc),(argv),TRUE))
 
 /* Returns true if /path/section is defined */
-gboolean  mate_config_has_section_    (const char *path, gboolean priv);
-#define mate_config_has_section(path) \
-	(mate_config_has_section_((path),FALSE))
-#define mate_config_private_has_section(path) \
-	(mate_config_has_section_((path),TRUE))
+gboolean  mate_config_has_section_(const char* path, gboolean priv);
+#define mate_config_has_section(path) (mate_config_has_section_((path), FALSE))
+#define mate_config_private_has_section(path) (mate_config_has_section_((path), TRUE))
 
 /* Returns a pointer for iterating on /file/section contents */
-void *mate_config_init_iterator_ (const char *path, gboolean priv);
-#define mate_config_init_iterator(path) \
-	(mate_config_init_iterator_((path),FALSE))
-#define mate_config_private_init_iterator(path) \
-	(mate_config_init_iterator_((path),TRUE))
+void* mate_config_init_iterator_(const char* path, gboolean priv);
+#define mate_config_init_iterator(path) (mate_config_init_iterator_((path),FALSE))
+#define mate_config_private_init_iterator(path) (mate_config_init_iterator_((path),TRUE))
 
 /* Returns a pointer for iterating on /file contents */
-void *mate_config_init_iterator_sections_ (const char *path, gboolean priv);
-#define mate_config_init_iterator_sections(path) \
-	(mate_config_init_iterator_sections_((path),FALSE))
-#define mate_config_private_init_iterator_sections(path) \
-	(mate_config_init_iterator_sections_((path),TRUE))
+void* mate_config_init_iterator_sections_(const char* path, gboolean priv);
+#define mate_config_init_iterator_sections(path) (mate_config_init_iterator_sections_((path), FALSE))
+#define mate_config_private_init_iterator_sections(path) (mate_config_init_iterator_sections_((path), TRUE))
 
 /* Get next key and value value from a section */
-void *mate_config_iterator_next (void *iterator_handle, char **key, char **value);
+void* mate_config_iterator_next(void* iterator_handle, char** key, char** value);
 
-void mate_config_drop_all       (void);
+void mate_config_drop_all(void);
 
-gboolean mate_config_sync       (void);
+gboolean mate_config_sync(void);
 
 /* sync's data for one file only */
-gboolean mate_config_sync_file_ (char *path, gboolean priv);
-#define mate_config_sync_file(path) \
-	(mate_config_sync_file_((path),FALSE))
-#define mate_config_private_sync_file(path) \
-	(mate_config_sync_file_((path),TRUE))
+gboolean mate_config_sync_file_(char* path, gboolean priv);
+#define mate_config_sync_file(path) (mate_config_sync_file_((path), FALSE))
+#define mate_config_private_sync_file(path) (mate_config_sync_file_((path), TRUE))
 
 /* This routine drops the information about /file, meaning changes
    done to this file will be dropped, it will no delete the file */
-void mate_config_drop_file_     (const char *path, gboolean priv);
-#define mate_config_drop_file(path) \
-	(mate_config_drop_file_((path),FALSE))
-#define mate_config_private_drop_file(path) \
-	(mate_config_drop_file_((path),TRUE))
+void mate_config_drop_file_(const char* path, gboolean priv);
+#define mate_config_drop_file(path) (mate_config_drop_file_((path), FALSE))
+#define mate_config_private_drop_file(path) (mate_config_drop_file_((path), TRUE))
 
 /* This routine actually removes /file on sync (not right away, you
    can still save it by dropping it)*/
-void mate_config_clean_file_     (const char *path, gboolean priv);
-#define mate_config_clean_file(path) \
-	(mate_config_clean_file_((path),FALSE))
-#define mate_config_private_clean_file(path) \
-	(mate_config_clean_file_((path),TRUE))
+void mate_config_clean_file_(const char* path, gboolean priv);
+#define mate_config_clean_file(path) (mate_config_clean_file_((path), FALSE))
+#define mate_config_private_clean_file(path) (mate_config_clean_file_((path), TRUE))
 
 /* This routine drops all of the information related to /file/section
    this will actually remove the section */
-void mate_config_clean_section_  (const char *path, gboolean priv);
-#define mate_config_clean_section(path) \
-	(mate_config_clean_section_((path),FALSE))
-#define mate_config_private_clean_section(path) \
-	(mate_config_clean_section_((path),TRUE))
+void mate_config_clean_section_(const char* path, gboolean priv);
+#define mate_config_clean_section(path) (mate_config_clean_section_((path),FALSE))
+#define mate_config_private_clean_section(path) (mate_config_clean_section_((path),TRUE))
 
 /* Drops the information for a specific key, this will actually remove
    the key */
-void mate_config_clean_key_ (const char *path, gboolean priv);
-#define mate_config_clean_key(path) \
-	(mate_config_clean_key_((path),FALSE))
-#define mate_config_private_clean_key(path) \
-	(mate_config_clean_key_((path),TRUE))
+void mate_config_clean_key_(const char* path, gboolean priv);
+#define mate_config_clean_key(path) (mate_config_clean_key_((path), FALSE))
+#define mate_config_private_clean_key(path) (mate_config_clean_key_((path), TRUE))
 
 /* returns the true filename of the config file */
-#define mate_config_get_real_path(path) \
-	(g_build_filename (mate_user_dir_get(),(path),NULL))
-#define mate_config_private_get_real_path(path) \
-	(g_build_filename (mate_user_private_dir_get(),(path),NULL))
+#define mate_config_get_real_path(path) (g_build_filename(mate_user_dir_get(), (path), NULL))
+#define mate_config_private_get_real_path(path) (g_build_filename(mate_user_private_dir_get(), (path), NULL))
 
 /* Set an active prefix and remove an active prefix */
-void mate_config_push_prefix (const char *path);
-void mate_config_pop_prefix (void);
+void mate_config_push_prefix(const char* path);
+void mate_config_pop_prefix(void);
 
 /*
  * Internal routines that we export
  * Used to go from string->vector and from vector->string
  */
-void mate_config_make_vector (const char *string, int *argcp, char ***argvp);
-char *mate_config_assemble_vector (int argc, const char *const argv []);
+void mate_config_make_vector(const char* string, int* argcp, char*** argvp);
+char* mate_config_assemble_vector(int argc, const char* const argv[]);
 
 /* these two are absolutely obscolete and should not be used */
-void mate_config_set_set_handler(void (*func)(void *),void *data);
-void mate_config_set_sync_handler(void (*func)(void *),void *data);
+void mate_config_set_set_handler(void (*func)(void*), void *data);
+void mate_config_set_sync_handler(void (*func)(void*), void* data);
 
 G_END_DECLS
 

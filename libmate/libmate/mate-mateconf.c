@@ -48,28 +48,29 @@
  *
  * Returns:  A newly allocated string
  **/
-gchar*
-mate_mateconf_get_mate_libs_settings_relative (const gchar *subkey)
+gchar* mate_mateconf_get_mate_libs_settings_relative(const gchar* subkey)
 {
-        gchar *dir;
-        gchar *key;
-        gchar *tmp;
+	gchar* dir;
+	gchar* key;
+	gchar* tmp;
 
-        tmp = mateconf_escape_key (mate_program_get_app_id (mate_program_get()), -1);
+	tmp = mateconf_escape_key(mate_program_get_app_id(mate_program_get()), -1);
 
-        dir = g_strconcat("/apps/mate-settings/",
-                          tmp,
-                          NULL);
-        g_free (tmp);
-        if (subkey && *subkey) {
-                key = mateconf_concat_dir_and_key(dir, subkey);
-                g_free(dir);
-        } else {
-                /* subkey == "" */
-                key = dir;
-        }
+	dir = g_strconcat("/apps/mate-settings/", tmp, NULL);
+	g_free(tmp);
 
-        return key;
+	if (subkey && *subkey)
+	{
+		key = mateconf_concat_dir_and_key(dir, subkey);
+		g_free(dir);
+	}
+	else
+	{
+		/* subkey == "" */
+		key = dir;
+	}
+
+	return key;
 }
 
 /**
@@ -82,28 +83,28 @@ mate_mateconf_get_mate_libs_settings_relative (const gchar *subkey)
  *
  * Returns:  A newly allocated string
  **/
-gchar*
-mate_mateconf_get_app_settings_relative (MateProgram *program, const gchar *subkey)
+gchar* mate_mateconf_get_app_settings_relative(MateProgram* program, const gchar* subkey)
 {
-        gchar *dir;
-        gchar *key;
+	gchar* dir;
+	gchar* key;
 
 	if (program == NULL)
-		program = mate_program_get ();
+		program = mate_program_get();
 
-        dir = g_strconcat ("/apps/",
-			   mate_program_get_app_id  (program),
-			   NULL);
+	dir = g_strconcat("/apps/", mate_program_get_app_id(program), NULL);
 
-        if (subkey && *subkey) {
-                key = mateconf_concat_dir_and_key (dir, subkey);
-                g_free (dir);
-        } else {
-                /* subkey == "" */
-                key = dir;
-        }
+	if (subkey && *subkey)
+	{
+		key = mateconf_concat_dir_and_key(dir, subkey);
+		g_free(dir);
+	}
+	else
+	{
+		/* subkey == "" */
+		key = dir;
+	}
 
-        return key;
+	return key;
 }
 
 /**
@@ -114,12 +115,11 @@ mate_mateconf_get_app_settings_relative (MateProgram *program, const gchar *subk
  * that need mateconf should call this before calling any mateconf
  * calls.
  **/
-void
-_mate_mateconf_lazy_init (void)
+void _mate_mateconf_lazy_init(void)
 {
 	/* Note this is the same as in libmateui/libmateui/mate-mateconf-ui.c,
-	 * keep this in sync (it's named mateui_mateconf_lazy_init) */
-        gchar *settings_dir;
+	* keep this in sync (it's named mateui_mateconf_lazy_init) */
+	gchar* settings_dir;
 	MateConfClient* client = NULL;
 	static gboolean initialized = FALSE;
 
@@ -128,24 +128,19 @@ _mate_mateconf_lazy_init (void)
 
 	initialized = TRUE;
 
-        client = mateconf_client_get_default ();
+	client = mateconf_client_get_default();
 
-        mateconf_client_add_dir (client,
-			      "/desktop/mate",
-			      MATECONF_CLIENT_PRELOAD_NONE, NULL);
+	mateconf_client_add_dir(client, "/desktop/mate", MATECONF_CLIENT_PRELOAD_NONE, NULL);
 
-        settings_dir = mate_mateconf_get_mate_libs_settings_relative ("");
+	settings_dir = mate_mateconf_get_mate_libs_settings_relative("");
 
-        mateconf_client_add_dir (client,
-			      settings_dir,
-			      /* Possibly we should turn preload on for this */
-			      MATECONF_CLIENT_PRELOAD_NONE,
-			      NULL);
-        g_free (settings_dir);
+	/* Possibly we should turn preload on for this MATECONF_CLIENT_PRELOAD_NONE */
+	mateconf_client_add_dir(client, settings_dir, MATECONF_CLIENT_PRELOAD_NONE, NULL);
+	g_free(settings_dir);
 
-        /* Leak the MateConfClient reference, we want to keep
-         * the client alive forever.
-         */
+	/* Leak the MateConfClient reference, we want to keep
+	* the client alive forever.
+	*/
 }
 
 /**
@@ -155,8 +150,7 @@ _mate_mateconf_lazy_init (void)
  *
  * Returns: A #MateModuleInfo instance representing the MateConf module.
  */
-const MateModuleInfo *
-_mate_mateconf_module_info_get (void)
+const MateModuleInfo* _mate_mateconf_module_info_get(void)
 {
 	static MateModuleInfo module_info = {
 		"mate-mateconf",

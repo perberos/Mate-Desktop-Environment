@@ -40,25 +40,24 @@ G_BEGIN_DECLS
  * returns 0 on success, drops privs and returns -1 on failure
  */
 
-gint
-mate_score_init (const gchar * gamename);
+gint mate_score_init(const gchar* gamename);
 
-/* Returns the position in the top-ten starting from 1, or 0 if it isn't in the table */
-gint
-mate_score_log(gfloat score,
-		const gchar *level, /* Pass in NULL unless you want to keep
-				       per-level scores for the game */
-		/* Pass in TRUE if higher scores are "better"
-		   in the game */
-		gboolean higher_to_lower_score_order);
+/* Returns the position in the top-ten starting from 1, or 0 if it isn't in the table
+ *
+ * level
+ * Pass in NULL unless you want to keep per-level scores for the game
+ *
+ * higher_to_lower_score_order
+ * Pass in TRUE if higher scores are "better" in the game
+ */
+gint mate_score_log(gfloat score, const gchar *level, gboolean higher_to_lower_score_order);
 
-/* Returns number of items in the arrays */
-gint
-mate_score_get_notable(const gchar *gamename, /* Will be auto-determined if NULL */
-			const gchar *level,
-			gchar ***names,
-			gfloat **scores,
-			time_t **scoretimes);
+/* Returns number of items in the arrays
+ *
+ * gamename
+ * Will be auto-determined if NULL
+ */
+gint mate_score_get_notable(const gchar *gamename, const gchar* level, gchar*** names, gfloat** scores, time_t** scoretimes);
 G_END_DECLS
 
 #endif /* __MATE_SCORE_H__ */

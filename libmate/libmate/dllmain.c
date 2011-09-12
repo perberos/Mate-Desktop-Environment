@@ -29,49 +29,44 @@
 /* localedir uses system codepage as it is passed to the non-UTF8ified
  * gettext library
  */
-static const char *localedir = NULL;
+static const char* localedir = NULL;
 
 /* The others are in UTF-8 */
-static char *prefix;
-static const char *libdir;
-static const char *datadir;
-static const char *localstatedir;
-static const char *sysconfdir;
+static char* prefix;
+static const char* libdir;
+static const char* datadir;
+static const char* localstatedir;
+static const char* sysconfdir;
 
 static HMODULE hmodule;
-G_LOCK_DEFINE_STATIC (mutex);
+G_LOCK_DEFINE_STATIC(mutex);
 
 /* Silence gcc with prototype. Yes, this is silly. */
-BOOL WINAPI DllMain (HINSTANCE hinstDLL,
-		     DWORD     fdwReason,
-		     LPVOID    lpvReserved);
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 
 /* DllMain used to tuck away the libmate DLL's HMODULE */
-BOOL WINAPI
-DllMain (HINSTANCE hinstDLL,
-	 DWORD     fdwReason,
-	 LPVOID    lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-        switch (fdwReason) {
-        case DLL_PROCESS_ATTACH:
-                hmodule = hinstDLL;
-                break;
-        }
-        return TRUE;
+	switch (fdwReason)
+	{
+		case DLL_PROCESS_ATTACH:
+			hmodule = hinstDLL;
+			break;
+	}
+
+	return TRUE;
 }
 
-static char *
-replace_prefix (const char *runtime_prefix,
-                const char *configure_time_path)
+static char* replace_prefix(const char* runtime_prefix, const char* configure_time_path)
 {
-        if (runtime_prefix &&
-            strncmp (configure_time_path, LIBMATE_PREFIX "/",
-                     strlen (LIBMATE_PREFIX) + 1) == 0)
-                return g_strconcat (runtime_prefix,
-                                    configure_time_path + strlen (LIBMATE_PREFIX),
-                                    NULL);
-        else
-                return g_strdup (configure_time_path);
+	if (runtime_prefix && strncmp(configure_time_path, LIBMATE_PREFIX "/", strlen (LIBMATE_PREFIX) + 1) == 0)
+	{
+		return g_strconcat(runtime_prefix, configure_time_path + strlen (LIBMATE_PREFIX), NULL);
+	}
+	else
+	{
+		return g_strdup (configure_time_path);
+	}
 }
 
 /**
@@ -97,81 +92,86 @@ replace_prefix (const char *runtime_prefix,
  * The returned character pointers are newly allocated and should be
  * freed with g_free when not longer needed.
  */
-void
-mate_win32_get_prefixes (gpointer  hmodule,
-                          char    **full_prefix,
-                          char    **cp_prefix)
+void mate_win32_get_prefixes(gpointer  hmodule, char** full_prefix, char** cp_prefix)
 {
-        wchar_t wcbfr[1000];
-        char cpbfr[1000];
+	wchar_t wcbfr[1000];
+	char cpbfr[1000];
 
-        g_return_if_fail (full_prefix != NULL);
-        g_return_if_fail (cp_prefix != NULL);
+	g_return_if_fail(full_prefix != NULL);
+	g_return_if_fail(cp_prefix != NULL);
 
-        *full_prefix = NULL;
-        *cp_prefix = NULL;
+	*full_prefix = NULL;
+	*cp_prefix = NULL;
 
-        if (GetModuleFileNameW ((HMODULE) hmodule, wcbfr, G_N_ELEMENTS (wcbfr))) {
-                *full_prefix = g_utf16_to_utf8 (wcbfr, -1,
-                                                NULL, NULL, NULL);
-                if (GetShortPathNameW (wcbfr, wcbfr, G_N_ELEMENTS (wcbfr)) &&
-                    /* Short pathnames always contain only
-                     * ASCII, I think, but just in case, be
-                     * prepared.
-                     */
-                    WideCharToMultiByte (CP_ACP, 0, wcbfr, -1,
-                                         cpbfr, G_N_ELEMENTS (cpbfr),
-                                         NULL, NULL))
-                        *cp_prefix = g_strdup (cpbfr);
-                else if (*full_prefix)
-                        *cp_prefix = g_locale_from_utf8 (*full_prefix, -1,
-                                                         NULL, NULL, NULL);
-        }
+	if (GetModuleFileNameW((HMODULE) hmodule, wcbfr, G_N_ELEMENTS(wcbfr)))
+	{
+		*full_prefix = g_utf16_to_utf8(wcbfr, -1, NULL, NULL, NULL);
+		/* WideCharToMultiByte
+		 * Short pathnames always contain only
+		 * ASCII, I think, but just in case, be
+		 * prepared.
+		 */
+		if (GetShortPathNameW(wcbfr, wcbfr, G_N_ELEMENTS(wcbfr)) && WideCharToMultiByte(CP_ACP, 0, wcbfr, -1, cpbfr, G_N_ELEMENTS(cpbfr), NULL, NULL))
+		{
+			*cp_prefix = g_strdup(cpbfr);
+		}
+		else if (*full_prefix)
+		{
+			*cp_prefix = g_locale_from_utf8(*full_prefix, -1, NULL, NULL, NULL);
+		}
+	}
 
-        if (*full_prefix != NULL) {
-                gchar *p = strrchr (*full_prefix, '\\');
-                if (p != NULL)
-                        *p = '\0';
+	if (*full_prefix != NULL)
+	{
+		gchar* p = strrchr(*full_prefix, '\\');
 
-                p = strrchr (*full_prefix, '\\');
-                if (p && (g_ascii_strcasecmp (p + 1, "bin") == 0))
-                        *p = '\0';
-        }
+		if (p != NULL)
+			*p = '\0';
 
-        /* cp_prefix is in system codepage */
-        if (*cp_prefix != NULL) {
-                gchar *p = _mbsrchr (*cp_prefix, '\\');
-                if (p != NULL)
-                        *p = '\0';
+		p = strrchr(*full_prefix, '\\');
 
-                p = _mbsrchr (*cp_prefix, '\\');
-                if (p && (g_ascii_strcasecmp (p + 1, "bin") == 0))
-                        *p = '\0';
-        }
+		if (p && (g_ascii_strcasecmp(p + 1, "bin") == 0))
+			*p = '\0';
+	}
+
+	/* cp_prefix is in system codepage */
+	if (*cp_prefix != NULL)
+	{
+		gchar* p = _mbsrchr(*cp_prefix, '\\');
+
+		if (p != NULL)
+			*p = '\0';
+
+		p = _mbsrchr (*cp_prefix, '\\');
+
+		if (p && (g_ascii_strcasecmp(p + 1, "bin") == 0))
+			*p = '\0';
+	}
 }
 
-static void
-setup (void)
+static void setup(void)
 {
-	char *cp_prefix;
+	char* cp_prefix;
 
-        G_LOCK (mutex);
-        if (localedir != NULL) {
-                G_UNLOCK (mutex);
-                return;
-        }
+	G_LOCK(mutex);
 
-        mate_win32_get_prefixes (hmodule, &prefix, &cp_prefix);
+	if (localedir != NULL)
+	{
+		G_UNLOCK(mutex);
+		return;
+	}
 
-        localedir = replace_prefix (cp_prefix, LIBMATE_LOCALEDIR);
-        g_free (cp_prefix);
+	mate_win32_get_prefixes(hmodule, &prefix, &cp_prefix);
 
-        libdir = replace_prefix (prefix, LIBMATE_LIBDIR);
-        datadir = replace_prefix (prefix, LIBMATE_DATADIR);
-        localstatedir = replace_prefix (prefix, LIBMATE_LOCALSTATEDIR);
-        sysconfdir = replace_prefix (prefix, LIBMATE_SYSCONFDIR);
+	localedir = replace_prefix(cp_prefix, LIBMATE_LOCALEDIR);
+	g_free(cp_prefix);
 
-        G_UNLOCK (mutex);
+	libdir = replace_prefix(prefix, LIBMATE_LIBDIR);
+	datadir = replace_prefix(prefix, LIBMATE_DATADIR);
+	localstatedir = replace_prefix(prefix, LIBMATE_LOCALSTATEDIR);
+	sysconfdir = replace_prefix(prefix, LIBMATE_SYSCONFDIR);
+
+	G_UNLOCK(mutex);
 }
 
 /* Include libmate-private.h now to get prototypes for the getter
@@ -181,16 +181,15 @@ setup (void)
 #include "libmate-private.h"
 
 #define GETTER(varbl)                           \
-const char *                                    \
-_mate_get_##varbl (void)                       \
+const char* _mate_get_##varbl(void)             \
 {                                               \
-        setup ();                               \
-        return varbl;                           \
+	setup();                                    \
+	return varbl;                               \
 }
 
-GETTER (prefix)
-GETTER (localedir)
-GETTER (libdir)
-GETTER (datadir)
-GETTER (localstatedir)
-GETTER (sysconfdir)
+GETTER(prefix)
+GETTER(localedir)
+GETTER(libdir)
+GETTER(datadir)
+GETTER(localstatedir)
+GETTER(sysconfdir)

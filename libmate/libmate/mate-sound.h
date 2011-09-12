@@ -36,16 +36,16 @@ G_BEGIN_DECLS
 int mate_sound_connection_get (void);
 
 /* Initialize esd connection */
-void mate_sound_init(const char *hostname);
+void mate_sound_init(const char* hostname);
 
 /* Closes esd connection */
 void mate_sound_shutdown(void);
 
 /* Returns the Esound sample ID for the sample */
-int mate_sound_sample_load(const char *sample_name, const char *filename);
+int mate_sound_sample_load(const char* sample_name, const char* filename);
 
 /* Loads sample, plays sample, frees sample */
-void mate_sound_play (const char * filename);
+void mate_sound_play(const char* filename);
 
 G_END_DECLS
 

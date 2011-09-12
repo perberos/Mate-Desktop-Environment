@@ -37,7 +37,7 @@ typedef enum {
 	GTRIG_MEDIAPLAY
 } MateTriggerType;
 
-typedef void (*MateTriggerActionFunction)(char *msg, char *level, char *supinfo[]);
+typedef void (*MateTriggerActionFunction)(char* msg, char* level, char* supinfo[]);
 
 struct _MateTrigger {
 	MateTriggerType type;
@@ -47,14 +47,16 @@ struct _MateTrigger {
 		 * mate_triggers_do was given.
 		 */
 		MateTriggerActionFunction function;
-		gchar *command;
+		gchar* command;
 		struct {
-			gchar *file;
+			gchar* file;
 			int cache_id;
 		} media;
 	} u;
-        gchar *level;
+
+	gchar* level;
 };
+
 typedef struct _MateTrigger MateTrigger;
 
 /*
@@ -66,15 +68,12 @@ typedef struct _MateTrigger MateTrigger;
  *	             "warning", "system", "device", "disk", "/dev/hda1");
  */
 
-void mate_triggers_add_trigger  (MateTrigger *nt, ...);
-void mate_triggers_vadd_trigger (MateTrigger *nt,
-				  char *supinfo[]);
+void mate_triggers_add_trigger  (MateTrigger* nt, ...);
+void mate_triggers_vadd_trigger (MateTrigger* nt, char* supinfo[]);
 
-void mate_triggers_do           (const char *msg,
-				  const char *level, ...);
+void mate_triggers_do(const char* msg, const char* level, ...);
 
-void mate_triggers_vdo          (const char *msg, const char *level,
-				  const char *supinfo[]);
+void mate_triggers_vdo(const char* msg, const char* level, const char* supinfo[]);
 
 G_END_DECLS
 

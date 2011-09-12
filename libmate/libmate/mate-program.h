@@ -43,159 +43,136 @@
 
 G_BEGIN_DECLS
 
-#define MATE_TYPE_PROGRAM            (mate_program_get_type ())
-#define MATE_PROGRAM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_PROGRAM, MateProgram))
-#define MATE_PROGRAM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_PROGRAM, MateProgramClass))
-#define MATE_IS_PROGRAM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATE_TYPE_PROGRAM))
-#define MATE_IS_PROGRAM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_PROGRAM))
+#define MATE_TYPE_PROGRAM (mate_program_get_type())
+#define MATE_PROGRAM(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), MATE_TYPE_PROGRAM, MateProgram))
+#define MATE_PROGRAM_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), MATE_TYPE_PROGRAM, MateProgramClass))
+#define MATE_IS_PROGRAM(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), MATE_TYPE_PROGRAM))
+#define MATE_IS_PROGRAM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), MATE_TYPE_PROGRAM))
 
-typedef struct _MateProgram          MateProgram;
-typedef struct _MateProgramPrivate   MateProgramPrivate;
-typedef struct _MateProgramClass     MateProgramClass;
+typedef struct _MateProgram MateProgram;
+typedef struct _MateProgramPrivate MateProgramPrivate;
+typedef struct _MateProgramClass MateProgramClass;
 
 typedef enum {
-    MATE_FILE_DOMAIN_UNKNOWN = 0,
+	MATE_FILE_DOMAIN_UNKNOWN = 0,
 
-    /* Mate installed files */
-    MATE_FILE_DOMAIN_LIBDIR,
-    MATE_FILE_DOMAIN_DATADIR,
-    MATE_FILE_DOMAIN_SOUND,
-    MATE_FILE_DOMAIN_PIXMAP,
-    MATE_FILE_DOMAIN_CONFIG,
-    MATE_FILE_DOMAIN_HELP,
+	/* Mate installed files */
+	MATE_FILE_DOMAIN_LIBDIR,
+	MATE_FILE_DOMAIN_DATADIR,
+	MATE_FILE_DOMAIN_SOUND,
+	MATE_FILE_DOMAIN_PIXMAP,
+	MATE_FILE_DOMAIN_CONFIG,
+	MATE_FILE_DOMAIN_HELP,
 
-    /* Application files */
-    MATE_FILE_DOMAIN_APP_LIBDIR,
-    MATE_FILE_DOMAIN_APP_DATADIR,
-    MATE_FILE_DOMAIN_APP_SOUND,
-    MATE_FILE_DOMAIN_APP_PIXMAP,
-    MATE_FILE_DOMAIN_APP_CONFIG,
-    MATE_FILE_DOMAIN_APP_HELP
+	/* Application files */
+	MATE_FILE_DOMAIN_APP_LIBDIR,
+	MATE_FILE_DOMAIN_APP_DATADIR,
+	MATE_FILE_DOMAIN_APP_SOUND,
+	MATE_FILE_DOMAIN_APP_PIXMAP,
+	MATE_FILE_DOMAIN_APP_CONFIG,
+	MATE_FILE_DOMAIN_APP_HELP
 } MateFileDomain;
 
-struct _MateProgram
-{
-    GObject object;
+struct _MateProgram {
+	GObject object;
 
-    MateProgramPrivate *_priv;
+	MateProgramPrivate* _priv;
 };
 
-struct _MateProgramClass
-{
-    GObjectClass object_class;
+struct _MateProgramClass {
+	GObjectClass object_class;
 
-    /* we may want to add stuff in the future */
-    gpointer padding1;
-    gpointer padding2;
+	/* we may want to add stuff in the future */
+	gpointer padding1;
+	gpointer padding2;
 };
 
-GType
-mate_program_get_type                  (void);
+GType mate_program_get_type(void);
 
-MateProgram *
-mate_program_get                       (void);
+MateProgram* mate_program_get(void);
 
-const char *
-mate_program_get_human_readable_name   (MateProgram *program);
+const char* mate_program_get_human_readable_name(MateProgram* program);
+const char* mate_program_get_app_id(MateProgram* program);
 
-const char *
-mate_program_get_app_id                (MateProgram *program);
+const char* mate_program_get_app_version(MateProgram* program);
 
-const char *
-mate_program_get_app_version           (MateProgram *program);
+gchar* mate_program_locate_file(MateProgram* program, MateFileDomain domain, const gchar* file_name, gboolean only_if_exists, GSList** ret_locations);
 
-gchar *
-mate_program_locate_file               (MateProgram    *program,
-					 MateFileDomain  domain,
-					 const gchar     *file_name,
-					 gboolean         only_if_exists,
-					 GSList         **ret_locations);
-
-#define MATE_PARAM_NONE                NULL
-#define MATE_PARAM_GOPTION_CONTEXT     "goption-context"
-#define MATE_PARAM_CREATE_DIRECTORIES  "create-directories"
-#define MATE_PARAM_ENABLE_SOUND        "enable-sound"
-#define MATE_PARAM_ESPEAKER            "espeaker"
-#define MATE_PARAM_APP_ID              "app-id"
-#define MATE_PARAM_APP_VERSION         "app-version"
-#define MATE_PARAM_MATE_PREFIX        "mate-prefix"
-#define MATE_PARAM_MATE_SYSCONFDIR    "mate-sysconfdir"
-#define MATE_PARAM_MATE_DATADIR       "mate-datadir"
-#define MATE_PARAM_MATE_LIBDIR        "mate-libdir"
-#define MATE_PARAM_APP_PREFIX          "app-prefix"
-#define MATE_PARAM_APP_SYSCONFDIR      "app-sysconfdir"
-#define MATE_PARAM_APP_DATADIR         "app-datadir"
-#define MATE_PARAM_APP_LIBDIR          "app-libdir"
+#define MATE_PARAM_NONE NULL
+#define MATE_PARAM_GOPTION_CONTEXT "goption-context"
+#define MATE_PARAM_CREATE_DIRECTORIES "create-directories"
+#define MATE_PARAM_ENABLE_SOUND "enable-sound"
+#define MATE_PARAM_ESPEAKER "espeaker"
+#define MATE_PARAM_APP_ID "app-id"
+#define MATE_PARAM_APP_VERSION "app-version"
+#define MATE_PARAM_MATE_PREFIX "mate-prefix"
+#define MATE_PARAM_MATE_SYSCONFDIR "mate-sysconfdir"
+#define MATE_PARAM_MATE_DATADIR "mate-datadir"
+#define MATE_PARAM_MATE_LIBDIR "mate-libdir"
+#define MATE_PARAM_APP_PREFIX "app-prefix"
+#define MATE_PARAM_APP_SYSCONFDIR "app-sysconfdir"
+#define MATE_PARAM_APP_DATADIR  "app-datadir"
+#define MATE_PARAM_APP_LIBDIR "app-libdir"
 #define MATE_PARAM_HUMAN_READABLE_NAME "human-readable-name"
-#define MATE_PARAM_MATE_PATH          "mate-path"
+#define MATE_PARAM_MATE_PATH "mate-path"
 
 #ifndef MATE_DISABLE_DEPRECATED
-#define MATE_PARAM_POPT_TABLE          "popt-table"
-#define MATE_PARAM_POPT_FLAGS          "popt-flags"
-#define MATE_PARAM_POPT_CONTEXT        "popt-context"
+	#define MATE_PARAM_POPT_TABLE "popt-table"
+	#define MATE_PARAM_POPT_FLAGS "popt-flags"
+	#define MATE_PARAM_POPT_CONTEXT "popt-context"
 #endif
 
 /***** application modules (aka libraries :) ******/
-#define MATE_TYPE_MODULE_INFO          (mate_module_info_get_type ())
+#define MATE_TYPE_MODULE_INFO (mate_module_info_get_type())
 
-GType
-mate_module_info_get_type              (void);
+GType mate_module_info_get_type(void);
 
 typedef struct _MateModuleInfo MateModuleInfo;
 typedef struct _MateModuleRequirement MateModuleRequirement;
 
 struct _MateModuleRequirement {
-    const char *required_version;
-    const MateModuleInfo *module_info;
+	const char* required_version;
+	const MateModuleInfo* module_info;
 };
 
-typedef void (*MateModuleInitHook) (const MateModuleInfo *mod_info);
-typedef void (*MateModuleClassInitHook) (MateProgramClass *klass,
-					  const MateModuleInfo *mod_info);
-typedef void (*MateModuleHook) (MateProgram *program,
-				 MateModuleInfo *mod_info);
-typedef GOptionGroup* (*MateModuleGetGOptionGroupFunc) (void);
+typedef void (*MateModuleInitHook)(const MateModuleInfo* mod_info);
+typedef void (*MateModuleClassInitHook)(MateProgramClass* klass, const MateModuleInfo* mod_info);
+typedef void (*MateModuleHook) (MateProgram* program, MateModuleInfo* mod_info);
+typedef GOptionGroup* (*MateModuleGetGOptionGroupFunc)(void);
 
 struct _MateModuleInfo {
-    const char *name;
-    const char *version;
-    const char *description;
-    MateModuleRequirement *requirements; /* last element has NULL version */
+	const char* name;
+	const char* version;
+	const char* description;
+	MateModuleRequirement* requirements; /* last element has NULL version */
 
-    MateModuleHook instance_init;
-    MateModuleHook pre_args_parse, post_args_parse;
+	MateModuleHook instance_init;
+	MateModuleHook pre_args_parse, post_args_parse;
 
-#ifdef MATE_DISABLE_DEPRECATED
-    void *_options;
-#else
-    struct poptOption *options;
-#endif
+	#ifdef MATE_DISABLE_DEPRECATED
+		void* _options;
+	#else
+		struct poptOption* options;
+	#endif
 
-    MateModuleInitHook init_pass;
+	MateModuleInitHook init_pass;
 
-    MateModuleClassInitHook class_init;
+	MateModuleClassInitHook class_init;
 
-    const char *opt_prefix;
-    MateModuleGetGOptionGroupFunc get_goption_group_func;
+	const char* opt_prefix;
+	MateModuleGetGOptionGroupFunc get_goption_group_func;
 };
 
 /* This function should be called before matelib_preinit() - it's an
  * alternative to the "module" property passed by the app.
  */
-void
-mate_program_module_register (const MateModuleInfo *module_info);
+void mate_program_module_register(const MateModuleInfo* module_info);
 
-gboolean
-mate_program_module_registered (const MateModuleInfo *module_info);
+gboolean mate_program_module_registered(const MateModuleInfo* module_info);
 
-const MateModuleInfo *
-mate_program_module_load (const char *mod_name);
+const MateModuleInfo* mate_program_module_load(const char* mod_name);
 
-guint
-mate_program_install_property (MateProgramClass *pclass,
-				GObjectGetPropertyFunc get_fn,
-				GObjectSetPropertyFunc set_fn,
-				GParamSpec *pspec);
+guint mate_program_install_property(MateProgramClass* pclass, GObjectGetPropertyFunc get_fn, GObjectSetPropertyFunc set_fn, GParamSpec* pspec);
 
 #ifndef MATE_DISABLE_DEPRECATED
 
@@ -204,46 +181,26 @@ mate_program_install_property (MateProgramClass *pclass,
  * processing, they can do it using a while looped sandwiched between
  * calls to these two functions.
  */
-poptContext
-mate_program_preinit (MateProgram *program,
-		       const char *app_id,
-		       const char *app_version,
-		       int argc, char **argv);
+poptContext mate_program_preinit(MateProgram* program, const char* app_id, const char* app_version, int argc, char** argv);
 
-void
-mate_program_parse_args (MateProgram *program);
+void mate_program_parse_args(MateProgram* program);
 
-void
-mate_program_postinit (MateProgram *program);
+void mate_program_postinit(MateProgram* program);
 
 #endif /* MATE_DISABLE_DEPRECATED */
 
 /* If you have your auto* define PREFIX, SYSCONFDIR, DATADIR and LIBDIR,
  * Use this macro in your init code. */
-#define MATE_PROGRAM_STANDARD_PROPERTIES \
-	MATE_PARAM_APP_PREFIX, PREFIX,		\
-	MATE_PARAM_APP_SYSCONFDIR, SYSCONFDIR,	\
-	MATE_PARAM_APP_DATADIR, DATADIR,	\
+#define MATE_PROGRAM_STANDARD_PROPERTIES   \
+	MATE_PARAM_APP_PREFIX, PREFIX,         \
+	MATE_PARAM_APP_SYSCONFDIR, SYSCONFDIR, \
+	MATE_PARAM_APP_DATADIR, DATADIR,       \
 	MATE_PARAM_APP_LIBDIR, LIBDIR
 
-MateProgram *
-mate_program_init (const char *app_id, const char *app_version,
-		    const MateModuleInfo *module_info,
-		    int argc, char **argv,
-		    const char *first_property_name, ...);
+MateProgram* mate_program_init (const char* app_id, const char* app_version, const MateModuleInfo* module_info, int argc, char** argv, const char* first_property_name, ...);
 
-MateProgram *
-mate_program_initv (GType type,
-		     const char *app_id, const char *app_version,
-		     const MateModuleInfo *module_info,
-		     int argc, char **argv,
-		     const char *first_property_name, va_list args);
-MateProgram*
-mate_program_init_paramv (GType type,
-                           const char *app_id, const char *app_version,
-                           const MateModuleInfo *module_info,
-                           int argc, char **argv,
-                           guint nparams, GParameter *params);
+MateProgram* mate_program_initv(GType type, const char* app_id, const char* app_version, const MateModuleInfo* module_info, int argc, char** argv, const char* first_property_name, va_list args);
+MateProgram* mate_program_init_paramv(GType type, const char* app_id, const char* app_version, const MateModuleInfo* module_info, int argc, char** argv, guint nparams, GParameter* params);
 
 G_END_DECLS
 

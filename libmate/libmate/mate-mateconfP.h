@@ -32,9 +32,9 @@
  * do not use them */
 
 #define mate_mateconf_lazy_init _mate_mateconf_lazy_init
-void			_mate_mateconf_lazy_init		(void);
+void _mate_mateconf_lazy_init(void);
 
 #define mate_mateconf_module_info_get _mate_mateconf_module_info_get
-const MateModuleInfo *	_mate_mateconf_module_info_get	(void) G_GNUC_CONST;
+const MateModuleInfo* _mate_mateconf_module_info_get(void) G_GNUC_CONST;
 
 #endif /* MATE_MATECONFP_H */

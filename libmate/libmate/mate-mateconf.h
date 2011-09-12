@@ -32,9 +32,8 @@ G_BEGIN_DECLS
 
 /* Get keys relative to the mate-libs internal per-app directory and the
    application author per-app directory */
-gchar      *mate_mateconf_get_mate_libs_settings_relative (const gchar *subkey);
-gchar      *mate_mateconf_get_app_settings_relative        (MateProgram *program,
-							  const gchar *subkey);
+gchar* mate_mateconf_get_mate_libs_settings_relative(const gchar* subkey);
+gchar* mate_mateconf_get_app_settings_relative(MateProgram* program, const gchar* subkey);
 G_END_DECLS
 
 #endif /* MATE_MATECONF_H */

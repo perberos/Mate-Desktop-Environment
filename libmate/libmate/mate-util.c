@@ -37,6 +37,7 @@
 #ifndef _BSD_SOURCE
 #  define _BSD_SOURCE 1
 #endif
+
 #include <sys/types.h>
 
 #include <errno.h>
@@ -46,20 +47,22 @@
 #include <string.h>
 #include <unistd.h>
 #include <glib.h>
+
 #ifndef G_OS_WIN32
-#include <pwd.h>
+	#include <pwd.h>
 #endif
+
 #include <limits.h>
 #include "mate-program.h"
 #include "mate-util.h"
 
 #ifdef G_OS_WIN32
-#include <windows.h>
+	#include <windows.h>
 #endif
 
 #if defined(__APPLE__) && defined(HAVE_NSGETENVIRON) && defined(HAVE_CRT_EXTERNS_H)
-# include <crt_externs.h>
-# define environ (*_NSGetEnviron())
+	#include <crt_externs.h>
+	#define environ (*_NSGetEnviron())
 #endif
 
 /**
@@ -69,64 +72,71 @@
  *
  * Returns: A newly allocated string that is the path to the shell.
  */
-char *
-mate_util_user_shell (void)
+char* mate_util_user_shell(void)
 {
-#ifndef G_OS_WIN32
-	struct passwd *pw;
-	int i;
-	const char *shell;
-	const char shells [][14] = {
-		/* Note that on some systems shells can also
-		 * be installed in /usr/bin */
-		"/bin/bash", "/usr/bin/bash",
-		"/bin/zsh", "/usr/bin/zsh",
-		"/bin/tcsh", "/usr/bin/tcsh",
-		"/bin/ksh", "/usr/bin/ksh",
-		"/bin/csh", "/bin/sh"
-	};
+	#ifndef G_OS_WIN32
+		struct passwd* pw;
+		int i;
+		const char* shell;
+		const char shells[][14] = {
+			/* Note that on some systems shells can also
+			 * be installed in /usr/bin */
+			"/bin/bash", "/usr/bin/bash",
+			"/bin/zsh", "/usr/bin/zsh",
+			"/bin/tcsh", "/usr/bin/tcsh",
+			"/bin/ksh", "/usr/bin/ksh",
+			"/bin/csh", "/bin/sh"
+		};
 
-	if (geteuid () == getuid () &&
-	    getegid () == getgid ()) {
-		/* only in non-setuid */
-		if ((shell = g_getenv ("SHELL"))){
-			if (access (shell, X_OK) == 0) {
-				return g_strdup (shell);
+		if (geteuid() == getuid() && getegid() == getgid())
+		{
+			/* only in non-setuid */
+			if ((shell = g_getenv("SHELL")))
+			{
+				if (access(shell, X_OK) == 0)
+				{
+					return g_strdup(shell);
+				}
 			}
 		}
-	}
-	pw = getpwuid(getuid());
-	if (pw && pw->pw_shell) {
-		if (access (pw->pw_shell, X_OK) == 0) {
-			return g_strdup (pw->pw_shell);
+
+		pw = getpwuid(getuid());
+
+		if (pw && pw->pw_shell)
+		{
+			if (access(pw->pw_shell, X_OK) == 0)
+			{
+				return g_strdup(pw->pw_shell);
+			}
 		}
-	}
 
-	for (i = 0; i != G_N_ELEMENTS (shells); i++) {
-		if (access (shells [i], X_OK) == 0) {
-			return g_strdup (shells[i]);
+		for (i = 0; i != G_N_ELEMENTS(shells); i++)
+		{
+			if (access(shells [i], X_OK) == 0)
+			{
+				return g_strdup(shells[i]);
+			}
 		}
-	}
 
-	/* If /bin/sh doesn't exist, your system is truly broken.  */
-	abort ();
+		/* If /bin/sh doesn't exist, your system is truly broken.  */
+		abort();
 
-	/* Placate compiler.  */
-	return NULL;
-#else
-	/* g_find_program_in_path() always looks also in the Windows
-	 * and System32 directories, so it should always find either cmd.exe
-	 * or command.com.
-	 */
-	char *retval = g_find_program_in_path ("cmd.exe");
+		/* Placate compiler.  */
+		return NULL;
+	#else
+		/* g_find_program_in_path() always looks also in the Windows
+		 * and System32 directories, so it should always find either cmd.exe
+		 * or command.com.
+		 */
+		char* retval = g_find_program_in_path("cmd.exe");
 
-	if (retval == NULL)
-		retval = g_find_program_in_path ("command.com");
+		if (retval == NULL)
+			retval = g_find_program_in_path("command.com");
 
-	g_assert (retval != NULL);
+		g_assert(retval != NULL);
 
-	return retval;
-#endif
+		return retval;
+	#endif
 }
 
 /**
@@ -140,23 +150,30 @@ mate_util_user_shell (void)
  * pointer to the end of the string if the filename does not
  * have an extension.
  */
-const char *
-g_extension_pointer (const char * path)
+const char* g_extension_pointer(const char* path)
 {
-	char * s, * t;
+	char* s, *t;
 
 	g_return_val_if_fail(path != NULL, NULL);
 
 	/* get the dot in the last element of the path */
 	t = strrchr(path, G_DIR_SEPARATOR);
+
 	if (t != NULL)
+	{
 		s = strrchr(t, '.');
+	}
 	else
+	{
 		s = strrchr(path, '.');
+	}
 
 	if (s == NULL)
+	{
 		return path + strlen(path); /* There is no extension. */
-	else {
+	}
+	else
+	{
 		++s;      /* pass the . */
 		return s;
 	}
@@ -181,25 +198,25 @@ g_extension_pointer (const char * path)
  *
  * @Deprecated: 2.30: Use g_setenv() instead
  **/
-int
-mate_setenv (const char *name, const char *value, gboolean overwrite)
+int mate_setenv(const char*name, const char* value, gboolean overwrite)
 {
-#if defined (HAVE_SETENV)
-	return setenv (name, value != NULL ? value : "", overwrite);
-#else
-	char *string;
+	#if defined(HAVE_SETENV)
+		return setenv(name, value != NULL ? value : "", overwrite);
+	#else
+		char* string;
 
-	if (! overwrite && g_getenv (name) != NULL) {
-		return 0;
-	}
+		if (!overwrite && g_getenv(name) != NULL)
+		{
+			return 0;
+		}
 
-	/* This results in a leak when you overwrite existing
-	 * settings. It would be fairly easy to fix this by keeping
-	 * our own parallel array or hash table.
-	 */
-	string = g_strconcat (name, "=", value, NULL);
-	return putenv (string);
-#endif
+		/* This results in a leak when you overwrite existing
+		 * settings. It would be fairly easy to fix this by keeping
+		 * our own parallel array or hash table.
+		 */
+		string = g_strconcat(name, "=", value, NULL);
+		return putenv(string);
+	#endif
 }
 
 /**
@@ -213,31 +230,33 @@ mate_setenv (const char *name, const char *value, gboolean overwrite)
  *
  * @Deprecated: 2.30: Use g_unsetenv() instead
  **/
-void
-mate_unsetenv (const char *name)
+void mate_unsetenv(const char* name)
 {
-#if defined (HAVE_UNSETENV)
-	unsetenv (name);
-#else
-	extern char **environ;
-	int i, len;
+	#if defined(HAVE_UNSETENV)
+		unsetenv(name);
+	#else
+		extern char** environ;
+		int i, len;
 
-	len = strlen (name);
+		len = strlen(name);
 
-	/* Mess directly with the environ array.
-	 * This seems to be the only portable way to do this.
-	 */
-	for (i = 0; environ[i] != NULL; i++) {
-		if (strncmp (environ[i], name, len) == 0
-		    && environ[i][len + 1] == '=') {
-			break;
+		/* Mess directly with the environ array.
+		 * This seems to be the only portable way to do this.
+		 */
+		for (i = 0; environ[i] != NULL; i++)
+		{
+			if (strncmp(environ[i], name, len) == 0 && environ[i][len + 1] == '=')
+			{
+				break;
+			}
 		}
-	}
-	while (environ[i] != NULL) {
-		environ[i] = environ[i + 1];
-		i++;
-	}
-#endif
+
+		while (environ[i] != NULL)
+		{
+			environ[i] = environ[i + 1];
+			i++;
+		}
+	#endif
 }
 
 /**
@@ -250,15 +269,14 @@ mate_unsetenv (const char *name)
  *
  * @Deprecated: 2.30
  **/
-void
-mate_clearenv (void)
+void mate_clearenv(void)
 {
-#ifdef HAVE_CLEARENV
-	clearenv ();
-#else
-	extern char **environ;
-	environ[0] = NULL;
-#endif
+	#ifdef HAVE_CLEARENV
+		clearenv();
+	#else
+		extern char** environ;
+		environ[0] = NULL;
+	#endif
 }
 
 /* Deprecated: */

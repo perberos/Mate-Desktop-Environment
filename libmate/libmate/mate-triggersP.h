@@ -30,11 +30,11 @@
 typedef struct _MateTriggerList MateTriggerList;
 
 struct _MateTriggerList {
-  char *nodename;
-  MateTriggerList **subtrees;
-  MateTrigger **actions;
-  gint numsubtrees;
-  gint numactions;
+	char* nodename;
+	MateTriggerList** subtrees;
+	MateTrigger** actions;
+	gint numsubtrees;
+	gint numactions;
 };
 
 #endif

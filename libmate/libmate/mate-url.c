@@ -33,11 +33,12 @@
 #include <glib/gi18n-lib.h>
 
 #include <mateconf/mateconf-client.h>
+
 #ifndef G_OS_WIN32
-#include <libmatevfs/mate-vfs-utils.h>
-#include <libmatevfs/mate-vfs-uri.h>
+	#include <libmatevfs/mate-vfs-utils.h>
+	#include <libmatevfs/mate-vfs-uri.h>
 #else
-#include <windows.h>
+	#include <windows.h>
 #endif
 
 #include "mate-exec.h"
@@ -61,129 +62,93 @@
  *
  * Since: 2.2
  */
-gboolean
-mate_url_show_with_env (const char  *url,
-                         char       **envp,
-			 GError     **error)
+gboolean mate_url_show_with_env(const char* url, char** envp, GError** error)
 {
-#ifndef G_OS_WIN32
-	MateVFSResult result;
-	MateVFSURI *vfs_uri;
+	#ifndef G_OS_WIN32
 
-	g_return_val_if_fail (url != NULL, FALSE);
+		MateVFSResult result;
+		MateVFSURI* vfs_uri;
 
-	result = mate_vfs_url_show_with_env (url, envp);
+		g_return_val_if_fail(url != NULL, FALSE);
 
-	switch (result) {
-	case MATE_VFS_OK:
+		result = mate_vfs_url_show_with_env(url, envp);
+
+		switch (result)
+		{
+			case MATE_VFS_OK:
+				return TRUE;
+
+			case MATE_VFS_ERROR_INTERNAL:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_VFS, _("Unknown internal error while displaying this location."));
+				break;
+
+			case MATE_VFS_ERROR_BAD_PARAMETERS:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_URL, _("The specified location is invalid."));
+				break;
+
+			case MATE_VFS_ERROR_PARSE:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_PARSE, _("There was an error parsing the default action command associated with this location."));
+				break;
+
+			case MATE_VFS_ERROR_LAUNCH:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_LAUNCH, _("There was an error launching the default action command associated with this location."));
+				break;
+
+			case MATE_VFS_ERROR_NO_DEFAULT:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_NO_DEFAULT, _("There is no default action associated with this location."));
+				break;
+
+			case MATE_VFS_ERROR_NOT_SUPPORTED:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_NOT_SUPPORTED, _("The default action does not support this protocol."));
+				break;
+
+			case MATE_VFS_ERROR_CANCELLED:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_CANCELLED, _("The request was cancelled."));
+				break;
+
+			case MATE_VFS_ERROR_HOST_NOT_FOUND:
+				{
+					vfs_uri = mate_vfs_uri_new(url);
+
+					if (mate_vfs_uri_get_host_name(vfs_uri) != NULL)
+					{
+						g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_VFS, _("The host \"%s\" could not be found."), mate_vfs_uri_get_host_name(vfs_uri));
+					}
+					else
+					{
+						g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_VFS, _("The host could not be found."));
+					}
+
+					mate_vfs_uri_unref(vfs_uri);
+				}
+				break;
+
+			case MATE_VFS_ERROR_INVALID_URI:
+			case MATE_VFS_ERROR_NOT_FOUND:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_VFS, _("The location or file could not be found."));
+				break;
+
+			case MATE_VFS_ERROR_LOGIN_FAILED:
+				g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_VFS, _("The login has failed."));
+				break;
+			default:
+				g_set_error_literal(error, MATE_URL_ERROR, MATE_URL_ERROR_VFS, mate_vfs_result_to_string(result));
+		}
+
+		return FALSE;
+
+	#else
+
+		/* FIXME: Just call ShellExecute... Good enough? */
+		if ((int) ShellExecute(HWND_DESKTOP, "open", url, NULL, NULL, SW_SHOWNORMAL) <= 32)
+		{
+			g_set_error(error, MATE_URL_ERROR, MATE_URL_ERROR_LAUNCH, _("There was an error launching the default action command associated with this location."));
+			return FALSE;
+		}
+
 		return TRUE;
 
-	case MATE_VFS_ERROR_INTERNAL:
-		g_set_error (error,
-		             MATE_URL_ERROR,
-			     MATE_URL_ERROR_VFS,
-			     _("Unknown internal error while displaying this location."));
-		break;
-
-	case MATE_VFS_ERROR_BAD_PARAMETERS:
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_URL,
-			     _("The specified location is invalid."));
-		break;
-
-	case MATE_VFS_ERROR_PARSE:
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_PARSE,
-			     _("There was an error parsing the default action command associated "
-			       "with this location."));
-		break;
-
-	case MATE_VFS_ERROR_LAUNCH:
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_LAUNCH,
-			     _("There was an error launching the default action command associated "
-			       "with this location."));
-		break;
-
-	case MATE_VFS_ERROR_NO_DEFAULT:
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_NO_DEFAULT,
-			     _("There is no default action associated with this location."));
-		break;
-
-	case MATE_VFS_ERROR_NOT_SUPPORTED:
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_NOT_SUPPORTED,
-			     _("The default action does not support this protocol."));
-		break;
-
-	case MATE_VFS_ERROR_CANCELLED:
-		g_set_error (error,
-		             MATE_URL_ERROR,
-			     MATE_URL_ERROR_CANCELLED,
-			     _("The request was cancelled."));
-		break;
-
-	case MATE_VFS_ERROR_HOST_NOT_FOUND:
-		{
-			vfs_uri = mate_vfs_uri_new (url);
-			if (mate_vfs_uri_get_host_name (vfs_uri) != NULL) {
-				g_set_error (error,
-					     MATE_URL_ERROR,
-					     MATE_URL_ERROR_VFS,
-					     _("The host \"%s\" could not be found."),
-					     mate_vfs_uri_get_host_name (vfs_uri));
-			} else {
-				g_set_error (error,
-					     MATE_URL_ERROR,
-					     MATE_URL_ERROR_VFS,
-					     _("The host could not be found."));
-			}
-			mate_vfs_uri_unref (vfs_uri);
-		}
-		break;
-
-	case MATE_VFS_ERROR_INVALID_URI:
-	case MATE_VFS_ERROR_NOT_FOUND:
-		g_set_error (error,
-		             MATE_URL_ERROR,
-			     MATE_URL_ERROR_VFS,
-			     _("The location or file could not be found."));
-		break;
-
-	case MATE_VFS_ERROR_LOGIN_FAILED:
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_VFS,
-			     _("The login has failed."));
-		break;
-	default:
-		g_set_error_literal (error,
-				     MATE_URL_ERROR,
-				     MATE_URL_ERROR_VFS,
-				     mate_vfs_result_to_string (result));
-	}
-
-	return FALSE;
-#else
-	/* FIXME: Just call ShellExecute... Good enough? */
-
-	if ((int) ShellExecute (HWND_DESKTOP, "open", url, NULL, NULL, SW_SHOWNORMAL) <= 32) {
-		g_set_error (error,
-			     MATE_URL_ERROR,
-			     MATE_URL_ERROR_LAUNCH,
-			     _("There was an error launching the default action command associated "
-			       "with this location."));
-		return FALSE;
-	}
-
-	return TRUE;
-#endif
+	#endif
 }
 
 /**
@@ -200,11 +165,9 @@ mate_url_show_with_env (const char  *url,
  * Returns: %TRUE if everything went fine, %FALSE otherwise (in which case
  * @error will contain the actual error).
  */
-gboolean
-mate_url_show (const char  *url,
-		GError     **error)
+gboolean mate_url_show(const char* url, GError** error)
 {
-	return mate_url_show_with_env (url, NULL, error);
+	return mate_url_show_with_env(url, NULL, error);
 }
 
 /**
@@ -212,14 +175,14 @@ mate_url_show (const char  *url,
  *
  * Returns: A quark representing mate-url module errors.
  */
-GQuark
-mate_url_error_quark (void)
+GQuark mate_url_error_quark(void)
 {
 	static GQuark error_quark = 0;
 
 	if (error_quark == 0)
-		error_quark =
-			g_quark_from_static_string ("mate-url-error-quark");
+	{
+		error_quark = g_quark_from_static_string("mate-url-error-quark");
+	}
 
 	return error_quark;
 }

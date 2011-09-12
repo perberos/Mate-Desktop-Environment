@@ -36,22 +36,20 @@ G_BEGIN_DECLS
  * to override .mate2 via environment variable and this is
  * an important feature for environments that mix MATE versions)
  */
-#define MATE_DOT_MATE		".mate2/"
-#define MATE_DOT_MATE_PRIVATE	".mate2_private/"
+#define MATE_DOT_MATE ".mate2/"
+#define MATE_DOT_MATE_PRIVATE ".mate2_private/"
 
 #define LIBMATE_MODULE libmate_module_info_get()
-const MateModuleInfo *libmate_module_info_get (void) G_GNUC_CONST;
+const MateModuleInfo* libmate_module_info_get(void) G_GNUC_CONST;
 #define MATE_MATECOMPONENT_MODULE mate_matecomponent_module_info_get()
-const MateModuleInfo * mate_matecomponent_module_info_get (void) G_GNUC_CONST;
+const MateModuleInfo* mate_matecomponent_module_info_get(void) G_GNUC_CONST;
 
-const char *mate_user_dir_get (void) G_GNUC_CONST;
-const char *mate_user_private_dir_get (void) G_GNUC_CONST;
-const char *mate_user_accels_dir_get (void) G_GNUC_CONST;
+const char* mate_user_dir_get(void) G_GNUC_CONST;
+const char* mate_user_private_dir_get(void) G_GNUC_CONST;
+const char* mate_user_accels_dir_get(void) G_GNUC_CONST;
 
 #ifdef G_OS_WIN32
-void mate_win32_get_prefixes   (gpointer    hmodule,
-			         char      **full_prefix,
-			         char      **cp_prefix);
+	void mate_win32_get_prefixes(gpointer hmodule, char** full_prefix, char** cp_prefix);
 #endif
 
 G_END_DECLS
