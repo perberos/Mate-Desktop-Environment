@@ -14,12 +14,10 @@ sha256sums=('31c101ee91679ea7778306cc44c1d4049e158ef21ff868122791a57cfd9dc687')
 
 build() {
 	cd "$srcdir/$pkgname"
-	# Python2 fix, not anylonger
-	#sed -i '1s|#!/usr/bin/env python$|&2|' mate-about/mate-about
 
 	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static --disable-scrollkeeper
-	# --with-mate-distributor="Arch Linux AUR" not anylonger
+
 	make
 }
 
@@ -29,10 +27,4 @@ package() {
 
 	# prevent conflicts errors
 	mv "${pkgdir}/usr/share/omf" "${pkgdir}/usr/share/mate-omf"
-	rm "${pkgdir}/usr/share/pixmaps/apple-green.png"
-	rm "${pkgdir}/usr/share/pixmaps/apple-red.png"
-	rm "${pkgdir}/usr/share/pixmaps/gtkvim.png"
-	rm "${pkgdir}/usr/share/pixmaps/kterm.xpm"
-	rm "${pkgdir}/usr/share/pixmaps/monitor.png"
-	rm "${pkgdir}/usr/share/pixmaps/vnterm.xpm"
 }
