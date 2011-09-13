@@ -77,7 +77,7 @@ struct GMenuTreeItem
   GMenuTreeItemType type;
 
   GMenuTreeDirectory *parent;
-  
+
   gpointer       user_data;
   GDestroyNotify dnotify;
 
@@ -86,27 +86,27 @@ struct GMenuTreeItem
 
 struct GMenuTreeDirectory
 {
-  GMenuTreeItem item;
+	GMenuTreeItem item;
 
-  DesktopEntry *directory_entry;
-  char         *name;
+	DesktopEntry *directory_entry;
+	char         *name;
 
-  GSList *entries;
-  GSList *subdirs;
+	GSList *entries;
+	GSList *subdirs;
 
-  MenuLayoutValues  default_layout_values;
-  GSList           *default_layout_info;
-  GSList           *layout_info;
-  GSList           *contents;
+	MenuLayoutValues  default_layout_values;
+	GSList           *default_layout_info;
+	GSList           *layout_info;
+	GSList           *contents;
 
-  guint only_unallocated : 1;
-  guint is_root : 1;
-  guint is_nodisplay : 1;
-  guint layout_pending_separator : 1;
-  guint preprocessed : 1;
+	guint only_unallocated : 1;
+	guint is_root : 1;
+	guint is_nodisplay : 1;
+	guint layout_pending_separator : 1;
+	guint preprocessed : 1;
 
-  /* 16 bits should be more than enough; G_MAXUINT16 means no inline header */
-  guint will_inline_header : 16;
+	/* 16 bits should be more than enough; G_MAXUINT16 means no inline header */
+	guint will_inline_header : 16;
 };
 
 typedef struct
@@ -160,7 +160,7 @@ static void      gmenu_tree_resolve_files        (GMenuTree       *tree,
 						  MenuLayoutNode  *layout);
 static void      gmenu_tree_force_recanonicalize (GMenuTree       *tree);
 static void      gmenu_tree_invoke_monitors      (GMenuTree       *tree);
-     
+
 static void gmenu_tree_item_unref_and_unset_parent (gpointer itemp);
 
 /*
@@ -1039,15 +1039,14 @@ gmenu_tree_directory_get_comment (GMenuTreeDirectory *directory)
   return desktop_entry_get_comment (directory->directory_entry);
 }
 
-const char *
-gmenu_tree_directory_get_icon (GMenuTreeDirectory *directory)
+const char* gmenu_tree_directory_get_icon(GMenuTreeDirectory* directory)
 {
-  g_return_val_if_fail (directory != NULL, NULL);
+	g_return_val_if_fail(directory != NULL, NULL);
 
-  if (!directory->directory_entry)
-    return NULL;
+	if (!directory->directory_entry)
+		return NULL;
 
-  return desktop_entry_get_icon (directory->directory_entry);
+	return desktop_entry_get_icon(directory->directory_entry);
 }
 
 const char *
@@ -1186,12 +1185,11 @@ gmenu_tree_entry_get_comment (GMenuTreeEntry *entry)
   return desktop_entry_get_comment (entry->desktop_entry);
 }
 
-const char *
-gmenu_tree_entry_get_icon (GMenuTreeEntry *entry)
+const char* gmenu_tree_entry_get_icon(GMenuTreeEntry *entry)
 {
-  g_return_val_if_fail (entry != NULL, NULL);
+	g_return_val_if_fail (entry != NULL, NULL);
 
-  return desktop_entry_get_icon (entry->desktop_entry);
+	return desktop_entry_get_icon(entry->desktop_entry);
 }
 
 const char *
@@ -1326,7 +1324,7 @@ gmenu_tree_directory_finalize (GMenuTreeDirectory *directory)
 		   NULL);
   g_slist_free (directory->contents);
   directory->contents = NULL;
-  
+
   g_slist_foreach (directory->default_layout_info,
 		   (GFunc) menu_layout_node_unref,
 		   NULL);
@@ -1495,7 +1493,7 @@ gpointer
 gmenu_tree_item_ref (gpointer itemp)
 {
   GMenuTreeItem *item;
-  
+
   item = (GMenuTreeItem *) itemp;
 
   g_return_val_if_fail (item != NULL, NULL);
@@ -2102,26 +2100,22 @@ resolve_default_app_dirs (GMenuTree      *tree,
   menu_layout_node_unlink (layout);
 }
 
-static MenuLayoutNode *
-add_directory_dir (GMenuTree      *tree,
-                   MenuLayoutNode *before,
-                   const char     *data_dir)
+static MenuLayoutNode* add_directory_dir(GMenuTree* tree, MenuLayoutNode* before, const char* data_dir)
 {
-  MenuLayoutNode *tmp;
-  char           *dirname;
+	MenuLayoutNode* tmp;
+	char* dirname;
 
-  tmp = menu_layout_node_new (MENU_LAYOUT_NODE_DIRECTORY_DIR);
-  dirname = g_build_filename (data_dir, "desktop-directories", NULL);
-  menu_layout_node_set_content (tmp, dirname);
-  menu_layout_node_insert_before (before, tmp);
-  menu_layout_node_unref (before);
+	tmp = menu_layout_node_new(MENU_LAYOUT_NODE_DIRECTORY_DIR);
+	dirname = g_build_filename(data_dir, "desktop-directories", NULL);
+	menu_layout_node_set_content(tmp, dirname);
+	menu_layout_node_insert_before(before, tmp);
+	menu_layout_node_unref(before);
 
-  menu_verbose ("Adding <DirectoryDir>%s</DirectoryDir> in <DefaultDirectoryDirs/>\n",
-                dirname);
+	menu_verbose("Adding <DirectoryDir>%s</DirectoryDir> in <DefaultDirectoryDirs/>\n", dirname);
 
-  g_free (dirname);
+	g_free(dirname);
 
-  return tmp;
+	return tmp;
 }
 
 static void
@@ -3166,10 +3160,10 @@ collect_layout_info (MenuLayoutNode  *layout,
     {
       switch (menu_layout_node_get_type (iter))
 	{
-	case MENU_LAYOUT_NODE_MENUNAME: 
-	case MENU_LAYOUT_NODE_FILENAME: 
-	case MENU_LAYOUT_NODE_SEPARATOR: 
-	case MENU_LAYOUT_NODE_MERGE: 
+	case MENU_LAYOUT_NODE_MENUNAME:
+	case MENU_LAYOUT_NODE_FILENAME:
+	case MENU_LAYOUT_NODE_SEPARATOR:
+	case MENU_LAYOUT_NODE_MERGE:
 	  *layout_info = g_slist_prepend (*layout_info,
 					  menu_layout_node_ref (iter));
 	  break;
@@ -4071,7 +4065,7 @@ merge_subdir_by_name (GMenuTree          *tree,
 	  merge_subdir (tree, directory, subdir);
 	  gmenu_tree_item_unref (subdir);
 	}
-      
+
       tmp = next;
     }
 }
@@ -4116,7 +4110,7 @@ merge_entry_by_id (GMenuTree          *tree,
 	  merge_entry (tree, directory, entry);
 	  gmenu_tree_item_unref (entry);
 	}
-      
+
       tmp = next;
     }
 }
@@ -4392,7 +4386,7 @@ process_layout_info (GMenuTree          *tree,
                                     menu_layout_node_get_content (node));
 	      break;
 
-	    case MENU_LAYOUT_NODE_FILENAME: 
+	    case MENU_LAYOUT_NODE_FILENAME:
 	      merge_entry_by_id (tree,
 				 directory,
 				 menu_layout_node_get_content (node));

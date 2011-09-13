@@ -2,28 +2,28 @@ directorydir = $(datadir)/desktop-directories
 
 # Should be moved to mate-control-center:
 directory_in_controlcenterfiles =		\
-	Hardware.directory.in			\
-	InternetAndNetwork.directory.in		\
-	LookAndFeel.directory.in		\
-	Personal.directory.in			\
-	System.directory.in
+	mate-hardware.directory.in			\
+	mate-internet-and-network.directory.in		\
+	mate-look-and-feel.directory.in		\
+	mate-personal.directory.in			\
+	mate-system.directory.in
 
 directory_in_files =				\
-	AudioVideo.directory.in			\
-	Development.directory.in		\
-	Education.directory.in			\
-	Game.directory.in			\
-	Graphics.directory.in			\
-	Network.directory.in			\
-	Office.directory.in			\
-	Settings.directory.in			\
-	Settings-System.directory.in		\
-	System-Tools.directory.in		\
-	Utility.directory.in			\
-	Utility-Accessibility.directory.in	\
-	X-MATE-Other.directory.in		\
-	X-MATE-Menu-Applications.directory.in	\
-	X-MATE-Menu-System.directory.in	\
+	mate-audio-video.directory.in			\
+	mate-development.directory.in		\
+	mate-education.directory.in			\
+	mate-game.directory.in			\
+	mate-graphics.directory.in			\
+	mate-network.directory.in			\
+	mate-office.directory.in			\
+	mate-settings.directory.in			\
+	mate-settings-system.directory.in		\
+	mate-system-tools.directory.in		\
+	mate-utility.directory.in			\
+	mate-utility-accessibility.directory.in	\
+	mate-other.directory.in		\
+	mate-menu-applications.directory.in	\
+	mate-menu-system.directory.in	\
 	$(directory_in_controlcenterfiles)
 
 directory_DATA = $(directory_in_files:.directory.in=.directory)

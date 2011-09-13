@@ -298,7 +298,7 @@ desktop_entry_load (DesktopEntry *entry)
       retval->exec = g_key_file_get_string (key_file, desktop_entry_group, "Exec", NULL);
       retval->terminal = g_key_file_get_boolean (key_file, desktop_entry_group, "Terminal", NULL);
     }
-  
+
 #undef GET_LOCALE_STRING
 
   menu_verbose ("Desktop entry \"%s\" (%s, %s, %s, %s, %s) flags: NoDisplay=%s, Hidden=%s, ShowInMATE=%s, TryExecFailed=%s\n",
@@ -524,10 +524,9 @@ desktop_entry_get_comment (DesktopEntry *entry)
   return entry->comment;
 }
 
-const char *
-desktop_entry_get_icon (DesktopEntry *entry)
+const char* desktop_entry_get_icon(DesktopEntry* entry)
 {
-  return entry->icon;
+	return entry->icon;
 }
 
 const char *

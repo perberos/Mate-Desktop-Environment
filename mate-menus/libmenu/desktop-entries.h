@@ -48,7 +48,7 @@ const char *desktop_entry_get_name               (DesktopEntry *entry);
 const char *desktop_entry_get_generic_name       (DesktopEntry *entry);
 const char *desktop_entry_get_full_name          (DesktopEntry *entry);
 const char *desktop_entry_get_comment            (DesktopEntry *entry);
-const char *desktop_entry_get_icon               (DesktopEntry *entry);
+const char* desktop_entry_get_icon(DesktopEntry* entry);
 const char *desktop_entry_get_exec               (DesktopEntry *entry);
 gboolean    desktop_entry_get_launch_in_terminal (DesktopEntry *entry);
 

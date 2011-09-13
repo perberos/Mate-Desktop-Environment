@@ -1,7 +1,7 @@
 SUBDIRS = libmenu desktop-directories layout util po
 
 if HAVE_PYTHON
-SUBDIRS += python simple-editor
+SUBDIRS += python
 endif
 
 ACLOCAL_AMFLAGS = -I m4
