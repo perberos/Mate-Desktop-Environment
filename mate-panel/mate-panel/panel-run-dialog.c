@@ -79,7 +79,7 @@ typedef struct {
 	GtkWidget        *terminal_checkbox;
 	GtkWidget        *program_label;
 	GtkWidget        *program_list;
-	
+
 	long              changed_id;
 
 	GtkListStore     *program_list_store;
@@ -88,7 +88,7 @@ typedef struct {
 	GList		 *possible_executables;
 	GList		 *completion_items;
 	GCompletion      *completion;
-	
+
 	GSList           *add_icon_paths;
 	int	          add_icons_idle_id;
 	int	          add_items_idle_id;
@@ -96,10 +96,10 @@ typedef struct {
 	int		  content_notify_id;
 	gboolean	  use_program_list;
 	gboolean	  completion_started;
-	
+
 	char		 *icon_path;
 	char             *desktop_path;
-	char		 *item_name;	
+	char		 *item_name;
 } PanelRunDialog;
 
 enum {
@@ -189,11 +189,11 @@ static void
 panel_run_dialog_destroy (PanelRunDialog *dialog)
 {
 	GList *l;
-	
+
 	dialog->changed_id = 0;
 
 	g_object_unref (dialog->program_list_box);
-	
+
 	g_slist_foreach (dialog->add_icon_paths, (GFunc) gtk_tree_path_free, NULL);
 	g_slist_free (dialog->add_icon_paths);
 	dialog->add_icon_paths = NULL;
@@ -230,18 +230,18 @@ panel_run_dialog_destroy (PanelRunDialog *dialog)
 		g_free (l->data);
 	g_list_free (dialog->possible_executables);
 	dialog->possible_executables = NULL;
-	
+
 	for (l = dialog->completion_items; l; l = l->next)
 		g_free (l->data);
 	g_list_free (dialog->completion_items);
 	dialog->completion_items = NULL;
-	
+
 	if (dialog->completion)
 		g_completion_free (dialog->completion);
 	dialog->completion = NULL;
 
 	panel_run_dialog_disconnect_pixmap (dialog);
-	
+
 	g_free (dialog);
 }
 
@@ -251,7 +251,7 @@ panel_run_dialog_set_default_icon (PanelRunDialog *dialog, gboolean set_drag)
 	gtk_image_set_from_icon_name (GTK_IMAGE (dialog->pixmap),
 				      PANEL_ICON_RUN,
 				      GTK_ICON_SIZE_DIALOG);
-	
+
 	gtk_window_set_icon_name (GTK_WINDOW (dialog->run_dialog),
 				  PANEL_ICON_RUN);
 
@@ -273,7 +273,7 @@ panel_run_dialog_set_icon (PanelRunDialog *dialog,
 
 	g_free (dialog->icon_path);
 	dialog->icon_path = NULL;
-		
+
 	if (icon_path) {
 		GdkScreen   *screen;
 		GtkSettings *settings;
@@ -292,7 +292,7 @@ panel_run_dialog_set_icon (PanelRunDialog *dialog,
 					  size,
 					  NULL);
 	}
-	
+
 	if (pixbuf) {
 		dialog->icon_path = g_strdup (icon_path);
 
@@ -304,7 +304,7 @@ panel_run_dialog_set_icon (PanelRunDialog *dialog,
 		//FIXME: it'd be better to set an icon of the correct size,
 		//(ditto for the drag icon?)
 		gtk_window_set_icon (GTK_WINDOW (dialog->run_dialog), pixbuf);
-		
+
 		gtk_drag_source_set_icon_pixbuf (dialog->run_dialog, pixbuf);
 		g_object_unref (pixbuf);
 	} else {
@@ -362,19 +362,19 @@ panel_run_dialog_launch_command (PanelRunDialog *dialog,
 				 const char     *locale_command)
 {
 	GdkScreen  *screen;
-	gboolean    result;	
+	gboolean    result;
 	GError     *error = NULL;
 	char      **argv;
 	int         argc;
-	
+
 	if (!command_is_executable (locale_command, &argc, &argv))
 		return FALSE;
 
-	screen = gtk_window_get_screen (GTK_WINDOW (dialog->run_dialog));	
-		
+	screen = gtk_window_get_screen (GTK_WINDOW (dialog->run_dialog));
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->terminal_checkbox)))
 		mate_desktop_prepend_terminal_to_vector (&argc, &argv);
-		   
+
 	result = gdk_spawn_on_screen (screen,
 				      NULL, /* working directory */
 				      argv,
@@ -384,7 +384,7 @@ panel_run_dialog_launch_command (PanelRunDialog *dialog,
 				      NULL, /* user data */
 				      NULL, /* child pid */
 				      &error);
-			
+
 	if (!result) {
 		char *primary;
 
@@ -397,9 +397,9 @@ panel_run_dialog_launch_command (PanelRunDialog *dialog,
 
 		g_error_free (error);
 	}
-				
+
 	g_strfreev (argv);
-	
+
 	return result;
 }
 
@@ -410,8 +410,8 @@ panel_run_dialog_execute (PanelRunDialog *dialog)
 	gboolean  result;
 	char     *command;
 	char     *disk;
-	char     *scheme;	
-	
+	char     *scheme;
+
 	command = gtk_combo_box_get_active_text (GTK_COMBO_BOX (dialog->combobox));
 	command = g_strchug (command);
 
@@ -419,7 +419,7 @@ panel_run_dialog_execute (PanelRunDialog *dialog)
 		g_free (command);
 		return;
 	}
-	
+
 	/* evil eggies, do not translate! */
 	if (!strcmp (command, "free the fish")) {
 		start_screen_check ();
@@ -434,7 +434,7 @@ panel_run_dialog_execute (PanelRunDialog *dialog)
 		gtk_widget_destroy (dialog->run_dialog);
 		return;
 	}
-		
+
 	error = NULL;
 	disk = g_locale_from_utf8 (command, -1, NULL, NULL, &error);
 
@@ -453,18 +453,18 @@ panel_run_dialog_execute (PanelRunDialog *dialog)
 	}
 
 	result = FALSE;
-	
+
 	scheme = g_uri_parse_scheme (disk);
 	/* if it's an absolute path or not a URI, it's possibly an executable,
 	 * so try it before displaying it */
 	if (g_path_is_absolute (disk) || !scheme)
 		result = panel_run_dialog_launch_command (dialog, command, disk);
-	
+
 	if (!result) {
 		GFile     *file;
 		char      *uri;
 		GdkScreen *screen;
-		
+
 		file = panel_util_get_file_optional_homedir (command);
 		uri = g_file_get_uri (file);
 		g_object_unref (file);
@@ -475,12 +475,12 @@ panel_run_dialog_execute (PanelRunDialog *dialog)
 
 		g_free (uri);
 	}
-		
+
 	if (result) {
 		/* only save working commands in history */
 		_panel_run_save_recent_programs_list
 			(GTK_COMBO_BOX_ENTRY (dialog->combobox), command);
-		
+
 		/* only close the dialog if we successfully showed or launched
 		 * something */
 		gtk_widget_destroy (dialog->run_dialog);
@@ -520,7 +520,7 @@ static char *
 quote_string (const char *s)
 {
 	const char *p;
-	
+
 	for (p = s; *p != '\0'; p++) {
 		if ((*p >= 'a' && *p <= 'z') ||
 		    (*p >= 'A' && *p <= 'Z') ||
@@ -530,7 +530,7 @@ quote_string (const char *s)
 		else
 			return g_shell_quote (s);
 	}
-	
+
 	return g_strdup (s);
 }
 
@@ -541,11 +541,11 @@ panel_run_dialog_append_file_utf8 (PanelRunDialog *dialog,
 	char       *text;
 	char       *quoted, *temp;
 	GtkWidget  *entry;
-	
+
 	/* Don't allow filenames beginning with '-' */
 	if (!file || !file[0] || file[0] == '-')
 		return;
-	
+
 	quoted = quote_string (file);
 	entry = gtk_bin_get_child (GTK_BIN (dialog->combobox));
 	text = gtk_combo_box_get_active_text (GTK_COMBO_BOX (dialog->combobox));
@@ -555,7 +555,7 @@ panel_run_dialog_append_file_utf8 (PanelRunDialog *dialog,
 		g_free (temp);
 	} else
 		gtk_entry_set_text (GTK_ENTRY (entry), quoted);
-	
+
 	g_free (text);
 	g_free (quoted);
 }
@@ -565,15 +565,15 @@ panel_run_dialog_append_file (PanelRunDialog *dialog,
 			      const char *file)
 {
 	char *utf8_file;
-	
+
 	if (!file)
 		return;
-	
+
 	utf8_file = g_filename_to_utf8 (file, -1, NULL, NULL, NULL);
-	
+
 	if (utf8_file)
 		panel_run_dialog_append_file_utf8 (dialog, utf8_file);
-	
+
 	g_free (utf8_file);
 }
 
@@ -650,16 +650,16 @@ panel_run_dialog_find_command_idle (PanelRunDialog *dialog)
 	char         *found_icon;
 	char         *found_name;
 	gboolean      fuzzy;
-	
+
 	model = GTK_TREE_MODEL (dialog->program_list_store);
 	path = gtk_tree_path_new_first ();
-	
+
 	if (!path || !gtk_tree_model_get_iter (model, &iter, path)) {
 		if (path)
 			gtk_tree_path_free (path);
-		
+
 		panel_run_dialog_set_icon (dialog, NULL, FALSE);
-	
+
 		dialog->find_command_idle_id = 0;
 		return FALSE;
 	}
@@ -686,10 +686,10 @@ panel_run_dialog_find_command_idle (PanelRunDialog *dialog)
 		    fuzzy_command_match (text, exec, &fuzzy)) {
 			g_free (found_icon);
 			g_free (found_name);
-			
+
 			found_icon = g_strdup (icon);
 			found_name = g_strdup (name);
-			
+
 			gtk_list_store_set (dialog->program_list_store,
 					    &iter,
 					    COLUMN_VISIBLE, TRUE,
@@ -712,7 +712,7 @@ panel_run_dialog_find_command_idle (PanelRunDialog *dialog)
 		g_free (icon);
 		g_free (name);
 		g_free (comment);
-	
+
         } while (gtk_tree_model_iter_next (model, &iter));
 
 	if (gtk_tree_model_get_iter (gtk_tree_view_get_model (GTK_TREE_VIEW (dialog->program_list)),
@@ -727,10 +727,10 @@ panel_run_dialog_find_command_idle (PanelRunDialog *dialog)
 
 	g_free (found_icon);
 	g_free (text);
-	
+
 	g_free (dialog->item_name);
 	dialog->item_name = found_name;
-	
+
 	dialog->find_command_idle_id = 0;
 	return FALSE;
 }
@@ -744,7 +744,7 @@ panel_run_dialog_add_icon_idle (PanelRunDialog *dialog)
 	char        *file;
 	int          icon_height;
 	gboolean     long_operation = FALSE;
-	
+
 	do {
 		if (!dialog->add_icon_paths) {
 			dialog->add_icons_idle_id = 0;
@@ -762,7 +762,7 @@ panel_run_dialog_add_icon_idle (PanelRunDialog *dialog)
 			gtk_tree_path_free (path);
 			continue;
 		}
-		
+
 		gtk_tree_path_free (path);
 
 		gtk_tree_model_get (GTK_TREE_MODEL (dialog->program_list_store), &iter,
@@ -778,7 +778,7 @@ panel_run_dialog_add_icon_idle (PanelRunDialog *dialog)
 			g_object_unref (pixbuf);
 		}
 		g_free (file);
-		
+
 	/* don't go back into the main loop if this wasn't very hard to do */
 	} while (!long_operation);
 
@@ -858,25 +858,23 @@ get_all_applications_from_dir (GMenuTreeDirectory *directory,
 	return list;
 }
 
-static GSList *
-get_all_applications (void)
+static GSList* get_all_applications(void)
 {
-	GMenuTree          *tree;
-	GMenuTreeDirectory *root;
-	GSList             *retval;
+	GMenuTree* tree;
+	GMenuTreeDirectory* root;
+	GSList* retval;
 
-	tree = gmenu_tree_lookup ("applications.menu", GMENU_TREE_FLAGS_NONE);
-	gmenu_tree_set_sort_key (tree, GMENU_TREE_SORT_DISPLAY_NAME);
+	tree = gmenu_tree_lookup("mate-applications.menu", GMENU_TREE_FLAGS_NONE);
+	gmenu_tree_set_sort_key(tree, GMENU_TREE_SORT_DISPLAY_NAME);
 
-	root = gmenu_tree_get_root_directory (tree);
+	root = gmenu_tree_get_root_directory(tree);
 
-	retval = get_all_applications_from_dir (root, NULL);
+	retval = get_all_applications_from_dir(root, NULL);
 
-	gmenu_tree_item_unref (root);
-	gmenu_tree_unref (tree);
+	gmenu_tree_item_unref(root);
+	gmenu_tree_unref(tree);
 
-	retval = g_slist_sort (retval,
-			       (GCompareFunc) compare_applications);
+	retval = g_slist_sort(retval, (GCompareFunc) compare_applications);
 
 	return retval;
 }
@@ -903,7 +901,7 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 							 G_TYPE_BOOLEAN);
 
 	all_applications = get_all_applications ();
-	
+
 	/* Strip duplicates */
 	prev_name = NULL;
 	for (l = all_applications; l; l = next) {
@@ -951,7 +949,7 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 	gtk_tree_model_filter_set_visible_column (GTK_TREE_MODEL_FILTER (model_filter),
 						  COLUMN_VISIBLE);
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW (dialog->program_list), 
+	gtk_tree_view_set_model (GTK_TREE_VIEW (dialog->program_list),
 				 model_filter);
 	//FIXME use the same search than the fuzzy one?
 	gtk_tree_view_set_search_column (GTK_TREE_VIEW (dialog->program_list),
@@ -963,13 +961,13 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 	gtk_tree_view_column_set_attributes (column, renderer,
                                              "pixbuf", COLUMN_ICON,
                                              NULL);
-        
+
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes (column, renderer,
                                              "text", COLUMN_NAME,
                                              NULL);
-					          
+
 	gtk_tree_view_append_column (GTK_TREE_VIEW (dialog->program_list), column);
 
 	dialog->add_icon_paths = g_slist_reverse (dialog->add_icon_paths);
@@ -979,7 +977,7 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 			g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) panel_run_dialog_add_icon_idle,
 					 dialog, NULL);
 
-	dialog->add_items_idle_id = 0;					 
+	dialog->add_items_idle_id = 0;
 	return FALSE;
 }
 
@@ -1048,7 +1046,7 @@ program_list_selection_changed (GtkTreeSelection *selection,
 	gtk_tree_model_get (child_model, &iter,
 			    COLUMN_PATH, &path,
 			    -1);
-				  
+
 	if (!path)
 		return;
 
@@ -1088,7 +1086,7 @@ program_list_selection_changed (GtkTreeSelection *selection,
 	temp = panel_key_file_get_locale_string (key_file, "Icon");
 	panel_run_dialog_set_icon (dialog, temp, FALSE);
 	g_free (temp);
-	
+
 	temp = panel_key_file_get_locale_string (key_file, "Comment");
 	//FIXME: if sure_string () == "", we should display "Will run..." as in entry_changed()
 	gtk_label_set_text (GTK_LABEL (dialog->program_label),
@@ -1113,9 +1111,9 @@ program_list_selection_activated (GtkTreeView       *view,
 	GtkTreeSelection *selection;
 
 	/* update the entry with the info from the selection */
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->program_list));	
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->program_list));
 	program_list_selection_changed (selection, dialog);
-	
+
 	/* now launch the command */
 	gtk_dialog_response (GTK_DIALOG (dialog->run_dialog), GTK_RESPONSE_OK);
 }
@@ -1126,17 +1124,17 @@ panel_run_dialog_setup_program_list (PanelRunDialog *dialog,
 				     GtkBuilder     *gui)
 {
 	GtkTreeSelection *selection;
-	
+
 	dialog->program_list = PANEL_GTK_BUILDER_GET (gui, "program_list");
 	dialog->program_list_box = PANEL_GTK_BUILDER_GET (gui, "program_list_box");
 	dialog->program_label = PANEL_GTK_BUILDER_GET (gui, "program_label");
 	dialog->main_box = PANEL_GTK_BUILDER_GET (gui, "main_box");
-	
+
 	/* Ref the box so it doesn't get destroyed when it is
 	 * removed from the visible area of the dialog box.
 	 */
 	g_object_ref (dialog->program_list_box);
-	
+
 	if (panel_profile_get_enable_program_list ()) {
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->program_list));
 		gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
@@ -1150,8 +1148,8 @@ panel_run_dialog_setup_program_list (PanelRunDialog *dialog,
 				  dialog);
 
 		/* start loading the list of applications */
-		dialog->add_items_idle_id = 
-			g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) panel_run_dialog_add_items_idle, 
+		dialog->add_items_idle_id =
+			g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) panel_run_dialog_add_items_idle,
 					 dialog, NULL);
 	}
 }
@@ -1170,12 +1168,12 @@ panel_run_dialog_update_content (PanelRunDialog *dialog,
 
 		gtk_window_set_resizable (GTK_WINDOW (dialog->run_dialog), FALSE);
                 gtk_widget_grab_focus (dialog->combobox);
-		
+
 	} else if (show_list) {
 		gtk_window_resize (GTK_WINDOW (dialog->run_dialog), 100, 300);
 		gtk_window_set_resizable (GTK_WINDOW (dialog->run_dialog), TRUE);
 		gtk_widget_grab_focus (dialog->program_list);
-		
+
         } else if (!show_list) {
 		gtk_window_set_resizable (GTK_WINDOW (dialog->run_dialog), FALSE);
                 gtk_widget_grab_focus (dialog->combobox);
@@ -1205,7 +1203,7 @@ panel_run_dialog_setup_list_expander (PanelRunDialog *dialog,
 {
 	MateConfClient *client;
 	const char *key;
-	
+
 	dialog->list_expander = PANEL_GTK_BUILDER_GET (gui, "list_expander");
 
 	if (panel_profile_get_enable_program_list ()) {
@@ -1214,19 +1212,19 @@ panel_run_dialog_setup_list_expander (PanelRunDialog *dialog,
 
 		if ( ! panel_profile_is_writable_show_program_list ())
 			gtk_widget_set_sensitive (dialog->list_expander, FALSE);
-		
+
 	        g_signal_connect (dialog->list_expander, "notify::expanded",
 				  G_CALLBACK (list_expander_toggled),
 				  dialog);
-	
+
 		client = panel_mateconf_get_client ();
 		key = panel_mateconf_general_key ("show_program_list");
-	
+
 		dialog->content_notify_id =
 			mateconf_client_notify_add (client, key,
 						 (MateConfClientNotifyFunc) panel_run_dialog_content_notify,
 						 dialog, NULL, NULL);
-					 
+
 		if (!dialog->content_notify_id)
 			g_warning ("error setting up content change notification");
 	}
@@ -1238,7 +1236,7 @@ file_button_browse_response (GtkWidget      *chooser,
 			     PanelRunDialog *dialog)
 {
 	char *file;
-	
+
 	if (response == GTK_RESPONSE_OK) {
 		file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
 		panel_run_dialog_append_file (dialog, file);
@@ -1246,7 +1244,7 @@ file_button_browse_response (GtkWidget      *chooser,
 	}
 
 	gtk_widget_destroy (chooser);
- 
+
 	gtk_widget_grab_focus (dialog->combobox);
 }
 
@@ -1262,10 +1260,10 @@ file_button_clicked (GtkButton      *button,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_OK, GTK_RESPONSE_OK,
 					       NULL);
-	
+
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser),
 					     g_get_home_dir ());
-	
+
 	gtk_dialog_set_default_response (GTK_DIALOG (chooser), GTK_RESPONSE_OK);
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (chooser), TRUE);
 
@@ -1280,7 +1278,7 @@ panel_run_dialog_setup_file_button (PanelRunDialog *dialog,
 				    GtkBuilder     *gui)
 {
 	dialog->file_button = PANEL_GTK_BUILDER_GET (gui, "file_button");
-		
+
         g_signal_connect (dialog->file_button, "clicked",
 			  G_CALLBACK (file_button_clicked),
 			  dialog);
@@ -1295,24 +1293,24 @@ fill_files_from (const char *dirname,
 	GList         *list;
 	DIR           *dir;
 	struct dirent *dent;
-	
+
 	list = NULL;
 	dir = opendir (dirname);
-	
+
 	if (!dir)
 		return list;
-	
+
 	while ((dent = readdir (dir))) {
 		char       *file;
 		char       *item;
 		const char *suffix;
-		
+
 		if (!dent->d_name ||
 		    dent->d_name [0] != prefix)
 			continue;
 
 		file = g_build_filename (dirname, dent->d_name, NULL);
-		
+
 		suffix = NULL;
 		if (
 #ifdef HAVE_STRUCT_DIRENT_D_TYPE
@@ -1325,18 +1323,18 @@ fill_files_from (const char *dirname,
 #endif
 		   )
 			suffix = "/";
-		
+
 		g_free (file);
-		
+
 		item = g_build_filename (dirprefix, dent->d_name, suffix, NULL);
-		
+
 		list = g_list_prepend (list, item);
 	}
 
 	closedir (dir);
-	
+
 	return list;
-}	
+}
 
 static GList *
 fill_possible_executables (void)
@@ -1345,7 +1343,7 @@ fill_possible_executables (void)
 	const char    *path;
 	char         **pathv;
 	int            i;
-	
+
 	list = NULL;
 	path = g_getenv ("PATH");
 
@@ -1353,7 +1351,7 @@ fill_possible_executables (void)
 		return list;
 
 	pathv = g_strsplit (path, ":", 0);
-	
+
 	for (i = 0; pathv [i]; i++) {
 		const char *file;
 		char       *filename;
@@ -1371,9 +1369,9 @@ fill_possible_executables (void)
 
 		g_dir_close (dir);
 	}
-	
+
 	g_strfreev (pathv);
-	
+
 	return list;
 }
 
@@ -1384,20 +1382,20 @@ fill_executables (GList *possible_executables,
 {
 	GList *list;
 	GList *l;
-	
-	list = NULL;	
-	
+
+	list = NULL;
+
 	for (l = possible_executables; l; l = l->next) {
 		const char *filename;
 		char       *basename;
-			
+
 		filename = l->data;
 		basename = g_path_get_basename (filename);
-			
+
 		if (basename [0] == prefix &&
 		    g_file_test (filename, G_FILE_TEST_IS_REGULAR) &&
 		    g_file_test (filename, G_FILE_TEST_IS_EXECUTABLE)) {
-			    
+
 			if (g_list_find_custom (existing_items, basename,
 						(GCompareFunc) strcmp)) {
 				g_free (basename);
@@ -1409,7 +1407,7 @@ fill_executables (GList *possible_executables,
 			g_free (basename);
 		 }
 	}
-	
+
 	return list;
 }
 
@@ -1437,7 +1435,7 @@ panel_run_dialog_update_completion (PanelRunDialog *dialog,
 							  g_str_equal,
 							  g_free, NULL);
 	}
-	
+
 	buf = g_path_get_basename (text);
 	prefix = buf[0];
 	g_free (buf);
@@ -1480,11 +1478,11 @@ panel_run_dialog_update_completion (PanelRunDialog *dialog,
 
 	if (list == NULL)
 		return;
-		
+
 	g_completion_add_items (dialog->completion, list);
-		
+
 	dialog->completion_items = g_list_concat (dialog->completion_items,
-						  list);	
+						  list);
 }
 
 static gboolean
@@ -1518,13 +1516,13 @@ entry_event (GtkEditable    *entry,
 		    pos != tmp &&
 		    pos != 1 &&
 		    tmp == strlen (gtk_entry_get_text (GTK_ENTRY (entry)))) {
-	    		gtk_editable_select_region (entry, 0, 0);		
+	    		gtk_editable_select_region (entry, 0, 0);
 			gtk_editable_set_position (entry, -1);
-			
+
 			return TRUE;
 		}
 	} else if (event->length > 0) {
-			   
+
 		gtk_editable_get_selection_bounds (entry, &pos, &tmp);
 
 		if (dialog->completion_started &&
@@ -1541,7 +1539,7 @@ entry_event (GtkEditable    *entry,
 		} else {
 			return FALSE;
 		}
-		
+
 		nospace_prefix = prefix;
 		while (*nospace_prefix != '\0' &&
 		       g_ascii_isspace (*nospace_prefix))
@@ -1550,12 +1548,12 @@ entry_event (GtkEditable    *entry,
 			return FALSE;
 
 		panel_run_dialog_update_completion (dialog, nospace_prefix);
-		
+
 		if (!dialog->completion) {
 			g_free (prefix);
 			return FALSE;
 		}
-		
+
 		pos = strlen (prefix);
 		nprefix = NULL;
 
@@ -1583,19 +1581,19 @@ entry_event (GtkEditable    *entry,
 
  			gtk_editable_set_position (entry, pos);
 			gtk_editable_select_region (entry, pos, -1);
-			
+
 			dialog->completion_started = TRUE;
 
 			g_free (temp);
 			g_free (nprefix);
 			g_free (prefix);
-			
+
 			return TRUE;
 		}
-		
+
 		g_free (prefix);
 	}
-	
+
 	return FALSE;
 }
 
@@ -1677,7 +1675,7 @@ combobox_changed (GtkComboBox    *combobox,
 		gtk_label_set_text (GTK_LABEL (dialog->program_label), msg);
 		g_free (msg);
 	}
-	
+
 	/* look up icon for the command */
 	if (panel_profile_get_enable_program_list () &&
 	    !dialog->use_program_list &&
@@ -1721,7 +1719,7 @@ entry_drag_data_received (GtkEditable      *entry,
 	for (i = 0; uris [i]; i++) {
 		if (!uris [i] || !uris [i][0])
 			continue;
-		
+
 		file = g_filename_from_uri (uris [i], NULL, NULL);
 
 		/* FIXME: I assume the file is in utf8 encoding if coming from a URI? */
@@ -1743,7 +1741,7 @@ panel_run_dialog_setup_entry (PanelRunDialog *dialog,
 	GdkScreen             *screen;
 	int                    width_request;
 	GtkWidget             *entry;
-	
+
 	dialog->combobox = PANEL_GTK_BUILDER_GET (gui, "comboboxentry");
 
 	entry = gtk_bin_get_child (GTK_BIN (dialog->combobox));
@@ -1764,13 +1762,13 @@ panel_run_dialog_setup_entry (PanelRunDialog *dialog,
 
         g_signal_connect (entry, "key-press-event",
 			  G_CALLBACK (entry_event), dialog);
-			  
+
         dialog->changed_id = g_signal_connect (dialog->combobox, "changed",
 					       G_CALLBACK (combobox_changed),
 					       dialog);
 
 	gtk_drag_dest_unset (dialog->combobox);
-	
+
 	gtk_drag_dest_set (dialog->combobox,
 			   GTK_DEST_DEFAULT_MOTION|GTK_DEST_DEFAULT_HIGHLIGHT,
 			   NULL, 0,
@@ -1793,12 +1791,12 @@ panel_run_dialog_create_desktop_file (PanelRunDialog *dialog)
 	char     *save_uri;
 
 	text = gtk_combo_box_get_active_text (GTK_COMBO_BOX (dialog->combobox));
-	
+
 	if (!text || !text [0]) {
 		g_free (text);
 		return NULL;
 	}
-		
+
 	key_file = panel_key_file_new_desktop ();
 	disk = g_locale_from_utf8 (text, -1, NULL, NULL, NULL);
 
@@ -1807,7 +1805,7 @@ panel_run_dialog_create_desktop_file (PanelRunDialog *dialog)
 	if (g_path_is_absolute (disk) || !scheme)
 		exec = command_is_executable (disk, NULL, NULL);
 	g_free (scheme);
-		
+
 	if (exec) {
 		panel_key_file_set_string (key_file, "Type", "Application");
 		panel_key_file_set_string (key_file, "Exec", text);
@@ -1913,7 +1911,7 @@ panel_run_dialog_setup_pixmap (PanelRunDialog *dialog,
 			       GtkBuilder     *gui)
 {
 	dialog->pixmap = PANEL_GTK_BUILDER_GET (gui, "icon_pixmap");
-	
+
 	g_signal_connect (dialog->pixmap, "style-set",
 			  G_CALLBACK (panel_run_dialog_style_set),
 			  dialog);
@@ -1936,16 +1934,16 @@ panel_run_dialog_new (GdkScreen  *screen,
 	dialog = g_new0 (PanelRunDialog, 1);
 
 	dialog->run_dialog = PANEL_GTK_BUILDER_GET (gui, "panel_run_dialog");
-	
+
 	g_signal_connect_swapped (dialog->run_dialog, "response",
 				  G_CALLBACK (panel_run_dialog_response), dialog);
-				  
+
 	g_signal_connect_swapped (dialog->run_dialog, "destroy",
 				  G_CALLBACK (panel_run_dialog_destroy), dialog);
 
 	dialog->run_button = PANEL_GTK_BUILDER_GET (gui, "run_button");
 	dialog->terminal_checkbox = PANEL_GTK_BUILDER_GET (gui, "terminal_checkbox");
-	
+
 	panel_run_dialog_setup_pixmap        (dialog, gui);
 	panel_run_dialog_setup_entry         (dialog, gui);
 	panel_run_dialog_setup_file_button   (dialog, gui);
@@ -1957,7 +1955,7 @@ panel_run_dialog_new (GdkScreen  *screen,
 	panel_run_dialog_update_content (dialog, panel_profile_get_show_program_list ());
 
 	gtk_widget_set_sensitive (dialog->run_button, FALSE);
-	
+
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog->run_dialog),
 					 GTK_RESPONSE_OK);
 
@@ -1968,7 +1966,7 @@ panel_run_dialog_new (GdkScreen  *screen,
 	gdk_x11_window_set_user_time (gtk_widget_get_window (dialog->run_dialog),
 				      activate_time);
 	gtk_widget_show (dialog->run_dialog);
-	
+
 	return dialog;
 }
 

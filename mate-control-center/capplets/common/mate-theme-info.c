@@ -16,26 +16,26 @@
 #include "gtkrc-utils.h"
 
 #ifdef HAVE_XCURSOR
-#include <X11/Xcursor/Xcursor.h>
+	#include <X11/Xcursor/Xcursor.h>
 #endif
 
-#define THEME_NAME "X-MATE-Metatheme/Name"
-#define THEME_COMMENT "X-MATE-Metatheme/Comment"
-#define GTK_THEME_KEY "X-MATE-Metatheme/GtkTheme"
-#define GTK_COLOR_SCHEME_KEY "X-MATE-Metatheme/GtkColorScheme"
-#define MARCO_THEME_KEY "X-MATE-Metatheme/MarcoTheme"
-#define ICON_THEME_KEY "X-MATE-Metatheme/IconTheme"
-#define CURSOR_THEME_KEY "X-MATE-Metatheme/CursorTheme"
-#define NOTIFICATION_THEME_KEY "X-MATE-Metatheme/NotificationTheme"
-#define CURSOR_SIZE_KEY "X-MATE-Metatheme/CursorSize"
-#define SOUND_THEME_KEY "X-MATE-Metatheme/SoundTheme"
-#define APPLICATION_FONT_KEY "X-MATE-Metatheme/ApplicationFont"
-#define DOCUMENTS_FONT_KEY "X-MATE-Metatheme/DocumentsFont"
-#define DESKTOP_FONT_KEY "X-MATE-Metatheme/DesktopFont"
-#define WINDOWTITLE_FONT_KEY "X-MATE-Metatheme/WindowTitleFont"
-#define MONOSPACE_FONT_KEY "X-MATE-Metatheme/MonospaceFont"
-#define BACKGROUND_IMAGE_KEY "X-MATE-Metatheme/BackgroundImage"
-#define HIDDEN_KEY "X-MATE-Metatheme/Hidden"
+#define THEME_NAME "X-GNOME-Metatheme/Name"
+#define THEME_COMMENT "X-GNOME-Metatheme/Comment"
+#define GTK_THEME_KEY "X-GNOME-Metatheme/GtkTheme"
+#define GTK_COLOR_SCHEME_KEY "X-GNOME-Metatheme/GtkColorScheme"
+#define MARCO_THEME_KEY "X-GNOME-Metatheme/MetacityTheme"
+#define ICON_THEME_KEY "X-GNOME-Metatheme/IconTheme"
+#define CURSOR_THEME_KEY "X-GNOME-Metatheme/CursorTheme"
+#define NOTIFICATION_THEME_KEY "X-GNOME-Metatheme/NotificationTheme"
+#define CURSOR_SIZE_KEY "X-GNOME-Metatheme/CursorSize"
+#define SOUND_THEME_KEY "X-GNOME-Metatheme/SoundTheme"
+#define APPLICATION_FONT_KEY "X-GNOME-Metatheme/ApplicationFont"
+#define DOCUMENTS_FONT_KEY "X-GNOME-Metatheme/DocumentsFont"
+#define DESKTOP_FONT_KEY "X-GNOME-Metatheme/DesktopFont"
+#define WINDOWTITLE_FONT_KEY "X-GNOME-Metatheme/WindowTitleFont"
+#define MONOSPACE_FONT_KEY "X-GNOME-Metatheme/MonospaceFont"
+#define BACKGROUND_IMAGE_KEY "X-GNOME-Metatheme/BackgroundImage"
+#define HIDDEN_KEY "X-GNOME-Metatheme/Hidden"
 
 /* Terminology used in this lib:
  *
@@ -254,138 +254,164 @@ theme_free (MateThemeCommonInfo *info)
   }
 }
 
-GQuark
-mate_theme_info_error_quark (void)
+GQuark mate_theme_info_error_quark(void)
 {
-  return g_quark_from_static_string ("mate-theme-info-error-quark");
+	return g_quark_from_static_string("mate-theme-info-error-quark");
 }
 
-MateThemeMetaInfo *
-mate_theme_read_meta_theme (GFile *meta_theme_uri)
+MateThemeMetaInfo* mate_theme_read_meta_theme(GFile* meta_theme_uri)
 {
-  MateThemeMetaInfo *meta_theme_info;
-  GFile *common_theme_dir_uri;
-  MateDesktopItem *meta_theme_ditem;
-  gchar *meta_theme_file;
-  const gchar *str;
-  gchar *scheme;
+	MateThemeMetaInfo* meta_theme_info;
+	GFile* common_theme_dir_uri;
+	MateDesktopItem* meta_theme_ditem;
+	gchar* meta_theme_file;
+	const gchar* str;
+	gchar* scheme;
 
-  meta_theme_file = g_file_get_uri (meta_theme_uri);
-  meta_theme_ditem = mate_desktop_item_new_from_uri (meta_theme_file, 0, NULL);
-  g_free (meta_theme_file);
+	meta_theme_file = g_file_get_uri(meta_theme_uri);
+	meta_theme_ditem = mate_desktop_item_new_from_uri(meta_theme_file, 0, NULL);
+	g_free(meta_theme_file);
 
-  if (meta_theme_ditem == NULL)
-    return NULL;
+	if (meta_theme_ditem == NULL)
+		return NULL;
 
-  common_theme_dir_uri = g_file_get_parent (meta_theme_uri);
-  meta_theme_info = mate_theme_meta_info_new ();
-  meta_theme_info->path = g_file_get_path (meta_theme_uri);
-  meta_theme_info->name = g_file_get_basename (common_theme_dir_uri);
-  g_object_unref (common_theme_dir_uri);
+	common_theme_dir_uri = g_file_get_parent(meta_theme_uri);
+	meta_theme_info = mate_theme_meta_info_new();
+	meta_theme_info->path = g_file_get_path(meta_theme_uri);
+	meta_theme_info->name = g_file_get_basename(common_theme_dir_uri);
+	g_object_unref(common_theme_dir_uri);
 
-  str = mate_desktop_item_get_localestring (meta_theme_ditem, THEME_NAME);
-  if (!str) {
-    str = mate_desktop_item_get_localestring (meta_theme_ditem, MATE_DESKTOP_ITEM_NAME);
-    if (!str) { /* shouldn't reach */
-      mate_theme_meta_info_free (meta_theme_info);
-      return NULL;
-    }
-  }
+	str = mate_desktop_item_get_localestring(meta_theme_ditem, THEME_NAME);
 
-  meta_theme_info->readable_name = g_strdup (str);
+	if (!str)
+	{
+		str = mate_desktop_item_get_localestring(meta_theme_ditem, MATE_DESKTOP_ITEM_NAME);
+		if (!str)
+		{ /* shouldn't reach */
+			mate_theme_meta_info_free(meta_theme_info);
+			return NULL;
+		}
+	}
 
-  str = mate_desktop_item_get_localestring (meta_theme_ditem, THEME_COMMENT);
-  if (str == NULL)
-    str = mate_desktop_item_get_localestring (meta_theme_ditem, MATE_DESKTOP_ITEM_COMMENT);
-  if (str != NULL)
-    meta_theme_info->comment = g_strdup (str);
+	meta_theme_info->readable_name = g_strdup(str);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, MATE_DESKTOP_ITEM_ICON);
-  if (str != NULL)
-    meta_theme_info->icon_file = g_strdup (str);
+	str = mate_desktop_item_get_localestring(meta_theme_ditem, THEME_COMMENT);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, GTK_THEME_KEY);
-  if (str == NULL) {
-    mate_theme_meta_info_free (meta_theme_info);
-    return NULL;
-  }
-  meta_theme_info->gtk_theme_name = g_strdup (str);
+	if (str == NULL)
+		str = mate_desktop_item_get_localestring(meta_theme_ditem, MATE_DESKTOP_ITEM_COMMENT);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, GTK_COLOR_SCHEME_KEY);
-  if (str == NULL || str[0] == '\0')
-    scheme = gtkrc_get_color_scheme_for_theme (meta_theme_info->gtk_theme_name);
-  else
-    scheme = g_strdup (str);
+	if (str != NULL)
+		meta_theme_info->comment = g_strdup(str);
 
-  if (scheme != NULL) {
-    meta_theme_info->gtk_color_scheme = scheme;
-    for (; *scheme != '\0'; scheme++)
-      if (*scheme == ',')
-        *scheme = '\n';
-  }
+	str = mate_desktop_item_get_string(meta_theme_ditem, MATE_DESKTOP_ITEM_ICON);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, MARCO_THEME_KEY);
-  if (str == NULL) {
-    mate_theme_meta_info_free (meta_theme_info);
-    return NULL;
-  }
-  meta_theme_info->marco_theme_name = g_strdup (str);
+	if (str != NULL)
+		meta_theme_info->icon_file = g_strdup(str);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, ICON_THEME_KEY);
-  if (str == NULL) {
-    mate_theme_meta_info_free (meta_theme_info);
-    return NULL;
-  }
-  meta_theme_info->icon_theme_name = g_strdup (str);
+	str = mate_desktop_item_get_string(meta_theme_ditem, GTK_THEME_KEY);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, NOTIFICATION_THEME_KEY);
-  if (str != NULL)
-    meta_theme_info->notification_theme_name = g_strdup (str);
+	if (str == NULL)
+	{
+		mate_theme_meta_info_free(meta_theme_info);
+		return NULL;
+	}
+	meta_theme_info->gtk_theme_name = g_strdup(str);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, CURSOR_THEME_KEY);
-  if (str != NULL) {
-    meta_theme_info->cursor_theme_name = g_strdup (str);
+	str = mate_desktop_item_get_string(meta_theme_ditem, GTK_COLOR_SCHEME_KEY);
 
-    str = mate_desktop_item_get_string (meta_theme_ditem, CURSOR_SIZE_KEY);
-    if (str)
-      meta_theme_info->cursor_size = (int) g_ascii_strtoll (str, NULL, 10);
-    else
-      meta_theme_info->cursor_size = 18;
-  } else {
-    meta_theme_info->cursor_theme_name = g_strdup ("default");
-    meta_theme_info->cursor_size = 18;
-  }
+	if (str == NULL || str[0] == '\0')
+		scheme = gtkrc_get_color_scheme_for_theme(meta_theme_info->gtk_theme_name);
+	else
+		scheme = g_strdup(str);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, APPLICATION_FONT_KEY);
-  if (str != NULL)
-    meta_theme_info->application_font = g_strdup (str);
+	if (scheme != NULL)
+	{
+		meta_theme_info->gtk_color_scheme = scheme;
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, DOCUMENTS_FONT_KEY);
-  if (str != NULL)
-    meta_theme_info->documents_font = g_strdup (str);
+		for (; *scheme != '\0'; scheme++)
+			if (*scheme == ',')
+				*scheme = '\n';
+	}
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, DESKTOP_FONT_KEY);
-  if (str != NULL)
-    meta_theme_info->desktop_font = g_strdup (str);
+	str = mate_desktop_item_get_string (meta_theme_ditem, MARCO_THEME_KEY);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, WINDOWTITLE_FONT_KEY);
-  if (str != NULL)
-    meta_theme_info->windowtitle_font = g_strdup (str);
+	if (str == NULL)
+	{
+		mate_theme_meta_info_free (meta_theme_info);
+		return NULL;
+	}
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, MONOSPACE_FONT_KEY);
-  if (str != NULL)
-    meta_theme_info->monospace_font = g_strdup (str);
+	meta_theme_info->marco_theme_name = g_strdup (str);
 
-  str = mate_desktop_item_get_string (meta_theme_ditem, BACKGROUND_IMAGE_KEY);
-  if (str != NULL)
-    meta_theme_info->background_image = g_strdup (str);
+	str = mate_desktop_item_get_string(meta_theme_ditem, ICON_THEME_KEY);
 
-  meta_theme_info->hidden = mate_desktop_item_get_boolean (meta_theme_ditem,
-                                                            HIDDEN_KEY);
+	if (str == NULL)
+	{
+		mate_theme_meta_info_free(meta_theme_info);
+		return NULL;
+	}
 
-  mate_desktop_item_unref (meta_theme_ditem);
+	meta_theme_info->icon_theme_name = g_strdup(str);
 
-  return meta_theme_info;
+	str = mate_desktop_item_get_string(meta_theme_ditem, NOTIFICATION_THEME_KEY);
+
+	if (str != NULL)
+		meta_theme_info->notification_theme_name = g_strdup(str);
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, CURSOR_THEME_KEY);
+
+	if (str != NULL)
+	{
+		meta_theme_info->cursor_theme_name = g_strdup(str);
+
+		str = mate_desktop_item_get_string(meta_theme_ditem, CURSOR_SIZE_KEY);
+
+		if (str)
+			meta_theme_info->cursor_size = (int) g_ascii_strtoll(str, NULL, 10);
+		else
+			meta_theme_info->cursor_size = 18;
+	}
+	else
+	{
+		meta_theme_info->cursor_theme_name = g_strdup("default");
+		meta_theme_info->cursor_size = 18;
+	}
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, APPLICATION_FONT_KEY);
+
+	if (str != NULL)
+		meta_theme_info->application_font = g_strdup(str);
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, DOCUMENTS_FONT_KEY);
+
+	if (str != NULL)
+		meta_theme_info->documents_font = g_strdup(str);
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, DESKTOP_FONT_KEY);
+
+	if (str != NULL)
+		meta_theme_info->desktop_font = g_strdup(str);
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, WINDOWTITLE_FONT_KEY);
+
+	if (str != NULL)
+		meta_theme_info->windowtitle_font = g_strdup(str);
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, MONOSPACE_FONT_KEY);
+
+	if (str != NULL)
+		meta_theme_info->monospace_font = g_strdup(str);
+
+	str = mate_desktop_item_get_string(meta_theme_ditem, BACKGROUND_IMAGE_KEY);
+
+	if (str != NULL)
+		meta_theme_info->background_image = g_strdup(str);
+
+	meta_theme_info->hidden = mate_desktop_item_get_boolean(meta_theme_ditem, HIDDEN_KEY);
+
+	mate_desktop_item_unref(meta_theme_ditem);
+
+	return meta_theme_info;
 }
 
 static MateThemeIconInfo *
@@ -1576,36 +1602,34 @@ mate_theme_cursor_info_compare (MateThemeCursorInfo *a,
 }
 
 /* Meta themes */
-MateThemeMetaInfo *
-mate_theme_meta_info_new (void)
+MateThemeMetaInfo* mate_theme_meta_info_new(void)
 {
-  MateThemeMetaInfo *theme_info;
+	MateThemeMetaInfo* theme_info;
 
-  theme_info = g_new0 (MateThemeMetaInfo, 1);
-  theme_info->type = MATE_THEME_TYPE_METATHEME;
+	theme_info = g_new0(MateThemeMetaInfo, 1);
+	theme_info->type = MATE_THEME_TYPE_METATHEME;
 
-  return theme_info;
+	return theme_info;
 }
 
-void
-mate_theme_meta_info_free (MateThemeMetaInfo *meta_theme_info)
+void mate_theme_meta_info_free(MateThemeMetaInfo* meta_theme_info)
 {
-  g_free (meta_theme_info->path);
-  g_free (meta_theme_info->readable_name);
-  g_free (meta_theme_info->name);
-  g_free (meta_theme_info->comment);
-  g_free (meta_theme_info->application_font);
-  g_free (meta_theme_info->documents_font);
-  g_free (meta_theme_info->desktop_font);
-  g_free (meta_theme_info->windowtitle_font);
-  g_free (meta_theme_info->monospace_font);
-  g_free (meta_theme_info->background_image);
-  g_free (meta_theme_info->gtk_theme_name);
-  g_free (meta_theme_info->gtk_color_scheme);
-  g_free (meta_theme_info->icon_theme_name);
-  g_free (meta_theme_info->marco_theme_name);
-  g_free (meta_theme_info->notification_theme_name);
-  g_free (meta_theme_info);
+	g_free(meta_theme_info->path);
+	g_free(meta_theme_info->readable_name);
+	g_free(meta_theme_info->name);
+	g_free(meta_theme_info->comment);
+	g_free(meta_theme_info->application_font);
+	g_free(meta_theme_info->documents_font);
+	g_free(meta_theme_info->desktop_font);
+	g_free(meta_theme_info->windowtitle_font);
+	g_free(meta_theme_info->monospace_font);
+	g_free(meta_theme_info->background_image);
+	g_free(meta_theme_info->gtk_theme_name);
+	g_free(meta_theme_info->gtk_color_scheme);
+	g_free(meta_theme_info->icon_theme_name);
+	g_free(meta_theme_info->marco_theme_name);
+	g_free(meta_theme_info->notification_theme_name);
+	g_free(meta_theme_info);
 }
 
 gboolean
@@ -1652,23 +1676,18 @@ mate_theme_meta_info_validate (const MateThemeMetaInfo *info, GError **error)
   return TRUE;
 }
 
-MateThemeMetaInfo *
-mate_theme_meta_info_find (const char *meta_theme_name)
+MateThemeMetaInfo* mate_theme_meta_info_find(const char *meta_theme_name)
 {
-  g_return_val_if_fail (meta_theme_name != NULL, NULL);
+	g_return_val_if_fail(meta_theme_name != NULL, NULL);
 
-  return (MateThemeMetaInfo *)
-         get_theme_from_hash_by_name (meta_theme_hash_by_name, meta_theme_name, -1);
+	return (MateThemeMetaInfo*) get_theme_from_hash_by_name (meta_theme_hash_by_name, meta_theme_name, -1);
 }
 
-GList *
-mate_theme_meta_info_find_all (void)
+GList* mate_theme_meta_info_find_all(void)
 {
-  GList *list = NULL;
+  GList* list = NULL;
 
-  g_hash_table_foreach (meta_theme_hash_by_name,
-                        (GHFunc) mate_theme_info_find_all_helper,
-                        &list);
+  g_hash_table_foreach (meta_theme_hash_by_name, (GHFunc) mate_theme_info_find_all_helper, &list);
 
   return list;
 }

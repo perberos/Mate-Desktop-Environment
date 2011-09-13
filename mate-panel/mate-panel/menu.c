@@ -89,7 +89,7 @@ static gboolean panel_menu_key_press_handler (GtkWidget   *widget,
 
 static inline gboolean
 desktop_is_home_dir (void)
-{	
+{
 	return mateconf_client_get_bool (
 			panel_mateconf_get_client (),
 			"/apps/caja/preferences/desktop_is_home_dir",
@@ -101,7 +101,7 @@ GtkWidget *
 add_menu_separator (GtkWidget *menu)
 {
 	GtkWidget *menuitem;
-	
+
 	menuitem = gtk_separator_menu_item_new ();
 	gtk_widget_set_sensitive (menuitem, FALSE);
 	gtk_widget_show (menuitem);
@@ -190,14 +190,14 @@ reload_image_menu_items (void)
 	for (l = image_menu_items; l; l = l->next) {
 		GtkWidget *image = l->data;
 		gboolean   is_mapped;
-      
+
 		is_mapped = gtk_widget_get_mapped (image);
 
 		if (is_mapped)
 			gtk_widget_unmap (image);
 
 		gtk_image_set_from_pixbuf (GTK_IMAGE (image), NULL);
-    
+
 		if (is_mapped)
 			gtk_widget_map (image);
 
@@ -223,7 +223,7 @@ panel_create_menu (void)
 		g_signal_connect (gtk_icon_theme_get_default (), "changed",
 				  G_CALLBACK (icon_theme_changed), NULL);
 	}
-	
+
 	retval = gtk_menu_new ();
 	gtk_widget_set_name (retval, "mate-panel-main-menu");
 
@@ -348,7 +348,7 @@ panel_make_menu_icon (GtkIconTheme *icon_theme,
 
 			width = gdk_pixbuf_get_width (pb);
 			height = gdk_pixbuf_get_height (pb);
-			
+
 			/* if we want 24 and we get 22, do nothing;
 			 * else scale */
 			if (!(size - 2 <= width && width <= size &&
@@ -362,7 +362,7 @@ panel_make_menu_icon (GtkIconTheme *icon_theme,
 				pb = tmp;
 			}
 		}
-				
+
 		/* add icon to the hash table so we don't load it again */
 		loaded = TRUE;
 	}
@@ -450,7 +450,7 @@ menu_item_style_set (GtkImage *image,
 		gtk_widget_unmap (widget);
 
 	gtk_image_set_from_pixbuf (image, NULL);
-    
+
 	if (is_mapped)
 		gtk_widget_map (widget);
 }
@@ -859,7 +859,7 @@ restore_grabs(GtkWidget *w, gpointer data)
 		  gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	      }
          }
-	
+
 	gtk_grab_add (GTK_WIDGET (menu));
 }
 
@@ -1001,11 +1001,11 @@ menuitem_button_press_event (GtkWidget      *menuitem,
 {
 	if (event->button == 3)
 		return show_item_menu (menuitem, event);
-	
+
 	return FALSE;
 }
 
-static void  
+static void
 drag_begin_menu_cb (GtkWidget *widget, GdkDragContext     *context)
 {
 	/* FIXME: workaround for a possible gtk+ bug
@@ -1018,7 +1018,7 @@ drag_begin_menu_cb (GtkWidget *widget, GdkDragContext     *context)
 /* This is a _horrible_ hack to have this here. This needs to be added to the
  * GTK+ menuing code in some manner.
  */
-static void  
+static void
 drag_end_menu_cb (GtkWidget *widget, GdkDragContext     *context)
 {
   GtkWidget *xgrab_shell;
@@ -1038,7 +1038,7 @@ drag_end_menu_cb (GtkWidget *widget, GdkDragContext     *context)
     {
       gboolean viewable = TRUE;
       GtkWidget *tmp = parent;
-      
+
       while (tmp)
 	{
 	  if (!gtk_widget_get_mapped (tmp))
@@ -1048,13 +1048,13 @@ drag_end_menu_cb (GtkWidget *widget, GdkDragContext     *context)
 	    }
 	  tmp = gtk_widget_get_parent (tmp);
 	}
-      
+
       if (viewable)
 	xgrab_shell = parent;
-      
+
       parent = GTK_MENU_SHELL (parent)->parent_menu_shell;
     }
-  
+
   if (xgrab_shell && !gtk_menu_get_tearoff_state (GTK_MENU(xgrab_shell)))
     {
       GdkWindow *window = gtk_widget_get_window (xgrab_shell);
@@ -1079,7 +1079,7 @@ drag_end_menu_cb (GtkWidget *widget, GdkDragContext     *context)
     }
 }
 
-static void  
+static void
 drag_data_get_menu_cb (GtkWidget        *widget,
 		       GdkDragContext   *context,
 		       GtkSelectionData *selection_data,
@@ -1132,7 +1132,7 @@ menu_escape_underscores_and_prepend (const char *text)
 	GString    *escaped_text;
 	const char *src;
 	int         inserted;
-	
+
 	if (!text)
 		return g_strdup (text);
 
@@ -1167,7 +1167,7 @@ setup_menuitem (GtkWidget   *menuitem,
 		GtkIconSize  icon_size,
 		GtkWidget   *image,
 		const char  *title)
-			       
+
 {
 	GtkWidget *label;
 	char      *_title;
@@ -1184,7 +1184,7 @@ setup_menuitem (GtkWidget   *menuitem,
 
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
-       
+
 	gtk_container_add (GTK_CONTAINER (menuitem), label);
 
 	if (image) {
@@ -1232,7 +1232,7 @@ setup_uri_drag (GtkWidget  *menuitem,
 
 	if (icon != NULL)
 		gtk_drag_source_set_icon_name (menuitem, icon);
-	
+
 	g_signal_connect (G_OBJECT (menuitem), "drag_begin",
 			  G_CALLBACK (drag_begin_menu_cb), NULL);
 	g_signal_connect_data (G_OBJECT (menuitem), "drag_data_get",
@@ -1263,7 +1263,7 @@ setup_internal_applet_drag (GtkWidget             *menuitem,
 	if (panel_action_get_icon_name (type)  != NULL)
 		gtk_drag_source_set_icon_name (menuitem,
 					       panel_action_get_icon_name (type));
-	
+
 	g_signal_connect (G_OBJECT (menuitem), "drag_begin",
 			  G_CALLBACK (drag_begin_menu_cb), NULL);
 	g_signal_connect_data (G_OBJECT (menuitem), "drag_data_get",
@@ -1343,17 +1343,17 @@ remove_submenu_to_display_idle (gpointer data)
 
 static GtkWidget *
 create_fake_menu (GMenuTreeDirectory *directory)
-{	
+{
 	GtkWidget *menu;
 	guint      idle_id;
-	
+
 	menu = create_empty_menu ();
 
 	g_object_set_data_full (G_OBJECT (menu),
 				"panel-menu-tree-directory",
 				gmenu_tree_item_ref (directory),
 				(GDestroyNotify) gmenu_tree_item_unref);
-	
+
 	g_object_set_data (G_OBJECT (menu),
 			   "panel-menu-needs-loading",
 			   GUINT_TO_POINTER (TRUE));
@@ -1433,7 +1433,7 @@ create_submenu (GtkWidget          *menu,
 		menuitem = create_submenu_entry (menu, alias_directory);
 	else
 		menuitem = create_submenu_entry (menu, directory);
-	
+
 	submenu = create_fake_menu (directory);
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
@@ -1446,7 +1446,7 @@ create_submenu (GtkWidget          *menu,
 			   GINT_TO_POINTER (force_categories_icon));
 }
 
-static void 
+static void
 create_header (GtkWidget       *menu,
 	       GMenuTreeHeader *header)
 {
@@ -1472,7 +1472,7 @@ create_menuitem (GtkWidget          *menu,
 		 GMenuTreeDirectory *alias_directory)
 {
 	GtkWidget  *menuitem;
-	
+
 	menuitem = panel_image_menu_item_new ();
 
 	g_object_set_data_full (G_OBJECT (menuitem),
@@ -1648,7 +1648,7 @@ create_applications_menu (const char *menu_file,
 				"panel-menu-tree-path",
 				g_strdup (menu_path ? menu_path : "/"),
 				(GDestroyNotify) g_free);
-	
+
 	g_object_set_data (G_OBJECT (menu),
 			   "panel-menu-needs-loading",
 			   GUINT_TO_POINTER (TRUE));
@@ -1682,7 +1682,7 @@ create_applications_menu (const char *menu_file,
 static GtkWidget *
 populate_menu_from_directory (GtkWidget          *menu,
 			      GMenuTreeDirectory *directory)
-{	
+{
 	GList    *children;
 	GSList   *l;
 	GSList   *items;
@@ -1788,22 +1788,17 @@ main_menu_append (GtkWidget *main_menu,
 	panel_menu_items_append_lock_logout (main_menu);
 }
 
-GtkWidget *
-create_main_menu (PanelWidget *panel)
+GtkWidget* create_main_menu(PanelWidget* panel)
 {
-	GtkWidget *main_menu;
+	GtkWidget* main_menu;
 
-	main_menu = create_applications_menu ("applications.menu", NULL, TRUE);
+	main_menu = create_applications_menu("mate-applications.menu", NULL, TRUE);
 
-	g_object_set_data (G_OBJECT (main_menu), "menu_panel", panel);
+	g_object_set_data(G_OBJECT(main_menu), "menu_panel", panel);
 	/* FIXME need to update the panel on parent_set */
 
-	g_object_set_data (G_OBJECT (main_menu),
-			   "panel-menu-append-callback",
-			   main_menu_append);
-	g_object_set_data (G_OBJECT (main_menu),
-			   "panel-menu-append-callback-data",
-			   panel);
+	g_object_set_data(G_OBJECT(main_menu), "panel-menu-append-callback", main_menu_append);
+	g_object_set_data(G_OBJECT(main_menu), "panel-menu-append-callback-data", panel);
 
 	return main_menu;
 }
@@ -1825,7 +1820,7 @@ image_menu_shown (GtkWidget *image, gpointer data)
 {
 	IconToLoad *new_icon;
 	IconToLoad *icon;
-	
+
 	icon = (IconToLoad *) data;
 
 	/* if we've already handled this */
@@ -1918,7 +1913,7 @@ panel_menu_key_press_handler (GtkWidget   *widget,
 			retval = show_item_menu (menu_shell->active_menu_item,
 						 &bevent);
 		}
-		
+
 	}
 	return retval;
 }

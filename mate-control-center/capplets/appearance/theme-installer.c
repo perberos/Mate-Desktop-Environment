@@ -110,7 +110,7 @@ file_theme_type (const gchar *dir)
 			return THEME_CURSOR;
 		}
 
-		pattern = g_pattern_spec_new ("*[X-MATE-Metatheme]*");
+		pattern = g_pattern_spec_new ("*[X-GNOME-Metatheme]*");
 		match = g_pattern_match_string (pattern, file_contents);
 		g_pattern_spec_free (pattern);
 		g_free (file_contents);
@@ -128,7 +128,7 @@ file_theme_type (const gchar *dir)
 	if (exists)
 		return THEME_GTK;
 
-	filename = g_build_filename (dir, "marco-1", "marco-theme-1.xml", NULL);
+	filename = g_build_filename (dir, "metacity-1", "metacity-theme-1.xml", NULL);
 	exists = g_file_test (filename, G_FILE_TEST_IS_REGULAR);
 	g_free (filename);
 

@@ -173,23 +173,26 @@ write_theme_to_disk (MateThemeMetaInfo  *theme_info,
 		     gboolean		  save_background,
 		     GError             **error)
 {
-  gchar *dir, *theme_name_dir;
-  GFile *tmp_file;
-  GFile *target_file;
-  GOutputStream *output;
+	gchar* dir;
+	gchar* theme_name_dir;
+	GFile* tmp_file;
+	GFile* target_file;
+	GOutputStream* output;
 
-  gchar *str, *current_background;
-  MateConfClient *client;
-  const gchar *theme_header =
-      "[Desktop Entry]\n"
-      "Name=%s\n"
-      "Type=X-MATE-Metatheme\n"
-      "Comment=%s\n"
-      "\n"
-      "[X-MATE-Metatheme]\n"
-      "GtkTheme=%s\n"
-      "MarcoTheme=%s\n"
-      "IconTheme=%s\n";
+	gchar* str;
+	gchar* current_background;
+
+	MateConfClient* client;
+	const gchar* theme_header = ""
+		"[Desktop Entry]\n"
+		"Name=%s\n"
+		"Type=X-GNOME-Metatheme\n"
+		"Comment=%s\n"
+		"\n"
+		"[X-GNOME-Metatheme]\n"
+		"GtkTheme=%s\n"
+		"MetacityTheme=%s\n"
+		"IconTheme=%s\n";
 
   theme_name_dir = str_remove_slash (theme_name);
   dir = g_build_filename (g_get_home_dir (), ".themes", theme_name_dir, "index.theme~", NULL);
@@ -201,10 +204,7 @@ write_theme_to_disk (MateThemeMetaInfo  *theme_info,
   g_free (dir);
 
   /* start making the theme file */
-  str = g_strdup_printf (theme_header, theme_name, theme_description,
-			 theme_info->gtk_theme_name,
-			 theme_info->marco_theme_name,
-			 theme_info->icon_theme_name);
+  str = g_strdup_printf(theme_header, theme_name, theme_description, theme_info->gtk_theme_name, theme_info->marco_theme_name, theme_info->icon_theme_name);
 
   output = G_OUTPUT_STREAM (g_file_replace (tmp_file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, NULL));
   g_output_stream_write (output, str, strlen (str), NULL, NULL);

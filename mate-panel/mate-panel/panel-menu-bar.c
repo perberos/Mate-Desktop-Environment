@@ -131,44 +131,34 @@ panel_menu_bar_setup_tooltip (PanelMenuBar *menubar)
 			  menubar);
 }
 
-static void
-panel_menu_bar_init (PanelMenuBar *menubar)
+static void panel_menu_bar_init(PanelMenuBar* menubar)
 {
-	GtkWidget *image;
+	GtkWidget* image;
 
-	menubar->priv = PANEL_MENU_BAR_GET_PRIVATE (menubar);
+	menubar->priv = PANEL_MENU_BAR_GET_PRIVATE(menubar);
 
 	menubar->priv->info = NULL;
 
-	menubar->priv->applications_menu = create_applications_menu ("applications.menu", NULL, TRUE);
+	menubar->priv->applications_menu = create_applications_menu("mate-applications.menu", NULL, TRUE);
 
-	menubar->priv->applications_item = panel_image_menu_item_new ();
-	gtk_menu_item_set_label (GTK_MENU_ITEM (menubar->priv->applications_item),
-				 _("Applications"));
-	image = gtk_image_new_from_icon_name (PANEL_ICON_MAIN_MENU,
-					      panel_menu_bar_icon_get_size ());
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menubar->priv->applications_item),
-				       image);
+	menubar->priv->applications_item = panel_image_menu_item_new();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(menubar->priv->applications_item), _("Applications"));
+	image = gtk_image_new_from_icon_name(PANEL_ICON_MAIN_MENU, panel_menu_bar_icon_get_size());
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menubar->priv->applications_item), image);
 
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menubar->priv->applications_item),
-				   menubar->priv->applications_menu);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menubar),
-			       menubar->priv->applications_item);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menubar->priv->applications_item), menubar->priv->applications_menu);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menubar->priv->applications_item);
 
-	menubar->priv->places_item = panel_place_menu_item_new (FALSE);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menubar),
-			       menubar->priv->places_item);
+	menubar->priv->places_item = panel_place_menu_item_new(FALSE);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menubar->priv->places_item);
 
-	menubar->priv->desktop_item = panel_desktop_menu_item_new (FALSE, TRUE);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menubar),
-			       menubar->priv->desktop_item);
+	menubar->priv->desktop_item = panel_desktop_menu_item_new(FALSE, TRUE);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menubar->priv->desktop_item);
 
-	panel_menu_bar_setup_tooltip (menubar);
+	panel_menu_bar_setup_tooltip(menubar);
 
-	panel_menu_bar_update_text_gravity (menubar);
-	g_signal_connect (menubar, "screen-changed",
-			  G_CALLBACK (panel_menu_bar_update_text_gravity),
-			  NULL);
+	panel_menu_bar_update_text_gravity(menubar);
+	g_signal_connect(menubar, "screen-changed", G_CALLBACK(panel_menu_bar_update_text_gravity), NULL);
 }
 
 static void
@@ -427,13 +417,13 @@ panel_menu_bar_popup_menu (PanelMenuBar *menubar,
 {
 	GtkMenu *menu;
 	GtkMenuShell *menu_shell;
-	
+
 	g_return_if_fail (PANEL_IS_MENU_BAR (menubar));
 
 	menu = GTK_MENU (menubar->priv->applications_menu);
 
-	/* 
-	 * We need to call _gtk_menu_shell_activate() here as is done in 
+	/*
+	 * We need to call _gtk_menu_shell_activate() here as is done in
 	 * window_key_press_handler in gtkmenubar.c which pops up menu
 	 * when F10 is pressed.
 	 *

@@ -32,70 +32,66 @@
 #include <libmateui/mate-bg.h>
 
 enum {
-  TARGET_URI_LIST,
-  TARGET_BGIMAGE
+	TARGET_URI_LIST,
+	TARGET_BGIMAGE
 };
 
 static const GtkTargetEntry drop_types[] = {
-  { "text/uri-list", 0, TARGET_URI_LIST },
-  { "property/bgimage", 0, TARGET_BGIMAGE }
+	{"text/uri-list", 0, TARGET_URI_LIST},
+	{"property/bgimage", 0, TARGET_BGIMAGE}
 };
 
 static const GtkTargetEntry drag_types[] = {
-  {"text/uri-list", GTK_TARGET_OTHER_WIDGET, TARGET_URI_LIST}
+	{"text/uri-list", GTK_TARGET_OTHER_WIDGET, TARGET_URI_LIST}
 };
 
 
-static void wp_update_preview (GtkFileChooser *chooser, AppearanceData *data);
+static void wp_update_preview(GtkFileChooser* chooser, AppearanceData* data);
 
-static void
-select_item (AppearanceData *data,
-             MateWPItem * item,
-             gboolean scroll)
+static void select_item(AppearanceData* data, MateWPItem* item, gboolean scroll)
 {
-  GtkTreePath *path;
+	GtkTreePath* path;
 
-  g_return_if_fail (data != NULL);
+	g_return_if_fail(data != NULL);
 
-  if (item == NULL)
-    return;
+	if (item == NULL)
+		return;
 
-  path = gtk_tree_row_reference_get_path (item->rowref);
+	path = gtk_tree_row_reference_get_path(item->rowref);
 
-  gtk_icon_view_select_path (data->wp_view, path);
+	gtk_icon_view_select_path(data->wp_view, path);
 
-  if (scroll)
-    gtk_icon_view_scroll_to_path (data->wp_view, path, FALSE, 0.5, 0.0);
+	if (scroll)
+	{
+		gtk_icon_view_scroll_to_path(data->wp_view, path, FALSE, 0.5, 0.0);
+	}
 
-  gtk_tree_path_free (path);
+	gtk_tree_path_free(path);
 }
 
-static MateWPItem *
-get_selected_item (AppearanceData *data,
-                   GtkTreeIter *iter)
+static MateWPItem* get_selected_item(AppearanceData* data, GtkTreeIter* iter)
 {
-  MateWPItem *item = NULL;
-  GList *selected;
+	MateWPItem* item = NULL;
+	GList* selected;
 
-  selected = gtk_icon_view_get_selected_items (data->wp_view);
+	selected = gtk_icon_view_get_selected_items (data->wp_view);
 
-  if (selected != NULL)
-  {
-    GtkTreeIter sel_iter;
+	if (selected != NULL)
+	{
+		GtkTreeIter sel_iter;
 
-    gtk_tree_model_get_iter (data->wp_model, &sel_iter,
-                             selected->data);
+		gtk_tree_model_get_iter(data->wp_model, &sel_iter, selected->data);
 
-    g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
-    g_list_free (selected);
+		g_list_foreach(selected, (GFunc) gtk_tree_path_free, NULL);
+		g_list_free(selected);
 
-    if (iter)
-      *iter = sel_iter;
+		if (iter)
+			*iter = sel_iter;
 
-    gtk_tree_model_get (data->wp_model, &sel_iter, 1, &item, -1);
-  }
+		gtk_tree_model_get(data->wp_model, &sel_iter, 1, &item, -1);
+	}
 
-  return item;
+	return item;
 }
 
 static gboolean predicate (gpointer key, gpointer value, gpointer data)

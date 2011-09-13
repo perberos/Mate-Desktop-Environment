@@ -139,7 +139,7 @@ activate_desktop_uri (GtkWidget *menuitem,
 	activate_path (menuitem,
 		       g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP));
 }
- 
+
 static void
 panel_menu_items_append_from_desktop (GtkWidget *menu,
 				      char      *path,
@@ -487,7 +487,7 @@ panel_place_menu_item_append_gtk_bookmarks (GtkWidget *menu)
 		GIcon *gicon;
 
 		bookmark = l->data;
-		
+
 		file = g_file_new_for_uri (bookmark->full_uri);
 		display_name = g_file_get_parse_name (file);
 		g_object_unref (file);
@@ -1037,7 +1037,7 @@ panel_place_menu_item_create_menu (PanelPlaceMenuItem *place_item)
 	uri = g_file_get_uri (file);
 	name = panel_util_get_label_for_uri (uri);
 	g_object_unref (file);
-	
+
 	panel_menu_items_append_place_item (PANEL_ICON_HOME, NULL,
 					    name,
 					    _("Open your personal folder"),
@@ -1053,7 +1053,7 @@ panel_place_menu_item_create_menu (PanelPlaceMenuItem *place_item)
 		file = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP));
 		uri = g_file_get_uri (file);
 		g_object_unref (file);
-		
+
 		panel_menu_items_append_place_item (
 				PANEL_ICON_DESKTOP, NULL,
 				/* Translators: Desktop is used here as in
@@ -1206,7 +1206,7 @@ panel_desktop_menu_item_create_menu (PanelDesktopMenuItem *desktop_item)
 {
 	GtkWidget *desktop_menu;
 
-	desktop_menu = create_applications_menu ("settings.menu", NULL, FALSE);
+	desktop_menu = create_applications_menu ("mate-settings.menu", NULL, FALSE);
 
 	g_object_set_data (G_OBJECT (desktop_menu),
 			   "panel-menu-append-callback",
@@ -1348,7 +1348,7 @@ panel_place_menu_item_init (PanelPlaceMenuItem *menuitem)
 	bookmark = g_file_new_for_path (bookmarks_filename);
 
 	error = NULL;
-	menuitem->priv->bookmarks_monitor = g_file_monitor_file 
+	menuitem->priv->bookmarks_monitor = g_file_monitor_file
         						(bookmark,
         						G_FILE_MONITOR_NONE,
         						NULL,
@@ -1358,8 +1358,8 @@ panel_place_menu_item_init (PanelPlaceMenuItem *menuitem)
 			   bookmarks_filename, error->message);
 		g_error_free (error);
 	} else {
-		g_signal_connect (G_OBJECT (menuitem->priv->bookmarks_monitor), 
-				  "changed", 
+		g_signal_connect (G_OBJECT (menuitem->priv->bookmarks_monitor),
+				  "changed",
 				  (GCallback) panel_place_menu_item_gtk_bookmarks_changed,
 				  menuitem);
 	}

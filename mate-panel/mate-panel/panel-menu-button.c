@@ -68,14 +68,14 @@ typedef enum {
 } MenuPathRoot;
 
 typedef struct {
-	MenuPathRoot  root_id;
-	char         *scheme;
-	char         *filename;
+	MenuPathRoot root_id;
+	char* scheme;
+	char* filename;
 } MenuPathRootItem;
 
-static MenuPathRootItem root_items [] = {
-	{ APPLICATIONS_MENU, "applications", "applications.menu" },
-	{ SETTINGS_MENU,     "settings",     "settings.menu"     }
+static MenuPathRootItem root_items[] = {
+	{APPLICATIONS_MENU, "mate-applications", "mate-applications.menu"},
+	{SETTINGS_MENU, "mate-settings", "mate-settings.menu"}
 };
 
 struct _PanelMenuButtonPrivate {
@@ -126,7 +126,7 @@ panel_menu_filename_to_scheme (const char *filename)
 	int         i;
 
 	retval = NULL;
-	
+
 	if (!filename)
 		return retval;
 
@@ -149,7 +149,7 @@ panel_menu_scheme_to_path_root (const char *scheme)
 	int          i;
 
 	retval = LAST_MENU;
-	
+
 	if (!scheme)
 		return retval;
 
@@ -353,7 +353,7 @@ panel_menu_button_menu_deactivated (PanelMenuButton *button)
 	button_widget_set_ignore_leave (BUTTON_WIDGET (button), FALSE);
 }
 
-static void 
+static void
 panel_menu_button_menu_detacher	(PanelMenuButton *button)
 {
 	/*
@@ -756,7 +756,7 @@ split_menu_uri (const char  *menu_uri,
 
 	return p;
 }
-                                                                                                             
+
 void
 panel_menu_button_set_menu_path (PanelMenuButton *button,
 				 const char      *menu_uri)
@@ -960,7 +960,7 @@ panel_menu_button_create (PanelToplevel *toplevel,
 
 	return TRUE;
 }
-			  
+
 void
 panel_menu_button_invoke_menu (PanelMenuButton *button,
 			       const char   *callback_name)
@@ -1097,8 +1097,8 @@ static void
 panel_menu_button_accessible_class_init (AtkObjectClass *klass)
 {
 	klass->get_n_children = panel_menu_button_accessible_get_n_children;
-	klass->ref_child      = panel_menu_button_accessible_ref_child; 
-	klass->get_name       = panel_menu_button_accessible_get_name; 
+	klass->ref_child      = panel_menu_button_accessible_ref_child;
+	klass->get_name       = panel_menu_button_accessible_get_name;
 
 	parent_accessible_class = g_type_class_peek_parent (klass);
 }
@@ -1118,9 +1118,9 @@ panel_menu_button_accessible_get_type (void)
 		accessible_parent_type =
 			panel_a11y_query_accessible_parent_type (PANEL_TYPE_MENU_BUTTON,
 								 &type_info);
- 
-		type = g_type_register_static (accessible_parent_type, 
-					       "PanelMenuButtonAccessible", 
+
+		type = g_type_register_static (accessible_parent_type,
+					       "PanelMenuButtonAccessible",
 					       &type_info, 0);
 	}
 
@@ -1166,7 +1166,7 @@ panel_menu_button_accessible_factory_get_type (void)
 			NULL
 		};
 
-		type = g_type_register_static (ATK_TYPE_OBJECT_FACTORY, 
+		type = g_type_register_static (ATK_TYPE_OBJECT_FACTORY,
 					       "PanelMenuButtonAccessibleFactory",
 					       &info, 0);
 	}
@@ -1187,6 +1187,6 @@ panel_menu_button_get_accessible (GtkWidget *widget)
 					       panel_menu_button_accessible_factory_get_type ());
 
 	first_time = FALSE;
-	 
+
 	return GTK_WIDGET_CLASS (panel_menu_button_parent_class)->get_accessible (widget);
 }

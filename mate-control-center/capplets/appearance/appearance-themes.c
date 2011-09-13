@@ -34,115 +34,107 @@
 
 #define CUSTOM_THEME_NAME "__custom__"
 
-enum
-{
-  RESPONSE_APPLY_BG,
-  RESPONSE_REVERT_FONT,
-  RESPONSE_APPLY_FONT,
-  RESPONSE_INSTALL_ENGINE
+enum {
+	RESPONSE_APPLY_BG,
+	RESPONSE_REVERT_FONT,
+	RESPONSE_APPLY_FONT,
+	RESPONSE_INSTALL_ENGINE
 };
 
-enum
-{
-  TARGET_URI_LIST,
-  TARGET_NS_URL
+enum {
+	TARGET_URI_LIST,
+	TARGET_NS_URL
 };
 
 static const GtkTargetEntry drop_types[] =
 {
-  {"text/uri-list", 0, TARGET_URI_LIST},
-  {"_NETSCAPE_URL", 0, TARGET_NS_URL}
+	{"text/uri-list", 0, TARGET_URI_LIST},
+	{"_NETSCAPE_URL", 0, TARGET_NS_URL}
 };
 
-static void theme_message_area_update (AppearanceData *data);
+static void theme_message_area_update(AppearanceData* data);
 
-static time_t
-theme_get_mtime (const char *name)
+static time_t theme_get_mtime(const char* name)
 {
-  MateThemeMetaInfo *theme;
-  time_t mtime = -1;
+	MateThemeMetaInfo* theme;
+	time_t mtime = -1;
 
-  theme = mate_theme_meta_info_find (name);
-  if (theme != NULL) {
-    GFile *file;
-    GFileInfo *file_info;
+	theme = mate_theme_meta_info_find(name);
+	if (theme != NULL)
+	{
+		GFile* file;
+		GFileInfo* file_info;
 
-    file = g_file_new_for_path (theme->path);
-    file_info = g_file_query_info (file,
-                                   G_FILE_ATTRIBUTE_TIME_MODIFIED,
-                                   G_FILE_QUERY_INFO_NONE,
-                                   NULL, NULL);
-    g_object_unref (file);
+		file = g_file_new_for_path(theme->path);
+		file_info = g_file_query_info(file, G_FILE_ATTRIBUTE_TIME_MODIFIED, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		g_object_unref(file);
 
-    if (file_info != NULL) {
-      mtime = g_file_info_get_attribute_uint64 (file_info,
-                                                G_FILE_ATTRIBUTE_TIME_MODIFIED);
-      g_object_unref (file_info);
-    }
-  }
+		if (file_info != NULL)
+		{
+			mtime = g_file_info_get_attribute_uint64(file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+			g_object_unref(file_info);
+		}
+	}
 
-  return mtime;
+	return mtime;
 }
 
-static void
-theme_thumbnail_update (GdkPixbuf *pixbuf,
-			gchar *theme_name,
-			AppearanceData *data,
-			gboolean cache)
+static void theme_thumbnail_update(GdkPixbuf* pixbuf, gchar* theme_name, AppearanceData* data, gboolean cache)
 {
-  GtkTreeIter iter;
-  GtkTreeModel *model = GTK_TREE_MODEL (data->theme_store);
+	GtkTreeIter iter;
+	GtkTreeModel* model = GTK_TREE_MODEL(data->theme_store);
 
-  /* find item in model and update thumbnail */
-  if (!pixbuf)
-    return;
+	/* find item in model and update thumbnail */
+	if (!pixbuf)
+		return;
 
-  if (theme_find_in_model (model, theme_name, &iter)) {
-    time_t mtime;
+	if (theme_find_in_model(model, theme_name, &iter))
+	{
+		time_t mtime;
 
-    gtk_list_store_set (data->theme_store, &iter, COL_THUMBNAIL, pixbuf, -1);
+		gtk_list_store_set(data->theme_store, &iter, COL_THUMBNAIL, pixbuf, -1);
 
-    /* cache thumbnail */
-    if (cache && (mtime = theme_get_mtime (theme_name)) != -1) {
-      gchar *path;
+		/* cache thumbnail */
+		if (cache && (mtime = theme_get_mtime(theme_name)) != -1)
+		{
+			gchar* path;
 
-      /* try to share thumbs with caja, use themes:/// */
-      path = g_strconcat ("themes:///", theme_name, NULL);
+			/* try to share thumbs with caja, use themes:/// */
+			path = g_strconcat("themes:///", theme_name, NULL);
 
-      mate_desktop_thumbnail_factory_save_thumbnail (data->thumb_factory,
-						      pixbuf, path, mtime);
+			mate_desktop_thumbnail_factory_save_thumbnail(data->thumb_factory, pixbuf, path, mtime);
 
-      g_free (path);
-    }
-  }
+			g_free(path);
+		}
+	}
 }
 
-static GdkPixbuf *
-theme_get_thumbnail_from_cache (MateThemeMetaInfo *info, AppearanceData *data)
+static GdkPixbuf* theme_get_thumbnail_from_cache(MateThemeMetaInfo* info, AppearanceData* data)
 {
-  GdkPixbuf *thumb = NULL;
-  gchar *path, *thumb_filename;
-  time_t mtime;
+	GdkPixbuf* thumb = NULL;
+	gchar* path, *thumb_filename;
+	time_t mtime;
 
-  if (info == data->theme_custom)
-    return NULL;
+	if (info == data->theme_custom)
+		return NULL;
 
-  mtime = theme_get_mtime (info->name);
-  if (mtime == -1)
-    return NULL;
+	mtime = theme_get_mtime(info->name);
 
-  /* try to share thumbs with caja, use themes:/// */
-  path = g_strconcat ("themes:///", info->name, NULL);
-  thumb_filename = mate_desktop_thumbnail_factory_lookup (data->thumb_factory,
-							   path, mtime);
-  g_free (path);
+	if (mtime == -1)
+		return NULL;
 
-  if (thumb_filename != NULL) {
-    thumb = gdk_pixbuf_new_from_file (thumb_filename, NULL);
-    g_free (thumb_filename);
-  }
+	/* try to share thumbs with caja, use themes:/// */
+	path = g_strconcat ("themes:///", info->name, NULL);
+	thumb_filename = mate_desktop_thumbnail_factory_lookup(data->thumb_factory, path, mtime);
+	g_free(path);
 
-  return thumb;
+	if (thumb_filename != NULL)
+	{
+		thumb = gdk_pixbuf_new_from_file(thumb_filename, NULL);
+		g_free(thumb_filename);
+	}
+
+	return thumb;
 }
 
 static void

@@ -251,7 +251,7 @@ panel_addto_make_text (const char *name,
 		       const char *desc)
 {
 	const char *real_name;
-	char       *result; 
+	char       *result;
 
 	real_name = name ? name : _("(empty)");
 
@@ -278,7 +278,7 @@ panel_addto_make_pixbuf (const char *filename)
 				NULL);
 }
 
-static void  
+static void
 panel_addto_drag_data_get_cb (GtkWidget        *widget,
 			      GdkDragContext   *context,
 			      GtkSelectionData *selection_data,
@@ -304,7 +304,7 @@ panel_addto_drag_begin_cb (GtkWidget      *widget,
 	GdkPixbuf    *pixbuf;
 
 	filter_model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	   
+
 	gtk_tree_view_get_cursor (GTK_TREE_VIEW (widget), &path, NULL);
 	gtk_tree_model_get_iter (filter_model, &filter_iter, path);
 	gtk_tree_path_free (path);
@@ -327,11 +327,11 @@ panel_addto_setup_drag (GtkTreeView          *tree_view,
 {
 	if (!text || panel_lockdown_get_locked_down ())
 		return;
-	
+
 	gtk_tree_view_enable_model_drag_source (GTK_TREE_VIEW (tree_view),
 						GDK_BUTTON1_MASK|GDK_BUTTON2_MASK,
 						target, 1, GDK_ACTION_COPY);
-	
+
 	g_signal_connect_data (G_OBJECT (tree_view), "drag_data_get",
 			       G_CALLBACK (panel_addto_drag_data_get_cb),
 			       g_strdup (text),
@@ -469,7 +469,7 @@ panel_addto_append_special_applets (PanelAddtoDialog *dialog,
 {
 	static gboolean translated = FALSE;
 	int i;
-	
+
 	for (i = 0; i < G_N_ELEMENTS (special_addto_items); i++) {
 		if (!translated) {
 			special_addto_items [i].name = _(special_addto_items [i].name);
@@ -479,10 +479,10 @@ panel_addto_append_special_applets (PanelAddtoDialog *dialog,
 		if (special_addto_items [i].type == PANEL_ADDTO_LAUNCHER_NEW
 		    && panel_lockdown_get_disable_command_line ())
 			continue;
-		
+
 		panel_addto_append_item (dialog, model, &special_addto_items [i]);
 	}
-	
+
 	translated = TRUE;
 }
 
@@ -556,7 +556,7 @@ panel_addto_prepend_directory (GSList             **parent_list,
 	 */
 
 	*parent_list = g_slist_prepend (*parent_list, data);
-			
+
 	panel_addto_make_application_list (&data->children, directory, filename);
 }
 
@@ -674,72 +674,58 @@ panel_addto_populate_application_model (GtkTreeStore *store,
 
 		g_free (text);
 
-		if (data->children != NULL) 
+		if (data->children != NULL)
 			panel_addto_populate_application_model (store,
 								&iter,
 								data->children);
 	}
 }
 
-static void
-panel_addto_make_application_model (PanelAddtoDialog *dialog)
+static void panel_addto_make_application_model(PanelAddtoDialog* dialog)
 {
-	GtkTreeStore      *store;
-	GMenuTree          *tree;
-	GMenuTreeDirectory *root;
+	GtkTreeStore* store;
+	GMenuTree* tree;
+	GMenuTreeDirectory* root;
 
 	if (dialog->filter_application_model != NULL)
 		return;
 
-	store = gtk_tree_store_new (NUMBER_COLUMNS,
-				    GDK_TYPE_PIXBUF,
-				    G_TYPE_STRING,
-				    G_TYPE_POINTER,
-				    G_TYPE_STRING);
+	store = gtk_tree_store_new(NUMBER_COLUMNS, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
 
-	tree = gmenu_tree_lookup ("applications.menu", GMENU_TREE_FLAGS_NONE);
-	gmenu_tree_set_sort_key (tree, GMENU_TREE_SORT_DISPLAY_NAME);
+	tree = gmenu_tree_lookup("mate-applications.menu", GMENU_TREE_FLAGS_NONE);
+	gmenu_tree_set_sort_key(tree, GMENU_TREE_SORT_DISPLAY_NAME);
 
-	if ((root = gmenu_tree_get_root_directory (tree))) {
-		panel_addto_make_application_list (&dialog->application_list,
-						   root, "applications.menu");
-		panel_addto_populate_application_model (store, NULL, dialog->application_list);
+	if ((root = gmenu_tree_get_root_directory (tree)))
+	{
+		panel_addto_make_application_list(&dialog->application_list, root, "mate-applications.menu");
+		panel_addto_populate_application_model(store, NULL, dialog->application_list);
 
-		gmenu_tree_item_unref (root);
+		gmenu_tree_item_unref(root);
 	}
 
-	gmenu_tree_unref (tree);
+	gmenu_tree_unref(tree);
 
-	tree = gmenu_tree_lookup ("settings.menu", GMENU_TREE_FLAGS_NONE);
-	gmenu_tree_set_sort_key (tree, GMENU_TREE_SORT_DISPLAY_NAME);
+	tree = gmenu_tree_lookup("mate-settings.menu", GMENU_TREE_FLAGS_NONE);
+	gmenu_tree_set_sort_key(tree, GMENU_TREE_SORT_DISPLAY_NAME);
 
-	if ((root = gmenu_tree_get_root_directory (tree))) {
+	if ((root = gmenu_tree_get_root_directory(tree)))
+	{
 		GtkTreeIter iter;
 
-		gtk_tree_store_append (store, &iter, NULL);
-		gtk_tree_store_set (store, &iter,
-				    COLUMN_ICON, NULL,
-				    COLUMN_TEXT, NULL,
-				    COLUMN_DATA, NULL,
-				    COLUMN_SEARCH, NULL,
-				    -1);
+		gtk_tree_store_append(store, &iter, NULL);
+		gtk_tree_store_set(store, &iter, COLUMN_ICON, NULL, COLUMN_TEXT, NULL, COLUMN_DATA, NULL, COLUMN_SEARCH, NULL, -1);
 
-		panel_addto_make_application_list (&dialog->settings_list,
-						   root, "settings.menu");
-		panel_addto_populate_application_model (store, NULL,
-							dialog->settings_list);
+		panel_addto_make_application_list(&dialog->settings_list, root, "mate-settings.menu");
+		panel_addto_populate_application_model(store, NULL, dialog->settings_list);
 
-		gmenu_tree_item_unref (root);
+		gmenu_tree_item_unref(root);
 	}
 
-	gmenu_tree_unref (tree);
+	gmenu_tree_unref(tree);
 
-	dialog->application_model = GTK_TREE_MODEL (store);
-	dialog->filter_application_model = gtk_tree_model_filter_new (GTK_TREE_MODEL (dialog->application_model),
-								      NULL);
-	gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (dialog->filter_application_model),
-						panel_addto_filter_func,
-						dialog, NULL);
+	dialog->application_model = GTK_TREE_MODEL(store);
+	dialog->filter_application_model = gtk_tree_model_filter_new(GTK_TREE_MODEL(dialog->application_model), NULL);
+	gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(dialog->filter_application_model), panel_addto_filter_func, dialog, NULL);
 }
 
 static void
@@ -1108,7 +1094,7 @@ panel_addto_search_entry_changed (GtkWidget        *entry,
 
 	new_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->search_entry)));
 	g_strchomp (new_text);
-		
+
 	if (dialog->search_text &&
 	    g_utf8_collate (new_text, dialog->search_text) == 0) {
 		g_free (new_text);
@@ -1236,12 +1222,12 @@ panel_addto_separator_func (GtkTreeModel *model,
 {
 	int column = GPOINTER_TO_INT (data);
 	char *text;
-	
+
 	gtk_tree_model_get (model, iter, column, &text, -1);
-	
+
 	if (!text)
 		return TRUE;
-	
+
 	g_free(text);
 	return FALSE;
 }
@@ -1320,7 +1306,7 @@ panel_addto_dialog_new (PanelWidget *panel_widget)
 	gtk_box_pack_start (GTK_BOX (find_hbox), dialog->label,
 			    FALSE, FALSE, 0);
 
-	dialog->search_entry = gtk_entry_new (); 
+	dialog->search_entry = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (dialog->search_entry), "changed",
 			  G_CALLBACK (panel_addto_search_entry_changed), dialog);
 	g_signal_connect (G_OBJECT (dialog->search_entry), "activate",
@@ -1371,7 +1357,7 @@ panel_addto_dialog_new (PanelWidget *panel_widget)
 					      panel_addto_separator_func,
 					      GINT_TO_POINTER (COLUMN_TEXT),
 					      NULL);
-					      
+
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->tree_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
