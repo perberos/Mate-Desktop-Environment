@@ -180,8 +180,7 @@ handle_tree_changed (GMenuTree *tree)
   gmenu_tree_item_unref (root);
 }
 
-int
-main (int argc, char **argv)
+int main (int argc, char **argv)
 {
   GOptionContext    *options_context;
   GMenuTree          *tree;
@@ -206,7 +205,7 @@ main (int argc, char **argv)
   if (include_nodisplay)
     flags |= GMENU_TREE_FLAGS_INCLUDE_NODISPLAY;
 
-  tree = gmenu_tree_lookup (menu_file ? menu_file : "applications.menu", flags);
+  tree = gmenu_tree_lookup (menu_file ? menu_file : "mate-applications.menu", flags);
   g_assert (tree != NULL);
 
   root = gmenu_tree_get_root_directory (tree);

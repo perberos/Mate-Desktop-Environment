@@ -71,7 +71,7 @@ def main(args):
     if options.file:
         menu_file = options.file
     else:
-        menu_file = 'applications.menu'
+        menu_file = 'mate-applications.menu'
 
     flags = gmenu.FLAGS_NONE
     if options.exclude:

@@ -528,70 +528,60 @@ canonicalize_basename (GMenuTree  *tree,
     }
 }
 
-static gboolean
-gmenu_tree_canonicalize_path (GMenuTree *tree)
+static gboolean gmenu_tree_canonicalize_path(GMenuTree* tree)
 {
-  if (tree->canonical)
-    return TRUE;
+	if (tree->canonical)
+		return TRUE;
 
-  g_assert (tree->canonical_path == NULL);
+	g_assert(tree->canonical_path == NULL);
 
-  if (tree->type == GMENU_TREE_BASENAME)
-    {
-      gmenu_tree_remove_menu_file_monitors (tree);
+	if (tree->type == GMENU_TREE_BASENAME)
+	{
+		gmenu_tree_remove_menu_file_monitors (tree);
 
-      if (strcmp (tree->basename, "applications.menu") == 0 &&
-          g_getenv ("XDG_MENU_PREFIX"))
-        {
-          char *prefixed_basename;
-          prefixed_basename = g_strdup_printf ("%s%s",
-                                               g_getenv ("XDG_MENU_PREFIX"),
-                                               tree->basename);
-          canonicalize_basename (tree, prefixed_basename);
-          g_free (prefixed_basename);
-        }
+		if (strcmp(tree->basename, "mate-applications.menu") == 0 && g_getenv("XDG_MENU_PREFIX"))
+		{
+			char* prefixed_basename;
+			prefixed_basename = g_strdup_printf("%s%s", g_getenv("XDG_MENU_PREFIX"), tree->basename);
+			canonicalize_basename(tree, prefixed_basename);
+			g_free(prefixed_basename);
+		}
 
-      if (!tree->canonical)
-        canonicalize_basename (tree, tree->basename);
+		if (!tree->canonical)
+			canonicalize_basename(tree, tree->basename);
 
-      if (tree->canonical)
-        menu_verbose ("Successfully looked up menu_file for \"%s\": %s\n",
-                      tree->basename, tree->canonical_path);
-      else
-        menu_verbose ("Failed to look up menu_file for \"%s\"\n",
-                      tree->basename);
-    }
-  else /* if (tree->type == GMENU_TREE_ABSOLUTE) */
-    {
-      tree->canonical_path =
-        menu_canonicalize_file_name (tree->absolute_path, FALSE);
-      if (tree->canonical_path != NULL)
-        {
-          menu_verbose ("Successfully looked up menu_file for \"%s\": %s\n",
-                        tree->absolute_path, tree->canonical_path);
+		if (tree->canonical)
+			menu_verbose("Successfully looked up menu_file for \"%s\": %s\n", tree->basename, tree->canonical_path);
+		else
+			menu_verbose("Failed to look up menu_file for \"%s\"\n", tree->basename);
+	}
+	else /* if (tree->type == GMENU_TREE_ABSOLUTE) */
+	{
+		tree->canonical_path = menu_canonicalize_file_name(tree->absolute_path, FALSE);
 
-	  /*
-	   * Replace the cache entry with the canonicalized version
-	   */
-          gmenu_tree_remove_from_cache (tree, tree->flags);
+		if (tree->canonical_path != NULL)
+		{
+			menu_verbose("Successfully looked up menu_file for \"%s\": %s\n", tree->absolute_path, tree->canonical_path);
 
-          gmenu_tree_remove_menu_file_monitors (tree);
-          gmenu_tree_add_menu_file_monitor (tree,
-					    tree->canonical_path,
-					    MENU_FILE_MONITOR_FILE);
+			/*
+			* Replace the cache entry with the canonicalized version
+			*/
+			gmenu_tree_remove_from_cache (tree, tree->flags);
 
-          tree->canonical = TRUE;
+			gmenu_tree_remove_menu_file_monitors(tree);
+			gmenu_tree_add_menu_file_monitor(tree, tree->canonical_path, MENU_FILE_MONITOR_FILE);
 
-          gmenu_tree_add_to_cache (tree, tree->flags);
-        }
-      else
-        {
-          menu_verbose ("Failed to look up menu_file for \"%s\"\n",
-                        tree->absolute_path);
-        }
-    }
+			tree->canonical = TRUE;
 
-  return tree->canonical;
+			gmenu_tree_add_to_cache (tree, tree->flags);
+		}
+		else
+		{
+			menu_verbose("Failed to look up menu_file for \"%s\"\n", tree->absolute_path);
+		}
+	}
+
+	return tree->canonical;
 }
 
 static void
@@ -1893,58 +1883,48 @@ load_parent_merge_file_from_basename (GMenuTree      *tree,
   return system_config_dirs[i] != NULL;
 }
 
-static gboolean
-load_parent_merge_file (GMenuTree      *tree,
-			GHashTable     *loaded_menu_files,
-			MenuLayoutNode *layout)
+static gboolean load_parent_merge_file(GMenuTree* tree, GHashTable* loaded_menu_files, MenuLayoutNode* layout)
 {
-  MenuLayoutNode     *root;
-  const char         *basedir;
-  const char         *menu_name;
-  char               *canonical_basedir;
-  char               *menu_file;
-  gboolean            found;
+	MenuLayoutNode* root;
+	const char* basedir;
+	const char* menu_name;
+	char* canonical_basedir;
+	char* menu_file;
+	gboolean found;
 
-  root = menu_layout_node_get_root (layout);
+	root = menu_layout_node_get_root(layout);
 
-  basedir   = menu_layout_node_root_get_basedir (root);
-  menu_name = menu_layout_node_root_get_name (root);
+	basedir   = menu_layout_node_root_get_basedir(root);
+	menu_name = menu_layout_node_root_get_name(root);
 
-  canonical_basedir = menu_canonicalize_file_name (basedir, FALSE);
-  if (canonical_basedir == NULL)
-    {
-      menu_verbose ("Menu basedir '%s' no longer exists, not merging parent\n",
-		    basedir);
-      return FALSE;
-    }
+	canonical_basedir = menu_canonicalize_file_name(basedir, FALSE);
 
-  found = FALSE;
-  menu_file = g_strconcat (menu_name, ".menu", NULL);
+	if (canonical_basedir == NULL)
+	{
+		menu_verbose("Menu basedir '%s' no longer exists, not merging parent\n", basedir);
+		return FALSE;
+	}
 
-  if (strcmp (menu_file, "applications.menu") == 0 &&
-      g_getenv ("XDG_MENU_PREFIX"))
-    {
-      char *prefixed_basename;
-      prefixed_basename = g_strdup_printf ("%s%s",
-                                           g_getenv ("XDG_MENU_PREFIX"),
-                                           menu_file);
-      found = load_parent_merge_file_from_basename (tree, loaded_menu_files,
-                                                    layout, prefixed_basename,
-                                                    canonical_basedir);
-      g_free (prefixed_basename);
-    }
+	found = FALSE;
+	menu_file = g_strconcat(menu_name, ".menu", NULL);
 
-  if (!found)
-    {
-      found = load_parent_merge_file_from_basename (tree, loaded_menu_files,
-                                                    layout, menu_file,
-                                                    canonical_basedir);
-    }
+	if (strcmp(menu_file, "mate-applications.menu") == 0 && g_getenv("XDG_MENU_PREFIX"))
+	{
+		char* prefixed_basename;
+		prefixed_basename = g_strdup_printf("%s%s", g_getenv("XDG_MENU_PREFIX"), menu_file);
+		found = load_parent_merge_file_from_basename(tree, loaded_menu_files, layout, prefixed_basename, canonical_basedir);
+		g_free(prefixed_basename);
+	}
 
-  g_free (menu_file);
-  g_free (canonical_basedir);
+	if (!found)
+	{
+		found = load_parent_merge_file_from_basename(tree, loaded_menu_files, layout, menu_file, canonical_basedir);
+	}
 
-  return found;
+	g_free(menu_file);
+	g_free(canonical_basedir);
+
+	return found;
 }
 
 static void
