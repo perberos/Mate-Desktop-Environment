@@ -19,14 +19,14 @@
  * Author: David Zeuthen <davidz@redhat.com>
  */
 
-#if !defined (_POLKIT_GTK_INSIDE_POLKIT_GTK_H) && !defined (POLKIT_GTK_COMPILATION)
-#error "Only <polkitgtk/polkitgtk.h> can be included directly, this file may disappear or change contents."
+#if !defined (_POLKIT_GTK_MATE_INSIDE_POLKIT_GTK_MATE_H) && !defined (POLKIT_GTK_MATE_COMPILATION)
+#error "Only <polkitgtkmate/polkitgtkmate.h> can be included directly, this file may disappear or change contents."
 #endif
 
 #ifndef POLKIT_LOCK_BUTTON_H
 #define POLKIT_LOCK_BUTTON_H
 
-#include <polkitgtk/polkitgtktypes.h>
+#include <polkitgtkmate/polkitgtkmatetypes.h>
 
 #define POLKIT_TYPE_LOCK_BUTTON         (polkit_lock_button_get_type ())
 #define POLKIT_LOCK_BUTTON(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), POLKIT_TYPE_LOCK_BUTTON, PolkitLockButton))

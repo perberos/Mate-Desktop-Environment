@@ -1,4 +1,4 @@
-AC_INIT([polkit-mate],[0.99],[http://lists.freedesktop.org/mailman/listinfo/polkit-devel],[polkit-mate])
+AC_INIT([polkit-mate],[2011.9.25],[http://lists.freedesktop.org/mailman/listinfo/polkit-devel],[polkit-mate])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
 
@@ -184,8 +184,8 @@ AC_SUBST([AM_LDFLAGS])
 AC_CONFIG_FILES([
 Makefile
 po/Makefile.in
-polkitgtk/Makefile
-polkitgtk/polkit-gtk-1.pc
+polkitgtkmate/Makefile
+polkitgtkmate/polkit-gtk-mate-1.pc
 src/Makefile
 docs/version.xml
 docs/Makefile

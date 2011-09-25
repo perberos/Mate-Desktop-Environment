@@ -4,20 +4,20 @@ NULL =
 AUTOMAKE_OPTIONS = 1.7
 
 # The name of the module.
-DOC_MODULE=polkit-gtk-1
+DOC_MODULE=polkit-gtk-mate-1
 
 # The top-level SGML file.
-DOC_MAIN_SGML_FILE=polkit-gtk-1-docs.xml
+DOC_MAIN_SGML_FILE=polkit-gtk-mate-1-docs.xml
 
 # Extra options to supply to gtkdoc-scan
 SCAN_OPTIONS=--ignore-headers=config.h
 
 # The directory containing the source code. Relative to $(srcdir)
-DOC_SOURCE_DIR=../polkitgtk
+DOC_SOURCE_DIR=../polkitgtkmate
 
 # Used for dependencies
-HFILE_GLOB=$(top_srcdir)/polkitgtk/*.h
-CFILE_GLOB=$(top_srcdir)/polkitgtk/*.c
+HFILE_GLOB=$(top_srcdir)/polkitgtkmate/*.h
+CFILE_GLOB=$(top_srcdir)/polkitgtkmate/*.c
 
 # Headers to ignore
 IGNORE_HFILES= \
@@ -28,13 +28,13 @@ IGNORE_HFILES= \
 INCLUDES = \
 	$(POLKIT_GOBJECT_CFLAGS)				\
 	$(GTK_CFLAGS)						\
-	-I$(top_srcdir)/polkitgtk 				\
+	-I$(top_srcdir)/polkitgtkmate 				\
 	$(NULL)
 
 GTKDOC_LIBS = \
 	$(POLKIT_GOBJECT_LIBS)					\
 	$(GTK_LIBS)						\
-	$(top_builddir)/polkitgtk/libpolkit-gtk-1.la		\
+	$(top_builddir)/polkitgtkmate/libpolkit-gtk-mate-1.la		\
 	$(NULL)
 
 # Extra options to supply to gtkdoc-mkdb
@@ -67,18 +67,18 @@ EXTRA_DIST = $(HTML_IMAGES)
 endif
 
 CLEANFILES +=   *~				\
-		polkit-gtk-1-scan.*		\
-		polkit-gtk-1.args		\
-		polkit-gtk-1.hierarchy		\
-		polkit-gtk-1.interfaces		\
-		polkit-gtk-1.prerequisites	\
-		polkit-gtk-1.signals		\
+		polkit-gtk-mate-1-scan.*		\
+		polkit-gtk-mate-1.args		\
+		polkit-gtk-mate-1.hierarchy		\
+		polkit-gtk-mate-1.interfaces		\
+		polkit-gtk-mate-1.prerequisites	\
+		polkit-gtk-mate-1.signals		\
 		*.bak				\
-		polkit-gtk-1-decl-list.txt	\
-		polkit-gtk-1-decl.txt		\
-		polkit-gtk-1-overrides.txt	\
-		polkit-gtk-1-undeclared.txt	\
-		polkit-gtk-1-undocumented.txt	\
+		polkit-gtk-mate-1-decl-list.txt	\
+		polkit-gtk-mate-1-decl.txt		\
+		polkit-gtk-mate-1-overrides.txt	\
+		polkit-gtk-mate-1-undeclared.txt	\
+		polkit-gtk-mate-1-undocumented.txt	\
 		*.stamp				\
 		version.xml			\
 		-rf html xml			\

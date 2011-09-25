@@ -19,12 +19,12 @@
  * Author: David Zeuthen <davidz@redhat.com>
  */
 
-#if !defined (_POLKIT_GTK_INSIDE_POLKIT_GTK_H) && !defined (POLKIT_GTK_COMPILATION)
-#error "Only <polkitgtk/polkitgtk.h> can be included directly, this file may disappear or change contents."
+#if !defined (_POLKIT_GTK_MATE_INSIDE_POLKIT_GTK_MATE_H) && !defined (POLKIT_GTK_MATE_COMPILATION)
+#error "Only <polkitgtkmate/polkitgtkmate.h> can be included directly, this file may disappear or change contents."
 #endif
 
-#ifndef __POLKIT_GTK_TYPES_H
-#define __POLKIT_GTK_TYPES_H
+#ifndef __POLKIT_GTK_MATE_TYPES_H
+#define __POLKIT_GTK_MATE_TYPES_H
 
 #include <gtk/gtk.h>
 #include <polkit/polkit.h>
@@ -32,4 +32,4 @@
 struct _PolkitLockButton;
 typedef struct _PolkitLockButton PolkitLockButton;
 
-#endif /* __POLKIT_GTK_TYPES_H */
+#endif /* __POLKIT_GTK_MATE_TYPES_H */

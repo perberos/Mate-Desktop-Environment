@@ -19,14 +19,14 @@
  * Author: David Zeuthen <davidz@redhat.com>
  */
 
-#ifndef __POLKIT_GTK_H
-#define __POLKIT_GTK_H
+#ifndef __POLKIT_GTK_MATE_H
+#define __POLKIT_GTK_MATE_H
 
-#define _POLKIT_GTK_INSIDE_POLKIT_GTK_H 1
+#define _POLKIT_GTK_MATE_INSIDE_POLKIT_GTK_MATE_H 1
 
-#include <polkitgtk/polkitgtktypes.h>
-#include <polkitgtk/polkitlockbutton.h>
+#include <polkitgtkmate/polkitgtkmatetypes.h>
+#include <polkitgtkmate/polkitlockbutton.h>
 
-#undef _POLKIT_GTK_INSIDE_POLKIT_GTK_H
+#undef _POLKIT_GTK_MATE_INSIDE_POLKIT_GTK_MATE_H
 
-#endif /* __POLKIT_GTK_H */
+#endif /* __POLKIT_GTK_MATE_H */

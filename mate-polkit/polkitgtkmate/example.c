@@ -19,7 +19,7 @@
  * Author: David Zeuthen <davidz@redhat.com>
  */
 
-#include <polkitgtk/polkitgtk.h>
+#include <polkitgtkmate/polkitgtkmate.h>
 
 static PolkitAuthority *authority = NULL;
 const gchar *action_id = NULL;
