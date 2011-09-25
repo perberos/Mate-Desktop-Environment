@@ -3,7 +3,7 @@ dnl Process this file with autoconf to create configure.
 dnl ################################################################
 dnl # Initialize autoconf
 dnl ################################################################
-AC_INIT([libmatenotify],[0.5.0],[https://bugzilla.mate.org/enter_bug.cgi?product=libmatenotify],[libmatenotify])
+AC_INIT([libmatenotify],[2011.9.24],[https://bugzilla.mate.org/enter_bug.cgi?product=libmatenotify],[libmatenotify])
 AC_PREREQ(2.50)
 AC_CONFIG_SRCDIR(config.h.in)
 
