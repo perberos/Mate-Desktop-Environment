@@ -647,7 +647,7 @@ AU_ALIAS([AC_PROG_INTLTOOL], [IT_PROG_INTLTOOL])
 
 
 # mate-common.m4
-# 
+#
 
 dnl MATE_COMMON_INIT
 
@@ -705,7 +705,7 @@ AC_DEFUN([MATE_COMPILE_WARNINGS],[
     dnl More compiler warnings
     dnl ******************************
 
-    AC_ARG_ENABLE(compile-warnings, 
+    AC_ARG_ENABLE(compile-warnings,
                   AC_HELP_STRING([--enable-compile-warnings=@<:@no/minimum/yes/maximum/error@:>@],
                                  [Turn on compiler warnings]),,
                   [enable_compile_warnings="m4_default([$1],[yes])"])
