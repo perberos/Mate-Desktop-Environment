@@ -1,5 +1,5 @@
 # mate-common.m4
-# 
+#
 
 dnl MATE_COMMON_INIT
 

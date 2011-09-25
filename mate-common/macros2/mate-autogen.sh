@@ -42,7 +42,7 @@ printbold() {
     echo $ECHO_N "$boldface" $ECHO_C
     echo "$@"
     echo $ECHO_N "$normal" $ECHO_C
-}    
+}
 printerr() {
     echo "$@" >&2
 }
@@ -384,7 +384,7 @@ if [ "$#" = 0 -a "x$NOCONFIGURE" = "x" ]; then
 fi
 
 topdir=`pwd`
-for configure_ac in $configure_files; do 
+for configure_ac in $configure_files; do
     dirname=`dirname $configure_ac`
     basename=`basename $configure_ac`
     if [ -f $dirname/NO-AUTO-GEN ]; then
