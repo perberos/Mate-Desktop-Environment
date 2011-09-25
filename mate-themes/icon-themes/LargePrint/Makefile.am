@@ -1,4 +1,4 @@
-indexthemedir =	$(datadir)/icons/LargePrint/
+indexthemedir =	$(datadir)/icons/MateLargePrint/
 
 indextheme_DATA = index.theme
 

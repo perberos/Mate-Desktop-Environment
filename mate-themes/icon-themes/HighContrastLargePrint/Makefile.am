@@ -1,6 +1,6 @@
-themedir = $(datadir)/icons/HighContrastLargePrint
+themedir = $(datadir)/icons/MateHighContrastLargePrint
 
-SUBDIRS = 36x36 48x48 
+SUBDIRS = 36x36 48x48
 
 THEME_IN_FILES = index.theme.in
 

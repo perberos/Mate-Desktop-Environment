@@ -1,4 +1,4 @@
-indexthemedir =	$(datadir)/icons/HighContrastInverse/
+indexthemedir =	$(datadir)/icons/MateHighContrastInverse/
 
 indextheme_DATA = index.theme
 
