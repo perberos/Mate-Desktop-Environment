@@ -36,7 +36,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@HAVE_INTROSPECTION_TRUE@am__append_1 = GMenu-2.0.gir
+@HAVE_INTROSPECTION_TRUE@am__append_1 = MateMenu-2.0.gir
 @HAVE_INTROSPECTION_TRUE@am__append_2 = $(gir_DATA) $(typelib_DATA)
 subdir = libmenu
 DIST_COMMON = $(libmate_menu_include_HEADERS) $(srcdir)/Makefile.am \
@@ -82,7 +82,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libmate_menu_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__objects_1 = canonicalize.lo desktop-entries.lo \
-	entry-directories.lo gmenu-tree.lo menu-layout.lo \
+	entry-directories.lo matemenu-tree.lo menu-layout.lo \
 	menu-monitor.lo menu-util.lo
 am_libmate_menu_la_OBJECTS = $(am__objects_1)
 libmate_menu_la_OBJECTS = $(am_libmate_menu_la_OBJECTS)
@@ -302,20 +302,20 @@ top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libmate-menu.la
 AM_CPPFLAGS = \
 	$(GLIB_CFLAGS)			\
-	-DGMENU_I_KNOW_THIS_IS_UNSTABLE	\
+	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE	\
 	$(DISABLE_DEPRECATED_CFLAGS)	\
 	$(DEBUG_CFLAGS)
 
 AM_CFLAGS = $(WARN_CFLAGS)
 libmate_menu_includedir = $(includedir)/mate-menus
 libmate_menu_include_HEADERS = \
-	gmenu-tree.h
+	matemenu-tree.h
 
 libmate_menu_sources = \
 	canonicalize.c			\
 	desktop-entries.c		\
 	entry-directories.c		\
-	gmenu-tree.c			\
+	matemenu-tree.c			\
 	menu-layout.c			\
 	menu-monitor.c			\
 	menu-util.c
@@ -325,7 +325,7 @@ libmate_menu_la_SOURCES = \
 	canonicalize.h			\
 	desktop-entries.h		\
 	entry-directories.h		\
-	gmenu-tree.h			\
+	matemenu-tree.h			\
 	menu-layout.h			\
 	menu-monitor.h			\
 	menu-util.h
@@ -336,7 +336,7 @@ libmate_menu_la_LIBADD = \
 libmate_menu_la_LDFLAGS = \
 	-version-info $(LIB_MENU_LT_VERSION)	\
 	-no-undefined				\
-	-export-symbols-regex gmenu_tree
+	-export-symbols-regex matemenu_tree
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libmate-menu.pc
@@ -351,11 +351,11 @@ INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 
 # Note: we only include the headers here so far because there's no gtk-doc at all anyway
 @HAVE_INTROSPECTION_TRUE@introspection_sources = $(libmate_menu_include_HEADERS)
-@HAVE_INTROSPECTION_TRUE@GMenu_2_0_gir_INCLUDES = GObject-2.0
-@HAVE_INTROSPECTION_TRUE@GMenu_2_0_gir_CFLAGS = $(AM_CPPFLAGS)
-@HAVE_INTROSPECTION_TRUE@GMenu_2_0_gir_LIBS = libmate-menu.la
-@HAVE_INTROSPECTION_TRUE@GMenu_2_0_gir_SCANNERFLAGS = --pkg-export=libmate-menu
-@HAVE_INTROSPECTION_TRUE@GMenu_2_0_gir_FILES = $(addprefix $(srcdir)/,$(introspection_sources))
+@HAVE_INTROSPECTION_TRUE@MateMenu_2_0_gir_INCLUDES = GObject-2.0
+@HAVE_INTROSPECTION_TRUE@MateMenu_2_0_gir_CFLAGS = $(AM_CPPFLAGS)
+@HAVE_INTROSPECTION_TRUE@MateMenu_2_0_gir_LIBS = libmate-menu.la
+@HAVE_INTROSPECTION_TRUE@MateMenu_2_0_gir_SCANNERFLAGS = --pkg-export=libmate-menu
+@HAVE_INTROSPECTION_TRUE@MateMenu_2_0_gir_FILES = $(addprefix $(srcdir)/,$(introspection_sources))
 @HAVE_INTROSPECTION_TRUE@girdir = $(INTROSPECTION_GIRDIR)
 @HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
 @HAVE_INTROSPECTION_TRUE@typelibdir = $(INTROSPECTION_TYPELIBDIR)
@@ -441,7 +441,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/canonicalize.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/desktop-entries.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/entry-directories.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gmenu-tree.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matemenu-tree.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menu-layout.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menu-monitor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menu-util.Plo@am__quote@
@@ -768,7 +768,7 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 # Introspection
 -include $(INTROSPECTION_MAKEFILE)
 
-@HAVE_INTROSPECTION_TRUE@GMenu-2.0.gir: libmate-menu.la
+@HAVE_INTROSPECTION_TRUE@MateMenu-2.0.gir: libmate-menu.la
 
 -include $(top_srcdir)/git.mk
 

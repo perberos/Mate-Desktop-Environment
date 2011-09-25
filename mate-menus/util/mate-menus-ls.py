@@ -23,7 +23,7 @@
 import optparse
 import sys
 
-import gmenu
+import matemenu
 
 def print_entry(entry, path):
     if entry.get_is_excluded():
@@ -41,15 +41,15 @@ def print_directory(dir, parent_path = None):
 
     for item in dir.get_contents():
         type = item.get_type()
-        if type == gmenu.TYPE_ENTRY:
+        if type == matemenu.TYPE_ENTRY:
             print_entry(item, path)
-        elif type == gmenu.TYPE_DIRECTORY:
+        elif type == matemenu.TYPE_DIRECTORY:
             print_directory(item, path)
-        elif type == gmenu.TYPE_ALIAS:
+        elif type == matemenu.TYPE_ALIAS:
             aliased = item.get_item()
-            if aliased.get_type() == gmenu.TYPE_ENTRY:
+            if aliased.get_type() == matemenu.TYPE_ENTRY:
                 print_entry(aliased, path)
-        elif type in [ gmenu.TYPE_HEADER, gmenu.TYPE_SEPARATOR ]:
+        elif type in [ matemenu.TYPE_HEADER, matemenu.TYPE_SEPARATOR ]:
             pass
         else:
             print >> sys.stderr, 'Unsupported item type: %s' % type
@@ -73,13 +73,13 @@ def main(args):
     else:
         menu_file = 'mate-applications.menu'
 
-    flags = gmenu.FLAGS_NONE
+    flags = matemenu.FLAGS_NONE
     if options.exclude:
-        flags |= gmenu.FLAGS_INCLUDE_EXCLUDED
+        flags |= matemenu.FLAGS_INCLUDE_EXCLUDED
     if options.nodisplay:
-        flags |= gmenu.FLAGS_INCLUDE_NODISPLAY
+        flags |= matemenu.FLAGS_INCLUDE_NODISPLAY
 
-    tree = gmenu.lookup_tree(menu_file, flags)
+    tree = matemenu.lookup_tree(menu_file, flags)
     root = tree.get_root_directory()
 
     if not root:

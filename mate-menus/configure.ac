@@ -1,7 +1,7 @@
 AC_PREREQ(2.62)
 
-AC_INIT([mate-menus], [2011.09.12], [https://github.com/perberos/mate-desktop-environment])
-AC_CONFIG_SRCDIR(libmenu/gmenu-tree.h)
+AC_INIT([mate-menus], [2011.9.25], [https://github.com/perberos/mate-desktop-environment])
+AC_CONFIG_SRCDIR(libmenu/matemenu-tree.h)
 
 AM_INIT_AUTOMAKE([1.9 foreign no-dist-gzip dist-bzip2])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])

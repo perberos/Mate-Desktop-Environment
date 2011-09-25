@@ -2,7 +2,7 @@ AM_CPPFLAGS =				\
 	$(GLIB_CFLAGS)			\
 	$(PYTHON_INCLUDES)		\
 	-I$(srcdir)/../libmenu		\
-	-DGMENU_I_KNOW_THIS_IS_UNSTABLE	\
+	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE	\
 	$(DISABLE_DEPRECATED_CFLAGS)	\
 	$(DEBUG_CFLAGS)
 
@@ -10,11 +10,11 @@ AM_CFLAGS =
 	$(WARN_CFLAGS)			\
 	$(NO_STRICT_ALIASING_CFLAGS)
 
-gmenudir = $(pyexecdir)
-gmenu_LTLIBRARIES = gmenu.la
+matemenudir = $(pyexecdir)
+matemenu_LTLIBRARIES = matemenu.la
 
-gmenu_la_SOURCES = gmenu.c
-gmenu_la_LDFLAGS = -module -avoid-version -fPIC -export-symbols-regex initgmenu
-gmenu_la_LIBADD = $(GLIB_LIBS) $(PYTHON_LIBS) $(top_builddir)/libmenu/libmate-menu.la
+matemenu_la_SOURCES = matemenu.c
+matemenu_la_LDFLAGS = -module -avoid-version -fPIC -export-symbols-regex initmatemenu
+matemenu_la_LIBADD = $(GLIB_LIBS) $(PYTHON_LIBS) $(top_builddir)/libmenu/libmate-menu.la
 
 -include $(top_srcdir)/git.mk

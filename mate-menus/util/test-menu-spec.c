@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-#include "gmenu-tree.h"
+#include "matemenu-tree.h"
 
 #include <string.h>
 
@@ -44,12 +44,12 @@ static GOptionEntry options[] = {
 };
 
 static void
-append_directory_path (GMenuTreeDirectory *directory,
+append_directory_path (MateMenuTreeDirectory *directory,
 		       GString            *path)
 {
-  GMenuTreeDirectory *parent;
+  MateMenuTreeDirectory *parent;
 
-  parent = gmenu_tree_item_get_parent (GMENU_TREE_ITEM (directory));
+  parent = matemenu_tree_item_get_parent (MATEMENU_TREE_ITEM (directory));
 
   if (!parent)
     {
@@ -59,14 +59,14 @@ append_directory_path (GMenuTreeDirectory *directory,
 
   append_directory_path (parent, path);
 
-  g_string_append (path, gmenu_tree_directory_get_name (directory));
+  g_string_append (path, matemenu_tree_directory_get_name (directory));
   g_string_append_c (path, '/');
 
-  gmenu_tree_item_unref (parent);
+  matemenu_tree_item_unref (parent);
 }
 
 static char *
-make_path (GMenuTreeDirectory *directory)
+make_path (MateMenuTreeDirectory *directory)
 {
   GString *path;
 
@@ -80,30 +80,30 @@ make_path (GMenuTreeDirectory *directory)
 }
 
 static void
-print_entry (GMenuTreeEntry *entry,
+print_entry (MateMenuTreeEntry *entry,
 	     const char     *path)
 {
   char *utf8_path;
   char *utf8_file_id;
 
-  utf8_path = g_filename_to_utf8 (gmenu_tree_entry_get_desktop_file_path (entry),
+  utf8_path = g_filename_to_utf8 (matemenu_tree_entry_get_desktop_file_path (entry),
 				  -1, NULL, NULL, NULL);
 
-  utf8_file_id = g_filename_to_utf8 (gmenu_tree_entry_get_desktop_file_id (entry),
+  utf8_file_id = g_filename_to_utf8 (matemenu_tree_entry_get_desktop_file_id (entry),
 				     -1, NULL, NULL, NULL);
 
   g_print ("%s\t%s\t%s%s\n",
 	   path,
 	   utf8_file_id ? utf8_file_id : _("Invalid desktop file ID"),
 	   utf8_path ? utf8_path : _("[Invalid Filename]"),
-	   gmenu_tree_entry_get_is_excluded (entry) ? _(" <excluded>") : "");
+	   matemenu_tree_entry_get_is_excluded (entry) ? _(" <excluded>") : "");
 
   g_free (utf8_file_id);
   g_free (utf8_path);
 }
 
 static void
-print_directory (GMenuTreeDirectory *directory)
+print_directory (MateMenuTreeDirectory *directory)
 {
   GSList     *items;
   GSList     *tmp;
@@ -116,34 +116,34 @@ print_directory (GMenuTreeDirectory *directory)
   else
     path = freeme + 1;
 
-  items = gmenu_tree_directory_get_contents (directory);
+  items = matemenu_tree_directory_get_contents (directory);
 
   tmp = items;
   while (tmp != NULL)
     {
-      GMenuTreeItem *item = tmp->data;
+      MateMenuTreeItem *item = tmp->data;
 
-      switch (gmenu_tree_item_get_type (item))
+      switch (matemenu_tree_item_get_type (item))
 	{
-	case GMENU_TREE_ITEM_ENTRY:
-	  print_entry (GMENU_TREE_ENTRY (item), path);
+	case MATEMENU_TREE_ITEM_ENTRY:
+	  print_entry (MATEMENU_TREE_ENTRY (item), path);
 	  break;
 
-	case GMENU_TREE_ITEM_DIRECTORY:
-	  print_directory (GMENU_TREE_DIRECTORY (item));
+	case MATEMENU_TREE_ITEM_DIRECTORY:
+	  print_directory (MATEMENU_TREE_DIRECTORY (item));
 	  break;
 
-	case GMENU_TREE_ITEM_HEADER:
-	case GMENU_TREE_ITEM_SEPARATOR:
+	case MATEMENU_TREE_ITEM_HEADER:
+	case MATEMENU_TREE_ITEM_SEPARATOR:
 	  break;
 
-	case GMENU_TREE_ITEM_ALIAS:
+	case MATEMENU_TREE_ITEM_ALIAS:
 	  {
-	    GMenuTreeItem *aliased_item;
+	    MateMenuTreeItem *aliased_item;
 
-	    aliased_item = gmenu_tree_alias_get_item (GMENU_TREE_ALIAS (item));
-	    if (gmenu_tree_item_get_type (aliased_item) == GMENU_TREE_ITEM_ENTRY)
-	      print_entry (GMENU_TREE_ENTRY (aliased_item), path);
+	    aliased_item = matemenu_tree_alias_get_item (MATEMENU_TREE_ALIAS (item));
+	    if (matemenu_tree_item_get_type (aliased_item) == MATEMENU_TREE_ITEM_ENTRY)
+	      print_entry (MATEMENU_TREE_ENTRY (aliased_item), path);
 	  }
 	  break;
 
@@ -152,7 +152,7 @@ print_directory (GMenuTreeDirectory *directory)
 	  break;
 	}
 
-      gmenu_tree_item_unref (tmp->data);
+      matemenu_tree_item_unref (tmp->data);
 
       tmp = tmp->next;
     }
@@ -163,13 +163,13 @@ print_directory (GMenuTreeDirectory *directory)
 }
 
 static void
-handle_tree_changed (GMenuTree *tree)
+handle_tree_changed (MateMenuTree *tree)
 {
-  GMenuTreeDirectory *root;
+  MateMenuTreeDirectory *root;
 
   g_print (_("\n\n\n==== Menu changed, reloading ====\n\n\n"));
 
-  root = gmenu_tree_get_root_directory (tree);
+  root = matemenu_tree_get_root_directory (tree);
   if (root == NULL)
     {
       g_warning (_("Menu tree is empty"));
@@ -177,15 +177,15 @@ handle_tree_changed (GMenuTree *tree)
     }
 
   print_directory (root);
-  gmenu_tree_item_unref (root);
+  matemenu_tree_item_unref (root);
 }
 
 int main (int argc, char **argv)
 {
   GOptionContext    *options_context;
-  GMenuTree          *tree;
-  GMenuTreeDirectory *root;
-  GMenuTreeFlags      flags;
+  MateMenuTree          *tree;
+  MateMenuTreeDirectory *root;
+  MateMenuTreeFlags      flags;
 
 #if 0
   /* See comment when defining _() at the top of this file. */
@@ -199,20 +199,20 @@ int main (int argc, char **argv)
   g_option_context_parse (options_context, &argc, &argv, NULL);
   g_option_context_free (options_context);
 
-  flags = GMENU_TREE_FLAGS_NONE;
+  flags = MATEMENU_TREE_FLAGS_NONE;
   if (include_excluded)
-    flags |= GMENU_TREE_FLAGS_INCLUDE_EXCLUDED;
+    flags |= MATEMENU_TREE_FLAGS_INCLUDE_EXCLUDED;
   if (include_nodisplay)
-    flags |= GMENU_TREE_FLAGS_INCLUDE_NODISPLAY;
+    flags |= MATEMENU_TREE_FLAGS_INCLUDE_NODISPLAY;
 
-  tree = gmenu_tree_lookup (menu_file ? menu_file : "mate-applications.menu", flags);
+  tree = matemenu_tree_lookup (menu_file ? menu_file : "mate-applications.menu", flags);
   g_assert (tree != NULL);
 
-  root = gmenu_tree_get_root_directory (tree);
+  root = matemenu_tree_get_root_directory (tree);
   if (root != NULL)
     {
       print_directory (root);
-      gmenu_tree_item_unref (root);
+      matemenu_tree_item_unref (root);
     }
   else
     {
@@ -223,21 +223,21 @@ int main (int argc, char **argv)
     {
       GMainLoop *main_loop;
 
-      gmenu_tree_add_monitor (tree,
-			      (GMenuTreeChangedFunc) handle_tree_changed,
+      matemenu_tree_add_monitor (tree,
+			      (MateMenuTreeChangedFunc) handle_tree_changed,
 			      NULL);
 
       main_loop = g_main_loop_new (NULL, FALSE);
       g_main_loop_run (main_loop);
       g_main_loop_unref (main_loop);
 
-      gmenu_tree_remove_monitor (tree,
-				 (GMenuTreeChangedFunc) handle_tree_changed,
+      matemenu_tree_remove_monitor (tree,
+				 (MateMenuTreeChangedFunc) handle_tree_changed,
 				 NULL);
 
     }
 
-  gmenu_tree_unref (tree);
+  matemenu_tree_unref (tree);
 
   return 0;
 }

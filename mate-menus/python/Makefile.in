@@ -69,19 +69,19 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(gmenudir)"
-LTLIBRARIES = $(gmenu_LTLIBRARIES)
+am__installdirs = "$(DESTDIR)$(matemenudir)"
+LTLIBRARIES = $(matemenu_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-gmenu_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+matemenu_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(top_builddir)/libmenu/libmate-menu.la
-am_gmenu_la_OBJECTS = gmenu.lo
-gmenu_la_OBJECTS = $(am_gmenu_la_OBJECTS)
+am_matemenu_la_OBJECTS = matemenu.lo
+matemenu_la_OBJECTS = $(am_matemenu_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
-gmenu_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+matemenu_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(gmenu_la_LDFLAGS) $(LDFLAGS) -o $@
+	$(matemenu_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -108,8 +108,8 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(gmenu_la_SOURCES)
-DIST_SOURCES = $(gmenu_la_SOURCES)
+SOURCES = $(matemenu_la_SOURCES)
+DIST_SOURCES = $(matemenu_la_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -290,16 +290,16 @@ AM_CPPFLAGS = \
 	$(GLIB_CFLAGS)			\
 	$(PYTHON_INCLUDES)		\
 	-I$(srcdir)/../libmenu		\
-	-DGMENU_I_KNOW_THIS_IS_UNSTABLE	\
+	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE	\
 	$(DISABLE_DEPRECATED_CFLAGS)	\
 	$(DEBUG_CFLAGS)
 
 AM_CFLAGS = 
-gmenudir = $(pyexecdir)
-gmenu_LTLIBRARIES = gmenu.la
-gmenu_la_SOURCES = gmenu.c
-gmenu_la_LDFLAGS = -module -avoid-version -fPIC -export-symbols-regex initgmenu
-gmenu_la_LIBADD = $(GLIB_LIBS) $(PYTHON_LIBS) $(top_builddir)/libmenu/libmate-menu.la
+matemenudir = $(pyexecdir)
+matemenu_LTLIBRARIES = matemenu.la
+matemenu_la_SOURCES = matemenu.c
+matemenu_la_LDFLAGS = -module -avoid-version -fPIC -export-symbols-regex initmatemenu
+matemenu_la_LIBADD = $(GLIB_LIBS) $(PYTHON_LIBS) $(top_builddir)/libmenu/libmate-menu.la
 all: all-am
 
 .SUFFIXES:
@@ -334,39 +334,39 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-install-gmenuLTLIBRARIES: $(gmenu_LTLIBRARIES)
+install-matemenuLTLIBRARIES: $(matemenu_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	test -z "$(gmenudir)" || $(MKDIR_P) "$(DESTDIR)$(gmenudir)"
-	@list='$(gmenu_LTLIBRARIES)'; test -n "$(gmenudir)" || list=; \
+	test -z "$(matemenudir)" || $(MKDIR_P) "$(DESTDIR)$(matemenudir)"
+	@list='$(matemenu_LTLIBRARIES)'; test -n "$(matemenudir)" || list=; \
 	list2=; for p in $$list; do \
 	  if test -f $$p; then \
 	    list2="$$list2 $$p"; \
 	  else :; fi; \
 	done; \
 	test -z "$$list2" || { \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(gmenudir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(gmenudir)"; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(matemenudir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(matemenudir)"; \
 	}
 
-uninstall-gmenuLTLIBRARIES:
+uninstall-matemenuLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@list='$(gmenu_LTLIBRARIES)'; test -n "$(gmenudir)" || list=; \
+	@list='$(matemenu_LTLIBRARIES)'; test -n "$(matemenudir)" || list=; \
 	for p in $$list; do \
 	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(gmenudir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(gmenudir)/$$f"; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(matemenudir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(matemenudir)/$$f"; \
 	done
 
-clean-gmenuLTLIBRARIES:
-	-test -z "$(gmenu_LTLIBRARIES)" || rm -f $(gmenu_LTLIBRARIES)
-	@list='$(gmenu_LTLIBRARIES)'; for p in $$list; do \
+clean-matemenuLTLIBRARIES:
+	-test -z "$(matemenu_LTLIBRARIES)" || rm -f $(matemenu_LTLIBRARIES)
+	@list='$(matemenu_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-gmenu.la: $(gmenu_la_OBJECTS) $(gmenu_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(gmenu_la_LINK) -rpath $(gmenudir) $(gmenu_la_OBJECTS) $(gmenu_la_LIBADD) $(LIBS)
+matemenu.la: $(matemenu_la_OBJECTS) $(matemenu_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(matemenu_la_LINK) -rpath $(matemenudir) $(matemenu_la_OBJECTS) $(matemenu_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -374,7 +374,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gmenu.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matemenu.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -492,7 +492,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES)
 installdirs:
-	for dir in "$(DESTDIR)$(gmenudir)"; do \
+	for dir in "$(DESTDIR)$(matemenudir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -522,7 +522,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-gmenuLTLIBRARIES clean-libtool \
+clean-am: clean-generic clean-libtool clean-matemenuLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -543,7 +543,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-gmenuLTLIBRARIES
+install-data-am: install-matemenuLTLIBRARIES
 
 install-dvi: install-dvi-am
 
@@ -589,23 +589,23 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-gmenuLTLIBRARIES
+uninstall-am: uninstall-matemenuLTLIBRARIES
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-gmenuLTLIBRARIES clean-libtool ctags distclean \
+	clean-libtool clean-matemenuLTLIBRARIES ctags distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am \
-	install-gmenuLTLIBRARIES install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-matemenuLTLIBRARIES install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-gmenuLTLIBRARIES
+	tags uninstall uninstall-am uninstall-matemenuLTLIBRARIES
 
 	$(WARN_CFLAGS)			\
 	$(NO_STRICT_ALIASING_CFLAGS)

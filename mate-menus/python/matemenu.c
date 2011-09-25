@@ -20,58 +20,58 @@
 #include <config.h>
 
 #include <Python.h>
-#include <gmenu-tree.h>
+#include <matemenu-tree.h>
 
 typedef struct
 {
   PyObject_HEAD
-  GMenuTree *tree;
+  MateMenuTree *tree;
   GSList    *callbacks;
-} PyGMenuTree;
+} PyMateMenuTree;
 
 typedef struct
 {
   PyObject *tree;
   PyObject *callback;
   PyObject *user_data;
-} PyGMenuTreeCallback;
+} PyMateMenuTreeCallback;
 
 typedef struct
 {
   PyObject_HEAD
-  GMenuTreeItem *item;
-} PyGMenuTreeItem;
+  MateMenuTreeItem *item;
+} PyMateMenuTreeItem;
 
-typedef PyGMenuTreeItem PyGMenuTreeDirectory;
-typedef PyGMenuTreeItem PyGMenuTreeEntry;
-typedef PyGMenuTreeItem PyGMenuTreeSeparator;
-typedef PyGMenuTreeItem PyGMenuTreeHeader;
-typedef PyGMenuTreeItem PyGMenuTreeAlias;
+typedef PyMateMenuTreeItem PyMateMenuTreeDirectory;
+typedef PyMateMenuTreeItem PyMateMenuTreeEntry;
+typedef PyMateMenuTreeItem PyMateMenuTreeSeparator;
+typedef PyMateMenuTreeItem PyMateMenuTreeHeader;
+typedef PyMateMenuTreeItem PyMateMenuTreeAlias;
 
-static PyGMenuTree          *pygmenu_tree_wrap           (GMenuTree          *tree);
-static PyGMenuTreeDirectory *pygmenu_tree_directory_wrap (GMenuTreeDirectory *directory);
-static PyGMenuTreeEntry     *pygmenu_tree_entry_wrap     (GMenuTreeEntry     *entry);
-static PyGMenuTreeSeparator *pygmenu_tree_separator_wrap (GMenuTreeSeparator *separator);
-static PyGMenuTreeHeader    *pygmenu_tree_header_wrap    (GMenuTreeHeader    *header);
-static PyGMenuTreeAlias     *pygmenu_tree_alias_wrap     (GMenuTreeAlias     *alias);
+static PyMateMenuTree          *pymatemenu_tree_wrap           (MateMenuTree          *tree);
+static PyMateMenuTreeDirectory *pymatemenu_tree_directory_wrap (MateMenuTreeDirectory *directory);
+static PyMateMenuTreeEntry     *pymatemenu_tree_entry_wrap     (MateMenuTreeEntry     *entry);
+static PyMateMenuTreeSeparator *pymatemenu_tree_separator_wrap (MateMenuTreeSeparator *separator);
+static PyMateMenuTreeHeader    *pymatemenu_tree_header_wrap    (MateMenuTreeHeader    *header);
+static PyMateMenuTreeAlias     *pymatemenu_tree_alias_wrap     (MateMenuTreeAlias     *alias);
 
 static inline PyObject *
 lookup_item_type_str (const char *item_type_str)
 {
   PyObject *module;
 
-  module = PyDict_GetItemString (PyImport_GetModuleDict (), "gmenu");
+  module = PyDict_GetItemString (PyImport_GetModuleDict (), "matemenu");
 
   return PyDict_GetItemString (PyModule_GetDict (module), item_type_str);
 }
 
 static void
-pygmenu_tree_item_dealloc (PyGMenuTreeItem *self)
+pymatemenu_tree_item_dealloc (PyMateMenuTreeItem *self)
 {
   if (self->item != NULL)
     {
-      gmenu_tree_item_set_user_data (self->item, NULL, NULL);
-      gmenu_tree_item_unref (self->item);
+      matemenu_tree_item_set_user_data (self->item, NULL, NULL);
+      matemenu_tree_item_unref (self->item);
       self->item = NULL;
     }
 
@@ -79,39 +79,39 @@ pygmenu_tree_item_dealloc (PyGMenuTreeItem *self)
 }
 
 static PyObject *
-pygmenu_tree_item_get_type (PyObject *self,
+pymatemenu_tree_item_get_type (PyObject *self,
 			    PyObject *args)
 {
-  PyGMenuTreeItem *item;
+  PyMateMenuTreeItem *item;
   PyObject        *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Item.get_type"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Item.get_type"))
 	return NULL;
     }
 
-  item = (PyGMenuTreeItem *) self;
+  item = (PyMateMenuTreeItem *) self;
 
-  switch (gmenu_tree_item_get_type (item->item))
+  switch (matemenu_tree_item_get_type (item->item))
     {
-    case GMENU_TREE_ITEM_DIRECTORY:
+    case MATEMENU_TREE_ITEM_DIRECTORY:
       retval = lookup_item_type_str ("TYPE_DIRECTORY");
       break;
 
-    case GMENU_TREE_ITEM_ENTRY:
+    case MATEMENU_TREE_ITEM_ENTRY:
       retval = lookup_item_type_str ("TYPE_ENTRY");
       break;
 
-    case GMENU_TREE_ITEM_SEPARATOR:
+    case MATEMENU_TREE_ITEM_SEPARATOR:
       retval = lookup_item_type_str ("TYPE_SEPARATOR");
       break;
 
-    case GMENU_TREE_ITEM_HEADER:
+    case MATEMENU_TREE_ITEM_HEADER:
       retval = lookup_item_type_str ("TYPE_HEADER");
       break;
 
-    case GMENU_TREE_ITEM_ALIAS:
+    case MATEMENU_TREE_ITEM_ALIAS:
       retval = lookup_item_type_str ("TYPE_ALIAS");
       break;
 
@@ -126,50 +126,50 @@ pygmenu_tree_item_get_type (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_item_get_parent (PyObject *self,
+pymatemenu_tree_item_get_parent (PyObject *self,
 			      PyObject *args)
 {
-  PyGMenuTreeItem      *item;
-  GMenuTreeDirectory   *parent;
-  PyGMenuTreeDirectory *retval;
+  PyMateMenuTreeItem      *item;
+  MateMenuTreeDirectory   *parent;
+  PyMateMenuTreeDirectory *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Item.get_parent"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Item.get_parent"))
 	return NULL;
     }
 
-  item = (PyGMenuTreeItem *) self;
+  item = (PyMateMenuTreeItem *) self;
 
-  parent = gmenu_tree_item_get_parent (item->item);
+  parent = matemenu_tree_item_get_parent (item->item);
   if (parent == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_directory_wrap (parent);
+  retval = pymatemenu_tree_directory_wrap (parent);
 
-  gmenu_tree_item_unref (parent);
+  matemenu_tree_item_unref (parent);
 
   return (PyObject *) retval;
 }
 
-static struct PyMethodDef pygmenu_tree_item_methods[] =
+static struct PyMethodDef pymatemenu_tree_item_methods[] =
 {
-  { "get_type",   pygmenu_tree_item_get_type,   METH_VARARGS },
-  { "get_parent", pygmenu_tree_item_get_parent, METH_VARARGS },
+  { "get_type",   pymatemenu_tree_item_get_type,   METH_VARARGS },
+  { "get_parent", pymatemenu_tree_item_get_parent, METH_VARARGS },
   { NULL,         NULL,                         0            }
 };
 
-static PyTypeObject PyGMenuTreeItem_Type = 
+static PyTypeObject PyMateMenuTreeItem_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                             /* ob_size */
-  "gmenu.Item",                                  /* tp_name */
-  sizeof (PyGMenuTreeItem),                      /* tp_basicsize */
+  "matemenu.Item",                                  /* tp_name */
+  sizeof (PyMateMenuTreeItem),                      /* tp_basicsize */
   0,                                             /* tp_itemsize */
-  (destructor) pygmenu_tree_item_dealloc,        /* tp_dealloc */
+  (destructor) pymatemenu_tree_item_dealloc,        /* tp_dealloc */
   (printfunc)0,                                  /* tp_print */
   (getattrfunc)0,                                /* tp_getattr */
   (setattrfunc)0,                                /* tp_setattr */
@@ -192,7 +192,7 @@ static PyTypeObject PyGMenuTreeItem_Type =
   0,                                             /* tp_weaklistoffset */
   (getiterfunc)0,                                /* tp_iter */
   (iternextfunc)0,                               /* tp_iternext */
-  pygmenu_tree_item_methods,                     /* tp_methods */
+  pymatemenu_tree_item_methods,                     /* tp_methods */
   0,                                             /* tp_members */
   0,                                             /* tp_getset */
   (PyTypeObject *)0,                             /* tp_base */
@@ -209,52 +209,52 @@ static PyTypeObject PyGMenuTreeItem_Type =
 };
 
 static PyObject *
-pygmenu_tree_directory_get_contents (PyObject *self,
+pymatemenu_tree_directory_get_contents (PyObject *self,
 				     PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
+  PyMateMenuTreeDirectory *directory;
   PyObject             *retval;
   GSList               *contents;
   GSList               *tmp;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Directory.get_contents"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Directory.get_contents"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
   retval = PyList_New (0);
 
-  contents = gmenu_tree_directory_get_contents (GMENU_TREE_DIRECTORY (directory->item));
+  contents = matemenu_tree_directory_get_contents (MATEMENU_TREE_DIRECTORY (directory->item));
 
   tmp = contents;
   while (tmp != NULL)
     {
-      GMenuTreeItem *item = tmp->data;
+      MateMenuTreeItem *item = tmp->data;
       PyObject      *pyitem;
 
-      switch (gmenu_tree_item_get_type (item))
+      switch (matemenu_tree_item_get_type (item))
 	{
-	case GMENU_TREE_ITEM_DIRECTORY:
-	  pyitem = (PyObject *) pygmenu_tree_directory_wrap (GMENU_TREE_DIRECTORY (item));
+	case MATEMENU_TREE_ITEM_DIRECTORY:
+	  pyitem = (PyObject *) pymatemenu_tree_directory_wrap (MATEMENU_TREE_DIRECTORY (item));
 	  break;
 
-	case GMENU_TREE_ITEM_ENTRY:
-	  pyitem = (PyObject *) pygmenu_tree_entry_wrap (GMENU_TREE_ENTRY (item));
+	case MATEMENU_TREE_ITEM_ENTRY:
+	  pyitem = (PyObject *) pymatemenu_tree_entry_wrap (MATEMENU_TREE_ENTRY (item));
 	  break;
 
-	case GMENU_TREE_ITEM_SEPARATOR:
-	  pyitem = (PyObject *) pygmenu_tree_separator_wrap (GMENU_TREE_SEPARATOR (item));
+	case MATEMENU_TREE_ITEM_SEPARATOR:
+	  pyitem = (PyObject *) pymatemenu_tree_separator_wrap (MATEMENU_TREE_SEPARATOR (item));
 	  break;
 
-	case GMENU_TREE_ITEM_HEADER:
-	  pyitem = (PyObject *) pygmenu_tree_header_wrap (GMENU_TREE_HEADER (item));
+	case MATEMENU_TREE_ITEM_HEADER:
+	  pyitem = (PyObject *) pymatemenu_tree_header_wrap (MATEMENU_TREE_HEADER (item));
 	  break;
 
-	case GMENU_TREE_ITEM_ALIAS:
-	  pyitem = (PyObject *) pygmenu_tree_alias_wrap (GMENU_TREE_ALIAS (item));
+	case MATEMENU_TREE_ITEM_ALIAS:
+	  pyitem = (PyObject *) pymatemenu_tree_alias_wrap (MATEMENU_TREE_ALIAS (item));
 	  break;
 
 	default:
@@ -265,7 +265,7 @@ pygmenu_tree_directory_get_contents (PyObject *self,
       PyList_Append (retval, pyitem);
       Py_DECREF (pyitem);
 
-      gmenu_tree_item_unref (item);
+      matemenu_tree_item_unref (item);
 
       tmp = tmp->next;
     }
@@ -276,21 +276,21 @@ pygmenu_tree_directory_get_contents (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_get_name (PyObject *self,
+pymatemenu_tree_directory_get_name (PyObject *self,
 				 PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
+  PyMateMenuTreeDirectory *directory;
   const char           *name;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Directory.get_name"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Directory.get_name"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  name = gmenu_tree_directory_get_name (GMENU_TREE_DIRECTORY (directory->item));
+  name = matemenu_tree_directory_get_name (MATEMENU_TREE_DIRECTORY (directory->item));
   if (name == NULL)
     {
       Py_INCREF (Py_None);
@@ -301,21 +301,21 @@ pygmenu_tree_directory_get_name (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_get_comment (PyObject *self,
+pymatemenu_tree_directory_get_comment (PyObject *self,
 				    PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
+  PyMateMenuTreeDirectory *directory;
   const char           *comment;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Directory.get_comment"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Directory.get_comment"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  comment = gmenu_tree_directory_get_comment (GMENU_TREE_DIRECTORY (directory->item));
+  comment = matemenu_tree_directory_get_comment (MATEMENU_TREE_DIRECTORY (directory->item));
   if (comment == NULL)
     {
       Py_INCREF (Py_None);
@@ -326,21 +326,21 @@ pygmenu_tree_directory_get_comment (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_get_icon (PyObject *self,
+pymatemenu_tree_directory_get_icon (PyObject *self,
 				 PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
+  PyMateMenuTreeDirectory *directory;
   const char           *icon;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Directory.get_icon"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Directory.get_icon"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  icon = gmenu_tree_directory_get_icon (GMENU_TREE_DIRECTORY (directory->item));
+  icon = matemenu_tree_directory_get_icon (MATEMENU_TREE_DIRECTORY (directory->item));
   if (icon == NULL)
     {
       Py_INCREF (Py_None);
@@ -351,21 +351,21 @@ pygmenu_tree_directory_get_icon (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_get_desktop_file_path (PyObject *self,
+pymatemenu_tree_directory_get_desktop_file_path (PyObject *self,
 				              PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
+  PyMateMenuTreeDirectory *directory;
   const char           *path;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Directory.get_desktop_file_path"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Directory.get_desktop_file_path"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  path = gmenu_tree_directory_get_desktop_file_path (GMENU_TREE_DIRECTORY (directory->item));
+  path = matemenu_tree_directory_get_desktop_file_path (MATEMENU_TREE_DIRECTORY (directory->item));
   if (path == NULL)
     {
       Py_INCREF (Py_None);
@@ -376,21 +376,21 @@ pygmenu_tree_directory_get_desktop_file_path (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_get_menu_id (PyObject *self,
+pymatemenu_tree_directory_get_menu_id (PyObject *self,
 				    PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
+  PyMateMenuTreeDirectory *directory;
   const char           *menu_id;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Directory.get_menu_id"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Directory.get_menu_id"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  menu_id = gmenu_tree_directory_get_menu_id (GMENU_TREE_DIRECTORY (directory->item));
+  menu_id = matemenu_tree_directory_get_menu_id (MATEMENU_TREE_DIRECTORY (directory->item));
   if (menu_id == NULL)
     {
       Py_INCREF (Py_None);
@@ -401,51 +401,51 @@ pygmenu_tree_directory_get_menu_id (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_get_tree (PyObject *self,
+pymatemenu_tree_directory_get_tree (PyObject *self,
 				 PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
-  GMenuTree            *tree;
-  PyGMenuTree          *retval;
+  PyMateMenuTreeDirectory *directory;
+  MateMenuTree            *tree;
+  PyMateMenuTree          *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Item.get_tree"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Item.get_tree"))
 	return NULL;
     }
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  tree = gmenu_tree_directory_get_tree (GMENU_TREE_DIRECTORY (directory->item));
+  tree = matemenu_tree_directory_get_tree (MATEMENU_TREE_DIRECTORY (directory->item));
   if (tree == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_wrap (tree);
+  retval = pymatemenu_tree_wrap (tree);
 
-  gmenu_tree_unref (tree);
+  matemenu_tree_unref (tree);
 
   return (PyObject *) retval;
 }
 
 static PyObject *
-pygmenu_tree_directory_make_path (PyObject *self,
+pymatemenu_tree_directory_make_path (PyObject *self,
 				  PyObject *args)
 {
-  PyGMenuTreeDirectory *directory;
-  PyGMenuTreeEntry     *entry;
+  PyMateMenuTreeDirectory *directory;
+  PyMateMenuTreeEntry     *entry;
   PyObject             *retval;
   char                 *path;
 
-  if (!PyArg_ParseTuple (args, "O:gmenu.Directory.make_path", &entry))
+  if (!PyArg_ParseTuple (args, "O:matemenu.Directory.make_path", &entry))
 	return NULL;
 
-  directory = (PyGMenuTreeDirectory *) self;
+  directory = (PyMateMenuTreeDirectory *) self;
 
-  path = gmenu_tree_directory_make_path (GMENU_TREE_DIRECTORY (directory->item),
-					GMENU_TREE_ENTRY (entry->item));
+  path = matemenu_tree_directory_make_path (MATEMENU_TREE_DIRECTORY (directory->item),
+					MATEMENU_TREE_ENTRY (entry->item));
   if (path == NULL)
     {
       Py_INCREF (Py_None);
@@ -460,13 +460,13 @@ pygmenu_tree_directory_make_path (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_directory_getattro (PyGMenuTreeDirectory *self,
+pymatemenu_tree_directory_getattro (PyMateMenuTreeDirectory *self,
 				 PyObject             *py_attr)
 {
   if (PyString_Check (py_attr))
     {
       char *attr;
-  
+
       attr = PyString_AsString (py_attr);
 
       if (!strcmp (attr, "__members__"))
@@ -484,66 +484,66 @@ pygmenu_tree_directory_getattro (PyGMenuTreeDirectory *self,
 	}
       else if (!strcmp (attr, "type"))
 	{
-	  return pygmenu_tree_item_get_type ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_type ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "parent"))
 	{
-	  return pygmenu_tree_item_get_parent ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_parent ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "contents"))
 	{
-	  return pygmenu_tree_directory_get_contents ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_contents ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "name"))
 	{
-	  return pygmenu_tree_directory_get_name ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_name ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "comment"))
 	{
-	  return pygmenu_tree_directory_get_comment ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_comment ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "icon"))
 	{
-	  return pygmenu_tree_directory_get_icon ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_icon ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "desktop_file_path"))
 	{
-	  return pygmenu_tree_directory_get_desktop_file_path ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_desktop_file_path ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "menu_id"))
 	{
-	  return pygmenu_tree_directory_get_menu_id ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_menu_id ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "tree"))
 	{
-	  return pygmenu_tree_directory_get_tree ((PyObject *) self, NULL);
+	  return pymatemenu_tree_directory_get_tree ((PyObject *) self, NULL);
 	}
     }
 
   return PyObject_GenericGetAttr ((PyObject *) self, py_attr);
 }
 
-static struct PyMethodDef pygmenu_tree_directory_methods[] =
+static struct PyMethodDef pymatemenu_tree_directory_methods[] =
 {
-  { "get_contents",           pygmenu_tree_directory_get_contents,           METH_VARARGS },
-  { "get_name",               pygmenu_tree_directory_get_name,               METH_VARARGS },
-  { "get_comment",            pygmenu_tree_directory_get_comment,            METH_VARARGS },
-  { "get_icon",               pygmenu_tree_directory_get_icon,               METH_VARARGS },
-  { "get_desktop_file_path",  pygmenu_tree_directory_get_desktop_file_path,  METH_VARARGS },
-  { "get_menu_id",            pygmenu_tree_directory_get_menu_id,            METH_VARARGS },
-  { "get_tree",               pygmenu_tree_directory_get_tree,               METH_VARARGS },
-  { "make_path",              pygmenu_tree_directory_make_path,              METH_VARARGS },
+  { "get_contents",           pymatemenu_tree_directory_get_contents,           METH_VARARGS },
+  { "get_name",               pymatemenu_tree_directory_get_name,               METH_VARARGS },
+  { "get_comment",            pymatemenu_tree_directory_get_comment,            METH_VARARGS },
+  { "get_icon",               pymatemenu_tree_directory_get_icon,               METH_VARARGS },
+  { "get_desktop_file_path",  pymatemenu_tree_directory_get_desktop_file_path,  METH_VARARGS },
+  { "get_menu_id",            pymatemenu_tree_directory_get_menu_id,            METH_VARARGS },
+  { "get_tree",               pymatemenu_tree_directory_get_tree,               METH_VARARGS },
+  { "make_path",              pymatemenu_tree_directory_make_path,              METH_VARARGS },
   { NULL,                     NULL,                                          0            }
 };
 
-static PyTypeObject PyGMenuTreeDirectory_Type = 
+static PyTypeObject PyMateMenuTreeDirectory_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                              /* ob_size */
-  "gmenu.Directory",                              /* tp_name */
-  sizeof (PyGMenuTreeDirectory),                  /* tp_basicsize */
+  "matemenu.Directory",                              /* tp_name */
+  sizeof (PyMateMenuTreeDirectory),                  /* tp_basicsize */
   0,                                              /* tp_itemsize */
-  (destructor) pygmenu_tree_item_dealloc,         /* tp_dealloc */
+  (destructor) pymatemenu_tree_item_dealloc,         /* tp_dealloc */
   (printfunc)0,                                   /* tp_print */
   (getattrfunc)0,                                 /* tp_getattr */
   (setattrfunc)0,                                 /* tp_setattr */
@@ -555,7 +555,7 @@ static PyTypeObject PyGMenuTreeDirectory_Type =
   (hashfunc)0,                                    /* tp_hash */
   (ternaryfunc)0,                                 /* tp_call */
   (reprfunc)0,                                    /* tp_str */
-  (getattrofunc) pygmenu_tree_directory_getattro, /* tp_getattro */
+  (getattrofunc) pymatemenu_tree_directory_getattro, /* tp_getattro */
   (setattrofunc)0,                                /* tp_setattro */
   0,                                              /* tp_as_buffer */
   Py_TPFLAGS_DEFAULT,                             /* tp_flags */
@@ -566,7 +566,7 @@ static PyTypeObject PyGMenuTreeDirectory_Type =
   0,                                              /* tp_weaklistoffset */
   (getiterfunc)0,                                 /* tp_iter */
   (iternextfunc)0,                                /* tp_iternext */
-  pygmenu_tree_directory_methods,                 /* tp_methods */
+  pymatemenu_tree_directory_methods,                 /* tp_methods */
   0,                                              /* tp_members */
   0,                                              /* tp_getset */
   (PyTypeObject *)0,                              /* tp_base */
@@ -582,44 +582,44 @@ static PyTypeObject PyGMenuTreeDirectory_Type =
   (PyObject *)0,                                  /* tp_bases */
 };
 
-static PyGMenuTreeDirectory *
-pygmenu_tree_directory_wrap (GMenuTreeDirectory *directory)
+static PyMateMenuTreeDirectory *
+pymatemenu_tree_directory_wrap (MateMenuTreeDirectory *directory)
 {
-  PyGMenuTreeDirectory *retval;
+  PyMateMenuTreeDirectory *retval;
 
-  if ((retval = gmenu_tree_item_get_user_data (GMENU_TREE_ITEM (directory))) != NULL)
+  if ((retval = matemenu_tree_item_get_user_data (MATEMENU_TREE_ITEM (directory))) != NULL)
     {
       Py_INCREF (retval);
       return retval;
     }
 
-  if (!(retval = (PyGMenuTreeDirectory *) PyObject_NEW (PyGMenuTreeDirectory,
-							&PyGMenuTreeDirectory_Type)))
+  if (!(retval = (PyMateMenuTreeDirectory *) PyObject_NEW (PyMateMenuTreeDirectory,
+							&PyMateMenuTreeDirectory_Type)))
     return NULL;
 
-  retval->item = gmenu_tree_item_ref (directory);
+  retval->item = matemenu_tree_item_ref (directory);
 
-  gmenu_tree_item_set_user_data (GMENU_TREE_ITEM (directory), retval, NULL);
+  matemenu_tree_item_set_user_data (MATEMENU_TREE_ITEM (directory), retval, NULL);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_tree_entry_get_name (PyObject *self,
+pymatemenu_tree_entry_get_name (PyObject *self,
 			     PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *name;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_name"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_name"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  name = gmenu_tree_entry_get_name (GMENU_TREE_ENTRY (entry->item));
+  name = matemenu_tree_entry_get_name (MATEMENU_TREE_ENTRY (entry->item));
   if (name == NULL)
     {
       Py_INCREF (Py_None);
@@ -630,21 +630,21 @@ pygmenu_tree_entry_get_name (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_generic_name (PyObject *self,
+pymatemenu_tree_entry_get_generic_name (PyObject *self,
 				     PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *generic_name;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_generic_name"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_generic_name"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  generic_name = gmenu_tree_entry_get_generic_name (GMENU_TREE_ENTRY (entry->item));
+  generic_name = matemenu_tree_entry_get_generic_name (MATEMENU_TREE_ENTRY (entry->item));
   if (generic_name == NULL)
     {
       Py_INCREF (Py_None);
@@ -655,21 +655,21 @@ pygmenu_tree_entry_get_generic_name (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_display_name (PyObject *self,
+pymatemenu_tree_entry_get_display_name (PyObject *self,
 				     PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *display_name;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_display_name"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_display_name"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  display_name = gmenu_tree_entry_get_display_name (GMENU_TREE_ENTRY (entry->item));
+  display_name = matemenu_tree_entry_get_display_name (MATEMENU_TREE_ENTRY (entry->item));
   if (display_name == NULL)
     {
       Py_INCREF (Py_None);
@@ -680,21 +680,21 @@ pygmenu_tree_entry_get_display_name (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_comment (PyObject *self,
+pymatemenu_tree_entry_get_comment (PyObject *self,
 				PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *comment;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_comment"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_comment"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  comment = gmenu_tree_entry_get_comment (GMENU_TREE_ENTRY (entry->item));
+  comment = matemenu_tree_entry_get_comment (MATEMENU_TREE_ENTRY (entry->item));
   if (comment == NULL)
     {
       Py_INCREF (Py_None);
@@ -705,21 +705,21 @@ pygmenu_tree_entry_get_comment (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_icon (PyObject *self,
+pymatemenu_tree_entry_get_icon (PyObject *self,
 			     PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *icon;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_icon"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_icon"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  icon = gmenu_tree_entry_get_icon (GMENU_TREE_ENTRY (entry->item));
+  icon = matemenu_tree_entry_get_icon (MATEMENU_TREE_ENTRY (entry->item));
   if (icon == NULL)
     {
       Py_INCREF (Py_None);
@@ -730,21 +730,21 @@ pygmenu_tree_entry_get_icon (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_exec (PyObject *self,
+pymatemenu_tree_entry_get_exec (PyObject *self,
 			     PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *exec;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_exec"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_exec"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  exec = gmenu_tree_entry_get_exec (GMENU_TREE_ENTRY (entry->item));
+  exec = matemenu_tree_entry_get_exec (MATEMENU_TREE_ENTRY (entry->item));
   if (exec == NULL)
     {
       Py_INCREF (Py_None);
@@ -755,21 +755,21 @@ pygmenu_tree_entry_get_exec (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_launch_in_terminal (PyObject *self,
+pymatemenu_tree_entry_get_launch_in_terminal (PyObject *self,
 				    PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   PyObject         *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_launch_in_terminal"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_launch_in_terminal"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  if (gmenu_tree_entry_get_launch_in_terminal (GMENU_TREE_ENTRY (entry->item)))
+  if (matemenu_tree_entry_get_launch_in_terminal (MATEMENU_TREE_ENTRY (entry->item)))
     retval = Py_True;
   else
     retval = Py_False;
@@ -779,21 +779,21 @@ pygmenu_tree_entry_get_launch_in_terminal (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_desktop_file_path (PyObject *self,
+pymatemenu_tree_entry_get_desktop_file_path (PyObject *self,
 					  PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *desktop_file_path;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_desktop_file_path"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_desktop_file_path"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  desktop_file_path = gmenu_tree_entry_get_desktop_file_path (GMENU_TREE_ENTRY (entry->item));
+  desktop_file_path = matemenu_tree_entry_get_desktop_file_path (MATEMENU_TREE_ENTRY (entry->item));
   if (desktop_file_path == NULL)
     {
       Py_INCREF (Py_None);
@@ -804,21 +804,21 @@ pygmenu_tree_entry_get_desktop_file_path (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_desktop_file_id (PyObject *self,
+pymatemenu_tree_entry_get_desktop_file_id (PyObject *self,
 					PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   const char       *desktop_file_id;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_desktop_file_id"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_desktop_file_id"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  desktop_file_id = gmenu_tree_entry_get_desktop_file_id (GMENU_TREE_ENTRY (entry->item));
+  desktop_file_id = matemenu_tree_entry_get_desktop_file_id (MATEMENU_TREE_ENTRY (entry->item));
   if (desktop_file_id == NULL)
     {
       Py_INCREF (Py_None);
@@ -829,42 +829,42 @@ pygmenu_tree_entry_get_desktop_file_id (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_get_is_excluded (PyObject *self,
+pymatemenu_tree_entry_get_is_excluded (PyObject *self,
 				    PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   PyObject         *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_is_excluded"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_is_excluded"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  retval = gmenu_tree_entry_get_is_excluded (GMENU_TREE_ENTRY (entry->item)) ? Py_True : Py_False;
+  retval = matemenu_tree_entry_get_is_excluded (MATEMENU_TREE_ENTRY (entry->item)) ? Py_True : Py_False;
   Py_INCREF (retval);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_tree_entry_get_is_nodisplay (PyObject *self,
+pymatemenu_tree_entry_get_is_nodisplay (PyObject *self,
 				    PyObject *args)
 {
-  PyGMenuTreeEntry *entry;
+  PyMateMenuTreeEntry *entry;
   PyObject         *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Entry.get_is_nodisplay"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Entry.get_is_nodisplay"))
 	return NULL;
     }
 
-  entry = (PyGMenuTreeEntry *) self;
+  entry = (PyMateMenuTreeEntry *) self;
 
-  if (gmenu_tree_entry_get_is_nodisplay (GMENU_TREE_ENTRY (entry->item)))
+  if (matemenu_tree_entry_get_is_nodisplay (MATEMENU_TREE_ENTRY (entry->item)))
     retval = Py_True;
   else
     retval = Py_False;
@@ -874,13 +874,13 @@ pygmenu_tree_entry_get_is_nodisplay (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_entry_getattro (PyGMenuTreeEntry *self,
+pymatemenu_tree_entry_getattro (PyMateMenuTreeEntry *self,
 			     PyObject         *py_attr)
 {
   if (PyString_Check (py_attr))
     {
       char *attr;
-  
+
       attr = PyString_AsString (py_attr);
 
       if (!strcmp (attr, "__members__"))
@@ -900,85 +900,85 @@ pygmenu_tree_entry_getattro (PyGMenuTreeEntry *self,
 	}
       else if (!strcmp (attr, "type"))
 	{
-	  return pygmenu_tree_item_get_type ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_type ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "parent"))
 	{
-	  return pygmenu_tree_item_get_parent ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_parent ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "name"))
 	{
-	  return pygmenu_tree_entry_get_name ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_name ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "generic_name"))
 	{
-	  return pygmenu_tree_entry_get_generic_name ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_generic_name ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "display_name"))
 	{
-	  return pygmenu_tree_entry_get_display_name ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_display_name ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "comment"))
 	{
-	  return pygmenu_tree_entry_get_comment ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_comment ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "icon"))
 	{
-	  return pygmenu_tree_entry_get_icon ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_icon ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "exec_info"))
 	{
-	  return pygmenu_tree_entry_get_exec ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_exec ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "launch_in_terminal"))
 	{
-	  return pygmenu_tree_entry_get_launch_in_terminal ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_launch_in_terminal ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "desktop_file_path"))
 	{
-	  return pygmenu_tree_entry_get_desktop_file_path ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_desktop_file_path ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "desktop_file_id"))
 	{
-	  return pygmenu_tree_entry_get_desktop_file_id ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_desktop_file_id ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "is_excluded"))
 	{
-	  return pygmenu_tree_entry_get_is_excluded ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_is_excluded ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "is_nodisplay"))
 	{
-	  return pygmenu_tree_entry_get_is_nodisplay ((PyObject *) self, NULL);
+	  return pymatemenu_tree_entry_get_is_nodisplay ((PyObject *) self, NULL);
 	}
     }
 
   return PyObject_GenericGetAttr ((PyObject *) self, py_attr);
 }
 
-static struct PyMethodDef pygmenu_tree_entry_methods[] =
+static struct PyMethodDef pymatemenu_tree_entry_methods[] =
 {
-  { "get_name",               pygmenu_tree_entry_get_name,               METH_VARARGS },
-  { "get_generic_name",       pygmenu_tree_entry_get_generic_name,       METH_VARARGS },
-  { "get_display_name",       pygmenu_tree_entry_get_display_name,       METH_VARARGS },
-  { "get_comment",            pygmenu_tree_entry_get_comment,            METH_VARARGS },
-  { "get_icon",               pygmenu_tree_entry_get_icon,               METH_VARARGS },
-  { "get_exec",               pygmenu_tree_entry_get_exec,               METH_VARARGS },
-  { "get_launch_in_terminal", pygmenu_tree_entry_get_launch_in_terminal, METH_VARARGS },
-  { "get_desktop_file_path",  pygmenu_tree_entry_get_desktop_file_path,  METH_VARARGS },
-  { "get_desktop_file_id",    pygmenu_tree_entry_get_desktop_file_id,    METH_VARARGS },
-  { "get_is_excluded",        pygmenu_tree_entry_get_is_excluded,        METH_VARARGS },
-  { "get_is_nodisplay",       pygmenu_tree_entry_get_is_nodisplay,       METH_VARARGS },
+  { "get_name",               pymatemenu_tree_entry_get_name,               METH_VARARGS },
+  { "get_generic_name",       pymatemenu_tree_entry_get_generic_name,       METH_VARARGS },
+  { "get_display_name",       pymatemenu_tree_entry_get_display_name,       METH_VARARGS },
+  { "get_comment",            pymatemenu_tree_entry_get_comment,            METH_VARARGS },
+  { "get_icon",               pymatemenu_tree_entry_get_icon,               METH_VARARGS },
+  { "get_exec",               pymatemenu_tree_entry_get_exec,               METH_VARARGS },
+  { "get_launch_in_terminal", pymatemenu_tree_entry_get_launch_in_terminal, METH_VARARGS },
+  { "get_desktop_file_path",  pymatemenu_tree_entry_get_desktop_file_path,  METH_VARARGS },
+  { "get_desktop_file_id",    pymatemenu_tree_entry_get_desktop_file_id,    METH_VARARGS },
+  { "get_is_excluded",        pymatemenu_tree_entry_get_is_excluded,        METH_VARARGS },
+  { "get_is_nodisplay",       pymatemenu_tree_entry_get_is_nodisplay,       METH_VARARGS },
   { NULL,                     NULL,                                      0            }
 };
 
-static PyTypeObject PyGMenuTreeEntry_Type = 
+static PyTypeObject PyMateMenuTreeEntry_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                             /* ob_size */
-  "gmenu.Entry",                                 /* tp_name */
-  sizeof (PyGMenuTreeEntry),                     /* tp_basicsize */
+  "matemenu.Entry",                                 /* tp_name */
+  sizeof (PyMateMenuTreeEntry),                     /* tp_basicsize */
   0,                                             /* tp_itemsize */
-  (destructor) pygmenu_tree_item_dealloc,        /* tp_dealloc */
+  (destructor) pymatemenu_tree_item_dealloc,        /* tp_dealloc */
   (printfunc)0,                                  /* tp_print */
   (getattrfunc)0,                                /* tp_getattr */
   (setattrfunc)0,                                /* tp_setattr */
@@ -990,7 +990,7 @@ static PyTypeObject PyGMenuTreeEntry_Type =
   (hashfunc)0,                                   /* tp_hash */
   (ternaryfunc)0,                                /* tp_call */
   (reprfunc)0,                                   /* tp_str */
-  (getattrofunc) pygmenu_tree_entry_getattro,    /* tp_getattro */
+  (getattrofunc) pymatemenu_tree_entry_getattro,    /* tp_getattro */
   (setattrofunc)0,                               /* tp_setattro */
   0,                                             /* tp_as_buffer */
   Py_TPFLAGS_DEFAULT,                            /* tp_flags */
@@ -1001,7 +1001,7 @@ static PyTypeObject PyGMenuTreeEntry_Type =
   0,                                             /* tp_weaklistoffset */
   (getiterfunc)0,                                /* tp_iter */
   (iternextfunc)0,                               /* tp_iternext */
-  pygmenu_tree_entry_methods,                    /* tp_methods */
+  pymatemenu_tree_entry_methods,                    /* tp_methods */
   0,                                             /* tp_members */
   0,                                             /* tp_getset */
   (PyTypeObject *)0,                             /* tp_base */
@@ -1017,36 +1017,36 @@ static PyTypeObject PyGMenuTreeEntry_Type =
   (PyObject *)0,                                 /* tp_bases */
 };
 
-static PyGMenuTreeEntry *
-pygmenu_tree_entry_wrap (GMenuTreeEntry *entry)
+static PyMateMenuTreeEntry *
+pymatemenu_tree_entry_wrap (MateMenuTreeEntry *entry)
 {
-  PyGMenuTreeEntry *retval;
+  PyMateMenuTreeEntry *retval;
 
-  if ((retval = gmenu_tree_item_get_user_data (GMENU_TREE_ITEM (entry))) != NULL)
+  if ((retval = matemenu_tree_item_get_user_data (MATEMENU_TREE_ITEM (entry))) != NULL)
     {
       Py_INCREF (retval);
       return retval;
     }
 
-  if (!(retval = (PyGMenuTreeEntry *) PyObject_NEW (PyGMenuTreeEntry,
-						    &PyGMenuTreeEntry_Type)))
+  if (!(retval = (PyMateMenuTreeEntry *) PyObject_NEW (PyMateMenuTreeEntry,
+						    &PyMateMenuTreeEntry_Type)))
     return NULL;
 
-  retval->item = gmenu_tree_item_ref (entry);
+  retval->item = matemenu_tree_item_ref (entry);
 
-  gmenu_tree_item_set_user_data (GMENU_TREE_ITEM (entry), retval, NULL);
+  matemenu_tree_item_set_user_data (MATEMENU_TREE_ITEM (entry), retval, NULL);
 
   return retval;
 }
 
-static PyTypeObject PyGMenuTreeSeparator_Type = 
+static PyTypeObject PyMateMenuTreeSeparator_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                             /* ob_size */
-  "gmenu.Separator",                             /* tp_name */
-  sizeof (PyGMenuTreeSeparator),                 /* tp_basicsize */
+  "matemenu.Separator",                             /* tp_name */
+  sizeof (PyMateMenuTreeSeparator),                 /* tp_basicsize */
   0,                                             /* tp_itemsize */
-  (destructor) pygmenu_tree_item_dealloc,        /* tp_dealloc */
+  (destructor) pymatemenu_tree_item_dealloc,        /* tp_dealloc */
   (printfunc)0,                                  /* tp_print */
   (getattrfunc)0,                                /* tp_getattr */
   (setattrfunc)0,                                /* tp_setattr */
@@ -1085,66 +1085,66 @@ static PyTypeObject PyGMenuTreeSeparator_Type =
   (PyObject *)0,                                 /* tp_bases */
 };
 
-static PyGMenuTreeSeparator *
-pygmenu_tree_separator_wrap (GMenuTreeSeparator *separator)
+static PyMateMenuTreeSeparator *
+pymatemenu_tree_separator_wrap (MateMenuTreeSeparator *separator)
 {
-  PyGMenuTreeSeparator *retval;
+  PyMateMenuTreeSeparator *retval;
 
-  if ((retval = gmenu_tree_item_get_user_data (GMENU_TREE_ITEM (separator))) != NULL)
+  if ((retval = matemenu_tree_item_get_user_data (MATEMENU_TREE_ITEM (separator))) != NULL)
     {
       Py_INCREF (retval);
       return retval;
     }
 
-  if (!(retval = (PyGMenuTreeSeparator *) PyObject_NEW (PyGMenuTreeSeparator,
-							&PyGMenuTreeSeparator_Type)))
+  if (!(retval = (PyMateMenuTreeSeparator *) PyObject_NEW (PyMateMenuTreeSeparator,
+							&PyMateMenuTreeSeparator_Type)))
     return NULL;
 
-  retval->item = gmenu_tree_item_ref (separator);
+  retval->item = matemenu_tree_item_ref (separator);
 
-  gmenu_tree_item_set_user_data (GMENU_TREE_ITEM (separator), retval, NULL);
+  matemenu_tree_item_set_user_data (MATEMENU_TREE_ITEM (separator), retval, NULL);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_tree_header_get_directory (PyObject *self,
+pymatemenu_tree_header_get_directory (PyObject *self,
 				   PyObject *args)
 {
-  PyGMenuTreeHeader    *header;
-  GMenuTreeDirectory   *directory;
-  PyGMenuTreeDirectory *retval;
+  PyMateMenuTreeHeader    *header;
+  MateMenuTreeDirectory   *directory;
+  PyMateMenuTreeDirectory *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Header.get_directory"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Header.get_directory"))
 	return NULL;
     }
 
-  header = (PyGMenuTreeHeader *) self;
+  header = (PyMateMenuTreeHeader *) self;
 
-  directory = gmenu_tree_header_get_directory (GMENU_TREE_HEADER (header->item));
+  directory = matemenu_tree_header_get_directory (MATEMENU_TREE_HEADER (header->item));
   if (directory == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_directory_wrap (directory);
+  retval = pymatemenu_tree_directory_wrap (directory);
 
-  gmenu_tree_item_unref (directory);
+  matemenu_tree_item_unref (directory);
 
   return (PyObject *) retval;
 }
 
 static PyObject *
-pygmenu_tree_header_getattro (PyGMenuTreeHeader *self,
+pymatemenu_tree_header_getattro (PyMateMenuTreeHeader *self,
 			      PyObject          *py_attr)
 {
   if (PyString_Check (py_attr))
     {
       char *attr;
-  
+
       attr = PyString_AsString (py_attr);
 
       if (!strcmp (attr, "__members__"))
@@ -1156,35 +1156,35 @@ pygmenu_tree_header_getattro (PyGMenuTreeHeader *self,
 	}
       else if (!strcmp (attr, "type"))
 	{
-	  return pygmenu_tree_item_get_type ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_type ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "parent"))
 	{
-	  return pygmenu_tree_item_get_parent ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_parent ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "directory"))
 	{
-	  return pygmenu_tree_header_get_directory ((PyObject *) self, NULL);
+	  return pymatemenu_tree_header_get_directory ((PyObject *) self, NULL);
 	}
     }
 
   return PyObject_GenericGetAttr ((PyObject *) self, py_attr);
 }
 
-static struct PyMethodDef pygmenu_tree_header_methods[] =
+static struct PyMethodDef pymatemenu_tree_header_methods[] =
 {
-  { "get_directory", pygmenu_tree_header_get_directory, METH_VARARGS },
+  { "get_directory", pymatemenu_tree_header_get_directory, METH_VARARGS },
   { NULL,            NULL,                              0            }
 };
 
-static PyTypeObject PyGMenuTreeHeader_Type = 
+static PyTypeObject PyMateMenuTreeHeader_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                             /* ob_size */
-  "gmenu.Header",                                /* tp_name */
-  sizeof (PyGMenuTreeHeader),                    /* tp_basicsize */
+  "matemenu.Header",                                /* tp_name */
+  sizeof (PyMateMenuTreeHeader),                    /* tp_basicsize */
   0,                                             /* tp_itemsize */
-  (destructor) pygmenu_tree_item_dealloc,        /* tp_dealloc */
+  (destructor) pymatemenu_tree_item_dealloc,        /* tp_dealloc */
   (printfunc)0,                                  /* tp_print */
   (getattrfunc)0,                                /* tp_getattr */
   (setattrfunc)0,                                /* tp_setattr */
@@ -1196,7 +1196,7 @@ static PyTypeObject PyGMenuTreeHeader_Type =
   (hashfunc)0,                                   /* tp_hash */
   (ternaryfunc)0,                                /* tp_call */
   (reprfunc)0,                                   /* tp_str */
-  (getattrofunc) pygmenu_tree_header_getattro,   /* tp_getattro */
+  (getattrofunc) pymatemenu_tree_header_getattro,   /* tp_getattro */
   (setattrofunc)0,                               /* tp_setattro */
   0,                                             /* tp_as_buffer */
   Py_TPFLAGS_DEFAULT,                            /* tp_flags */
@@ -1207,7 +1207,7 @@ static PyTypeObject PyGMenuTreeHeader_Type =
   0,                                             /* tp_weaklistoffset */
   (getiterfunc)0,                                /* tp_iter */
   (iternextfunc)0,                               /* tp_iternext */
-  pygmenu_tree_header_methods,                   /* tp_methods */
+  pymatemenu_tree_header_methods,                   /* tp_methods */
   0,                                             /* tp_members */
   0,                                             /* tp_getset */
   (PyTypeObject *)0,                             /* tp_base */
@@ -1223,89 +1223,89 @@ static PyTypeObject PyGMenuTreeHeader_Type =
   (PyObject *)0,                                 /* tp_bases */
 };
 
-static PyGMenuTreeHeader *
-pygmenu_tree_header_wrap (GMenuTreeHeader *header)
+static PyMateMenuTreeHeader *
+pymatemenu_tree_header_wrap (MateMenuTreeHeader *header)
 {
-  PyGMenuTreeHeader *retval;
+  PyMateMenuTreeHeader *retval;
 
-  if ((retval = gmenu_tree_item_get_user_data (GMENU_TREE_ITEM (header))) != NULL)
+  if ((retval = matemenu_tree_item_get_user_data (MATEMENU_TREE_ITEM (header))) != NULL)
     {
       Py_INCREF (retval);
       return retval;
     }
 
-  if (!(retval = (PyGMenuTreeHeader *) PyObject_NEW (PyGMenuTreeHeader,
-						     &PyGMenuTreeHeader_Type)))
+  if (!(retval = (PyMateMenuTreeHeader *) PyObject_NEW (PyMateMenuTreeHeader,
+						     &PyMateMenuTreeHeader_Type)))
     return NULL;
 
-  retval->item = gmenu_tree_item_ref (header);
+  retval->item = matemenu_tree_item_ref (header);
 
-  gmenu_tree_item_set_user_data (GMENU_TREE_ITEM (header), retval, NULL);
+  matemenu_tree_item_set_user_data (MATEMENU_TREE_ITEM (header), retval, NULL);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_tree_alias_get_directory (PyObject *self,
+pymatemenu_tree_alias_get_directory (PyObject *self,
 				  PyObject *args)
 {
-  PyGMenuTreeAlias     *alias;
-  GMenuTreeDirectory   *directory;
-  PyGMenuTreeDirectory *retval;
+  PyMateMenuTreeAlias     *alias;
+  MateMenuTreeDirectory   *directory;
+  PyMateMenuTreeDirectory *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Alias.get_directory"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Alias.get_directory"))
 	return NULL;
     }
 
-  alias = (PyGMenuTreeAlias *) self;
+  alias = (PyMateMenuTreeAlias *) self;
 
-  directory = gmenu_tree_alias_get_directory (GMENU_TREE_ALIAS (alias->item));
+  directory = matemenu_tree_alias_get_directory (MATEMENU_TREE_ALIAS (alias->item));
   if (directory == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_directory_wrap (directory);
+  retval = pymatemenu_tree_directory_wrap (directory);
 
-  gmenu_tree_item_unref (directory);
+  matemenu_tree_item_unref (directory);
 
   return (PyObject *) retval;
 }
 
 static PyObject *
-pygmenu_tree_alias_get_item (PyObject *self,
+pymatemenu_tree_alias_get_item (PyObject *self,
 			     PyObject *args)
 {
-  PyGMenuTreeAlias *alias;
-  GMenuTreeItem    *item;
+  PyMateMenuTreeAlias *alias;
+  MateMenuTreeItem    *item;
   PyObject         *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Alias.get_item"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Alias.get_item"))
 	return NULL;
     }
 
-  alias = (PyGMenuTreeAlias *) self;
+  alias = (PyMateMenuTreeAlias *) self;
 
-  item = gmenu_tree_alias_get_item (GMENU_TREE_ALIAS (alias->item));
+  item = matemenu_tree_alias_get_item (MATEMENU_TREE_ALIAS (alias->item));
   if (item == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  switch (gmenu_tree_item_get_type (item))
+  switch (matemenu_tree_item_get_type (item))
     {
-    case GMENU_TREE_ITEM_DIRECTORY:
-      retval = (PyObject *) pygmenu_tree_directory_wrap (GMENU_TREE_DIRECTORY (item));
+    case MATEMENU_TREE_ITEM_DIRECTORY:
+      retval = (PyObject *) pymatemenu_tree_directory_wrap (MATEMENU_TREE_DIRECTORY (item));
       break;
 
-    case GMENU_TREE_ITEM_ENTRY:
-      retval = (PyObject *) pygmenu_tree_entry_wrap (GMENU_TREE_ENTRY (item));
+    case MATEMENU_TREE_ITEM_ENTRY:
+      retval = (PyObject *) pymatemenu_tree_entry_wrap (MATEMENU_TREE_ENTRY (item));
       break;
 
     default:
@@ -1313,19 +1313,19 @@ pygmenu_tree_alias_get_item (PyObject *self,
       break;
     }
 
-  gmenu_tree_item_unref (item);
+  matemenu_tree_item_unref (item);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_tree_alias_getattro (PyGMenuTreeAlias *self,
+pymatemenu_tree_alias_getattro (PyMateMenuTreeAlias *self,
 			     PyObject         *py_attr)
 {
   if (PyString_Check (py_attr))
     {
       char *attr;
-  
+
       attr = PyString_AsString (py_attr);
 
       if (!strcmp (attr, "__members__"))
@@ -1338,40 +1338,40 @@ pygmenu_tree_alias_getattro (PyGMenuTreeAlias *self,
 	}
       else if (!strcmp (attr, "type"))
 	{
-	  return pygmenu_tree_item_get_type ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_type ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "parent"))
 	{
-	  return pygmenu_tree_item_get_parent ((PyObject *) self, NULL);
+	  return pymatemenu_tree_item_get_parent ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "directory"))
 	{
-	  return pygmenu_tree_alias_get_directory ((PyObject *) self, NULL);
+	  return pymatemenu_tree_alias_get_directory ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "item"))
 	{
-	  return pygmenu_tree_alias_get_item ((PyObject *) self, NULL);
+	  return pymatemenu_tree_alias_get_item ((PyObject *) self, NULL);
 	}
     }
 
   return PyObject_GenericGetAttr ((PyObject *) self, py_attr);
 }
 
-static struct PyMethodDef pygmenu_tree_alias_methods[] =
+static struct PyMethodDef pymatemenu_tree_alias_methods[] =
 {
-  { "get_directory", pygmenu_tree_alias_get_directory, METH_VARARGS },
-  { "get_item",      pygmenu_tree_alias_get_item,      METH_VARARGS },
+  { "get_directory", pymatemenu_tree_alias_get_directory, METH_VARARGS },
+  { "get_item",      pymatemenu_tree_alias_get_item,      METH_VARARGS },
   { NULL,            NULL,                             0            }
 };
 
-static PyTypeObject PyGMenuTreeAlias_Type = 
+static PyTypeObject PyMateMenuTreeAlias_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                             /* ob_size */
-  "gmenu.Alias",                                 /* tp_name */
-  sizeof (PyGMenuTreeAlias),                     /* tp_basicsize */
+  "matemenu.Alias",                                 /* tp_name */
+  sizeof (PyMateMenuTreeAlias),                     /* tp_basicsize */
   0,                                             /* tp_itemsize */
-  (destructor) pygmenu_tree_item_dealloc,        /* tp_dealloc */
+  (destructor) pymatemenu_tree_item_dealloc,        /* tp_dealloc */
   (printfunc)0,                                  /* tp_print */
   (getattrfunc)0,                                /* tp_getattr */
   (setattrfunc)0,                                /* tp_setattr */
@@ -1383,7 +1383,7 @@ static PyTypeObject PyGMenuTreeAlias_Type =
   (hashfunc)0,                                   /* tp_hash */
   (ternaryfunc)0,                                /* tp_call */
   (reprfunc)0,                                   /* tp_str */
-  (getattrofunc) pygmenu_tree_alias_getattro,    /* tp_getattro */
+  (getattrofunc) pymatemenu_tree_alias_getattro,    /* tp_getattro */
   (setattrofunc)0,                               /* tp_setattro */
   0,                                             /* tp_as_buffer */
   Py_TPFLAGS_DEFAULT,                            /* tp_flags */
@@ -1394,7 +1394,7 @@ static PyTypeObject PyGMenuTreeAlias_Type =
   0,                                             /* tp_weaklistoffset */
   (getiterfunc)0,                                /* tp_iter */
   (iternextfunc)0,                               /* tp_iternext */
-  pygmenu_tree_alias_methods,                    /* tp_methods */
+  pymatemenu_tree_alias_methods,                    /* tp_methods */
   0,                                             /* tp_members */
   0,                                             /* tp_getset */
   (PyTypeObject *)0,                             /* tp_base */
@@ -1410,44 +1410,44 @@ static PyTypeObject PyGMenuTreeAlias_Type =
   (PyObject *)0,                                 /* tp_bases */
 };
 
-static PyGMenuTreeAlias *
-pygmenu_tree_alias_wrap (GMenuTreeAlias *alias)
+static PyMateMenuTreeAlias *
+pymatemenu_tree_alias_wrap (MateMenuTreeAlias *alias)
 {
-  PyGMenuTreeAlias *retval;
+  PyMateMenuTreeAlias *retval;
 
-  if ((retval = gmenu_tree_item_get_user_data (GMENU_TREE_ITEM (alias))) != NULL)
+  if ((retval = matemenu_tree_item_get_user_data (MATEMENU_TREE_ITEM (alias))) != NULL)
     {
       Py_INCREF (retval);
       return retval;
     }
 
-  if (!(retval = (PyGMenuTreeAlias *) PyObject_NEW (PyGMenuTreeAlias,
-						    &PyGMenuTreeAlias_Type)))
+  if (!(retval = (PyMateMenuTreeAlias *) PyObject_NEW (PyMateMenuTreeAlias,
+						    &PyMateMenuTreeAlias_Type)))
     return NULL;
 
-  retval->item = gmenu_tree_item_ref (alias);
+  retval->item = matemenu_tree_item_ref (alias);
 
-  gmenu_tree_item_set_user_data (GMENU_TREE_ITEM (alias), retval, NULL);
+  matemenu_tree_item_set_user_data (MATEMENU_TREE_ITEM (alias), retval, NULL);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_tree_get_menu_file (PyObject *self,
+pymatemenu_tree_get_menu_file (PyObject *self,
 			    PyObject *args)
 {
-  PyGMenuTree *tree;
+  PyMateMenuTree *tree;
   const char  *menu_file;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Tree.get_menu_file"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Tree.get_menu_file"))
 	return NULL;
     }
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
-  menu_file = gmenu_tree_get_menu_file (tree->tree);
+  menu_file = matemenu_tree_get_menu_file (tree->tree);
   if (menu_file == NULL)
     {
       Py_INCREF (Py_None);
@@ -1458,85 +1458,85 @@ pygmenu_tree_get_menu_file (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_get_root_directory (PyObject *self,
+pymatemenu_tree_get_root_directory (PyObject *self,
 				 PyObject *args)
 {
-  PyGMenuTree          *tree;
-  GMenuTreeDirectory   *directory;
-  PyGMenuTreeDirectory *retval;
+  PyMateMenuTree          *tree;
+  MateMenuTreeDirectory   *directory;
+  PyMateMenuTreeDirectory *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Tree.get_root_directory"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Tree.get_root_directory"))
 	return NULL;
     }
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
-  directory = gmenu_tree_get_root_directory (tree->tree);
+  directory = matemenu_tree_get_root_directory (tree->tree);
   if (directory == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_directory_wrap (directory);
+  retval = pymatemenu_tree_directory_wrap (directory);
 
-  gmenu_tree_item_unref (directory);
+  matemenu_tree_item_unref (directory);
 
   return (PyObject *) retval;
 }
 
 static PyObject *
-pygmenu_tree_get_directory_from_path (PyObject *self,
+pymatemenu_tree_get_directory_from_path (PyObject *self,
 				      PyObject *args)
 {
-  PyGMenuTree          *tree;
-  GMenuTreeDirectory   *directory;
-  PyGMenuTreeDirectory *retval;
+  PyMateMenuTree          *tree;
+  MateMenuTreeDirectory   *directory;
+  PyMateMenuTreeDirectory *retval;
   char                 *path;
 
-  if (!PyArg_ParseTuple (args, "s:gmenu.Tree.get_directory_from_path", &path))
+  if (!PyArg_ParseTuple (args, "s:matemenu.Tree.get_directory_from_path", &path))
     return NULL;
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
-  directory = gmenu_tree_get_directory_from_path (tree->tree, path);
+  directory = matemenu_tree_get_directory_from_path (tree->tree, path);
   if (directory == NULL)
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_directory_wrap (directory);
+  retval = pymatemenu_tree_directory_wrap (directory);
 
-  gmenu_tree_item_unref (directory);
+  matemenu_tree_item_unref (directory);
 
   return (PyObject *) retval;
 }
 
 static PyObject *
-pygmenu_tree_get_sort_key (PyObject *self,
+pymatemenu_tree_get_sort_key (PyObject *self,
 			   PyObject *args)
 {
-  PyGMenuTree *tree;
+  PyMateMenuTree *tree;
   PyObject    *retval;
 
   if (args != NULL)
     {
-      if (!PyArg_ParseTuple (args, ":gmenu.Tree.get_sort_key"))
+      if (!PyArg_ParseTuple (args, ":matemenu.Tree.get_sort_key"))
 	return NULL;
     }
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
-  switch (gmenu_tree_get_sort_key (tree->tree))
+  switch (matemenu_tree_get_sort_key (tree->tree))
     {
-    case GMENU_TREE_SORT_NAME:
+    case MATEMENU_TREE_SORT_NAME:
       retval = lookup_item_type_str ("SORT_NAME");
       break;
 
-    case GMENU_TREE_SORT_DISPLAY_NAME:
+    case MATEMENU_TREE_SORT_DISPLAY_NAME:
       retval = lookup_item_type_str ("SORT_DISPLAY_NAME");
       break;
 
@@ -1549,30 +1549,30 @@ pygmenu_tree_get_sort_key (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_set_sort_key (PyObject *self,
+pymatemenu_tree_set_sort_key (PyObject *self,
 			   PyObject *args)
 {
-  PyGMenuTree *tree;
+  PyMateMenuTree *tree;
   int          sort_key;
 
-  if (!PyArg_ParseTuple (args, "i:gmenu.Tree.set_sort_key", &sort_key))
+  if (!PyArg_ParseTuple (args, "i:matemenu.Tree.set_sort_key", &sort_key))
     return NULL;
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
-  gmenu_tree_set_sort_key (tree->tree, sort_key);
+  matemenu_tree_set_sort_key (tree->tree, sort_key);
 
   return Py_None;
 }
 
-static PyGMenuTreeCallback *
-pygmenu_tree_callback_new (PyObject *tree,
+static PyMateMenuTreeCallback *
+pymatemenu_tree_callback_new (PyObject *tree,
 			   PyObject *callback,
 			   PyObject *user_data)
 {
-  PyGMenuTreeCallback *retval;
+  PyMateMenuTreeCallback *retval;
 
-  retval = g_new0 (PyGMenuTreeCallback, 1);
+  retval = g_new0 (PyMateMenuTreeCallback, 1);
 
   Py_INCREF (tree);
   retval->tree = tree;
@@ -1587,7 +1587,7 @@ pygmenu_tree_callback_new (PyObject *tree,
 }
 
 static void
-pygmenu_tree_callback_free (PyGMenuTreeCallback *callback)
+pymatemenu_tree_callback_free (PyMateMenuTreeCallback *callback)
 {
   Py_XDECREF (callback->user_data);
   callback->user_data = NULL;
@@ -1602,8 +1602,8 @@ pygmenu_tree_callback_free (PyGMenuTreeCallback *callback)
 }
 
 static void
-pygmenu_tree_handle_monitor_callback (GMenuTree            *tree,
-				      PyGMenuTreeCallback *callback)
+pymatemenu_tree_handle_monitor_callback (MateMenuTree            *tree,
+				      PyMateMenuTreeCallback *callback)
 {
   PyObject *args;
   PyObject *ret;
@@ -1631,15 +1631,15 @@ pygmenu_tree_handle_monitor_callback (GMenuTree            *tree,
 }
 
 static PyObject *
-pygmenu_tree_add_monitor (PyObject *self,
+pymatemenu_tree_add_monitor (PyObject *self,
 			  PyObject *args)
 {
-  PyGMenuTree         *tree;
-  PyGMenuTreeCallback *callback;
+  PyMateMenuTree         *tree;
+  PyMateMenuTreeCallback *callback;
   PyObject            *pycallback;
   PyObject            *pyuser_data = NULL;
 
-  if (!PyArg_ParseTuple (args, "O|O:gmenu.Tree.add_monitor", &pycallback, &pyuser_data))
+  if (!PyArg_ParseTuple (args, "O|O:matemenu.Tree.add_monitor", &pycallback, &pyuser_data))
     return NULL;
   if (!PyCallable_Check(pycallback))
     {
@@ -1647,20 +1647,20 @@ pygmenu_tree_add_monitor (PyObject *self,
       return NULL;
     }
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
-  callback = pygmenu_tree_callback_new (self, pycallback, pyuser_data);
+  callback = pymatemenu_tree_callback_new (self, pycallback, pyuser_data);
 
   tree->callbacks = g_slist_append (tree->callbacks, callback);
 
   {
-    GMenuTreeDirectory *dir = gmenu_tree_get_root_directory (tree->tree);
+    MateMenuTreeDirectory *dir = matemenu_tree_get_root_directory (tree->tree);
     if (dir)
-      gmenu_tree_item_unref (dir);
+      matemenu_tree_item_unref (dir);
   }
 
-  gmenu_tree_add_monitor (tree->tree,
-			 (GMenuTreeChangedFunc) pygmenu_tree_handle_monitor_callback,
+  matemenu_tree_add_monitor (tree->tree,
+			 (MateMenuTreeChangedFunc) pymatemenu_tree_handle_monitor_callback,
 			 callback);
 
   Py_INCREF (Py_None);
@@ -1668,31 +1668,31 @@ pygmenu_tree_add_monitor (PyObject *self,
 }
 
 static PyObject *
-pygmenu_tree_remove_monitor (PyObject *self,
+pymatemenu_tree_remove_monitor (PyObject *self,
 			     PyObject *args)
 {
 
-  PyGMenuTree *tree;
+  PyMateMenuTree *tree;
   PyObject    *pycallback;
   PyObject    *pyuser_data;
   GSList      *tmp;
 
-  if (!PyArg_ParseTuple (args, "O|O:gmenu.Tree.remove_monitor", &pycallback, &pyuser_data))
+  if (!PyArg_ParseTuple (args, "O|O:matemenu.Tree.remove_monitor", &pycallback, &pyuser_data))
     return NULL;
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
   tmp = tree->callbacks;
   while (tmp != NULL)
     {
-      PyGMenuTreeCallback *callback = tmp->data;
+      PyMateMenuTreeCallback *callback = tmp->data;
       GSList              *next     = tmp->next;
 
       if (callback->callback  == pycallback &&
 	  callback->user_data == pyuser_data)
 	{
 	  tree->callbacks = g_slist_delete_link (tree->callbacks, tmp);
-	  pygmenu_tree_callback_free (callback);
+	  pymatemenu_tree_callback_free (callback);
 	}
 
       tmp = next;
@@ -1703,29 +1703,29 @@ pygmenu_tree_remove_monitor (PyObject *self,
 }
 
 static void
-pygmenu_tree_dealloc (PyGMenuTree *self)
+pymatemenu_tree_dealloc (PyMateMenuTree *self)
 {
   g_slist_foreach (self->callbacks,
-		   (GFunc) pygmenu_tree_callback_free,
+		   (GFunc) pymatemenu_tree_callback_free,
 		   NULL);
   g_slist_free (self->callbacks);
   self->callbacks = NULL;
 
   if (self->tree != NULL)
-    gmenu_tree_unref (self->tree);
+    matemenu_tree_unref (self->tree);
   self->tree = NULL;
 
   PyObject_DEL (self);
 }
 
 static PyObject *
-pygmenu_tree_getattro (PyGMenuTree *self,
+pymatemenu_tree_getattro (PyMateMenuTree *self,
 		       PyObject    *py_attr)
 {
   if (PyString_Check (py_attr))
     {
       char *attr;
-  
+
       attr = PyString_AsString (py_attr);
 
       if (!strcmp (attr, "__members__"))
@@ -1734,15 +1734,15 @@ pygmenu_tree_getattro (PyGMenuTree *self,
 	}
       else if (!strcmp (attr, "root"))
 	{
-	  return pygmenu_tree_get_root_directory ((PyObject *) self, NULL);
+	  return pymatemenu_tree_get_root_directory ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "menu_file"))
 	{
-	  return pygmenu_tree_get_menu_file ((PyObject *) self, NULL);
+	  return pymatemenu_tree_get_menu_file ((PyObject *) self, NULL);
 	}
       else if (!strcmp (attr, "sort_key"))
 	{
-	  return pygmenu_tree_get_sort_key ((PyObject *) self, NULL);
+	  return pymatemenu_tree_get_sort_key ((PyObject *) self, NULL);
 	}
     }
 
@@ -1750,13 +1750,13 @@ pygmenu_tree_getattro (PyGMenuTree *self,
 }
 
 static int
-pygmenu_tree_setattro (PyGMenuTree *self,
+pymatemenu_tree_setattro (PyMateMenuTree *self,
 		       PyObject    *py_attr,
 		       PyObject    *py_value)
 {
-  PyGMenuTree *tree;
+  PyMateMenuTree *tree;
 
-  tree = (PyGMenuTree *) self;
+  tree = (PyMateMenuTree *) self;
 
   if (PyString_Check (py_attr))
     {
@@ -1771,9 +1771,9 @@ pygmenu_tree_setattro (PyGMenuTree *self,
 	      int sort_key;
 
 	      sort_key = PyInt_AsLong (py_value);
-	      if (sort_key < GMENU_TREE_SORT_FIRST || sort_key > GMENU_TREE_SORT_LAST)
+	      if (sort_key < MATEMENU_TREE_SORT_FIRST || sort_key > MATEMENU_TREE_SORT_LAST)
 		return -1;
-	      gmenu_tree_set_sort_key (tree->tree, sort_key);
+	      matemenu_tree_set_sort_key (tree->tree, sort_key);
 
 	      return 0;
 	    }
@@ -1783,26 +1783,26 @@ pygmenu_tree_setattro (PyGMenuTree *self,
   return -1;
 }
 
-static struct PyMethodDef pygmenu_tree_methods[] =
+static struct PyMethodDef pymatemenu_tree_methods[] =
 {
-  { "get_menu_file",           pygmenu_tree_get_menu_file,           METH_VARARGS },
-  { "get_root_directory",      pygmenu_tree_get_root_directory,      METH_VARARGS },
-  { "get_directory_from_path", pygmenu_tree_get_directory_from_path, METH_VARARGS },
-  { "get_sort_key",            pygmenu_tree_get_sort_key,            METH_VARARGS },
-  { "set_sort_key",            pygmenu_tree_set_sort_key,            METH_VARARGS },
-  { "add_monitor",             pygmenu_tree_add_monitor,             METH_VARARGS },
-  { "remove_monitor",          pygmenu_tree_remove_monitor,          METH_VARARGS },
+  { "get_menu_file",           pymatemenu_tree_get_menu_file,           METH_VARARGS },
+  { "get_root_directory",      pymatemenu_tree_get_root_directory,      METH_VARARGS },
+  { "get_directory_from_path", pymatemenu_tree_get_directory_from_path, METH_VARARGS },
+  { "get_sort_key",            pymatemenu_tree_get_sort_key,            METH_VARARGS },
+  { "set_sort_key",            pymatemenu_tree_set_sort_key,            METH_VARARGS },
+  { "add_monitor",             pymatemenu_tree_add_monitor,             METH_VARARGS },
+  { "remove_monitor",          pymatemenu_tree_remove_monitor,          METH_VARARGS },
   { NULL,                      NULL,                                 0            }
 };
 
-static PyTypeObject PyGMenuTree_Type = 
+static PyTypeObject PyMateMenuTree_Type =
 {
   PyObject_HEAD_INIT(NULL)
   0,                                   /* ob_size */
-  "gmenu.Tree",                        /* tp_name */
-  sizeof (PyGMenuTree),                /* tp_basicsize */
+  "matemenu.Tree",                        /* tp_name */
+  sizeof (PyMateMenuTree),                /* tp_basicsize */
   0,                                   /* tp_itemsize */
-  (destructor) pygmenu_tree_dealloc,   /* tp_dealloc */
+  (destructor) pymatemenu_tree_dealloc,   /* tp_dealloc */
   (printfunc)0,                        /* tp_print */
   (getattrfunc)0,                      /* tp_getattr */
   (setattrfunc)0,                      /* tp_setattr */
@@ -1814,8 +1814,8 @@ static PyTypeObject PyGMenuTree_Type =
   (hashfunc)0,                         /* tp_hash */
   (ternaryfunc)0,                      /* tp_call */
   (reprfunc)0,                         /* tp_str */
-  (getattrofunc)pygmenu_tree_getattro, /* tp_getattro */
-  (setattrofunc)pygmenu_tree_setattro, /* tp_setattro */
+  (getattrofunc)pymatemenu_tree_getattro, /* tp_getattro */
+  (setattrofunc)pymatemenu_tree_setattro, /* tp_setattro */
   0,                                   /* tp_as_buffer */
   Py_TPFLAGS_DEFAULT,                  /* tp_flags */
   NULL,                                /* Documentation string */
@@ -1825,7 +1825,7 @@ static PyTypeObject PyGMenuTree_Type =
   0,                                   /* tp_weaklistoffset */
   (getiterfunc)0,                      /* tp_iter */
   (iternextfunc)0,                     /* tp_iternext */
-  pygmenu_tree_methods,                /* tp_methods */
+  pymatemenu_tree_methods,                /* tp_methods */
   0,                                   /* tp_members */
   0,                                   /* tp_getset */
   (PyTypeObject *)0,                   /* tp_base */
@@ -1841,69 +1841,69 @@ static PyTypeObject PyGMenuTree_Type =
   (PyObject *)0,                       /* tp_bases */
 };
 
-static PyGMenuTree *
-pygmenu_tree_wrap (GMenuTree *tree)
+static PyMateMenuTree *
+pymatemenu_tree_wrap (MateMenuTree *tree)
 {
-  PyGMenuTree *retval;
+  PyMateMenuTree *retval;
 
-  if ((retval = gmenu_tree_get_user_data (tree)) != NULL)
+  if ((retval = matemenu_tree_get_user_data (tree)) != NULL)
     {
       Py_INCREF (retval);
       return retval;
     }
 
-  if (!(retval = (PyGMenuTree *) PyObject_NEW (PyGMenuTree, &PyGMenuTree_Type)))
+  if (!(retval = (PyMateMenuTree *) PyObject_NEW (PyMateMenuTree, &PyMateMenuTree_Type)))
     return NULL;
 
-  retval->tree      = gmenu_tree_ref (tree);
+  retval->tree      = matemenu_tree_ref (tree);
   retval->callbacks = NULL;
 
-  gmenu_tree_set_user_data (tree, retval, NULL);
+  matemenu_tree_set_user_data (tree, retval, NULL);
 
   return retval;
 }
 
 static PyObject *
-pygmenu_lookup_tree (PyObject *self,
+pymatemenu_lookup_tree (PyObject *self,
 		     PyObject *args)
 {
   char        *menu_file;
-  GMenuTree   *tree;
-  PyGMenuTree *retval;
+  MateMenuTree   *tree;
+  PyMateMenuTree *retval;
   int          flags;
 
-  flags = GMENU_TREE_FLAGS_NONE;
+  flags = MATEMENU_TREE_FLAGS_NONE;
 
-  if (!PyArg_ParseTuple (args, "s|i:gmenu.lookup_tree", &menu_file, &flags))
+  if (!PyArg_ParseTuple (args, "s|i:matemenu.lookup_tree", &menu_file, &flags))
     return NULL;
 
-  if (!(tree = gmenu_tree_lookup (menu_file, flags)))
+  if (!(tree = matemenu_tree_lookup (menu_file, flags)))
     {
       Py_INCREF (Py_None);
       return Py_None;
     }
 
-  retval = pygmenu_tree_wrap (tree);
+  retval = pymatemenu_tree_wrap (tree);
 
-  gmenu_tree_unref (tree);
+  matemenu_tree_unref (tree);
 
   return (PyObject *) retval;
 }
 
-static struct PyMethodDef pygmenu_methods[] =
+static struct PyMethodDef pymatemenu_methods[] =
 {
-  { "lookup_tree", pygmenu_lookup_tree, METH_VARARGS },
+  { "lookup_tree", pymatemenu_lookup_tree, METH_VARARGS },
   { NULL,          NULL,                0            }
 };
 
-void initgmenu (void);
+void initmatemenu (void);
 
 DL_EXPORT (void)
-initgmenu (void)
+initmatemenu (void)
 {
   PyObject *mod;
 
-  mod = Py_InitModule4 ("gmenu", pygmenu_methods, 0, 0, PYTHON_API_VERSION);
+  mod = Py_InitModule4 ("matemenu", pymatemenu_methods, 0, 0, PYTHON_API_VERSION);
 
 #define REGISTER_TYPE(t, n)  G_STMT_START                \
     {                                                    \
@@ -1912,36 +1912,36 @@ initgmenu (void)
       PyModule_AddObject (mod, n, (PyObject *) &t);  \
     } G_STMT_END
 
-  REGISTER_TYPE (PyGMenuTree_Type,     "Tree");
-  REGISTER_TYPE (PyGMenuTreeItem_Type, "Item");
+  REGISTER_TYPE (PyMateMenuTree_Type,     "Tree");
+  REGISTER_TYPE (PyMateMenuTreeItem_Type, "Item");
 
 #define REGISTER_ITEM_TYPE(t, n) G_STMT_START            \
     {                                                    \
       t.ob_type = &PyType_Type;                          \
-      t.tp_base = &PyGMenuTreeItem_Type;                 \
+      t.tp_base = &PyMateMenuTreeItem_Type;                 \
       PyType_Ready (&t);                                 \
       PyModule_AddObject (mod, n, (PyObject *) &t);  \
     } G_STMT_END
 
-  REGISTER_ITEM_TYPE (PyGMenuTreeDirectory_Type, "Directory");
-  REGISTER_ITEM_TYPE (PyGMenuTreeEntry_Type,     "Entry");
-  REGISTER_ITEM_TYPE (PyGMenuTreeSeparator_Type, "Separator");
-  REGISTER_ITEM_TYPE (PyGMenuTreeHeader_Type,    "Header");
-  REGISTER_ITEM_TYPE (PyGMenuTreeAlias_Type,     "Alias");
+  REGISTER_ITEM_TYPE (PyMateMenuTreeDirectory_Type, "Directory");
+  REGISTER_ITEM_TYPE (PyMateMenuTreeEntry_Type,     "Entry");
+  REGISTER_ITEM_TYPE (PyMateMenuTreeSeparator_Type, "Separator");
+  REGISTER_ITEM_TYPE (PyMateMenuTreeHeader_Type,    "Header");
+  REGISTER_ITEM_TYPE (PyMateMenuTreeAlias_Type,     "Alias");
 
-  PyModule_AddIntConstant (mod, "TYPE_INVALID",   GMENU_TREE_ITEM_INVALID);
-  PyModule_AddIntConstant (mod, "TYPE_DIRECTORY", GMENU_TREE_ITEM_DIRECTORY);
-  PyModule_AddIntConstant (mod, "TYPE_ENTRY",     GMENU_TREE_ITEM_ENTRY);
-  PyModule_AddIntConstant (mod, "TYPE_SEPARATOR", GMENU_TREE_ITEM_SEPARATOR);
-  PyModule_AddIntConstant (mod, "TYPE_HEADER",    GMENU_TREE_ITEM_HEADER);
-  PyModule_AddIntConstant (mod, "TYPE_ALIAS",     GMENU_TREE_ITEM_ALIAS);
+  PyModule_AddIntConstant (mod, "TYPE_INVALID",   MATEMENU_TREE_ITEM_INVALID);
+  PyModule_AddIntConstant (mod, "TYPE_DIRECTORY", MATEMENU_TREE_ITEM_DIRECTORY);
+  PyModule_AddIntConstant (mod, "TYPE_ENTRY",     MATEMENU_TREE_ITEM_ENTRY);
+  PyModule_AddIntConstant (mod, "TYPE_SEPARATOR", MATEMENU_TREE_ITEM_SEPARATOR);
+  PyModule_AddIntConstant (mod, "TYPE_HEADER",    MATEMENU_TREE_ITEM_HEADER);
+  PyModule_AddIntConstant (mod, "TYPE_ALIAS",     MATEMENU_TREE_ITEM_ALIAS);
 
-  PyModule_AddIntConstant (mod, "FLAGS_NONE",                GMENU_TREE_FLAGS_NONE);
-  PyModule_AddIntConstant (mod, "FLAGS_INCLUDE_EXCLUDED",    GMENU_TREE_FLAGS_INCLUDE_EXCLUDED);
-  PyModule_AddIntConstant (mod, "FLAGS_SHOW_EMPTY",          GMENU_TREE_FLAGS_SHOW_EMPTY);
-  PyModule_AddIntConstant (mod, "FLAGS_INCLUDE_NODISPLAY",   GMENU_TREE_FLAGS_INCLUDE_NODISPLAY);
-  PyModule_AddIntConstant (mod, "FLAGS_SHOW_ALL_SEPARATORS", GMENU_TREE_FLAGS_SHOW_ALL_SEPARATORS);
+  PyModule_AddIntConstant (mod, "FLAGS_NONE",                MATEMENU_TREE_FLAGS_NONE);
+  PyModule_AddIntConstant (mod, "FLAGS_INCLUDE_EXCLUDED",    MATEMENU_TREE_FLAGS_INCLUDE_EXCLUDED);
+  PyModule_AddIntConstant (mod, "FLAGS_SHOW_EMPTY",          MATEMENU_TREE_FLAGS_SHOW_EMPTY);
+  PyModule_AddIntConstant (mod, "FLAGS_INCLUDE_NODISPLAY",   MATEMENU_TREE_FLAGS_INCLUDE_NODISPLAY);
+  PyModule_AddIntConstant (mod, "FLAGS_SHOW_ALL_SEPARATORS", MATEMENU_TREE_FLAGS_SHOW_ALL_SEPARATORS);
 
-  PyModule_AddIntConstant (mod, "SORT_NAME",         GMENU_TREE_SORT_NAME);
-  PyModule_AddIntConstant (mod, "SORT_DISPLAY_NAME", GMENU_TREE_SORT_DISPLAY_NAME);
+  PyModule_AddIntConstant (mod, "SORT_NAME",         MATEMENU_TREE_SORT_NAME);
+  PyModule_AddIntConstant (mod, "SORT_DISPLAY_NAME", MATEMENU_TREE_SORT_DISPLAY_NAME);
 }
