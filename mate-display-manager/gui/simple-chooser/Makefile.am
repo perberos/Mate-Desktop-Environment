@@ -4,9 +4,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common				\
 	-DAUTHDIR=\""$(authdir)"\"		 	\
 	-DDATADIR=\""$(datadir)"\"		 	\
-	-DGDMCONFDIR=\"$(gdmconfdir)\"			\
+	-DMDMCONFDIR=\"$(mdmconfdir)\"			\
 	-DDMCONFDIR=\""$(dmconfdir)"\"		 	\
-	-DGDMLOCALEDIR=\""$(gdmlocaledir)"\"		\
+	-DMDMLOCALEDIR=\""$(mdmlocaledir)"\"		\
 	-DMATELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DLIBEXECDIR=\""$(libexecdir)"\" 		\
 	-DSBINDIR=\""$(sbindir)"\"		 	\
@@ -20,26 +20,26 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 libexec_PROGRAMS =			\
-	gdm-simple-chooser		\
-	gdm-host-chooser		\
+	mdm-simple-chooser		\
+	mdm-host-chooser		\
 	$(NULL)
 
-gdm_simple_chooser_SOURCES =  		\
+mdm_simple_chooser_SOURCES =  		\
 	chooser-main.c 			\
-	gdm-chooser-host.c		\
-	gdm-chooser-host.h		\
-	gdm-host-chooser-widget.c	\
-	gdm-host-chooser-widget.h	\
-	gdm-host-chooser-dialog.c	\
-	gdm-host-chooser-dialog.h	\
-	gdm-chooser-client.c		\
-	gdm-chooser-client.h		\
-	gdm-chooser-session.c		\
-	gdm-chooser-session.h		\
+	mdm-chooser-host.c		\
+	mdm-chooser-host.h		\
+	mdm-host-chooser-widget.c	\
+	mdm-host-chooser-widget.h	\
+	mdm-host-chooser-dialog.c	\
+	mdm-host-chooser-dialog.h	\
+	mdm-chooser-client.c		\
+	mdm-chooser-client.h		\
+	mdm-chooser-session.c		\
+	mdm-chooser-session.h		\
 	$(NULL)
 
-gdm_simple_chooser_LDADD = 		\
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_simple_chooser_LDADD = 		\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(GTK_LIBS)			\
 	$(EXTRA_CHOOSER_LIBS)   	\
 	$(SIMPLE_CHOOSER_LIBS)		\
@@ -47,18 +47,18 @@ gdm_simple_chooser_LDADD = 		\
 	$(XDMCP_LIBS)			\
 	$(NULL)
 
-gdm_host_chooser_SOURCES = 		\
-	gdm-host-chooser.c 		\
-	gdm-chooser-host.c		\
-	gdm-chooser-host.h		\
-	gdm-host-chooser-widget.c	\
-	gdm-host-chooser-widget.h	\
-	gdm-host-chooser-dialog.c	\
-	gdm-host-chooser-dialog.h	\
+mdm_host_chooser_SOURCES = 		\
+	mdm-host-chooser.c 		\
+	mdm-chooser-host.c		\
+	mdm-chooser-host.h		\
+	mdm-host-chooser-widget.c	\
+	mdm-host-chooser-widget.h	\
+	mdm-host-chooser-dialog.c	\
+	mdm-host-chooser-dialog.h	\
 	$(NULL)
 
-gdm_host_chooser_LDADD =		\
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_host_chooser_LDADD =		\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(GTK_LIBS)			\
 	$(EXTRA_CHOOSER_LIBS)   	\
 	$(SIMPLE_CHOOSER_LIBS)		\

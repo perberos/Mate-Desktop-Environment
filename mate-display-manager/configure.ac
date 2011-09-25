@@ -1,10 +1,10 @@
 
 AC_PREREQ([2.60])
-AC_INIT([gdm],
-        [2.32.1],
-        [http://bugzilla.mate.org/enter_bug.cgi?product=gdm])
+AC_INIT([mdm],
+        [2011.9.25],
+        [http://bugzilla.mate.org/enter_bug.cgi?product=mdm])
 
-AC_CONFIG_SRCDIR([daemon/gdm-manager.c])
+AC_CONFIG_SRCDIR([daemon/mdm-manager.c])
 
 AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-bzip2 -Wall])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -29,7 +29,7 @@ IT_PROG_INTLTOOL([0.40.0])
 
 MATE_DOC_INIT
 
-GETTEXT_PACKAGE=gdm
+GETTEXT_PACKAGE=mdm
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [gettext package])
 
@@ -179,16 +179,16 @@ dnl ---------------------------------------------------------------------------
 
 AC_ARG_WITH(sysconfsubdir,
             AS_HELP_STRING([--with-sysconfsubdir],
-                           [directory name used under sysconfdir, default=gdm]),
-            sysconfsubdir=${withval}, sysconfsubdir=gdm)
+                           [directory name used under sysconfdir, default=mdm]),
+            sysconfsubdir=${withval}, sysconfsubdir=mdm)
 AC_SUBST(sysconfsubdir)
 
 if test x"${sysconfsubdir}" != xno -a x"${sysconfsubdir}" != x; then
-    gdmconfdir='${sysconfdir}/${sysconfsubdir}'
+    mdmconfdir='${sysconfdir}/${sysconfsubdir}'
 else
-    gdmconfdir='${sysconfdir}'
+    mdmconfdir='${sysconfdir}'
 fi
-AC_SUBST(gdmconfdir)
+AC_SUBST(mdmconfdir)
 
 AC_ARG_WITH(dmconfdir,
             AS_HELP_STRING([--with-dmconfdir],
@@ -247,17 +247,17 @@ AC_SUBST(AT_SPI_REGISTRYD_DIR)
 withval=""
 AC_ARG_WITH(default-path,
             AS_HELP_STRING([--with-default-path=<PATH>],
-	                   [PATH GDM will use as the user's default PATH]),
+	                   [PATH MDM will use as the user's default PATH]),
             [if test x$withval != x; then
                AC_MSG_RESULT("PATH ${withval} will be the default PATH.")
              fi])
 
 if test x$withval != x; then
-	GDM_SESSION_DEFAULT_PATH="$withval"
+	MDM_SESSION_DEFAULT_PATH="$withval"
 else
-	GDM_SESSION_DEFAULT_PATH="/usr/local/bin:/usr/bin:/bin"
+	MDM_SESSION_DEFAULT_PATH="/usr/local/bin:/usr/bin:/bin"
 fi
-AC_SUBST(GDM_SESSION_DEFAULT_PATH)
+AC_SUBST(MDM_SESSION_DEFAULT_PATH)
 
 dnl
 dnl file that sets LANG
@@ -415,38 +415,38 @@ else
 fi
 
 dnl ---------------------------------------------------------------------------
-dnl - Check for GDM user
+dnl - Check for MDM user
 dnl ---------------------------------------------------------------------------
 
 withval=""
 AC_ARG_WITH(user,
             AS_HELP_STRING([--with-user=<username>],
-                           [specify gdm's user name]))
+                           [specify mdm's user name]))
 
 if test x$withval != x; then
-	GDM_USERNAME="$withval"
+	MDM_USERNAME="$withval"
 else
-	GDM_USERNAME=gdm
+	MDM_USERNAME=mdm
 fi
-AC_SUBST(GDM_USERNAME)
-AC_DEFINE_UNQUOTED([GDM_USERNAME], "$GDM_USERNAME", [User to use])
+AC_SUBST(MDM_USERNAME)
+AC_DEFINE_UNQUOTED([MDM_USERNAME], "$MDM_USERNAME", [User to use])
 
 dnl ---------------------------------------------------------------------------
-dnl - Check for GDM group
+dnl - Check for MDM group
 dnl ---------------------------------------------------------------------------
 
 withval=""
 AC_ARG_WITH(group,
             AS_HELP_STRING([--with-group=<username>],
-                           [specify gdm's user name]))
+                           [specify mdm's user name]))
 
 if test x$withval != x; then
-	GDM_GROUPNAME="$withval"
+	MDM_GROUPNAME="$withval"
 else
-	GDM_GROUPNAME=gdm
+	MDM_GROUPNAME=mdm
 fi
-AC_SUBST(GDM_GROUPNAME)
-AC_DEFINE_UNQUOTED([GDM_GROUPNAME], "$GDM_GROUPNAME", [Group to use])
+AC_SUBST(MDM_GROUPNAME)
+AC_DEFINE_UNQUOTED([MDM_GROUPNAME], "$MDM_GROUPNAME", [Group to use])
 
 
 dnl ---------------------------------------------------------------------------
@@ -581,7 +581,7 @@ else
 		[AC_TRY_LINK([#include <pwd.h>],
                       	[char buffer[10000];
                        	struct passwd pwd;
-                       	getpwnam_r ("", &pwd, buffer, 
+                       	getpwnam_r ("", &pwd, buffer,
                                		sizeof (buffer));],
 			[ac_cv_func_nonposix_getpwnam_r=yes],
 			[ac_cv_func_nonposix_getpwnam_r=no])])
@@ -607,7 +607,7 @@ AC_CHECK_LIB(util, logout, [
 AC_CHECK_LIB(util, logwtmp, [
 	  	   AC_DEFINE(HAVE_LOGWTMP, 1, [Define if have logwtmp])
 		       EXTRA_DAEMON_LIBS="$EXTRA_DAEMON_LIBS -lutil" ])
-GDM_CHECK_UTMP
+MDM_CHECK_UTMP
 
 AC_MSG_CHECKING(if utmpx structure has ut_syslen field)
 AC_TRY_COMPILE([
@@ -648,7 +648,7 @@ AC_SUBST(XDMCP_LIBS)
 
 if test "x$XDMCP_SUPPORT" = "xyes" ; then
 	AM_CONDITIONAL(XDMCP_SUPPORT, true)
-	GDMCHOOSER=gdmchooser
+	MDMCHOOSER=mdmchooser
 else
         # No need for TCP Wrappers in case XDMCP is disabled
         if test x$with_tcp_wrappers != xno ; then
@@ -656,9 +656,9 @@ else
         fi
 	with_tcp_wrappers=no
 	AM_CONDITIONAL(XDMCP_SUPPORT, false)
-	GDMCHOOSER=
+	MDMCHOOSER=
 fi
-AC_SUBST(GDMCHOOSER)
+AC_SUBST(MDMCHOOSER)
 
 dnl ---------------------------------------------------------------------------
 dnl - Check OS
@@ -713,7 +713,7 @@ else
  	LIBWRAP_PATH=auto
  	AC_DEFINE(HAVE_TCPWRAPPERS, 1, [Define if have tcp wrappers])])
   fi
- 
+
   AC_MSG_CHECKING([whether to use TCP wrappers])
   if test -n "$LIBWRAP_PATH"; then
         AC_MSG_RESULT(yes)
@@ -755,7 +755,7 @@ AC_SUBST(LIBWRAP_LIBS)
 
 
 dnl ---------------------------------------------------------------------------
-dnl - Check for XFT2 (for gdm-settings-daemon)
+dnl - Check for XFT2 (for mdm-settings-daemon)
 dnl ---------------------------------------------------------------------------
 
 if $PKG_CONFIG --exists xft ; then
@@ -956,8 +956,8 @@ dnl ---------------------------------------------------------------------------
 dnl - Define some variables to represent the directories we use.
 dnl ---------------------------------------------------------------------------
 
-AC_SUBST(authdir, ${localstatedir}/gdm)
-AC_SUBST(gdmlocaledir, ${gdmconfdir})
+AC_SUBST(authdir, ${localstatedir}/mdm)
+AC_SUBST(mdmlocaledir, ${mdmconfdir})
 AC_SUBST(pixmapdir, ${datadir}/pixmaps)
 
 AC_ARG_WITH(log-dir,
@@ -965,11 +965,11 @@ AC_ARG_WITH(log-dir,
                            [log dir]))
 
 if ! test -z "$with_log_dir"; then
-   GDM_LOG_DIR=$with_log_dir
+   MDM_LOG_DIR=$with_log_dir
 else
-   GDM_LOG_DIR=/var/log/gdm
+   MDM_LOG_DIR=/var/log/mdm
 fi
-AC_SUBST(logdir, $GDM_LOG_DIR)
+AC_SUBST(logdir, $MDM_LOG_DIR)
 
 withval=""
 AC_ARG_WITH(at-bindir,
@@ -987,29 +987,29 @@ AC_SUBST(AT_BINDIR)
 withval=""
 AC_ARG_WITH(defaults_conf,
             AS_HELP_STRING([--with-defaults-conf=<FILENAME>],
-                           [FILENAME to give to defaults file @<:@default=DATADIR/gdm/defaults.conf@:>@]))
+                           [FILENAME to give to defaults file @<:@default=DATADIR/mdm/defaults.conf@:>@]))
 
 if test x$withval != x; then
-	GDM_DEFAULTS_CONF="$withval"
+	MDM_DEFAULTS_CONF="$withval"
 else
-	GDM_DEFAULTS_CONF='${datadir}/gdm/defaults.conf'
+	MDM_DEFAULTS_CONF='${datadir}/mdm/defaults.conf'
 fi
 
-AC_SUBST(GDM_DEFAULTS_CONF)
+AC_SUBST(MDM_DEFAULTS_CONF)
 
 withval=""
 AC_ARG_WITH(custom_conf,
             AS_HELP_STRING([--with-custom-conf=<FILENAME>],
-                           [FILENAME to give to custom configuration file @<:@default=GDMCONFDIR/custom.conf@:>@]))
+                           [FILENAME to give to custom configuration file @<:@default=MDMCONFDIR/custom.conf@:>@]))
 
 if test x$withval != x; then
-	GDM_CUSTOM_CONF="$withval"
+	MDM_CUSTOM_CONF="$withval"
 else
-	GDM_CUSTOM_CONF='${gdmconfdir}/custom.conf'
+	MDM_CUSTOM_CONF='${mdmconfdir}/custom.conf'
 fi
 
-AC_SUBST(GDM_CUSTOM_CONF)
-AC_SUBST(GDM_OLD_CONF, '${gdmconfdir}/gdm.conf')
+AC_SUBST(MDM_CUSTOM_CONF)
+AC_SUBST(MDM_OLD_CONF, '${mdmconfdir}/mdm.conf')
 
 dnl ---------------------------------------------------------------------------
 dnl - Check for XEvIE extension support
@@ -1217,13 +1217,13 @@ AC_ARG_WITH(pid-file,
                            [pid file]))
 
 if ! test -z "$with_pid_file"; then
-   GDM_PID_FILE=$with_pid_file
+   MDM_PID_FILE=$with_pid_file
 else
-   GDM_PID_FILE=/var/run/gdm.pid
+   MDM_PID_FILE=/var/run/mdm.pid
 fi
 
-AC_SUBST(GDM_PID_FILE)
-AC_DEFINE_UNQUOTED(GDM_PID_FILE, "$GDM_PID_FILE", [pid file])
+AC_SUBST(MDM_PID_FILE)
+AC_DEFINE_UNQUOTED(MDM_PID_FILE, "$MDM_PID_FILE", [pid file])
 
 dnl ---------------------------------------------------------------------------
 dnl - GREETER WORKING DIRECTORY
@@ -1234,12 +1234,12 @@ AC_ARG_WITH(working-directory,
                            [working directory]))
 
 if ! test -z "$with_working_directory"; then
-   GDM_WORKING_DIR=$with_working_directory
+   MDM_WORKING_DIR=$with_working_directory
 else
-   GDM_WORKING_DIR=${localstatedir}/lib/gdm
+   MDM_WORKING_DIR=${localstatedir}/lib/mdm
 fi
 
-AC_SUBST(GDM_WORKING_DIR)
+AC_SUBST(MDM_WORKING_DIR)
 
 dnl ---------------------------------------------------------------------------
 dnl - Directory for X auth cookies
@@ -1250,12 +1250,12 @@ AC_ARG_WITH(xauth-dir,
                            [xauth cookie directory]))
 
 if ! test -z "$with_xauth_dir"; then
-   GDM_XAUTH_DIR=$with_xauth_dir
+   MDM_XAUTH_DIR=$with_xauth_dir
 else
-   GDM_XAUTH_DIR=${localstatedir}/run/gdm
+   MDM_XAUTH_DIR=${localstatedir}/run/mdm
 fi
 
-AC_SUBST(GDM_XAUTH_DIR)
+AC_SUBST(MDM_XAUTH_DIR)
 
 dnl ---------------------------------------------------------------------------
 dnl - Directory for greeter screenshot
@@ -1266,12 +1266,12 @@ AC_ARG_WITH(screenshot-dir,
                            [directory to store greeter screenshot]))
 
 if ! test -z "$with_screenshot_dir"; then
-   GDM_SCREENSHOT_DIR=$with_screenshot_dir
+   MDM_SCREENSHOT_DIR=$with_screenshot_dir
 else
-   GDM_SCREENSHOT_DIR=${localstatedir}/run/gdm/greeter
+   MDM_SCREENSHOT_DIR=${localstatedir}/run/mdm/greeter
 fi
 
-AC_SUBST(GDM_SCREENSHOT_DIR)
+AC_SUBST(MDM_SCREENSHOT_DIR)
 
 
 dnl ---------------------------------------------------------------------------
@@ -1404,7 +1404,7 @@ gui/simple-greeter/libnotificationarea/Makefile
 gui/simple-chooser/Makefile
 gui/user-switch-applet/Makefile
 utils/Makefile
-data/gdm.conf
+data/mdm.conf
 data/Makefile
 data/faces/Makefile
 data/greeter-autostart/Makefile
@@ -1425,7 +1425,7 @@ dnl - Show summary
 dnl ---------------------------------------------------------------------------
 
 echo "
-                    GDM $VERSION
+                    MDM $VERSION
                     ============
 
 	prefix:                   ${prefix}
@@ -1435,7 +1435,7 @@ echo "
         sbindir:                  ${sbindir}
         sysconfdir:               ${sysconfdir}
         sysconfsubdir:            ${sysconfsubdir}
-        gdmconfdir:               ${gdmconfdir}
+        mdmconfdir:               ${mdmconfdir}
         dmconfdir:                ${dmconfdir}
         localstatedir:            ${localstatedir}
         datadir:                  ${datadir}
@@ -1444,8 +1444,8 @@ echo "
 	cflags:		          ${CFLAGS}
         Maintainer mode:          ${USE_MAINTAINER_MODE}
 
-        user:                     ${GDM_USERNAME}
-        group:                    ${GDM_GROUPNAME}
+        user:                     ${MDM_USERNAME}
+        group:                    ${MDM_GROUPNAME}
 
         dbus-1 system.d dir:      ${DBUS_SYS_DIR}
         PAM prefix:               ${PAM_PREFIX}

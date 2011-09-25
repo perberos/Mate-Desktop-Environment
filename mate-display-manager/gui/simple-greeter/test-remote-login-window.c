@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-remote-login-window.h"
+#include "mdm-remote-login-window.h"
 
 int
 main (int argc, char *argv[])
@@ -48,7 +48,7 @@ main (int argc, char *argv[])
         textdomain (GETTEXT_PACKAGE);
 
         std_out = NULL;
-        g_spawn_command_line_sync (LIBEXECDIR "/gdm-host-chooser",
+        g_spawn_command_line_sync (LIBEXECDIR "/mdm-host-chooser",
                                    &std_out,
                                    NULL, NULL, NULL);
         if (std_out == NULL) {
@@ -78,11 +78,11 @@ main (int argc, char *argv[])
 
         gtk_init (&argc, &argv);
 
-        login_window = gdm_remote_login_window_new (TRUE);
+        login_window = mdm_remote_login_window_new (TRUE);
         g_signal_connect (login_window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
         gtk_widget_show (login_window);
 
-        gdm_remote_login_window_connect (GDM_REMOTE_LOGIN_WINDOW (login_window), hostname);
+        mdm_remote_login_window_connect (MDM_REMOTE_LOGIN_WINDOW (login_window), hostname);
 
         gtk_main ();
  out:

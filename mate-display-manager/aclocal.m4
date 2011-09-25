@@ -19,51 +19,6 @@ You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically `autoreconf'.])])
 
-dnl AM_MATECONF_SOURCE_2
-dnl Defines MATECONF_SCHEMA_CONFIG_SOURCE which is where you should install schemas
-dnl  (i.e. pass to mateconftool-2
-dnl Defines MATECONF_SCHEMA_FILE_DIR which is a filesystem directory where
-dnl  you should install foo.schemas files
-dnl
-
-AC_DEFUN([AM_MATECONF_SOURCE_2],
-[
-  if test "x$MATECONF_SCHEMA_INSTALL_SOURCE" = "x"; then
-    MATECONF_SCHEMA_CONFIG_SOURCE=`mateconftool-2 --get-default-source`
-  else
-    MATECONF_SCHEMA_CONFIG_SOURCE=$MATECONF_SCHEMA_INSTALL_SOURCE
-  fi
-
-  AC_ARG_WITH([mateconf-source],
-	      AC_HELP_STRING([--with-mateconf-source=sourceaddress],
-			     [Config database for installing schema files.]),
-	      [MATECONF_SCHEMA_CONFIG_SOURCE="$withval"],)
-
-  AC_SUBST(MATECONF_SCHEMA_CONFIG_SOURCE)
-  AC_MSG_RESULT([Using config source $MATECONF_SCHEMA_CONFIG_SOURCE for schema installation])
-
-  if test "x$MATECONF_SCHEMA_FILE_DIR" = "x"; then
-    MATECONF_SCHEMA_FILE_DIR='$(sysconfdir)/mateconf/schemas'
-  fi
-
-  AC_ARG_WITH([mateconf-schema-file-dir],
-	      AC_HELP_STRING([--with-mateconf-schema-file-dir=dir],
-			     [Directory for installing schema files.]),
-	      [MATECONF_SCHEMA_FILE_DIR="$withval"],)
-
-  AC_SUBST(MATECONF_SCHEMA_FILE_DIR)
-  AC_MSG_RESULT([Using $MATECONF_SCHEMA_FILE_DIR as install directory for schema files])
-
-  AC_ARG_ENABLE(schemas-install,
-  	AC_HELP_STRING([--disable-schemas-install],
-		       [Disable the schemas installation]),
-     [case ${enableval} in
-       yes|no) ;;
-       *) AC_MSG_ERROR([bad value ${enableval} for --enable-schemas-install]) ;;
-      esac])
-  AM_CONDITIONAL([MATECONF_SCHEMAS_INSTALL], [test "$enable_schemas_install" != no])
-])
-
 # Copyright (C) 1995-2002 Free Software Foundation, Inc.
 # Copyright (C) 2001-2003,2004 Red Hat, Inc.
 #
@@ -496,63 +451,6 @@ echo "$as_me: failed input was:" >&AS_MESSAGE_LOG_FD
 sed 's/^/| /' conftest.foo >&AS_MESSAGE_LOG_FD
 fi])
 
-
-dnl Do not call MATE_DOC_DEFINES directly.  It is split out from
-dnl MATE_DOC_INIT to allow mate-doc-utils to bootstrap off itself.
-AC_DEFUN([MATE_DOC_DEFINES],
-[
-AC_ARG_WITH([help-dir],
-  AC_HELP_STRING([--with-help-dir=DIR], [path to help docs]),,
-  [with_help_dir='${datadir}/mate/help'])
-HELP_DIR="$with_help_dir"
-AC_SUBST(HELP_DIR)
-
-AC_ARG_WITH([omf-dir],
-  AC_HELP_STRING([--with-omf-dir=DIR], [path to OMF files]),,
-  [with_omf_dir='${datadir}/omf'])
-OMF_DIR="$with_omf_dir"
-AC_SUBST(OMF_DIR)
-
-AC_ARG_WITH([help-formats],
-  AC_HELP_STRING([--with-help-formats=FORMATS], [list of formats]),,
-  [with_help_formats=''])
-DOC_USER_FORMATS="$with_help_formats"
-AC_SUBST(DOC_USER_FORMATS)
-
-AC_ARG_ENABLE([scrollkeeper],
-	[AC_HELP_STRING([--disable-scrollkeeper],
-			[do not make updates to the scrollkeeper database])],,
-	enable_scrollkeeper=yes)
-AM_CONDITIONAL([ENABLE_SK],[test "$gdu_cv_have_gdu" = "yes" -a "$enable_scrollkeeper" = "yes"])
-
-dnl disable scrollkeeper automatically for distcheck
-DISTCHECK_CONFIGURE_FLAGS="--disable-scrollkeeper $DISTCHECK_CONFIGURE_FLAGS"
-AC_SUBST(DISTCHECK_CONFIGURE_FLAGS)
-
-AM_CONDITIONAL([HAVE_MATE_DOC_UTILS],[test "$gdu_cv_have_gdu" = "yes"])
-])
-
-# MATE_DOC_INIT ([MINIMUM-VERSION],[ACTION-IF-FOUND],[ACTION-IF-NOT-FOUND])
-#
-AC_DEFUN([MATE_DOC_INIT],
-[AC_REQUIRE([AC_PROG_LN_S])dnl
-
-ifelse([$1],,[gdu_cv_version_required=0.3.2],[gdu_cv_version_required=$1])
-
-AC_MSG_CHECKING([mate-doc-utils >= $gdu_cv_version_required])
-PKG_CHECK_EXISTS([mate-doc-utils >= $gdu_cv_version_required],
-	[gdu_cv_have_gdu=yes],[gdu_cv_have_gdu=no])
-
-if test "$gdu_cv_have_gdu" = "yes"; then
-	AC_MSG_RESULT([yes])
-	ifelse([$2],,[:],[$2])
-else
-	AC_MSG_RESULT([no])
-	ifelse([$3],,[AC_MSG_ERROR([mate-doc-utils >= $gdu_cv_version_required not found])],[$3])
-fi
-
-MATE_DOC_DEFINES
-])
 
 
 dnl IT_PROG_INTLTOOL([MINIMUM-VERSION], [no-xml])
@@ -3354,14 +3252,10 @@ linux* | k*bsd*-gnu | kopensolaris*-gnu)
   # before this can be enabled.
   hardcode_into_libs=yes
 
-  # Add ABI-specific directories to the system library path.
-  sys_lib_dlsearch_path_spec="/lib64 /usr/lib64 /lib /usr/lib"
-
   # Append ld.so.conf contents to the search path
   if test -f /etc/ld.so.conf; then
     lt_ld_extra=`awk '/^include / { system(sprintf("cd /etc; cat %s 2>/dev/null", \[$]2)); skip = 1; } { if (!skip) print \[$]0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;/^[	 ]*hwcap[	 ]/d;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;s/"//g;/^$/d' | tr '\n' ' '`
-    sys_lib_dlsearch_path_spec="$sys_lib_dlsearch_path_spec $lt_ld_extra"
-
+    sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
   fi
 
   # We used to test for /lib/ld.so.1 and disable shared libraries on
@@ -9179,6 +9073,108 @@ m4_ifndef([_LT_PROG_F77],		[AC_DEFUN([_LT_PROG_F77])])
 m4_ifndef([_LT_PROG_FC],		[AC_DEFUN([_LT_PROG_FC])])
 m4_ifndef([_LT_PROG_CXX],		[AC_DEFUN([_LT_PROG_CXX])])
 
+dnl Do not call MATE_DOC_DEFINES directly.  It is split out from
+dnl MATE_DOC_INIT to allow mate-doc-utils to bootstrap off itself.
+AC_DEFUN([MATE_DOC_DEFINES],
+[
+AC_ARG_WITH([help-dir],
+  AC_HELP_STRING([--with-help-dir=DIR], [path to help docs]),,
+  [with_help_dir='${datadir}/mate/help'])
+HELP_DIR="$with_help_dir"
+AC_SUBST(HELP_DIR)
+
+AC_ARG_WITH([omf-dir],
+  AC_HELP_STRING([--with-omf-dir=DIR], [path to OMF files]),,
+  [with_omf_dir='${datadir}/omf'])
+OMF_DIR="$with_omf_dir"
+AC_SUBST(OMF_DIR)
+
+AC_ARG_WITH([help-formats],
+  AC_HELP_STRING([--with-help-formats=FORMATS], [list of formats]),,
+  [with_help_formats=''])
+DOC_USER_FORMATS="$with_help_formats"
+AC_SUBST(DOC_USER_FORMATS)
+
+AC_ARG_ENABLE([scrollkeeper],
+	[AC_HELP_STRING([--disable-scrollkeeper],
+			[do not make updates to the scrollkeeper database])],,
+	enable_scrollkeeper=yes)
+AM_CONDITIONAL([ENABLE_SK],[test "$gdu_cv_have_gdu" = "yes" -a "$enable_scrollkeeper" = "yes"])
+
+dnl disable scrollkeeper automatically for distcheck
+DISTCHECK_CONFIGURE_FLAGS="--disable-scrollkeeper $DISTCHECK_CONFIGURE_FLAGS"
+AC_SUBST(DISTCHECK_CONFIGURE_FLAGS)
+
+AM_CONDITIONAL([HAVE_MATE_DOC_UTILS],[test "$gdu_cv_have_gdu" = "yes"])
+])
+
+# MATE_DOC_INIT ([MINIMUM-VERSION],[ACTION-IF-FOUND],[ACTION-IF-NOT-FOUND])
+#
+AC_DEFUN([MATE_DOC_INIT],
+[AC_REQUIRE([AC_PROG_LN_S])dnl
+
+ifelse([$1],,[gdu_cv_version_required=0.3.2],[gdu_cv_version_required=$1])
+
+AC_MSG_CHECKING([mate-doc-utils >= $gdu_cv_version_required])
+PKG_CHECK_EXISTS([mate-doc-utils >= $gdu_cv_version_required],
+	[gdu_cv_have_gdu=yes],[gdu_cv_have_gdu=no])
+
+if test "$gdu_cv_have_gdu" = "yes"; then
+	AC_MSG_RESULT([yes])
+	ifelse([$2],,[:],[$2])
+else
+	AC_MSG_RESULT([no])
+	ifelse([$3],,[AC_MSG_ERROR([mate-doc-utils >= $gdu_cv_version_required not found])],[$3])
+fi
+
+MATE_DOC_DEFINES
+])
+
+dnl AM_MATECONF_SOURCE_2
+dnl Defines MATECONF_SCHEMA_CONFIG_SOURCE which is where you should install schemas
+dnl  (i.e. pass to mateconftool-2
+dnl Defines MATECONF_SCHEMA_FILE_DIR which is a filesystem directory where
+dnl  you should install foo.schemas files
+dnl
+
+AC_DEFUN([AM_MATECONF_SOURCE_2],
+[
+  if test "x$MATECONF_SCHEMA_INSTALL_SOURCE" = "x"; then
+    MATECONF_SCHEMA_CONFIG_SOURCE=`mateconftool-2 --get-default-source`
+  else
+    MATECONF_SCHEMA_CONFIG_SOURCE=$MATECONF_SCHEMA_INSTALL_SOURCE
+  fi
+
+  AC_ARG_WITH([mateconf-source],
+	      AC_HELP_STRING([--with-mateconf-source=sourceaddress],
+			     [Config database for installing schema files.]),
+	      [MATECONF_SCHEMA_CONFIG_SOURCE="$withval"],)
+
+  AC_SUBST(MATECONF_SCHEMA_CONFIG_SOURCE)
+  AC_MSG_RESULT([Using config source $MATECONF_SCHEMA_CONFIG_SOURCE for schema installation])
+
+  if test "x$MATECONF_SCHEMA_FILE_DIR" = "x"; then
+    MATECONF_SCHEMA_FILE_DIR='$(sysconfdir)/mateconf/schemas'
+  fi
+
+  AC_ARG_WITH([mateconf-schema-file-dir],
+	      AC_HELP_STRING([--with-mateconf-schema-file-dir=dir],
+			     [Directory for installing schema files.]),
+	      [MATECONF_SCHEMA_FILE_DIR="$withval"],)
+
+  AC_SUBST(MATECONF_SCHEMA_FILE_DIR)
+  AC_MSG_RESULT([Using $MATECONF_SCHEMA_FILE_DIR as install directory for schema files])
+
+  AC_ARG_ENABLE(schemas-install,
+  	AC_HELP_STRING([--disable-schemas-install],
+		       [Disable the schemas installation]),
+     [case ${enableval} in
+       yes|no) ;;
+       *) AC_MSG_ERROR([bad value ${enableval} for --enable-schemas-install]) ;;
+      esac])
+  AM_CONDITIONAL([MATECONF_SCHEMAS_INSTALL], [test "$enable_schemas_install" != no])
+])
+
 # nls.m4 serial 5 (gettext-0.18)
 dnl Copyright (C) 1995-2003, 2005-2006, 2008-2010 Free Software Foundation,
 dnl Inc.
@@ -9240,7 +9236,8 @@ AC_DEFUN([AM_NLS],
 # ----------------------------------
 AC_DEFUN([PKG_PROG_PKG_CONFIG],
 [m4_pattern_forbid([^_?PKG_[A-Z_]+$])
-m4_pattern_allow([^PKG_CONFIG(_PATH)?$])
+m4_pattern_allow([^PKG_CONFIG(_(PATH|LIBDIR|SYSROOT_DIR|ALLOW_SYSTEM_(CFLAGS|LIBS)))?$])
+m4_pattern_allow([^PKG_CONFIG_(DISABLE_UNINSTALLED|TOP_BUILD_DIR|DEBUG_SPEW)$])
 AC_ARG_VAR([PKG_CONFIG], [path to pkg-config utility])
 AC_ARG_VAR([PKG_CONFIG_PATH], [directories to add to pkg-config's search path])
 AC_ARG_VAR([PKG_CONFIG_LIBDIR], [path overriding pkg-config's built-in search path])
@@ -9286,7 +9283,8 @@ m4_define([_PKG_CONFIG],
     pkg_cv_[]$1="$$1"
  elif test -n "$PKG_CONFIG"; then
     PKG_CHECK_EXISTS([$3],
-                     [pkg_cv_[]$1=`$PKG_CONFIG --[]$2 "$3" 2>/dev/null`],
+                     [pkg_cv_[]$1=`$PKG_CONFIG --[]$2 "$3" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ],
 		     [pkg_failed=yes])
  else
     pkg_failed=untried
@@ -9334,9 +9332,9 @@ if test $pkg_failed = yes; then
    	AC_MSG_RESULT([no])
         _PKG_SHORT_ERRORS_SUPPORTED
         if test $_pkg_short_errors_supported = yes; then
-	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "$2" 2>&1`
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$2" 2>&1`
         else 
-	        $1[]_PKG_ERRORS=`$PKG_CONFIG --print-errors "$2" 2>&1`
+	        $1[]_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$2" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$$1[]_PKG_ERRORS" >&AS_MESSAGE_LOG_FD
@@ -9349,7 +9347,7 @@ $$1_PKG_ERRORS
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-_PKG_TEXT])
+_PKG_TEXT])[]dnl
         ])
 elif test $pkg_failed = untried; then
      	AC_MSG_RESULT([no])
@@ -9360,7 +9358,7 @@ path to pkg-config.
 
 _PKG_TEXT
 
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.])
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.])[]dnl
         ])
 else
 	$1[]_CFLAGS=$pkg_cv_[]$1[]_CFLAGS

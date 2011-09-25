@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-sessions.h"
+#include "mdm-sessions.h"
 
 static void
 print_sessions (void)
@@ -38,14 +38,14 @@ print_sessions (void)
         char **session_names;
         int    i;
 
-        session_names = gdm_get_all_sessions ();
+        session_names = mdm_get_all_sessions ();
 
         for (i = 0; session_names[i] != NULL; i++) {
                 gboolean res;
                 char    *name;
                 char    *comment;
 
-                res = gdm_get_details_for_session (session_names[i],
+                res = mdm_get_details_for_session (session_names[i],
                                                    &name,
                                                    &comment);
                 if (! res) {

@@ -30,8 +30,8 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-user-chooser-dialog.h"
-#include "gdm-settings-client.h"
+#include "mdm-user-chooser-dialog.h"
+#include "mdm-settings-client.h"
 
 int
 main (int argc, char *argv[])
@@ -46,20 +46,20 @@ main (int argc, char *argv[])
 
         gtk_init (&argc, &argv);
 
-        if (! gdm_settings_client_init (DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_client_init (DATADIR "/mdm/mdm.schemas", "/")) {
                 g_critical ("Unable to initialize settings client");
                 exit (1);
         }
 
-        dialog = gdm_user_chooser_dialog_new ();
+        dialog = mdm_user_chooser_dialog_new ();
         /*gtk_widget_set_size_request (dialog, 480, 128);*/
-        gdm_user_chooser_dialog_set_show_user_guest (GDM_USER_CHOOSER_DIALOG (dialog), TRUE);
-        gdm_user_chooser_dialog_set_show_user_auto (GDM_USER_CHOOSER_DIALOG (dialog), TRUE);
+        mdm_user_chooser_dialog_set_show_user_guest (MDM_USER_CHOOSER_DIALOG (dialog), TRUE);
+        mdm_user_chooser_dialog_set_show_user_auto (MDM_USER_CHOOSER_DIALOG (dialog), TRUE);
 
         if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
                 char *name;
 
-                name = gdm_user_chooser_dialog_get_chosen_user_name (GDM_USER_CHOOSER_DIALOG (dialog));
+                name = mdm_user_chooser_dialog_get_chosen_user_name (MDM_USER_CHOOSER_DIALOG (dialog));
                 g_message ("User: %s", name ? name : "(null)");
                 g_free (name);
         }

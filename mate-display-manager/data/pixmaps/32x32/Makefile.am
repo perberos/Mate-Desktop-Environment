@@ -3,8 +3,8 @@
 appsicondir = \
 	$(datadir)/icons/hicolor/32x32/apps
 appsicon_DATA = \
-	gdm-setup.png \
-	gdm-xnest.png
+	mdm-setup.png \
+	mdm-xnest.png
 
 EXTRA_DIST = \
 	$(appsicon_DATA)

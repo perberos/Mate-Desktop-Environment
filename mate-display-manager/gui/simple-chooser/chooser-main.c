@@ -32,12 +32,12 @@
 #include <gtk/gtk.h>
 #include <mateconf/mateconf-client.h>
 
-#include "gdm-common.h"
-#include "gdm-log.h"
-#include "gdm-settings-client.h"
-#include "gdm-settings-keys.h"
+#include "mdm-common.h"
+#include "mdm-log.h"
+#include "mdm-settings-client.h"
+#include "mdm-settings-keys.h"
 
-#include "gdm-chooser-session.h"
+#include "mdm-chooser-session.h"
 
 #define ACCESSIBILITY_KEY         "/desktop/mate/interface/accessibility"
 
@@ -223,7 +223,7 @@ load_a11y (void)
 int
 main (int argc, char *argv[])
 {
-        GdmChooserSession *session;
+        MdmChooserSession *session;
         gboolean           res;
         GError            *error;
 
@@ -233,12 +233,12 @@ main (int argc, char *argv[])
 
         setlocale (LC_ALL, "");
 
-        gdm_set_fatal_warnings_if_unstable ();
+        mdm_set_fatal_warnings_if_unstable ();
 
         g_type_init ();
 
-        gdm_log_init ();
-        gdm_log_set_debug (TRUE);
+        mdm_log_init ();
+        mdm_log_set_debug (TRUE);
 
         g_debug ("Chooser for display %s xauthority:%s",
                  g_getenv ("DISPLAY"),
@@ -250,14 +250,14 @@ main (int argc, char *argv[])
 
         gtk_init (&argc, &argv);
 
-        session = gdm_chooser_session_new ();
+        session = mdm_chooser_session_new ();
         if (session == NULL) {
                 g_critical ("Unable to create chooser session");
                 exit (1);
         }
 
         error = NULL;
-        res = gdm_chooser_session_start (session, &error);
+        res = mdm_chooser_session_start (session, &error);
         if (! res) {
                 g_warning ("Unable to start chooser session: %s", error->message);
                 g_error_free (error);

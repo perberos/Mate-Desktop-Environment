@@ -6,7 +6,7 @@
 PATH="@X_PATH@:$PATH"
 OLD_IFS=$IFS
 
-gdmwhich () {
+mdmwhich () {
   COMMAND="$1"
   OUTPUT=
   IFS=:
@@ -31,21 +31,21 @@ fi
 
 sysmodmap=/etc/X11/Xmodmap
 
-XMODMAP=`gdmwhich xmodmap`
+XMODMAP=`mdmwhich xmodmap`
 if [ "x$XMODMAP" != "x" ] ; then
-  if [ "x$GDM_PARENT_DISPLAY" = "x" ]; then
+  if [ "x$MDM_PARENT_DISPLAY" = "x" ]; then
     if [ -f $sysmodmap ]; then
       $XMODMAP $sysmodmap
     fi
   else
-    ( DISPLAY=$GDM_PARENT_DISPLAY XAUTHORITY=$GDM_PARENT_XAUTHORITY $XMODMAP -pke ) | $XMODMAP -
+    ( DISPLAY=$MDM_PARENT_DISPLAY XAUTHORITY=$MDM_PARENT_XAUTHORITY $XMODMAP -pke ) | $XMODMAP -
   fi
 
   #
   # Switch Sun's Alt and Meta mod mappings
   #
 
-  UNAME=`gdmwhich uname`
+  UNAME=`mdmwhich uname`
   PROCESSOR=`$UNAME -p`
   if [ "x$PROCESSOR" = "xsparc" ]; then
     if $XMODMAP | /usr/bin/grep mod4 | /usr/bin/grep Alt > /dev/null 2>/dev/null
@@ -60,13 +60,13 @@ if [ "x$XMODMAP" != "x" ] ; then
   fi
 fi
 
-SETXKBMAP=`gdmwhich setxkbmap`
+SETXKBMAP=`mdmwhich setxkbmap`
 if [ "x$SETXKBMAP" != "x" ] ; then
   # FIXME: is this all right?  Is this completely on crack?
-  # What this does is move the xkb configuration from the GDM_PARENT_DISPLAY
+  # What this does is move the xkb configuration from the MDM_PARENT_DISPLAY
   # FIXME: This should be done in code.  Or there must be an easier way ...
-  if [ -n "$GDM_PARENT_DISPLAY" ]; then
-    XKBSETUP=`( DISPLAY=$GDM_PARENT_DISPLAY XAUTHORITY=$GDM_PARENT_XAUTHORITY $SETXKBMAP -v )`
+  if [ -n "$MDM_PARENT_DISPLAY" ]; then
+    XKBSETUP=`( DISPLAY=$MDM_PARENT_DISPLAY XAUTHORITY=$MDM_PARENT_XAUTHORITY $SETXKBMAP -v )`
     if [ -n "$XKBSETUP" ]; then
       XKBKEYMAP=`echo "$XKBSETUP" | grep '^keymap' | awk '{ print $2 }'`
       XKBTYPES=`echo "$XKBSETUP" | grep '^types' | awk '{ print $2 }'`

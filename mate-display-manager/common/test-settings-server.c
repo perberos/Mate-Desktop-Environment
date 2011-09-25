@@ -35,11 +35,11 @@
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
 
-#include "gdm-settings.h"
+#include "mdm-settings.h"
 
-#define GDM_DBUS_NAME "org.mate.DisplayManager"
+#define MDM_DBUS_NAME "org.mate.DisplayManager"
 
-static GdmSettings     *settings      = NULL;
+static MdmSettings     *settings      = NULL;
 
 static gboolean
 acquire_name_on_proxy (DBusGProxy *bus_proxy)
@@ -59,27 +59,27 @@ acquire_name_on_proxy (DBusGProxy *bus_proxy)
         res = dbus_g_proxy_call (bus_proxy,
                                  "RequestName",
                                  &error,
-                                 G_TYPE_STRING, GDM_DBUS_NAME,
+                                 G_TYPE_STRING, MDM_DBUS_NAME,
                                  G_TYPE_UINT, 0,
                                  G_TYPE_INVALID,
                                  G_TYPE_UINT, &result,
                                  G_TYPE_INVALID);
         if (! res) {
                 if (error != NULL) {
-                        g_warning ("Failed to acquire %s: %s", GDM_DBUS_NAME, error->message);
+                        g_warning ("Failed to acquire %s: %s", MDM_DBUS_NAME, error->message);
                         g_error_free (error);
                 } else {
-                        g_warning ("Failed to acquire %s", GDM_DBUS_NAME);
+                        g_warning ("Failed to acquire %s", MDM_DBUS_NAME);
                 }
                 goto out;
         }
 
         if (result != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
                 if (error != NULL) {
-                        g_warning ("Failed to acquire %s: %s", GDM_DBUS_NAME, error->message);
+                        g_warning ("Failed to acquire %s: %s", MDM_DBUS_NAME, error->message);
                         g_error_free (error);
                 } else {
-                        g_warning ("Failed to acquire %s", GDM_DBUS_NAME);
+                        g_warning ("Failed to acquire %s", MDM_DBUS_NAME);
                 }
                 goto out;
         }
@@ -150,7 +150,7 @@ main (int argc, char **argv)
                 goto out;
         }
 
-        settings = gdm_settings_new ();
+        settings = mdm_settings_new ();
         if (settings == NULL) {
                 g_warning ("Unable to initialize settings");
                 exit (1);

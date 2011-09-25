@@ -33,14 +33,14 @@
 
 #include <dbus/dbus-glib.h>
 
-#include "gdm-log.h"
-#include "gdm-common.h"
-#include "gdm-signal-handler.h"
-#include "gdm-settings-client.h"
-#include "gdm-settings-keys.h"
-#include "gdm-profile.h"
+#include "mdm-log.h"
+#include "mdm-common.h"
+#include "mdm-signal-handler.h"
+#include "mdm-settings-client.h"
+#include "mdm-settings-keys.h"
+#include "mdm-profile.h"
 
-#include "gdm-greeter-session.h"
+#include "mdm-greeter-session.h"
 
 #define SM_DBUS_NAME      "org.mate.SessionManager"
 #define SM_DBUS_PATH      "/org/mate/SessionManager"
@@ -59,11 +59,11 @@ is_debug_set (void)
         gboolean debug = FALSE;
 
         /* enable debugging for unstable builds */
-        if (gdm_is_version_unstable ()) {
+        if (mdm_is_version_unstable ()) {
                 return TRUE;
         }
 
-        gdm_settings_client_get_boolean (GDM_KEY_DEBUG, &debug);
+        mdm_settings_client_get_boolean (MDM_KEY_DEBUG, &debug);
         return debug;
 }
 
@@ -111,7 +111,7 @@ signal_cb (int      signo,
                  */
                 ret = TRUE;
 
-                gdm_log_toggle_debug ();
+                mdm_log_toggle_debug ();
 
                 break;
 
@@ -198,7 +198,7 @@ register_client (void)
         const char *app_id;
 
         startup_id = g_getenv ("DESKTOP_AUTOSTART_ID");
-        app_id = "gdm-simple-greeter.desktop";
+        app_id = "mdm-simple-greeter.desktop";
 
         error = NULL;
         res = dbus_g_proxy_call (sm_proxy,
@@ -242,9 +242,9 @@ int
 main (int argc, char *argv[])
 {
         GError            *error;
-        GdmGreeterSession *session;
+        MdmGreeterSession *session;
         gboolean           res;
-        GdmSignalHandler  *signal_handler;
+        MdmSignalHandler  *signal_handler;
 
         bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
         bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -252,16 +252,16 @@ main (int argc, char *argv[])
 
         setlocale (LC_ALL, "");
 
-        gdm_set_fatal_warnings_if_unstable ();
+        mdm_set_fatal_warnings_if_unstable ();
 
         g_type_init ();
 
-        gdm_profile_start ("Initializing settings client");
-        if (! gdm_settings_client_init (DATADIR "/gdm/gdm.schemas", "/")) {
+        mdm_profile_start ("Initializing settings client");
+        if (! mdm_settings_client_init (DATADIR "/mdm/mdm.schemas", "/")) {
                 g_critical ("Unable to initialize settings client");
                 exit (1);
         }
-        gdm_profile_end ("Initializing settings client");
+        mdm_profile_end ("Initializing settings client");
 
         g_debug ("Greeter session pid=%d display=%s xauthority=%s",
                  (int)getpid (),
@@ -271,29 +271,29 @@ main (int argc, char *argv[])
         /* FIXME: For testing to make it easier to attach gdb */
         /*sleep (15);*/
 
-        gdm_log_init ();
-        gdm_log_set_debug (is_debug_set ());
+        mdm_log_init ();
+        mdm_log_set_debug (is_debug_set ());
 
         gtk_init (&argc, &argv);
 
-        signal_handler = gdm_signal_handler_new ();
-        gdm_signal_handler_add_fatal (signal_handler);
-        gdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
+        signal_handler = mdm_signal_handler_new ();
+        mdm_signal_handler_add_fatal (signal_handler);
+        mdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
 
-        gdm_profile_start ("Creating new greeter session");
-        session = gdm_greeter_session_new ();
+        mdm_profile_start ("Creating new greeter session");
+        session = mdm_greeter_session_new ();
         if (session == NULL) {
                 g_critical ("Unable to create greeter session");
                 exit (1);
         }
-        gdm_profile_end ("Creating new greeter session");
+        mdm_profile_end ("Creating new greeter session");
 
         error = NULL;
-        res = gdm_greeter_session_start (session, &error);
+        res = mdm_greeter_session_start (session, &error);
         if (! res) {
                 g_warning ("Unable to start greeter session: %s", error->message);
                 g_error_free (error);

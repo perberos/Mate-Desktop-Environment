@@ -1,0 +1,91 @@
+<!DOCTYPE busconfig PUBLIC
+ "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+<busconfig>
+
+  <!-- Only root can own the service -->
+  <policy user="root">
+    <allow own="org.mate.DisplayManager"/>
+
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Manager"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.LocalDisplayFactory"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Settings"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Slave"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Session"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.freedesktop.DBus.Properties" />
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.freedesktop.DBus.Introspectable"/>
+
+  </policy>
+
+  <policy context="default">
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.mate.DisplayManager.Manager"/>
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.mate.DisplayManager.Display"/>
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.mate.DisplayManager.LocalDisplayFactory"/>
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.mate.DisplayManager.Settings"/>
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.mate.DisplayManager.Slave"/>
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.mate.DisplayManager.Session"/>
+    <deny send_destination="org.mate.DisplayManager"
+          send_interface="org.freedesktop.DBus.Properties" />
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.freedesktop.DBus.Introspectable"/>
+
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"
+           send_member="GetId"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"
+           send_member="GetRemoteHostname"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"
+           send_member="GetSeatId"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"
+           send_member="GetX11DisplayName"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"
+           send_member="GetX11DisplayNumber"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"
+           send_member="IsLocal"/>
+
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.LocalDisplayFactory"
+           send_member="CreateTransientDisplay"/>
+
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Manager"
+           send_member="GetDisplays"/>
+
+  </policy>
+
+  <policy user="@MDM_USERNAME@">
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Manager"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Display"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.LocalDisplayFactory"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.mate.DisplayManager.Settings"/>
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.freedesktop.DBus.Properties" />
+    <allow send_destination="org.mate.DisplayManager"
+           send_interface="org.freedesktop.DBus.Introspectable"/>
+  </policy>
+
+</busconfig>

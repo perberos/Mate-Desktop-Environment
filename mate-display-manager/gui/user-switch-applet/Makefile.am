@@ -12,24 +12,24 @@ AM_CPPFLAGS = \
 	-DGLADEDIR=\""$(pkgdatadir)"\" 			\
 	-DLIBEXECDIR=\""$(libexecdir)"\" 		\
 	-DSBINDIR=\""$(sbindir)"\"		 	\
-	-DGDMCONFDIR=\"$(gdmconfdir)\"			\
+	-DMDMCONFDIR=\"$(mdmconfdir)\"			\
 	$(GTK_CFLAGS)					\
 	$(APPLET_CFLAGS)				\
 	$(NULL)
 
 libexec_PROGRAMS =			\
-	gdm-user-switch-applet		\
+	mdm-user-switch-applet		\
 	$(NULL)
 
-gdm_user_switch_applet_SOURCES =  	\
+mdm_user_switch_applet_SOURCES =  	\
 	applet.c 			\
-	gdm-entry-menu-item.h		\
-	gdm-entry-menu-item.c		\
+	mdm-entry-menu-item.h		\
+	mdm-entry-menu-item.c		\
 	$(NULL)
 
-gdm_user_switch_applet_LDADD = 		\
-	$(top_builddir)/gui/simple-greeter/libgdmuser.la	\
-	$(top_builddir)/common/libgdmcommon.la		\
+mdm_user_switch_applet_LDADD = 		\
+	$(top_builddir)/gui/simple-greeter/libmdmuser.la	\
+	$(top_builddir)/common/libmdmcommon.la		\
 	$(COMMON_LIBS)					\
 	$(APPLET_LIBS)					\
 	$(NULL)

@@ -4,7 +4,7 @@ AM_CPPFLAGS = \
 	-I.						\
 	-I..						\
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" 		\
-	-DGDM_SCREENSHOT_DIR=\""$(GDM_SCREENSHOT_DIR)"\"\
+	-DMDM_SCREENSHOT_DIR=\""$(MDM_SCREENSHOT_DIR)"\"\
 	-DMATELOCALEDIR=\""$(datadir)/locale"\" 	\
 	$(UTILS_CFLAGS)					\
 	$(CANBERRA_GTK_CFLAGS)				\
@@ -17,27 +17,27 @@ edit = sed \
 	-e 's|@sbindir[@]|$(sbindir)|g' \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@localstatedir[@]|$(localstatedir)|g' \
-	-e 's|@GDM_PID_FILE[@]|$(GDM_PID_FILE)|g'
+	-e 's|@MDM_PID_FILE[@]|$(MDM_PID_FILE)|g'
 
 bin_PROGRAMS = \
-	gdmflexiserver		\
-	gdm-screenshot		\
+	mdmflexiserver		\
+	mdm-screenshot		\
 	$(NULL)
 
-gdmflexiserver_SOURCES =	\
-	gdmflexiserver.c	\
+mdmflexiserver_SOURCES =	\
+	mdmflexiserver.c	\
 	$(NULL)
 
-gdmflexiserver_LDADD =		\
+mdmflexiserver_LDADD =		\
 	$(GTK_LIBS)		\
 	$(COMMON_LIBS)		\
 	$(NULL)
 
-gdm_screenshot_SOURCES =	\
-	gdm-screenshot.c	\
+mdm_screenshot_SOURCES =	\
+	mdm-screenshot.c	\
 	$(NULL)
 
-gdm_screenshot_LDADD =		\
+mdm_screenshot_LDADD =		\
 	$(GTK_LIBS)		\
 	$(CANBERRA_GTK_LIBS)	\
 	$(XLIB_LIBS)		\

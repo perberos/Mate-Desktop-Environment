@@ -28,29 +28,29 @@
 
 #include <glib.h>
 
-#include "gdm-session-direct.h"
+#include "mdm-session-direct.h"
 
 static GMainLoop *loop;
 
 static void
-on_conversation_started (GdmSession *session,
+on_conversation_started (MdmSession *session,
                          const char *username)
 {
         g_debug ("Got conversation started: calling setup...");
 
-        gdm_session_setup (session, "gdm");
+        mdm_session_setup (session, "mdm");
 }
 
 static void
-on_session_setup_complete (GdmSession *session,
+on_session_setup_complete (MdmSession *session,
                            gpointer    data)
 {
         g_debug ("Session setup complete");
-        gdm_session_authenticate (session);
+        mdm_session_authenticate (session);
 }
 
 static void
-on_session_setup_failed (GdmSession *session,
+on_session_setup_failed (MdmSession *session,
                          const char *message,
                          gpointer    data)
 {
@@ -60,14 +60,14 @@ on_session_setup_failed (GdmSession *session,
 }
 
 static void
-on_session_reset_complete (GdmSession *session,
+on_session_reset_complete (MdmSession *session,
                            gpointer    data)
 {
         g_debug ("Session reset complete");
 }
 
 static void
-on_session_reset_failed (GdmSession *session,
+on_session_reset_failed (MdmSession *session,
                          const char *message,
                          gpointer    data)
 {
@@ -77,15 +77,15 @@ on_session_reset_failed (GdmSession *session,
 }
 
 static void
-on_session_authenticated (GdmSession *session,
+on_session_authenticated (MdmSession *session,
                           gpointer    data)
 {
         g_debug ("Session authenticated");
-        gdm_session_authorize (session);
+        mdm_session_authorize (session);
 }
 
 static void
-on_session_authentication_failed (GdmSession *session,
+on_session_authentication_failed (MdmSession *session,
                                   const char *message,
                                   gpointer    data)
 {
@@ -95,15 +95,15 @@ on_session_authentication_failed (GdmSession *session,
 }
 
 static void
-on_session_authorized (GdmSession *session,
+on_session_authorized (MdmSession *session,
                        gpointer    data)
 {
         g_debug ("Session authorized");
-        gdm_session_accredit (session, GDM_SESSION_CRED_ESTABLISH);
+        mdm_session_accredit (session, MDM_SESSION_CRED_ESTABLISH);
 }
 
 static void
-on_session_authorization_failed (GdmSession *session,
+on_session_authorization_failed (MdmSession *session,
                                  const char *message,
                                  gpointer    data)
 {
@@ -113,23 +113,23 @@ on_session_authorization_failed (GdmSession *session,
 }
 
 static void
-on_session_accredited (GdmSession *session,
+on_session_accredited (MdmSession *session,
                        gpointer    data)
 {
         char *username;
 
-        username = gdm_session_direct_get_username (GDM_SESSION_DIRECT (session));
+        username = mdm_session_direct_get_username (MDM_SESSION_DIRECT (session));
 
         g_print ("%s%ssuccessfully accredited\n",
                  username ? username : "", username ? " " : "");
         g_free (username);
 
-        gdm_session_start_session (session);
+        mdm_session_start_session (session);
 
 }
 
 static void
-on_session_accreditation_failed (GdmSession *session,
+on_session_accreditation_failed (MdmSession *session,
                                  const char *message,
                                  gpointer    data)
 {
@@ -139,13 +139,13 @@ on_session_accreditation_failed (GdmSession *session,
 }
 
 static void
-on_session_started (GdmSession *session)
+on_session_started (MdmSession *session)
 {
         g_print ("session started\n");
 }
 
 static void
-on_session_exited (GdmSession *session,
+on_session_exited (MdmSession *session,
                    int         exit_code)
 {
         g_print ("session exited with code %d\n", exit_code);
@@ -153,7 +153,7 @@ on_session_exited (GdmSession *session,
 }
 
 static void
-on_session_died (GdmSession *session,
+on_session_died (MdmSession *session,
                  int         signal_number)
 {
         g_print ("session died with signal %d, (%s)\n",
@@ -163,7 +163,7 @@ on_session_died (GdmSession *session,
 }
 
 static void
-on_info_query (GdmSession *session,
+on_info_query (MdmSession *session,
                const char *query_text)
 {
         char  answer[1024];
@@ -180,29 +180,29 @@ on_info_query (GdmSession *session,
         answer[strlen (answer) - 1] = '\0';
 
         if (answer[0] == '\0') {
-                gdm_session_close (session);
+                mdm_session_close (session);
                 g_main_loop_quit (loop);
         } else {
-                gdm_session_answer_query (session, answer);
+                mdm_session_answer_query (session, answer);
         }
 }
 
 static void
-on_info (GdmSession *session,
+on_info (MdmSession *session,
          const char *info)
 {
         g_print ("\n** NOTE: %s\n", info);
 }
 
 static void
-on_problem (GdmSession *session,
+on_problem (MdmSession *session,
             const char *problem)
 {
         g_print ("\n** WARNING: %s\n", problem);
 }
 
 static void
-on_secret_info_query (GdmSession *session,
+on_secret_info_query (MdmSession *session,
                       const char *query_text)
 {
         char           answer[1024];
@@ -232,11 +232,11 @@ on_secret_info_query (GdmSession *session,
 
         g_print ("\n");
 
-        gdm_session_answer_query (session, answer);
+        mdm_session_answer_query (session, answer);
 }
 
 static void
-import_environment (GdmSessionDirect *session)
+import_environment (MdmSessionDirect *session)
 {
 }
 
@@ -244,7 +244,7 @@ int
 main (int   argc,
       char *argv[])
 {
-        GdmSessionDirect *session;
+        MdmSessionDirect *session;
         char             *username;
 
         g_log_set_always_fatal (G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
@@ -252,14 +252,14 @@ main (int   argc,
         g_type_init ();
 
         do {
-                g_debug ("creating instance of GdmSessionDirect object...");
-                session = gdm_session_direct_new ("/org/mate/DisplayManager/Display1",
+                g_debug ("creating instance of MdmSessionDirect object...");
+                session = mdm_session_direct_new ("/org/mate/DisplayManager/Display1",
                                                   ":0",
                                                   g_get_host_name (),
                                                   ttyname (STDIN_FILENO),
                                                   getenv("XAUTHORITY"),
                                                   TRUE);
-                g_debug ("GdmSessionDirect object created successfully");
+                g_debug ("MdmSessionDirect object created successfully");
 
                 if (argc <= 1) {
                         username = NULL;
@@ -267,7 +267,7 @@ main (int   argc,
                         username = argv[1];
                 }
 
-                gdm_session_start_conversation (GDM_SESSION (session));
+                mdm_session_start_conversation (MDM_SESSION (session));
 
                 g_signal_connect (session,
                                   "conversation-started",
@@ -350,8 +350,8 @@ main (int   argc,
                 g_main_loop_run (loop);
                 g_main_loop_unref (loop);
 
-                g_message ("destroying previously created GdmSessionDirect object...");
+                g_message ("destroying previously created MdmSessionDirect object...");
                 g_object_unref (session);
-                g_message ("GdmSessionDirect object destroyed successfully");
+                g_message ("MdmSessionDirect object destroyed successfully");
         } while (1);
 }

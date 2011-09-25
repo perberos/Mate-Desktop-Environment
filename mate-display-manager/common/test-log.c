@@ -32,16 +32,16 @@
 
 #include <glib.h>
 
-#include "gdm-common.h"
-#include "gdm-log.h"
+#include "mdm-common.h"
+#include "mdm-log.h"
 
 static void
 test_log (void)
 {
-        gdm_log_init ();
+        mdm_log_init ();
 
         g_debug ("Test debug 1");
-        gdm_log_set_debug (TRUE);
+        mdm_log_set_debug (TRUE);
         g_debug ("Test debug 2");
 
         g_message ("Test message");

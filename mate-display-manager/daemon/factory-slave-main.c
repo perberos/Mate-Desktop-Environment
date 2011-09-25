@@ -39,18 +39,18 @@
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
 
-#include "gdm-xerrors.h"
-#include "gdm-signal-handler.h"
-#include "gdm-log.h"
-#include "gdm-common.h"
-#include "gdm-factory-slave.h"
+#include "mdm-xerrors.h"
+#include "mdm-signal-handler.h"
+#include "mdm-log.h"
+#include "mdm-common.h"
+#include "mdm-factory-slave.h"
 
-#include "gdm-settings.h"
-#include "gdm-settings-direct.h"
-#include "gdm-settings-keys.h"
+#include "mdm-settings.h"
+#include "mdm-settings-direct.h"
+#include "mdm-settings-keys.h"
 
-static GdmSettings     *settings        = NULL;
-static int              gdm_return_code = 0;
+static MdmSettings     *settings        = NULL;
+static int              mdm_return_code = 0;
 
 static DBusGConnection *
 get_system_bus (void)
@@ -127,7 +127,7 @@ signal_cb (int      signo,
                  */
                 ret = TRUE;
 
-                gdm_log_toggle_debug ();
+                mdm_log_toggle_debug ();
 
                 break;
 
@@ -142,11 +142,11 @@ signal_cb (int      signo,
 }
 
 static void
-on_slave_stopped (GdmSlave   *slave,
+on_slave_stopped (MdmSlave   *slave,
                   GMainLoop  *main_loop)
 {
         g_debug ("slave finished");
-        gdm_return_code = 0;
+        mdm_return_code = 0;
         g_main_loop_quit (main_loop);
 }
 
@@ -156,11 +156,11 @@ is_debug_set (void)
         gboolean debug = FALSE;
 
         /* enable debugging for unstable builds */
-        if (gdm_is_version_unstable ()) {
+        if (mdm_is_version_unstable ()) {
                 return TRUE;
         }
 
-        gdm_settings_direct_get_boolean (GDM_KEY_DEBUG, &debug);
+        mdm_settings_direct_get_boolean (MDM_KEY_DEBUG, &debug);
         return debug;
 }
 
@@ -171,9 +171,9 @@ main (int    argc,
         GMainLoop        *main_loop;
         GOptionContext   *context;
         DBusGConnection  *connection;
-        GdmSlave         *slave;
+        MdmSlave         *slave;
         static char      *display_id = NULL;
-        GdmSignalHandler *signal_handler;
+        MdmSignalHandler *signal_handler;
         static GOptionEntry entries []   = {
                 { "display-id", 0, 0, G_OPTION_ARG_STRING, &display_id, N_("Display ID"), N_("ID") },
                 { NULL }
@@ -183,7 +183,7 @@ main (int    argc,
         textdomain (GETTEXT_PACKAGE);
         setlocale (LC_ALL, "");
 
-        gdm_set_fatal_warnings_if_unstable ();
+        mdm_set_fatal_warnings_if_unstable ();
 
         g_type_init ();
 
@@ -198,21 +198,21 @@ main (int    argc,
                 goto out;
         }
 
-        gdm_xerrors_init ();
-        gdm_log_init ();
+        mdm_xerrors_init ();
+        mdm_log_init ();
 
-        settings = gdm_settings_new ();
+        settings = mdm_settings_new ();
         if (settings == NULL) {
                 g_warning ("Unable to initialize settings");
                 exit (1);
         }
 
-        if (! gdm_settings_direct_init (settings, DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_direct_init (settings, DATADIR "/mdm/mdm.schemas", "/")) {
                 g_warning ("Unable to initialize settings");
                 exit (1);
         }
 
-        gdm_log_set_debug (is_debug_set ());
+        mdm_log_set_debug (is_debug_set ());
 
         if (display_id == NULL) {
                 g_critical ("No display ID set");
@@ -221,22 +221,22 @@ main (int    argc,
 
         main_loop = g_main_loop_new (NULL, FALSE);
 
-        signal_handler = gdm_signal_handler_new ();
-        gdm_signal_handler_set_fatal_func (signal_handler,
+        signal_handler = mdm_signal_handler_new ();
+        mdm_signal_handler_set_fatal_func (signal_handler,
                                            (GDestroyNotify)g_main_loop_quit,
                                            main_loop);
-        gdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGILL, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGBUS, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGSEGV, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGABRT, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGUSR2, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGILL, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGBUS, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGSEGV, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGABRT, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGUSR2, signal_cb, NULL);
 
-        slave = gdm_factory_slave_new (display_id);
+        slave = mdm_factory_slave_new (display_id);
         if (slave == NULL) {
                 goto out;
         }
@@ -244,7 +244,7 @@ main (int    argc,
                           "stopped",
                           G_CALLBACK (on_slave_stopped),
                           main_loop);
-        gdm_slave_start (slave);
+        mdm_slave_start (slave);
 
         g_main_loop_run (main_loop);
 
@@ -264,5 +264,5 @@ main (int    argc,
 
         g_debug ("Slave finished");
 
-        return gdm_return_code;
+        return mdm_return_code;
 }

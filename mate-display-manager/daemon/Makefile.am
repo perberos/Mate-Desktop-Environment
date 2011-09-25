@@ -9,16 +9,16 @@ AM_CPPFLAGS = \
 	-DBINDIR=\"$(bindir)\"				\
 	-DDATADIR=\"$(datadir)\"			\
 	-DDMCONFDIR=\"$(dmconfdir)\"			\
-	-DGDMCONFDIR=\"$(gdmconfdir)\"			\
+	-DMDMCONFDIR=\"$(mdmconfdir)\"			\
 	-DLIBDIR=\"$(libdir)\"				\
 	-DLIBEXECDIR=\"$(libexecdir)\"			\
 	-DLOGDIR=\"$(logdir)\"				\
 	-DSBINDIR=\"$(sbindir)\"			\
 	-DMATELOCALEDIR=\""$(datadir)/locale"\"	\
-	-DGDM_XAUTH_DIR=\"$(GDM_XAUTH_DIR)\"		\
-	-DGDM_SCREENSHOT_DIR=\"$(GDM_SCREENSHOT_DIR)\"		\
-	-DGDM_CACHE_DIR=\""$(localstatedir)/cache/gdm"\"	\
-	-DGDM_SESSION_DEFAULT_PATH=\"$(GDM_SESSION_DEFAULT_PATH)\" \
+	-DMDM_XAUTH_DIR=\"$(MDM_XAUTH_DIR)\"		\
+	-DMDM_SCREENSHOT_DIR=\"$(MDM_SCREENSHOT_DIR)\"		\
+	-DMDM_CACHE_DIR=\""$(localstatedir)/cache/mdm"\"	\
+	-DMDM_SESSION_DEFAULT_PATH=\"$(MDM_SESSION_DEFAULT_PATH)\" \
 	$(DISABLE_DEPRECATED_CFLAGS)			\
 	$(DAEMON_CFLAGS)				\
 	$(XLIB_CFLAGS)					\
@@ -28,53 +28,53 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 BUILT_SOURCES =					\
-	gdm-slave-glue.h			\
-	gdm-simple-slave-glue.h			\
-	gdm-factory-slave-glue.h		\
-	gdm-product-slave-glue.h		\
-	gdm-xdmcp-chooser-slave-glue.h		\
-	gdm-session-direct-glue.h		\
-	gdm-manager-glue.h			\
-	gdm-display-glue.h			\
-	gdm-xdmcp-greeter-display-glue.h	\
-	gdm-xdmcp-chooser-display-glue.h	\
-	gdm-static-display-glue.h		\
-	gdm-transient-display-glue.h		\
-	gdm-local-display-factory-glue.h	\
-	gdm-static-factory-display-glue.h	\
-	gdm-product-display-glue.h		\
+	mdm-slave-glue.h			\
+	mdm-simple-slave-glue.h			\
+	mdm-factory-slave-glue.h		\
+	mdm-product-slave-glue.h		\
+	mdm-xdmcp-chooser-slave-glue.h		\
+	mdm-session-direct-glue.h		\
+	mdm-manager-glue.h			\
+	mdm-display-glue.h			\
+	mdm-xdmcp-greeter-display-glue.h	\
+	mdm-xdmcp-chooser-display-glue.h	\
+	mdm-static-display-glue.h		\
+	mdm-transient-display-glue.h		\
+	mdm-local-display-factory-glue.h	\
+	mdm-static-factory-display-glue.h	\
+	mdm-product-display-glue.h		\
 	$(NULL)
 
-gdm-manager-glue.h: gdm-manager.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_manager --mode=glib-server --output=gdm-manager-glue.h $(srcdir)/gdm-manager.xml
-gdm-slave-glue.h: gdm-slave.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_slave --mode=glib-server --output=gdm-slave-glue.h $(srcdir)/gdm-slave.xml
-gdm-simple-slave-glue.h: gdm-simple-slave.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_simple_slave --mode=glib-server --output=gdm-simple-slave-glue.h $(srcdir)/gdm-simple-slave.xml
-gdm-factory-slave-glue.h: gdm-factory-slave.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_factory_slave --mode=glib-server --output=gdm-factory-slave-glue.h $(srcdir)/gdm-factory-slave.xml
-gdm-product-slave-glue.h: gdm-product-slave.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_product_slave --mode=glib-server --output=gdm-product-slave-glue.h $(srcdir)/gdm-product-slave.xml
-gdm-xdmcp-chooser-slave-glue.h: gdm-xdmcp-chooser-slave.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_xdmcp_chooser_slave --mode=glib-server --output=gdm-xdmcp-chooser-slave-glue.h $(srcdir)/gdm-xdmcp-chooser-slave.xml
-gdm-session-direct-glue.h: gdm-session-direct.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_session_direct --mode=glib-server --output=gdm-session-direct-glue.h $(srcdir)/gdm-session-direct.xml
-gdm-display-glue.h: gdm-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_display --mode=glib-server --output=gdm-display-glue.h $(srcdir)/gdm-display.xml
-gdm-xdmcp-greeter-display-glue.h: gdm-xdmcp-greeter-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_xdmcp_greeter_display --mode=glib-server --output=gdm-xdmcp-greeter-display-glue.h $(srcdir)/gdm-xdmcp-greeter-display.xml
-gdm-xdmcp-chooser-display-glue.h: gdm-xdmcp-chooser-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_xdmcp_chooser_display --mode=glib-server --output=gdm-xdmcp-chooser-display-glue.h $(srcdir)/gdm-xdmcp-chooser-display.xml
-gdm-static-display-glue.h: gdm-static-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_static_display --mode=glib-server --output=gdm-static-display-glue.h $(srcdir)/gdm-static-display.xml
-gdm-transient-display-glue.h: gdm-transient-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_transient_display --mode=glib-server --output=gdm-transient-display-glue.h $(srcdir)/gdm-transient-display.xml
-gdm-local-display-factory-glue.h: gdm-local-display-factory.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_local_display_factory --mode=glib-server --output=gdm-local-display-factory-glue.h $(srcdir)/gdm-local-display-factory.xml
-gdm-static-factory-display-glue.h: gdm-static-factory-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_static_factory_display --mode=glib-server --output=gdm-static-factory-display-glue.h $(srcdir)/gdm-static-factory-display.xml
-gdm-product-display-glue.h: gdm-product-display.xml Makefile.am
-	dbus-binding-tool --prefix=gdm_product_display --mode=glib-server --output=gdm-product-display-glue.h $(srcdir)/gdm-product-display.xml
+mdm-manager-glue.h: mdm-manager.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_manager --mode=glib-server --output=mdm-manager-glue.h $(srcdir)/mdm-manager.xml
+mdm-slave-glue.h: mdm-slave.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_slave --mode=glib-server --output=mdm-slave-glue.h $(srcdir)/mdm-slave.xml
+mdm-simple-slave-glue.h: mdm-simple-slave.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_simple_slave --mode=glib-server --output=mdm-simple-slave-glue.h $(srcdir)/mdm-simple-slave.xml
+mdm-factory-slave-glue.h: mdm-factory-slave.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_factory_slave --mode=glib-server --output=mdm-factory-slave-glue.h $(srcdir)/mdm-factory-slave.xml
+mdm-product-slave-glue.h: mdm-product-slave.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_product_slave --mode=glib-server --output=mdm-product-slave-glue.h $(srcdir)/mdm-product-slave.xml
+mdm-xdmcp-chooser-slave-glue.h: mdm-xdmcp-chooser-slave.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_xdmcp_chooser_slave --mode=glib-server --output=mdm-xdmcp-chooser-slave-glue.h $(srcdir)/mdm-xdmcp-chooser-slave.xml
+mdm-session-direct-glue.h: mdm-session-direct.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_session_direct --mode=glib-server --output=mdm-session-direct-glue.h $(srcdir)/mdm-session-direct.xml
+mdm-display-glue.h: mdm-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_display --mode=glib-server --output=mdm-display-glue.h $(srcdir)/mdm-display.xml
+mdm-xdmcp-greeter-display-glue.h: mdm-xdmcp-greeter-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_xdmcp_greeter_display --mode=glib-server --output=mdm-xdmcp-greeter-display-glue.h $(srcdir)/mdm-xdmcp-greeter-display.xml
+mdm-xdmcp-chooser-display-glue.h: mdm-xdmcp-chooser-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_xdmcp_chooser_display --mode=glib-server --output=mdm-xdmcp-chooser-display-glue.h $(srcdir)/mdm-xdmcp-chooser-display.xml
+mdm-static-display-glue.h: mdm-static-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_static_display --mode=glib-server --output=mdm-static-display-glue.h $(srcdir)/mdm-static-display.xml
+mdm-transient-display-glue.h: mdm-transient-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_transient_display --mode=glib-server --output=mdm-transient-display-glue.h $(srcdir)/mdm-transient-display.xml
+mdm-local-display-factory-glue.h: mdm-local-display-factory.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_local_display_factory --mode=glib-server --output=mdm-local-display-factory-glue.h $(srcdir)/mdm-local-display-factory.xml
+mdm-static-factory-display-glue.h: mdm-static-factory-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_static_factory_display --mode=glib-server --output=mdm-static-factory-display-glue.h $(srcdir)/mdm-static-factory-display.xml
+mdm-product-display-glue.h: mdm-product-display.xml Makefile.am
+	dbus-binding-tool --prefix=mdm_product_display --mode=glib-server --output=mdm-product-display-glue.h $(srcdir)/mdm-product-display.xml
 
 noinst_PROGRAMS = 		\
 	test-session		\
@@ -82,18 +82,18 @@ noinst_PROGRAMS = 		\
 
 test_session_SOURCES = 		\
 	test-session.c	 	\
-	gdm-session.c		\
-	gdm-session.h		\
-	gdm-session-private.h	\
-	gdm-session-direct.c	\
-	gdm-session-direct.h	\
-	gdm-session-record.c	\
-	gdm-session-record.h	\
-	gdm-session-worker-job.c\
+	mdm-session.c		\
+	mdm-session.h		\
+	mdm-session-private.h	\
+	mdm-session-direct.c	\
+	mdm-session-direct.h	\
+	mdm-session-record.c	\
+	mdm-session-record.h	\
+	mdm-session-worker-job.c\
 	$(NULL)
 
 test_session_LDADD =		\
-	$(top_builddir)/common/libgdmcommon.la	\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(XLIB_LIBS)		\
 	$(EXTRA_DAEMON_LIBS)	\
 	$(DAEMON_LIBS)		\
@@ -102,246 +102,246 @@ test_session_LDADD =		\
 	$(NULL)
 
 libexec_PROGRAMS = 			\
-	gdm-simple-slave		\
-	gdm-factory-slave		\
-	gdm-product-slave		\
-	gdm-session-worker		\
+	mdm-simple-slave		\
+	mdm-factory-slave		\
+	mdm-product-slave		\
+	mdm-session-worker		\
 	$(NULL)
 
 if XDMCP_SUPPORT
 libexec_PROGRAMS += 			\
-	gdm-xdmcp-chooser-slave		\
+	mdm-xdmcp-chooser-slave		\
 	$(NULL)
 endif
 
-gdm_simple_slave_SOURCES = 		\
+mdm_simple_slave_SOURCES = 		\
 	simple-slave-main.c 		\
-	gdm-greeter-server.c		\
-	gdm-greeter-server.h		\
+	mdm-greeter-server.c		\
+	mdm-greeter-server.h		\
 	ck-connector.h			\
 	ck-connector.c			\
-	gdm-welcome-session.c		\
-	gdm-welcome-session.h		\
-	gdm-greeter-session.c		\
-	gdm-greeter-session.h		\
-	gdm-server.c			\
-	gdm-server.h			\
-	gdm-session.c			\
-	gdm-session.h			\
-	gdm-session-private.h		\
-	gdm-session-direct.c		\
-	gdm-session-direct.h		\
-	gdm-session-record.c		\
-	gdm-session-record.h		\
-	gdm-session-worker-job.c	\
-	gdm-session-worker-job.h	\
-	gdm-xerrors.h			\
-	gdm-xerrors.c			\
-	gdm-slave.c			\
-	gdm-slave.h			\
-	gdm-simple-slave.c		\
-	gdm-simple-slave.h		\
+	mdm-welcome-session.c		\
+	mdm-welcome-session.h		\
+	mdm-greeter-session.c		\
+	mdm-greeter-session.h		\
+	mdm-server.c			\
+	mdm-server.h			\
+	mdm-session.c			\
+	mdm-session.h			\
+	mdm-session-private.h		\
+	mdm-session-direct.c		\
+	mdm-session-direct.h		\
+	mdm-session-record.c		\
+	mdm-session-record.h		\
+	mdm-session-worker-job.c	\
+	mdm-session-worker-job.h	\
+	mdm-xerrors.h			\
+	mdm-xerrors.c			\
+	mdm-slave.c			\
+	mdm-slave.h			\
+	mdm-simple-slave.c		\
+	mdm-simple-slave.h		\
 	$(NULL)
 
-gdm_simple_slave_LDFLAGS =		\
+mdm_simple_slave_LDFLAGS =		\
 	$(PAM_LIBS)			\
 	$(NULL)
 
-gdm_simple_slave_LDADD = 			\
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_simple_slave_LDADD = 			\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(XLIB_LIBS)				\
 	$(DAEMON_LIBS)				\
 	$(EXTRA_DAEMON_LIBS)                    \
 	$(LIBXKLAVIER_LIBS)			\
 	$(NULL)
 
-gdm_factory_slave_SOURCES = 		\
+mdm_factory_slave_SOURCES = 		\
 	factory-slave-main.c 		\
-	gdm-greeter-server.c		\
-	gdm-greeter-server.h		\
+	mdm-greeter-server.c		\
+	mdm-greeter-server.h		\
 	ck-connector.h			\
 	ck-connector.c			\
-	gdm-welcome-session.c		\
-	gdm-welcome-session.h		\
-	gdm-greeter-session.c		\
-	gdm-greeter-session.h		\
-	gdm-server.c			\
-	gdm-server.h			\
-	gdm-session.c			\
-	gdm-session.h			\
-	gdm-session-private.h		\
-	gdm-session-relay.c		\
-	gdm-session-relay.h		\
-	gdm-xerrors.h			\
-	gdm-xerrors.c			\
-	gdm-slave.c			\
-	gdm-slave.h			\
-	gdm-factory-slave.c		\
-	gdm-factory-slave.h		\
+	mdm-welcome-session.c		\
+	mdm-welcome-session.h		\
+	mdm-greeter-session.c		\
+	mdm-greeter-session.h		\
+	mdm-server.c			\
+	mdm-server.h			\
+	mdm-session.c			\
+	mdm-session.h			\
+	mdm-session-private.h		\
+	mdm-session-relay.c		\
+	mdm-session-relay.h		\
+	mdm-xerrors.h			\
+	mdm-xerrors.c			\
+	mdm-slave.c			\
+	mdm-slave.h			\
+	mdm-factory-slave.c		\
+	mdm-factory-slave.h		\
 	$(NULL)
 
-gdm_factory_slave_LDFLAGS =		\
+mdm_factory_slave_LDFLAGS =		\
 	$(PAM_LIBS)			\
 	$(NULL)
 
-gdm_factory_slave_LDADD = 			\
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_factory_slave_LDADD = 			\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(XLIB_LIBS)				\
 	$(DAEMON_LIBS)				\
 	$(NULL)
 
-gdm_product_slave_SOURCES = 		\
+mdm_product_slave_SOURCES = 		\
 	product-slave-main.c 		\
-	gdm-server.c			\
-	gdm-server.h			\
-	gdm-session.c			\
-	gdm-session.h			\
-	gdm-session-private.h		\
-	gdm-session-direct.c		\
-	gdm-session-direct.h		\
-	gdm-session-record.c		\
-	gdm-session-record.h		\
-	gdm-session-worker-job.c	\
-	gdm-session-worker-job.h	\
-	gdm-xerrors.h			\
-	gdm-xerrors.c			\
-	gdm-slave.c			\
-	gdm-slave.h			\
-	gdm-product-slave.c		\
-	gdm-product-slave.h		\
+	mdm-server.c			\
+	mdm-server.h			\
+	mdm-session.c			\
+	mdm-session.h			\
+	mdm-session-private.h		\
+	mdm-session-direct.c		\
+	mdm-session-direct.h		\
+	mdm-session-record.c		\
+	mdm-session-record.h		\
+	mdm-session-worker-job.c	\
+	mdm-session-worker-job.h	\
+	mdm-xerrors.h			\
+	mdm-xerrors.c			\
+	mdm-slave.c			\
+	mdm-slave.h			\
+	mdm-product-slave.c		\
+	mdm-product-slave.h		\
 	$(NULL)
 
-gdm_product_slave_LDFLAGS =		\
+mdm_product_slave_LDFLAGS =		\
 	$(PAM_LIBS)			\
 	$(NULL)
 
-gdm_product_slave_LDADD = 			\
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_product_slave_LDADD = 			\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(XLIB_LIBS)				\
 	$(DAEMON_LIBS)				\
 	$(EXTRA_DAEMON_LIBS)                    \
 	$(LIBXKLAVIER_LIBS)			\
 	$(NULL)
 
-gdm_xdmcp_chooser_slave_SOURCES = 		\
+mdm_xdmcp_chooser_slave_SOURCES = 		\
 	xdmcp-chooser-slave-main.c 		\
-	gdm-chooser-server.c			\
-	gdm-chooser-server.h			\
+	mdm-chooser-server.c			\
+	mdm-chooser-server.h			\
 	ck-connector.h				\
 	ck-connector.c				\
-	gdm-welcome-session.c			\
-	gdm-welcome-session.h			\
-	gdm-chooser-session.c			\
-	gdm-chooser-session.h			\
-	gdm-xerrors.h				\
-	gdm-xerrors.c				\
-	gdm-slave.c				\
-	gdm-slave.h				\
-	gdm-xdmcp-chooser-slave.c		\
-	gdm-xdmcp-chooser-slave.h		\
+	mdm-welcome-session.c			\
+	mdm-welcome-session.h			\
+	mdm-chooser-session.c			\
+	mdm-chooser-session.h			\
+	mdm-xerrors.h				\
+	mdm-xerrors.c				\
+	mdm-slave.c				\
+	mdm-slave.h				\
+	mdm-xdmcp-chooser-slave.c		\
+	mdm-xdmcp-chooser-slave.h		\
 	$(NULL)
 
-gdm_xdmcp_chooser_slave_LDADD = 		\
+mdm_xdmcp_chooser_slave_LDADD = 		\
 	$(XLIB_LIBS)				\
 	$(DAEMON_LIBS)				\
 	$(EXTRA_DAEMON_LIBS)                    \
-	$(top_builddir)/common/libgdmcommon.la	\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(NULL)
 
-gdm_session_worker_SOURCES = 			\
+mdm_session_worker_SOURCES = 			\
 	session-worker-main.c 			\
 	ck-connector.h				\
 	ck-connector.c				\
-	gdm-session-settings.h			\
-	gdm-session-settings.c			\
-	gdm-session-auditor.h			\
-	gdm-session-auditor.c			\
-	gdm-session-worker.h			\
-	gdm-session-worker.c			\
+	mdm-session-settings.h			\
+	mdm-session-settings.c			\
+	mdm-session-auditor.h			\
+	mdm-session-auditor.c			\
+	mdm-session-worker.h			\
+	mdm-session-worker.c			\
 	$(NULL)
 
 if HAVE_LIBAUDIT
-gdm_session_worker_SOURCES += gdm-session-linux-auditor.h       \
-	                      gdm-session-linux-auditor.c
+mdm_session_worker_SOURCES += mdm-session-linux-auditor.h       \
+	                      mdm-session-linux-auditor.c
 endif
 
 if HAVE_ADT
-gdm_session_worker_SOURCES += gdm-session-solaris-auditor.h     \
-	                      gdm-session-solaris-auditor.c
+mdm_session_worker_SOURCES += mdm-session-solaris-auditor.h     \
+	                      mdm-session-solaris-auditor.c
 endif
 
-gdm_session_worker_LDFLAGS =			\
+mdm_session_worker_LDFLAGS =			\
 	$(XLIB_LIBS)				\
 	$(PAM_LIBS)				\
 	$(NULL)
 
-gdm_session_worker_LDADD = 			\
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_session_worker_LDADD = 			\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(DAEMON_LIBS)				\
 	$(NULL)
 
 sbin_PROGRAMS = 			\
-	gdm-binary			\
+	mdm-binary			\
 	$(NULL)
 
-gdm_binary_SOURCES = 			\
+mdm_binary_SOURCES = 			\
 	main.c				\
-	gdm-display-access-file.c	\
-	gdm-display-access-file.h	\
-	gdm-display-store.c		\
-	gdm-display-store.h		\
-	gdm-display-factory.c		\
-	gdm-display-factory.h		\
-	gdm-local-display-factory.c	\
-	gdm-local-display-factory.h	\
-	gdm-display.c			\
-	gdm-display.h			\
-	gdm-static-display.c		\
-	gdm-static-display.h		\
-	gdm-transient-display.c		\
-	gdm-transient-display.h		\
-	gdm-static-factory-display.c	\
-	gdm-static-factory-display.h	\
-	gdm-product-display.c		\
-	gdm-product-display.h		\
-	gdm-manager.c			\
-	gdm-manager.h			\
-	gdm-slave-proxy.c		\
-	gdm-slave-proxy.h		\
+	mdm-display-access-file.c	\
+	mdm-display-access-file.h	\
+	mdm-display-store.c		\
+	mdm-display-store.h		\
+	mdm-display-factory.c		\
+	mdm-display-factory.h		\
+	mdm-local-display-factory.c	\
+	mdm-local-display-factory.h	\
+	mdm-display.c			\
+	mdm-display.h			\
+	mdm-static-display.c		\
+	mdm-static-display.h		\
+	mdm-transient-display.c		\
+	mdm-transient-display.h		\
+	mdm-static-factory-display.c	\
+	mdm-static-factory-display.h	\
+	mdm-product-display.c		\
+	mdm-product-display.h		\
+	mdm-manager.c			\
+	mdm-manager.h			\
+	mdm-slave-proxy.c		\
+	mdm-slave-proxy.h		\
 	$(NULL)
 
 XDMCP_SOURCES =				\
-	gdm-xdmcp-display-factory.c	\
-	gdm-xdmcp-display-factory.h	\
-	gdm-xdmcp-display.c		\
-	gdm-xdmcp-display.h		\
-	gdm-xdmcp-greeter-display.c	\
-	gdm-xdmcp-greeter-display.h	\
-	gdm-xdmcp-chooser-display.c	\
-	gdm-xdmcp-chooser-display.h	\
+	mdm-xdmcp-display-factory.c	\
+	mdm-xdmcp-display-factory.h	\
+	mdm-xdmcp-display.c		\
+	mdm-xdmcp-display.h		\
+	mdm-xdmcp-greeter-display.c	\
+	mdm-xdmcp-greeter-display.h	\
+	mdm-xdmcp-chooser-display.c	\
+	mdm-xdmcp-chooser-display.h	\
 	$(NULL)
 
 if XDMCP_SUPPORT
-gdm_binary_SOURCES += $(XDMCP_SOURCES)
+mdm_binary_SOURCES += $(XDMCP_SOURCES)
 endif
 
-EXTRA_gdm_binary_SOURCES = 	\
+EXTRA_mdm_binary_SOURCES = 	\
 	$(XDMCP_SOURCES)	\
 	$(NULL)
 
 CONSOLE_KIT_SOURCES = 		\
 	$(NULL)
 
-EXTRA_gdm_binary_SOURCES += $(CONSOLE_KIT_SOURCES)
+EXTRA_mdm_binary_SOURCES += $(CONSOLE_KIT_SOURCES)
 
 # Note that these libs are in LDFLAGS because they should come before
 # everything else on the link line as they may override stuff
-gdm_binary_LDFLAGS =				\
+mdm_binary_LDFLAGS =				\
 	$(EXTRA_DAEMON_LIBS)			\
 	$(NULL)
 
-gdm_binary_LDADD = \
-	$(top_builddir)/common/libgdmcommon.la	\
+mdm_binary_LDADD = \
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(XLIB_LIBS)				\
 	$(DAEMON_LIBS)				\
 	$(XDMCP_LIBS)                           \
@@ -349,36 +349,36 @@ gdm_binary_LDADD = \
 	$(NULL)
 
 if WITH_CONSOLE_KIT
-gdm_binary_SOURCES += $(CONSOLE_KIT_SOURCES)
+mdm_binary_SOURCES += $(CONSOLE_KIT_SOURCES)
 endif
 
 sbin_SCRIPTS =		\
-	gdm		\
+	mdm		\
 	$(NULL)
 
-gdm: $(srcdir)/gdm.in
-	sed -e 's,[@]sbindir[@],$(sbindir),g' <$(srcdir)/gdm.in >gdm
+mdm: $(srcdir)/mdm.in
+	sed -e 's,[@]sbindir[@],$(sbindir),g' <$(srcdir)/mdm.in >mdm
 
 CLEANFILES =			\
-	gdm			\
+	mdm			\
 	$(BUILT_SOURCES)	\
 	$(NULL)
 
 EXTRA_DIST = 				\
-	gdm.in				\
-	gdm-slave.xml			\
-	gdm-simple-slave.xml		\
-	gdm-factory-slave.xml		\
-	gdm-product-slave.xml		\
-	gdm-xdmcp-chooser-slave.xml	\
-	gdm-session-direct.xml		\
-	gdm-manager.xml			\
-	gdm-display.xml			\
-	gdm-xdmcp-greeter-display.xml	\
-	gdm-xdmcp-chooser-display.xml	\
-	gdm-static-display.xml		\
-	gdm-transient-display.xml	\
-	gdm-local-display-factory.xml	\
-	gdm-static-factory-display.xml	\
-	gdm-product-display.xml		\
+	mdm.in				\
+	mdm-slave.xml			\
+	mdm-simple-slave.xml		\
+	mdm-factory-slave.xml		\
+	mdm-product-slave.xml		\
+	mdm-xdmcp-chooser-slave.xml	\
+	mdm-session-direct.xml		\
+	mdm-manager.xml			\
+	mdm-display.xml			\
+	mdm-xdmcp-greeter-display.xml	\
+	mdm-xdmcp-chooser-display.xml	\
+	mdm-static-display.xml		\
+	mdm-transient-display.xml	\
+	mdm-local-display-factory.xml	\
+	mdm-static-factory-display.xml	\
+	mdm-product-display.xml		\
 	$(NULL)

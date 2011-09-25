@@ -43,26 +43,26 @@
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
 
-#include "gdm-manager.h"
-#include "gdm-log.h"
-#include "gdm-common.h"
-#include "gdm-signal-handler.h"
+#include "mdm-manager.h"
+#include "mdm-log.h"
+#include "mdm-common.h"
+#include "mdm-signal-handler.h"
 
-#include "gdm-settings.h"
-#include "gdm-settings-direct.h"
-#include "gdm-settings-keys.h"
+#include "mdm-settings.h"
+#include "mdm-settings-direct.h"
+#include "mdm-settings-keys.h"
 
-#define GDM_DBUS_NAME "org.mate.DisplayManager"
+#define MDM_DBUS_NAME "org.mate.DisplayManager"
 
 static void bus_proxy_destroyed_cb (DBusGProxy  *bus_proxy,
-                                    GdmManager **managerp);
+                                    MdmManager **managerp);
 
 extern char **environ;
 
-static GdmManager      *manager       = NULL;
-static GdmSettings     *settings      = NULL;
-static uid_t            gdm_uid       = -1;
-static gid_t            gdm_gid       = -1;
+static MdmManager      *manager       = NULL;
+static MdmSettings     *settings      = NULL;
+static uid_t            mdm_uid       = -1;
+static gid_t            mdm_gid       = -1;
 
 static gboolean
 timed_exit_cb (GMainLoop *loop)
@@ -101,27 +101,27 @@ acquire_name_on_proxy (DBusGProxy *bus_proxy)
         res = dbus_g_proxy_call (bus_proxy,
                                  "RequestName",
                                  &error,
-                                 G_TYPE_STRING, GDM_DBUS_NAME,
+                                 G_TYPE_STRING, MDM_DBUS_NAME,
                                  G_TYPE_UINT, 0,
                                  G_TYPE_INVALID,
                                  G_TYPE_UINT, &result,
                                  G_TYPE_INVALID);
         if (! res) {
                 if (error != NULL) {
-                        g_warning ("Failed to acquire %s: %s", GDM_DBUS_NAME, error->message);
+                        g_warning ("Failed to acquire %s: %s", MDM_DBUS_NAME, error->message);
                         g_error_free (error);
                 } else {
-                        g_warning ("Failed to acquire %s", GDM_DBUS_NAME);
+                        g_warning ("Failed to acquire %s", MDM_DBUS_NAME);
                 }
                 goto out;
         }
 
         if (result != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
                 if (error != NULL) {
-                        g_warning ("Failed to acquire %s: %s", GDM_DBUS_NAME, error->message);
+                        g_warning ("Failed to acquire %s: %s", MDM_DBUS_NAME, error->message);
                         g_error_free (error);
                 } else {
-                        g_warning ("Failed to acquire %s", GDM_DBUS_NAME);
+                        g_warning ("Failed to acquire %s", MDM_DBUS_NAME);
                 }
                 goto out;
         }
@@ -156,7 +156,7 @@ get_system_bus (void)
 }
 
 static gboolean
-bus_reconnect (GdmManager *manager)
+bus_reconnect (MdmManager *manager)
 {
         DBusGConnection *bus;
         DBusGProxy      *bus_proxy;
@@ -180,7 +180,7 @@ bus_reconnect (GdmManager *manager)
                 goto out;
         }
 
-        manager = gdm_manager_new ();
+        manager = mdm_manager_new ();
         if (manager == NULL) {
                 g_warning ("Could not construct manager object");
                 exit (1);
@@ -193,7 +193,7 @@ bus_reconnect (GdmManager *manager)
 
         g_debug ("Successfully reconnected to D-Bus");
 
-        gdm_manager_start (manager);
+        mdm_manager_start (manager);
 
         ret = FALSE;
 
@@ -203,7 +203,7 @@ bus_reconnect (GdmManager *manager)
 
 static void
 bus_proxy_destroyed_cb (DBusGProxy  *bus_proxy,
-                        GdmManager **managerp)
+                        MdmManager **managerp)
 {
         g_debug ("Disconnected from D-Bus");
 
@@ -221,7 +221,7 @@ bus_proxy_destroyed_cb (DBusGProxy  *bus_proxy,
 static void
 delete_pid (void)
 {
-        g_unlink (GDM_PID_FILE);
+        g_unlink (MDM_PID_FILE);
 }
 
 static void
@@ -232,10 +232,10 @@ write_pid (void)
         char    pid[9];
 
         errno = 0;
-        pf = open (GDM_PID_FILE, O_WRONLY|O_CREAT|O_TRUNC|O_EXCL, 0644);
+        pf = open (MDM_PID_FILE, O_WRONLY|O_CREAT|O_TRUNC|O_EXCL, 0644);
         if (pf < 0) {
                 g_warning (_("Cannot write PID file %s: possibly out of disk space: %s"),
-                           GDM_PID_FILE,
+                           MDM_PID_FILE,
                            g_strerror (errno));
 
                 return;
@@ -248,7 +248,7 @@ write_pid (void)
 
         if (written < 0) {
                 g_warning (_("Cannot write PID file %s: possibly out of disk space: %s"),
-                           GDM_PID_FILE,
+                           MDM_PID_FILE,
                            g_strerror (errno));
                 return;
         }
@@ -268,7 +268,7 @@ check_logdir (void)
         r = g_stat (log_path, &statbuf);
         if (r < 0 || ! S_ISDIR (statbuf.st_mode))  {
                 if (g_mkdir (log_path, 0755) < 0) {
-                        gdm_fail (_("Logdir %s does not exist or isn't a directory."),
+                        mdm_fail (_("Logdir %s does not exist or isn't a directory."),
                                   log_path);
                 }
                 g_chmod (log_path, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
@@ -284,11 +284,11 @@ check_servauthdir (const char  *auth_path,
         /* Enter paranoia mode */
         r = g_stat (auth_path, statbuf);
         if (r < 0) {
-                gdm_fail (_("Authdir %s does not exist. Aborting."), auth_path);
+                mdm_fail (_("Authdir %s does not exist. Aborting."), auth_path);
         }
 
         if (! S_ISDIR (statbuf->st_mode)) {
-                gdm_fail (_("Authdir %s is not a directory. Aborting."), auth_path);
+                mdm_fail (_("Authdir %s is not a directory. Aborting."), auth_path);
         }
 }
 
@@ -339,7 +339,7 @@ set_effective_user_group (uid_t uid,
 }
 
 static void
-gdm_daemon_check_permissions (uid_t uid,
+mdm_daemon_check_permissions (uid_t uid,
                               gid_t gid)
 {
         struct stat statbuf;
@@ -362,14 +362,14 @@ gdm_daemon_check_permissions (uid_t uid,
         check_servauthdir (auth_path, &statbuf);
 
         if G_UNLIKELY (statbuf.st_uid != 0 || statbuf.st_gid != gid)  {
-                gdm_fail (_("Authdir %s is not owned by user %d, group %d. Aborting."),
+                mdm_fail (_("Authdir %s is not owned by user %d, group %d. Aborting."),
                           auth_path,
                           (int)uid,
                           (int)gid);
         }
 
         if G_UNLIKELY (statbuf.st_mode != (S_IFDIR|S_IRWXU|S_IRWXG|S_ISVTX))  {
-                gdm_fail (_("Authdir %s has wrong permissions %o. Should be %o. Aborting."),
+                mdm_fail (_("Authdir %s has wrong permissions %o. Should be %o. Aborting."),
                           auth_path,
                           statbuf.st_mode,
                           (S_IRWXU|S_IRWXG|S_ISVTX));
@@ -377,7 +377,7 @@ gdm_daemon_check_permissions (uid_t uid,
 }
 
 static void
-gdm_daemon_change_user (uid_t *uidp,
+mdm_daemon_change_user (uid_t *uidp,
                         gid_t *gidp)
 {
         char          *username;
@@ -392,8 +392,8 @@ gdm_daemon_change_user (uid_t *uidp,
         uid = 0;
         gid = 0;
 
-        gdm_settings_direct_get_string (GDM_KEY_USER, &username);
-        gdm_settings_direct_get_string (GDM_KEY_GROUP, &groupname);
+        mdm_settings_direct_get_string (MDM_KEY_USER, &username);
+        mdm_settings_direct_get_string (MDM_KEY_GROUP, &groupname);
 
         if (username == NULL || groupname == NULL) {
                 return;
@@ -401,33 +401,33 @@ gdm_daemon_change_user (uid_t *uidp,
 
         g_debug ("Changing user:group to %s:%s", username, groupname);
 
-        /* Lookup user and groupid for the GDM user */
-        gdm_get_pwent_for_name (username, &pwent);
+        /* Lookup user and groupid for the MDM user */
+        mdm_get_pwent_for_name (username, &pwent);
 
         /* Set uid and gid */
         if G_UNLIKELY (pwent == NULL) {
-                gdm_fail (_("Can't find the GDM user '%s'. Aborting!"), username);
+                mdm_fail (_("Can't find the MDM user '%s'. Aborting!"), username);
         } else {
                 uid = pwent->pw_uid;
         }
 
         if G_UNLIKELY (uid == 0) {
-                gdm_fail (_("The GDM user should not be root. Aborting!"));
+                mdm_fail (_("The MDM user should not be root. Aborting!"));
         }
 
         grent = getgrnam (groupname);
 
         if G_UNLIKELY (grent == NULL) {
-                gdm_fail (_("Can't find the GDM group '%s'. Aborting!"), groupname);
+                mdm_fail (_("Can't find the MDM group '%s'. Aborting!"), groupname);
         } else  {
                 gid = grent->gr_gid;
         }
 
         if G_UNLIKELY (gid == 0) {
-                gdm_fail (_("The GDM group should not be root. Aborting!"));
+                mdm_fail (_("The MDM group should not be root. Aborting!"));
         }
 
-        /* gid remains 'gdm' */
+        /* gid remains 'mdm' */
         set_effective_user_group (uid, gid);
 
         if (uidp != NULL) {
@@ -485,7 +485,7 @@ signal_cb (int      signo,
                  */
                 ret = TRUE;
 
-                gdm_log_toggle_debug ();
+                mdm_log_toggle_debug ();
 
                 break;
 
@@ -505,11 +505,11 @@ is_debug_set (void)
         gboolean debug = FALSE;
 
         /* enable debugging for unstable builds */
-        if (gdm_is_version_unstable ()) {
+        if (mdm_is_version_unstable ()) {
                 return TRUE;
         }
 
-        gdm_settings_direct_get_boolean (GDM_KEY_DEBUG, &debug);
+        mdm_settings_direct_get_boolean (MDM_KEY_DEBUG, &debug);
         return debug;
 }
 
@@ -525,14 +525,14 @@ main (int    argc,
         int                 ret;
         gboolean            res;
         gboolean            xdmcp_enabled;
-        GdmSignalHandler   *signal_handler;
+        MdmSignalHandler   *signal_handler;
         static gboolean     do_timed_exit    = FALSE;
         static gboolean     print_version    = FALSE;
         static gboolean     fatal_warnings   = FALSE;
         static GOptionEntry entries []   = {
                 { "fatal-warnings", 0, 0, G_OPTION_ARG_NONE, &fatal_warnings, N_("Make all warnings fatal"), NULL },
                 { "timed-exit", 0, 0, G_OPTION_ARG_NONE, &do_timed_exit, N_("Exit after a time (for debugging)"), NULL },
-                { "version", 0, 0, G_OPTION_ARG_NONE, &print_version, N_("Print GDM version"), NULL },
+                { "version", 0, 0, G_OPTION_ARG_NONE, &print_version, N_("Print MDM version"), NULL },
 
                 { NULL }
         };
@@ -543,7 +543,7 @@ main (int    argc,
 
         ret = 1;
 
-        gdm_set_fatal_warnings_if_unstable ();
+        mdm_set_fatal_warnings_if_unstable ();
 
         g_type_init ();
 
@@ -561,7 +561,7 @@ main (int    argc,
         }
 
         if (print_version) {
-                g_print ("GDM %s\n", VERSION);
+                g_print ("MDM %s\n", VERSION);
                 exit (1);
         }
 
@@ -589,23 +589,23 @@ main (int    argc,
                 goto out;
         }
 
-        gdm_log_init ();
+        mdm_log_init ();
 
-        settings = gdm_settings_new ();
+        settings = mdm_settings_new ();
         if (settings == NULL) {
                 g_warning ("Unable to initialize settings");
                 goto out;
         }
 
-        if (! gdm_settings_direct_init (settings, DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_direct_init (settings, DATADIR "/mdm/mdm.schemas", "/")) {
                 g_warning ("Unable to initialize settings");
                 goto out;
         }
 
-        gdm_log_set_debug (is_debug_set ());
+        mdm_log_set_debug (is_debug_set ());
 
-        gdm_daemon_change_user (&gdm_uid, &gdm_gid);
-        gdm_daemon_check_permissions (gdm_uid, gdm_gid);
+        mdm_daemon_change_user (&mdm_uid, &mdm_gid);
+        mdm_daemon_check_permissions (mdm_uid, mdm_gid);
 
         set_effective_user_group (0, 0);
         check_logdir ();
@@ -613,7 +613,7 @@ main (int    argc,
         /* XDM compliant error message */
         if (getuid () != 0) {
                 /* make sure the pid file doesn't get wiped */
-                g_warning (_("Only the root user can run GDM"));
+                g_warning (_("Only the root user can run MDM"));
                 exit (-1);
         }
 
@@ -623,15 +623,15 @@ main (int    argc,
 
         g_chdir (AUTHDIR);
 
-        manager = gdm_manager_new ();
+        manager = mdm_manager_new ();
 
         if (manager == NULL) {
                 goto out;
         }
 
         xdmcp_enabled = FALSE;
-        gdm_settings_direct_get_boolean (GDM_KEY_XDMCP_ENABLE, &xdmcp_enabled);
-        gdm_manager_set_xdmcp_enabled (manager, xdmcp_enabled);
+        mdm_settings_direct_get_boolean (MDM_KEY_XDMCP_ENABLE, &xdmcp_enabled);
+        mdm_manager_set_xdmcp_enabled (manager, xdmcp_enabled);
 
         g_signal_connect (bus_proxy,
                           "destroy",
@@ -640,26 +640,26 @@ main (int    argc,
 
         main_loop = g_main_loop_new (NULL, FALSE);
 
-        signal_handler = gdm_signal_handler_new ();
-        gdm_signal_handler_set_fatal_func (signal_handler,
+        signal_handler = mdm_signal_handler_new ();
+        mdm_signal_handler_set_fatal_func (signal_handler,
                                            (GDestroyNotify)g_main_loop_quit,
                                            main_loop);
-        gdm_signal_handler_add_fatal (signal_handler);
-        gdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
+        mdm_signal_handler_add_fatal (signal_handler);
+        mdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
 
         if (do_timed_exit) {
                 g_timeout_add_seconds (30, (GSourceFunc) timed_exit_cb, main_loop);
         }
 
-        gdm_manager_start (manager);
+        mdm_manager_start (manager);
 
         g_main_loop_run (main_loop);
 
-        g_debug ("GDM finished, cleaning up...");
+        g_debug ("MDM finished, cleaning up...");
 
         if (manager != NULL) {
                 g_object_unref (manager);
@@ -673,8 +673,8 @@ main (int    argc,
                 g_object_unref (signal_handler);
         }
 
-        gdm_settings_direct_shutdown ();
-        gdm_log_shutdown ();
+        mdm_settings_direct_shutdown ();
+        mdm_log_shutdown ();
 
         g_main_loop_unref (main_loop);
 

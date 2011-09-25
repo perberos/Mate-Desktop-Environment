@@ -40,9 +40,9 @@
 #include <mate-panel-applet.h>
 #include <mate-panel-applet-mateconf.h>
 
-#include "gdm-user-manager.h"
-#include "gdm-entry-menu-item.h"
-#include "gdm-settings-client.h"
+#include "mdm-user-manager.h"
+#include "mdm-entry-menu-item.h"
+#include "mdm-settings-client.h"
 
 #define LOCKDOWN_DIR    "/desktop/mate/lockdown"
 #define LOCKDOWN_USER_SWITCHING_KEY LOCKDOWN_DIR "/disable_user_switching"
@@ -56,13 +56,13 @@ typedef enum {
         GSM_PRESENCE_STATUS_IDLE,
 } GsmPresenceStatus;
 
-typedef struct _GdmAppletData
+typedef struct _MdmAppletData
 {
         MatePanelApplet    *applet;
 
         MateConfClient    *client;
-        GdmUserManager *manager;
-        GdmUser        *user;
+        MdmUserManager *manager;
+        MdmUser        *user;
 
         GtkWidget      *menubar;
         GtkWidget      *menuitem;
@@ -87,16 +87,16 @@ typedef struct _GdmAppletData
 #ifdef BUILD_PRESENSE_STUFF
         DBusGProxy     *presence_proxy;
 #endif
-} GdmAppletData;
+} MdmAppletData;
 
 typedef struct _SelectorResponseData
 {
-        GdmAppletData  *adata;
+        MdmAppletData  *adata;
         GtkRadioButton *radio;
 } SelectorResponseData;
 
-static void reset_icon   (GdmAppletData *adata);
-static void update_label (GdmAppletData *adata);
+static void reset_icon   (MdmAppletData *adata);
+static void update_label (MdmAppletData *adata);
 
 static gboolean applet_factory (MatePanelApplet   *applet,
                                 const char    *iid,
@@ -104,7 +104,7 @@ static gboolean applet_factory (MatePanelApplet   *applet,
 
 MATE_PANEL_APPLET_MATECOMPONENT_FACTORY ("OAFIID:MATE_FastUserSwitchApplet_Factory",
                              PANEL_TYPE_APPLET,
-                             "gdm-user-switch-applet", "0",
+                             "mdm-user-switch-applet", "0",
                              (MatePanelAppletFactoryCallback)applet_factory,
                              NULL)
 
@@ -121,7 +121,7 @@ about_me_cb (MateComponentUIComponent *ui_container,
                             err->message);
                 g_error_free (err);
                 matecomponent_ui_component_set_prop (ui_container,
-                                              "/commands/GdmAboutMe",
+                                              "/commands/MdmAboutMe",
                                               "hidden", "1",
                                               NULL);
         }
@@ -138,7 +138,7 @@ about_me_cb (MateComponentUIComponent *ui_container,
 static gboolean
 menubar_button_press_event_cb (GtkWidget      *menubar,
                                GdkEventButton *event,
-                               GdmAppletData  *adata)
+                               MdmAppletData  *adata)
 {
         if (event->button != 1) {
                 g_signal_stop_emission_by_name (menubar, "button-press-event");
@@ -175,7 +175,7 @@ about_cb (MateComponentUIComponent *ui_container,
         };
         char *license_i18n;
 
-        license_i18n = g_strconcat (_(license[0]), "\n\n", _(license[1]), "\n\n", _(license[2]), NULL); 
+        license_i18n = g_strconcat (_(license[0]), "\n\n", _(license[1]), "\n\n", _(license[2]), NULL);
 
         gtk_show_about_dialog (NULL,
                                "version", VERSION,
@@ -295,12 +295,12 @@ applet_style_set_cb (GtkWidget *widget,
         component = mate_panel_applet_get_popup_component (MATE_PANEL_APPLET (widget));
 
         set_menuitem_icon (component,
-                           "/commands/GdmAboutMe",
+                           "/commands/MdmAboutMe",
                            theme,
                            "user-info",
                            icon_size);
         set_menuitem_icon (component,
-                           "/commands/GdmUsersGroupsAdmin",
+                           "/commands/MdmUsersGroupsAdmin",
                            theme,
                            "stock_people",
                            icon_size);
@@ -311,7 +311,7 @@ applet_change_background_cb (MatePanelApplet               *applet,
                              MatePanelAppletBackgroundType  type,
                              GdkColor                  *color,
                              GdkPixmap                 *pixmap,
-                             GdmAppletData             *adata)
+                             MdmAppletData             *adata)
 {
         GtkRcStyle *rc_style;
         GtkStyle   *style;
@@ -350,7 +350,7 @@ applet_change_background_cb (MatePanelApplet               *applet,
 static gboolean
 applet_key_press_event_cb (GtkWidget     *widget,
                            GdkEventKey   *event,
-                           GdmAppletData *adata)
+                           MdmAppletData *adata)
 {
         GtkMenuShell *menu_shell;
 
@@ -409,7 +409,7 @@ set_item_text_angle_and_alignment (GtkWidget *item,
 static void
 applet_size_allocate_cb (GtkWidget     *widget,
                          GtkAllocation *allocation,
-                         GdmAppletData *adata)
+                         MdmAppletData *adata)
 {
         GList            *children;
         GtkWidget        *top_item;
@@ -476,7 +476,7 @@ applet_size_allocate_cb (GtkWidget     *widget,
 
 
 static void
-gdm_applet_data_free (GdmAppletData *adata)
+mdm_applet_data_free (MdmAppletData *adata)
 {
         mateconf_client_notify_remove (adata->client, adata->client_notify_lockdown_id);
 
@@ -514,7 +514,7 @@ gdm_applet_data_free (GdmAppletData *adata)
 static gboolean
 menubar_expose_event_cb (GtkWidget      *widget,
                          GdkEventExpose *event,
-                         GdmAppletData  *adata)
+                         MdmAppletData  *adata)
 {
         if (gtk_widget_has_focus (GTK_WIDGET (adata->applet)))
                 gtk_paint_focus (gtk_widget_get_style (widget),
@@ -528,7 +528,7 @@ menubar_expose_event_cb (GtkWidget      *widget,
 static void
 menu_style_set_cb (GtkWidget     *menu,
                    GtkStyle      *old_style,
-                   GdmAppletData *adata)
+                   MdmAppletData *adata)
 {
         GtkSettings *settings;
         int          width;
@@ -557,11 +557,11 @@ menu_style_set_cb (GtkWidget     *menu,
 static void
 menuitem_style_set_cb (GtkWidget     *menuitem,
                        GtkStyle      *old_style,
-                       GdmAppletData *adata)
+                       MdmAppletData *adata)
 {
         GtkWidget *image;
 
-        if (GDM_IS_ENTRY_MENU_ITEM (menuitem)) {
+        if (MDM_IS_ENTRY_MENU_ITEM (menuitem)) {
         } else {
                 const char *icon_name;
 
@@ -587,8 +587,8 @@ menuitem_style_set_cb (GtkWidget     *menuitem,
 }
 
 static void
-on_user_changed (GdmUser         *user,
-                 GdmAppletData   *adata)
+on_user_changed (MdmUser         *user,
+                 MdmAppletData   *adata)
 {
         g_debug ("user changed");
         update_label (adata);
@@ -597,7 +597,7 @@ on_user_changed (GdmUser         *user,
 
 /* Called every time the menu is displayed (and also for some reason
  * immediately it's created, which does no harm). All we have to do
- * here is kick off a request to GDM to let us know which users are
+ * here is kick off a request to MDM to let us know which users are
  * logged in, so we can display check marks next to their names.
  */
 static gboolean
@@ -605,7 +605,7 @@ menu_expose_cb (GtkWidget *menu,
                 gpointer   data)
 {
         char *program;
-        GdmAppletData *adata = data;
+        MdmAppletData *adata = data;
 
         program = g_find_program_in_path ("mate-control-center");
         if (program != NULL) {
@@ -618,7 +618,7 @@ menu_expose_cb (GtkWidget *menu,
 }
 
 static void
-maybe_lock_screen (GdmAppletData *adata)
+maybe_lock_screen (MdmAppletData *adata)
 {
         char      *args[3];
         GError    *err;
@@ -693,35 +693,35 @@ maybe_lock_screen (GdmAppletData *adata)
 }
 
 static void
-do_switch (GdmAppletData *adata,
-           GdmUser       *user)
+do_switch (MdmAppletData *adata,
+           MdmUser       *user)
 {
         guint num_sessions;
 
         g_debug ("Do user switch");
 
         if (user == NULL) {
-                gdm_user_manager_goto_login_session (adata->manager);
+                mdm_user_manager_goto_login_session (adata->manager);
                 goto out;
         }
 
-        num_sessions = gdm_user_get_num_sessions (user);
+        num_sessions = mdm_user_get_num_sessions (user);
         if (num_sessions > 0) {
-                gdm_user_manager_activate_user_session (adata->manager, user);
+                mdm_user_manager_activate_user_session (adata->manager, user);
         } else {
-                gdm_user_manager_goto_login_session (adata->manager);
+                mdm_user_manager_goto_login_session (adata->manager);
         }
  out:
         maybe_lock_screen (adata);
 }
 
 static void
-update_switch_user (GdmAppletData *adata)
+update_switch_user (MdmAppletData *adata)
 {
         gboolean can_switch;
         gboolean has_other_users;
 
-        can_switch = gdm_user_manager_can_switch (adata->manager);
+        can_switch = mdm_user_manager_can_switch (adata->manager);
         g_object_get (adata->manager,
                       "has-multiple-users", &has_other_users,
                       NULL);
@@ -735,17 +735,17 @@ update_switch_user (GdmAppletData *adata)
 }
 
 static void
-on_manager_is_loaded_changed (GdmUserManager *manager,
+on_manager_is_loaded_changed (MdmUserManager *manager,
                               GParamSpec     *pspec,
-                              GdmAppletData  *adata)
+                              MdmAppletData  *adata)
 {
         update_switch_user (adata);
 }
 
 static void
-on_manager_has_multiple_users_changed (GdmUserManager       *manager,
+on_manager_has_multiple_users_changed (MdmUserManager       *manager,
                                        GParamSpec           *pspec,
-                                       GdmAppletData        *adata)
+                                       MdmAppletData        *adata)
 {
         update_switch_user (adata);
 }
@@ -753,7 +753,7 @@ on_manager_has_multiple_users_changed (GdmUserManager       *manager,
 #ifdef BUILD_PRESENSE_STUFF
 static void
 on_user_item_activate (GtkMenuItem   *item,
-                       GdmAppletData *adata)
+                       MdmAppletData *adata)
 {
         g_signal_stop_emission_by_name (item, "activate");
 }
@@ -761,7 +761,7 @@ on_user_item_activate (GtkMenuItem   *item,
 
 static void
 on_control_panel_activate (GtkMenuItem   *item,
-                           GdmAppletData *adata)
+                           MdmAppletData *adata)
 {
         char      *args[2];
         GError    *error;
@@ -800,7 +800,7 @@ on_control_panel_activate (GtkMenuItem   *item,
 
 static void
 on_account_activate (GtkMenuItem   *item,
-                     GdmAppletData *adata)
+                     MdmAppletData *adata)
 {
         char      *args[2];
         GError    *error;
@@ -842,16 +842,16 @@ on_account_activate (GtkMenuItem   *item,
 
 static void
 on_lock_screen_activate (GtkMenuItem   *item,
-                         GdmAppletData *adata)
+                         MdmAppletData *adata)
 {
         maybe_lock_screen (adata);
 }
 
 static void
 on_login_screen_activate (GtkMenuItem   *item,
-                          GdmAppletData *adata)
+                          MdmAppletData *adata)
 {
-        GdmUser *user;
+        MdmUser *user;
 
         user = NULL;
 
@@ -860,7 +860,7 @@ on_login_screen_activate (GtkMenuItem   *item,
 
 static void
 on_quit_session_activate (GtkMenuItem   *item,
-                          GdmAppletData *adata)
+                          MdmAppletData *adata)
 {
         char      *args[3];
         GError    *error;
@@ -903,11 +903,11 @@ on_quit_session_activate (GtkMenuItem   *item,
 static gboolean
 on_menu_key_press_event (GtkWidget     *widget,
                          GdkEventKey   *event,
-                         GdmAppletData *adata)
+                         MdmAppletData *adata)
 {
         GtkWidget *entry;
 
-        entry = gdm_entry_menu_item_get_entry (GDM_ENTRY_MENU_ITEM (adata->user_item));
+        entry = mdm_entry_menu_item_get_entry (MDM_ENTRY_MENU_ITEM (adata->user_item));
 
         if (GTK_WIDGET_HAS_FOCUS (entry)) {
                 gtk_widget_event (entry, (GdkEvent *)event);
@@ -918,7 +918,7 @@ on_menu_key_press_event (GtkWidget     *widget,
 }
 
 static void
-save_status (GdmAppletData *adata,
+save_status (MdmAppletData *adata,
              guint          status)
 {
         if (adata->current_status != status) {
@@ -944,7 +944,7 @@ save_status (GdmAppletData *adata,
 
 static void
 on_status_available_activate (GtkWidget     *widget,
-                              GdmAppletData *adata)
+                              MdmAppletData *adata)
 {
 
         if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget))) {
@@ -954,7 +954,7 @@ on_status_available_activate (GtkWidget     *widget,
 
 static void
 on_status_busy_activate (GtkWidget     *widget,
-                         GdmAppletData *adata)
+                         MdmAppletData *adata)
 {
          if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget))) {
                  save_status (adata, GSM_PRESENCE_STATUS_BUSY);
@@ -963,7 +963,7 @@ on_status_busy_activate (GtkWidget     *widget,
 
 static void
 on_status_invisible_activate (GtkWidget     *widget,
-                              GdmAppletData *adata)
+                              MdmAppletData *adata)
 {
          if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget))) {
                  save_status (adata, GSM_PRESENCE_STATUS_INVISIBLE);
@@ -984,7 +984,7 @@ static struct {
 #endif
 
 static void
-update_label (GdmAppletData *adata)
+update_label (MdmAppletData *adata)
 {
         GtkWidget *label;
         char      *markup;
@@ -993,11 +993,11 @@ update_label (GdmAppletData *adata)
 
 #ifdef BUILD_PRESENSE_STUFF
         markup = g_strdup_printf ("<b>%s</b> <small>(%s)</small>",
-                                  gdm_user_get_real_name (GDM_USER (adata->user)),
+                                  mdm_user_get_real_name (MDM_USER (adata->user)),
                                   _(statuses[adata->current_status].display_name));
 #else
         markup = g_strdup_printf ("<b>%s</b>",
-                                  gdm_user_get_real_name (GDM_USER (adata->user)));
+                                  mdm_user_get_real_name (MDM_USER (adata->user)));
 #endif
         gtk_label_set_markup (GTK_LABEL (label), markup);
         g_free (markup);
@@ -1005,7 +1005,7 @@ update_label (GdmAppletData *adata)
 
 #ifdef BUILD_PRESENSE_STUFF
 static void
-save_status_text (GdmAppletData *adata)
+save_status_text (MdmAppletData *adata)
 {
         GtkWidget     *entry;
         GtkTextBuffer *buffer;
@@ -1013,7 +1013,7 @@ save_status_text (GdmAppletData *adata)
         char          *text;
         GtkTextIter    start, end;
 
-        entry = gdm_entry_menu_item_get_entry (GDM_ENTRY_MENU_ITEM (adata->user_item));
+        entry = mdm_entry_menu_item_get_entry (MDM_ENTRY_MENU_ITEM (adata->user_item));
         buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (entry));
         gtk_text_buffer_get_bounds (buffer, &start, &end);
         text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
@@ -1042,14 +1042,14 @@ save_status_text (GdmAppletData *adata)
 
 static void
 on_user_item_deselect (GtkWidget     *item,
-                       GdmAppletData *adata)
+                       MdmAppletData *adata)
 {
         save_status_text (adata);
 }
 #endif
 
 static void
-create_sub_menu (GdmAppletData *adata)
+create_sub_menu (MdmAppletData *adata)
 {
         GtkWidget *item;
 #ifdef BUILD_PRESENSE_STUFF
@@ -1071,7 +1071,7 @@ create_sub_menu (GdmAppletData *adata)
                           G_CALLBACK (menu_expose_cb), adata);
 
 #ifdef BUILD_PRESENSE_STUFF
-        adata->user_item = gdm_entry_menu_item_new ();
+        adata->user_item = mdm_entry_menu_item_new ();
         gtk_menu_shell_append (GTK_MENU_SHELL (adata->menu),
                                adata->user_item);
         gtk_widget_show (adata->user_item);
@@ -1187,13 +1187,13 @@ create_sub_menu (GdmAppletData *adata)
 }
 
 static void
-destroy_sub_menu (GdmAppletData *adata)
+destroy_sub_menu (MdmAppletData *adata)
 {
         gtk_menu_item_set_submenu (GTK_MENU_ITEM (adata->menuitem), NULL);
 }
 
 static void
-set_menu_visibility (GdmAppletData *adata,
+set_menu_visibility (MdmAppletData *adata,
                      gboolean       visible)
 {
 
@@ -1208,7 +1208,7 @@ static void
 client_notify_lockdown_func (MateConfClient   *client,
                              guint          cnxn_id,
                              MateConfEntry    *entry,
-                             GdmAppletData *adata)
+                             MdmAppletData *adata)
 {
         MateConfValue *value;
         const char *key;
@@ -1236,7 +1236,7 @@ client_notify_lockdown_func (MateConfClient   *client,
 }
 
 static void
-reset_icon (GdmAppletData *adata)
+reset_icon (MdmAppletData *adata)
 {
         GdkPixbuf *pixbuf;
         GtkWidget *image;
@@ -1247,8 +1247,8 @@ reset_icon (GdmAppletData *adata)
 
 #ifdef BUILD_PRESENSE_STUFF
         if (adata->user_item != NULL) {
-                image = gdm_entry_menu_item_get_image (GDM_ENTRY_MENU_ITEM (adata->user_item));
-                pixbuf = gdm_user_render_icon (adata->user, adata->panel_size * 3);
+                image = mdm_entry_menu_item_get_image (MDM_ENTRY_MENU_ITEM (adata->user_item));
+                pixbuf = mdm_user_render_icon (adata->user, adata->panel_size * 3);
                 if (pixbuf == NULL) {
                         return;
                 }
@@ -1257,7 +1257,7 @@ reset_icon (GdmAppletData *adata)
                 g_object_unref (pixbuf);
         }
 #else
-        pixbuf = gdm_user_render_icon (adata->user, adata->panel_size);
+        pixbuf = mdm_user_render_icon (adata->user, adata->panel_size);
 
         if (pixbuf == NULL) {
                 return;
@@ -1270,7 +1270,7 @@ reset_icon (GdmAppletData *adata)
 }
 
 static void
-setup_current_user_now (GdmAppletData *adata)
+setup_current_user_now (MdmAppletData *adata)
 {
         g_assert (adata->user != NULL);
 
@@ -1289,11 +1289,11 @@ setup_current_user_now (GdmAppletData *adata)
 }
 
 static void
-on_current_user_loaded (GdmUser       *user,
+on_current_user_loaded (MdmUser       *user,
                         GParamSpec    *pspec,
-                        GdmAppletData *adata)
+                        MdmAppletData *adata)
 {
-        if (!gdm_user_is_loaded (user)) {
+        if (!mdm_user_is_loaded (user)) {
                 return;
         }
 
@@ -1301,9 +1301,9 @@ on_current_user_loaded (GdmUser       *user,
 }
 
 static void
-setup_current_user (GdmAppletData *adata)
+setup_current_user (MdmAppletData *adata)
 {
-        adata->user = gdm_user_manager_get_user_by_uid (adata->manager, getuid ());
+        adata->user = mdm_user_manager_get_user_by_uid (adata->manager, getuid ());
 
         if (adata->user == NULL) {
                 g_warning ("Could not setup current user");
@@ -1320,7 +1320,7 @@ setup_current_user (GdmAppletData *adata)
         gtk_menu_shell_append (GTK_MENU_SHELL (adata->menubar), adata->menuitem);
         gtk_widget_show (adata->menuitem);
 
-        if (gdm_user_is_loaded (adata->user)) {
+        if (mdm_user_is_loaded (adata->user)) {
                 setup_current_user_now (adata);
                 return;
         }
@@ -1333,7 +1333,7 @@ setup_current_user (GdmAppletData *adata)
 
 #ifdef BUILD_PRESENSE_STUFF
 static void
-set_status (GdmAppletData *adata,
+set_status (MdmAppletData *adata,
             guint status)
 {
         int i;
@@ -1356,7 +1356,7 @@ set_status (GdmAppletData *adata,
 static void
 on_presence_status_changed (DBusGProxy    *presence_proxy,
                             guint          status,
-                            GdmAppletData *adata)
+                            MdmAppletData *adata)
 {
         g_debug ("Status changed: %u", status);
 
@@ -1364,7 +1364,7 @@ on_presence_status_changed (DBusGProxy    *presence_proxy,
 }
 
 static void
-set_status_text (GdmAppletData *adata,
+set_status_text (MdmAppletData *adata,
                  const char    *status_text)
 {
         GtkWidget     *entry;
@@ -1372,7 +1372,7 @@ set_status_text (GdmAppletData *adata,
 
         g_debug ("Status text changed: %s", status_text);
 
-        entry = gdm_entry_menu_item_get_entry (GDM_ENTRY_MENU_ITEM (adata->user_item));
+        entry = mdm_entry_menu_item_get_entry (MDM_ENTRY_MENU_ITEM (adata->user_item));
         buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (entry));
         gtk_text_buffer_set_text (buffer, status_text, -1);
 }
@@ -1380,7 +1380,7 @@ set_status_text (GdmAppletData *adata,
 static void
 on_presence_status_text_changed (DBusGProxy    *presence_proxy,
                                  const char    *status_text,
-                                 GdmAppletData *adata)
+                                 MdmAppletData *adata)
 {
         set_status_text (adata, status_text);
 }
@@ -1390,15 +1390,15 @@ static gboolean
 fill_applet (MatePanelApplet *applet)
 {
         static const MateComponentUIVerb menu_verbs[] = {
-                MATECOMPONENT_UI_VERB ("GdmAboutMe", about_me_cb),
-                MATECOMPONENT_UI_VERB ("GdmUsersGroupsAdmin", admin_cb),
-                MATECOMPONENT_UI_VERB ("GdmAbout", about_cb),
+                MATECOMPONENT_UI_VERB ("MdmAboutMe", about_me_cb),
+                MATECOMPONENT_UI_VERB ("MdmUsersGroupsAdmin", admin_cb),
+                MATECOMPONENT_UI_VERB ("MdmAbout", about_cb),
                 MATECOMPONENT_UI_VERB_END
         };
         static gboolean    first_time = FALSE;
         char              *tmp;
         MateComponentUIComponent *popup_component;
-        GdmAppletData     *adata;
+        MdmAppletData     *adata;
         GError            *error;
         DBusGConnection   *bus;
 
@@ -1406,29 +1406,29 @@ fill_applet (MatePanelApplet *applet)
                 first_time = TRUE;
 
                 /* Do this here so it's only done once. */
-                gtk_rc_parse_string ("style \"gdm-user-switch-menubar-style\"\n"
+                gtk_rc_parse_string ("style \"mdm-user-switch-menubar-style\"\n"
                                      "{\n"
                                      "GtkMenuBar::shadow-type = none\n"
                                      "GtkMenuBar::internal-padding = 0\n"
                                      "}\n"
-                                     "style \"gdm-user-switch-applet-style\"\n"
+                                     "style \"mdm-user-switch-applet-style\"\n"
                                      "{\n"
                                      "GtkWidget::focus-line-width = 0\n"
                                      "GtkWidget::focus-padding = 0\n"
                                      "}\n"
-                                     "widget \"*.gdm-user-switch-menubar\" style \"gdm-user-switch-menubar-style\"\n"
-                                     "widget \"*.gdm-user-switch-applet\" style \"gdm-user-switch-applet-style\"\n");
+                                     "widget \"*.mdm-user-switch-menubar\" style \"mdm-user-switch-menubar-style\"\n"
+                                     "widget \"*.mdm-user-switch-applet\" style \"mdm-user-switch-applet-style\"\n");
                 gtk_window_set_default_icon_name ("stock_people");
                 g_set_application_name (_("User Switch Applet"));
 
-                if (! gdm_settings_client_init (DATADIR "/gdm/gdm.schemas", "/")) {
+                if (! mdm_settings_client_init (DATADIR "/mdm/mdm.schemas", "/")) {
                         g_critical ("Unable to initialize settings client");
                         exit (1);
                 }
 
         }
 
-        adata = g_new0 (GdmAppletData, 1);
+        adata = g_new0 (MdmAppletData, 1);
         adata->applet = applet;
         adata->panel_size = 24;
 
@@ -1436,7 +1436,7 @@ fill_applet (MatePanelApplet *applet)
 
         gtk_widget_set_tooltip_text (GTK_WIDGET (applet), _("Change account settings and status"));
         gtk_container_set_border_width (GTK_CONTAINER (applet), 0);
-        gtk_widget_set_name (GTK_WIDGET (applet), "gdm-user-switch-applet");
+        gtk_widget_set_name (GTK_WIDGET (applet), "mdm-user-switch-applet");
         mate_panel_applet_set_flags (applet, MATE_PANEL_APPLET_EXPAND_MINOR);
         mate_panel_applet_setup_menu_from_file (applet, NULL,
                                            DATADIR "/mate-2.0/ui/MATE_FastUserSwitchApplet.xml",
@@ -1450,31 +1450,31 @@ fill_applet (MatePanelApplet *applet)
                                    NULL) ||
             mate_panel_applet_get_locked_down (applet)) {
                 matecomponent_ui_component_set_prop (popup_component,
-                                              "/popups/button3/GdmSeparator",
+                                              "/popups/button3/MdmSeparator",
                                               "hidden", "1", NULL);
                 matecomponent_ui_component_set_prop (popup_component,
-                                              "/commands/GdmUsersGroupsAdmin",
+                                              "/commands/MdmUsersGroupsAdmin",
                                               "hidden", "1", NULL);
         } else {
 #ifndef USERS_ADMIN
-#  ifdef GDM_SETUP
+#  ifdef MDM_SETUP
                 matecomponent_ui_component_set_prop (popup_component,
-                                              "/popups/button3/GdmSeparator",
+                                              "/popups/button3/MdmSeparator",
                                               "hidden", "1",
                                               NULL);
-#  endif /* !GDM_SETUP */
+#  endif /* !MDM_SETUP */
                 matecomponent_ui_component_set_prop (popup_component,
-                                              "/commands/GdmUsersGroupsAdmin",
+                                              "/commands/MdmUsersGroupsAdmin",
                                               "hidden", "1",
                                               NULL);
 #endif /* !USERS_ADMIN */
         }
 
-        /* Hide the gdmphotosetup item if it can't be found in the path. */
+        /* Hide the mdmphotosetup item if it can't be found in the path. */
         tmp = g_find_program_in_path ("mate-about-me");
         if (!tmp) {
                 matecomponent_ui_component_set_prop (popup_component,
-                                              "/commands/GdmAboutMe",
+                                              "/commands/MdmAboutMe",
                                               "hidden", "1",
                                               NULL);
         } else {
@@ -1500,12 +1500,12 @@ fill_applet (MatePanelApplet *applet)
                                 "focus-out-event",
                                 G_CALLBACK (gtk_widget_queue_draw), NULL);
         g_object_set_data_full (G_OBJECT (applet),
-                                "gdm-applet-data",
+                                "mdm-applet-data",
                                 adata,
-                                (GDestroyNotify) gdm_applet_data_free);
+                                (GDestroyNotify) mdm_applet_data_free);
 
         adata->menubar = gtk_menu_bar_new ();
-        gtk_widget_set_name (adata->menubar, "gdm-user-switch-menubar");
+        gtk_widget_set_name (adata->menubar, "mdm-user-switch-menubar");
         gtk_widget_set_can_focus (adata->menubar, TRUE);
         g_signal_connect (adata->menubar, "button-press-event",
                           G_CALLBACK (menubar_button_press_event_cb), adata);
@@ -1514,7 +1514,7 @@ fill_applet (MatePanelApplet *applet)
         gtk_container_add (GTK_CONTAINER (applet), adata->menubar);
         gtk_widget_show (adata->menubar);
 
-        adata->manager = gdm_user_manager_ref_default ();
+        adata->manager = mdm_user_manager_ref_default ();
         g_object_set (adata->manager, "include-all", TRUE, NULL);
         g_signal_connect (adata->manager,
                           "notify::is-loaded",
@@ -1525,7 +1525,7 @@ fill_applet (MatePanelApplet *applet)
                           G_CALLBACK (on_manager_has_multiple_users_changed),
                           adata);
 
-        gdm_user_manager_queue_load (adata->manager);
+        mdm_user_manager_queue_load (adata->manager);
         setup_current_user (adata);
 
         mateconf_client_add_dir (adata->client,

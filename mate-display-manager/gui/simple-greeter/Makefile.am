@@ -9,7 +9,7 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/common			\
 	-I$(top_srcdir)/gui/simple-greeter/libnotificationarea	\
 	-DDMCONFDIR=\""$(dmconfdir)"\"			\
-	-DGDMCONFDIR=\"$(gdmconfdir)\"                  \
+	-DMDMCONFDIR=\"$(mdmconfdir)\"                  \
 	-DDATADIR=\""$(datadir)"\"		 	\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
 	-DLIBLOCALEDIR=\""$(prefix)/lib/locale"\"	\
@@ -17,7 +17,7 @@ AM_CPPFLAGS = \
 	-DUIDIR=\""$(pkgdatadir)"\"			\
 	-DLIBEXECDIR=\""$(libexecdir)"\" 		\
 	-DSBINDIR=\""$(sbindir)"\"		 	\
-	-DGDM_CACHE_DIR=\""$(localstatedir)/cache/gdm"\"	\
+	-DMDM_CACHE_DIR=\""$(localstatedir)/cache/mdm"\"	\
 	-DAT_SPI_REGISTRYD_DIR="\"$(AT_SPI_REGISTRYD_DIR)\""	\
 	$(UPOWER_CFLAGS)				\
 	$(DISABLE_DEPRECATED_CFLAGS)			\
@@ -28,29 +28,29 @@ AM_CPPFLAGS = \
 @INTLTOOL_SCHEMAS_RULE@
 
 schemasdir   = @MATECONF_SCHEMA_FILE_DIR@
-schemas_in_files = gdm-simple-greeter.schemas.in
+schemas_in_files = mdm-simple-greeter.schemas.in
 schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 
 noinst_LTLIBRARIES = 			\
-	libgdmuser.la			\
+	libmdmuser.la			\
 	$(null)
 
-libgdmuser_la_SOURCES =			\
-	gdm-user.c			\
-	gdm-user.h			\
-	gdm-user-private.h		\
-	gdm-user-manager.c		\
-	gdm-user-manager.h		\
+libmdmuser_la_SOURCES =			\
+	mdm-user.c			\
+	mdm-user.h			\
+	mdm-user-private.h		\
+	mdm-user-manager.c		\
+	mdm-user-manager.h		\
 	$(NULL)
 
-libgdmuser_la_CFLAGS =			\
+libmdmuser_la_CFLAGS =			\
 	$(SIMPLE_GREETER_CFLAGS)	\
 	$(NULL)
 
-libgdmuser_la_LIBADD =			\
+libmdmuser_la_LIBADD =			\
 	$(NULL)
 
-libgdmuser_la_LDFLAGS = 	\
+libmdmuser_la_LDFLAGS = 	\
 	-export-dynamic 	\
 	$(NULL)
 
@@ -69,27 +69,27 @@ noinst_PROGRAMS = 			\
 
 test_greeter_login_window_SOURCES = 	\
 	test-greeter-login-window.c	\
-	gdm-timer.h			\
-	gdm-timer.c			\
-	gdm-greeter-login-window.h	\
-	gdm-greeter-login-window.c	\
-	gdm-scrollable-widget.h		\
-	gdm-scrollable-widget.c		\
-	gdm-chooser-widget.h		\
-	gdm-chooser-widget.c		\
-	gdm-sessions.h			\
-	gdm-sessions.c			\
-	gdm-cell-renderer-timer.h	\
-	gdm-cell-renderer-timer.c	\
-	gdm-user-chooser-widget.h	\
-	gdm-user-chooser-widget.c	\
-	gdm-user-chooser-dialog.h	\
-	gdm-user-chooser-dialog.c	\
+	mdm-timer.h			\
+	mdm-timer.c			\
+	mdm-greeter-login-window.h	\
+	mdm-greeter-login-window.c	\
+	mdm-scrollable-widget.h		\
+	mdm-scrollable-widget.c		\
+	mdm-chooser-widget.h		\
+	mdm-chooser-widget.c		\
+	mdm-sessions.h			\
+	mdm-sessions.c			\
+	mdm-cell-renderer-timer.h	\
+	mdm-cell-renderer-timer.c	\
+	mdm-user-chooser-widget.h	\
+	mdm-user-chooser-widget.c	\
+	mdm-user-chooser-dialog.h	\
+	mdm-user-chooser-dialog.c	\
 	$(NULL)
 
 test_greeter_login_window_LDADD =	\
-	$(top_builddir)/common/libgdmcommon.la	\
-	libgdmuser.la			\
+	$(top_builddir)/common/libmdmcommon.la	\
+	libmdmuser.la			\
 	$(COMMON_LIBS)			\
 	$(SIMPLE_GREETER_LIBS)		\
 	$(RBAC_LIBS)			\
@@ -97,47 +97,47 @@ test_greeter_login_window_LDADD =	\
 
 test_greeter_panel_SOURCES = 	\
 	test-greeter-panel.c	\
-	gdm-greeter-panel.h	\
-	gdm-greeter-panel.c	\
-	gdm-clock-widget.h      \
-	gdm-clock-widget.c      \
-	gdm-option-widget.h     \
-	gdm-option-widget.c     \
-	gdm-recent-option-widget.h	\
-	gdm-recent-option-widget.c	\
-	gdm-languages.h			\
-	gdm-languages.c			\
-	gdm-cell-renderer-timer.h	\
-	gdm-cell-renderer-timer.c	\
-	gdm-timer.h			\
-	gdm-timer.c			\
-	gdm-scrollable-widget.h		\
-	gdm-scrollable-widget.c		\
-	gdm-chooser-widget.h		\
-	gdm-chooser-widget.c		\
-	gdm-language-chooser-widget.h	\
-	gdm-language-chooser-widget.c	\
+	mdm-greeter-panel.h	\
+	mdm-greeter-panel.c	\
+	mdm-clock-widget.h      \
+	mdm-clock-widget.c      \
+	mdm-option-widget.h     \
+	mdm-option-widget.c     \
+	mdm-recent-option-widget.h	\
+	mdm-recent-option-widget.c	\
+	mdm-languages.h			\
+	mdm-languages.c			\
+	mdm-cell-renderer-timer.h	\
+	mdm-cell-renderer-timer.c	\
+	mdm-timer.h			\
+	mdm-timer.c			\
+	mdm-scrollable-widget.h		\
+	mdm-scrollable-widget.c		\
+	mdm-chooser-widget.h		\
+	mdm-chooser-widget.c		\
+	mdm-language-chooser-widget.h	\
+	mdm-language-chooser-widget.c	\
 	locarchive.h			\
-	gdm-language-chooser-dialog.h	\
-	gdm-language-chooser-dialog.c	\
-	gdm-language-option-widget.h	\
-	gdm-language-option-widget.c	\
-	gdm-layout-chooser-widget.h	\
-	gdm-layout-chooser-widget.c	\
-	gdm-layout-chooser-dialog.h	\
-	gdm-layout-chooser-dialog.c	\
-	gdm-layout-option-widget.h	\
-	gdm-layout-option-widget.c	\
-	gdm-layouts.h			\
-	gdm-layouts.c			\
-	gdm-sessions.h			\
-	gdm-sessions.c			\
-	gdm-session-option-widget.h	\
-	gdm-session-option-widget.c	\
+	mdm-language-chooser-dialog.h	\
+	mdm-language-chooser-dialog.c	\
+	mdm-language-option-widget.h	\
+	mdm-language-option-widget.c	\
+	mdm-layout-chooser-widget.h	\
+	mdm-layout-chooser-widget.c	\
+	mdm-layout-chooser-dialog.h	\
+	mdm-layout-chooser-dialog.c	\
+	mdm-layout-option-widget.h	\
+	mdm-layout-option-widget.c	\
+	mdm-layouts.h			\
+	mdm-layouts.c			\
+	mdm-sessions.h			\
+	mdm-sessions.c			\
+	mdm-session-option-widget.h	\
+	mdm-session-option-widget.c	\
 	$(NULL)
 
 test_greeter_panel_LDADD =	\
-	$(top_builddir)/common/libgdmcommon.la	\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(top_builddir)/gui/simple-greeter/libnotificationarea/libnotificationarea.la	\
 	$(SIMPLE_GREETER_LIBS)		\
 	$(GTK_LIBS)			\
@@ -148,13 +148,13 @@ test_greeter_panel_LDADD =	\
 
 test_remote_login_window_SOURCES = 	\
 	test-remote-login-window.c	\
-	gdm-remote-login-window.h	\
-	gdm-remote-login-window.c	\
+	mdm-remote-login-window.h	\
+	mdm-remote-login-window.c	\
 	$(NULL)
 
 test_remote_login_window_LDADD =	\
 	$(GTK_LIBS)			\
-	$(top_builddir)/common/libgdmcommon.la	\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(NULL)
 
 test_filesystem_type_SOURCES = 	\
@@ -167,21 +167,21 @@ test_filesystem_type_LDADD =	\
 
 test_language_chooser_SOURCES = 	\
 	test-language-chooser.c		\
-	gdm-cell-renderer-timer.h	\
-	gdm-cell-renderer-timer.c	\
-	gdm-timer.h			\
-	gdm-timer.c			\
-	gdm-scrollable-widget.h		\
-	gdm-scrollable-widget.c		\
-	gdm-chooser-widget.h		\
-	gdm-chooser-widget.c		\
-	gdm-languages.h			\
-	gdm-languages.c			\
-	gdm-language-chooser-widget.h	\
-	gdm-language-chooser-widget.c	\
+	mdm-cell-renderer-timer.h	\
+	mdm-cell-renderer-timer.c	\
+	mdm-timer.h			\
+	mdm-timer.c			\
+	mdm-scrollable-widget.h		\
+	mdm-scrollable-widget.c		\
+	mdm-chooser-widget.h		\
+	mdm-chooser-widget.c		\
+	mdm-languages.h			\
+	mdm-languages.c			\
+	mdm-language-chooser-widget.h	\
+	mdm-language-chooser-widget.c	\
 	locarchive.h			\
-	gdm-language-chooser-dialog.h	\
-	gdm-language-chooser-dialog.c	\
+	mdm-language-chooser-dialog.h	\
+	mdm-language-chooser-dialog.c	\
 	$(NULL)
 
 test_language_chooser_LDADD =	\
@@ -191,20 +191,20 @@ test_language_chooser_LDADD =	\
 
 test_layout_chooser_SOURCES = 	\
 	test-layout-chooser.c		\
-	gdm-cell-renderer-timer.h	\
-	gdm-cell-renderer-timer.c	\
-	gdm-timer.h			\
-	gdm-timer.c			\
-	gdm-scrollable-widget.h		\
-	gdm-scrollable-widget.c		\
-	gdm-chooser-widget.h		\
-	gdm-chooser-widget.c		\
-	gdm-layouts.h			\
-	gdm-layouts.c			\
-	gdm-layout-chooser-widget.h	\
-	gdm-layout-chooser-widget.c	\
-	gdm-layout-chooser-dialog.h	\
-	gdm-layout-chooser-dialog.c	\
+	mdm-cell-renderer-timer.h	\
+	mdm-cell-renderer-timer.c	\
+	mdm-timer.h			\
+	mdm-timer.c			\
+	mdm-scrollable-widget.h		\
+	mdm-scrollable-widget.c		\
+	mdm-chooser-widget.h		\
+	mdm-chooser-widget.c		\
+	mdm-layouts.h			\
+	mdm-layouts.c			\
+	mdm-layout-chooser-widget.h	\
+	mdm-layout-chooser-widget.c	\
+	mdm-layout-chooser-dialog.h	\
+	mdm-layout-chooser-dialog.c	\
 	$(NULL)
 
 test_layout_chooser_LDADD =		\
@@ -215,8 +215,8 @@ test_layout_chooser_LDADD =		\
 
 test_languages_SOURCES = 		\
 	test-languages.c		\
-	gdm-languages.h			\
-	gdm-languages.c			\
+	mdm-languages.h			\
+	mdm-languages.c			\
 	locarchive.h			\
 	$(NULL)
 
@@ -226,8 +226,8 @@ test_languages_LDADD =		\
 
 test_sessions_SOURCES = 		\
 	test-sessions.c		\
-	gdm-sessions.h			\
-	gdm-sessions.c			\
+	mdm-sessions.h			\
+	mdm-sessions.c			\
 	$(NULL)
 
 test_sessions_LDADD =		\
@@ -236,23 +236,23 @@ test_sessions_LDADD =		\
 
 test_user_chooser_SOURCES = 		\
 	test-user-chooser.c		\
-	gdm-timer.h			\
-	gdm-timer.c			\
-	gdm-cell-renderer-timer.h	\
-	gdm-cell-renderer-timer.c	\
-	gdm-scrollable-widget.h		\
-	gdm-scrollable-widget.c		\
-	gdm-chooser-widget.h		\
-	gdm-chooser-widget.c		\
-	gdm-user-chooser-widget.h	\
-	gdm-user-chooser-widget.c	\
-	gdm-user-chooser-dialog.h	\
-	gdm-user-chooser-dialog.c	\
+	mdm-timer.h			\
+	mdm-timer.c			\
+	mdm-cell-renderer-timer.h	\
+	mdm-cell-renderer-timer.c	\
+	mdm-scrollable-widget.h		\
+	mdm-scrollable-widget.c		\
+	mdm-chooser-widget.h		\
+	mdm-chooser-widget.c		\
+	mdm-user-chooser-widget.h	\
+	mdm-user-chooser-widget.c	\
+	mdm-user-chooser-dialog.h	\
+	mdm-user-chooser-dialog.c	\
 	$(NULL)
 
 test_user_chooser_LDADD =	\
-	libgdmuser.la		\
-	$(top_builddir)/common/libgdmcommon.la	\
+	libmdmuser.la		\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(COMMON_LIBS)		\
 	$(SIMPLE_GREETER_LIBS)	\
 	$(NULL)
@@ -262,69 +262,69 @@ test_user_manager_SOURCES = 	\
 	$(NULL)
 
 test_user_manager_LDADD =	\
-	libgdmuser.la		\
-	$(top_builddir)/common/libgdmcommon.la	\
+	libmdmuser.la		\
+	$(top_builddir)/common/libmdmcommon.la	\
 	$(COMMON_LIBS)		\
 	$(SIMPLE_GREETER_LIBS)	\
 	$(NULL)
 
 libexec_PROGRAMS =			\
-	gdm-simple-greeter
+	mdm-simple-greeter
 
-gdm_simple_greeter_SOURCES =  		\
+mdm_simple_greeter_SOURCES =  		\
 	greeter-main.c 			\
-	gdm-timer.h			\
-	gdm-timer.c			\
-	gdm-cell-renderer-timer.h	\
-	gdm-cell-renderer-timer.c	\
-	gdm-scrollable-widget.h		\
-	gdm-scrollable-widget.c		\
-	gdm-chooser-widget.h		\
-	gdm-chooser-widget.c		\
-	gdm-greeter-client.h		\
-	gdm-greeter-client.c		\
-	gdm-greeter-session.h		\
-	gdm-greeter-session.c		\
-	gdm-greeter-login-window.c	\
-	gdm-greeter-login-window.h	\
-	gdm-remote-login-window.c	\
-	gdm-remote-login-window.h	\
-	gdm-greeter-panel.h		\
-	gdm-greeter-panel.c		\
-	gdm-clock-widget.h		\
-	gdm-clock-widget.c		\
-	gdm-option-widget.h		\
-	gdm-option-widget.c		\
-	gdm-recent-option-widget.h	\
-	gdm-recent-option-widget.c	\
-	gdm-languages.h			\
-	gdm-languages.c			\
-	gdm-language-chooser-widget.h	\
-	gdm-language-chooser-widget.c	\
-	gdm-layout-chooser-widget.h	\
-	gdm-layout-chooser-widget.c	\
-	gdm-layout-chooser-dialog.h	\
-	gdm-layout-chooser-dialog.c	\
-	gdm-layout-option-widget.h	\
-	gdm-layout-option-widget.c	\
-	gdm-layouts.h			\
-	gdm-layouts.c			\
+	mdm-timer.h			\
+	mdm-timer.c			\
+	mdm-cell-renderer-timer.h	\
+	mdm-cell-renderer-timer.c	\
+	mdm-scrollable-widget.h		\
+	mdm-scrollable-widget.c		\
+	mdm-chooser-widget.h		\
+	mdm-chooser-widget.c		\
+	mdm-greeter-client.h		\
+	mdm-greeter-client.c		\
+	mdm-greeter-session.h		\
+	mdm-greeter-session.c		\
+	mdm-greeter-login-window.c	\
+	mdm-greeter-login-window.h	\
+	mdm-remote-login-window.c	\
+	mdm-remote-login-window.h	\
+	mdm-greeter-panel.h		\
+	mdm-greeter-panel.c		\
+	mdm-clock-widget.h		\
+	mdm-clock-widget.c		\
+	mdm-option-widget.h		\
+	mdm-option-widget.c		\
+	mdm-recent-option-widget.h	\
+	mdm-recent-option-widget.c	\
+	mdm-languages.h			\
+	mdm-languages.c			\
+	mdm-language-chooser-widget.h	\
+	mdm-language-chooser-widget.c	\
+	mdm-layout-chooser-widget.h	\
+	mdm-layout-chooser-widget.c	\
+	mdm-layout-chooser-dialog.h	\
+	mdm-layout-chooser-dialog.c	\
+	mdm-layout-option-widget.h	\
+	mdm-layout-option-widget.c	\
+	mdm-layouts.h			\
+	mdm-layouts.c			\
 	locarchive.h			\
-	gdm-language-chooser-dialog.h	\
-	gdm-language-chooser-dialog.c	\
-	gdm-language-option-widget.h	\
-	gdm-language-option-widget.c	\
-	gdm-sessions.h			\
-	gdm-sessions.c			\
-	gdm-session-option-widget.h	\
-	gdm-session-option-widget.c	\
-	gdm-user-chooser-widget.h	\
-	gdm-user-chooser-widget.c	\
+	mdm-language-chooser-dialog.h	\
+	mdm-language-chooser-dialog.c	\
+	mdm-language-option-widget.h	\
+	mdm-language-option-widget.c	\
+	mdm-sessions.h			\
+	mdm-sessions.c			\
+	mdm-session-option-widget.h	\
+	mdm-session-option-widget.c	\
+	mdm-user-chooser-widget.h	\
+	mdm-user-chooser-widget.c	\
 	$(NULL)
 
-gdm_simple_greeter_LDADD = 		\
-	$(top_builddir)/common/libgdmcommon.la	\
-	libgdmuser.la			\
+mdm_simple_greeter_LDADD = 		\
+	$(top_builddir)/common/libmdmcommon.la	\
+	libmdmuser.la			\
 	$(top_builddir)/gui/simple-greeter/libnotificationarea/libnotificationarea.la	\
 	$(COMMON_LIBS)			\
 	$(EXTRA_GREETER_LIBS)   	\
@@ -336,7 +336,7 @@ gdm_simple_greeter_LDADD = 		\
 
 uidir = $(pkgdatadir)
 ui_DATA = 					\
-	gdm-greeter-login-window.ui		\
+	mdm-greeter-login-window.ui		\
 	$(NULL)
 
 EXTRA_DIST = 			\

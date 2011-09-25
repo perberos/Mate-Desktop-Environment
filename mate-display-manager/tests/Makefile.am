@@ -31,7 +31,7 @@ m_common_CFLAGS =		\
 	$(NULL)
 
 m_common_LDADD = 		\
-	$(top_builddir)/common/libgdmcommon.la	\
+	$(top_builddir)/common/libmdmcommon.la	\
 	@CHECK_LIBS@		\
 	$(COMMON_LIBS)		\
 	$(EXTRA_TEST_LIBS)	\

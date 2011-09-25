@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-layout-chooser-dialog.h"
+#include "mdm-layout-chooser-dialog.h"
 
 int
 main (int argc, char *argv[])
@@ -45,13 +45,13 @@ main (int argc, char *argv[])
 
         gtk_init (&argc, &argv);
 
-        dialog = gdm_layout_chooser_dialog_new ();
+        dialog = mdm_layout_chooser_dialog_new ();
         gtk_widget_set_size_request (dialog, 480, 480);
 
         if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
                 char *name;
 
-                name = gdm_layout_chooser_dialog_get_current_layout_name (GDM_LAYOUT_CHOOSER_DIALOG (dialog));
+                name = mdm_layout_chooser_dialog_get_current_layout_name (MDM_LAYOUT_CHOOSER_DIALOG (dialog));
                 g_message ("Layout: %s", name ? name : "(null)");
                 g_free (name);
         }

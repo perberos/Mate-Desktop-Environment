@@ -30,9 +30,9 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-settings-client.h"
+#include "mdm-settings-client.h"
 
-#include "gdm-greeter-login-window.h"
+#include "mdm-greeter-login-window.h"
 
 static guint cancel_idle_id = 0;
 
@@ -43,15 +43,15 @@ static GOptionEntry entries []   = {
 };
 
 static gboolean
-do_cancel (GdmGreeterLoginWindow *login_window)
+do_cancel (MdmGreeterLoginWindow *login_window)
 {
-        gdm_greeter_login_window_reset (GDM_GREETER_LOGIN_WINDOW (login_window));
+        mdm_greeter_login_window_reset (MDM_GREETER_LOGIN_WINDOW (login_window));
         cancel_idle_id = 0;
         return FALSE;
 }
 
 static void
-on_select_user (GdmGreeterLoginWindow *login_window,
+on_select_user (MdmGreeterLoginWindow *login_window,
                 const char            *text,
                 gpointer               data)
 {
@@ -63,7 +63,7 @@ on_select_user (GdmGreeterLoginWindow *login_window,
 }
 
 static void
-on_cancelled (GdmGreeterLoginWindow *login_window,
+on_cancelled (MdmGreeterLoginWindow *login_window,
               gpointer               data)
 {
         g_debug ("login cancelled");
@@ -91,12 +91,12 @@ main (int argc, char *argv[])
                             NULL,
                             NULL);
 
-        if (! gdm_settings_client_init (DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_client_init (DATADIR "/mdm/mdm.schemas", "/")) {
                 g_critical ("Unable to initialize settings client");
                 exit (1);
         }
 
-        login_window = gdm_greeter_login_window_new (TRUE);
+        login_window = mdm_greeter_login_window_new (TRUE);
         g_signal_connect (login_window,
                           "user-selected",
                           G_CALLBACK (on_select_user),
@@ -106,7 +106,7 @@ main (int argc, char *argv[])
                           G_CALLBACK (on_cancelled),
                           NULL);
         if (timed_login) {
-                gdm_greeter_login_window_request_timed_login (GDM_GREETER_LOGIN_WINDOW (login_window),
+                mdm_greeter_login_window_request_timed_login (MDM_GREETER_LOGIN_WINDOW (login_window),
                                                               g_get_user_name (),
                                                               60);
         }

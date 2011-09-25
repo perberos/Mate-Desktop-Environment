@@ -39,19 +39,19 @@
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
 
-#include "gdm-signal-handler.h"
-#include "gdm-common.h"
-#include "gdm-log.h"
-#include "gdm-session-worker.h"
+#include "mdm-signal-handler.h"
+#include "mdm-common.h"
+#include "mdm-log.h"
+#include "mdm-session-worker.h"
 
-#include "gdm-settings.h"
-#include "gdm-settings-direct.h"
-#include "gdm-settings-keys.h"
+#include "mdm-settings.h"
+#include "mdm-settings-direct.h"
+#include "mdm-settings-keys.h"
 
 #define SERVER_DBUS_PATH      "/org/mate/DisplayManager/SessionServer"
 #define SERVER_DBUS_INTERFACE "org.mate.DisplayManager.SessionServer"
 
-static GdmSettings *settings = NULL;
+static MdmSettings *settings = NULL;
 
 static gboolean
 signal_cb (int      signo,
@@ -104,7 +104,7 @@ signal_cb (int      signo,
                  */
                 ret = TRUE;
 
-                gdm_log_toggle_debug ();
+                mdm_log_toggle_debug ();
 
                 break;
 
@@ -124,11 +124,11 @@ is_debug_set (void)
         gboolean debug = FALSE;
 
         /* enable debugging for unstable builds */
-        if (gdm_is_version_unstable ()) {
+        if (mdm_is_version_unstable ()) {
                 return TRUE;
         }
 
-        gdm_settings_direct_get_boolean (GDM_KEY_DEBUG, &debug);
+        mdm_settings_direct_get_boolean (MDM_KEY_DEBUG, &debug);
         return debug;
 }
 
@@ -138,8 +138,8 @@ main (int    argc,
 {
         GMainLoop        *main_loop;
         GOptionContext   *context;
-        GdmSessionWorker *worker;
-        GdmSignalHandler *signal_handler;
+        MdmSessionWorker *worker;
+        MdmSignalHandler *signal_handler;
         const char       *address;
         static GOptionEntry entries []   = {
                 { NULL }
@@ -151,7 +151,7 @@ main (int    argc,
 
         g_type_init ();
 
-        gdm_set_fatal_warnings_if_unstable ();
+        mdm_set_fatal_warnings_if_unstable ();
 
         /* Translators: worker is a helper process that does the work
            of starting up a session */
@@ -161,44 +161,44 @@ main (int    argc,
         g_option_context_parse (context, &argc, &argv, NULL);
         g_option_context_free (context);
 
-        gdm_log_init ();
+        mdm_log_init ();
 
-        settings = gdm_settings_new ();
+        settings = mdm_settings_new ();
         if (settings == NULL) {
                 g_warning ("Unable to initialize settings");
                 exit (1);
         }
 
-        if (! gdm_settings_direct_init (settings, DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_direct_init (settings, DATADIR "/mdm/mdm.schemas", "/")) {
                 g_warning ("Unable to initialize settings");
                 exit (1);
         }
 
-        gdm_log_set_debug (is_debug_set ());
+        mdm_log_set_debug (is_debug_set ());
 
-        address = g_getenv ("GDM_SESSION_DBUS_ADDRESS");
+        address = g_getenv ("MDM_SESSION_DBUS_ADDRESS");
         if (address == NULL) {
-                g_warning ("GDM_SESSION_DBUS_ADDRESS not set");
+                g_warning ("MDM_SESSION_DBUS_ADDRESS not set");
                 exit (1);
         }
 
-        worker = gdm_session_worker_new (address);
+        worker = mdm_session_worker_new (address);
 
         main_loop = g_main_loop_new (NULL, FALSE);
 
-        signal_handler = gdm_signal_handler_new ();
-        gdm_signal_handler_set_fatal_func (signal_handler,
+        signal_handler = mdm_signal_handler_new ();
+        mdm_signal_handler_set_fatal_func (signal_handler,
                                            (GDestroyNotify)g_main_loop_quit,
                                            main_loop);
-        gdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGILL, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGBUS, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGSEGV, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGABRT, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGINT, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGILL, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGBUS, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGSEGV, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGABRT, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
 
         g_main_loop_run (main_loop);
 

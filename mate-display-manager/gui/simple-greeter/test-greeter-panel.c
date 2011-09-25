@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-greeter-panel.h"
+#include "mdm-greeter-panel.h"
 
 int
 main (int argc, char *argv[])
@@ -53,8 +53,8 @@ main (int argc, char *argv[])
         gdk_display_get_pointer (display, &screen, &x, &y, NULL);
         monitor = gdk_screen_get_monitor_at_point (screen, x, y);
 
-        panel = gdm_greeter_panel_new (screen, monitor, TRUE);
-        gdm_greeter_panel_show_user_options (GDM_GREETER_PANEL (panel));
+        panel = mdm_greeter_panel_new (screen, monitor, TRUE);
+        mdm_greeter_panel_show_user_options (MDM_GREETER_PANEL (panel));
 
         gtk_widget_show (panel);
 

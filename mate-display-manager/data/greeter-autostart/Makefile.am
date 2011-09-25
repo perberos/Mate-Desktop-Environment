@@ -14,7 +14,7 @@ edit = sed \
 desktopdir = $(pkgdatadir)/autostart/LoginWindow
 desktop_in_files = 	\
 	at-spi-registryd-wrapper.desktop.in	\
-	gdm-simple-greeter.desktop.in		\
+	mdm-simple-greeter.desktop.in		\
 	mate-mag.desktop.in			\
 	mate-power-manager.desktop.in		\
 	mate-settings-daemon.desktop.in	\
@@ -27,7 +27,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 EXTRA_DIST = 			\
 	at-spi-registryd-wrapper.desktop.in.in	\
-	gdm-simple-greeter.desktop.in.in	\
+	mdm-simple-greeter.desktop.in.in	\
 	mate-power-manager.desktop.in.in	\
 	mate-settings-daemon.desktop.in.in	\
 	polkit-mate-authentication-agent-1.desktop.in.in \
@@ -37,7 +37,7 @@ EXTRA_DIST = 			\
 DISTCLEANFILES =			\
 	*.desktop			\
 	at-spi-registryd-wrapper.desktop.in	\
-	gdm-simple-greeter.desktop.in	\
+	mdm-simple-greeter.desktop.in	\
 	mate-power-manager.desktop.in	\
 	mate-settings-daemon.desktop.in	\
 	polkit-mate-authentication-agent-1.desktop.in \

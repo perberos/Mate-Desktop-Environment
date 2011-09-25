@@ -32,17 +32,17 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#include "gdm-settings-client.h"
-#include "gdm-settings-keys.h"
+#include "mdm-settings-client.h"
+#include "mdm-settings-keys.h"
 
 static void
 notify_cb (guint             id,
-           GdmSettingsEntry *entry,
+           MdmSettingsEntry *entry,
            gpointer          user_data)
 {
         g_debug ("Value changed: %s=%s",
-                 gdm_settings_entry_get_key (entry),
-                 gdm_settings_entry_get_value (entry));
+                 mdm_settings_entry_get_key (entry),
+                 mdm_settings_entry_get_value (entry));
 }
 
 static gboolean
@@ -53,20 +53,20 @@ test_settings_client (gpointer data)
         gboolean res;
 
         strval = NULL;
-        res = gdm_settings_client_get_string (GDM_KEY_WILLING, &strval);
-        g_debug ("Got res=%d %s=%s", res, GDM_KEY_WILLING, strval);
+        res = mdm_settings_client_get_string (MDM_KEY_WILLING, &strval);
+        g_debug ("Got res=%d %s=%s", res, MDM_KEY_WILLING, strval);
         g_free (strval);
 
-        res = gdm_settings_client_get_boolean (GDM_KEY_XDMCP_ENABLE, &boolval);
-        g_debug ("Got res=%d %s=%s", res, GDM_KEY_XDMCP_ENABLE, boolval ? "true" : "false");
+        res = mdm_settings_client_get_boolean (MDM_KEY_XDMCP_ENABLE, &boolval);
+        g_debug ("Got res=%d %s=%s", res, MDM_KEY_XDMCP_ENABLE, boolval ? "true" : "false");
 
         g_debug ("Adding notify for all keys");
-        gdm_settings_client_notify_add ("/", notify_cb, NULL, NULL);
+        mdm_settings_client_notify_add ("/", notify_cb, NULL, NULL);
 
-        g_debug ("Setting boolean key %s to %s", GDM_KEY_XDMCP_ENABLE, !boolval ? "true" : "false");
-        gdm_settings_client_set_boolean (GDM_KEY_XDMCP_ENABLE, !boolval);
-        g_debug ("Setting boolean key %s to %s", GDM_KEY_XDMCP_ENABLE, boolval ? "true" : "false");
-        gdm_settings_client_set_boolean (GDM_KEY_XDMCP_ENABLE, boolval);
+        g_debug ("Setting boolean key %s to %s", MDM_KEY_XDMCP_ENABLE, !boolval ? "true" : "false");
+        mdm_settings_client_set_boolean (MDM_KEY_XDMCP_ENABLE, !boolval);
+        g_debug ("Setting boolean key %s to %s", MDM_KEY_XDMCP_ENABLE, boolval ? "true" : "false");
+        mdm_settings_client_set_boolean (MDM_KEY_XDMCP_ENABLE, boolval);
 
         return FALSE;
 }
@@ -78,7 +78,7 @@ main (int argc, char **argv)
 
         g_type_init ();
 
-        if (! gdm_settings_client_init (DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_client_init (DATADIR "/mdm/mdm.schemas", "/")) {
                 exit (1);
         }
 

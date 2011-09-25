@@ -30,10 +30,10 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-user-manager.h"
-#include "gdm-settings-client.h"
+#include "mdm-user-manager.h"
+#include "mdm-settings-client.h"
 
-static GdmUserManager *manager = NULL;
+static MdmUserManager *manager = NULL;
 static GMainLoop      *main_loop = NULL;
 
 static gboolean     do_monitor       = FALSE;
@@ -45,7 +45,7 @@ static GOptionEntry entries []   = {
 };
 
 static void
-on_is_loaded_changed (GdmUserManager *manager,
+on_is_loaded_changed (MdmUserManager *manager,
                       GParamSpec     *pspec,
                       gpointer        data)
 {
@@ -53,9 +53,9 @@ on_is_loaded_changed (GdmUserManager *manager,
 
         g_debug ("Users loaded");
 
-        users = gdm_user_manager_list_users (manager);
+        users = mdm_user_manager_list_users (manager);
         while (users != NULL) {
-                g_print ("User: %s\n", gdm_user_get_user_name (users->data));
+                g_print ("User: %s\n", mdm_user_get_user_name (users->data));
                 users = g_slist_delete_link (users, users);
         }
 
@@ -65,19 +65,19 @@ on_is_loaded_changed (GdmUserManager *manager,
 }
 
 static void
-on_user_added (GdmUserManager *manager,
-               GdmUser        *user,
+on_user_added (MdmUserManager *manager,
+               MdmUser        *user,
                gpointer        data)
 {
-        g_debug ("User added: %s", gdm_user_get_user_name (user));
+        g_debug ("User added: %s", mdm_user_get_user_name (user));
 }
 
 static void
-on_user_removed (GdmUserManager *manager,
-                 GdmUser        *user,
+on_user_removed (MdmUserManager *manager,
+                 MdmUser        *user,
                  gpointer        data)
 {
-        g_debug ("User removed: %s", gdm_user_get_user_name (user));
+        g_debug ("User removed: %s", mdm_user_get_user_name (user));
 }
 
 int
@@ -118,12 +118,12 @@ main (int argc, char *argv[])
                 g_log_set_always_fatal (fatal_mask);
         }
 
-        if (! gdm_settings_client_init (DATADIR "/gdm/gdm.schemas", "/")) {
+        if (! mdm_settings_client_init (DATADIR "/mdm/mdm.schemas", "/")) {
                 g_critical ("Unable to initialize settings client");
                 exit (1);
         }
 
-        manager = gdm_user_manager_ref_default ();
+        manager = mdm_user_manager_ref_default ();
         g_object_set (manager, "include-all", TRUE, NULL);
         g_signal_connect (manager,
                           "notify::is-loaded",
@@ -137,7 +137,7 @@ main (int argc, char *argv[])
                           "user-removed",
                           G_CALLBACK (on_user_removed),
                           NULL);
-        gdm_user_manager_queue_load (manager);
+        mdm_user_manager_queue_load (manager);
 
         main_loop = g_main_loop_new (NULL, FALSE);
 

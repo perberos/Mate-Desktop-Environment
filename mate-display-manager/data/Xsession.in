@@ -9,13 +9,13 @@
 # (Note that other arguments could also follow, but only the command one is
 # right now relevant and supported)
 #
-# The output is ALREADY redirected to .xsession-errors in GDM.  This way
+# The output is ALREADY redirected to .xsession-errors in MDM.  This way
 # .xsession-errors actually gets more output such as if the PreSession script
 # is failing.  This also prevents DoS attacks if some app in the users session
 # can be prodded to dump lots of stuff on the stdout/stderr.  We wish to be
 # robust don't we?  In case you wish to use an existing script for other DM's,
-# you can just not redirect when GDMSESSION is set.  GDMSESSION will always
-# be set from gdm.
+# you can just not redirect when MDMSESSION is set.  MDMSESSION will always
+# be set from mdm.
 #
 # Also note that this is not run as a login shell, this is just executed.
 # This is why we source the profile files below.
@@ -37,16 +37,16 @@ test -f /etc/xprofile && . /etc/xprofile
 test -f "$HOME/.xprofile" && . "$HOME/.xprofile"
 
 # Translation stuff
-if [ -x "@libexecdir@/gdmtranslate" ] ; then
-  gdmtranslate="@libexecdir@/gdmtranslate"
+if [ -x "@libexecdir@/mdmtranslate" ] ; then
+  mdmtranslate="@libexecdir@/mdmtranslate"
 else
-  gdmtranslate=
+  mdmtranslate=
 fi
 
 # Note that this should only go to matedialog dialogs which always expect utf8
 gettextfunc () {
-  if [ "x$gdmtranslate" != "x" ] ; then
-    "$gdmtranslate" --utf8 "$1"
+  if [ "x$mdmtranslate" != "x" ] ; then
+    "$mdmtranslate" --utf8 "$1"
   else
     echo "$1"
   fi
@@ -54,7 +54,7 @@ gettextfunc () {
 
 OLD_IFS=$IFS
 
-gdmwhich () {
+mdmwhich () {
   COMMAND="$1"
   OUTPUT=
   IFS=:
@@ -66,17 +66,17 @@ gdmwhich () {
       fi
     fi
   done
-  IFS=$OLD_IFS 
+  IFS=$OLD_IFS
   echo "$OUTPUT"
 }
 
-matedialog=`gdmwhich matedialog`
+matedialog=`mdmwhich matedialog`
 
 # Note: ~/.xsession-errors is now done in the daemon so that it
 # works for ALL sessions (except ones named 'Failsafe')
 
 # clean up after xbanner
-freetemp=`gdmwhich freetemp`
+freetemp=`mdmwhich freetemp`
 if [ -n "$freetemp" ] ; then
 	"$freetemp"
 fi
@@ -85,12 +85,12 @@ userresources="$HOME/.Xresources"
 usermodmap="$HOME/.Xmodmap"
 userxkbmap="$HOME/.Xkbmap"
 
-sysresources=/etc/X11/Xresources 
-sysmodmap=/etc/X11/Xmodmap 
+sysresources=/etc/X11/Xresources
+sysmodmap=/etc/X11/Xmodmap
 sysxkbmap=/etc/X11/Xkbmap
 
-rh6sysresources=/etc/X11/xinit/Xresources 
-rh6sysmodmap=/etc/X11/xinit/Xmodmap 
+rh6sysresources=/etc/X11/xinit/Xresources
+rh6sysmodmap=/etc/X11/xinit/Xmodmap
 
 # merge in defaults
 if [ -f "$rh6sysresources" ]; then
@@ -148,8 +148,8 @@ unset XKB_IN_USE
 
 # Overwrite $LANG from /etc/profile (and friends) with the one picked in the
 # greeter
-if [ -n "$GDM_LANG" ]; then
-  LANG="$GDM_LANG"
+if [ -n "$MDM_LANG" ]; then
+  LANG="$MDM_LANG"
   export LANG
 fi
 
@@ -190,7 +190,7 @@ if [ "x$command" = "xdefault" ] ; then
 fi
 
 # add ssh-agent if found
-sshagent="`gdmwhich ssh-agent`"
+sshagent="`mdmwhich ssh-agent`"
 if [ -n "$sshagent" ] && [ -x "$sshagent" ] && [ -z "$SSH_AUTH_SOCK" ]; then
     command="$sshagent -- $command"
 elif [ -z "$sshagent" ] ; then

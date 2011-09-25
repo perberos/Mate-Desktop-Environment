@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gdm-languages.h"
+#include "mdm-languages.h"
 
 static void
 print_languages (void)
@@ -38,16 +38,16 @@ print_languages (void)
         char **language_names;
         int    i;
 
-        language_names = gdm_get_all_language_names ();
+        language_names = mdm_get_all_language_names ();
 
         for (i = 0; language_names[i] != NULL; i++) {
                 char *language;
                 char *normalized_name;
                 char *readable_language;
 
-                normalized_name = gdm_normalize_language_name (language_names[i]);
-                language = gdm_get_language_from_name (normalized_name, normalized_name);
-                readable_language = gdm_get_language_from_name (normalized_name, NULL);
+                normalized_name = mdm_normalize_language_name (language_names[i]);
+                language = mdm_get_language_from_name (normalized_name, normalized_name);
+                readable_language = mdm_get_language_from_name (normalized_name, NULL);
 
                 g_print ("%s\t%s\t%s\t%s\n",
                          language_names[i],

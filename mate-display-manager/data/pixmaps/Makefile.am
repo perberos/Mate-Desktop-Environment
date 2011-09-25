@@ -4,7 +4,7 @@ SUBDIRS = \
 
 pixmapdir = $(datadir)/pixmaps
 
-BITMAPS = gdm-foot-logo.png nobody.png nohost.png
+BITMAPS = mdm-foot-logo.png
 
 pixmap_DATA = $(BITMAPS)
 

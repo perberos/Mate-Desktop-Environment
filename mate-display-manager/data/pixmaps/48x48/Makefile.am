@@ -3,9 +3,9 @@
 appsicondir = \
 	$(datadir)/pixmaps
 appsicon_DATA = \
-	gdm.png \
-	gdm-xnest.png \
-	gdm-setup.png
+	mdm.png \
+	mdm-xnest.png \
+	mdm-setup.png
 
 EXTRA_DIST = \
 	$(appsicon_DATA)

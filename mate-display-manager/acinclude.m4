@@ -49,11 +49,11 @@ dnl Modifications by Timur Bakeyev (timur@gnu.org), 1999.
 dnl Patched from http://bugzilla.mate.org/show_bug.cgi?id=937
 dnl
 
-dnl GDM_CHECK_UTMP()
+dnl MDM_CHECK_UTMP()
 dnl Test for presence of the field and define HAVE_UT_UT_field macro
 dnl Taken from vte/mate-pty-helper's GPH_CHECK_UTMP
 
-AC_DEFUN([GDM_CHECK_UTMP],[
+AC_DEFUN([MDM_CHECK_UTMP],[
 
 AC_CHECK_HEADERS(sys/time.h utmp.h utmpx.h)
 AC_HEADER_TIME
