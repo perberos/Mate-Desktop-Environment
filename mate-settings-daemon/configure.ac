@@ -1,8 +1,10 @@
 AC_PREREQ([2.60])
 
-m4_define([gsd_api_version_major],[2])
-m4_define([gsd_api_version_minor],[0])
-m4_define([gsd_api_version],[gsd_api_version_major.gsd_api_version_minor])
+m4_define([gsd_api_version_major],[2011])
+m4_define([gsd_api_version_minor],[9])
+m4_define([gsd_api_version_micro],[25])
+m4_define([gsd_api_version],
+        [gsd_api_version_major.gsd_api_version_minor.gsd_api_version_micro])
 
 AC_INIT([mate-settings-daemon],
         [2.32.0],

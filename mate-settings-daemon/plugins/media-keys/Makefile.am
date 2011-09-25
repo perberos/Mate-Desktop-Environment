@@ -1,4 +1,4 @@
-icondir = $(datadir)/icons/hicolor
+icondir = $(datadir)/icons/mate
 context = actions
 
 NULL =

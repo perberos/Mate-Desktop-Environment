@@ -72,7 +72,7 @@ static const char DISABLE_INDICATOR_KEY[] =
 static const char DUPLICATE_LEDS_KEY[] =
     "/desktop/mate/peripherals/keyboard/general/duplicate_leds";
 
-static const char *gdm_keyboard_layout = NULL;
+static const char *mdm_keyboard_layout = NULL;
 
 static GtkStatusIcon *icon = NULL;
 
@@ -457,7 +457,7 @@ apply_xkb_settings (void)
 	MateConfClient *conf_client;
 	MatekbdKeyboardConfig current_sys_kbd_config;
 	int group_to_activate = -1;
-	char *gdm_layout;
+	char *mdm_layout;
 	char *s;
 
 	if (!inited_ok)
@@ -465,24 +465,24 @@ apply_xkb_settings (void)
 
 	conf_client = mateconf_client_get_default ();
 
-	/* With GDM the user can already set a layout from the login
+	/* With MDM the user can already set a layout from the login
 	 * screen. Try to keep that setting.
-	 * We clear gdm_keyboard_layout early, so we don't risk
+	 * We clear mdm_keyboard_layout early, so we don't risk
 	 * recursion from mateconf notification.
 	 */
-	gdm_layout = g_strdup (gdm_keyboard_layout);
-	gdm_keyboard_layout = NULL;
+	mdm_layout = g_strdup (mdm_keyboard_layout);
+	mdm_keyboard_layout = NULL;
 
-	/* gdm's configuration and $GDM_KEYBOARD_LAYOUT separates layout and
+	/* mdm's configuration and $MDM_KEYBOARD_LAYOUT separates layout and
 	 * variant with a space, but mateconf uses tabs; so convert to be robust
 	 * with both */
-	for (s = gdm_layout; s && *s; ++s) {
+	for (s = mdm_layout; s && *s; ++s) {
 		if (*s == ' ') {
 			*s = '\t';
 		}
 	}
 
-	if (gdm_layout != NULL) {
+	if (mdm_layout != NULL) {
 		GSList *layouts;
 		GSList *found_node;
 		int max_groups;
@@ -516,17 +516,17 @@ apply_xkb_settings (void)
 		 * total number of layouts. If we already have the maximum
 		 * number of layouts configured, we replace the last one. This
 		 * prevents the list from becoming full if the user has a habit
-		 * of selecting many different keyboard layouts in GDM. */
+		 * of selecting many different keyboard layouts in MDM. */
 
 		found_node =
-		    g_slist_find_custom (layouts, gdm_layout,
+		    g_slist_find_custom (layouts, mdm_layout,
 					 (GCompareFunc) g_strcmp0);
 
 		if (!found_node) {
 			/* Insert at the last valid place, or at the end of
 			 * list, whichever comes first */
 			layouts =
-			    g_slist_insert (layouts, g_strdup (gdm_layout),
+			    g_slist_insert (layouts, g_strdup (mdm_layout),
 					    max_groups - 1);
 			if (g_slist_length (layouts) > max_groups) {
 				GSList *last;
@@ -578,17 +578,17 @@ apply_xkb_settings (void)
 		xkl_debug (100,
 			   "Actual KBD configuration was not changed: redundant notification\n");
 
-	if (gdm_layout != NULL) {
+	if (mdm_layout != NULL) {
 		/* If there are multiple layouts,
-		 * try to find the one closest to the gdm layout
+		 * try to find the one closest to the mdm layout
 		 */
 		GSList *l;
 		int i;
-		size_t len = strlen (gdm_layout);
+		size_t len = strlen (mdm_layout);
 		for (i = 0, l = current_kbd_config.layouts_variants; l;
 		     i++, l = l->next) {
 			char *lv = l->data;
-			if (strncmp (lv, gdm_layout, len) == 0
+			if (strncmp (lv, mdm_layout, len) == 0
 			    && (lv[len] == '\0' || lv[len] == '\t')) {
 				group_to_activate = i;
 				break;
@@ -596,7 +596,7 @@ apply_xkb_settings (void)
 		}
 	}
 
-	g_free (gdm_layout);
+	g_free (mdm_layout);
 
 	if (group_to_activate != -1)
 		xkl_engine_lock_group (current_config.engine,
@@ -812,7 +812,7 @@ gsd_keyboard_xkb_init (MateConfClient * client,
 	if (xkl_engine) {
 		inited_ok = TRUE;
 
-		gdm_keyboard_layout = g_getenv ("GDM_KEYBOARD_LAYOUT");
+		mdm_keyboard_layout = g_getenv ("MDM_KEYBOARD_LAYOUT");
 
 		matekbd_desktop_config_init (&current_config,
 					  client, xkl_engine);
