@@ -1,0 +1,31 @@
+pkgname=libmatecomponent
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="A set of language and system independant CORBA interfaces for creating reusable components"
+arch=(i686 x86_64)
+license=('GPL' 'LGPL')
+depends=('mate-corba' 'libxml2' 'glib2')
+makedepends=('intltool' 'pkgconfig' 'flex')
+groups=('mate')
+options=()
+backup=('etc/matecomponent-activation/matecomponent-activation-config.xml')
+url="http://www.gnome.org"
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
+		matecomponent-activation-config.xml)
+install=libmatecomponent.install
+sha256sums=('609187a4d63c68cb0fb447efac35e055ac199f7a62423766d29230bb9c5519b4'
+            'c1fc9b102f2635b0d4be39728d19737c1013b61395d0bd0c508fc6ad6b61643e')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static \
+		--libexecdir=/usr/lib/matecomponent || return 1
+	make || return 1
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	make DESTDIR="${pkgdir}" install
+	install -m644 "${srcdir}/matecomponent-activation-config.xml" "${pkgdir}/etc/matecomponent-activation/"
+}

@@ -1,0 +1,35 @@
+pkgname=mate-session-manager
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="The MATE Session Handler"
+arch=(i686 x86_64)
+license=('GPL' 'LGPL')
+depends=('upower' 'gtk2' 'mate-conf' 'startup-notification' 'hicolor-icon-theme' 'libxtst' 'mate-polkit')
+makedepends=('pkgconfig' 'intltool' 'xtrans')
+options=('!emptydirs')
+install=mate-session-manager.install
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('64f0fa79eabea2b44f83530ca631787d1013cd3f84dd2dca4e6da649d791489b')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+		--libexecdir=/usr/lib || return 1
+
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+
+	make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
+
+	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+
+	# --disable-schemas-compile <- check if work <- nop
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}

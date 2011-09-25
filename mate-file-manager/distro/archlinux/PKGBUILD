@@ -1,0 +1,36 @@
+pkgname=mate-file-manager
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="The MATE shell and file manager"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('libexif' 'exempi' 'mate-icon-theme' 'desktop-file-utils' 'gvfs' 'libunique' 'mate-desktop')
+makedepends=('pkgconfig' 'intltool')
+url="http://matsusoft.com.ar/projects"
+options=('!libtool' '!emptydirs')
+install=mate-file-manager.install
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('c407ce9787ddddf9b8f438bdd869f340dcc87a60ddb19558db587e01decd41fa')
+groups=('mate')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static \
+		--libexecdir=/usr/lib/caja \
+		--disable-update-mimedb || return 1
+
+	make || return 1
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+
+	install -m755 -d ${pkgdir}/usr/share/mateconf/schemas
+
+	mateconf-merge-schema ${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+}

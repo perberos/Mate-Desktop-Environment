@@ -1,0 +1,30 @@
+pkgname=mate-desktop
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="Library with common API for various MATE modules"
+arch=(i686 x86_64)
+license=(GPL LGPL)
+depends=('libunique' 'libmatenotify' 'hicolor-icon-theme' 'gvfs-obexftp' 'obexd-client' 'mate-conf')
+makedepends=('mate-doc-utils' 'intltool')
+options=(!emptydirs)
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('31c101ee91679ea7778306cc44c1d4049e158ef21ff868122791a57cfd9dc687')
+
+build() {
+	cd "$srcdir/$pkgname"
+
+	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static --disable-scrollkeeper
+
+	make
+}
+
+package() {
+	cd "$srcdir/$pkgname"
+	make DESTDIR="$pkgdir" install
+
+	# prevent conflicts errors
+	mv "${pkgdir}/usr/share/omf" "${pkgdir}/usr/share/mate-omf"
+}

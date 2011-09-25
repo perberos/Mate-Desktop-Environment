@@ -1,0 +1,23 @@
+pkgname=mate-common
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="Common development macros for MATE"
+arch=('any')
+license=('GPL')
+depends=()
+makedepends=()
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('ce46bb1c651538d78078f33261d789013ed825ef522558aa7596f2d3bc4103ac')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	make DESTDIR="${pkgdir}" install
+}

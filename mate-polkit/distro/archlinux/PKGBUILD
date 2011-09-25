@@ -1,0 +1,31 @@
+pkgname=mate-polkit
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="PolicyKit integration for the MATE desktop"
+arch=('i686' 'x86_64')
+url="http://www.freedesktop.org/wiki/Software/PolicyKit"
+license=('LGPL')
+depends=('polkit>=0.101' 'gtk2')
+makedepends=('intltool' 'gobject-introspection')
+options=(!libtool)
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
+        polkit-mate-authentication-agent-1.desktop)
+sha256sums=('14605c45260515e6b394d1cd2b0c5f2b5f8401ee835c71da5248ab42b1570027'
+            'f1da2e137d079c9fa7fb15cf219cd18b3c2eafc3767927e28a9de58faac4a937')
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --libexecdir=/usr/lib/polkit-mate \
+		--disable-static
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+	make DESTDIR="${pkgdir}" install
+	install -Dm644 "${srcdir}/polkit-mate-authentication-agent-1.desktop" \
+		"${pkgdir}/etc/xdg/autostart/polkit-mate-authentication-agent-1.desktop"
+}

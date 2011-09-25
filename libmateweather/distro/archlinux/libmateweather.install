@@ -1,0 +1,19 @@
+pkgname=libmateweather
+
+post_install() {
+	usr/sbin/mateconfpkg --install ${pkgname}
+}
+
+pre_upgrade() {
+	pre_remove $1
+}
+
+post_upgrade() {
+	post_install $1
+}
+
+pre_remove() {
+	if [ -f usr/share/mateconf/${pkgname}.schemas ]; then
+		usr/sbin/mateconfpkg --uninstall ${pkgname}
+	fi
+}

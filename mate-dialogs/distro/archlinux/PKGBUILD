@@ -1,0 +1,29 @@
+pkgname=mate-dialogs
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="Display graphical dialog boxes from shell scripts"
+arch=(i686 x86_64)
+license=('LGPL')
+depends=('libmatenotify')
+makedepends=('intltool' 'gtk-doc' 'mate-doc-utils')
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+provides=('zenity')
+conflicts=('zenity')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('2853e491701a6e09a0378a32fff954bce3ffd776340d2c3e3790d406cf0a347a')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-scrollkeeper
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+
+	make DESTDIR="${pkgdir}" install
+	# hax!
+	ln -s matedialog ${pkgdir}/usr/bin/zenity
+}

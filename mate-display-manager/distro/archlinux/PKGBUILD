@@ -1,0 +1,52 @@
+pkgname=mate-display-manager
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="The MATE Display Manager"
+arch=(i686 x86_64)
+license=('GPL')
+depends=('pam' 'libdmx' 'tcp_wrappers' 'mate-panel' 'libmatecanvas' 'librsvg' 'gksu' 'dbus-glib' 'consolekit' 'mate-dialogs')
+makedepends=('pkgconfig' 'intltool' 'mate-doc-utils' 'xtrans' 'xorg-server')
+options=('!emptydirs')
+install=mate-display-manager.install
+url="http://matsusoft.com.ar/projects"
+groups=('mate-extras')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
+		mdm
+		mdm.pam
+		mdm-autologin.pam)
+sha256sums=('0f19968d9d0350e682eb7ca4f618a3bfe13a950c30e345092ef60f24c1b19b6a'
+            '272c08d8e8b50bf424d0705ac864d4c18c47ec4f6893b1af732c2efbc86c9550'
+            'f1dfa4d88288d4b0a631a68a51b46c2da537bee8fe5a99f9f288c8ff75a50b19'
+            '3daff680ff6b7ea56f84f40843e46e72477c81e9e405028203c942af04d07ae5')
+backup=('etc/pam.d/mdm' 'etc/pam.d/mdm-autologin' 'etc/mdm/custom.conf')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+
+	./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/mdm \
+		--localstatedir=/var --disable-static \
+		--with-at-spi-registryd-directory=/usr/lib/at-spi \
+		--disable-scrollkeeper || return 1
+
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+
+	install -m644 "${srcdir}/mdm.pam" "${pkgdir}/etc/pam.d/mdm"
+	install -m644 "${srcdir}/mdm-autologin.pam" "${pkgdir}/etc/pam.d/mdm-autologin"
+
+	install -m755 -d "${pkgdir}/etc/rc.d"
+	install -m755 "${srcdir}/mdm" "${pkgdir}/etc/rc.d/"
+
+	rmdir "${pkgdir}/var/mdm"
+	mdkir "${pkgdir}/var/log/mdm"
+	chmod 1770 "${pkgdir}/var/log/mdm"
+	rm -rf "${pkgdir}/var/run"
+}

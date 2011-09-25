@@ -1,0 +1,38 @@
+pkgname=mate-conf
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="A configuration database system"
+arch=(i686 x86_64)
+license=('LGPL')
+depends=('mate-corba' 'libxml2' 'polkit' 'libldap' 'dbus-glib' 'gtk2')
+makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'gobject-introspection')
+groups=('mate')
+install=mate-conf.install
+url="http://matsusoft.com.ar/projects"
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
+		mateconf-merge-schema
+		mateconfpkg)
+sha256sums=('db6f383016921c87db273a5a7cdc8a9a20415638c62e256ef0465e395101f245'
+            '78ccdb9c963400694c944ee193b2fa135dcb39e0d9f1dc393fa659131d591076'
+            '2e06a02b5312ee7853be356c1b0131ce6e85fb2949c4aef54c1e795f27fdc1dd')
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	# Python2 fix
+	sed -i '1s|#!/usr/bin/env python$|&2|' gsettings/gsettings-schema-convert
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--libexecdir=/usr/lib/MateConf \
+		--localstatedir=/var \
+		--enable-defaults-service --enable-gsettings-backend=no || return 1
+	make || return 1
+}
+
+package() {
+	cd "${srcdir}/${pkgname}"
+
+	make DESTDIR="${pkgdir}" install || return 1
+	install -m755 -d "${pkgdir}/etc/mateconf/mateconf.xml.system" || return 1
+	install -m755 "${srcdir}/mateconf-merge-schema" "${pkgdir}/usr/bin/" || return 1
+	install -d -m755 "${pkgdir}/usr/sbin"
+	install -m755 "${srcdir}/mateconfpkg" "${pkgdir}/usr/sbin/" || return 1
+}

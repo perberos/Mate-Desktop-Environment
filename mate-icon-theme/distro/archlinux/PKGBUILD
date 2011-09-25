@@ -1,0 +1,26 @@
+pkgname=mate-icon-theme
+pkgver=2011.08.31
+pkgrel=1
+pkgdesc="MATE icon theme"
+arch=('any')
+license=('GPL')
+depends=('hicolor-icon-theme' 'icon-naming-utils' 'gtk-update-icon-cache')
+makedepends=('intltool')
+url="http://matsusoft.com.ar/projects"
+groups=('mate')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('171f81dfb13c7949ec30c7b7cbcf30c6f6428ebc513ab26f73a51385905765f2')
+install=mate-icon-theme.install
+
+build() {
+	cd "${srcdir}/${pkgname}"
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+    cd "${srcdir}/${pkgname}"
+    make DESTDIR="${pkgdir}" install
+    #don't include icon cache
+    rm -f  "${pkgdir}/usr/share/icons/mate/icon-theme.cache"
+}
