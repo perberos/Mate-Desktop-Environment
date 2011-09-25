@@ -1,8 +1,8 @@
-/* gdm.h
+/* mdm.h
  * Copyright (C) 2005 Raffaele Sandrini
  * Copyright (C) 2005 Red Hat, Inc.
  * Copyright (C) 2002, 2003 George Lebl
- * Copyright (C) 2001 Queen of England, 
+ * Copyright (C) 2001 Queen of England,
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,30 +25,30 @@
  *      Mark McLoughlin <mark@skynet.ie>
  */
 
-#ifndef __GDM_LOGOUT_ACTION_H__
-#define __GDM_LOGOUT_ACTION_H__
+#ifndef __MDM_LOGOUT_ACTION_H__
+#define __MDM_LOGOUT_ACTION_H__
 
 #include <glib.h>
 
 G_BEGIN_DECLS
 
 typedef enum {
-  GDM_LOGOUT_ACTION_NONE     = 0,
-  GDM_LOGOUT_ACTION_SHUTDOWN = 1 << 0,
-  GDM_LOGOUT_ACTION_REBOOT   = 1 << 1,
-  GDM_LOGOUT_ACTION_SUSPEND  = 1 << 2
-} GdmLogoutAction;
+  MDM_LOGOUT_ACTION_NONE     = 0,
+  MDM_LOGOUT_ACTION_SHUTDOWN = 1 << 0,
+  MDM_LOGOUT_ACTION_REBOOT   = 1 << 1,
+  MDM_LOGOUT_ACTION_SUSPEND  = 1 << 2
+} MdmLogoutAction;
 
-gboolean         gdm_is_available            (void);
+gboolean         mdm_is_available            (void);
 
-void             gdm_new_login               (void);
+void             mdm_new_login               (void);
 
-void             gdm_set_logout_action       (GdmLogoutAction action);
+void             mdm_set_logout_action       (MdmLogoutAction action);
 
-GdmLogoutAction  gdm_get_logout_action       (void);
+MdmLogoutAction  mdm_get_logout_action       (void);
 
-gboolean         gdm_supports_logout_action  (GdmLogoutAction action);
+gboolean         mdm_supports_logout_action  (MdmLogoutAction action);
 
 G_END_DECLS
 
-#endif /* __GDM_LOGOUT_ACTION_H__ */
+#endif /* __MDM_LOGOUT_ACTION_H__ */

@@ -37,8 +37,8 @@
 #include <dbus/dbus-glib-bindings.h>
 #include <dbus/dbus-glib-lowlevel.h>
 
-#include "gdm-signal-handler.h"
-#include "gdm-log.h"
+#include "mdm-signal-handler.h"
+#include "mdm-log.h"
 
 #include "gsm-consolekit.h"
 #include "gsm-mateconf.h"
@@ -352,7 +352,7 @@ signal_cb (int      signo,
         case SIGUSR1:
                 g_debug ("Got USR1 signal");
                 ret = TRUE;
-                gdm_log_toggle_debug ();
+                mdm_log_toggle_debug ();
                 break;
         default:
                 g_debug ("Caught unhandled signal %d", signo);
@@ -393,7 +393,7 @@ require_dbus_session (int      argc,
                 return TRUE;
 
         /* Just a sanity check to prevent infinite recursion if
-         * dbus-launch fails to set DBUS_SESSION_BUS_ADDRESS 
+         * dbus-launch fails to set DBUS_SESSION_BUS_ADDRESS
          */
         g_return_val_if_fail (!g_str_has_prefix (argv[0], "dbus-launch"),
                               TRUE);
@@ -407,9 +407,9 @@ require_dbus_session (int      argc,
                 new_argv[i + 2] = argv[i];
 	}
         new_argv[i + 2] = NULL;
-        
+
         if (!execvp ("dbus-launch", new_argv)) {
-                g_set_error (error, 
+                g_set_error (error,
                              G_SPAWN_ERROR,
                              G_SPAWN_ERROR_FAILED,
                              "No session bus and could not exec dbus-launch: %s",
@@ -430,7 +430,7 @@ main (int argc, char **argv)
         GsmManager       *manager;
         GsmStore         *client_store;
         GsmXsmpServer    *xsmp_server;
-        GdmSignalHandler *signal_handler;
+        MdmSignalHandler *signal_handler;
         static char     **override_autostart_dirs = NULL;
         static char      *default_session_key = NULL;
         static GOptionEntry entries[] = {
@@ -471,8 +471,8 @@ main (int argc, char **argv)
                 exit (1);
         }
 
-        gdm_log_init ();
-        gdm_log_set_debug (debug);
+        mdm_log_init ();
+        mdm_log_set_debug (debug);
 
         /* Set DISPLAY explicitly for all our children, in case --display
          * was specified on the command line.
@@ -502,14 +502,14 @@ main (int argc, char **argv)
 
         manager = gsm_manager_new (client_store, failsafe);
 
-        signal_handler = gdm_signal_handler_new ();
-        gdm_signal_handler_add_fatal (signal_handler);
-        gdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
-        gdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, manager);
-        gdm_signal_handler_add (signal_handler, SIGINT, signal_cb, manager);
-        gdm_signal_handler_set_fatal_func (signal_handler, shutdown_cb, manager);
+        signal_handler = mdm_signal_handler_new ();
+        mdm_signal_handler_add_fatal (signal_handler);
+        mdm_signal_handler_add (signal_handler, SIGFPE, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGHUP, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGUSR1, signal_cb, NULL);
+        mdm_signal_handler_add (signal_handler, SIGTERM, signal_cb, manager);
+        mdm_signal_handler_add (signal_handler, SIGINT, signal_cb, manager);
+        mdm_signal_handler_set_fatal_func (signal_handler, shutdown_cb, manager);
 
         if (override_autostart_dirs != NULL) {
                 load_override_apps (manager, override_autostart_dirs);
@@ -541,7 +541,7 @@ main (int argc, char **argv)
 
         gsm_mateconf_shutdown ();
 
-        gdm_log_shutdown ();
+        mdm_log_shutdown ();
 
         return 0;
 }

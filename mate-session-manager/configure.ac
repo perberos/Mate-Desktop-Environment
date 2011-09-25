@@ -1,4 +1,4 @@
-AC_INIT([mate-session], [2.32.0],
+AC_INIT([mate-session], [2011.9.25],
         [http://bugzilla.mate.org/enter_bug.cgi?product=mate-session])
 AC_CONFIG_SRCDIR([mate-session])
 AC_CONFIG_HEADERS([config.h])
@@ -343,7 +343,7 @@ doc/dbus/mate-session.xml
 doc/man/Makefile
 data/Makefile
 data/mate-wm.desktop.in
-data/session-properties.desktop.in
+data/mate-session-properties.desktop.in
 data/icons/Makefile
 data/icons/16x16/Makefile
 data/icons/22x22/Makefile

@@ -35,12 +35,12 @@ mate_session_SOURCES =				\
 	gsm-presence.c				\
 	gsm-mateconf.c				\
 	gsm-mateconf.h				\
-	gdm.h					\
-	gdm.c					\
-	gdm-signal-handler.h			\
-	gdm-signal-handler.c			\
-	gdm-log.h				\
-	gdm-log.c				\
+	mdm.h					\
+	mdm.c					\
+	mdm-signal-handler.h			\
+	mdm-signal-handler.c			\
+	mdm-log.h				\
+	mdm-log.c				\
 	main.c					\
 	gsm-store.h				\
 	gsm-store.c				\

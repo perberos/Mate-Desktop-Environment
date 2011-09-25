@@ -39,18 +39,18 @@
 #include <glib/gstdio.h>
 #include <glib-object.h>
 
-#include "gdm-signal-handler.h"
+#include "mdm-signal-handler.h"
 
-#define GDM_SIGNAL_HANDLER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GDM_TYPE_SIGNAL_HANDLER, GdmSignalHandlerPrivate))
+#define MDM_SIGNAL_HANDLER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), MDM_TYPE_SIGNAL_HANDLER, MdmSignalHandlerPrivate))
 
 typedef struct {
         int                  signal_number;
-        GdmSignalHandlerFunc func;
+        MdmSignalHandlerFunc func;
         gpointer             data;
         guint                id;
 } CallbackData;
 
-struct GdmSignalHandlerPrivate
+struct MdmSignalHandlerPrivate
 {
         GHashTable    *lookup;
         GHashTable    *id_lookup;
@@ -60,9 +60,9 @@ struct GdmSignalHandlerPrivate
         gpointer       fatal_data;
 };
 
-static void     gdm_signal_handler_class_init   (GdmSignalHandlerClass *klass);
-static void     gdm_signal_handler_init         (GdmSignalHandler      *signal_handler);
-static void     gdm_signal_handler_finalize     (GObject               *object);
+static void     mdm_signal_handler_class_init   (MdmSignalHandlerClass *klass);
+static void     mdm_signal_handler_init         (MdmSignalHandler      *signal_handler);
+static void     mdm_signal_handler_finalize     (GObject               *object);
 
 static gpointer signal_handler_object = NULL;
 static int      signal_pipes[2];
@@ -70,7 +70,7 @@ static int      signals_blocked = 0;
 static sigset_t signals_block_mask;
 static sigset_t signals_oldmask;
 
-G_DEFINE_TYPE (GdmSignalHandler, gdm_signal_handler, G_TYPE_OBJECT)
+G_DEFINE_TYPE (MdmSignalHandler, mdm_signal_handler, G_TYPE_OBJECT)
 
 static void
 block_signals_push (void)
@@ -99,7 +99,7 @@ block_signals_pop (void)
 static gboolean
 signal_io_watch (GIOChannel       *ioc,
                  GIOCondition      condition,
-                 GdmSignalHandler *handler)
+                 MdmSignalHandler *handler)
 {
         char     buf[256];
         gboolean is_fatal;
@@ -119,10 +119,10 @@ signal_io_watch (GIOChannel       *ioc,
 
                 signum = (gint32)buf[i];
 
-                g_debug ("GdmSignalHandler: handling signal %d", signum);
+                g_debug ("MdmSignalHandler: handling signal %d", signum);
                 handlers = g_hash_table_lookup (handler->priv->lookup, GINT_TO_POINTER (signum));
 
-                g_debug ("GdmSignalHandler: Found %u callbacks", g_slist_length (handlers));
+                g_debug ("MdmSignalHandler: Found %u callbacks", g_slist_length (handlers));
                 for (l = handlers; l != NULL; l = l->next) {
                         gboolean      res;
                         CallbackData *data;
@@ -130,7 +130,7 @@ signal_io_watch (GIOChannel       *ioc,
                         data = g_hash_table_lookup (handler->priv->id_lookup, l->data);
                         if (data != NULL) {
                                 if (data->func != NULL) {
-                                        g_debug ("GdmSignalHandler: running %d handler: %p", signum, data->func);
+                                        g_debug ("MdmSignalHandler: running %d handler: %p", signum, data->func);
                                         res = data->func (signum, data->data);
                                         if (! res) {
                                                 is_fatal = TRUE;
@@ -144,17 +144,17 @@ signal_io_watch (GIOChannel       *ioc,
 
         if (is_fatal) {
                 if (handler->priv->fatal_func != NULL) {
-                        g_debug ("GdmSignalHandler: Caught termination signal - calling fatal func");
+                        g_debug ("MdmSignalHandler: Caught termination signal - calling fatal func");
                         handler->priv->fatal_func (handler->priv->fatal_data);
                 } else {
-                        g_debug ("GdmSignalHandler: Caught termination signal - exiting");
+                        g_debug ("MdmSignalHandler: Caught termination signal - exiting");
                         exit (1);
                 }
 
                 return FALSE;
         }
 
-        g_debug ("GdmSignalHandler: Done handling signals");
+        g_debug ("MdmSignalHandler: Done handling signals");
 
         return TRUE;
 }
@@ -178,7 +178,7 @@ fallback_get_backtrace (void)
                 syslog (LOG_CRIT, "******************* END **********************************");
         } else {
 #endif
-                g_warning ("GDM crashed, but symbols couldn't be retrieved.");
+                g_warning ("MDM crashed, but symbols couldn't be retrieved.");
 #if HAVE_EXECINFO_H
         }
 #endif
@@ -203,8 +203,8 @@ crashlogger_get_backtrace (void)
                 }
         } else if (pid == 0) {
                 /* Child process */
-                execl (LIBEXECDIR "/gdm-crash-logger",
-                       LIBEXECDIR "/gdm-crash-logger", NULL);
+                execl (LIBEXECDIR "/mdm-crash-logger",
+                       LIBEXECDIR "/mdm-crash-logger", NULL);
         }
 
         return success;
@@ -212,16 +212,16 @@ crashlogger_get_backtrace (void)
 
 
 static void
-gdm_signal_handler_backtrace (void)
+mdm_signal_handler_backtrace (void)
 {
         struct stat s;
         gboolean    fallback = TRUE;
 
-        /* Try to use gdb via gdm-crash-logger if it exists, since
+        /* Try to use gdb via mdm-crash-logger if it exists, since
          * we get much better information out of it.  Otherwise
          * fall back to execinfo.
          */
-        if (g_stat (LIBEXECDIR "/gdm-crash-logger", &s) == 0) {
+        if (g_stat (LIBEXECDIR "/mdm-crash-logger", &s) == 0) {
                 fallback = crashlogger_get_backtrace () ? FALSE : TRUE;
         }
 
@@ -250,14 +250,14 @@ signal_handler (int signo)
         case SIGILL:
         case SIGABRT:
         case SIGTRAP:
-                gdm_signal_handler_backtrace ();
+                mdm_signal_handler_backtrace ();
                 exit (1);
                 break;
         case SIGFPE:
         case SIGPIPE:
                 /* let the fatal signals interrupt us */
                 --in_fatal;
-                gdm_signal_handler_backtrace ();
+                mdm_signal_handler_backtrace ();
                 ignore = write (signal_pipes [1], &signo_byte, 1);
                 break;
         default:
@@ -268,13 +268,13 @@ signal_handler (int signo)
 }
 
 static void
-catch_signal (GdmSignalHandler *handler,
+catch_signal (MdmSignalHandler *handler,
               int               signal_number)
 {
         struct sigaction  action;
         struct sigaction *old_action;
 
-        g_debug ("GdmSignalHandler: Registering for %d signals", signal_number);
+        g_debug ("MdmSignalHandler: Registering for %d signals", signal_number);
 
         action.sa_handler = signal_handler;
         sigemptyset (&action.sa_mask);
@@ -290,12 +290,12 @@ catch_signal (GdmSignalHandler *handler,
 }
 
 static void
-uncatch_signal (GdmSignalHandler *handler,
+uncatch_signal (MdmSignalHandler *handler,
                 int               signal_number)
 {
         struct sigaction *old_action;
 
-        g_debug ("GdmSignalHandler: Unregistering for %d signals", signal_number);
+        g_debug ("MdmSignalHandler: Unregistering for %d signals", signal_number);
 
         old_action = g_hash_table_lookup (handler->priv->action_lookup,
                                           GINT_TO_POINTER (signal_number));
@@ -308,15 +308,15 @@ uncatch_signal (GdmSignalHandler *handler,
 }
 
 guint
-gdm_signal_handler_add (GdmSignalHandler    *handler,
+mdm_signal_handler_add (MdmSignalHandler    *handler,
                         int                  signal_number,
-                        GdmSignalHandlerFunc callback,
+                        MdmSignalHandlerFunc callback,
                         gpointer             data)
 {
         CallbackData *cdata;
         GSList       *list;
 
-        g_return_val_if_fail (GDM_IS_SIGNAL_HANDLER (handler), 0);
+        g_return_val_if_fail (MDM_IS_SIGNAL_HANDLER (handler), 0);
 
         cdata = g_new0 (CallbackData, 1);
         cdata->signal_number = signal_number;
@@ -324,7 +324,7 @@ gdm_signal_handler_add (GdmSignalHandler    *handler,
         cdata->data = data;
         cdata->id = handler->priv->next_id++;
 
-        g_debug ("GdmSignalHandler: Adding handler %u: signum=%d %p", cdata->id, cdata->signal_number, cdata->func);
+        g_debug ("MdmSignalHandler: Adding handler %u: signum=%d %p", cdata->id, cdata->signal_number, cdata->func);
 
         if (g_hash_table_lookup (handler->priv->action_lookup, GINT_TO_POINTER (signal_number)) == NULL) {
                 catch_signal (handler, signal_number);
@@ -342,15 +342,15 @@ gdm_signal_handler_add (GdmSignalHandler    *handler,
 }
 
 void
-gdm_signal_handler_add_fatal (GdmSignalHandler *handler)
+mdm_signal_handler_add_fatal (MdmSignalHandler *handler)
 {
-        g_return_if_fail (GDM_IS_SIGNAL_HANDLER (handler));
+        g_return_if_fail (MDM_IS_SIGNAL_HANDLER (handler));
 
-        gdm_signal_handler_add (handler, SIGILL, NULL, NULL);
-        gdm_signal_handler_add (handler, SIGBUS, NULL, NULL);
-        gdm_signal_handler_add (handler, SIGSEGV, NULL, NULL);
-        gdm_signal_handler_add (handler, SIGABRT, NULL, NULL);
-        gdm_signal_handler_add (handler, SIGTRAP, NULL, NULL);
+        mdm_signal_handler_add (handler, SIGILL, NULL, NULL);
+        mdm_signal_handler_add (handler, SIGBUS, NULL, NULL);
+        mdm_signal_handler_add (handler, SIGSEGV, NULL, NULL);
+        mdm_signal_handler_add (handler, SIGABRT, NULL, NULL);
+        mdm_signal_handler_add (handler, SIGTRAP, NULL, NULL);
 }
 
 static void
@@ -360,12 +360,12 @@ callback_data_free (CallbackData *d)
 }
 
 static void
-gdm_signal_handler_remove_and_free_data (GdmSignalHandler *handler,
+mdm_signal_handler_remove_and_free_data (MdmSignalHandler *handler,
                                          CallbackData     *cdata)
 {
         GSList *list;
 
-        g_return_if_fail (GDM_IS_SIGNAL_HANDLER (handler));
+        g_return_if_fail (MDM_IS_SIGNAL_HANDLER (handler));
 
         list = g_hash_table_lookup (handler->priv->lookup, GINT_TO_POINTER (cdata->signal_number));
         list = g_slist_remove_all (list, GUINT_TO_POINTER (cdata->id));
@@ -373,7 +373,7 @@ gdm_signal_handler_remove_and_free_data (GdmSignalHandler *handler,
                 uncatch_signal (handler, cdata->signal_number);
         }
 
-        g_debug ("GdmSignalHandler: Removing handler %u: signum=%d %p", cdata->signal_number, cdata->id, cdata->func);
+        g_debug ("MdmSignalHandler: Removing handler %u: signum=%d %p", cdata->signal_number, cdata->id, cdata->func);
         /* put changed list back in */
         g_hash_table_insert (handler->priv->lookup, GINT_TO_POINTER (cdata->signal_number), list);
 
@@ -381,24 +381,24 @@ gdm_signal_handler_remove_and_free_data (GdmSignalHandler *handler,
 }
 
 void
-gdm_signal_handler_remove (GdmSignalHandler    *handler,
+mdm_signal_handler_remove (MdmSignalHandler    *handler,
                            guint                id)
 {
         CallbackData *found;
 
-        g_return_if_fail (GDM_IS_SIGNAL_HANDLER (handler));
+        g_return_if_fail (MDM_IS_SIGNAL_HANDLER (handler));
 
         found = g_hash_table_lookup (handler->priv->id_lookup, GUINT_TO_POINTER (id));
         if (found != NULL) {
-                gdm_signal_handler_remove_and_free_data (handler, found);
+                mdm_signal_handler_remove_and_free_data (handler, found);
                 found = NULL;
         }
 }
 
 static CallbackData *
-find_callback_data_by_func (GdmSignalHandler    *handler,
+find_callback_data_by_func (MdmSignalHandler    *handler,
                             guint                signal_number,
-                            GdmSignalHandlerFunc callback,
+                            MdmSignalHandlerFunc callback,
                             gpointer             data)
 {
         GSList       *list;
@@ -428,19 +428,19 @@ find_callback_data_by_func (GdmSignalHandler    *handler,
 }
 
 void
-gdm_signal_handler_remove_func (GdmSignalHandler    *handler,
+mdm_signal_handler_remove_func (MdmSignalHandler    *handler,
                                 guint                signal_number,
-                                GdmSignalHandlerFunc callback,
+                                MdmSignalHandlerFunc callback,
                                 gpointer             data)
 {
         CallbackData *found;
 
-        g_return_if_fail (GDM_IS_SIGNAL_HANDLER (handler));
+        g_return_if_fail (MDM_IS_SIGNAL_HANDLER (handler));
 
         found = find_callback_data_by_func (handler, signal_number, callback, data);
 
         if (found != NULL) {
-                gdm_signal_handler_remove_and_free_data (handler, found);
+                mdm_signal_handler_remove_and_free_data (handler, found);
                 found = NULL;
         }
 
@@ -448,13 +448,13 @@ gdm_signal_handler_remove_func (GdmSignalHandler    *handler,
 }
 
 static void
-gdm_signal_handler_class_init (GdmSignalHandlerClass *klass)
+mdm_signal_handler_class_init (MdmSignalHandlerClass *klass)
 {
         GObjectClass   *object_class = G_OBJECT_CLASS (klass);
 
-        object_class->finalize = gdm_signal_handler_finalize;
+        object_class->finalize = mdm_signal_handler_finalize;
 
-        g_type_class_add_private (klass, sizeof (GdmSignalHandlerPrivate));
+        g_type_class_add_private (klass, sizeof (MdmSignalHandlerPrivate));
 }
 
 static void
@@ -464,22 +464,22 @@ signal_list_free (GSList *list)
 }
 
 void
-gdm_signal_handler_set_fatal_func (GdmSignalHandler       *handler,
-                                   GdmShutdownHandlerFunc  func,
+mdm_signal_handler_set_fatal_func (MdmSignalHandler       *handler,
+                                   MdmShutdownHandlerFunc  func,
                                    gpointer                user_data)
 {
-        g_return_if_fail (GDM_IS_SIGNAL_HANDLER (handler));
+        g_return_if_fail (MDM_IS_SIGNAL_HANDLER (handler));
 
         handler->priv->fatal_func = func;
         handler->priv->fatal_data = user_data;
 }
 
 static void
-gdm_signal_handler_init (GdmSignalHandler *handler)
+mdm_signal_handler_init (MdmSignalHandler *handler)
 {
         GIOChannel *ioc;
 
-        handler->priv = GDM_SIGNAL_HANDLER_GET_PRIVATE (handler);
+        handler->priv = MDM_SIGNAL_HANDLER_GET_PRIVATE (handler);
 
         handler->priv->next_id = 1;
 
@@ -500,17 +500,17 @@ gdm_signal_handler_init (GdmSignalHandler *handler)
 }
 
 static void
-gdm_signal_handler_finalize (GObject *object)
+mdm_signal_handler_finalize (GObject *object)
 {
-        GdmSignalHandler *handler;
+        MdmSignalHandler *handler;
         GList            *l;
 
         g_return_if_fail (object != NULL);
-        g_return_if_fail (GDM_IS_SIGNAL_HANDLER (object));
+        g_return_if_fail (MDM_IS_SIGNAL_HANDLER (object));
 
-        handler = GDM_SIGNAL_HANDLER (object);
+        handler = MDM_SIGNAL_HANDLER (object);
 
-        g_debug ("GdmSignalHandler: Finalizing signal handler");
+        g_debug ("MdmSignalHandler: Finalizing signal handler");
 
         g_return_if_fail (handler->priv != NULL);
         for (l = g_hash_table_get_values (handler->priv->lookup);
@@ -532,19 +532,19 @@ gdm_signal_handler_finalize (GObject *object)
         close (signal_pipes [0]);
         close (signal_pipes [1]);
 
-        G_OBJECT_CLASS (gdm_signal_handler_parent_class)->finalize (object);
+        G_OBJECT_CLASS (mdm_signal_handler_parent_class)->finalize (object);
 }
 
-GdmSignalHandler *
-gdm_signal_handler_new (void)
+MdmSignalHandler *
+mdm_signal_handler_new (void)
 {
         if (signal_handler_object != NULL) {
                 g_object_ref (signal_handler_object);
         } else {
-                signal_handler_object = g_object_new (GDM_TYPE_SIGNAL_HANDLER, NULL);
+                signal_handler_object = g_object_new (MDM_TYPE_SIGNAL_HANDLER, NULL);
                 g_object_add_weak_pointer (signal_handler_object,
                                            (gpointer *) &signal_handler_object);
         }
 
-        return GDM_SIGNAL_HANDLER (signal_handler_object);
+        return MDM_SIGNAL_HANDLER (signal_handler_object);
 }

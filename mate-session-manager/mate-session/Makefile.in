@@ -71,9 +71,9 @@ am_mate_session_OBJECTS = mate_session-gsm-app.$(OBJEXT) \
 	mate_session-gsm-inhibit-dialog.$(OBJEXT) \
 	mate_session-gs-idle-monitor.$(OBJEXT) \
 	mate_session-gsm-presence.$(OBJEXT) \
-	mate_session-gsm-mateconf.$(OBJEXT) mate_session-gdm.$(OBJEXT) \
-	mate_session-gdm-signal-handler.$(OBJEXT) \
-	mate_session-gdm-log.$(OBJEXT) mate_session-main.$(OBJEXT) \
+	mate_session-gsm-mateconf.$(OBJEXT) mate_session-mdm.$(OBJEXT) \
+	mate_session-mdm-signal-handler.$(OBJEXT) \
+	mate_session-mdm-log.$(OBJEXT) mate_session-main.$(OBJEXT) \
 	mate_session-gsm-store.$(OBJEXT) \
 	mate_session-gsm-inhibitor.$(OBJEXT) \
 	mate_session-gsm-manager.$(OBJEXT) \
@@ -339,12 +339,12 @@ mate_session_SOURCES = \
 	gsm-presence.c				\
 	gsm-mateconf.c				\
 	gsm-mateconf.h				\
-	gdm.h					\
-	gdm.c					\
-	gdm-signal-handler.h			\
-	gdm-signal-handler.c			\
-	gdm-log.h				\
-	gdm-log.c				\
+	mdm.h					\
+	mdm.c					\
+	mdm-signal-handler.h			\
+	mdm-signal-handler.c			\
+	mdm-log.h				\
+	mdm-log.c				\
 	main.c					\
 	gsm-store.h				\
 	gsm-store.c				\
@@ -532,9 +532,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gsm-util.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gdm-log.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gdm-signal-handler.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gdm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gs-idle-monitor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gsm-app.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gsm-autostart-app.Po@am__quote@
@@ -553,6 +550,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gsm-xsmp-client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-gsm-xsmp-server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-mdm-log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-mdm-signal-handler.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_session-mdm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-client-dbus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-inhibit.Po@am__quote@
 
@@ -772,53 +772,53 @@ mate_session-gsm-mateconf.obj: gsm-mateconf.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gsm-mateconf.obj `if test -f 'gsm-mateconf.c'; then $(CYGPATH_W) 'gsm-mateconf.c'; else $(CYGPATH_W) '$(srcdir)/gsm-mateconf.c'; fi`
 
-mate_session-gdm.o: gdm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-gdm.o -MD -MP -MF $(DEPDIR)/mate_session-gdm.Tpo -c -o mate_session-gdm.o `test -f 'gdm.c' || echo '$(srcdir)/'`gdm.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-gdm.Tpo $(DEPDIR)/mate_session-gdm.Po
+mate_session-mdm.o: mdm.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-mdm.o -MD -MP -MF $(DEPDIR)/mate_session-mdm.Tpo -c -o mate_session-mdm.o `test -f 'mdm.c' || echo '$(srcdir)/'`mdm.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-mdm.Tpo $(DEPDIR)/mate_session-mdm.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gdm.c' object='mate_session-gdm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mdm.c' object='mate_session-mdm.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gdm.o `test -f 'gdm.c' || echo '$(srcdir)/'`gdm.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-mdm.o `test -f 'mdm.c' || echo '$(srcdir)/'`mdm.c
 
-mate_session-gdm.obj: gdm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-gdm.obj -MD -MP -MF $(DEPDIR)/mate_session-gdm.Tpo -c -o mate_session-gdm.obj `if test -f 'gdm.c'; then $(CYGPATH_W) 'gdm.c'; else $(CYGPATH_W) '$(srcdir)/gdm.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-gdm.Tpo $(DEPDIR)/mate_session-gdm.Po
+mate_session-mdm.obj: mdm.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-mdm.obj -MD -MP -MF $(DEPDIR)/mate_session-mdm.Tpo -c -o mate_session-mdm.obj `if test -f 'mdm.c'; then $(CYGPATH_W) 'mdm.c'; else $(CYGPATH_W) '$(srcdir)/mdm.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-mdm.Tpo $(DEPDIR)/mate_session-mdm.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gdm.c' object='mate_session-gdm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mdm.c' object='mate_session-mdm.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gdm.obj `if test -f 'gdm.c'; then $(CYGPATH_W) 'gdm.c'; else $(CYGPATH_W) '$(srcdir)/gdm.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-mdm.obj `if test -f 'mdm.c'; then $(CYGPATH_W) 'mdm.c'; else $(CYGPATH_W) '$(srcdir)/mdm.c'; fi`
 
-mate_session-gdm-signal-handler.o: gdm-signal-handler.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-gdm-signal-handler.o -MD -MP -MF $(DEPDIR)/mate_session-gdm-signal-handler.Tpo -c -o mate_session-gdm-signal-handler.o `test -f 'gdm-signal-handler.c' || echo '$(srcdir)/'`gdm-signal-handler.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-gdm-signal-handler.Tpo $(DEPDIR)/mate_session-gdm-signal-handler.Po
+mate_session-mdm-signal-handler.o: mdm-signal-handler.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-mdm-signal-handler.o -MD -MP -MF $(DEPDIR)/mate_session-mdm-signal-handler.Tpo -c -o mate_session-mdm-signal-handler.o `test -f 'mdm-signal-handler.c' || echo '$(srcdir)/'`mdm-signal-handler.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-mdm-signal-handler.Tpo $(DEPDIR)/mate_session-mdm-signal-handler.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gdm-signal-handler.c' object='mate_session-gdm-signal-handler.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mdm-signal-handler.c' object='mate_session-mdm-signal-handler.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gdm-signal-handler.o `test -f 'gdm-signal-handler.c' || echo '$(srcdir)/'`gdm-signal-handler.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-mdm-signal-handler.o `test -f 'mdm-signal-handler.c' || echo '$(srcdir)/'`mdm-signal-handler.c
 
-mate_session-gdm-signal-handler.obj: gdm-signal-handler.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-gdm-signal-handler.obj -MD -MP -MF $(DEPDIR)/mate_session-gdm-signal-handler.Tpo -c -o mate_session-gdm-signal-handler.obj `if test -f 'gdm-signal-handler.c'; then $(CYGPATH_W) 'gdm-signal-handler.c'; else $(CYGPATH_W) '$(srcdir)/gdm-signal-handler.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-gdm-signal-handler.Tpo $(DEPDIR)/mate_session-gdm-signal-handler.Po
+mate_session-mdm-signal-handler.obj: mdm-signal-handler.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-mdm-signal-handler.obj -MD -MP -MF $(DEPDIR)/mate_session-mdm-signal-handler.Tpo -c -o mate_session-mdm-signal-handler.obj `if test -f 'mdm-signal-handler.c'; then $(CYGPATH_W) 'mdm-signal-handler.c'; else $(CYGPATH_W) '$(srcdir)/mdm-signal-handler.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-mdm-signal-handler.Tpo $(DEPDIR)/mate_session-mdm-signal-handler.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gdm-signal-handler.c' object='mate_session-gdm-signal-handler.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mdm-signal-handler.c' object='mate_session-mdm-signal-handler.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gdm-signal-handler.obj `if test -f 'gdm-signal-handler.c'; then $(CYGPATH_W) 'gdm-signal-handler.c'; else $(CYGPATH_W) '$(srcdir)/gdm-signal-handler.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-mdm-signal-handler.obj `if test -f 'mdm-signal-handler.c'; then $(CYGPATH_W) 'mdm-signal-handler.c'; else $(CYGPATH_W) '$(srcdir)/mdm-signal-handler.c'; fi`
 
-mate_session-gdm-log.o: gdm-log.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-gdm-log.o -MD -MP -MF $(DEPDIR)/mate_session-gdm-log.Tpo -c -o mate_session-gdm-log.o `test -f 'gdm-log.c' || echo '$(srcdir)/'`gdm-log.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-gdm-log.Tpo $(DEPDIR)/mate_session-gdm-log.Po
+mate_session-mdm-log.o: mdm-log.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-mdm-log.o -MD -MP -MF $(DEPDIR)/mate_session-mdm-log.Tpo -c -o mate_session-mdm-log.o `test -f 'mdm-log.c' || echo '$(srcdir)/'`mdm-log.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-mdm-log.Tpo $(DEPDIR)/mate_session-mdm-log.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gdm-log.c' object='mate_session-gdm-log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mdm-log.c' object='mate_session-mdm-log.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gdm-log.o `test -f 'gdm-log.c' || echo '$(srcdir)/'`gdm-log.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-mdm-log.o `test -f 'mdm-log.c' || echo '$(srcdir)/'`mdm-log.c
 
-mate_session-gdm-log.obj: gdm-log.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-gdm-log.obj -MD -MP -MF $(DEPDIR)/mate_session-gdm-log.Tpo -c -o mate_session-gdm-log.obj `if test -f 'gdm-log.c'; then $(CYGPATH_W) 'gdm-log.c'; else $(CYGPATH_W) '$(srcdir)/gdm-log.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-gdm-log.Tpo $(DEPDIR)/mate_session-gdm-log.Po
+mate_session-mdm-log.obj: mdm-log.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-mdm-log.obj -MD -MP -MF $(DEPDIR)/mate_session-mdm-log.Tpo -c -o mate_session-mdm-log.obj `if test -f 'mdm-log.c'; then $(CYGPATH_W) 'mdm-log.c'; else $(CYGPATH_W) '$(srcdir)/mdm-log.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_session-mdm-log.Tpo $(DEPDIR)/mate_session-mdm-log.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gdm-log.c' object='mate_session-gdm-log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mdm-log.c' object='mate_session-mdm-log.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-gdm-log.obj `if test -f 'gdm-log.c'; then $(CYGPATH_W) 'gdm-log.c'; else $(CYGPATH_W) '$(srcdir)/gdm-log.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_session-mdm-log.obj `if test -f 'mdm-log.c'; then $(CYGPATH_W) 'mdm-log.c'; else $(CYGPATH_W) '$(srcdir)/mdm-log.c'; fi`
 
 mate_session-main.o: main.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_session_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_session-main.o -MD -MP -MF $(DEPDIR)/mate_session-main.Tpo -c -o mate_session-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c

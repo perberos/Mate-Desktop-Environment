@@ -38,8 +38,8 @@ host_triplet = @host@
 @USE_MATE_WM_TRUE@am__append_1 = mate-wm.desktop.in
 subdir = data
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/mate-wm.desktop.in.in \
-	$(srcdir)/session-properties.desktop.in.in
+	$(srcdir)/mate-session-properties.desktop.in.in \
+	$(srcdir)/mate-wm.desktop.in.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -49,7 +49,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = mate-wm.desktop.in session-properties.desktop.in
+CONFIG_CLEAN_FILES = mate-wm.desktop.in \
+	mate-session-properties.desktop.in
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -320,7 +321,7 @@ xsessiondir = $(datadir)/xsessions
 xsession_in_files = mate.desktop.in
 xsession_DATA = $(xsession_in_files:.desktop.in=.desktop)
 desktopdir = $(datadir)/applications
-desktop_in_files = session-properties.desktop.in $(am__append_1)
+desktop_in_files = mate-session-properties.desktop.in $(am__append_1)
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 schemas_in_in_files = mate-session.schemas.in.in
 schemas_in_files = $(schemas_in_in_files:.schemas.in.in=.schemas.in)
@@ -378,7 +379,7 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 mate-wm.desktop.in: $(top_builddir)/config.status $(srcdir)/mate-wm.desktop.in.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-session-properties.desktop.in: $(top_builddir)/config.status $(srcdir)/session-properties.desktop.in.in
+mate-session-properties.desktop.in: $(top_builddir)/config.status $(srcdir)/mate-session-properties.desktop.in.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)

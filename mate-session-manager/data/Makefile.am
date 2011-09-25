@@ -12,7 +12,7 @@ xsession_in_files = mate.desktop.in
 xsession_DATA = $(xsession_in_files:.desktop.in=.desktop)
 
 desktopdir = $(datadir)/applications
-desktop_in_files = session-properties.desktop.in
+desktop_in_files = mate-session-properties.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 if USE_MATE_WM

@@ -31,7 +31,7 @@
 
 #include "gsm-logout-dialog.h"
 #include "gsm-consolekit.h"
-#include "gdm.h"
+#include "mdm.h"
 
 #define GSM_LOGOUT_DIALOG_GET_PRIVATE(o)                                \
         (G_TYPE_INSTANCE_GET_PRIVATE ((o), GSM_TYPE_LOGOUT_DIALOG, GsmLogoutDialogPrivate))
@@ -208,7 +208,7 @@ gsm_logout_supports_reboot (GsmLogoutDialog *logout_dialog)
 
         ret = gsm_consolekit_can_restart (logout_dialog->priv->consolekit);
         if (!ret) {
-                ret = gdm_supports_logout_action (GDM_LOGOUT_ACTION_REBOOT);
+                ret = mdm_supports_logout_action (MDM_LOGOUT_ACTION_REBOOT);
         }
 
         return ret;
@@ -222,7 +222,7 @@ gsm_logout_supports_shutdown (GsmLogoutDialog *logout_dialog)
         ret = gsm_consolekit_can_stop (logout_dialog->priv->consolekit);
 
         if (!ret) {
-                ret = gdm_supports_logout_action (GDM_LOGOUT_ACTION_SHUTDOWN);
+                ret = mdm_supports_logout_action (MDM_LOGOUT_ACTION_SHUTDOWN);
         }
 
         return ret;
