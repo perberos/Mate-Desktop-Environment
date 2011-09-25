@@ -56,8 +56,8 @@ static GtkWidget *create_groups_section (AppShellData * app_data, const gchar * 
 static GtkWidget *create_actions_section (AppShellData * app_data, const gchar * title,
 	void (*actions_handler) (Tile *, TileEvent *, gpointer));
 
-static void generate_category (const char * category, GMenuTreeDirectory * root_dir, AppShellData * app_data, gboolean recursive);
-static void generate_launchers (GMenuTreeDirectory * root_dir, AppShellData * app_data,
+static void generate_category (const char * category, MateMenuTreeDirectory * root_dir, AppShellData * app_data, gboolean recursive);
+static void generate_launchers (MateMenuTreeDirectory * root_dir, AppShellData * app_data,
 	CategoryData * cat_data, gboolean recursive);
 static void generate_new_apps (AppShellData * app_data);
 static void insert_launcher_into_category (CategoryData * cat_data, MateDesktopItem * desktop_item,
@@ -88,7 +88,7 @@ static void handle_launcher_single_clicked (Tile * launcher, gpointer data);
 static void handle_menu_action_performed (Tile * launcher, TileEvent * event, TileAction * action,
 	gpointer data);
 static gint application_launcher_compare (gconstpointer a, gconstpointer b);
-static void gmenu_tree_changed_callback (GMenuTree * tree, gpointer user_data);
+static void matemenu_tree_changed_callback (MateMenuTree * tree, gpointer user_data);
 gboolean regenerate_categories (AppShellData * app_data);
 
 void
@@ -828,10 +828,10 @@ regenerate_categories (AppShellData * app_data)
 }
 
 static void
-gmenu_tree_changed_callback (GMenuTree * old_tree, gpointer user_data)
+matemenu_tree_changed_callback (MateMenuTree * old_tree, gpointer user_data)
 {
 	/*
-	This method only gets called on the first change (gmenu appears to ignore subsequent) until
+	This method only gets called on the first change (matemenu appears to ignore subsequent) until
 	we reget the root dir which we can't do in this method because if we do for some reason this
 	method then gets called multiple times for one actual change. This actually is okay because
 	it's probably a good idea to wait a couple seconds to regenerate the categories in case there
@@ -859,18 +859,18 @@ appshelldata_new (const gchar * menu_name, NewAppConfig * new_apps, const gchar 
 void
 generate_categories (AppShellData * app_data)
 {
-	GMenuTreeDirectory *root_dir;
+	MateMenuTreeDirectory *root_dir;
 	GSList *contents, *l;
 	gboolean need_misc = FALSE;
 
 	if (!app_data->tree)
 	{
-		app_data->tree = gmenu_tree_lookup (app_data->menu_name, GMENU_TREE_FLAGS_NONE);
-		gmenu_tree_add_monitor (app_data->tree, gmenu_tree_changed_callback, app_data);
+		app_data->tree = matemenu_tree_lookup (app_data->menu_name, MATEMENU_TREE_FLAGS_NONE);
+		matemenu_tree_add_monitor (app_data->tree, matemenu_tree_changed_callback, app_data);
 	}
-	root_dir = gmenu_tree_get_root_directory (app_data->tree);
+	root_dir = matemenu_tree_get_root_directory (app_data->tree);
 	if (root_dir)
-		contents = gmenu_tree_directory_get_contents (root_dir);
+		contents = matemenu_tree_directory_get_contents (root_dir);
 	else
 		contents = NULL;
 	if (!root_dir || !contents)
@@ -886,22 +886,22 @@ generate_categories (AppShellData * app_data)
 	for (l = contents; l; l = l->next)
 	{
 		const char *category;
-		GMenuTreeItem *item = l->data;
+		MateMenuTreeItem *item = l->data;
 
-		switch (gmenu_tree_item_get_type (item))
+		switch (matemenu_tree_item_get_type (item))
 		{
-		case GMENU_TREE_ITEM_DIRECTORY:
-			category = gmenu_tree_directory_get_name ((GMenuTreeDirectory*)item);
-			generate_category(category, (GMenuTreeDirectory*)item, app_data, TRUE);
+		case MATEMENU_TREE_ITEM_DIRECTORY:
+			category = matemenu_tree_directory_get_name ((MateMenuTreeDirectory*)item);
+			generate_category(category, (MateMenuTreeDirectory*)item, app_data, TRUE);
 			break;
-		case GMENU_TREE_ITEM_ENTRY:
+		case MATEMENU_TREE_ITEM_ENTRY:
 			need_misc = TRUE;
 			break;
 		default:
 			break;
 		}
 
-		gmenu_tree_item_unref (item);
+		matemenu_tree_item_unref (item);
 	}
 	g_slist_free (contents);
 
@@ -914,17 +914,17 @@ generate_categories (AppShellData * app_data)
 		app_data->hash = NULL;
 	}
 
-	gmenu_tree_item_unref (root_dir);
+	matemenu_tree_item_unref (root_dir);
 
 	if (app_data->new_apps && (app_data->new_apps->max_items > 0))
 		generate_new_apps (app_data);
 }
 
 static void
-generate_category (const char * category, GMenuTreeDirectory * root_dir, AppShellData * app_data, gboolean recursive)
+generate_category (const char * category, MateMenuTreeDirectory * root_dir, AppShellData * app_data, gboolean recursive)
 {
 	CategoryData *data;
-	/* This is not needed. GMenu already returns an ordered, non duplicate list
+	/* This is not needed. MateMenu already returns an ordered, non duplicate list
 	GList *list_entry;
 	list_entry =
 		g_list_find_custom (app_data->categories_list, category,
@@ -935,7 +935,7 @@ generate_category (const char * category, GMenuTreeDirectory * root_dir, AppShel
 		data = g_new0 (CategoryData, 1);
 		data->category = g_strdup (category);
 		app_data->categories_list =
-			/* use the gmenu order instead of alphabetical */
+			/* use the matemenu order instead of alphabetical */
 			g_list_append (app_data->categories_list, data);
 			/* g_list_insert_sorted (app_data->categories_list, data, category_data_compare); */
 	/*
@@ -1005,25 +1005,25 @@ check_specific_apps_hack (MateDesktopItem * item)
 }
 
 static void
-generate_launchers (GMenuTreeDirectory * root_dir, AppShellData * app_data, CategoryData * cat_data, gboolean recursive)
+generate_launchers (MateMenuTreeDirectory * root_dir, AppShellData * app_data, CategoryData * cat_data, gboolean recursive)
 {
 	MateDesktopItem *desktop_item;
 	const gchar *desktop_file;
 	GSList *contents, *l;
 
-	contents = gmenu_tree_directory_get_contents (root_dir);
+	contents = matemenu_tree_directory_get_contents (root_dir);
 	for (l = contents; l; l = l->next)
 	{
-		switch (gmenu_tree_item_get_type (l->data))
+		switch (matemenu_tree_item_get_type (l->data))
 		{
-		case GMENU_TREE_ITEM_DIRECTORY:
-			/* g_message ("Found sub-category %s", gmenu_tree_directory_get_name (l->data)); */
+		case MATEMENU_TREE_ITEM_DIRECTORY:
+			/* g_message ("Found sub-category %s", matemenu_tree_directory_get_name (l->data)); */
 			if (recursive)
 				generate_launchers (l->data, app_data, cat_data, TRUE);
 			break;
-		case GMENU_TREE_ITEM_ENTRY:
-			/* g_message ("Found item name is:%s", gmenu_tree_entry_get_name (l->data)); */
-			desktop_file = gmenu_tree_entry_get_desktop_file_path (l->data);
+		case MATEMENU_TREE_ITEM_ENTRY:
+			/* g_message ("Found item name is:%s", matemenu_tree_entry_get_name (l->data)); */
+			desktop_file = matemenu_tree_entry_get_desktop_file_path (l->data);
 			if (desktop_file)
 			{
 				if (g_hash_table_lookup (app_data->hash, desktop_file))
@@ -1031,7 +1031,7 @@ generate_launchers (GMenuTreeDirectory * root_dir, AppShellData * app_data, Cate
 					break;	/* duplicate */
 				}
 				/* Fixme - make sure it's safe to store this without duping it. As far as I can tell it is
-				   safe as long as I don't hang on to this anylonger than I hang on to the GMenuTreeEntry*
+				   safe as long as I don't hang on to this anylonger than I hang on to the MateMenuTreeEntry*
 				   which brings up another point - am I supposed to free these or does freeing the top level recurse
 				*/
 				g_hash_table_insert (app_data->hash, (gpointer) desktop_file,
@@ -1052,7 +1052,7 @@ generate_launchers (GMenuTreeDirectory * root_dir, AppShellData * app_data, Cate
 			break;
 		}
 
-		gmenu_tree_item_unref (l->data);
+		matemenu_tree_item_unref (l->data);
 	}
 	g_slist_free (contents);
 }
@@ -1280,7 +1280,7 @@ insert_launcher_into_category (CategoryData * cat_data, MateDesktopItem * deskto
 	/* destroyed when they are removed */
 	g_object_ref (launcher);
 
-	/* use alphabetical order instead of the gmenu order. We group all sub items in each top level
+	/* use alphabetical order instead of the matemenu order. We group all sub items in each top level
 	category together, ignoring sub menus, so we also ignore sub menu layout hints */
 	cat_data->launcher_list =
 		/* g_list_insert (cat_data->launcher_list, launcher, -1); */

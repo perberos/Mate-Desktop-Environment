@@ -23,8 +23,8 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
-#define GMENU_I_KNOW_THIS_IS_UNSTABLE
-#include <gmenu-tree.h>
+#define MATEMENU_I_KNOW_THIS_IS_UNSTABLE
+#include <matemenu-tree.h>
 #include <libmate/mate-desktop-item.h>
 
 #include <libslab/slab-section.h>
@@ -83,7 +83,7 @@ typedef struct _AppShellData
 	const gchar *mateconf_prefix;
 	const gchar *menu_name;
 	NewAppConfig *new_apps;
-	GMenuTree *tree;
+	MateMenuTree *tree;
 	GHashTable *hash;
 
 	guint filter_changed_timeout;

@@ -587,8 +587,8 @@ about_me_update_photo (MateAboutMe *me)
 		photo->data.inlined.length = length;
 		e_contact_set (me->contact, E_CONTACT_PHOTO, photo);
 
-		/* Save the image for GDM */
-		/* FIXME: I would have to read the default used by the gdmgreeter program */
+		/* Save the image for MDM */
+		/* FIXME: I would have to read the default used by the mdmgreeter program */
 		error = NULL;
 		file = g_build_filename (g_get_home_dir (), ".face", NULL);
 		if (g_file_set_contents (file,
