@@ -1,4 +1,4 @@
-AC_INIT([mate-control-center], [2.32.0],
+AC_INIT([mate-control-center], [2011.09.24],
         [http://bugzilla.mate.org/enter_bug.cgi?product=mate-control-center])
 
 AC_CONFIG_MACRO_DIR([m4])
