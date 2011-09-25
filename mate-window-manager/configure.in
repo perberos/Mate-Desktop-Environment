@@ -1,15 +1,15 @@
 AC_PREREQ(2.50)
 
-m4_define([marco_major_version], [2])
-m4_define([marco_minor_version], [30])
+m4_define([marco_major_version], [2011])
+m4_define([marco_minor_version], [9])
 # Fibonacci sequence for micro version numbering:
 # 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987
-m4_define([marco_micro_version], [3])
+m4_define([marco_micro_version], [25])
 
 m4_define([marco_version],
           [marco_major_version.marco_minor_version.marco_micro_version])
 AC_INIT([marco], [marco_version],
-        [http://bugzilla.mate.org/enter_bug.cgi?product=marco])
+        [https://github.com/Perberos/Mate-Desktop-Environment])
 
 AC_CONFIG_SRCDIR(src/core/display.c)
 AC_CONFIG_HEADERS(config.h)
@@ -31,7 +31,7 @@ AC_HEADER_STDC
 AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
-#### Integer sizes 
+#### Integer sizes
 
 AC_CHECK_SIZEOF(char)
 AC_CHECK_SIZEOF(short)
@@ -229,7 +229,7 @@ else
   echo "Building without libstartup-notification"
 fi
 
-## init this, it gets set either in the compositor check below 
+## init this, it gets set either in the compositor check below
 ## or the render-specific check later
 have_xrender=no
 
@@ -304,7 +304,7 @@ if $PKG_CONFIG xcursor; then
 if test x$have_xcursor = xyes; then
   echo "Building with Xcursor"
   MARCO_PC_MODULES="$MARCO_PC_MODULES xcursor"
-  AC_DEFINE(HAVE_XCURSOR, , [Building with Xcursor support]) 
+  AC_DEFINE(HAVE_XCURSOR, , [Building with Xcursor support])
 fi
 
 AC_MSG_CHECKING([libgtop])
@@ -318,7 +318,7 @@ if $PKG_CONFIG libgtop-2.0; then
 if test x$have_gtop = xyes; then
   echo "Building with libgtop"
   MARCO_PC_MODULES="$MARCO_PC_MODULES libgtop-2.0"
-  AC_DEFINE(HAVE_GTOP, , [Building with libgtop]) 
+  AC_DEFINE(HAVE_GTOP, , [Building with libgtop])
 fi
 
 PKG_CHECK_MODULES(MARCO, $MARCO_PC_MODULES)
@@ -355,7 +355,7 @@ if test "${try_xinerama}" != no; then
                                 AC_DEFINE(HAVE_XINERAMA, , [Have some version of Xinerama]),
                                 use_solaris_xinerama=no,
                                 [#include <X11/Xlib.h>])
-            fi	
+            fi
             AC_MSG_CHECKING(for Xinerama support on Solaris)
             AC_MSG_RESULT($use_solaris_xinerama);
             ;;
@@ -364,12 +364,12 @@ if test "${try_xinerama}" != no; then
             use_xfree_xinerama=yes
             AC_CHECK_LIB(Xinerama, XineramaQueryExtension,
                 [AC_CHECK_HEADER(X11/extensions/Xinerama.h,
-                                 X_EXTRA_LIBS="-lXinerama $X_EXTRA_LIBS"   
+                                 X_EXTRA_LIBS="-lXinerama $X_EXTRA_LIBS"
                                  if test -z "`echo $ALL_X_LIBS | grep "\-lXext" 2> /dev/null`"; then
                                      X_EXTRA_LIBS="-lXext $X_EXTRA_LIBS"
                                  fi
                                  AC_DEFINE(HAVE_XFREE_XINERAMA, , [Have XFree86-style Xinerama])
-                                 AC_DEFINE(HAVE_XINERAMA,, [Have some version of Xinerama]), 
+                                 AC_DEFINE(HAVE_XINERAMA,, [Have some version of Xinerama]),
                                  use_xfree_xinerama=no,
                                  [#include <X11/Xlib.h>])],
                 use_xfree_xinerama=no, -lXext $ALL_X_LIBS)
@@ -461,7 +461,7 @@ case "$MARCO_LIBS" in
     found_sm=yes
     ;;
  *)
-  AC_CHECK_LIB(SM, SmcSaveYourselfDone, 
+  AC_CHECK_LIB(SM, SmcSaveYourselfDone,
                [AC_CHECK_HEADERS(X11/SM/SMlib.h,
                                 MARCO_LIBS="-lSM -lICE $MARCO_LIBS" found_sm=yes)],
                , $MARCO_LIBS)
@@ -483,7 +483,7 @@ if test "$found_sm" = "yes"; then
    AC_DEFINE(HAVE_SM, , [Building with SM support])
 fi
 
-AM_CONDITIONAL(HAVE_SM, test "$found_sm" = "yes") 
+AM_CONDITIONAL(HAVE_SM, test "$found_sm" = "yes")
 
 HOST_ALIAS=$host_alias
 AC_SUBST(HOST_ALIAS)
@@ -496,7 +496,7 @@ fi
 
 AC_SUBST(GDK_PIXBUF_CSOURCE)
 
-if test x$enable_mateconf = xyes; then 
+if test x$enable_mateconf = xyes; then
    AC_PATH_PROG(MATECONFTOOL, mateconftool-2, no)
    if test x"$MATECONFTOOL" = xno; then
      AC_MSG_ERROR([mateconftool-2 executable not found in your path - should be installed with MateConf])

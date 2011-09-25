@@ -9145,8 +9145,10 @@ AC_DEFUN([AM_MATECONF_SOURCE_2],
     MATECONF_SCHEMA_CONFIG_SOURCE=$MATECONF_SCHEMA_INSTALL_SOURCE
   fi
 
-  AC_ARG_WITH(mateconf-source, 
-  [  --with-mateconf-source=sourceaddress      Config database for installing schema files.],MATECONF_SCHEMA_CONFIG_SOURCE="$withval",)
+  AC_ARG_WITH([mateconf-source],
+	      AC_HELP_STRING([--with-mateconf-source=sourceaddress],
+			     [Config database for installing schema files.]),
+	      [MATECONF_SCHEMA_CONFIG_SOURCE="$withval"],)
 
   AC_SUBST(MATECONF_SCHEMA_CONFIG_SOURCE)
   AC_MSG_RESULT([Using config source $MATECONF_SCHEMA_CONFIG_SOURCE for schema installation])
@@ -9155,17 +9157,20 @@ AC_DEFUN([AM_MATECONF_SOURCE_2],
     MATECONF_SCHEMA_FILE_DIR='$(sysconfdir)/mateconf/schemas'
   fi
 
-  AC_ARG_WITH(mateconf-schema-file-dir, 
-  [  --with-mateconf-schema-file-dir=dir        Directory for installing schema files.],MATECONF_SCHEMA_FILE_DIR="$withval",)
+  AC_ARG_WITH([mateconf-schema-file-dir],
+	      AC_HELP_STRING([--with-mateconf-schema-file-dir=dir],
+			     [Directory for installing schema files.]),
+	      [MATECONF_SCHEMA_FILE_DIR="$withval"],)
 
   AC_SUBST(MATECONF_SCHEMA_FILE_DIR)
   AC_MSG_RESULT([Using $MATECONF_SCHEMA_FILE_DIR as install directory for schema files])
 
   AC_ARG_ENABLE(schemas-install,
-     [  --disable-schemas-install	Disable the schemas installation],
+  	AC_HELP_STRING([--disable-schemas-install],
+		       [Disable the schemas installation]),
      [case ${enableval} in
        yes|no) ;;
-       *) AC_MSG_ERROR(bad value ${enableval} for --enable-schemas-install) ;;
+       *) AC_MSG_ERROR([bad value ${enableval} for --enable-schemas-install]) ;;
       esac])
   AM_CONDITIONAL([MATECONF_SCHEMAS_INSTALL], [test "$enable_schemas_install" != no])
 ])
