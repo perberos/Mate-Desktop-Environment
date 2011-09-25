@@ -7,11 +7,11 @@ AC_INIT(libmatevfs/mate-vfs.h)
 # if backwards compatibility has been broken,
 # set LIBMATEVFS_BINARY_AGE and LIBMATEVFS_INTERFACE_AGE to 0.
 #
-LIBMATEVFS_MAJOR_VERSION=2
-LIBMATEVFS_MINOR_VERSION=24
-LIBMATEVFS_MICRO_VERSION=4
+LIBMATEVFS_MAJOR_VERSION=2011
+LIBMATEVFS_MINOR_VERSION=9
+LIBMATEVFS_MICRO_VERSION=25
 LIBMATEVFS_INTERFACE_AGE=4
-# If you need a modifier for the version number. 
+# If you need a modifier for the version number.
 # Normally empty, but can be used to make "fixup" releases.
 LIBMATEVFS_EXTRAVERSION=
 
@@ -32,7 +32,7 @@ AC_SUBST(LIBMATEVFS_CURRENT)
 AC_SUBST(LIBMATEVFS_REVISION)
 AC_SUBST(LIBMATEVFS_AGE)
 AC_SUBST(LIBMATEVFS_VERSION)
-	
+
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(mate-vfs, $LIBMATEVFS_VERSION)
 
@@ -94,7 +94,7 @@ AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
 PKG_CHECK_MODULES(MODULES_XML, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED libxml-2.0 >= $XML_REQUIRED)
 AC_SUBST(MODULES_XML_CFLAGS)
 AC_SUBST(MODULES_XML_LIBS)
-	
+
 PKG_CHECK_MODULES(MODULES, glib-2.0 >= $GLIB_REQUIRED gmodule-no-export-2.0 >= $GLIB_REQUIRED gthread-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(MODULES_LIBS)
 AC_SUBST(MODULES_CFLAGS)
@@ -162,7 +162,7 @@ AC_CHECK_FUNCS(getdtablesize open64 lseek64 statfs statvfs seteuid setegid setre
 AC_CHECK_MEMBERS([struct stat.st_blksize, struct stat.st_rdev])
 AC_STRUCT_ST_BLOCKS
 
-dnl Volume monitor stuff			     
+dnl Volume monitor stuff
 AC_CHECK_FUNCS(setmntent endmntent hasmntopt getmntinfo)
 AC_CHECK_HEADERS(mntent.h sys/mnttab.h sys/vfstab.h sys/cdio.h sys/mount.h sys/mntctl.h sys/vfs.h sys/vmount.h sys/sysctl.h fstab.h fnmatch.h util.h sys/sysmacros.h)
 
@@ -214,7 +214,7 @@ AC_CHECK_MEMBERS([struct statfs.f_type], ,[
 #ifdef HAVE_SYS_STATFS_H
 #include <sys/statfs.h>
 #endif])
- 
+
 dnl
 dnl if statfs() takes 2 arguments or 4 (Solaris)
 dnl
@@ -321,7 +321,7 @@ AC_SUBST(VFS_CFLAGS)
 
 dnl
 dnl mate vfs Documentation
-dnl 
+dnl
 MATE_VFS_DIR=`(cd $srcdir; pwd)`
 AC_SUBST(MATE_VFS_DIR)
 
@@ -336,19 +336,19 @@ dnl
 dnl efs-method.c
 dnl
 
-dnl if test "x$libefs_disabled" = xyes; then 
+dnl if test "x$libefs_disabled" = xyes; then
 dnl     LIBEFS_CONFIG=no
 dnl else
 dnl     AC_PATH_PROG(LIBEFS_CONFIG, libefs-config, no)
 dnl fi
-dnl 
+dnl
 dnl if test "x$LIBEFS_CONFIG" != xno; then
 dnl 	LIBEFS_LIBS=`$LIBEFS_CONFIG --libs`
 dnl 	LIBEFS_CFLAGS=`$LIBEFS_CONFIG --cflags`
 dnl fi
-dnl 
+dnl
 
-AM_CONDITIONAL(HAVE_LIBEFS, false) 
+AM_CONDITIONAL(HAVE_LIBEFS, false)
 LIBEFS_LIBS=""
 LIBEFS_CFLAGS=""
 AC_SUBST(LIBEFS_LIBS)
@@ -396,7 +396,7 @@ if test $have_socket = no; then
   done
 fi
 
-AC_CHECK_FUNCS(inet_ntop)	   
+AC_CHECK_FUNCS(inet_ntop)
 
 AC_CHECK_LIB(bz2, bzCompressInit, AC_DEFINE(HAVE_OLDER_BZIP2, 1, [Define to 1 if older bzip2 version is used]))
 AC_CHECK_HEADERS(bzlib.h,
@@ -449,11 +449,11 @@ dnl GSSAPI
 dnl Check for Kerberos installation
 have_gssapi=no
 AC_PATH_PROG([KRB5_CONFIG], krb5-config, none, $PATH:/usr/kerberos/bin)
-					   
+
 if test "x$KRB5_CONFIG" != "xnone"; then
    GSSAPI_LIBS="`${KRB5_CONFIG} --libs gssapi`"
    GSSAPI_CFLAGS="`${KRB5_CONFIG} --cflags gssapi`"
-   
+
    saved_CPPFLAGS="$CPPFLAGS"
    saved_LIBS="$LIBS"
    LIBS="$LIBS $GSSAPI_LIBS"
@@ -465,27 +465,27 @@ if test "x$KRB5_CONFIG" != "xnone"; then
            AC_DEFINE(HAVE_GSSAPI, 1, [Define if GSSAPI support is enabled])
            AC_CHECK_HEADERS(gssapi/gssapi_generic.h)
 		 have_gssapi=yes
-	 
+
        # MIT Kerberos lacks GSS_C_NT_HOSTBASED_SERVICE
        AC_CHECK_DECL([GSS_C_NT_HOSTBASED_SERVICE],,
-          [AC_DEFINE([GSS_C_NT_HOSTBASED_SERVICE], gss_nt_service_name, 
+          [AC_DEFINE([GSS_C_NT_HOSTBASED_SERVICE], gss_nt_service_name,
              [Define if GSS_C_NT_HOSTBASED_SERVICE is not defined otherwise])
 		], [
 		    #ifdef HAVE_GSSAPI_GSSAPI_H
 		    #include <gssapi/gssapi.h>
-		    #else	   
+		    #else
 		    #include <gssapi.h>
 		    #endif
 		])
 	  ])
      break
    ])
-   LIBS="$saved_LIBS" 
-   CPPFLAGS="$saved_CPPFLAGS" 
-fi   
+   LIBS="$saved_LIBS"
+   CPPFLAGS="$saved_CPPFLAGS"
+fi
 AC_SUBST(GSSAPI_LIBS)
 AC_SUBST(GSSAPI_CFLAGS)
-	   
+
 dnl ******************************
 dnl http-method (neon checks)
 dnl ******************************
@@ -528,7 +528,7 @@ if test "x$enable_samba" != "xno"; then
 	CPPFLAGS="$CPPFLAGS -I$with_samba_includes"
 	AC_CHECK_HEADER(libsmbclient.h, [ samba_includes="yes" ])
 	CPPFLAGS="$CPPFLAGS_save"
-	
+
 	if test "x{samba_includes}" != "xno" -a "x${samba_includes}" != "x"; then
 		have_samba_includes="yes"
 		if test "${with_samba_includes}" != "/usr/include" ; then
@@ -536,7 +536,7 @@ if test "x$enable_samba" != "xno"; then
 		else
 			SAMBA_CFLAGS=""
 		fi
-		
+
 		CPPFLAGS="$CPPFLAGS -I$with_samba_includes"
 		AC_CHECK_MEMBER(SMBCCTX.flags,
 				[AC_DEFINE(HAVE_SAMBA_FLAGS,, [Defined if flags availible in SMBCCTXT])],,
@@ -554,7 +554,7 @@ if test "x$enable_samba" != "xno"; then
 	      with_samba_libs="$withval", with_samba_libs="/usr/lib")
   if test "x${with_samba_libs}" != "xno" -a "x${have_samba_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
-	
+
 	LDFLAGS="$LDFLAGS -L$with_samba_libs"
 	AC_CHECK_LIB(smbclient, smbc_new_context,samba_libs="yes", samba_libs="no")
 	LDFLAGS="$LDFLAGS_save"
@@ -597,14 +597,14 @@ if test "x$enable_openssl" != "xno"; then
   have_openssl_includes="no"
   if test "x${with_openssl_includes}" != "xno"; then
 	CPPFLAGS_save="$CPPFLAGS"
-	
+
 	AC_MSG_CHECKING(for OpenSSL includes)
 	AC_MSG_RESULT("")
-	
+
 	CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
 	AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
 	CPPFLAGS="$CPPFLAGS_save"
-	
+
 	if test "x${openssl_includes}" != "xno" -a "x${openssl_includes}" != "x"; then
 		have_openssl_includes="yes"
 		if test "${with_openssl_includes}" != "/usr/include" ; then
@@ -626,10 +626,10 @@ if test "x$enable_openssl" != "xno"; then
   msg_openssl="no"
   if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
-	
+
 	AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
 	[
-dnl How can we test to see if we need to link to libld for sure?? 
+dnl How can we test to see if we need to link to libld for sure??
 dnl RedHat 6.2 seems to need to but Debian Woody doesn't
 		LDFLAGS="$LDFLAGS -L$with_openssl_libs -lssl -lcrypto -ldl"
 		AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
@@ -693,7 +693,7 @@ dnl DNS-SD implementations
 dnl ****************************
 AM_CONDITIONAL(HAVE_AVAHI, false)
 AM_CONDITIONAL(HAVE_HOWL, false)
-			  
+
 AC_ARG_ENABLE(avahi, [  --disable-avahi     build without avahi support])
 msg_avahi=no
 if test "x$enable_avahi" != "xno"; then
@@ -705,7 +705,7 @@ if test "x$enable_avahi" != "xno"; then
 	AC_SUBST(AVAHI_CFLAGS)
 	AC_SUBST(AVAHI_LIBS)
 fi
-			  
+
 AC_ARG_ENABLE(howl, [  --disable-howl     build without howl support])
 msg_howl=no
 if test "x$msg_avahi" = "xno" -a "x$enable_howl" != "xno"; then
@@ -788,10 +788,10 @@ dnl ============================================================================
 dnl Check for a supported resolver functions
 dnl ==============================================================================
 dnl This is just a mix of the old code and new one taken from the gnet library and
-dnl evolution. 
+dnl evolution.
 
 need_lib_resolve=no
-dnl need libresolv for dns-sd stuff			 
+dnl need libresolv for dns-sd stuff
 AC_MSG_CHECKING(for res_search)
 AC_TRY_LINK_FUNC(res_search, AC_MSG_RESULT(yes),
 	[ AC_MSG_RESULT(no)
@@ -805,14 +805,14 @@ AC_TRY_LINK_FUNC(res_search, AC_MSG_RESULT(yes),
 			res_search (0, 0, 0, 0, 0);
 			return 0;
 		}
-	]],[ 
+	]],[
 	  RESOLVER_LIBS="-lresolv"
 	  need_lib_resolve=yes
 	  AC_MSG_RESULT(yes)
-	],[ 
+	],[
 	  AC_MSG_RESULT(no)
 	])
-	  LIBS="$saved_LIBS" 
+	  LIBS="$saved_LIBS"
 ])
 
 
@@ -836,10 +836,10 @@ AC_CACHE_CHECK([for res_ninit()], have_res_ninit,
 if test "x$have_res_ninit" = "xyes"; then
     AC_DEFINE([HAVE_RES_NINIT], 1, [Indicates if res_ninit is available])
 else
-    AC_CHECK_LIB(bind, res_ninit, 
+    AC_CHECK_LIB(bind, res_ninit,
     	[AC_DEFINE(HAVE_RES_NINIT, 1, [Indicates if res_ninit is available])
 	 RESOLVER_LIBS="-lbind",
-    	 AC_CHECK_LIB(resolv, res_ninit, 
+    	 AC_CHECK_LIB(resolv, res_ninit,
 		[AC_DEFINE(HAVE_RES_NINIT, 1, [Indicates if res_ninit is available])
 		 if test "x$need_lib_resolv" = "xno"; then
 			RESOLVER_LIBS="-lresolv"
@@ -877,7 +877,7 @@ if test "x$have_getaddrinfo" = "xyes"; then
 
 	],[
 		struct addrinfo hints;
-		
+
 		hints.ai_flags = AI_ADDRCONFIG;
 	],[
 		AC_DEFINE(HAVE_AI_ADDRCONFIG, 1,
@@ -889,7 +889,7 @@ if test "x$have_resolver" = "xno"; then
 dnl looks like we dont have getaddrinfo try gethostbyname_r
 AC_CHECK_FUNC(gethostbyname_r, [
 	   dnl  First check for the glibc variant of gethostbyname_r
-	   
+
 	   AC_MSG_CHECKING(for glibc gethostbyname_r)
 	   AC_TRY_LINK([
 			 #include <netdb.h>
@@ -918,7 +918,7 @@ AC_CHECK_FUNC(gethostbyname_r, [
 
 	   ], [
 			 AC_MSG_RESULT(no)
-        				
+
 
 	   dnl  If we don't have glibc gethostbyname_r, check
 	   dnl  for Solaris/Irix gethostbyname_r
@@ -952,7 +952,7 @@ AC_CHECK_FUNC(gethostbyname_r, [
 	  ], [
 
 	           AC_MSG_RESULT(no)
-	  
+
 	   dnl  If don't have Solaris/Irix gethostbyname_r, check
 	   dnl  for HP-UX gethostbyname_r
 
@@ -968,7 +968,7 @@ AC_CHECK_FUNC(gethostbyname_r, [
 						   &result,
 						   buf);
 	   ], [
-        
+
 			 dnl Have HP-UX gethostbyname_r
 
 			 AC_MSG_RESULT(yes)
@@ -977,14 +977,14 @@ AC_CHECK_FUNC(gethostbyname_r, [
 			 AC_DEFINE(USE_GETHOSTBYNAME_R, 1,
 			     [Define to 1 if gethostbyname_r is used for name resolution])
 			 have_resolver=yes
-			 
+
 	   ], [
 			 AC_MSG_RESULT(no)
 	   ] #hpux
      )] #solaris
   )] #glibc
 )]) #check func
-    
+
 fi
 
 if test x$have_resolver = "xno" ; then
@@ -1007,7 +1007,7 @@ if test x$have_resolver = "xno" ; then
       done
    fi
 fi
-    
+
 dnl ==============================================================================
 dnl End of resolver functions check
 dnl ==============================================================================
@@ -1021,7 +1021,7 @@ if test $enable_ipv6 = yes; then
   save_libs=$LIBS
 
 
-  AC_TRY_COMPILE([ 
+  AC_TRY_COMPILE([
 		#ifdef _WIN32
 		#include <winsock2.h>
 		#include <ws2tcpip.h>
@@ -1036,7 +1036,7 @@ if test $enable_ipv6 = yes; then
 		AC_DEFINE(ENABLE_IPV6, [], [Define to enable IPv6 support])
     ], have_ipv6=no
   )
-  
+
   AC_MSG_RESULT($have_ipv6)
 
 fi
@@ -1057,7 +1057,7 @@ AC_SUBST(LIBMATEVFSDAEMON_LIBS)
 AC_ARG_WITH(dbus_service_dir, [  --with-dbus-service-dir=PATH choose directory for dbus service files, [default=PREFIX/share/dbus-1/services]], with_dbus_service_dir="$withval", with_dbus_service_dir=$datadir/dbus-1/services)
 DBUS_SERVICE_DIR=$with_dbus_service_dir
 AC_SUBST(DBUS_SERVICE_DIR)
-						       	
+
 dnl ****************************
 dnl *** Checks for pty stuff ***
 dnl ****************************
@@ -1116,7 +1116,7 @@ if test x"$gvfs_cv_HAVE_POSIX_ACLS" = x"yes" ; then
 
     AC_DEFINE(HAVE_POSIX_ACL,1,[Have POSIX ACLs])
     AC_CHECK_FUNCS(acl_extended_file)
-    
+
     AC_CHECK_HEADERS([pwd.h])
     if test "$ac_cv_header_pwd_h" = "yes"; then
 	 	AC_CACHE_CHECK([for posix getpwuid_r],
@@ -1124,15 +1124,15 @@ if test x"$gvfs_cv_HAVE_POSIX_ACLS" = x"yes" ; then
 			[AC_TRY_RUN([
 #include <errno.h>
 #include <pwd.h>
-int main () { 
+int main () {
     char buffer[10000];
     struct passwd pwd, *pwptr = &pwd;
     int error;
     errno = 0;
-    error = getpwuid_r (0, &pwd, buffer, 
+    error = getpwuid_r (0, &pwd, buffer,
                         sizeof (buffer), &pwptr);
-   return (error < 0 && errno == ENOSYS) 
-	   || error == ENOSYS; 
+   return (error < 0 && errno == ENOSYS)
+	   || error == ENOSYS;
 }                               ],
 				[ac_cv_func_posix_getpwuid_r=yes],
 				[ac_cv_func_posix_getpwuid_r=no])])
@@ -1146,7 +1146,7 @@ int main () {
 				[AC_TRY_LINK([#include <pwd.h>],
                                 	[char buffer[10000];
                                 	struct passwd pwd;
-                                	getpwuid_r (0, &pwd, buffer, 
+                                	getpwuid_r (0, &pwd, buffer,
                                         		sizeof (buffer));],
 					[ac_cv_func_nonposix_getpwuid_r=yes],
 					[ac_cv_func_nonposix_getpwuid_r=no])])
@@ -1156,14 +1156,14 @@ int main () {
 					[Have non-POSIX function getpwuid_r])
 			fi
 		fi
-	fi 
+	fi
 
 	AC_CHECK_HEADERS([grp.h])
 
 	AC_CHECK_FUNCS(getgrgid_r)
 	AC_CHECK_FUNCS(getgrnam_r)
 	AC_CHECK_FUNCS(getpwnam_r)
-	
+
 fi
 
 AC_SUBST(ACL_LIBS)
@@ -1185,7 +1185,7 @@ AC_CHECK_HEADERS([sys/inotify.h],
 		 inotify_support=yes
 		 ])
 
-AM_CONDITIONAL(HAVE_INOTIFY, [test "$inotify_support" = "yes"]) 
+AM_CONDITIONAL(HAVE_INOTIFY, [test "$inotify_support" = "yes"])
 
 if test "$inotify_support" = "yes"; then
   fs_monitor_backends="inotify "
@@ -1228,7 +1228,7 @@ if test "x$enable_selinux" != "xno"; then
 
  AC_CHECK_LIB(selinux, is_selinux_enabled,
    [AC_CHECK_HEADERS(selinux/selinux.h,
-     [AC_SEARCH_LIBS(lgetfilecon_raw, selinux, 
+     [AC_SEARCH_LIBS(lgetfilecon_raw, selinux,
        [AC_DEFINE(HAVE_SELINUX, 1, [Define to 1 if libselinux is available])
         SELINUX_LIBS="-lselinux"
         msg_selinux=yes])
@@ -1279,15 +1279,15 @@ AC_TRY_CPP([#ifdef HAVE_SYS_PARAM_H
 #include <sys/vmount.h>], AC_DEFINE(FSTYPE_AIX_STATFS, [],
 							 [Define to use AIX3 statfs to get filesystem type]) fstype=AIX)
 fi
-if test $fstype = no; then  
+if test $fstype = no; then
 AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT, [],
 						    [Define to use 4.3BSD getmntent to get filesystem typ]) fstype=4.3BSD)
 fi
-if test $fstype = no; then  
+if test $fstype = no; then
 AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS, [],
 							   [Define to use 4.4BSD and OSF1 statfs to get filesystem typ]) fstype=4.4BSD/OSF1)
 fi
-if test $fstype = no; then  
+if test $fstype = no; then
 AC_TRY_CPP([#include <sys/mount.h>
 #include <sys/fs_types.h>], AC_DEFINE(FSTYPE_GETMNT, [],
 							   [Define to use Ultrix getmnt to get filesystem typ]) fstype=Ultrix)
@@ -1303,7 +1303,7 @@ AC_SUBST(LDFLAGS)
 dnl This is needed by `test/vfs-run.in'
 TOP_BUILDDIR="`pwd`"
 AC_SUBST(TOP_BUILDDIR)
-    
+
 
 dnl Disable rebuild of glib-mkenum -generated source code:
 AC_ARG_ENABLE(rebuilds, [  --disable-rebuilds      disable all source autogeneration rules],,enable_rebuilds=yes)
@@ -1353,7 +1353,7 @@ chmod u+x test/vfs-run
 dnl <= Configuration summary =>
 profiler_enabled=no
 test "$ENABLE_PROFILER" = 1 && profiler_enabled=yes
-echo 
+echo
 echo "Mate VFS configuration summary:"
 echo "
 	IPv6 support:                $have_ipv6
