@@ -70,7 +70,7 @@ void mate_about_dialog(void)
 
 void mate_about_release_version(void)
 {
-	g_printf("%s %s\n", program_name, version);
+	g_printf("%s %s\n", gettext(program_name), version);
 }
 
 // ...

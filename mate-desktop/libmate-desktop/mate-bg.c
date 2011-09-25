@@ -61,22 +61,20 @@ Author: Soren Sandmann <sandmann@redhat.com>
 typedef struct _SlideShow SlideShow;
 typedef struct _Slide Slide;
 
-struct _Slide
-{
-	double   duration;		/* in seconds */
+struct _Slide {
+	double duration; /* in seconds */
 	gboolean fixed;
 
-	GSList  *file1;
-	GSList  *file2;		/* NULL if fixed is TRUE */
+	GSList* file1;
+	GSList* file2; /* NULL if fixed is TRUE */
 };
 
 typedef struct _FileSize FileSize;
-struct _FileSize
-{
+struct _FileSize {
 	gint width;
 	gint height;
 
-	char *file;
+	char* file;
 };
 
 /* This is the size of the GdkRGB dither matrix, in order to avoid
@@ -90,35 +88,33 @@ typedef struct FileCacheEntry FileCacheEntry;
 /*
  *   Implementation of the MateBG class
  */
-struct _MateBG
-{
-	GObject                 parent_instance;
-	char *			filename;
-	MateBGPlacement	placement;
-	MateBGColorType	color_type;
-	GdkColor		primary;
-	GdkColor		secondary;
+struct _MateBG {
+	GObject parent_instance;
+	char* filename;
+	MateBGPlacement placement;
+	MateBGColorType color_type;
+	GdkColor primary;
+	GdkColor secondary;
 
- 	gint                    last_pixmap_width;
- 	gint                    last_pixmap_height;
+	gint last_pixmap_width;
+	gint last_pixmap_height;
 
-	GFileMonitor *		file_monitor;
+	GFileMonitor* file_monitor;
 
-	guint                   changed_id;
-	guint                   transitioned_id;
-	guint                   blow_caches_id;
+	guint changed_id;
+	guint transitioned_id;
+	guint blow_caches_id;
 
 	/* Cached information, only access through cache accessor functions */
-        SlideShow *		slideshow;
-	time_t			file_mtime;
-	GdkPixbuf *		pixbuf_cache;
-	int			timeout_id;
+	SlideShow* slideshow;
+	time_t file_mtime;
+	GdkPixbuf* pixbuf_cache;
+	int timeout_id;
 
-	GList *		        file_cache;
+	GList* file_cache;
 };
 
-struct _MateBGClass
-{
+struct _MateBGClass {
 	GObjectClass parent_class;
 };
 
@@ -128,13 +124,11 @@ enum {
 	N_SIGNALS
 };
 
-static guint signals[N_SIGNALS] = { 0 };
+static guint signals[N_SIGNALS] = {0};
 
-G_DEFINE_TYPE (MateBG, mate_bg, G_TYPE_OBJECT)
+G_DEFINE_TYPE(MateBG, mate_bg, G_TYPE_OBJECT)
 
-static GdkPixmap *make_root_pixmap     (GdkScreen  *screen,
-					gint        width,
-					gint        height);
+static GdkPixmap* make_root_pixmap(GdkScreen* screen, gint width, gint height);
 
 /* Pixbuf utils */
 static guint32    pixbuf_average_value (GdkPixbuf  *pixbuf);
@@ -419,7 +413,7 @@ mate_bg_save_to_preferences (MateBG     *bg,
         const gchar *filename;
         gchar *primary;
         gchar *secondary;
-        
+
 	primary = color_to_string (&bg->primary);
 	secondary = color_to_string (&bg->secondary);
 
@@ -479,12 +473,12 @@ mate_bg_finalize (GObject *object)
 		g_source_remove (bg->transitioned_id);
 		bg->transitioned_id = 0;
 	}
-	
+
 	if (bg->blow_caches_id != 0) {
 		g_source_remove (bg->blow_caches_id);
 		bg->blow_caches_id = 0;
 	}
-	
+
 	if (bg->filename) {
 		g_free (bg->filename);
 		bg->filename = NULL;
@@ -551,10 +545,10 @@ mate_bg_set_placement (MateBG          *bg,
 			MateBGPlacement  placement)
 {
 	g_return_if_fail (bg != NULL);
-	
+
 	if (bg->placement != placement) {
 		bg->placement = placement;
-		
+
 		queue_changed (bg);
 	}
 }
@@ -611,12 +605,12 @@ mate_bg_set_filename (MateBG     *bg,
 		       const char  *filename)
 {
 	g_return_if_fail (bg != NULL);
-	
+
 	if (is_different (bg, filename)) {
 		char *tmp = g_strdup (filename);
-		
+
 		g_free (bg->filename);
-		
+
 		bg->filename = tmp;
 		bg->file_mtime = get_mtime (bg->filename);
 
@@ -627,16 +621,16 @@ mate_bg_set_filename (MateBG     *bg,
 
 		if (bg->filename) {
 			GFile *f = g_file_new_for_path (bg->filename);
-			
+
 			bg->file_monitor = g_file_monitor_file (f, 0, NULL, NULL);
 			g_signal_connect (bg->file_monitor, "changed",
 					  G_CALLBACK (file_changed), bg);
 
 			g_object_unref (f);
 		}
-		
+
 		clear_cache (bg);
-		
+
 		queue_changed (bg);
 	}
 }
@@ -655,7 +649,7 @@ draw_color_area (MateBG *bg,
         extent.height = gdk_pixbuf_get_height (dest);
 
         gdk_rectangle_intersect (rect, &extent, rect);
-	
+
 	switch (bg->color_type) {
 	case MATE_BG_COLOR_SOLID:
 		/* not really a big deal to ignore the area of interest */
@@ -663,18 +657,18 @@ draw_color_area (MateBG *bg,
 			((bg->primary.green >> 8) << 16)    |
 			((bg->primary.blue >> 8) << 8)      |
 			(0xff);
-		
+
 		gdk_pixbuf_fill (dest, pixel);
 		break;
-		
+
 	case MATE_BG_COLOR_H_GRADIENT:
 		pixbuf_draw_gradient (dest, TRUE, &(bg->primary), &(bg->secondary), rect);
 		break;
-		
+
 	case MATE_BG_COLOR_V_GRADIENT:
 		pixbuf_draw_gradient (dest, FALSE, &(bg->primary), &(bg->secondary), rect);
 		break;
-		
+
 	default:
 		break;
 	}
@@ -756,7 +750,7 @@ get_scaled_pixbuf (MateBGPlacement placement,
 		 gdk_pixbuf_get_width (pixbuf),
 		 gdk_pixbuf_get_height (pixbuf));
 #endif
-	
+
 	switch (placement) {
 	case MATE_BG_PLACEMENT_SPANNED:
                 new = pixbuf_scale_to_fit (pixbuf, width, height);
@@ -764,28 +758,28 @@ get_scaled_pixbuf (MateBGPlacement placement,
 	case MATE_BG_PLACEMENT_ZOOMED:
 		new = pixbuf_scale_to_min (pixbuf, width, height);
 		break;
-		
+
 	case MATE_BG_PLACEMENT_FILL_SCREEN:
 		new = gdk_pixbuf_scale_simple (pixbuf, width, height,
 					       GDK_INTERP_BILINEAR);
 		break;
-		
+
 	case MATE_BG_PLACEMENT_SCALED:
 		new = pixbuf_scale_to_fit (pixbuf, width, height);
 		break;
-		
+
 	case MATE_BG_PLACEMENT_CENTERED:
 	case MATE_BG_PLACEMENT_TILED:
 	default:
 		new = pixbuf_clip_to_fit (pixbuf, width, height);
 		break;
 	}
-	
+
 	*w = gdk_pixbuf_get_width (new);
 	*h = gdk_pixbuf_get_height (new);
 	*x = (width - *w) / 2;
 	*y = (height - *h) / 2;
-	
+
 	return new;
 }
 
@@ -799,7 +793,7 @@ draw_image_area (MateBGPlacement  placement,
 	int dest_height = area->height;
 	int x, y, w, h;
 	GdkPixbuf *scaled;
-	
+
 	if (!pixbuf)
 		return;
 
@@ -822,7 +816,7 @@ draw_image_area (MateBGPlacement  placement,
 		g_assert_not_reached ();
 		break;
 	}
-	
+
 	g_object_unref (scaled);
 }
 
@@ -932,12 +926,12 @@ mate_bg_get_pixmap_size (MateBG   *bg,
 			  int       *pixmap_height)
 {
 	int dummy;
-	
+
 	if (!pixmap_width)
 		pixmap_width = &dummy;
 	if (!pixmap_height)
 		pixmap_height = &dummy;
-	
+
 	*pixmap_width = width;
 	*pixmap_height = height;
 
@@ -947,21 +941,21 @@ mate_bg_get_pixmap_size (MateBG   *bg,
 			*pixmap_width = 1;
 			*pixmap_height = 1;
 			break;
-			
+
 		case MATE_BG_COLOR_H_GRADIENT:
 		case MATE_BG_COLOR_V_GRADIENT:
 			break;
 		}
-		
+
 		return;
 	}
 }
 
 /**
  * mate_bg_get_pixmap:
- * @bg: MateBG 
- * @window: 
- * @width: 
+ * @bg: MateBG
+ * @window:
+ * @width:
  * @height:
  *
  * Create a pixmap that can be set as background for @window. If @root is TRUE,
@@ -981,7 +975,7 @@ mate_bg_create_pixmap (MateBG	    *bg,
 	int pm_width, pm_height;
 	GdkPixmap *pixmap;
 	cairo_t *cr;
-	
+
 	g_return_val_if_fail (bg != NULL, NULL);
 	g_return_val_if_fail (window != NULL, NULL);
 
@@ -997,7 +991,7 @@ mate_bg_create_pixmap (MateBG	    *bg,
 
 	/* has the side effect of loading and caching pixbuf only when in tile mode */
 	mate_bg_get_pixmap_size (bg, width, height, &pm_width, &pm_height);
-	
+
 	if (is_root) {
 		pixmap = make_root_pixmap (gdk_drawable_get_screen (window),
 					   pm_width, pm_height);
@@ -1005,14 +999,14 @@ mate_bg_create_pixmap (MateBG	    *bg,
 	else {
 		pixmap = gdk_pixmap_new (window, pm_width, pm_height, -1);
 	}
-	
+
 	cr = gdk_cairo_create (pixmap);
 	if (!bg->filename && bg->color_type == MATE_BG_COLOR_SOLID) {
 		gdk_cairo_set_source_color (cr, &(bg->primary));
 	}
 	else {
 		GdkPixbuf *pixbuf;
-		
+
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8,
 					 width, height);
 		mate_bg_draw (bg, pixbuf, gdk_drawable_get_screen (GDK_DRAWABLE (window)), is_root);
@@ -1021,7 +1015,7 @@ mate_bg_create_pixmap (MateBG	    *bg,
 	}
 
 	cairo_paint (cr);
-	
+
 	cairo_destroy (cr);
 
 	return pixmap;
@@ -1039,9 +1033,9 @@ mate_bg_is_dark (MateBG *bg,
 	GdkColor color;
 	int intensity;
 	GdkPixbuf *pixbuf;
-	
+
 	g_return_val_if_fail (bg != NULL, FALSE);
-	
+
 	if (bg->color_type == MATE_BG_COLOR_SOLID) {
 		color = bg->primary;
 	} else {
@@ -1056,21 +1050,21 @@ mate_bg_is_dark (MateBG *bg,
 		guchar r = (argb >> 16) & 0xff;
 		guchar g = (argb >>  8) & 0xff;
 		guchar b = (argb >>  0) & 0xff;
-		
+
 		color.red = (color.red * (0xFF - a) + r * 0x101 * a) / 0xFF;
 		color.green = (color.green * (0xFF - a) + g * 0x101 * a) / 0xFF;
 		color.blue = (color.blue * (0xFF - a) + b * 0x101 * a) / 0xFF;
 		g_object_unref (pixbuf);
 	}
-	
+
 	intensity = (color.red * 77 +
 		     color.green * 150 +
 		     color.blue * 28) >> 16;
-	
+
 	return intensity < 160; /* biased slightly to be dark */
 }
 
-/* 
+/*
  * Create a persistent pixmap. We create a separate display
  * and set the closedown mode on it to RetainPermanent.
  */
@@ -1083,43 +1077,43 @@ make_root_pixmap (GdkScreen *screen, gint width, gint height)
 	GdkPixmap *gdk_pixmap;
 	int screen_num;
 	int depth;
-	
+
 	screen_num = gdk_screen_get_number (screen);
-	
+
 	gdk_flush ();
-	
+
 	display_name = gdk_display_get_name (gdk_screen_get_display (screen));
 	display = XOpenDisplay (display_name);
-	
+
         if (display == NULL) {
                 g_warning ("Unable to open display '%s' when setting "
 			   "background pixmap\n",
                            (display_name) ? display_name : "NULL");
                 return NULL;
         }
-	
-	/* Desktop background pixmap should be created from 
+
+	/* Desktop background pixmap should be created from
 	 * dummy X client since most applications will try to
 	 * kill it with XKillClient later when changing pixmap
 	 */
-	
+
 	XSetCloseDownMode (display, RetainPermanent);
-	
+
 	depth = DefaultDepth (display, screen_num);
 
 	result = XCreatePixmap (display,
 				RootWindow (display, screen_num),
 				width, height, depth);
-	
+
 	XCloseDisplay (display);
-	
+
 	gdk_pixmap = gdk_pixmap_foreign_new_for_screen (screen, result,
 							width, height, depth);
 
 	gdk_drawable_set_colormap (
 		GDK_DRAWABLE (gdk_pixmap),
 		gdk_drawable_get_colormap (gdk_screen_get_root_window (screen)));
-	
+
 	return gdk_pixmap;
 }
 
@@ -1170,19 +1164,19 @@ mate_bg_get_image_size (MateBG	       *bg,
 	GdkPixbuf *thumb;
 	gboolean result = FALSE;
 	const gchar *filename;
-	
+
 	g_return_val_if_fail (bg != NULL, FALSE);
 	g_return_val_if_fail (factory != NULL, FALSE);
-	
+
 	if (!bg->filename)
 		return FALSE;
-	
+
 	filename = get_filename_for_size (bg, best_width, best_height);
 	thumb = create_thumbnail_for_filename (factory, filename);
 	if (thumb) {
 		if (get_thumb_annotations (thumb, width, height))
 			result = TRUE;
-		
+
 		g_object_unref (thumb);
 	}
 
@@ -1210,20 +1204,20 @@ mate_bg_create_thumbnail (MateBG               *bg,
 {
 	GdkPixbuf *result;
 	GdkPixbuf *thumb;
-	
+
 	g_return_val_if_fail (bg != NULL, NULL);
-	
+
 	result = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, dest_width, dest_height);
-	
+
 	draw_color (bg, result, screen);
-	
+
 	thumb = create_img_thumbnail (bg, factory, screen, dest_width, dest_height, -1);
-	
+
 	if (thumb) {
 		draw_image (bg->placement, thumb, result);
 		g_object_unref (thumb);
 	}
-	
+
 	return result;
 }
 
@@ -1355,9 +1349,9 @@ mate_bg_set_root_pixmap_id (GdkScreen *screen,
 		}
 		XFree (data_esetroot);
 	}
-	
+
 	pixmap_id = GDK_WINDOW_XWINDOW (pixmap);
-	
+
 	XChangeProperty (display, RootWindow (display, screen_num),
 			 gdk_x11_get_xatom_by_name ("ESETROOT_PMAP_ID"),
 			 XA_PIXMAP, 32, PropModeReplace,
@@ -1462,7 +1456,7 @@ struct _SlideShow
 	double total_duration;
 
 	GQueue *slides;
-	
+
 	gboolean has_multiple_sizes;
 
 	/* used during parsing */
@@ -1526,7 +1520,7 @@ blend (GdkPixbuf *p1,
 
 	if (gdk_pixbuf_get_width (p2) != gdk_pixbuf_get_width (p1) ||
             gdk_pixbuf_get_height (p2) != gdk_pixbuf_get_height (p1)) {
-		tmp = gdk_pixbuf_scale_simple (p2, 
+		tmp = gdk_pixbuf_scale_simple (p2,
 					       gdk_pixbuf_get_width (p1),
 					       gdk_pixbuf_get_height (p1),
 					       GDK_INTERP_BILINEAR);
@@ -1534,10 +1528,10 @@ blend (GdkPixbuf *p1,
         else {
 		tmp = g_object_ref (p2);
 	}
-	
+
 	pixbuf_blend (tmp, result, 0, 0, -1, -1, 0, 0, alpha);
-        
-        g_object_unref (tmp);	
+
+        g_object_unref (tmp);
 
 	return result;
 }
@@ -1563,7 +1557,7 @@ static void
 file_cache_entry_delete (FileCacheEntry *ent)
 {
 	g_free (ent->filename);
-	
+
 	switch (ent->type) {
 	case PIXBUF:
 		g_object_unref (ent->u.pixbuf);
@@ -1617,14 +1611,14 @@ file_cache_entry_new (MateBG *bg,
 	FileCacheEntry *ent = g_new0 (FileCacheEntry, 1);
 
 	g_assert (!file_cache_lookup (bg, type, filename));
-	
+
 	ent->type = type;
 	ent->filename = g_strdup (filename);
 
 	bg->file_cache = g_list_prepend (bg->file_cache, ent);
 
 	bound_cache (bg);
-	
+
 	return ent;
 }
 
@@ -1730,13 +1724,13 @@ blow_expensive_caches (gpointer data)
 {
 	MateBG *bg = data;
 	GList *list, *next;
-	
+
 	bg->blow_caches_id = 0;
-	
+
 	for (list = bg->file_cache; list != NULL; list = next) {
 		FileCacheEntry *ent = list->data;
 		next = list->next;
-		
+
 		if (ent->type == PIXBUF) {
 			file_cache_entry_delete (ent);
 			bg->file_cache = g_list_delete_link (bg->file_cache,
@@ -1769,7 +1763,7 @@ on_timeout (gpointer data)
 	MateBG *bg = data;
 
 	bg->timeout_id = 0;
-	
+
 	queue_transitioned (bg);
 
 	return FALSE;
@@ -1783,7 +1777,7 @@ get_slide_timeout (Slide   *slide)
 		timeout = slide->duration;
 	} else {
 		/* Maybe the number of steps should be configurable? */
-		
+
 		/* In the worst case we will do a fade from 0 to 256, which mean
 		 * we will never use more than 255 steps, however in most cases
 		 * the first and last value are similar and users can't percieve
@@ -1818,9 +1812,9 @@ get_mtime (const char *filename)
 	GFile     *file;
 	GFileInfo *info;
 	time_t     mtime;
-	
+
 	mtime = (time_t)-1;
-	
+
 	if (filename) {
 		file = g_file_new_for_path (filename);
 		info = g_file_query_info (file, G_FILE_ATTRIBUTE_TIME_MODIFIED,
@@ -1832,7 +1826,7 @@ get_mtime (const char *filename)
 		}
 		g_object_unref (file);
 	}
-	
+
 	return mtime;
 }
 
@@ -1846,19 +1840,19 @@ scale_thumbnail (MateBGPlacement placement,
 {
 	int o_width;
 	int o_height;
-	
+
 	if (placement != MATE_BG_PLACEMENT_TILED &&
 	    placement != MATE_BG_PLACEMENT_CENTERED) {
-		
+
 		/* In this case, the pixbuf will be scaled to fit the screen anyway,
 		 * so just return the pixbuf here
 		 */
 		return g_object_ref (thumb);
 	}
-	
+
 	if (get_thumb_annotations (thumb, &o_width, &o_height)		||
 	    (filename && get_original_size (filename, &o_width, &o_height))) {
-		
+
 		int scr_height = gdk_screen_get_height (screen);
 		int scr_width = gdk_screen_get_width (screen);
 		int thumb_width = gdk_pixbuf_get_width (thumb);
@@ -1869,7 +1863,7 @@ scale_thumbnail (MateBGPlacement placement,
 						    o_width, o_height);
 		double f = thumb_to_orig * screen_to_dest;
 		int new_width, new_height;
-		
+
 		new_width = floor (thumb_width * f + 0.5);
 		new_height = floor (thumb_height * f + 0.5);
 
@@ -1881,20 +1875,20 @@ scale_thumbnail (MateBGPlacement placement,
 			 * thumbnail gives a much better idea what the background
 			 * will actually look like.
 			 */
-			
+
 			if ((new_width < 32 || new_height < 32) &&
 			    (new_width < o_width / 4 || new_height < o_height / 4)) {
 				new_width = o_width / 4;
 				new_height = o_height / 4;
 			}
 		}
-			
+
 		thumb = gdk_pixbuf_scale_simple (thumb, new_width, new_height,
 						 GDK_INTERP_BILINEAR);
 	}
 	else
 		g_object_ref (thumb);
-	
+
 	return thumb;
 }
 
@@ -2025,13 +2019,13 @@ find_best_size (GSList *sizes, gint width, gint height)
 			FileSize *size = s->data;
 
 			if (pass == 0 && (size->width < width || size->height < height))
-				continue;       
+				continue;
 
 			d = fabs (a - size->width/(gdouble)size->height);
 			if (d < distance) {
 				distance = d;
 				best = size;
-			} 
+			}
 			else if (d == distance) {
 				if (abs (size->width - width) < abs (best->width - width)) {
 					best = size;
@@ -2138,13 +2132,13 @@ is_different (MateBG    *bg,
 	}
 	else {
 		time_t mtime = get_mtime (filename);
-		
+
 		if (mtime != bg->file_mtime)
 			return TRUE;
-		
+
 		if (strcmp (filename, bg->filename) != 0)
 			return TRUE;
-		
+
 		return FALSE;
 	}
 }
@@ -2157,16 +2151,16 @@ clear_cache (MateBG *bg)
 	if (bg->file_cache) {
 		for (list = bg->file_cache; list != NULL; list = list->next) {
 			FileCacheEntry *ent = list->data;
-			
+
 			file_cache_entry_delete (ent);
 		}
 		g_list_free (bg->file_cache);
 		bg->file_cache = NULL;
 	}
-	
+
 	if (bg->pixbuf_cache) {
 		g_object_unref (bg->pixbuf_cache);
-		
+
 		bg->pixbuf_cache = NULL;
 	}
 
@@ -2188,18 +2182,18 @@ pixbuf_average_value (GdkPixbuf *pixbuf)
 	int r, g, b, a;
 	guint64 dividend;
 	guint width, height;
-	
+
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
 	row_stride = gdk_pixbuf_get_rowstride (pixbuf);
 	pixels = gdk_pixbuf_get_pixels (pixbuf);
-	
+
 	/* iterate through the pixbuf, counting up each component */
 	a_total = 0;
 	r_total = 0;
 	g_total = 0;
 	b_total = 0;
-	
+
 	if (gdk_pixbuf_get_has_alpha (pixbuf)) {
 		for (row = 0; row < height; row++) {
 			p = pixels + (row * row_stride);
@@ -2208,7 +2202,7 @@ pixbuf_average_value (GdkPixbuf *pixbuf)
 				g = *p++;
 				b = *p++;
 				a = *p++;
-				
+
 				a_total += a;
 				r_total += r * a;
 				g_total += g * a;
@@ -2224,7 +2218,7 @@ pixbuf_average_value (GdkPixbuf *pixbuf)
 				r = *p++;
 				g = *p++;
 				b = *p++;
-				
+
 				r_total += r;
 				g_total += g;
 				b_total += b;
@@ -2233,7 +2227,7 @@ pixbuf_average_value (GdkPixbuf *pixbuf)
 		dividend = height * width;
 		a_total = dividend * 0xFF;
 	}
-	
+
 	return ((a_total + dividend / 2) / dividend) << 24
 		| ((r_total + dividend / 2) / dividend) << 16
 		| ((g_total + dividend / 2) / dividend) << 8
@@ -2246,16 +2240,16 @@ pixbuf_scale_to_fit (GdkPixbuf *src, int max_width, int max_height)
 	double factor;
 	int src_width, src_height;
 	int new_width, new_height;
-	
+
 	src_width = gdk_pixbuf_get_width (src);
 	src_height = gdk_pixbuf_get_height (src);
-	
+
 	factor = MIN (max_width  / (double) src_width, max_height / (double) src_height);
-	
+
 	new_width  = floor (src_width * factor + 0.5);
 	new_height = floor (src_height * factor + 0.5);
-	
-	return gdk_pixbuf_scale_simple (src, new_width, new_height, GDK_INTERP_BILINEAR);	
+
+	return gdk_pixbuf_scale_simple (src, new_width, new_height, GDK_INTERP_BILINEAR);
 }
 
 static GdkPixbuf *
@@ -2299,17 +2293,17 @@ create_gradient (const GdkColor *primary,
 {
 	guchar *result = g_malloc (n_pixels * 3);
 	int i;
-	
+
 	for (i = 0; i < n_pixels; ++i) {
 		double ratio = (i + 0.5) / n_pixels;
-		
+
 		result[3 * i + 0] = ((guint16) (primary->red * (1 - ratio) + secondary->red * ratio)) >> 8;
 		result[3 * i + 1] = ((guint16) (primary->green * (1 - ratio) + secondary->green * ratio)) >> 8;
 		result[3 * i + 2] = ((guint16) (primary->blue * (1 - ratio) + secondary->blue * ratio)) >> 8;
 	}
-	
+
 	return result;
-}	
+}
 
 static void
 pixbuf_draw_gradient (GdkPixbuf    *pixbuf,
@@ -2387,17 +2381,17 @@ pixbuf_blend (GdkPixbuf *src,
 
 	if (src_height < 0)
 		src_height = gdk_pixbuf_get_height (src);
-	
+
 	if (dest_x < 0)
 		dest_x = 0;
-	
+
 	if (dest_y < 0)
 		dest_y = 0;
-	
+
 	if (dest_x + src_width > dest_width) {
 		src_width = dest_width - dest_x;
 	}
-	
+
 	if (dest_y + src_height > dest_height) {
 		src_height = dest_height - dest_y;
 	}
@@ -2417,10 +2411,10 @@ pixbuf_tile (GdkPixbuf *src, GdkPixbuf *dest)
 	int tile_width, tile_height;
 	int dest_width = gdk_pixbuf_get_width (dest);
 	int dest_height = gdk_pixbuf_get_height (dest);
-	
+
 	tile_width = gdk_pixbuf_get_width (src);
 	tile_height = gdk_pixbuf_get_height (src);
-	
+
 	for (y = 0; y < dest_height; y += tile_height) {
 		for (x = 0; x < dest_width; x += tile_width) {
 			pixbuf_blend (src, dest, 0, 0,
@@ -2442,13 +2436,13 @@ handle_start_element (GMarkupParseContext *context,
 {
 	SlideShow *parser = user_data;
 	gint i;
-	
+
 	if (strcmp (name, "static") == 0 || strcmp (name, "transition") == 0) {
 		Slide *slide = g_new0 (Slide, 1);
-		
+
 		if (strcmp (name, "static") == 0)
 			slide->fixed = TRUE;
-		
+
 		g_queue_push_tail (parser->slides, slide);
 	}
 	else if (strcmp (name, "size") == 0) {
@@ -2466,7 +2460,7 @@ handle_start_element (GMarkupParseContext *context,
 			slide->file1 = g_slist_prepend (slide->file1, size);
 		}
 		else if (parser->stack->tail &&
-			 strcmp (parser->stack->tail->data, "to") == 0) { 
+			 strcmp (parser->stack->tail->data, "to") == 0) {
 			slide->file2 = g_slist_prepend (slide->file2, size);
 		}
 	}
@@ -2480,7 +2474,7 @@ handle_end_element (GMarkupParseContext *context,
 		    GError             **err)
 {
 	SlideShow *parser = user_data;
-	
+
 	g_free (g_queue_pop_tail (parser->stack));
 }
 
@@ -2493,26 +2487,26 @@ stack_is (SlideShow *parser,
 	const char *s;
 	GList *l1, *l2;
 	va_list args;
-	
+
 	stack = g_list_prepend (stack, (gpointer)s1);
-	
+
 	va_start (args, s1);
-	
+
 	s = va_arg (args, const char *);
 	while (s) {
 		stack = g_list_prepend (stack, (gpointer)s);
 		s = va_arg (args, const char *);
 	}
-	
+
 	l1 = stack;
 	l2 = parser->stack->head;
-	
+
 	while (l1 && l2) {
 		if (strcmp (l1->data, l2->data) != 0) {
 			g_list_free (stack);
 			return FALSE;
 		}
-		
+
 		l1 = l1->next;
 		l2 = l2->next;
 	}
@@ -2577,14 +2571,14 @@ handle_text (GMarkupParseContext *context,
 		fs->file = g_strdup (text);
 		slide->file1 = g_slist_prepend (slide->file1, fs);
 		if (slide->file1->next != NULL)
-			parser->has_multiple_sizes = TRUE;                       
+			parser->has_multiple_sizes = TRUE;
 	}
 	else if (stack_is (parser, "size", "file", "static", "background", NULL) ||
 		 stack_is (parser, "size", "from", "transition", "background", NULL)) {
 		fs = slide->file1->data;
 		fs->file = g_strdup (text);
 		if (slide->file1->next != NULL)
-			parser->has_multiple_sizes = TRUE; 
+			parser->has_multiple_sizes = TRUE;
 	}
 	else if (stack_is (parser, "to", "transition", "background", NULL)) {
 		for (i = 0; text[i]; i++) {
@@ -2599,7 +2593,7 @@ handle_text (GMarkupParseContext *context,
 		fs->file = g_strdup (text);
 		slide->file2 = g_slist_prepend (slide->file2, fs);
 		if (slide->file2->next != NULL)
-			parser->has_multiple_sizes = TRUE;                       
+			parser->has_multiple_sizes = TRUE;
 	}
 	else if (stack_is (parser, "size", "to", "transition", "background", NULL)) {
 		fs = slide->file2->data;
@@ -2648,10 +2642,10 @@ slideshow_unref (SlideShow *show)
 	}
 
 	g_queue_free (show->slides);
-	
+
 	g_list_foreach (show->stack->head, (GFunc) g_free, NULL);
 	g_queue_free (show->stack);
-	
+
 	g_free (show);
 }
 
@@ -2661,23 +2655,23 @@ dump_bg (SlideShow *show)
 #if 0
 	GList *list;
 	GSList *slist;
-	
+
 	for (list = show->slides->head; list != NULL; list = list->next)
 	{
 		Slide *slide = list->data;
-		
+
 		g_print ("\nSlide: %s\n", slide->fixed? "fixed" : "transition");
 		g_print ("duration: %f\n", slide->duration);
 		g_print ("File1:\n");
 		for (slist = slide->file1; slist != NULL; slist = slist->next) {
 			FileSize *size = slist->data;
-			g_print ("\t%s (%dx%d)\n", 
+			g_print ("\t%s (%dx%d)\n",
 				 size->file, size->width, size->height);
 		}
 		g_print ("File2:\n");
 		for (slist = slide->file2; slist != NULL; slist = slist->next) {
 			FileSize *size = slist->data;
-			g_print ("\t%s (%dx%d)\n", 
+			g_print ("\t%s (%dx%d)\n",
 				 size->file, size->width, size->height);
 		}
 	}
@@ -2688,7 +2682,7 @@ static void
 threadsafe_localtime (time_t time, struct tm *tm)
 {
 	struct tm *res;
-	
+
 	G_LOCK_DEFINE_STATIC (localtime_mutex);
 
 	G_LOCK (localtime_mutex);
@@ -2697,7 +2691,7 @@ threadsafe_localtime (time_t time, struct tm *tm)
 	if (tm) {
 		*tm = *res;
 	}
-	
+
 	G_UNLOCK (localtime_mutex);
 }
 
@@ -2712,7 +2706,7 @@ read_slideshow_file (const char *filename,
 		NULL, /* passthrough */
 		NULL, /* error */
 	};
-	
+
 	GFile *file;
 	char *contents = NULL;
 	gsize len;
@@ -2729,20 +2723,20 @@ read_slideshow_file (const char *filename,
 		return NULL;
 	}
 	g_object_unref (file);
-	
+
 	show = g_new0 (SlideShow, 1);
 	show->ref_count = 1;
 	threadsafe_localtime ((time_t)0, &show->start_tm);
 	show->stack = g_queue_new ();
 	show->slides = g_queue_new ();
-	
+
 	context = g_markup_parse_context_new (&parser, 0, show, NULL);
-	
+
 	if (!g_markup_parse_context_parse (context, contents, len, err)) {
 		slideshow_unref (show);
 		show = NULL;
 	}
-	
+
 
 	if (show) {
 		if (!g_markup_parse_context_end_parse (context, err)) {
@@ -2750,14 +2744,14 @@ read_slideshow_file (const char *filename,
 			show = NULL;
 		}
 	}
-	
+
 	g_markup_parse_context_free (context);
 
 	if (show) {
 		t = mktime (&show->start_tm);
 
 		show->start_time = (double)t;
-			
+
 		dump_bg (show);
 
 		/* no slides, that's not a slideshow */
@@ -2768,7 +2762,7 @@ read_slideshow_file (const char *filename,
 	}
 
 	g_free (contents);
-	
+
 	return show;
 }
 
@@ -2781,16 +2775,16 @@ create_thumbnail_for_filename (MateDesktopThumbnailFactory *factory,
 	time_t mtime;
 	GdkPixbuf *orig, *result = NULL;
 	char *uri;
-	
+
 	mtime = get_mtime (filename);
-	
+
 	if (mtime == (time_t)-1)
 		return NULL;
-	
+
 	uri = g_filename_to_uri (filename, NULL, NULL);
-	
+
 	thumb = mate_desktop_thumbnail_factory_lookup (factory, uri, mtime);
-	
+
 	if (thumb) {
 		result = gdk_pixbuf_new_from_file (thumb, NULL);
 		g_free (thumb);
@@ -2800,16 +2794,16 @@ create_thumbnail_for_filename (MateDesktopThumbnailFactory *factory,
 		if (orig) {
 			int orig_width = gdk_pixbuf_get_width (orig);
 			int orig_height = gdk_pixbuf_get_height (orig);
-			
+
 			result = pixbuf_scale_to_fit (orig, 128, 128);
-			
+
 			g_object_set_data_full (G_OBJECT (result), "mate-thumbnail-height",
 						g_strdup_printf ("%d", orig_height), g_free);
 			g_object_set_data_full (G_OBJECT (result), "mate-thumbnail-width",
 						g_strdup_printf ("%d", orig_width), g_free);
-			
+
 			g_object_unref (orig);
-			
+
 			mate_desktop_thumbnail_factory_save_thumbnail (factory, result, uri, mtime);
 		}
 		else {
@@ -2829,22 +2823,22 @@ get_thumb_annotations (GdkPixbuf *thumb,
 {
 	char *end;
 	const char *wstr, *hstr;
-	
+
 	wstr = gdk_pixbuf_get_option (thumb, "tEXt::Thumb::Image::Width");
 	hstr = gdk_pixbuf_get_option (thumb, "tEXt::Thumb::Image::Height");
-	
+
 	if (hstr && wstr) {
 		*orig_width = strtol (wstr, &end, 10);
 		if (*end != 0)
 			return FALSE;
-		
+
 		*orig_height = strtol (hstr, &end, 10);
 		if (*end != 0)
 			return FALSE;
-		
+
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 

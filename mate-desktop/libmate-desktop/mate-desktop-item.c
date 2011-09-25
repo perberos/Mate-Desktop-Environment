@@ -1,5 +1,5 @@
 /* -*- Mode: C; c-set-style: linux indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* mate-desktop-item.c - MATE Desktop File Representation 
+/* mate-desktop-item.c - MATE Desktop File Representation
 
    Copyright (C) 1999, 2000 Red Hat Inc.
    Copyright (C) 2001 Sid Vicious
@@ -8,17 +8,17 @@
    This file is part of the Mate Library.
 
    Developed by Elliot Lee <sopwith@redhat.com> and Sid Vicious
-   
+
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-   
+
    The Mate Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
-   
+
    You should have received a copy of the GNU Library General Public
    License along with the Mate Library; see the file COPYING.LIB.  If not,
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
@@ -68,7 +68,7 @@ struct _MateDesktopItem {
 	GList *languages;
 
 	MateDesktopItemType type;
-	
+
 	/* `modified' means that the ditem has been
 	 * modified since the last save. */
 	gboolean modified;
@@ -370,7 +370,7 @@ mate_desktop_item_new (void)
 	retval->main_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 						   (GDestroyNotify) g_free,
 						   (GDestroyNotify) g_free);
-	
+
 	/* These are guaranteed to be set */
 	mate_desktop_item_set_string (retval,
 				       MATE_DESKTOP_ITEM_NAME,
@@ -422,7 +422,7 @@ copy_string_hash (gpointer key, gpointer value, gpointer user_data)
  * Creates a copy of a MateDesktopItem.  The new copy has a refcount of 1.
  * Note: Section stack is NOT copied.
  *
- * Returns: The new copy 
+ * Returns: The new copy
  */
 MateDesktopItem *
 mate_desktop_item_copy (const MateDesktopItem *item)
@@ -444,7 +444,7 @@ mate_desktop_item_copy (const MateDesktopItem *item)
 	/* Languages */
 	retval->languages = g_list_copy (item->languages);
 	for (li = retval->languages; li != NULL; li = li->next)
-		li->data = g_strdup (li->data);	
+		li->data = g_strdup (li->data);
 
 	/* Keys */
 	retval->keys = g_list_copy (item->keys);
@@ -611,8 +611,8 @@ mate_desktop_item_new_from_gfile (GFile *file,
 		g_object_unref (info);
 
 		return NULL;
-	}	    	
-	
+	}
+
 	mtime = g_file_info_get_attribute_uint64 (info,
 						  G_FILE_ATTRIBUTE_TIME_MODIFIED);
 
@@ -648,7 +648,7 @@ mate_desktop_item_new_from_gfile (GFile *file,
 	}
 
 	rb = readbuf_open (subfn, error);
-	
+
 	if (rb == NULL) {
 		g_object_unref (subfn);
 		return NULL;
@@ -722,7 +722,7 @@ mate_desktop_item_new_from_string (const char *uri,
 	if (retval == NULL) {
 		return NULL;
 	}
-	
+
 	/* FIXME: Sort order? */
 
 	return retval;
@@ -769,8 +769,8 @@ file_from_basename (const char *basename)
  * @basename: The basename of the MateDesktopItem to load.
  * @flags: Flags to influence the loading process
  *
- * This function loads 'basename' from a system data directory and 
- * returns its MateDesktopItem. 
+ * This function loads 'basename' from a system data directory and
+ * returns its MateDesktopItem.
  *
  * Returns: The newly loaded item.
  */
@@ -792,10 +792,10 @@ mate_desktop_item_new_from_basename (const char *basename,
 			     basename);
 		return NULL;
 	}
-				   
+
 	retval = mate_desktop_item_new_from_file (file, flags, error);
 	g_free (file);
-	
+
 	return retval;
 }
 
@@ -824,10 +824,10 @@ mate_desktop_item_save (MateDesktopItem *item,
 	    ! force &&
 	    ! item->modified)
 		return TRUE;
-	
+
 	if (under == NULL)
 		uri = item->location;
-	else 
+	else
 		uri = under;
 
 	if (uri == NULL) {
@@ -1052,7 +1052,7 @@ set (MateDesktopItem *item, const char *key, const char *value)
 				item->keys = g_list_append (item->keys,
 							    g_strdup (key));
 
-			g_hash_table_replace (item->main_hash, 
+			g_hash_table_replace (item->main_hash,
 					      g_strdup (key),
 					      g_strdup (value));
 		} else {
@@ -1411,7 +1411,7 @@ do_percent_subst (const MateDesktopItem  *item,
 		break;
 	default:
 		/* Maintain special characters - e.g. "%20" */
-		if (g_ascii_isdigit (arg [1])) 
+		if (g_ascii_isdigit (arg [1]))
 			g_string_append_c (str, '%');
 		return FALSE;
 	}
@@ -1510,7 +1510,7 @@ make_spawn_environment_for_sn_context (SnLauncherContext *sn_context,
 	retval = g_new (char *, i + 2);
 
 	desktop_startup_id_len = strlen ("DESKTOP_STARTUP_ID");
-	
+
 	for (i = 0, j = 0; envp[i]; i++) {
 		if (strncmp (envp[i], "DESKTOP_STARTUP_ID", desktop_startup_id_len) != 0) {
 			retval[j] = g_strdup (envp[i]);
@@ -1576,16 +1576,16 @@ startup_timeout (void *data)
 	int min_timeout;
 
 	min_timeout = STARTUP_TIMEOUT_LENGTH;
-	
+
 	g_get_current_time (&now);
-	
+
 	tmp = std->contexts;
 	while (tmp != NULL) {
 		SnLauncherContext *sn_context = tmp->data;
 		GSList *next = tmp->next;
 		long tv_sec, tv_usec;
 		double elapsed;
-		
+
 		sn_launcher_context_get_last_active_time (sn_context,
 							  &tv_sec, &tv_usec);
 
@@ -1601,7 +1601,7 @@ startup_timeout (void *data)
 		} else {
 			min_timeout = MIN (min_timeout, (STARTUP_TIMEOUT_LENGTH - elapsed));
 		}
-		
+
 		tmp = next;
 	}
 
@@ -1633,19 +1633,19 @@ add_startup_timeout (GdkScreen         *screen,
 		data->screen = screen;
 		data->contexts = NULL;
 		data->timeout_id = 0;
-		
+
 		g_object_set_data_full (G_OBJECT (screen), "mate-startup-data",
-					data, free_startup_timeout);		
+					data, free_startup_timeout);
 	}
 
 	sn_launcher_context_ref (sn_context);
 	data->contexts = g_slist_prepend (data->contexts, sn_context);
-	
+
 	if (data->timeout_id == 0) {
 		data->timeout_id = g_timeout_add_seconds (
 						STARTUP_TIMEOUT_LENGTH_SEC,
 						startup_timeout,
-						data);		
+						data);
 	}
 }
 #endif /* HAVE_STARTUP_NOTIFICATION */
@@ -1755,7 +1755,7 @@ ditem_execute (const MateDesktopItem *item,
 	SnDisplay *sn_display;
 	const char *startup_class;
 #endif
-	
+
 	g_return_val_if_fail (item, -1);
 
 	if (item->type == MATE_DESKTOP_ITEM_TYPE_APPLICATION) {
@@ -1796,7 +1796,7 @@ ditem_execute (const MateDesktopItem *item,
 				     sn_error_trap_push,
 				     sn_error_trap_pop);
 
-	
+
 	/* Only initiate notification if desktop file supports it.
 	 * (we could avoid setting up the SnLauncherContext if we aren't going
 	 * to initiate, but why bother)
@@ -1812,32 +1812,32 @@ ditem_execute (const MateDesktopItem *item,
 		sn_context = sn_launcher_context_new (sn_display,
 						      screen ? gdk_screen_get_number (screen) :
 						      DefaultScreen (GDK_DISPLAY_XDISPLAY (gdkdisplay)));
-		
+
 		name = mate_desktop_item_get_localestring (item,
 							    MATE_DESKTOP_ITEM_NAME);
 
 		if (name == NULL)
 			name = mate_desktop_item_get_localestring (item,
 								    MATE_DESKTOP_ITEM_GENERIC_NAME);
-		
+
 		if (name != NULL) {
 			char *description;
-			
+
 			sn_launcher_context_set_name (sn_context, name);
-			
+
 			description = g_strdup_printf (_("Starting %s"), name);
-			
+
 			sn_launcher_context_set_description (sn_context, description);
-			
+
 			g_free (description);
 		}
-		
+
 		icon = mate_desktop_item_get_string (item,
 						      MATE_DESKTOP_ITEM_ICON);
-		
+
 		if (icon != NULL)
 			sn_launcher_context_set_icon_name (sn_context, icon);
-		
+
 		sn_launcher_context_set_workspace (sn_context, workspace);
 
 		if (startup_class != NULL)
@@ -1854,13 +1854,13 @@ ditem_execute (const MateDesktopItem *item,
 			g_strfreev (free_me);
 		free_me = envp;
 	}
-	
+
 	exec_locale = g_filename_from_utf8 (exec, -1, NULL, NULL, NULL);
-	
+
 	if (exec_locale == NULL) {
 		exec_locale = g_strdup ("");
-	}	
-	
+	}
+
 	do {
 		added_status = ADDED_NONE;
 		new_exec = expand_string (item,
@@ -1926,10 +1926,10 @@ ditem_execute (const MateDesktopItem *item,
 			 * anyway, and we can't initiate twice, and we
 			 * must initiate prior to fork/exec.
 			 */
-			
+
 			sn_launcher_context_set_binary_name (sn_context,
 							     real_argv[0]);
-			
+
 			if (item->launch_time > 0)
 				launch_time = item->launch_time;
 			else
@@ -1949,8 +1949,8 @@ ditem_execute (const MateDesktopItem *item,
 			free_me = envp;
 		}
 #endif
-		
-		
+
+
 		if ( ! g_spawn_async (working_dir,
 				      real_argv,
 				      envp,
@@ -1989,12 +1989,12 @@ ditem_execute (const MateDesktopItem *item,
 					     sn_context);
 		sn_launcher_context_unref (sn_context);
 	}
-	
+
 	sn_display_unref (sn_display);
 #endif /* HAVE_STARTUP_NOTIFICATION */
-	
+
 	free_args (args);
-	
+
 	if (term_argv)
 		g_strfreev (term_argv);
 
@@ -2210,7 +2210,7 @@ mate_desktop_item_launch_on_screen (const MateDesktopItem       *item,
  *
  * A list of files or urls dropped onto an icon, the proper (Url or File)
  * exec is run you can pass directly string that you got as the
- * text/uri-list.  This just parses the list and calls 
+ * text/uri-list.  This just parses the list and calls
  *
  * Returns: The value returned by #mate_execute_async() upon execution of
  * the specified item or -1 on error.  If multiple instances are run, the
@@ -2443,7 +2443,7 @@ mate_desktop_item_get_file_status (const MateDesktopItem *item)
 
 	g_object_unref (info);
 	g_object_unref (file);
-	
+
 	return retval;
 }
 
@@ -2486,7 +2486,7 @@ mate_desktop_item_find_icon (GtkIconTheme *icon_theme,
 
 		if (icon_theme == NULL)
 			icon_theme = gtk_icon_theme_get_default ();
-		
+
 		icon_no_extension = g_strdup (icon);
 		p = strrchr (icon_no_extension, '.');
 		if (p &&
@@ -2495,13 +2495,13 @@ mate_desktop_item_find_icon (GtkIconTheme *icon_theme,
 		     strcmp (p, ".svg") == 0)) {
 		    *p = 0;
 		}
-		
-		
+
+
 		info = gtk_icon_theme_lookup_icon (icon_theme,
 						   icon_no_extension,
 						   desired_size,
 						   0);
-		
+
 		full = NULL;
 		if (info) {
 			full = g_strdup (gtk_icon_info_get_filename (info));
@@ -2509,9 +2509,9 @@ mate_desktop_item_find_icon (GtkIconTheme *icon_theme,
 		}
 		g_free (icon_no_extension);
 	}
-	
+
 	return full;
-	    
+
 }
 
 /**
@@ -2697,27 +2697,22 @@ mate_desktop_item_set_string (MateDesktopItem *item,
 /*
  * LocaleString type
  */
-const char *
-mate_desktop_item_get_localestring (const MateDesktopItem *item,
-				     const char *attr)
+const char* mate_desktop_item_get_localestring(const MateDesktopItem* item, const char* attr)
 {
-	g_return_val_if_fail (item != NULL, NULL);
-	g_return_val_if_fail (item->refcount > 0, NULL);
-	g_return_val_if_fail (attr != NULL, NULL);
+	g_return_val_if_fail(item != NULL, NULL);
+	g_return_val_if_fail(item->refcount > 0, NULL);
+	g_return_val_if_fail(attr != NULL, NULL);
 
-	return lookup_best_locale (item, attr);
+	return lookup_best_locale(item, attr);
 }
 
-const char *
-mate_desktop_item_get_localestring_lang (const MateDesktopItem *item,
-					  const char *attr,
-					  const char *language)
+const char* mate_desktop_item_get_localestring_lang(const MateDesktopItem* item, const char* attr, const char* language)
 {
-	g_return_val_if_fail (item != NULL, NULL);
-	g_return_val_if_fail (item->refcount > 0, NULL);
-	g_return_val_if_fail (attr != NULL, NULL);
+	g_return_val_if_fail(item != NULL, NULL);
+	g_return_val_if_fail(item->refcount > 0, NULL);
+	g_return_val_if_fail(attr != NULL, NULL);
 
-	return lookup_locale (item, attr, language);
+	return lookup_locale(item, attr, language);
 }
 
 /**
@@ -2784,7 +2779,7 @@ get_language (void)
 	for (i = 0; langs_pointer[i] != NULL; i++) {
 		/* find first without encoding  */
 		if (strchr (langs_pointer[i], '.') == NULL) {
-			return langs_pointer[i]; 
+			return langs_pointer[i];
 		}
 	}
 	return NULL;
@@ -3084,7 +3079,7 @@ escape_string_and_dup (const char *s)
 
 	if (s == NULL)
 		return g_strdup("");
-	
+
 	q = s;
 	while (*q){
 		len++;
@@ -3361,7 +3356,7 @@ insert_key (MateDesktopItem *item,
 			g_free (locale);
 			return;
 		}
-		
+
 		g_strchomp (val);
 
 		/* For old KDE entries, we can also split by a comma
@@ -3404,7 +3399,7 @@ insert_key (MateDesktopItem *item,
 			p = strchr (locale, '.');
 			if (p != NULL)
 				*p = '\0';
-				
+
 			if (g_list_find_custom (item->languages, locale,
 						(GCompareFunc)strcmp) == NULL) {
 				item->languages = g_list_prepend
@@ -3413,7 +3408,7 @@ insert_key (MateDesktopItem *item,
 				g_free (locale);
 			}
 
-			/* Whack encoding from encoding in the key */ 
+			/* Whack encoding from encoding in the key */
 			brace = strchr (k, '[');
 			p = strchr (brace, '.');
 			if (p != NULL) {
@@ -3458,7 +3453,7 @@ setup_type (MateDesktopItem *item, const char *uri)
 		    strcmp (base, ".directory") == 0) {
 			/* This gotta be a directory */
 			g_hash_table_replace (item->main_hash,
-					      g_strdup (MATE_DESKTOP_ITEM_TYPE), 
+					      g_strdup (MATE_DESKTOP_ITEM_TYPE),
 					      g_strdup ("Directory"));
 			item->keys = g_list_prepend
 				(item->keys, g_strdup (MATE_DESKTOP_ITEM_TYPE));
@@ -3528,7 +3523,7 @@ sanitize (MateDesktopItem *item, const char *uri)
 			name = g_strdup (_("No name"));
 		}
 		g_hash_table_replace (item->main_hash,
-				      g_strdup (MATE_DESKTOP_ITEM_NAME), 
+				      g_strdup (MATE_DESKTOP_ITEM_NAME),
 				      name);
 		item->keys = g_list_prepend
 			(item->keys, g_strdup (MATE_DESKTOP_ITEM_NAME));
@@ -3536,7 +3531,7 @@ sanitize (MateDesktopItem *item, const char *uri)
 	if (lookup (item, MATE_DESKTOP_ITEM_ENCODING) == NULL) {
 		/* We store everything in UTF-8 so write that down */
 		g_hash_table_replace (item->main_hash,
-				      g_strdup (MATE_DESKTOP_ITEM_ENCODING), 
+				      g_strdup (MATE_DESKTOP_ITEM_ENCODING),
 				      g_strdup ("UTF-8"));
 		item->keys = g_list_prepend
 			(item->keys, g_strdup (MATE_DESKTOP_ITEM_ENCODING));
@@ -3544,7 +3539,7 @@ sanitize (MateDesktopItem *item, const char *uri)
 	if (lookup (item, MATE_DESKTOP_ITEM_VERSION) == NULL) {
 		/* this is the version that we follow, so write it down */
 		g_hash_table_replace (item->main_hash,
-				      g_strdup (MATE_DESKTOP_ITEM_VERSION), 
+				      g_strdup (MATE_DESKTOP_ITEM_VERSION),
 				      g_strdup ("1.0"));
 		item->keys = g_list_prepend
 			(item->keys, g_strdup (MATE_DESKTOP_ITEM_VERSION));
@@ -3607,7 +3602,7 @@ ditem_load (ReadBuf *rb,
 	while ((c = readbuf_getc (rb)) != EOF) {
 		if (c == '\r')		/* Ignore Carriage Return */
 			continue;
-		
+
 		switch (state) {
 
 		case OnSecHeader:
@@ -3678,16 +3673,16 @@ ditem_load (ReadBuf *rb,
 			/* On first pass, don't allow dangling keys */
 			if (state == FirstBrace)
 				break;
-	    
+
 			if ((c == ' ' && state != KeyDefOnKey) || c == '\t')
 				break;
-	    
+
 			if (c == '\n' || OVERFLOW) { /* Abort Definition */
 				next = CharBuffer;
 				state = KeyDef;
 				break;
 			}
-	    
+
 			if (c == '=' || OVERFLOW){
 				*next = '\0';
 
@@ -3720,7 +3715,7 @@ ditem_load (ReadBuf *rb,
 			break;
 
 		} /* switch */
-	
+
 	} /* while ((c = getc_unlocked (f)) != EOF) */
 	if (c == EOF && state == KeyValue) {
 		*next = '\0';
@@ -3775,7 +3770,7 @@ stream_printf (GFileOutputStream *stream, const char *format, ...)
     g_free (s);
 }
 
-static void 
+static void
 dump_section (MateDesktopItem *item, GFileOutputStream *stream, Section *section)
 {
 	GList *li;
