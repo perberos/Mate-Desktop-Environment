@@ -29,7 +29,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <gmenu-tree.h>
+#include <matemenu-tree.h>
 
 #include <libpanel-util/panel-error.h>
 #include <libpanel-util/panel-launch.h>
@@ -665,7 +665,7 @@ panel_menu_button_load (const char  *menu_path,
 	mate_panel_applet_add_callback (info, "help", GTK_STOCK_HELP, _("_Help"), NULL);
 
         if (panel_is_program_in_path ("alacarte") ||
-	    panel_is_program_in_path ("gmenu-simple-editor"))
+	    panel_is_program_in_path ("matemenu-simple-editor"))
 		mate_panel_applet_add_callback (info, "edit", NULL,
 					   _("_Edit Menus"), NULL);
 
@@ -681,7 +681,7 @@ panel_menu_button_load (const char  *menu_path,
 static char *
 panel_menu_button_get_icon (PanelMenuButton *button)
 {
-	GMenuTreeDirectory *directory;
+	MateMenuTreeDirectory *directory;
         char               *retval;
 
 	retval = NULL;
@@ -698,21 +698,21 @@ panel_menu_button_get_icon (PanelMenuButton *button)
 					       "panel-menu-tree-directory");
 
 		if (!directory) {
-			GMenuTree *tree;
+			MateMenuTree *tree;
 
 			if ((tree = g_object_get_data (G_OBJECT (button->priv->menu),
 						       "panel-menu-tree"))) {
-				directory = gmenu_tree_get_directory_from_path (tree,
+				directory = matemenu_tree_get_directory_from_path (tree,
 										button->priv->menu_path);
 				g_object_set_data_full (G_OBJECT (button->priv->menu),
 							"panel-menu-tree-directory",
 							directory,
-							(GDestroyNotify) gmenu_tree_item_unref);
+							(GDestroyNotify) matemenu_tree_item_unref);
 			}
 		}
 
 		if (directory)
-			retval = g_strdup (gmenu_tree_directory_get_icon (directory));
+			retval = g_strdup (matemenu_tree_directory_get_icon (directory));
 	}
 
 	if (!retval)
@@ -984,8 +984,8 @@ panel_menu_button_invoke_menu (PanelMenuButton *button,
 		if (error) {
 			g_error_free (error);
 			panel_launch_desktop_file_with_fallback (
-						"gmenu-simple-editor.desktop",
-						"gmenu-simple-editor",
+						"matemenu-simple-editor.desktop",
+						"matemenu-simple-editor",
 						screen, NULL);
 		}
 	}

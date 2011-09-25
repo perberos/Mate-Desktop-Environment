@@ -25,7 +25,7 @@
 
 #include "panel-widget.h"
 #include "applet.h"
-#include <gmenu-tree.h>
+#include <matemenu-tree.h>
 #include <gio/gio.h>
 
 G_BEGIN_DECLS

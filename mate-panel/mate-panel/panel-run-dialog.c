@@ -41,7 +41,7 @@
 #include <gio/gio.h>
 #include <gdk/gdkkeysyms.h>
 #include <mateconf/mateconf-client.h>
-#include <gmenu-tree.h>
+#include <matemenu-tree.h>
 
 #define MATE_DESKTOP_USE_UNSTABLE_API
 #include <libmate/mate-desktop-utils.h>
@@ -786,31 +786,31 @@ panel_run_dialog_add_icon_idle (PanelRunDialog *dialog)
 }
 
 static int
-compare_applications (GMenuTreeEntry *a,
-		      GMenuTreeEntry *b)
+compare_applications (MateMenuTreeEntry *a,
+		      MateMenuTreeEntry *b)
 {
-	return g_utf8_collate (gmenu_tree_entry_get_display_name (a),
-			       gmenu_tree_entry_get_display_name (b));
+	return g_utf8_collate (matemenu_tree_entry_get_display_name (a),
+			       matemenu_tree_entry_get_display_name (b));
 }
 
-static GSList *get_all_applications_from_dir (GMenuTreeDirectory *directory,
+static GSList *get_all_applications_from_dir (MateMenuTreeDirectory *directory,
 					      GSList            *list);
 
 static GSList *
-get_all_applications_from_alias (GMenuTreeAlias *alias,
+get_all_applications_from_alias (MateMenuTreeAlias *alias,
 				 GSList         *list)
 {
-	GMenuTreeItem *aliased_item;
+	MateMenuTreeItem *aliased_item;
 
-	aliased_item = gmenu_tree_alias_get_item (alias);
+	aliased_item = matemenu_tree_alias_get_item (alias);
 
-	switch (gmenu_tree_item_get_type (aliased_item)) {
-	case GMENU_TREE_ITEM_ENTRY:
-		list = g_slist_append (list, gmenu_tree_item_ref (aliased_item));
+	switch (matemenu_tree_item_get_type (aliased_item)) {
+	case MATEMENU_TREE_ITEM_ENTRY:
+		list = g_slist_append (list, matemenu_tree_item_ref (aliased_item));
 		break;
 
-	case GMENU_TREE_ITEM_DIRECTORY:
-		list = get_all_applications_from_dir (GMENU_TREE_DIRECTORY (aliased_item),
+	case MATEMENU_TREE_ITEM_DIRECTORY:
+		list = get_all_applications_from_dir (MATEMENU_TREE_DIRECTORY (aliased_item),
 						      list);
 		break;
 
@@ -818,31 +818,31 @@ get_all_applications_from_alias (GMenuTreeAlias *alias,
 		break;
 	}
 
-	gmenu_tree_item_unref (aliased_item);
+	matemenu_tree_item_unref (aliased_item);
 
 	return list;
 }
 
 static GSList *
-get_all_applications_from_dir (GMenuTreeDirectory *directory,
+get_all_applications_from_dir (MateMenuTreeDirectory *directory,
 			       GSList             *list)
 {
 	GSList *items;
 	GSList *l;
 
-	items = gmenu_tree_directory_get_contents (directory);
+	items = matemenu_tree_directory_get_contents (directory);
 
 	for (l = items; l; l = l->next) {
-		switch (gmenu_tree_item_get_type (l->data)) {
-		case GMENU_TREE_ITEM_ENTRY:
-			list = g_slist_append (list, gmenu_tree_item_ref (l->data));
+		switch (matemenu_tree_item_get_type (l->data)) {
+		case MATEMENU_TREE_ITEM_ENTRY:
+			list = g_slist_append (list, matemenu_tree_item_ref (l->data));
 			break;
 
-		case GMENU_TREE_ITEM_DIRECTORY:
+		case MATEMENU_TREE_ITEM_DIRECTORY:
 			list = get_all_applications_from_dir (l->data, list);
 			break;
 
-		case GMENU_TREE_ITEM_ALIAS:
+		case MATEMENU_TREE_ITEM_ALIAS:
 			list = get_all_applications_from_alias (l->data, list);
 			break;
 
@@ -850,7 +850,7 @@ get_all_applications_from_dir (GMenuTreeDirectory *directory,
 			break;
 		}
 
-		gmenu_tree_item_unref (l->data);
+		matemenu_tree_item_unref (l->data);
 	}
 
 	g_slist_free (items);
@@ -860,19 +860,19 @@ get_all_applications_from_dir (GMenuTreeDirectory *directory,
 
 static GSList* get_all_applications(void)
 {
-	GMenuTree* tree;
-	GMenuTreeDirectory* root;
+	MateMenuTree* tree;
+	MateMenuTreeDirectory* root;
 	GSList* retval;
 
-	tree = gmenu_tree_lookup("mate-applications.menu", GMENU_TREE_FLAGS_NONE);
-	gmenu_tree_set_sort_key(tree, GMENU_TREE_SORT_DISPLAY_NAME);
+	tree = matemenu_tree_lookup("mate-applications.menu", MATEMENU_TREE_FLAGS_NONE);
+	matemenu_tree_set_sort_key(tree, MATEMENU_TREE_SORT_DISPLAY_NAME);
 
-	root = gmenu_tree_get_root_directory(tree);
+	root = matemenu_tree_get_root_directory(tree);
 
 	retval = get_all_applications_from_dir(root, NULL);
 
-	gmenu_tree_item_unref(root);
-	gmenu_tree_unref(tree);
+	matemenu_tree_item_unref(root);
+	matemenu_tree_unref(tree);
 
 	retval = g_slist_sort(retval, (GCompareFunc) compare_applications);
 
@@ -905,14 +905,14 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 	/* Strip duplicates */
 	prev_name = NULL;
 	for (l = all_applications; l; l = next) {
-		GMenuTreeEntry *entry = l->data;
+		MateMenuTreeEntry *entry = l->data;
 		const char     *entry_name;
 
 		next = l->next;
 
-		entry_name = gmenu_tree_entry_get_display_name (entry);
+		entry_name = matemenu_tree_entry_get_display_name (entry);
 		if (prev_name && entry_name && strcmp (entry_name, prev_name) == 0) {
-			gmenu_tree_item_unref (entry);
+			matemenu_tree_item_unref (entry);
 
 			all_applications = g_slist_delete_link (all_applications, l);
 		} else {
@@ -921,18 +921,18 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 	}
 
 	for (l = all_applications; l; l = l->next) {
-		GMenuTreeEntry *entry = l->data;
+		MateMenuTreeEntry *entry = l->data;
 		GtkTreeIter    iter;
 		GtkTreePath   *path;
 
 		gtk_list_store_append (dialog->program_list_store, &iter);
 		gtk_list_store_set (dialog->program_list_store, &iter,
 				    COLUMN_ICON,      NULL,
-				    COLUMN_ICON_FILE, gmenu_tree_entry_get_icon (entry),
-				    COLUMN_NAME,      gmenu_tree_entry_get_display_name (entry),
-				    COLUMN_COMMENT,   gmenu_tree_entry_get_comment (entry),
-				    COLUMN_EXEC,      gmenu_tree_entry_get_exec (entry),
-				    COLUMN_PATH,      gmenu_tree_entry_get_desktop_file_path (entry),
+				    COLUMN_ICON_FILE, matemenu_tree_entry_get_icon (entry),
+				    COLUMN_NAME,      matemenu_tree_entry_get_display_name (entry),
+				    COLUMN_COMMENT,   matemenu_tree_entry_get_comment (entry),
+				    COLUMN_EXEC,      matemenu_tree_entry_get_exec (entry),
+				    COLUMN_PATH,      matemenu_tree_entry_get_desktop_file_path (entry),
 				    COLUMN_VISIBLE,   TRUE,
 				    -1);
 
@@ -940,7 +940,7 @@ panel_run_dialog_add_items_idle (PanelRunDialog *dialog)
 		if (path != NULL)
 			dialog->add_icon_paths = g_slist_prepend (dialog->add_icon_paths, path);
 
-		gmenu_tree_item_unref (entry);
+		matemenu_tree_item_unref (entry);
 	}
 	g_slist_free (all_applications);
 

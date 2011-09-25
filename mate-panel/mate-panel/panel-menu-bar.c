@@ -341,7 +341,7 @@ panel_menu_bar_load (PanelWidget *panel,
 				   NULL);
 
 	if (panel_is_program_in_path ("alacarte") ||
-	    panel_is_program_in_path ("gmenu-simple-editor")) {
+	    panel_is_program_in_path ("matemenu-simple-editor")) {
 		mate_panel_applet_add_callback (menubar->priv->info,
 					   "edit",
 					   NULL,
@@ -404,8 +404,8 @@ panel_menu_bar_invoke_menu (PanelMenuBar *menubar,
 		if (error) {
 			g_error_free (error);
 			panel_launch_desktop_file_with_fallback (
-						"gmenu-simple-editor.desktop",
-						"gmenu-simple-editor",
+						"matemenu-simple-editor.desktop",
+						"matemenu-simple-editor",
 						screen, NULL);
 		}
 	}

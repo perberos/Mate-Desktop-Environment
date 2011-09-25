@@ -1,4 +1,4 @@
-AC_INIT([mate-panel], [2.32.0.2],
+AC_INIT([mate-panel], [2011.09.24],
         [http://bugzilla.mate.org/enter_bug.cgi?product=mate-panel])
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-bzip2 tar-ustar -Wno-portability])
@@ -138,7 +138,7 @@ AC_SUBST(CLOCK_LIBS)
 
 DBUS_REQUIRED=1.1.2
 NETWORK_MANAGER_REQUIRED=0.6
- 
+
 AC_ARG_ENABLE(network_manager, AS_HELP_STRING([--enable-network-manager],[Enable NetworkManager support (auto)]),enable_network_manager=$enableval,enable_network_manager=auto)
 if test "x$enable_network_manager" = "xno" ; then
   HAVE_NETWORK_MANAGER=no

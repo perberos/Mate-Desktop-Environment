@@ -37,7 +37,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = mate-panel$(EXEEXT) mate-desktop-item-edit$(EXEEXT) \
-	panel-test-applets$(EXEEXT)
+	mate-panel-test-applets$(EXEEXT)
 subdir = mate-panel
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/mate-panel.desktop.in.in
@@ -124,19 +124,20 @@ mate_panel_DEPENDENCIES = $(top_builddir)/mate-panel/libegg/libegg.la \
 mate_panel_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(mate_panel_LDFLAGS) $(LDFLAGS) -o $@
-am_panel_test_applets_OBJECTS =  \
-	panel_test_applets-panel-modules.$(OBJEXT) \
-	panel_test_applets-mate-panel-applet-info.$(OBJEXT) \
-	panel_test_applets-mate-panel-applets-manager.$(OBJEXT) \
-	panel_test_applets-panel-marshal.$(OBJEXT) \
-	panel_test_applets-panel-test-applets.$(OBJEXT)
-panel_test_applets_OBJECTS = $(am_panel_test_applets_OBJECTS)
-panel_test_applets_DEPENDENCIES = $(top_builddir)/mate-panel/libmate-panel-applet-private/libmate-panel-applet-private-mini.la \
+am_mate_panel_test_applets_OBJECTS =  \
+	mate_panel_test_applets-panel-modules.$(OBJEXT) \
+	mate_panel_test_applets-mate-panel-applet-info.$(OBJEXT) \
+	mate_panel_test_applets-mate-panel-applets-manager.$(OBJEXT) \
+	mate_panel_test_applets-panel-marshal.$(OBJEXT) \
+	mate_panel_test_applets-panel-test-applets.$(OBJEXT)
+mate_panel_test_applets_OBJECTS =  \
+	$(am_mate_panel_test_applets_OBJECTS)
+mate_panel_test_applets_DEPENDENCIES = $(top_builddir)/mate-panel/libmate-panel-applet-private/libmate-panel-applet-private-mini.la \
 	$(top_builddir)/mate-panel/libpanel-util/libpanel-util.la \
 	$(am__DEPENDENCIES_1)
-panel_test_applets_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+mate_panel_test_applets_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(panel_test_applets_LDFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS) $(mate_panel_test_applets_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -187,9 +188,9 @@ AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(mate_desktop_item_edit_SOURCES) $(mate_panel_SOURCES) \
-	$(panel_test_applets_SOURCES)
+	$(mate_panel_test_applets_SOURCES)
 DIST_SOURCES = $(mate_desktop_item_edit_SOURCES) $(mate_panel_SOURCES) \
-	$(panel_test_applets_SOURCES)
+	$(mate_panel_test_applets_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -572,7 +573,7 @@ mate_panel_CPPFLAGS = \
 	$(AM_CPPFLAGS)				\
 	$(XRANDR_CFLAGS)			\
 	-DPANEL_MODULES_DIR=\"$(modulesdir)\"	\
-	-DGMENU_I_KNOW_THIS_IS_UNSTABLE
+	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE
 
 mate_panel_LDADD = \
 	$(top_builddir)/mate-panel/libegg/libegg.la					\
@@ -594,24 +595,24 @@ mate_desktop_item_edit_LDADD = \
 	$(top_builddir)/mate-panel/libpanel-util/libpanel-util.la \
 	$(PANEL_LIBS)
 
-panel_test_applets_SOURCES = \
+mate_panel_test_applets_SOURCES = \
 	panel-modules.c			\
 	mate-panel-applet-info.c		\
 	mate-panel-applets-manager.c		\
 	panel-marshal.c			\
 	panel-test-applets.c
 
-panel_test_applets_CPPFLAGS = \
+mate_panel_test_applets_CPPFLAGS = \
 	$(AM_CPPFLAGS)				\
 	-DPANEL_MODULES_DIR=\"$(modulesdir)\"	\
 	-DMATE_PANEL_APPLETS_DIR=\"$(appletsdir)\"
 
-panel_test_applets_LDADD = \
+mate_panel_test_applets_LDADD = \
 	$(top_builddir)/mate-panel/libmate-panel-applet-private/libmate-panel-applet-private-mini.la	\
 	$(top_builddir)/mate-panel/libpanel-util/libpanel-util.la				\
 	$(PANEL_LIBS)
 
-panel_test_applets_LDFLAGS = -export-dynamic
+mate_panel_test_applets_LDFLAGS = -export-dynamic
 panel_enum_headers = \
 	$(top_srcdir)/mate-panel/panel-enums.h		\
 	$(top_srcdir)/mate-panel/panel-types.h
@@ -748,9 +749,9 @@ mate-desktop-item-edit$(EXEEXT): $(mate_desktop_item_edit_OBJECTS) $(mate_deskto
 mate-panel$(EXEEXT): $(mate_panel_OBJECTS) $(mate_panel_DEPENDENCIES) 
 	@rm -f mate-panel$(EXEEXT)
 	$(AM_V_CCLD)$(mate_panel_LINK) $(mate_panel_OBJECTS) $(mate_panel_LDADD) $(LIBS)
-panel-test-applets$(EXEEXT): $(panel_test_applets_OBJECTS) $(panel_test_applets_DEPENDENCIES) 
-	@rm -f panel-test-applets$(EXEEXT)
-	$(AM_V_CCLD)$(panel_test_applets_LINK) $(panel_test_applets_OBJECTS) $(panel_test_applets_LDADD) $(LIBS)
+mate-panel-test-applets$(EXEEXT): $(mate_panel_test_applets_OBJECTS) $(mate_panel_test_applets_DEPENDENCIES) 
+	@rm -f mate-panel-test-applets$(EXEEXT)
+	$(AM_V_CCLD)$(mate_panel_test_applets_LINK) $(mate_panel_test_applets_OBJECTS) $(mate_panel_test_applets_LDADD) $(LIBS)
 install-libexecSCRIPTS: $(libexec_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libexecdir)" || $(MKDIR_P) "$(DESTDIR)$(libexecdir)"
@@ -839,14 +840,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-xutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-xstuff.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel_test_applets-panel-marshal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel_test_applets-panel-modules.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel_test_applets-panel-test-applets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel-ditem-editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel-marshal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel_test_applets-mate-panel-applet-info.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel_test_applets-panel-marshal.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel_test_applets-panel-modules.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/panel_test_applets-panel-test-applets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xstuff.Po@am__quote@
 
 .c.o:
@@ -1609,85 +1610,85 @@ mate_panel-mate-panel-applet-info.obj: mate-panel-applet-info.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel-mate-panel-applet-info.obj `if test -f 'mate-panel-applet-info.c'; then $(CYGPATH_W) 'mate-panel-applet-info.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applet-info.c'; fi`
 
-panel_test_applets-panel-modules.o: panel-modules.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-panel-modules.o -MD -MP -MF $(DEPDIR)/panel_test_applets-panel-modules.Tpo -c -o panel_test_applets-panel-modules.o `test -f 'panel-modules.c' || echo '$(srcdir)/'`panel-modules.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-panel-modules.Tpo $(DEPDIR)/panel_test_applets-panel-modules.Po
+mate_panel_test_applets-panel-modules.o: panel-modules.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-modules.o -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-modules.Tpo -c -o mate_panel_test_applets-panel-modules.o `test -f 'panel-modules.c' || echo '$(srcdir)/'`panel-modules.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-panel-modules.Tpo $(DEPDIR)/mate_panel_test_applets-panel-modules.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-modules.c' object='panel_test_applets-panel-modules.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-modules.c' object='mate_panel_test_applets-panel-modules.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-panel-modules.o `test -f 'panel-modules.c' || echo '$(srcdir)/'`panel-modules.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-panel-modules.o `test -f 'panel-modules.c' || echo '$(srcdir)/'`panel-modules.c
 
-panel_test_applets-panel-modules.obj: panel-modules.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-panel-modules.obj -MD -MP -MF $(DEPDIR)/panel_test_applets-panel-modules.Tpo -c -o panel_test_applets-panel-modules.obj `if test -f 'panel-modules.c'; then $(CYGPATH_W) 'panel-modules.c'; else $(CYGPATH_W) '$(srcdir)/panel-modules.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-panel-modules.Tpo $(DEPDIR)/panel_test_applets-panel-modules.Po
+mate_panel_test_applets-panel-modules.obj: panel-modules.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-modules.obj -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-modules.Tpo -c -o mate_panel_test_applets-panel-modules.obj `if test -f 'panel-modules.c'; then $(CYGPATH_W) 'panel-modules.c'; else $(CYGPATH_W) '$(srcdir)/panel-modules.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-panel-modules.Tpo $(DEPDIR)/mate_panel_test_applets-panel-modules.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-modules.c' object='panel_test_applets-panel-modules.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-modules.c' object='mate_panel_test_applets-panel-modules.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-panel-modules.obj `if test -f 'panel-modules.c'; then $(CYGPATH_W) 'panel-modules.c'; else $(CYGPATH_W) '$(srcdir)/panel-modules.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-panel-modules.obj `if test -f 'panel-modules.c'; then $(CYGPATH_W) 'panel-modules.c'; else $(CYGPATH_W) '$(srcdir)/panel-modules.c'; fi`
 
-panel_test_applets-mate-panel-applet-info.o: mate-panel-applet-info.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-mate-panel-applet-info.o -MD -MP -MF $(DEPDIR)/panel_test_applets-mate-panel-applet-info.Tpo -c -o panel_test_applets-mate-panel-applet-info.o `test -f 'mate-panel-applet-info.c' || echo '$(srcdir)/'`mate-panel-applet-info.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-mate-panel-applet-info.Tpo $(DEPDIR)/panel_test_applets-mate-panel-applet-info.Po
+mate_panel_test_applets-mate-panel-applet-info.o: mate-panel-applet-info.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-mate-panel-applet-info.o -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Tpo -c -o mate_panel_test_applets-mate-panel-applet-info.o `test -f 'mate-panel-applet-info.c' || echo '$(srcdir)/'`mate-panel-applet-info.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Tpo $(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applet-info.c' object='panel_test_applets-mate-panel-applet-info.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applet-info.c' object='mate_panel_test_applets-mate-panel-applet-info.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-mate-panel-applet-info.o `test -f 'mate-panel-applet-info.c' || echo '$(srcdir)/'`mate-panel-applet-info.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-mate-panel-applet-info.o `test -f 'mate-panel-applet-info.c' || echo '$(srcdir)/'`mate-panel-applet-info.c
 
-panel_test_applets-mate-panel-applet-info.obj: mate-panel-applet-info.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-mate-panel-applet-info.obj -MD -MP -MF $(DEPDIR)/panel_test_applets-mate-panel-applet-info.Tpo -c -o panel_test_applets-mate-panel-applet-info.obj `if test -f 'mate-panel-applet-info.c'; then $(CYGPATH_W) 'mate-panel-applet-info.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applet-info.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-mate-panel-applet-info.Tpo $(DEPDIR)/panel_test_applets-mate-panel-applet-info.Po
+mate_panel_test_applets-mate-panel-applet-info.obj: mate-panel-applet-info.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-mate-panel-applet-info.obj -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Tpo -c -o mate_panel_test_applets-mate-panel-applet-info.obj `if test -f 'mate-panel-applet-info.c'; then $(CYGPATH_W) 'mate-panel-applet-info.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applet-info.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Tpo $(DEPDIR)/mate_panel_test_applets-mate-panel-applet-info.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applet-info.c' object='panel_test_applets-mate-panel-applet-info.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applet-info.c' object='mate_panel_test_applets-mate-panel-applet-info.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-mate-panel-applet-info.obj `if test -f 'mate-panel-applet-info.c'; then $(CYGPATH_W) 'mate-panel-applet-info.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applet-info.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-mate-panel-applet-info.obj `if test -f 'mate-panel-applet-info.c'; then $(CYGPATH_W) 'mate-panel-applet-info.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applet-info.c'; fi`
 
-panel_test_applets-mate-panel-applets-manager.o: mate-panel-applets-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-mate-panel-applets-manager.o -MD -MP -MF $(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Tpo -c -o panel_test_applets-mate-panel-applets-manager.o `test -f 'mate-panel-applets-manager.c' || echo '$(srcdir)/'`mate-panel-applets-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Tpo $(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Po
+mate_panel_test_applets-mate-panel-applets-manager.o: mate-panel-applets-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-mate-panel-applets-manager.o -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Tpo -c -o mate_panel_test_applets-mate-panel-applets-manager.o `test -f 'mate-panel-applets-manager.c' || echo '$(srcdir)/'`mate-panel-applets-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Tpo $(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applets-manager.c' object='panel_test_applets-mate-panel-applets-manager.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applets-manager.c' object='mate_panel_test_applets-mate-panel-applets-manager.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-mate-panel-applets-manager.o `test -f 'mate-panel-applets-manager.c' || echo '$(srcdir)/'`mate-panel-applets-manager.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-mate-panel-applets-manager.o `test -f 'mate-panel-applets-manager.c' || echo '$(srcdir)/'`mate-panel-applets-manager.c
 
-panel_test_applets-mate-panel-applets-manager.obj: mate-panel-applets-manager.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-mate-panel-applets-manager.obj -MD -MP -MF $(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Tpo -c -o panel_test_applets-mate-panel-applets-manager.obj `if test -f 'mate-panel-applets-manager.c'; then $(CYGPATH_W) 'mate-panel-applets-manager.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applets-manager.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Tpo $(DEPDIR)/panel_test_applets-mate-panel-applets-manager.Po
+mate_panel_test_applets-mate-panel-applets-manager.obj: mate-panel-applets-manager.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-mate-panel-applets-manager.obj -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Tpo -c -o mate_panel_test_applets-mate-panel-applets-manager.obj `if test -f 'mate-panel-applets-manager.c'; then $(CYGPATH_W) 'mate-panel-applets-manager.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applets-manager.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Tpo $(DEPDIR)/mate_panel_test_applets-mate-panel-applets-manager.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applets-manager.c' object='panel_test_applets-mate-panel-applets-manager.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applets-manager.c' object='mate_panel_test_applets-mate-panel-applets-manager.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-mate-panel-applets-manager.obj `if test -f 'mate-panel-applets-manager.c'; then $(CYGPATH_W) 'mate-panel-applets-manager.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applets-manager.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-mate-panel-applets-manager.obj `if test -f 'mate-panel-applets-manager.c'; then $(CYGPATH_W) 'mate-panel-applets-manager.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applets-manager.c'; fi`
 
-panel_test_applets-panel-marshal.o: panel-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-panel-marshal.o -MD -MP -MF $(DEPDIR)/panel_test_applets-panel-marshal.Tpo -c -o panel_test_applets-panel-marshal.o `test -f 'panel-marshal.c' || echo '$(srcdir)/'`panel-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-panel-marshal.Tpo $(DEPDIR)/panel_test_applets-panel-marshal.Po
+mate_panel_test_applets-panel-marshal.o: panel-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-marshal.o -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-marshal.Tpo -c -o mate_panel_test_applets-panel-marshal.o `test -f 'panel-marshal.c' || echo '$(srcdir)/'`panel-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-panel-marshal.Tpo $(DEPDIR)/mate_panel_test_applets-panel-marshal.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-marshal.c' object='panel_test_applets-panel-marshal.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-marshal.c' object='mate_panel_test_applets-panel-marshal.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-panel-marshal.o `test -f 'panel-marshal.c' || echo '$(srcdir)/'`panel-marshal.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-panel-marshal.o `test -f 'panel-marshal.c' || echo '$(srcdir)/'`panel-marshal.c
 
-panel_test_applets-panel-marshal.obj: panel-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-panel-marshal.obj -MD -MP -MF $(DEPDIR)/panel_test_applets-panel-marshal.Tpo -c -o panel_test_applets-panel-marshal.obj `if test -f 'panel-marshal.c'; then $(CYGPATH_W) 'panel-marshal.c'; else $(CYGPATH_W) '$(srcdir)/panel-marshal.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-panel-marshal.Tpo $(DEPDIR)/panel_test_applets-panel-marshal.Po
+mate_panel_test_applets-panel-marshal.obj: panel-marshal.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-marshal.obj -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-marshal.Tpo -c -o mate_panel_test_applets-panel-marshal.obj `if test -f 'panel-marshal.c'; then $(CYGPATH_W) 'panel-marshal.c'; else $(CYGPATH_W) '$(srcdir)/panel-marshal.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-panel-marshal.Tpo $(DEPDIR)/mate_panel_test_applets-panel-marshal.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-marshal.c' object='panel_test_applets-panel-marshal.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-marshal.c' object='mate_panel_test_applets-panel-marshal.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-panel-marshal.obj `if test -f 'panel-marshal.c'; then $(CYGPATH_W) 'panel-marshal.c'; else $(CYGPATH_W) '$(srcdir)/panel-marshal.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-panel-marshal.obj `if test -f 'panel-marshal.c'; then $(CYGPATH_W) 'panel-marshal.c'; else $(CYGPATH_W) '$(srcdir)/panel-marshal.c'; fi`
 
-panel_test_applets-panel-test-applets.o: panel-test-applets.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-panel-test-applets.o -MD -MP -MF $(DEPDIR)/panel_test_applets-panel-test-applets.Tpo -c -o panel_test_applets-panel-test-applets.o `test -f 'panel-test-applets.c' || echo '$(srcdir)/'`panel-test-applets.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-panel-test-applets.Tpo $(DEPDIR)/panel_test_applets-panel-test-applets.Po
+mate_panel_test_applets-panel-test-applets.o: panel-test-applets.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-test-applets.o -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-test-applets.Tpo -c -o mate_panel_test_applets-panel-test-applets.o `test -f 'panel-test-applets.c' || echo '$(srcdir)/'`panel-test-applets.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-panel-test-applets.Tpo $(DEPDIR)/mate_panel_test_applets-panel-test-applets.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-test-applets.c' object='panel_test_applets-panel-test-applets.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-test-applets.c' object='mate_panel_test_applets-panel-test-applets.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-panel-test-applets.o `test -f 'panel-test-applets.c' || echo '$(srcdir)/'`panel-test-applets.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-panel-test-applets.o `test -f 'panel-test-applets.c' || echo '$(srcdir)/'`panel-test-applets.c
 
-panel_test_applets-panel-test-applets.obj: panel-test-applets.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT panel_test_applets-panel-test-applets.obj -MD -MP -MF $(DEPDIR)/panel_test_applets-panel-test-applets.Tpo -c -o panel_test_applets-panel-test-applets.obj `if test -f 'panel-test-applets.c'; then $(CYGPATH_W) 'panel-test-applets.c'; else $(CYGPATH_W) '$(srcdir)/panel-test-applets.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/panel_test_applets-panel-test-applets.Tpo $(DEPDIR)/panel_test_applets-panel-test-applets.Po
+mate_panel_test_applets-panel-test-applets.obj: panel-test-applets.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-test-applets.obj -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-test-applets.Tpo -c -o mate_panel_test_applets-panel-test-applets.obj `if test -f 'panel-test-applets.c'; then $(CYGPATH_W) 'panel-test-applets.c'; else $(CYGPATH_W) '$(srcdir)/panel-test-applets.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel_test_applets-panel-test-applets.Tpo $(DEPDIR)/mate_panel_test_applets-panel-test-applets.Po
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-test-applets.c' object='panel_test_applets-panel-test-applets.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-test-applets.c' object='mate_panel_test_applets-panel-test-applets.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o panel_test_applets-panel-test-applets.obj `if test -f 'panel-test-applets.c'; then $(CYGPATH_W) 'panel-test-applets.c'; else $(CYGPATH_W) '$(srcdir)/panel-test-applets.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel_test_applets-panel-test-applets.obj `if test -f 'panel-test-applets.c'; then $(CYGPATH_W) 'panel-test-applets.c'; else $(CYGPATH_W) '$(srcdir)/panel-test-applets.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

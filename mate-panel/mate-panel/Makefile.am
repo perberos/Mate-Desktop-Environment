@@ -3,7 +3,7 @@ SUBDIRS = libegg libmate-panel-applet-private libpanel-util
 bin_PROGRAMS = \
 	mate-panel 			\
 	mate-desktop-item-edit		\
-	panel-test-applets
+	mate-panel-test-applets
 libexec_SCRIPTS = mate-panel-add
 
 AM_CPPFLAGS =							\
@@ -126,7 +126,7 @@ mate_panel_CPPFLAGS = 				\
 	$(AM_CPPFLAGS)				\
 	$(XRANDR_CFLAGS)			\
 	-DPANEL_MODULES_DIR=\"$(modulesdir)\"	\
-	-DGMENU_I_KNOW_THIS_IS_UNSTABLE
+	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE
 
 mate_panel_LDADD =		\
 	$(top_builddir)/mate-panel/libegg/libegg.la					\
@@ -149,24 +149,24 @@ mate_desktop_item_edit_LDADD = 	\
 	$(top_builddir)/mate-panel/libpanel-util/libpanel-util.la \
 	$(PANEL_LIBS)
 
-panel_test_applets_SOURCES =		\
+mate_panel_test_applets_SOURCES =		\
 	panel-modules.c			\
 	mate-panel-applet-info.c		\
 	mate-panel-applets-manager.c		\
 	panel-marshal.c			\
 	panel-test-applets.c
 
-panel_test_applets_CPPFLAGS =			\
+mate_panel_test_applets_CPPFLAGS =			\
 	$(AM_CPPFLAGS)				\
 	-DPANEL_MODULES_DIR=\"$(modulesdir)\"	\
 	-DMATE_PANEL_APPLETS_DIR=\"$(appletsdir)\"
 
-panel_test_applets_LDADD = 		\
+mate_panel_test_applets_LDADD = 		\
 	$(top_builddir)/mate-panel/libmate-panel-applet-private/libmate-panel-applet-private-mini.la	\
 	$(top_builddir)/mate-panel/libpanel-util/libpanel-util.la				\
 	$(PANEL_LIBS)
 
-panel_test_applets_LDFLAGS = -export-dynamic
+mate_panel_test_applets_LDFLAGS = -export-dynamic
 
 mate-panel-add: mate-panel-add.in Makefile
 	$(AM_V_GEN)sed 						\
