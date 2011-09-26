@@ -145,106 +145,99 @@
  * </programlisting>
  */
 
-struct _PolkitLockButtonPrivate
-{
-  PolkitAuthority *authority;
-  PolkitSubject *subject;
-  gchar *action_id;
+struct _PolkitLockButtonPrivate {
+	PolkitAuthority* authority;
+	PolkitSubject* subject;
+	gchar* action_id;
 
-  gchar *text_unlock;
-  gchar *text_lock;
-  gchar *text_lock_down;
-  gchar *text_not_authorized;
+	gchar* text_unlock;
+	gchar* text_lock;
+	gchar* text_lock_down;
+	gchar* text_not_authorized;
 
-  gchar *tooltip_unlock;
-  gchar *tooltip_lock;
-  gchar *tooltip_lock_down;
-  gchar *tooltip_not_authorized;
+	gchar* tooltip_unlock;
+	gchar* tooltip_lock;
+	gchar* tooltip_lock_down;
+	gchar* tooltip_not_authorized;
 
-  GtkWidget *button;
-  GtkWidget *label;
+	GtkWidget* button;
+	GtkWidget* label;
 
-  gboolean can_obtain;
-  gboolean retains_after_challenge;
-  gboolean authorized;
-  gboolean hidden;
+	gboolean can_obtain;
+	gboolean retains_after_challenge;
+	gboolean authorized;
+	gboolean hidden;
 
-  /* is non-NULL exactly when we are authorized and have a temporary authorization */
-  gchar *tmp_authz_id;
+	/* is non-NULL exactly when we are authorized and have a temporary authorization */
+	gchar* tmp_authz_id;
 
-  /* This is non-NULL exactly when we have a non-interactive check outstanding */
-  GCancellable *check_cancellable;
+	/* This is non-NULL exactly when we have a non-interactive check outstanding */
+	GCancellable* check_cancellable;
 
-  /* This is non-NULL exactly when we have an interactive check outstanding */
-  GCancellable *interactive_check_cancellable;
-
+	/* This is non-NULL exactly when we have an interactive check outstanding */
+	GCancellable* interactive_check_cancellable;
 };
 
-enum
-{
-  PROP_0,
-  PROP_ACTION_ID,
-  PROP_IS_AUTHORIZED,
-  PROP_IS_VISIBLE,
-  PROP_CAN_OBTAIN,
-  PROP_TEXT_UNLOCK,
-  PROP_TEXT_LOCK,
-  PROP_TEXT_LOCK_DOWN,
-  PROP_TEXT_NOT_AUTHORIZED,
-  PROP_TOOLTIP_UNLOCK,
-  PROP_TOOLTIP_LOCK,
-  PROP_TOOLTIP_LOCK_DOWN,
-  PROP_TOOLTIP_NOT_AUTHORIZED,
+enum{
+	PROP_0,
+	PROP_ACTION_ID,
+	PROP_IS_AUTHORIZED,
+	PROP_IS_VISIBLE,
+	PROP_CAN_OBTAIN,
+	PROP_TEXT_UNLOCK,
+	PROP_TEXT_LOCK,
+	PROP_TEXT_LOCK_DOWN,
+	PROP_TEXT_NOT_AUTHORIZED,
+	PROP_TOOLTIP_UNLOCK,
+	PROP_TOOLTIP_LOCK,
+	PROP_TOOLTIP_LOCK_DOWN,
+	PROP_TOOLTIP_NOT_AUTHORIZED,
 };
 
-enum
-{
-  CHANGED_SIGNAL,
-  LAST_SIGNAL,
+enum {
+	CHANGED_SIGNAL,
+	LAST_SIGNAL,
 };
 
 static guint signals[LAST_SIGNAL] = {0, };
 
-static void initiate_check (PolkitLockButton *button);
-static void do_sync_check (PolkitLockButton *button);
-static void update_state (PolkitLockButton *button);
+static void initiate_check(PolkitLockButton* button);
+static void do_sync_check(PolkitLockButton* button);
+static void update_state(PolkitLockButton* button);
 
-static void on_authority_changed (PolkitAuthority *authority,
-                                  gpointer         user_data);
+static void on_authority_changed(PolkitAuthority* authority, gpointer user_data);
 
-static void on_clicked (GtkButton *button,
-                        gpointer   user_data);
+static void on_clicked(GtkButton* button, gpointer user_data);
 
-G_DEFINE_TYPE (PolkitLockButton, polkit_lock_button, GTK_TYPE_HBOX);
+G_DEFINE_TYPE(PolkitLockButton, polkit_lock_button, GTK_TYPE_HBOX);
 
-static void
-polkit_lock_button_finalize (GObject *object)
+static void polkit_lock_button_finalize(GObject* object)
 {
-  PolkitLockButton *button = POLKIT_LOCK_BUTTON (object);
+	PolkitLockButton *button = POLKIT_LOCK_BUTTON(object);
 
-  g_free (button->priv->action_id);
-  g_free (button->priv->tmp_authz_id);
-  g_object_unref (button->priv->subject);
+	g_free(button->priv->action_id);
+	g_free(button->priv->tmp_authz_id);
+	g_object_unref(button->priv->subject);
 
-  if (button->priv->check_cancellable != NULL)
-    {
-      g_cancellable_cancel (button->priv->check_cancellable);
-      g_object_unref (button->priv->check_cancellable);
-    }
+	if (button->priv->check_cancellable != NULL)
+	{
+		g_cancellable_cancel(button->priv->check_cancellable);
+		g_object_unref(button->priv->check_cancellable);
+	}
 
-  if (button->priv->interactive_check_cancellable != NULL)
-    {
-      g_cancellable_cancel (button->priv->interactive_check_cancellable);
-      g_object_unref (button->priv->interactive_check_cancellable);
-    }
+	if (button->priv->interactive_check_cancellable != NULL)
+	{
+		g_cancellable_cancel(button->priv->interactive_check_cancellable);
+		g_object_unref(button->priv->interactive_check_cancellable);
+	}
 
-  g_signal_handlers_disconnect_by_func (button->priv->authority,
-                                        on_authority_changed,
-                                        button);
-  g_object_unref (button->priv->authority);
+	g_signal_handlers_disconnect_by_func(button->priv->authority, on_authority_changed, button);
+	g_object_unref(button->priv->authority);
 
-  if (G_OBJECT_CLASS (polkit_lock_button_parent_class)->finalize != NULL)
-    G_OBJECT_CLASS (polkit_lock_button_parent_class)->finalize (object);
+	if (G_OBJECT_CLASS(polkit_lock_button_parent_class)->finalize != NULL)
+	{
+		G_OBJECT_CLASS(polkit_lock_button_parent_class)->finalize(object);
+	}
 }
 
 static void
@@ -867,6 +860,7 @@ initiate_check (PolkitLockButton *button)
 static void
 do_sync_check (PolkitLockButton *button)
 {
+
   GError *error;
   PolkitAuthorizationResult *result;
 
@@ -899,6 +893,7 @@ interactive_check_cb (GObject       *source_object,
                       GAsyncResult  *res,
                       gpointer       user_data)
 {
+
   PolkitAuthority *authority = POLKIT_AUTHORITY (source_object);
   PolkitLockButton *button = POLKIT_LOCK_BUTTON (user_data);
   PolkitAuthorizationResult *result;
@@ -939,41 +934,33 @@ interactive_check_cb (GObject       *source_object,
     }
 }
 
-static void
-on_clicked (GtkButton *_button,
-            gpointer   user_data)
+
+static void on_clicked(GtkButton* _button, gpointer user_data)
 {
-  PolkitLockButton *button = POLKIT_LOCK_BUTTON (user_data);
 
-  if (!button->priv->authorized && button->priv->can_obtain)
-    {
-      /* if we already have a pending interactive check, then do nothing */
-      if (button->priv->interactive_check_cancellable != NULL)
-        goto out;
+	PolkitLockButton* button = POLKIT_LOCK_BUTTON(user_data);
 
-      button->priv->interactive_check_cancellable = g_cancellable_new ();
+	if (!button->priv->authorized && button->priv->can_obtain)
+	{
 
-      polkit_authority_check_authorization (button->priv->authority,
-                                            button->priv->subject,
-                                            button->priv->action_id,
-                                            NULL, /* PolkitDetails */
-                                            POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION,
-                                            button->priv->interactive_check_cancellable,
-                                            interactive_check_cb,
-                                            button);
-    }
-  else if (button->priv->authorized && button->priv->tmp_authz_id != NULL)
-    {
-      polkit_authority_revoke_temporary_authorization_by_id (button->priv->authority,
-                                                             button->priv->tmp_authz_id,
-                                                             NULL,  /* cancellable */
-                                                             NULL,  /* callback */
-                                                             NULL); /* user_data */
-    }
+		/* if we already have a pending interactive check, then do nothing */
+		if (button->priv->interactive_check_cancellable != NULL)
+		{
+			goto out;
+		}
 
- out:
+		button->priv->interactive_check_cancellable = g_cancellable_new();
 
-  update_state (button);
+		polkit_authority_check_authorization(button->priv->authority, button->priv->subject, button->priv->action_id, NULL, /* PolkitDetails */ POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, button->priv->interactive_check_cancellable, interactive_check_cb, button);
+	}
+	else if (button->priv->authorized && button->priv->tmp_authz_id != NULL)
+	{
+		polkit_authority_revoke_temporary_authorization_by_id (button->priv->authority, button->priv->tmp_authz_id, /* cancellable */ NULL, /* callback */ NULL, /* user_data */ NULL);
+	}
+
+	out:
+
+	update_state(button);
 }
 
 /**
@@ -984,11 +971,10 @@ on_clicked (GtkButton *_button,
  *
  * Returns: %TRUE if authorized.
  */
-gboolean
-polkit_lock_button_get_is_authorized (PolkitLockButton *button)
+gboolean polkit_lock_button_get_is_authorized(PolkitLockButton* button)
 {
-  g_return_val_if_fail (POLKIT_IS_LOCK_BUTTON (button), FALSE);
-  return button->priv->authorized;
+	g_return_val_if_fail(POLKIT_IS_LOCK_BUTTON(button), FALSE);
+	return button->priv->authorized;
 }
 
 /**
@@ -1000,11 +986,10 @@ polkit_lock_button_get_is_authorized (PolkitLockButton *button)
  *
  * Returns: Whether the authorization is obtainable.
  */
-gboolean
-polkit_lock_button_get_can_obtain (PolkitLockButton *button)
+gboolean polkit_lock_button_get_can_obtain(PolkitLockButton* button)
 {
-  g_return_val_if_fail (POLKIT_IS_LOCK_BUTTON (button), FALSE);
-  return button->priv->can_obtain;
+	g_return_val_if_fail(POLKIT_IS_LOCK_BUTTON(button), FALSE);
+	return button->priv->can_obtain;
 }
 
 /**
@@ -1015,11 +1000,10 @@ polkit_lock_button_get_can_obtain (PolkitLockButton *button)
  *
  * Returns: %TRUE if @button has any visible UI elements.
  */
-gboolean
-polkit_lock_button_get_is_visible (PolkitLockButton *button)
+gboolean polkit_lock_button_get_is_visible(PolkitLockButton* button)
 {
-  g_return_val_if_fail (POLKIT_IS_LOCK_BUTTON (button), FALSE);
-  return ! button->priv->hidden;
+	g_return_val_if_fail(POLKIT_IS_LOCK_BUTTON(button), FALSE);
+	return !button->priv->hidden;
 }
 
 /**
@@ -1029,22 +1013,20 @@ polkit_lock_button_get_is_visible (PolkitLockButton *button)
  *
  * Makes @button display @text when not authorized and clicking the button will obtain the authorization.
  */
-void
-polkit_lock_button_set_unlock_text (PolkitLockButton *button,
-                                    const gchar      *text)
+void polkit_lock_button_set_unlock_text(PolkitLockButton* button, const gchar* text)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (text != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(text != NULL);
 
-  if (button->priv->text_unlock != NULL)
-    {
-      button->priv->text_unlock = g_strdup (text);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->text_unlock = g_strdup (text);
-    }
+	if (button->priv->text_unlock != NULL)
+	{
+		button->priv->text_unlock = g_strdup(text);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->text_unlock = g_strdup(text);
+	}
 }
 
 /**
@@ -1054,22 +1036,20 @@ polkit_lock_button_set_unlock_text (PolkitLockButton *button,
  *
  * Makes @button display @text when authorized and clicking the button will revoke the authorization.
  */
-void
-polkit_lock_button_set_lock_text (PolkitLockButton *button,
-                                  const gchar      *text)
+void polkit_lock_button_set_lock_text(PolkitLockButton* button, const gchar* text)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (text != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(text != NULL);
 
-  if (button->priv->text_lock != NULL)
-    {
-      button->priv->text_lock = g_strdup (text);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->text_lock = g_strdup (text);
-    }
+	if (button->priv->text_lock != NULL)
+	{
+		button->priv->text_lock = g_strdup(text);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->text_lock = g_strdup(text);
+	}
 }
 
 /**
@@ -1079,22 +1059,20 @@ polkit_lock_button_set_lock_text (PolkitLockButton *button,
  *
  * Makes @button display @text when authorized and it is possible to lock down the action.
  */
-void
-polkit_lock_button_set_lock_down_text (PolkitLockButton *button,
-                                       const gchar      *text)
+void polkit_lock_button_set_lock_down_text(PolkitLockButton* button, const gchar* text)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (text != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(text != NULL);
 
-  if (button->priv->text_lock_down != NULL)
-    {
-      button->priv->text_lock_down = g_strdup (text);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->text_lock_down = g_strdup (text);
-    }
+	if (button->priv->text_lock_down != NULL)
+	{
+		button->priv->text_lock_down = g_strdup(text);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->text_lock_down = g_strdup(text);
+	}
 }
 
 /**
@@ -1104,22 +1082,20 @@ polkit_lock_button_set_lock_down_text (PolkitLockButton *button,
  *
  * Makes @button display @text when an authorization cannot be obtained.
  */
-void
-polkit_lock_button_set_not_authorized_text (PolkitLockButton *button,
-                                            const gchar      *text)
+void polkit_lock_button_set_not_authorized_text(PolkitLockButton* button, const gchar* text)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (text != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(text != NULL);
 
-  if (button->priv->text_not_authorized != NULL)
-    {
-      button->priv->text_not_authorized = g_strdup (text);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->text_not_authorized = g_strdup (text);
-    }
+	if (button->priv->text_not_authorized != NULL)
+	{
+		button->priv->text_not_authorized = g_strdup(text);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->text_not_authorized = g_strdup(text);
+	}
 }
 
 
@@ -1130,22 +1106,20 @@ polkit_lock_button_set_not_authorized_text (PolkitLockButton *button,
  *
  * Makes @button display @tooltip when not authorized and clicking the button will obtain the authorization.
  */
-void
-polkit_lock_button_set_unlock_tooltip (PolkitLockButton *button,
-                                       const gchar      *tooltip)
+void polkit_lock_button_set_unlock_tooltip(PolkitLockButton* button, const gchar* tooltip)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (tooltip != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(tooltip != NULL);
 
-  if (button->priv->tooltip_unlock != NULL)
-    {
-      button->priv->tooltip_unlock = g_strdup (tooltip);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->tooltip_unlock = g_strdup (tooltip);
-    }
+	if (button->priv->tooltip_unlock != NULL)
+	{
+		button->priv->tooltip_unlock = g_strdup(tooltip);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->tooltip_unlock = g_strdup(tooltip);
+	}
 }
 
 /**
@@ -1155,22 +1129,20 @@ polkit_lock_button_set_unlock_tooltip (PolkitLockButton *button,
  *
  * Makes @button display @tooltip when authorized and clicking the button will revoke the authorization.
  */
-void
-polkit_lock_button_set_lock_tooltip (PolkitLockButton *button,
-                                     const gchar      *tooltip)
+void polkit_lock_button_set_lock_tooltip(PolkitLockButton* button, const gchar* tooltip)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (tooltip != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(tooltip != NULL);
 
-  if (button->priv->tooltip_lock != NULL)
-    {
-      button->priv->tooltip_lock = g_strdup (tooltip);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->tooltip_lock = g_strdup (tooltip);
-    }
+	if (button->priv->tooltip_lock != NULL)
+	{
+		button->priv->tooltip_lock = g_strdup(tooltip);
+		update_state (button);
+	}
+	else
+	{
+		button->priv->tooltip_lock = g_strdup(tooltip);
+	}
 }
 
 /**
@@ -1180,22 +1152,20 @@ polkit_lock_button_set_lock_tooltip (PolkitLockButton *button,
  *
  * Makes @button display @tooltip when authorized and it is possible to lock down the action.
  */
-void
-polkit_lock_button_set_lock_down_tooltip (PolkitLockButton *button,
-                                          const gchar      *tooltip)
+void polkit_lock_button_set_lock_down_tooltip(PolkitLockButton* button, const gchar* tooltip)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (tooltip != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(tooltip != NULL);
 
-  if (button->priv->tooltip_lock_down != NULL)
-    {
-      button->priv->tooltip_lock_down = g_strdup (tooltip);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->tooltip_lock_down = g_strdup (tooltip);
-    }
+	if (button->priv->tooltip_lock_down != NULL)
+	{
+		button->priv->tooltip_lock_down = g_strdup(tooltip);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->tooltip_lock_down = g_strdup(tooltip);
+	}
 }
 
 /**
@@ -1205,20 +1175,18 @@ polkit_lock_button_set_lock_down_tooltip (PolkitLockButton *button,
  *
  * Makes @button display @tooltip when an authorization cannot be obtained.
  */
-void
-polkit_lock_button_set_not_authorized_tooltip (PolkitLockButton *button,
-                                               const gchar      *tooltip)
+void polkit_lock_button_set_not_authorized_tooltip(PolkitLockButton* button, const gchar* tooltip)
 {
-  g_return_if_fail (POLKIT_IS_LOCK_BUTTON (button));
-  g_return_if_fail (tooltip != NULL);
+	g_return_if_fail(POLKIT_IS_LOCK_BUTTON(button));
+	g_return_if_fail(tooltip != NULL);
 
-  if (button->priv->tooltip_not_authorized != NULL)
-    {
-      button->priv->tooltip_not_authorized = g_strdup (tooltip);
-      update_state (button);
-    }
-  else
-    {
-      button->priv->tooltip_not_authorized = g_strdup (tooltip);
-    }
+	if (button->priv->tooltip_not_authorized != NULL)
+	{
+		button->priv->tooltip_not_authorized = g_strdup(tooltip);
+		update_state(button);
+	}
+	else
+	{
+		button->priv->tooltip_not_authorized = g_strdup(tooltip);
+	}
 }
