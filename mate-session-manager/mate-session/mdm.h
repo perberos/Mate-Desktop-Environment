@@ -33,21 +33,21 @@
 G_BEGIN_DECLS
 
 typedef enum {
-  MDM_LOGOUT_ACTION_NONE     = 0,
-  MDM_LOGOUT_ACTION_SHUTDOWN = 1 << 0,
-  MDM_LOGOUT_ACTION_REBOOT   = 1 << 1,
-  MDM_LOGOUT_ACTION_SUSPEND  = 1 << 2
+	MDM_LOGOUT_ACTION_NONE = 0,
+	MDM_LOGOUT_ACTION_SHUTDOWN = 1 << 0,
+	MDM_LOGOUT_ACTION_REBOOT = 1 << 1,
+	MDM_LOGOUT_ACTION_SUSPEND = 1 << 2
 } MdmLogoutAction;
 
-gboolean         mdm_is_available            (void);
+gboolean mdm_is_available(void);
 
-void             mdm_new_login               (void);
+void mdm_new_login(void);
 
-void             mdm_set_logout_action       (MdmLogoutAction action);
+void mdm_set_logout_action(MdmLogoutAction action);
 
-MdmLogoutAction  mdm_get_logout_action       (void);
+MdmLogoutAction mdm_get_logout_action(void);
 
-gboolean         mdm_supports_logout_action  (MdmLogoutAction action);
+gboolean mdm_supports_logout_action(MdmLogoutAction action);
 
 G_END_DECLS
 

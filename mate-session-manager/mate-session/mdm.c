@@ -27,7 +27,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+	#include <config.h>
 #endif
 
 #include <string.h>
@@ -46,426 +46,451 @@
 
 #define MDM_PROTOCOL_SOCKET_PATH "/var/run/mdm_socket"
 
-#define MDM_PROTOCOL_MSG_CLOSE         "CLOSE"
-#define MDM_PROTOCOL_MSG_VERSION       "VERSION"
-#define MDM_PROTOCOL_MSG_AUTHENTICATE  "AUTH_LOCAL"
-#define MDM_PROTOCOL_MSG_QUERY_ACTION  "QUERY_LOGOUT_ACTION"
-#define MDM_PROTOCOL_MSG_SET_ACTION    "SET_SAFE_LOGOUT_ACTION"
+#define MDM_PROTOCOL_MSG_CLOSE "CLOSE"
+#define MDM_PROTOCOL_MSG_VERSION "VERSION"
+#define MDM_PROTOCOL_MSG_AUTHENTICATE "AUTH_LOCAL"
+#define MDM_PROTOCOL_MSG_QUERY_ACTION "QUERY_LOGOUT_ACTION"
+#define MDM_PROTOCOL_MSG_SET_ACTION "SET_SAFE_LOGOUT_ACTION"
 #define MDM_PROTOCOL_MSG_FLEXI_XSERVER "FLEXI_XSERVER"
 
-#define MDM_ACTION_STR_NONE     "NONE"
+#define MDM_ACTION_STR_NONE "NONE"
 #define MDM_ACTION_STR_SHUTDOWN "HALT"
-#define MDM_ACTION_STR_REBOOT   "REBOOT"
-#define MDM_ACTION_STR_SUSPEND  "SUSPEND"
+#define MDM_ACTION_STR_REBOOT "REBOOT"
+#define MDM_ACTION_STR_SUSPEND "SUSPEND"
 
 typedef struct {
-        int             fd;
-        char           *auth_cookie;
+	int fd;
+	char* auth_cookie;
 
-        MdmLogoutAction available_actions;
-        MdmLogoutAction current_actions;
+	MdmLogoutAction available_actions;
+	MdmLogoutAction current_actions;
 
-        time_t          last_update;
+	time_t last_update;
 } MdmProtocolData;
 
 static MdmProtocolData mdm_protocol_data = {
-        0,
-        NULL,
-        MDM_LOGOUT_ACTION_NONE,
-        MDM_LOGOUT_ACTION_NONE,
-        0
+	0,
+	NULL,
+	MDM_LOGOUT_ACTION_NONE,
+	MDM_LOGOUT_ACTION_NONE,
+	0
 };
 
-static char *
-mdm_send_protocol_msg (MdmProtocolData *data,
-                       const char      *msg)
+static char* mdm_send_protocol_msg(MdmProtocolData* data, const char* msg)
 {
-        GString *retval;
-        char buf[256];
-        char *p;
-        int len;
+	GString* retval;
+	char buf[256];
+	char* p;
+	int len;
 
-        p = g_strconcat (msg, "\n", NULL);
+	p = g_strconcat(msg, "\n", NULL);
 
-        if (write (data->fd, p, strlen (p)) < 0) {
-                g_free (p);
+	if (write(data->fd, p, strlen(p)) < 0)
+	{
+		g_free(p);
 
-                g_warning ("Failed to send message to MDM: %s",
-                           g_strerror (errno));
+		g_warning("Failed to send message to MDM: %s", g_strerror(errno));
 
-                return NULL;
-        }
+		return NULL;
+	}
 
-        g_free (p);
+	g_free(p);
 
-        p = NULL;
-        retval = NULL;
+	p = NULL;
+	retval = NULL;
 
-        while ((len = read (data->fd, buf, sizeof (buf) - 1)) > 0) {
-                buf[len] = '\0';
+	while ((len = read(data->fd, buf, sizeof(buf) - 1)) > 0)
+	{
+		buf[len] = '\0';
 
-                if (!retval) {
-                        retval = g_string_new (buf);
-                } else {
-                        retval = g_string_append (retval, buf);
-                }
+		if (!retval)
+		{
+			retval = g_string_new(buf);
+		}
+		else
+		{
+			retval = g_string_append(retval, buf);
+		}
 
-                if ((p = strchr (retval->str, '\n'))) {
-                        break;
-                }
-        }
+		if ((p = strchr(retval->str, '\n')))
+		{
+			break;
+		}
+	}
 
-        if (p) {
-                *p = '\0';
-        }
+	if (p)
+	{
+		*p = '\0';
+	}
 
-        return retval ? g_string_free (retval, FALSE) : NULL;
+	return retval ? g_string_free(retval, FALSE) : NULL;
 }
 
-static char *
-get_display_number (void)
+static char* get_display_number(void)
 {
-        const char *display_name;
-        char       *retval;
-        char       *p;
+	const char* display_name;
+	char* retval;
+	char* p;
 
-        display_name = gdk_display_get_name (gdk_display_get_default ());
+	display_name = gdk_display_get_name(gdk_display_get_default());
 
-        p = strchr (display_name, ':');
+	p = strchr(display_name, ':');
 
-        if (!p) {
-                return g_strdup ("0");
-        }
+	if (!p)
+	{
+		return g_strdup("0");
+	}
 
-        while (*p == ':') {
-                p++;
-        }
+	while (*p == ':')
+	{
+		p++;
+	}
 
-        retval = g_strdup (p);
+	retval = g_strdup(p);
 
-        p = strchr (retval, '.');
+	p = strchr(retval, '.');
 
-        if (p != NULL) {
-                *p = '\0';
-        }
+	if (p != NULL)
+	{
+		*p = '\0';
+	}
 
-        return retval;
+	return retval;
 }
 
-static gboolean
-mdm_authenticate_connection (MdmProtocolData *data)
+static gboolean mdm_authenticate_connection(MdmProtocolData* data)
 {
-#define MDM_MIT_MAGIC_COOKIE_LEN 16
+	#define MDM_MIT_MAGIC_COOKIE_LEN 16
 
-        const char *xau_path;
-        FILE *f;
-        Xauth *xau;
-        char *display_number;
-        gboolean retval;
+	const char* xau_path;
+	FILE* f;
+	Xauth* xau;
+	char* display_number;
+	gboolean retval;
 
-        if (data->auth_cookie) {
-                char *msg;
-                char *response;
+	if (data->auth_cookie)
+	{
+		char* msg;
+		char* response;
 
-                msg = g_strdup_printf (MDM_PROTOCOL_MSG_AUTHENTICATE " %s",
-                                       data->auth_cookie);
-                response = mdm_send_protocol_msg (data, msg);
-                g_free (msg);
+		msg = g_strdup_printf(MDM_PROTOCOL_MSG_AUTHENTICATE " %s", data->auth_cookie);
+		response = mdm_send_protocol_msg(data, msg);
+		g_free(msg);
 
-                if (response && !strcmp (response, "OK")) {
-                        g_free (response);
-                        return TRUE;
-                } else {
-                        g_free (response);
-                        g_free (data->auth_cookie);
-                        data->auth_cookie = NULL;
-                }
-        }
+		if (response && !strcmp(response, "OK"))
+		{
+			g_free(response);
+			return TRUE;
+		}
+		else
+		{
+			g_free(response);
+			g_free(data->auth_cookie);
+			data->auth_cookie = NULL;
+		}
+	}
 
-        if (!(xau_path = XauFileName ())) {
-                return FALSE;
-        }
+	if (!(xau_path = XauFileName()))
+	{
+		return FALSE;
+	}
 
-        if (!(f = fopen (xau_path, "r"))) {
-                return FALSE;
-        }
+	if (!(f = fopen(xau_path, "r")))
+	{
+		return FALSE;
+	}
 
-        retval = FALSE;
-        display_number = get_display_number ();
+	retval = FALSE;
+	display_number = get_display_number();
 
-        while ((xau = XauReadAuth (f))) {
-                char buffer[40]; /* 2*16 == 32, so 40 is enough */
-                char *msg;
-                char *response;
-                int   i;
+	while ((xau = XauReadAuth(f)))
+	{
+		char buffer[40]; /* 2*16 == 32, so 40 is enough */
+		char* msg;
+		char* response;
+		int   i;
 
-                if (xau->family != FamilyLocal ||
-                    strncmp (xau->number, display_number, xau->number_length) ||
-                    strncmp (xau->name, "MIT-MAGIC-COOKIE-1", xau->name_length) ||
-                    xau->data_length != MDM_MIT_MAGIC_COOKIE_LEN) {
-                        XauDisposeAuth (xau);
-                        continue;
-                }
+		if (xau->family != FamilyLocal || strncmp(xau->number, display_number, xau->number_length) || strncmp(xau->name, "MIT-MAGIC-COOKIE-1", xau->name_length) || xau->data_length != MDM_MIT_MAGIC_COOKIE_LEN)
+		{
+			XauDisposeAuth(xau);
+			continue;
+		}
 
-                for (i = 0; i < MDM_MIT_MAGIC_COOKIE_LEN; i++) {
-                        g_snprintf (buffer + 2*i, 3, "%02x", (guint)(guchar)xau->data[i]);
-                }
+		for (i = 0; i < MDM_MIT_MAGIC_COOKIE_LEN; i++)
+		{
+			g_snprintf(buffer + 2 * i, 3, "%02x", (guint)(guchar) xau->data[i]);
+		}
 
-                XauDisposeAuth (xau);
+		XauDisposeAuth(xau);
 
-                msg = g_strdup_printf (MDM_PROTOCOL_MSG_AUTHENTICATE " %s", buffer);
-                response = mdm_send_protocol_msg (data, msg);
-                g_free (msg);
+		msg = g_strdup_printf(MDM_PROTOCOL_MSG_AUTHENTICATE " %s", buffer);
+		response = mdm_send_protocol_msg(data, msg);
+		g_free(msg);
 
-                if (response && !strcmp (response, "OK")) {
-                        data->auth_cookie = g_strdup (buffer);
-                        g_free (response);
-                        retval = TRUE;
-                        break;
-                }
+		if (response && !strcmp(response, "OK"))
+		{
+			data->auth_cookie = g_strdup(buffer);
+			g_free(response);
+			retval = TRUE;
+			break;
+		}
 
-                g_free (response);
-        }
+		g_free(response);
+	}
 
-        g_free (display_number);
+	g_free(display_number);
 
-        fclose (f);
+	fclose(f);
 
-        return retval;
+	return retval;
 
-#undef MDM_MIT_MAGIC_COOKIE_LEN
+	#undef MDM_MIT_MAGIC_COOKIE_LEN
 }
 
-static void
-mdm_shutdown_protocol_connection (MdmProtocolData *data)
+static void mdm_shutdown_protocol_connection(MdmProtocolData *data)
 {
-        if (data->fd) {
-                close (data->fd);
-        }
+	if (data->fd)
+	{
+		close(data->fd);
+	}
 
-        data->fd = 0;
+	data->fd = 0;
 }
 
-static gboolean
-mdm_init_protocol_connection (MdmProtocolData *data)
+static gboolean mdm_init_protocol_connection(MdmProtocolData* data)
 {
-        struct sockaddr_un addr;
-        char              *response;
+	struct sockaddr_un addr;
+	char* response;
 
-        g_assert (data->fd <= 0);
+	g_assert(data->fd <= 0);
 
-        if (g_file_test (MDM_PROTOCOL_SOCKET_PATH, G_FILE_TEST_EXISTS)) {
-                strcpy (addr.sun_path, MDM_PROTOCOL_SOCKET_PATH);
-        } else if (g_file_test ("/tmp/.mdm_socket", G_FILE_TEST_EXISTS)) {
-                strcpy (addr.sun_path, "/tmp/.mdm_socket");
-        } else {
-                return FALSE;
-        }
+	if (g_file_test(MDM_PROTOCOL_SOCKET_PATH, G_FILE_TEST_EXISTS))
+	{
+		strcpy(addr.sun_path, MDM_PROTOCOL_SOCKET_PATH);
+	}
+	else if (g_file_test("/tmp/.mdm_socket", G_FILE_TEST_EXISTS))
+	{
+		strcpy(addr.sun_path, "/tmp/.mdm_socket");
+	}
+	else
+	{
+		return FALSE;
+	}
 
-        data->fd = socket (AF_UNIX, SOCK_STREAM, 0);
+	data->fd = socket(AF_UNIX, SOCK_STREAM, 0);
 
-        if (data->fd < 0) {
-                g_warning ("Failed to create MDM socket: %s",
-                           g_strerror (errno));
+	if (data->fd < 0)
+	{
+		g_warning("Failed to create MDM socket: %s", g_strerror(errno));
 
-                mdm_shutdown_protocol_connection (data);
+		mdm_shutdown_protocol_connection(data);
 
-                return FALSE;
-        }
+		return FALSE;
+	}
 
-        addr.sun_family = AF_UNIX;
+	addr.sun_family = AF_UNIX;
 
-        if (connect (data->fd, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
-                g_warning ("Failed to establish a connection with MDM: %s",
-                           g_strerror (errno));
+	if (connect(data->fd, (struct sockaddr*) &addr, sizeof(addr)) < 0)
+	{
+		g_warning("Failed to establish a connection with MDM: %s", g_strerror(errno));
 
-                mdm_shutdown_protocol_connection (data);
+		mdm_shutdown_protocol_connection(data);
 
-                return FALSE;
-        }
+		return FALSE;
+	}
 
-        response = mdm_send_protocol_msg (data, MDM_PROTOCOL_MSG_VERSION);
+	response = mdm_send_protocol_msg(data, MDM_PROTOCOL_MSG_VERSION);
 
-        if (!response || strncmp (response, "MDM ", strlen ("MDM ") != 0)) {
-                g_free (response);
+	if (!response || strncmp(response, "MDM ", strlen("MDM ") != 0))
+	{
+		g_free(response);
 
-                g_warning ("Failed to get protocol version from MDM");
-                mdm_shutdown_protocol_connection (data);
+		g_warning("Failed to get protocol version from MDM");
+		mdm_shutdown_protocol_connection(data);
 
-                return FALSE;
-        }
+		return FALSE;
+	}
 
-        g_free (response);
+	g_free(response);
 
-        if (!mdm_authenticate_connection (data)) {
-                g_warning ("Failed to authenticate with MDM");
-                mdm_shutdown_protocol_connection (data);
-                return FALSE;
-        }
+	if (!mdm_authenticate_connection(data))
+	{
+		g_warning("Failed to authenticate with MDM");
+		mdm_shutdown_protocol_connection(data);
+		return FALSE;
+	}
 
-        return TRUE;
+	return TRUE;
 }
 
-static void
-mdm_parse_query_response (MdmProtocolData *data,
-                          const char      *response)
+static void mdm_parse_query_response(MdmProtocolData* data, const char* response)
 {
-        char **actions;
-        int i;
+	char** actions;
+	int i;
 
-        data->available_actions = MDM_LOGOUT_ACTION_NONE;
-        data->current_actions   = MDM_LOGOUT_ACTION_NONE;
+	data->available_actions = MDM_LOGOUT_ACTION_NONE;
+	data->current_actions = MDM_LOGOUT_ACTION_NONE;
 
-        if (strncmp (response, "OK ", 3) != 0) {
-                return;
-        }
+	if (strncmp(response, "OK ", 3) != 0)
+	{
+		return;
+	}
 
-        response += 3;
+	response += 3;
 
-        actions = g_strsplit (response, ";", -1);
+	actions = g_strsplit(response, ";", -1);
 
-        for (i = 0; actions[i]; i++) {
-                MdmLogoutAction action = MDM_LOGOUT_ACTION_NONE;
-                gboolean        selected = FALSE;
-                char           *str = actions [i];
-                int             len;
+	for (i = 0; actions[i]; i++)
+	{
+		MdmLogoutAction action = MDM_LOGOUT_ACTION_NONE;
+		gboolean selected = FALSE;
+		char* str = actions [i];
+		int len;
 
-                len = strlen (str);
+		len = strlen(str);
 
-                if (!len) {
-                        continue;
-                }
+		if (!len)
+		{
+			continue;
+		}
 
-                if (str[len - 1] == '!') {
-                        selected = TRUE;
-                        str[len - 1] = '\0';
-                }
+		if (str[len - 1] == '!')
+		{
+			selected = TRUE;
+			str[len - 1] = '\0';
+		}
 
-                if (!strcmp (str, MDM_ACTION_STR_SHUTDOWN)) {
-                        action = MDM_LOGOUT_ACTION_SHUTDOWN;
-                } else if (!strcmp (str, MDM_ACTION_STR_REBOOT)) {
-                        action = MDM_LOGOUT_ACTION_REBOOT;
-                } else if (!strcmp (str, MDM_ACTION_STR_SUSPEND)) {
-                        action = MDM_LOGOUT_ACTION_SUSPEND;
-                }
+		if (!strcmp(str, MDM_ACTION_STR_SHUTDOWN))
+		{
+				action = MDM_LOGOUT_ACTION_SHUTDOWN;
+		}
+		else if (!strcmp(str, MDM_ACTION_STR_REBOOT))
+		{
+				action = MDM_LOGOUT_ACTION_REBOOT;
+		}
+		else if (!strcmp(str, MDM_ACTION_STR_SUSPEND))
+		{
+				action = MDM_LOGOUT_ACTION_SUSPEND;
+		}
 
-                data->available_actions |= action;
+		data->available_actions |= action;
 
-                if (selected) {
-                        data->current_actions |= action;
-                }
-        }
+		if (selected)
+		{
+			data->current_actions |= action;
+		}
+	}
 
-        g_strfreev (actions);
+	g_strfreev(actions);
 }
 
-static void
-mdm_update_logout_actions (MdmProtocolData *data)
+static void mdm_update_logout_actions(MdmProtocolData* data)
 {
-        time_t current_time;
-        char  *response;
+	time_t current_time;
+	char* response;
 
-        current_time = time (NULL);
+	current_time = time(NULL);
 
-        if (current_time <= (data->last_update + MDM_PROTOCOL_UPDATE_INTERVAL)) {
-                return;
-        }
+	if (current_time <= (data->last_update + MDM_PROTOCOL_UPDATE_INTERVAL))
+	{
+		return;
+	}
 
-        data->last_update = current_time;
+	data->last_update = current_time;
 
-        if (!mdm_init_protocol_connection (data)) {
-                return;
-        }
+	if (!mdm_init_protocol_connection(data))
+	{
+		return;
+	}
 
-        if ((response = mdm_send_protocol_msg (data, MDM_PROTOCOL_MSG_QUERY_ACTION))) {
-                mdm_parse_query_response (data, response);
-                g_free (response);
-        }
+	if ((response = mdm_send_protocol_msg(data, MDM_PROTOCOL_MSG_QUERY_ACTION)))
+	{
+		mdm_parse_query_response(data, response);
+		g_free(response);
+	}
 
-        mdm_shutdown_protocol_connection (data);
+	mdm_shutdown_protocol_connection(data);
 }
 
-gboolean
-mdm_is_available (void)
+gboolean mdm_is_available(void)
 {
-        if (!mdm_init_protocol_connection (&mdm_protocol_data)) {
-                return FALSE;
-        }
+	if (!mdm_init_protocol_connection(&mdm_protocol_data))
+	{
+		return FALSE;
+	}
 
-        mdm_shutdown_protocol_connection (&mdm_protocol_data);
+	mdm_shutdown_protocol_connection(&mdm_protocol_data);
 
-        return TRUE;
+	return TRUE;
 }
 
-gboolean
-mdm_supports_logout_action (MdmLogoutAction action)
+gboolean mdm_supports_logout_action(MdmLogoutAction action)
 {
-        mdm_update_logout_actions (&mdm_protocol_data);
+	mdm_update_logout_actions(&mdm_protocol_data);
 
-        return (mdm_protocol_data.available_actions & action) != 0;
+	return (mdm_protocol_data.available_actions & action) != 0;
 }
 
-MdmLogoutAction
-mdm_get_logout_action (void)
+MdmLogoutAction mdm_get_logout_action(void)
 {
-        mdm_update_logout_actions (&mdm_protocol_data);
+	mdm_update_logout_actions(&mdm_protocol_data);
 
-        return mdm_protocol_data.current_actions;
+	return mdm_protocol_data.current_actions;
 }
 
-void
-mdm_set_logout_action (MdmLogoutAction action)
+void mdm_set_logout_action(MdmLogoutAction action)
 {
-        char *action_str = NULL;
-        char *msg;
-        char *response;
+	char* action_str = NULL;
+	char* msg;
+	char* response;
 
-        if (!mdm_init_protocol_connection (&mdm_protocol_data)) {
-                return;
-        }
+	if (!mdm_init_protocol_connection(&mdm_protocol_data))
+	{
+		return;
+	}
 
-        switch (action) {
-        case MDM_LOGOUT_ACTION_NONE:
-                action_str = MDM_ACTION_STR_NONE;
-                break;
-        case MDM_LOGOUT_ACTION_SHUTDOWN:
-                action_str = MDM_ACTION_STR_SHUTDOWN;
-                break;
-        case MDM_LOGOUT_ACTION_REBOOT:
-                action_str = MDM_ACTION_STR_REBOOT;
-                break;
-        case MDM_LOGOUT_ACTION_SUSPEND:
-                action_str = MDM_ACTION_STR_SUSPEND;
-                break;
-        }
+	switch (action)
+	{
+		case MDM_LOGOUT_ACTION_NONE:
+			action_str = MDM_ACTION_STR_NONE;
+			break;
+		case MDM_LOGOUT_ACTION_SHUTDOWN:
+			action_str = MDM_ACTION_STR_SHUTDOWN;
+			break;
+		case MDM_LOGOUT_ACTION_REBOOT:
+			action_str = MDM_ACTION_STR_REBOOT;
+			break;
+		case MDM_LOGOUT_ACTION_SUSPEND:
+			action_str = MDM_ACTION_STR_SUSPEND;
+			break;
+	}
 
-        msg = g_strdup_printf (MDM_PROTOCOL_MSG_SET_ACTION " %s", action_str);
+	msg = g_strdup_printf(MDM_PROTOCOL_MSG_SET_ACTION " %s", action_str);
 
-        response = mdm_send_protocol_msg (&mdm_protocol_data, msg);
+	response = mdm_send_protocol_msg(&mdm_protocol_data, msg);
 
-        g_free (msg);
-        g_free (response);
+	g_free(msg);
+	g_free(response);
 
-        mdm_protocol_data.last_update = 0;
+	mdm_protocol_data.last_update = 0;
 
-        mdm_shutdown_protocol_connection (&mdm_protocol_data);
+	mdm_shutdown_protocol_connection(&mdm_protocol_data);
 }
 
-void
-mdm_new_login (void)
+void mdm_new_login(void)
 {
-        char *response;
+    char* response;
 
-        if (!mdm_init_protocol_connection (&mdm_protocol_data)) {
-                return;
-        }
+    if (!mdm_init_protocol_connection(&mdm_protocol_data))
+    {
+        return;
+    }
 
-        response = mdm_send_protocol_msg (&mdm_protocol_data,
-                                          MDM_PROTOCOL_MSG_FLEXI_XSERVER);
+    response = mdm_send_protocol_msg(&mdm_protocol_data, MDM_PROTOCOL_MSG_FLEXI_XSERVER);
 
-        g_free (response);
+    g_free(response);
 
-        mdm_protocol_data.last_update = 0;
+    mdm_protocol_data.last_update = 0;
 
-        mdm_shutdown_protocol_connection (&mdm_protocol_data);
+    mdm_shutdown_protocol_connection(&mdm_protocol_data);
 }
