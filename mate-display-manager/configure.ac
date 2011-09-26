@@ -1,8 +1,6 @@
 
 AC_PREREQ([2.60])
-AC_INIT([mdm],
-        [2011.9.25],
-        [http://bugzilla.mate.org/enter_bug.cgi?product=mdm])
+AC_INIT([mdm], [2011.9.26], [http://bugzilla.mate.org/enter_bug.cgi?product=mdm])
 
 AC_CONFIG_SRCDIR([daemon/mdm-manager.c])
 
@@ -247,9 +245,9 @@ AC_SUBST(AT_SPI_REGISTRYD_DIR)
 withval=""
 AC_ARG_WITH(default-path,
             AS_HELP_STRING([--with-default-path=<PATH>],
-	                   [PATH MDM will use as the user's default PATH]),
+	                   [PATH MDM will use as the user is default PATH]),
             [if test x$withval != x; then
-               AC_MSG_RESULT("PATH ${withval} will be the default PATH.")
+               AC_MSG_RESULT(@PATH ${withval} will be the default PATH.@)
              fi])
 
 if test x$withval != x; then

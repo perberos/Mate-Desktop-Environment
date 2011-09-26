@@ -22,7 +22,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+	#include "config.h"
 #endif
 
 #include "eggdesktopfile.h"
@@ -35,12 +35,13 @@
 #include <gtk/gtk.h>
 
 struct EggDesktopFile {
-  GKeyFile           *key_file;
-  char               *source;
+	GKeyFile* key_file;
+	char* source;
 
-  char               *name, *icon;
-  EggDesktopFileType  type;
-  char                document_code;
+	char* name;
+	char* icon;
+	EggDesktopFileType type;
+	char document_code;
 };
 
 /**
@@ -52,20 +53,19 @@ struct EggDesktopFile {
  *
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
-EggDesktopFile *
-egg_desktop_file_new (const char *desktop_file_path, GError **error)
+EggDesktopFile* egg_desktop_file_new(const char* desktop_file_path, GError** error)
 {
-  GKeyFile *key_file;
+	GKeyFile* key_file;
 
-  key_file = g_key_file_new ();
-  if (!g_key_file_load_from_file (key_file, desktop_file_path, 0, error))
+	key_file = g_key_file_new();
+
+	if (!g_key_file_load_from_file(key_file, desktop_file_path, 0, error))
     {
-      g_key_file_free (key_file);
-      return NULL;
+		g_key_file_free(key_file);
+		return NULL;
     }
 
-  return egg_desktop_file_new_from_key_file (key_file, desktop_file_path,
-					     error);
+	return egg_desktop_file_new_from_key_file(key_file, desktop_file_path, error);
 }
 
 /**
@@ -79,27 +79,23 @@ egg_desktop_file_new (const char *desktop_file_path, GError **error)
  *
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
-EggDesktopFile *
-egg_desktop_file_new_from_data_dirs (const char  *desktop_file_path,
-				     GError     **error)
+EggDesktopFile* egg_desktop_file_new_from_data_dirs(const char* desktop_file_path, GError** error)
 {
-  EggDesktopFile *desktop_file;
-  GKeyFile *key_file;
-  char *full_path;
+	EggDesktopFile* desktop_file;
+	GKeyFile* key_file;
+	char* full_path;
 
-  key_file = g_key_file_new ();
-  if (!g_key_file_load_from_data_dirs (key_file, desktop_file_path,
-				       &full_path, 0, error))
-    {
-      g_key_file_free (key_file);
-      return NULL;
-    }
+	key_file = g_key_file_new();
 
-  desktop_file = egg_desktop_file_new_from_key_file (key_file,
-						     full_path,
-						     error);
-  g_free (full_path);
-  return desktop_file;
+	if (!g_key_file_load_from_data_dirs(key_file, desktop_file_path, &full_path, 0, error))
+	{
+		g_key_file_free(key_file);
+		return NULL;
+	}
+
+	desktop_file = egg_desktop_file_new_from_key_file(key_file, full_path, error);
+	g_free(full_path);
+	return desktop_file;
 }
 
 /**
@@ -114,28 +110,23 @@ egg_desktop_file_new_from_data_dirs (const char  *desktop_file_path,
  *
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
-EggDesktopFile *
-egg_desktop_file_new_from_dirs (const char  *desktop_file_path,
-				const char **search_dirs,
-				GError     **error)
+EggDesktopFile* egg_desktop_file_new_from_dirs(const char* desktop_file_path, const char** search_dirs, GError** error)
 {
-  EggDesktopFile *desktop_file;
-  GKeyFile *key_file;
-  char *full_path;
+  EggDesktopFile* desktop_file;
+  GKeyFile* key_file;
+  char* full_path;
 
-  key_file = g_key_file_new ();
-  if (!g_key_file_load_from_dirs (key_file, desktop_file_path, search_dirs,
-				  &full_path, 0, error))
-    {
-      g_key_file_free (key_file);
-      return NULL;
-    }
+  key_file = g_key_file_new();
 
-  desktop_file = egg_desktop_file_new_from_key_file (key_file,
-						     full_path,
-						     error);
-  g_free (full_path);
-  return desktop_file;
+	if (!g_key_file_load_from_dirs(key_file, desktop_file_path, search_dirs, &full_path, 0, error))
+	{
+		g_key_file_free(key_file);
+		return NULL;
+	}
+
+	desktop_file = egg_desktop_file_new_from_key_file(key_file, full_path, error);
+	g_free(full_path);
+	return desktop_file;
 }
 
 /**
@@ -150,155 +141,153 @@ egg_desktop_file_new_from_dirs (const char  *desktop_file_path,
  *
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
-EggDesktopFile *
-egg_desktop_file_new_from_key_file (GKeyFile    *key_file,
-				    const char  *source,
-				    GError     **error)
+EggDesktopFile* egg_desktop_file_new_from_key_file(GKeyFile* key_file, const char* source, GError** error)
 {
-  EggDesktopFile *desktop_file;
-  char *version, *type;
+	EggDesktopFile* desktop_file;
+	char* version;
+	char* type;
 
-  if (!g_key_file_has_group (key_file, EGG_DESKTOP_FILE_GROUP))
-    {
-      g_set_error (error, EGG_DESKTOP_FILE_ERROR,
-		   EGG_DESKTOP_FILE_ERROR_INVALID,
-		   _("File is not a valid .desktop file"));
-      g_key_file_free (key_file);
-      return NULL;
-    }
-
-  version = g_key_file_get_value (key_file, EGG_DESKTOP_FILE_GROUP,
-				  EGG_DESKTOP_FILE_KEY_VERSION,
-				  NULL);
-  if (version)
-    {
-      double version_num;
-      char *end;
-
-      version_num = g_ascii_strtod (version, &end);
-      if (*end)
+	if (!g_key_file_has_group(key_file, EGG_DESKTOP_FILE_GROUP))
 	{
-	  g_warning ("Invalid Version string '%s' in %s",
-		     version, source ? source : "(unknown)");
+		g_set_error(error, EGG_DESKTOP_FILE_ERROR, EGG_DESKTOP_FILE_ERROR_INVALID, _("File is not a valid .desktop file"));
+		g_key_file_free(key_file);
+		return NULL;
 	}
-      else if (version_num > 1.0)
+
+	version = g_key_file_get_value(key_file, EGG_DESKTOP_FILE_GROUP, EGG_DESKTOP_FILE_KEY_VERSION, NULL);
+
+	if (version)
 	{
-	  g_set_error (error, EGG_DESKTOP_FILE_ERROR,
-		       EGG_DESKTOP_FILE_ERROR_INVALID,
-		       _("Unrecognized desktop file Version '%s'"), version);
-	  g_free (version);
-	  g_key_file_free (key_file);
-	  return NULL;
+		double version_num;
+		char* end;
+
+		version_num = g_ascii_strtod(version, &end);
+
+		if (*end)
+		{
+			g_warning("Invalid Version string '%s' in %s", version, source ? source : "(unknown)");
+		}
+		else if (version_num > 1.0)
+		{
+			g_set_error(error, EGG_DESKTOP_FILE_ERROR, EGG_DESKTOP_FILE_ERROR_INVALID, _("Unrecognized desktop file Version '%s'"), version);
+			g_free(version);
+			g_key_file_free(key_file);
+			return NULL;
+		}
+
+		g_free (version);
 	}
-      g_free (version);
-    }
 
-  desktop_file = g_new0 (EggDesktopFile, 1);
-  desktop_file->key_file = key_file;
+	desktop_file = g_new0(EggDesktopFile, 1);
+	desktop_file->key_file = key_file;
 
-  if (g_path_is_absolute (source))
-    desktop_file->source = g_filename_to_uri (source, NULL, NULL);
-  else
-    desktop_file->source = g_strdup (source);
+	if (g_path_is_absolute(source))
+	{
+		desktop_file->source = g_filename_to_uri(source, NULL, NULL);
+	}
+	else
+	{
+		desktop_file->source = g_strdup(source);
+	}
 
-  desktop_file->name = g_key_file_get_string (key_file, EGG_DESKTOP_FILE_GROUP,
-					      EGG_DESKTOP_FILE_KEY_NAME, error);
-  if (!desktop_file->name)
-    {
-      egg_desktop_file_free (desktop_file);
-      return NULL;
-    }
+	desktop_file->name = g_key_file_get_string(key_file, EGG_DESKTOP_FILE_GROUP, EGG_DESKTOP_FILE_KEY_NAME, error);
 
-  type = g_key_file_get_string (key_file, EGG_DESKTOP_FILE_GROUP,
-				EGG_DESKTOP_FILE_KEY_TYPE, error);
-  if (!type)
-    {
-      egg_desktop_file_free (desktop_file);
-      return NULL;
-    }
+	if (!desktop_file->name)
+	{
+		egg_desktop_file_free(desktop_file);
+		return NULL;
+	}
 
-  if (!strcmp (type, "Application"))
-    {
-      char *exec, *p;
+	type = g_key_file_get_string(key_file, EGG_DESKTOP_FILE_GROUP, EGG_DESKTOP_FILE_KEY_TYPE, error);
 
-      desktop_file->type = EGG_DESKTOP_FILE_TYPE_APPLICATION;
+	if (!type)
+	{
+		egg_desktop_file_free(desktop_file);
+		return NULL;
+	}
 
-      exec = g_key_file_get_string (key_file,
-				    EGG_DESKTOP_FILE_GROUP,
-				    EGG_DESKTOP_FILE_KEY_EXEC,
-				    error);
-      if (!exec)
+	if (!strcmp (type, "Application"))
+	{
+	  char *exec, *p;
+
+	  desktop_file->type = EGG_DESKTOP_FILE_TYPE_APPLICATION;
+
+	  exec = g_key_file_get_string (key_file,
+					EGG_DESKTOP_FILE_GROUP,
+					EGG_DESKTOP_FILE_KEY_EXEC,
+					error);
+	  if (!exec)
 	{
 	  egg_desktop_file_free (desktop_file);
 	  g_free (type);
 	  return NULL;
 	}
 
-      /* See if it takes paths or URIs or neither */
-      for (p = exec; *p; p++)
+	  /* See if it takes paths or URIs or neither */
+	  for (p = exec; *p; p++)
 	{
 	  if (*p == '%')
-	    {
-	      if (p[1] == '\0' || strchr ("FfUu", p[1]))
+		{
+		  if (p[1] == '\0' || strchr ("FfUu", p[1]))
 		{
 		  desktop_file->document_code = p[1];
 		  break;
 		}
-	      p++;
-	    }
+		  p++;
+		}
 	}
 
-      g_free (exec);
-    }
-  else if (!strcmp (type, "Link"))
-    {
-      char *url;
+	  g_free (exec);
+	}
+	else if (!strcmp (type, "Link"))
+	{
+	  char *url;
 
-      desktop_file->type = EGG_DESKTOP_FILE_TYPE_LINK;
+	  desktop_file->type = EGG_DESKTOP_FILE_TYPE_LINK;
 
-      url = g_key_file_get_string (key_file,
+	  url = g_key_file_get_string (key_file,
 				   EGG_DESKTOP_FILE_GROUP,
 				   EGG_DESKTOP_FILE_KEY_URL,
 				   error);
-      if (!url)
+	  if (!url)
 	{
 	  egg_desktop_file_free (desktop_file);
 	  g_free (type);
 	  return NULL;
 	}
-      g_free (url);
-    }
-  else if (!strcmp (type, "Directory"))
-    desktop_file->type = EGG_DESKTOP_FILE_TYPE_DIRECTORY;
-  else
-    desktop_file->type = EGG_DESKTOP_FILE_TYPE_UNRECOGNIZED;
+	  g_free (url);
+	}
+	else if (!strcmp (type, "Directory"))
+	desktop_file->type = EGG_DESKTOP_FILE_TYPE_DIRECTORY;
+	else
+	desktop_file->type = EGG_DESKTOP_FILE_TYPE_UNRECOGNIZED;
 
-  g_free (type);
+	g_free (type);
 
-  /* Check the Icon key */
-  desktop_file->icon = g_key_file_get_string (key_file,
-					      EGG_DESKTOP_FILE_GROUP,
-					      EGG_DESKTOP_FILE_KEY_ICON,
-					      NULL);
-  if (desktop_file->icon && !g_path_is_absolute (desktop_file->icon))
-    {
-      char *ext;
+	/* Check the Icon key */
+	desktop_file->icon = g_key_file_get_string (key_file,
+						  EGG_DESKTOP_FILE_GROUP,
+						  EGG_DESKTOP_FILE_KEY_ICON,
+						  NULL);
+	if (desktop_file->icon && !g_path_is_absolute (desktop_file->icon))
+	{
+	  char *ext;
 
-      /* Lots of .desktop files still get this wrong */
-      ext = strrchr (desktop_file->icon, '.');
-      if (ext && (!strcmp (ext, ".png") ||
+	  /* Lots of .desktop files still get this wrong */
+	  ext = strrchr (desktop_file->icon, '.');
+	  if (ext && (!strcmp (ext, ".png") ||
 		  !strcmp (ext, ".xpm") ||
 		  !strcmp (ext, ".svg")))
 	{
 	  g_warning ("Desktop file '%s' has malformed Icon key '%s'"
-		     "(should not include extension)",
-		     source ? source : "(unknown)",
-		     desktop_file->icon);
+			 "(should not include extension)",
+			 source ? source : "(unknown)",
+			 desktop_file->icon);
 	  *ext = '\0';
 	}
-    }
+	}
 
-  return desktop_file;
+	return desktop_file;
 }
 
 /**
@@ -1372,7 +1361,7 @@ egg_desktop_file_launch (EggDesktopFile *desktop_file,
 		       EGG_DESKTOP_FILE_ERROR_NOT_LAUNCHABLE,
 		       _("Can't pass document URIs to a 'Type=Link' desktop entry"));
 	  return FALSE;
-	}	  
+	}
 
       if (!parse_link (desktop_file, &app_desktop_file, &documents, error))
 	return FALSE;
@@ -1491,10 +1480,10 @@ egg_set_desktop_file_without_defaults (const char *desktop_file_path)
 
 /**
  * egg_get_desktop_file:
- * 
+ *
  * Gets the application's #EggDesktopFile, as set by
  * egg_set_desktop_file().
- * 
+ *
  * Return value: the #EggDesktopFile, or %NULL if it hasn't been set.
  **/
 EggDesktopFile *

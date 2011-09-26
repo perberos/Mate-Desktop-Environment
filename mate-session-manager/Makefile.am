@@ -1,16 +1,16 @@
-SUBDIRS =			\
-	egg			\
-	mate-session		\
-	capplet			\
-	tools			\
-	data			\
-	doc			\
+SUBDIRS = \
+	egg \
+	mate-session \
+	capplet \
+	tools \
+	data \
+	doc \
 	po
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST =		\
-	HACKING		\
+EXTRA_DIST = \
+	HACKING \
 	MAINTAINERS
 
 MAINTAINERCLEANFILES = \

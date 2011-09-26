@@ -54,25 +54,24 @@ typedef struct _EggSMClientXSMPClass   EggSMClientXSMPClass;
  * ShutdownCancelled message, but the application is still interacting
  * and doesn't know the shutdown has been cancelled yet.
  */
-typedef enum
-{
-  XSMP_STATE_IDLE,
-  XSMP_STATE_SAVE_YOURSELF,
-  XSMP_STATE_INTERACT_REQUEST,
-  XSMP_STATE_INTERACT,
-  XSMP_STATE_SAVE_YOURSELF_DONE,
-  XSMP_STATE_SHUTDOWN_CANCELLED,
-  XSMP_STATE_CONNECTION_CLOSED
+typedef enum {
+	XSMP_STATE_IDLE,
+	XSMP_STATE_SAVE_YOURSELF,
+	XSMP_STATE_INTERACT_REQUEST,
+	XSMP_STATE_INTERACT,
+	XSMP_STATE_SAVE_YOURSELF_DONE,
+	XSMP_STATE_SHUTDOWN_CANCELLED,
+	XSMP_STATE_CONNECTION_CLOSED
 } EggSMClientXSMPState;
 
-static const char *state_names[] = {
-  "idle",
-  "save-yourself",
-  "interact-request",
-  "interact",
-  "save-yourself-done",
-  "shutdown-cancelled",
-  "connection-closed"
+static const char* state_names[] = {
+	"idle",
+	"save-yourself",
+	"interact-request",
+	"interact",
+	"save-yourself-done",
+	"shutdown-cancelled",
+	"connection-closed"
 };
 
 #define EGG_SM_CLIENT_XSMP_STATE(xsmp) (state_names[(xsmp)->state])
@@ -226,7 +225,7 @@ sm_client_xsmp_set_initial_properties (gpointer user_data)
 
       if (xsmp->restart_style == SmRestartIfRunning)
 	{
-	  if (egg_desktop_file_get_boolean (desktop_file, 
+	  if (egg_desktop_file_get_boolean (desktop_file,
 					    "X-MATE-AutoRestart", NULL))
 	    xsmp->restart_style = SmRestartImmediately;
 	}
@@ -1131,7 +1130,7 @@ delete_properties (EggSMClientXSMP *xsmp, ...)
  * until you're done with the SmProp.
  */
 static SmProp *
-array_prop (const char *name, ...) 
+array_prop (const char *name, ...)
 {
   SmProp *prop;
   SmPropValue pv;
@@ -1349,13 +1348,13 @@ ice_error_handler (IceConn       ice_conn,
 		   IcePointer    values)
 {
   /* Do nothing */
-} 
+}
 
 static void
 ice_io_error_handler (IceConn ice_conn)
 {
   /* Do nothing */
-} 
+}
 
 static void
 smc_error_handler (SmcConn       smc_conn,
