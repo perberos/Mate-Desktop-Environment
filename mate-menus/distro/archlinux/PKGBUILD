@@ -1,18 +1,14 @@
 pkgname=mate-menus
-pkgver=2011.08.31
+pkgver=2011.9.26
 pkgrel=1
 pkgdesc="MATE menu specifications"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('glib2' 'python2')
 makedepends=('intltool' 'gobject-introspection')
-options=('!libtool')
-#provides=('gnome-menus')
-#conflicts=('gnome-menus')
-source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
-        menus.patch)
-sha256sums=('45d34be88b4d4f7e0fdd0d8a667c012b33067e1ee6527488d13fc7ff2ee57435'
-            'fcb4ec32349e3788bb19149c51b773d2a82f93618ab7a22ff6896d166ae2cab9')
+options=('!emptydirs' '!libtool')
+source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
+sha256sums=('45d34be88b4d4f7e0fdd0d8a667c012b33067e1ee6527488d13fc7ff2ee57435')
 url="http://matsusoft.com.ar/projects"
 groups=('mate')
 
@@ -32,18 +28,4 @@ build() {
 package() {
 	cd "${srcdir}/${pkgname}"
 	make DESTDIR="${pkgdir}" install
-
-	#sed -i "1s|#!/usr/bin/env python$|&2|" \
-	#	"$pkgdir/usr/lib/python2.7/site-packages/GMenuSimpleEditor/config.py"
-
-
-	#rm -r ${pkgdir}/etc/
-	#rm -r ${pkgdir}/usr/bin
-	#rm -r ${pkgdir}/usr/lib/python2.7
-	#rm -r ${pkgdir}/usr/lib/girepository-1.0
-
-	#rm -r ${pkgdir}/usr/share/applications
-	#rm -r ${pkgdir}/usr/share/gir-1.0
-
-
 }
