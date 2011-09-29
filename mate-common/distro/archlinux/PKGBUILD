@@ -6,18 +6,19 @@ arch=('any')
 license=('GPL')
 depends=()
 makedepends=()
+options=('!libtool')
 url="http://matsusoft.com.ar/projects"
 groups=('mate')
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
-sha256sums=('ce46bb1c651538d78078f33261d789013ed825ef522558aa7596f2d3bc4103ac')
+sha256sums=('c1a0d24b2e4c78756ef3f7f760d6284d58c368774373ff7cce85dbea5e84e33b')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr
-	make
+	./configure --prefix=/usr || return 1
+	make || return 1
 }
 
 package() {
 	cd "${srcdir}/${pkgname}"
-	make DESTDIR="${pkgdir}" install
+	make DESTDIR="${pkgdir}" install || return 1
 }

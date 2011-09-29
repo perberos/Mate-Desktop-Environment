@@ -12,11 +12,13 @@ options=('!emptydirs' '!libtool')
 url="http://matsusoft.com.ar/projects"
 groups=('mate')
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
-sha256sums=('a3349dee4f2e1f08ba7e5ac32bf8fb3684b7b707a5d1b9399ad1c1fbf39537a7')
+sha256sums=('b2fd6dffbf1a073c84fd1e86b17bf92ff7f2a48b37dda8acf77863c115225d61')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --enable-all-themes || return 1
+
+	./configure --prefix=/usr --enable-all-themes \
+		--disable-placeholders || return 1
 	make || return 1
 }
 

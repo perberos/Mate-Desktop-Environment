@@ -5,7 +5,7 @@ pkgdesc="Common libraries for MATE"
 arch=('i686' 'x86_64')
 license=('LGPL')
 depends=( 'ttf-freefont' 'mate-conf')
-makedepends=('mate-vfs' 'libmatecomponent' 'gvfs' 'libcanberra')
+makedepends=('mate-vfs' 'libmatecomponent' 'gvfs') #  'libcanberra'
 options=('!emptydirs' '!libtool')
 url="http://matsusoft.com.ar/projects"
 groups=('mate')
@@ -17,13 +17,13 @@ install=libmate.install
 # http://matsusoft.com.ar/uploads/gnu-linux/mate/${pkgname}.tar.gz
 
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
-sha256sums=('171285849ba18c8bed04e427c780bb07323043501aac6d2424dcbc52ff4c2718')
+sha256sums=('5fe1288523f5e7840402c68c0bcf5dfe838c3b13c91329aca757ad613842068d')
 
 build() {
 	cd "${srcdir}/${pkgname}"
 	./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/libmate --enable-canberra \
+		--libexecdir=/usr/lib/libmate --disable-canberra \
 		--disable-schemas-install || return 1
 	# --disable-esd
 	make || return 1
