@@ -1,24 +1,24 @@
 pkgname=mate-corba
-pkgver=2011.9.26
+pkgver=2011.9.27
 pkgrel=1
 pkgdesc="Thin/fast CORBA ORB"
 arch=('i686' 'x86_64')
 license=('LGPL' 'GPL')
 depends=('libidl2>=0.8.11')
 makedepends=('pkgconfig')
-options=('!makeflags' '!emptydirs' '!libtool')
+options=('!emptydirs' '!libtool')
 groups=('mate')
 url="http://matsusoft.com.ar/projects"
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
-sha256sums=('1b6b71e0b4469202e40a6644485725e9388974a0f11e66a3998964ea82820f3c')
+sha256sums=('59bc502dc57545be1e03e84ce95b747112cb9baf0b85e39979d964b34ff8c3b8')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --disable-static
-	make
+	./configure --prefix=/usr --disable-static || return 1
+	make || return 1
 }
 
 package() {
 	cd "${srcdir}/${pkgname}"
-	make DESTDIR="${pkgdir}" install
+	make DESTDIR="${pkgdir}" install || return 1
 }
