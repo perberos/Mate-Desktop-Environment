@@ -69,7 +69,7 @@ typedef enum {
 static gboolean (*beagle_client_send_request_async) (BeagleClient  *client,
                                                     BeagleRequest  *request,
                                                     GError        **err) = NULL;
-static G_CONST_RETURN char *(*beagle_hit_get_uri) (BeagleHit *hit) = NULL;
+static const char* (*beagle_hit_get_uri)(BeagleHit* hit) = NULL;
 static GSList *(*beagle_hits_added_response_get_hits) (BeagleHitsAddedResponse *response) = NULL;
 static BeagleQuery *(*beagle_query_new) (void) = NULL;
 static void (*beagle_query_add_text) (BeagleQuery     *query,
@@ -120,7 +120,7 @@ static struct BeagleDlMapping
   { "beagle_client_new", (gpointer *)&beagle_client_new_real },
 };
 
-static void 
+static void
 open_libbeagle (void)
 {
   static gboolean done = FALSE;
@@ -129,13 +129,13 @@ open_libbeagle (void)
     {
       int i;
       GModule *beagle;
-      
+
       done = TRUE;
- 
+
       beagle = g_module_open ("libbeagle.so.1", G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
       if (!beagle)
 	return;
-      
+
       for (i = 0; i < G_N_ELEMENTS (beagle_dl_mapping); i++)
 	{
 	  if (!g_module_symbol (beagle, beagle_dl_mapping[i].fn_name,
@@ -178,7 +178,7 @@ finalize (GObject *object)
 	CajaSearchEngineBeagle *beagle;
 
 	beagle = CAJA_SEARCH_ENGINE_BEAGLE (object);
-	
+
 	if (beagle->details->current_query) {
 		g_object_unref (beagle->details->current_query);
 		beagle->details->current_query = NULL;
@@ -202,8 +202,8 @@ finalize (GObject *object)
 }
 
 static void
-beagle_hits_added (BeagleQuery *query, 
-		   BeagleHitsAddedResponse *response, 
+beagle_hits_added (BeagleQuery *query,
+		   BeagleHitsAddedResponse *response,
 		   CajaSearchEngineBeagle *engine)
 {
 	GSList *hits, *list;
@@ -213,7 +213,7 @@ beagle_hits_added (BeagleQuery *query,
 	hit_uris = NULL;
 
 	hits = beagle_hits_added_response_get_hits (response);
-	
+
 	for (list = hits; list != NULL; list = list->next) {
 		BeagleHit *hit = BEAGLE_HIT (list->data);
 
@@ -223,7 +223,7 @@ beagle_hits_added (BeagleQuery *query,
 		    !g_str_has_prefix (uri, engine->details->current_query_uri_prefix)) {
 			continue;
 		}
-		
+
 		hit_uris = g_list_prepend (hit_uris, (char *)uri);
 	}
 
@@ -232,8 +232,8 @@ beagle_hits_added (BeagleQuery *query,
 }
 
 static void
-beagle_hits_subtracted (BeagleQuery *query, 
-			BeagleHitsSubtractedResponse *response, 
+beagle_hits_subtracted (BeagleQuery *query,
+			BeagleHitsSubtractedResponse *response,
 			CajaSearchEngineBeagle *engine)
 {
 	GSList *uris, *list;
@@ -242,7 +242,7 @@ beagle_hits_subtracted (BeagleQuery *query,
 	hit_uris = NULL;
 
 	uris = beagle_hits_subtracted_response_get_uris (response);
-	
+
 	for (list = uris; list != NULL; list = list->next) {
 		hit_uris = g_list_prepend (hit_uris, (char *)list->data);
 	}
@@ -252,7 +252,7 @@ beagle_hits_subtracted (BeagleQuery *query,
 }
 
 static void
-beagle_finished (BeagleQuery *query, 
+beagle_finished (BeagleQuery *query,
 		 BeagleFinishedResponse *response,
 		 CajaSearchEngineBeagle *engine)
 {
@@ -261,7 +261,7 @@ beagle_finished (BeagleQuery *query,
 	if (engine->details->query_finished) {
 		return;
 	}
-	
+
 	engine->details->query_finished = TRUE;
 	caja_search_engine_finished (CAJA_SEARCH_ENGINE (engine));
 }
@@ -302,10 +302,10 @@ caja_search_engine_beagle_start (CajaSearchEngine *engine)
 
 	/* We only want files */
 	beagle_query_add_text (beagle->details->current_query," type:File");
-				   
+
 	beagle_query_set_max_hits (beagle->details->current_query,
 				   1000);
-	
+
 	text = caja_query_get_text (beagle->details->query);
 	beagle_query_add_text (beagle->details->current_query,
 			       text);
@@ -320,7 +320,7 @@ caja_search_engine_beagle_start (CajaSearchEngine *engine)
 	}
 
 	beagle->details->current_query_uri_prefix = caja_query_get_location (beagle->details->query);
-	
+
 	if (!beagle_client_send_request_async (beagle->details->client,
 					       BEAGLE_REQUEST (beagle->details->current_query), &error)) {
 		caja_search_engine_error (engine, error->message);
@@ -403,7 +403,7 @@ caja_search_engine_beagle_new (void)
 	BeagleClient *client;
 
 	open_libbeagle ();
-	
+
 	if (beagle_util_daemon_is_running == NULL ||
 	    !beagle_util_daemon_is_running ()) {
 		/* check whether daemon is running as beagle_client_new
@@ -416,9 +416,9 @@ caja_search_engine_beagle_new (void)
 	if (client == NULL) {
 		return NULL;
 	}
-	
+
 	engine = g_object_new (CAJA_TYPE_SEARCH_ENGINE_BEAGLE, NULL);
-	
+
 	engine->details->client = client;
 
 	return CAJA_SEARCH_ENGINE (engine);

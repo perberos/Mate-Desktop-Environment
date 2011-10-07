@@ -32,7 +32,7 @@ struct _CajaIconInfo
 	gboolean sole_owner;
 	guint64 last_use_time;
 	GdkPixbuf *pixbuf;
-	
+
 	gboolean got_embedded_rect;
 	GdkRectangle embedded_rect;
 	gint n_attach_points;
@@ -71,9 +71,9 @@ pixbuf_toggle_notify (gpointer      info,
 		      gboolean      is_last_ref)
 {
 	CajaIconInfo  *icon = info;
-	
+
 	if (is_last_ref) {
-		icon->sole_owner = TRUE;	
+		icon->sole_owner = TRUE;
 		g_object_remove_toggle_ref (object,
 					    pixbuf_toggle_notify,
 					    info);
@@ -125,8 +125,8 @@ caja_icon_info_new_for_pixbuf (GdkPixbuf *pixbuf)
 
 	if (pixbuf) {
 		icon->pixbuf = g_object_ref (pixbuf);
-	} 
-	
+	}
+
 	return icon;
 }
 
@@ -162,7 +162,7 @@ caja_icon_info_new_for_icon_info (GtkIconInfo *icon_info)
 		}
 		icon->icon_name = basename;
 	}
-	
+
 	return icon;
 }
 
@@ -202,7 +202,7 @@ reap_old_icon (gpointer  key,
 			*reapable_icons_left = TRUE;
 		}
 	}
-	
+
 	return FALSE;
 }
 
@@ -214,19 +214,19 @@ reap_cache (gpointer data)
 	reapable_icons_left = TRUE;
 
 	time_now = g_thread_gettime ();
-	
+
 	if (loadable_icon_cache) {
 		g_hash_table_foreach_remove (loadable_icon_cache,
 					     reap_old_icon,
 					     &reapable_icons_left);
 	}
-	
+
 	if (themed_icon_cache) {
 		g_hash_table_foreach_remove (themed_icon_cache,
 					     reap_old_icon,
 					     &reapable_icons_left);
 	}
-	
+
 	if (reapable_icons_left) {
 		return TRUE;
 	} else {
@@ -251,7 +251,7 @@ caja_icon_info_clear_caches (void)
 	if (loadable_icon_cache) {
 		g_hash_table_remove_all (loadable_icon_cache);
 	}
-	
+
 	if (themed_icon_cache) {
 		g_hash_table_remove_all (themed_icon_cache);
 	}
@@ -329,12 +329,12 @@ caja_icon_info_lookup (GIcon *icon,
 {
 	CajaIconInfo *icon_info;
 	GdkPixbuf *pixbuf;
-	
+
 	if (G_IS_LOADABLE_ICON (icon)) {
 		LoadableIconKey lookup_key;
 		LoadableIconKey *key;
 		GInputStream *stream;
-		
+
 		if (loadable_icon_cache == NULL) {
 			loadable_icon_cache =
 				g_hash_table_new_full ((GHashFunc)loadable_icon_key_hash,
@@ -342,7 +342,7 @@ caja_icon_info_lookup (GIcon *icon,
 						       (GDestroyNotify) loadable_icon_key_free,
 						       (GDestroyNotify) g_object_unref);
 		}
-		
+
 		lookup_key.icon = icon;
 		lookup_key.size = size;
 
@@ -381,7 +381,7 @@ caja_icon_info_lookup (GIcon *icon,
 						       (GDestroyNotify) themed_icon_key_free,
 						       (GDestroyNotify) g_object_unref);
 		}
-		
+
 		names = g_themed_icon_get_names (G_THEMED_ICON (icon));
 
 		icon_theme = gtk_icon_theme_get_default ();
@@ -401,9 +401,9 @@ caja_icon_info_lookup (GIcon *icon,
 			gtk_icon_info_free (gtkicon_info);
 			return g_object_ref (icon_info);
 		}
-		
+
 		icon_info = caja_icon_info_new_for_icon_info (gtkicon_info);
-		
+
 		key = themed_icon_key_new (filename, size);
 		g_hash_table_insert (themed_icon_cache, key, icon_info);
 
@@ -475,7 +475,7 @@ caja_icon_info_get_pixbuf_nodefault (CajaIconInfo  *icon)
 						 icon);
 		}
 	}
-	
+
 	return res;
 }
 
@@ -496,8 +496,8 @@ caja_icon_info_get_pixbuf (CajaIconInfo *icon)
 						caja_default_file_icon_width * 4, /* stride */
 						NULL, /* don't destroy info */
 						NULL);
-	} 
-	
+	}
+
 	return res;
 }
 
@@ -513,7 +513,7 @@ caja_icon_info_get_pixbuf_nodefault_at_size (CajaIconInfo  *icon,
 
 	if (pixbuf == NULL)
 	  return NULL;
-	  
+
 	w = gdk_pixbuf_get_width (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
 	s = MAX (w, h);
@@ -573,21 +573,19 @@ caja_icon_info_get_attach_points (CajaIconInfo  *icon,
 	return icon->n_attach_points != 0;
 }
 
-G_CONST_RETURN char *
-caja_icon_info_get_display_name   (CajaIconInfo  *icon)
+const char* caja_icon_info_get_display_name(CajaIconInfo* icon)
 {
 	return icon->display_name;
 }
 
-G_CONST_RETURN char *
-caja_icon_info_get_used_name (CajaIconInfo  *icon)
+const char* caja_icon_info_get_used_name(CajaIconInfo* icon)
 {
 	return icon->icon_name;
 }
 
 /* Return nominal icon size for given zoom level.
  * @zoom_level: zoom level for which to find matching icon size.
- * 
+ *
  * Return value: icon size between CAJA_ICON_SIZE_SMALLEST and
  * CAJA_ICON_SIZE_LARGEST, inclusive.
  */
@@ -674,7 +672,7 @@ caja_get_icon_size_for_stock_size (GtkIconSize size)
 
   if (gtk_icon_size_lookup (size, &w, &h)) {
     return MAX (w, h);
-  } 
+  }
   return CAJA_ZOOM_LEVEL_STANDARD;
 }
 
@@ -692,6 +690,6 @@ caja_icon_get_emblem_size_for_icon_size (guint size)
 		return 16;
 	if (size >= 16)
 		return 12;
-	
+
 	return 0; /* no emblems for smaller sizes */
 }

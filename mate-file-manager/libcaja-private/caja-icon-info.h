@@ -72,8 +72,8 @@ gboolean              caja_icon_info_get_embedded_rect            (CajaIconInfo 
 gboolean              caja_icon_info_get_attach_points            (CajaIconInfo  *icon,
 								       GdkPoint         **points,
 								       gint              *n_points);
-G_CONST_RETURN char  *caja_icon_info_get_display_name             (CajaIconInfo  *icon);
-G_CONST_RETURN char  *caja_icon_info_get_used_name                (CajaIconInfo  *icon);
+const char* caja_icon_info_get_display_name(CajaIconInfo* icon);
+const char* caja_icon_info_get_used_name(CajaIconInfo* icon);
 
 void                  caja_icon_info_clear_caches                 (void);
 

@@ -20,7 +20,7 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __EEL_EDITABLE_LABEL_H__
@@ -61,7 +61,7 @@ struct _EelEditableLabel
   guint   overwrite_mode : 1;
   guint   draw_outline : 1;
   PangoWrapMode  wrap_mode;
-  
+
   gchar  *text;
   int text_size; /* allocated size, in bytes */
   int n_bytes;	 /* length in use (not including terminating zero), in bytes */
@@ -71,7 +71,7 @@ struct _EelEditableLabel
 
   int selection_anchor; /* cursor pos, byte index */
   int selection_end; /* byte index */
-  
+
   GtkWidget *popup_menu;
 
   GtkIMContext *im_context;
@@ -81,7 +81,7 @@ struct _EelEditableLabel
 
   GdkGC *primary_cursor_gc;
   GdkGC *secondary_cursor_gc;
-  
+
   PangoFontDescription *font_desc;
 };
 
@@ -102,7 +102,7 @@ struct _EelEditableLabelClass
   void (* copy_clipboard)     (EelEditableLabel  *label);
   void (* paste_clipboard)    (EelEditableLabel  *label);
   void (* toggle_overwrite)   (EelEditableLabel  *label);
-  
+
   /* Hook to customize right-click popup for selectable labels */
   void (* populate_popup)   (EelEditableLabel  *label,
                              GtkMenu           *menu);
@@ -112,7 +112,7 @@ GType                 eel_editable_label_get_type          (void) G_GNUC_CONST;
 GtkWidget*            eel_editable_label_new                  (const char       *str);
 void                  eel_editable_label_set_text             (EelEditableLabel *label,
 							       const char       *str);
-G_CONST_RETURN gchar* eel_editable_label_get_text             (EelEditableLabel *label);
+const gchar* eel_editable_label_get_text(EelEditableLabel* label);
 void                  eel_editable_label_set_justify          (EelEditableLabel *label,
 							       GtkJustification  jtype);
 GtkJustification      eel_editable_label_get_justify          (EelEditableLabel *label);

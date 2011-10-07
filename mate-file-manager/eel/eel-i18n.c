@@ -30,22 +30,22 @@
 
 #include <libintl.h>
 
-
-
-G_CONST_RETURN char *
-_eel_gettext (const char *str)
+const char* _eel_gettext(const char* str)
 {
 	static gboolean _eel_gettext_initialized = FALSE;
 
-	if (!_eel_gettext_initialized) {
-		bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
-#    ifdef HAVE_BIND_TEXTDOMAIN_CODESET
-		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#    endif
+	if (!_eel_gettext_initialized)
+	{
+		bindtextdomain(GETTEXT_PACKAGE, MATELOCALEDIR);
+
+		#ifdef HAVE_BIND_TEXTDOMAIN_CODESET
+			bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+		#endif
+
 		_eel_gettext_initialized = TRUE;
 	}
 
-	return dgettext (GETTEXT_PACKAGE, str);
+	return dgettext(GETTEXT_PACKAGE, str);
 }
 
 #endif /* ENABLE_NLS */

@@ -91,7 +91,7 @@ struct CajaIconCanvasItemDetails {
 	char *additional_text;		/* Text that cannot be modifed, such as file size, etc. */
 	GdkPoint *attach_points;
 	int n_attach_points;
-	
+
 	/* Size of the text at current font. */
 	int text_dx;
 	int text_width;
@@ -109,7 +109,7 @@ struct CajaIconCanvasItemDetails {
 	 * text_height_for_layout will always be equal to text_height.
 	 * Used for the last line of a line-wise icon layout. */
 	guint entire_text : 1;
-	
+
 	/* preview state */
 	guint is_active : 1;
 
@@ -127,11 +127,11 @@ struct CajaIconCanvasItemDetails {
 	guint rendered_is_highlighted_for_clipboard : 1;
 	guint rendered_is_prelit : 1;
 	guint rendered_is_focused : 1;
-	
+
 	guint is_renaming : 1;
-	
+
 	guint bounds_cached : 1;
-	
+
 	guint is_visible : 1;
 
 	GdkRectangle embedded_text_rect;
@@ -295,7 +295,7 @@ caja_icon_canvas_item_finalize (GObject *object)
 	if (details->pixbuf != NULL) {
 		g_object_unref (details->pixbuf);
 	}
-	
+
 	if (details->text_util != NULL) {
 		g_object_unref (details->text_util);
 	}
@@ -304,7 +304,7 @@ caja_icon_canvas_item_finalize (GObject *object)
 	g_free (details->editable_text);
 	g_free (details->additional_text);
 	g_free (details->attach_points);
-	
+
 	if (details->rendered_pixbuf != NULL) {
 		g_object_unref (details->rendered_pixbuf);
 	}
@@ -325,7 +325,7 @@ caja_icon_canvas_item_finalize (GObject *object)
 
 	G_OBJECT_CLASS (caja_icon_canvas_item_parent_class)->finalize (object);
 }
- 
+
 /* Currently we require pixbufs in this format (for hit testing).
  * Perhaps gdk-pixbuf will be changed so it can do the hit testing
  * and we won't have this requirement any more.
@@ -396,10 +396,10 @@ caja_icon_canvas_item_set_property (GObject        *object,
 
 			gail_text_util_text_setup (details->text_util,
 						   details->editable_text);
-			accessible = eel_accessibility_get_atk_object (item); 
+			accessible = eel_accessibility_get_atk_object (item);
 			g_object_notify (G_OBJECT(accessible), "accessible-name");
 		}
-		
+
 		caja_icon_canvas_item_invalidate_label_size (item);
 		if (details->editable_text_layout) {
 			g_object_unref (details->editable_text_layout);
@@ -415,8 +415,8 @@ caja_icon_canvas_item_set_property (GObject        *object,
 
 		g_free (details->additional_text);
 		details->additional_text = g_strdup (g_value_get_string (value));
-		
-		caja_icon_canvas_item_invalidate_label_size (item);		
+
+		caja_icon_canvas_item_invalidate_label_size (item);
 		if (details->additional_text_layout) {
 			g_object_unref (details->additional_text_layout);
 			details->additional_text_layout = NULL;
@@ -430,7 +430,7 @@ caja_icon_canvas_item_set_property (GObject        *object,
 		details->is_highlighted_for_selection = g_value_get_boolean (value);
 		caja_icon_canvas_item_invalidate_label_size (item);
 		break;
-         
+
         case PROP_HIGHLIGHTED_AS_KEYBOARD_FOCUS:
 		if (!details->is_highlighted_as_keyboard_focus == !g_value_get_boolean (value)) {
 			return;
@@ -442,7 +442,7 @@ caja_icon_canvas_item_set_property (GObject        *object,
 			atk_focus_tracker_notify (atk_object);
 		}
 		break;
-		
+
         case PROP_HIGHLIGHTED_FOR_DROP:
 		if (!details->is_highlighted_for_drop == !g_value_get_boolean (value)) {
 			return;
@@ -461,7 +461,7 @@ caja_icon_canvas_item_set_property (GObject        *object,
 		g_warning ("caja_icons_view_item_item_set_arg on unknown argument");
 		return;
 	}
-	
+
 	eel_canvas_item_request_update (EEL_CANVAS_ITEM (object));
 }
 
@@ -473,11 +473,11 @@ caja_icon_canvas_item_get_property (GObject        *object,
 					GParamSpec     *pspec)
 {
 	CajaIconCanvasItemDetails *details;
-	
+
 	details = CAJA_ICON_CANVAS_ITEM (object)->details;
-	
+
 	switch (property_id) {
-		
+
 	case PROP_EDITABLE_TEXT:
 		g_value_set_string (value, details->editable_text);
 		break;
@@ -485,15 +485,15 @@ caja_icon_canvas_item_get_property (GObject        *object,
 	case PROP_ADDITIONAL_TEXT:
 		g_value_set_string (value, details->additional_text);
 		break;
-		
+
         case PROP_HIGHLIGHTED_FOR_SELECTION:
 		g_value_set_boolean (value, details->is_highlighted_for_selection);
                 break;
-		
+
         case PROP_HIGHLIGHTED_AS_KEYBOARD_FOCUS:
 		g_value_set_boolean (value, details->is_highlighted_as_keyboard_focus);
                 break;
-		
+
         case PROP_HIGHLIGHTED_FOR_DROP:
 		g_value_set_boolean (value, details->is_highlighted_for_drop);
                 break;
@@ -507,7 +507,7 @@ caja_icon_canvas_item_get_property (GObject        *object,
 		break;
 	}
 }
-      
+
 GdkPixmap *
 caja_icon_canvas_item_get_image (CajaIconCanvasItem *item,
 				     GdkBitmap **mask,
@@ -527,7 +527,7 @@ caja_icon_canvas_item_get_image (CajaIconCanvasItem *item,
 	double item_x, item_y;
 	gboolean is_rtl;
 	cairo_t *cr;
-	
+
 	g_return_val_if_fail (CAJA_IS_ICON_CANVAS_ITEM (item), NULL);
 
 	canvas = EEL_CANVAS_ITEM (item)->canvas;
@@ -547,7 +547,7 @@ caja_icon_canvas_item_get_image (CajaIconCanvasItem *item,
 	/* Calculate the width of the item */
 	width = EEL_CANVAS_ITEM (item)->x2 - EEL_CANVAS_ITEM (item)->x1;
 	height = EEL_CANVAS_ITEM (item)->y2 - EEL_CANVAS_ITEM (item)->y1;
-	
+
 	pixmap = gdk_pixmap_new (gdk_screen_get_root_window (screen),
 				 width,	height,
 				 gdk_visual_get_depth (gdk_colormap_get_visual (colormap)));
@@ -590,9 +590,9 @@ caja_icon_canvas_item_get_image (CajaIconCanvasItem *item,
 	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
 	cairo_paint (cr);
 	cairo_destroy (cr);
-	
+
 	gc = gdk_gc_new (pixmap);
-	gdk_draw_pixbuf (pixmap, gc, pixbuf, 
+	gdk_draw_pixbuf (pixmap, gc, pixbuf,
 			 0, 0, 0, 0,
 			 gdk_pixbuf_get_width (pixbuf), gdk_pixbuf_get_height (pixbuf),
 			 GDK_RGB_DITHER_NORMAL,
@@ -608,12 +608,12 @@ caja_icon_canvas_item_get_image (CajaIconCanvasItem *item,
 			    0, 0,
 			    width, height);
 	g_object_unref (gc);
-	  
+
 	gdk_pixbuf_render_threshold_alpha (pixbuf, *mask,
 					   0, 0, 0, 0,
 					   gdk_pixbuf_get_width (pixbuf), gdk_pixbuf_get_height (pixbuf),
 					   128);
-	
+
 	draw_embedded_text (item, GDK_DRAWABLE (pixmap),
 			    item_offset_x, item_offset_y);
 
@@ -629,12 +629,12 @@ void
 caja_icon_canvas_item_set_image (CajaIconCanvasItem *item,
 				     GdkPixbuf *image)
 {
-	CajaIconCanvasItemDetails *details;	
-	
+	CajaIconCanvasItemDetails *details;
+
 	g_return_if_fail (CAJA_IS_ICON_CANVAS_ITEM (item));
 	g_return_if_fail (image == NULL || pixbuf_is_acceptable (image));
 
-	details = item->details;	
+	details = item->details;
 	if (details->pixbuf == image) {
 		return;
 	}
@@ -651,9 +651,9 @@ caja_icon_canvas_item_set_image (CajaIconCanvasItem *item,
 	}
 
 	details->pixbuf = image;
-			
+
 	caja_icon_canvas_item_invalidate_bounds_cache (item);
-	eel_canvas_item_request_update (EEL_CANVAS_ITEM (item));	
+	eel_canvas_item_request_update (EEL_CANVAS_ITEM (item));
 }
 
 void
@@ -677,7 +677,7 @@ caja_icon_canvas_item_set_emblems (CajaIconCanvasItem *item,
 	for (p = emblem_pixbufs; p != NULL; p = p->next) {
 		g_return_if_fail (pixbuf_is_acceptable (p->data));
 	}
-	
+
 	/* Take in the new list of emblems. */
 	eel_gdk_pixbuf_list_ref (emblem_pixbufs);
 	eel_gdk_pixbuf_list_free (item->details->emblem_pixbufs);
@@ -687,7 +687,7 @@ caja_icon_canvas_item_set_emblems (CajaIconCanvasItem *item,
 	eel_canvas_item_request_update (EEL_CANVAS_ITEM (item));
 }
 
-void 
+void
 caja_icon_canvas_item_set_attach_points (CajaIconCanvasItem *item,
 					     GdkPoint *attach_points,
 					     int n_attach_points)
@@ -700,7 +700,7 @@ caja_icon_canvas_item_set_attach_points (CajaIconCanvasItem *item,
 		item->details->attach_points = g_memdup (attach_points, n_attach_points * sizeof (GdkPoint));
 		item->details->n_attach_points = n_attach_points;
 	}
-	
+
 	caja_icon_canvas_item_invalidate_bounds_cache (item);
 }
 
@@ -791,7 +791,7 @@ compute_text_rectangle (const CajaIconCanvasItem *item,
 		text_height_for_entire_text = item->details->text_height_for_entire_text / pixels_per_unit;
 		text_dx = item->details->text_dx / pixels_per_unit;
 	}
-	
+
 	if (CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas)->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE) {
 		if (!caja_icon_container_is_layout_rtl (CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas))) {
                 	text_rectangle.x0 = icon_rectangle.x1;
@@ -869,7 +869,7 @@ caja_icon_canvas_item_update_bounds (CajaIconCanvasItem *item,
 	gboolean is_rtl;
 
 	canvas_item = EEL_CANVAS_ITEM (item);
-	
+
 	/* Compute new bounds. */
 	before = get_current_canvas_bounds (canvas_item);
 	recompute_bounding_box (item, i2w_dx, i2w_dy);
@@ -879,14 +879,14 @@ caja_icon_canvas_item_update_bounds (CajaIconCanvasItem *item,
 	if (eel_irect_equal (before, after)) {
 		return;
 	}
-	
+
 	is_rtl = caja_icon_container_is_layout_rtl (CAJA_ICON_CONTAINER (canvas_item->canvas));
 
 	/* Update canvas and text rect cache */
 	get_icon_canvas_rectangle (item, &item->details->canvas_rect);
 	item->details->text_rect = compute_text_rectangle (item, item->details->canvas_rect,
 							   TRUE, BOUNDS_USAGE_FOR_DISPLAY);
-	
+
 	/* Update emblem rect cache */
 	item->details->emblem_rect.x0 = 0;
 	item->details->emblem_rect.x1 = 0;
@@ -925,25 +925,25 @@ in_single_click_mode (void)
 
 
 /* Utility routine to create a rectangle with rounded corners.
- * This could possibly move to Eel as a general purpose routine. 
+ * This could possibly move to Eel as a general purpose routine.
  */
 static void
 make_round_rect (cairo_t *cr,
-		 double x, 
-    		 double y, 
-		 double width, 
+		 double x,
+    		 double y,
+		 double width,
 		 double height,
 		 double radius)
 {
 	double cx, cy;
-	
+
 	width -= 2 * radius;
 	height -= 2 * radius;
-	
+
 	cairo_move_to (cr, x + radius, y);
-	
+
 	cairo_rel_line_to (cr, width, 0.0);
-	
+
 	cairo_get_current_point (cr, &cx, &cy);
 	cairo_arc (cr, cx, cy + radius, radius, 3.0 * G_PI_2, 0);
 
@@ -953,7 +953,7 @@ make_round_rect (cairo_t *cr,
 	cairo_arc (cr, cx - radius, cy, radius, 0, G_PI_2);
 
 	cairo_rel_line_to (cr, - width, 0.0);
-	
+
 	cairo_get_current_point (cr, &cx, &cy);
 	cairo_arc (cr, cx, cy - radius, radius, G_PI_2, G_PI);
 
@@ -970,7 +970,7 @@ draw_frame (CajaIconCanvasItem *item,
 	    GdkDrawable *drawable,
 	    guint color,
 	    gboolean create_mask,
-	    int x, 
+	    int x,
 	    int y,
 	    int width,
 	    int height)
@@ -981,13 +981,13 @@ draw_frame (CajaIconCanvasItem *item,
 	container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);
 
 	/* Get a cairo context */
-	cr = gdk_cairo_create (drawable);	
-	
+	cr = gdk_cairo_create (drawable);
+
 	/* Set the rounded rect clip region. Magic rounding value taken
-	 * from old code. 
+	 * from old code.
 	 */
 	make_round_rect (cr, x, y, width, height, 5);
-	
+
 	if (create_mask) {
 		/* Dunno how to do this with cairo...
 		 * It used to threshold the rendering so that the
@@ -1000,12 +1000,12 @@ draw_frame (CajaIconCanvasItem *item,
 			       EEL_RGBA_COLOR_GET_G (color) / 255.0,
 			       EEL_RGBA_COLOR_GET_B (color) / 255.0,
 			       EEL_RGBA_COLOR_GET_A (color) / 255.0);
-	
-	/* Paint into drawable now that we have set up the color and opacity */	
+
+	/* Paint into drawable now that we have set up the color and opacity */
 	cairo_fill (cr);
-	
+
 	/* Clean up now that drawing is complete */
-	cairo_destroy (cr);		 
+	cairo_destroy (cr);
 }
 
 /* Keep these for a bit while we work on performance of draw_or_measure_label_text. */
@@ -1026,7 +1026,7 @@ layout_get_full_size (PangoLayout *layout,
 {
 	PangoRectangle logical_rect;
 	int the_width, total_width;
-	
+
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 	the_width = (logical_rect.width + PANGO_SCALE / 2) / PANGO_SCALE;
 	total_width = (logical_rect.x + logical_rect.width + PANGO_SCALE / 2) / PANGO_SCALE;
@@ -1163,7 +1163,7 @@ measure_label_text (CajaIconCanvasItem *item)
 	/* check to see if the cached values are still valid; if so, there's
 	 * no work necessary
 	 */
-	
+
 	if (item->details->text_width >= 0 && item->details->text_height >= 0) {
 		return;
 	}
@@ -1179,7 +1179,7 @@ measure_label_text (CajaIconCanvasItem *item)
 		details->text_height = 0;
 		details->text_height_for_layout = 0;
 		details->text_height_for_entire_text = 0;
-		details->text_width = 0;			
+		details->text_width = 0;
 		return;
 	}
 
@@ -1205,7 +1205,7 @@ measure_label_text (CajaIconCanvasItem *item)
 
 	max_text_width = floor (caja_icon_canvas_item_get_max_text_width (item));
 
-	container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);	
+	container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);
 	editable_layout = NULL;
 	additional_layout = NULL;
 
@@ -1261,7 +1261,7 @@ measure_label_text (CajaIconCanvasItem *item)
 	}
 
 	/* add some extra space for highlighting even when we don't highlight so things won't move */
-	
+
 	/* extra slop for nicer highlighting */
 	details->text_height += TEXT_BACK_PADDING_Y*2;
 	details->text_height_for_layout += TEXT_BACK_PADDING_Y*2;
@@ -1357,7 +1357,7 @@ draw_label_text (CajaIconCanvasItem *item,
 	} else {
 		x = text_rect.x0 + ((text_rect.x1 - text_rect.x0) - max_text_width) / 2;
 	}
-	
+
 	if (have_editable) {
 		editable_layout = get_label_layout (&item->details->editable_text_layout, item, item->details->editable_text);
 		prepare_pango_layout_for_draw (item, editable_layout);
@@ -1368,7 +1368,7 @@ draw_label_text (CajaIconCanvasItem *item,
 				      NULL);
 		if (needs_frame && !needs_highlight && details->text_width > 0 && details->text_height > 0) {
 			if (!(prelight_label && item->details->is_prelit)) {
-				draw_frame (item, 
+				draw_frame (item,
 					    drawable,
 					    container->details->normal_color_rgba,
 					    create_mask,
@@ -1377,7 +1377,7 @@ draw_label_text (CajaIconCanvasItem *item,
 					    text_rect.x1 - text_rect.x0,
 					    text_rect.y1 - text_rect.y0);
 			} else {
-				draw_frame (item, 
+				draw_frame (item,
 					    drawable,
 					    container->details->prelight_color_rgba,
 					    create_mask,
@@ -1387,7 +1387,7 @@ draw_label_text (CajaIconCanvasItem *item,
 					    text_rect.y1 - text_rect.y0);
 			}
 		}
-		
+
 		gc = caja_icon_container_get_label_color_and_gc
 			(CAJA_ICON_CONTAINER (canvas_item->canvas),
 			 &label_color, TRUE, needs_highlight,
@@ -1408,7 +1408,7 @@ draw_label_text (CajaIconCanvasItem *item,
 			(CAJA_ICON_CONTAINER (canvas_item->canvas),
 			 &label_color, FALSE, needs_highlight,
 			 FALSE);
-		
+
 		draw_label_layout (item, drawable,
 				   additional_layout, needs_highlight,
 				   label_color,
@@ -1432,7 +1432,7 @@ draw_label_text (CajaIconCanvasItem *item,
 	if (editable_layout != NULL) {
 		g_object_unref (editable_layout);
 	}
-	
+
 	if (additional_layout != NULL) {
 		g_object_unref (additional_layout);
 	}
@@ -1444,7 +1444,7 @@ caja_icon_canvas_item_set_is_visible (CajaIconCanvasItem       *item,
 {
 	if (item->details->is_visible == visible)
 		return;
-	
+
 	item->details->is_visible = visible;
 
 	if (!visible) {
@@ -1502,7 +1502,7 @@ draw_stretch_handles (CajaIconCanvasItem *item, GdkDrawable *drawable,
 	GdkBitmap *stipple;
 	int knob_width, knob_height;
 	GtkStyle *style;
-	
+
 	if (!item->details->show_stretch_handles) {
 		return;
 	}
@@ -1517,7 +1517,7 @@ draw_stretch_handles (CajaIconCanvasItem *item, GdkDrawable *drawable,
 
 	stipple = eel_stipple_bitmap_for_screen (
 			gdk_drawable_get_screen (GDK_DRAWABLE (drawable)));
-	
+
 	/* first draw the box */
 	gdk_gc_set_rgb_fg_color (gc, &style->white);
 	gdk_draw_rectangle
@@ -1536,14 +1536,14 @@ draw_stretch_handles (CajaIconCanvasItem *item, GdkDrawable *drawable,
 		 rect->y0,
 		 rect->x1 - rect->x0 - 1,
 		 rect->y1 - rect->y0 - 1);
-	
+
 	/* draw the stretch handles themselves */
-	
+
 	draw_pixbuf (knob_pixbuf, drawable, rect->x0, rect->y0);
 	draw_pixbuf (knob_pixbuf, drawable, rect->x0, rect->y1 - knob_height);
 	draw_pixbuf (knob_pixbuf, drawable, rect->x1 - knob_width, rect->y0);
 	draw_pixbuf (knob_pixbuf, drawable, rect->x1 - knob_width, rect->y1 - knob_height);
-	g_object_unref (knob_pixbuf);	
+	g_object_unref (knob_pixbuf);
 
 	g_object_unref (gc);
 }
@@ -1568,7 +1568,7 @@ emblem_layout_next (EmblemLayout *layout,
 	GdkPixbuf *pixbuf;
 	int width, height, x, y;
 	GdkPoint *attach_points;
-	
+
 	/* Check if we have layed out all of the pixbufs. */
 	if (layout->emblem == NULL) {
 		return FALSE;
@@ -1588,12 +1588,12 @@ emblem_layout_next (EmblemLayout *layout,
 		if (layout->index >= layout->icon_item->details->n_attach_points) {
 			return FALSE;
 		}
-		
+
 		x = layout->icon_rect.x0 + attach_points[layout->index].x;
 		y = layout->icon_rect.y0 + attach_points[layout->index].y;
 
 		layout->index += 1;
-		
+
 		/* Return the rectangle and pixbuf. */
 		*emblem_pixbuf = pixbuf;
 		emblem_rect->x0 = x - width / 2;
@@ -1604,7 +1604,7 @@ emblem_layout_next (EmblemLayout *layout,
 		return TRUE;
 
 	}
-	
+
 	for (;;) {
 
 		/* Find the side to lay out along. */
@@ -1647,7 +1647,7 @@ emblem_layout_next (EmblemLayout *layout,
 				break;
 			}
 		}
-		
+
 		/* Check to see if emblem fits in current side. */
 		if (x >= layout->icon_rect.x0 && x <= layout->icon_rect.x1
 		    && y >= layout->icon_rect.y0 && y <= layout->icon_rect.y1) {
@@ -1675,7 +1675,7 @@ emblem_layout_next (EmblemLayout *layout,
 
 			return TRUE;
 		}
-	
+
 		/* It doesn't fit, so move to the next side. */
 		switch (layout->side) {
 		case RIGHT_SIDE:
@@ -1698,8 +1698,8 @@ emblem_layout_next (EmblemLayout *layout,
 static void
 draw_pixbuf (GdkPixbuf *pixbuf, GdkDrawable *drawable, int x, int y)
 {
-	/* FIXME bugzilla.mate.org 40703: 
-	 * Dither would be better if we passed dither values. 
+	/* FIXME bugzilla.mate.org 40703:
+	 * Dither would be better if we passed dither values.
 	 */
 	gdk_draw_pixbuf (drawable, NULL, pixbuf, 0, 0, x, y,
 			 gdk_pixbuf_get_width (pixbuf),
@@ -1717,7 +1717,7 @@ real_map_pixbuf (CajaIconCanvasItem *icon_item)
 	GdkPixbuf *temp_pixbuf, *old_pixbuf, *audio_pixbuf;
 	int emblem_size;
 	guint render_mode, saturation, brightness, lighten;
-	
+
 	temp_pixbuf = icon_item->details->pixbuf;
 	canvas = EEL_CANVAS_ITEM(icon_item)->canvas;
 	container = CAJA_ICON_CONTAINER (canvas);
@@ -1767,7 +1767,7 @@ real_map_pixbuf (CajaIconCanvasItem *icon_item)
 			} else {
 				audio_pixbuf = NULL;
 			}
-			
+
 			/* Composite it onto the icon. */
 			if (audio_pixbuf != NULL) {
 				gdk_pixbuf_composite
@@ -1779,10 +1779,10 @@ real_map_pixbuf (CajaIconCanvasItem *icon_item)
 					 0, 0,
 					 1.0, 1.0,
 					 GDK_INTERP_BILINEAR, 0xFF);
-				
+
 				g_object_unref (audio_pixbuf);
 			}
-			
+
 			g_free (audio_filename);
 		}
 	}
@@ -1799,9 +1799,9 @@ real_map_pixbuf (CajaIconCanvasItem *icon_item)
 							   EEL_RGBA_COLOR_GET_R (color),
 							   EEL_RGBA_COLOR_GET_G (color),
 							   EEL_RGBA_COLOR_GET_B (color));
-							   
+
 		g_object_unref (old_pixbuf);
-	} 
+	}
 
 	if (!icon_item->details->is_active
 			&& !icon_item->details->is_prelit
@@ -1826,7 +1826,7 @@ real_map_pixbuf (CajaIconCanvasItem *icon_item)
 			g_object_unref (old_pixbuf);
 		}
 	}
-	
+
 	return temp_pixbuf;
 }
 
@@ -1867,7 +1867,7 @@ draw_embedded_text (CajaIconCanvasItem *item,
 	PangoLayout *layout;
 	PangoContext *context;
 	PangoFontDescription *desc;
-	
+
 	if (item->details->embedded_text == NULL ||
 	    item->details->embedded_text_rect.width == 0 ||
 	    item->details->embedded_text_rect.height == 0) {
@@ -1880,7 +1880,7 @@ draw_embedded_text (CajaIconCanvasItem *item,
 		context = gtk_widget_get_pango_context (GTK_WIDGET (EEL_CANVAS_ITEM (item)->canvas));
 		layout = pango_layout_new (context);
 		pango_layout_set_text (layout, item->details->embedded_text, -1);
-		
+
 		desc = pango_font_description_from_string ("monospace 6");
 		pango_layout_set_font_description (layout, desc);
 		pango_font_description_free (desc);
@@ -1889,21 +1889,21 @@ draw_embedded_text (CajaIconCanvasItem *item,
 			item->details->embedded_text_layout = g_object_ref (layout);
 		}
 	}
-	
+
 	gc = gdk_gc_new (drawable);
 
 	clip_rect.x = x + item->details->embedded_text_rect.x;
 	clip_rect.y = y + item->details->embedded_text_rect.y;
 	clip_rect.width = item->details->embedded_text_rect.width;
 	clip_rect.height = item->details->embedded_text_rect.height;
-	
+
 	gdk_gc_set_clip_rectangle  (gc, &clip_rect);
 
 	gdk_draw_layout (drawable, gc,
 			 x + item->details->embedded_text_rect.x,
 			 y + item->details->embedded_text_rect.y,
 			layout);
-	
+
 	g_object_unref (gc);
 	g_object_unref (layout);
 }
@@ -1920,7 +1920,7 @@ caja_icon_canvas_item_draw (EelCanvasItem *item, GdkDrawable *drawable,
 	GdkPixbuf *emblem_pixbuf, *temp_pixbuf;
 	GdkRectangle draw_rect, pixbuf_rect;
 	gboolean is_rtl;
-			
+
 	icon_item = CAJA_ICON_CANVAS_ITEM (item);
 	details = icon_item->details;
 
@@ -1930,7 +1930,7 @@ caja_icon_canvas_item_draw (EelCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	icon_rect = icon_item->details->canvas_rect;
-	
+
 	/* if the pre-lit or selection flag is set, make a pre-lit or darkened pixbuf and draw that instead */
 	/* and colorize normal pixbuf if rc wants that */
 	temp_pixbuf = map_pixbuf (icon_item);
@@ -1954,7 +1954,7 @@ caja_icon_canvas_item_draw (EelCanvasItem *item, GdkDrawable *drawable,
 	g_object_unref (temp_pixbuf);
 
 	draw_embedded_text (icon_item, drawable,  icon_rect.x0, icon_rect.y0);
-	
+
 	is_rtl = caja_icon_container_is_layout_rtl (CAJA_ICON_CONTAINER (item->canvas));
 
 	/* Draw the emblem pixbufs. */
@@ -1962,10 +1962,10 @@ caja_icon_canvas_item_draw (EelCanvasItem *item, GdkDrawable *drawable,
 	while (emblem_layout_next (&emblem_layout, &emblem_pixbuf, &emblem_rect, is_rtl)) {
 		draw_pixbuf (emblem_pixbuf, drawable, emblem_rect.x0, emblem_rect.y0);
 	}
-	
+
 	/* Draw stretching handles (if necessary). */
 	draw_stretch_handles (icon_item, drawable, &icon_rect);
-	
+
 	/* Draw the label text. */
 	draw_label_text (icon_item, drawable, FALSE, icon_rect);
 }
@@ -1996,7 +1996,7 @@ create_label_layout (CajaIconCanvasItem *item,
 	container = CAJA_ICON_CONTAINER (canvas_item->canvas);
 	context = gtk_widget_get_pango_context (GTK_WIDGET (canvas_item->canvas));
 	layout = pango_layout_new (context);
-	
+
 	zeroified_text = NULL;
 
 	if (text != NULL) {
@@ -2019,7 +2019,7 @@ create_label_layout (CajaIconCanvasItem *item,
 
 	pango_layout_set_text (layout, zeroified_text, -1);
 	pango_layout_set_auto_dir (layout, FALSE);
-	
+
 	if (container->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE) {
 		if (!caja_icon_container_is_layout_rtl (container)) {
 			pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
@@ -2045,7 +2045,7 @@ create_label_layout (CajaIconCanvasItem *item,
 	pango_layout_set_font_description (layout, desc);
 	pango_font_description_free (desc);
 	g_free (zeroified_text);
-	
+
 	return layout;
 }
 
@@ -2065,7 +2065,7 @@ get_label_layout (PangoLayout **layout_cache,
 	if (item->details->is_visible) {
 		*layout_cache = g_object_ref (layout);
 	}
-	
+
 	return layout;
 }
 
@@ -2128,7 +2128,7 @@ caja_icon_canvas_item_event (EelCanvasItem *item, GdkEvent *event)
 				gdk_cursor_unref (cursor);
 			}
 
-			/* FIXME bugzilla.mate.org 42473: 
+			/* FIXME bugzilla.mate.org 42473:
 			 * We should emit our own signal here,
 			 * not one from the container; it could hook
 			 * up to that signal and emit one of its
@@ -2143,15 +2143,15 @@ caja_icon_canvas_item_event (EelCanvasItem *item, GdkEvent *event)
 				 TRUE);
 		}
 		return TRUE;
-		
+
 	case GDK_LEAVE_NOTIFY:
-		if (icon_item->details->is_prelit 
+		if (icon_item->details->is_prelit
 		    || icon_item->details->is_highlighted_for_drop) {
 			/* When leaving, turn of the prelight state and the
 			 * higlighted for drop. The latter gets turned on
 			 * by the drag&drop motion callback.
 			 */
-			/* FIXME bugzilla.mate.org 42473: 
+			/* FIXME bugzilla.mate.org 42473:
 			 * We should emit our own signal here,
 			 * not one from the containe; it could hook up
 			 * to that signal and emit one of its
@@ -2163,9 +2163,9 @@ caja_icon_canvas_item_event (EelCanvasItem *item, GdkEvent *event)
 			caja_icon_container_emit_preview_signal
 				(CAJA_ICON_CONTAINER (item->canvas),
 				 CAJA_ICON_CANVAS_ITEM (item)->user_data,
-				 FALSE);			
+				 FALSE);
 			icon_item->details->is_prelit = FALSE;
-			icon_item->details->is_active = 0;			
+			icon_item->details->is_active = 0;
 			icon_item->details->is_highlighted_for_drop = FALSE;
 			caja_icon_canvas_item_invalidate_label_size (icon_item);
 			eel_canvas_item_request_update (item);
@@ -2174,7 +2174,7 @@ caja_icon_canvas_item_event (EelCanvasItem *item, GdkEvent *event)
 			gdk_window_set_cursor (((GdkEventAny *)event)->window, NULL);
 		}
 		return TRUE;
-		
+
 	default:
 		/* Don't eat up other events; icon container might use them. */
 		return FALSE;
@@ -2187,12 +2187,12 @@ hit_test_pixbuf (GdkPixbuf *pixbuf, EelIRect pixbuf_location, EelIRect probe_rec
 	EelIRect relative_rect, pixbuf_rect;
 	int x, y;
 	guint8 *pixel;
-	
+
 	/* You can get here without a pixbuf in some strange cases. */
 	if (pixbuf == NULL) {
 		return FALSE;
 	}
-	
+
 	/* Check to see if it's within the rectangle at all. */
 	relative_rect.x0 = probe_rect.x0 - pixbuf_location.x0;
 	relative_rect.y0 = probe_rect.y0 - pixbuf_location.y0;
@@ -2212,7 +2212,7 @@ hit_test_pixbuf (GdkPixbuf *pixbuf, EelIRect pixbuf_location, EelIRect probe_rec
 		return TRUE;
 	}
 	g_assert (gdk_pixbuf_get_n_channels (pixbuf) == 4);
-	
+
 	/* Check the alpha channel of the pixel to see if we have a hit. */
 	for (x = relative_rect.x0; x < relative_rect.x1; x++) {
 		for (y = relative_rect.y0; y < relative_rect.y1; y++) {
@@ -2235,9 +2235,9 @@ hit_test (CajaIconCanvasItem *icon_item, EelIRect canvas_rect)
 	EmblemLayout emblem_layout;
 	GdkPixbuf *emblem_pixbuf;
 	gboolean is_rtl;
-	
+
 	details = icon_item->details;
-	
+
 	/* Quick check to see if the rect hits the icon, text or emblems at all. */
 	if (!eel_irect_hits_irect (icon_item->details->canvas_rect, canvas_rect)
 	    && (!eel_irect_hits_irect (details->text_rect, canvas_rect))
@@ -2249,7 +2249,7 @@ hit_test (CajaIconCanvasItem *icon_item, EelIRect canvas_rect)
 	if (hit_test_stretch_handle (icon_item, canvas_rect, NULL)) {
 		return TRUE;
 	}
-	
+
 	/* Check for hit in the icon. */
 	if (eel_irect_hits_irect (icon_item->details->canvas_rect, canvas_rect)) {
 		return TRUE;
@@ -2268,9 +2268,9 @@ hit_test (CajaIconCanvasItem *icon_item, EelIRect canvas_rect)
 	while (emblem_layout_next (&emblem_layout, &emblem_pixbuf, &emblem_rect, is_rtl)) {
 		if (hit_test_pixbuf (emblem_pixbuf, emblem_rect, canvas_rect)) {
 			return TRUE;
-		}	
+		}
 	}
-	
+
 	return FALSE;
 }
 
@@ -2301,7 +2301,7 @@ caja_icon_canvas_item_translate (EelCanvasItem *item, double dx, double dy)
 {
 	CajaIconCanvasItem *icon_item;
 	CajaIconCanvasItemDetails *details;
-	
+
 	icon_item = CAJA_ICON_CANVAS_ITEM (item);
 	details = icon_item->details;
 
@@ -2366,7 +2366,7 @@ caja_icon_canvas_item_get_bounds_for_entire_item (CajaIconCanvasItem *icon_item,
 		*y2 = (int)details->y + total_rect->y1 + 1;
 	}
 }
-	
+
 /* Bounds handler for the icon canvas item. */
 static void
 caja_icon_canvas_item_bounds (EelCanvasItem *item,
@@ -2408,7 +2408,7 @@ caja_icon_canvas_item_ensure_bounds_up_to_date (CajaIconCanvasItem *icon_item)
 	EmblemLayout emblem_layout;
 	GdkPixbuf *emblem_pixbuf;
 	gboolean is_rtl;
-	
+
 	details = icon_item->details;
 	item = EEL_CANVAS_ITEM (icon_item);
 
@@ -2433,12 +2433,12 @@ caja_icon_canvas_item_ensure_bounds_up_to_date (CajaIconCanvasItem *icon_item)
 			icon_rect.x1 = icon_rect_raw.x1 / pixels_per_unit;
 			icon_rect.y1 = icon_rect_raw.y1 / pixels_per_unit;
 		}
-		
+
 		/* Compute text rectangle. */
 		text_rect = compute_text_rectangle (icon_item, icon_rect, FALSE, BOUNDS_USAGE_FOR_DISPLAY);
 		text_rect_for_layout = compute_text_rectangle (icon_item, icon_rect, FALSE, BOUNDS_USAGE_FOR_LAYOUT);
 		text_rect_for_entire_text = compute_text_rectangle (icon_item, icon_rect, FALSE, BOUNDS_USAGE_FOR_ENTIRE_ITEM);
-		
+
 		is_rtl = caja_icon_container_is_layout_rtl (CAJA_ICON_CONTAINER (item->canvas));
 
 		/* Compute total rectangle, adding in emblem rectangles. */
@@ -2471,14 +2471,14 @@ caja_icon_canvas_item_get_icon_rectangle (const CajaIconCanvasItem *item)
 	EelDRect rectangle;
 	double pixels_per_unit;
 	GdkPixbuf *pixbuf;
-	
+
 	g_return_val_if_fail (CAJA_IS_ICON_CANVAS_ITEM (item), eel_drect_empty);
 
 	rectangle.x0 = item->details->x;
 	rectangle.y0 = item->details->y;
-	
+
 	pixbuf = item->details->pixbuf;
-	
+
 	pixels_per_unit = EEL_CANVAS_ITEM (item)->canvas->pixels_per_unit;
 	rectangle.x1 = rectangle.x0 + (pixbuf == NULL ? 0 : gdk_pixbuf_get_width (pixbuf)) / pixels_per_unit;
 	rectangle.y1 = rectangle.y0 + (pixbuf == NULL ? 0 : gdk_pixbuf_get_height (pixbuf)) / pixels_per_unit;
@@ -2503,14 +2503,14 @@ caja_icon_canvas_item_get_text_rectangle (CajaIconCanvasItem *item,
 	EelDRect ret;
 	double pixels_per_unit;
 	GdkPixbuf *pixbuf;
-	
+
 	g_return_val_if_fail (CAJA_IS_ICON_CANVAS_ITEM (item), eel_drect_empty);
 
 	icon_rectangle.x0 = item->details->x;
 	icon_rectangle.y0 = item->details->y;
-	
+
 	pixbuf = item->details->pixbuf;
-	
+
 	pixels_per_unit = EEL_CANVAS_ITEM (item)->canvas->pixels_per_unit;
 	icon_rectangle.x1 = icon_rectangle.x0 + (pixbuf == NULL ? 0 : gdk_pixbuf_get_width (pixbuf)) / pixels_per_unit;
 	icon_rectangle.y1 = icon_rectangle.y0 + (pixbuf == NULL ? 0 : gdk_pixbuf_get_height (pixbuf)) / pixels_per_unit;
@@ -2519,7 +2519,7 @@ caja_icon_canvas_item_get_text_rectangle (CajaIconCanvasItem *item,
 
 	text_rectangle = compute_text_rectangle (item, icon_rectangle, FALSE,
 						 for_layout ? BOUNDS_USAGE_FOR_LAYOUT : BOUNDS_USAGE_FOR_DISPLAY);
- 
+
 	ret.x0 = text_rectangle.x0;
 	ret.y0 = text_rectangle.y0;
 	ret.x1 = text_rectangle.x1;
@@ -2531,7 +2531,7 @@ caja_icon_canvas_item_get_text_rectangle (CajaIconCanvasItem *item,
         eel_canvas_item_i2w (EEL_CANVAS_ITEM (item),
                              &ret.x1,
                              &ret.y1);
- 
+
         return ret;
 }
 
@@ -2551,9 +2551,9 @@ get_icon_canvas_rectangle (CajaIconCanvasItem *item,
 			item->details->y,
 			&rect->x0,
 			&rect->y0);
-	
+
 	pixbuf = item->details->pixbuf;
-	
+
 	rect->x1 = rect->x0 + (pixbuf == NULL ? 0 : gdk_pixbuf_get_width (pixbuf));
 	rect->y1 = rect->y0 + (pixbuf == NULL ? 0 : gdk_pixbuf_get_height (pixbuf));
 }
@@ -2564,7 +2564,7 @@ caja_icon_canvas_item_set_show_stretch_handles (CajaIconCanvasItem *item,
 {
 	g_return_if_fail (CAJA_IS_ICON_CANVAS_ITEM (item));
 	g_return_if_fail (show_stretch_handles == FALSE || show_stretch_handles == TRUE);
-	
+
 	if (!item->details->show_stretch_handles == !show_stretch_handles) {
 		return;
 	}
@@ -2583,7 +2583,7 @@ hit_test_stretch_handle (CajaIconCanvasItem *item,
 	GdkPixbuf *knob_pixbuf;
 	int knob_width, knob_height;
 	int hit_corner;
-	
+
 	g_assert (CAJA_IS_ICON_CANVAS_ITEM (item));
 
 	/* Make sure there are handles to hit. */
@@ -2596,7 +2596,7 @@ hit_test_stretch_handle (CajaIconCanvasItem *item,
 	if (!eel_irect_hits_irect (probe_canvas_rect, icon_rect)) {
 		return FALSE;
 	}
-	
+
 	knob_pixbuf = get_knob_pixbuf ();
 	knob_width = gdk_pixbuf_get_width (knob_pixbuf);
 	knob_height = gdk_pixbuf_get_height (knob_pixbuf);
@@ -2630,7 +2630,7 @@ caja_icon_canvas_item_hit_test_stretch_handles (CajaIconCanvasItem *item,
 	EelIRect canvas_rect;
 
 	g_return_val_if_fail (CAJA_IS_ICON_CANVAS_ITEM (item), FALSE);
-	
+
 	eel_canvas_w2c (EEL_CANVAS_ITEM (item)->canvas,
 			  world_point.x,
 			  world_point.y,
@@ -2688,7 +2688,7 @@ caja_icon_canvas_item_get_max_text_width (CajaIconCanvasItem *item)
 	if (caja_icon_container_is_tighter_layout (container)) {
 		return MAX_TEXT_WIDTH_TIGHTER * canvas_item->canvas->pixels_per_unit;
 	} else {
-				
+
                 if (container->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE) {
 			if (container->details->layout_mode == CAJA_ICON_LAYOUT_T_B_L_R ||
 			    container->details->layout_mode == CAJA_ICON_LAYOUT_T_B_R_L) {
@@ -2740,7 +2740,7 @@ caja_icon_canvas_item_accessible_idle_do_action (gpointer data)
 	container->details->a11y_item_action_idle_handler = 0;
 	while (!g_queue_is_empty (container->details->a11y_item_action_queue)) {
 		ctx = g_queue_pop_head (container->details->a11y_item_action_queue);
-		action_number = ctx->action_number;	
+		action_number = ctx->action_number;
 		item = ctx->item;
 		g_free (ctx);
 		icon = item->user_data;
@@ -2878,29 +2878,33 @@ caja_icon_canvas_item_accessible_action_interface_init (AtkActionIface *iface)
 	iface->set_description = caja_icon_canvas_item_accessible_action_set_description;
 }
 
-static G_CONST_RETURN gchar *
-caja_icon_canvas_item_accessible_get_name (AtkObject *accessible)
+static const gchar* caja_icon_canvas_item_accessible_get_name(AtkObject* accessible)
 {
-	CajaIconCanvasItem *item;
+	CajaIconCanvasItem* item;
 
-	if (accessible->name) {
+	if (accessible->name)
+	{
 		return accessible->name;
 	}
 
-	item = eel_accessibility_get_gobject (accessible);
-	if (!item) {
+	item = eel_accessibility_get_gobject(accessible);
+
+	if (!item)
+	{
 		return NULL;
 	}
+
 	return item->details->editable_text;
 }
 
-static G_CONST_RETURN gchar*
-caja_icon_canvas_item_accessible_get_description (AtkObject *accessible)
+static const gchar* caja_icon_canvas_item_accessible_get_description(AtkObject* accessible)
 {
-	CajaIconCanvasItem *item;
+	CajaIconCanvasItem* item;
 
-	item = eel_accessibility_get_gobject (accessible);
-	if (!item) {
+	item = eel_accessibility_get_gobject(accessible);
+
+	if (!item)
+	{
 		return NULL;
 	}
 
@@ -2911,7 +2915,7 @@ static AtkObject *
 caja_icon_canvas_item_accessible_get_parent (AtkObject *accessible)
 {
 	CajaIconCanvasItem *item;
-	
+
 	item = eel_accessibility_get_gobject (accessible);
 	if (!item) {
 		return NULL;
@@ -2933,18 +2937,18 @@ caja_icon_canvas_item_accessible_get_index_in_parent (AtkObject *accessible)
 	if (!item) {
 		return -1;
 	}
-	
+
 	container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);
-	
+
 	l = container->details->icons;
 	i = 0;
 	while (l) {
 		icon = l->data;
-		
+
 		if (icon->item == item) {
 			return i;
 		}
-		
+
 		i++;
 		l = l->next;
 	}
@@ -2978,7 +2982,7 @@ caja_icon_canvas_item_accessible_ref_state_set (AtkObject *accessible)
 		l = container->details->icons;
 		while (l) {
 			icon = l->data;
-		
+
 			if (icon->item == item) {
 				if (icon->is_selected) {
 					one_item_selected = TRUE;
@@ -3055,36 +3059,42 @@ caja_icon_canvas_item_accessible_class_init (AtkObjectClass *klass)
 }
 
 
-static G_CONST_RETURN gchar * 
-caja_icon_canvas_item_accessible_get_image_description
-	(AtkImage *image)
+static const gchar* caja_icon_canvas_item_accessible_get_image_description(AtkImage* image)
 {
-	CajaIconCanvasItemAccessiblePrivate *priv;
-	CajaIconCanvasItem *item;
-	CajaIcon *icon;
-	CajaIconContainer *container;
-	char *description;
+	CajaIconCanvasItemAccessiblePrivate* priv;
+	CajaIconCanvasItem* item;
+	CajaIcon* icon;
+	CajaIconContainer* container;
+	char* description;
 
-	priv = accessible_get_priv (ATK_OBJECT (image));
-	if (priv->image_description) {
+	priv = accessible_get_priv(ATK_OBJECT(image));
+
+	if (priv->image_description)
+	{
 		return priv->image_description;
-	} else {
-		item = eel_accessibility_get_gobject (ATK_OBJECT (image));
-		if (item == NULL) {
+	}
+	else
+	{
+		item = eel_accessibility_get_gobject(ATK_OBJECT (image));
+
+		if (item == NULL)
+		{
 			return NULL;
 		}
+
 		icon = item->user_data;
-		container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);
-		description = caja_icon_container_get_icon_description (container, icon->data);
-		g_free (priv->description);
+		container = CAJA_ICON_CONTAINER(EEL_CANVAS_ITEM(item)->canvas);
+		description = caja_icon_container_get_icon_description(container, icon->data);
+		g_free(priv->description);
 		priv->description = description;
+
 		return priv->description;
 	}
 }
 
 static void
 caja_icon_canvas_item_accessible_get_image_size
-	(AtkImage *image, 
+	(AtkImage *image,
 	 gint     *width,
 	 gint     *height)
 {
@@ -3195,7 +3205,7 @@ caja_icon_canvas_item_accessible_get_offset_at_point (AtkText	 *text,
                                    &real_width, &real_height, coords);
 
 	x -= real_x;
-	y -= real_y; 
+	y -= real_y;
 
 	item = eel_accessibility_get_gobject (ATK_OBJECT (text));
 
@@ -3248,9 +3258,9 @@ caja_icon_canvas_item_accessible_get_offset_at_point (AtkText	 *text,
 	}
 	pango_layout_index_to_pos (layout, 0, &rect0);
 	x += text_offset;
-	if (!pango_layout_xy_to_index (layout, 
-                                       x * PANGO_SCALE, 
-                                       y * PANGO_SCALE, 
+	if (!pango_layout_xy_to_index (layout,
+                                       x * PANGO_SCALE,
+                                       y * PANGO_SCALE,
                                        &index, NULL)) {
 		if (x < 0 || y < 0) {
 			index = 0;
@@ -3264,17 +3274,17 @@ caja_icon_canvas_item_accessible_get_offset_at_point (AtkText	 *text,
 		offset = g_utf8_pointer_to_offset (icon_text, icon_text + index);
 	}
 	if (layout == additional_layout) {
-		offset += g_utf8_strlen (item->details->editable_text, -1);	
+		offset += g_utf8_strlen (item->details->editable_text, -1);
 	}
 
 	if (editable_layout != NULL) {
 		g_object_unref (editable_layout);
 	}
-	
+
 	if (additional_layout != NULL) {
 		g_object_unref (additional_layout);
 	}
-	
+
 	return offset;
 }
 
@@ -3315,7 +3325,7 @@ caja_icon_canvas_item_accessible_get_character_extents (AtkText	   *text,
 
 	editable_layout = get_label_layout (&item->details->editable_text_layout, item, item->details->editable_text);
 	additional_layout = get_label_layout (&item->details->additional_text_layout, item, item->details->additional_text);
-	
+
 	if (offset < len) {
 		icon_text = item->details->editable_text;
 		layout = editable_layout;
@@ -3520,7 +3530,7 @@ caja_icon_canvas_item_class_init (CajaIconCanvasItemClass *class)
 		g_param_spec_boolean ("highlighted_for_selection",
 				      "highlighted for selection",
 				      "whether we are highlighted for a selection",
-				      FALSE, G_PARAM_READWRITE)); 
+				      FALSE, G_PARAM_READWRITE));
 
         g_object_class_install_property (
 		object_class,
@@ -3528,7 +3538,7 @@ caja_icon_canvas_item_class_init (CajaIconCanvasItemClass *class)
 		g_param_spec_boolean ("highlighted_as_keyboard_focus",
 				      "highlighted as keyboard focus",
 				      "whether we are highlighted to render keyboard focus",
-				      FALSE, G_PARAM_READWRITE)); 
+				      FALSE, G_PARAM_READWRITE));
 
 
         g_object_class_install_property (
@@ -3552,7 +3562,7 @@ caja_icon_canvas_item_class_init (CajaIconCanvasItemClass *class)
 	item_class->point = caja_icon_canvas_item_point;
 	item_class->translate = caja_icon_canvas_item_translate;
 	item_class->bounds = caja_icon_canvas_item_bounds;
-	item_class->event = caja_icon_canvas_item_event;	
+	item_class->event = caja_icon_canvas_item_event;
 
 	EEL_OBJECT_SET_FACTORY (CAJA_TYPE_ICON_CANVAS_ITEM,
 				caja_icon_canvas_item_accessible);
