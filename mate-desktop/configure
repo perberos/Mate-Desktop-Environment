@@ -633,6 +633,8 @@ GTKDOC_REBASE
 GTKDOC_CHECK
 REBUILD
 PERL
+UNIQUE_LIBS
+UNIQUE_CFLAGS
 MKINSTALLDIRS
 POSUB
 POFILES
@@ -895,7 +897,9 @@ XMKMF
 MATE_DESKTOP_CFLAGS
 MATE_DESKTOP_LIBS
 MATE_ABOUT_CFLAGS
-MATE_ABOUT_LIBS'
+MATE_ABOUT_LIBS
+UNIQUE_CFLAGS
+UNIQUE_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1587,6 +1591,9 @@ Some influential environment variables:
               C compiler flags for MATE_ABOUT, overriding pkg-config
   MATE_ABOUT_LIBS
               linker flags for MATE_ABOUT, overriding pkg-config
+  UNIQUE_CFLAGS
+              C compiler flags for UNIQUE, overriding pkg-config
+  UNIQUE_LIBS linker flags for UNIQUE, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -15967,6 +15974,87 @@ $as_echo "$LINGUAS" >&6; }
 	< $srcdir/po/POTFILES.in > po/POTFILES
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libunique" >&5
+$as_echo_n "checking for libunique... " >&6; }
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for UNIQUE" >&5
+$as_echo_n "checking for UNIQUE... " >&6; }
+
+if test -n "$UNIQUE_CFLAGS"; then
+    pkg_cv_UNIQUE_CFLAGS="$UNIQUE_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 < 2.26 unique-1.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glib-2.0 < 2.26 unique-1.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_UNIQUE_CFLAGS=`$PKG_CONFIG --cflags "glib-2.0 < 2.26 unique-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$UNIQUE_LIBS"; then
+    pkg_cv_UNIQUE_LIBS="$UNIQUE_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 < 2.26 unique-1.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glib-2.0 < 2.26 unique-1.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_UNIQUE_LIBS=`$PKG_CONFIG --libs "glib-2.0 < 2.26 unique-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        UNIQUE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 < 2.26 unique-1.0" 2>&1`
+        else
+	        UNIQUE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 < 2.26 unique-1.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$UNIQUE_PKG_ERRORS" >&5
+
+	enable_libunique=no
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	enable_libunique=no
+else
+	UNIQUE_CFLAGS=$pkg_cv_UNIQUE_CFLAGS
+	UNIQUE_LIBS=$pkg_cv_UNIQUE_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	enable_libunique=yes
+fi
+
+
+
+
+if test "x$enable_libunique" = "xyes"; then
+	UNIQUE_CFLAGS="$UNIQUE_CFLAGS -DUSE_UNIQUE=1"
+fi
+
 
 for ac_prog in mawk gawk nawk awk
 do
@@ -18796,6 +18884,7 @@ echo "
         Warn about deprecations:      ${enable_deprecations}
 
         Build mate-about:             ${enable_mate_about}
+        Use libunique:                ${enable_libunique}
         Build desktop-wide docs:      ${enable_desktop_docs}
         Use external pnp.ids:         ${EXTERNAL_PNP_IDS}
         Startup notification support: ${have_startup_notification}
