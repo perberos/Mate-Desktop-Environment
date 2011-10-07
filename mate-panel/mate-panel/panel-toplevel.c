@@ -461,10 +461,10 @@ panel_toplevel_begin_grab_op (PanelToplevel   *toplevel,
 		return;
 
 	/* If size is not writable, then we can't resize */
-	if ((op_type == PANEL_GRAB_OP_RESIZE || 
-	     op_type == PANEL_GRAB_OP_RESIZE_UP || 
-	     op_type == PANEL_GRAB_OP_RESIZE_DOWN || 
-	     op_type == PANEL_GRAB_OP_RESIZE_LEFT || 
+	if ((op_type == PANEL_GRAB_OP_RESIZE ||
+	     op_type == PANEL_GRAB_OP_RESIZE_UP ||
+	     op_type == PANEL_GRAB_OP_RESIZE_DOWN ||
+	     op_type == PANEL_GRAB_OP_RESIZE_LEFT ||
 	     op_type == PANEL_GRAB_OP_RESIZE_RIGHT) &&
 	    ! panel_profile_is_writable_toplevel_size (toplevel))
 		return;
@@ -652,7 +652,7 @@ panel_toplevel_calc_new_orientation (PanelToplevel *toplevel,
 				new_orientation = PANEL_ORIENTATION_RIGHT;
 			else if (new_x < vborder)
 				new_orientation = PANEL_ORIENTATION_LEFT;
-		} 
+		}
 		break;
 	case PANEL_ORIENTATION_BOTTOM:
 		if (new_y < hborder)
@@ -663,7 +663,7 @@ panel_toplevel_calc_new_orientation (PanelToplevel *toplevel,
 				new_orientation = PANEL_ORIENTATION_RIGHT;
 			else if (new_x < vborder)
 				new_orientation = PANEL_ORIENTATION_LEFT;
-		} 
+		}
 		break;
 	case PANEL_ORIENTATION_LEFT:
 		if (new_x > (monitor_width - vborder))
@@ -674,7 +674,7 @@ panel_toplevel_calc_new_orientation (PanelToplevel *toplevel,
 				new_orientation = PANEL_ORIENTATION_BOTTOM;
 			else if (new_y < hborder)
 				new_orientation = PANEL_ORIENTATION_TOP;
-		} 
+		}
 		break;
 	case PANEL_ORIENTATION_RIGHT:
 		if (new_x < vborder)
@@ -1010,7 +1010,7 @@ panel_toplevel_handle_grab_op_key_event (PanelToplevel *toplevel,
 			break;
 		}
 		break;
-	case GDK_Escape: 
+	case GDK_Escape:
 		panel_toplevel_cancel_grab_op (toplevel, event->time);
 	case GDK_Return: /* drop through*/
 	case GDK_KP_Enter:
@@ -1096,7 +1096,7 @@ panel_toplevel_calc_floating (PanelToplevel *toplevel)
 			(x > snap_tolerance) && (x < (screen_width - toplevel->priv->geometry.width - snap_tolerance));
 }
 
-void 
+void
 panel_toplevel_push_autohide_disabler (PanelToplevel *toplevel)
 {
 	g_return_if_fail (toplevel != NULL);
@@ -1184,7 +1184,7 @@ panel_toplevel_add_hide_button (PanelToplevel *toplevel,
 	AtkObject *obj;
 	GtkWidget *arrow;
 	int        arrow_size;
-	
+
 	button = gtk_button_new ();
 	obj = gtk_widget_get_accessible (button);
 	atk_object_set_name (obj, _("Hide Panel"));
@@ -1227,7 +1227,7 @@ panel_toplevel_add_hide_button (PanelToplevel *toplevel,
 				  G_CALLBACK (panel_toplevel_hide_button_event), toplevel);
 	g_signal_connect_swapped (button, "button_release_event",
 				  G_CALLBACK (panel_toplevel_hide_button_event), toplevel);
-				  
+
 	gtk_table_attach (GTK_TABLE (toplevel->priv->table),
 			  button,
 			  left_attach,
@@ -1599,7 +1599,7 @@ panel_toplevel_construct_description (PanelToplevel *toplevel)
 	     		N_("Top Floating Panel"),
 	     		N_("Top Edge Panel"),
 		},
-		
+
 		{
 			N_("Bottom Expanded Edge Panel"),
 	     		N_("Bottom Centered Panel"),
@@ -1653,7 +1653,7 @@ panel_toplevel_construct_description (PanelToplevel *toplevel)
 		type = 2;
 	else
 		type = 3;
-	
+
 	return description[orientation][type];
 }
 
@@ -2250,7 +2250,7 @@ panel_toplevel_update_position (PanelToplevel *toplevel)
 	else if (toplevel->priv->state == PANEL_STATE_AUTO_HIDDEN)
 		panel_toplevel_update_auto_hide_position (toplevel, &x, &y, &w, &h, FALSE);
 
-	else 
+	else
 		panel_toplevel_update_hidden_position (toplevel, &x, &y, &w, &h);
 
 	if (w != -1)
@@ -2313,16 +2313,16 @@ calculate_minimum_height (GtkWidget        *widget,
 	int               ascent;
 	int               descent;
 	int               thickness;
-  
+
 	style = gtk_widget_get_style (widget);
 	context = gtk_widget_get_pango_context (widget);
 	metrics = pango_context_get_metrics (context,
 					     style->font_desc,
 					     pango_context_get_language (context));
-  
+
 	ascent  = pango_font_metrics_get_ascent  (metrics);
 	descent = pango_font_metrics_get_descent (metrics);
-  
+
 	pango_font_metrics_unref (metrics);
 
 	gtk_widget_style_get (widget,
@@ -2703,7 +2703,7 @@ panel_toplevel_disconnect_attached (PanelToplevel *toplevel)
 	for (i = 0; i < N_ATTACH_WIDGET_SIGNALS; i++) {
 		if (!toplevel->priv->attach_widget_signals [i])
 			continue;
-		
+
 		g_signal_handler_disconnect (
 			toplevel->priv->attach_widget,
 			toplevel->priv->attach_widget_signals [i]);
@@ -2757,7 +2757,7 @@ panel_toplevel_connect_attached (PanelToplevel *toplevel)
 		G_CALLBACK (gtk_widget_hide), toplevel);
 
 	g_assert (i == N_ATTACH_WIDGET_SIGNALS);
-} 
+}
 
 void
 panel_toplevel_attach_to_widget (PanelToplevel *toplevel,
@@ -2783,7 +2783,7 @@ panel_toplevel_attach_to_widget (PanelToplevel *toplevel,
 	toplevel->priv->attach_widget   = attach_widget;
 
 	panel_toplevel_connect_attached (toplevel);
-	
+
 	panel_toplevel_reverse_arrows (toplevel);
 	panel_toplevel_set_expand (toplevel, FALSE);
 	panel_toplevel_update_attach_orientation (toplevel);
@@ -2811,7 +2811,7 @@ panel_toplevel_detach (PanelToplevel *toplevel)
 		panel_toplevel_pop_autohide_disabler (toplevel->priv->attach_toplevel);
 
 	panel_toplevel_disconnect_attached (toplevel);
-	
+
 	panel_toplevel_reverse_arrows (toplevel);
 
 	toplevel->priv->attached = FALSE;
@@ -3011,7 +3011,7 @@ static void
 panel_toplevel_destroy (GtkObject *widget)
 {
 	PanelToplevel *toplevel = (PanelToplevel *) widget;
-	
+
 	if (toplevel->priv->attached) {
 		panel_toplevel_disconnect_attached (toplevel);
 		toplevel->priv->attached = FALSE;
@@ -3354,7 +3354,7 @@ static gboolean
 panel_toplevel_motion_notify_event (GtkWidget      *widget,
 				    GdkEventMotion *event)
 {
-	if (gdk_event_get_screen ((GdkEvent *)event) == 
+	if (gdk_event_get_screen ((GdkEvent *)event) ==
 	    gtk_window_get_screen (GTK_WINDOW (widget)))
 		return panel_toplevel_handle_grab_op_motion_event (
 				PANEL_TOPLEVEL (widget), event);
@@ -3700,12 +3700,12 @@ panel_toplevel_queue_auto_hide (PanelToplevel *toplevel)
 		return;
 
 	if (toplevel->priv->hide_delay > 0)
-		toplevel->priv->hide_timeout = 
+		toplevel->priv->hide_timeout =
 			g_timeout_add (toplevel->priv->hide_delay,
 				       (GSourceFunc) panel_toplevel_auto_hide_timeout_handler,
 				       toplevel);
 	else
-		toplevel->priv->hide_timeout = 
+		toplevel->priv->hide_timeout =
 			g_idle_add ((GSourceFunc) panel_toplevel_auto_hide_timeout_handler,
 				    toplevel);
 }
@@ -3726,12 +3726,12 @@ panel_toplevel_queue_auto_unhide (PanelToplevel *toplevel)
 		return;
 
 	if (toplevel->priv->unhide_delay > 0)
-		toplevel->priv->unhide_timeout = 
+		toplevel->priv->unhide_timeout =
 			g_timeout_add (toplevel->priv->unhide_delay,
 				       (GSourceFunc) panel_toplevel_auto_unhide_timeout_handler,
 				       toplevel);
 	else
-		toplevel->priv->unhide_timeout = 
+		toplevel->priv->unhide_timeout =
 			g_idle_add ((GSourceFunc) panel_toplevel_auto_unhide_timeout_handler,
 				    toplevel);
 }
@@ -3795,7 +3795,7 @@ panel_toplevel_focus_in_event (GtkWidget     *widget,
 			       GdkEventFocus *event)
 {
 	PanelToplevel *toplevel = PANEL_TOPLEVEL (widget);
-	
+
 	if (toplevel->priv->state == PANEL_STATE_AUTO_HIDDEN)
 		panel_toplevel_unhide (toplevel);
 
@@ -4499,7 +4499,7 @@ panel_toplevel_setup_widgets (PanelToplevel *toplevel)
 				      !toplevel->priv->expand,
 				      toplevel->priv->orientation & PANEL_HORIZONTAL_MASK ?
 						GTK_ORIENTATION_HORIZONTAL :
-						GTK_ORIENTATION_VERTICAL,	
+						GTK_ORIENTATION_VERTICAL,
 				      toplevel->priv->size);
 
 	toplevel->priv->panel_widget = PANEL_WIDGET (container);
@@ -4607,7 +4607,7 @@ panel_toplevel_init (PanelToplevel *toplevel)
 	panel_toplevel_setup_widgets (toplevel);
 	panel_toplevel_update_description (toplevel);
 	panel_toplevel_update_gtk_settings (toplevel);
-	
+
 	toplevel_list = g_slist_prepend (toplevel_list, toplevel);
 
 	/* Prevent the window from being deleted via Alt+F4 by accident.  This
@@ -4668,18 +4668,16 @@ panel_toplevel_set_name (PanelToplevel *toplevel,
 	g_object_notify (G_OBJECT (toplevel), "name");
 }
 
-G_CONST_RETURN char *
-panel_toplevel_get_name (PanelToplevel *toplevel)
+const char* panel_toplevel_get_name(PanelToplevel* toplevel)
 {
-	g_return_val_if_fail (PANEL_IS_TOPLEVEL (toplevel), NULL);
+	g_return_val_if_fail(PANEL_IS_TOPLEVEL(toplevel), NULL);
 
 	return toplevel->priv->name;
 }
 
-G_CONST_RETURN char *
-panel_toplevel_get_description (PanelToplevel *toplevel)
+const char* panel_toplevel_get_description(PanelToplevel* toplevel)
 {
-	g_return_val_if_fail (PANEL_IS_TOPLEVEL (toplevel), NULL);
+	g_return_val_if_fail(PANEL_IS_TOPLEVEL(toplevel), NULL);
 
 	return toplevel->priv->description;
 }
@@ -4817,7 +4815,7 @@ panel_toplevel_set_orientation (PanelToplevel    *toplevel,
 
 	panel_toplevel_update_hide_buttons (toplevel);
 
-	panel_widget_set_orientation (	
+	panel_widget_set_orientation (
 		toplevel->priv->panel_widget,
 		toplevel->priv->orientation & PANEL_HORIZONTAL_MASK ?
 					GTK_ORIENTATION_HORIZONTAL :

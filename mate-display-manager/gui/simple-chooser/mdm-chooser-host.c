@@ -65,12 +65,11 @@ mdm_chooser_host_get_address (MdmChooserHost *host)
         return host->priv->address;
 }
 
-G_CONST_RETURN char *
-mdm_chooser_host_get_description (MdmChooserHost *host)
+const char* mdm_chooser_host_get_description(MdmChooserHost* host)
 {
-        g_return_val_if_fail (MDM_IS_CHOOSER_HOST (host), NULL);
+	g_return_val_if_fail(MDM_IS_CHOOSER_HOST(host), NULL);
 
-        return host->priv->description;
+	return host->priv->description;
 }
 
 MdmChooserHostKind

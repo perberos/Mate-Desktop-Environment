@@ -24,14 +24,14 @@ matecomponent_a11y_get_derived_type_for (GType                 widget_type,
 	GTypeInfo tinfo = { 0 };
 	GTypeQuery query;
 	char *type_name;
-		
+
 	parent_atk_type = g_type_from_name (
 		gail_parent_class ? gail_parent_class : "GailWidget");
 
 	g_return_val_if_fail (parent_atk_type != G_TYPE_INVALID, G_TYPE_INVALID);
 
 	/*
-	 * Figure out the size of the class and instance 
+	 * Figure out the size of the class and instance
 	 * we are deriving from
 	 */
 	g_type_query (parent_atk_type, &query);
@@ -49,7 +49,7 @@ matecomponent_a11y_get_derived_type_for (GType                 widget_type,
 		parent_atk_type, type_name, &tinfo, 0);
 
 	g_free (type_name);
-		
+
 	return type;
 }
 
@@ -88,7 +88,7 @@ matecomponent_a11y_create_accessible_for (GtkWidget            *widget,
 
 		for (it = first_interface_type; it; it = va_arg (args, GType)) {
 			const GInterfaceInfo *if_info = va_arg (args, gpointer);
-			
+
 			g_type_add_interface_static (type, it, if_info);
 		}
 
@@ -98,7 +98,7 @@ matecomponent_a11y_create_accessible_for (GtkWidget            *widget,
 	}
 
 	g_return_val_if_fail (type != G_TYPE_INVALID, NULL);
-					    
+
 	accessible = g_object_new (type, NULL);
 
 	matecomponent_a11y_set_atk_object_ret (widget, accessible);
@@ -132,7 +132,7 @@ matecomponent_a11y_set_atk_object_ret (GtkWidget *widget,
 				AtkObject *object)
 {
 	atk_object_initialize (object, widget);
-	
+
 	g_object_set_qdata (
 		G_OBJECT (widget),
 		get_quark_accessible (),
@@ -183,7 +183,7 @@ static gboolean
 matecomponent_a11y_action_do (AtkAction *action,
 		       gint       i)
 {
-	MateComponentActionInterface *aif = 
+	MateComponentActionInterface *aif =
 		G_TYPE_INSTANCE_GET_INTERFACE (
 			action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
 
@@ -201,7 +201,7 @@ static gint
 matecomponent_a11y_action_get_n (AtkAction *action)
 {
 	int i, count;
-	MateComponentActionInterface *aif = 
+	MateComponentActionInterface *aif =
 		G_TYPE_INSTANCE_GET_INTERFACE (
 			action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
 
@@ -216,59 +216,68 @@ matecomponent_a11y_action_get_n (AtkAction *action)
 	return count;
 }
 
-static G_CONST_RETURN gchar *
-matecomponent_a11y_action_get_description (AtkAction *action,
-				    gint       i)
+static const gchar* matecomponent_a11y_action_get_description(AtkAction* action, gint i)
 {
-	MateComponentActionInterface *aif = 
-		G_TYPE_INSTANCE_GET_INTERFACE (
-			action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
+	MateComponentActionInterface* aif;
+
+	aif = G_TYPE_INSTANCE_GET_INTERFACE(action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
 
 	if (aif->chain.get_description)
-		return aif->chain.get_description (action, i);
+	{
+		return aif->chain.get_description(action, i);
+	}
 
 	/* I refuse to handle set_description it seems uber ugly */
-	if (i >= 0 && i < aif->actions->len &&
-	    g_array_index (aif->actions, MateComponentAction, i).description)
-		return g_array_index (aif->actions, MateComponentAction, i).description;
+	if (i >= 0 && i < aif->actions->len && g_array_index(aif->actions, MateComponentAction, i).description)
+	{
+		return g_array_index(aif->actions, MateComponentAction, i).description;
+	}
 	else
+	{
 		return NULL;
+	}
 }
 
-static G_CONST_RETURN gchar *
-matecomponent_a11y_action_get_name (AtkAction *action,
-			     gint       i)
+static const gchar* matecomponent_a11y_action_get_name(AtkAction* action, gint i)
 {
-	MateComponentActionInterface *aif = 
-		G_TYPE_INSTANCE_GET_INTERFACE (
-			action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
+	MateComponentActionInterface* aif;
+
+	aif = G_TYPE_INSTANCE_GET_INTERFACE(action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
 
 	if (aif->chain.get_name)
-		return aif->chain.get_name (action, i);
+	{
+		return aif->chain.get_name(action, i);
+	}
 
-	if (i >= 0 && i < aif->actions->len &&
-	    g_array_index (aif->actions, MateComponentAction, i).name)
-		return g_array_index (aif->actions, MateComponentAction, i).name;
+	if (i >= 0 && i < aif->actions->len && g_array_index(aif->actions, MateComponentAction, i).name)
+	{
+		return g_array_index(aif->actions, MateComponentAction, i).name;
+	}
 	else
+	{
 		return NULL;
+	}
 }
 
-static G_CONST_RETURN gchar *
-matecomponent_a11y_action_get_keybinding (AtkAction *action,
-				   gint       i)
+static const gchar* matecomponent_a11y_action_get_keybinding(AtkAction* action, gint i)
 {
-	MateComponentActionInterface *aif = 
-		G_TYPE_INSTANCE_GET_INTERFACE (
-			action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
+	MateComponentActionInterface* aif;
+
+	aif = G_TYPE_INSTANCE_GET_INTERFACE(action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
 
 	if (aif->chain.get_keybinding)
-		return aif->chain.get_keybinding (action, i);
+	{
+		return aif->chain.get_keybinding(action, i);
+	}
 
-	if (i >= 0 && i < aif->actions->len &&
-	    g_array_index (aif->actions, MateComponentAction, i).keybinding)
-		return g_array_index (aif->actions, MateComponentAction, i).keybinding;
+	if (i >= 0 && i < aif->actions->len && g_array_index(aif->actions, MateComponentAction, i).keybinding)
+	{
+		return g_array_index(aif->actions, MateComponentAction, i).keybinding;
+	}
 	else
+	{
 		return NULL;
+	}
 }
 
 static gboolean
@@ -276,7 +285,7 @@ matecomponent_a11y_action_set_description (AtkAction   *action,
 				    gint         i,
 				    const gchar *desc)
 {
-	MateComponentActionInterface *aif = 
+	MateComponentActionInterface *aif =
 		G_TYPE_INSTANCE_GET_INTERFACE (
 			action, MATECOMPONENT_TYPE_ACTION, MateComponentActionInterface);
 
@@ -329,7 +338,7 @@ matecomponent_a11y_add_actions_interface (GType           a11y_object_type,
 				   /* char * keybinding descr. */
 				   ...)
 {
-	va_list args; 
+	va_list args;
 	int     id;
 	GInterfaceInfo iinfo;
 	MateComponentActionIfData *aifd = g_new0 (MateComponentActionIfData, 1);

@@ -88,7 +88,7 @@ mate_panel_applet_toggle_locked (AppletInfo *info)
 	gboolean     locked;
 
 	panel_widget = mate_panel_applet_get_panel_widget (info);
-	
+
 	locked = panel_widget_toggle_applet_locked (panel_widget, info->widget);
 
 	mate_panel_applet_save_position (info, info->id, TRUE);
@@ -248,7 +248,7 @@ applet_callback_callback (GtkWidget      *widget,
 		else if (!strcmp (menu->name, "properties"))
 			launcher_properties (menu->info->data);
 		break;
-	case PANEL_OBJECT_DRAWER: 
+	case PANEL_OBJECT_DRAWER:
 		if (strcmp (menu->name, "add") == 0) {
 			Drawer *drawer = menu->info->data;
 
@@ -327,7 +327,7 @@ mate_panel_applet_get_callback (GList      *user_menu,
 			return menu;
 	}
 
-	return NULL;	
+	return NULL;
 }
 
 void
@@ -402,7 +402,7 @@ setup_an_item (AppletUserMenu *menu,
 				    G_CALLBACK (gtk_widget_destroyed),
 				    &menu->submenu);
 	}
-	
+
 	gtk_widget_set_sensitive(menu->menuitem,menu->sensitive);
 }
 
@@ -425,17 +425,17 @@ add_to_submenus (AppletInfo *info,
 		setup_an_item (menu, submenu, FALSE);
 		return;
 	}
-	
+
 	/*this is the last one and we are a submenu, we have already been
 	  set up*/
 	if(p==(n + strlen(n) - 1)) {
 		g_free(n);
 		return;
 	}
-	
+
 	*p = '\0';
 	p++;
-	
+
 	t = g_strconcat (path, n, "/", NULL);
 	s_menu = mate_panel_applet_get_callback (user_menu, t);
 	/*the user did not give us this sub menu, whoops, will create an empty
@@ -452,7 +452,7 @@ add_to_submenus (AppletInfo *info,
 		info->user_menu = g_list_append (info->user_menu,s_menu);
 		user_menu = info->user_menu;
 	}
-	
+
 	if (s_menu->submenu == NULL) {
 		s_menu->submenu = gtk_menu_new ();
 		/*a more elegant way to do this should be done
@@ -464,9 +464,9 @@ add_to_submenus (AppletInfo *info,
 	}
 	if (s_menu->menuitem == NULL)
 		setup_an_item (s_menu, submenu, TRUE);
-	
+
 	add_to_submenus (info, t, p, menu, s_menu->submenu, user_menu);
-	
+
 	g_free(t);
 	g_free(n);
 }
@@ -498,7 +498,7 @@ mate_panel_applet_create_menu (AppletInfo *info)
 		if (user_menu->is_enabled_func && !user_menu->is_enabled_func ())
 			continue;
 
-		add_to_submenus (info, "", user_menu->name, user_menu, 
+		add_to_submenus (info, "", user_menu->name, user_menu,
 				 menu, info->user_menu);
 
 		added_anything = TRUE;
@@ -533,7 +533,7 @@ mate_panel_applet_create_menu (AppletInfo *info)
 		gtk_widget_show (menuitem);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
 		gtk_widget_set_sensitive (menuitem, (!locked || lockable) && removable);
-		
+
 		menuitem = gtk_menu_item_new_with_mnemonic (_("_Move"));
 		g_signal_connect (menuitem, "activate",
 				  G_CALLBACK (move_applet_callback), info);
@@ -1095,19 +1095,21 @@ mate_panel_applet_load_queued_applets (gboolean initial_load)
 	}
 }
 
-static G_CONST_RETURN char *
-mate_panel_applet_get_toplevel_id (AppletInfo *applet)
+static const char* mate_panel_applet_get_toplevel_id(AppletInfo* applet)
 {
-	PanelWidget *panel_widget;
+	PanelWidget* panel_widget;
 
-	g_return_val_if_fail (applet != NULL, NULL);
-	g_return_val_if_fail (GTK_IS_WIDGET (applet->widget), NULL);
+	g_return_val_if_fail(applet != NULL, NULL);
+	g_return_val_if_fail(GTK_IS_WIDGET(applet->widget), NULL);
 
-	panel_widget = mate_panel_applet_get_panel_widget (applet);
+	panel_widget = mate_panel_applet_get_panel_widget(applet);
+
 	if (!panel_widget)
+	{
 		return NULL;
+	}
 
-	return panel_profile_get_toplevel_id (panel_widget->toplevel);
+	return panel_profile_get_toplevel_id(panel_widget->toplevel);
 }
 
 static gboolean
@@ -1166,7 +1168,7 @@ mate_panel_applet_save_position (AppletInfo *applet_info,
 	client  = panel_mateconf_get_client ();
 
 	key_type = applet_info->type == PANEL_OBJECT_APPLET ? PANEL_MATECONF_APPLETS : PANEL_MATECONF_OBJECTS;
-	
+
 	panel_widget = mate_panel_applet_get_panel_widget (applet_info);
 
 	/* FIXME: Instead of getting keys, comparing and setting, there
@@ -1198,7 +1200,7 @@ mate_panel_applet_save_position (AppletInfo *applet_info,
 	if (mateconf_client_key_is_writable (client, key, NULL) &&
 	    mateconf_client_get_int (client, key, NULL) != position)
 		mateconf_client_set_int (client, key, position, NULL);
-	
+
 	locked = panel_widget_get_applet_locked (panel_widget, applet_info->widget) ? 1 : 0;
 	key = panel_mateconf_full_key (key_type, id, "locked");
 	if (mateconf_client_get_bool (client, key, NULL) ? 1 : 0 != locked)
@@ -1286,7 +1288,7 @@ mate_panel_applet_register (GtkWidget       *applet,
 {
 	AppletInfo *info;
 	const char *key;
-	
+
 	g_return_val_if_fail (applet != NULL && panel != NULL, NULL);
 
 	if (gtk_widget_get_has_window (applet))
@@ -1409,9 +1411,9 @@ mate_panel_applet_can_freely_move (AppletInfo *applet)
 		return FALSE;
 
 	client  = panel_mateconf_get_client ();
-	
+
 	key_type = (applet->type == PANEL_OBJECT_APPLET) ? PANEL_MATECONF_APPLETS : PANEL_MATECONF_OBJECTS;
-       
+
 	key = panel_mateconf_full_key (key_type, applet->id, "position");
 	if (!mateconf_client_key_is_writable (client, key, NULL))
 		return FALSE;
@@ -1436,9 +1438,9 @@ mate_panel_applet_lockable (AppletInfo *applet)
 
 	if (panel_lockdown_get_locked_down ())
 		return FALSE;
-	
+
 	client  = panel_mateconf_get_client ();
-	
+
 	key_type = (applet->type == PANEL_OBJECT_APPLET) ? PANEL_MATECONF_APPLETS : PANEL_MATECONF_OBJECTS;
 
 	key = panel_mateconf_full_key (key_type, applet->id, "locked");

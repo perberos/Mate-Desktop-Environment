@@ -341,7 +341,7 @@ static void
 panel_ditem_editor_destroy (GtkObject *object)
 {
 	PanelDItemEditor *dialog;
-	
+
 	dialog = PANEL_DITEM_EDITOR (object);
 
 	/* If there was a timeout, then something changed after last save,
@@ -1777,10 +1777,9 @@ panel_ditem_editor_get_revert_key_file (PanelDItemEditor *dialog)
 	return dialog->priv->revert_key_file;
 }
 
-G_CONST_RETURN char *
-panel_ditem_editor_get_uri (PanelDItemEditor *dialog)
+const char* panel_ditem_editor_get_uri(PanelDItemEditor* dialog)
 {
-	g_return_val_if_fail (PANEL_IS_DITEM_EDITOR (dialog), NULL);
+	g_return_val_if_fail(PANEL_IS_DITEM_EDITOR(dialog), NULL);
 
 	return dialog->priv->uri;
 }

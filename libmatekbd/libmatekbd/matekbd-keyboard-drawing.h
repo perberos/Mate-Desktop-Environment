@@ -181,16 +181,11 @@ gboolean matekbd_keyboard_drawing_set_keyboard (MatekbdKeyboardDrawing *
 					     kbdrawing,
 					     XkbComponentNamesRec * names);
 
-G_CONST_RETURN gchar
-    * matekbd_keyboard_drawing_get_keycodes (MatekbdKeyboardDrawing * kbdrawing);
-G_CONST_RETURN gchar
-    * matekbd_keyboard_drawing_get_geometry (MatekbdKeyboardDrawing * kbdrawing);
-G_CONST_RETURN gchar
-    * matekbd_keyboard_drawing_get_symbols (MatekbdKeyboardDrawing * kbdrawing);
-G_CONST_RETURN gchar *matekbd_keyboard_drawing_get_types (MatekbdKeyboardDrawing
-						       * kbdrawing);
-G_CONST_RETURN gchar *matekbd_keyboard_drawing_get_compat (MatekbdKeyboardDrawing
-							* kbdrawing);
+const gchar* matekbd_keyboard_drawing_get_keycodes(MatekbdKeyboardDrawing* kbdrawing);
+const gchar* matekbd_keyboard_drawing_get_geometry(MatekbdKeyboardDrawing* kbdrawing);
+const gchar* matekbd_keyboard_drawing_get_symbols(MatekbdKeyboardDrawing* kbdrawing);
+const gchar* matekbd_keyboard_drawing_get_types(MatekbdKeyboardDrawing* kbdrawing);
+const gchar* matekbd_keyboard_drawing_get_compat(MatekbdKeyboardDrawing* kbdrawing);
 
 void matekbd_keyboard_drawing_set_track_modifiers (MatekbdKeyboardDrawing *
 						kbdrawing,

@@ -53,7 +53,7 @@ typedef struct
 
 GType                 mdm_chooser_host_get_type            (void) G_GNUC_CONST;
 
-G_CONST_RETURN char  *mdm_chooser_host_get_description     (MdmChooserHost   *chooser_host);
+const char* mdm_chooser_host_get_description(MdmChooserHost* chooser_host);
 MdmAddress *          mdm_chooser_host_get_address         (MdmChooserHost   *chooser_host);
 gboolean              mdm_chooser_host_get_willing         (MdmChooserHost   *chooser_host);
 MdmChooserHostKind    mdm_chooser_host_get_kind            (MdmChooserHost   *chooser_host);

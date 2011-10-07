@@ -63,7 +63,7 @@ typedef enum {
        PANEL_SIZE_MEDIUM   = MATE_Vertigo_PANEL_MEDIUM,
        PANEL_SIZE_LARGE    = MATE_Vertigo_PANEL_LARGE,
        PANEL_SIZE_X_LARGE  = MATE_Vertigo_PANEL_X_LARGE,
-       PANEL_SIZE_XX_LARGE = MATE_Vertigo_PANEL_XX_LARGE 
+       PANEL_SIZE_XX_LARGE = MATE_Vertigo_PANEL_XX_LARGE
 } PanelSize;
 
 /* Keep in sync with mate-panel-applet.h. Uggh. */
@@ -114,7 +114,7 @@ mate_panel_applet_frame_matecomponent_update_flags (MatePanelAppletFrame *frame,
 	gboolean major;
 	gboolean minor;
 	gboolean has_handle;
-	
+
 	flags = MATECOMPONENT_ARG_GET_SHORT (any);
 
 	major = (flags & APPLET_EXPAND_MAJOR) != 0;
@@ -149,7 +149,7 @@ mate_panel_applet_frame_matecomponent_init_properties (MatePanelAppletFrame *fra
 		mate_panel_applet_frame_matecomponent_update_flags (frame, any);
 		CORBA_free (any);
 	}
-	
+
 	any = matecomponent_pbclient_get_value (matecomponent_frame->priv->property_bag,
 					 PROPERTY_SIZE_HINTS,
 					 TC_CORBA_sequence_CORBA_long,
@@ -263,7 +263,7 @@ mate_panel_applet_frame_matecomponent_change_orientation (MatePanelAppletFrame *
 		break;
 	}
 
-	matecomponent_pbclient_set_short (matecomponent_frame->priv->property_bag, 
+	matecomponent_pbclient_set_short (matecomponent_frame->priv->property_bag,
 				   PROPERTY_ORIENT,
 				   orient,
 				   NULL);
@@ -284,8 +284,8 @@ mate_panel_applet_frame_matecomponent_change_size (MatePanelAppletFrame *frame,
 	       size <= PANEL_SIZE_MEDIUM   ? PANEL_SIZE_MEDIUM   :
 	       size <= PANEL_SIZE_LARGE    ? PANEL_SIZE_LARGE    :
 	       size <= PANEL_SIZE_X_LARGE  ? PANEL_SIZE_X_LARGE  : PANEL_SIZE_XX_LARGE;
-		 
-	matecomponent_pbclient_set_short (matecomponent_frame->priv->property_bag, 
+
+	matecomponent_pbclient_set_short (matecomponent_frame->priv->property_bag,
 				   PROPERTY_SIZE,
 				   size,
 				   NULL);
@@ -437,7 +437,7 @@ mate_panel_applet_frame_get_applet_shell (MateComponent_Control control)
 
 	CORBA_exception_init (&env);
 
-	retval = MateComponent_Unknown_queryInterface (control, 
+	retval = MateComponent_Unknown_queryInterface (control,
 						"IDL:MATE/Vertigo/MatePanelAppletShell:1.0",
 						&env);
 	if (MATECOMPONENT_EX (&env)) {
@@ -451,59 +451,70 @@ mate_panel_applet_frame_get_applet_shell (MateComponent_Control control)
 	return retval;
 }
 
-static G_CONST_RETURN char *
-mate_panel_applet_frame_get_orient_string (MatePanelAppletFrame           *frame,
-				      MatePanelAppletFrameActivating *frame_act)
+static const char* mate_panel_applet_frame_get_orient_string(MatePanelAppletFrame* frame, MatePanelAppletFrameActivating* frame_act)
 {
-	PanelOrientation  orientation;
-	const char       *retval = NULL;
+	PanelOrientation orientation;
+	const char* retval = NULL;
 
-	orientation = mate_panel_applet_frame_activating_get_orientation (frame_act);
+	orientation = mate_panel_applet_frame_activating_get_orientation(frame_act);
 
-	switch (orientation) {
-	case PANEL_ORIENTATION_TOP:
-		retval = "down";
-		break;
-	case PANEL_ORIENTATION_BOTTOM:
-		retval = "up";
-		break;
-	case PANEL_ORIENTATION_LEFT:
-		retval = "right";
-		break;
-	case PANEL_ORIENTATION_RIGHT:
-		retval = "left";
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
+	switch (orientation)
+	{
+		case PANEL_ORIENTATION_TOP:
+			retval = "down";
+			break;
+		case PANEL_ORIENTATION_BOTTOM:
+			retval = "up";
+			break;
+		case PANEL_ORIENTATION_LEFT:
+			retval = "right";
+			break;
+		case PANEL_ORIENTATION_RIGHT:
+			retval = "left";
+			break;
+		default:
+			g_assert_not_reached();
+			break;
 	}
 
 	return retval;
 }
 
-static G_CONST_RETURN char *
-mate_panel_applet_frame_get_size_string (MatePanelAppletFrame           *frame,
-				    MatePanelAppletFrameActivating *frame_act)
+static const char* mate_panel_applet_frame_get_size_string (MatePanelAppletFrame* frame, MatePanelAppletFrameActivating* frame_act)
 {
-	const char *retval = NULL;
+	const char* retval = NULL;
 	guint32 size;
 
-	size = mate_panel_applet_frame_activating_get_size (frame_act);
+	size = mate_panel_applet_frame_activating_get_size(frame_act);
 
 	if (size <= PANEL_SIZE_XX_SMALL)
+	{
 		retval = "xx-small";
+	}
 	else if (size <= PANEL_SIZE_X_SMALL)
+	{
 		retval = "x-small";
+	}
 	else if (size <= PANEL_SIZE_SMALL)
+	{
 		retval = "small";
+	}
 	else if (size <= PANEL_SIZE_MEDIUM)
+	{
 		retval = "medium";
+	}
 	else if (size <= PANEL_SIZE_LARGE)
+	{
 		retval = "large";
+	}
 	else if (size <= PANEL_SIZE_X_LARGE)
+	{
 		retval = "x-large";
+	}
 	else
+	{
 		retval = "xx-large";
+	}
 
 	return retval;
 }
@@ -643,7 +654,7 @@ mate_panel_applet_frame_matecomponent_activated (CORBA_Object  object,
 		goto error_out;
 	}
 
-	matecomponent_frame->priv->property_bag = 
+	matecomponent_frame->priv->property_bag =
 		matecomponent_control_frame_get_control_property_bag (control_frame,
 							       &corba_ev);
 	if (matecomponent_frame->priv->property_bag == NULL || MATECOMPONENT_EX (&corba_ev)) {
@@ -659,7 +670,7 @@ mate_panel_applet_frame_matecomponent_activated (CORBA_Object  object,
 						 "MateComponent/Property:change:mate-panel-applet",
 						 NULL,
 						 frame);
-	
+
 	matecomponent_frame->priv->ui_component =
 		matecomponent_control_frame_get_popup_component (control_frame,
 							  &corba_ev);

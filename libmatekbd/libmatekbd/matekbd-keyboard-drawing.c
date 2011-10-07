@@ -1020,7 +1020,7 @@ draw_key (MatekbdKeyboardDrawingRenderContext * context,
 		      color, key->angle, key->origin_x, key->origin_y);
 #if 0
 	/* don't draw other outlines for now, since
-	 * the text placement does not take them into account 
+	 * the text placement does not take them into account
 	 */
 	for (i = 0; i < shape->num_outlines; i++) {
 		if (shape->outlines + i == shape->approx ||
@@ -1712,7 +1712,7 @@ init_keys_and_doodads (MatekbdKeyboardDrawing * drawing)
 						key->type =
 						    MATEKBD_KEYBOARD_DRAWING_ITEM_TYPE_KEY;
 					} else {
-						/* duplicate key for the same keycode, 
+						/* duplicate key for the same keycode,
 						   already defined as MATEKBD_KEYBOARD_DRAWING_ITEM_TYPE_KEY */
 						key =
 						    g_new0
@@ -2271,54 +2271,64 @@ matekbd_keyboard_drawing_set_keyboard (MatekbdKeyboardDrawing * drawing,
 	return TRUE;
 }
 
-G_CONST_RETURN gchar *
-matekbd_keyboard_drawing_get_keycodes (MatekbdKeyboardDrawing * drawing)
+const gchar* matekbd_keyboard_drawing_get_keycodes(MatekbdKeyboardDrawing* drawing)
 {
 	if (!drawing->xkb || drawing->xkb->names->keycodes <= 0)
+	{
 		return NULL;
+	}
 	else
-		return XGetAtomName (drawing->display,
-				     drawing->xkb->names->keycodes);
+	{
+		return XGetAtomName(drawing->display, drawing->xkb->names->keycodes);
+	}
 }
 
-G_CONST_RETURN gchar *
-matekbd_keyboard_drawing_get_geometry (MatekbdKeyboardDrawing * drawing)
+const gchar* matekbd_keyboard_drawing_get_geometry(MatekbdKeyboardDrawing* drawing)
 {
 	if (!drawing->xkb || drawing->xkb->names->geometry <= 0)
+	{
 		return NULL;
+	}
 	else
-		return XGetAtomName (drawing->display,
-				     drawing->xkb->names->geometry);
+	{
+		return XGetAtomName(drawing->display, drawing->xkb->names->geometry);
+	}
 }
 
-G_CONST_RETURN gchar *
-matekbd_keyboard_drawing_get_symbols (MatekbdKeyboardDrawing * drawing)
+const gchar* matekbd_keyboard_drawing_get_symbols(MatekbdKeyboardDrawing* drawing)
 {
 	if (!drawing->xkb || drawing->xkb->names->symbols <= 0)
+	{
 		return NULL;
+	}
 	else
-		return XGetAtomName (drawing->display,
-				     drawing->xkb->names->symbols);
+	{
+		return XGetAtomName(drawing->display, drawing->xkb->names->symbols);
+	}
 }
 
-G_CONST_RETURN gchar *
-matekbd_keyboard_drawing_get_types (MatekbdKeyboardDrawing * drawing)
+const gchar* matekbd_keyboard_drawing_get_types(MatekbdKeyboardDrawing* drawing)
 {
 	if (!drawing->xkb || drawing->xkb->names->types <= 0)
+	{
 		return NULL;
+	}
 	else
-		return XGetAtomName (drawing->display,
-				     drawing->xkb->names->types);
+	{
+		return XGetAtomName(drawing->display, drawing->xkb->names->types);
+	}
 }
 
-G_CONST_RETURN gchar *
-matekbd_keyboard_drawing_get_compat (MatekbdKeyboardDrawing * drawing)
+const gchar* matekbd_keyboard_drawing_get_compat(MatekbdKeyboardDrawing* drawing)
 {
 	if (!drawing->xkb || drawing->xkb->names->compat <= 0)
+	{
 		return NULL;
+	}
 	else
-		return XGetAtomName (drawing->display,
-				     drawing->xkb->names->compat);
+	{
+		return XGetAtomName(drawing->display, drawing->xkb->names->compat);
+	}
 }
 
 void

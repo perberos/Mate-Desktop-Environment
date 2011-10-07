@@ -69,7 +69,7 @@ struct _PanelActionButtonPrivate {
 	AppletInfo            *info;
 
 	guint                  mateconf_notify;
-	
+
 	guint                  dnd_enabled : 1;
 };
 
@@ -240,7 +240,7 @@ panel_action_connect_server (GtkWidget *widget)
 {
 	GdkScreen *screen;
 	GError    *error;
-	
+
 	screen = gtk_widget_get_screen (GTK_WIDGET (widget));
 	error = NULL;
 
@@ -392,34 +392,30 @@ panel_action_get_invoke (PanelActionButtonType type)
 	return G_CALLBACK (actions[type].invoke);
 }
 
-G_CONST_RETURN char*
-panel_action_get_icon_name (PanelActionButtonType type)
+const char* panel_action_get_icon_name(PanelActionButtonType type)
 {
-	g_return_val_if_fail (type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
+	g_return_val_if_fail(type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
 
 	return actions[type].icon_name;
 }
 
-G_CONST_RETURN char*
-panel_action_get_text (PanelActionButtonType type)
+const char* panel_action_get_text(PanelActionButtonType type)
 {
-	g_return_val_if_fail (type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
+	g_return_val_if_fail(type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
 
 	return _(actions[type].text);
 }
 
-G_CONST_RETURN char*
-panel_action_get_tooltip (PanelActionButtonType type)
+const char* panel_action_get_tooltip(PanelActionButtonType type)
 {
-	g_return_val_if_fail (type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
+	g_return_val_if_fail(type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
 
 	return _(actions[type].tooltip);
 }
 
-G_CONST_RETURN char*
-panel_action_get_drag_id (PanelActionButtonType type)
+const char* panel_action_get_drag_id(PanelActionButtonType type)
 {
-	g_return_val_if_fail (type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
+	g_return_val_if_fail(type > PANEL_ACTION_NONE && type < PANEL_ACTION_LAST, NULL);
 
 	return actions[type].drag_id;
 }
@@ -516,7 +512,7 @@ panel_action_button_drag_data_get (GtkWidget          *widget,
 
 	button = PANEL_ACTION_BUTTON (widget);
 
-	drag_data = g_strdup_printf ("ACTION:%s:%d", 
+	drag_data = g_strdup_printf ("ACTION:%s:%d",
 				     mateconf_enum_to_string (panel_action_type_map, button->priv->type),
 				     panel_find_applet_index (widget));
 
@@ -656,7 +652,7 @@ panel_action_button_connect_to_mateconf (PanelActionButton *button)
 			PANEL_MATECONF_OBJECTS, button->priv->info->id, "action_type");
 
 	button->priv->mateconf_notify =
-		mateconf_client_notify_add (panel_mateconf_get_client (), key, 
+		mateconf_client_notify_add (panel_mateconf_get_client (), key,
 					 (MateConfClientNotifyFunc) panel_action_button_type_changed,
 					 button, NULL, NULL);
 
