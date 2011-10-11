@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# fill it
+pkgname=mate-menus
+pkgver=2011.9.26
+pkgrel=1
+pkgdesc="MATE menu specifications"
+#depends="glib2, python2"
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf download
+	# entramos a la carpeta
+	cd ${pkgname}
+
+	#patch -Np0 -i "$srcdir/menus.patch"
+
+	./configure \
+		--prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var  --disable-static
+	make
+	make DESTDIR="${pkgdir}" install
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. /usr/share/mate-doc-utils/mate-debian.sh

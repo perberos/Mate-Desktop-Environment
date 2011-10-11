@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# fill it
+pkgname=mate-display-manager
+pkgver=2011.9.26
+pkgrel=1
+pkgdesc="The MATE Display Manager"
+#depends="pam, libdmx, tcp_wrappers, mate-panel, libmatecanvas, librsvg, gksu, dbus-glib, consolekit, mate-dialogs"
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf download
+	# entramos a la carpeta
+	cd ${pkgname}
+
+	./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/gdm \
+		--localstatedir=/var --disable-static \
+		--with-at-spi-registryd-directory=/usr/lib/at-spi \
+		--disable-scrollkeeper || return 1
+
+	make
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+
+	# fix for wrong path to executables
+	_path=${pkgdir}/usr/share/mdm/autostart/LoginWindow
+
+	sed -i 's_/usr/lib/mdm/_/usr/lib/polkit-mate/_' ${_path}/polkit-mate-authentication-agent-1.desktop
+	sed -i 's_/usr/lib/mdm/__' ${_path}/mate-settings-daemon.desktop
+
+
+	install -m644 "${srcdir}/mdm.pam" "${pkgdir}/etc/pam.d/mdm"
+	install -m644 "${srcdir}/mdm-autologin.pam" "${pkgdir}/etc/pam.d/mdm-autologin"
+
+	install -m755 -d "${pkgdir}/etc/rc.d"
+	install -m755 "${srcdir}/mdm" "${pkgdir}/etc/rc.d/"
+
+	#rmdir "${pkgdir}/var/mdm"
+	#mdkir "${pkgdir}/var/log/mdm"
+	#chmod 1770 "${pkgdir}/var/log/mdm"
+	#rm -rf "${pkgdir}/var/run"
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. /usr/share/mate-doc-utils/mate-debian.sh

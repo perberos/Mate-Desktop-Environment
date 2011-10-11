@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# fill it
+pkgname=mate-control-center
+pkgver=2011.9.26
+pkgrel=1
+pkgdesc="The Control Center for MATE"
+#depends="mate-window-manager, libxss, desktop-file-utils, mate-settings-daemon, libmatekbd, libcanberra, sound-theme-freedesktop, libunique, mate-menus, librsvg"
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf download
+	# entramos a la carpeta
+	cd ${pkgname}
+
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static \
+		--disable-scrollkeeper --disable-update-mimedb || return 1
+	#  --enable-aboutme <- this requires libebook (from evolution)
+	make || return 1
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+
+	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+
+	# --disable-update-mimedb?
+	rm -f "${pkgdir}/usr/share/applications/mimeinfo.cache"
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. /usr/share/mate-doc-utils/mate-debian.sh
