@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# fill it, edit "control" file  too
+pkgname=libmatecanvas
+pkgver=2011.9.26
+pkgrel=1
+pkgdesc="The MATE Canvas library"
+makedepends=('libgail-dev' 'libgtk2.0-dev' 'libart-2.0-dev' 'libglade2-dev')
+# editar esta funcion!
+build() {
+	cd $pkgsrc
+	# descomprimir
+	tar xvzf download
+	# entramos a la carpeta
+	cd ${pkgname}
+
+	./configure --prefix=/usr --disable-static \
+		--enable-glade || return 1
+	make || return 1
+	make DESTDIR="${pkgdir}" install
+}
+
+# esto incluye la parte que se repite en la mayoria de los builds
+. /usr/share/mate-doc-utils/mate-debian.sh
