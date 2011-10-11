@@ -8,22 +8,23 @@
 # falta una forma de saber si se cumplen todos los requisitos
 # poder instalar los paquetes para construir
 #
-#       Copyright 2011 German Perugorria <perberos@gmail.com>
+# Copyright 2011 German Perugorria <perberos@gmail.com>
 #
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
-#       (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#       GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#       You should have received a copy of the GNU General Public License
-#       along with this program; if not, write to the Free Software
-#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA.
+
 if [ ! $pkgname ]; then
 	echo "You're Doing It Wrong!"
 	exit 1
@@ -39,17 +40,25 @@ pack() {
 	# volvemos a la carpeta de inicio
 	cd $srcdir
 	# por ultimo empaqueteamos todo el contenido
-	dpkg -b ${pkgdir} ${pkgname}_${pkgver}_${pkgarch}.deb
+	dpkg -b ${pkgdir} ${pkgname}_${pkgver}-${pkgrel}_${pkgarch}.deb
 }
 
 init() {
 	# creamos la carpeta donde se compila y guarda el compilado
+	if [ -d $pkgdir/ ]; then
+		rm -rf $pkgdir/
+	fi
+
 	if [ ! -d $pkgdir ]; then
 		mkdir $pkgdir
 	fi
 
 	if [ ! -d $pkgsrc ]; then
 		mkdir $pkgsrc
+	fi
+
+	if [ -d $srcdir/${pkgname}/ ]; then
+		rm -rf $srcdir/${pkgname}/
 	fi
 
 	if [ -d $pkgdir/DEBIAN ]; then
@@ -159,7 +168,7 @@ download() {
 	cd $pkgsrc
 
 	if [ ! -f $pkgsrc/download ]; then
-	# descargar con la bandera resume
+		# descargar con la bandera resume
 		wget -c http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
 	fi
 
