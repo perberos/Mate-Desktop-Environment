@@ -36,6 +36,11 @@
 #include <sys/types.h>
 #include <glib.h>
 #include <math.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include "eel-canvas.h"
 #include "eel-canvas-util.h"
 
@@ -50,10 +55,10 @@
 /**
  * eel_canvas_points_new:
  * @num_points: The number of points to allocate space for in the array.
- * 
+ *
  * Creates a structure that should be used to pass an array of points to
  * items.
- * 
+ *
  * Return value: A newly-created array of points.  It should be filled in
  * by the user.
  **/
@@ -75,9 +80,9 @@ eel_canvas_points_new (int num_points)
 /**
  * eel_canvas_points_ref:
  * @points: A canvas points structure.
- * 
+ *
  * Increases the reference count of the specified points structure.
- * 
+ *
  * Return value: The canvas points structure itself.
  **/
 EelCanvasPoints *
@@ -92,7 +97,7 @@ eel_canvas_points_ref (EelCanvasPoints *points)
 /**
  * eel_canvas_points_free:
  * @points: A canvas points structure.
- * 
+ *
  * Decreases the reference count of the specified points structure.  If it
  * reaches zero, then the structure is freed.
  **/
@@ -121,11 +126,11 @@ eel_canvas_points_free (EelCanvasPoints *points)
  * @my1: The Y coordinate of the first miter point is returned here.
  * @mx2: The X coordinate of the second miter point is returned here.
  * @my2: The Y coordinate of the second miter point is returned here.
- * 
+ *
  * Given three points forming an angle, computes the coordinates of the inside
  * and outside points of the mitered corner formed by a line of a given width at
  * that angle.
- * 
+ *
  * Return value: FALSE if the angle is less than 11 degrees (this is the same
  * threshold as X uses.  If this occurs, the return points are not modified.
  * Otherwise, returns TRUE.
@@ -190,7 +195,7 @@ eel_canvas_get_miter_points (double x1, double y1, double x2, double y2, double 
  * @by1: Y coordinate of first butt point is returned here
  * @bx2: X coordinate of second butt point is returned here
  * @by2: Y coordinate of second butt point is returned here
- * 
+ *
  * Computes the butt points of a line segment.
  **/
 void
@@ -234,9 +239,9 @@ eel_canvas_get_butt_points (double x1, double y1, double x2, double y2,
  * @num_points: Number of points in the polygon
  * @x: X coordinate of the point
  * @y: Y coordinate of the point
- * 
+ *
  * Computes the distance between a point and a polygon.
- * 
+ *
  * Return value: The distance from the point to the polygon, or zero if the
  * point is inside the polygon.
  **/
@@ -364,7 +369,7 @@ eel_canvas_polygon_to_point (double *poly, int num_points, double x, double y)
 /**
  * eel_canvas_item_reset_bounds:
  * @item: A canvas item
- * 
+ *
  * Resets the bounding box of a canvas item to an empty rectangle.
  **/
 void

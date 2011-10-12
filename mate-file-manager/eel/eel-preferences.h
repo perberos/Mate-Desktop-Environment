@@ -26,6 +26,11 @@
 #define EEL_PREFERENCES_H
 
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <eel/eel-mateconf-extensions.h>
 #include <gtk/gtk.h>
 

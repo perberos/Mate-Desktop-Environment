@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* eel-vfs-extensions.h - mate-vfs extensions.  Its likely some of these will 
+/* eel-vfs-extensions.h - mate-vfs extensions.  Its likely some of these will
                           be part of mate-vfs in the future.
 
    Copyright (C) 1999, 2000 Eazel, Inc.
@@ -30,6 +30,10 @@
 #define EEL_VFS_EXTENSIONS_H
 
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
 
 G_BEGIN_DECLS
 

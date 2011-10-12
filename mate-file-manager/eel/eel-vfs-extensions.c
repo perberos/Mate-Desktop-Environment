@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* eel-vfs-extensions.c - mate-vfs extensions.  Its likely some of these will 
+/* eel-vfs-extensions.c - mate-vfs extensions.  Its likely some of these will
                           be part of mate-vfs in the future.
 
    Copyright (C) 1999, 2000 Eazel, Inc.
@@ -33,6 +33,10 @@
 #include "eel-lib-self-check-functions.h"
 #include <glib.h>
 #include <gio/gio.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
 
 #include "eel-string.h"
 
@@ -101,7 +105,7 @@ eel_make_valid_utf8 (const char *name)
  * Filter, modify, unescape and change URIs to make them appropriate
  * to display to users. The conversion is done such that the roundtrip
  * to UTf8 is reversible.
- * 
+ *
  * Rules:
  * 	file: URI's without fragments should appear as local paths
  * 	file: URI's with fragments should appear as file: URI's
@@ -112,7 +116,7 @@ eel_make_valid_utf8 (const char *name)
  * returns a g_malloc'd UTF8 string
  **/
 char *
-eel_format_uri_for_display (const char *uri) 
+eel_format_uri_for_display (const char *uri)
 {
 	GFile *file;
 	char *res;
@@ -131,7 +135,7 @@ eel_filename_strip_extension (const char * filename_with_extension)
 	if (filename_with_extension == NULL) {
 		return NULL;
 	}
-	
+
 	filename = g_strdup (filename_with_extension);
 
 	end = strrchr (filename, '.');

@@ -29,6 +29,11 @@
 
 	#include <glib.h>
 
+	#ifndef G_CONST_RETURN
+		#define G_CONST_RETURN const
+	#endif
+
+
 	const char* _eel_gettext(const char* str) G_GNUC_FORMAT(1);
 
 	#include <libintl.h>

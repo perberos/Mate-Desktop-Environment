@@ -1,6 +1,6 @@
 /*
  *  fm-ditem-page.h - A property page for desktop items
- * 
+ *
  *  Copyright (C) 2004 James Willcox
  *
  *  This library is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *  Authors: James Willcox <james@mate.org>
- * 
+ *
  */
 
 #ifndef FM_DITEM_PAGE_H
@@ -27,6 +27,10 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
 
 G_BEGIN_DECLS
 

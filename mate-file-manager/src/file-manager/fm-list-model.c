@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* fm-list-model.h - a GtkTreeModel for file lists. 
+/* fm-list-model.h - a GtkTreeModel for file lists.
 
    Copyright (C) 2001, 2002 Anders Carlsson
    Copyright (C) 2003, Soeren Sandmann
@@ -36,6 +36,11 @@
 #include <glib/gi18n.h>
 #include <libcaja-private/caja-dnd.h>
 #include <glib.h>
+
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
 
 enum {
 	SUBDIRECTORY_UNLOADED,
@@ -81,7 +86,7 @@ struct FMListModelDetails {
 
 typedef struct {
 	FMListModel *model;
-	
+
 	GList *path_list;
 } DragDataGetInfo;
 
@@ -193,10 +198,10 @@ fm_list_model_get_iter (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTreePath
 	GSequenceIter *ptr;
 	FileEntry *file_entry;
 	int i, d;
-	
+
 	model = (FMListModel *)tree_model;
 	ptr = NULL;
-	
+
 	files = model->details->files;
 	for (d = 0; d < gtk_tree_path_get_depth (path); d++) {
 		i = gtk_tree_path_get_indices (path)[d];
@@ -211,7 +216,7 @@ fm_list_model_get_iter (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTreePath
 	}
 
 	fm_list_model_ptr_to_iter (model, ptr, iter);
-	
+
 	return TRUE;
 }
 
@@ -225,14 +230,14 @@ fm_list_model_get_path (GtkTreeModel *tree_model, GtkTreeIter *iter)
 
 
 	model = (FMListModel *)tree_model;
-	
+
 	g_return_val_if_fail (iter->stamp == model->details->stamp, NULL);
 
 	if (g_sequence_iter_is_end (iter->user_data)) {
 		/* FIXME is this right? */
 		return NULL;
 	}
-	
+
 	path = gtk_tree_path_new ();
 	ptr = iter->user_data;
 	while (ptr != NULL) {
@@ -264,7 +269,7 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 	char *emblems_to_ignore[3];
 	int i;
 	CajaFileIconFlags flags;
-	
+
 	model = (FMListModel *)tree_model;
 
 	g_return_if_fail (model->details->stamp == iter->stamp);
@@ -272,7 +277,7 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 
 	file_entry = g_sequence_get (iter->user_data);
 	file = file_entry->file;
-	
+
 	switch (column) {
 	case FM_LIST_MODEL_FILE_COLUMN:
 		g_value_init (value, CAJA_TYPE_FILE);
@@ -302,7 +307,7 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 				CAJA_FILE_ICON_FLAGS_USE_MOUNT_ICON_AS_EMBLEM;
 			if (model->details->drag_view != NULL) {
 				GtkTreePath *path_a, *path_b;
-				
+
 				gtk_tree_view_get_drag_dest_row (model->details->drag_view,
 								 &path_a,
 								 NULL);
@@ -312,7 +317,7 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 					if (gtk_tree_path_compare (path_a, path_b) == 0) {
 						flags |= CAJA_FILE_ICON_FLAGS_FOR_DRAG_ACCEPT;
 					}
-						
+
 					gtk_tree_path_free (path_a);
 					gtk_tree_path_free (path_b);
 				}
@@ -356,7 +361,7 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 				caja_file_unref (parent_file);
 			}
 			emblems_to_ignore[i++] = NULL;
-			
+
 			zoom_level = fm_list_model_get_zoom_level_from_emblem_column_id (column);
 			icon_size = caja_get_icon_size_for_zoom_level (zoom_level);
 			emblem_size = caja_icon_get_emblem_size_for_icon_size (icon_size);
@@ -375,7 +380,7 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 		break;
 	case FM_LIST_MODEL_FILE_NAME_IS_EDITABLE_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
-		
+
                 g_value_set_boolean (value, file != NULL && caja_file_can_rename (file));
                 break;
  	default:
@@ -383,13 +388,13 @@ fm_list_model_get_value (GtkTreeModel *tree_model, GtkTreeIter *iter, int column
 			CajaColumn *caja_column;
 			GQuark attribute;
 			caja_column = model->details->columns->pdata[column - FM_LIST_MODEL_NUM_COLUMNS];
-			
+
 			g_value_init (value, G_TYPE_STRING);
-			g_object_get (caja_column, 
-				      "attribute_q", &attribute, 
+			g_object_get (caja_column,
+				      "attribute_q", &attribute,
 				      NULL);
 			if (file != NULL) {
-				str = caja_file_get_string_attribute_with_default_q (file, 
+				str = caja_file_get_string_attribute_with_default_q (file,
 											 attribute);
 				g_value_take_string (value, str);
 			} else if (attribute == attribute_name_q) {
@@ -427,7 +432,7 @@ fm_list_model_iter_children (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTre
 	FileEntry *file_entry;
 
 	model = (FMListModel *)tree_model;
-	
+
 	if (parent == NULL) {
 		files = model->details->files;
 	} else {
@@ -438,7 +443,7 @@ fm_list_model_iter_children (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTre
 	if (files == NULL || g_sequence_get_length (files) == 0) {
 		return FALSE;
 	}
-	
+
 	iter->stamp = model->details->stamp;
 	iter->user_data = g_sequence_get_begin_iter (files);
 
@@ -449,7 +454,7 @@ static gboolean
 fm_list_model_iter_has_child (GtkTreeModel *tree_model, GtkTreeIter *iter)
 {
 	FileEntry *file_entry;
-	
+
 	if (iter == NULL) {
 		return !fm_list_model_is_empty (FM_LIST_MODEL (tree_model));
 	}
@@ -487,7 +492,7 @@ fm_list_model_iter_nth_child (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTr
 	FileEntry *file_entry;
 
 	model = (FMListModel *)tree_model;
-	
+
 	if (parent != NULL) {
 		file_entry = g_sequence_get (parent->user_data);
 		files = file_entry->files;
@@ -512,18 +517,18 @@ fm_list_model_iter_parent (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTreeI
 {
 	FMListModel *model;
 	FileEntry *file_entry;
-	
+
 	model = (FMListModel *)tree_model;
-	
+
 	file_entry = g_sequence_get (child->user_data);
-	
+
 	if (file_entry->parent == NULL) {
 		return FALSE;
 	}
 
 	iter->stamp = model->details->stamp;
 	iter->user_data = file_entry->parent->ptr;
-	
+
 	return TRUE;
 }
 
@@ -539,7 +544,7 @@ lookup_file (FMListModel *model, CajaFile *file,
 		parent_ptr = g_hash_table_lookup (model->details->directory_reverse_map,
 						  directory);
 	}
-	
+
 	if (parent_ptr) {
 		file_entry = g_sequence_get (parent_ptr);
 		ptr = g_hash_table_lookup (file_entry->reverse_map, file);
@@ -550,7 +555,7 @@ lookup_file (FMListModel *model, CajaFile *file,
 	if (ptr) {
 		g_assert (((FileEntry *)g_sequence_get (ptr))->file == file);
 	}
-	
+
 	return ptr;
 }
 
@@ -566,7 +571,7 @@ dir_to_iters (struct GetIters *data,
 	      GHashTable *reverse_map)
 {
 	GSequenceIter *ptr;
-	
+
 	ptr = g_hash_table_lookup (reverse_map, data->file);
 	if (ptr) {
 		GtkTreeIter *iter;
@@ -597,7 +602,7 @@ fm_list_model_get_all_iters_for_file (FMListModel *model, CajaFile *file)
 	data.file = file;
 	data.model = model;
 	data.iters = NULL;
-	
+
 	dir_to_iters (&data, model->details->top_reverse_map);
 	g_hash_table_foreach (model->details->directory_reverse_map,
 			      file_to_iter_cb, &data);
@@ -614,14 +619,14 @@ fm_list_model_get_first_iter_for_file (FMListModel          *model,
 	gboolean res;
 
 	res = FALSE;
-	
+
 	list = fm_list_model_get_all_iters_for_file (model, file);
 	if (list != NULL) {
 		res = TRUE;
 		*iter = *(GtkTreeIter *)list->data;
 	}
 	eel_g_list_free_deep (list);
-	
+
 	return res;
 }
 
@@ -639,7 +644,7 @@ fm_list_model_get_tree_iter_from_file (FMListModel *model, CajaFile *file,
 	}
 
 	fm_list_model_ptr_to_iter (model, ptr, iter);
-	
+
 	return TRUE;
 }
 
@@ -657,7 +662,7 @@ fm_list_model_file_entry_compare_func (gconstpointer a,
 
 	file_entry1 = (FileEntry *)a;
 	file_entry2 = (FileEntry *)b;
-	
+
 	if (file_entry1->file != NULL && file_entry2->file != NULL) {
 		result = caja_file_compare_for_sort_by_attribute_q (file_entry1->file, file_entry2->file,
 									model->details->sort_attribute,
@@ -703,12 +708,12 @@ fm_list_model_sort_file_entries (FMListModel *model, GSequence *files, GtkTreePa
 	if (length <= 1) {
 		return;
 	}
-	
+
 	/* generate old order of GSequenceIter's */
 	old_order = g_new (GSequenceIter *, length);
 	for (i = 0; i < length; ++i) {
 		GSequenceIter *ptr = g_sequence_get_iter_at_pos (files, i);
-		
+
 		file_entry = g_sequence_get (ptr);
 		if (file_entry->files != NULL) {
 			gtk_tree_path_append_index (path, i);
@@ -767,16 +772,16 @@ fm_list_model_get_sort_column_id (GtkTreeSortable *sortable,
 {
 	FMListModel *model;
 	int id;
-	
+
 	model = (FMListModel *)sortable;
-	
-	id = fm_list_model_get_sort_column_id_from_attribute 
+
+	id = fm_list_model_get_sort_column_id_from_attribute
 		(model, model->details->sort_attribute);
-	
+
 	if (id == -1) {
 		return FALSE;
 	}
-	
+
 	if (sort_column_id != NULL) {
 		*sort_column_id = id;
 	}
@@ -843,36 +848,36 @@ each_path_get_data_binder (CajaDragEachSelectedItemDataGet data_get,
 		if (file) {
 			gtk_tree_view_get_cell_area
 				(info->model->details->drag_view,
-				 path, 
+				 path,
 				 column,
 				 &cell_area);
-				
+
 			uri = caja_file_get_uri (file);
-				
-			(*data_get) (uri, 
+
+			(*data_get) (uri,
 				     0,
 				     cell_area.y - info->model->details->drag_begin_y,
-				     cell_area.width, cell_area.height, 
+				     cell_area.width, cell_area.height,
 				     data);
-				
+
 			g_free (uri);
-			
+
 			caja_file_unref (file);
 		}
-		
+
 		gtk_tree_path_free (path);
 	}
 }
 
 static gboolean
-fm_list_model_multi_drag_data_get (EggTreeMultiDragSource *drag_source, 
-				   GList *path_list, 
+fm_list_model_multi_drag_data_get (EggTreeMultiDragSource *drag_source,
+				   GList *path_list,
 				   GtkSelectionData *selection_data)
 {
 	FMListModel *model;
 	DragDataGetInfo context;
 	guint target_info;
-	
+
 	model = FM_LIST_MODEL (drag_source);
 
 	context.model = model;
@@ -910,14 +915,14 @@ add_dummy_row (FMListModel *model, FileEntry *parent_entry)
 	FileEntry *dummy_file_entry;
 	GtkTreeIter iter;
 	GtkTreePath *path;
-	
+
 	dummy_file_entry = g_new0 (FileEntry, 1);
 	dummy_file_entry->parent = parent_entry;
 	dummy_file_entry->ptr = g_sequence_insert_sorted (parent_entry->files, dummy_file_entry,
 							  fm_list_model_file_entry_compare_func, model);
 	iter.stamp = model->details->stamp;
 	iter.user_data = dummy_file_entry->ptr;
-	
+
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	gtk_tree_model_row_inserted (GTK_TREE_MODEL (model), path, &iter);
 	gtk_tree_path_free (path);
@@ -949,16 +954,16 @@ fm_list_model_add_file (FMListModel *model, CajaFile *file,
 		g_warning ("file already in tree (parent_ptr: %p)!!!\n", parent_ptr);
 		return FALSE;
 	}
-	
+
 	file_entry = g_new0 (FileEntry, 1);
 	file_entry->file = caja_file_ref (file);
 	file_entry->parent = NULL;
 	file_entry->subdirectory = NULL;
 	file_entry->files = NULL;
-	
+
 	files = model->details->files;
 	parent_hash = model->details->top_reverse_map;
-	
+
 	replace_dummy = FALSE;
 
 	if (parent_ptr != NULL) {
@@ -977,18 +982,18 @@ fm_list_model_add_file (FMListModel *model, CajaFile *file,
 				/* replace the dummy loading entry */
 				model->details->stamp++;
 				g_sequence_remove (dummy_ptr);
-				
+
 				replace_dummy = TRUE;
 			}
 		}
 	}
 
-	
+
 	file_entry->ptr = g_sequence_insert_sorted (files, file_entry,
 					    fm_list_model_file_entry_compare_func, model);
 
 	g_hash_table_insert (parent_hash, file, file_entry->ptr);
-	
+
 	iter.stamp = model->details->stamp;
 	iter.user_data = file_entry->ptr;
 
@@ -1008,7 +1013,7 @@ fm_list_model_add_file (FMListModel *model, CajaFile *file,
 						      path, &iter);
 	}
 	gtk_tree_path_free (path);
-	
+
 	return TRUE;
 }
 
@@ -1030,16 +1035,16 @@ fm_list_model_file_changed (FMListModel *model, CajaFile *file,
 		return;
 	}
 
-	
+
 	pos_before = g_sequence_iter_get_position (ptr);
-		
+
 	g_sequence_sort_changed (ptr, fm_list_model_file_entry_compare_func, model);
 
 	pos_after = g_sequence_iter_get_position (ptr);
 
 	if (pos_before != pos_after) {
 		/* The file moved, we need to send rows_reordered */
-		
+
 		parent_file_entry = ((FileEntry *)g_sequence_get (ptr))->parent;
 
 		if (parent_file_entry == NULL) {
@@ -1072,7 +1077,7 @@ fm_list_model_file_changed (FMListModel *model, CajaFile *file,
 		gtk_tree_path_free (parent_path);
 		g_free (new_order);
 	}
-	
+
 	fm_list_model_ptr_to_iter (model, ptr, &iter);
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	gtk_tree_model_row_changed (GTK_TREE_MODEL (model), path, &iter);
@@ -1101,7 +1106,7 @@ fm_list_model_remove (FMListModel *model, GtkTreeIter *iter)
 
 	ptr = iter->user_data;
 	file_entry = g_sequence_get (ptr);
-	
+
 	if (file_entry->files != NULL) {
 		while (g_sequence_get_length (file_entry->files) > 0) {
 			child_ptr = g_sequence_get_begin_iter (file_entry->files);
@@ -1118,11 +1123,11 @@ fm_list_model_remove (FMListModel *model, GtkTreeIter *iter)
 				gtk_tree_model_row_deleted (GTK_TREE_MODEL (model), path);
 				gtk_tree_path_free (path);
 			}
-			
+
 			/* the parent iter didn't actually change */
 			iter->stamp = model->details->stamp;
 		}
-			
+
 	}
 
 	if (file_entry->file != NULL) { /* Don't try to remove dummy row */
@@ -1150,13 +1155,13 @@ fm_list_model_remove (FMListModel *model, GtkTreeIter *iter)
 		g_hash_table_remove (model->details->directory_reverse_map,
 				     file_entry->subdirectory);
 	}
-	
+
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
-	
+
 	g_sequence_remove (ptr);
 	model->details->stamp++;
 	gtk_tree_model_row_deleted (GTK_TREE_MODEL (model), path);
-	
+
 	gtk_tree_path_free (path);
 
 	if (parent_file_entry && g_sequence_get_length (parent_file_entry->files) == 0) {
@@ -1193,7 +1198,7 @@ fm_list_model_clear_directory (FMListModel *model, GSequence *files)
 		if (file_entry->files != NULL) {
 			fm_list_model_clear_directory (model, file_entry->files);
 		}
-		
+
 		iter.stamp = model->details->stamp;
 		fm_list_model_remove (model, &iter);
 	}
@@ -1214,10 +1219,10 @@ fm_list_model_file_for_path (FMListModel *model, GtkTreePath *path)
 	GtkTreeIter iter;
 
 	file = NULL;
-	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (model), 
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (model),
 				     &iter, path)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (model), 
-				    &iter, 
+		gtk_tree_model_get (GTK_TREE_MODEL (model),
+				    &iter,
 				    FM_LIST_MODEL_FILE_COLUMN, &file,
 				    -1);
 	}
@@ -1230,7 +1235,7 @@ fm_list_model_load_subdirectory (FMListModel *model, GtkTreePath *path, CajaDire
 	GtkTreeIter iter;
 	FileEntry *file_entry;
 	CajaDirectory *subdirectory;
-	
+
 	if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path)) {
 		return FALSE;
 	}
@@ -1249,7 +1254,7 @@ fm_list_model_load_subdirectory (FMListModel *model, GtkTreePath *path, CajaDire
 		g_warning ("Already in directory_reverse_map, failing\n");
 		return FALSE;
 	}
-	
+
 	file_entry->subdirectory = subdirectory,
 	g_hash_table_insert (model->details->directory_reverse_map,
 			     subdirectory, file_entry->ptr);
@@ -1258,7 +1263,7 @@ fm_list_model_load_subdirectory (FMListModel *model, GtkTreePath *path, CajaDire
 	/* Return a ref too */
 	caja_directory_ref (subdirectory);
 	*directory = subdirectory;
-	
+
 	return TRUE;
 }
 
@@ -1277,7 +1282,7 @@ fm_list_model_unload_subdirectory (FMListModel *model, GtkTreeIter *iter)
 	}
 
 	file_entry->loaded = 0;
-	
+
 	/* Remove all children */
 	while (g_sequence_get_length (file_entry->files) > 0) {
 		child_ptr = g_sequence_get_begin_iter (file_entry->files);
@@ -1330,8 +1335,8 @@ fm_list_model_get_sort_column_id_from_attribute (FMListModel *model,
 		return -1;
 	}
 
-	/* Hack - the preferences dialog sets modification_date for some 
-	 * rather than date_modified for some reason.  Make sure that 
+	/* Hack - the preferences dialog sets modification_date for some
+	 * rather than date_modified for some reason.  Make sure that
 	 * works. */
 	if (attribute == attribute_modification_date_q) {
 		attribute = attribute_date_modified_q;
@@ -1340,17 +1345,17 @@ fm_list_model_get_sort_column_id_from_attribute (FMListModel *model,
 	for (i = 0; i < model->details->columns->len; i++) {
 		CajaColumn *column;
 		GQuark column_attribute;
-		
-		column = 
+
+		column =
 			CAJA_COLUMN (model->details->columns->pdata[i]);
-		g_object_get (G_OBJECT (column), 
-			      "attribute_q", &column_attribute, 
+		g_object_get (G_OBJECT (column),
+			      "attribute_q", &column_attribute,
 			      NULL);
 		if (column_attribute == attribute) {
 			return FM_LIST_MODEL_NUM_COLUMNS + i;
 		}
 	}
-	
+
 	return -1;
 }
 
@@ -1361,7 +1366,7 @@ fm_list_model_get_attribute_from_sort_column_id (FMListModel *model,
 	CajaColumn *column;
 	int index;
 	GQuark attribute;
-	
+
 	index = sort_column_id - FM_LIST_MODEL_NUM_COLUMNS;
 
 	if (index < 0 || index >= model->details->columns->len) {
@@ -1476,7 +1481,7 @@ fm_list_model_set_drag_view (FMListModel *model,
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (FM_IS_LIST_MODEL (model));
 	g_return_if_fail (!view || GTK_IS_TREE_VIEW (view));
-	
+
 	model->details->drag_view = view;
 	model->details->drag_begin_x = drag_begin_x;
 	model->details->drag_begin_y = drag_begin_y;
@@ -1493,7 +1498,7 @@ fm_list_model_get_drag_target_list ()
 	return target_list;
 }
 
-int               
+int
 fm_list_model_add_column (FMListModel *model,
 			  CajaColumn *column)
 {
@@ -1512,7 +1517,7 @@ fm_list_model_get_column_number (FMListModel *model,
 	for (i = 0; i < model->details->columns->len; i++) {
 		CajaColumn *column;
 		char *name;
-		
+
 		column = model->details->columns->pdata[i];
 
 		g_object_get (G_OBJECT (column), "name", &name, NULL);
@@ -1547,7 +1552,7 @@ fm_list_model_dispose (GObject *object)
 		g_sequence_free (model->details->files);
 		model->details->files = NULL;
 	}
-	
+
 	if (model->details->top_reverse_map) {
 		g_hash_table_destroy (model->details->top_reverse_map);
 		model->details->top_reverse_map = NULL;
@@ -1597,7 +1602,7 @@ fm_list_model_class_init (FMListModelClass *klass)
 	attribute_name_q = g_quark_from_static_string ("name");
 	attribute_modification_date_q = g_quark_from_static_string ("modification_date");
 	attribute_date_modified_q = g_quark_from_static_string ("date_modified");
-	
+
 	object_class = (GObjectClass *)klass;
 	object_class->finalize = fm_list_model_finalize;
 	object_class->dispose = fm_list_model_dispose;
@@ -1654,7 +1659,7 @@ fm_list_model_subdirectory_done_loading (FMListModel *model, CajaDirectory *dire
 	FileEntry *file_entry, *dummy_entry;
 	GSequenceIter *parent_ptr, *dummy_ptr;
 	GSequence *files;
-	
+
 	if (model == NULL || model->details->directory_reverse_map == NULL) {
 		return;
 	}
@@ -1663,7 +1668,7 @@ fm_list_model_subdirectory_done_loading (FMListModel *model, CajaDirectory *dire
 	if (parent_ptr == NULL) {
 		return;
 	}
-	
+
 	file_entry = g_sequence_get (parent_ptr);
 	files = file_entry->files;
 
@@ -1677,10 +1682,10 @@ fm_list_model_subdirectory_done_loading (FMListModel *model, CajaDirectory *dire
 		if (dummy_entry->file == NULL) {
 			/* was the dummy file */
 			file_entry->loaded = 1;
-			
+
 			iter.stamp = model->details->stamp;
 			iter.user_data = dummy_ptr;
-			
+
 			path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 			gtk_tree_model_row_changed (GTK_TREE_MODEL (model), path, &iter);
 			gtk_tree_path_free (path);

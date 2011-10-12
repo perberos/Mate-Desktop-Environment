@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-emblem-utils.c: Utilities for handling emblems
- 
+
    Copyright (C) 2002 Red Hat, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Alexander Larsson <alexl@redhat.com>
 */
 
@@ -36,6 +36,10 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
 
 #include <eel/eel-glib-extensions.h>
 #include <eel/eel-gdk-pixbuf-extensions.h>
@@ -56,7 +60,7 @@ caja_emblem_list_available (void)
 {
 	GtkIconTheme *icon_theme;
 	GList *list;
-	
+
 	icon_theme = gtk_icon_theme_get_default ();
 	list = gtk_icon_theme_list_icons (icon_theme, "Emblems");
 	return list;
@@ -66,7 +70,7 @@ void
 caja_emblem_refresh_list (void)
 {
 	GtkIconTheme *icon_theme;
-	
+
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_rescan_if_needed (icon_theme);
 }
@@ -114,7 +118,7 @@ is_reserved_keyword (const char *keyword)
 	result = g_list_find_custom (available,
 				     (char *) icon_name,
 				     (GCompareFunc) g_ascii_strcasecmp) != NULL;
-	eel_g_list_free_deep (available);	
+	eel_g_list_free_deep (available);
 	g_free (icon_name);
 	return result;
 }
@@ -187,7 +191,7 @@ emblem_keyword_valid (const char *keyword)
 {
 	const char *p;
 	gunichar c;
-	
+
 	for (p = keyword; *p; p = g_utf8_next_char (p)) {
 		c = g_utf8_get_char (p);
 
@@ -196,7 +200,7 @@ emblem_keyword_valid (const char *keyword)
 			return FALSE;
 		}
 	}
-	
+
 	return TRUE;
 }
 
@@ -207,12 +211,12 @@ caja_emblem_verify_keyword (GtkWindow *parent_window,
 {
 	if (keyword == NULL || strlen (keyword) == 0) {
 		eel_show_error_dialog (_("The emblem cannot be installed."),
-				       _("Sorry, but you must specify a non-blank keyword for the new emblem."), 
+				       _("Sorry, but you must specify a non-blank keyword for the new emblem."),
 				       GTK_WINDOW (parent_window));
 		return FALSE;
 	} else if (!emblem_keyword_valid (keyword)) {
 		eel_show_error_dialog (_("The emblem cannot be installed."),
-				       _("Sorry, but emblem keywords can only contain letters, spaces and numbers."), 
+				       _("Sorry, but emblem keywords can only contain letters, spaces and numbers."),
 				       GTK_WINDOW (parent_window));
 		return FALSE;
 	} else if (is_reserved_keyword (keyword)) {
@@ -227,7 +231,7 @@ caja_emblem_verify_keyword (GtkWindow *parent_window,
 				       GTK_WINDOW (parent_window));
 		g_free (error_string);
 		return FALSE;
-	} 
+	}
 
 	return TRUE;
 }
@@ -241,7 +245,7 @@ caja_emblem_install_custom_emblem (GdkPixbuf *pixbuf,
 	char *basename, *path, *dir, *stat_dir;
 	struct stat stat_buf;
 	struct utimbuf ubuf;
-	
+
 	g_return_if_fail (pixbuf != NULL);
 
 	if (!caja_emblem_verify_keyword (parent_window, keyword, display_name)) {
@@ -257,7 +261,7 @@ caja_emblem_install_custom_emblem (GdkPixbuf *pixbuf,
 
 	if (g_mkdir_with_parents (dir, 0755) != 0) {
 		eel_show_error_dialog (_("The emblem cannot be installed."),
-				       _("Sorry, unable to save custom emblem."), 				       
+				       _("Sorry, unable to save custom emblem."),
 				       GTK_WINDOW (parent_window));
 		g_free (dir);
 		g_free (stat_dir);
@@ -271,7 +275,7 @@ caja_emblem_install_custom_emblem (GdkPixbuf *pixbuf,
 	/* save the image */
 	if (eel_gdk_pixbuf_save_to_file (pixbuf, path) != TRUE) {
 		eel_show_error_dialog (_("The emblem cannot be installed."),
-				       _("Sorry, unable to save custom emblem."), 				       
+				       _("Sorry, unable to save custom emblem."),
 				       GTK_WINDOW (parent_window));
 		g_free (dir);
 		g_free (stat_dir);
@@ -293,7 +297,7 @@ caja_emblem_install_custom_emblem (GdkPixbuf *pixbuf,
 
 		if (!g_file_set_contents (path, contents, strlen (contents), NULL)) {
 			eel_show_error_dialog (_("The emblem cannot be installed."),
-					       _("Sorry, unable to save custom emblem name."), 
+					       _("Sorry, unable to save custom emblem name."),
 					       GTK_WINDOW (parent_window));
 			g_free (contents);
 			g_free (path);
@@ -324,7 +328,7 @@ caja_emblem_can_remove_emblem (const char *keyword)
 {
 	char *path;
 	gboolean ret = TRUE;
-	
+
 	path = g_strdup_printf ("%s/.icons/hicolor/48x48/emblems/emblem-%s.png",
 				g_get_home_dir (), keyword);
 
@@ -342,7 +346,7 @@ caja_emblem_can_rename_emblem (const char *keyword)
 {
 	char *path;
 	gboolean ret = TRUE;
-	
+
 	path = g_strdup_printf ("%s/.icons/hicolor/48x48/emblems/emblem-%s.png",
 				g_get_home_dir (), keyword);
 
@@ -362,8 +366,8 @@ caja_emblem_remove_emblem (const char *keyword)
 	char *path, *dir, *stat_dir;
 	struct stat stat_buf;
 	struct utimbuf ubuf;
-	
-	 
+
+
 	dir = g_strdup_printf ("%s/.icons/hicolor/48x48/emblems",
 			       g_get_home_dir ());
 	stat_dir = g_strdup_printf ("%s/.icons/hicolor",
@@ -397,7 +401,7 @@ caja_emblem_remove_emblem (const char *keyword)
 		ubuf.modtime = time (NULL);
 		utime (stat_dir, &ubuf);
 	}
-	
+
 	g_free (dir);
 	g_free (stat_dir);
 
@@ -412,7 +416,7 @@ caja_emblem_rename_emblem (const char *keyword, const char *name)
 	struct stat stat_buf;
 	struct utimbuf ubuf;
 	FILE *file;
-	
+
 	dir = g_strdup_printf ("%s/.icons/hicolor/48x48/emblems",
 			       g_get_home_dir ());
 	stat_dir = g_strdup_printf ("%s/.icons/hicolor",
@@ -422,14 +426,14 @@ caja_emblem_rename_emblem (const char *keyword, const char *name)
 
 	file = fopen (path, "w+");
 	g_free (path);
-		
+
 	if (file == NULL) {
 		g_free (dir);
 		g_free (stat_dir);
 		return FALSE;
 	}
 
-		
+
 	/* write the new icon description */
 	fprintf (file, "\n[Icon Data]\n\nDisplayName=%s\n", name);
 	fflush (file);
@@ -437,7 +441,7 @@ caja_emblem_rename_emblem (const char *keyword, const char *name)
 
 	icon_name = caja_emblem_get_icon_name_from_keyword (keyword);
 	caja_icon_info_clear_caches (); /* A bit overkill, but this happens rarely */
-	
+
 	g_free (icon_name);
 
 	/* Touch the toplevel dir */
@@ -446,7 +450,7 @@ caja_emblem_rename_emblem (const char *keyword, const char *name)
 		ubuf.modtime = time (NULL);
 		utime (stat_dir, &ubuf);
 	}
-	
+
 	g_free (dir);
 	g_free (stat_dir);
 

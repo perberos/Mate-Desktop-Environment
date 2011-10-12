@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Raffaele Sandrini <rasa@gmx.ch>
  *
  */
@@ -26,6 +26,10 @@
 #include "caja-extension-i18n.h"
 
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
 
 #define CAJA_MENU_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), CAJA_TYPE_MENU, CajaMenuPrivate))
 G_DEFINE_TYPE (CajaMenu, caja_menu, G_TYPE_OBJECT);
@@ -39,7 +43,7 @@ caja_menu_append_item (CajaMenu *menu, CajaMenuItem *item)
 {
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (item != NULL);
-	
+
 	menu->priv->item_list = g_list_append (menu->priv->item_list, g_object_ref (item));
 }
 
@@ -49,10 +53,10 @@ caja_menu_get_items (CajaMenu *menu)
 	GList *item_list;
 
 	g_return_val_if_fail (menu != NULL, NULL);
-	
+
 	item_list = g_list_copy (menu->priv->item_list);
 	g_list_foreach (item_list, (GFunc)g_object_ref, NULL);
-	
+
 	return item_list;
 }
 
@@ -60,7 +64,7 @@ void
 caja_menu_item_list_free (GList *item_list)
 {
 	g_return_if_fail (item_list != NULL);
-	
+
 	g_list_foreach (item_list, (GFunc)g_object_unref, NULL);
 	g_list_free (item_list);
 }
@@ -91,9 +95,9 @@ static void
 caja_menu_class_init (CajaMenuClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	
+
 	g_type_class_add_private (klass, sizeof (CajaMenuPrivate));
-	
+
 	object_class->finalize = caja_menu_finalize;
 }
 
@@ -103,8 +107,8 @@ CajaMenu *
 caja_menu_new (void)
 {
 	CajaMenu *obj;
-	
+
 	obj = CAJA_MENU (g_object_new (CAJA_TYPE_MENU, NULL));
-	
+
 	return obj;
 }

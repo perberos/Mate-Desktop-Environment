@@ -43,6 +43,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #define CAJA_USER_DIRECTORY_NAME ".caja"
 #define DEFAULT_CAJA_DIRECTORY_MODE (0755)
 
@@ -63,7 +67,7 @@ caja_compute_title_for_location (GFile *location)
 
 	/* TODO-gio: This doesn't really work all that great if the
 	   info about the file isn't known atm... */
-	
+
 	title = NULL;
 	if (location) {
 		file = caja_file_get (location);
@@ -77,14 +81,14 @@ caja_compute_title_for_location (GFile *location)
 	if (title == NULL) {
 		title = g_strdup ("");
 	}
-	
+
 	return title;
 }
 
 
 /**
  * caja_get_user_directory:
- * 
+ *
  * Get the path for the directory containing caja settings.
  *
  * Return value: the directory path.
@@ -97,13 +101,13 @@ caja_get_user_directory (void)
 	user_directory = g_build_filename (g_get_home_dir (),
 					   CAJA_USER_DIRECTORY_NAME,
 					   NULL);
-	
+
 	if (!g_file_test (user_directory, G_FILE_TEST_EXISTS)) {
 		g_mkdir (user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
-		/* FIXME bugzilla.mate.org 41286: 
-		 * How should we handle the case where this mkdir fails? 
-		 * Note that caja_application_startup will refuse to launch if this 
-		 * directory doesn't get created, so that case is OK. But the directory 
+		/* FIXME bugzilla.mate.org 41286:
+		 * How should we handle the case where this mkdir fails?
+		 * Note that caja_application_startup will refuse to launch if this
+		 * directory doesn't get created, so that case is OK. But the directory
 		 * could be deleted after Caja was launched, and perhaps
 		 * there is some bad side-effect of not handling that case.
 		 */
@@ -114,7 +118,7 @@ caja_get_user_directory (void)
 
 /**
  * caja_get_accel_map_file:
- * 
+ *
  * Get the path for the filename containing caja accelerator map.
  * The filename need not exist.
  *
@@ -156,7 +160,7 @@ parse_xdg_dirs (const char *config_file)
   gboolean relative;
 
   array = g_array_new (TRUE, TRUE, sizeof (XdgDirEntry));
-  
+
   if (config_file == NULL)
     {
       config_file_free = g_build_filename (g_get_user_config_dir (),
@@ -173,15 +177,15 @@ parse_xdg_dirs (const char *config_file)
 	  p = lines[i];
 	  while (g_ascii_isspace (*p))
 	    p++;
-      
+
 	  if (*p == '#')
 	    continue;
-      
+
 	  value = strchr (p, '=');
 	  if (value == NULL)
 	    continue;
 	  *value++ = 0;
-      
+
 	  g_strchug (g_strchomp (p));
 	  if (!g_str_has_prefix (p, "XDG_"))
 	    continue;
@@ -189,14 +193,14 @@ parse_xdg_dirs (const char *config_file)
 	    continue;
 	  type_start = p + 4;
 	  type_end = p + strlen (p) - 4;
-      
+
 	  while (g_ascii_isspace (*value))
 	    value++;
-      
+
 	  if (*value != '"')
 	    continue;
 	  value++;
-      
+
 	  relative = FALSE;
 	  if (g_str_has_prefix (value, "$HOME"))
 	    {
@@ -207,7 +211,7 @@ parse_xdg_dirs (const char *config_file)
 	    }
 	  else if (*value != '/')
 	    continue;
-	  
+
 	  d = unescaped = g_malloc (strlen (value) + 1);
 	  while (*value && *value != '"')
 	    {
@@ -216,7 +220,7 @@ parse_xdg_dirs (const char *config_file)
 	      *d++ = *value++;
 	    }
 	  *d = 0;
-      
+
 	  *type_end = 0;
 	  dir.type = g_strdup (type_start);
 	  if (relative)
@@ -224,17 +228,17 @@ parse_xdg_dirs (const char *config_file)
 	      dir.path = g_build_filename (g_get_home_dir (), unescaped, NULL);
 	      g_free (unescaped);
 	    }
-	  else 
+	  else
 	    dir.path = unescaped;
-      
+
 	  g_array_append_val (array, dir);
 	}
-      
+
       g_strfreev (lines);
     }
-  
+
   g_free (config_file_free);
-  
+
   return (XdgDirEntry *)g_array_free (array, FALSE);
 }
 
@@ -256,7 +260,7 @@ xdg_dir_changed (CajaFile *file,
 		if (path) {
 			char *argv[5];
 			int i;
-			
+
 			g_free (dir->path);
 			dir->path = path;
 
@@ -271,7 +275,7 @@ xdg_dir_changed (CajaFile *file,
 			   if multiple dirs change at the same time. Its
 			   blocking the main thread, but these updates should
 			   be very rare and very fast. */
-			g_spawn_sync (NULL, 
+			g_spawn_sync (NULL,
 				      argv, NULL,
 				      G_SPAWN_SEARCH_PATH |
 				      G_SPAWN_STDOUT_TO_DEV_NULL |
@@ -289,7 +293,7 @@ xdg_dir_changed (CajaFile *file,
 	g_object_unref (dir_location);
 }
 
-static void 
+static void
 xdg_dir_cache_changed_cb (GFileMonitor  *monitor,
 			  GFile *file,
 			  GFile *other_file,
@@ -377,7 +381,7 @@ update_xdg_dir_cache (void)
 	desktop_dir_changed ();
 
 	cached_xdg_dirs = parse_xdg_dirs (NULL);
-	
+
 	for (i = 0 ; cached_xdg_dirs[i].type != NULL; i++) {
 		cached_xdg_dirs[i].file = NULL;
 		if (strcmp (cached_xdg_dirs[i].path, g_get_home_dir ()) != 0) {
@@ -402,7 +406,7 @@ update_xdg_dir_cache (void)
 		g_object_unref (file);
 		g_free (config_file);
 
-		eel_debug_call_at_shutdown (destroy_xdg_dir_cache); 
+		eel_debug_call_at_shutdown (destroy_xdg_dir_cache);
 	}
 }
 
@@ -426,7 +430,7 @@ caja_get_xdg_dir (const char *type)
 	if (strcmp ("TEMPLATES", type) == 0) {
 		return g_build_filename (g_get_home_dir (), "Templates", NULL);
 	}
-	
+
 	return g_strdup (g_get_home_dir ());
 }
 
@@ -442,7 +446,7 @@ get_desktop_path (void)
 
 /**
  * caja_get_desktop_directory:
- * 
+ *
  * Get the path for the directory containing files on the desktop.
  *
  * Return value: the directory path.
@@ -451,17 +455,17 @@ char *
 caja_get_desktop_directory (void)
 {
 	char *desktop_directory;
-	
+
 	desktop_directory = get_desktop_path ();
 
 	/* Don't try to create a home directory */
 	if (!eel_preferences_get_boolean (CAJA_PREFERENCES_DESKTOP_IS_HOME_DIR)) {
 		if (!g_file_test (desktop_directory, G_FILE_TEST_EXISTS)) {
 			g_mkdir (desktop_directory, DEFAULT_DESKTOP_DIRECTORY_MODE);
-			/* FIXME bugzilla.mate.org 41286: 
-			 * How should we handle the case where this mkdir fails? 
-			 * Note that caja_application_startup will refuse to launch if this 
-			 * directory doesn't get created, so that case is OK. But the directory 
+			/* FIXME bugzilla.mate.org 41286:
+			 * How should we handle the case where this mkdir fails?
+			 * Note that caja_application_startup will refuse to launch if this
+			 * directory doesn't get created, so that case is OK. But the directory
 			 * could be deleted after Caja was launched, and perhaps
 			 * there is some bad side-effect of not handling that case.
 			 */
@@ -476,7 +480,7 @@ caja_get_desktop_location (void)
 {
 	char *desktop_directory;
 	GFile *res;
-	
+
 	desktop_directory = get_desktop_path ();
 
 	res = g_file_new_for_path (desktop_directory);
@@ -487,7 +491,7 @@ caja_get_desktop_location (void)
 
 /**
  * caja_get_desktop_directory_uri:
- * 
+ *
  * Get the uri for the directory containing files on the desktop.
  *
  * Return value: the directory path.
@@ -497,7 +501,7 @@ caja_get_desktop_directory_uri (void)
 {
 	char *desktop_path;
 	char *desktop_uri;
-	
+
 	desktop_path = caja_get_desktop_directory ();
 	desktop_uri = g_filename_to_uri (desktop_path, NULL, NULL);
 	g_free (desktop_path);
@@ -510,7 +514,7 @@ caja_get_desktop_directory_uri_no_create (void)
 {
 	char *desktop_path;
 	char *desktop_uri;
-	
+
 	desktop_path = get_desktop_path ();
 	desktop_uri = g_filename_to_uri (desktop_path, NULL, NULL);
 	g_free (desktop_path);
@@ -530,7 +534,7 @@ caja_should_use_templates_directory (void)
 {
 	char *dir;
 	gboolean res;
-	
+
 	dir = caja_get_xdg_dir ("TEMPLATES");
 	res = strcmp (dir, g_get_home_dir ()) != 0;
 	g_free (dir);
@@ -575,7 +579,7 @@ caja_get_searches_directory (void)
 	user_dir = caja_get_user_directory ();
 	searches_dir = g_build_filename (user_dir, "searches", NULL);
 	g_free (user_dir);
-	
+
 	if (!g_file_test (searches_dir, G_FILE_TEST_EXISTS))
 		g_mkdir (searches_dir, DEFAULT_CAJA_DIRECTORY_MODE);
 
@@ -618,7 +622,7 @@ update_desktop_dir (void)
 
 	path = get_desktop_path ();
 	desktop_dir = g_file_new_for_path (path);
-	
+
 	dirname = g_path_get_dirname (path);
 	desktop_dir_dir = g_file_new_for_path (dirname);
 	g_free (dirname);
@@ -633,7 +637,7 @@ caja_is_home_directory_file (GFile *dir,
 	char *dirname;
 	static GFile *home_dir_dir = NULL;
 	static char *home_dir_filename = NULL;
-	
+
 	if (home_dir_dir == NULL) {
 		dirname = g_path_get_dirname (g_get_home_dir ());
 		home_dir_dir = g_file_new_for_path (dirname);
@@ -649,7 +653,7 @@ gboolean
 caja_is_home_directory (GFile *dir)
 {
 	static GFile *home_dir = NULL;
-	
+
 	if (home_dir == NULL) {
 		home_dir = g_file_new_for_path (g_get_home_dir ());
 	}
@@ -661,15 +665,15 @@ gboolean
 caja_is_root_directory (GFile *dir)
 {
 	static GFile *root_dir = NULL;
-	
+
 	if (root_dir == NULL) {
 		root_dir = g_file_new_for_path ("/");
 	}
 
 	return g_file_equal (dir, root_dir);
 }
-		
-		
+
+
 gboolean
 caja_is_desktop_directory_file (GFile *dir,
 				    const char *file)
@@ -681,7 +685,7 @@ caja_is_desktop_directory_file (GFile *dir,
 					      NULL);
 		desktop_dir_changed_callback_installed = TRUE;
 	}
-		
+
 	if (desktop_dir == NULL) {
 		update_desktop_dir ();
 	}
@@ -700,7 +704,7 @@ caja_is_desktop_directory (GFile *dir)
 					      NULL);
 		desktop_dir_changed_callback_installed = TRUE;
 	}
-		
+
 	if (desktop_dir == NULL) {
 		update_desktop_dir ();
 	}
@@ -711,7 +715,7 @@ caja_is_desktop_directory (GFile *dir)
 
 /**
  * caja_get_gmc_desktop_directory:
- * 
+ *
  * Get the path for the directory containing the legacy gmc desktop.
  *
  * Return value: the directory path.
@@ -724,7 +728,7 @@ caja_get_gmc_desktop_directory (void)
 
 /**
  * caja_get_pixmap_directory
- * 
+ *
  * Get the path for the directory containing Caja pixmaps.
  *
  * Return value: the directory path.
@@ -735,7 +739,7 @@ caja_get_pixmap_directory (void)
 	return g_strdup (DATADIR "/pixmaps/caja");
 }
 
-/* FIXME bugzilla.mate.org 42423: 
+/* FIXME bugzilla.mate.org 42423:
  * Callers just use this and dereference so we core dump if
  * pixmaps are missing. That is lame.
  */
@@ -771,7 +775,7 @@ caja_get_data_file_path (const char *partial_path)
 		return path;
 	}
 	g_free (path);
-	
+
 	/* next try the shared directory */
 	path = g_build_filename (CAJA_DATADIR, partial_path, NULL);
 	if (g_file_test (path, G_FILE_TEST_EXISTS)) {
@@ -807,26 +811,26 @@ caja_ensure_unique_file_name (const char *directory_uri,
 				    extension);
 	child = g_file_get_child (dir, filename);
 	g_free (filename);
-	
+
 	copy = 1;
 	while ((info = g_file_query_info (child, G_FILE_ATTRIBUTE_STANDARD_TYPE, 0, NULL, NULL)) != NULL) {
 		g_object_unref (info);
 		g_object_unref (child);
-		
+
 		filename = g_strdup_printf ("%s-%d%s",
 					    base_name,
 					    copy,
 					    extension);
 		child = g_file_get_child (dir, filename);
 		g_free (filename);
-		
+
 		copy++;
 	}
 
 	res = g_file_get_uri (child);
 	g_object_unref (child);
 	g_object_unref (dir);
-	
+
 	return res;
 }
 
@@ -839,14 +843,14 @@ caja_unique_temporary_file_name (void)
 
 	file_name = g_strdup_printf ("%sXXXXXX", prefix);
 
-	fd = g_mkstemp (file_name); 
+	fd = g_mkstemp (file_name);
 	if (fd == -1) {
 		g_free (file_name);
 		file_name = NULL;
 	} else {
 		close (fd);
 	}
-	
+
 	return file_name;
 }
 
@@ -871,18 +875,18 @@ caja_find_existing_uri_in_hierarchy (GFile *location)
 		location = g_file_get_parent (location);
 		g_object_unref (tmp);
 	}
-	
+
 	return location;
 }
 
 /**
  * caja_find_file_insensitive
- * 
+ *
  * Attempt to find a file case-insentively. If the path can be found, the
  * returned file maps directly to it. Otherwise, a file using the
  * originally-cased path is returned. This function performs might perform
  * I/O.
- * 
+ *
  * Return value: a #GFile to a child specified by @name.
  **/
 GFile *
@@ -892,11 +896,11 @@ caja_find_file_insensitive (GFile *parent, const gchar *name)
 	gchar *component;
 	GFile *file, *next;
 	gint i;
-	
+
 	split_path = g_strsplit (name, G_DIR_SEPARATOR_S, -1);
-	
+
 	file = g_object_ref (parent);
-	
+
 	for (i = 0; (component = split_path[i]) != NULL; i++) {
 		if (!(next = caja_find_file_insensitive_next (file,
 		                                                  component))) {
@@ -909,7 +913,7 @@ caja_find_file_insensitive (GFile *parent, const gchar *name)
 		file = next;
 	}
 	g_strfreev (split_path);
-	
+
 	if (file) {
 		return file;
 	}
@@ -932,10 +936,10 @@ caja_find_file_insensitive_next (GFile *parent, const gchar *name)
 		return file;
 	}
 	g_object_unref (file);
-	
+
 	ascii_collation_key = g_ascii_strdown (name, -1);
 	use_utf8 = g_utf8_validate (name, -1, NULL);
-	utf8_collation_key = NULL;	
+	utf8_collation_key = NULL;
 	if (use_utf8) {
 		case_folded_name = g_utf8_casefold (name, -1);
 		utf8_collation_key = g_utf8_collate_key (case_folded_name, -1);
@@ -950,10 +954,10 @@ caja_find_file_insensitive_next (GFile *parent, const gchar *name)
 	if (children != NULL) {
 		while ((info = g_file_enumerator_next_file (children, NULL, NULL))) {
 			child_name = g_file_info_get_name (info);
-			
+
 			if (use_utf8 && g_utf8_validate (child_name, -1, NULL)) {
 				gchar *case_folded;
-				
+
 				case_folded = g_utf8_casefold (child_name, -1);
 				child_key = g_utf8_collate_key (case_folded, -1);
 				g_free (case_folded);
@@ -962,7 +966,7 @@ caja_find_file_insensitive_next (GFile *parent, const gchar *name)
 				child_key = g_ascii_strdown (child_name, -1);
 				compare_key = ascii_collation_key;
 			}
-			
+
 			found = strcmp (child_key, compare_key) == 0;
 			g_free (child_key);
 			if (found) {
@@ -973,16 +977,16 @@ caja_find_file_insensitive_next (GFile *parent, const gchar *name)
 		g_file_enumerator_close (children, NULL, NULL);
 		g_object_unref (children);
 	}
-	
+
 	g_free (ascii_collation_key);
 	g_free (utf8_collation_key);
-	
+
 	if (filename) {
 		file = g_file_get_child (parent, filename);
 		g_free (filename);
 		return file;
 	}
-	
+
 	return NULL;
 }
 
@@ -1007,7 +1011,7 @@ caja_is_file_roller_installed (void)
 #define GSM_INTERFACE "org.mate.SessionManager"
 
 /* The following values come from
- * http://www.mate.org/~mccann/mate-session/docs/mate-session.html#org.mate.SessionManager.Inhibit 
+ * http://www.mate.org/~mccann/mate-session/docs/mate-session.html#org.mate.SessionManager.Inhibit
  */
 #define INHIBIT_LOGOUT (1U)
 #define INHIBIT_SUSPEND (4U)
@@ -1137,17 +1141,17 @@ caja_uninhibit_power_manager (gint cookie)
 gboolean
 caja_is_in_system_dir (GFile *file)
 {
-	const char * const * data_dirs; 
+	const char * const * data_dirs;
 	char *path, *mate2;
 	int i;
 	gboolean res;
-	
+
 	if (!g_file_is_native (file)) {
 		return FALSE;
 	}
 
 	path = g_file_get_path (file);
-	
+
 	res = FALSE;
 
 	data_dirs = g_get_system_data_dirs ();
@@ -1156,7 +1160,7 @@ caja_is_in_system_dir (GFile *file)
 			res = TRUE;
 			break;
 		}
-		
+
 	}
 
 	if (!res) {
@@ -1168,7 +1172,7 @@ caja_is_in_system_dir (GFile *file)
 		g_free (mate2);
 	}
 	g_free (path);
-	
+
 	return res;
 }
 
@@ -1276,7 +1280,7 @@ caja_restore_files_from_trash (GList *files,
 			locations = locations_from_file_list (files);
 
 			caja_file_operations_move
-				(locations, NULL, 
+				(locations, NULL,
 				 original_dir_location,
 				 parent_window,
 				 NULL, NULL);
