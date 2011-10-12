@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-file.c: Caja file model.
- 
+
    Copyright (C) 1999, 2000, 2001 Eazel, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Darin Adler <darin@bentspoon.com>
 */
 
@@ -58,6 +58,11 @@
 #include <glib/gstdio.h>
 #include <gio/gio.h>
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <libcaja-extension/caja-file-info.h>
 #include <libcaja-extension/caja-extension-private.h>
 #include <libxml/parser.h>
@@ -186,7 +191,7 @@ caja_file_constructor (GType                  type,
   if (CAJA_FILE_GET_CLASS (file)->default_file_type != G_FILE_TYPE_UNKNOWN) {
 	  file->details->type = CAJA_FILE_GET_CLASS (file)->default_file_type;
   }
-  
+
   return object;
 }
 
@@ -208,11 +213,11 @@ caja_file_set_display_name (CajaFile *file,
 		}
 		return FALSE;
 	}
-	
+
 	if (display_name == NULL || *display_name == 0) {
 		return FALSE;
 	}
-	
+
 	if (!custom && file->details->got_custom_display_name) {
 		return FALSE;
 	}
@@ -220,27 +225,27 @@ caja_file_set_display_name (CajaFile *file,
 	if (edit_name == NULL) {
 		edit_name = display_name;
 	}
-	    
+
 	changed = FALSE;
-	
+
 	if (eel_strcmp (eel_ref_str_peek (file->details->display_name), display_name) != 0) {
 		changed = TRUE;
-		
+
 		eel_ref_str_unref (file->details->display_name);
-		
+
 		if (eel_strcmp (eel_ref_str_peek (file->details->name), display_name) == 0) {
 			file->details->display_name = eel_ref_str_ref (file->details->name);
 		} else {
 			file->details->display_name = eel_ref_str_new (display_name);
 		}
-		
+
 		g_free (file->details->display_name_collation_key);
 		file->details->display_name_collation_key = g_utf8_collate_key_for_filename (display_name, -1);
 	}
 
 	if (eel_strcmp (eel_ref_str_peek (file->details->edit_name), edit_name) != 0) {
 		changed = TRUE;
-		
+
 		eel_ref_str_unref (file->details->edit_name);
 		if (eel_strcmp (eel_ref_str_peek (file->details->display_name), edit_name) == 0) {
 			file->details->edit_name = eel_ref_str_ref (file->details->display_name);
@@ -248,7 +253,7 @@ caja_file_set_display_name (CajaFile *file,
 			file->details->edit_name = eel_ref_str_new (edit_name);
 		}
 	}
-	
+
 	file->details->got_custom_display_name = custom;
 	return changed;
 }
@@ -428,7 +433,7 @@ caja_file_clear_info (CajaFile *file)
 		g_free (file->details->activation_uri);
 		file->details->activation_uri = NULL;
 	}
-	
+
 	if (file->details->icon != NULL) {
 		g_object_unref (file->details->icon);
 		file->details->icon = NULL;
@@ -437,7 +442,7 @@ caja_file_clear_info (CajaFile *file)
 	g_free (file->details->thumbnail_path);
 	file->details->thumbnail_path = NULL;
 	file->details->thumbnailing_failed = FALSE;
-	
+
 	file->details->is_launcher = FALSE;
 	file->details->is_foreign_link = FALSE;
 	file->details->is_trusted_link = FALSE;
@@ -556,7 +561,7 @@ modify_link_hash_table (CajaFile *file,
 	}
 
 	target_uri = caja_file_get_symbolic_link_target_uri (file);
-	
+
 	/* Find the old contents of the hash table. */
 	found = g_hash_table_lookup_extended
 		(symbolic_links, target_uri,
@@ -594,7 +599,7 @@ add_to_link_hash_table_list (GList **list, CajaFile *file)
 		return;
 	}
 	g_object_weak_ref (G_OBJECT (file), symbolic_link_weak_notify, list);
-	*list = g_list_prepend (*list, file); 
+	*list = g_list_prepend (*list, file);
 }
 
 static void
@@ -660,12 +665,12 @@ caja_file_get_internal (GFile *location, gboolean create)
 	g_assert (location != NULL);
 
 	parent = g_file_get_parent (location);
-	
+
 	self_owned = FALSE;
 	if (parent == NULL) {
 		self_owned = TRUE;
 		parent = g_object_ref (location);
-	} 
+	}
 
 	/* Get object that represents the directory. */
 	directory = caja_directory_get_internal (parent, create);
@@ -723,11 +728,11 @@ caja_file_get_existing_by_uri (const char *uri)
 {
 	GFile *location;
 	CajaFile *file;
-	
+
 	location = g_file_new_for_uri (uri);
 	file = caja_file_get_internal (location, FALSE);
 	g_object_unref (location);
-	
+
 	return file;
 }
 
@@ -736,11 +741,11 @@ caja_file_get_by_uri (const char *uri)
 {
 	GFile *location;
 	CajaFile *file;
-	
+
 	location = g_file_new_for_uri (uri);
 	file = caja_file_get_internal (location, TRUE);
 	g_object_unref (location);
-	
+
 	return file;
 }
 
@@ -766,13 +771,13 @@ finalize (GObject *object)
 		caja_thumbnail_remove_from_queue (uri);
 		g_free (uri);
 	}
-	
+
 	caja_async_destroying_file (file);
 
 	remove_from_link_hash_table (file);
 
 	directory = file->details->directory;
-	
+
 	if (caja_file_is_self_owned (file)) {
 		directory->details->as_file = NULL;
 	} else {
@@ -815,17 +820,17 @@ finalize (GObject *object)
 	}
 
 	eel_ref_str_unref (file->details->filesystem_id);
-	
+
 	eel_g_list_free_deep (file->details->mime_list);
 
 	eel_g_list_free_deep (file->details->pending_extension_emblems);
-	eel_g_list_free_deep (file->details->extension_emblems);	
+	eel_g_list_free_deep (file->details->extension_emblems);
 	eel_g_object_list_free (file->details->pending_info_providers);
 
 	if (file->details->pending_extension_attributes) {
 		g_hash_table_destroy (file->details->pending_extension_attributes);
 	}
-	
+
 	if (file->details->extension_attributes) {
 		g_hash_table_destroy (file->details->extension_attributes);
 	}
@@ -848,7 +853,7 @@ caja_file_ref (CajaFile *file)
 #ifdef CAJA_FILE_DEBUG_REF
 	DEBUG_REF_PRINTF("%10p ref'd", file);
 #endif
-	
+
 	return g_object_ref (file);
 }
 
@@ -864,29 +869,29 @@ caja_file_unref (CajaFile *file)
 #ifdef CAJA_FILE_DEBUG_REF
 	DEBUG_REF_PRINTF("%10p unref'd", file);
 #endif
-	
+
 	g_object_unref (file);
 }
 
 /**
  * caja_file_get_parent_uri_for_display:
- * 
+ *
  * Get the uri for the parent directory.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: A string representing the parent's location,
  * formatted for user display (including stripping "file://").
  * If the parent is NULL, returns the empty string.
- */ 
+ */
 char *
-caja_file_get_parent_uri_for_display (CajaFile *file) 
+caja_file_get_parent_uri_for_display (CajaFile *file)
 {
 	GFile *parent;
 	char *result;
 
 	g_assert (CAJA_IS_FILE (file));
-	
+
 	parent = caja_file_get_parent_location (file);
 	if (parent) {
 		result = g_file_get_parse_name (parent);
@@ -900,21 +905,21 @@ caja_file_get_parent_uri_for_display (CajaFile *file)
 
 /**
  * caja_file_get_parent_uri:
- * 
+ *
  * Get the uri for the parent directory.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: A string for the parent's location, in "raw URI" form.
  * Use caja_file_get_parent_uri_for_display instead if the
  * result is to be displayed on-screen.
  * If the parent is NULL, returns the empty string.
- */ 
+ */
 char *
-caja_file_get_parent_uri (CajaFile *file) 
+caja_file_get_parent_uri (CajaFile *file)
 {
 	g_assert (CAJA_IS_FILE (file));
-	
+
 	if (caja_file_is_self_owned (file)) {
 		/* Callers expect an empty string, not a NULL. */
 		return g_strdup ("");
@@ -924,10 +929,10 @@ caja_file_get_parent_uri (CajaFile *file)
 }
 
 GFile *
-caja_file_get_parent_location (CajaFile *file) 
+caja_file_get_parent_location (CajaFile *file)
 {
 	g_assert (CAJA_IS_FILE (file));
-	
+
 	if (caja_file_is_self_owned (file)) {
 		/* Callers expect an empty string, not a NULL. */
 		return NULL;
@@ -940,7 +945,7 @@ CajaFile *
 caja_file_get_parent (CajaFile *file)
 {
 	g_assert (CAJA_IS_FILE (file));
-	
+
 	if (caja_file_is_self_owned (file)) {
 		return NULL;
 	}
@@ -950,11 +955,11 @@ caja_file_get_parent (CajaFile *file)
 
 /**
  * caja_file_can_read:
- * 
+ *
  * Check whether the user is allowed to read the contents of this file.
- * 
+ *
  * @file: The file to check.
- * 
+ *
  * Return value: FALSE if the user is definitely not allowed to read
  * the contents of the file. If the user has read permission, or
  * the code can't tell whether the user has read permission,
@@ -964,17 +969,17 @@ gboolean
 caja_file_can_read (CajaFile *file)
 {
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
-	
+
 	return file->details->can_read;
 }
 
 /**
  * caja_file_can_write:
- * 
+ *
  * Check whether the user is allowed to write to this file.
- * 
+ *
  * @file: The file to check.
- * 
+ *
  * Return value: FALSE if the user is definitely not allowed to write
  * to the file. If the user has write permission, or
  * the code can't tell whether the user has write permission,
@@ -990,11 +995,11 @@ caja_file_can_write (CajaFile *file)
 
 /**
  * caja_file_can_execute:
- * 
+ *
  * Check whether the user is allowed to execute this file.
- * 
+ *
  * @file: The file to check.
- * 
+ *
  * Return value: FALSE if the user is definitely not allowed to execute
  * the file. If the user has execute permission, or
  * the code can't tell whether the user has execute permission,
@@ -1012,10 +1017,10 @@ gboolean
 caja_file_can_mount (CajaFile *file)
 {
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
-	
+
 	return file->details->can_mount;
 }
-	
+
 gboolean
 caja_file_can_unmount (CajaFile *file)
 {
@@ -1025,7 +1030,7 @@ caja_file_can_unmount (CajaFile *file)
 		(file->details->mount != NULL &&
 		 g_mount_can_unmount (file->details->mount));
 }
-	
+
 gboolean
 caja_file_can_eject (CajaFile *file)
 {
@@ -1206,7 +1211,7 @@ caja_file_mount (CajaFile                   *file,
 		     gpointer                        callback_data)
 {
 	GError *error;
-	
+
 	if (CAJA_FILE_GET_CLASS (file)->mount == NULL) {
 		if (callback) {
 			error = NULL;
@@ -1440,11 +1445,11 @@ caja_file_poll_for_media (CajaFile *file)
 
 /**
  * caja_file_is_desktop_directory:
- * 
+ *
  * Check whether this file is the desktop directory.
- * 
+ *
  * @file: The file to check.
- * 
+ *
  * Return value: TRUE if this is the physical desktop directory.
  */
 gboolean
@@ -1481,11 +1486,11 @@ can_rename_desktop_file (CajaFile *file)
 
 /**
  * caja_file_can_rename:
- * 
+ *
  * Check whether the user is allowed to change the name of the file.
- * 
+ *
  * @file: The file to check.
- * 
+ *
  * Return value: FALSE if the user is definitely not allowed to change
  * the name of the file. If the user is allowed to change the name, or
  * the code can't tell whether the user is allowed to change the name,
@@ -1495,7 +1500,7 @@ gboolean
 caja_file_can_rename (CajaFile *file)
 {
 	gboolean can_rename;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 
 	/* Nonexistent files can't be renamed. */
@@ -1512,7 +1517,7 @@ caja_file_can_rename (CajaFile *file)
 	     caja_file_is_home (file)) {
 		return FALSE;
 	}
-	
+
 	can_rename = TRUE;
 
 	/* Certain types of links can't be renamed */
@@ -1574,15 +1579,15 @@ GFile *
 caja_file_get_location (CajaFile *file)
 {
 	GFile *dir;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), NULL);
 
 	dir = file->details->directory->details->location;
-	
+
 	if (caja_file_is_self_owned (file)) {
 		return g_object_ref (dir);
 	}
-	
+
 	return g_file_get_child (dir, eel_ref_str_peek (file->details->name));
 }
 
@@ -1592,13 +1597,13 @@ caja_file_get_uri (CajaFile *file)
 {
 	char *uri;
 	GFile *loc;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), NULL);
 
 	loc = caja_file_get_location (file);
 	uri = g_file_get_uri (loc);
 	g_object_unref (loc);
-	
+
 	return uri;
 }
 
@@ -1607,10 +1612,10 @@ caja_file_get_uri_scheme (CajaFile *file)
 {
 	GFile *loc;
 	char *scheme;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), NULL);
 
-	if (file->details->directory == NULL || 
+	if (file->details->directory == NULL ||
 	    file->details->directory->details->location == NULL) {
 		return NULL;
 	}
@@ -1618,7 +1623,7 @@ caja_file_get_uri_scheme (CajaFile *file)
 	loc = caja_directory_get_location (file->details->directory);
 	scheme = g_file_get_uri_scheme (loc);
 	g_object_unref (loc);
-	
+
 	return scheme;
 }
 
@@ -1696,7 +1701,7 @@ rename_get_info_callback (GObject *source_object,
 	const char *new_name;
 	GFileInfo *new_info;
 	GError *error;
-	
+
 	op = callback_data;
 
 	error = NULL;
@@ -1705,7 +1710,7 @@ rename_get_info_callback (GObject *source_object,
 		directory = op->file->details->directory;
 
 		new_name = g_file_info_get_name (new_info);
-		
+
 		/* If there was another file by the same name in this
 		 * directory, mark it gone.
 		 */
@@ -1714,19 +1719,19 @@ rename_get_info_callback (GObject *source_object,
 			caja_file_mark_gone (existing_file);
 			caja_file_changed (existing_file);
 		}
-		
+
 		old_uri = caja_file_get_uri (op->file);
 		old_name = g_strdup (eel_ref_str_peek (op->file->details->name));
-		
+
 		update_info_and_name (op->file, new_info);
-		
+
 		g_free (old_name);
-		
+
 		new_uri = caja_file_get_uri (op->file);
 		caja_directory_moved (old_uri, new_uri);
 		g_free (new_uri);
 		g_free (old_uri);
-		
+
 		/* the rename could have affected the display name if e.g.
 		 * we're in a vfolder where the name comes from a desktop file
 		 * and a rename affects the contents of the desktop file.
@@ -1736,7 +1741,7 @@ rename_get_info_callback (GObject *source_object,
 							     CAJA_FILE_ATTRIBUTE_INFO |
 							     CAJA_FILE_ATTRIBUTE_LINK_INFO);
 		}
-		
+
 		g_object_unref (new_info);
 	}
 	caja_file_operation_complete (op, NULL, error);
@@ -1795,14 +1800,14 @@ caja_file_rename (CajaFile *file,
 	gboolean is_renameable_desktop_file;
 	GFile *location;
 	GError *error;
-	
+
 	g_return_if_fail (CAJA_IS_FILE (file));
 	g_return_if_fail (new_name != NULL);
 	g_return_if_fail (callback != NULL);
 
 	is_renameable_desktop_file =
 		is_desktop_file (file) && can_rename_desktop_file (file);
-	
+
 	/* Return an error for incoming names containing path separators.
 	 * But not for .desktop files as '/' are allowed for them */
 	if (strstr (new_name, "/") != NULL && !is_renameable_desktop_file) {
@@ -1812,7 +1817,7 @@ caja_file_rename (CajaFile *file,
 		g_error_free (error);
 		return;
 	}
-	
+
 	/* Can't rename a file that's already gone.
 	 * We need to check this here because there may be a new
 	 * file with the same name.
@@ -1854,7 +1859,7 @@ caja_file_rename (CajaFile *file,
 		caja_file_changed (file);
 		error = g_error_new (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
 				     _("Toplevel files cannot be renamed"));
-		
+
 		(* callback) (file, NULL, error, callback_data);
 		g_error_free (error);
 		return;
@@ -1885,7 +1890,7 @@ caja_file_rename (CajaFile *file,
 		g_object_unref (link);
 		return;
 	}
-	
+
 	if (is_renameable_desktop_file) {
 		/* Don't actually change the name if the new name is the same.
 		 * This helps for the vfolder method where this can happen and
@@ -1979,7 +1984,7 @@ caja_file_cancel (CajaFile *file,
 	}
 }
 
-gboolean         
+gboolean
 caja_file_matches_uri (CajaFile *file, const char *match_uri)
 {
 	GFile *match_file, *location;
@@ -1987,7 +1992,7 @@ caja_file_matches_uri (CajaFile *file, const char *match_uri)
 
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 	g_return_val_if_fail (match_uri != NULL, FALSE);
-	
+
 	location = caja_file_get_location (file);
 	match_file = g_file_new_for_uri (match_uri);
 	result = g_file_equal (location, match_file);
@@ -2019,7 +2024,7 @@ gboolean
 caja_file_is_local (CajaFile *file)
 {
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
-	
+
 	return caja_directory_is_local (file->details->directory);
 }
 
@@ -2039,7 +2044,7 @@ get_link_files (CajaFile *target_file)
 {
 	char *uri;
 	GList **link_files;
-	
+
 	if (symbolic_links == NULL) {
 		link_files = NULL;
 	} else {
@@ -2096,7 +2101,7 @@ update_info_internal (CajaFile *file,
 	const char *trash_orig_path;
 	const char *group, *owner, *owner_real;
 	gboolean free_owner, free_group;
-	
+
 	if (file->details->is_gone) {
 		return FALSE;
 	}
@@ -2125,7 +2130,7 @@ update_info_internal (CajaFile *file,
 						  g_file_info_get_display_name (info),
 						  g_file_info_get_edit_name (info),
 						  FALSE);
-	
+
 	file_type = g_file_info_get_file_type (info);
 	if (file->details->type != file_type) {
 		changed = TRUE;
@@ -2143,7 +2148,7 @@ update_info_internal (CajaFile *file,
 		} else {
 			old_activation_uri = file->details->activation_uri;
 			file->details->activation_uri = g_strdup (activation_uri);
-			
+
 			if (old_activation_uri) {
 				if (strcmp (old_activation_uri,
 					    file->details->activation_uri) != 0) {
@@ -2155,25 +2160,25 @@ update_info_internal (CajaFile *file,
 			}
 		}
 	}
-	
+
 	is_symlink = g_file_info_get_is_symlink (info);
 	if (file->details->is_symlink != is_symlink) {
 		changed = TRUE;
 	}
 	file->details->is_symlink = is_symlink;
-		
+
 	is_hidden = g_file_info_get_is_hidden (info);
 	if (file->details->is_hidden != is_hidden) {
 		changed = TRUE;
 	}
 	file->details->is_hidden = is_hidden;
-		
+
 	is_backup = g_file_info_get_is_backup (info);
 	if (file->details->is_backup != is_backup) {
 		changed = TRUE;
 	}
 	file->details->is_backup = is_backup;
-		
+
 	is_mountpoint = g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_UNIX_IS_MOUNTPOINT);
 	if (file->details->is_mountpoint != is_mountpoint) {
 		changed = TRUE;
@@ -2282,7 +2287,7 @@ update_info_internal (CajaFile *file,
 	    file->details->is_media_check_automatic != is_media_check_automatic) {
 		changed = TRUE;
 	}
-	
+
 	file->details->can_read = can_read;
 	file->details->can_write = can_write;
 	file->details->can_execute = can_execute;
@@ -2304,7 +2309,7 @@ update_info_internal (CajaFile *file,
 	owner_real = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_OWNER_USER_REAL);
 	free_group = FALSE;
 	group = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_OWNER_GROUP);
-	
+
 	uid = -1;
 	gid = -1;
 	if (g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_UNIX_UID)) {
@@ -2333,13 +2338,13 @@ update_info_internal (CajaFile *file,
 		eel_ref_str_unref (file->details->owner);
 		file->details->owner = eel_ref_str_get_unique (owner);
 	}
-	
+
 	if (eel_strcmp (eel_ref_str_peek (file->details->owner_real), owner_real) != 0) {
 		changed = TRUE;
 		eel_ref_str_unref (file->details->owner_real);
 		file->details->owner_real = eel_ref_str_get_unique (owner_real);
 	}
-	
+
 	if (eel_strcmp (eel_ref_str_peek (file->details->group), group) != 0) {
 		changed = TRUE;
 		eel_ref_str_unref (file->details->group);
@@ -2352,7 +2357,7 @@ update_info_internal (CajaFile *file,
 	if (free_group) {
 		g_free ((char *)group);
 	}
-	
+
 	size = -1;
 	if (g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_STANDARD_SIZE)) {
 		size = g_file_info_get_size (info);
@@ -2367,7 +2372,7 @@ update_info_internal (CajaFile *file,
 		changed = TRUE;
 	}
 	file->details->sort_order = sort_order;
-	
+
 	atime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_ACCESS);
 	ctime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
 	mtime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
@@ -2413,7 +2418,7 @@ update_info_internal (CajaFile *file,
 		changed = TRUE;
 		file->details->thumbnailing_failed = thumbnailing_failed;
 	}
-	
+
 	symlink_name = g_file_info_get_symlink_target (info);
 	if (eel_strcmp (file->details->symlink_name, symlink_name) != 0) {
 		changed = TRUE;
@@ -2427,14 +2432,14 @@ update_info_internal (CajaFile *file,
 		eel_ref_str_unref (file->details->mime_type);
 		file->details->mime_type = eel_ref_str_get_unique (mime_type);
 	}
-	
+
 	selinux_context = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_SELINUX_CONTEXT);
 	if (eel_strcmp (file->details->selinux_context, selinux_context) != 0) {
 		changed = TRUE;
 		g_free (file->details->selinux_context);
 		file->details->selinux_context = g_strdup (selinux_context);
 	}
-	
+
 	description = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION);
 	if (eel_strcmp (file->details->description, description) != 0) {
 		changed = TRUE;
@@ -2478,7 +2483,7 @@ update_info_internal (CajaFile *file,
 
 			node = caja_directory_begin_file_name_change
 				(file->details->directory, file);
-			
+
 			eel_ref_str_unref (file->details->name);
 			if (eel_strcmp (eel_ref_str_peek (file->details->display_name),
 					name) == 0) {
@@ -2503,7 +2508,7 @@ update_info_internal (CajaFile *file,
 
 	if (changed) {
 		add_to_link_hash_table (file);
-		
+
 		update_links_if_target (file);
 	}
 
@@ -2540,13 +2545,13 @@ update_name_internal (CajaFile *file,
 	if (name_is (file, name)) {
 		return FALSE;
 	}
-	
+
 	node = NULL;
 	if (in_directory) {
 		node = caja_directory_begin_file_name_change
 			(file->details->directory, file);
 	}
-	
+
 	eel_ref_str_unref (file->details->name);
 	file->details->name = eel_ref_str_new (name);
 
@@ -2566,7 +2571,7 @@ gboolean
 caja_file_update_name (CajaFile *file, const char *name)
 {
 	gboolean ret;
-	
+
 	ret = update_name_internal (file, name, TRUE);
 
 	if (ret) {
@@ -2577,7 +2582,7 @@ caja_file_update_name (CajaFile *file, const char *name)
 }
 
 gboolean
-caja_file_update_name_and_directory (CajaFile *file, 
+caja_file_update_name_and_directory (CajaFile *file,
 					 const char *name,
 					 CajaDirectory *new_directory)
 {
@@ -2722,7 +2727,7 @@ get_time (CajaFile *file,
 	}
 
 	*time_out = time;
-	
+
 	/* If we got info with no modification time in it, it means
 	 * there is no such thing as a modification time as far as
 	 * mate-vfs is concerned, so "unknowable".
@@ -2758,7 +2763,7 @@ compare_directories_by_count (CajaFile *file_1, CajaFile *file_2)
 
 	/* count_known_1 and count_known_2 are equal now. Check if count
 	 * details are UNKNOWABLE or UNKNOWN.
-	 */ 
+	 */
 	if (count_known_1 == UNKNOWABLE || count_known_1 == UNKNOWN) {
 		return 0;
 	}
@@ -2796,9 +2801,9 @@ compare_files_by_size (CajaFile *file_1, CajaFile *file_2)
 		return +1;
 	}
 
-	/* size_known_1 and size_known_2 are equal now. Check if size 
-	 * details are UNKNOWABLE or UNKNOWN 
-	 */ 
+	/* size_known_1 and size_known_2 are equal now. Check if size
+	 * details are UNKNOWABLE or UNKNOWN
+	 */
 	if (size_known_1 == UNKNOWABLE || size_known_1 == UNKNOWN) {
 		return 0;
 	}
@@ -2927,7 +2932,7 @@ prepend_automatic_keywords (CajaFile *file,
 			(names, g_strdup (CAJA_FILE_EMBLEM_NAME_NOTE));
 	}
 
-	/* Trash files are assumed to be read-only, 
+	/* Trash files are assumed to be read-only,
 	 * so we want to ignore them here. */
 	if (!caja_file_can_write (file) &&
 	    !caja_file_is_in_trash (file) &&
@@ -2947,8 +2952,8 @@ prepend_automatic_keywords (CajaFile *file,
 	if (parent) {
 		caja_file_unref (parent);
 	}
-		
-	
+
+
 	return names;
 }
 
@@ -3008,7 +3013,7 @@ compare_by_emblems (CajaFile *file_1, CajaFile *file_2)
 		if (compare_result != 0) {
 			return compare_result;
 		}
-		
+
 		/* Advance to the next keyword */
 		length = strlen (keyword_cache_1);
 		keyword_cache_1 += length + 1;
@@ -3024,7 +3029,7 @@ compare_by_emblems (CajaFile *file_1, CajaFile *file_2)
 		return +1;
 	}
 
-	return 0;	
+	return 0;
 }
 
 static int
@@ -3043,7 +3048,7 @@ compare_by_type (CajaFile *file_1, CajaFile *file_2)
 	 */
 	is_directory_1 = caja_file_is_directory (file_1);
 	is_directory_2 = caja_file_is_directory (file_2);
-	
+
 	if (is_directory_1 && is_directory_2) {
 		return 0;
 	}
@@ -3099,14 +3104,14 @@ compare_by_time (CajaFile *file_1, CajaFile *file_2, CajaDateType type)
 	if (time_known_1 < time_known_2) {
 		return +1;
 	}
-	
-	/* Now time_known_1 is equal to time_known_2. Check whether 
+
+	/* Now time_known_1 is equal to time_known_2. Check whether
 	 * we failed to get modification times for files
 	 */
 	if(time_known_1 == UNKNOWABLE || time_known_1 == UNKNOWN) {
 		return 0;
 	}
-		
+
 	if (time_1 < time_2) {
 		return -1;
 	}
@@ -3167,7 +3172,7 @@ caja_file_compare_for_sort_internal (CajaFile *file_1,
  * @directories_first: Put all directories before any non-directories
  * @reversed: Reverse the order of the items, except that
  * the directories_first flag is still respected.
- * 
+ *
  * Return value: int < 0 if @file_1 should come before file_2 in a
  * sorted list; int > 0 if @file_2 should come before file_1 in a
  * sorted list; 0 if @file_1 and @file_2 are equal for this sort criterion. Note
@@ -3186,9 +3191,9 @@ caja_file_compare_for_sort (CajaFile *file_1,
 	if (file_1 == file_2) {
 		return 0;
 	}
-	
+
 	result = caja_file_compare_for_sort_internal (file_1, file_2, directories_first, reversed);
-	
+
 	if (result == 0) {
 		switch (sort_type) {
 		case CAJA_FILE_SORT_BY_DISPLAY_NAME:
@@ -3310,18 +3315,18 @@ caja_file_compare_for_sort_by_attribute_q   (CajaFile                   *file_1,
 						       directories_first,
 						       reversed);
 	}
-	
+
 	/* it is a normal attribute, compare by strings */
 
 	result = caja_file_compare_for_sort_internal (file_1, file_2, directories_first, reversed);
-	
+
 	if (result == 0) {
 		char *value_1;
 		char *value_2;
-		
-		value_1 = caja_file_get_string_attribute_q (file_1, 
+
+		value_1 = caja_file_get_string_attribute_q (file_1,
 								attribute);
-		value_2 = caja_file_get_string_attribute_q (file_2, 
+		value_2 = caja_file_get_string_attribute_q (file_2,
 								attribute);
 
 		if (value_1 != NULL && value_2 != NULL) {
@@ -3335,7 +3340,7 @@ caja_file_compare_for_sort_by_attribute_q   (CajaFile                   *file_1,
 			result = -result;
 		}
 	}
-	
+
 	return result;
 }
 
@@ -3357,7 +3362,7 @@ caja_file_compare_for_sort_by_attribute     (CajaFile                   *file_1,
  * caja_file_compare_name:
  * @file: A file object
  * @pattern: A string we are comparing it with
- * 
+ *
  * Return value: result of a comparison of the file name and the given pattern,
  * using the same sorting order as sort by name.
  **/
@@ -3382,7 +3387,7 @@ caja_file_is_hidden_file (CajaFile *file)
 	return file->details->is_hidden;
 }
 
-gboolean 
+gboolean
 caja_file_is_backup_file (CajaFile *file)
 {
 	return file->details->is_backup;
@@ -3394,7 +3399,7 @@ is_file_hidden (CajaFile *file)
 	return file->details->directory->details->hidden_file_hash != NULL &&
 		g_hash_table_lookup (file->details->directory->details->hidden_file_hash,
 				     eel_ref_str_peek (file->details->name)) != NULL;
-	
+
 }
 
 /**
@@ -3402,14 +3407,14 @@ is_file_hidden (CajaFile *file)
  * @file: the file to check.
  * @show_hidden: whether we want to show hidden files or not.
  * @show_backup: whether we want to show backup files or not.
- * 
+ *
  * Determines if a #CajaFile should be shown. Note that when browsing
- * a trash directory, this function will always return %TRUE. 
+ * a trash directory, this function will always return %TRUE.
  *
  * Returns: %TRUE if the file should be shown, %FALSE if it shouldn't.
  */
-gboolean 
-caja_file_should_show (CajaFile *file, 
+gboolean
+caja_file_should_show (CajaFile *file,
 			   gboolean show_hidden,
 			   gboolean show_backup,
 			   gboolean show_foreign)
@@ -3445,7 +3450,7 @@ caja_file_is_in_desktop (CajaFile *file)
 		return caja_is_desktop_directory (file->details->directory->details->location);
 	}
 	return FALSE;
-	
+
 }
 
 static gboolean
@@ -3458,7 +3463,7 @@ filter_hidden_and_backup_partition_callback (gpointer data,
 	file = CAJA_FILE (data);
 	options = GPOINTER_TO_INT (callback_data);
 
-	return caja_file_should_show (file, 
+	return caja_file_should_show (file,
 					  options & SHOW_HIDDEN,
 					  options & SHOW_BACKUP,
 					  TRUE);
@@ -3472,12 +3477,12 @@ caja_file_list_filter_hidden_and_backup (GList    *files,
 	GList *filtered_files;
 	GList *removed_files;
 
-	/* FIXME bugzilla.mate.org 40653: 
-	 * Eventually this should become a generic filtering thingy. 
+	/* FIXME bugzilla.mate.org 40653:
+	 * Eventually this should become a generic filtering thingy.
 	 */
 
 	filtered_files = caja_file_list_copy (files);
-	filtered_files = eel_g_list_partition (filtered_files, 
+	filtered_files = eel_g_list_partition (filtered_files,
 					       filter_hidden_and_backup_partition_callback,
 					       GINT_TO_POINTER ((show_hidden ? SHOW_HIDDEN : 0) |
 								(show_backup ? SHOW_BACKUP : 0)),
@@ -3781,7 +3786,7 @@ caja_file_peek_display_name (CajaFile *file)
 	char *escaped_name;
 
 	/* Default to display name based on filename if its not set yet */
-	
+
 	if (file->details->display_name == NULL) {
 		name = eel_ref_str_peek (file->details->name);
 		if (g_utf8_validate (name, -1, NULL)) {
@@ -3798,7 +3803,7 @@ caja_file_peek_display_name (CajaFile *file)
 			g_free (escaped_name);
 		}
 	}
-	
+
 	return eel_ref_str_peek (file->details->display_name);
 }
 
@@ -3812,11 +3817,11 @@ char *
 caja_file_get_edit_name (CajaFile *file)
 {
 	const char *res;
-	
+
 	res = eel_ref_str_peek (file->details->edit_name);
 	if (res == NULL)
 		res = "";
-	
+
 	return g_strdup (res);
 }
 
@@ -3829,11 +3834,11 @@ caja_file_get_name (CajaFile *file)
 /**
  * caja_file_get_description:
  * @file: a #CajaFile.
- * 
- * Gets the standard::description key from @file, if 
+ *
+ * Gets the standard::description key from @file, if
  * it has been cached.
- * 
- * Returns: a string containing the value of the standard::description 
+ *
+ * Returns: a string containing the value of the standard::description
  * 	key, or %NULL.
  */
 char *
@@ -3841,8 +3846,8 @@ caja_file_get_description (CajaFile *file)
 {
 	return g_strdup (file->details->description);
 }
-   
-void             
+
+void
 caja_file_monitor_add (CajaFile *file,
 			   gconstpointer client,
 			   CajaFileAttributes attributes)
@@ -3853,8 +3858,8 @@ caja_file_monitor_add (CajaFile *file,
 	EEL_CALL_METHOD
 		(CAJA_FILE_CLASS, file,
 		 monitor_add, (file, client, attributes));
-}   
-			   
+}
+
 void
 caja_file_monitor_remove (CajaFile *file,
 			      gconstpointer client)
@@ -3865,7 +3870,7 @@ caja_file_monitor_remove (CajaFile *file,
 	EEL_CALL_METHOD
 		(CAJA_FILE_CLASS, file,
 		 monitor_remove, (file, client));
-}			      
+}
 
 gboolean
 caja_file_is_launcher (CajaFile *file)
@@ -3904,7 +3909,7 @@ caja_file_get_activation_uri (CajaFile *file)
 	if (file->details->activation_uri != NULL) {
 		return g_strdup (file->details->activation_uri);
 	}
-	
+
 	return caja_file_get_uri (file);
 }
 
@@ -3916,7 +3921,7 @@ caja_file_get_activation_location (CajaFile *file)
 	if (file->details->activation_uri != NULL) {
 		return g_file_new_for_uri (file->details->activation_uri);
 	}
-	
+
 	return caja_file_get_location (file);
 }
 
@@ -3927,7 +3932,7 @@ caja_file_get_drop_target_uri (CajaFile *file)
 	char *uri, *target_uri;
 	GFile *location;
 	CajaDesktopLink *link;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), NULL);
 
 	if (CAJA_IS_DESKTOP_ICON_FILE (file)) {
@@ -3943,9 +3948,9 @@ caja_file_get_drop_target_uri (CajaFile *file)
 			}
 		}
 	}
-	
+
 	uri = caja_file_get_uri (file);
-			
+
 	/* Check for Caja link */
 	if (caja_file_is_caja_link (file)) {
 		location = caja_file_get_location (file);
@@ -3981,7 +3986,7 @@ get_custom_icon_metadata_uri (CajaFile *file)
 	char *custom_icon_uri;
 	char *uri;
 	char *dir_uri;
-	
+
 	uri = caja_file_get_metadata (file, CAJA_METADATA_KEY_CUSTOM_ICON, NULL);
 	if (uri != NULL &&
 	    caja_file_is_directory (file) &&
@@ -4008,7 +4013,7 @@ get_custom_icon (CajaFile *file)
 	}
 
 	icon = NULL;
-	
+
 	/* Metadata takes precedence */
 	custom_icon_uri = get_custom_icon_metadata_uri (file);
 
@@ -4018,7 +4023,7 @@ get_custom_icon (CajaFile *file)
 		g_object_unref (icon_file);
 		g_free (custom_icon_uri);
 	}
- 
+
 	if (icon == NULL && file->details->got_link_info && file->details->custom_icon != NULL) {
 		if (g_path_is_absolute (file->details->custom_icon)) {
 			icon_file = g_file_new_for_path (file->details->custom_icon);
@@ -4028,7 +4033,7 @@ get_custom_icon (CajaFile *file)
 			icon = g_themed_icon_new (file->details->custom_icon);
 		}
  	}
- 
+
 	return icon;
 }
 
@@ -4066,7 +4071,7 @@ caja_file_should_show_thumbnail (CajaFile *file)
 	if (mime_type == NULL) {
 		mime_type = "application/octet-stream";
 	}
-	
+
 	/* If the thumbnail has already been created, don't care about the size
 	 * of the original file.
 	 */
@@ -4169,7 +4174,7 @@ caja_file_get_gicon (CajaFile *file,
 			if (is_preview) {
 				g_ptr_array_add (prepend_array, "text-x-preview");
 			}
-			
+
 			/* "folder" should override "inode-directory", not the other way around */
 			if (is_inode_directory) {
 				g_ptr_array_add (prepend_array, "folder");
@@ -4222,7 +4227,7 @@ caja_file_get_gicon (CajaFile *file,
 
 		return icon;
 	}
-	
+
 	return g_themed_icon_new ("text-x-generic");
 }
 
@@ -4256,7 +4261,7 @@ caja_file_get_icon (CajaFile *file,
 	if (file == NULL) {
 		return NULL;
 	}
-	
+
 	gicon = get_custom_icon (file);
 	if (gicon) {
 		icon = caja_icon_info_lookup (gicon, size);
@@ -4267,7 +4272,7 @@ caja_file_get_icon (CajaFile *file,
 	if (flags & CAJA_FILE_ICON_FLAGS_FORCE_THUMBNAIL_SIZE) {
 		modified_size = size;
 	} else {
-		modified_size = size * cached_thumbnail_size / CAJA_ICON_SIZE_STANDARD; 
+		modified_size = size * cached_thumbnail_size / CAJA_ICON_SIZE_STANDARD;
 	}
 	if (flags & CAJA_FILE_ICON_FLAGS_USE_THUMBNAILS &&
 	    caja_file_should_show_thumbnail (file)) {
@@ -4279,7 +4284,7 @@ caja_file_get_icon (CajaFile *file,
 
 			w = gdk_pixbuf_get_width (raw_pixbuf);
 			h = gdk_pixbuf_get_height (raw_pixbuf);
-			
+
 			s = MAX (w, h);
 			/* Don't scale up small thumbnails in the standard view */
 			if (s <= cached_thumbnail_size) {
@@ -4314,12 +4319,12 @@ caja_file_get_icon (CajaFile *file,
 				file->details->thumbnail_wants_original = TRUE;
 				caja_file_invalidate_attributes (file, CAJA_FILE_ATTRIBUTE_THUMBNAIL);
 			}
-			
+
 			icon = caja_icon_info_new_for_pixbuf (scaled_pixbuf);
 			g_object_unref (scaled_pixbuf);
 			return icon;
 		} else if (file->details->thumbnail_path == NULL &&
-			   file->details->can_read &&				
+			   file->details->can_read &&
 			   !file->details->is_thumbnailing &&
 			   !file->details->thumbnailing_failed) {
 			if (caja_can_thumbnail (file)) {
@@ -4333,7 +4338,7 @@ caja_file_get_icon (CajaFile *file,
 		gicon = g_themed_icon_new (ICON_NAME_THUMBNAIL_LOADING);
 	else
 		gicon = caja_file_get_gicon (file, flags);
-	
+
 	if (gicon) {
 		icon = caja_icon_info_lookup (gicon, size);
 		if (caja_icon_info_is_fallback (icon)) {
@@ -4363,7 +4368,7 @@ caja_file_get_icon_pixbuf (CajaFile *file,
 		pixbuf = caja_icon_info_get_pixbuf (info);
 	}
 	g_object_unref (info);
-	
+
 	return pixbuf;
 }
 
@@ -4378,11 +4383,11 @@ caja_file_get_custom_icon (CajaFile *file)
 
 	/* Metadata takes precedence */
 	custom_icon = get_custom_icon_metadata_uri (file);
- 
+
 	if (custom_icon == NULL && file->details->got_link_info) {
 		custom_icon = g_strdup (file->details->custom_icon);
  	}
- 
+
 	return custom_icon;
 }
 
@@ -4445,13 +4450,13 @@ static const char *TODAY_TIME_FORMATS [] = {
 	 */
 	N_("today at 00:00:00 PM"),
 	N_("today at %-I:%M:%S %p"),
-	
+
 	N_("today at 00:00 PM"),
 	N_("today at %-I:%M %p"),
-	
+
 	N_("today, 00:00 PM"),
 	N_("today, %-I:%M %p"),
-	
+
 	N_("today"),
 	N_("today"),
 
@@ -4464,13 +4469,13 @@ static const char *YESTERDAY_TIME_FORMATS [] = {
 	 */
 	N_("yesterday at 00:00:00 PM"),
 	N_("yesterday at %-I:%M:%S %p"),
-	
+
 	N_("yesterday at 00:00 PM"),
 	N_("yesterday at %-I:%M %p"),
-	
+
 	N_("yesterday, 00:00 PM"),
 	N_("yesterday, %-I:%M %p"),
-	
+
 	N_("yesterday"),
 	N_("yesterday"),
 
@@ -4491,13 +4496,13 @@ static const char *CURRENT_WEEK_TIME_FORMATS [] = {
 
 	N_("Mon, Oct 00 0000 at 00:00 PM"),
 	N_("%a, %b %-d %Y at %-I:%M %p"),
-	
+
 	N_("Oct 00 0000 at 00:00 PM"),
 	N_("%b %-d %Y at %-I:%M %p"),
-	
+
 	N_("Oct 00 0000, 00:00 PM"),
 	N_("%b %-d %Y, %-I:%M %p"),
-	
+
 	N_("00/00/00, 00:00 PM"),
 	N_("%m/%-d/%y, %-I:%M %p"),
 
@@ -4538,9 +4543,9 @@ caja_file_fit_date_as_string (CajaFile *file,
 	} else if (date_format_pref == CAJA_DATE_FORMAT_ISO) {
 		return eel_strdup_strftime ("%Y-%m-%d %H:%M:%S", file_time);
 	}
-	
+
 	file_date = eel_g_date_new_tm (file_time);
-	
+
 	today = g_date_new ();
 	g_date_set_time_t (today, time (NULL));
 
@@ -4575,28 +4580,28 @@ caja_file_fit_date_as_string (CajaFile *file,
 	 * and 0 for the variable letters/digits respectively.
 	 */
 	format = NULL;
-	
+
 	for (i = 0; ; i += 2) {
 		width_template = (formats [i] ? _(formats [i]) : NULL);
 		if (width_template == NULL) {
 			/* no more formats left */
 			g_assert (format != NULL);
-			
+
 			/* Can't fit even the shortest format -- return an ellipsized form in the
 			 * shortest format
 			 */
-			
+
 			date_string = eel_strdup_strftime (format, file_time);
 
 			if (truncate_callback == NULL) {
 				return date_string;
 			}
-			
+
 			result = (* truncate_callback) (date_string, width, measure_context);
 			g_free (date_string);
 			return result;
 		}
-		
+
 		format = _(formats [i + 1]);
 
 		if (measure_callback == NULL) {
@@ -4609,14 +4614,14 @@ caja_file_fit_date_as_string (CajaFile *file,
 			break;
 		}
 	}
-	
+
 	return eel_strdup_strftime (format, file_time);
 
 }
 
 /**
  * caja_file_fit_modified_date_as_string:
- * 
+ *
  * Get a user-displayable string representing a file modification date,
  * truncated to @width using the measuring and truncating callbacks.
  * @file: CajaFile representing the file in question.
@@ -4624,9 +4629,9 @@ caja_file_fit_date_as_string (CajaFile *file,
  * @measure_callback: The callback used to measure the string width.
  * @truncate_callback: The callback used to truncate the string to a desired width.
  * @measure_context: Data neede when measuring and truncating.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 char *
 caja_file_fit_modified_date_as_string (CajaFile *file,
@@ -4665,13 +4670,13 @@ caja_file_get_trash_original_file_parent_as_string (CajaFile *file)
 
 /**
  * caja_file_get_date_as_string:
- * 
- * Get a user-displayable string representing a file modification date. 
+ *
+ * Get a user-displayable string representing a file modification date.
  * The caller is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_date_as_string (CajaFile *file, CajaDateType date_type)
@@ -4703,7 +4708,7 @@ get_speed_tradeoff_preference_for_file (CajaFile *file, CajaSpeedTradeoffValue v
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 
 	use_preview = caja_file_get_filesystem_use_preview (file);
-	
+
 	if (value == CAJA_SPEED_TRADEOFF_ALWAYS) {
 		if (use_preview == G_FILESYSTEM_PREVIEW_TYPE_NEVER) {
 			return FALSE;
@@ -4711,7 +4716,7 @@ get_speed_tradeoff_preference_for_file (CajaFile *file, CajaSpeedTradeoffValue v
 			return TRUE;
 		}
 	}
-	
+
 	if (value == CAJA_SPEED_TRADEOFF_NEVER) {
 		return FALSE;
 	}
@@ -4734,14 +4739,14 @@ gboolean
 caja_file_should_show_directory_item_count (CajaFile *file)
 {
 	static gboolean show_directory_item_count_callback_added = FALSE;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
-	
+
 	if (file->details->mime_type &&
 	    strcmp (eel_ref_str_peek (file->details->mime_type), "x-directory/smb-share") == 0) {
 		return FALSE;
 	}
-	
+
 	/* Add the callback once for the life of our process */
 	if (!show_directory_item_count_callback_added) {
 		eel_preferences_add_callback (CAJA_PREFERENCES_SHOW_DIRECTORY_ITEM_COUNTS,
@@ -4777,7 +4782,7 @@ gboolean
 caja_file_should_get_top_left_text (CajaFile *file)
 {
 	static gboolean show_text_in_icons_callback_added = FALSE;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 
 	/* Add the callback once for the life of our process */
@@ -4790,11 +4795,11 @@ caja_file_should_get_top_left_text (CajaFile *file)
 		/* Peek for the first time */
 		show_text_in_icons_changed_callback (NULL);
 	}
-	
+
 	if (show_text_in_icons == CAJA_SPEED_TRADEOFF_ALWAYS) {
 		return TRUE;
 	}
-	
+
 	if (show_text_in_icons == CAJA_SPEED_TRADEOFF_NEVER) {
 		return FALSE;
 	}
@@ -4804,18 +4809,18 @@ caja_file_should_get_top_left_text (CajaFile *file)
 
 /**
  * caja_file_get_directory_item_count
- * 
+ *
  * Get the number of items in a directory.
  * @file: CajaFile representing a directory.
  * @count: Place to put count.
  * @count_unreadable: Set to TRUE (if non-NULL) if permissions prevent
  * the item count from being read on this directory. Otherwise set to FALSE.
- * 
+ *
  * Returns: TRUE if count is available.
- * 
+ *
  **/
 gboolean
-caja_file_get_directory_item_count (CajaFile *file, 
+caja_file_get_directory_item_count (CajaFile *file,
 					guint *count,
 					gboolean *count_unreadable)
 {
@@ -4825,7 +4830,7 @@ caja_file_get_directory_item_count (CajaFile *file,
 	if (count_unreadable != NULL) {
 		*count_unreadable = FALSE;
 	}
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 
 	if (!caja_file_is_directory (file)) {
@@ -4843,7 +4848,7 @@ caja_file_get_directory_item_count (CajaFile *file,
 
 /**
  * caja_file_get_deep_counts
- * 
+ *
  * Get the statistics about items inside a directory.
  * @file: CajaFile representing a directory or file.
  * @directory_count: Place to put count of directories inside.
@@ -4854,9 +4859,9 @@ caja_file_get_directory_item_count (CajaFile *file,
  * @force: Whether the deep counts should even be collected if
  * caja_file_should_show_directory_item_count returns FALSE
  * for this file.
- * 
+ *
  * Returns: Status to indicate whether sizes are available.
- * 
+ *
  **/
 CajaRequestStatus
 caja_file_get_deep_counts (CajaFile *file,
@@ -4913,14 +4918,14 @@ caja_file_recompute_deep_counts (CajaFile *file)
 
 /**
  * caja_file_get_directory_item_mime_types
- * 
+ *
  * Get the list of mime-types present in a directory.
  * @file: CajaFile representing a directory. It is an error to
  * call this function on a file that is not a directory.
  * @mime_list: Place to put the list of mime-types.
- * 
+ *
  * Returns: TRUE if mime-type list is available.
- * 
+ *
  **/
 gboolean
 caja_file_get_directory_item_mime_types (CajaFile *file,
@@ -4944,16 +4949,16 @@ caja_file_can_get_size (CajaFile *file)
 {
 	return file->details->size == -1;
 }
-	
+
 
 /**
  * caja_file_get_size
- * 
+ *
  * Get the file size.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Size in bytes.
- * 
+ *
  **/
 goffset
 caja_file_get_size (CajaFile *file)
@@ -4979,7 +4984,7 @@ set_attributes_get_info_callback (GObject *source_object,
 	CajaFileOperation *op;
 	GFileInfo *new_info;
 	GError *error;
-	
+
 	op = callback_data;
 
 	error = NULL;
@@ -5028,20 +5033,20 @@ set_attributes_callback (GObject *source_object,
 }
 
 void
-caja_file_set_attributes (CajaFile *file, 
+caja_file_set_attributes (CajaFile *file,
 			      GFileInfo *attributes,
 			      CajaFileOperationCallback callback,
 			      gpointer callback_data)
 {
 	CajaFileOperation *op;
 	GFile *location;
-	
+
 	op = caja_file_operation_new (file, callback, callback_data);
 
 	location = caja_file_get_location (file);
 	g_file_set_attributes_async (location,
 				     attributes,
-				     0, 
+				     0,
 				     G_PRIORITY_DEFAULT,
 				     op->cancellable,
 				     set_attributes_callback,
@@ -5052,12 +5057,12 @@ caja_file_set_attributes (CajaFile *file,
 
 /**
  * caja_file_can_get_permissions:
- * 
+ *
  * Check whether the permissions for a file are determinable.
  * This might not be the case for files on non-UNIX file systems.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the permissions are valid.
  */
 gboolean
@@ -5068,12 +5073,12 @@ caja_file_can_get_permissions (CajaFile *file)
 
 /**
  * caja_file_can_set_permissions:
- * 
+ *
  * Check whether the current user is allowed to change
  * the permissions of a file.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the current user can change the
  * permissions of @file, FALSE otherwise. It's always possible
  * that when you actually try to do it, you will fail.
@@ -5117,16 +5122,16 @@ caja_file_get_permissions (CajaFile *file)
 
 /**
  * caja_file_set_permissions:
- * 
+ *
  * Change a file's permissions. This should only be called if
  * caja_file_can_set_permissions returned TRUE.
- * 
+ *
  * @file: CajaFile representing the file in question.
  * @new_permissions: New permissions value. This is the whole
  * set of permissions, not a delta.
  **/
 void
-caja_file_set_permissions (CajaFile *file, 
+caja_file_set_permissions (CajaFile *file,
 			       guint32 new_permissions,
 			       CajaFileOperationCallback callback,
 			       gpointer callback_data)
@@ -5146,7 +5151,7 @@ caja_file_set_permissions (CajaFile *file,
 		g_error_free (error);
 		return;
 	}
-			       
+
 	/* Test the permissions-haven't-changed case explicitly
 	 * because we don't want to send the file-changed signal if
 	 * nothing changed.
@@ -5164,13 +5169,13 @@ caja_file_set_permissions (CajaFile *file,
 
 /**
  * caja_file_can_get_selinux_context:
- * 
+ *
  * Check whether the selinux context for a file are determinable.
  * This might not be the case for files on non-UNIX file systems,
  * files without a context or systems that don't support selinux.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the permissions are valid.
  */
 gboolean
@@ -5182,20 +5187,20 @@ caja_file_can_get_selinux_context (CajaFile *file)
 
 /**
  * caja_file_get_selinux_context:
- * 
+ *
  * Get a user-displayable string representing a file's selinux
  * context
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 char *
 caja_file_get_selinux_context (CajaFile *file)
 {
 	char *translated;
 	char *raw;
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), NULL);
 
 	if (!caja_file_can_get_selinux_context (file)) {
@@ -5216,7 +5221,7 @@ caja_file_get_selinux_context (CajaFile *file)
 	{
 		translated = g_strdup (raw);
 	}
-	
+
 	return translated;
 }
 
@@ -5242,7 +5247,7 @@ get_real_name (const char *name, const char *gecos)
 	} else {
 		locale_string = g_strdup (name);
 	}
-	
+
 	capitalized_login_name = eel_str_capitalize (locale_string);
 	g_free (locale_string);
 
@@ -5335,12 +5340,12 @@ get_id_from_digit_string (const char *digit_string, uid_t *id)
 
 /**
  * caja_file_can_get_owner:
- * 
+ *
  * Check whether the owner a file is determinable.
  * This might not be the case for files on non-UNIX file systems.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the owner is valid.
  */
 gboolean
@@ -5352,13 +5357,13 @@ caja_file_can_get_owner (CajaFile *file)
 
 /**
  * caja_file_get_owner_name:
- * 
+ *
  * Get the user name of the file's owner. If the owner has no
  * name, returns the userid as a string. The caller is responsible
  * for g_free-ing this string.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: A newly-allocated string.
  */
 char *
@@ -5369,12 +5374,12 @@ caja_file_get_owner_name (CajaFile *file)
 
 /**
  * caja_file_can_set_owner:
- * 
+ *
  * Check whether the current user is allowed to change
  * the owner of a file.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the current user can change the
  * owner of @file, FALSE otherwise. It's always possible
  * that when you actually try to do it, you will fail.
@@ -5396,10 +5401,10 @@ caja_file_can_set_owner (CajaFile *file)
 
 /**
  * caja_file_set_owner:
- * 
+ *
  * Set the owner of a file. This will only have any effect if
  * caja_file_can_set_owner returns TRUE.
- * 
+ *
  * @file: The file in question.
  * @user_name_or_id: The user name to set the owner to.
  * If the string does not match any user name, and the
@@ -5409,7 +5414,7 @@ caja_file_can_set_owner (CajaFile *file)
  * @callback_data: Parameter passed back with callback function.
  */
 void
-caja_file_set_owner (CajaFile *file, 
+caja_file_set_owner (CajaFile *file,
 			 const char *user_name_or_id,
 			 CajaFileOperationCallback callback,
 			 gpointer callback_data)
@@ -5447,7 +5452,7 @@ caja_file_set_owner (CajaFile *file,
 				     _("Specified owner '%s' doesn't exist"), user_name_or_id);
 		(* callback) (file, NULL, error, callback_data);
 		g_error_free (error);
-		return;		
+		return;
 	}
 
 	/* Test the owner-hasn't-changed case explicitly because we
@@ -5467,10 +5472,10 @@ caja_file_set_owner (CajaFile *file,
 
 /**
  * caja_get_user_names:
- * 
- * Get a list of user names. For users with a different associated 
- * "real name", the real name follows the standard user name, separated 
- * by a carriage return. The caller is responsible for freeing this list 
+ *
+ * Get a list of user names. For users with a different associated
+ * "real name", the real name follows the standard user name, separated
+ * by a carriage return. The caller is responsible for freeing this list
  * and its contents.
  */
 GList *
@@ -5481,7 +5486,7 @@ caja_get_user_names (void)
 	struct passwd *user;
 
 	list = NULL;
-	
+
 	setpwent ();
 
 	while ((user = getpwent ()) != NULL) {
@@ -5502,12 +5507,12 @@ caja_get_user_names (void)
 
 /**
  * caja_file_can_get_group:
- * 
+ *
  * Check whether the group a file is determinable.
  * This might not be the case for files on non-UNIX file systems.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the group is valid.
  */
 gboolean
@@ -5519,13 +5524,13 @@ caja_file_can_get_group (CajaFile *file)
 
 /**
  * caja_file_get_group_name:
- * 
+ *
  * Get the name of the file's group. If the group has no
  * name, returns the groupid as a string. The caller is responsible
  * for g_free-ing this string.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: A newly-allocated string.
  **/
 char *
@@ -5536,12 +5541,12 @@ caja_file_get_group_name (CajaFile *file)
 
 /**
  * caja_file_can_set_group:
- * 
+ *
  * Check whether the current user is allowed to change
  * the group of a file.
- * 
+ *
  * @file: The file in question.
- * 
+ *
  * Return value: TRUE if the current user can change the
  * group of @file, FALSE otherwise. It's always possible
  * that when you actually try to do it, you will fail.
@@ -5587,7 +5592,7 @@ caja_get_group_names_for_user (void)
 	struct group *group;
 	int count, i;
 	gid_t gid_list[NGROUPS_MAX + 1];
-	
+
 
 	list = NULL;
 
@@ -5596,7 +5601,7 @@ caja_get_group_names_for_user (void)
 		group = getgrgid (gid_list[i]);
 		if (group == NULL)
 			break;
-		
+
 		list = g_list_prepend (list, g_strdup (group->gr_name));
 	}
 
@@ -5605,7 +5610,7 @@ caja_get_group_names_for_user (void)
 
 /**
  * caja_get_group_names:
- * 
+ *
  * Get a list of all group names.
  */
 GList *
@@ -5613,25 +5618,25 @@ caja_get_all_group_names (void)
 {
 	GList *list;
 	struct group *group;
-	
+
 	list = NULL;
 
 	setgrent ();
-	
+
 	while ((group = getgrent ()) != NULL)
 		list = g_list_prepend (list, g_strdup (group->gr_name));
-	
+
 	endgrent ();
-	
+
 	return eel_g_str_list_alphabetize (list);
 }
 
 /**
  * caja_file_get_settable_group_names:
- * 
+ *
  * Get a list of all group names that the current user
  * can set the group of a specific file to.
- * 
+ *
  * @file: The CajaFile in question.
  */
 GList *
@@ -5642,7 +5647,7 @@ caja_file_get_settable_group_names (CajaFile *file)
 
 	if (!caja_file_can_set_group (file)) {
 		return NULL;
-	}	
+	}
 
 	/* Check the user. */
 	user_id = geteuid();
@@ -5663,10 +5668,10 @@ caja_file_get_settable_group_names (CajaFile *file)
 
 /**
  * caja_file_set_group:
- * 
+ *
  * Set the group of a file. This will only have any effect if
  * caja_file_can_set_group returns TRUE.
- * 
+ *
  * @file: The file in question.
  * @group_name_or_id: The group name to set the owner to.
  * If the string does not match any group name, and the
@@ -5676,7 +5681,7 @@ caja_file_get_settable_group_names (CajaFile *file)
  * @callback_data: Parameter passed back with callback function.
  */
 void
-caja_file_set_group (CajaFile *file, 
+caja_file_set_group (CajaFile *file,
 			 const char *group_name_or_id,
 			 CajaFileOperationCallback callback,
 			 gpointer callback_data)
@@ -5714,7 +5719,7 @@ caja_file_set_group (CajaFile *file,
 				     _("Specified group '%s' doesn't exist"), group_name_or_id);
 		(* callback) (file, NULL, error, callback_data);
 		g_error_free (error);
-		return;		
+		return;
 	}
 
 	if (new_id == (gid_t) file->details->gid) {
@@ -5731,14 +5736,14 @@ caja_file_set_group (CajaFile *file,
 
 /**
  * caja_file_get_octal_permissions_as_string:
- * 
+ *
  * Get a user-displayable string representing a file's permissions
  * as an octal number. The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_octal_permissions_as_string (CajaFile *file)
@@ -5757,13 +5762,13 @@ caja_file_get_octal_permissions_as_string (CajaFile *file)
 
 /**
  * caja_file_get_permissions_as_string:
- * 
+ *
  * Get a user-displayable string representing a file's permissions. The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_permissions_as_string (CajaFile *file)
@@ -5792,32 +5797,32 @@ caja_file_get_permissions_as_string (CajaFile *file)
 				 is_link ? 'l' : is_directory ? 'd' : '-',
 		 		 permissions & S_IRUSR ? 'r' : '-',
 				 permissions & S_IWUSR ? 'w' : '-',
-				 permissions & S_IXUSR 
-				 	? (suid ? 's' : 'x') 
+				 permissions & S_IXUSR
+				 	? (suid ? 's' : 'x')
 				 	: (suid ? 'S' : '-'),
 				 permissions & S_IRGRP ? 'r' : '-',
 				 permissions & S_IWGRP ? 'w' : '-',
 				 permissions & S_IXGRP
-				 	? (sgid ? 's' : 'x') 
-				 	: (sgid ? 'S' : '-'),		
+				 	? (sgid ? 's' : 'x')
+				 	: (sgid ? 'S' : '-'),
 				 permissions & S_IROTH ? 'r' : '-',
 				 permissions & S_IWOTH ? 'w' : '-',
 				 permissions & S_IXOTH
-				 	? (sticky ? 't' : 'x') 
+				 	? (sticky ? 't' : 'x')
 				 	: (sticky ? 'T' : '-'));
 }
 
 /**
  * caja_file_get_owner_as_string:
- * 
+ *
  * Get a user-displayable string representing a file's owner. The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
  * @include_real_name: Whether or not to append the real name (if any)
  * for this user after the user name.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_owner_as_string (CajaFile *file, gboolean include_real_name)
@@ -5847,29 +5852,29 @@ caja_file_get_owner_as_string (CajaFile *file, gboolean include_real_name)
 }
 
 static char *
-format_item_count_for_display (guint item_count, 
-			       gboolean includes_directories, 
+format_item_count_for_display (guint item_count,
+			       gboolean includes_directories,
 			       gboolean includes_files)
 {
 	g_assert (includes_directories || includes_files);
 
 	return g_strdup_printf (includes_directories
-			? (includes_files 
-			   ? ngettext ("%'u item", "%'u items", item_count) 
+			? (includes_files
+			   ? ngettext ("%'u item", "%'u items", item_count)
 			   : ngettext ("%'u folder", "%'u folders", item_count))
 			: ngettext ("%'u file", "%'u files", item_count), item_count);
 }
 
 /**
  * caja_file_get_size_as_string:
- * 
+ *
  * Get a user-displayable string representing a file size. The caller
  * is responsible for g_free-ing this string. The string is an item
  * count for directories.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_size_as_string (CajaFile *file)
@@ -5880,16 +5885,16 @@ caja_file_get_size_as_string (CajaFile *file)
 	if (file == NULL) {
 		return NULL;
 	}
-	
+
 	g_assert (CAJA_IS_FILE (file));
-	
+
 	if (caja_file_is_directory (file)) {
 		if (!caja_file_get_directory_item_count (file, &item_count, &count_unreadable)) {
 			return NULL;
 		}
 		return format_item_count_for_display (item_count, TRUE, TRUE);
 	}
-	
+
 	if (file->details->size == -1) {
 		return NULL;
 	}
@@ -5898,15 +5903,15 @@ caja_file_get_size_as_string (CajaFile *file)
 
 /**
  * caja_file_get_size_as_string_with_real_size:
- * 
+ *
  * Get a user-displayable string representing a file size. The caller
  * is responsible for g_free-ing this string. The string is an item
  * count for directories.
  * This function adds the real size in the string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_size_as_string_with_real_size (CajaFile *file)
@@ -5920,16 +5925,16 @@ caja_file_get_size_as_string_with_real_size (CajaFile *file)
 	if (file == NULL) {
 		return NULL;
 	}
-	
+
 	g_assert (CAJA_IS_FILE (file));
-	
+
 	if (caja_file_is_directory (file)) {
 		if (!caja_file_get_directory_item_count (file, &item_count, &count_unreadable)) {
 			return NULL;
 		}
 		return format_item_count_for_display (item_count, TRUE, TRUE);
 	}
-	
+
 	if (file->details->size == -1) {
 		return NULL;
 	}
@@ -5964,11 +5969,11 @@ caja_file_get_deep_count_as_string_internal (CajaFile *file,
 	if (file == NULL) {
 		return NULL;
 	}
-	
+
 	g_assert (CAJA_IS_FILE (file));
 	g_assert (caja_file_is_directory (file));
 
-	status = caja_file_get_deep_counts 
+	status = caja_file_get_deep_counts
 		(file, &directory_count, &file_count, &unreadable_count, &total_size, FALSE);
 
 	/* Check whether any info is available. */
@@ -6011,14 +6016,14 @@ caja_file_get_deep_count_as_string_internal (CajaFile *file,
 
 /**
  * caja_file_get_deep_size_as_string:
- * 
+ *
  * Get a user-displayable string representing the size of all contained
  * items (only makes sense for directories). The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_deep_size_as_string (CajaFile *file)
@@ -6028,14 +6033,14 @@ caja_file_get_deep_size_as_string (CajaFile *file)
 
 /**
  * caja_file_get_deep_total_count_as_string:
- * 
+ *
  * Get a user-displayable string representing the count of all contained
  * items (only makes sense for directories). The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_deep_total_count_as_string (CajaFile *file)
@@ -6045,15 +6050,15 @@ caja_file_get_deep_total_count_as_string (CajaFile *file)
 
 /**
  * caja_file_get_deep_file_count_as_string:
- * 
+ *
  * Get a user-displayable string representing the count of all contained
  * items, not including directories. It only makes sense to call this
  * function on a directory. The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_deep_file_count_as_string (CajaFile *file)
@@ -6063,15 +6068,15 @@ caja_file_get_deep_file_count_as_string (CajaFile *file)
 
 /**
  * caja_file_get_deep_directory_count_as_string:
- * 
+ *
  * Get a user-displayable string representing the count of all contained
  * directories. It only makes sense to call this
  * function on a directory. The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 caja_file_get_deep_directory_count_as_string (CajaFile *file)
@@ -6081,22 +6086,22 @@ caja_file_get_deep_directory_count_as_string (CajaFile *file)
 
 /**
  * caja_file_get_string_attribute:
- * 
+ *
  * Get a user-displayable string from a named attribute. Use g_free to
  * free this string. If the value is unknown, returns NULL. You can call
  * caja_file_get_string_attribute_with_default if you want a non-NULL
  * default.
- * 
+ *
  * @file: CajaFile representing the file in question.
  * @attribute_name: The name of the desired attribute. The currently supported
  * set includes "name", "type", "mime_type", "size", "deep_size", "deep_directory_count",
- * "deep_file_count", "deep_total_count", "date_modified", "date_changed", "date_accessed", 
+ * "deep_file_count", "deep_total_count", "date_modified", "date_changed", "date_accessed",
  * "date_permissions", "owner", "group", "permissions", "octal_permissions", "uri", "where",
  * "link_target", "volume", "free_space", "selinux_context", "trashed_on", "trashed_orig_path"
- * 
+ *
  * Returns: Newly allocated string ready to display to the user, or NULL
  * if the value is unknown or @attribute_name is not supported.
- * 
+ *
  **/
 char *
 caja_file_get_string_attribute_q (CajaFile *file, GQuark attribute_q)
@@ -6134,11 +6139,11 @@ caja_file_get_string_attribute_q (CajaFile *file, GQuark attribute_q)
 		return caja_file_get_trash_original_file_parent_as_string (file);
 	}
 	if (attribute_q == attribute_date_modified_q) {
-		return caja_file_get_date_as_string (file, 
+		return caja_file_get_date_as_string (file,
 							 CAJA_DATE_TYPE_MODIFIED);
 	}
 	if (attribute_q == attribute_date_changed_q) {
-		return caja_file_get_date_as_string (file, 
+		return caja_file_get_date_as_string (file,
 							 CAJA_DATE_TYPE_CHANGED);
 	}
 	if (attribute_q == attribute_date_accessed_q) {
@@ -6185,17 +6190,17 @@ caja_file_get_string_attribute_q (CajaFile *file, GQuark attribute_q)
 	}
 
 	extension_attribute = NULL;
-	
+
 	if (file->details->pending_extension_attributes) {
 		extension_attribute = g_hash_table_lookup (file->details->pending_extension_attributes,
 							   GINT_TO_POINTER (attribute_q));
-	} 
+	}
 
 	if (extension_attribute == NULL && file->details->extension_attributes) {
 		extension_attribute = g_hash_table_lookup (file->details->extension_attributes,
 							   GINT_TO_POINTER (attribute_q));
 	}
-		
+
 	return g_strdup (extension_attribute);
 }
 
@@ -6208,20 +6213,20 @@ caja_file_get_string_attribute (CajaFile *file, const char *attribute_name)
 
 /**
  * caja_file_get_string_attribute_with_default:
- * 
+ *
  * Get a user-displayable string from a named attribute. Use g_free to
  * free this string. If the value is unknown, returns a string representing
  * the unknown value, which varies with attribute. You can call
  * caja_file_get_string_attribute if you want NULL instead of a default
  * result.
- * 
+ *
  * @file: CajaFile representing the file in question.
  * @attribute_name: The name of the desired attribute. See the description of
  * caja_file_get_string for the set of available attributes.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user, or a string
  * such as "unknown" if the value is unknown or @attribute_name is not supported.
- * 
+ *
  **/
 char *
 caja_file_get_string_attribute_with_default_q (CajaFile *file, GQuark attribute_q)
@@ -6237,8 +6242,8 @@ caja_file_get_string_attribute_with_default_q (CajaFile *file, GQuark attribute_
 	}
 
 	/* Supply default values for the ones we know about. */
-	/* FIXME bugzilla.mate.org 40646: 
-	 * Use hash table and switch statement or function pointers for speed? 
+	/* FIXME bugzilla.mate.org 40646:
+	 * Use hash table and switch statement or function pointers for speed?
 	 */
 	if (attribute_q == attribute_size_q) {
 		if (!caja_file_should_show_directory_item_count (file)) {
@@ -6282,7 +6287,7 @@ caja_file_get_string_attribute_with_default_q (CajaFile *file, GQuark attribute_
 		/* If n/a */
 		return g_strdup ("");
 	}
-	
+
 	/* Fallback, use for both unknown attributes and attributes
 	 * for which we have no more appropriate default.
 	 */
@@ -6313,13 +6318,13 @@ caja_file_is_date_sort_attribute_q (GQuark attribute_q)
 
 /**
  * get_description:
- * 
+ *
  * Get a user-displayable string representing a file type. The caller
  * is responsible for g_free-ing this string.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: Newly allocated string ready to display to the user.
- * 
+ *
  **/
 static char *
 get_description (CajaFile *file)
@@ -6352,14 +6357,14 @@ static char *
 update_description_for_link (CajaFile *file, char *string)
 {
 	char *res;
-	
+
 	if (caja_file_is_symbolic_link (file)) {
 		g_assert (!caja_file_is_broken_symbolic_link (file));
 		if (string == NULL) {
 			return g_strdup (_("link"));
 		}
-		/* Note to localizers: convert file type string for file 
-		 * (e.g. "folder", "plain text") to file type for symbolic link 
+		/* Note to localizers: convert file type string for file
+		 * (e.g. "folder", "plain text") to file type for symbolic link
 		 * to that kind of file (e.g. "link to folder").
 		 */
 		res = g_strdup_printf (_("Link to %s"), string);
@@ -6380,18 +6385,18 @@ caja_file_get_type_as_string (CajaFile *file)
 	if (caja_file_is_broken_symbolic_link (file)) {
 		return g_strdup (_("link (broken)"));
 	}
-	
+
 	return update_description_for_link (file, get_description (file));
 }
 
 /**
  * caja_file_get_file_type
- * 
+ *
  * Return this file's type.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: The type.
- * 
+ *
  **/
 GFileType
 caja_file_get_file_type (CajaFile *file)
@@ -6399,18 +6404,18 @@ caja_file_get_file_type (CajaFile *file)
 	if (file == NULL) {
 		return G_FILE_TYPE_UNKNOWN;
 	}
-	
+
 	return file->details->type;
 }
 
 /**
  * caja_file_get_mime_type
- * 
+ *
  * Return this file's default mime type.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: The mime type.
- * 
+ *
  **/
 char *
 caja_file_get_mime_type (CajaFile *file)
@@ -6426,22 +6431,22 @@ caja_file_get_mime_type (CajaFile *file)
 
 /**
  * caja_file_is_mime_type
- * 
+ *
  * Check whether a file is of a particular MIME type, or inherited
  * from it.
  * @file: CajaFile representing the file in question.
  * @mime_type: The MIME-type string to test (e.g. "text/plain")
- * 
+ *
  * Return value: TRUE if @mime_type exactly matches the
  * file's MIME type.
- * 
+ *
  **/
 gboolean
 caja_file_is_mime_type (CajaFile *file, const char *mime_type)
 {
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 	g_return_val_if_fail (mime_type != NULL, FALSE);
-	
+
 	if (file->details->mime_type == NULL) {
 		return FALSE;
 	}
@@ -6459,7 +6464,7 @@ caja_file_is_launchable (CajaFile *file)
 		type_can_be_executable =
 			g_content_type_can_be_executable (eel_ref_str_peek (file->details->mime_type));
 	}
-		
+
 	return type_can_be_executable &&
 		caja_file_can_get_permissions (file) &&
 		caja_file_can_execute (file) &&
@@ -6470,13 +6475,13 @@ caja_file_is_launchable (CajaFile *file)
 
 /**
  * caja_file_get_emblem_icons
- * 
+ *
  * Return the list of names of emblems that this file should display,
  * in canonical order.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: A list of emblem names.
- * 
+ *
  **/
 GList *
 caja_file_get_emblem_icons (CajaFile *file,
@@ -6488,11 +6493,11 @@ caja_file_get_emblem_icons (CajaFile *file,
 	char *keyword;
 	int i;
 	GIcon *icon;
-	
+
 	if (file == NULL) {
 		return NULL;
 	}
-	
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), NULL);
 
 	keywords = caja_file_get_keywords (file);
@@ -6501,7 +6506,7 @@ caja_file_get_emblem_icons (CajaFile *file,
 	icons = NULL;
 	for (l = keywords; l != NULL; l = l->next) {
 		keyword = l->data;
-		
+
 #ifdef TRASH_IS_FAST_ENOUGH
 		if (strcmp (keyword, CAJA_FILE_EMBLEM_NAME_TRASH) == 0) {
 			char *uri;
@@ -6525,7 +6530,7 @@ caja_file_get_emblem_icons (CajaFile *file,
 				}
 			}
 		}
-		
+
 
 		icon_names[0] = g_strconcat ("emblem-", keyword, NULL);
 		icon_names[1] = keyword;
@@ -6534,9 +6539,9 @@ caja_file_get_emblem_icons (CajaFile *file,
 
 		icons = g_list_prepend (icons, icon);
 	}
-	
+
 	eel_g_list_free_deep (keywords);
-	
+
 	return icons;
 }
 
@@ -6564,12 +6569,12 @@ caja_file_get_emblem_pixbufs (CajaFile *file,
 		} else {
 			pixbuf = caja_icon_info_get_pixbuf_nodefault (icon_info);
 		}
-		
+
 		if (pixbuf) {
 			pixbufs = g_list_prepend (pixbufs, pixbuf);
 		}
-		
-		
+
+
 		g_object_unref (icon_info);
 		g_object_unref (icon);
 	}
@@ -6577,7 +6582,7 @@ caja_file_get_emblem_pixbufs (CajaFile *file,
 
 	return g_list_reverse (pixbufs);
 
-	
+
 }
 
 static GList *
@@ -6585,7 +6590,7 @@ sort_keyword_list_and_remove_duplicates (GList *keywords)
 {
 	GList *p;
 	GList *duplicate_link;
-	
+
 	if (keywords != NULL) {
 		keywords = eel_g_str_list_alphabetize (keywords);
 
@@ -6600,18 +6605,18 @@ sort_keyword_list_and_remove_duplicates (GList *keywords)
 			}
 		}
 	}
-	
+
 	return keywords;
 }
 
 /**
  * caja_file_get_keywords
- * 
+ *
  * Return this file's keywords.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: A list of keywords.
- * 
+ *
  **/
 GList *
 caja_file_get_keywords (CajaFile *file)
@@ -6636,7 +6641,7 @@ caja_file_get_keywords (CajaFile *file)
 
 /**
  * caja_file_set_keywords
- * 
+ *
  * Change this file's keywords.
  * @file: CajaFile representing the file in question.
  * @keywords: New set of keywords (a GList of strings).
@@ -6650,7 +6655,7 @@ caja_file_set_keywords (CajaFile *file, GList *keywords)
 	/* Invalidate the emblem compare cache */
 	g_free (file->details->compare_by_emblem_cache);
 	file->details->compare_by_emblem_cache = NULL;
-	
+
 	g_return_if_fail (CAJA_IS_FILE (file));
 
 	canonical_keywords = sort_keyword_list_and_remove_duplicates
@@ -6662,12 +6667,12 @@ caja_file_set_keywords (CajaFile *file, GList *keywords)
 
 /**
  * caja_file_is_symbolic_link
- * 
+ *
  * Check if this file is a symbolic link.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: True if the file is a symbolic link.
- * 
+ *
  **/
 gboolean
 caja_file_is_symbolic_link (CajaFile *file)
@@ -6720,12 +6725,12 @@ caja_file_set_mount (CajaFile *file,
 
 /**
  * caja_file_is_broken_symbolic_link
- * 
+ *
  * Check if this file is a symbolic link with a missing target.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: True if the file is a symbolic link with a missing target.
- * 
+ *
  **/
 gboolean
 caja_file_is_broken_symbolic_link (CajaFile *file)
@@ -6733,7 +6738,7 @@ caja_file_is_broken_symbolic_link (CajaFile *file)
 	if (file == NULL) {
 		return FALSE;
 	}
-		
+
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
 
 	/* Non-broken symbolic links return the target's type for get_file_type. */
@@ -6751,7 +6756,7 @@ get_fs_free_cb (GObject *source_object,
 	GFileInfo *info;
 
 	directory = CAJA_DIRECTORY (user_data);
-	
+
 	free_space = (guint64)-1;
 	info = g_file_query_filesystem_info_finish (G_FILE (source_object),
 						    res, NULL);
@@ -6811,7 +6816,7 @@ caja_file_get_volume_free_space (CajaFile *file)
 	if (directory->details->free_space != (guint64)-1) {
 		res = g_format_size_for_display (directory->details->free_space);
 	}
-	
+
 	return res;
 }
 
@@ -6819,10 +6824,10 @@ caja_file_get_volume_free_space (CajaFile *file)
  * caja_file_get_volume_name
  * Get the path of the volume the file resides on
  * @file: CajaFile representing the file in question.
- * 
- * Returns: newly-allocated copy of the volume name of the target file, 
+ *
+ * Returns: newly-allocated copy of the volume name of the target file,
  * if the volume name isn't set, it returns the mount path of the volume
- */ 
+ */
 char *
 caja_file_get_volume_name (CajaFile *file)
 {
@@ -6831,7 +6836,7 @@ caja_file_get_volume_name (CajaFile *file)
 	GMount *mount;
 
 	res = NULL;
-	
+
 	location = caja_file_get_location (file);
 	mount = g_file_find_enclosing_mount (location, NULL, NULL);
 	if (mount) {
@@ -6845,11 +6850,11 @@ caja_file_get_volume_name (CajaFile *file)
 
 /**
  * caja_file_get_symbolic_link_target_path
- * 
- * Get the file path of the target of a symbolic link. It is an error 
+ *
+ * Get the file path of the target of a symbolic link. It is an error
  * to call this function on a file that isn't a symbolic link.
  * @file: CajaFile representing the symbolic link in question.
- * 
+ *
  * Returns: newly-allocated copy of the file path of the target of the symbolic link.
  */
 char *
@@ -6864,11 +6869,11 @@ caja_file_get_symbolic_link_target_path (CajaFile *file)
 
 /**
  * caja_file_get_symbolic_link_target_uri
- * 
- * Get the uri of the target of a symbolic link. It is an error 
+ *
+ * Get the uri of the target of a symbolic link. It is an error
  * to call this function on a file that isn't a symbolic link.
  * @file: CajaFile representing the symbolic link in question.
- * 
+ *
  * Returns: newly-allocated copy of the uri of the target of the symbolic link.
  */
 char *
@@ -6885,7 +6890,7 @@ caja_file_get_symbolic_link_target_uri (CajaFile *file)
 		return NULL;
 	} else {
 		target = NULL;
-		
+
 		location = caja_file_get_location (file);
 		parent = g_file_get_parent (location);
 		g_object_unref (location);
@@ -6893,7 +6898,7 @@ caja_file_get_symbolic_link_target_uri (CajaFile *file)
 			target = g_file_resolve_relative_path (parent, file->details->symlink_name);
 			g_object_unref (parent);
 		}
-		
+
 		target_uri = NULL;
 		if (target) {
 			target_uri = g_file_get_uri (target);
@@ -6905,13 +6910,13 @@ caja_file_get_symbolic_link_target_uri (CajaFile *file)
 
 /**
  * caja_file_is_caja_link
- * 
+ *
  * Check if this file is a "caja link", meaning a historical
  * caja xml link file or a desktop file.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: True if the file is a caja link.
- * 
+ *
  **/
 gboolean
 caja_file_is_caja_link (CajaFile *file)
@@ -6923,12 +6928,12 @@ caja_file_is_caja_link (CajaFile *file)
 
 /**
  * caja_file_is_directory
- * 
+ *
  * Check if this file is a directory.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: TRUE if @file is a directory.
- * 
+ *
  **/
 gboolean
 caja_file_is_directory (CajaFile *file)
@@ -6942,7 +6947,7 @@ caja_file_is_directory (CajaFile *file)
  * Check if this file is a special platform directory.
  * @file: CajaFile representing the file in question.
  * @special_directory: GUserDirectory representing the type to test for
- * 
+ *
  * Returns: TRUE if @file is a special directory of the given kind.
  */
 gboolean
@@ -7009,12 +7014,12 @@ caja_file_is_archive (CajaFile *file)
 
 /**
  * caja_file_is_in_trash
- * 
+ *
  * Check if this file is a file in trash.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: TRUE if @file is in a trash.
- * 
+ *
  **/
 gboolean
 caja_file_is_in_trash (CajaFile *file)
@@ -7036,13 +7041,13 @@ caja_file_get_file_info_error (CajaFile *file)
 
 /**
  * caja_file_contains_text
- * 
+ *
  * Check if this file contains text.
  * This is private and is used to decide whether or not to read the top left text.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: TRUE if @file has a text MIME type.
- * 
+ *
  **/
 gboolean
 caja_file_contains_text (CajaFile *file)
@@ -7057,13 +7062,13 @@ caja_file_contains_text (CajaFile *file)
 
 /**
  * caja_file_is_executable
- * 
+ *
  * Check if this file is executable at all.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: TRUE if any of the execute bits are set. FALSE if
  * not, or if the permissions are unknown.
- * 
+ *
  **/
 gboolean
 caja_file_is_executable (CajaFile *file)
@@ -7080,14 +7085,14 @@ caja_file_is_executable (CajaFile *file)
 
 /**
  * caja_file_peek_top_left_text
- * 
+ *
  * Peek at the text from the top left of the file.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: NULL if there is no text readable, otherwise, the text.
  *          This string is owned by the file object and should not
  *          be kept around or freed.
- * 
+ *
  **/
 char *
 caja_file_peek_top_left_text (CajaFile *file,
@@ -7102,7 +7107,7 @@ caja_file_peek_top_left_text (CajaFile *file,
 		}
 		return NULL;
 	}
-	
+
 	if (needs_loading) {
 		*needs_loading = !file->details->top_left_text_is_up_to_date;
 		if (need_large_text) {
@@ -7112,25 +7117,25 @@ caja_file_peek_top_left_text (CajaFile *file,
 
 	/* Show " ..." in the file until we read the contents in. */
 	if (!file->details->got_top_left_text) {
-		
+
 		if (caja_file_contains_text (file)) {
 			return " ...";
 		}
 		return NULL;
 	}
-	
+
 	/* Show what we read in. */
 	return file->details->top_left_text;
 }
 
 /**
  * caja_file_get_top_left_text
- * 
+ *
  * Get the text from the top left of the file.
  * @file: CajaFile representing the file in question.
- * 
+ *
  * Returns: NULL if there is no text readable, otherwise, the text.
- * 
+ *
  **/
 char *
 caja_file_get_top_left_text (CajaFile *file)
@@ -7189,7 +7194,7 @@ caja_file_mark_gone (CajaFile *file)
 
 	caja_file_clear_info (file);
 
-	/* FIXME bugzilla.mate.org 42429: 
+	/* FIXME bugzilla.mate.org 42429:
 	 * Maybe we can get rid of the name too eventually, but
 	 * for now that would probably require too many if statements
 	 * everywhere anyone deals with the name. Maybe we can give it
@@ -7199,7 +7204,7 @@ caja_file_mark_gone (CajaFile *file)
 
 /**
  * caja_file_changed
- * 
+ *
  * Notify the user that this file has changed.
  * @file: CajaFile representing the file in question.
  **/
@@ -7223,7 +7228,7 @@ caja_file_changed (CajaFile *file)
 
 /**
  * caja_file_updated_deep_count_in_progress
- * 
+ *
  * Notify clients that a newer deep count is available for
  * the directory in question.
  */
@@ -7242,12 +7247,12 @@ caja_file_updated_deep_count_in_progress (CajaFile *file) {
 	for (node = link_files; node != NULL; node = node->next) {
 		caja_file_updated_deep_count_in_progress (CAJA_FILE (node->data));
 	}
-	caja_file_list_free (link_files);	
+	caja_file_list_free (link_files);
 }
 
 /**
  * caja_file_emit_changed
- * 
+ *
  * Emit a file changed signal.
  * This can only be called by the directory, since the directory
  * also has to emit a files_changed signal.
@@ -7284,7 +7289,7 @@ caja_file_emit_changed (CajaFile *file)
 
 /**
  * caja_file_is_gone
- * 
+ *
  * Check if a file has already been deleted.
  * @file: CajaFile representing the file in question.
  *
@@ -7300,7 +7305,7 @@ caja_file_is_gone (CajaFile *file)
 
 /**
  * caja_file_is_not_yet_confirmed
- * 
+ *
  * Check if we're in a state where we don't know if a file really
  * exists or not, before the initial I/O is complete.
  * @file: CajaFile representing the file in question.
@@ -7326,7 +7331,7 @@ caja_file_is_not_yet_confirmed (CajaFile *file)
  *
  * @file: The file being queried.
  * @file_attributes: A bit-mask with the desired information.
- * 
+ *
  * Return value: TRUE if all of the specified attributes are currently readable.
  */
 gboolean
@@ -7345,7 +7350,7 @@ caja_file_check_if_ready (CajaFile *file,
 	return EEL_CALL_METHOD_WITH_RETURN_VALUE
 		(CAJA_FILE_CLASS, file,
 		 check_if_ready, (file, file_attributes));
-}			      
+}
 
 void
 caja_file_call_when_ready (CajaFile *file,
@@ -7363,7 +7368,7 @@ caja_file_call_when_ready (CajaFile *file,
 
 	EEL_CALL_METHOD
 		(CAJA_FILE_CLASS, file,
-		 call_when_ready, (file, file_attributes, 
+		 call_when_ready, (file, file_attributes,
 				   callback, callback_data));
 }
 
@@ -7460,7 +7465,7 @@ caja_file_invalidate_attributes_internal (CajaFile *file,
 		 */
 		return;
 	}
-	
+
 	request = caja_directory_set_up_request (file_attributes);
 
 	if (REQUEST_WANTS_TYPE (request, REQUEST_DIRECTORY_COUNT)) {
@@ -7517,7 +7522,7 @@ gboolean
 caja_file_is_thumbnailing (CajaFile *file)
 {
 	g_return_val_if_fail (CAJA_IS_FILE (file), FALSE);
-	
+
 	return file->details->is_thumbnailing;
 }
 
@@ -7526,14 +7531,14 @@ caja_file_set_is_thumbnailing (CajaFile *file,
 				   gboolean is_thumbnailing)
 {
 	g_return_if_fail (CAJA_IS_FILE (file));
-	
+
 	file->details->is_thumbnailing = is_thumbnailing;
 }
 
 
 /**
  * caja_file_invalidate_attributes
- * 
+ *
  * Invalidate the specified attributes and force a reload.
  * @file: CajaFile representing the file in question.
  * @file_attributes: attributes to froget.
@@ -7547,25 +7552,25 @@ caja_file_invalidate_attributes (CajaFile *file,
 	caja_directory_cancel_loading_file_attributes (file->details->directory,
 							   file,
 							   file_attributes);
-	
+
 	/* Actually invalidate the values */
 	caja_file_invalidate_attributes_internal (file, file_attributes);
 
 	caja_directory_add_file_to_work_queue (file->details->directory, file);
-	
+
 	/* Kick off I/O if necessary */
 	caja_directory_async_state_changed (file->details->directory);
 }
 
-CajaFileAttributes 
+CajaFileAttributes
 caja_file_get_all_attributes (void)
 {
 	return  CAJA_FILE_ATTRIBUTE_INFO |
 		CAJA_FILE_ATTRIBUTE_LINK_INFO |
 		CAJA_FILE_ATTRIBUTE_DEEP_COUNTS |
-		CAJA_FILE_ATTRIBUTE_DIRECTORY_ITEM_COUNT | 
-		CAJA_FILE_ATTRIBUTE_DIRECTORY_ITEM_MIME_TYPES | 
-		CAJA_FILE_ATTRIBUTE_TOP_LEFT_TEXT | 
+		CAJA_FILE_ATTRIBUTE_DIRECTORY_ITEM_COUNT |
+		CAJA_FILE_ATTRIBUTE_DIRECTORY_ITEM_MIME_TYPES |
+		CAJA_FILE_ATTRIBUTE_TOP_LEFT_TEXT |
 		CAJA_FILE_ATTRIBUTE_LARGE_TOP_LEFT_TEXT |
 		CAJA_FILE_ATTRIBUTE_EXTENSION_INFO |
 		CAJA_FILE_ATTRIBUTE_THUMBNAIL |
@@ -7689,7 +7694,7 @@ caja_file_list_from_uris (GList *uri_list)
 	GList *l, *file_list;
 	const char *uri;
 	GFile *file;
-	
+
 	file_list = NULL;
 
 	for (l = uri_list; l != NULL; l = l->next) {
@@ -7792,7 +7797,7 @@ compare_by_display_name_cover (gconstpointer a, gconstpointer b)
 
 /**
  * caja_file_list_sort_by_display_name
- * 
+ *
  * Sort the list of files by file name.
  * @list: GList of files.
  **/
@@ -7804,7 +7809,7 @@ caja_file_list_sort_by_display_name (GList *list)
 
 static GList *ready_data_list = NULL;
 
-typedef struct 
+typedef struct
 {
 	GList *file_list;
 	GList *remaining_files;
@@ -7853,7 +7858,7 @@ file_list_file_ready_callback (CajaFile *file,
 
 	data = user_data;
 	data->remaining_files = g_list_remove (data->remaining_files, file);
-	
+
 	if (data->remaining_files == NULL) {
 		if (data->callback) {
 			(*data->callback) (data->file_list, data->callback_data);
@@ -7863,7 +7868,7 @@ file_list_file_ready_callback (CajaFile *file,
 	}
 }
 
-void 
+void
 caja_file_list_call_when_ready (GList *file_list,
 				    CajaFileAttributes attributes,
 				    CajaFileListHandle **handle,
@@ -7873,7 +7878,7 @@ caja_file_list_call_when_ready (GList *file_list,
 	GList *l;
 	FileListReadyData *data;
 	CajaFile *file;
-	
+
 	g_return_if_fail (file_list != NULL);
 
 	data = file_list_ready_data_new
@@ -7888,7 +7893,7 @@ caja_file_list_call_when_ready (GList *file_list,
 	while (l != NULL) {
 		file = CAJA_FILE (l->data);
 		/* Need to do this here, as the list can be modified by this call */
-		l = l->next; 
+		l = l->next;
 		caja_file_call_when_ready (file,
 					       attributes,
 					       file_list_file_ready_callback,
@@ -7930,16 +7935,16 @@ try_to_make_utf8 (const char *text, int *length)
         GError *conversion_error;
 	char *utf8_text;
 	int i;
-	
+
 	if (n_encodings_to_try == 0) {
 		const char *charset;
 		gboolean charset_is_utf8;
-		
+
 		charset_is_utf8 = g_get_charset (&charset);
 		if (!charset_is_utf8) {
 			encodings_to_try[n_encodings_to_try++] = charset;
 		}
-        
+
 		if (g_ascii_strcasecmp (charset, "ISO-8859-1") != 0) {
 			encodings_to_try[n_encodings_to_try++] = "ISO-8859-1";
 		}
@@ -7948,7 +7953,7 @@ try_to_make_utf8 (const char *text, int *length)
         utf8_text = NULL;
 	for (i = 0; i < n_encodings_to_try; i++) {
 		conversion_error = NULL;
-		utf8_text = g_convert (text, *length, 
+		utf8_text = g_convert (text, *length,
 					   "UTF-8", encodings_to_try[i],
 					   NULL, &converted_length, &conversion_error);
 		if (utf8_text != NULL) {
@@ -7957,7 +7962,7 @@ try_to_make_utf8 (const char *text, int *length)
 		}
 		g_error_free (conversion_error);
 	}
-	
+
 	return utf8_text;
 }
 
@@ -7988,8 +7993,8 @@ caja_extract_top_left_text (const char *text,
 		max_lines = CAJA_FILE_TOP_LEFT_TEXT_MAXIMUM_LINES;
 		max_cols = CAJA_FILE_TOP_LEFT_TEXT_MAXIMUM_CHARACTERS_PER_LINE;
 	}
-			
-	
+
+
 
         text_copy = NULL;
         if (text != NULL) {
@@ -8018,14 +8023,14 @@ caja_extract_top_left_text (const char *text,
 			if (*in == '\n') {
 				break;
 			}
-			
+
 			c = g_utf8_get_char (in);
-			
+
 			if (g_unichar_isprint (c)) {
 				g_string_append_unichar (buffer, c);
 				i++;
 			}
-			
+
 			in = g_utf8_next_char (in);
 			if (in == end) {
 				goto done;
@@ -8047,7 +8052,7 @@ caja_extract_top_left_text (const char *text,
 	}
  done:
 	g_free (text_copy);
- 
+
 	return g_string_free(buffer, FALSE);
 }
 
@@ -8087,7 +8092,7 @@ show_thumbnails_changed_callback (gpointer user_data)
 	emit_change_signals_for_all_files_in_all_directories ();
 }
 
-static void       
+static void
 mime_type_data_changed_callback (GObject *signaller, gpointer user_data)
 {
 	/* Tell the world that icons might have changed. We could invent a narrower-scope
@@ -8103,7 +8108,7 @@ icon_theme_changed_callback (GtkIconTheme *icon_theme,
 {
 	/* Clear all pixmap caches as the icon => pixmap lookup changed */
 	caja_icon_info_clear_caches ();
-	
+
 	/* Tell the world that icons might have changed. We could invent a narrower-scope
 	 * signal to mean only "thumbnails might have changed" if this ends up being slow
 	 * for some reason.
@@ -8146,7 +8151,7 @@ caja_file_class_init (CajaFileClass *class)
 	attribute_link_target_q = g_quark_from_static_string ("link_target");
 	attribute_volume_q = g_quark_from_static_string ("volume");
 	attribute_free_space_q = g_quark_from_static_string ("free_space");
-	
+
 	G_OBJECT_CLASS (class)->finalize = finalize;
 	G_OBJECT_CLASS (class)->constructor = caja_file_constructor;
 
@@ -8167,13 +8172,13 @@ caja_file_class_init (CajaFileClass *class)
 		              NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 		              G_TYPE_NONE, 0);
-	
+
 	g_type_class_add_private (class, sizeof (CajaFileDetails));
 
 
 	eel_preferences_add_auto_enum (CAJA_PREFERENCES_DATE_FORMAT,
 				       &date_format_pref);
-	
+
 	thumbnail_limit_changed_callback (NULL);
 	eel_preferences_add_callback (CAJA_PREFERENCES_IMAGE_FILE_THUMBNAIL_LIMIT,
 				      thumbnail_limit_changed_callback,
@@ -8222,9 +8227,9 @@ caja_file_add_string_attribute (CajaFile *file,
 	if (file->details->pending_info_providers) {
 		/* Lazily create hashtable */
 		if (!file->details->pending_extension_attributes) {
-			file->details->pending_extension_attributes = 
+			file->details->pending_extension_attributes =
 				g_hash_table_new_full (g_direct_hash, g_direct_equal,
-						       NULL, 
+						       NULL,
 						       (GDestroyNotify)g_free);
 		}
 		g_hash_table_insert (file->details->pending_extension_attributes,
@@ -8232,9 +8237,9 @@ caja_file_add_string_attribute (CajaFile *file,
 				     g_strdup (value));
 	} else {
 		if (!file->details->extension_attributes) {
-			file->details->extension_attributes = 
+			file->details->extension_attributes =
 				g_hash_table_new_full (g_direct_hash, g_direct_equal,
-						       NULL, 
+						       NULL,
 						       (GDestroyNotify)g_free);
 		}
 		g_hash_table_insert (file->details->extension_attributes,
@@ -8261,14 +8266,14 @@ caja_file_info_providers_done (CajaFile *file)
 	if (file->details->extension_attributes) {
 		g_hash_table_destroy (file->details->extension_attributes);
 	}
-	
+
 	file->details->extension_attributes = file->details->pending_extension_attributes;
 	file->details->pending_extension_attributes = NULL;
 
 	caja_file_changed (file);
 }
 
-static void     
+static void
 caja_file_info_iface_init (CajaFileInfoIface *iface)
 {
 	iface->is_gone = caja_file_is_gone;
@@ -8314,7 +8319,7 @@ caja_self_check_file (void)
 	caja_file_unref (file_1);
 
         EEL_CHECK_INTEGER_RESULT (caja_directory_number_outstanding (), 0);
-	
+
 	file_1 = caja_file_get_by_uri ("file:///etc");
 	file_2 = caja_file_get_by_uri ("file:///usr");
 
@@ -8323,19 +8328,19 @@ caja_self_check_file (void)
         list = g_list_prepend (list, file_2);
 
         caja_file_list_ref (list);
-        
+
 	EEL_CHECK_INTEGER_RESULT (G_OBJECT (file_1)->ref_count, 2);
 	EEL_CHECK_INTEGER_RESULT (G_OBJECT (file_2)->ref_count, 2);
 
 	caja_file_list_unref (list);
-        
+
 	EEL_CHECK_INTEGER_RESULT (G_OBJECT (file_1)->ref_count, 1);
 	EEL_CHECK_INTEGER_RESULT (G_OBJECT (file_2)->ref_count, 1);
 
 	caja_file_list_free (list);
 
         EEL_CHECK_INTEGER_RESULT (caja_directory_number_outstanding (), 0);
-	
+
 
         /* name checks */
 	file_1 = caja_file_get_by_uri ("file:///home/");

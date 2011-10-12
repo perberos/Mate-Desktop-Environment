@@ -46,6 +46,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 typedef enum {
 	READ_PUBLIC_CUSTOMIZATIONS,
 	READ_PRIVATE_CUSTOMIZATIONS
@@ -54,12 +58,12 @@ typedef enum {
 struct CajaCustomizationData {
 	char *customization_name;
 
-	GList *public_file_list;	
+	GList *public_file_list;
 	GList *private_file_list;
 	GList *current_file_list;
 
 	GHashTable *name_map_hash;
-	
+
 	GdkPixbuf *pattern_frame;
 
 	int maximum_icon_height;
@@ -112,7 +116,7 @@ read_all_children (char *filename,
 }
 
 
-CajaCustomizationData* 
+CajaCustomizationData*
 caja_customization_data_new (const char *customization_name,
 				 gboolean show_public_customizations,
 				 int maximum_icon_height,
@@ -129,7 +133,7 @@ caja_customization_data_new (const char *customization_name,
 
 	if (show_public_customizations) {
 		public_directory_path = get_global_customization_path (customization_name);
-		
+
 		public_result  = read_all_children (public_directory_path,
 						    G_FILE_ATTRIBUTE_STANDARD_NAME ","
 						    G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
@@ -153,7 +157,7 @@ caja_customization_data_new (const char *customization_name,
 		data->current_file_list = data->private_file_list;
 	}
 	if (show_public_customizations && public_result) {
-		data->reading_mode = READ_PUBLIC_CUSTOMIZATIONS;	
+		data->reading_mode = READ_PUBLIC_CUSTOMIZATIONS;
 		data->current_file_list = data->public_file_list;
 	}
 
@@ -175,7 +179,7 @@ caja_customization_data_new (const char *customization_name,
 	data->maximum_icon_width = maximum_icon_width;
 
 	load_name_map_hash_table (data);
-	
+
 	return data;
 }
 
@@ -190,12 +194,12 @@ caja_customization_data_get_next_element_for_display (CajaCustomizationData *dat
 	GdkPixbuf *pixbuf;
 	GdkPixbuf *orig_pixbuf;
 	gboolean is_reset_image;
-	
+
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (emblem_name != NULL, FALSE);
 	g_return_val_if_fail (pixbuf_out != NULL, FALSE);
 	g_return_val_if_fail (label_out != NULL, FALSE);
-	
+
 	if (data->current_file_list == NULL) {
 		if (data->reading_mode == READ_PUBLIC_CUSTOMIZATIONS) {
 			if (data->private_file_list == NULL) {
@@ -212,8 +216,8 @@ caja_customization_data_get_next_element_for_display (CajaCustomizationData *dat
 			return FALSE;
 		}
 	}
-	
-	
+
+
 	current_file_info = data->current_file_list->data;
 	data->current_file_list = data->current_file_list->next;
 
@@ -230,7 +234,7 @@ caja_customization_data_get_next_element_for_display (CajaCustomizationData *dat
 	image_file_name = get_file_path_for_mode (data,
 						  g_file_info_get_name (current_file_info));
 	orig_pixbuf = gdk_pixbuf_new_from_file_at_scale (image_file_name,
-							 data->maximum_icon_width, 
+							 data->maximum_icon_width,
 							 data->maximum_icon_height,
 							 TRUE,
 							 NULL);
@@ -251,15 +255,15 @@ caja_customization_data_get_next_element_for_display (CajaCustomizationData *dat
 	    data->pattern_frame != NULL) {
 		pixbuf = caja_customization_make_pattern_chit (orig_pixbuf, data->pattern_frame, FALSE, is_reset_image);
 	} else {
-		pixbuf = eel_gdk_pixbuf_scale_down_to_fit (orig_pixbuf, 
-							   data->maximum_icon_width, 
+		pixbuf = eel_gdk_pixbuf_scale_down_to_fit (orig_pixbuf,
+							   data->maximum_icon_width,
 							   data->maximum_icon_height);
 	}
 
 	g_object_unref (orig_pixbuf);
-	
+
 	*pixbuf_out = pixbuf;
-	
+
 	*label_out = format_name_for_display (data, g_file_info_get_name (current_file_info));
 
 	if (data->reading_mode == READ_PRIVATE_CUSTOMIZATIONS) {
@@ -268,13 +272,13 @@ caja_customization_data_get_next_element_for_display (CajaCustomizationData *dat
 	return TRUE;
 }
 
-gboolean                   
+gboolean
 caja_customization_data_private_data_was_displayed (CajaCustomizationData *data)
 {
 	return data->private_data_was_displayed;
 }
 
-void                       
+void
 caja_customization_data_destroy (CajaCustomizationData *data)
 {
 	g_assert (data->public_file_list != NULL ||
@@ -288,22 +292,22 @@ caja_customization_data_destroy (CajaCustomizationData *data)
 	eel_g_object_list_free (data->private_file_list);
 
 	if (data->name_map_hash != NULL) {
-		g_hash_table_destroy (data->name_map_hash);	
+		g_hash_table_destroy (data->name_map_hash);
 	}
-	
+
 	g_free (data->customization_name);
 	g_free (data);
 }
 
 
 /* get_global_customization_directory
-   Get the path where a property's pixmaps are stored 
+   Get the path where a property's pixmaps are stored
    @customization_name : the name of the customization to get.
-   Should be one of "emblems", "colors", or "paterns" 
+   Should be one of "emblems", "colors", or "paterns"
 
-   Return value: The directory name where the customization's 
+   Return value: The directory name where the customization's
    public pixmaps are stored */
-static char *                  
+static char *
 get_global_customization_path (const char *customization_name)
 {
 	return g_build_filename (CAJA_DATADIR,
@@ -313,13 +317,13 @@ get_global_customization_path (const char *customization_name)
 
 
 /* get_private_customization_directory
-   Get the path where a customization's pixmaps are stored 
+   Get the path where a customization's pixmaps are stored
    @customization_name : the name of the customization to get.
-   Should be one of "emblems", "colors", or "patterns" 
+   Should be one of "emblems", "colors", or "patterns"
 
-   Return value: The directory name where the customization's 
+   Return value: The directory name where the customization's
    user-specific pixmaps are stored */
-static char *                  
+static char *
 get_private_customization_path (const char *customization_name)
 {
 	char *user_directory;
@@ -330,12 +334,12 @@ get_private_customization_path (const char *customization_name)
 					   customization_name,
 					   NULL);
 	g_free (user_directory);
-	
+
 	return directory_path;
 }
 
 
-static char *            
+static char *
 get_file_path_for_mode (const CajaCustomizationData *data,
 			const char *file_name)
 {
@@ -346,7 +350,7 @@ get_file_path_for_mode (const CajaCustomizationData *data,
 	else {
 		directory_path = get_private_customization_path (data->customization_name);
 	}
-	
+
 	file = g_build_filename (directory_path, file_name, NULL);
 	g_free (directory_path);
 
@@ -380,7 +384,7 @@ caja_customization_make_pattern_chit (GdkPixbuf *pattern_tile, GdkPixbuf *frame,
 			  (double)(frame_width - 8 + 1)/pattern_width,
 			  (double)(frame_height - 8 + 1)/pattern_height,
 			  GDK_INTERP_BILINEAR);
-	
+
 	/* if we're dragging, get rid of the light-colored halo */
 	if (dragging) {
 		temp_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, frame_width - 8, frame_height - 8);
@@ -406,21 +410,21 @@ format_name_for_display (CajaCustomizationData *data, const char* name)
 	}
 
 	/* map file names to display names using the mappings defined in the hash table */
-	
+
 	formatted_str = eel_filename_strip_extension (name);
 	if (data->name_map_hash != NULL) {
 		mapped_name = g_hash_table_lookup (data->name_map_hash, formatted_str);
 		if (mapped_name) {
 			g_free (formatted_str);
 			formatted_str = g_strdup (mapped_name);
-		}	
+		}
 	}
-			
-	return formatted_str;	
+
+	return formatted_str;
 }
 
-/* utility routine to allocate a hash table and load it with the appropriate 
- * name mapping data from the browser xml file 
+/* utility routine to allocate a hash table and load it with the appropriate
+ * name mapping data from the browser xml file
  */
 static void
 load_name_map_hash_table (CajaCustomizationData *data)
@@ -430,10 +434,10 @@ load_name_map_hash_table (CajaCustomizationData *data)
 
 	xmlDocPtr browser_data;
 	xmlNodePtr category_node, current_node;
-	
+
 	/* allocate the hash table */
 	data->name_map_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	
+
 	/* build the path name to the browser.xml file and load it */
 	xml_path = g_build_filename (CAJA_DATADIR, "browser.xml", NULL);
 	if (xml_path) {
@@ -443,8 +447,8 @@ load_name_map_hash_table (CajaCustomizationData *data)
 		if (browser_data) {
 			/* get the category node */
 			category_node = eel_xml_get_root_child_by_name_and_property (browser_data, "category", "name", data->customization_name);
-			current_node = category_node->children;	
-			
+			current_node = category_node->children;
+
 			/* loop through the entries, adding a mapping to the hash table */
 			while (current_node != NULL) {
 				display_name = eel_xml_get_property_translated (current_node, "display_name");
@@ -452,13 +456,13 @@ load_name_map_hash_table (CajaCustomizationData *data)
 				if (display_name && filename) {
 					g_hash_table_replace (data->name_map_hash, g_strdup (filename), g_strdup (display_name));
 				}
-				xmlFree (filename);		
+				xmlFree (filename);
 				xmlFree (display_name);
 				current_node = current_node->next;
 			}
-			
+
 			/* close the xml file */
 			xmlFreeDoc (browser_data);
-		}		
-	}	
+		}
+	}
 }

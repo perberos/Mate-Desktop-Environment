@@ -28,6 +28,11 @@
 #include "eel-string.h"
 #include "eel-i18n.h"
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <libxml/parser.h>
 #include <stdlib.h>
 
@@ -107,16 +112,16 @@ eel_xml_get_root_child_by_name_and_property (xmlDocPtr document,
 
 /**
  * eel_xml_get_property_for_children
- * 
+ *
  * Returns a list of the values for the specified property for all
  * children of the node that have the specified name.
  *
  * @parent:     xmlNodePtr representing the node in question.
  * @child_name: child element name to look for
  * @property:   name of propety to reutnr for matching children that have the property
- * 
+ *
  * Returns: A list of keywords.
- * 
+ *
  **/
 GList *
 eel_xml_get_property_for_children (xmlNodePtr parent,
@@ -126,9 +131,9 @@ eel_xml_get_property_for_children (xmlNodePtr parent,
 	GList *properties;
 	xmlNode *child;
 	xmlChar *property;
-	
+
 	properties = NULL;
-	
+
 	for (child = eel_xml_get_children (parent);
 	     child != NULL;
 	     child = child->next) {
@@ -175,7 +180,7 @@ eel_xml_get_property_translated (xmlNodePtr parent,
 	if (translated_property == (char *) untranslated_property) {
 		return untranslated_property;
 	}
-	
+
 	/* If a translation happened, make a copy to match the normal
 	 * behavior of this function (returning a string you xmlFree).
 	 */

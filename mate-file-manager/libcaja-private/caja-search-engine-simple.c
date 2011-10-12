@@ -26,6 +26,11 @@
 
 #include <string.h>
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <eel/eel-gtk-macros.h>
 #include <eel/eel-glib-extensions.h>
 #include <gio/gio.h>
@@ -43,7 +48,7 @@ typedef struct {
 	GQueue *directories; /* GFiles */
 
 	GHashTable *visited;
-	
+
 	gint n_processed_files;
 	GList *uri_hits;
 } SearchThreadData;
@@ -53,7 +58,7 @@ struct CajaSearchEngineSimpleDetails {
 	CajaQuery *query;
 
 	SearchThreadData *active_search;
-	
+
 	gboolean query_finished;
 };
 
@@ -73,7 +78,7 @@ finalize (GObject *object)
 	CajaSearchEngineSimple *simple;
 
 	simple = CAJA_SEARCH_ENGINE_SIMPLE (object);
-	
+
 	if (simple->details->query) {
 		g_object_unref (simple->details->query);
 		simple->details->query = NULL;
@@ -91,7 +96,7 @@ search_thread_data_new (CajaSearchEngineSimple *engine,
 	SearchThreadData *data;
 	char *text, *lower, *normalized, *uri;
 	GFile *location;
-	
+
 	data = g_new0 (SearchThreadData, 1);
 
 	data->engine = engine;
@@ -107,7 +112,7 @@ search_thread_data_new (CajaSearchEngineSimple *engine,
 		location = g_file_new_for_path ("/");
 	}
 	g_queue_push_tail (data->directories, location);
-	
+
 	text = caja_query_get_text (query);
 	normalized = g_utf8_normalize (text, -1, G_NORMALIZE_NFD);
 	lower = g_utf8_strdown (normalized, -1);
@@ -119,11 +124,11 @@ search_thread_data_new (CajaSearchEngineSimple *engine,
 	data->mime_types = caja_query_get_mime_types (query);
 
 	data->cancellable = g_cancellable_new ();
-	
+
 	return data;
 }
 
-static void 
+static void
 search_thread_data_free (SearchThreadData *data)
 {
 	g_queue_foreach (data->directories,
@@ -131,7 +136,7 @@ search_thread_data_free (SearchThreadData *data)
 	g_queue_free (data->directories);
 	g_hash_table_destroy (data->visited);
 	g_object_unref (data->cancellable);
-	g_strfreev (data->words);	
+	g_strfreev (data->words);
 	eel_g_list_free_deep (data->mime_types);
 	eel_g_list_free_deep (data->uri_hits);
 	g_free (data);
@@ -148,9 +153,9 @@ search_thread_done_idle (gpointer user_data)
 		caja_search_engine_finished (CAJA_SEARCH_ENGINE (data->engine));
 		data->engine->details->active_search = NULL;
 	}
-	
+
 	search_thread_data_free (data);
-	
+
 	return FALSE;
 }
 
@@ -171,10 +176,10 @@ search_thread_add_hits_idle (gpointer user_data)
 		caja_search_engine_hits_added (CAJA_SEARCH_ENGINE (hits->thread_data->engine),
 						   hits->uris);
 	}
-	
+
 	eel_g_list_free_deep (hits->uris);
 	g_free (hits);
-	
+
 	return FALSE;
 }
 
@@ -182,9 +187,9 @@ static void
 send_batch (SearchThreadData *data)
 {
 	SearchHits *hits;
-	
+
 	data->n_processed_files = 0;
-	
+
 	if (data->uri_hits) {
 		hits = g_new (SearchHits, 1);
 		hits->uris = data->uri_hits;
@@ -223,7 +228,7 @@ visit_directory (GFile *dir, SearchThreadData *data)
 						STD_ATTRIBUTES
 						,
 						0, data->cancellable, NULL);
-	
+
 	if (enumerator == NULL) {
 		return;
 	}
@@ -232,16 +237,16 @@ visit_directory (GFile *dir, SearchThreadData *data)
 		if (g_file_info_get_is_hidden (info)) {
 			goto next;
 		}
-		
+
 		display_name = g_file_info_get_display_name (info);
 		if (display_name == NULL) {
 			goto next;
 		}
-		
+
 		normalized = g_utf8_normalize (display_name, -1, G_NORMALIZE_NFD);
 		lower_name = g_utf8_strdown (normalized, -1);
 		g_free (normalized);
-		
+
 		hit = TRUE;
 		for (i = 0; data->words[i] != NULL; i++) {
 			if (strstr (lower_name, data->words[i]) == NULL) {
@@ -250,11 +255,11 @@ visit_directory (GFile *dir, SearchThreadData *data)
 			}
 		}
 		g_free (lower_name);
-		
+
 		if (hit && data->mime_types) {
 			mime_type = g_file_info_get_content_type (info);
 			hit = FALSE;
-			
+
 			for (l = data->mime_types; mime_type != NULL && l != NULL; l = l->next) {
 				if (g_content_type_equals (mime_type, l->data)) {
 					hit = TRUE;
@@ -262,13 +267,13 @@ visit_directory (GFile *dir, SearchThreadData *data)
 				}
 			}
 		}
-		
+
 		child = g_file_get_child (dir, g_file_info_get_name (info));
-		
+
 		if (hit) {
 			data->uri_hits = g_list_prepend (data->uri_hits, g_file_get_uri (child));
 		}
-		
+
 		data->n_processed_files++;
 		if (data->n_processed_files > BATCH_SIZE) {
 			send_batch (data);
@@ -285,12 +290,12 @@ visit_directory (GFile *dir, SearchThreadData *data)
 					g_hash_table_insert (data->visited, g_strdup (id), NULL);
 				}
 			}
-			
+
 			if (!visited) {
 				g_queue_push_tail (data->directories, g_object_ref (child));
 			}
 		}
-		
+
 		g_object_unref (child);
 	next:
 		g_object_unref (info);
@@ -300,7 +305,7 @@ visit_directory (GFile *dir, SearchThreadData *data)
 }
 
 
-static gpointer 
+static gpointer
 search_thread_func (gpointer user_data)
 {
 	SearchThreadData *data;
@@ -320,7 +325,7 @@ search_thread_func (gpointer user_data)
 		}
 		g_object_unref (info);
 	}
-	
+
 	while (!g_cancellable_is_cancelled (data->cancellable) &&
 	       (dir = g_queue_pop_head (data->directories)) != NULL) {
 		visit_directory (dir, data);
@@ -329,7 +334,7 @@ search_thread_func (gpointer user_data)
 	send_batch (data);
 
 	g_idle_add (search_thread_done_idle, data);
-	
+
 	return NULL;
 }
 
@@ -338,7 +343,7 @@ caja_search_engine_simple_start (CajaSearchEngine *engine)
 {
 	CajaSearchEngineSimple *simple;
 	SearchThreadData *data;
-	
+
 	simple = CAJA_SEARCH_ENGINE_SIMPLE (engine);
 
 	if (simple->details->active_search != NULL) {
@@ -348,7 +353,7 @@ caja_search_engine_simple_start (CajaSearchEngine *engine)
 	if (simple->details->query == NULL) {
 		return;
 	}
-	
+
 	data = search_thread_data_new (simple, simple->details->query);
 
 	g_thread_create (search_thread_func, data, FALSE, NULL);

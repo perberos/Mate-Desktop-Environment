@@ -28,6 +28,11 @@
 #define CAJA_NOTEBOOK_H
 
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <gtk/gtk.h>
 #include "caja-window-slot.h"
 
@@ -67,7 +72,7 @@ int		caja_notebook_add_tab	(CajaNotebook *nb,
 						 CajaWindowSlot *slot,
 						 int position,
 						 gboolean jump_to);
-	
+
 void		caja_notebook_set_show_tabs	(CajaNotebook *nb,
 						 gboolean show_tabs);
 

@@ -23,6 +23,11 @@
 */
 
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <gtk/gtk.h>
 
 #include "eel-preferences.h"
@@ -118,7 +123,7 @@ eel_preferences_builder_connect_bool (GtkBuilder *builder,
 	if (!eel_preferences_key_is_writable (key)) {
 		eel_preferences_builder_set_never_sensitive (GTK_WIDGET (toggle_button));
 	}
-	
+
 	g_signal_connect (G_OBJECT (toggle_button), "toggled",
 			  G_CALLBACK (eel_preferences_builder_bool_toggled),
 			  g_object_get_data (G_OBJECT (toggle_button),
@@ -195,7 +200,7 @@ eel_preferences_builder_connect_bool_slave (GtkBuilder *builder,
 	if (!eel_preferences_key_is_writable (key)) {
 		eel_preferences_builder_set_never_sensitive (GTK_WIDGET (toggle_button));
 	}
-	
+
 	g_signal_connect_data (G_OBJECT (toggle_button), "toggled",
 			       G_CALLBACK (eel_preferences_builder_bool_toggled),
 			       g_strdup (key), (GClosureNotify) g_free, 0);
@@ -254,7 +259,7 @@ eel_preferences_builder_connect_string_enum_combo_box (GtkBuilder *builder,
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (key != NULL);
 	g_return_if_fail (values != NULL);
-	
+
 	combo_box = GTK_WIDGET (gtk_builder_get_object (builder, component));
 
 	map = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
@@ -294,7 +299,7 @@ eel_preferences_builder_connect_string_enum_combo_box_slave (GtkBuilder *builder
 	g_return_if_fail (builder != NULL);
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (key != NULL);
-	
+
 	combo_box = GTK_WIDGET (gtk_builder_get_object (builder, component));
 
 	g_assert (g_object_get_data (G_OBJECT (combo_box), EEL_PREFERENCES_BUILDER_DATA_MAP) != NULL);
@@ -361,7 +366,7 @@ eel_preferences_builder_connect_uint_enum (GtkBuilder  *builder,
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (key != NULL);
 	g_return_if_fail (values != NULL);
-	
+
 	combo_box = GTK_COMBO_BOX (gtk_builder_get_object (builder, component));
 
 	map = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -540,7 +545,7 @@ eel_preferences_builder_list_enum_update (GtkWidget *widget)
 								      EEL_PREFERENCES_BUILDER_DATA_KEY));
 	components = g_object_get_data (G_OBJECT (widget), EEL_PREFERENCES_BUILDER_DATA_WIDGETS);
 	for (i = 0; values[i] != NULL && components != NULL; i++, components = components->next) {
-		eel_preferences_builder_combo_box_update (GTK_COMBO_BOX (components->data), 
+		eel_preferences_builder_combo_box_update (GTK_COMBO_BOX (components->data),
 							values[i],
 							G_CALLBACK (eel_preferences_builder_list_enum_changed));
 	}
@@ -548,7 +553,7 @@ eel_preferences_builder_list_enum_update (GtkWidget *widget)
 	g_strfreev (values);
 }
 
-void 
+void
 eel_preferences_builder_connect_list_enum (GtkBuilder *builder,
 					   const char **components,
 					   const char *key,
@@ -564,7 +569,7 @@ eel_preferences_builder_connect_list_enum (GtkBuilder *builder,
 	g_return_if_fail (components != NULL);
 	g_return_if_fail (key != NULL);
 	g_return_if_fail (values != NULL);
-	
+
 	map = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 
 	for (i = 0; values[i] != NULL; i++) {
@@ -610,7 +615,7 @@ eel_preferences_builder_connect_list_enum (GtkBuilder *builder,
 	eel_preferences_add_callback_while_alive (key,
 						  (EelPreferencesCallback) eel_preferences_builder_list_enum_update,
 						  combo_box, G_OBJECT (combo_box));
-	
+
 	eel_preferences_builder_list_enum_update (combo_box);
 }
 

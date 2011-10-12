@@ -28,6 +28,10 @@
 #include <libxml/tree.h>
 #include <glib.h>
 
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 xmlNodePtr eel_xml_get_children                        (xmlNodePtr  parent);
 xmlNodePtr eel_xml_get_root_children                   (xmlDocPtr   document);
 xmlNodePtr eel_xml_get_child_by_name                   (xmlNodePtr  parent,

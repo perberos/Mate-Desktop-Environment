@@ -26,6 +26,11 @@
 #define EEL_STRING_H
 
 #include <glib.h>
+
+#ifndef G_CONST_RETURN
+	#define G_CONST_RETURN const
+#endif
+
 #include <string.h>
 #include <stdarg.h>
 
