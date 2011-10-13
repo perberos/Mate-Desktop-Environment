@@ -99,7 +99,7 @@ void mate_about_run(void)
 	#endif
 
 	#ifdef USE_UNIQUE
-		unique_app_watch_window(app, GTK_WINDOW(mate_about_dialog));
+		unique_app_watch_window(mate_about_application, GTK_WINDOW(mate_about_dialog));
 	#elif GTK_CHECK_VERSION(3, 0, 0) && !defined(UNIQUE)
 		gtk_window_set_application(GTK_WINDOW(mate_about_dialog), mate_about_application);
 	#endif
