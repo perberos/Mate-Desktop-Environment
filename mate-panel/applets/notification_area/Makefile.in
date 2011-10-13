@@ -82,8 +82,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES) \
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 =  \
 	../../libmate-panel-applet/libmate-panel-applet-3.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) libtray.la
+	libtray.la $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 @NOTIFICATION_AREA_INPROCESS_TRUE@libnotification_area_applet_la_DEPENDENCIES =  \
 @NOTIFICATION_AREA_INPROCESS_TRUE@	$(am__DEPENDENCIES_2)
 am__libnotification_area_applet_la_SOURCES_DIST = main.c
@@ -121,8 +121,8 @@ notification_area_applet_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(LDFLAGS) -o $@
 am_testtray_OBJECTS = testtray.$(OBJEXT)
 testtray_OBJECTS = $(am_testtray_OBJECTS)
-testtray_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	libtray.la
+testtray_DEPENDENCIES = libtray.la $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -406,16 +406,16 @@ libtray_la_SOURCES = \
 NOTIFICATION_AREA_SOURCES = main.c
 NOTIFICATION_AREA_LDADD = \
 	../../libmate-panel-applet/libmate-panel-applet-3.la	\
+	libtray.la \
 	$(X_LIBS)					\
 	$(NOTIFICATION_AREA_LIBS)			\
-	$(LIBMATE_PANEL_APPLET_LIBS)				\
-	libtray.la
+	$(LIBMATE_PANEL_APPLET_LIBS)
 
 testtray_SOURCES = testtray.c
 testtray_LDADD = \
+	libtray.la \
 	$(X_LIBS)			\
-	$(NOTIFICATION_AREA_LIBS)	\
-	libtray.la
+	$(NOTIFICATION_AREA_LIBS)
 
 @NOTIFICATION_AREA_INPROCESS_FALSE@APPLET_IN_PROCESS = false
 @NOTIFICATION_AREA_INPROCESS_TRUE@APPLET_IN_PROCESS = true

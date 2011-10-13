@@ -30,16 +30,17 @@ NOTIFICATION_AREA_SOURCES = main.c
 
 NOTIFICATION_AREA_LDADD =				\
 	../../libmate-panel-applet/libmate-panel-applet-3.la	\
+	libtray.la \
 	$(X_LIBS)					\
 	$(NOTIFICATION_AREA_LIBS)			\
-	$(LIBMATE_PANEL_APPLET_LIBS)				\
-	libtray.la
+	$(LIBMATE_PANEL_APPLET_LIBS)
+
 
 testtray_SOURCES = testtray.c
 testtray_LDADD =			\
+	libtray.la \
 	$(X_LIBS)			\
-	$(NOTIFICATION_AREA_LIBS)	\
-	libtray.la
+	$(NOTIFICATION_AREA_LIBS)
 
 if NOTIFICATION_AREA_INPROCESS
 APPLET_IN_PROCESS = true
