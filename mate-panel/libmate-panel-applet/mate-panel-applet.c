@@ -24,7 +24,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+	#include <config.h>
 #endif
 
 #include <unistd.h>
@@ -1026,7 +1026,7 @@ static gboolean
 mate_panel_applet_can_focus (GtkWidget *widget)
 {
 	/*
-	 * A MatePanelApplet widget can focus if it has a tooltip or it does 
+	 * A MatePanelApplet widget can focus if it has a tooltip or it does
 	 * not have any focusable children.
 	 */
 	if (gtk_widget_get_has_tooltip (widget))
@@ -1219,7 +1219,7 @@ mate_panel_applet_size_allocate (GtkWidget     *widget,
 
 static gboolean
 mate_panel_applet_expose (GtkWidget      *widget,
-		     GdkEventExpose *event) 
+		     GdkEventExpose *event)
 {
 	GtkAllocation allocation;
 	int border_width;
@@ -1262,7 +1262,7 @@ mate_panel_applet_expose (GtkWidget      *widget,
 	return FALSE;
 }
 
-static gboolean 
+static gboolean
 mate_panel_applet_focus (GtkWidget        *widget,
 		    GtkDirectionType  dir)
 {
@@ -1299,7 +1299,7 @@ mate_panel_applet_focus (GtkWidget        *widget,
 			 * Applet does not have a widget which can focus so set
 			 * the focus on the applet unless it already had focus
 			 * because it had a tooltip.
-			 */ 
+			 */
 			gtk_widget_set_can_focus (widget, TRUE);
 			gtk_widget_grab_focus (widget);
 			gtk_widget_set_can_focus (widget, FALSE);

@@ -2,6 +2,9 @@
 
 pkgname=mate-panel
 
+MATECONF_CONFIG_SOURCE=`usr/bin/mateconftool-2 --get-default-source`
+/usr/bin/mateconftool-2 --config-source="${MATECONF_CONFIG_SOURCE}" --direct --load \
+	/etc/mateconf/schemas/panel-default-setup.entries >/dev/null
 /usr/sbin/mateconfpkg --install ${pkgname}
 gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor
 
