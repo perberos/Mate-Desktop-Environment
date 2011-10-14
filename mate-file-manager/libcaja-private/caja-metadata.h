@@ -32,10 +32,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 /* Per-file */
 
 #define CAJA_METADATA_KEY_DEFAULT_VIEW		 	"caja-default-view"

@@ -28,10 +28,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 G_BEGIN_DECLS
 
 #define EEL_TYPE_WRAP_TABLE eel_wrap_table_get_type()

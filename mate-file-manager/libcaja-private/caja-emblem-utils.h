@@ -27,10 +27,6 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 GList *    caja_emblem_list_available             (void);
 void       caja_emblem_refresh_list               (void);
 gboolean   caja_emblem_should_show_in_list        (const char *emblem);

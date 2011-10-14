@@ -644,6 +644,8 @@ LIBEGG_LIBS
 LIBEGG_CFLAGS
 RENDER_LIBS
 WARNING_CFLAGS
+UNIQUE_LIBS
+UNIQUE_CFLAGS
 ENABLE_EMPTY_VIEW_FALSE
 ENABLE_EMPTY_VIEW_TRUE
 ENABLE_EMPTY_VIEW
@@ -853,6 +855,7 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_gtk
 enable_silent_rules
 enable_maintainer_mode
 enable_dependency_tracking
@@ -873,6 +876,7 @@ with_x
 enable_xmp
 enable_empty_view
 enable_packagekit
+enable_unique
 enable_more_warnings
 with_mateconf_source
 with_mateconf_schema_file_dir
@@ -900,7 +904,9 @@ EXIF_LIBS
 EXEMPI_CFLAGS
 EXEMPI_LIBS
 EXEMPI_NEW_API_CFLAGS
-EXEMPI_NEW_API_LIBS'
+EXEMPI_NEW_API_LIBS
+UNIQUE_CFLAGS
+UNIQUE_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1544,6 +1550,7 @@ Optional Features:
   --disable-xmp           build without xmp support
   --enable-empty-view     Enable empty view
   --disable-packagekit    build without PackageKit support
+  --enable-unique         enable the use of libunique instead of g_application or gtk_application
   --enable-more-warnings  Maximum compiler warnings
   --disable-schemas-install
                           Disable the schemas installation
@@ -1555,6 +1562,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-gtk=2.0|3.0      which gtk+ version to compile against (default: 2.0)
   --with-pic              try to use only PIC/non-PIC objects [default=use
                           both]
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
@@ -1593,6 +1601,9 @@ Some influential environment variables:
               C compiler flags for EXEMPI_NEW_API, overriding pkg-config
   EXEMPI_NEW_API_LIBS
               linker flags for EXEMPI_NEW_API, overriding pkg-config
+  UNIQUE_CFLAGS
+              C compiler flags for UNIQUE, overriding pkg-config
+  UNIQUE_LIBS linker flags for UNIQUE, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -2378,6 +2389,36 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+GTK_API_VERSION=2.0
+GTK_REQUIRED=2.22.0
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking which gtk+ version to compile against" >&5
+$as_echo_n "checking which gtk+ version to compile against... " >&6; }
+
+# Check whether --with-gtk was given.
+if test "${with_gtk+set}" = set; then :
+  withval=$with_gtk;
+        case "$with_gtk" in
+            2.0|3.0) ;;
+            *) as_fn_error $? "invalid gtk version specified" "$LINENO" 5 ;;
+        esac
+
+else
+  with_gtk=2.0
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $with_gtk" >&5
+$as_echo "$with_gtk" >&6; }
+
+case "$with_gtk" in
+  2.0) GTK_API_VERSION=2.0
+       GTK_REQUIRED=2.18.0
+       ;;
+  3.0) GTK_API_VERSION=3.0
+       GTK_REQUIRED=3.0.0
+       ;;
+esac
+
 
 
 ac_config_headers="$ac_config_headers config.h"
@@ -3016,7 +3057,7 @@ MATE_DESKTOP_REQUIRED=2.29.91
 
 PANGO_REQUIRED=1.1.2
 
-GTK_REQUIRED=2.22.0
+GTK_REQUIRED=$GTK_REQUIRED
 
 XML_REQUIRED=2.4.7
 
@@ -13186,43 +13227,40 @@ if test -n "$ALL_CFLAGS"; then
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
     { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-\$GTK_API_VERSION >= \$GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 \""; } >&5
   ($PKG_CONFIG --exists --print-errors "
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 ") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ALL_CFLAGS=`$PKG_CONFIG --cflags "
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 " 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
@@ -13236,43 +13274,40 @@ if test -n "$ALL_LIBS"; then
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
     { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-\$GTK_API_VERSION >= \$GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 \""; } >&5
   ($PKG_CONFIG --exists --print-errors "
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 ") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ALL_LIBS=`$PKG_CONFIG --libs "
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 " 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
@@ -13295,45 +13330,42 @@ else
 fi
         if test $_pkg_short_errors_supported = yes; then
 	        ALL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 " 2>&1`
         else
 	        ALL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 " 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$ALL_PKG_ERRORS" >&5
 
 	as_fn_error $? "Package requirements (
-	glib-2.0		>= 2.25.9
-	mate-desktop-2.0	>= 2.29.91
+	glib-2.0 >= 2.25.9
+	mate-desktop-2.0 >= 2.29.91
 	gthread-2.0
 	gio-unix-2.0
 	gio-2.0
-	pango			>= 1.1.2
-	gtk+-2.0		>= 2.22.0
-	libxml-2.0		>= 2.4.7
-	gail			>= 0.16
-	unique-1.0
+	pango >= 1.1.2
+	gtk+-$GTK_API_VERSION >= $GTK_REQUIRED
+	libxml-2.0 >= 2.4.7
+	gail >= 0.16
 ) were not met:
 
 $ALL_PKG_ERRORS
@@ -16424,6 +16456,108 @@ $as_echo "#define ENABLE_PACKAGEKIT 1" >>confdefs.h
 fi
 
 
+case "$with_gtk" in
+	2.0) LIBUNIQUE_VERSION=1.0
+		;;
+	3.0) LIBUNIQUE_VERSION=3.0
+		;;
+esac
+
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for UNIQUE" >&5
+$as_echo_n "checking for UNIQUE... " >&6; }
+
+if test -n "$UNIQUE_CFLAGS"; then
+    pkg_cv_UNIQUE_CFLAGS="$UNIQUE_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"unique-\$LIBUNIQUE_VERSION\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "unique-$LIBUNIQUE_VERSION") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_UNIQUE_CFLAGS=`$PKG_CONFIG --cflags "unique-$LIBUNIQUE_VERSION" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$UNIQUE_LIBS"; then
+    pkg_cv_UNIQUE_LIBS="$UNIQUE_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"unique-\$LIBUNIQUE_VERSION\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "unique-$LIBUNIQUE_VERSION") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_UNIQUE_LIBS=`$PKG_CONFIG --libs "unique-$LIBUNIQUE_VERSION" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        UNIQUE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "unique-$LIBUNIQUE_VERSION" 2>&1`
+        else
+	        UNIQUE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "unique-$LIBUNIQUE_VERSION" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$UNIQUE_PKG_ERRORS" >&5
+
+	enable_libunique=no
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	enable_libunique=no
+else
+	UNIQUE_CFLAGS=$pkg_cv_UNIQUE_CFLAGS
+	UNIQUE_LIBS=$pkg_cv_UNIQUE_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	enable_libunique=yes
+fi
+
+
+
+
+# Check whether --enable-unique was given.
+if test "${enable_unique+set}" = set; then :
+  enableval=$enable_unique; enable_libunique=yes
+fi
+
+
+if test "x$enable_libunique" = "xyes"; then
+	UNIQUE_CFLAGS="$UNIQUE_CFLAGS -DUSE_UNIQUE=1"
+	# fix for deprecated on 2.26
+	# unique en la version 1.0, contiene simbolos no definidos a partir de
+	# glib 2.26, pero puede ser obviado si se utiliza -DG_CONST_RETURN=const
+	if $PKG_CONFIG --atleast-version 2.26 glib-2.0; then
+		UNIQUE_CFLAGS="$UNIQUE_CFLAGS -DG_CONST_RETURN=const"
+	fi
+
+	EXTRA_CORE_MODULES="$EXTRA_CORE_MODULES unique-$LIBUNIQUE_VERSION"
+fi
+
+
+
 
 WARNING_CFLAGS=""
 
@@ -16599,7 +16733,7 @@ LIBCAJA_EXTENSION_CFLAGS="`$PKG_CONFIG --cflags $LIBCAJA_EXTENSION_MODULES`"
 LIBCAJA_EXTENSION_LIBS="`$PKG_CONFIG --libs $LIBCAJA_EXTENSION_MODULES`"
 
 
-CORE_MODULES="glib-2.0 mate-desktop-2.0 gthread-2.0 gio-2.0 gio-unix-2.0 unique-1.0 gail mateconf-2.0 libxml-2.0 $EXTRA_CORE_MODULES"
+CORE_MODULES="glib-2.0 mate-desktop-2.0 gthread-2.0 gio-2.0 gio-unix-2.0 gail mateconf-2.0 libxml-2.0 $EXTRA_CORE_MODULES"
 CORE_CFLAGS="`$PKG_CONFIG --cflags $CORE_MODULES` $x_cflags"
 
 CORE_LIBS="`$PKG_CONFIG --libs $CORE_MODULES` $x_libs"
@@ -19406,16 +19540,19 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
+
 echo "
 caja-$VERSION:
 
-	prefix:                 ${prefix}
-	source code location:	${srcdir}
-	compiler:		${CC}
-	xmp support:		$msg_xmp
-	PackageKit support:     $msg_packagekit
+    prefix:                       ${prefix}
+    source code location:         ${srcdir}
+    compiler:                     ${CC}
+    xmp support:                  $msg_xmp
+    Use libunique:                ${enable_libunique}
+    Gtk+ version:                 ${GTK_API_VERSION}
+    PackageKit support:           $msg_packagekit
 
-	profiling support:      ${profiling_support}
-	caja-extension documentation: ${enable_gtk_doc}
-	caja-extension introspection: ${found_introspection}
+    profiling support:            ${profiling_support}
+    caja-extension documentation: ${enable_gtk_doc}
+    caja-extension introspection: ${found_introspection}
 "

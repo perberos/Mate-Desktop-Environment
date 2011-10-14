@@ -59,10 +59,6 @@
 #include <gio/gio.h>
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include <libcaja-extension/caja-file-info.h>
 #include <libcaja-extension/caja-extension-private.h>
 #include <libxml/parser.h>

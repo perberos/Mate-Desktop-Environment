@@ -28,10 +28,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 G_BEGIN_DECLS
 
 #define EEL_TYPE_BACKGROUND_BOX eel_background_box_get_type()

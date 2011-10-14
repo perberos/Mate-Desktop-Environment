@@ -25,10 +25,6 @@
 #include <config.h>
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include "eel-i18n.h"
 
 #ifdef ENABLE_NLS

@@ -27,10 +27,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #define CAJA_MENU_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), CAJA_TYPE_MENU, CajaMenuPrivate))
 G_DEFINE_TYPE (CajaMenu, caja_menu, G_TYPE_OBJECT);
 

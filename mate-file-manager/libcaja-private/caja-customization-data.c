@@ -46,10 +46,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 typedef enum {
 	READ_PUBLIC_CUSTOMIZATIONS,
 	READ_PRIVATE_CUSTOMIZATIONS

@@ -38,10 +38,6 @@
 #include <glib.h>
 
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 enum {
 	SUBDIRECTORY_UNLOADED,
 	LAST_SIGNAL

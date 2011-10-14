@@ -28,10 +28,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 G_BEGIN_DECLS
 
 typedef struct CajaIdleQueue CajaIdleQueue;

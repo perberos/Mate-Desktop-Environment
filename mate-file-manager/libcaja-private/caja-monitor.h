@@ -29,10 +29,6 @@
 #include <glib.h>
 #include <gio/gio.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 typedef struct CajaMonitor CajaMonitor;
 
 gboolean         caja_monitor_active    (void);

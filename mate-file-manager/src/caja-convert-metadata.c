@@ -27,10 +27,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <string.h>

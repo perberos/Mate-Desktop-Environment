@@ -29,10 +29,6 @@
 #include <signal.h>
 #include <stdio.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 typedef struct {
 	gpointer data;
 	GFreeFunc function;

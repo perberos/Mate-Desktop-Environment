@@ -27,13 +27,9 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
-#define CAJA_DEBUG_LOG_DOMAIN_USER		"USER"   /* always enabled */
-#define CAJA_DEBUG_LOG_DOMAIN_ASYNC		"async"	 /* when asynchronous notifications come in */
-#define CAJA_DEBUG_LOG_DOMAIN_GLOG          "GLog"	 /* used for GLog messages; don't use it yourself */
+#define CAJA_DEBUG_LOG_DOMAIN_USER "USER"   /* always enabled */
+#define CAJA_DEBUG_LOG_DOMAIN_ASYNC "async"	 /* when asynchronous notifications come in */
+#define CAJA_DEBUG_LOG_DOMAIN_GLOG "GLog"	 /* used for GLog messages; don't use it yourself */
 
 void caja_debug_log (gboolean is_milestone, const char *domain, const char *format, ...);
 

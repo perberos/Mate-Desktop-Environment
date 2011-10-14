@@ -27,10 +27,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include <mateconf/mateconf.h>
 #include <mateconf/mateconf-client.h>
 

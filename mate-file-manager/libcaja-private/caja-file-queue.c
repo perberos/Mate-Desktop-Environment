@@ -25,10 +25,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 struct CajaFileQueue {
 	GList *head;
 	GList *tail;

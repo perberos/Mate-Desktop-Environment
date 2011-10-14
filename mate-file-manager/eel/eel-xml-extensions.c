@@ -29,10 +29,6 @@
 #include "eel-i18n.h"
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include <libxml/parser.h>
 #include <stdlib.h>
 

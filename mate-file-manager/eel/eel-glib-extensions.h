@@ -29,10 +29,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 /* A gboolean variant for bit fields. */
 typedef guint eel_boolean_bit;
 

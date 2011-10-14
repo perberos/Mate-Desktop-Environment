@@ -34,10 +34,6 @@
 #include <glib.h>
 #include <gio/gio.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include "eel-string.h"
 
 #include <string.h>

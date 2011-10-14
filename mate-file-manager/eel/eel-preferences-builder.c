@@ -24,10 +24,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include <gtk/gtk.h>
 
 #include "eel-preferences.h"

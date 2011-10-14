@@ -43,10 +43,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #define CAJA_USER_DIRECTORY_NAME ".caja"
 #define DEFAULT_CAJA_DIRECTORY_MODE (0755)
 

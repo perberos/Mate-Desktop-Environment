@@ -58,10 +58,6 @@
 #include <gio/gio.h>
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include "caja-file-changes-queue.h"
 #include "caja-file-private.h"
 #include "caja-desktop-icon-file.h"

@@ -28,10 +28,6 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 G_BEGIN_DECLS
 
 /* This is a mis-nomer. Launcher editables initially were displayed on separate

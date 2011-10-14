@@ -29,10 +29,6 @@
 #include <grp.h>
 #include <pwd.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 
 typedef struct _ExpiringCache ExpiringCache;
 

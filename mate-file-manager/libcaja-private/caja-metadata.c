@@ -24,10 +24,6 @@
 #include "caja-metadata.h"
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 static char *used_metadata_names[] = {
   CAJA_METADATA_KEY_DEFAULT_VIEW,
   CAJA_METADATA_KEY_LOCATION_BACKGROUND_COLOR,

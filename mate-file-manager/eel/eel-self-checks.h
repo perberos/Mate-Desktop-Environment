@@ -27,10 +27,6 @@
 
 #include <glib.h>
 
-#ifndef G_CONST_RETURN
-	#define G_CONST_RETURN const
-#endif
-
 #include <eel/eel-art-extensions.h>
 
 #define EEL_CHECK_RESULT(type, expression, expected_value) \
