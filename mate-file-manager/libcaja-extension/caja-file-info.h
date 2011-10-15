@@ -133,6 +133,8 @@ CajaFileInfo *caja_file_info_create                (GFile *location);
 CajaFileInfo *caja_file_info_lookup_for_uri        (const char *uri);
 CajaFileInfo *caja_file_info_create_for_uri        (const char *uri);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

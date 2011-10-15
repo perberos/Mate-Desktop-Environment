@@ -44,6 +44,8 @@ const gchar     *mate_panel_applet_info_get_description                 (MatePan
 const gchar     *mate_panel_applet_info_get_icon                        (MatePanelAppletInfo *info);
 const gchar * const *mate_panel_applet_info_get_old_ids                 (MatePanelAppletInfo *info);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_INFO_H__ */

@@ -71,6 +71,8 @@ void                  gsd_media_keys_window_set_volume_level  (GsdMediaKeysWindo
                                                                int                      level);
 gboolean              gsd_media_keys_window_is_valid          (GsdMediaKeysWindow      *window);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -70,7 +70,9 @@ void		 matecomponent_zoomable_frame_bind_to_zoomable			(MateComponentZoomableFra
 									 MateComponent_Zoomable	 zoomable,
 									 CORBA_Environment      *opt_ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_ZOOMABLE_FRAME_H_ */
 

@@ -180,7 +180,9 @@ void mate_scores_set_current_player (
 		MateScores *gs,	/* MATE Scores widget. */
 		gint i			/* Index of the current(from 0 to 9). */
 		);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* MATE_DISABLE_DEPRECATED */

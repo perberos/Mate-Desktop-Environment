@@ -97,6 +97,8 @@ struct _CajaTreeViewDragDestClass {
 GType                     caja_tree_view_drag_dest_get_type (void);
 CajaTreeViewDragDest *caja_tree_view_drag_dest_new      (GtkTreeView *tree_view);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

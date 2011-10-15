@@ -73,6 +73,8 @@ void            panel_launcher_set_dnd_enabled  (Launcher *launcher,
 						 gboolean  dnd_enabled);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

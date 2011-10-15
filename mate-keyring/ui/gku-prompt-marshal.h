@@ -16,7 +16,9 @@ extern void gku_prompt_marshal_BOOLEAN__VOID (GClosure     *closure,
                                               gpointer      invocation_hint,
                                               gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __gku_prompt_marshal_MARSHAL_H__ */
 

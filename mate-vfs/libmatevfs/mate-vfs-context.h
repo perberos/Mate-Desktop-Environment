@@ -49,6 +49,8 @@ MateVFSCancellation*
 const MateVFSContext *mate_vfs_context_peek_current	  (void);
 gboolean	       mate_vfs_context_check_cancellation_current (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_CONTEXT_H */

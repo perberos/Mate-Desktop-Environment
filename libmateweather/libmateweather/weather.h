@@ -281,6 +281,8 @@ gboolean weather_info_get_value_moonphase       (WeatherInfo *info, WeatherMoonP
 gboolean weather_info_get_upcoming_moonphases   (WeatherInfo *info, time_t *phases);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __WEATHER_H_ */

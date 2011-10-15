@@ -651,7 +651,7 @@ s-enum-types-h: $(notify_headers) Makefile
 			--fhead "#ifndef _NOTIFY_ENUM_TYPES_H_\n#define _NOTIFY_ENUM_TYPES_H_\n\n#include <glib-object.h>\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" \
 			--fprod "/* enumerations from \"@filename@\" */\n" \
 			--vhead "GType @enum_name@_get_type(void);\n#define NOTIFY_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"	\
-			--ftail "G_END_DECLS\n\n#endif /* _NOTIFY_ENUM_TYPES_H_ */" \
+			--ftail "#ifdef __cplusplus\n}\n#endif\n\n#endif /* _NOTIFY_ENUM_TYPES_H_ */" \
 		$(notify_headers) ) > tmp-$(ENUM_FILE).h \
 	&& (cmp -s tmp-$(ENUM_FILE).h $(ENUM_FILE).h || cp tmp-$(ENUM_FILE).h $(ENUM_FILE).h ) \
 	&& rm -f tmp-$(ENUM_FILE).h	\

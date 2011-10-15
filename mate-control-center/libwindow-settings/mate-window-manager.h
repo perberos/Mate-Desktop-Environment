@@ -161,6 +161,8 @@ void mate_window_manager_get_double_click_actions (MateWindowManager            
 MateWMSettings *mate_wm_settings_copy (MateWMSettings *settings);
 void             mate_wm_settings_free (MateWMSettings *settings);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_WINDOW_MANAGER_H */

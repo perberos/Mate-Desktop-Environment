@@ -116,6 +116,8 @@ char *     mate_password_dialog_get_new_password        (MatePasswordDialog *pas
 
 gboolean   mate_password_dialog_anon_selected 		 (MatePasswordDialog *password_dialog);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_PASSWORD_DIALOG_H */

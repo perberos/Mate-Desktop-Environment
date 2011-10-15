@@ -157,7 +157,9 @@ char*           eel_labeled_image_get_text                         (const EelLab
 EelIRect        eel_labeled_image_get_image_bounds                 (const EelLabeledImage   *labeled_image);
 EelIRect        eel_labeled_image_get_label_bounds                 (const EelLabeledImage   *labeled_image);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_LABELED_IMAGE_H */
 

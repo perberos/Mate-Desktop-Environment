@@ -13,6 +13,8 @@ extern "C" {
 typedef struct CORBA_TypeCode_struct *CORBA_TypeCode;
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

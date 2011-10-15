@@ -54,6 +54,8 @@ gboolean                gsd_mouse_manager_start               (GsdMouseManager *
                                                                GError         **error);
 void                    gsd_mouse_manager_stop                (GsdMouseManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_MOUSE_MANAGER_H */

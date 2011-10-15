@@ -170,7 +170,7 @@ stamp-matetypebuiltins.h: @REBUILD@ $(mate_headers)
 			--fhead "#define __MATETYPEBUILTINS_H__ 1\n\n" \
 			--fhead "#include <glib-object.h>\n\n" \
 			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
-			--ftail "G_END_DECLS\n\n" \
+			--ftail "#ifdef __cplusplus\n}\n#endif\n\n" \
 			--ftail "#endif /* __MATETYPEBUILTINS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \
 			--eprod "#define MATE_TYPE_@ENUMSHORT@ @enum_name@_get_type()\n" \

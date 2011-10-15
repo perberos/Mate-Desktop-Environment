@@ -70,6 +70,8 @@ char       *matecomponent_activation_make_registration_id (const char *iid,
 
 const char *matecomponent_activation_iid_get       (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_ACTIVATION_REGISTER_H */

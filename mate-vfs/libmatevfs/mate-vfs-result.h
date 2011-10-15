@@ -159,6 +159,8 @@ MateVFSResult	 mate_vfs_result_from_errno	    (void);
 MateVFSResult   mate_vfs_result_from_h_errno_val  (int h_errno_code);
 MateVFSResult   mate_vfs_result_from_h_errno      (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_RESULT_H */

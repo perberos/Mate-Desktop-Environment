@@ -304,6 +304,8 @@ MateConfValue * mateconf_engine_get_full (MateConfEngine *conf,
 
 #endif /* MATECONF_ENABLE_INTERNALS */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

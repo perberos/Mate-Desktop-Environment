@@ -144,6 +144,8 @@ gboolean            mdm_display_set_slave_bus_name             (MdmDisplay *disp
                                                                 GError    **error);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_DISPLAY_H */

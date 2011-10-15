@@ -100,7 +100,9 @@ void          mate_mdi_child_set_name         (MateMDIChild *mdi_child, const gc
 
 void          mate_mdi_child_set_menu_template(MateMDIChild *mdi_child, MateUIInfo *menu_tmpl);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

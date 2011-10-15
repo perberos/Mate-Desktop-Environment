@@ -6,7 +6,7 @@ glib-mkenums \
 	--fhead "#ifndef __MATECONF_ENUM_TYPES_H__\n#define __MATECONF_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 	--fprod "/* enumerations from \"@filename@\" */\n\n" \
 	--vhead "GType @enum_name@_get_type (void);\n#define MATECONF_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n\n" \
-	--ftail "G_END_DECLS\n\n#endif /* __MATECONF_ENUM_TYPES_H__ */" \
+	--ftail "#ifdef __cplusplus\n}\n#endif\n\n#endif /* __MATECONF_ENUM_TYPES_H__ */" \
 	$* > tmp-unfixed-mateconf-enum-types.h || exit 1
 
 cat tmp-unfixed-mateconf-enum-types.h | sed -e 's/g_conf/mateconf/g' -e 's/TYPE_CONF/TYPE/g' > tmp-mateconf-enum-types.h || exit 1

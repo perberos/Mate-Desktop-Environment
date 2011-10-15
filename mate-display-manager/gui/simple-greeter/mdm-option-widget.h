@@ -84,6 +84,8 @@ void                   mdm_option_widget_set_active_item        (MdmOptionWidget
 char *                 mdm_option_widget_get_default_item       (MdmOptionWidget *widget);
 void                   mdm_option_widget_set_default_item       (MdmOptionWidget *widget,
                                                                  const char       *item);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_OPTION_WIDGET_H */

@@ -66,6 +66,8 @@ void            na_tray_set_padding     (NaTray        *tray,
                                          gint           padding);
 void		na_tray_force_redraw	(NaTray        *tray);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __NA_TRAY_H__ */

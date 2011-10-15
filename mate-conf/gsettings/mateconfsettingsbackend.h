@@ -69,6 +69,8 @@ struct _MateConfSettingsBackend
 GType mateconf_settings_backend_get_type (void);
 void  mateconf_settings_backend_register (GIOModule *module);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _mateconfsettingsbackend_h_ */

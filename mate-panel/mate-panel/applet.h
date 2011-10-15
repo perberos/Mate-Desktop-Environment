@@ -112,6 +112,8 @@ void mate_panel_applet_position_menu (GtkMenu   *menu,
 				 int       *y,
 				 gboolean  *push_in,
 				 GtkWidget *applet);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

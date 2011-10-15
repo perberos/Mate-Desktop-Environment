@@ -40,6 +40,8 @@ int mate_vfs_pty_open(pid_t *child, guint flags, char **env_add,
 		       int *stdin_fd, int *stdout_fd, int *stderr_fd);
 int _mate_vfs_pty_get_size(int master, int *columns, int *rows);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

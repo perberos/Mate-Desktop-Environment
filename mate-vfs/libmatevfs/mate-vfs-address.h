@@ -67,6 +67,8 @@ gboolean         mate_vfs_address_match             (const MateVFSAddress *a,
 MateVFSAddress *mate_vfs_address_dup               (MateVFSAddress *address);
 void             mate_vfs_address_free              (MateVFSAddress *address);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

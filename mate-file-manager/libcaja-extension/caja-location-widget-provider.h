@@ -61,6 +61,8 @@ GType       caja_location_widget_provider_get_type      (void);
 GtkWidget * caja_location_widget_provider_get_widget    (CajaLocationWidgetProvider     *provider,
 							     const char                         *uri,
 							     GtkWidget                          *window);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -161,7 +161,9 @@ MateVFSMimeApplication *
 void		mate_vfs_application_registry_save_mime_application(const MateVFSMimeApplication *application);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_APPLICATION_REGISTRY_H */
 

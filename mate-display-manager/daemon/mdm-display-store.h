@@ -86,6 +86,8 @@ MdmDisplay *        mdm_display_store_find                     (MdmDisplayStore 
                                                                 gpointer            user_data);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_DISPLAY_STORE_H */

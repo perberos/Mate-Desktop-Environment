@@ -49,6 +49,8 @@ void                       polkit_mate_authenticator_initiate   (PolkitMateAuthe
 void                       polkit_mate_authenticator_cancel     (PolkitMateAuthenticator *authenticator);
 const gchar               *polkit_mate_authenticator_get_cookie (PolkitMateAuthenticator *authenticator);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __POLKIT_MATE_AUTHENTICATOR_H */

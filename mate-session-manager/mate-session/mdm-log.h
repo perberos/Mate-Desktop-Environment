@@ -48,6 +48,8 @@ void      mdm_log_shutdown        (void);
 #define   mdm_assert             g_assert
 #define   mdm_assert_not_reached g_assert_not_reached
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LOG_H */

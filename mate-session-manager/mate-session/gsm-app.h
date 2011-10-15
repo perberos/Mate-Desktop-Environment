@@ -129,6 +129,8 @@ gboolean         gsm_app_get_phase                      (GsmApp     *app,
                                                          guint      *phase,
                                                          GError    **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_APP_H__ */

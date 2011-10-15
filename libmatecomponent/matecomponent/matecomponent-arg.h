@@ -118,6 +118,8 @@ void     matecomponent_arg_register_from_gvalue_converter (GType                
 void     matecomponent_arg_init                           (void);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ! __MATECOMPONENT_ARG_H__ */

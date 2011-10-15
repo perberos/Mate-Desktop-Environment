@@ -61,6 +61,8 @@ gboolean            mdm_server_start     (MdmServer   *server);
 gboolean            mdm_server_stop      (MdmServer   *server);
 char *              mdm_server_get_display_device (MdmServer *server);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SERVER_H */

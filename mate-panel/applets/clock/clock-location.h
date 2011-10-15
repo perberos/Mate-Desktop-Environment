@@ -81,5 +81,7 @@ void         clock_location_set_weather_prefs (ClockLocation *loc,
 
 glong clock_location_get_offset (ClockLocation *loc);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __CLOCK_LOCATION_H__ */

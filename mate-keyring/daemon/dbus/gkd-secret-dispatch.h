@@ -53,6 +53,8 @@ const gchar*           gkd_secret_dispatch_get_object_path                   (Gk
 DBusMessage*           gkd_secret_dispatch_message                           (GkdSecretDispatch *self,
                                                                               DBusMessage *message);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GKD_SECRET_DISPATCH_H__ */

@@ -60,7 +60,9 @@ void egg_sm_client_quit(EggSMClient* client);
 
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __EGG_SM_CLIENT_PRIVATE_H__ */

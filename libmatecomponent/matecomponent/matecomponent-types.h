@@ -80,6 +80,8 @@ void       matecomponent_closure_invoke         (GClosure            *closure,
 GClosure * matecomponent_closure_store          (GClosure            *closure,
 					  GClosureMarshal      default_marshal);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

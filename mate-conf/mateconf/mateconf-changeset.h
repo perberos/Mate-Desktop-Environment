@@ -136,7 +136,9 @@ gpointer mateconf_change_set_get_user_data (MateConfChangeSet *cs);
 
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

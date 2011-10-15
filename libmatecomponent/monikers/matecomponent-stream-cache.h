@@ -32,6 +32,8 @@ GType         matecomponent_stream_cache_get_type (void);
 MateComponentObject *matecomponent_stream_cache_create   (MateComponent_Stream      cs,
 					    CORBA_Environment *opt_ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_STREAM_CACHE_H_ */

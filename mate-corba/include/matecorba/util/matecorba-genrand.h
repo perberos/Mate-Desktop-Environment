@@ -28,6 +28,8 @@ void     MateCORBA_genuid_buffer (guint8         *buffer,
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECORBA_GENRAND_H */

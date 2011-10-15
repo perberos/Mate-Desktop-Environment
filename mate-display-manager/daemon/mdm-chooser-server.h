@@ -60,6 +60,8 @@ gboolean            mdm_chooser_server_start                 (MdmChooserServer *
 gboolean            mdm_chooser_server_stop                  (MdmChooserServer *chooser_server);
 char *              mdm_chooser_server_get_address           (MdmChooserServer *chooser_server);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_CHOOSER_SERVER_H */

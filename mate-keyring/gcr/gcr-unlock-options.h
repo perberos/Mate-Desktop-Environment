@@ -29,6 +29,8 @@ extern "C" {
 #define GCR_UNLOCK_OPTION_TIMEOUT   "timeout"
 #define GCR_UNLOCK_OPTION_IDLE      "idle"
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_UNLOCK_OPTIONS_H__ */

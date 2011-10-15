@@ -89,6 +89,8 @@ guchar*             gcr_certificate_get_fingerprint        (GcrCertificate *self
 gchar*              gcr_certificate_get_fingerprint_hex    (GcrCertificate *self,
                                                             GChecksumType type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_CERTIFICATE_H__ */

@@ -98,7 +98,9 @@ void            mate_icon_data_free                   (MateIconData        *icon
 
 GtkIconTheme   *_mate_icon_theme_get_gtk_icon_theme    (MateIconTheme       *icon_theme);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /* MATE_DISABLE_DEPRECATED */
 

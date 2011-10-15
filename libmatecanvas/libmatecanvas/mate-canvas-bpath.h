@@ -58,6 +58,8 @@ struct _MateCanvasBpathClass {
 /* Standard Gtk function */
 GType mate_canvas_bpath_get_type (void) G_GNUC_CONST;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

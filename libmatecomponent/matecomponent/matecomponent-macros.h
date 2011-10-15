@@ -97,6 +97,8 @@ type_as_function ## _get_type (void)					\
 			    G_STRUCT_OFFSET (type##Class, epv),		\
 			    &object_info, #type)
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_MACROS_H_ */

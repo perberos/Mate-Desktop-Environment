@@ -231,6 +231,8 @@ gboolean panel_widget_toggle_applet_locked        (PanelWidget *panel,
 
 void     panel_widget_register_open_dialog        (PanelWidget *panel,
 						   GtkWidget   *dialog);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_WIDGET_H */

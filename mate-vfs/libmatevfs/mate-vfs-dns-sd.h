@@ -168,6 +168,8 @@ GList *
 mate_vfs_get_default_browse_domains (void);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_DNS_SD_H */

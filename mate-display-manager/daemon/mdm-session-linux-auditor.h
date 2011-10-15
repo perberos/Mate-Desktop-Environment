@@ -61,5 +61,7 @@ struct _MdmSessionLinuxAuditorClass
 GType              mdm_session_linux_auditor_get_type                       (void);
 MdmSessionAuditor *mdm_session_linux_auditor_new                            (const char *hostname,
                                                                              const char *display_device);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* MDM_SESSION_LINUX_AUDITOR_H */

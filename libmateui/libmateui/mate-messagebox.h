@@ -82,7 +82,9 @@ void        mate_message_box_construct  (MateMessageBox      *messagebox,
 					  const gchar         *message_box_type,
 					  const gchar         **buttons);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

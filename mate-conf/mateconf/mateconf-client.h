@@ -385,7 +385,9 @@ MateConfChangeSet* mateconf_client_change_set_from_current (MateConfClient* clie
                                                              const gchar* first_key,
                                                              ...) G_GNUC_NULL_TERMINATED;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

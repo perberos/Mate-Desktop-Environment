@@ -65,6 +65,8 @@ GsdLdsmDialog * gsd_ldsm_dialog_new (gboolean other_usable_partitions,
                                      const gchar *partition_name,
                                      const gchar *mount_path);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _GSD_LDSM_DIALOG_H_ */

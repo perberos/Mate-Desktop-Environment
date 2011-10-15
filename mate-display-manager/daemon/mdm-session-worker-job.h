@@ -62,6 +62,8 @@ void                    mdm_session_worker_job_set_server_address (MdmSessionWor
 gboolean                mdm_session_worker_job_start              (MdmSessionWorkerJob *session_worker_job);
 gboolean                mdm_session_worker_job_stop               (MdmSessionWorkerJob *session_worker_job);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SESSION_WORKER_JOB_H */

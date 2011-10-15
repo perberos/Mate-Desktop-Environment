@@ -63,7 +63,9 @@ gchar     *matecomponent_selector_get_selected_description (MateComponentSelecto
 gchar	  *matecomponent_selector_select_id       (const gchar *title,
 					    const gchar **interfaces_required);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECOMPONENT_SELECTOR_H__ */
 

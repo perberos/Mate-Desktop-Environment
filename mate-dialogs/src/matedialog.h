@@ -165,6 +165,8 @@ void    matedialog_about            (MateDialogData             *data);
 void    matedialog_password_dialog  (MateDialogData             *data,
                                  MateDialogPasswordData     *password_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATEDIALOG_H */

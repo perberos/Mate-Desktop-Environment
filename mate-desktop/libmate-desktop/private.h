@@ -31,6 +31,8 @@ extern "C" {
 
 void _mate_desktop_init_i18n (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

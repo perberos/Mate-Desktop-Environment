@@ -55,6 +55,8 @@ char *                 mdm_layout_chooser_widget_get_current_layout_name      (M
 void                   mdm_layout_chooser_widget_set_current_layout_name      (MdmLayoutChooserWidget *widget,
                                                                                    const char               *name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LAYOUT_CHOOSER_WIDGET_H */

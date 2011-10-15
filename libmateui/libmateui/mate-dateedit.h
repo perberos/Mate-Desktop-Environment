@@ -98,6 +98,8 @@ time_t    mate_date_edit_get_initial_time(MateDateEdit *gde);
 time_t    mate_date_edit_get_date        (MateDateEdit *gde);
 #endif /* MATE_DISABLE_DEPRECATED */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

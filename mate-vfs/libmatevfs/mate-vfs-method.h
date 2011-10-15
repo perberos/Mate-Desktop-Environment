@@ -278,6 +278,8 @@ MateVFSTransform *mate_vfs_transform_get (const gchar *name);
 
 void              _mate_vfs_method_shutdown (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_METHOD_H */

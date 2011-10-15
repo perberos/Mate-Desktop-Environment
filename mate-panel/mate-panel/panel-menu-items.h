@@ -93,6 +93,8 @@ void panel_menu_items_append_lock_logout (GtkWidget *menu);
 void panel_menu_item_activate_desktop_file (GtkWidget  *menuitem,
 					    const char *path);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_MENU_ITEMS_H__ */

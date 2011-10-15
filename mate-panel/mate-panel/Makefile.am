@@ -207,7 +207,7 @@ panel-typebuiltins.h: @REBUILD@ $(panel_enum_headers)
 			--fhead "#ifndef __PANEL_TYPEBUILTINS_H__\n" \
 			--fhead "#define __PANEL_TYPEBUILTINS_H__ 1\n\n" \
 			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
-			--ftail "G_END_DECLS\n\n" \
+			--ftail "#ifdef __cplusplus\n}\n#endif\n\n" \
 			--ftail "#endif /* __PANEL_TYPEBUILTINS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \
 			--eprod "#define PANEL_TYPE_@ENUMSHORT@ @enum_name@_get_type()\n" \

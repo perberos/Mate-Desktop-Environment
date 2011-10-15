@@ -47,6 +47,8 @@ void              mateweather_timezone_unref          (MateWeatherTimezone *zone
 
 MateWeatherTimezone *mateweather_timezone_get_utc        (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATEWEATHER_TIMEZONE_H__ */

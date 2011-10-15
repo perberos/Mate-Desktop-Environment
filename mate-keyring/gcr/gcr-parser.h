@@ -85,6 +85,8 @@ const gchar*             gcr_parser_get_parsed_description (GcrParser *self);
 
 struct _GP11Attributes*  gcr_parser_get_parsed_attributes  (GcrParser *self);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_PARSER_H__ */

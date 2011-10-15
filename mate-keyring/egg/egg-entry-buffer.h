@@ -56,6 +56,8 @@ GType                     egg_entry_buffer_get_type               (void) G_GNUC_
 
 GtkEntryBuffer*           egg_entry_buffer_new                    (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __EGG_ENTRY_BUFFER_H__ */

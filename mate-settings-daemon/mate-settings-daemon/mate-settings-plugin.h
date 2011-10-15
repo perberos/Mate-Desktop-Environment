@@ -176,6 +176,8 @@ object_name##_register_type (GTypeModule *module)                               
 #define MATE_SETTINGS_PLUGIN_DEFINE_TYPE(ObjectName, object_name, PARENT_TYPE)           \
         MATE_SETTINGS_PLUGIN_DEFINE_TYPE_WITH_CODE(ObjectName, object_name, PARENT_TYPE, ;)
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /* __MATE_SETTINGS_PLUGIN_H__ */

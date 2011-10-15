@@ -72,6 +72,8 @@ MateVFSResult        mate_vfs_socket_buffer_write    (MateVFSSocketBuffer *socke
 MateVFSResult        mate_vfs_socket_buffer_flush    (MateVFSSocketBuffer *socket_buffer,
 							MateVFSCancellation *cancellation);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

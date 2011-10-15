@@ -62,6 +62,8 @@ gssize              egg_spawn_write_input          (int fd, gconstpointer data, 
 
 gssize              egg_spawn_read_output          (int fd, gpointer data, gsize n_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*EGG_SPAWN_H_*/

@@ -57,6 +57,8 @@ void                   mdm_host_chooser_dialog_set_kind_mask      (MdmHostChoose
 
 MdmChooserHost *       mdm_host_chooser_dialog_get_host           (MdmHostChooserDialog *dialog);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_HOST_CHOOSER_DIALOG_H */

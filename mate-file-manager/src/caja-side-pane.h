@@ -73,6 +73,8 @@ void                   caja_side_pane_set_panel_image (CajaSidePane *side_pane,
 GtkWidget             *caja_side_pane_get_current_panel (CajaSidePane *side_pane);
 GtkWidget             *caja_side_pane_get_title        (CajaSidePane *side_pane);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_SIDE_PANE_H */

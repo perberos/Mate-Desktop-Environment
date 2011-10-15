@@ -57,6 +57,8 @@ MdmGreeterSession *   mdm_greeter_session_new                (const char        
                                                               const char        *display_hostname,
                                                               gboolean           display_is_local);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_GREETER_SESSION_H */

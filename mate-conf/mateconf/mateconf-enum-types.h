@@ -31,7 +31,9 @@ GType mateconf_client_preload_type_get_type (void);
 GType mateconf_client_error_handling_mode_get_type (void);
 #define MATECONF_TYPE_CLIENT_ERROR_HANDLING_MODE (mateconf_client_error_handling_mode_get_type())
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECONF_ENUM_TYPES_H__ */
 

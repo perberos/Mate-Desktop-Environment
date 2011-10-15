@@ -61,6 +61,8 @@ gboolean           mdm_session_relay_start              (MdmSessionRelay *sessio
 gboolean           mdm_session_relay_stop               (MdmSessionRelay *session_relay);
 char *             mdm_session_relay_get_address        (MdmSessionRelay *session_relay);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SESSION_RELAY_H */

@@ -80,7 +80,9 @@ gpointer MateCORBA_freekids_via_TypeCode (CORBA_TypeCode tc, gpointer mem);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _ALLOCATORS_H_ */
 

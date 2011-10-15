@@ -91,6 +91,8 @@ void                  gsd_osd_window_draw_rounded_rectangle (cairo_t *cr,
 void                  gsd_osd_window_color_reverse          (const GdkColor *a,
                                                              GdkColor       *b);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

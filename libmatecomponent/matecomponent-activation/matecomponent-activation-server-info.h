@@ -48,7 +48,9 @@ void                       MateComponent_ServerInfo_copy              (MateCompo
 MateComponent_ServerInfo         *MateComponent_ServerInfo_duplicate         (const MateComponent_ServerInfo                *original);
 MateComponent_ServerInfoList     *MateComponent_ServerInfoList_duplicate     (const MateComponent_ServerInfoList            *original);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_ACTIVATION_SERVER_INFO_H */
 

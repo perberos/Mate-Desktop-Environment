@@ -41,6 +41,8 @@ typedef struct {
 GType             matecomponent_storage_mem_get_type   (void) G_GNUC_CONST;
 MateComponentObject     *matecomponent_storage_mem_create     (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_STORAGE_MEM_H_ */

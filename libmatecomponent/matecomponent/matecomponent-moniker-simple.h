@@ -58,7 +58,9 @@ MateComponentMoniker *matecomponent_moniker_simple_new         (const char      
 MateComponentMoniker *matecomponent_moniker_simple_new_closure (const char                  *name,
 						  GClosure                    *resolve_closure);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_MONIKER_SIMPLE_H_ */
 

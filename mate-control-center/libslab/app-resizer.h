@@ -70,5 +70,7 @@ void app_resizer_set_table_cache (AppResizer * widget, GList * cache_list);
 void app_resizer_layout_table_default (AppResizer * widget, GtkTable * table, GList * element_list);
 void app_resizer_set_vadjustment_value (GtkWidget * widget, gdouble value);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __APP_RESIZER_H__ */

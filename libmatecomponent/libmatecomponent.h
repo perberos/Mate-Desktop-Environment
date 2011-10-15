@@ -53,6 +53,8 @@ extern "C" {
 #include <matecomponent/matecomponent-application.h>
 #include <matecomponent/matecomponent-app-client.h>
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __LIBMATECOMPONENT_H__ */

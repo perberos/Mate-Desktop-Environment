@@ -31,6 +31,8 @@ extern "C" {
 
 MateVFSResult  ne_matevfs_last_error (ne_request *req);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

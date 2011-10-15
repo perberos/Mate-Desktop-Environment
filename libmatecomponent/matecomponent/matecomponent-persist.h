@@ -53,6 +53,8 @@ MateComponentPersist                  *matecomponent_persist_construct (MateComp
 void				matecomponent_persist_set_dirty (MateComponentPersist *persist,
 							  gboolean dirty);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_PERSIST_H_ */

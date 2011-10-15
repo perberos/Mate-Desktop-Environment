@@ -33,7 +33,9 @@ extern "C" {
 
 gboolean show_desktop_applet_fill(MatePanelApplet* applet);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

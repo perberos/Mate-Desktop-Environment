@@ -156,6 +156,8 @@ void            egg_set_desktop_file (const char *desktop_file_path);
 EggDesktopFile *egg_get_desktop_file (void);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __EGG_DESKTOP_FILE_H__ */

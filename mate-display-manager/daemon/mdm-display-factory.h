@@ -67,6 +67,8 @@ gboolean                   mdm_display_factory_start                   (MdmDispl
 gboolean                   mdm_display_factory_stop                    (MdmDisplayFactory *manager);
 MdmDisplayStore *          mdm_display_factory_get_display_store       (MdmDisplayFactory *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_DISPLAY_FACTORY_H */

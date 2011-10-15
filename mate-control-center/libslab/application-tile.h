@@ -64,5 +64,7 @@ GtkWidget *application_tile_new_full (const gchar * desktop_item_id,
 
 MateDesktopItem *application_tile_get_desktop_item (ApplicationTile * tile);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif

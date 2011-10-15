@@ -186,6 +186,8 @@ MateVFSResult mate_vfs_url_show_with_env               (const char   *url,
                                                           char        **envp);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_UTILS_H */

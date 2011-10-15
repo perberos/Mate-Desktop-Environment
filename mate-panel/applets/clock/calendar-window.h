@@ -77,6 +77,8 @@ ClockFormat calendar_window_get_time_format (CalendarWindow *calwin);
 void       calendar_window_set_time_format  (CalendarWindow *calwin,
 					     ClockFormat     time_format);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CALENDAR_WINDOW_H */

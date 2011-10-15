@@ -162,6 +162,8 @@ GtkWidget     *matecomponent_dock_item_get_grip       (MateComponentDockItem *it
 
 #endif /* MATECOMPONENT_UI_INTERNAL */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_DOCK_ITEM_H */

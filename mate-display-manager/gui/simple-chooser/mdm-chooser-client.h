@@ -66,6 +66,8 @@ void               mdm_chooser_client_call_disconnect                (MdmChooser
 void               mdm_chooser_client_call_select_hostname           (MdmChooserClient *client,
                                                                       const char       *text);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_CHOOSER_CLIENT_H */

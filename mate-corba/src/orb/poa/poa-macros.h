@@ -108,6 +108,8 @@ extern "C" {
 #define IS_NON_RETAIN(poa) 									\
 		((poa)->p_servant_retention == PortableServer_NON_RETAIN)
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __POA_MACROS_H__ */

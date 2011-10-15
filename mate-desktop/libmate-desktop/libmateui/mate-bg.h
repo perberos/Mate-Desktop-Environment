@@ -132,6 +132,8 @@ MateBGCrossfade *mate_bg_set_pixmap_as_root_with_crossfade (GdkScreen *screen,
                                                               GdkPixmap *pixmap);
 GdkPixmap *mate_bg_get_pixmap_from_root (GdkScreen *screen);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

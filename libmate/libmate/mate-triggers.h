@@ -77,6 +77,8 @@ void mate_triggers_do(const char* msg, const char* level, ...);
 
 void mate_triggers_vdo(const char* msg, const char* level, const char* supinfo[]);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_TRIGGERS_H__ */

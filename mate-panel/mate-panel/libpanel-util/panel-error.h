@@ -42,6 +42,8 @@ GtkWidget *panel_error_dialog (GtkWindow  *parent,
 			       const char *primary_text,
 			       const char *secondary_text);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_ERROR_H */

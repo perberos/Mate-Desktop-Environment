@@ -84,6 +84,8 @@ void               mdm_greeter_login_window_request_timed_login (MdmGreeterLogin
                                                                  int                    delay);
 void               mdm_greeter_login_window_user_authorized     (MdmGreeterLoginWindow *login_window);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_GREETER_LOGIN_WINDOW_H */

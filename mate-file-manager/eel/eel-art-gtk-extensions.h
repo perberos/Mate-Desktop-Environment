@@ -67,6 +67,8 @@ EelDimensions eel_gtk_widget_get_dimensions             (GtkWidget    *widget);
 EelDimensions eel_gtk_widget_get_preferred_dimensions   (GtkWidget    *widget);
 EelIPoint     eel_gdk_get_pointer_position              (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_ART_GTK_EXTENSIONS_H */

@@ -44,6 +44,8 @@ void panel_cleanup_register   (PanelCleanFunc func,
 void panel_cleanup_unregister (PanelCleanFunc func,
 			       gpointer       data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_CLEANUP_H */

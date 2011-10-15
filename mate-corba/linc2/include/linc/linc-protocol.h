@@ -94,6 +94,8 @@ void                     link_use_local_hostname (LinkNetIdType use);
 void                     link_set_local_hostname (const char *host_id);
 const char*              link_get_local_hostname (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LINK_PROTOCOL_H_ */

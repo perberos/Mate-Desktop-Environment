@@ -165,6 +165,8 @@ void           link_connections_close            (void);
 /* set the link timeout in miliseconds */
 extern void link_set_timeout (guint msec);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LINK_CONNECTION_H */

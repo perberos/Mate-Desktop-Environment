@@ -61,6 +61,8 @@ gboolean link_server_setup    (LinkServer *srv,
 			       const char *local_serv_info,
 			       LinkConnectionOptions create_options);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LINK_SERVER_H_ */

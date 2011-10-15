@@ -230,6 +230,8 @@ void    matecomponent_ui_component_add_verb_list_with_data (MateComponentUICompo
 						     const MateComponentUIVerb *list,
 						     gpointer            user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_COMPONENT_H_ */

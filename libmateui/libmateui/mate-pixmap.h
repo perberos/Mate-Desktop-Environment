@@ -94,7 +94,9 @@ void            mate_pixmap_load_xpm_d_at_size      (MatePixmap      *gpixmap,
 						      int               height);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

@@ -68,6 +68,8 @@ CajaColumn *  caja_column_new             (const char     *name,
  *   xalign (float)       - x-alignment of the column
  */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

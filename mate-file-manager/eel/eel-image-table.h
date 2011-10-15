@@ -92,6 +92,8 @@ GType      eel_image_table_get_type         (void);
 GtkWidget *eel_image_table_new              (gboolean       homogeneous);
 GtkWidget *eel_image_table_add_empty_image  (EelImageTable *image_table);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_IMAGE_TABLE_H */

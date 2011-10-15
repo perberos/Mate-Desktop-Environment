@@ -49,6 +49,8 @@ void                         matecomponent_ui_container_set_engine          (Mat
 								      MateComponentUIEngine     *engine);
 MateComponentUIEngine              *matecomponent_ui_container_get_engine          (MateComponentUIContainer  *container);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_CONTAINER_H_ */

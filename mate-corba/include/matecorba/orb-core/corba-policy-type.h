@@ -21,6 +21,8 @@ CORBA_Policy        MateCORBA_Policy_new (CORBA_unsigned_long type,
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

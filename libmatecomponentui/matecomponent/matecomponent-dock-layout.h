@@ -130,6 +130,8 @@ gboolean             matecomponent_dock_layout_add_to_dock
                                                 (MateComponentDockLayout *layout,
                                                  MateComponentDock *dock);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

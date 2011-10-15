@@ -43,6 +43,8 @@ typedef struct {
 GType         matecomponent_foreign_object_get_type (void) G_GNUC_CONST;
 MateComponentObject* matecomponent_foreign_object_new      (CORBA_Object corba_objref);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

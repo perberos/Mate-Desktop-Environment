@@ -101,6 +101,8 @@ MateComponent_UIContainer            matecomponent_control_frame_get_ui_containe
 MateComponentUIComponent            *matecomponent_control_frame_get_popup_component       (MateComponentControlFrame  *control_frame,
 									      CORBA_Environment   *opt_ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_CONTROL_FRAME_H_ */

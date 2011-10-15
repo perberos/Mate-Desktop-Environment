@@ -27,6 +27,8 @@ extern unsigned int matecorba_major_version;
 extern unsigned int matecorba_minor_version;
 extern unsigned int matecorba_micro_version;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

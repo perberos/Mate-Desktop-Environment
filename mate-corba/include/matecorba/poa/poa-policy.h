@@ -20,6 +20,8 @@ PortableServer_POA_create_okeyrand_policy(PortableServer_POA _obj,
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -82,7 +82,9 @@ MateComponentPersistFile *matecomponent_persist_file_construct (MateComponentPer
 						  const gchar          *iid,
 						  void                 *closure);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_DISABLE_DEPRECATED */
 

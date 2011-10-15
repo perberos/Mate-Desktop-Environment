@@ -71,6 +71,8 @@ gboolean panel_dbus_service_ensure_connection (PanelDBusService  *service,
 
 DBusGProxy *panel_dbus_service_get_proxy (PanelDBusService *service);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_DBUS_SERVICE_H */

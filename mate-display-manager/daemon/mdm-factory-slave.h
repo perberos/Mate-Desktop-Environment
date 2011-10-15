@@ -52,6 +52,8 @@ typedef struct
 GType               mdm_factory_slave_get_type  (void);
 MdmSlave *          mdm_factory_slave_new        (const char       *id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_FACTORY_SLAVE_H */

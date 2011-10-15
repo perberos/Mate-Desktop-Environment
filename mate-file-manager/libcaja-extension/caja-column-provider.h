@@ -57,6 +57,8 @@ struct _CajaColumnProviderIface {
 GType                   caja_column_provider_get_type       (void);
 GList                  *caja_column_provider_get_columns    (CajaColumnProvider *provider);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -113,5 +113,7 @@ gboolean        notify_daemon_get_server_information     (NotifyDaemon *daemon,
 
 MateConfClient    *get_mateconf_client (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* NOTIFY_DAEMON_H */

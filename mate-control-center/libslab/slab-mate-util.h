@@ -74,5 +74,7 @@ gchar *string_replace_once (const gchar * str_template, const gchar * key, const
 void spawn_process (const gchar * command);
 void copy_file (const gchar * src_uri, const gchar * dst_uri);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __SLAB_MATE_UTIL_H__ */

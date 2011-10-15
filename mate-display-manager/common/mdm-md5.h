@@ -47,6 +47,8 @@ void        mdm_md5_update  (MdmMD5Context   *context,
 gboolean    mdm_md5_final   (MdmMD5Context   *context,
                              GString         *results);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MDM_MD5_H */

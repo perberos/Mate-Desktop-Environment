@@ -97,6 +97,8 @@ void mate_vfs_drive_eject   (MateVFSDrive             *drive,
 			      MateVFSVolumeOpCallback   callback,
 			      gpointer                   user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* MATE_VFS_DRIVE_H */
 

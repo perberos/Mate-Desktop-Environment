@@ -56,5 +56,7 @@ void nld_search_context_picker_add_context (NldSearchContextPicker * picker, con
 int nld_search_context_picker_get_context (NldSearchContextPicker * picker);
 void nld_search_context_picker_set_context (NldSearchContextPicker * picker, int context_id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __NLD_SEARCH_CONTEXT_PICKER_H__ */

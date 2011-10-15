@@ -74,6 +74,8 @@ typedef MateCORBA_impl_finder MateCORBA_small_impl_finder;
 
 #endif /* defined(MATECORBA2_INTERNAL_API) || defined (MATECORBA2_STUBS_API) */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _POA_BASICS_H_ 1 */

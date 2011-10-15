@@ -68,6 +68,8 @@ void            gs_idle_monitor_remove_watch   (GSIdleMonitor         *monitor,
 void            gs_idle_monitor_reset          (GSIdleMonitor         *monitor);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GS_IDLE_MONITOR_H */

@@ -234,6 +234,8 @@ typedef enum
 
 void caja_global_preferences_init                      (void);
 char *caja_global_preferences_get_default_folder_viewer_preference_as_iid (void);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_GLOBAL_PREFERENCES_H */

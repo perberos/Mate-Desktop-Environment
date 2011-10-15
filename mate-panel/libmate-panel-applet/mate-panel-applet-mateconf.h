@@ -83,6 +83,8 @@ MateConfValue  *mate_panel_applet_mateconf_get_value    (MatePanelApplet     *ap
 					      const gchar     *key,
 					      GError         **opt_error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_MATECONF_H__ */

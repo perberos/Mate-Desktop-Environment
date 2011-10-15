@@ -33,6 +33,8 @@ void     MateCORBA_Context_server_free (CORBA_Context ctx);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

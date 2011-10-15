@@ -77,7 +77,9 @@ void                  matecomponent_ui_toolbar_show_tooltips    (MateComponentUI
 
 GList                *matecomponent_ui_toolbar_get_children     (MateComponentUIToolbar      *toolbar);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

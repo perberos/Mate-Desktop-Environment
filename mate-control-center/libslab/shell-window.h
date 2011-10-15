@@ -63,5 +63,7 @@ void shell_window_set_contents (ShellWindow * window, GtkWidget * left_pane,
 	GtkWidget * right_pane);
 void shell_window_clear_resize_handler (ShellWindow * win);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __SHELL_WINDOW_H__ */

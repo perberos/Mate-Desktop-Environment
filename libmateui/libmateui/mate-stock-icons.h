@@ -246,6 +246,8 @@ extern "C" {
 
 #endif /* MATE_DISABLE_DEPRECATED */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_STOCK_ICONS_H */

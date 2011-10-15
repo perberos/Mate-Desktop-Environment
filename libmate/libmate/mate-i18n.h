@@ -82,7 +82,9 @@ const GList *	mate_i18n_get_language_list		(const gchar *category_name);
 void		mate_i18n_push_c_numeric_locale	(void);
 void		mate_i18n_pop_c_numeric_locale		(void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_I18N_H__ */
 

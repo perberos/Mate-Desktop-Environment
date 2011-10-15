@@ -38,6 +38,8 @@ char  *matecomponent_file_selector_save       (GtkWindow  *parent,
 					const char *default_path,
 					const char *default_filename);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_FILE_SELECTOR_UTIL_H_ */

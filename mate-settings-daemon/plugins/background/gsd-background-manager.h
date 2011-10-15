@@ -54,6 +54,8 @@ gboolean                gsd_background_manager_start               (GsdBackgroun
                                                                     GError              **error);
 void                    gsd_background_manager_stop                (GsdBackgroundManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_BACKGROUND_MANAGER_H */

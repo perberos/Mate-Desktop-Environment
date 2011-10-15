@@ -71,6 +71,8 @@ void gail_canvas_init (void);
 
 GType gail_canvas_factory_get_type(void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GAIL_CANVAS_H__ */

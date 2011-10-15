@@ -69,5 +69,7 @@ void slab_section_set_title (SlabSection * section, const gchar * title);
 void slab_section_set_contents (SlabSection * section, GtkWidget * contents);
 void slab_section_set_selected (SlabSection * section, gboolean selected);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __SLAB_SECTION_H__ */

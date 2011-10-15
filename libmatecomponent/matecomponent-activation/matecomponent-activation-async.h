@@ -56,7 +56,9 @@ void matecomponent_activation_activate_from_id_async (const MateComponent_Activa
                                                gpointer user_data,
                                                CORBA_Environment * ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_ACTIVATION_ASYNC_H */
 

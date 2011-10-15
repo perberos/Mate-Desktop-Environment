@@ -72,6 +72,8 @@ void            matecomponent_ui_util_accel_parse  (const char        *name,
 #define         matecomponent_ui_util_decode_str(s,e) g_strdup (s)
 #define         matecomponent_ui_util_encode_str(s)   g_strdup (s)
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_XML_UTIL_H_ */

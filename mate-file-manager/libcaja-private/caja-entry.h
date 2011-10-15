@@ -69,6 +69,8 @@ void        caja_entry_select_all_at_idle       (CajaEntry *entry);
 void        caja_entry_set_special_tab_handling (CajaEntry *entry,
 						     gboolean       special_tab_handling);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_ENTRY_H */

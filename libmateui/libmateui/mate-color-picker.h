@@ -112,7 +112,9 @@ gboolean mate_color_picker_get_use_alpha (MateColorPicker *cp);
 void mate_color_picker_set_title (MateColorPicker *cp, const gchar *title);
 const char * mate_color_picker_get_title (MateColorPicker *cp);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

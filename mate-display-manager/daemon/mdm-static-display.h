@@ -55,6 +55,8 @@ GType               mdm_static_display_get_type                (void);
 MdmDisplay *        mdm_static_display_new                     (int display_number);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_STATIC_DISPLAY_H */

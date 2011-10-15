@@ -65,6 +65,8 @@ char	    *mate_vfs_get_supertype_from_mime_type (const char        *mime_type);
 void         mate_vfs_mime_info_cache_reload (const char *dir);
 void         mate_vfs_mime_reload            (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

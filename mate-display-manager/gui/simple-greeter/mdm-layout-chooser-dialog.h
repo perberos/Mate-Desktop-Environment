@@ -56,6 +56,8 @@ char *                 mdm_layout_chooser_dialog_get_current_layout_name      (M
 void                   mdm_layout_chooser_dialog_set_current_layout_name      (MdmLayoutChooserDialog *dialog,
      const char               *layout_name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LAYOUT_CHOOSER_DIALOG_H */

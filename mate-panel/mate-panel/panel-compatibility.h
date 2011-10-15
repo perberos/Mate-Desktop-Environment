@@ -41,6 +41,8 @@ void panel_compatibility_migrate_screenshot_action (MateConfClient *client,
 
 gchar *panel_compatibility_get_applet_iid (const gchar *id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_MENU_BAR_H__ */

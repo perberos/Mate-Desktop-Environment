@@ -48,5 +48,7 @@ GType nld_search_entry_get_type (void);
 
 GtkWidget *nld_search_entry_new (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __NLD_SEARCH_ENTRY_H__ */

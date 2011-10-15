@@ -54,6 +54,8 @@ struct _MdmCellRendererTimerClass
 GType		 mdm_cell_renderer_timer_get_type (void);
 GtkCellRenderer* mdm_cell_renderer_timer_new      (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /* __MDM_CELL_RENDERER_TIMER_H */

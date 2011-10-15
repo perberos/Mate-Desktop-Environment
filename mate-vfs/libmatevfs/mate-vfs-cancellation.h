@@ -43,6 +43,8 @@ gboolean mate_vfs_cancellation_check   (MateVFSCancellation *cancellation);
 void     mate_vfs_cancellation_ack	(MateVFSCancellation *cancellation);
 gint	 mate_vfs_cancellation_get_fd  (MateVFSCancellation *cancellation);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_CANCELLATION_H */

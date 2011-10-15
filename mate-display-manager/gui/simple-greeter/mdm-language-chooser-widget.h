@@ -55,6 +55,8 @@ char *                 mdm_language_chooser_widget_get_current_language_name    
 void                   mdm_language_chooser_widget_set_current_language_name      (MdmLanguageChooserWidget *widget,
                                                                                    const char               *lang_name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LANGUAGE_CHOOSER_WIDGET_H */

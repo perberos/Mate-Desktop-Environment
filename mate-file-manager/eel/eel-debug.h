@@ -45,6 +45,8 @@ void eel_debug_call_at_shutdown                       (EelFunction function);
 void eel_debug_call_at_shutdown_with_data             (GFreeFunc   function,
 						       gpointer    data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_DEBUG_H */

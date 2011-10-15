@@ -53,6 +53,8 @@ GType                      mdm_settings_desktop_backend_get_type        (void);
 
 MdmSettingsBackend        *mdm_settings_desktop_backend_new             (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SETTINGS_DESKTOP_BACKEND_H */

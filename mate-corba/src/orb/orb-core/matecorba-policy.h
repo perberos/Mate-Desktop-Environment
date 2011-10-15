@@ -23,6 +23,8 @@ struct _MateCORBAPolicy {
 
 gboolean MateCORBA_policy_validate (MateCORBAPolicy *policy);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECORBA_POLICY_H_ */

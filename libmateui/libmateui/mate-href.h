@@ -78,7 +78,9 @@ const gchar *mate_href_get_text(MateHRef *href);
 void mate_href_set_label(MateHRef *href, const gchar *label);
 const gchar *mate_href_get_label(MateHRef *href);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

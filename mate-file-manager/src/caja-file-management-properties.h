@@ -34,6 +34,8 @@ extern "C" {
 
 void caja_file_management_properties_dialog_show (GCallback close_callback, GtkWindow *window);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_FILE_MANAGEMENT_PROPERTIES_H */

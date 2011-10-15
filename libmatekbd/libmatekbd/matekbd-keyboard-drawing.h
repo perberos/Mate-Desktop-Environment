@@ -208,5 +208,7 @@ void matekbd_keyboard_drawing_print (MatekbdKeyboardDrawing * drawing,
 
 GtkWidget* matekbd_keyboard_drawing_new_dialog (gint group, gchar* group_name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif				/* #ifndef MATEKBD_KEYBOARD_DRAWING_H */

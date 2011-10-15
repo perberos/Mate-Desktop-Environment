@@ -53,6 +53,8 @@ typedef guint64 CORBA_unsigned_long_long;
 #error ""
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

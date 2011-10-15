@@ -67,6 +67,8 @@ GtkWidget            * gsm_inhibit_dialog_new                (GsmStore         *
                                                               int               action);
 GtkTreeModel         * gsm_inhibit_dialog_get_model          (GsmInhibitDialog *dialog);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_INHIBIT_DIALOG_H */

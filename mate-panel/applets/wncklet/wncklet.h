@@ -43,6 +43,8 @@ WnckScreen* wncklet_get_screen(GtkWidget* applet);
 
 void wncklet_connect_while_alive(gpointer object, const char* signal, GCallback func, gpointer func_data, gpointer alive_object);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

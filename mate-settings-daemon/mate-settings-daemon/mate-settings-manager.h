@@ -74,6 +74,8 @@ void                   mate_settings_manager_stop       (MateSettingsManager *ma
 gboolean               mate_settings_manager_awake      (MateSettingsManager *manager,
                                                           GError              **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_SETTINGS_MANAGER_H */

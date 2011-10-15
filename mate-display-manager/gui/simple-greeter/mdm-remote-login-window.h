@@ -58,6 +58,8 @@ gboolean            mdm_remote_login_window_connect            (MdmRemoteLoginWi
                                                                 const char           *host);
 gboolean            mdm_remote_login_window_discconnect        (MdmRemoteLoginWindow *login_window);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_REMOTE_LOGIN_WINDOW_H */

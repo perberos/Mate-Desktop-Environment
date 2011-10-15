@@ -89,6 +89,8 @@ void                mdm_settings_backend_value_changed          (MdmSettingsBack
                                                                  const char  *old_value,
                                                                  const char  *new_value);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SETTINGS_BACKEND_H */

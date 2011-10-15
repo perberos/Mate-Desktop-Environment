@@ -73,6 +73,8 @@ char                   *mate_vfs_get_mime_type               (const char    *tex
 char                   *mate_vfs_get_slow_mime_type          (const char    *text_uri);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MIME_UTILS_H */

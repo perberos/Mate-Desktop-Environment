@@ -43,6 +43,8 @@ void       matecomponent_setup_x_error_handler (void);
 /* internal */
 int        matecomponent_ui_debug_shutdown     (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECOMPONENT_UI_MAIN_H__ */

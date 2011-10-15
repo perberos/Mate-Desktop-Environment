@@ -54,6 +54,8 @@ gboolean                gsd_typing_break_manager_start               (GsdTypingB
                                                                       GError               **error);
 void                    gsd_typing_break_manager_stop                (GsdTypingBreakManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_TYPING_BREAK_MANAGER_H */

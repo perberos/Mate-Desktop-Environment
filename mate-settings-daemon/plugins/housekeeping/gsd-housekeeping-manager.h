@@ -52,6 +52,8 @@ gboolean                 gsd_housekeeping_manager_start         (GsdHousekeeping
                                                                  GError                 **error);
 void                     gsd_housekeeping_manager_stop          (GsdHousekeepingManager  *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_HOUSEKEEPING_MANAGER_H */

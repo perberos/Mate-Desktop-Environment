@@ -54,6 +54,8 @@ gboolean                mate_xsettings_manager_start               (MateXSetting
                                                                      GError               **error);
 void                    mate_xsettings_manager_stop                (MateXSettingsManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_XSETTINGS_MANAGER_H */

@@ -95,7 +95,9 @@ gint	  mate_property_box_append_page (MatePropertyBox *property_box,
 void      mate_property_box_set_state   (MatePropertyBox *property_box,
 					  gboolean state);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

@@ -65,6 +65,8 @@ char *        matecomponent_ui_node_to_string   (MateComponentUINode *node,
 MateComponentUINode* matecomponent_ui_node_from_string (const char *str);
 MateComponentUINode* matecomponent_ui_node_from_file   (const char *filename);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_NODE_H_ */

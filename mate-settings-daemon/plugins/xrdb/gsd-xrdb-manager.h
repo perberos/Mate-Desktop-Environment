@@ -54,6 +54,8 @@ gboolean                gsd_xrdb_manager_start               (GsdXrdbManager *ma
                                                               GError        **error);
 void                    gsd_xrdb_manager_stop                (GsdXrdbManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_XRDB_MANAGER_H */

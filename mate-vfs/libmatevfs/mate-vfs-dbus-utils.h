@@ -185,6 +185,8 @@ DBusConnection *_mate_vfs_get_main_dbus_connection (void);
 DBusConnection *_mate_vfs_daemon_get_current_connection (void);
 void            mate_vfs_daemon_set_current_connection  (DBusConnection *conn);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_DBUS_UTILS_H */

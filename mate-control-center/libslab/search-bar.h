@@ -70,5 +70,7 @@ void nld_search_bar_set_text (NldSearchBar * search_bar, const char *text, gbool
 int nld_search_bar_get_context_id (NldSearchBar * search_bar);
 void nld_search_bar_set_context_id (NldSearchBar * search_bar, int context_id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __NLD_SEARCH_BAR_H__ */

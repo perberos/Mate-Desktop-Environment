@@ -44,6 +44,8 @@ extern "C" {
 /* prepend the terminal command to a vector */
 void mate_desktop_prepend_terminal_to_vector (int *argc, char ***argv);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DITEM_H */

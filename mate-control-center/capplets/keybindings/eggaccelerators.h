@@ -91,7 +91,9 @@ gchar* egg_virtual_accelerator_label (guint                  accelerator_key,
 				      guint		     keycode,
 				      EggVirtualModifierType accelerator_mods);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __EGG_ACCELERATORS_H__ */

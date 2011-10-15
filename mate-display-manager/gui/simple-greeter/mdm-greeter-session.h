@@ -55,6 +55,8 @@ gboolean               mdm_greeter_session_start                          (MdmGr
                                                                            GError           **error);
 void                   mdm_greeter_session_stop                           (MdmGreeterSession *session);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_GREETER_SESSION_H */

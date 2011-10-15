@@ -82,6 +82,8 @@ char                  *mateweather_location_get_city_name  (MateWeatherLocation 
 
 WeatherInfo           *mateweather_location_get_weather    (MateWeatherLocation  *loc);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATEWEATHER_LOCATIONS_H__ */

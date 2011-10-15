@@ -149,7 +149,9 @@ void mateconf_database_log_listeners_to_string (MateConfDatabase *db,
                                              gboolean is_default,
                                              GString *str);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

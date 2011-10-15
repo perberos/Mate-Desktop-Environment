@@ -219,6 +219,8 @@ char                *mate_vfs_uri_make_full_from_relative (const char *base_uri,
 							    const char *relative_uri);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_URI_H */

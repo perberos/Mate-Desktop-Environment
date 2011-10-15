@@ -81,7 +81,9 @@ typedef MateComponentCanvasComponent *(*MateItemCreator)
 MateComponentObject *matecomponent_canvas_component_factory_new(MateItemCreator item_factory,
       void *data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

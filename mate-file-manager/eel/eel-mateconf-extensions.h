@@ -71,6 +71,8 @@ GSList *     eel_mateconf_value_get_string_list (const MateConfValue       *valu
 void         eel_mateconf_value_set_string_list (MateConfValue             *value,
 					      const GSList           *string_list);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_MATECONF_EXTENSIONS_H */

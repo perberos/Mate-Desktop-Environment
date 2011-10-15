@@ -52,6 +52,8 @@ struct _GailCanvasWidgetClass
 
 AtkObject* gail_canvas_widget_new (GObject *obj);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GAIL_CANVAS_WIDGET_H__ */

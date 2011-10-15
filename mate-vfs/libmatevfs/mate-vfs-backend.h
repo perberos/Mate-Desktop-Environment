@@ -19,6 +19,8 @@ void        _mate_vfs_dispatch_module_callback  (MateVFSAsyncModuleCallback    c
 						 gpointer                       response_data);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

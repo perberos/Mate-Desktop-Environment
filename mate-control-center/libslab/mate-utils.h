@@ -38,5 +38,7 @@ guint connect_mateconf_notify (const gchar * key, MateConfClientNotifyFunc cb, g
 void handle_g_error (GError ** error, const gchar * user_format, ...);
 GtkWidget *get_main_menu_section_header (const gchar * markup);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __MATE_UTILS_H__ */

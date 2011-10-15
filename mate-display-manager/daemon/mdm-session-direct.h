@@ -69,6 +69,8 @@ gboolean           mdm_session_direct_stop                     (MdmSessionDirect
 gboolean           mdm_session_direct_detach                   (MdmSessionDirect     *session_direct,
                                                                 GError              **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MDM_SESSION_DIRECT_H */

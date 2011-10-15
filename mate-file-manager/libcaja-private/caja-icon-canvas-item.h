@@ -113,6 +113,8 @@ void        caja_icon_canvas_item_set_is_visible           (CajaIconCanvasItem  
 void        caja_icon_canvas_item_set_entire_text          (CajaIconCanvasItem       *icon_item,
 								gboolean                      entire_text);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_ICON_CANVAS_ITEM_H */

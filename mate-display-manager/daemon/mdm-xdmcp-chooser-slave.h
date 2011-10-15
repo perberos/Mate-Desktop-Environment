@@ -55,6 +55,8 @@ typedef struct
 GType               mdm_xdmcp_chooser_slave_get_type   (void);
 MdmSlave *          mdm_xdmcp_chooser_slave_new        (const char       *id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_XDMCP_CHOOSER_SLAVE_H */

@@ -83,6 +83,8 @@ gboolean              gvc_mixer_card_set_profile       (GvcMixerCard *card,
 gboolean              gvc_mixer_card_set_profiles      (GvcMixerCard *card,
                                                         GList        *profiles);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GVC_MIXER_CARD_H */

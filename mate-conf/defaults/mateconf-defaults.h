@@ -103,6 +103,8 @@ void		mateconf_defaults_can_set_mandatory (MateConfDefaults         *mechanism,
 						  const char	       **includes,
                                                   DBusGMethodInvocation  *context);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECONF_DEFAULTS_H */

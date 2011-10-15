@@ -50,6 +50,8 @@ guint32            mate_panel_applet_get_xid              (MatePanelApplet *appl
 						      GdkScreen   *screen);
 const gchar       *mate_panel_applet_get_object_path      (MatePanelApplet *applet);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_PANEL_APPLET_FACTORY_H */

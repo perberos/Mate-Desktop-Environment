@@ -84,5 +84,7 @@ void gsd_smartcard_manager_stop (GsdSmartcardManager *manager);
 char *gsd_smartcard_manager_get_module_path (GsdSmartcardManager *manager);
 gboolean gsd_smartcard_manager_login_card_is_inserted (GsdSmartcardManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif                                /* GSD_SMARTCARD_MANAGER_H */

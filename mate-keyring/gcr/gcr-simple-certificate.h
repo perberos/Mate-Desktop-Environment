@@ -55,6 +55,8 @@ GType               gcr_simple_certificate_get_type               (void);
 GcrCertificate*     gcr_simple_certificate_new                    (const guchar *data,
                                                                    gsize n_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_SIMPLE_CERTIFICATE_H__ */

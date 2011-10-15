@@ -38,6 +38,8 @@ struct _MateComponentUIEnginePrivate {
 MateComponentUIXml          *matecomponent_ui_engine_get_xml    (MateComponentUIEngine *engine);
 MateComponentUIEngineConfig *matecomponent_ui_engine_get_config (MateComponentUIEngine *engine);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_ENGINE_H_ */

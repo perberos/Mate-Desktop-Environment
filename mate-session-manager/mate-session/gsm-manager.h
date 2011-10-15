@@ -183,6 +183,8 @@ gboolean            gsm_manager_is_autostart_condition_handled (GsmManager     *
 gboolean            gsm_manager_set_phase                      (GsmManager     *manager,
                                                                 GsmManagerPhase phase);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_MANAGER_H */

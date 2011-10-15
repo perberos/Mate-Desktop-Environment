@@ -77,6 +77,8 @@ void                 matecomponent_window_add_popup                      (MateCo
 void                 matecomponent_window_remove_popup                   (MateComponentWindow      *win,
 								   const char        *path);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_WINDOW_H_ */

@@ -45,6 +45,8 @@ extern "C" {
 
 #include <matecomponent/matecomponent-ui-type-builtins.h>
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* LIBMATECOMPONENTUI_H */

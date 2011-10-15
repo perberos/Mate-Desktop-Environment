@@ -36,6 +36,8 @@ void     panel_a11y_set_atk_relation             (GtkWidget  *widget,
 GType    panel_a11y_query_accessible_parent_type (GType       type,
 						  GTypeInfo  *type_info);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_A11Y_H__ */

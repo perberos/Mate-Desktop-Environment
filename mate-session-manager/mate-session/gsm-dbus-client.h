@@ -70,6 +70,8 @@ GsmClient *    gsm_dbus_client_new                (const char     *startup_id,
                                                    const char     *bus_name);
 const char *   gsm_dbus_client_get_bus_name       (GsmDBusClient  *client);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_DBUS_CLIENT_H__ */

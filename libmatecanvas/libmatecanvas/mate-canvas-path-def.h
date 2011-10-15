@@ -93,6 +93,8 @@ gboolean mate_canvas_path_def_all_open (const MateCanvasPathDef * path);
 gboolean mate_canvas_path_def_any_closed (const MateCanvasPathDef * path);
 gboolean mate_canvas_path_def_all_closed (const MateCanvasPathDef * path);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

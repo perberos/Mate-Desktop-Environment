@@ -49,6 +49,8 @@ extern "C" {
 
 #endif /* CALENDAR_ENABLE_DEBUG */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CALENDAR_DEBUG_H__ */

@@ -104,6 +104,8 @@ void                mdm_greeter_server_request_timed_login   (MdmGreeterServer *
 void                mdm_greeter_server_user_authorized       (MdmGreeterServer *greeter_server);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_GREETER_SERVER_H */

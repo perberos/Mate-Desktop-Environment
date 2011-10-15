@@ -66,6 +66,8 @@ MdmXdmcpDisplayFactory *   mdm_xdmcp_display_factory_new              (MdmDispla
 void                       mdm_xdmcp_display_factory_set_port         (MdmXdmcpDisplayFactory *manager,
                                                                        guint                   port);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_XDMCP_DISPLAY_FACTORY_H */

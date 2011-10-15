@@ -59,6 +59,8 @@ GkmFileTracker*          gkm_file_tracker_new                  (const gchar *dir
 void                     gkm_file_tracker_refresh              (GkmFileTracker *self,
                                                                 gboolean force_all);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GKM_FILE_TRACKER_H__ */

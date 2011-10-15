@@ -58,6 +58,8 @@ extern MateCORBA_IMethod    CORBA_Object__imethods[];
 
 #define CORBA_Object_IMETHODS_LEN 12
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CORBA_OBJECT_H */

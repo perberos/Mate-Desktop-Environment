@@ -96,6 +96,8 @@ const char* panel_action_get_text(PanelActionButtonType type);
 const char* panel_action_get_tooltip(PanelActionButtonType type);
 const char* panel_action_get_drag_id(PanelActionButtonType type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_ACTION_BUTTON_H__ */

@@ -56,7 +56,9 @@ typedef enum {
 
 GQuark mateconf_error_quark (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

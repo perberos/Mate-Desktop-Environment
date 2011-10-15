@@ -98,5 +98,7 @@ extern void xkb_save_default_group (gint group_no);
 
 extern gint xkb_get_default_group (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif				/* __MATE_KEYBOARD_PROPERTY_XKB_H */

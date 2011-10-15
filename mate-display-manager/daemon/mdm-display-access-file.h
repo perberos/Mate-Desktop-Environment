@@ -86,5 +86,7 @@ gboolean              mdm_display_access_file_remove_display          (MdmDispla
 void                  mdm_display_access_file_close                   (MdmDisplayAccessFile  *file);
 char                 *mdm_display_access_file_get_path                (MdmDisplayAccessFile  *file);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __MDM_DISPLAY_ACCESS_FILE_H__ */

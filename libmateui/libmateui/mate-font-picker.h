@@ -115,7 +115,9 @@ const gchar* mate_font_picker_get_preview_text (MateFontPicker *gfp);
 void	   mate_font_picker_set_preview_text (MateFontPicker *gfp,
                                                const gchar     *text);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GTK_DISABLE_DEPRECATED */
 

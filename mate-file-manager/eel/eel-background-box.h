@@ -62,7 +62,9 @@ struct EelBackgroundBoxClass
 GType      eel_background_box_get_type (void);
 GtkWidget *eel_background_box_new      (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_BACKGROUND_TABLE_H */
 

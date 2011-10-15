@@ -44,6 +44,8 @@ GtkWidget *fm_ditem_page_make_box (GtkSizeGroup *label_size_group,
 				   GList *files);
 gboolean   fm_ditem_page_should_show (GList *files);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

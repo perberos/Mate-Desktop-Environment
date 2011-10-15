@@ -32,7 +32,9 @@ extern void gkm_marshal_VOID__OBJECT_ULONG (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __gkm_marshal_MARSHAL_H__ */
 

@@ -53,6 +53,8 @@ struct _MatePanelAppletsManagerDBus {
 
 GType mate_panel_applets_manager_dbus_get_type (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLETS_MANAGER_DBUS_H__ */

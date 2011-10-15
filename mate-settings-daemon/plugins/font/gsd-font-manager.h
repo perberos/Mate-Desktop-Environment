@@ -54,6 +54,8 @@ gboolean                gsd_font_manager_start               (GsdFontManager *ma
                                                               GError        **error);
 void                    gsd_font_manager_stop                (GsdFontManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_FONT_MANAGER_H */

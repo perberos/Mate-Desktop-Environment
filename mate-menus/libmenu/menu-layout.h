@@ -175,6 +175,8 @@ void menu_layout_node_root_remove_entries_monitor (MenuLayoutNode               
                                                    MenuLayoutNodeEntriesChangedFunc  callback,
                                                    gpointer                          user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MENU_LAYOUT_H__ */

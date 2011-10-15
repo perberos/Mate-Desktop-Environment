@@ -110,6 +110,8 @@ int main (int argc, char *argv [])								\
 	return matecomponent_generic_factory_main_timeout (oafiid, callback, data, quit_timeout);	\
 }
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

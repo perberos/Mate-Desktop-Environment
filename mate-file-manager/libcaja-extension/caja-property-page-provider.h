@@ -60,6 +60,8 @@ GType                   caja_property_page_provider_get_type  (void);
 GList                  *caja_property_page_provider_get_pages (CajaPropertyPageProvider *provider,
 								   GList                        *files);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

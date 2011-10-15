@@ -71,6 +71,8 @@ void     egg_tree_multi_drag_add_drag_support        (GtkTreeView            *tr
 
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __EGG_TREE_MULTI_DND_H__ */

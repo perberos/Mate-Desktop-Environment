@@ -33,6 +33,8 @@ extern "C" {
 
 void panel_action_protocol_init (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_ACTION_PROTOCOL_H__ */

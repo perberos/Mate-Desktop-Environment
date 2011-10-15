@@ -61,6 +61,8 @@ gint                  mdm_user_collate             (MdmUser   *user1,
                                                     MdmUser   *user2);
 gboolean              mdm_user_is_loaded           (MdmUser *user);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

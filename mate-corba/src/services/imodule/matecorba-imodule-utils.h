@@ -56,6 +56,8 @@ void             MateCORBA_imodule_traverse_parents      (IDL_tree        tree,
 						      GFunc           callback,
 						      gpointer        user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECORBA_IMODULE_UTILS_H__ */

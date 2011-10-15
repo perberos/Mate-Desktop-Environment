@@ -530,6 +530,8 @@ gulong eel_canvas_get_color_pixel (EelCanvas *canvas,
  */
 void eel_canvas_set_stipple_origin (EelCanvas *canvas, GdkGC *gc);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

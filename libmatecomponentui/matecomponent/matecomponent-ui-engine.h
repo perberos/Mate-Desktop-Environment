@@ -228,6 +228,8 @@ void matecomponent_ui_engine_ui_event  (MateComponentUIEngine                   
 
 #endif /* MATECOMPONENT_UI_INTERNAL */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_ENGINE_H_ */

@@ -47,6 +47,8 @@ PortableServer_POA          matecomponent_poa_new_from          (PortableServer_
 							  const CORBA_PolicyList *opt_policies,
 							  CORBA_Environment      *opt_ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __LIBMATECOMPONENT_MAIN_H__ */

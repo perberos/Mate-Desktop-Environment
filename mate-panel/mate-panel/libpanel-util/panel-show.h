@@ -47,6 +47,8 @@ gboolean panel_show_help (GdkScreen    *screen,
 			  const gchar  *link,
 			  GError      **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_SHOW_H */

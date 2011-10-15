@@ -53,6 +53,8 @@ void menu_monitor_add_notify    (MenuMonitor           *monitor,
 				 gpointer               user_data);
 void menu_monitor_remove_notify (MenuMonitor           *monitor, MenuMonitorNotifyFunc  notify_func, gpointer               user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MENU_MONITOR_H__ */

@@ -41,7 +41,9 @@ void  matecomponent_canvas_item_set_bounds (MateComponentCanvasItem *item,
 				     double x1, double y1,
 				     double x2, double y2);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

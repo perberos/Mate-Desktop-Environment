@@ -13,6 +13,8 @@ gpointer MateCORBA_dynany_new_default (const CORBA_TypeCode tc);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

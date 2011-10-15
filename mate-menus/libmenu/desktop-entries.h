@@ -96,6 +96,8 @@ void desktop_entry_set_foreach (DesktopEntrySet            *set,
                                 DesktopEntrySetForeachFunc  func,
                                 gpointer                    user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __DESKTOP_ENTRIES_H__ */

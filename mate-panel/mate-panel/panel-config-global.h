@@ -40,6 +40,8 @@ gboolean panel_global_config_get_drawer_auto_close    (void);
 gboolean panel_global_config_get_tooltips_enabled     (void);
 gboolean panel_global_config_get_confirm_panel_remove (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_CONFIG_GLOBAL_H__ */

@@ -113,7 +113,9 @@ void             egg_sm_client_will_quit           (EggSMClient *client,
 gboolean         egg_sm_client_end_session         (EggSMClientEndStyle  style,
 						    gboolean             request_confirmation);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __EGG_SM_CLIENT_H__ */

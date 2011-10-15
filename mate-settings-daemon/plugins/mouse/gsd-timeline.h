@@ -120,6 +120,8 @@ void                    gsd_timeline_set_progress_func  (GsdTimeline            
 gdouble                 gsd_timeline_get_progress       (GsdTimeline             *timeline);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_TIMELINE_H__ */

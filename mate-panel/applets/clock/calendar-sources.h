@@ -63,6 +63,8 @@ CalendarSources *calendar_sources_get                     (void);
 GSList          *calendar_sources_get_appointment_sources (CalendarSources *sources);
 GSList          *calendar_sources_get_task_sources        (CalendarSources *sources);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CALENDAR_SOURCES_H__ */

@@ -62,6 +62,8 @@ GtkWidget *component_list_new (void);
 void component_list_show (ComponentList *comp_list, gchar *query);
 gchar *component_list_get_selected_iid (ComponentList *comp_list);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

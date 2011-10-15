@@ -94,6 +94,8 @@ GObject *           gsm_store_lookup                   (GsmStore    *store,
                                                         const char  *id);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_STORE_H */

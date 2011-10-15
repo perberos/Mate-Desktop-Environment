@@ -181,6 +181,8 @@ gboolean    panel_profile_map_object_type_string      (const char            *st
 /* all keys relevant to moving are writable */
 gboolean    panel_profile_can_be_moved_freely         (PanelToplevel *toplevel);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_PROFILE_H__ */

@@ -55,6 +55,8 @@ gboolean       mdm_string_hex_decode     (const GString *source,
 char          *mdm_generate_random_bytes (gsize          size,
                                           GError       **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MDM_COMMON_H */

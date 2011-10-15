@@ -165,6 +165,8 @@ MateVFSResult  mate_vfs_socket_set_timeout
 					  GTimeVal *timeout,
 					  MateVFSCancellation *cancellation);
 void            mate_vfs_socket_free   (MateVFSSocket *socket);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_SOCKET_H */

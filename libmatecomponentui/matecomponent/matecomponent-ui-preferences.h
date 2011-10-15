@@ -38,7 +38,9 @@ gboolean matecomponent_ui_preferences_get_menubar_detachable (void);
 /* Whether a per-app toolbar style has been specified */
 gboolean matecomponent_ui_preferences_get_toolbar_detachable (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_PREFERENCES_H_ */
 

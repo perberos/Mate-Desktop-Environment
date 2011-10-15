@@ -65,6 +65,8 @@ MateComponentObject    *matecomponent_stream_mem_create     (const char       *b
 const char      *matecomponent_stream_mem_get_buffer (MateComponentStreamMem  *stream_mem);
 size_t           matecomponent_stream_mem_get_size   (MateComponentStreamMem  *stream_mem);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_STREAM_MEM_H_ */

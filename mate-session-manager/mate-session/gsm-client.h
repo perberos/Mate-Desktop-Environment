@@ -168,6 +168,8 @@ void                  gsm_client_end_session_response       (GsmClient  *client,
                                                              gboolean    cancel,
                                                              const char *reason);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_CLIENT_H__ */

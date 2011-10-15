@@ -94,6 +94,8 @@ void  mate_icon_selection_stop_loading   (MateIconSelection * gis);
 GtkWidget *mate_icon_selection_get_gil   (MateIconSelection * gis);
 GtkWidget *mate_icon_selection_get_box   (MateIconSelection * gis);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_ICON_SEL_H */

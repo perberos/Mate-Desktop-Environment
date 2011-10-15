@@ -31,6 +31,8 @@ extern "C" {
 void      gsm_session_save                 (GsmStore  *client_store,
                                             GError   **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_SESSION_SAVE_H__ */

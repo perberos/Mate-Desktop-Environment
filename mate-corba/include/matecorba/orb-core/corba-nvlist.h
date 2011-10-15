@@ -20,6 +20,8 @@ void CORBA_NVList_free_memory(CORBA_NVList list, CORBA_Environment * ev);
 void CORBA_NVList_get_count(CORBA_NVList list, CORBA_long * count,
 			    CORBA_Environment * ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

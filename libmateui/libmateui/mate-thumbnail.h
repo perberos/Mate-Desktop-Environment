@@ -103,6 +103,8 @@ GdkPixbuf *mate_thumbnail_scale_down_pixbuf (GdkPixbuf          *pixbuf,
 					      int                 dest_width,
 					      int                 dest_height);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_THUMBNAIL_H */

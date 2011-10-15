@@ -37,6 +37,8 @@ const gchar *_mate_vfs_configuration_get_module_path (const gchar *method_name, 
 GList       *_mate_vfs_configuration_get_methods_list(void);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_CONFIGURATION_H */

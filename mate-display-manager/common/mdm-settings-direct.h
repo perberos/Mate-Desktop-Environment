@@ -47,6 +47,8 @@ gboolean              mdm_settings_direct_get_boolean                (const char
 gboolean              mdm_settings_direct_get_string                 (const char        *key,
                                                                       char             **value);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SETTINGS_DIRECT_H */

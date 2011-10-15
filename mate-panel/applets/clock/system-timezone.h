@@ -81,5 +81,7 @@ gboolean system_timezone_set_from_file (const char  *zone_file,
 gboolean system_timezone_set (const char  *tz,
                               GError     **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __SYSTEM_TIMEZONE_H__ */

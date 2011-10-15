@@ -72,6 +72,8 @@ void panel_key_file_remove_all_locale_key (GKeyFile    *keyfile,
 void panel_key_file_ensure_C_key      (GKeyFile   *keyfile,
 				       const char *key);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_KEYFILE_H */

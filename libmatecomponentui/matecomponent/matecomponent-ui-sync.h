@@ -167,7 +167,9 @@ GType matecomponent_ui_sync_menu_get_type    (void);
 GType matecomponent_ui_sync_status_get_type  (void);
 GType matecomponent_ui_sync_toolbar_get_type (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_INTERNAL */
 

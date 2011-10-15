@@ -50,6 +50,8 @@ void panel_delete (PanelToplevel *toplevel);
 
 GtkWidget  *panel_deletion_dialog  (PanelToplevel *toplevel);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

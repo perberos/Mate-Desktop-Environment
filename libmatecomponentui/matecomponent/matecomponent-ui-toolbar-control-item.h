@@ -60,6 +60,8 @@ void          matecomponent_ui_toolbar_control_item_set_display (MateComponentUI
 							  MateComponentUIToolbarControlDisplay  hdisplay,
 							  MateComponentUIToolbarControlDisplay  vdisplay);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_TOOLBAR_CONTROL_ITEM_H_ */

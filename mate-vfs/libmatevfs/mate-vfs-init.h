@@ -44,6 +44,8 @@ void     mate_vfs_postinit    (gpointer app,
 				gpointer modinfo);
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

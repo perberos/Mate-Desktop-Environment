@@ -49,6 +49,8 @@ struct _GailCanvasTextClass
 
 AtkObject* gail_canvas_text_new (GObject *obj);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GAIL_CANVAS_TEXT_H__ */

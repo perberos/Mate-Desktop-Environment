@@ -54,6 +54,8 @@ gboolean                gsd_keybindings_manager_start               (GsdKeybindi
                                                                GError         **error);
 void                    gsd_keybindings_manager_stop                (GsdKeybindingsManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_KEYBINDINGS_MANAGER_H */

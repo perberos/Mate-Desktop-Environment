@@ -73,6 +73,8 @@ gboolean                   mdm_local_display_factory_create_product_display   (M
                                                                                char                  **id,
                                                                                GError                **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LOCAL_DISPLAY_FACTORY_H */

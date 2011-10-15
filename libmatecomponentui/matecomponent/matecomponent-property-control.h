@@ -67,7 +67,9 @@ void                   matecomponent_property_control_changed   (MateComponentPr
 							  CORBA_Environment     *opt_ev);
 MateComponentEventSource *matecomponent_property_control_get_event_source (MateComponentPropertyControl *property_control);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_PROPERTY_CONTROL_H_ */
 

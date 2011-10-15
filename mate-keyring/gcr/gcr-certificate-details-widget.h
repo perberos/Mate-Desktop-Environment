@@ -59,6 +59,8 @@ GcrCertificate*               gcr_certificate_details_widget_get_certificate    
 void                          gcr_certificate_details_widget_set_certificate        (GcrCertificateDetailsWidget *details,
                                                                                      GcrCertificate *cert);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_CERTIFICATE_DETAILS_WIDGET_H__ */

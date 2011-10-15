@@ -71,6 +71,8 @@ guint mdm_signal_handler_add(MdmSignalHandler* handler, int signal_number, MdmSi
 void mdm_signal_handler_remove(MdmSignalHandler* handler, guint id);
 void mdm_signal_handler_remove_func(MdmSignalHandler* handler, guint signal_number, MdmSignalHandlerFunc callback, gpointer data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SIGNAL_HANDLER_H */

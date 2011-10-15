@@ -52,6 +52,8 @@ struct _DrwBreakWindowClass {
 GType       drw_break_window_get_type (void) G_GNUC_CONST;
 GtkWidget * drw_break_window_new      (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __DRW_BREAK_WINDOW_H__ */

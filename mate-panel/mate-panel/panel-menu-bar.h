@@ -76,6 +76,8 @@ void             panel_menu_bar_set_orientation (PanelMenuBar     *menubar,
 						 PanelOrientation  orientation);
 PanelOrientation panel_menu_bar_get_orientation (PanelMenuBar     *menubar);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_MENU_BAR_H__ */

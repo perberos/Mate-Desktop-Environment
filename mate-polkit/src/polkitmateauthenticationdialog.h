@@ -70,6 +70,8 @@ void       polkit_mate_authentication_dialog_indicate_error                (Polk
 void       polkit_mate_authentication_dialog_set_info_message              (PolkitMateAuthenticationDialog *dialog,
                                                                              const gchar                     *info_markup);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __POLKIT_MATE_AUTHENTICATION_DIALOG_H */

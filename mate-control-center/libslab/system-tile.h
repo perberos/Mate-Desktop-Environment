@@ -51,5 +51,7 @@ GType system_tile_get_type (void);
 
 GtkWidget *system_tile_new (const gchar *desktop_item_id, const gchar *title);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif

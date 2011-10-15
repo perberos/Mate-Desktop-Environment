@@ -59,6 +59,8 @@ typedef struct {
 GType               matecomponent_socket_get_type          (void);
 GtkWidget*          matecomponent_socket_new               (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECOMPONENT_SOCKET_H__ */

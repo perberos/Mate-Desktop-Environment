@@ -32,7 +32,9 @@ extern void _na_marshal_VOID__OBJECT_LONG (GClosure     *closure,
                                            gpointer      invocation_hint,
                                            gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ___na_marshal_MARSHAL_H__ */
 

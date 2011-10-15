@@ -171,6 +171,8 @@ MateComponentDock *mate_app_get_dock (MateApp *app);
 MateComponentDockItem *mate_app_get_dock_item_by_name (MateApp *app,
 						const gchar *name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_APP_H */

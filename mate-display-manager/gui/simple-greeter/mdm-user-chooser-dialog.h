@@ -59,6 +59,8 @@ void                   mdm_user_chooser_dialog_set_show_user_guest        (MdmUs
                                                                            gboolean              show);
 void                   mdm_user_chooser_dialog_set_show_user_auto         (MdmUserChooserDialog *dialog,
                                                                            gboolean              show);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_USER_CHOOSER_DIALOG_H */

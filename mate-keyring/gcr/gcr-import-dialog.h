@@ -87,6 +87,8 @@ const gchar*        _gcr_import_dialog_get_secondary_text     (GcrImportDialog *
 void                _gcr_import_dialog_set_secondary_text     (GcrImportDialog *self,
                                                                const gchar *text);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_IMPORT_DIALOG_H__ */

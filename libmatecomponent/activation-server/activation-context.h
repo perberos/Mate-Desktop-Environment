@@ -61,6 +61,8 @@ void  activation_context_setup    (PortableServer_POA     poa,
 				   CORBA_Environment     *ev);
 void  activation_context_shutdown (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _ACTIVATION_CONTEXT_H_ */

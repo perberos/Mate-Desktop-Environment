@@ -24,7 +24,6 @@ extern "C" {
 #define MATECOMPONENT_IS_UI_TOOLBAR_POPUP_ITEM(obj)	     (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATECOMPONENT_TYPE_UI_TOOLBAR_POPUP_ITEM))
 #define MATECOMPONENT_IS_UI_TOOLBAR_POPUP_ITEM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MATECOMPONENT_TYPE_UI_TOOLBAR_POPUP_ITEM))
 
-
 typedef struct _MateComponentUIToolbarPopupItemPrivate MateComponentUIToolbarPopupItemPrivate;
 
 typedef struct {
@@ -35,11 +34,12 @@ typedef struct {
 	MateComponentUIToolbarToggleButtonItemClass parent_class;
 } MateComponentUIToolbarPopupItemClass;
 
-
 GType    matecomponent_ui_toolbar_popup_item_get_type  (void) G_GNUC_CONST;
 GtkWidget *matecomponent_ui_toolbar_popup_item_new       (void);
 void       matecomponent_ui_toolbar_popup_item_construct (MateComponentUIToolbarPopupItem *);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_TOOLBAR_POPUP_ITEM_H_ */

@@ -78,6 +78,8 @@ MateCanvasPathDef *mate_canvas_shape_get_path_def (MateCanvasShape *shape);
 /* Standard Gtk function */
 GType mate_canvas_shape_get_type (void) G_GNUC_CONST;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

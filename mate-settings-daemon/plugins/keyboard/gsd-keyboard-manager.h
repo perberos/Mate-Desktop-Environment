@@ -55,6 +55,8 @@ gboolean                gsd_keyboard_manager_start               (GsdKeyboardMan
 void                    gsd_keyboard_manager_stop                (GsdKeyboardManager *manager);
 void                    gsd_keyboard_manager_apply_settings      (GsdKeyboardManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_KEYBOARD_MANAGER_H */

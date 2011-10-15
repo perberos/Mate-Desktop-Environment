@@ -57,6 +57,8 @@ GType		 caja_trash_bar_get_type	(void) G_GNUC_CONST;
 GtkWidget       *caja_trash_bar_new         (CajaWindow *window);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GS_TRASH_BAR_H */

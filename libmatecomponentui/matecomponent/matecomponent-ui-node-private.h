@@ -56,6 +56,8 @@ MateComponentUINode *matecomponent_ui_node_ref            (MateComponentUINode *
 void          matecomponent_ui_node_unref          (MateComponentUINode *node);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_NODE_PRIVATE_H_ */

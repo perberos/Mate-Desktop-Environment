@@ -34,6 +34,8 @@ extern "C" {
 void panel_run_dialog_present           (GdkScreen  *screen,
 					 guint32    activate_time);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_RUN_DIALOG_H__ */

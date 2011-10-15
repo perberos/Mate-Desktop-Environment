@@ -58,6 +58,8 @@ char *                    mdm_settings_parse_integer_as_value  (int         intv
 char *                    mdm_settings_parse_double_as_value   (gdouble     doubleval);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SETTINGS_UTILS_H */

@@ -39,6 +39,8 @@ void   caja_module_extension_list_free     (GList *list);
  * without putting them in separate shared libraries */
 void   caja_module_add_type                (GType  type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

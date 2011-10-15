@@ -465,6 +465,8 @@ void         mate_client_request_interaction_interp (MateClient *client,
 void         mate_interaction_key_return        (gint     key,
 						  gboolean cancel_shutdown);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_CLIENT_H */

@@ -82,6 +82,8 @@ make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr,     \
 static MateComponentActivationPluginObject plugin_list[] = {{oafiid, make_factory}, { NULL } };   \
 const  MateComponentActivationPlugin MateComponent_Plugin_info = { plugin_list, descr };
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

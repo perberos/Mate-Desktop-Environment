@@ -91,6 +91,8 @@ void mate_clearenv(void);
 #endif /* MATE_DISABLE_DEPRECATED */
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

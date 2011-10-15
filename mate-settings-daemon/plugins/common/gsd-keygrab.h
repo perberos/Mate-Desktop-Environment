@@ -44,6 +44,8 @@ gboolean        match_key       (Key     *key,
 gboolean        key_uses_keycode (const Key *key,
                                   guint keycode);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_COMMON_KEYGRAB_H */

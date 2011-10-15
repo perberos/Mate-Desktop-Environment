@@ -62,6 +62,8 @@ MdmDisplay *              mdm_xdmcp_greeter_display_new              (const char
                                                                       MdmAddress              *addr,
                                                                       gint32                   serial_number);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_XDMCP_GREETER_DISPLAY_H */

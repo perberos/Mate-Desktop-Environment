@@ -55,6 +55,8 @@ GType               mdm_transient_display_get_type                (void);
 MdmDisplay *        mdm_transient_display_new                     (int display_number);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_TRANSIENT_DISPLAY_H */

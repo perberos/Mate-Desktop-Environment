@@ -61,6 +61,8 @@ gboolean       matecomponent_activation_debug_shutdown      (void);
 
 GOptionGroup  *matecomponent_activation_get_goption_group   (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_ACTIVATION_INIT_H */

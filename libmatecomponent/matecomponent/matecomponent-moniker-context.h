@@ -32,7 +32,9 @@ typedef struct {
 
 MateComponentObject *matecomponent_moniker_context_new (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_MONIKER_CONTEXT_H_ */
 

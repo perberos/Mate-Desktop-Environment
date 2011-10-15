@@ -60,6 +60,8 @@ struct CORBA_NVList_type {
 #define CORBA_INV_TERM_ON_ERROR (1<<9)
 #define CORBA_RESP_NO_WAIT (1<<10)
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

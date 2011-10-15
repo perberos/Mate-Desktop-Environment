@@ -88,6 +88,8 @@ gboolean            mdm_user_manager_can_switch            (MdmUserManager *mana
 
 gboolean            mdm_user_manager_goto_login_session    (MdmUserManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_USER_MANAGER_H */

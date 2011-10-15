@@ -79,6 +79,8 @@ void             _mdm_session_info                         (MdmSession   *sessio
 void             _mdm_session_problem                      (MdmSession   *session,
                                                             const char   *text);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SESSION_PRIVATE_H */

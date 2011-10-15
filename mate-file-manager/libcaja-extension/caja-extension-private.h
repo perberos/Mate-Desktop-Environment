@@ -32,6 +32,8 @@ extern "C" {
 
 extern CajaFileInfo *(*caja_file_info_getter) (GFile *location, gboolean create);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

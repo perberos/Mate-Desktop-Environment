@@ -202,7 +202,9 @@ void       mate_dialog_constructv (MateDialog * dialog,
 #define MATE_STOCK_BUTTON_DOWN   GTK_STOCK_GO_DOWN
 #define MATE_STOCK_BUTTON_FONT   GTK_STOCK_SELECT_FONT
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

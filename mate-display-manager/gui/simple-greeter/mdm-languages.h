@@ -38,6 +38,8 @@ void          mdm_parse_language_name     (const char *name,
                                            char      **modifierp);
 char *        mdm_normalize_language_name (const char *name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LANGUAGE_CHOOSER_WIDGET_H */

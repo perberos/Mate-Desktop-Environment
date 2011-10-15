@@ -73,6 +73,8 @@ gboolean menu_dummy_button_press_event (GtkWidget      *menuitem,
 					GdkEventButton *event);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MENU_H__ */

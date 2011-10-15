@@ -103,6 +103,8 @@ typedef enum {
         PANEL_ACTION_LAST
 } PanelActionButtonType;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_ENUMS_H__ */

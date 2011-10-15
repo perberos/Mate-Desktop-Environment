@@ -86,6 +86,8 @@ void        gsm_xsmp_client_save_yourself_phase2 (GsmXSMPClient  *client);
 void        gsm_xsmp_client_interact             (GsmXSMPClient  *client);
 void        gsm_xsmp_client_shutdown_cancelled   (GsmXSMPClient  *client);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_XSMP_CLIENT_H__ */

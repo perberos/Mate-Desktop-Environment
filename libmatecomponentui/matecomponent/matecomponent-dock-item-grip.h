@@ -40,6 +40,8 @@ typedef struct {
 GType      matecomponent_dock_item_grip_get_type (void);
 GtkWidget *matecomponent_dock_item_grip_new      (MateComponentDockItem *item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_DOCK_ITEM_GRIP_H_ */

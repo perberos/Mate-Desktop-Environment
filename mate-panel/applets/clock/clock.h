@@ -34,6 +34,8 @@ extern "C" {
 #define CLOCK_ICON "mate-panel-clock"
 #define CLOCK_SCHEMA_DIR "/schemas/apps/clock_applet/prefs"
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CLOCK_H */

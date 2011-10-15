@@ -46,6 +46,8 @@ struct MateVFSTransform {
 	MateVFSTransformFunc transform;
 };
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

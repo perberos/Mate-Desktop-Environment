@@ -191,6 +191,8 @@ void mate_vfs_connect_to_server (const char               *uri,
 				  const char               *display_name,
 				  const char               *icon);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_VOLUME_H */

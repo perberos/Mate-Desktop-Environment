@@ -49,7 +49,9 @@ GType        egg_sm_client_osx_get_type (void);
 EggSMClient *egg_sm_client_osx_new      (void);
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __EGG_SM_CLIENT_PRIVATE_H__ */

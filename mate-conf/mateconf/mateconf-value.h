@@ -207,7 +207,9 @@ void        mateconf_entry_set_is_writable  (MateConfEntry  *entry,
 gboolean    mateconf_entry_equal            (const MateConfEntry *a,
                                           const MateConfEntry *b);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

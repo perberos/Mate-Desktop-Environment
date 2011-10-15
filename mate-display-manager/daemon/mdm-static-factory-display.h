@@ -61,6 +61,8 @@ gboolean            mdm_static_factory_display_create_product_display  (MdmStati
                                                                         char                   **id,
                                                                         GError                 **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_STATIC_FACTORY_DISPLAY_H */

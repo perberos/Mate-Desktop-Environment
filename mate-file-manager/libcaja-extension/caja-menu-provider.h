@@ -77,6 +77,8 @@ GList                  *caja_menu_provider_get_toolbar_items    (CajaMenuProvide
 /* This function emit a signal to inform caja that its item list has changed. */
 void                    caja_menu_provider_emit_items_updated_signal (CajaMenuProvider *provider);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

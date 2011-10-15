@@ -65,6 +65,8 @@ void       na_fixed_tip_set_markup (GtkWidget  *widget,
 void       na_fixed_tip_set_orientation (GtkWidget      *widget,
                                          GtkOrientation  orientation);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* FIXED_TIP_H */

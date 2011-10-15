@@ -75,6 +75,8 @@ DesktopEntry* entry_directory_list_get_directory (EntryDirectoryList *list,
 DesktopEntrySet *_entry_directory_list_get_all_desktops (EntryDirectoryList *list);
 void             _entry_directory_list_empty_desktop_cache (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __ENTRY_DIRECTORIES_H__ */

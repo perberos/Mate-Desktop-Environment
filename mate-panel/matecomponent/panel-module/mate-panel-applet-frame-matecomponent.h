@@ -58,6 +58,8 @@ GType     mate_panel_applet_frame_matecomponent_get_type           (void) G_GNUC
 gboolean  mate_panel_applet_frame_matecomponent_load               (const gchar                 *iid,
 							MatePanelAppletFrameActivating  *frame_act);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_FRAME_MATECOMPONENT_H__ */

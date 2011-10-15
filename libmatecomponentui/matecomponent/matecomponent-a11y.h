@@ -47,7 +47,9 @@ void       matecomponent_a11y_add_actions_interface (GType                 a11y_
 					      ...);
 				              /* -1 terminated */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_A11Y_H_ */
 

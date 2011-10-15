@@ -72,6 +72,8 @@ void     _mate_vfs_stop_monitoring_unix_mounts (void);
 
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_UNIX_MOUNTS_H */

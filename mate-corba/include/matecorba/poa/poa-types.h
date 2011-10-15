@@ -85,6 +85,8 @@ MateCORBA_c_stub_invoke (CORBA_Object        obj,
 
 #endif /* defined(MATECORBA2_INTERNAL_API) || defined (MATECORBA2_STUBS_API) */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -251,6 +251,8 @@ static MateComponentActivationPluginObject plugin_list[] = {				\
 };										\
 const  MateComponentActivationPlugin MateComponent_Plugin_info = { plugin_list, (descr) };
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_H__ */

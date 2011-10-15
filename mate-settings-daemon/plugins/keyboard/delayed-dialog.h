@@ -29,6 +29,8 @@ extern "C" {
 
 void            gsd_delayed_show_dialog (GtkWidget *dialog);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

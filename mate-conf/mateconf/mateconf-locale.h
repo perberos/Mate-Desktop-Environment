@@ -63,7 +63,9 @@ MateConfLocaleList*  mateconf_locale_cache_get_list      (MateConfLocaleCache* c
 /* Use this if you don't care about the locale cache */
 gchar**           mateconf_split_locale               (const gchar* locale);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

@@ -71,6 +71,8 @@ extern MateVFSTransform *vfs_module_transform	(const char *method_name, const ch
  **/
 extern void               vfs_module_shutdown	(MateVFSMethod *method);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MODULE_H */

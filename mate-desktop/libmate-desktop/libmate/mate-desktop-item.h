@@ -305,6 +305,8 @@ void                    mate_desktop_item_set_launch_time   (MateDesktopItem    
 void			mate_desktop_item_clear_section     (MateDesktopItem           *item,
 							      const char                 *section);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DITEM_H */

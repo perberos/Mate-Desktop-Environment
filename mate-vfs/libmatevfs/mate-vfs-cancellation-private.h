@@ -35,6 +35,8 @@ void _mate_vfs_cancellation_set_handle   (MateVFSCancellation *cancellation,
 					   gint32 connection, gint32 handle);
 void _mate_vfs_cancellation_unset_handle (MateVFSCancellation *cancellation);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_CANCELLATION_PRIVATE_H */

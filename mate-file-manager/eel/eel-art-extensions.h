@@ -108,6 +108,8 @@ void eel_drect_union (EelDRect       *dest,
 gboolean      eel_dimensions_are_empty        (EelDimensions dimensions);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_ART_EXTENSIONS_H */

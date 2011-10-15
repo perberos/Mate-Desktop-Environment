@@ -45,7 +45,9 @@ MateVFSResult file_set_acl (const char             *path,
 			     const MateVFSFileInfo *info,
                              MateVFSContext         *context);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /*FILEACL_H*/

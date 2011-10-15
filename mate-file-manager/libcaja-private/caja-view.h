@@ -186,6 +186,8 @@ void              caja_view_drop_proxy_received_netscape_url (CajaView         *
 void              caja_view_set_is_active              (CajaView      *view,
 							    gboolean           is_active);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_VIEW_H */

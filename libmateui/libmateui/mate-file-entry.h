@@ -138,7 +138,9 @@ void	   mate_file_entry_set_directory(MateFileEntry *fentry,
 					  gboolean directory_entry);
 #endif /* MATE_DISABLE_DEPRECATED */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

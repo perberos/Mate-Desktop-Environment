@@ -54,6 +54,8 @@ GtkWidget            * gsm_properties_dialog_new                (void);
 
 #define GSM_PROPERTIES_ICON_SIZE GTK_ICON_SIZE_LARGE_TOOLBAR
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_PROPERTIES_DIALOG_H */

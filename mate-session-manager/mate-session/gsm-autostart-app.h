@@ -71,6 +71,8 @@ GsmApp *gsm_autostart_app_new                (const char *desktop_file);
 #define GSM_AUTOSTART_APP_DBUS_ARGS_KEY   "X-MATE-DBus-Start-Arguments"
 #define GSM_AUTOSTART_APP_DISCARD_KEY     "X-MATE-Autostart-discard-exec"
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_AUTOSTART_APP_H__ */

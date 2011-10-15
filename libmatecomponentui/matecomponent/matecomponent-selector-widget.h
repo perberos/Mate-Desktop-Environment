@@ -57,7 +57,9 @@ gchar     *matecomponent_selector_widget_get_name        (MateComponentSelectorW
 gchar     *matecomponent_selector_widget_get_description (MateComponentSelectorWidget *sel);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_SELECTOR_H */
 

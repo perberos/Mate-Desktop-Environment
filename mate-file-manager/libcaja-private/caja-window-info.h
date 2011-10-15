@@ -178,6 +178,8 @@ void                              caja_window_info_set_initiated_unmount    (Caj
 										 gboolean initiated_unmount);
 GtkUIManager *                    caja_window_info_get_ui_manager           (CajaWindowInfo                *window);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_WINDOW_INFO_H */

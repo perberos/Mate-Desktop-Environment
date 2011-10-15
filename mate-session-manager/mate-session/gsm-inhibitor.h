@@ -113,6 +113,8 @@ gboolean       gsm_inhibitor_get_toplevel_xid     (GsmInhibitor  *inhibitor,
                                                    GError       **error);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_INHIBITOR_H__ */

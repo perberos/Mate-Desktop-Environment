@@ -32,6 +32,8 @@ gboolean      mdm_layout_is_valid        (const char *layout);
 const char *  mdm_layout_get_default_layout (void);
 void          mdm_layout_activate        (const char *layout);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LAYOUT_CHOOSER_WIDGET_H */

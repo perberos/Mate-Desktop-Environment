@@ -60,6 +60,8 @@ gboolean            mdm_product_display_get_relay_address          (MdmProductDi
                                                                     GError           **error);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_PRODUCT_DISPLAY_H */

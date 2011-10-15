@@ -63,6 +63,8 @@ char *mate_icon_lookup_sync (GtkIconTheme               *icon_theme,
 			      MateIconLookupResultFlags *result);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_ICON_LOOKUP_H */

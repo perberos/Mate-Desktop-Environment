@@ -33,6 +33,8 @@ extern "C" {
 
 void panel_properties_dialog_present (PanelToplevel *toplevel);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_PROPERTIES_DIALOG_H__ */

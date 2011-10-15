@@ -39,6 +39,8 @@ MateCORBA_IInterfaces *MateCORBA_iinterfaces_from_file (const char              
 MateCORBA_IInterfaces *MateCORBA_iinterfaces_from_tree (IDL_tree                        tree,
 						CORBA_sequence_CORBA_TypeCode **typecodes_ret);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECORBA_IMODULE_H__ */

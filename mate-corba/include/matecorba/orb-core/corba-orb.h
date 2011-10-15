@@ -47,6 +47,8 @@ void      MateCORBA_ORB_start_servers (CORBA_ORB orb);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

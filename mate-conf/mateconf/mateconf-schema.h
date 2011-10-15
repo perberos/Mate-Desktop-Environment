@@ -83,7 +83,9 @@ const char*    mateconf_schema_get_owner         (const MateConfSchema *schema);
 MateConfValue*    mateconf_schema_get_default_value (const MateConfSchema *schema);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

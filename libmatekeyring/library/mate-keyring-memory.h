@@ -63,6 +63,8 @@ gboolean  mate_keyring_memory_is_secure      (gpointer p);
 
 gchar*    mate_keyring_memory_strdup         (const gchar* str);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_KEYRING_MEMORY_H */

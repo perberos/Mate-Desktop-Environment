@@ -32,6 +32,8 @@ extern "C" {
 void panel_session_init           (void);
 void panel_session_do_not_restart (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_SESSION_H__ */

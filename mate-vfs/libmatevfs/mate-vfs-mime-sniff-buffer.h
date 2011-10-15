@@ -67,6 +67,8 @@ gboolean		 _mate_vfs_sniff_buffer_looks_like_text
 					 (MateVFSMimeSniffBuffer	*buffer);
 gboolean		 _mate_vfs_sniff_buffer_looks_like_mp3
 					 (MateVFSMimeSniffBuffer	*buffer);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

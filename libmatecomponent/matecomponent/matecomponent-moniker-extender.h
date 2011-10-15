@@ -59,6 +59,8 @@ MateComponent_Unknown         matecomponent_moniker_use_extender      (const gch
 							 const CORBA_char            *requested_interface,
 							 CORBA_Environment           *opt_ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_MONIKER_EXTENDER_H_ */

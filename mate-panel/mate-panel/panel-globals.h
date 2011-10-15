@@ -34,6 +34,8 @@ extern "C" {
 extern GSList         *panels;
 extern GSList         *panel_list;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_GLOBALS_H__ */

@@ -52,6 +52,8 @@ void link_map_winsock_error_to_errno (void);
 
 int  link_pipe (int *handles); /* Creates a pipe on Unix, a TCP socket pair on Windows */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LINK_H_ */

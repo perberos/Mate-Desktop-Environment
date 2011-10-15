@@ -120,7 +120,9 @@ void                     mate_vfs_mime_application_free                         
 
 void                     mate_vfs_mime_application_list_free                     (GList                   *list);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #ifndef MATE_VFS_DISABLE_DEPRECATED
 #include <libmatevfs/mate-vfs-mime-deprecated.h>

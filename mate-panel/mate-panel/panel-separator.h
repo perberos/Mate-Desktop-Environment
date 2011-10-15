@@ -64,6 +64,8 @@ void   panel_separator_set_orientation   (PanelSeparator   *separator,
 					  PanelOrientation  orientation);
 void   panel_separator_change_background (PanelSeparator   *separator);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_SEPARATOR_H */

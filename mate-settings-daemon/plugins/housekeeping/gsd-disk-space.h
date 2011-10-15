@@ -33,6 +33,8 @@ extern "C" {
 void gsd_ldsm_setup (gboolean check_now);
 void gsd_ldsm_clean (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_DISK_SPACE_H */

@@ -67,6 +67,8 @@ CajaPropertyPage *caja_property_page_new       (const char           *name,
  *   page (widget)        - the property page to display
  */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

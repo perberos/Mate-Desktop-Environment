@@ -62,6 +62,8 @@ void                   mdm_host_chooser_widget_refresh            (MdmHostChoose
 
 MdmChooserHost *       mdm_host_chooser_widget_get_host           (MdmHostChooserWidget *widget);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_HOST_CHOOSER_WIDGET_H */

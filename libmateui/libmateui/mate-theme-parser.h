@@ -87,7 +87,9 @@ gboolean mate_theme_file_get_locale_string  (MateThemeFile   *df,
 					      const char       *keyname,
 					      char            **val);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

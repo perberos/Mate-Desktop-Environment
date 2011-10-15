@@ -128,7 +128,9 @@ void         mate_icon_text_item_stop_editing  (MateIconTextItem *iti,
 
 GtkEditable *mate_icon_text_item_get_editable  (MateIconTextItem *iti);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

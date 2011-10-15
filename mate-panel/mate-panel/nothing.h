@@ -15,6 +15,8 @@ int          config_event              (GtkWidget *widget,
 					GdkEvent  *event,
 					GtkNotebook *nbook);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

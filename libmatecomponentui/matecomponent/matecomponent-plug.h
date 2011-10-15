@@ -68,6 +68,8 @@ GtkWidget     *matecomponent_plug_new             (guint32        socket_id);
 GtkWidget     *matecomponent_plug_new_for_display (GdkDisplay    *display,
 					    guint32        socket_id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECOMPONENT_PLUG_H__ */

@@ -68,6 +68,8 @@ void                  mdm_welcome_session_set_server_address (MdmWelcomeSession 
 gboolean              mdm_welcome_session_start              (MdmWelcomeSession *welcome_session);
 gboolean              mdm_welcome_session_stop               (MdmWelcomeSession *welcome_session);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_WELCOME_SESSION_H */

@@ -67,6 +67,8 @@ void	   caja_horizontal_splitter_toggle_position	(CajaHorizontalSplitter *splitt
 void	   caja_horizontal_splitter_pack2           (CajaHorizontalSplitter *splitter,
 							 GtkWidget                  *child2);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_HORIZONTAL_SPLITTER_H */

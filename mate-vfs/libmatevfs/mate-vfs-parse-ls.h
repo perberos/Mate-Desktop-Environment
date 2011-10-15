@@ -41,6 +41,8 @@ struct stat;
 int mate_vfs_parse_ls_lga (const char *p, struct stat *s,
 			    char **filename, char **linkname);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_PARSE_LS_H */

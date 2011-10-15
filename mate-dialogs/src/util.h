@@ -32,6 +32,8 @@ void            matedialog_util_show_dialog                   (GtkWidget      *w
 
 gboolean        matedialog_util_timeout_handle                (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* UTIL_H */

@@ -132,6 +132,8 @@ int MateCORBA_adaptor_setup (MateCORBA_ObjectAdaptor adaptor, CORBA_ORB orb);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECORBA_ADAPTOR_H__ */

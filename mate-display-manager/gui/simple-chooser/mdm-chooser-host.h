@@ -60,6 +60,8 @@ MdmAddress *          mdm_chooser_host_get_address         (MdmChooserHost   *ch
 gboolean              mdm_chooser_host_get_willing         (MdmChooserHost   *chooser_host);
 MdmChooserHostKind    mdm_chooser_host_get_kind            (MdmChooserHost   *chooser_host);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

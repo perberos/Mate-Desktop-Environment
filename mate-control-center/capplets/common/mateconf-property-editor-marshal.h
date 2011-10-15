@@ -13,5 +13,7 @@ extern void mateconf_property_editor_marshal_VOID__STRING_POINTER (GClosure     
                                                                 gpointer      invocation_hint,
                                                                 gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 

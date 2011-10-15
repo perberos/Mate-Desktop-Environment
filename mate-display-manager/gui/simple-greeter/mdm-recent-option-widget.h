@@ -66,6 +66,8 @@ gboolean               mdm_recent_option_widget_set_mateconf_key          (MdmRe
 void                   mdm_recent_option_widget_add_item               (MdmRecentOptionWidget *widget,
                                                                         const char            *id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_RECENT_OPTION_WIDGET_H */

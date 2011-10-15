@@ -70,6 +70,8 @@ GtkWidget   *gsm_get_logout_dialog        (GdkScreen           *screen,
 GtkWidget   *gsm_get_shutdown_dialog      (GdkScreen           *screen,
                                            guint32              activate_time);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_LOGOUT_DIALOG_H__ */

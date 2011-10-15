@@ -35,6 +35,8 @@ IDL_tree _IDL_binop_eval   (enum IDL_binop   op,
 IDL_tree _IDL_unaryop_eval (enum IDL_unaryop op,
 			    IDL_tree         a);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECORBA_IMODULE_LIBIDL_UTILS_H__ */

@@ -158,7 +158,9 @@ void       mate_druid_page_edge_set_watermark     (MateDruidPageEdge *druid_page
 void       mate_druid_page_edge_set_top_watermark (MateDruidPageEdge *druid_page_edge,
 						    GdkPixbuf          *top_watermark_image);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

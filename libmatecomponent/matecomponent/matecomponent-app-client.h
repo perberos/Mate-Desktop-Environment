@@ -72,6 +72,8 @@ gint             matecomponent_app_client_new_instance    (MateComponentAppClien
 MateComponentAppClientMsgDesc const *
                  matecomponent_app_client_msg_list        (MateComponentAppClient    *app_client);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECOMPONENT_APP_CLIENT_H__ */

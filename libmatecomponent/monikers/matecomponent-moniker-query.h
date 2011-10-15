@@ -31,6 +31,8 @@ MateComponentMoniker *matecomponent_moniker_query_construct (MateComponentMonike
 					       MateComponent_Moniker      corba_moniker);
 MateComponentMoniker *matecomponent_moniker_query_new       (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_MONIKER_QUERY_H_ */

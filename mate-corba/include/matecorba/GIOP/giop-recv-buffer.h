@@ -81,6 +81,8 @@ extern void                 giop_timeout_add                (GIOPConnection *cnx
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

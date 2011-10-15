@@ -53,6 +53,8 @@ CajaSidebar *       caja_sidebar_provider_create (CajaSidebarProvider *provider,
 							  CajaWindowInfo  *window);
 GList *                 caja_list_sidebar_providers (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_SIDEBAR_PROVIDER_H */

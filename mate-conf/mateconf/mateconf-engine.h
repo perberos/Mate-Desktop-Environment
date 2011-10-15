@@ -64,7 +64,9 @@ void         mateconf_engine_set_user_data  (MateConfEngine   *engine,
 gpointer     mateconf_engine_get_user_data  (MateConfEngine   *engine);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

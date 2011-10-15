@@ -65,6 +65,8 @@ gboolean              gsd_media_keys_manager_release_media_player_keys (GsdMedia
                                                                         const char          *application,
                                                                         GError             **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_MEDIA_KEYS_MANAGER_H */

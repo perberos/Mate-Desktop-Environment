@@ -26,6 +26,8 @@ extern "C" {
 
 void setup_accessibility (GtkBuilder *dialog, MateConfClient *client);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_MOUSE_A11Y_H */

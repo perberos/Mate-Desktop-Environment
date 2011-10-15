@@ -72,5 +72,7 @@ void                mdm_session_settings_set_layout_name    (MdmSessionSettings 
 void                mdm_session_settings_set_session_name   (MdmSessionSettings *settings,
                                                              const char         *session_name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* MDM_SESSION_SETTINGS_H */

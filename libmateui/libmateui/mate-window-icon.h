@@ -41,7 +41,9 @@ void mate_window_icon_set_default_from_file_list (const char **filenames);
 /* check for the MATE_DESKTOP_ICON environment variable */
 void mate_window_icon_init (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

@@ -121,6 +121,8 @@ gboolean            gvc_mixer_stream_set_port        (GvcMixerStream *stream,
 gboolean            gvc_mixer_stream_set_ports       (GvcMixerStream *stream,
                                                       GList          *ports);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GVC_MIXER_STREAM_H */

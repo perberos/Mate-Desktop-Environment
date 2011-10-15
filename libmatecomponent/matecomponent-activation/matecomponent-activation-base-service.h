@@ -111,7 +111,9 @@ CORBA_Object matecomponent_activation_service_get
 void         matecomponent_activation_base_service_debug_shutdown
                                (CORBA_Environment                         *ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_DISABLE_DEPRECATED */
 

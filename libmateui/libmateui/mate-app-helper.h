@@ -790,6 +790,8 @@ void mate_app_install_menu_hints           (MateApp *app,
 void mate_app_setup_toolbar                (GtkToolbar *toolbar,
                                              MateComponentDockItem *dock_item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

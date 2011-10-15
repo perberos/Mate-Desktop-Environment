@@ -156,6 +156,8 @@ struct _MateCanvasEllipseClass {
 GType mate_canvas_ellipse_get_type (void) G_GNUC_CONST;
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -54,6 +54,8 @@ gboolean                gsd_dummy_manager_start               (GsdDummyManager *
                                                                GError         **error);
 void                    gsd_dummy_manager_stop                (GsdDummyManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_DUMMY_MANAGER_H */

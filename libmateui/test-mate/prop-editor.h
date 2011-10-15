@@ -28,6 +28,8 @@ extern "C" {
 GtkWidget *create_prop_editor (GObject   *object,
 			       GType      type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PROP_EDITOR_H__ */

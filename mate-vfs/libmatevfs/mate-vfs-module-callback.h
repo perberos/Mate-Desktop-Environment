@@ -102,7 +102,9 @@ void mate_vfs_async_module_callback_push        (const char                  *ca
 						  GDestroyNotify               destroy_notify);
 void mate_vfs_async_module_callback_pop         (const char                  *callback_name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

@@ -66,6 +66,8 @@ void _mate_vfs_volume_monitor_client_dbus_force_probe       (MateVFSVolumeMonito
 void _mate_vfs_volume_monitor_client_dbus_emit_pre_unmount  (MateVFSVolumeMonitorClient *volume_monitor_client,
 							      MateVFSVolume              *volume);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_VOLUME_MONITOR_CLIENT_H */

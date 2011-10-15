@@ -122,6 +122,8 @@ GtkWidget *mate_icon_entry_gtk_entry   (MateIconEntry *ientry);
 #endif
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

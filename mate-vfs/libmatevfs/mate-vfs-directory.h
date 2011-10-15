@@ -147,6 +147,8 @@ MateVFSResult mate_vfs_directory_list_load
 				         const gchar *text_uri,
 				         MateVFSFileInfoOptions options);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

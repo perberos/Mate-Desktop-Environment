@@ -59,6 +59,8 @@ GtkIconSize keyboard_capplet_icon_get_size		(void);
 GtkIconSize mouse_capplet_icon_get_size			(void);
 GtkIconSize mouse_capplet_dblclck_icon_get_size		(void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CAPPLET_STOCK_ICONS_H__ */

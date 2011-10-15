@@ -53,7 +53,9 @@ void      matecomponent_ui_toolbar_toggle_button_item_set_active  (MateComponent
 							 gboolean                       active);
 gboolean  matecomponent_ui_toolbar_toggle_button_item_get_active  (MateComponentUIToolbarToggleButtonItem *item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

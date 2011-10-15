@@ -62,6 +62,8 @@ void         matecomponent_activation_set_test_components_enabled (gboolean val)
 gboolean     matecomponent_activation_get_test_components_enabled (void);
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_ACTIVATION_ACTIVATE_H */

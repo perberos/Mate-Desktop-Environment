@@ -141,6 +141,8 @@ void matecomponent_control_life_set_callback (MateComponentControlLifeCallback a
 void matecomponent_control_life_instrument   (MateComponentControl            *control);
 int  matecomponent_control_life_get_count    (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_CONTROL_H_ */

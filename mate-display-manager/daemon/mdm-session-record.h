@@ -47,6 +47,8 @@ mdm_session_record_failed (GPid                  session_pid,
                            const char           *display_device);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MDM_SESSION_RECORD_H */

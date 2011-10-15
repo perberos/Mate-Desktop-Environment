@@ -78,6 +78,8 @@ const char     *gsp_app_manager_get_dir                (GspAppManager *manager,
 void            gsp_app_manager_add                    (GspAppManager *manager,
                                                         GspApp        *app);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSP_APP_MANAGER_H */

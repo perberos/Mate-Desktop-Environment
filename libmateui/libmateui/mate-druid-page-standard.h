@@ -117,7 +117,9 @@ void       mate_druid_page_standard_append_item             (MateDruidPageStanda
 							      GtkWidget              *item,
 							      const gchar            *additional_info);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

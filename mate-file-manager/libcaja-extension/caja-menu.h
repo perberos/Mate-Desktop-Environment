@@ -114,6 +114,8 @@ void              caja_menu_item_set_submenu   (CajaMenuItem *item,
  *   menu (CajaMenu)  - The menu belonging to this item. May be null.
  */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_MENU_H */

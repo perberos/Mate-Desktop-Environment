@@ -163,6 +163,8 @@ void                      MateCORBA_poa_init (void);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

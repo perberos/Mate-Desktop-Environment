@@ -80,6 +80,8 @@ MateVFSVolume *mate_vfs_volume_monitor_get_volume_by_id     (MateVFSVolumeMonito
 MateVFSDrive * mate_vfs_volume_monitor_get_drive_by_id      (MateVFSVolumeMonitor *volume_monitor,
 							       gulong                 id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_VOLUME_MONITOR_H */

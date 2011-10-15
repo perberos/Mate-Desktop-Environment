@@ -32,6 +32,8 @@ extern "C" {
 void panel_addto_present                    (GtkMenuItem *item,
 					     PanelWidget *panel_widget);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_ADDTO_H__ */

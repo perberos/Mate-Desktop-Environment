@@ -46,6 +46,8 @@ typedef struct {
 GType		  matecomponent_config_bag_get_type  (void);
 MateComponentConfigBag	 *matecomponent_config_bag_new	      (const gchar *path);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ! __MATECOMPONENT_CONFIG_BAG_H__ */

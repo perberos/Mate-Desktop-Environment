@@ -49,7 +49,9 @@ int mate_sound_sample_load(const char* sample_name, const char* filename);
 /* Loads sample, plays sample, frees sample */
 void mate_sound_play(const char* filename);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* !MATE_DISABLE_DEPRECATED */
 

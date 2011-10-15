@@ -59,7 +59,9 @@ extern void foo_marshal_VOID__POINTER_POINTER (GClosure     *closure,
                                                gpointer      invocation_hint,
                                                gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __foo_marshal_MARSHAL_H__ */
 

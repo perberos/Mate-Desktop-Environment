@@ -49,6 +49,8 @@ typedef struct _LinkProtocolInfo LinkProtocolInfo;
 
 GMutex *link_mutex_new (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LINK_TYPES_H_ */

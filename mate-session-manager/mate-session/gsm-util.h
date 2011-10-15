@@ -49,6 +49,8 @@ char *      gsm_util_generate_startup_id            (void);
 void        gsm_util_setenv                         (const char *variable,
                                                      const char *value);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_UTIL_H__ */

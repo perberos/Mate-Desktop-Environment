@@ -54,6 +54,8 @@ GsdSoundManager *gsd_sound_manager_new (void);
 gboolean gsd_sound_manager_start (GsdSoundManager *manager, GError **error);
 void gsd_sound_manager_stop (GsdSoundManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_SOUND_MANAGER_H */

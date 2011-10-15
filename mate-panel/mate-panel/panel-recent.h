@@ -34,6 +34,8 @@ extern "C" {
 void panel_recent_append_documents_menu (GtkWidget        *menu,
 					 GtkRecentManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_RECENT_H__ */

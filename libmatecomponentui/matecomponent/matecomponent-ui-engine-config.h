@@ -78,7 +78,9 @@ void    matecomponent_ui_engine_config_configure (MateComponentUIEngineConfig   
 
 MateComponentUIEngine *matecomponent_ui_engine_config_get_engine (MateComponentUIEngineConfig *config);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_ENGINE_CONFIG_H_ */
 

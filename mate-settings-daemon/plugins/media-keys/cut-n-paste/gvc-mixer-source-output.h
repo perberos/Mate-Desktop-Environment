@@ -54,6 +54,8 @@ GvcMixerStream *    gvc_mixer_source_output_new           (pa_context    *contex
                                                            guint          index,
                                                            GvcChannelMap *map);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GVC_MIXER_SOURCE_OUTPUT_H */

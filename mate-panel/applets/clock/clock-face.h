@@ -57,6 +57,8 @@ GtkWidget *clock_face_new_with_location (ClockFaceSize size,
 gboolean clock_face_refresh (ClockFace *this);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

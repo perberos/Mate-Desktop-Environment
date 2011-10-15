@@ -126,6 +126,8 @@ const char    *_mate_vfs_winsock_strerror		  (int		 error);
 
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATE_VFS_PRIVATE_UTILS_H */

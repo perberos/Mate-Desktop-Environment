@@ -63,6 +63,8 @@ const char *           gsm_app_dialog_get_name           (GsmAppDialog *dialog);
 const char *           gsm_app_dialog_get_command        (GsmAppDialog *dialog);
 const char *           gsm_app_dialog_get_comment        (GsmAppDialog *dialog);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_APP_DIALOG_H */

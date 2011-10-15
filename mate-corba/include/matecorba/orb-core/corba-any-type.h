@@ -13,6 +13,8 @@ struct CORBA_any_struct {
 	CORBA_boolean   _release;
 };
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

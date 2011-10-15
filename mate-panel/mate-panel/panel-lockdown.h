@@ -48,6 +48,8 @@ void panel_lockdown_notify_add    (GCallback callback_func,
 void panel_lockdown_notify_remove (GCallback callback_func,
                                    gpointer  user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_LOCKDOWN_H__ */

@@ -31,7 +31,9 @@ gboolean	mate_mdi_restore_state	(MateMDI *mdi, const gchar *section,
  * first and the config section name as the second argument. */
 void		mate_mdi_save_state	(MateMDI *mdi, const gchar *section);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

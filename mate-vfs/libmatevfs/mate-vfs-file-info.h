@@ -543,6 +543,8 @@ GList *           mate_vfs_file_info_list_unref    (GList                  *list
 GList *           mate_vfs_file_info_list_copy     (GList                  *list);
 void              mate_vfs_file_info_list_free     (GList                  *list);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_FILE_INFO_H */

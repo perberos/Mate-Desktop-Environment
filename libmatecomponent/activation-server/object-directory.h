@@ -81,6 +81,8 @@ void                   reload_object_directory             (void);
 void                   check_quit                          (void);
 
 void                   od_finished_internal_registration   (void);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _OBJECT_DIRECTORY_H_ */

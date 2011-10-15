@@ -102,7 +102,9 @@ void                    mate_vfs_ace_copy_perms     (MateVFSACE      *source,
 gboolean                mate_vfs_ace_equal          (MateVFSACE  *entry_a,
                                                       MateVFSACE  *entry_b);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*MATE_VFS_ACE_H*/
 

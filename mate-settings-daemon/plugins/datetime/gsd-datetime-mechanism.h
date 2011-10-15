@@ -94,6 +94,8 @@ gboolean            gsd_datetime_mechanism_set_hardware_clock_using_utc  (GsdDat
                                                                           gboolean               using_utc,
                                                                           DBusGMethodInvocation *context);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GSD_DATETIME_MECHANISM_H */

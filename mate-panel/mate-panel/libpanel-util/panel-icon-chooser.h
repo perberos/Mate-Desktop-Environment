@@ -72,6 +72,8 @@ const char *panel_icon_chooser_get_icon               (PanelIconChooser *chooser
 void        panel_icon_chooser_set_icon               (PanelIconChooser *chooser,
 						       const char       *icon);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_ICON_CHOOSER_H */

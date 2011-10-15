@@ -97,7 +97,9 @@ prefix##_get_type (void)                                                      \
 	return type;                                                          \
 }
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_DISABLE_DEPRECATED */
 

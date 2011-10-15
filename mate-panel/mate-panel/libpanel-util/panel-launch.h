@@ -58,6 +58,8 @@ gboolean panel_launch_desktop_file_with_fallback (const char  *desktop_file,
 						  GdkScreen   *screen,
 						  GError     **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_LAUNCH_H */

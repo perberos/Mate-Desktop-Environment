@@ -95,6 +95,8 @@ gboolean            gvc_mixer_control_set_default_sink     (GvcMixerControl *con
 gboolean            gvc_mixer_control_set_default_source   (GvcMixerControl *control,
                                                             GvcMixerStream  *stream);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GVC_MIXER_CONTROL_H */

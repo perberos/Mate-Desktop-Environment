@@ -66,6 +66,8 @@ void	       file_transfer_dialog_copy_async (FileTransferDialog *dlg,
 						int priority);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __FILE_TRANSFER_DIALOG_H__ */

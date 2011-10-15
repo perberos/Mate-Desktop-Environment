@@ -59,6 +59,8 @@ typedef struct {
 
 typedef gboolean (*MateCORBAIDLBackendFunc) (MateCORBAIDLBackendContext *context);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

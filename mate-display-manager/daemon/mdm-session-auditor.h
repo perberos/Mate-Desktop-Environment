@@ -79,5 +79,7 @@ void                      mdm_session_auditor_report_login_failure (MdmSessionAu
                                                                     const char        *error_message);
 void                      mdm_session_auditor_report_logout (MdmSessionAuditor *auditor);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* MDM_SESSION_AUDITOR_H */

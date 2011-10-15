@@ -66,7 +66,9 @@ void       matecomponent_ui_toolbar_button_item_set_label          (MateComponen
 
 GtkButton *matecomponent_ui_toolbar_button_item_get_button_widget  (MateComponentUIToolbarButtonItem *button_item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

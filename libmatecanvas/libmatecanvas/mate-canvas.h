@@ -632,6 +632,8 @@ void mate_canvas_set_dither (MateCanvas *canvas, GdkRgbDither dither);
  */
 GdkRgbDither mate_canvas_get_dither (MateCanvas *canvas);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

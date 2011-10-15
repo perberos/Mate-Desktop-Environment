@@ -148,6 +148,8 @@ void           mdm_chooser_widget_propagate_pending_key_events (MdmChooserWidget
  */
 void           mdm_chooser_widget_loaded                       (MdmChooserWidget          *widget);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_CHOOSER_WIDGET_H */

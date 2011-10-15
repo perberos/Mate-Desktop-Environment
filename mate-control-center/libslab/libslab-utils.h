@@ -39,6 +39,8 @@ MateDesktopThumbnailFactory *libslab_thumbnail_factory_get (void);
 void libslab_checkpoint_init (const char *checkpoint_config_file_basename, const char *checkpoint_file_basename);
 void libslab_checkpoint (const char *format, ...);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

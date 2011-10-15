@@ -54,6 +54,8 @@ struct _GP11Attributes;
 struct _GP11Object;
 struct _GP11Slot;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GCRTYPES_H_ */

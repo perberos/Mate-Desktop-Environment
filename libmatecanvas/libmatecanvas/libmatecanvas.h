@@ -45,6 +45,8 @@ extern "C" {
 GType mate_canvas_points_get_type (void);
 #define MATE_TYPE_CANVAS_POINTS mate_canvas_points_get_type()
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* LIBMATECANVAS_H */

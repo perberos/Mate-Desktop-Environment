@@ -52,6 +52,8 @@ GType                  gsd_a11y_preferences_dialog_get_type                   (v
 
 GtkWidget            * gsd_a11y_preferences_dialog_new                        (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_A11Y_PREFERENCES_DIALOG_H */

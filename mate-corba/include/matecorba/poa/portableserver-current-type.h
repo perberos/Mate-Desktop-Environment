@@ -17,6 +17,8 @@ struct PortableServer_Current_type {
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

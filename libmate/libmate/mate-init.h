@@ -54,6 +54,8 @@ const char* mate_user_accels_dir_get(void) G_GNUC_CONST;
 	void mate_win32_get_prefixes(gpointer hmodule, char** full_prefix, char** cp_prefix);
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* LIBMATEINIT_H */

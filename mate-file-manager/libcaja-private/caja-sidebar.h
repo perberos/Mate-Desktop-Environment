@@ -77,6 +77,8 @@ GdkPixbuf * caja_sidebar_get_tab_icon       (CajaSidebar *sidebar);
 void        caja_sidebar_is_visible_changed (CajaSidebar *sidebar,
 						 gboolean         is_visible);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_VIEW_H */

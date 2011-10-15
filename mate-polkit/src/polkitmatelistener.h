@@ -41,6 +41,8 @@ typedef struct _PolkitMateListenerClass PolkitMateListenerClass;
 GType                 polkit_mate_listener_get_type   (void) G_GNUC_CONST;
 PolkitAgentListener  *polkit_mate_listener_new        (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __POLKIT_MATE_LISTENER_H */

@@ -149,6 +149,8 @@ void matemenu_tree_remove_monitor (MateMenuTree            *tree,
 				MateMenuTreeChangedFunc  callback,
 				gpointer             user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATEMENU_TREE_H__ */

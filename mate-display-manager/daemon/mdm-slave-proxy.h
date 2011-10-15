@@ -62,6 +62,8 @@ void                mdm_slave_proxy_set_log_path (MdmSlaveProxy *slave,
 gboolean            mdm_slave_proxy_start        (MdmSlaveProxy *slave);
 gboolean            mdm_slave_proxy_stop         (MdmSlaveProxy *slave);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SLAVE_PROXY_H */

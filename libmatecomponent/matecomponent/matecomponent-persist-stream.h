@@ -92,7 +92,9 @@ MateComponentPersistStream *matecomponent_persist_stream_construct (MateComponen
 						      const gchar               *iid,
 						      void                      *closure);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_DISABLE_DEPRECATED */
 

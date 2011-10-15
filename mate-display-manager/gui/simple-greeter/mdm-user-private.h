@@ -46,6 +46,8 @@ void _mdm_user_add_session      (MdmUser             *user,
 void _mdm_user_remove_session   (MdmUser             *user,
                                  const char          *session_id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* !__MDM_USER_PRIVATE__ */

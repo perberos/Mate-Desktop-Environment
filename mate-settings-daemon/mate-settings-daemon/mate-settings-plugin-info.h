@@ -74,6 +74,8 @@ int              mate_settings_plugin_info_get_priority    (MateSettingsPluginIn
 void             mate_settings_plugin_info_set_priority    (MateSettingsPluginInfo *info,
                                                              int                      priority);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /* __MATE_SETTINGS_PLUGIN_INFO_H__ */

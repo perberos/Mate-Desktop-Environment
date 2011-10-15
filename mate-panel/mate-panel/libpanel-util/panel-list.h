@@ -49,6 +49,8 @@ GSList *panel_g_slist_make_unique (GSList       *list,
 				   GCompareFunc  compare,
 				   gboolean      free_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_LIST_H */

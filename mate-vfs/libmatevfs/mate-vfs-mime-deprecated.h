@@ -153,7 +153,9 @@ gboolean mate_vfs_mime_id_in_component_list        (const char *iid,
 						     GList      *components);
 GList *  mate_vfs_mime_get_short_list_components   (const char *mime_type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MIME_DEPRECATED_H */
 

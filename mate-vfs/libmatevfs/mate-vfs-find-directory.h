@@ -55,6 +55,8 @@ MateVFSResult mate_vfs_find_directory (MateVFSURI                *near_uri,
 					 gboolean                    find_if_needed,
 					 guint                       permissions);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -96,7 +96,9 @@ void     mateconf_listeners_remove_if (MateConfListeners         *listeners,
                                     MateConfListenersPredicate predicate,
                                     gpointer                user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

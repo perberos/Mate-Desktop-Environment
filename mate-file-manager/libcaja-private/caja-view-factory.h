@@ -67,6 +67,8 @@ GList *                 caja_view_factory_get_views_for_uri (const char         
 
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_VIEW_FACTORY_H */

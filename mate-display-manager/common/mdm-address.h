@@ -70,6 +70,8 @@ void                     mdm_address_debug                     (MdmAddress      
 const GList *            mdm_address_peek_local_list           (void);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_ADDRESS_H */

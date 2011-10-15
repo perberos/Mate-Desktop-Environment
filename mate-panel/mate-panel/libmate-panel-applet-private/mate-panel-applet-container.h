@@ -111,6 +111,8 @@ GVariant  *mate_panel_applet_container_child_get_finish        (MatePanelAppletC
 							   GAsyncResult         *result,
 							   GError              **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_CONTAINER_H__ */

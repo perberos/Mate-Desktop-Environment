@@ -50,6 +50,8 @@ void clock_utils_display_help (GtkWidget  *widget,
 			       const char *doc_id,
 			       const char *link_id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CLOCK_UTILS_H__ */

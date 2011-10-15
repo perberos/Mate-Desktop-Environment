@@ -69,7 +69,9 @@ char           *matecomponent_event_subtype        (const char *event_name);
 char           *matecomponent_event_kind           (const char *event_name);
 char           *matecomponent_event_idl_path       (const char *event_name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_LISTENER_H_ */
 

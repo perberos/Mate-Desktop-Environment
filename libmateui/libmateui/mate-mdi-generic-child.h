@@ -111,7 +111,9 @@ void mate_mdi_generic_child_set_label_func_full  (MateMDIGenericChild *child,
 												   GDestroyNotify notify);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

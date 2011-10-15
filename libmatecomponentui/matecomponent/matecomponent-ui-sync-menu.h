@@ -55,6 +55,8 @@ void          matecomponent_ui_sync_menu_add_popup    (MateComponentUISyncMenu *
 						GtkMenu          *menu,
 						const char       *path);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_SYNC_MENU_H_ */

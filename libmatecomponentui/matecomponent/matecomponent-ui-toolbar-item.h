@@ -98,7 +98,9 @@ gboolean                  matecomponent_ui_toolbar_item_get_pack_end     (MateCo
 
 void                      matecomponent_ui_toolbar_item_activate         (MateComponentUIToolbarItem     *item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

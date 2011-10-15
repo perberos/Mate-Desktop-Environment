@@ -44,6 +44,8 @@ gint            _notify_notification_get_timeout            (const NotifyNotific
 gboolean        _notify_notification_has_nondefault_actions (const NotifyNotification *n);
 gboolean        _notify_check_spec_version                  (int major, int minor);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LIBMATENOTIFY_INTERNAL_H_ */

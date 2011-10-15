@@ -41,6 +41,8 @@ extern "C" {
 FILE *         mdm_safe_fopen_w  (const char *file,
                                   mode_t      perm);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MDM_COMMON_UNKNOWN_H */

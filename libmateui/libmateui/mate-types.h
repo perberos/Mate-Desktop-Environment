@@ -50,6 +50,8 @@ typedef enum {
   MATE_PREFERENCES_ALWAYS
 } MatePreferencesType;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

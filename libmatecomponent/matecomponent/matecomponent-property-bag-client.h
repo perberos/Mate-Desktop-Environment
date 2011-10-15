@@ -306,6 +306,8 @@ matecomponent_pbclient_get_doc_title
 matecomponent_pbclient_get_flags
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECOMPONENT_PROPERTY_BAG_CLIENT_H__ */

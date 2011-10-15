@@ -94,6 +94,8 @@ void                 matecomponent_widget_get_property             (MateComponen
 /* Compat */
 #define matecomponent_widget_get_uih(w) matecomponent_widget_get_ui_container (w)
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

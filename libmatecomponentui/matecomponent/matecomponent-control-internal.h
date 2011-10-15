@@ -50,6 +50,8 @@ void                matecomponent_plug_set_control         (MateComponentPlug   
 						     MateComponentControl      *control);
 gboolean            matecomponent_socket_disposed          (MateComponentSocket       *socket);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_CONTROL_INTERNAL_H_ */

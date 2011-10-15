@@ -68,6 +68,8 @@ GQuark             mdm_session_worker_error_quark              (void);
 
 MdmSessionWorker * mdm_session_worker_new                      (const char *server_address) G_GNUC_MALLOC;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MDM_SESSION_WORKER_H */

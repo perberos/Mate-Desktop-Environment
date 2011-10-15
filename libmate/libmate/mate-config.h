@@ -250,7 +250,9 @@ char* mate_config_assemble_vector(int argc, const char* const argv[]);
 void mate_config_set_set_handler(void (*func)(void*), void *data);
 void mate_config_set_sync_handler(void (*func)(void*), void* data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

@@ -160,6 +160,8 @@ MateVFSResult  mate_vfs_file_control_cancellable
 					 gpointer operation_data,
 					 MateVFSContext *context);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_CANCELLABLE_OPS_H */

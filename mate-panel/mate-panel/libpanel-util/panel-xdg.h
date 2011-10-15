@@ -36,6 +36,8 @@ char *panel_xdg_icon_remove_extension (const char *icon);
 char *panel_xdg_icon_name_from_icon_path (const char *path,
 					  GdkScreen  *screen);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_XDG_H */

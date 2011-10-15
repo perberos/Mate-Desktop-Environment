@@ -139,5 +139,7 @@ void hide_shell (AppShellData * app_data);
 
 void show_shell (AppShellData * app_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __APP_SHELL_H__ */

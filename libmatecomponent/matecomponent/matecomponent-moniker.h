@@ -76,6 +76,8 @@ void           matecomponent_moniker_set_case_sensitive (MateComponentMoniker   
 						  gboolean           sensitive);
 gboolean       matecomponent_moniker_get_case_sensitive (MateComponentMoniker     *moniker);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_MONIKER_H_ */

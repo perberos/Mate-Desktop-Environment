@@ -53,6 +53,8 @@ gboolean         button_widget_get_ignore_leave  (ButtonWidget     *button);
 GtkIconTheme    *button_widget_get_icon_theme    (ButtonWidget     *button);
 GdkPixbuf       *button_widget_get_pixbuf        (ButtonWidget     *button);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __BUTTON_WIDGET_H__ */

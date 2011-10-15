@@ -49,7 +49,9 @@ struct _GailCanvasTextFactoryClass
 
 GType gail_canvas_text_factory_get_type(void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GAIL_CANVAS_TEXT_FACTORY_H__ */
 

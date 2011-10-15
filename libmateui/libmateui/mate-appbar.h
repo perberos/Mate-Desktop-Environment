@@ -124,7 +124,9 @@ void       mate_appbar_clear_prompt    (MateAppBar * appbar);
 gchar *    mate_appbar_get_response    (MateAppBar * appbar);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_APPBAR_H__ */
 

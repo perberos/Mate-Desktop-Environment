@@ -93,6 +93,8 @@ gboolean       gsm_presence_set_status_text      (GsmPresence  *presence,
                                                   const char   *status_text,
                                                   GError      **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_PRESENCE_H__ */

@@ -52,6 +52,8 @@ GIOPServer *giop_server_new      (GIOPVersion            giop_version,
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

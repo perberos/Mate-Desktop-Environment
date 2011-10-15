@@ -50,7 +50,9 @@ GtkWidget *matecomponent_ui_config_widget_construct (MateComponentUIConfigWidget
 GtkWidget *matecomponent_ui_config_widget_new       (MateComponentUIEngine       *engine,
 					      GtkAccelGroup        *accel_group);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_UI_DISABLE_DEPRECATED */
 

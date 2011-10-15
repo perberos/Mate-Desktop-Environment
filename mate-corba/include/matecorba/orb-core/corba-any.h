@@ -63,6 +63,8 @@ size_t  MateCORBA_gather_alloc_info (CORBA_TypeCode tc);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

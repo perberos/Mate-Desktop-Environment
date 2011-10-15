@@ -51,7 +51,9 @@ const char *_mate_ui_get_datadir        (void);
 
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* LIBMATEUIP_H */
 

@@ -33,6 +33,8 @@ extern "C" {
 
 gboolean _mate_panel_applet_popup_menu (MatePanelApplet *applet, guint button, guint32 time);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_PRIVATE_H__ */

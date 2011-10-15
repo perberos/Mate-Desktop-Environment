@@ -42,7 +42,9 @@ void matecomponent_storage_copy_to (MateComponent_Storage     src,
 			     MateComponent_Storage     dest,
 			     CORBA_Environment *ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_STORAGE_H_ */
 

@@ -91,6 +91,8 @@ void       panel_menu_button_popup_menu          (PanelMenuButton  *button,
 void       panel_menu_button_set_dnd_enabled     (PanelMenuButton  *button,
 						  gboolean          dnd_enabled);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_MENU_BUTTON_H__ */

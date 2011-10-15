@@ -92,5 +92,7 @@ void _gsd_smartcard_set_state (GsdSmartcard      *card,
                                GsdSmartcardState  state);
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif                                /* GSD_SMARTCARD_H */

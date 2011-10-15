@@ -58,6 +58,8 @@ GtkWidget *component_details_new (gchar *iid);
 */
 void component_details_get_info (ComponentDetails *comp_details, gchar *iid);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

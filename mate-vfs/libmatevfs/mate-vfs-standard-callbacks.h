@@ -876,6 +876,8 @@ typedef struct {
 	void *reserved2;
 } MateVFSModuleCallbackQuestionOut;
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_STANDARD_CALLBACKS_H */

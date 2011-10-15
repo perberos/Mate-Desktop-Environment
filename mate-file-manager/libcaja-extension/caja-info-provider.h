@@ -79,6 +79,8 @@ void                    caja_info_provider_update_complete_invoke (GClosure     
 								       CajaOperationHandle  *handle,
 								       CajaOperationResult   result);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

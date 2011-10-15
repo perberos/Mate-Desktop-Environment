@@ -38,6 +38,8 @@ void           mate_vfs_resolve_reset_to_beginning
                                               (MateVFSResolveHandle   *handle);
 void           mate_vfs_resolve_free         (MateVFSResolveHandle   *handle);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ! MATE_VFS_RESOLVE_H */

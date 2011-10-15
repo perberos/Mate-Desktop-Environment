@@ -60,7 +60,9 @@ void mate_popup_menu_append (GtkWidget *popup, MateUIInfo *uiinfo);
 listing items on a widget's popup ****/
 void mate_gtk_widget_add_popup_items (GtkWidget *widget, MateUIInfo *uiinfo, gpointer user_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

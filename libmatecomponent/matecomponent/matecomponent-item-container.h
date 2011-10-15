@@ -57,7 +57,9 @@ void                 matecomponent_item_container_add            (MateComponentI
 void                 matecomponent_item_container_remove_by_name (MateComponentItemContainer *container,
 							   const char          *name);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

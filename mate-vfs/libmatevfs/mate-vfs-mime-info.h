@@ -69,7 +69,9 @@ void             mate_vfs_mime_registered_mime_type_delete     (const char *mime
 void             mate_vfs_mime_reset                           (void);
 #endif /* MATE_VFS_DISABLE_DEPRECATED */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MIME_INFO_H */
 

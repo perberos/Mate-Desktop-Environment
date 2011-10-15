@@ -141,5 +141,7 @@ TileAction *tile_action_new (Tile * tile, TileActionFunc func, const gchar * men
 void tile_action_set_menu_item_label (TileAction * action, const gchar * markup);
 GtkMenuItem *tile_action_get_menu_item (TileAction * action);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif

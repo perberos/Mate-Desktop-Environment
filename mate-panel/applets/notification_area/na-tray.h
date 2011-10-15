@@ -64,6 +64,8 @@ void            na_tray_set_orientation	(NaTray        *tray,
 GtkOrientation  na_tray_get_orientation (NaTray        *tray);
 void		na_tray_force_redraw	(NaTray        *tray);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __NA_TRAY_H__ */

@@ -114,7 +114,9 @@ void	   mate_pixmap_entry_set_preview_size(MatePixmapEntry *pentry,
 /*only return a file if it was possible to load it with gdk-pixbuf*/
 gchar      *mate_pixmap_entry_get_filename(MatePixmapEntry *pentry);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

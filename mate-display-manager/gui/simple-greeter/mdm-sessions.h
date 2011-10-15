@@ -35,6 +35,8 @@ gboolean               mdm_get_details_for_session (const char  *id,
                                                     char       **name,
                                                     char       **comment);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SESSION_H */

@@ -52,6 +52,8 @@ struct _GailCanvasGroupClass
 
 AtkObject* gail_canvas_group_new (GObject *obj);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GAIL_CANVAS_GROUP_H__ */

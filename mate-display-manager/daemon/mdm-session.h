@@ -151,6 +151,8 @@ void     mdm_session_select_user                 (MdmSession *session,
                                                   const char *username);
 void     mdm_session_cancel                      (MdmSession *session);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SESSION_H */

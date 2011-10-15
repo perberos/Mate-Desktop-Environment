@@ -214,7 +214,9 @@ MateIconTextItem *mate_icon_list_get_icon_text_item (MateIconList *gil,
 MateCanvasPixbuf *mate_icon_list_get_icon_pixbuf_item (MateIconList *gil,
 							 int idx);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

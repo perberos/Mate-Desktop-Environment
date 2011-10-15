@@ -30,7 +30,6 @@
 extern "C" {
 #endif
 
-
 
 #define MATE_TYPE_CANVAS_PIXBUF            (mate_canvas_pixbuf_get_type ())
 #define MATE_CANVAS_PIXBUF(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_CANVAS_PIXBUF, MateCanvasPixbuf))
@@ -57,8 +56,9 @@ struct _MateCanvasPixbufClass {
 
 GType mate_canvas_pixbuf_get_type (void) G_GNUC_CONST;
 
-
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

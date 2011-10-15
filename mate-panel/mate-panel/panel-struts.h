@@ -49,6 +49,8 @@ gboolean panel_struts_update_toplevel_geometry (PanelToplevel    *toplevel,
 						int              *w,
 						int              *h);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_STRUTS_H__ */

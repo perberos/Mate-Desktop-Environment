@@ -131,6 +131,8 @@ matecomponent_property_bag_map_params    (MateComponentPropertyBag   *pb,
 GList *
 matecomponent_property_bag_get_prop_list (MateComponentPropertyBag *pb);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ! __MATECOMPONENT_PROPERTY_BAG_H__ */

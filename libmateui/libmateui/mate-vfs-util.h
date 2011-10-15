@@ -76,6 +76,8 @@ mate_gdk_pixbuf_new_from_uri_async  (const char                 *uri,
 void
 mate_gdk_pixbuf_new_from_uri_cancel (MateGdkPixbufAsyncHandle  *handle);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

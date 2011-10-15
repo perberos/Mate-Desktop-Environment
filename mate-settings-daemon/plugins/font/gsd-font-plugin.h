@@ -56,6 +56,8 @@ GType   gsd_font_plugin_get_type            (void) G_GNUC_CONST;
 /* All the plugins must implement this function */
 G_MODULE_EXPORT GType register_mate_settings_plugin (GTypeModule *module);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_FONT_PLUGIN_H__ */

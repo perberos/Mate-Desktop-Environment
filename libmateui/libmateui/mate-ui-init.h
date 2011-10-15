@@ -56,6 +56,8 @@ int mate_init_with_popt_table (const char *app_id,
 #endif
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

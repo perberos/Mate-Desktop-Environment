@@ -61,5 +61,7 @@ struct _MdmSessionSolarisAuditorClass
 GType              mdm_session_solaris_auditor_get_type                       (void);
 MdmSessionAuditor *mdm_session_solaris_auditor_new                            (const char *hostname,
                                                                                const char *display_device);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* MDM_SESSION_SOLARIS_AUDITOR_H */

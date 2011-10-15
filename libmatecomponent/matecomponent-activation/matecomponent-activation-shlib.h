@@ -66,6 +66,8 @@ CORBA_Object matecomponent_activation_activate_shlib_server (MateComponent_Activ
                                                       CORBA_Environment    *ev);
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_ACTIVATION_SHLIB_H */

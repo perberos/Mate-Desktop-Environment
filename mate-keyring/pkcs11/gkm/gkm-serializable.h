@@ -60,6 +60,8 @@ gboolean                gkm_serializable_save                             (GkmSe
                                                                            guchar** data,
                                                                            gsize *n_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GKM_SERIALIZABLE_H__ */

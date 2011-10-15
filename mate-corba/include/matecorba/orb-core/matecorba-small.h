@@ -139,6 +139,8 @@ void MateCORBA_small_demarshal_async     (MateCORBAAsyncQueueEntry  *aqe,
 				      gpointer              *args,
 				      CORBA_Environment     *ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CORBA_SMALL_H */

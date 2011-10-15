@@ -172,6 +172,8 @@ int                  panel_toplevel_get_minimum_size       (PanelToplevel *tople
 int                  panel_toplevel_get_maximum_size       (PanelToplevel *toplevel);
 GSList              *panel_toplevel_list_toplevels         (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_TOPLEVEL_H__ */

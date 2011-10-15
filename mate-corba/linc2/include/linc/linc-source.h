@@ -25,6 +25,8 @@ GSource *link_source_create_watch  (GMainContext *context,
 void     link_source_set_condition (GSource      *source,
 				    GIOCondition  condition);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LINK_SOURCE_H_ */

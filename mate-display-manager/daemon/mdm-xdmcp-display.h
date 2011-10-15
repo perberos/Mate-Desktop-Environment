@@ -61,6 +61,8 @@ gint32                    mdm_xdmcp_display_get_session_number       (MdmXdmcpDi
 MdmAddress              * mdm_xdmcp_display_get_remote_address       (MdmXdmcpDisplay         *display);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_XDMCP_DISPLAY_H */

@@ -139,6 +139,8 @@ void  _mate_panel_applet_frame_applet_remove         (MatePanelAppletFrame *fram
 void  _mate_panel_applet_frame_applet_move           (MatePanelAppletFrame *frame);
 void  _mate_panel_applet_frame_applet_lock           (MatePanelAppletFrame *frame,
 						 gboolean          locked);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_FRAME_H__ */

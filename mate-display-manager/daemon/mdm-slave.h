@@ -81,6 +81,8 @@ gboolean            mdm_slave_run_script             (MdmSlave   *slave,
                                                       const char *username);
 void                mdm_slave_stopped                (MdmSlave   *slave);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SLAVE_H */

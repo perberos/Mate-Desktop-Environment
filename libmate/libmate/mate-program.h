@@ -204,6 +204,8 @@ MateProgram* mate_program_init (const char* app_id, const char* app_version, con
 MateProgram* mate_program_initv(GType type, const char* app_id, const char* app_version, const MateModuleInfo* module_info, int argc, char** argv, const char* first_property_name, va_list args);
 MateProgram* mate_program_init_paramv(GType type, const char* app_id, const char* app_version, const MateModuleInfo* module_info, int argc, char** argv, guint nparams, GParameter* params);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_PROGRAM_H */

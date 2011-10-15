@@ -73,6 +73,8 @@ gboolean mate_help_display_desktop_with_env    (MateProgram  *program,
 						 char         **envp,
 						 GError       **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_HELP_H */

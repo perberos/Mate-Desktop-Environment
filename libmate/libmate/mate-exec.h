@@ -75,6 +75,8 @@ int mate_execute_terminal_shell_fds (const char *dir,
 				      const char *commandline,
 				      gboolean close_fds);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_EXEC_H */

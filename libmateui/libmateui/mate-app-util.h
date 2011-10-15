@@ -142,7 +142,9 @@ mate_app_set_progress (MateAppProgressKey key, gdouble percent);
 void
 mate_app_progress_done (MateAppProgressKey key);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED_SOURCE */
 

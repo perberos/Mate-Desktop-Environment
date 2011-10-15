@@ -19,6 +19,8 @@ struct CORBA_Environment_type {
 	CORBA_any            _any;
 };
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

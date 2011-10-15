@@ -57,6 +57,8 @@ extern "C" {
 #define MDM_KEY_MULTICAST "chooser/Multicast"
 #define MDM_KEY_MULTICAST_ADDR "chooser/MulticastAddr"
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MDM_SETTINGS_KEYS_H */

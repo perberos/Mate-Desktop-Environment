@@ -60,6 +60,8 @@ GType                mate_vfs_mime_monitor_get_type (void);
  */
 MateVFSMIMEMonitor *mate_vfs_mime_monitor_get      (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MIME_MONITOR_H */

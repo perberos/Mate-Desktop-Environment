@@ -85,7 +85,9 @@ void             egg_cell_renderer_keys_set_accel_mode  (EggCellRendererKeys    
 							 EggCellRendererKeysMode  accel_mode);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __GTK_CELL_RENDERER_KEYS_H__ */

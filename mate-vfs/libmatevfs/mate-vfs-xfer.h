@@ -551,6 +551,8 @@ MateVFSResult mate_vfs_xfer_delete_list (const GList                  *source_ur
 					   MateVFSXferProgressCallback  progress_callback,
 					   gpointer                      data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_XFER_H */

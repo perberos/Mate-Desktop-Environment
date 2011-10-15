@@ -100,6 +100,8 @@ struct _MateCanvasShapePriv {
 	MateCanvasShapePrivGdk * gdk;	/* Gdk specific things */
 };
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

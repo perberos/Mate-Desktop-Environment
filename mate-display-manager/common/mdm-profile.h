@@ -50,6 +50,8 @@ void            _mdm_profile_log    (const char *func,
                                      const char *format,
                                      ...) G_GNUC_PRINTF (3, 4);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_PROFILE_H */

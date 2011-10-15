@@ -45,6 +45,8 @@ gint          matecomponent_ui_sync_keys_binding_handle (GtkWidget        *widge
 						  GdkEventKey      *event,
 						  MateComponentUISyncKeys *msync);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_SYNC_KEYS_H_ */

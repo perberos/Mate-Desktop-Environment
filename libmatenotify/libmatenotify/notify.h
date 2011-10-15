@@ -86,6 +86,8 @@ gboolean        notify_get_server_info (char **ret_name,
                                         char **ret_version,
                                         char **ret_spec_version);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _LIBMATENOTIFY_NOTIFY_H_ */

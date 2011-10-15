@@ -35,6 +35,8 @@ extern "C" {
 
 void panel_gtk_file_chooser_add_image_preview (GtkFileChooser *chooser);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_GTK_H */

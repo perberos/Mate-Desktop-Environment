@@ -55,6 +55,8 @@ MdmChooserSession *   mdm_chooser_session_new                (const char        
                                                               const char        *display_device,
                                                               const char        *display_hostname);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_CHOOSER_SESSION_H */

@@ -118,6 +118,8 @@ void               mdm_greeter_client_call_start_session_when_ready  (MdmGreeter
                                                                       gboolean          should_start_session);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_GREETER_CLIENT_H */

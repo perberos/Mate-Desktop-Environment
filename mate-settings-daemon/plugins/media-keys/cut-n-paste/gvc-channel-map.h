@@ -76,6 +76,8 @@ const char *            gvc_channel_map_get_mapping             (GvcChannelMap  
 /* private */
 const pa_cvolume *      gvc_channel_map_get_cvolume             (GvcChannelMap  *map);
 const pa_channel_map *  gvc_channel_map_get_pa_channel_map      (GvcChannelMap  *map);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GVC_CHANNEL_MAP_H */

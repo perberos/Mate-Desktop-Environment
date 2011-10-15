@@ -65,6 +65,8 @@ extern "C" {
 
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __LIBMATE_CANVAS_I18N_H__ */

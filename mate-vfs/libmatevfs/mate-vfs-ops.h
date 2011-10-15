@@ -148,6 +148,8 @@ MateVFSResult mate_vfs_forget_cache (MateVFSHandle *handle,
 				       MateVFSFileSize size);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_OPS_H */

@@ -54,6 +54,8 @@ GvcMixerStream *    gvc_mixer_event_role_new           (pa_context    *context,
                                                         const char    *device,
                                                         GvcChannelMap *channel_map);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GVC_MIXER_EVENT_ROLE_H */

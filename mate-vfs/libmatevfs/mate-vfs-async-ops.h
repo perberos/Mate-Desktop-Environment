@@ -514,6 +514,8 @@ void           mate_vfs_async_file_control           (MateVFSAsyncHandle        
 						       MateVFSAsyncFileControlCallback       callback,
 						       gpointer                               callback_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_ASYNC_OPS_H */

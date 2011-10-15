@@ -75,7 +75,9 @@ extern void _mate_marshal_VOID__UINT_UINT_UINT_UINT (GClosure     *closure,
                                                      gpointer      invocation_hint,
                                                      gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ___mate_marshal_MARSHAL_H__ */
 

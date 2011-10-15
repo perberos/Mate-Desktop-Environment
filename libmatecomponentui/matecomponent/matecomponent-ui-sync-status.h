@@ -43,6 +43,8 @@ typedef struct {
 MateComponentUISync *matecomponent_ui_sync_status_new      (MateComponentUIEngine *engine,
 					      GtkBox         *status);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_SYNC_STATUS_H_ */

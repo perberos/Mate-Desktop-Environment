@@ -99,7 +99,9 @@ void          mate_vfs_acl_unset             (MateVFSACL *acl,
 GList *       mate_vfs_acl_get_ace_list      (MateVFSACL *acl);
 void          mate_vfs_acl_free_ace_list     (GList       *ace_list);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /*MATE_VFS_ACL_H*/

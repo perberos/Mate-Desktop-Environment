@@ -146,6 +146,8 @@ void            calendar_client_set_task_completed       (CalendarClient     *cl
 
 void calendar_event_free (CalendarEvent *event);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CALENDAR_CLIENT_H__ */

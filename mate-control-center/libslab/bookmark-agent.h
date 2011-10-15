@@ -87,6 +87,8 @@ void	       bookmark_agent_purge_items (BookmarkAgent *this);
 
 void           bookmark_item_free           (BookmarkItem *item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

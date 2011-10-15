@@ -83,7 +83,9 @@ gint                      matecomponent_application_new_instance        (MateCom
 								  gint                argc,
 								  gchar              *argv[]);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_APPLICATION_H_ */
 

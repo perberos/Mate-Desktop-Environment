@@ -155,6 +155,8 @@ void mateconf_peditor_widget_set_guard     (MateConfPropertyEditor     *peditor,
 MateConfValue *mateconf_value_int_to_float    (MateConfPropertyEditor *ignored, MateConfValue const *value);
 MateConfValue *mateconf_value_float_to_int    (MateConfPropertyEditor *ignored, MateConfValue const *value);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATECONF_PROPERTY_EDITOR_H */

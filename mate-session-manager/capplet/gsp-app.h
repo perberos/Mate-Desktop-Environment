@@ -102,6 +102,8 @@ unsigned int     gsp_app_get_xdg_system_position  (GspApp       *app);
 void             gsp_app_set_xdg_system_position  (GspApp       *app,
                                                    unsigned int  position);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSP_APP_H */

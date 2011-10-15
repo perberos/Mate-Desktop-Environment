@@ -64,6 +64,8 @@ void caja_module_shutdown   (void);
 void caja_module_list_types (const GType **types,
 				 int          *num_types);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

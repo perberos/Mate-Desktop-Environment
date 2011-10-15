@@ -39,7 +39,9 @@ extern "C" {
 GList              *mate_vfs_mime_get_all_desktop_entries (const char *mime_type);
 gchar              *mate_vfs_mime_get_default_desktop_entry (const char *mime_type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MIME_INFO_CACHE_H */
 

@@ -13,7 +13,9 @@ extern "C" {
 /* enumerations from "mateweather-location.h" */
 GType mateweather_location_level_get_type (void) G_GNUC_CONST;
 #define MATEWEATHER_TYPE_LOCATION_LEVEL (mateweather_location_level_get_type ())
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATEWEATHER_ENUM_TYPES_H__ */
 

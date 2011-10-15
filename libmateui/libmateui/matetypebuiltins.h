@@ -70,7 +70,9 @@ GType mate_thumbnail_size_get_type (void);
 /* --- mate-types.h --- */
 #define MATE_TYPE_PREFERENCES_TYPE mate_preferences_type_get_type()
 GType mate_preferences_type_get_type (void);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATETYPEBUILTINS_H__ */
 

@@ -68,6 +68,8 @@ GType mate_vfs_volume_monitor_daemon_get_type (void) G_GNUC_CONST;
 
 void mate_vfs_volume_monitor_daemon_force_probe (MateVFSVolumeMonitor *volume_monitor_daemon);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_VOLUME_MONITOR_DAEMON_H */

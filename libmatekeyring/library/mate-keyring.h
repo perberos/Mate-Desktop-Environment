@@ -520,6 +520,8 @@ MateKeyringResult    mate_keyring_daemon_set_display_sync         (const char *d
 
 MateKeyringResult    mate_keyring_daemon_prepare_environment_sync (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_KEYRING_H */

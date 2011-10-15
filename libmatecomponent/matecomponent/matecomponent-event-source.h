@@ -78,7 +78,9 @@ MateComponent_Listener matecomponent_event_source_client_add_listener_full  (Mat
 /* You don't want this routine */
 void            matecomponent_event_source_ignore_listeners        (MateComponentEventSource *event_source);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_EVENT_SOURCE_H_ */
 

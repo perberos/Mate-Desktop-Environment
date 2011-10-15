@@ -53,5 +53,7 @@ GType nameplate_tile_get_type (void);
 GtkWidget *nameplate_tile_new (const gchar * uri, GtkWidget * image, GtkWidget * header,
 	GtkWidget * subheader);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif

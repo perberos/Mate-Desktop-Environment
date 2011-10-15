@@ -49,7 +49,9 @@ struct _GailCanvasItemFactoryClass
 
 GType gail_canvas_item_factory_get_type(void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GAIL_CANVAS_ITEM_FACTORY_H__ */
 

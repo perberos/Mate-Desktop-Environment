@@ -37,6 +37,8 @@ fontconfig_monitor_start (GFunc    notify_callback,
                           gpointer notify_data);
 void fontconfig_monitor_stop  (fontconfig_monitor_handle_t *handle);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __FONTCONFIG_MONITOR_H */

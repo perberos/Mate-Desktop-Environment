@@ -44,6 +44,8 @@ const char              *mate_settings_module_get_path          (MateSettingsMod
 
 GObject                 *mate_settings_module_new_object        (MateSettingsModule *module);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

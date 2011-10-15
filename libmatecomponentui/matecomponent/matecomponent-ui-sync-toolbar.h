@@ -44,6 +44,8 @@ MateComponentUISync   *matecomponent_ui_sync_toolbar_new              (MateCompo
 GtkToolbarStyle matecomponent_ui_sync_toolbar_get_look         (MateComponentUIEngine *engine,
 							 MateComponentUINode   *node);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_SYNC_TOOLBAR_H_ */

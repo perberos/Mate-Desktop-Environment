@@ -60,6 +60,8 @@ MateVFSResult  mate_vfs_ssl_set_timeout    (MateVFSSSL *ssl,
 					      MateVFSCancellation *cancellation);
 MateVFSSocket *mate_vfs_ssl_to_socket      (MateVFSSSL *ssl);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_SSL_H */

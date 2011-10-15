@@ -55,6 +55,8 @@ gboolean               mdm_chooser_session_start                          (MdmCh
                                                                            GError           **error);
 void                   mdm_chooser_session_stop                           (MdmChooserSession *session);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_CHOOSER_SESSION_H */

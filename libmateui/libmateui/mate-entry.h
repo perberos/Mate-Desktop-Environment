@@ -99,7 +99,9 @@ void         mate_entry_append_history   (MateEntry  *gentry,
 					   const gchar *text);
 void         mate_entry_clear_history    (MateEntry  *gentry);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

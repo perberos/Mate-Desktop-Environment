@@ -18,6 +18,8 @@ extern "C" {
 
 gboolean workspace_switcher_applet_fill(MatePanelApplet* applet);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

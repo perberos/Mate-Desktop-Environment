@@ -48,6 +48,8 @@ GtkWidget *mdm_entry_menu_item_new           (void);
 GtkWidget *mdm_entry_menu_item_get_entry     (MdmEntryMenuItem *item);
 GtkWidget *mdm_entry_menu_item_get_image     (MdmEntryMenuItem *item);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_ENTRY_MENU_ITEM__ */

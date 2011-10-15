@@ -77,6 +77,8 @@ gboolean            mdm_settings_set_value                      (MdmSettings *se
                                                                  const char  *value,
                                                                  GError     **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SETTINGS_H */

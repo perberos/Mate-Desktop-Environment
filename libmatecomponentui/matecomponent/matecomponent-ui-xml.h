@@ -133,6 +133,8 @@ void             matecomponent_ui_xml_remove_watch_by_data (MateComponentUIXml  
 
 #endif /* MATECOMPONENT_UI_INTERNAL */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_XML_H_ */

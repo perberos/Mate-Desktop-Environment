@@ -60,7 +60,9 @@ gint mate_score_log(gfloat score, const gchar *level, gboolean higher_to_lower_s
  * Will be auto-determined if NULL
  */
 gint mate_score_get_notable(const gchar *gamename, const gchar* level, gchar*** names, gfloat** scores, time_t** scoretimes);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_SCORE_H__ */
 

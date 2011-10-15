@@ -108,6 +108,8 @@ void panel_ditem_register_save_uri_func (PanelDItemEditor  *dialog,
 					 PanelDitemSaveUri  save_uri,
 					 gpointer           data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_DITEM_EDITOR_H */

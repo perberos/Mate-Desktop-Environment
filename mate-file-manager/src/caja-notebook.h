@@ -91,7 +91,9 @@ gboolean        caja_notebook_can_reorder_current_child_relative (CajaNotebook *
 gboolean        caja_notebook_can_set_current_page_relative (CajaNotebook *notebook,
 								 int offset);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_NOTEBOOK_H */
 

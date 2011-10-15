@@ -69,7 +69,9 @@ static inline void dbgprintf (const char *format, ...) { }
 
 #endif /* DEBUG_UI */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_UI_PRIVATE_H_ */
 

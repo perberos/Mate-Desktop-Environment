@@ -53,7 +53,9 @@ mateconfd_clear_cache_for_sources (MateConfSources *sources);
 
 void mateconfd_need_log_cleanup (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

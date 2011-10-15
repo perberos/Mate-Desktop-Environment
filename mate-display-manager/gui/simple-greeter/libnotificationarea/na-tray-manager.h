@@ -97,6 +97,8 @@ GtkOrientation  na_tray_manager_get_orientation (NaTrayManager      *manager);
 void            na_tray_manager_set_padding      (NaTrayManager      *manager,
 						  gint                padding);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __NA_TRAY_MANAGER_H__ */

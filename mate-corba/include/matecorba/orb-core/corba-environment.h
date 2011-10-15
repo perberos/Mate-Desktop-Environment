@@ -62,6 +62,8 @@ void MateCORBA_send_user_exception     (GIOPSendBuffer    *send_buffer,
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -26,7 +26,9 @@ GType mate_help_error_get_type (void);
 /* --- mate-url.h --- */
 #define MATE_TYPE_URL_ERROR mate_url_error_get_type()
 GType mate_url_error_get_type (void);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __LIBMATETYPEBUILTINS_H__ */
 

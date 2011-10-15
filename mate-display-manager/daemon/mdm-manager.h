@@ -76,6 +76,8 @@ gboolean            mdm_manager_get_displays                   (MdmManager *mana
                                                                 GError    **error);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_MANAGER_H */

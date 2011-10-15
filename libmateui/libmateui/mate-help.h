@@ -49,6 +49,8 @@ gboolean mate_help_display_uri_on_screen         (const char    *help_uri,
 						   GdkScreen     *screen,
 						   GError       **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_UI_HELP_H__ */

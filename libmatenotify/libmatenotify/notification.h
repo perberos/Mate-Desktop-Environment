@@ -160,5 +160,7 @@ gboolean            notify_notification_close                 (NotifyNotificatio
 
 gint                notify_notification_get_closed_reason     (const NotifyNotification *notification);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* NOTIFY_NOTIFICATION_H */

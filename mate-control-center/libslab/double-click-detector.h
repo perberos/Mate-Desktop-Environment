@@ -56,5 +56,7 @@ gboolean double_click_detector_is_double_click (DoubleClickDetector * detector, 
 
 void double_click_detector_update_click_time (DoubleClickDetector * detector, guint32 event_time);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __DOUBLE_CLICK_DETECTOR_H__ */

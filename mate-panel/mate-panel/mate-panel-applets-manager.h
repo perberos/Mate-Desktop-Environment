@@ -87,6 +87,8 @@ MatePanelAppletInfo  *mate_panel_applets_manager_get_applet_info_from_old_id (co
 gboolean          mate_panel_applets_manager_load_applet                 (const gchar                *iid,
 								     MatePanelAppletFrameActivating *frame_act);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLETS_MANAGER_H__ */

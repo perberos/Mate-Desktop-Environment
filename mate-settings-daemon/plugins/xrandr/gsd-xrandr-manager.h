@@ -54,6 +54,8 @@ gboolean                gsd_xrandr_manager_start               (GsdXrandrManager
                                                                GError         **error);
 void                    gsd_xrandr_manager_stop                (GsdXrandrManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_XRANDR_MANAGER_H */

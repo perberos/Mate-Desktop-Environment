@@ -56,7 +56,9 @@ void        matecomponent_running_context_at_exit_unref     (CORBA_Object object
 #	define           matecomponent_running_context_ignore_object(o)     G_STMT_START{matecomponent_running_context_trace_objects((o),G_STRFUNC,__LINE__,2);}G_STMT_END
 #endif
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_RUNNING_CONTEXT_H_ */
 

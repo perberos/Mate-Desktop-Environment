@@ -60,6 +60,8 @@ guint                 mdm_settings_client_notify_add                 (const char
                                                                       GFreeFunc                   destroy_notify);
 void                  mdm_settings_client_notify_remove              (guint                       id);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SETTINGS_CLIENT_H */

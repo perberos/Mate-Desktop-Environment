@@ -65,6 +65,8 @@ MdmDisplay *              mdm_xdmcp_chooser_display_new                      (co
                                                                               MdmAddress              *addr,
                                                                               gint32                   serial_number);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_XDMCP_CHOOSER_DISPLAY_H */

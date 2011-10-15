@@ -41,6 +41,8 @@ extern "C" {
    times without harm.  */
 void mate_ice_init (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_ICE_H */

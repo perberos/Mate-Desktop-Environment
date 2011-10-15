@@ -22,6 +22,8 @@ void matecomponent_object_save_to_stream (MateComponent_Unknown     object,
 MateComponent_Unknown matecomponent_object_from_stream (MateComponent_Stream      stream,
 					  CORBA_Environment *opt_ev);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_PERSIST_CLIENT_H_ */

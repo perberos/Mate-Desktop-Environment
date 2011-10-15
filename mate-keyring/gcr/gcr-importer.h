@@ -95,6 +95,8 @@ gboolean                  gcr_importer_import_finish          (GcrImporter *self
                                                                GAsyncResult *res,
                                                                GError **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_IMPORTER_H__ */

@@ -91,6 +91,8 @@ const char *MateCORBA_tk_to_name            (CORBA_unsigned_long tk);
 
 #endif /*  MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

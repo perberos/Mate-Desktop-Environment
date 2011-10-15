@@ -65,6 +65,8 @@ void panel_util_set_tooltip_text (GtkWidget  *widget,
 
 GFile *panel_util_get_file_optional_homedir (const char *location);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_UTIL_H */

@@ -82,6 +82,8 @@ void		 matecomponent_zoomable_report_zoom_parameters_changed	(MateComponentZooma
 								 CORBA_Environment *opt_ev);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_ZOOMABLE_H_ */

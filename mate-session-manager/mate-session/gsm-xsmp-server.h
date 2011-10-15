@@ -55,6 +55,8 @@ GType               gsm_xsmp_server_get_type                       (void);
 GsmXsmpServer *     gsm_xsmp_server_new                            (GsmStore      *client_store);
 void                gsm_xsmp_server_start                          (GsmXsmpServer *server);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSM_XSMP_SERVER_H */

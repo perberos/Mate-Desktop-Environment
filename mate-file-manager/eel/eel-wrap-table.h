@@ -99,7 +99,9 @@ GtkWidget *      eel_scrolled_wrap_table_new              (gboolean            h
 							   GtkShadowType       shadow_type,
 							   GtkWidget         **wrap_table_out);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_WRAP_TABLE_H */
 

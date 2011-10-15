@@ -45,5 +45,7 @@ void weather_info_setup_tooltip (WeatherInfo *info, ClockLocation *location, Gtk
 void clock_location_tile_refresh (ClockLocationTile *this,
                                   gboolean           force_refresh);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __CLOCK_H__ */

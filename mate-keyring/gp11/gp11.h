@@ -1520,6 +1520,8 @@ guchar*             gp11_processor_close_finish            (GP11Processor *proce
 
 #endif /* UNIMPLEMENTED */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*GP11_H*/

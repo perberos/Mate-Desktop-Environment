@@ -60,6 +60,8 @@ void    gsp_key_file_set_locale_string (GKeyFile    *keyfile,
 void gsp_key_file_ensure_C_key         (GKeyFile   *keyfile,
                                         const char *key);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GSP_KEYFILE_H */

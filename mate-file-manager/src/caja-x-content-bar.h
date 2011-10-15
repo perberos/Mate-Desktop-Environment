@@ -64,6 +64,8 @@ void             caja_x_content_bar_set_mount          (CajaXContentBar *bar,
 							    GMount              *mount);
 GMount          *caja_x_content_bar_get_mount          (CajaXContentBar *bar);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CAJA_X_CONTENT_BAR_H */

@@ -73,6 +73,8 @@ void                   mdm_greeter_panel_set_default_language_name      (MdmGree
                                                                          const char      *language_name);
 void                   mdm_greeter_panel_set_default_session_name       (MdmGreeterPanel *panel,
                                                                          const char      *session_name);
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_GREETER_PANEL_H */

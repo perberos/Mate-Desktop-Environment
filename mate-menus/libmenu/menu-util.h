@@ -50,6 +50,8 @@ extern "C" {
 
 #endif /* G_ENABLE_DEBUG */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MENU_UTIL_H__ */

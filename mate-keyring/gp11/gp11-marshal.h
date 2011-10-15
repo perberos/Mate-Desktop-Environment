@@ -32,7 +32,9 @@ extern void _gp11_marshal_BOOLEAN__ULONG (GClosure     *closure,
                                           gpointer      invocation_hint,
                                           gpointer      marshal_data);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ___gp11_marshal_MARSHAL_H__ */
 

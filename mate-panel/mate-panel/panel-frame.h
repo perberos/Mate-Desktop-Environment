@@ -62,6 +62,8 @@ PanelFrameEdge  panel_frame_get_edges (PanelFrame     *toplevel);
 void            panel_frame_draw      (GtkWidget      *widget,
 				       PanelFrameEdge  edges);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_FRAME_H__ */

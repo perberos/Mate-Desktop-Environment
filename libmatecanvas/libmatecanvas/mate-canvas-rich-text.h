@@ -76,6 +76,8 @@ mate_canvas_rich_text_get_iter_at_location (MateCanvasRichText *text,
                                     gint         x,
 					     gint         y);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_CANVAS_RICH_TEXT_H */

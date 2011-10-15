@@ -72,6 +72,8 @@ void                mdm_signal_handler_remove_func             (MdmSignalHandler
                                                                 gpointer             data);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_SIGNAL_HANDLER_H */

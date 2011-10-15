@@ -30,7 +30,9 @@ extern "C" {
 
 #include <matecomponent/matecomponent-storage.h>
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _MATECOMPONENT_STREAM_H_ */
 

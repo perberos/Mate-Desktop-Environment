@@ -118,6 +118,8 @@ typedef enum {
 } MateVFSSeekPosition;
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_HANDLE_H */

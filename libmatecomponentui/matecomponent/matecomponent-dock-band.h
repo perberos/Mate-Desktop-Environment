@@ -156,6 +156,8 @@ gint _matecomponent_dock_band_handle_key_nav (MateComponentDockBand *band,
 				      GdkEventKey    *event);
 #endif /* MATECOMPONENT_UI_INTERNAL */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

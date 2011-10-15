@@ -33,6 +33,8 @@ gulong MateCORBA_wchar_strlen(CORBA_wchar *wstr);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

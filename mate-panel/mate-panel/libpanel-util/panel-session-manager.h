@@ -68,6 +68,8 @@ void panel_session_manager_request_shutdown (PanelSessionManager *session);
 
 gboolean panel_session_manager_is_shutdown_available (PanelSessionManager *session);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_SESSION_MANAGER_H */

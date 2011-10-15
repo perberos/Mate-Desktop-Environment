@@ -152,6 +152,8 @@ ArtPathStrokeJoinType mate_canvas_join_gdk_to_art (GdkJoinStyle gdk_join);
 /* Convert from GDK line cap specifier to libart. */
 ArtPathStrokeCapType mate_canvas_cap_gdk_to_art (GdkCapStyle gdk_cap);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

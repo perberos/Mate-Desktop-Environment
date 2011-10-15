@@ -69,6 +69,8 @@ void            panel_mateconf_associate_schemas_in_dir       (MateConfClient *c
 gint            panel_mateconf_value_strcmp (gconstpointer a,
 					  gconstpointer b);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __PANEL_MATECONF_H__ */

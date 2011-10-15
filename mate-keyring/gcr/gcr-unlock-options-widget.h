@@ -79,6 +79,8 @@ void                          gcr_unlock_options_widget_set_sensitive          (
                                                                                 gboolean sensitive,
                                                                                 const gchar *reason);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GCR_UNLOCK_OPTIONS_WIDGET_H__ */

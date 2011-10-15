@@ -46,6 +46,8 @@ void             _mate_vfs_mime_info_mark_user_mime_dir_dirty   (void);
 MateVFSResult _mate_vfs_get_slow_mime_type_internal (const char  *text_uri,
 						       char       **mime_type);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_MIME_PRIVATE_H */

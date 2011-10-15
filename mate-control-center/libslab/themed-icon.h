@@ -51,5 +51,7 @@ typedef struct
 GType themed_icon_get_type (void);
 GtkWidget *themed_icon_new (const gchar * id, GtkIconSize size);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* __THEMED_ICON_H__ */

@@ -45,6 +45,8 @@ void  drawer_load_from_mateconf       (PanelWidget   *panel_widget,
 
 void  drawer_query_deletion        (Drawer *drawer);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -51,6 +51,8 @@ MdmLogoutAction mdm_get_logout_action(void);
 
 gboolean mdm_supports_logout_action(MdmLogoutAction action);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MDM_LOGOUT_ACTION_H__ */

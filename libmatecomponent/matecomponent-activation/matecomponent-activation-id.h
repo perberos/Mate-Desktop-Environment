@@ -50,7 +50,9 @@ MateComponentActivationInfo  *matecomponent_activation_id_parse            (cons
 MateComponentActivationInfo  *matecomponent_activation_info_new            (void);
 void                   matecomponent_activation_info_free           (MateComponentActivationInfo       *actinfo);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATECOMPONENT_DISABLE_DEPRECATED */
 

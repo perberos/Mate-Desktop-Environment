@@ -70,6 +70,8 @@ char *mate_vfs_inet_connection_get_ip  (MateVFSInetConnection *connection);
 MateVFSAddress *mate_vfs_inet_connection_get_address
                                         (MateVFSInetConnection *connection);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_INET_CONNECTION_H */

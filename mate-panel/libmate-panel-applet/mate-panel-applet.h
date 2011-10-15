@@ -202,6 +202,8 @@ _mate_panel_applet_shlib_factory (void)					        \
         return mate_panel_applet_factory_main (id, FALSE, type, callback, data);     \
 }
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_PANEL_APPLET_H__ */

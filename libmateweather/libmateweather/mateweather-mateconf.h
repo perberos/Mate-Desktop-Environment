@@ -77,6 +77,8 @@ gchar *			mateweather_mateconf_get_string	(MateWeatherMateConf *ctx,
 							 const gchar *key,
 							 GError **opt_error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATEWEATHER_MATECONF_WRAPPER_H__ */

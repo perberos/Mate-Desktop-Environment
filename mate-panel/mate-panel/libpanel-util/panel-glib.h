@@ -39,6 +39,8 @@ char       *panel_g_lookup_in_applications_dirs (const char *basename);
 const char *panel_g_utf8_strstrcase             (const char *haystack,
 						 const char *needle);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PANEL_GLIB_H */

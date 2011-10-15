@@ -71,6 +71,8 @@ void              mate_bg_crossfade_start (MateBGCrossfade *fade,
 gboolean          mate_bg_crossfade_is_started (MateBGCrossfade *fade);
 void              mate_bg_crossfade_stop (MateBGCrossfade *fade);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

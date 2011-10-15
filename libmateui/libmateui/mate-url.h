@@ -33,6 +33,8 @@ gboolean mate_url_show_on_screen (const char  *url,
 				   GdkScreen   *screen,
 				   GError     **error);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MATE_UI_URL_H__ */

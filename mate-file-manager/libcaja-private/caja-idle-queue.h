@@ -42,6 +42,8 @@ void               caja_idle_queue_add     (CajaIdleQueue *queue,
 						GFreeFunc          free_callback_data);
 void               caja_idle_queue_destroy (CajaIdleQueue *queue);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* CAJA_IDLE_QUEUE_H */

@@ -102,6 +102,8 @@ void eel_canvas_item_reset_bounds (EelCanvasItem *item);
 /* Sets the bbox to the new value, requesting full repaint. */
 void eel_canvas_update_bbox (EelCanvasItem *item, int x1, int y1, int x2, int y2);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

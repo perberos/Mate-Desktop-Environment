@@ -71,6 +71,8 @@ typedef struct {
 GSList *matecomponent_item_option_parse (const char *option_string);
 void    matecomponent_item_options_free (GSList *options);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

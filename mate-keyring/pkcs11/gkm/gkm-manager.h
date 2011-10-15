@@ -144,6 +144,8 @@ CK_RV                   gkm_manager_find_handles                (GkmManager *sel
                                                                  CK_ULONG count,
                                                                  GArray *found);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GKM_MANAGER_H__ */

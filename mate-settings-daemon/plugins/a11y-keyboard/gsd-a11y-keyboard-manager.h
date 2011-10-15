@@ -54,6 +54,8 @@ gboolean                gsd_a11y_keyboard_manager_start               (GsdA11yKe
                                                                        GError                **error);
 void                    gsd_a11y_keyboard_manager_stop                (GsdA11yKeyboardManager *manager);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GSD_A11Y_KEYBOARD_MANAGER_H */

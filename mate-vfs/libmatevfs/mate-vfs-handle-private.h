@@ -71,6 +71,8 @@ MateVFSResult   _mate_vfs_handle_forget_cache       (MateVFSHandle         *hand
 						       MateVFSFileOffset      offset,
 						       MateVFSFileSize        size);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

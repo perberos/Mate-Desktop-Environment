@@ -30,6 +30,8 @@ extern "C" {
 
 char* menu_canonicalize_file_name(const char* name, gboolean allow_missing_basename);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* G_CANONICALIZE_H */

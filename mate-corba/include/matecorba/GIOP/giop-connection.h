@@ -60,6 +60,8 @@ extern void giop_set_timeout (guint msec);
 
 #endif /* MATECORBA2_INTERNAL_API */
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif

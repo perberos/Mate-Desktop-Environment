@@ -158,6 +158,8 @@ void eel_preferences_builder_connect_list_enum			 (GtkBuilder *builder,
 								  const char **values);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* EEL_PREFERENCES_H */

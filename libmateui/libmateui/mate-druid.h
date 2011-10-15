@@ -96,7 +96,9 @@ void       mate_druid_construct_with_window (MateDruid *druid,
 					      gboolean close_on_cancel,
 					      GtkWidget **window);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_DISABLE_DEPRECATED */
 

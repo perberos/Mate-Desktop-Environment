@@ -38,6 +38,8 @@ gboolean          mate_vfs_daemon_message_append_file_info      (DBusMessage    
 								  const MateVFSFileInfo *info);
 MateVFSFileInfo *mate_vfs_daemon_message_iter_get_file_info    (DBusMessageIter        *iter);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MATE_VFS_DAEMON_METHOD_H */

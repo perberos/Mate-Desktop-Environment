@@ -60,6 +60,8 @@ void            mate_vfs_monitor_callback (MateVFSMethodHandle *method_handle,
 					    MateVFSMonitorEventType event_type);
 
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif
