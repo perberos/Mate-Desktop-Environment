@@ -26,7 +26,9 @@
 
 #include "gkm-types.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GKM_TYPE_SERIALIZABLE                 (gkm_serializable_get_type())
 #define GKM_SERIALIZABLE(obj)                 (G_TYPE_CHECK_INSTANCE_CAST ((obj), GKM_TYPE_SERIALIZABLE, GkmSerializable))

@@ -30,7 +30,9 @@
 #include <mateconf/mateconf.h>
 #include <mateconf/mateconf-client.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EEL_MATECONF_UNDEFINED_CONNECTION 0
 

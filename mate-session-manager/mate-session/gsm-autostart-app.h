@@ -26,7 +26,9 @@
 
 #include <X11/SM/SMlib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_AUTOSTART_APP            (gsm_autostart_app_get_type ())
 #define GSM_AUTOSTART_APP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_AUTOSTART_APP, GsmAutostartApp))

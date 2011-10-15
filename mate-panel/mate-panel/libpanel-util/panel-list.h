@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_LIST_H
@@ -27,7 +27,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 GList *panel_g_list_insert_before (GList        *list,
 				   GList        *sibling,

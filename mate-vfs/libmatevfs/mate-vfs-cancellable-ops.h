@@ -29,7 +29,9 @@
 #include <libmatevfs/mate-vfs-handle.h>
 #include <libmatevfs/mate-vfs-xfer.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateVFSResult mate_vfs_open_uri_cancellable
 					(MateVFSHandle **handle,

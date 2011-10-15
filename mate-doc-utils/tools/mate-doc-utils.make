@@ -1,5 +1,5 @@
 # mate-doc-utils.make - make magic for building documentation
-# Copyright (C) 2004-2005 Shaun McCance <shaunm@mate.org>
+# Copyright (C) 2004-2005 Shaun McCance <shaunm@gnome.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

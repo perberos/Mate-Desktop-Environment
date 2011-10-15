@@ -39,7 +39,9 @@
 #include <eel/eel-gtk-extensions.h>
 #include <eel/eel-art-extensions.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Convert between GdkRectangle and EelIRect and back */
 GdkRectangle  eel_irect_to_gdk_rectangle            (EelIRect      rectangle);

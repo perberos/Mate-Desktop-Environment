@@ -23,7 +23,9 @@
 
 #include "gsm-client.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_DBUS_CLIENT            (gsm_dbus_client_get_type ())
 #define GSM_DBUS_CLIENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_DBUS_CLIENT, GsmDBusClient))

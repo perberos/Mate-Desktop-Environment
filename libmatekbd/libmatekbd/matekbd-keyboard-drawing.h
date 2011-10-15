@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 Sergey V. Udaltsov <svu@mate.org>
+ * Copyright (C) 2006 Sergey V. Udaltsov <svu@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,7 +24,9 @@
 #include <X11/XKBlib.h>
 #include <X11/extensions/XKBgeom.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MATEKBD_KEYBOARD_DRAWING(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), matekbd_keyboard_drawing_get_type (), \
                                MatekbdKeyboardDrawing))
 #define MATEKBD_KEYBOARD_DRAWING_CLASS(clazz) (G_TYPE_CHECK_CLASS_CAST ((clazz), matekbd_keyboard_drawing_get_type () \

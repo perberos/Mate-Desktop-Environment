@@ -14,7 +14,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef G_OS_WIN32
 #  include <winsock2.h>

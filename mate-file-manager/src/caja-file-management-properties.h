@@ -28,7 +28,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void caja_file_management_properties_dialog_show (GCallback close_callback, GtkWindow *window);
 

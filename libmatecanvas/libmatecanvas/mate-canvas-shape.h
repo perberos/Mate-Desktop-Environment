@@ -17,7 +17,9 @@
 #include <libmatecanvas/mate-canvas.h>
 #include <libmatecanvas/mate-canvas-path-def.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Shape item for the canvas.

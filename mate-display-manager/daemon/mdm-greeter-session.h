@@ -26,7 +26,9 @@
 
 #include "mdm-welcome-session.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_GREETER_SESSION         (mdm_greeter_session_get_type ())
 #define MDM_GREETER_SESSION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_GREETER_SESSION, MdmGreeterSession))

@@ -25,9 +25,11 @@
 #include <glib-object.h>
 #include "mateconf-error.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* 
+/*
  * A MateConfValue is used to pass configuration values around
  */
 
@@ -46,7 +48,7 @@ typedef enum {
      pair<float,bool> as the same type. */
   MATECONF_VALUE_LIST,
   MATECONF_VALUE_PAIR
-  
+
 } MateConfValueType;
 
 #define MATECONF_VALUE_TYPE_VALID(x) (((x) > MATECONF_VALUE_INVALID) && ((x) <= MATECONF_VALUE_PAIR))
@@ -156,7 +158,7 @@ void           mateconf_meta_info_set_mod_time (MateConfMetaInfo *gcmi,
 
 /* Key-value pairs; used to list the contents of
  *  a directory
- */  
+ */
 
 typedef enum
 {

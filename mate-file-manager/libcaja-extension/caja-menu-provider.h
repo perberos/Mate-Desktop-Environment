@@ -1,5 +1,5 @@
 /*
- *  caja-menu-provider.h - Interface for Caja extensions that 
+ *  caja-menu-provider.h - Interface for Caja extensions that
  *                             provide context menu items.
  *
  *  Copyright (C) 2003 Novell, Inc.
@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Dave Camp <dave@ximian.com>
  *
  */
@@ -36,7 +36,9 @@
 #include "caja-file-info.h"
 #include "caja-menu.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_MENU_PROVIDER           (caja_menu_provider_get_type ())
 #define CAJA_MENU_PROVIDER(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_MENU_PROVIDER, CajaMenuProvider))

@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #include <string.h>
@@ -33,7 +33,7 @@
 
 /*
  * Originally based on code from panel-util.c. This part of the code was:
- * Copyright (C) 2006 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2006 Vincent Untz <vuntz@gnome.org>
  */
 
 char *

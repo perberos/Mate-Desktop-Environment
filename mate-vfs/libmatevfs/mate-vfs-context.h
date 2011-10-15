@@ -18,7 +18,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Havoc Pennington <hp@redhat.com> 
+   Author: Havoc Pennington <hp@redhat.com>
            Seth Nickell <snickell@stanford.edu>
 */
 
@@ -27,7 +27,9 @@
 
 #include <libmatevfs/mate-vfs-cancellation.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MateVFSContext MateVFSContext;
 

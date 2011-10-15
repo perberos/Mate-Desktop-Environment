@@ -5,14 +5,16 @@
 #include <matecorba/orb-core/corba-orb-type.h>
 #include <matecorba/orb-core/corba-typecode-type.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 CORBA_ORB CORBA_ORB_init (int                *argc,
 			  char              **argv,
 			  CORBA_ORBid         orb_identifier,
 			  CORBA_Environment  *ev);
 
-/* Will return TRUE if the named protocol is supported by 
+/* Will return TRUE if the named protocol is supported by
  * the ORB. Currently supported values of "name" are:
  *
  *    "IPv4"
@@ -20,14 +22,14 @@ CORBA_ORB CORBA_ORB_init (int                *argc,
  *    "UNIX"
  *    "IrDA"
  *    "SSL"
- * 
- * Unknown or unsupported values of "name" will make this 
+ *
+ * Unknown or unsupported values of "name" will make this
  * method return FALSE.*/
 gboolean  MateCORBA_proto_use (const char *name);
 
 /* Will return the maximum allowed GIOP buffer size. You will
  * need to know this if your are e.g. streaming large data chunks
- * to an MateCORBA2 client. The return type should be gulong but we 
+ * to an MateCORBA2 client. The return type should be gulong but we
  * are bound by the type chosen internally by linc2.
  */
 glong MateCORBA_get_giop_recv_limit (void);

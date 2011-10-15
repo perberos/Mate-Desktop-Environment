@@ -24,7 +24,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_SIGNAL_HANDLER         (mdm_signal_handler_get_type ())
 #define MDM_SIGNAL_HANDLER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_SIGNAL_HANDLER, MdmSignalHandler))

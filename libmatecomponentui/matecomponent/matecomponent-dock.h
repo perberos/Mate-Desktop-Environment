@@ -30,7 +30,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_DOCK            (matecomponent_dock_get_type ())
 #define MATECOMPONENT_DOCK(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_DOCK, MateComponentDock))
@@ -94,7 +96,7 @@ GType        matecomponent_dock_get_type          (void) G_GNUC_CONST;
 void           matecomponent_dock_allow_floating_items
                                             (MateComponentDock *dock,
                                              gboolean enable);
-                                            
+
 void           matecomponent_dock_add_item          (MateComponentDock             *dock,
                                              MateComponentDockItem         *item,
                                              MateComponentDockPlacement  placement,
@@ -107,12 +109,12 @@ void           matecomponent_dock_add_floating_item (MateComponentDock *dock,
                                              MateComponentDockItem *widget,
                                              gint x, gint y,
                                              GtkOrientation orientation);
-          
+
 void             matecomponent_dock_set_client_area   (MateComponentDock             *dock,
 						GtkWidget             *widget);
 
 GtkWidget       *matecomponent_dock_get_client_area   (MateComponentDock             *dock);
-  
+
 MateComponentDockItem  *matecomponent_dock_get_item_by_name  (MateComponentDock *dock,
 						const gchar *name,
 						MateComponentDockPlacement *placement_return,

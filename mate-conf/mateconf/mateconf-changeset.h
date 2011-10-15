@@ -22,7 +22,9 @@
 
 #include "mateconf/mateconf.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * A MateConfChangeSet is basically a hash from keys to "changes in value,"

@@ -26,7 +26,7 @@
 #ifndef MATE_APP_UTIL_H
 #define MATE_APP_UTIL_H
 /****
-  Convenience UI functions for use with MateApp 
+  Convenience UI functions for use with MateApp
   ****/
 
 #ifndef MATE_DISABLE_DEPRECATED
@@ -35,7 +35,9 @@
 #include "mate-app.h"
 #include "mate-types.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* =============================================
   Simple messages and questions to the user; use dialogs for now, but
@@ -46,22 +48,22 @@ G_BEGIN_DECLS
 
 /* A simple message, in an OK dialog or the status bar. Requires
    confirmation from the user before it goes away. */
-GtkWidget * 
+GtkWidget *
 mate_app_message (MateApp * app, const gchar * message);
 
 /* Flash the message in the statusbar for a few moments; if no
    statusbar, do nothing (?). For trivial little status messages,
    e.g. "Auto saving..." */
-void 
+void
 mate_app_flash (MateApp * app, const gchar * flash);
 
-/* An important fatal error; if it appears in the statusbar, 
+/* An important fatal error; if it appears in the statusbar,
    it might gdk_beep() and require acknowledgement. */
-GtkWidget * 
+GtkWidget *
 mate_app_error (MateApp * app, const gchar * error);
 
 /* A not-so-important error, but still marked better than a flash */
-GtkWidget * 
+GtkWidget *
 mate_app_warning (MateApp * app, const gchar * warning);
 
 /* =============================================================== */
@@ -71,11 +73,11 @@ mate_app_warning (MateApp * app, const gchar * warning);
    callback ever being called. */
 
 /* Ask a yes or no question, and call the callback when it's answered. */
-GtkWidget * 
+GtkWidget *
 mate_app_question (MateApp * app, const gchar * question,
 		    MateReplyCallback callback, gpointer data);
 
-GtkWidget * 
+GtkWidget *
 mate_app_question_modal (MateApp * app, const gchar * question,
 			  MateReplyCallback callback, gpointer data);
 
@@ -84,17 +86,17 @@ GtkWidget *
 mate_app_ok_cancel (MateApp * app, const gchar * message,
 		     MateReplyCallback callback, gpointer data);
 
-GtkWidget * 
+GtkWidget *
 mate_app_ok_cancel_modal (MateApp * app, const gchar * message,
 			   MateReplyCallback callback, gpointer data);
 
 /* Get a string. */
-GtkWidget * 
+GtkWidget *
 mate_app_request_string (MateApp * app, const gchar * prompt,
 			  MateStringCallback callback, gpointer data);
 
 /* Request a string, but don't echo to the screen. */
-GtkWidget * 
+GtkWidget *
 mate_app_request_password (MateApp * app, const gchar * prompt,
 			    MateStringCallback callback, gpointer data);
 
@@ -115,29 +117,29 @@ typedef gpointer MateAppProgressKey;
 
 /* Call percentage_cb every interval to set the progress indicator.
    Both callbacks get the data arg. */
-MateAppProgressKey 
-mate_app_progress_timeout (MateApp * app, 
+MateAppProgressKey
+mate_app_progress_timeout (MateApp * app,
 			    const gchar * description,
-			    guint32 interval, 
+			    guint32 interval,
 			    MateAppProgressFunc percentage_cb,
 			    MateAppProgressCancelFunc cancel_cb,
 			    gpointer data);
 
-/* Just create a callback key; it then has to be updated 
+/* Just create a callback key; it then has to be updated
    with _update() */
-MateAppProgressKey 
-mate_app_progress_manual (MateApp * app, 
+MateAppProgressKey
+mate_app_progress_manual (MateApp * app,
 			   const gchar * description,
 			   MateAppProgressCancelFunc cancel_cb,
 			   gpointer data);
 
 /* Only makes sense with manual. */
-void 
+void
 mate_app_set_progress (MateAppProgressKey key, gdouble percent);
 
-/* Call this when the progress meter should go away. Automatically 
+/* Call this when the progress meter should go away. Automatically
    called if progress is cancelled. */
-void 
+void
 mate_app_progress_done (MateAppProgressKey key);
 
 G_END_DECLS

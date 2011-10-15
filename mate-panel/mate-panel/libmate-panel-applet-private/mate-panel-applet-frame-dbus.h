@@ -2,7 +2,7 @@
  * mate-panel-applet-frame-dbus.h: panel side container for applets
  *
  * Copyright (C) 2001 - 2003 Sun Microsystems, Inc.
- * Copyright (C) 2010 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2010 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -28,7 +28,9 @@
 
 #include <mate-panel-applet-frame.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_APPLET_FRAME_DBUS         (mate_panel_applet_frame_dbus_get_type ())
 #define MATE_PANEL_APPLET_FRAME_DBUS(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_APPLET_FRAME_DBUS, MatePanelAppletFrameDBus))

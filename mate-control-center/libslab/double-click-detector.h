@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define DOUBLE_CLICK_DETECTOR_TYPE         (double_click_detector_get_type ())
 #define DOUBLE_CLICK_DETECTOR(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), DOUBLE_CLICK_DETECTOR_TYPE, DoubleClickDetector))

@@ -27,7 +27,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define NOTIFY_EXPIRES_DEFAULT -1
 #define NOTIFY_EXPIRES_NEVER    0

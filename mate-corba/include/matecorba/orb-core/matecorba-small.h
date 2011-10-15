@@ -7,7 +7,9 @@
 #include <glib-object.h>
 #include <matecorba/orb-core/matecorba-interface.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	CORBA_unsigned_long           version;
@@ -120,7 +122,7 @@ typedef struct _MateCORBAAsyncQueueEntry MateCORBAAsyncQueueEntry;
 typedef void (*MateCORBAAsyncInvokeFunc) (CORBA_Object          object,
 				      MateCORBA_IMethod        *m_data,
 				      MateCORBAAsyncQueueEntry *aqe,
-				      gpointer              user_data, 
+				      gpointer              user_data,
 				      CORBA_Environment    *ev);
 
 /* Various bits for Async work */

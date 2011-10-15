@@ -22,8 +22,10 @@ typedef struct _MateComponentControl MateComponentControl;
 #include <matecomponent/matecomponent-ui-component.h>
 
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_CONTROL        (matecomponent_control_get_type ())
 #define MATECOMPONENT_CONTROL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_CONTROL, MateComponentControl))
 #define MATECOMPONENT_CONTROL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MATECOMPONENT_TYPE_CONTROL, MateComponentControlClass))

@@ -23,7 +23,9 @@
 #include <gtk/gtk.h>
 #include "eggaccelerators.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EGG_TYPE_CELL_RENDERER_KEYS		(egg_cell_renderer_keys_get_type ())
 #define EGG_CELL_RENDERER_KEYS(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), EGG_TYPE_CELL_RENDERER_KEYS, EggCellRendererKeys))

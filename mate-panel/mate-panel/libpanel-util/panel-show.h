@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_SHOW_H
@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean panel_show_uri (GdkScreen    *screen,
 			 const gchar  *uri,

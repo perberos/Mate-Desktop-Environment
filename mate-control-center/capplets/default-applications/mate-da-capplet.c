@@ -2,7 +2,7 @@
  *  Authors: Luca Cavalli <loopback@slackit.org>
  *
  *  Copyright 2005-2006 Luca Cavalli
- *  Copyright 2008 Thomas Wood <thos@mate.org>
+ *  Copyright 2008 Thomas Wood <thos@gnome.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of version 2 of the GNU General Public License

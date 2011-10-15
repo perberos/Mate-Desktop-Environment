@@ -26,7 +26,9 @@
 
 #include <libmatevfs/mate-vfs-file-info.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * FIXME bugzilla.eazel.com 1205:
@@ -44,7 +46,7 @@ G_BEGIN_DECLS
  * 				 If you also want to follow symbolic links inside
  * 				 directories you operate on, you also have to specify
  * 				 #MATE_VFS_XFER_FOLLOW_LINKS_RECURSIVE.
- * @MATE_VFS_XFER_RECURSIVE: Recursively copy source directories to the target. 
+ * @MATE_VFS_XFER_RECURSIVE: Recursively copy source directories to the target.
  * 			      Equivalent to the cp -r option in GNU cp.
  * @MATE_VFS_XFER_SAMEFS: When copying recursively, this only picks up items on the same file
  * 			   system the same filesystem as their parent directory.
@@ -231,9 +233,9 @@ typedef enum {
  * @MATE_VFS_XFER_OVERWRITE_ACTION_SKIP: don't copy over the existing file
  * @MATE_VFS_XFER_OVERWRITE_ACTION_SKIP_ALL: don't copy over the existing file, and all future
  * files without prompting the callback.
- * 
+ *
  * This defines the actions to perform before a file is being overwritten
- * (i.e., these are the answers that can be given to a replace query).  
+ * (i.e., these are the answers that can be given to a replace query).
  **/
 typedef enum {
 	MATE_VFS_XFER_OVERWRITE_ACTION_ABORT = 0,
@@ -495,9 +497,9 @@ typedef struct _MateVFSProgressCallbackState {
 	/*< private >*/
 
 	/* xfer state */
-	MateVFSXferProgressInfo *progress_info;	
+	MateVFSXferProgressInfo *progress_info;
 
-	/* Callback called for every xfer operation. For async calls called 
+	/* Callback called for every xfer operation. For async calls called
 	   in async xfer context. */
 	MateVFSXferProgressCallback sync_callback;
 

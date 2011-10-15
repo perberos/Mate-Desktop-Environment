@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include "gvc-mixer-stream.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_MIXER_SOURCE         (gvc_mixer_source_get_type ())
 #define GVC_MIXER_SOURCE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_MIXER_SOURCE, GvcMixerSource))

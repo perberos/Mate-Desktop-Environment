@@ -1,9 +1,9 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 /*  caja-side-pane.c
- * 
+ *
  *  Copyright (C) 2002 Ximian, Inc.
- * 
+ *
  *  Caja is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
  *  published by the Free Software Foundation; either version 2 of the
@@ -26,7 +26,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_SIDE_PANE caja_side_pane_get_type()
 #define CAJA_SIDE_PANE(obj) \

@@ -26,7 +26,9 @@
 #include "gcr-types.h"
 #include "gcr-unlock-options.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GCR_TYPE_UNLOCK_OPTIONS_WIDGET               (gcr_unlock_options_widget_get_type ())
 #define GCR_UNLOCK_OPTIONS_WIDGET(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCR_TYPE_UNLOCK_OPTIONS_WIDGET, GcrUnlockOptionsWidget))

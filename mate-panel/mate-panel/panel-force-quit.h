@@ -27,7 +27,9 @@
 
 #include <gdk/gdk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_force_quit (GdkScreen *screen,
 		       guint      time);

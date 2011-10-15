@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* themeable size - "panel-menu" -- This is used for the icons in the menus */
 #define PANEL_DEFAULT_MENU_ICON_SIZE 		24

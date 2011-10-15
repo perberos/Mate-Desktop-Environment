@@ -25,7 +25,9 @@
 
 #include "mateconf/mateconf-value.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Skipped from introspection because it's not registered as boxed */
 /**
@@ -36,8 +38,8 @@ G_BEGIN_DECLS
 
 /*
  *  A "schema" is a value that describes a key-value pair.
- *  It might include the type of the pair, documentation describing 
- *  the pair, the name of the application creating the pair, 
+ *  It might include the type of the pair, documentation describing
+ *  the pair, the name of the application creating the pair,
  *  etc.
  */
 

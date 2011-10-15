@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- -*- indent-tabs-mode: nil -*- -->
 <!--
 xsldoc-check.xsl - Check the data in the xsldoc file
-Copyright (C) 2006 Shaun McCance <shaunm@mate.org>
+Copyright (C) 2006 Shaun McCance <shaunm@gnome.org>
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the

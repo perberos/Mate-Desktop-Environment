@@ -23,7 +23,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define NLD_TYPE_SEARCH_CONTEXT_PICKER            (nld_search_context_picker_get_type ())
 #define NLD_SEARCH_CONTEXT_PICKER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NLD_TYPE_SEARCH_CONTEXT_PICKER, NldSearchContextPicker))

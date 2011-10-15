@@ -20,7 +20,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Ettore Perazzoli <ettore@comm2000.it> 
+   Author: Ettore Perazzoli <ettore@comm2000.it>
            Seth Nickell <snickell@stanford.edu>
 */
 
@@ -34,7 +34,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef G_OS_WIN32
 
@@ -131,7 +133,7 @@ typedef enum {
  * @MATE_VFS_FILE_INFO_FIELDS_ACL: ACL field is valid
  * @MATE_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT: SELinux Security context is valid
  *
- * Flags indicating what fields in a #MateVFSFileInfo struct are valid. 
+ * Flags indicating what fields in a #MateVFSFileInfo struct are valid.
  * Name is always assumed valid (how else would you have gotten a
  * FileInfo struct otherwise?)
  **/
@@ -202,7 +204,7 @@ typedef enum {
  **/
 typedef enum {
 	MATE_VFS_PERM_SUID = S_ISUID,
-	MATE_VFS_PERM_SGID = S_ISGID,	
+	MATE_VFS_PERM_SGID = S_ISGID,
 	MATE_VFS_PERM_STICKY = 01000,	/* S_ISVTX not defined on all systems */
 	MATE_VFS_PERM_USER_READ = S_IRUSR,
 	MATE_VFS_PERM_USER_WRITE = S_IWUSR,
@@ -281,7 +283,7 @@ typedef enum {
  *   For network file systems, this may be set to very big values allowing
  *   parallelization.
  * </note>
- * 
+ *
  * The MateVFSFileInfo structure contains information about a file.
  **/
 typedef struct {
@@ -336,15 +338,15 @@ typedef struct {
  * MateVFSFileInfoOptions:
  * @MATE_VFS_FILE_INFO_DEFAULT: default flags
  * @MATE_VFS_FILE_INFO_GET_MIME_TYPE: detect the MIME type
- * @MATE_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE: only use fast MIME type 
+ * @MATE_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE: only use fast MIME type
  * detection (extensions)
- * @MATE_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE: force slow MIME type 
+ * @MATE_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE: force slow MIME type
  * detection where available (sniffing, algorithmic detection, etc)
- * @MATE_VFS_FILE_INFO_FOLLOW_LINKS: automatically follow symbolic 
+ * @MATE_VFS_FILE_INFO_FOLLOW_LINKS: automatically follow symbolic
  * links and retrieve the properties of their target (recommended)
- * @MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS: tries to get data similar 
- * to what would return access(2) on a local file system (ie is the 
- * file readable, writable and/or executable). Can be really slow on 
+ * @MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS: tries to get data similar
+ * to what would return access(2) on a local file system (ie is the
+ * file readable, writable and/or executable). Can be really slow on
  * remote file systems
  * @MATE_VFS_FILE_INFO_NAME_ONLY: When reading a directory, only
  * get the filename (if doing so is faster). Useful to e.g. count
@@ -438,7 +440,7 @@ void                       mate_vfs_get_file_info_result_free (MateVFSGetFileInf
        ((info)->flags = (value ? \
        ((info)->flags | MATE_VFS_FILE_FLAGS_SYMLINK) : \
        ((info)->flags & ~MATE_VFS_FILE_FLAGS_SYMLINK)))
-       
+
 /**
  * MATE_VFS_FILE_INFO_LOCAL:
  * @info: MateVFSFileInfo struct
@@ -509,8 +511,8 @@ void                       mate_vfs_get_file_info_result_free (MateVFSGetFileInf
 #define MATE_VFS_FILE_INFO_SET_SGID(info, value)		\
 		((info)->flags = (value ? \
 		((info)->flags | MATE_VFS_PERM_SGID) : \
-		((info)->flags & ~MATE_VFS_PERM_SGID)))      
-	       
+		((info)->flags & ~MATE_VFS_PERM_SGID)))
+
 /**
  * MATE_VFS_FILE_INFO_SET_STICKY:
  * @info: MateVFSFileInfo struct

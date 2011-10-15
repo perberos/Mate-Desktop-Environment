@@ -33,7 +33,9 @@
 #include <libmatecanvas/mate-canvas.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateIconTextItem        MateIconTextItem;
 typedef struct _MateIconTextItemClass   MateIconTextItemClass;
@@ -67,7 +69,7 @@ struct _MateIconTextItem {
 
 	/* Whether the text item is focused */
 	unsigned int focused : 1;
-	
+
 	/* Whether the text is editable */
 	unsigned int is_editable : 1;
 
@@ -88,7 +90,7 @@ struct _MateIconTextItemClass {
 	void (* editing_stopped)   (MateIconTextItem *iti);
 	void (* selection_started) (MateIconTextItem *iti);
 	void (* selection_stopped) (MateIconTextItem *iti);
-	
+
 	/* Virtual functions */
 	GtkEntry* (* create_entry)  (MateIconTextItem *iti);
 

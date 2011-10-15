@@ -26,7 +26,9 @@
 
 #include "entry-directories.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MenuLayoutNode MenuLayoutNode;
 

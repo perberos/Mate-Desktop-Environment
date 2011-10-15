@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_CLEANUP_H
@@ -27,7 +27,9 @@
 
 #include "glib.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_CLEAN_FUNC(f)     ((PanelCleanFunc) (f))
 

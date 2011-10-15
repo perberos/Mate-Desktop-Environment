@@ -31,7 +31,9 @@
 
 #include <dbus/dbus.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_VFS_TYPE_VOLUME_MONITOR_CLIENT        (mate_vfs_volume_monitor_client_get_type ())
 #define MATE_VFS_VOLUME_MONITOR_CLIENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_VOLUME_MONITOR_CLIENT, MateVFSVolumeMonitorClient))

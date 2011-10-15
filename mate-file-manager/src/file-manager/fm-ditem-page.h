@@ -17,7 +17,7 @@
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  Authors: James Willcox <james@mate.org>
+ *  Authors: James Willcox <james@gnome.org>
  *
  */
 
@@ -28,7 +28,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* This is a mis-nomer. Launcher editables initially were displayed on separate
  * a property notebook page, which implemented the CajaPropertyPageProvider

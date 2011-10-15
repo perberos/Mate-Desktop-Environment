@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-view.h: Interface for caja views
- 
+
    Copyright (C) 2004 Red Hat Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Alexander Larsson <alexl@redhat.com>
 */
 
@@ -31,7 +31,9 @@
 /* For CajaZoomLevel */
 #include <libcaja-private/caja-icon-info.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_VIEW           (caja_view_get_type ())
 #define CAJA_VIEW(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_VIEW, CajaView))
@@ -42,7 +44,7 @@ G_BEGIN_DECLS
 typedef struct _CajaView CajaView; /* dummy typedef */
 typedef struct _CajaViewIface CajaViewIface;
 
-struct _CajaViewIface 
+struct _CajaViewIface
 {
 	GTypeInterface g_iface;
 
@@ -52,7 +54,7 @@ struct _CajaViewIface
         void           (* title_changed)          (CajaView          *view);
 
         void           (* zoom_level_changed)     (CajaView          *view);
-	
+
 	/* VTable: */
 
 	/* Get the id string for this view. Its a constant string, not memory managed */
@@ -67,40 +69,40 @@ struct _CajaViewIface
 	   and a load_complete when the location is completely read. */
   	void           (* load_location)          (CajaView          *view,
 						   const char            *location_uri);
-	
+
 	/* Called to tell the view to stop loading the location its currently loading */
 	void           (* stop_loading)           (CajaView          *view);
 
-	/* Returns the number of selected items in the view */	
+	/* Returns the number of selected items in the view */
 	int            (* get_selection_count)    (CajaView          *view);
-	
-	/* Returns a list of uris for th selected items in the view, caller frees it */	
+
+	/* Returns a list of uris for th selected items in the view, caller frees it */
 	GList *        (* get_selection)          (CajaView          *view);
-	
+
 	/* This is called when the window wants to change the selection in the view */
 	void           (* set_selection)          (CajaView          *view,
 						   GList                 *list);
-	
-	/* Inverts the selection in the view */	
+
+	/* Inverts the selection in the view */
 	void           (* invert_selection)       (CajaView          *view);
-	
-	/* Return the uri of the first visible file */	
+
+	/* Return the uri of the first visible file */
 	char *         (* get_first_visible_file) (CajaView          *view);
 	/* Scroll the view so that the file specified by the uri is at the top
 	   of the view */
 	void           (* scroll_to_file)	  (CajaView          *view,
 						   const char            *uri);
-	
+
 	/* This function can supply a special window title, if you don't want one
 	   have this function return NULL, or just don't supply a function  */
-	char *         (* get_title)              (CajaView          *view); 
+	char *         (* get_title)              (CajaView          *view);
 
 
 	/* Zoom support */
 	gboolean       (* supports_zooming)       (CajaView          *view);
         void           (* bump_zoom_level)     	  (CajaView          *view,
 						   int                    zoom_increment);
-        void           (* zoom_to_level) 	  (CajaView          *view, 
+        void           (* zoom_to_level) 	  (CajaView          *view,
 						   CajaZoomLevel     level);
         CajaZoomLevel (* get_zoom_level) 	  (CajaView          *view);
         void           (* restore_default_zoom_level) (CajaView          *view);

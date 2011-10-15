@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_LAUNCH_H
@@ -28,7 +28,9 @@
 #include <gio/gio.h>
 #include <gdk/gdk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean panel_app_info_launch_uris (GAppInfo   *appinfo,
 				     GList      *uris,

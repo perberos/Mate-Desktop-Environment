@@ -25,7 +25,9 @@
 #include <gtk/gtk.h>
 #include <libmate/mate-desktop-item.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define SLAB_APPLICATION_BROWSER_KEY    "/desktop/mate/applications/main-menu/application_browser"
 #define SLAB_SYSTEM_LIST_KEY            "/desktop/mate/applications/main-menu/system_list"

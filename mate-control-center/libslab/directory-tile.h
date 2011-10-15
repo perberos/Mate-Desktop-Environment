@@ -25,7 +25,9 @@
 
 #include <libslab/nameplate-tile.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define DIRECTORY_TILE_TYPE         (directory_tile_get_type ())
 #define DIRECTORY_TILE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), DIRECTORY_TILE_TYPE, DirectoryTile))

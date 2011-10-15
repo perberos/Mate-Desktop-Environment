@@ -3,7 +3,7 @@
 cd $MATECONF_SRCDIR || exit 1
 
 glib-mkenums \
-	--fhead "#ifndef __MATECONF_ENUM_TYPES_H__\n#define __MATECONF_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n\n" \
+	--fhead "#ifndef __MATECONF_ENUM_TYPES_H__\n#define __MATECONF_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 	--fprod "/* enumerations from \"@filename@\" */\n\n" \
 	--vhead "GType @enum_name@_get_type (void);\n#define MATECONF_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n\n" \
 	--ftail "G_END_DECLS\n\n#endif /* __MATECONF_ENUM_TYPES_H__ */" \

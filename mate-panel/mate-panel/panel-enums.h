@@ -27,7 +27,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	PANEL_ORIENTATION_TOP    = 1 << 0,

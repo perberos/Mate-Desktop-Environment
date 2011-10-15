@@ -29,7 +29,9 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_USER (mdm_user_get_type ())
 #define MDM_USER(object) (G_TYPE_CHECK_INSTANCE_CAST ((object), MDM_TYPE_USER, MdmUser))

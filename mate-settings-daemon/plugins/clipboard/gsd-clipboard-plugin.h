@@ -27,7 +27,9 @@
 
 #include "mate-settings-plugin.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_CLIPBOARD_PLUGIN                (gsd_clipboard_plugin_get_type ())
 #define GSD_CLIPBOARD_PLUGIN(o)                  (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_CLIPBOARD_PLUGIN, GsdClipboardPlugin))

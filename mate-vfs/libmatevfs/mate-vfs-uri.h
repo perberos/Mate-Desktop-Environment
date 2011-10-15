@@ -27,7 +27,9 @@
 #include <glib.h>
 #include <glib-object.h> /* For GType */
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * MateVFSURI:
@@ -117,7 +119,7 @@ typedef enum
 	MATE_VFS_URI_HIDE_HOST_PORT = 1 << 3,
 	MATE_VFS_URI_HIDE_TOPLEVEL_METHOD = 1 << 4,
 	MATE_VFS_URI_HIDE_FRAGMENT_IDENTIFIER = 1 << 8
-} MateVFSURIHideOptions; 
+} MateVFSURIHideOptions;
 
 GType mate_vfs_uri_hide_options_get_type (void);
 #define MATE_VFS_TYPE_VFS_URI_HIDE_OPTIONS (mate_vfs_uri_hide_options_get_type())
@@ -196,7 +198,7 @@ gboolean	     mate_vfs_uri_equal	          (const MateVFSURI *a,
 gboolean	     mate_vfs_uri_is_parent	          (const MateVFSURI *possible_parent,
 						           const MateVFSURI *possible_child,
 						           gboolean recursive);
-				  
+
 const gchar 	    *mate_vfs_uri_get_path                (const MateVFSURI *uri);
 const gchar 	    *mate_vfs_uri_get_fragment_identifier (const MateVFSURI *uri);
 gchar 		    *mate_vfs_uri_extract_dirname         (const MateVFSURI *uri);

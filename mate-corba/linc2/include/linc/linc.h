@@ -19,7 +19,9 @@
 #include <linc/linc-server.h>
 #include <linc/linc-source.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern GMainLoop *link_loop;
 

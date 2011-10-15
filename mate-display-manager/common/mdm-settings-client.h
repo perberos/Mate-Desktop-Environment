@@ -25,7 +25,9 @@
 #include <glib-object.h>
 #include "mdm-settings-utils.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef void        (*MdmSettingsClientNotifyFunc)        (guint             id,
                                                            MdmSettingsEntry *entry,

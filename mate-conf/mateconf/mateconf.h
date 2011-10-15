@@ -22,7 +22,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "mateconf/mateconf-schema.h"
 #include "mateconf/mateconf-engine.h"
@@ -33,7 +35,7 @@ typedef void (*MateConfNotifyFunc) (MateConfEngine* conf,
                                  guint cnxn_id,
                                  MateConfEntry *entry,
                                  gpointer user_data);
-  
+
 /* Returns ID of the notification */
 /* returns 0 on error, 0 is an invalid ID */
 guint mateconf_engine_notify_add    (MateConfEngine      *conf,
@@ -144,8 +146,8 @@ char*    mateconf_unescape_key       (const char *escaped_key,
                                    int         len);
 
 
-/* 
- * Higher-level stuff 
+/*
+ * Higher-level stuff
  */
 
 

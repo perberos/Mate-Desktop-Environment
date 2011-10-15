@@ -25,7 +25,9 @@ Boston, MA 02111-1307, USA.
 #ifndef NE_MATEVFS
 #define NE_MATEVFS
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateVFSResult  ne_matevfs_last_error (ne_request *req);
 

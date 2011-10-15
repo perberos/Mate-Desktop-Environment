@@ -17,7 +17,9 @@
 #include <matecomponent/matecomponent-ui-node-private.h>
 #include <matecomponent/matecomponent-ui-toolbar-control-item.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* To dump lots of sequence information */
 #define noDEBUG_UI

@@ -22,10 +22,10 @@
    Authors: Ramiro Estrugo <ramiro@eazel.com>
 */
 
-/* EelLabeledImage is a container widget.  It can only contain internal 
- * widgets.  These internal widgets are can be a EelLabel and/or a 
+/* EelLabeledImage is a container widget.  It can only contain internal
+ * widgets.  These internal widgets are can be a EelLabel and/or a
  * EelImage.  These internal widgets are created as needed.  That means
- * that EelLabeledImage can always be used for "free" instead of a 
+ * that EelLabeledImage can always be used for "free" instead of a
  * EelLabel or EelImage.  The only overhead is that of the GtkObject
  * machinery.
  *
@@ -37,7 +37,7 @@
  * to have the internal widgets fill as much of the LabeledImage allocation
  * as is available.
  *
- * LabeledImage also has x_padding/y_padding and x_alignment/y_alignment 
+ * LabeledImage also has x_padding/y_padding and x_alignment/y_alignment
  * attributes that behave exaclty as those in the GtkMisc class.
  *
  * Note that the alignments are ignored if the fill attribute is TRUE.
@@ -50,7 +50,9 @@
 #include <gtk/gtk.h>
 #include <eel/eel-art-extensions.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EEL_TYPE_LABELED_IMAGE eel_labeled_image_get_type()
 #define EEL_LABELED_IMAGE(obj) \

@@ -31,7 +31,9 @@
 #include "panel-widget.h"
 #include "panel-enums.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_ACTION_BUTTON         (panel_action_button_get_type ())
 #define PANEL_ACTION_BUTTON(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_ACTION_BUTTON, PanelActionButton))

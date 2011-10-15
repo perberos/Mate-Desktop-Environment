@@ -12,7 +12,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void matecomponent_object_save_to_stream (MateComponent_Unknown     object,
 				   MateComponent_Stream      stream,

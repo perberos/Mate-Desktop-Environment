@@ -29,30 +29,32 @@
 
 #include <libmatevfs/mate-vfs-handle.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef MateVFSResult (* MateVFSSniffBufferSeekCall)(gpointer context, 
+typedef MateVFSResult (* MateVFSSniffBufferSeekCall)(gpointer context,
 		MateVFSSeekPosition whence, MateVFSFileOffset offset);
-typedef MateVFSResult (* MateVFSSniffBufferReadCall)(gpointer context, 
+typedef MateVFSResult (* MateVFSSniffBufferReadCall)(gpointer context,
 		gpointer buffer, MateVFSFileSize bytes, MateVFSFileSize *bytes_read);
-		
+
 typedef struct MateVFSMimeSniffBuffer MateVFSMimeSniffBuffer;
 
-MateVFSMimeSniffBuffer	*_mate_vfs_mime_sniff_buffer_new_from_handle 	
+MateVFSMimeSniffBuffer	*_mate_vfs_mime_sniff_buffer_new_from_handle
 					(MateVFSHandle 		*file);
-MateVFSMimeSniffBuffer	*_mate_vfs_mime_sniff_buffer_new_from_memory 
-					(const guchar 			*buffer, 
+MateVFSMimeSniffBuffer	*_mate_vfs_mime_sniff_buffer_new_from_memory
+					(const guchar 			*buffer,
 					 gssize 			buffer_size);
-MateVFSMimeSniffBuffer	*mate_vfs_mime_sniff_buffer_new_from_existing_data 	
-					(const guchar 			*buffer, 
+MateVFSMimeSniffBuffer	*mate_vfs_mime_sniff_buffer_new_from_existing_data
+					(const guchar 			*buffer,
 					 gssize 			buffer_size);
-MateVFSMimeSniffBuffer	*_mate_vfs_mime_sniff_buffer_new_generic 	
-					(MateVFSSniffBufferSeekCall	seek_callback, 
+MateVFSMimeSniffBuffer	*_mate_vfs_mime_sniff_buffer_new_generic
+					(MateVFSSniffBufferSeekCall	seek_callback,
 					 MateVFSSniffBufferReadCall	read_callback,
 					 gpointer			context);
 
 
-void			 mate_vfs_mime_sniff_buffer_free 
+void			 mate_vfs_mime_sniff_buffer_free
 					(MateVFSMimeSniffBuffer	*buffer);
 
 MateVFSResult		 _mate_vfs_mime_sniff_buffer_get

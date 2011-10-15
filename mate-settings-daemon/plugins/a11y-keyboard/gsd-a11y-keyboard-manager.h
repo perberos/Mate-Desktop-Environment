@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_A11Y_KEYBOARD_MANAGER         (gsd_a11y_keyboard_manager_get_type ())
 #define GSD_A11Y_KEYBOARD_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_A11Y_KEYBOARD_MANAGER, GsdA11yKeyboardManager))

@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <pulse/pulseaudio.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_MIXER_CARD         (gvc_mixer_card_get_type ())
 #define GVC_MIXER_CARD(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_MIXER_CARD, GvcMixerCard))

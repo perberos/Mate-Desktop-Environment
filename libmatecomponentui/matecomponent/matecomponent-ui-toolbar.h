@@ -17,7 +17,9 @@
 
 #ifndef MATECOMPONENT_UI_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_TOOLBAR            (matecomponent_ui_toolbar_get_type ())
 #define MATECOMPONENT_UI_TOOLBAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_UI_TOOLBAR, MateComponentUIToolbar))

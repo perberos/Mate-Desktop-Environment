@@ -1,6 +1,6 @@
 /*
  *  caja-module.h - Interface to caja extensions
- * 
+ *
  *  Copyright (C) 2003 Novell, Inc.
  *
  *  This library is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *  Author: Dave Camp <dave@ximian.com>
- * 
+ *
  */
 
 #ifndef CAJA_MODULE_H
@@ -26,7 +26,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void   caja_module_setup                   (void);
 GList *caja_module_get_extensions_for_type (GType  type);

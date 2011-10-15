@@ -30,7 +30,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	MDM_LOGOUT_ACTION_NONE = 0,

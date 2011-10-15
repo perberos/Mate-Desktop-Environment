@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2004, 2005, 2006 Danilo Segan <danilo@mate.org>.
-# Copyright (c) 2009 Shaun McCance <shaunm@mate.org>
+# Copyright (c) 2004, 2005, 2006 Danilo Segan <danilo@gnome.org>.
+# Copyright (c) 2009 Shaun McCance <shaunm@gnome.org>
 #
 # This file is part of xml2po.
 #

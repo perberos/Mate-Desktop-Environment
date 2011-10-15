@@ -28,7 +28,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CALENDAR_TYPE_SOURCES        (calendar_sources_get_type ())
 #define CALENDAR_SOURCES(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CALENDAR_TYPE_SOURCES, CalendarSources))

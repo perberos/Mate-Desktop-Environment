@@ -25,7 +25,9 @@
 #include <gtk/gtk.h>
 #include "mdm-chooser-host.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_HOST_CHOOSER_DIALOG         (mdm_host_chooser_dialog_get_type ())
 #define MDM_HOST_CHOOSER_DIALOG(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_HOST_CHOOSER_DIALOG, MdmHostChooserDialog))

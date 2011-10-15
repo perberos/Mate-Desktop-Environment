@@ -23,7 +23,9 @@ typedef struct _MateComponentUISync MateComponentUISync;
 
 #include <matecomponent/matecomponent-ui-engine.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_SYNC            (matecomponent_ui_sync_get_type ())
 #define MATECOMPONENT_UI_SYNC(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_UI_SYNC, MateComponentUISync))
@@ -36,7 +38,7 @@ typedef void (*MateComponentUISyncStateFn)         (MateComponentUISync     *syn
 					     MateComponentUINode     *cmd_node,
 					     GtkWidget        *widget,
 					     GtkWidget        *parent);
-	
+
 typedef GtkWidget *(*MateComponentUISyncBuildFn)   (MateComponentUISync     *sync,
 					     MateComponentUINode     *node,
 					     MateComponentUINode     *cmd_node,
@@ -75,13 +77,13 @@ typedef struct {
 	void          (*state_update)    (MateComponentUISync     *sync,
 					  GtkWidget        *widget,
 					  const char       *new_state);
-	
+
 	gboolean      (*ignore_widget)   (MateComponentUISync     *sync,
 					  GtkWidget        *widget);
-	
+
 	gboolean      (*can_handle)      (MateComponentUISync     *sync,
 					  MateComponentUINode     *node);
-	
+
         void          (*stamp_root)      (MateComponentUISync     *sync);
 
 	GtkWidget    *(*get_attached)    (MateComponentUISync     *sync,

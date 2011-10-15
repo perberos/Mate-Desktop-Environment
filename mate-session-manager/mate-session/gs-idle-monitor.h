@@ -25,7 +25,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GS_TYPE_IDLE_MONITOR         (gs_idle_monitor_get_type ())
 #define GS_IDLE_MONITOR(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GS_TYPE_IDLE_MONITOR, GSIdleMonitor))

@@ -23,7 +23,9 @@
 #include <gdkconfig.h>
 #include "eggsmclient.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 GKeyFile* egg_sm_client_save_state(EggSMClient* client);
 void egg_sm_client_quit_requested(EggSMClient* client);

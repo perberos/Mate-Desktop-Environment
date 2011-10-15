@@ -3,7 +3,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 CORBA_char  *CORBA_string_alloc  (CORBA_unsigned_long len);
 CORBA_wchar *CORBA_wstring_alloc (CORBA_unsigned_long len);

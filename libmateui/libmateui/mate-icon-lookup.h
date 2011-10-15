@@ -29,7 +29,9 @@
 /* We used to include this, so keep doing it for backwards compat */
 #include <libmateui/mate-icon-theme.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
   MATE_ICON_LOOKUP_FLAGS_NONE = 0,

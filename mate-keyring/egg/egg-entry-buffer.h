@@ -26,7 +26,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EGG_TYPE_ENTRY_BUFFER            (egg_entry_buffer_get_type ())
 #define EGG_ENTRY_BUFFER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EGG_TYPE_ENTRY_BUFFER, EggEntryBuffer))

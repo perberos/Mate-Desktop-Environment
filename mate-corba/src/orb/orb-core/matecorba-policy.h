@@ -11,7 +11,9 @@
 
 #include <matecorba/matecorba.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct _MateCORBAPolicy {
 	struct MateCORBA_RootObject_struct parent;

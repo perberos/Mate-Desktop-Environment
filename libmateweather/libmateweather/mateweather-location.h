@@ -29,7 +29,9 @@
 #include <libmateweather/mateweather-timezone.h>
 #include <libmateweather/weather.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateWeatherLocation MateWeatherLocation;
 

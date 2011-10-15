@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include "mdm-session.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* state changes */
 void             _mdm_session_conversation_started         (MdmSession   *session);

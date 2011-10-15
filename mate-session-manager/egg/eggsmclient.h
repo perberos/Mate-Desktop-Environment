@@ -22,7 +22,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EGG_TYPE_SM_CLIENT            (egg_sm_client_get_type ())
 #define EGG_SM_CLIENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EGG_TYPE_SM_CLIENT, EggSMClient))
@@ -111,7 +113,8 @@ void             egg_sm_client_will_quit           (EggSMClient *client,
 gboolean         egg_sm_client_end_session         (EggSMClientEndStyle  style,
 						    gboolean             request_confirmation);
 
-G_END_DECLS
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __EGG_SM_CLIENT_H__ */

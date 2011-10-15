@@ -23,21 +23,21 @@
   @NOTATION@
  */
 
-/* 
- * "High Scores" Widget 
+/*
+ * "High Scores" Widget
  *
- * AUTHOR: 
+ * AUTHOR:
  * Horacio J. Peña <horape@compendium.com.ar>
  *
  * This is free software (under the terms of the GNU LGPL)
  *
  * USAGE:
  * Use the mate_scores_display. The other functions are going to be
- * discontinued... (ok, i should add pixmap support to *_display 
+ * discontinued... (ok, i should add pixmap support to *_display
  * before)
  *
  * DESCRIPTION:
- * A specialized widget to display "High Scores" for games. It's 
+ * A specialized widget to display "High Scores" for games. It's
  * very integrated with the mate-score stuff so you only need to
  * call one function to do all the work...
  *
@@ -51,7 +51,9 @@
 #include <time.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_SCORES            (mate_scores_get_type ())
 #define MATE_SCORES(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_SCORES, MateScores))
@@ -83,7 +85,7 @@ struct _MateScoresClass
 
 GType      mate_scores_get_type (void) G_GNUC_CONST;
 
-/* Does all the work of displaying the best scores. 
+/* Does all the work of displaying the best scores.
 
    It calls mate_score_get_notables to retrieve the info,
    creates the window, and show it.
@@ -96,7 +98,7 @@ GType      mate_scores_get_type (void) G_GNUC_CONST;
 GtkWidget *       /* returns the pointer to the displayed window */
 	mate_scores_display (
 		const gchar *title,    /* Title. */
-		const gchar *app_name, /* Name of the application, as in 
+		const gchar *app_name, /* Name of the application, as in
 				    mate_score_init. */
 		const gchar *level, 	 /* Level of the game or NULL. */
 		int pos		 /* Position in the top ten of the
@@ -121,8 +123,8 @@ GtkWidget* mate_scores_new (
 
 /* Constructor for bindings / subclassing */
 void mate_scores_construct (MateScores *gs,
-			     guint n_scores, 
-			     gchar **names, 
+			     guint n_scores,
+			     gchar **names,
 			     gfloat *scores,
 			     time_t *times,
 			     gboolean clear);
@@ -158,11 +160,11 @@ void mate_scores_set_color (
 void mate_scores_set_def_color (
 		MateScores *gs,	/* MATE Scores widget. */
 		GdkColor *col		/* Color. */
-		); 
+		);
 
 /* Set the color of all the entries. */
 void mate_scores_set_colors (
-		MateScores *gs,	
+		MateScores *gs,
 		GdkColor *col		/* Array of colors. */
 		);
 

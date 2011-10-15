@@ -32,7 +32,9 @@
 #undef interface
 #endif
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_ADDRESS (mdm_address_get_type ())
 #define	mdm_sockaddr_len(sa) ((sa)->ss_family == AF_INET6 ? sizeof(struct sockaddr_in6) : sizeof(struct sockaddr_in))

@@ -21,7 +21,7 @@
    Boston, MA 02111-1307, USA.
 
    Authors: Ettore Perazzoli <ettore@comm2000.it>
-   	    John Sullivan <sullivan@eazel.com> 
+   	    John Sullivan <sullivan@eazel.com>
 */
 
 #ifndef MATE_VFS_UTILS_H
@@ -33,19 +33,21 @@
 #include <libmatevfs/mate-vfs-uri.h>
 #include <libmatevfs/mate-vfs-handle.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * MateVFSMakeURIDirs:
  * @MATE_VFS_MAKE_URI_DIR_NONE: Don't check any directory
  * @MATE_VFS_MAKE_URI_DIR_HOMEDIR: Check the home directory
  * @MATE_VFS_MAKE_URI_DIR_CURRENT: Check the current direcotry
- * 
+ *
  * Flags that can be passed to mate_vfs_make_uri_from_input_with_dirs().
  * If the given input might be a relative path it checks for existence of the file
  * in the directory specified by this flag.
  * If both flags are passed the current directory is checked first.
- * 
+ *
  **/
 
 typedef enum {
@@ -82,7 +84,7 @@ char *mate_vfs_escape_host_and_path_string  (const char      *path);
 char *mate_vfs_escape_slashes               (const char      *string);
 
 
-/* Escapes all the characters that match any of the @match_set */	              			 
+/* Escapes all the characters that match any of the @match_set */
 char *mate_vfs_escape_set 		     (const char      *string,
 	              			      const char      *match_set);
 
@@ -102,7 +104,7 @@ char *mate_vfs_make_uri_canonical	     (const char 	*uri);
 char *mate_vfs_make_path_name_canonical     (const char      *path);
 
 /* returns a copy of path, with initial ~ expanded, or just copy of path
- * if there's no initial ~ 
+ * if there's no initial ~
  */
 char *mate_vfs_expand_initial_tilde	     (const char      *path);
 
@@ -120,7 +122,7 @@ char *mate_vfs_get_local_path_from_uri      (const char      *uri);
 /* Turn a path into a "file://" URI. */
 char *mate_vfs_get_uri_from_local_path      (const char      *local_full_path);
 
-/* Check whether a string starts with an executable command */ 
+/* Check whether a string starts with an executable command */
 gboolean mate_vfs_is_executable_command_string (const char *command_string);
 
 /* Free the list, freeing each item data with a g_free */
@@ -128,7 +130,7 @@ void   mate_vfs_list_deep_free               (GList            *list);
 
 
 /* Return amount of free space on target */
-MateVFSResult	mate_vfs_get_volume_free_space	(const MateVFSURI 	*vfs_uri, 
+MateVFSResult	mate_vfs_get_volume_free_space	(const MateVFSURI 	*vfs_uri,
 						 MateVFSFileSize 	*size);
 
 char *mate_vfs_icon_path_from_filename       (const char *filename);
@@ -143,8 +145,8 @@ gboolean	mate_vfs_is_primary_thread (void);
 /**
  * MATE_VFS_ASSERT_PRIMARY_THREAD:
  *
- * Asserts that the current thread is the thread with 
- * the main glib event loop 
+ * Asserts that the current thread is the thread with
+ * the main glib event loop
  **/
 #define MATE_VFS_ASSERT_PRIMARY_THREAD g_assert (mate_vfs_is_primary_thread())
 
@@ -152,7 +154,7 @@ gboolean	mate_vfs_is_primary_thread (void);
  * MATE_VFS_ASSERT_SECONDARY_THREAD:
  *
  * Asserts that the current thread is NOT the thread with
- * the main glib event loop 
+ * the main glib event loop
  **/
 #define MATE_VFS_ASSERT_SECONDARY_THREAD g_assert (!mate_vfs_is_primary_thread())
 
@@ -163,7 +165,7 @@ MateVFSResult  mate_vfs_read_entire_file (const char *uri,
 
 char *   mate_vfs_format_uri_for_display            (const char          *uri);
 char *   mate_vfs_make_uri_from_input               (const char     *location);
-char *   mate_vfs_make_uri_from_input_with_trailing_ws 
+char *   mate_vfs_make_uri_from_input_with_trailing_ws
                                                      (const char     *location);
 char *   mate_vfs_make_uri_from_input_with_dirs     (const char     *location,
 						      MateVFSMakeURIDirs  dirs);
@@ -180,7 +182,7 @@ char * mate_vfs_make_uri_full_from_relative (const char *base_uri,
 #endif /* MATE_VFS_DISABLE_DEPRECATED */
 
 MateVFSResult mate_vfs_url_show                        (const char   *url);
-MateVFSResult mate_vfs_url_show_with_env               (const char   *url, 
+MateVFSResult mate_vfs_url_show_with_env               (const char   *url,
                                                           char        **envp);
 
 

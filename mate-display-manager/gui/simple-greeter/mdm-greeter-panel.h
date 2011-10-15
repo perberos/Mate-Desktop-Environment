@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_GREETER_PANEL         (mdm_greeter_panel_get_type ())
 #define MDM_GREETER_PANEL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_GREETER_PANEL, MdmGreeterPanel))

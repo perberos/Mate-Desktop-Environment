@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_ERROR_H
@@ -31,7 +31,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 GtkWidget *panel_error_dialog (GtkWindow  *parent,
 			       GdkScreen  *screen,

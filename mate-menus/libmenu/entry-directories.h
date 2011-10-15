@@ -23,7 +23,9 @@
 #include <glib.h>
 #include "desktop-entries.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct EntryDirectory EntryDirectory;
 

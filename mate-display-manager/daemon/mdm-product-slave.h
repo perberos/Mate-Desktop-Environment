@@ -25,7 +25,9 @@
 #include <glib-object.h>
 #include "mdm-slave.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_PRODUCT_SLAVE         (mdm_product_slave_get_type ())
 #define MDM_PRODUCT_SLAVE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_PRODUCT_SLAVE, MdmProductSlave))

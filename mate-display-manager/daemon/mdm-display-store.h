@@ -25,7 +25,9 @@
 #include <glib-object.h>
 #include "mdm-display.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_DISPLAY_STORE         (mdm_display_store_get_type ())
 #define MDM_DISPLAY_STORE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_DISPLAY_STORE, MdmDisplayStore))

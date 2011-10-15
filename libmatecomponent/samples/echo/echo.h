@@ -4,7 +4,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define ECHO_TYPE         (echo_get_type ())
 #define ECHO(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), ECHO_TYPE, Echo))

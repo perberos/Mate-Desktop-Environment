@@ -27,7 +27,9 @@
 
 #include "mate-settings-plugin.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_KEYBOARD_PLUGIN                (gsd_keyboard_plugin_get_type ())
 #define GSD_KEYBOARD_PLUGIN(o)                  (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_KEYBOARD_PLUGIN, GsdKeyboardPlugin))

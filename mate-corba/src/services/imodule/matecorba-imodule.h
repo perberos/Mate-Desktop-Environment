@@ -28,7 +28,9 @@
 #include <matecorba/orb-core/matecorba-interface.h>
 #include <libIDL/IDL.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateCORBA_IInterfaces *MateCORBA_iinterfaces_from_file (const char                     *path,
 						const char                     *cpp_args,

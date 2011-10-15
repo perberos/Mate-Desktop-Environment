@@ -15,7 +15,9 @@
 #include <matecomponent/matecomponent-ui-engine.h>
 #include <matecomponent/matecomponent-ui-toolbar.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_UI_PAD          8
 #define MATECOMPONENT_UI_PAD_SMALL    4

@@ -31,7 +31,9 @@
 #include <unistd.h>
 #endif
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	char *mount_path;

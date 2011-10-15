@@ -27,7 +27,9 @@
 #include <glib.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_CONSOLEKIT             (gsm_consolekit_get_type ())
 #define GSM_CONSOLEKIT(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_CONSOLEKIT, GsmConsolekit))

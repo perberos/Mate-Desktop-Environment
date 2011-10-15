@@ -4,7 +4,9 @@
 
 #include	<glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* BOOLEAN:STRING,POINTER (gp11-marshal.list:1) */
 extern void _gp11_marshal_BOOLEAN__STRING_POINTER (GClosure     *closure,

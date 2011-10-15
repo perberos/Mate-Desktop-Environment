@@ -30,7 +30,9 @@
 #include "mate-druid-page.h"
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_DRUID            (mate_druid_get_type ())
 #define MATE_DRUID(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_DRUID, MateDruid))
@@ -59,7 +61,7 @@ struct _MateDruid
 struct _MateDruidClass
 {
 	GtkContainerClass parent_class;
-	
+
 	void     (*cancel)	(MateDruid *druid);
 	void     (*help)	(MateDruid *druid);
 

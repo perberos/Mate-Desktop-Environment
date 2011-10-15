@@ -24,13 +24,15 @@
  */
 
 #ifndef __MATE_DATE_EDIT_H_
-#define __MATE_DATE_EDIT_H_ 
+#define __MATE_DATE_EDIT_H_
 
 #include <time.h>
 #include <gtk/gtk.h>
 
- 
-G_BEGIN_DECLS
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 typedef enum {
@@ -78,7 +80,7 @@ GtkWidget *mate_date_edit_new_flags      (time_t the_time,
 					   MateDateEditFlags flags);
 
 /* Note that everything that can be achieved with mate_date_edit_new can
- * be achieved with mate_date_edit_new_flags, so that's why this call 
+ * be achieved with mate_date_edit_new_flags, so that's why this call
  * is like the _new_flags call */
 void      mate_date_edit_construct	  (MateDateEdit *gde,
 					   time_t the_time,

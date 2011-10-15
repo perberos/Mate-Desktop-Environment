@@ -29,7 +29,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define KEYBOARD_CAPPLET_DEFAULT_ICON_SIZE	48
 #define MOUSE_CAPPLET_DEFAULT_WIDTH		120
@@ -40,7 +42,7 @@ G_BEGIN_DECLS
 #define KEYBOARD_REPEAT			"keyboard-repeat"
 #define KEYBOARD_CURSOR			"keyboard-cursor"
 #define KEYBOARD_VOLUME			"keyboard-volume"
-#define KEYBOARD_BELL			"keyboard-bell" 
+#define KEYBOARD_BELL			"keyboard-bell"
 #define ACCESSX_KEYBOARD_BOUNCE 	"accessibility-keyboard-bouncekey"
 #define ACCESSX_KEYBOARD_SLOW 		"accessibility-keyboard-slowkey"
 #define ACCESSX_KEYBOARD_MOUSE 		"accessibility-keyboard-mousekey"

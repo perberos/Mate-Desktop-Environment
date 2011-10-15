@@ -1,5 +1,5 @@
 /*
- *  caja-info-provider.h - Interface for Caja extensions that 
+ *  caja-info-provider.h - Interface for Caja extensions that
  *                             provide info about files.
  *
  *  Copyright (C) 2003 Novell, Inc.
@@ -17,14 +17,14 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Dave Camp <dave@ximian.com>
  *
  */
 
-/* This interface is implemented by Caja extensions that want to 
- * provide information about files.  Extensions are called when Caja 
- * needs information about a file.  They are passed a CajaFileInfo 
+/* This interface is implemented by Caja extensions that want to
+ * provide information about files.  Extensions are called when Caja
+ * needs information about a file.  They are passed a CajaFileInfo
  * object which should be filled with relevant information */
 
 #ifndef CAJA_INFO_PROVIDER_H
@@ -34,7 +34,9 @@
 #include "caja-extension-types.h"
 #include "caja-file-info.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_INFO_PROVIDER           (caja_info_provider_get_type ())
 #define CAJA_INFO_PROVIDER(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_INFO_PROVIDER, CajaInfoProvider))

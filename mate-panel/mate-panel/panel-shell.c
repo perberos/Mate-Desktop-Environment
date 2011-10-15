@@ -4,7 +4,7 @@
  * Copyright (C) 2001 Ximian, Inc.
  * Copyright (C) 2008 Red Hat, Inc.
  * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@mate.org>
+ * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,7 +24,7 @@
  * Authors:
  *      Jacob Berkman <jacob@ximian.com>
  *      Colin Walters <walters@verbum.org>
- *      Vincent Untz <vuntz@mate.org>
+ *      Vincent Untz <vuntz@gnome.org>
  */
 
 #include <config.h>

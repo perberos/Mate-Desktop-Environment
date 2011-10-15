@@ -28,7 +28,9 @@
 
 #include <matecomponent-activation/MateComponent_Activation_types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateComponent_ActivationProperty *matecomponent_server_info_prop_find        (MateComponent_ServerInfo                      *server,
                                                                 const char                             *prop_name);
@@ -41,7 +43,7 @@ void                       MateComponent_ActivationProperty_copy                
                                                                           const MateComponent_ActivationProperty                  *original);
 void                       CORBA_sequence_MateComponent_ActivationProperty_copy (CORBA_sequence_MateComponent_ActivationProperty         *copy,
                                                                           const CORBA_sequence_MateComponent_ActivationProperty   *original);
-void                       MateComponent_ServerInfo_copy              (MateComponent_ServerInfo                      *copy, 
+void                       MateComponent_ServerInfo_copy              (MateComponent_ServerInfo                      *copy,
                                                                 const MateComponent_ServerInfo                *original);
 MateComponent_ServerInfo         *MateComponent_ServerInfo_duplicate         (const MateComponent_ServerInfo                *original);
 MateComponent_ServerInfoList     *MateComponent_ServerInfoList_duplicate     (const MateComponent_ServerInfoList            *original);

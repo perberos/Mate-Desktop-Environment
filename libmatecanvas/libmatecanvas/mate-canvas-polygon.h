@@ -40,7 +40,9 @@
 #include <libmatecanvas/mate-canvas-shape.h>
 #include <libmatecanvas/mate-canvas-path-def.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Polygon item for the canvas.  A polygon is a bit different from rectangles and ellipses in that

@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_HOUSEKEEPING_MANAGER         (gsd_housekeeping_manager_get_type ())
 #define GSD_HOUSEKEEPING_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_HOUSEKEEPING_MANAGER, GsdHousekeepingManager))

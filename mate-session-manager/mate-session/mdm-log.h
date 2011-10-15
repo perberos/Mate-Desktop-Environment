@@ -26,7 +26,9 @@
 #include <stdarg.h>
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void      mdm_log_default_handler (const gchar   *log_domain,
                                    GLogLevelFlags log_level,

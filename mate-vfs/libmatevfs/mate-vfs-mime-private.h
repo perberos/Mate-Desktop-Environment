@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Library General Public
  * License along with the Mate Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA. 
+ * Boston, MA 02111-1307, USA.
  */
 
 #ifndef MATE_VFS_MIME_PRIVATE_H
@@ -26,7 +26,9 @@
 #include <libmatevfs/mate-vfs-mime-monitor.h>
 #include <libmatevfs/mate-vfs-mime-handlers.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void _mate_vfs_mime_info_shutdown 	      (void);
 void _mate_vfs_mime_monitor_emit_data_changed (MateVFSMIMEMonitor *monitor);

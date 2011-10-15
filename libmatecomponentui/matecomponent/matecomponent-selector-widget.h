@@ -12,7 +12,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_SELECTOR_WIDGET             (matecomponent_selector_widget_get_type ())
 #define MATECOMPONENT_SELECTOR_WIDGET(obj)		G_TYPE_CHECK_INSTANCE_CAST(obj,  matecomponent_selector_widget_get_type (), MateComponentSelectorWidget)

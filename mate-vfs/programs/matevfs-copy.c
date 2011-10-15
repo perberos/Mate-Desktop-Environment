@@ -19,7 +19,7 @@
    Boston, MA 02111-1307, USA.
 
    Author: Bastien Nocera <hadess@hadess.net>
-           Chrsitian Kellner <gicmo@mate.org>
+           Chrsitian Kellner <gicmo@gnome.org>
 */
 
 #include <libmatevfs/mate-vfs.h>

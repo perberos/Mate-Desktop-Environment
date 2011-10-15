@@ -28,7 +28,9 @@
 
 #include "mdm-user.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void _mdm_user_update_from_object_path (MdmUser    *user,
                                         const char *object_path);

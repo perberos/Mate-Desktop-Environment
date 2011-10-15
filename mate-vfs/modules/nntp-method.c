@@ -105,7 +105,7 @@ static void           nntp_connection_release   (NNTPConnection *conn);
 static GList* assemble_files_from_overview (NNTPConnection *conn, char *command); 
 
 static const char *anon_user = "anonymous";
-static const char *anon_pass = "nobody@mate.org";
+static const char *anon_pass = "nobody@gnome.org";
 static const int   nntp_port = 119;
 
 

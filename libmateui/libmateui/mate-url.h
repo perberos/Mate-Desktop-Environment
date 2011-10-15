@@ -25,7 +25,9 @@
 #include <gdk/gdk.h>
 #include <libmate/mate-url.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean mate_url_show_on_screen (const char  *url,
 				   GdkScreen   *screen,

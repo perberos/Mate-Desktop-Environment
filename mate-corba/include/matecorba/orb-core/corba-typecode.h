@@ -5,7 +5,9 @@
 #include <matecorba/orb-core/corba-any-type.h>
 #include <matecorba/orb-core/matecorba-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CORBA_tk_recursive 0xffffffff
 #define CORBA_tk_last (CORBA_tk_abstract_interface + 1)

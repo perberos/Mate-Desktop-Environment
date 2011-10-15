@@ -21,12 +21,14 @@
 #define __MATEMENU_TREE_H__
 
 #ifndef MATEMENU_I_KNOW_THIS_IS_UNSTABLE
-#error "libmate-menu should only be used if you understand that it's subject to frequent change, and is not supported as a fixed API/ABI or as part of the platform"
+	#error "libmate-menu should only be used if you understand that it's subject to frequent change, and is not supported as a fixed API/ABI or as part of the platform"
 #endif
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MateMenuTree          MateMenuTree;
 typedef struct MateMenuTreeItem      MateMenuTreeItem;
@@ -39,14 +41,13 @@ typedef struct MateMenuTreeAlias     MateMenuTreeAlias;
 typedef void (*MateMenuTreeChangedFunc) (MateMenuTree *tree,
 				      gpointer  user_data);
 
-typedef enum
-{
-  MATEMENU_TREE_ITEM_INVALID = 0,
-  MATEMENU_TREE_ITEM_DIRECTORY,
-  MATEMENU_TREE_ITEM_ENTRY,
-  MATEMENU_TREE_ITEM_SEPARATOR,
-  MATEMENU_TREE_ITEM_HEADER,
-  MATEMENU_TREE_ITEM_ALIAS
+typedef enum {
+	MATEMENU_TREE_ITEM_INVALID = 0,
+	MATEMENU_TREE_ITEM_DIRECTORY,
+	MATEMENU_TREE_ITEM_ENTRY,
+	MATEMENU_TREE_ITEM_SEPARATOR,
+	MATEMENU_TREE_ITEM_HEADER,
+	MATEMENU_TREE_ITEM_ALIAS
 } MateMenuTreeItemType;
 
 #define MATEMENU_TREE_ITEM(i)      ((MateMenuTreeItem *)(i))

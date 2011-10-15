@@ -23,7 +23,9 @@
 #include <glib-object.h>
 #include "mdm-address.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_CHOOSER_HOST         (mdm_chooser_host_get_type ())
 #define MDM_CHOOSER_HOST(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_CHOOSER_HOST, MdmChooserHost))

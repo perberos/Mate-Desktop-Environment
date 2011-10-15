@@ -23,7 +23,9 @@
 #include <libmatecanvas/mate-canvas.h>
 #include <atk/atk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GAIL_TYPE_CANVAS_ITEM                  (gail_canvas_item_get_type ())
 #define GAIL_CANVAS_ITEM(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAIL_TYPE_CANVAS_ITEM, GailCanvasItem))

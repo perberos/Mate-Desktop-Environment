@@ -12,7 +12,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_PERSIST        (matecomponent_persist_get_type ())
 #define MATECOMPONENT_PERSIST_TYPE        MATECOMPONENT_TYPE_PERSIST /* deprecated, you should use MATECOMPONENT_TYPE_PERSIST */

@@ -20,7 +20,9 @@
 #ifndef __GSD_COMMON_KEYGRAB_H
 #define __GSD_COMMON_KEYGRAB_H
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <glib.h>
 #include <X11/keysym.h>

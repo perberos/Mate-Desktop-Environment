@@ -17,8 +17,10 @@
 #include <matecomponent/matecomponent-generic-factory.h>
 #include <matecomponent/matecomponent-exception.h>
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_SHLIB_FACTORY        (matecomponent_shlib_factory_get_type ())
 #define MATECOMPONENT_SHLIB_FACTORY_TYPE        MATECOMPONENT_TYPE_SHLIB_FACTORY /* deprecated, you should use MATECOMPONENT_TYPE_SHLIB_FACTORY */
 #define MATECOMPONENT_SHLIB_FACTORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_SHLIB_FACTORY, MateComponentShlibFactory))
@@ -28,7 +30,7 @@ G_BEGIN_DECLS
 
 typedef struct _MateComponentShlibFactoryPrivate MateComponentShlibFactoryPrivate;
 typedef struct _MateComponentShlibFactory        MateComponentShlibFactory;
-					
+
 struct _MateComponentShlibFactory {
 	MateComponentGenericFactory base;
 

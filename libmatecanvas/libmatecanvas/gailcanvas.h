@@ -1,4 +1,4 @@
-/* gailcanvas.h - code from GAIL, the 
+/* gailcanvas.h - code from GAIL, the
  * Mate Accessibility Implementation Library
  * Copyright 2001-2006 Sun Microsystems Inc.
  *
@@ -25,7 +25,9 @@
 
 /* This code provides the ATK implementation for mate-canvas widgets. */
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GAIL_TYPE_CANVAS                  (gail_canvas_get_type ())
 #define GAIL_CANVAS(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAIL_TYPE_CANVAS, GailCanvas))

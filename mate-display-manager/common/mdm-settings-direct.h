@@ -25,7 +25,9 @@
 #include <glib-object.h>
 #include "mdm-settings.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean              mdm_settings_direct_init                       (MdmSettings       *settings,
                                                                       const char        *schemas_file,

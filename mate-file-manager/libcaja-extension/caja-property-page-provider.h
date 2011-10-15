@@ -17,14 +17,14 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Dave Camp <dave@ximian.com>
  *
  */
 
-/* This interface is implemented by Caja extensions that want to 
- * add property page to property dialogs.  Extensions are called when 
- * Caja needs property pages for a selection.  They are passed a 
+/* This interface is implemented by Caja extensions that want to
+ * add property page to property dialogs.  Extensions are called when
+ * Caja needs property pages for a selection.  They are passed a
  * list of CajaFileInfo objects for which information should
  * be displayed  */
 
@@ -36,7 +36,9 @@
 #include "caja-file-info.h"
 #include "caja-property-page.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_PROPERTY_PAGE_PROVIDER           (caja_property_page_provider_get_type ())
 #define CAJA_PROPERTY_PAGE_PROVIDER(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_PROPERTY_PAGE_PROVIDER, CajaPropertyPageProvider))

@@ -13,7 +13,9 @@
 
 #include "libmateui/mate-mdi.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* This function should parse the config string and return a newly
  * created MateMDIChild. */

@@ -22,7 +22,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 char *      gsm_util_find_desktop_file_for_app_name (const char  *app_name,
                                                      char       **dirs);

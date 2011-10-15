@@ -12,7 +12,9 @@
 
 #include <matecomponent/matecomponent-moniker.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_MONIKER_EXTENDER        (matecomponent_moniker_extender_get_type ())
 #define MATECOMPONENT_MONIKER_EXTENDER_TYPE        MATECOMPONENT_TYPE_MONIKER_EXTENDER /* deprecated, you should use MATECOMPONENT_TYPE_MONIKER_EXTENDER */
@@ -39,14 +41,14 @@ typedef struct {
 	MateComponentObjectClass      parent_class;
 
 	POA_MateComponent_MonikerExtender__epv epv;
-	
+
 	MateComponentMonikerExtenderFn resolve;
 } MateComponentMonikerExtenderClass;
 
 GType                  matecomponent_moniker_extender_get_type (void) G_GNUC_CONST;
 MateComponentMonikerExtender *matecomponent_moniker_extender_new      (MateComponentMonikerExtenderFn      resolve,
 							 gpointer                     data);
- 
+
 MateComponent_MonikerExtender matecomponent_moniker_find_extender     (const gchar                 *name,
 							 const gchar                 *interface,
 							 CORBA_Environment           *opt_ev);

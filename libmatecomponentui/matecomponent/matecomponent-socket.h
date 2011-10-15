@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
  * Copytight (C) 2000 Helix Code, Inc.
  *
@@ -21,7 +21,7 @@
  * Modified by the GTK+ Team and others 1997-1999.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 #ifndef __MATECOMPONENT_SOCKET_H__
 #define __MATECOMPONENT_SOCKET_H__
@@ -33,7 +33,9 @@ typedef struct _MateComponentSocket MateComponentSocket;
 
 #include <matecomponent/matecomponent-control-frame.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_SOCKET          (matecomponent_socket_get_type ())
 #define MATECOMPONENT_SOCKET(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, matecomponent_socket_get_type (), MateComponentSocket)

@@ -26,7 +26,9 @@
 #include <libmatevfs/mate-vfs-method.h>
 #include <dbus/dbus.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateVFSMethod *_mate_vfs_daemon_method_get (void);
 

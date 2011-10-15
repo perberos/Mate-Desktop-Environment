@@ -25,7 +25,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* set an icon on a window */
 void mate_window_icon_set_from_default   (GtkWindow *w);

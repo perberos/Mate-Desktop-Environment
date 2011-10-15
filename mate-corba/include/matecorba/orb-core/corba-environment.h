@@ -3,7 +3,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 CORBA_Environment *CORBA_exception__alloc (void);
 CORBA_Environment *CORBA_exception__copy  (const CORBA_Environment *ev);

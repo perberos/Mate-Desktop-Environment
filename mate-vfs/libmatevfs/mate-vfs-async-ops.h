@@ -31,15 +31,17 @@
 #include <libmatevfs/mate-vfs-handle.h>
 #include <libmatevfs/mate-vfs-xfer.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
- * MATE_VFS_PRIORITY_MIN: 
+ * MATE_VFS_PRIORITY_MIN:
  *
  * The minimuum priority a job can have.
  **/
 /**
- * MATE_VFS_PRIORITY_MAX: 
+ * MATE_VFS_PRIORITY_MAX:
  *
  * The maximuum priority a job can have.
  **/
@@ -237,9 +239,9 @@ typedef void    (* MateVFSAsyncGetFileInfoCallback) (MateVFSAsyncHandle *handle,
  *  <para>
  *   Setting the file info sometimes changes more information than the
  *   caller specified; for example, if the name changes the MIME type might
- *   change, and if the owner changes the SUID & SGID bits might change. 
+ *   change, and if the owner changes the SUID & SGID bits might change.
  *   Therefore the callback returns the new @file_info for the caller's
- *   convenience. The MateVFSFileInfoOptions passed here are those used 
+ *   convenience. The MateVFSFileInfoOptions passed here are those used
  *   for the returned file info; they are not used when setting.
  *  </para>
  * </note>
@@ -253,10 +255,10 @@ typedef void	(* MateVFSAsyncSetFileInfoCallback) (MateVFSAsyncHandle *handle,
 /**
  * MateVFSAsyncDirectoryLoadCallback:
  * @handle: handle of the operation generating the callback.
- * @result: %MATE_VFS_OK if the operation was sucessful, 
- * %MATE_VFS_ERROR_EOF if the last file in the directory 
+ * @result: %MATE_VFS_OK if the operation was sucessful,
+ * %MATE_VFS_ERROR_EOF if the last file in the directory
  * has been read, otherwise a #MateVFSResult error code
- * @list: a #GList of #MateVFSFileInfo structs representing 
+ * @list: a #GList of #MateVFSFileInfo structs representing
  * information about the files just loaded.
  * @entries_read: number of entries read from @handle for this instance of
  * the callback.

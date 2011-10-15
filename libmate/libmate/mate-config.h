@@ -33,7 +33,9 @@
 /* Make sure we have the directory getters */
 #include <libmate/mate-init.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Prototypes for the profile management functions */
 

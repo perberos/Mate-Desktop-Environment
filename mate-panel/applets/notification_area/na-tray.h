@@ -29,7 +29,9 @@
 #endif
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define NA_TYPE_TRAY			(na_tray_get_type ())
 #define NA_TRAY(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), NA_TYPE_TRAY, NaTray))
@@ -37,7 +39,7 @@ G_BEGIN_DECLS
 #define NA_IS_TRAY(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), NA_TYPE_TRAY))
 #define NA_IS_TRAY_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((klass), NA_TYPE_TRAY))
 #define NA_TRAY_GET_CLASS(obj)		(G_TYPE_INSTANCE_GET_CLASS ((obj), NA_TYPE_TRAY, NaTrayClass))
-	
+
 typedef struct _NaTray		NaTray;
 typedef struct _NaTrayPrivate	NaTrayPrivate;
 typedef struct _NaTrayClass	NaTrayClass;

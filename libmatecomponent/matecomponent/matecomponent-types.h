@@ -16,7 +16,9 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent/matecomponent-arg.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 GType matecomponent_corba_object_type_register_static      (const gchar           *name,
                                                      const CORBA_TypeCode   tc,
@@ -77,7 +79,7 @@ void       matecomponent_closure_invoke         (GClosure            *closure,
 
 GClosure * matecomponent_closure_store          (GClosure            *closure,
 					  GClosureMarshal      default_marshal);
-						     
+
 G_END_DECLS
 
 #endif

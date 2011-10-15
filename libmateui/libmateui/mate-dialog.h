@@ -30,7 +30,9 @@
 
 #include <stdarg.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_DIALOG            (mate_dialog_get_type ())
 #define MATE_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_DIALOG, MateDialog))
@@ -72,8 +74,8 @@ struct _MateDialogClass
 };
 
 /* MateDialog creates an action area with the buttons of your choice.
-   You should pass the button names (possibly MATE_STOCK_BUTTON_*) as 
-   arguments to mate_dialog_new(). The buttons are numbered in the 
+   You should pass the button names (possibly MATE_STOCK_BUTTON_*) as
+   arguments to mate_dialog_new(). The buttons are numbered in the
    order you passed them in, starting at 0. These numbers are used
    in other functions, and passed to the "clicked" callback. */
 
@@ -91,7 +93,7 @@ GtkWidget* mate_dialog_newv           (const gchar * title,
 void       mate_dialog_set_parent     (MateDialog * dialog,
 					GtkWindow   * parent);
 
-/* Note: it's better to use MateDialog::clicked rather than 
+/* Note: it's better to use MateDialog::clicked rather than
    connecting to a button. These are really here in case
    you're lazy. */
 /* Connect to the "clicked" signal of a single button */
@@ -112,7 +114,7 @@ gint       mate_dialog_run	       (MateDialog *dialog);
 gint       mate_dialog_run_and_close  (MateDialog *dialog);
 
 
-/* Set the default button. - it will have a little highlight, 
+/* Set the default button. - it will have a little highlight,
    and pressing return will activate it. */
 void       mate_dialog_set_default    (MateDialog *dialog,
 					gint         button);
@@ -127,7 +129,7 @@ void       mate_dialog_set_sensitive  (MateDialog *dialog,
 
 /* Set the accelerator for a button. Note that there are two
    default accelerators: "Return" will be the same as clicking
-   the default button, and "Escape" will emit delete_event. 
+   the default button, and "Escape" will emit delete_event.
    (Note: neither of these is in the accelerator table,
    Return is a Gtk default and Escape comes from a key press event
    handler.) */
@@ -136,12 +138,12 @@ void       mate_dialog_set_accelerator(MateDialog * dialog,
 					const guchar accelerator_key,
 					guint8       accelerator_mods);
 
-/* Hide and optionally destroy. Destroys by default, use close_hides() 
+/* Hide and optionally destroy. Destroys by default, use close_hides()
    to change this. */
 void       mate_dialog_close (MateDialog * dialog);
 
 /* Make _close just hide, not destroy. */
-void       mate_dialog_close_hides (MateDialog * dialog, 
+void       mate_dialog_close_hides (MateDialog * dialog,
 				     gboolean just_hide);
 
 /* Whether to close after emitting clicked signal - default is
@@ -150,7 +152,7 @@ void       mate_dialog_close_hides (MateDialog * dialog,
 void       mate_dialog_set_close      (MateDialog * dialog,
 					gboolean click_closes);
 
-/* Normally an editable widget will grab "Return" and keep it from 
+/* Normally an editable widget will grab "Return" and keep it from
    activating the dialog's default button. This connects the activate
    signal of the editable to the default button. */
 void       mate_dialog_editable_enters   (MateDialog * dialog,
@@ -174,7 +176,7 @@ void       mate_dialog_append_buttons_with_pixmaps (MateDialog * dialog,
 						     const gchar **names,
 						     const gchar **pixmaps);
 
-/* Don't use this either; it's for bindings to languages other 
+/* Don't use this either; it's for bindings to languages other
    than C (which makes the varargs kind of lame... feel free to fix)
    You want _new, see above. */
 void       mate_dialog_construct  (MateDialog * dialog,

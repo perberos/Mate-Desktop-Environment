@@ -15,7 +15,9 @@
 
 #ifndef MATECOMPONENT_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_PERSIST_STREAM        (matecomponent_persist_stream_get_type ())
 #define MATECOMPONENT_PERSIST_STREAM_TYPE        MATECOMPONENT_TYPE_PERSIST_STREAM /* deprecated, you should use MATECOMPONENT_TYPE_PERSIST_STREAM */
@@ -49,7 +51,7 @@ struct _MateComponentPersistStream {
 	MateComponentPersistStreamIOFn     save_fn;
 	MateComponentPersistStreamIOFn     load_fn;
 	MateComponentPersistStreamTypesFn  types_fn;
-	
+
 	void                       *closure;
 
 	MateComponentPersistStreamPrivate *priv;

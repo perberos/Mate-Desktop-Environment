@@ -3,7 +3,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(_PortableServer_Servant_defined)
 #define _PortableServer_Servant_defined 1

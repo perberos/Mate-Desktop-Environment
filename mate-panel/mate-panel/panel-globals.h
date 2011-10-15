@@ -1,5 +1,5 @@
 /*
- * panel-globals.h: panel global variables 
+ * panel-globals.h: panel global variables
  *
  * Copyright (C) 2003 Sun Microsystems, Inc.
  *
@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern GSList         *panels;
 extern GSList         *panel_list;

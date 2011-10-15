@@ -29,7 +29,9 @@
 #include <libmatevfs/mate-vfs-socket-buffer.h>
 #include <libmatevfs/mate-vfs-address.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MateVFSInetConnection MateVFSInetConnection;
 
@@ -55,10 +57,10 @@ void		 mate_vfs_inet_connection_free
 					(MateVFSInetConnection *connection,
 					 MateVFSCancellation *cancellation);
 
-MateVFSSocket * mate_vfs_inet_connection_to_socket 
+MateVFSSocket * mate_vfs_inet_connection_to_socket
 					(MateVFSInetConnection *connection);
 
-MateVFSSocketBuffer *mate_vfs_inet_connection_to_socket_buffer 
+MateVFSSocketBuffer *mate_vfs_inet_connection_to_socket_buffer
                                         (MateVFSInetConnection *connection);
 
 int mate_vfs_inet_connection_get_fd    (MateVFSInetConnection *connection);

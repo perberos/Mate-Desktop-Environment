@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Vincent Untz <vuntz@mate.org>
+ * Author: Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef _mateconfsettingsbackend_h_
@@ -25,7 +25,9 @@
 #define G_SETTINGS_ENABLE_BACKEND
 #include <gio/gsettingsbackend.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECONF_TYPE_SETTINGS_BACKEND                   (mateconf_settings_backend_get_type ())
 #define MATECONF_SETTINGS_BACKEND(inst)                  (G_TYPE_CHECK_INSTANCE_CAST ((inst),    \

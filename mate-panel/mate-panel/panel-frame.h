@@ -28,7 +28,9 @@
 #include <gtk/gtk.h>
 #include "panel-enums.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_FRAME         (panel_frame_get_type ())
 #define PANEL_FRAME(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_FRAME, PanelFrame))
@@ -53,7 +55,7 @@ struct _PanelFrameClass {
 GType           panel_frame_get_type  (void) G_GNUC_CONST;
 GtkWidget      *panel_frame_new       (PanelFrameEdge  edges);
 
-void            panel_frame_set_edges (PanelFrame     *toplevel,	
+void            panel_frame_set_edges (PanelFrame     *toplevel,
 				       PanelFrameEdge  edges);
 PanelFrameEdge  panel_frame_get_edges (PanelFrame     *toplevel);
 

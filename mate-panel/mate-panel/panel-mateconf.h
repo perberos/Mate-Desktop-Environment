@@ -35,7 +35,9 @@
 #define PANEL_DEFAULTS_DIR   "/apps/panel/default_setup"
 #define PANEL_OLD_CONFIG_DIR "/apps/panel/profiles/default"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateConfClient *panel_mateconf_get_client          (void);
 

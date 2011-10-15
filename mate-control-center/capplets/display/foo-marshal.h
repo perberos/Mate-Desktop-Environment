@@ -4,7 +4,9 @@
 
 #include	<glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* VOID:OBJECT,OBJECT (marshal.list:1) */
 extern void foo_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,

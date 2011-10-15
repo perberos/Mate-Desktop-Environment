@@ -23,7 +23,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define E_TYPE_IMAGE_CHOOSER	        (e_image_chooser_get_type ())
 #define E_IMAGE_CHOOSER(obj)	        (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_IMAGE_CHOOSER, EImageChooser))
@@ -49,7 +51,7 @@ struct _EImageChooserClass
 	/* signals */
 	void (*changed) (EImageChooser *chooser);
 
-	
+
 };
 
 GtkWidget *e_image_chooser_new      (void);

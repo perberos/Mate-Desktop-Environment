@@ -2,7 +2,7 @@
  * calendar-window.c: toplevel window containing a calendar and
  * tasks/appointments
  *
- * Copyright (C) 2007 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2007 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,7 +20,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *      Vincent Untz <vuntz@mate.org>
+ *      Vincent Untz <vuntz@gnome.org>
  *
  * Most of the original code comes from clock.c
  */

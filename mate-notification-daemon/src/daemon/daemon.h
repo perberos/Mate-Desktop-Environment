@@ -81,7 +81,9 @@ struct _NotifyDaemonClass
         GObjectClass    parent_class;
 };
 
-G_BEGIN_DECLS GType notify_daemon_get_type (void);
+#ifdef __cplusplus
+extern "C" {
+#endif GType notify_daemon_get_type (void);
 
 GQuark          notify_daemon_error_quark (void);
 

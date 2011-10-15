@@ -28,7 +28,9 @@
 
 #define MDM_CUSTOM_SESSION  "custom"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean       mdm_is_version_unstable            (void);
 void           mdm_set_fatal_warnings_if_unstable (void);

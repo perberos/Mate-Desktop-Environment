@@ -24,7 +24,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define THEMED_ICON_TYPE            (themed_icon_get_type ())
 #define THEMED_ICON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), THEMED_ICON_TYPE, ThemedIcon))

@@ -29,7 +29,9 @@
 
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* This is where the user specific files are stored under $HOME
  * (do not use these macros; use mate_user_dir_get(); it's possible

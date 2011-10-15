@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_PASSWORD_DIALOG            (mate_password_dialog_get_type ())
 #define MATE_PASSWORD_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_PASSWORD_DIALOG, MatePasswordDialog))

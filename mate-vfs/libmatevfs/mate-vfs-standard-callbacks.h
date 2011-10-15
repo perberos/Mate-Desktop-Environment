@@ -29,7 +29,9 @@
 #include <glib.h>
 #include <libmatevfs/mate-vfs-uri.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * defined callback structures
@@ -107,7 +109,7 @@ G_BEGIN_DECLS
  * A module callback name used together with mate_vfs_module_callback_invoke() to
  * request permanent or temporary storage of login data. The storage is typically
  * done using a keyring manager.
- * 
+ *
  * Called after a successfull authentication, to allow the client to e.g.
  * store the password for future use. It may be queried again within the
  * current session (temporary storage) or in future sessions (permanent
@@ -141,7 +143,7 @@ G_BEGIN_DECLS
  * MATE_VFS_MODULE_CALLBACK_AUTHENTICATION
  *
  * A module callback name formerly used together with mate_vfs_module_callback_invoke().
- * 
+ *
  * Formerly called when access to a URI requires a username/password.
  *
  * <variablelist role="params">
@@ -174,7 +176,7 @@ G_BEGIN_DECLS
  * #MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION, and used to be kept separate to
  * allow applications to distinguish proxy authentication from actual server
  * authentication, so that the wording of the interface could be adapted.
- * 
+ *
  * Formerly called when access to an HTTP proxy required a username/password.
  *
  * <variablelist role="params">
@@ -205,7 +207,7 @@ G_BEGIN_DECLS
  *
  * A module callback name used together with mate_vfs_module_callback_invoke() to
  * ask the user a question.
- * 
+ *
  * Called when access to a URI requires the user to make a choice.
  *
  * <variablelist role="params">
@@ -388,7 +390,7 @@ typedef struct {
 	char *domain;
 
 	/* for pre-filling the dialog */
-	char *default_user;     
+	char *default_user;
 	char *default_domain;
 
 	/*< private >*/
@@ -496,7 +498,7 @@ typedef struct {
 typedef struct {
 	/*< public >*/
 	char *keyring;
-	
+
 	char *uri;
 	char *protocol;
 	char *server;

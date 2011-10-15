@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_SETTINGS_MANAGER         (mate_settings_manager_get_type ())
 #define MATE_SETTINGS_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_TYPE_SETTINGS_MANAGER, MateSettingsManager))

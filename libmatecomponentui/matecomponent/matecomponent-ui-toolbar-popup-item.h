@@ -14,7 +14,9 @@
 #include <glib.h>
 #include "matecomponent-ui-toolbar-toggle-button-item.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_TOOLBAR_POPUP_ITEM            (matecomponent_ui_toolbar_popup_item_get_type ())
 #define MATECOMPONENT_UI_TOOLBAR_POPUP_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_UI_TOOLBAR_POPUP_ITEM, MateComponentUIToolbarPopupItem))

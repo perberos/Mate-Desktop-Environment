@@ -19,7 +19,9 @@
 
 #include <matecomponent/matecomponent-selector-widget.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_SELECTOR            (matecomponent_selector_get_type ())
 #define MATECOMPONENT_SELECTOR(obj)		G_TYPE_CHECK_INSTANCE_CAST(obj, matecomponent_selector_get_type (), MateComponentSelector)
@@ -37,7 +39,7 @@ struct _MateComponentSelector {
 
 typedef struct {
 	GtkDialogClass parent_class;
-	
+
 	void (* ok)	(MateComponentSelector *sel);
 	void (* cancel)	(MateComponentSelector *sel);
 

@@ -32,7 +32,9 @@
 
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_CLIENT            (mate_client_get_type ())
 #define MATE_CLIENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_CLIENT, MateClient))
@@ -150,7 +152,7 @@ struct _MateClient
   guint               interact_style : 2; /* MateInteractStyle */
 
   /* other internal state information */
-  guint               state : 3; /* MateClientState */ 
+  guint               state : 3; /* MateClientState */
 
   guint               shutdown : 1;
   guint               fast : 1;
@@ -199,36 +201,36 @@ GType        mate_client_get_type (void) G_GNUC_CONST;
    after command-line parsing is finished (unless
    'mate_client_disable_master_connection' was called).  The master
    client will also set the SM_CLIENT_ID property on the client leader
-   window of your application.  
+   window of your application.
 
    Additionally, the master client gets some static arguments set
    automatically (see 'mate_client_add_static_arg' for static
-   arguments): 'mate_init' passes all the command line options which 
+   arguments): 'mate_init' passes all the command line options which
    are recognised by gtk as static arguments to the master client. */
 MateClient *mate_master_client 	         (void);
 
 /* Get the config prefix for a client. This config prefix provides a
-   suitable place to store any details about the state of the client 
+   suitable place to store any details about the state of the client
    which can not be described using the app's command line arguments (as
    set in the restart command). You may push the returned value using
    'mate_config_push_prefix' and read or write any values you require. */
 const gchar*       mate_client_get_config_prefix        (MateClient *client);
 
 /* Get the config prefix that will be returned by the previous function
-   for clients which have NOT been restarted or cloned (i.e. for clients 
+   for clients which have NOT been restarted or cloned (i.e. for clients
    started by the user without `--sm-' options). This config prefix may be
    used to write the user's preferred config for these "new" clients.
 
    You could also use this prefix as a place to store and retrieve config
-   details that you wish to apply to ALL instances of the app. However, 
+   details that you wish to apply to ALL instances of the app. However,
    this practice limits the users freedom to configure each instance in
    a different way so it should be used with caution. */
 const gchar*       mate_client_get_global_config_prefix (MateClient *client);
 
-/* Set the value used for the global config prefix. The config prefixes 
+/* Set the value used for the global config prefix. The config prefixes
    returned by mate_client_get_config_prefix are formed by extending
    this prefix with an unique identifier.
-   
+
    The global config prefix defaults to a name based on the name of
    the executable. This function allows you to set it to a different
    value. It should be called BEFORE retrieving the config prefix for
@@ -242,25 +244,25 @@ void         mate_client_set_global_config_prefix (MateClient *client,
 
 /* Returns some flags, that give additional information about this
    client.  Right now, the following flags are supported:
-  
+
    - MATE_CLIENT_IS_CONNECTED: The client is connected to a session
      manager (It's the same information like using
      MATE_CLIENT_CONNECTED).
-   
+
    - MATE_CLIENT_RESTARTED: The client has been restarted, i. e. it
      has been running with the same client id before.
-     
+
    - MATE_CLIENT_RESTORED: This flag is only used for the master
      client.  It indicates, that there may be a configuraion file from
      which the clients state should be restored (using the
      mate_client_get_config_prefix call).  */
-   
+
 MateClientFlags mate_client_get_flags            (MateClient *client);
 
 /* The following functions are used to set or unset the session
-   management properties that are used by the session manager to determine 
-   how to handle the app. If you want to unset an array property, you 
-   have to specify a NULL argv, if you want to unset a string property 
+   management properties that are used by the session manager to determine
+   how to handle the app. If you want to unset an array property, you
+   have to specify a NULL argv, if you want to unset a string property
    you have to specify NULL as parameter.
 
    The `--sm-' options are automatically added as the first arguments
@@ -269,8 +271,8 @@ MateClientFlags mate_client_get_flags            (MateClient *client);
 /* The session manager usually only restarts clients which were running
    when the session was last saved. You can set the restart style to make
    the manager restart the client:
-   -  at the start of every session (MATE_RESTART_ANYWAY) or 
-   -  whenever the client dies (MATE_RESTART_IMMEDIATELY) or 
+   -  at the start of every session (MATE_RESTART_ANYWAY) or
+   -  whenever the client dies (MATE_RESTART_IMMEDIATELY) or
    -  never (MATE_RESTART_NEVER). */
 void         mate_client_set_restart_style      (MateClient *client,
 						  MateRestartStyle style);
@@ -310,10 +312,10 @@ void         mate_client_set_discard_command    (MateClient *client,
 						  gint argc, gchar *argv[]);
 
 /* These two commands are used by clients that use the MATE_RESTART_ANYWAY
-   restart style to to undo their effects (these clients usually perform 
+   restart style to to undo their effects (these clients usually perform
    initialisation functions and leave effects behind after they die).
-   The shutdown command simply undoes the effects of the client. It is 
-   executed during a normal logout. The resign command combines the effects 
+   The shutdown command simply undoes the effects of the client. It is
+   executed during a normal logout. The resign command combines the effects
    of a shutdown command and a discard command. It is executed when the user
    decides that the client should cease to be restarted. */
 void         mate_client_set_resign_command     (MateClient *client,
@@ -321,7 +323,7 @@ void         mate_client_set_resign_command     (MateClient *client,
 void         mate_client_set_shutdown_command   (MateClient *client,
 						  gint argc, gchar *argv[]);
 
-/* All the preceeding session manager commands are executed in the directory 
+/* All the preceeding session manager commands are executed in the directory
    and environment set up by these two commands: */
 void         mate_client_set_current_directory  (MateClient *client,
 						  const gchar *dir);
@@ -329,20 +331,20 @@ void         mate_client_set_environment        (MateClient *client,
 						  const gchar *name,
 						  const gchar *value);
 
-/* These four values are set automatically to the values required by the 
+/* These four values are set automatically to the values required by the
    session manager and you should not need to change them. The clone
    command is directly copied from the restart command. */
-void         mate_client_set_clone_command      (MateClient *client, 
+void         mate_client_set_clone_command      (MateClient *client,
 						  gint argc, gchar *argv[]);
-void         mate_client_set_process_id         (MateClient *client, 
+void         mate_client_set_process_id         (MateClient *client,
 						  pid_t pid);
-void         mate_client_set_program            (MateClient *client, 
+void         mate_client_set_program            (MateClient *client,
 						  const gchar *program);
 void         mate_client_set_user_id            (MateClient *client,
 						  const gchar *id);
 
 /* The following function may be called during a "save_youself" handler
-   to request that a (modal) dialog is presented to the user. The session 
+   to request that a (modal) dialog is presented to the user. The session
    manager decides when the dialog is shown and it will not be shown
    unless the interact_style == MATE_INTERACT_ANY. A "Cancel Logout"
    button will be added during a shutdown. */
@@ -350,17 +352,17 @@ void         mate_client_save_any_dialog       (MateClient *client,
 					         GtkDialog   *dialog);
 
 /* The following function may be called during a "save_youself" handler
-   when an error has occurred during the save. The session manager decides 
+   when an error has occurred during the save. The session manager decides
    when the dialog is shown and it will not be shown when the interact_style
-   == MATE_INTERACT_NONE.  A "Cancel Logout" button will be added 
+   == MATE_INTERACT_NONE.  A "Cancel Logout" button will be added
    during a shutdown. */
 void         mate_client_save_error_dialog      (MateClient *client,
 					          GtkDialog   *dialog);
 
-/* Request the session manager to emit the "save_yourself" signal for 
-   a second time after all the clients in the session have ceased 
-   interacting with the user and entered an idle state. This might be 
-   useful if your app manages other apps and requires that they are in 
+/* Request the session manager to emit the "save_yourself" signal for
+   a second time after all the clients in the session have ceased
+   interacting with the user and entered an idle state. This might be
+   useful if your app manages other apps and requires that they are in
    an idle state before saving its final data. */
 void         mate_client_request_phase_2        (MateClient *client);
 
@@ -368,14 +370,14 @@ void         mate_client_request_phase_2        (MateClient *client);
    arguments correspond with the arguments passed to the "save_yourself"
    signal handler.
 
-   The save_style indicates whether the save should affect data accessible 
-   to other users (MATE_SAVE_GLOBAL) or only the state visible to 
-   the current user (MATE_SAVE_LOCAL) or both. Setting shutdown to 
-   TRUE will initiate a logout. The interact_style specifies which kinds 
-   of interaction will be available. Setting fast to TRUE will limit the 
-   save to setting the session manager properties plus any essential data. 
-   Setting the value of global to TRUE will request that all the other 
-   apps in the session do a save as well. A global save is mandatory when 
+   The save_style indicates whether the save should affect data accessible
+   to other users (MATE_SAVE_GLOBAL) or only the state visible to
+   the current user (MATE_SAVE_LOCAL) or both. Setting shutdown to
+   TRUE will initiate a logout. The interact_style specifies which kinds
+   of interaction will be available. Setting fast to TRUE will limit the
+   save to setting the session manager properties plus any essential data.
+   Setting the value of global to TRUE will request that all the other
+   apps in the session do a save as well. A global save is mandatory when
    doing a shutdown. */
 void	     mate_client_request_save (MateClient	       *client,
 				        MateSaveStyle		save_style,
@@ -384,8 +386,8 @@ void	     mate_client_request_save (MateClient	       *client,
 				        gboolean		fast,
 				        gboolean		global);
 
-/* Flush the underlying connection to the session manager.  This is 
-   useful if you have some pending changes that you want to make sure 
+/* Flush the underlying connection to the session manager.  This is
+   useful if you have some pending changes that you want to make sure
    get committed.  */
 void         mate_client_flush (MateClient *client);
 
@@ -429,7 +431,7 @@ void         mate_client_set_id                 (MateClient *client,
 const gchar*       mate_client_get_id                 (MateClient *client);
 
 /* Get the client id from the last session.  If this client was not
-   recreated from a previous session, returns NULL. The session 
+   recreated from a previous session, returns NULL. The session
    manager tries to maintain the same id from one session to another. */
 const gchar*       mate_client_get_previous_id        (MateClient *client);
 
@@ -440,12 +442,12 @@ const gchar*       mate_client_get_previous_id        (MateClient *client);
 const gchar*       mate_client_get_desktop_id   (MateClient *client);
 
 /* Use the following functions, if you want to interact with the user
-   during a "save_yourself" handler without being restricted to using 
-   the dialog based commands mate_client_save_[any/error]_dialog.  
-   If and when the session manager decides that it's the app's turn to 
-   interact then 'func' will be called with the specified arguments and 
-   a unique 'MateInteractionKey'. The session manager will block other 
-   clients from interacting until this key is returned with 
+   during a "save_yourself" handler without being restricted to using
+   the dialog based commands mate_client_save_[any/error]_dialog.
+   If and when the session manager decides that it's the app's turn to
+   interact then 'func' will be called with the specified arguments and
+   a unique 'MateInteractionKey'. The session manager will block other
+   clients from interacting until this key is returned with
    'mate_interaction_key_return'.  */
 void         mate_client_request_interaction    (MateClient *client,
 						  MateDialogType dialog_type,

@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <dbus/dbus-glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_DATETIME_TYPE_MECHANISM         (gsd_datetime_mechanism_get_type ())
 #define GSD_DATETIME_MECHANISM(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_DATETIME_TYPE_MECHANISM, GsdDatetimeMechanism))

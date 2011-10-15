@@ -22,7 +22,9 @@
 #ifndef __MDM_LAYOUTS_H
 #define __MDM_LAYOUTS_H
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 char *        mdm_get_layout_from_name   (const char *name);
 char **       mdm_get_all_layout_names   (void);

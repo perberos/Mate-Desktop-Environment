@@ -28,7 +28,7 @@
 
 #ifndef MATE_DISABLE_DEPRECATED
 
-/**** 
+/****
   Sugar functions to pop up dialogs in a hurry. These are probably
   too sugary, but they're used in mate-app-util anyway so they may as
   well be here for others to use when there's no MateApp.
@@ -40,7 +40,9 @@
 
 #include "mate-types.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* The GtkWidget * return values were added in retrospect; sometimes
    you might want to connect to the "close" signal of the dialog, or

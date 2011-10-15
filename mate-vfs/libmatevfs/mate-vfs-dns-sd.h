@@ -29,14 +29,16 @@
 #include <glib-object.h>
 #include <libmatevfs/mate-vfs-result.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* TODO:
  * a way to get default browse domain for domain
  * async listing of browse domains
  * some way to publish. Using dns update for unicast?
  */
-   
+
 
 typedef struct {
 	char *name;
@@ -87,7 +89,7 @@ typedef void (* MateVFSDNSSDBrowseCallback) (MateVFSDNSSDBrowseHandle *handle,
  *
  * The @host and @port can be used to contact the requested service, and
  * @text contains additional options as defined for the type requested.
- * 
+ *
  * To check for options being set in @text without any value ("key" as
  * opposed to "key=value") you must use g_hash_table_lookup_extended(), since
  * they are stored in the hash table with a NULL value, and g_hash_table_lookup()
@@ -118,7 +120,7 @@ MateVFSResult
 mate_vfs_dns_sd_stop_browse (MateVFSDNSSDBrowseHandle *handle);
 
 
-MateVFSResult			      
+MateVFSResult
 mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle,
 			  const char *name,
 			  const char *type,
@@ -142,7 +144,7 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 			      MateVFSDNSSDService **services);
 
 
-MateVFSResult			      
+MateVFSResult
 mate_vfs_dns_sd_resolve_sync (const char *name,
 			       const char *type,
 			       const char *domain,

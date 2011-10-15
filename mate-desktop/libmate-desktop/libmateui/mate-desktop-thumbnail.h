@@ -35,7 +35,9 @@
 #include <time.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
   MATE_DESKTOP_THUMBNAIL_SIZE_NORMAL,
@@ -54,7 +56,7 @@ typedef struct _MateDesktopThumbnailFactoryPrivate MateDesktopThumbnailFactoryPr
 
 struct _MateDesktopThumbnailFactory {
 	GObject parent;
-	
+
 	MateDesktopThumbnailFactoryPrivate *priv;
 };
 

@@ -12,7 +12,9 @@
 
 #include <matecomponent/matecomponent-storage.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct _MateComponentStreamMem;
 typedef struct _MateComponentStreamMem MateComponentStreamMem;

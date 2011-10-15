@@ -4,13 +4,15 @@
 #include <libmatevfs/mate-vfs-context.h>
 #include <libmatevfs/mate-vfs-module-callback.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void	    _mate_vfs_get_current_context       (/* OUT */ MateVFSContext **context);
 void        _mate_vfs_dispatch_module_callback  (MateVFSAsyncModuleCallback    callback,
 						 gconstpointer                  in,
 						 gsize                          in_size,
-						 gpointer                       out, 
+						 gpointer                       out,
 						 gsize                          out_size,
 						 gpointer                       user_data,
 						 MateVFSModuleCallbackResponse response,

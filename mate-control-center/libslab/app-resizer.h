@@ -26,7 +26,9 @@
 
 #include <libslab/app-shell.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define INITIAL_NUM_COLS 3
 #define APP_RESIZER_TYPE            (app_resizer_get_type ())

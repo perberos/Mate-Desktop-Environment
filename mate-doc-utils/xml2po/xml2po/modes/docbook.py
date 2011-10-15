@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2004, 2005, 2006 Danilo Segan <danilo@mate.org>.
+# Copyright (c) 2004, 2005, 2006 Danilo Segan <danilo@gnome.org>.
 #
 # This file is part of xml2po.
 #

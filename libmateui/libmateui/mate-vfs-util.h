@@ -32,7 +32,9 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libmatevfs/mate-vfs-result.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* =======================================================================
  * gdk-pixbuf handing stuff.

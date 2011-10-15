@@ -16,13 +16,15 @@
 #include <matecomponent/matecomponent-arg.h>
 #include <matecomponent/matecomponent-event-source.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_PROPERTY_READABLE      MateComponent_PROPERTY_READABLE
 #define MATECOMPONENT_PROPERTY_WRITEABLE     MateComponent_PROPERTY_WRITEABLE
 #define MATECOMPONENT_PROPERTY_WRITABLE      MateComponent_PROPERTY_WRITEABLE
-#define MATECOMPONENT_PROPERTY_NO_LISTENING  MateComponent_PROPERTY_NO_LISTENING 
-#define MATECOMPONENT_PROPERTY_NO_AUTONOTIFY MateComponent_PROPERTY_NO_AUTONOTIFY 
+#define MATECOMPONENT_PROPERTY_NO_LISTENING  MateComponent_PROPERTY_NO_LISTENING
+#define MATECOMPONENT_PROPERTY_NO_AUTONOTIFY MateComponent_PROPERTY_NO_AUTONOTIFY
 
 typedef struct _MateComponentPropertyBagPrivate MateComponentPropertyBagPrivate;
 typedef struct _MateComponentPropertyBag        MateComponentPropertyBag;
@@ -72,7 +74,7 @@ typedef struct {
 #define MATECOMPONENT_IS_PROPERTY_BAG(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MATECOMPONENT_TYPE_PROPERTY_BAG))
 #define MATECOMPONENT_IS_PROPERTY_BAG_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), MATECOMPONENT_TYPE_PROPERTY_BAG))
 
-GType		          
+GType
 matecomponent_property_bag_get_type  (void) G_GNUC_CONST;
 
 MateComponentPropertyBag *
@@ -95,7 +97,7 @@ matecomponent_property_bag_construct     (MateComponentPropertyBag *pb,
 				   GClosure          *set_prop,
 				   MateComponentEventSource *es);
 
-void                      
+void
 matecomponent_property_bag_add           (MateComponentPropertyBag   *pb,
 				   const char          *name,
 				   int                  idx,

@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	MATE_PANEL_APPLET_ORIENT_UP,
@@ -89,7 +91,7 @@ struct _MatePanelAppletClass {
 };
 
 GType              mate_panel_applet_get_type             (void) G_GNUC_CONST;
- 
+
 GtkWidget         *mate_panel_applet_new                  (void);
 
 MatePanelAppletOrient  mate_panel_applet_get_orient           (MatePanelApplet *applet);
@@ -143,7 +145,7 @@ gboolean           _mate_panel_applet_shlib_factory        (void);
  *
  * Things to define for these:
  *	+ required if Native Language Support is enabled (ENABLE_NLS):
- *                   GETTEXT_PACKAGE and MATELOCALEDIR 
+ *                   GETTEXT_PACKAGE and MATELOCALEDIR
  */
 
 #if !defined(ENABLE_NLS)

@@ -21,8 +21,10 @@ typedef struct _MateComponentControlFrame MateComponentControlFrame;
 
 #include <matecomponent/matecomponent-socket.h>
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_CONTROL_FRAME        (matecomponent_control_frame_get_type ())
 #define MATECOMPONENT_CONTROL_FRAME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_CONTROL_FRAME, MateComponentControlFrame))
 #define MATECOMPONENT_CONTROL_FRAME_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MATECOMPONENT_TYPE_CONTROL_FRAME, MateComponentControlFrameClass))
@@ -98,7 +100,7 @@ MateComponent_UIContainer            matecomponent_control_frame_get_ui_containe
 
 MateComponentUIComponent            *matecomponent_control_frame_get_popup_component       (MateComponentControlFrame  *control_frame,
 									      CORBA_Environment   *opt_ev);
-    
+
 G_END_DECLS
 
 #endif /* _MATECOMPONENT_CONTROL_FRAME_H_ */

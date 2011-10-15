@@ -14,7 +14,9 @@
 #include <atk/atkaction.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef void     (*MateComponentA11YClassInitFn)    (AtkObjectClass *klass);
 

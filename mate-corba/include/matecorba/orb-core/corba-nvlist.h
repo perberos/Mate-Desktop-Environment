@@ -4,7 +4,9 @@
 #include <matecorba/orb-core/orb-types.h>
 #include <matecorba/orb-core/corba-typecode-type.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void CORBA_NVList_add_item(CORBA_NVList list,
 			   const CORBA_Identifier item_name,

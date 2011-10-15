@@ -26,7 +26,9 @@
 #include <libmatecanvas/mate-canvas.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_CANVAS_RICH_TEXT             (mate_canvas_rich_text_get_type ())
 #define MATE_CANVAS_RICH_TEXT(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_CANVAS_RICH_TEXT, MateCanvasRichText))

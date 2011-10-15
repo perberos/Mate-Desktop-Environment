@@ -40,7 +40,9 @@
 #endif
 #include <matecomponent/matecomponent-i18n.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* 'mate_i18n_get_language_list' returns a list of language strings.
  *

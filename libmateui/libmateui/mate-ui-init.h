@@ -28,7 +28,9 @@
 
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define LIBMATEUI_PARAM_CRASH_DIALOG	"show-crash-dialog"
 #define LIBMATEUI_PARAM_DISPLAY	"display"

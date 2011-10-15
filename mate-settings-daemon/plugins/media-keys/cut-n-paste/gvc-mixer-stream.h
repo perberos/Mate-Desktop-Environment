@@ -26,7 +26,9 @@
 
 #include "gvc-channel-map.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_MIXER_STREAM         (gvc_mixer_stream_get_type ())
 #define GVC_MIXER_STREAM(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_MIXER_STREAM, GvcMixerStream))

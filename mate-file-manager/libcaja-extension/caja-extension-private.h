@@ -1,6 +1,6 @@
 /*
  *  caja-extension-private.h - Type definitions for Caja extensions
- * 
+ *
  *  Copyright (C) 2009 Red Hat, Inc.
  *
  *  This library is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *  Author: Alexander Larsson <alexl@redhat.com>
- * 
+ *
  */
 
 #ifndef CAJA_EXTENSION_PRIVATE_H
@@ -26,7 +26,9 @@
 
 #include <libcaja-extension/caja-file-info.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern CajaFileInfo *(*caja_file_info_getter) (GFile *location, gboolean create);
 

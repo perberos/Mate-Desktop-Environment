@@ -1,5 +1,5 @@
 /* This program was written with lots of love under the GPL by Jonathan
- * Blandford <jrb@mate.org>
+ * Blandford <jrb@gnome.org>
  */
 
 #include <config.h>

@@ -1,7 +1,7 @@
 /*
  * panel-modules.h
  *
- * Copyright (C) 2010 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2010 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *      Vincent Untz <vuntz@mate.org>
+ *      Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef __PANEL_MODULES_H__

@@ -28,7 +28,9 @@
 
 #include <eel/eel-preferences.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Whether exit when last window destroyed */
 #define CAJA_PREFERENCES_EXIT_WITH_LAST_WINDOW				"preferences/exit_with_last_window"
@@ -37,14 +39,14 @@ G_BEGIN_DECLS
 #define CAJA_PREFERENCES_THEME				"/desktop/mate/file_views/icon_theme"
 
 /* Desktop Background options */
-#define CAJA_PREFERENCES_BACKGROUND_SET                     "preferences/background_set" 
-#define CAJA_PREFERENCES_BACKGROUND_COLOR                   "preferences/background_color" 
-#define CAJA_PREFERENCES_BACKGROUND_FILENAME                "preferences/background_filename" 
+#define CAJA_PREFERENCES_BACKGROUND_SET                     "preferences/background_set"
+#define CAJA_PREFERENCES_BACKGROUND_COLOR                   "preferences/background_color"
+#define CAJA_PREFERENCES_BACKGROUND_FILENAME                "preferences/background_filename"
 
 /* Side Pane Background options */
-#define CAJA_PREFERENCES_SIDE_PANE_BACKGROUND_SET                     "preferences/side_pane_background_set" 
-#define CAJA_PREFERENCES_SIDE_PANE_BACKGROUND_COLOR                   "preferences/side_pane_background_color" 
-#define CAJA_PREFERENCES_SIDE_PANE_BACKGROUND_FILENAME                "preferences/side_pane_background_filename" 
+#define CAJA_PREFERENCES_SIDE_PANE_BACKGROUND_SET                     "preferences/side_pane_background_set"
+#define CAJA_PREFERENCES_SIDE_PANE_BACKGROUND_COLOR                   "preferences/side_pane_background_color"
+#define CAJA_PREFERENCES_SIDE_PANE_BACKGROUND_FILENAME                "preferences/side_pane_background_filename"
 
 /* How wide the sidebar is (or how wide it will be when expanded) */
 #define CAJA_PREFERENCES_SIDEBAR_WIDTH  			"preferences/sidebar_width"
@@ -153,7 +155,7 @@ enum
  * preferences presensts them as single option menu.  So we
  * use the following preference as a proxy for the other two.
  * In caja-global-preferences.c we install callbacks for
- * the proxy preference and update the other 2 when it changes 
+ * the proxy preference and update the other 2 when it changes
  */
 #define CAJA_PREFERENCES_ICON_VIEW_DEFAULT_SORT_ORDER_OR_MANUAL_LAYOUT "icon_view/default_sort_order_or_manual_layout"
 

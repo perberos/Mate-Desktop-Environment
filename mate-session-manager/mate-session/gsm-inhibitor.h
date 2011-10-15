@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <sys/types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_INHIBITOR            (gsm_inhibitor_get_type ())
 #define GSM_INHIBITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_INHIBITOR, GsmInhibitor))

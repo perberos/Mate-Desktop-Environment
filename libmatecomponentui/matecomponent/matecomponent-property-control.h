@@ -13,7 +13,9 @@
 #include <matecomponent/matecomponent-control.h>
 #include <matecomponent/matecomponent-event-source.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateComponentPropertyControl        MateComponentPropertyControl;
 typedef struct _MateComponentPropertyControlPrivate MateComponentPropertyControlPrivate;
@@ -43,7 +45,7 @@ typedef struct {
 
 	gpointer dummy[4];
 
-	void (* action) (MateComponentPropertyControl *property_control, 
+	void (* action) (MateComponentPropertyControl *property_control,
 			 MateComponent_PropertyControl_Action action);
 } MateComponentPropertyControlClass;
 

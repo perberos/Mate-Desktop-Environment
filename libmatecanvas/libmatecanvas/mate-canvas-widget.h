@@ -38,7 +38,9 @@
 #include <libmatecanvas/mate-canvas.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Widget item for canvas.  The widget is positioned with respect to an anchor point.

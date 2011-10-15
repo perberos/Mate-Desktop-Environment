@@ -1,6 +1,6 @@
 #!/bin/awk
 # xsldoc.awk - Convert inline documentation to XML suitable for xsldoc.xsl
-# Copyright (C) 2006 Shaun McCance <shaunm@mate.org>
+# Copyright (C) 2006 Shaun McCance <shaunm@gnome.org>
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the

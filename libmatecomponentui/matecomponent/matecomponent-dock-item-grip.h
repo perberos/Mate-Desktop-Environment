@@ -14,7 +14,9 @@
 #include <gtk/gtk.h>
 #include <matecomponent/matecomponent-dock-item.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_DOCK_ITEM_GRIP            (matecomponent_dock_item_grip_get_type())
 #define MATECOMPONENT_DOCK_ITEM_GRIP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_DOCK_ITEM_GRIP, MateComponentDockItemGrip))

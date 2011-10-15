@@ -6,7 +6,9 @@
 #include <matecorba/util/basic_types.h>
 #include <matecorba/util/matecorba-genrand.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Align a value upward to a boundary, expressed as a number of bytes.
    E.g. align to an 8-byte boundary with argument of 8.  */

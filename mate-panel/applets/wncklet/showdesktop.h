@@ -27,7 +27,9 @@
 #include <glib.h>
 #include <mate-panel-applet.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean show_desktop_applet_fill(MatePanelApplet* applet);
 

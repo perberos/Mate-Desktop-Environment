@@ -14,7 +14,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <linc/linc-protocol.h>
 #include <linc/linc-connection.h>

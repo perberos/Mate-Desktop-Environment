@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_A11Y_PREFERENCES_DIALOG         (gsd_a11y_preferences_dialog_get_type ())
 #define GSD_A11Y_PREFERENCES_DIALOG(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_A11Y_PREFERENCES_DIALOG, GsdA11yPreferencesDialog))

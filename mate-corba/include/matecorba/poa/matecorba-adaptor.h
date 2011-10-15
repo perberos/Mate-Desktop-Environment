@@ -4,7 +4,9 @@
 #include <glib.h>
 #include <stdarg.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	MATECORBA_THREAD_HINT_NONE = 0,
@@ -32,16 +34,16 @@ void            MateCORBA_ObjectAdaptor_object_bind_to_current_thread (CORBA_Obj
 
 #ifdef MATECORBA2_INTERNAL_API
 
-void                MateCORBA_handle_locate_request     (CORBA_ORB          orb, 
+void                MateCORBA_handle_locate_request     (CORBA_ORB          orb,
 						     GIOPRecvBuffer    *recv_buffer);
 
-void                MateCORBA_handle_request            (CORBA_ORB          orb, 
+void                MateCORBA_handle_request            (CORBA_ORB          orb,
 						     GIOPRecvBuffer    *recv_buffer);
 
 void                MateCORBA_small_handle_request      (MateCORBA_OAObject     adaptor_obj,
 						     CORBA_Identifier   opname,
 						     gpointer           ret,
-						     gpointer          *args, 
+						     gpointer          *args,
 						     CORBA_Context      ctx,
 						     GIOPRecvBuffer    *recv_buffer,
 						     CORBA_Environment *ev);
@@ -68,7 +70,7 @@ typedef void                (*MateCORBAInvokeFunc)     (MateCORBA_OAObject     a
 						    gpointer           ret,
 						    gpointer          *args,
 						    CORBA_Context      ctx,
-						    gpointer           data, 
+						    gpointer           data,
 						    CORBA_Environment *ev);
 
 typedef void                (*MateCORBAReqFunc)        (MateCORBA_OAObject     adaptor_obj,

@@ -30,7 +30,9 @@
 
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_DOCK_LAYOUT            (matecomponent_dock_layout_get_type ())
 #define MATECOMPONENT_DOCK_LAYOUT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_DOCK_LAYOUT, MateComponentDockLayout))
@@ -91,14 +93,14 @@ struct _MateComponentDockLayoutClass
 
 MateComponentDockLayout     *matecomponent_dock_layout_new      (void);
 GType                 matecomponent_dock_layout_get_type (void) G_GNUC_CONST;
-   
+
 gboolean             matecomponent_dock_layout_add_item (MateComponentDockLayout *layout,
                                                  MateComponentDockItem *item,
                                                  MateComponentDockPlacement placement,
                                                  gint band_num,
                                                  gint band_position,
                                                  gint offset);
-   
+
 gboolean             matecomponent_dock_layout_add_floating_item
                                                 (MateComponentDockLayout *layout,
                                                  MateComponentDockItem *item,

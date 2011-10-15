@@ -28,7 +28,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_CLOCK_WIDGET         (mdm_clock_widget_get_type ())
 #define MDM_CLOCK_WIDGET(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_CLOCK_WIDGET, MdmClockWidget))

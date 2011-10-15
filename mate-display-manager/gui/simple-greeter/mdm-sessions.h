@@ -26,7 +26,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 char **                mdm_get_all_sessions (void);
 gboolean               mdm_get_details_for_session (const char  *id,

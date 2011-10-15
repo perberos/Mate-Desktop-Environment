@@ -28,7 +28,9 @@
 
 #include <matecomponent-activation/MateComponent_Activation_types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* If you wish to manipulate the internals of this structure, please
    use g_malloc/g_free to allocate memory. */

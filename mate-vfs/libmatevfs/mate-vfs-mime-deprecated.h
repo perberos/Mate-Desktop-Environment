@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* 
+/*
    Copyright (C) 2000 Eazel, Inc.
 
    The Mate Library is free software; you can redistribute it and/or
@@ -25,10 +25,12 @@
 #ifndef MATE_VFS_MIME_DEPRECATED_H
 #define MATE_VFS_MIME_DEPRECATED_H
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* ------------------------------
- * From mate-vfs-mime-handlers.h 
+ * From mate-vfs-mime-handlers.h
  * ------------------------------
  */
 
@@ -50,7 +52,7 @@ typedef enum {
  * MateVFSMimeAction:
  * @action_type: The #MateVFSMimeActionType describing the type of this action.
  *
- * This data structure describes an action that can be done 
+ * This data structure describes an action that can be done
  * on a file.
  **/
 typedef struct _MateVFSMimeAction MateVFSMimeAction;
@@ -79,7 +81,7 @@ MateVFSResult           mate_vfs_mime_action_launch                      (MateVF
 MateVFSResult           mate_vfs_mime_action_launch_with_env             (MateVFSMimeAction      *action,
 									    GList                   *uris,
 									    char                   **envp);
-									    
+
 const char  		*mate_vfs_mime_get_icon 			   (const char 		    *mime_type);
 
 /* List manipulation helper functions */

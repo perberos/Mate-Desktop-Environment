@@ -24,7 +24,9 @@
 
 #include <polkitagent/polkitagent.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define POLKIT_MATE_TYPE_LISTENER          (polkit_mate_listener_get_type())
 #define POLKIT_MATE_LISTENER(o)            (G_TYPE_CHECK_INSTANCE_CAST ((o), POLKIT_MATE_TYPE_LISTENER, PolkitMateListener))

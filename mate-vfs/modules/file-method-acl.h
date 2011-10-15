@@ -20,7 +20,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Christian Kellner <gicmo@mate.org>
+   Author: Christian Kellner <gicmo@gnome.org>
    Author: Alvaro Lopez Ortega <alvaro@sun.com>
 */
 
@@ -32,13 +32,15 @@
 #ifndef FILE_ACL_H
 #define FILE_ACL_H
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateVFSResult file_get_acl (const char       *path,
                              MateVFSFileInfo *info,
                              struct stat      *statbuf, /* needed? */
                              MateVFSContext  *context);
-                             
+
 MateVFSResult file_set_acl (const char             *path,
 			     const MateVFSFileInfo *info,
                              MateVFSContext         *context);

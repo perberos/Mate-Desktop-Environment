@@ -1,7 +1,7 @@
 /*
  * mate-panel-applet.c: panel applet writing library.
  *
- * Copyright (c) 2010 Carlos Garcia Campos <carlosgc@mate.org>
+ * Copyright (c) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
  * Copyright (C) 2001 Sun Microsystems, Inc.
  *
  * This library is free software; you can redistribute it and/or

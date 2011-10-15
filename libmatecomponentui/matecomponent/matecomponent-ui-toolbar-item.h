@@ -16,7 +16,9 @@
 #undef GTK_DISABLE_DEPRECATED
 #ifndef MATECOMPONENT_UI_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_TOOLBAR_ITEM			(matecomponent_ui_toolbar_item_get_type ())
 #define MATECOMPONENT_UI_TOOLBAR_ITEM(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_UI_TOOLBAR_ITEM, MateComponentUIToolbarItem))

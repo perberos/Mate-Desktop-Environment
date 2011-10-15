@@ -40,7 +40,9 @@
 
 #ifndef MATE_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #define MATE_TYPE_FILE_ENTRY            (mate_file_entry_get_type ())

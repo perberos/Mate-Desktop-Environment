@@ -31,7 +31,9 @@
 #include <gtk/gtk.h>
 #include <mate-panel-applet.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void wncklet_display_about(GtkWidget* applet, GtkWidget** dialog, const char* name, const char* copyright, const char* comments, const char** authors, const char** documenters, const char* translator_credits, const char* icon_name, const char* wmclass_name, const char* wmclass_class);
 

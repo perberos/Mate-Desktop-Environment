@@ -26,7 +26,9 @@
 
 #include "mdm-recent-option-widget.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_LAYOUT_OPTION_WIDGET         (mdm_layout_option_widget_get_type ())
 #define MDM_LAYOUT_OPTION_WIDGET(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_LAYOUT_OPTION_WIDGET, MdmLayoutOptionWidget))

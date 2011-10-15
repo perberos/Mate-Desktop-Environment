@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #include <gtk/gtk.h>
@@ -29,7 +29,7 @@
 /*
  * Originally based on code from panel-properties-dialog.c. This part of the
  * code was:
- * Copyright (C) 2005 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2005 Vincent Untz <vuntz@gnome.org>
  */
 
 static void

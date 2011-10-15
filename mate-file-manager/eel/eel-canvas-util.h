@@ -34,7 +34,9 @@
 #define EEL_CANVAS_UTIL_H
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* This structure defines an array of points.  X coordinates are stored in the even-numbered

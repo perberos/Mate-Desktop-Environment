@@ -1,5 +1,5 @@
 /* mate-appbar.h: statusbar/progress/minibuffer widget for Mate apps
- * 
+ *
  * This version by Havoc Pennington
  * Based on MozStatusbar widget, by Chris Toshok
  * In turn based on GtkStatusbar widget, from Gtk+,
@@ -32,7 +32,9 @@
 
 #include "mate-types.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_APPBAR            (mate_appbar_get_type ())
 #define MATE_APPBAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_APPBAR, MateAppBar))
@@ -76,7 +78,7 @@ struct _MateAppBarClass
 
 GType      mate_appbar_get_type     	(void) G_GNUC_CONST;
 
-GtkWidget* mate_appbar_new          	(gboolean has_progress, 
+GtkWidget* mate_appbar_new          	(gboolean has_progress,
 					 gboolean has_status,
 					 MatePreferencesType interactivity);
 
@@ -110,7 +112,7 @@ GtkProgressBar* mate_appbar_get_progress    (MateAppBar * appbar);
    to disappear. */
 void       mate_appbar_refresh         (MateAppBar * appbar);
 
-/* Put a prompt in the appbar and wait for a response. When the 
+/* Put a prompt in the appbar and wait for a response. When the
    user responds or cancels, a user_response signal is emitted. */
 void       mate_appbar_set_prompt          (MateAppBar * appbar,
 					     const gchar * prompt,

@@ -31,7 +31,9 @@
 #define NOTIFY_DBUS_CORE_INTERFACE "org.freedesktop.Notifications"
 #define NOTIFY_DBUS_CORE_OBJECT    "/org/freedesktop/Notifications"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 DBusGConnection * _notify_get_dbus_g_conn (void);
 DBusGProxy      * _notify_get_g_proxy     (void);

@@ -23,7 +23,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean panel_a11y_get_is_a11y_enabled          (GtkWidget  *widget);
 void     panel_a11y_set_atk_name_desc            (GtkWidget  *widget,

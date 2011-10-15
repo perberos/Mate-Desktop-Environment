@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <pulse/pulseaudio.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_CHANNEL_MAP         (gvc_channel_map_get_type ())
 #define GVC_CHANNEL_MAP(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_CHANNEL_MAP, GvcChannelMap))

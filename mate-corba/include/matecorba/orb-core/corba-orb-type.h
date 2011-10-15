@@ -4,7 +4,9 @@
 #include <matecorba/orb-core/orb-types.h>
 #include <matecorba/orb-core/matecorba-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(MATECORBA_DECL_CORBA_ORB) && !defined(_CORBA_ORB_defined)
 #define MATECORBA_DECL_CORBA_ORB 1
@@ -74,7 +76,7 @@ struct CORBA_ORB_type {
 	guint                           life_flags;
 
 	/*
-	 * HashTable of Object Adaptor generated refs that have 
+	 * HashTable of Object Adaptor generated refs that have
 	 * been externalised and refs that we have received.
 	 */
 	GHashTable		       *objrefs;

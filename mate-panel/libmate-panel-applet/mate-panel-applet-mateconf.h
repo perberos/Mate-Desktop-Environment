@@ -30,7 +30,9 @@
 
 #include <mate-panel-applet.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gchar       *mate_panel_applet_mateconf_get_full_key (MatePanelApplet     *applet,
 					      const gchar     *key);

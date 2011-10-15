@@ -19,7 +19,7 @@
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
   
-   Author: Christian Neumair <cneumair@mate.org>
+   Author: Christian Neumair <cneumair@gnome.org>
 */
 
 #ifndef CAJA_WINDOW_SLOT_H

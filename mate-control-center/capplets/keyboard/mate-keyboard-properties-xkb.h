@@ -3,7 +3,7 @@
 /* mate-keyboard-properties-xkb.h
  * Copyright (C) 2003-2007 Sergey V Udaltsov
  *
- * Written by Sergey V. Udaltsov <svu@mate.org>
+ * Written by Sergey V. Udaltsov <svu@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,9 @@
 
 #include "libmatekbd/matekbd-keyboard-config.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define CWID(s) GTK_WIDGET (gtk_builder_get_object (chooser_dialog, s))
 extern XklEngine *engine;
 extern XklConfigRegistry *config_registry;

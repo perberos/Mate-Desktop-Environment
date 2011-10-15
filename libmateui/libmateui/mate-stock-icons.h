@@ -29,7 +29,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_STOCK_TIMER "mate-stock-timer"
 #define MATE_STOCK_TIMER_STOP "mate-stock-timer-stop"

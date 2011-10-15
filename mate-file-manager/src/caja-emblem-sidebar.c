@@ -20,7 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors:  James Willcox  <jwillcox@mate.org>
+ * Authors:  James Willcox  <jwillcox@gnome.org>
  *           Alexander Larsson <alexl@redhat.com>
  *
  * This is a sidebar displaying emblems which can be dragged onto files to

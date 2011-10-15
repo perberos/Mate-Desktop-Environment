@@ -29,7 +29,9 @@
 #include <gtk/gtk.h>
 #include "mate-druid-page.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_DRUID_PAGE_STANDARD            (mate_druid_page_standard_get_type ())
 #define MATE_DRUID_PAGE_STANDARD(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_DRUID_PAGE_STANDARD, MateDruidPageStandard))
@@ -70,7 +72,7 @@ struct _MateDruidPageStandard
 	GdkColor background;
 	GdkColor logo_background;
 	GdkColor contents_background;
-	
+
 	/*< private >*/
 	MateDruidPageStandardPrivate *_priv;
 };

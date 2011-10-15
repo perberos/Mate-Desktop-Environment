@@ -30,18 +30,20 @@
 #endif
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-CORBA_ORB      matecomponent_activation_orb_init   (int   *argc, 
+CORBA_ORB      matecomponent_activation_orb_init   (int   *argc,
                                              char **argv);
 CORBA_ORB      matecomponent_activation_orb_get    (void);
 
 gboolean       matecomponent_activation_is_initialized   (void);
-CORBA_ORB      matecomponent_activation_init       (int      argc, 
+CORBA_ORB      matecomponent_activation_init       (int      argc,
                                              char   **argv);
-void           matecomponent_activation_preinit    (gpointer app, 
+void           matecomponent_activation_preinit    (gpointer app,
                                              gpointer mod_info);
-void           matecomponent_activation_postinit   (gpointer app, 
+void           matecomponent_activation_postinit   (gpointer app,
                                              gpointer mod_info);
 
 /* deprecated / private to libmatecomponentui */

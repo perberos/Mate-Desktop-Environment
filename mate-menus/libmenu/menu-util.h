@@ -26,26 +26,27 @@
 
 #include "menu-layout.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef G_ENABLE_DEBUG
 
-void menu_verbose (const char *format, ...) G_GNUC_PRINTF (1, 2);
+	void menu_verbose(const char* format, ...) G_GNUC_PRINTF(1, 2);
 
-void menu_debug_print_layout (MenuLayoutNode *node,
-                              gboolean        onelevel);
+	void menu_debug_print_layout(MenuLayoutNode* node, gboolean onelevel);
 
 #else /* !defined(G_ENABLE_DEBUG) */
 
-#ifdef G_HAVE_ISO_VARARGS
-#define menu_verbose(...)
-#elif defined(G_HAVE_GNUC_VARARGS)
-#define menu_verbose(format...)
-#else
-#error "Cannot disable verbose mode due to lack of varargs macros"
-#endif
+	#ifdef G_HAVE_ISO_VARARGS
+		#define menu_verbose(...)
+	#elif defined(G_HAVE_GNUC_VARARGS)
+		#define menu_verbose(format...)
+	#else
+		#error "Cannot disable verbose mode due to lack of varargs macros"
+	#endif
 
-#define menu_debug_print_layout(n,o)
+	#define menu_debug_print_layout(n, o)
 
 #endif /* G_ENABLE_DEBUG */
 

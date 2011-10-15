@@ -24,7 +24,9 @@
 #include <atk/atk.h>
 #include "gailcanvasitem.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GAIL_TYPE_CANVAS_GROUP                  (gail_canvas_group_get_type ())
 #define GAIL_CANVAS_GROUP(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAIL_TYPE_CANVAS_GROUP, GailCanvasGroup))

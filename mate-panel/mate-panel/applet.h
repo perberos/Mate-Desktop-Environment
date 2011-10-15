@@ -7,7 +7,9 @@
 #include "panel-mateconf.h"
 #include "panel-enums.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #define APPLET_EVENT_MASK (GDK_BUTTON_PRESS_MASK |		\

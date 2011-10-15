@@ -26,7 +26,9 @@
 
 #include "mdm-session.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_SESSION_RELAY         (mdm_session_relay_get_type ())
 #define MDM_SESSION_RELAY(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_SESSION_RELAY, MdmSessionRelay))

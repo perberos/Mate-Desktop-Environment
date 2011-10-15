@@ -15,8 +15,10 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent/matecomponent-moniker.h>
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_ITEM_CONTAINER        (matecomponent_item_container_get_type ())
 #define MATECOMPONENT_ITEM_CONTAINER_TYPE        MATECOMPONENT_TYPE_ITEM_CONTAINER /* deprecated, you should use MATECOMPONENT_TYPE_ITEM_CONTAINER */
 #define MATECOMPONENT_ITEM_CONTAINER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_ITEM_CONTAINER, MateComponentItemContainer))
@@ -49,7 +51,7 @@ GType                matecomponent_item_container_get_type       (void) G_GNUC_C
 MateComponentItemContainer *matecomponent_item_container_new            (void);
 
 void                 matecomponent_item_container_add            (MateComponentItemContainer *container,
-							   const char          *name, 
+							   const char          *name,
 							   MateComponentObject        *object);
 
 void                 matecomponent_item_container_remove_by_name (MateComponentItemContainer *container,

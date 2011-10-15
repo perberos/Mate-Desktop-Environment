@@ -4,7 +4,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_FOREIGN_OBJECT         (matecomponent_foreign_object_get_type ())
 

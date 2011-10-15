@@ -15,7 +15,9 @@
 
 #include <matecomponent/matecomponent-ui-sync.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_SYNC_STATUS            (matecomponent_ui_sync_status_get_type ())
 #define MATECOMPONENT_UI_SYNC_STATUS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_UI_SYNC_STATUS, MateComponentUISyncStatus))

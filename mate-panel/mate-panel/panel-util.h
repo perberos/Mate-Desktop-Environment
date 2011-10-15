@@ -4,7 +4,9 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define		sure_string(s)		((const char *)((s)!=NULL?(s):""))
 

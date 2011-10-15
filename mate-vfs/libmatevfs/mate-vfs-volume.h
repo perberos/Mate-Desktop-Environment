@@ -31,7 +31,9 @@
 #endif
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_VFS_TYPE_VOLUME        (mate_vfs_volume_get_type ())
 #define MATE_VFS_VOLUME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_VOLUME, MateVFSVolume))
@@ -94,7 +96,7 @@ typedef enum {
 	MATE_VFS_DEVICE_TYPE_UNKNOWN,
 	MATE_VFS_DEVICE_TYPE_AUDIO_CD,
 	MATE_VFS_DEVICE_TYPE_VIDEO_DVD,
-	MATE_VFS_DEVICE_TYPE_HARDDRIVE, 
+	MATE_VFS_DEVICE_TYPE_HARDDRIVE,
 	MATE_VFS_DEVICE_TYPE_CDROM,
 	MATE_VFS_DEVICE_TYPE_FLOPPY,
 	MATE_VFS_DEVICE_TYPE_ZIP,
@@ -106,9 +108,9 @@ typedef enum {
 	MATE_VFS_DEVICE_TYPE_SMB,
 	MATE_VFS_DEVICE_TYPE_APPLE,
 	MATE_VFS_DEVICE_TYPE_MUSIC_PLAYER,
-	MATE_VFS_DEVICE_TYPE_WINDOWS, 
-	MATE_VFS_DEVICE_TYPE_LOOPBACK, 
-	MATE_VFS_DEVICE_TYPE_NETWORK 
+	MATE_VFS_DEVICE_TYPE_WINDOWS,
+	MATE_VFS_DEVICE_TYPE_LOOPBACK,
+	MATE_VFS_DEVICE_TYPE_NETWORK
 } MateVFSDeviceType;
 
 /**
@@ -128,7 +130,7 @@ typedef enum {
 } MateVFSVolumeType;
 
 /**
- * MateVFSVolumeOpCallback: 
+ * MateVFSVolumeOpCallback:
  * @succeeded: whether the volume operation succeeded
  * @error: a string identifying the error that occurred, if
  * @succeeded is %FALSE. Otherwise %NULL.

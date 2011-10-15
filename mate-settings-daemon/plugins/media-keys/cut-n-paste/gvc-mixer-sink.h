@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include "gvc-mixer-stream.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_MIXER_SINK         (gvc_mixer_sink_get_type ())
 #define GVC_MIXER_SINK(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_MIXER_SINK, GvcMixerSink))

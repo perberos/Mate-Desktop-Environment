@@ -41,7 +41,9 @@
 #include <popt.h>
 #endif
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_PROGRAM (mate_program_get_type())
 #define MATE_PROGRAM(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), MATE_TYPE_PROGRAM, MateProgram))

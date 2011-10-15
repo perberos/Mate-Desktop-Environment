@@ -24,7 +24,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_DBUS_SERVICE_H
@@ -33,7 +33,9 @@
 #include <glib-object.h>
 #include <dbus/dbus-glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_DBUS_SERVICE			(panel_dbus_service_get_type ())
 #define PANEL_DBUS_SERVICE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_DBUS_SERVICE, PanelDBusService))

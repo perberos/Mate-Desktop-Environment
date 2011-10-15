@@ -6,7 +6,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* enumerations from "mateweather-location.h" */
 GType mateweather_location_level_get_type (void) G_GNUC_CONST;

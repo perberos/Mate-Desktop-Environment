@@ -57,7 +57,9 @@ extern char *_mate_vfs_sysconfdir;
 
 #endif
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean	 _mate_vfs_have_ipv6			 (void);
 
@@ -70,7 +72,7 @@ MateVFSResult	mate_vfs_create_temp 	(const gchar *prefix,
 gboolean	mate_vfs_atotm		(const gchar *time_string,
 					 time_t *value_return);
 
-MateVFSURI    *mate_vfs_uri_new_private (const gchar *text_uri, 
+MateVFSURI    *mate_vfs_uri_new_private (const gchar *text_uri,
 					   gboolean allow_unknown_method,
 					   gboolean allow_unsafe_method,
 					   gboolean allow_translate);

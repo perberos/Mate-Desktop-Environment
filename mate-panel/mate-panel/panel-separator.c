@@ -1,7 +1,7 @@
 /*
  * panel-separator.c: panel "Separator" module
  *
- * Copyright (C) 2005 Carlos Garcia Campos <carlosgc@mate.org>
+ * Copyright (C) 2005 Carlos Garcia Campos <carlosgc@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *      Carlos Garcia Campos <carlosgc@mate.org>
+ *      Carlos Garcia Campos <carlosgc@gnome.org>
  */
 
 #include <config.h>

@@ -33,7 +33,9 @@
 #include <libhal.h>
 #endif /* USE_HAL */
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_VFS_TYPE_VOLUME_MONITOR_DAEMON        (mate_vfs_volume_monitor_daemon_get_type ())
 #define MATE_VFS_VOLUME_MONITOR_DAEMON(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_VOLUME_MONITOR_DAEMON, MateVFSVolumeMonitorDaemon))
@@ -53,7 +55,7 @@ struct _MateVFSVolumeMonitorDaemon {
 	GList *last_fstab;
 	GList *last_mtab;
 	GList *last_connected_servers;
-	
+
 	MateConfClient *mateconf_client;
 	guint connected_id;
 };

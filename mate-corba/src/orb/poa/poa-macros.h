@@ -3,7 +3,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define poa_sys_exception_if_fail(expr,ex)		G_STMT_START {	\
 	if (!(expr)) {							\

@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_USER_CHOOSER_DIALOG         (mdm_user_chooser_dialog_get_type ())
 #define MDM_USER_CHOOSER_DIALOG(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_USER_CHOOSER_DIALOG, MdmUserChooserDialog))

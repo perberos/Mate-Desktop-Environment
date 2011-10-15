@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-window-info.h: Interface for caja windows
- 
+
    Copyright (C) 2004 Red Hat Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Alexander Larsson <alexl@redhat.com>
 */
 
@@ -30,7 +30,9 @@
 #include <gtk/gtk.h>
 #include "../src/caja-bookmark-list.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum
 {
@@ -67,7 +69,7 @@ typedef	enum {
 
 #ifndef CAJA_WINDOW_DEFINED
 #define CAJA_WINDOW_DEFINED
-/* Using CajaWindow for the vtable to make implementing this in 
+/* Using CajaWindow for the vtable to make implementing this in
  * CajaWindow easier */
 typedef struct CajaWindow          CajaWindow;
 #endif
@@ -83,7 +85,7 @@ typedef CajaWindow                  CajaWindowInfo;
 
 typedef struct _CajaWindowInfoIface CajaWindowInfoIface;
 
-struct _CajaWindowInfoIface 
+struct _CajaWindowInfoIface
 {
 	GTypeInterface g_iface;
 
@@ -96,7 +98,7 @@ struct _CajaWindowInfoIface
         void           (* title_changed)            (CajaWindowInfo *window,
 						     const char         *title);
         void           (* hidden_files_mode_changed)(CajaWindowInfo *window);
-  
+
 	/* VTable: */
 	/* A view calls this once after a load_location, once it starts loading the
 	 * directory. Might be called directly, or later on the mainloop.
@@ -115,11 +117,11 @@ struct _CajaWindowInfoIface
 	void (* report_view_failed)   (CajaWindowInfo *window,
 				       CajaView *view);
 	void (* report_selection_changed) (CajaWindowInfo *window);
-	
-	/* Returns the number of selected items in the view */	
+
+	/* Returns the number of selected items in the view */
 	int  (* get_selection_count)  (CajaWindowInfo    *window);
-	
-	/* Returns a list of uris for th selected items in the view, caller frees it */	
+
+	/* Returns a list of uris for th selected items in the view, caller frees it */
 	GList *(* get_selection)      (CajaWindowInfo    *window);
 
 	char * (* get_current_location)  (CajaWindowInfo *window);

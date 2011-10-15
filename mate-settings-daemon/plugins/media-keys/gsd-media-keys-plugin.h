@@ -27,7 +27,9 @@
 
 #include "mate-settings-plugin.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_MEDIA_KEYS_PLUGIN                (gsd_media_keys_plugin_get_type ())
 #define GSD_MEDIA_KEYS_PLUGIN(o)                  (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_MEDIA_KEYS_PLUGIN, GsdMediaKeysPlugin))

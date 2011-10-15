@@ -28,7 +28,9 @@
 #include <libmatevfs/mate-vfs-file-size.h>
 #include <libmatevfs/mate-vfs-file-info.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * MateVFSMethodHandle:

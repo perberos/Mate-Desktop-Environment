@@ -126,7 +126,7 @@ about_cb (GtkAction  *action,
   const char *authors[] = {
     "Havoc Pennington <hp@redhat.com>",
     "Anders Carlsson <andersca@gnu.org>",
-    "Vincent Untz <vuntz@mate.org>",
+    "Vincent Untz <vuntz@gnome.org>",
     NULL
   };
   const char *documenters [] = {

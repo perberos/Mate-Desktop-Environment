@@ -30,7 +30,9 @@
 #include "mdm-display.h"
 #include "mdm-address.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_XDMCP_DISPLAY         (mdm_xdmcp_display_get_type ())
 #define MDM_XDMCP_DISPLAY(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_XDMCP_DISPLAY, MdmXdmcpDisplay))

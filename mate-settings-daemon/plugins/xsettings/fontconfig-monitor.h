@@ -23,7 +23,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void fontconfig_cache_init (void);
 gboolean fontconfig_cache_update (void);

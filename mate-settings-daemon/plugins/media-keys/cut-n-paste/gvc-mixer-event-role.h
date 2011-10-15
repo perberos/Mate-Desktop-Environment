@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include "gvc-mixer-stream.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_MIXER_EVENT_ROLE         (gvc_mixer_event_role_get_type ())
 #define GVC_MIXER_EVENT_ROLE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_MIXER_EVENT_ROLE, GvcMixerEventRole))

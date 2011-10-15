@@ -1,8 +1,8 @@
 /*
  * mate-panel-applets-manager-dbus.h
  *
- * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@mate.org>
- * Copyright (C) 2010 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
+ * Copyright (C) 2010 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,7 +25,9 @@
 
 #include <mate-panel-applets-manager.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_APPLETS_MANAGER_DBUS			(mate_panel_applets_manager_dbus_get_type ())
 #define MATE_PANEL_APPLETS_MANAGER_DBUS(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_APPLETS_MANAGER_DBUS, MatePanelAppletsManagerDBus))

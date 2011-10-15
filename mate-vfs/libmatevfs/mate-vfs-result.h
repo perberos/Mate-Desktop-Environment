@@ -28,7 +28,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* IMPORTANT NOTICE: If you add error types here, please also add the
    corresponding descriptions in `mate-vfs-result.c'.  Moreover, *always* add

@@ -41,7 +41,9 @@
 
 #include <libart_lgpl/art_svp.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Base class for rectangle and ellipse item types.  These are defined by their top-left and

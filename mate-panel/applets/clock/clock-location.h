@@ -6,7 +6,9 @@
 #include <glib-object.h>
 #include <libmateweather/weather.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CLOCK_LOCATION_TYPE         (clock_location_get_type ())
 #define CLOCK_LOCATION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), CLOCK_LOCATION_TYPE, ClockLocation))

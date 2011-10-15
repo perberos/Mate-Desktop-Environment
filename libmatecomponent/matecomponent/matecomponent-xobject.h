@@ -14,7 +14,9 @@
 
 #ifndef MATECOMPONENT_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Compatibility code */
 #define MATECOMPONENT_TYPE_X_OBJECT        MATECOMPONENT_TYPE_OBJECT
@@ -69,7 +71,7 @@ prefix##_get_type (void)                                                      \
 	}                                                                     \
 	return type;                                                          \
 }
- 
+
 #define MATECOMPONENT_X_TYPE_FUNC(class_name, parent, prefix)                        \
 GType                                                                         \
 prefix##_get_type (void)                                                      \

@@ -3,7 +3,9 @@
 
 #include <matecorba/orb-core/corba-pobj.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct CORBA_any_struct {
 	CORBA_TypeCode  _type;

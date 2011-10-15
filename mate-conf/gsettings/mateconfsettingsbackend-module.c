@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Vincent Untz <vuntz@mate.org>
+ * Author: Vincent Untz <vuntz@gnome.org>
  */
 
 #include "config.h"

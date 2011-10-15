@@ -27,7 +27,9 @@
 #include <glib-object.h>
 #include <libmatevfs/mate-vfs-volume.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_VFS_TYPE_DRIVE        (mate_vfs_drive_get_type ())
 #define MATE_VFS_DRIVE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_DRIVE, MateVFSDrive))

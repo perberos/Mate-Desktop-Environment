@@ -41,7 +41,9 @@
 
 #include <matecomponent/matecomponent-dock.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_APP_MENUBAR_NAME "Menubar"
 #define MATE_APP_TOOLBAR_NAME "Toolbar"

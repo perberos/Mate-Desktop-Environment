@@ -25,7 +25,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define COMPONENT_LIST_TYPE        (component_list_get_type ())
 #define COMPONENT_LIST(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), COMPONENT_LIST_TYPE, ComponentList))

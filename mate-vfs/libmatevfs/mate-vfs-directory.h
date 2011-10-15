@@ -27,18 +27,20 @@
 #include <glib.h>
 #include <libmatevfs/mate-vfs-file-info.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MateVFSDirectoryHandle MateVFSDirectoryHandle;
 
 /**
  * MateVFSDirectoryVisitOptions:
- * @MATE_VFS_DIRECTORY_VISIT_DEFAULT: Default options, i.e. call 
+ * @MATE_VFS_DIRECTORY_VISIT_DEFAULT: Default options, i.e. call
  * the specified #MateVFSDirectoryVisitFunc for each file.
- * @MATE_VFS_DIRECTORY_VISIT_SAMEFS: Visit only directories on the same 
+ * @MATE_VFS_DIRECTORY_VISIT_SAMEFS: Visit only directories on the same
  * file system as the parent
  * @MATE_VFS_DIRECTORY_VISIT_LOOPCHECK: Loop prevention. If this
- * is set, and a file is found to be a directory referencing a prefiously 
+ * is set, and a file is found to be a directory referencing a prefiously
  * found directory inode (i.e. already used for one of it's parents), this
  * is considered a recursion loop, and #MateVFSDirectoryVisitFunc will
  * be notified using its @recursing_will_loop parameter. If this is not

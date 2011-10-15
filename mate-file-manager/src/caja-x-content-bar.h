@@ -28,7 +28,9 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_X_CONTENT_BAR         (caja_x_content_bar_get_type ())
 #define CAJA_X_CONTENT_BAR(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), CAJA_TYPE_X_CONTENT_BAR, CajaXContentBar))
@@ -53,12 +55,12 @@ typedef struct
 
 GType		 caja_x_content_bar_get_type	(void) G_GNUC_CONST;
 
-GtkWidget	*caja_x_content_bar_new		   (GMount              *mount, 
+GtkWidget	*caja_x_content_bar_new		   (GMount              *mount,
 							    const char          *x_content_type);
 const char      *caja_x_content_bar_get_x_content_type (CajaXContentBar *bar);
-void             caja_x_content_bar_set_x_content_type (CajaXContentBar *bar, 
+void             caja_x_content_bar_set_x_content_type (CajaXContentBar *bar,
 							    const char          *x_content_type);
-void             caja_x_content_bar_set_mount          (CajaXContentBar *bar, 
+void             caja_x_content_bar_set_mount          (CajaXContentBar *bar,
 							    GMount              *mount);
 GMount          *caja_x_content_bar_get_mount          (CajaXContentBar *bar);
 

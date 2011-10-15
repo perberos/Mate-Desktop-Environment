@@ -23,7 +23,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void
 mdm_session_record_login  (GPid                  session_pid,

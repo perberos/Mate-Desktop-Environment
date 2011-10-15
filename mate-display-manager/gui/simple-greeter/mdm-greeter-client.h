@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_GREETER_CLIENT         (mdm_greeter_client_get_type ())
 #define MDM_GREETER_CLIENT(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_GREETER_CLIENT, MdmGreeterClient))

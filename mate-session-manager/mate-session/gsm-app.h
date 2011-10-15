@@ -30,7 +30,9 @@
 #include "gsm-manager.h"
 #include "gsm-client.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_APP            (gsm_app_get_type ())
 #define GSM_APP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_APP, GsmApp))

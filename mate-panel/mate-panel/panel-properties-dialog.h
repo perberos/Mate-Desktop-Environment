@@ -27,7 +27,9 @@
 
 #include "panel-toplevel.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_properties_dialog_present (PanelToplevel *toplevel);
 

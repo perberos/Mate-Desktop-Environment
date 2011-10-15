@@ -20,7 +20,7 @@
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
    
-   Authors: Cosimo Cecchi <cosimoc@mate.org>
+   Authors: Cosimo Cecchi <cosimoc@gnome.org>
 */
 
 #ifndef CAJA_FILE_CONFLICT_DIALOG_H

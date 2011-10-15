@@ -25,7 +25,9 @@
 
 #include <X11/SM/SMlib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_XSMP_CLIENT            (gsm_xsmp_client_get_type ())
 #define GSM_XSMP_CLIENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_XSMP_CLIENT, GsmXSMPClient))

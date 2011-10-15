@@ -1,7 +1,7 @@
 /*
  * panel-recent.h
  *
- * Copyright (C) 2002 James Willcox <jwillcox@mate.org>
+ * Copyright (C) 2002 James Willcox <jwillcox@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -19,7 +19,7 @@
  * Boston, MA 02111-1307, USA.
  *
  * Authors:
- * 	James Willcox <jwillcox@mate.org>
+ * 	James Willcox <jwillcox@gnome.org>
  */
 
 #ifndef __PANEL_RECENT_H__
@@ -27,7 +27,9 @@
 
 #include "gtk/gtk.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_recent_append_documents_menu (GtkWidget        *menu,
 					 GtkRecentManager *manager);

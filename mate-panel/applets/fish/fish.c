@@ -21,7 +21,7 @@
  * Authors:
  *      George Lebl  <jirka@5z.com>
  *      Mark McLoughlin <mark@skynet.ie>
- *      Vincent Untz <vuntz@mate.org>
+ *      Vincent Untz <vuntz@gnome.org>
  */
 
 #include <config.h>

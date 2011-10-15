@@ -26,7 +26,9 @@
 #include "nameplate-tile.h"
 #include "bookmark-agent.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define DOCUMENT_TILE_TYPE         (document_tile_get_type ())
 #define DOCUMENT_TILE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), DOCUMENT_TILE_TYPE, DocumentTile))

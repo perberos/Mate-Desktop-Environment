@@ -22,7 +22,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MenuMonitor MenuMonitor;
 
@@ -49,9 +51,7 @@ void         menu_monitor_unref (MenuMonitor *monitor);
 void menu_monitor_add_notify    (MenuMonitor           *monitor,
 				 MenuMonitorNotifyFunc  notify_func,
 				 gpointer               user_data);
-void menu_monitor_remove_notify (MenuMonitor           *monitor,
-				 MenuMonitorNotifyFunc  notify_func,
-				 gpointer               user_data);
+void menu_monitor_remove_notify (MenuMonitor           *monitor, MenuMonitorNotifyFunc  notify_func, gpointer               user_data);
 
 G_END_DECLS
 

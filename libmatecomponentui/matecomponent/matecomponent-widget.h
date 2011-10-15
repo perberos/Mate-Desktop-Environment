@@ -16,8 +16,10 @@
 #include <matecomponent/MateComponent.h>
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_WIDGET        (matecomponent_widget_get_type ())
 #define MATECOMPONENT_WIDGET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_WIDGET, MateComponentWidget))
 #define MATECOMPONENT_WIDGET_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), MATECOMPONENT_TYPE_WIDGET, MateComponentWidgetClass))

@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_MEDIA_KEYS_MANAGER         (gsd_media_keys_manager_get_type ())
 #define GSD_MEDIA_KEYS_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_MEDIA_KEYS_MANAGER, GsdMediaKeysManager))

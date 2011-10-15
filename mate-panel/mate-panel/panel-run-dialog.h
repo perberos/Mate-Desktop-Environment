@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_run_dialog_present           (GdkScreen  *screen,
 					 guint32    activate_time);

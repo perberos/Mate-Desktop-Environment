@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <libIDL/IDL.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	IDL_tree get_op;

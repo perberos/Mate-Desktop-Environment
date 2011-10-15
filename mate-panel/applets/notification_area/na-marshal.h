@@ -4,7 +4,9 @@
 
 #include	<glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* VOID:OBJECT,OBJECT (na-marshal.list:1) */
 extern void _na_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,

@@ -18,7 +18,9 @@
 #include <glib-object.h>
 #include <libart_lgpl/art_bpath.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateCanvasPathDef MateCanvasPathDef;
 

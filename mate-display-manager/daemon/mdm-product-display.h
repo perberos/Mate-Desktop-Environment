@@ -26,7 +26,9 @@
 #include <dbus/dbus-glib.h>
 #include "mdm-display.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_PRODUCT_DISPLAY         (mdm_product_display_get_type ())
 #define MDM_PRODUCT_DISPLAY(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_PRODUCT_DISPLAY, MdmProductDisplay))

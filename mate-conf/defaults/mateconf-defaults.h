@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <dbus/dbus-glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECONF_TYPE_DEFAULTS         (mateconf_defaults_get_type ())
 #define MATECONF_DEFAULTS(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECONF_TYPE_DEFAULTS, MateConfDefaults))

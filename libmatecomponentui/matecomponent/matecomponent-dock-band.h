@@ -29,7 +29,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_DOCK_BAND            (matecomponent_dock_band_get_type ())
 #define MATECOMPONENT_DOCK_BAND(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_DOCK_BAND, MateComponentDockBand))
@@ -103,11 +105,11 @@ struct _MateComponentDockBandChild
 
 GtkWidget     *matecomponent_dock_band_new              (void);
 GType        matecomponent_dock_band_get_type         (void) G_GNUC_CONST;
-   
+
 void           matecomponent_dock_band_set_orientation  (MateComponentDockBand *band,
                                                  GtkOrientation orientation);
 GtkOrientation matecomponent_dock_band_get_orientation  (MateComponentDockBand *band);
-   
+
 gboolean       matecomponent_dock_band_insert           (MateComponentDockBand *band,
                                                  GtkWidget *child,
                                                  guint offset,
@@ -118,18 +120,18 @@ gboolean       matecomponent_dock_band_prepend          (MateComponentDockBand *
 gboolean       matecomponent_dock_band_append           (MateComponentDockBand *band,
                                                  GtkWidget *child,
                                                  guint offset);
-    
+
 void           matecomponent_dock_band_set_child_offset (MateComponentDockBand *band,
                                                  GtkWidget *child,
                                                  guint offset);
 guint          matecomponent_dock_band_get_child_offset (MateComponentDockBand *band,
-                                                 GtkWidget *child); 
+                                                 GtkWidget *child);
 void           matecomponent_dock_band_move_child       (MateComponentDockBand *band,
                                                  GList *old_child,
                                                  guint new_num);
-   
+
 guint          matecomponent_dock_band_get_num_children (MateComponentDockBand *band);
-    
+
 void           matecomponent_dock_band_drag_begin       (MateComponentDockBand *band,
                                                  MateComponentDockItem *item);
 gboolean       matecomponent_dock_band_drag_to          (MateComponentDockBand *band,
@@ -137,7 +139,7 @@ gboolean       matecomponent_dock_band_drag_to          (MateComponentDockBand *
                                                  gint x, gint y);
 void           matecomponent_dock_band_drag_end         (MateComponentDockBand *band,
                                                  MateComponentDockItem *item);
-   
+
 MateComponentDockItem *matecomponent_dock_band_get_item_by_name (MateComponentDockBand *band,
                                                  const char *name,
                                                  guint *position_return,

@@ -3,7 +3,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -20,7 +22,7 @@ G_BEGIN_DECLS
 #define gettext(String) (String)
 #define dgettext(Domain,String) (String)
 #define dcgettext(Domain,String,Type) (String)
-#define bindtextdomain(Domain,Directory) (Domain) 
+#define bindtextdomain(Domain,Directory) (Domain)
 #endif
 
 typedef struct {

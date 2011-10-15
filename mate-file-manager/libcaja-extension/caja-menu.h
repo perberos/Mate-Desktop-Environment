@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Dave Camp <dave@ximian.com>
  *           Raffaele Sandrini <rasa@gmx.ch>
  *
@@ -30,7 +30,9 @@
 #include "caja-extension-types.h"
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* CajaMenu defines */
 #define CAJA_TYPE_MENU         (caja_menu_get_type ())
@@ -104,7 +106,7 @@ void              caja_menu_item_set_submenu   (CajaMenuItem *item,
 /* CajaMenuItem has the following properties:
  *   name (string)        - the identifier for the menu item
  *   label (string)       - the user-visible label of the menu item
- *   tip (string)         - the tooltip of the menu item 
+ *   tip (string)         - the tooltip of the menu item
  *   icon (string)        - the name of the icon to display in the menu item
  *   sensitive (boolean)  - whether the menu item is sensitive or not
  *   priority (boolean)   - used for toolbar items, whether to show priority

@@ -32,7 +32,9 @@
 
 #include "mate-mdi-child.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_MDI_GENERIC_CHILD            (mate_mdi_generic_child_get_type ())
 #define MATE_MDI_GENERIC_CHILD(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_MDI_GENERIC_CHILD, MateMDIGenericChild))

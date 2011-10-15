@@ -13,7 +13,9 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <matecomponent/matecomponent-ui-component.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 char      *matecomponent_ui_util_pixbuf_to_xml       (GdkPixbuf         *pixbuf);
 GdkPixbuf *matecomponent_ui_util_xml_to_pixbuf       (const char        *xml);

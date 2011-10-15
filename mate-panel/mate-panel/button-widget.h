@@ -4,12 +4,14 @@
 #include <gtk/gtk.h>
 #include "panel-enums.h"
 
-G_BEGIN_DECLS
-	
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define BUTTON_TYPE_WIDGET		(button_widget_get_type ())
 #define BUTTON_WIDGET(object)          	(G_TYPE_CHECK_INSTANCE_CAST ((object), BUTTON_TYPE_WIDGET, ButtonWidget))
 #define BUTTON_WIDGET_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass, BUTTON_TYPE_WIDGET, ButtonWidgetClass))
-#define BUTTON_IS_WIDGET(object)    	(G_TYPE_CHECK_INSTANCE_TYPE ((object), BUTTON_TYPE_WIDGET)) 
+#define BUTTON_IS_WIDGET(object)    	(G_TYPE_CHECK_INSTANCE_TYPE ((object), BUTTON_TYPE_WIDGET))
 #define BUTTON_IS_WIDGET_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), BUTTON_TYPE_WIDGET))
 
 typedef struct _ButtonWidget		ButtonWidget;

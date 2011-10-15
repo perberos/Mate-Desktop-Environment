@@ -16,7 +16,9 @@
 #include <matecomponent/matecomponent-main.h>
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define LIBMATECOMPONENTUI_MODULE libmatecomponent_ui_module_info_get()
 const MateModuleInfo * libmatecomponent_ui_module_info_get (void) G_GNUC_CONST;

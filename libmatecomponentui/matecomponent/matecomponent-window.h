@@ -16,7 +16,9 @@
 #include <matecomponent/matecomponent-ui-engine.h>
 #include <matecomponent/matecomponent-ui-container.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_WINDOW        (matecomponent_window_get_type ())
 #define MATECOMPONENT_WINDOW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_WINDOW, MateComponentWindow))
@@ -29,7 +31,7 @@ typedef struct _MateComponentWindow        MateComponentWindow;
 
 struct _MateComponentWindow {
 	GtkWindow             parent;
-	
+
 	MateComponentWindowPrivate  *priv;
 };
 

@@ -21,7 +21,9 @@
 
 #include <sys/types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 enum {
 	MATE_VFS_PTY_REAP_CHILD = 1,

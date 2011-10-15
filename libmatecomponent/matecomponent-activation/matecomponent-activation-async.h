@@ -28,16 +28,18 @@
 
 #include <matecomponent-activation/MateComponent_Activation_types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* activated_object is CORBA_OBJECT_NIL if the activation 
+/* activated_object is CORBA_OBJECT_NIL if the activation
    failed somehow. If this is the case, error_reason contains
    a valid string which describes the pb encountered.
    If this is not the case, error_reason is not defined.
    activated_object should be CORBA_Object_release'd by the user
 */
-typedef void (*MateComponentActivationCallback) (CORBA_Object   activated_object, 
-                                          const char    *error_reason, 
+typedef void (*MateComponentActivationCallback) (CORBA_Object   activated_object,
+                                          const char    *error_reason,
                                           gpointer       user_data);
 
 

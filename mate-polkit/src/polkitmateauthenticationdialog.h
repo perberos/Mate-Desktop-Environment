@@ -25,7 +25,9 @@
 #include <gtk/gtk.h>
 #include <polkit/polkit.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define POLKIT_MATE_TYPE_AUTHENTICATION_DIALOG            (polkit_mate_authentication_dialog_get_type ())
 #define POLKIT_MATE_AUTHENTICATION_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), POLKIT_MATE_TYPE_AUTHENTICATION_DIALOG, PolkitMateAuthenticationDialog))

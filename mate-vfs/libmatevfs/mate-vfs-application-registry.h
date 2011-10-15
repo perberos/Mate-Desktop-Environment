@@ -18,21 +18,21 @@
  * You should have received a copy of the GNU Library General Public
  * License along with the Mate Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA. 
+ * Boston, MA 02111-1307, USA.
  */
 /*
  * Authors: George Lebl
  * 	Based on original mime-info database code by Miguel de Icaza
  */
 
-/* DEPRECATED 
+/* DEPRECATED
  *
  * Do not use in new code.
  *
  * Use the api in mate-vfs-mime-handlers.h instead.
  *
  */
- 
+
 #ifndef MATE_VFS_DISABLE_DEPRECATED
 
 #ifndef MATE_VFS_APPLICATION_REGISTRY_H
@@ -40,8 +40,10 @@
 
 #include <libmatevfs/mate-vfs-mime-handlers.h>
 
-G_BEGIN_DECLS
-	
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * MATE_VFS_APPLICATION_REGISTRY_COMMAND:
  *
@@ -60,7 +62,7 @@ G_BEGIN_DECLS
 /**
  * MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES:
  *
- * Application registry key for determining if an application 
+ * Application registry key for determining if an application
  * can open multiple files in the same invocation.
  **/
 #define MATE_VFS_APPLICATION_REGISTRY_CAN_OPEN_MULTIPLE_FILES "can_open_multiple_files"
@@ -73,9 +75,9 @@ G_BEGIN_DECLS
  **/
 #define MATE_VFS_APPLICATION_REGISTRY_REQUIRES_TERMINAL "requires_terminal"
 
-/** 
+/**
  * MATE_VFS_APPLICATION_REGISTRY_USES_MATEVFS
- * 
+ *
  * Application registry key for determining if an application
  * is using mate-vfs and thus can open any URI supported by
  * mate-vfs
@@ -89,7 +91,7 @@ G_BEGIN_DECLS
  * supports freedesktop.org-style startup notification.
  **/
 #define MATE_VFS_APPLICATION_REGISTRY_STARTUP_NOTIFY "startup_notify"
-	
+
 /*
  * Existance check
  */

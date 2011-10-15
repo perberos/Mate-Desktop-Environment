@@ -23,7 +23,9 @@
 #include <glib.h>
 #include "mateconf/mateconf-error.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Skipped from introspection because it's not an object or registered as boxed */
 /**
@@ -33,10 +35,10 @@ G_BEGIN_DECLS
  */
 
 /* A configuration engine (stack of config sources); normally there's
- * just one of these on the system.  
+ * just one of these on the system.
  */
 typedef struct _MateConfEngine MateConfEngine;
-  
+
 MateConfEngine* mateconf_engine_get_default     (void);
 /* returns NULL on error; requests single specified source */
 MateConfEngine* mateconf_engine_get_for_address (const gchar* address,

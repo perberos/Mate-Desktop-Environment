@@ -18,7 +18,9 @@
 #include <libmatecanvas/mate-canvas-shape.h>
 #include <libmatecanvas/mate-canvas-path-def.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Bpath item for the canvas.
@@ -45,7 +47,7 @@ typedef struct _MateCanvasBpathClass MateCanvasBpathClass;
 
 struct _MateCanvasBpath {
 	MateCanvasShape item;
-	
+
 };
 
 struct _MateCanvasBpathClass {

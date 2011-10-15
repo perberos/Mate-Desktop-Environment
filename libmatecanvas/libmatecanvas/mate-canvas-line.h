@@ -39,7 +39,9 @@
 #include <libmatecanvas/mate-canvas.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Line item for the canvas.  This is a polyline with configurable width, cap/join styles, and arrowheads.

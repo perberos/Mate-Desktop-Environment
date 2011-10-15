@@ -1,7 +1,9 @@
 
 #include	<gobject/gmarshal.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* VOID:STRING,POINTER (peditor-marshal.list:25) */
 extern void mateconf_property_editor_marshal_VOID__STRING_POINTER (GClosure     *closure,

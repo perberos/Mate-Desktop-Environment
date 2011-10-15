@@ -6,7 +6,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CLOCK_MAP_TYPE         (clock_map_get_type ())
 #define CLOCK_MAP(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), CLOCK_MAP_TYPE, ClockMap))

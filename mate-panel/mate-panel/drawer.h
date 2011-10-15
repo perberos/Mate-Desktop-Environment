@@ -3,7 +3,9 @@
 
 #include "panel.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_DRAWER_N_LISTENERS 3
 

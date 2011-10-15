@@ -5,7 +5,9 @@
 #include <glib-object.h>
 #include <matecomponent/MateComponent.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_APP_CLIENT            (matecomponent_app_client_get_type ())
 #define MATECOMPONENT_APP_CLIENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj),\
@@ -43,7 +45,7 @@ struct _MateComponentAppClient
 struct _MateComponentAppClientClass
 {
 	GObjectClass parent_class;
-  
+
 };
 
 

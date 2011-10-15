@@ -3,7 +3,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef MATECORBA2_INTERNAL_API
 
@@ -11,7 +13,7 @@ struct CORBA_Policy_type {
 	struct MateCORBA_RootObject_struct parent;
 
 	CORBA_unsigned_long            type;
-	CORBA_unsigned_long            value; 
+	CORBA_unsigned_long            value;
 };
 
 CORBA_Policy        MateCORBA_Policy_new (CORBA_unsigned_long type,

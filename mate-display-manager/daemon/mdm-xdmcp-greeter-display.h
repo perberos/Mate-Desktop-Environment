@@ -29,7 +29,9 @@
 #include "mdm-xdmcp-display.h"
 #include "mdm-address.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_XDMCP_GREETER_DISPLAY         (mdm_xdmcp_greeter_display_get_type ())
 #define MDM_XDMCP_GREETER_DISPLAY(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_XDMCP_GREETER_DISPLAY, MdmXdmcpGreeterDisplay))

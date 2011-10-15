@@ -31,7 +31,9 @@
 
 #include <gdk/gdk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_BG_CROSSFADE            (mate_bg_crossfade_get_type ())
 #define MATE_BG_CROSSFADE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_BG_CROSSFADE, MateBGCrossfade))

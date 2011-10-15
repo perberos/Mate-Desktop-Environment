@@ -13,7 +13,9 @@
 #include <matecomponent/matecomponent-types.h>
 #include <matecomponent/matecomponent-moniker.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_MONIKER_SIMPLE        (matecomponent_moniker_simple_get_type ())
 #define MATECOMPONENT_MONIKER_SIMPLE_TYPE        MATECOMPONENT_TYPE_MONIKER_SIMPLE /* deprecated, you should use MATECOMPONENT_TYPE_MONIKER_SIMPLE */

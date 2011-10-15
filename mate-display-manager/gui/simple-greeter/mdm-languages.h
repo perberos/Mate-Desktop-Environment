@@ -24,7 +24,9 @@
 #ifndef __MDM_LANGUAGES_H
 #define __MDM_LANGUAGES_H
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 char *        mdm_get_language_from_name  (const char *name,
                                            const char *locale);

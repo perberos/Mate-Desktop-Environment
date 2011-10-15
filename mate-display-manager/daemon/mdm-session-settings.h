@@ -25,7 +25,9 @@
 #include <glib.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MDM_TYPE_SESSION_SETTINGS (mdm_session_settings_get_type ())
 #define MDM_SESSION_SETTINGS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_SESSION_SETTINGS, MdmSessionSettings))
 #define MDM_SESSION_SETTINGS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MDM_TYPE_SESSION_SETTINGS, MdmSessionSettingsClass))

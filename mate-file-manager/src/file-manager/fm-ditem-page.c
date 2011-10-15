@@ -17,7 +17,7 @@
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- *  Authors: James Willcox <jwillcox@mate.org>
+ *  Authors: James Willcox <jwillcox@gnome.org>
  *
  */
 

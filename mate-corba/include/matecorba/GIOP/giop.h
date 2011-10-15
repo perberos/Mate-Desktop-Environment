@@ -10,7 +10,9 @@
 #include <matecorba/GIOP/giop-connection.h>
 #include <matecorba/GIOP/giop-server.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef MATECORBA2_INTERNAL_API
 

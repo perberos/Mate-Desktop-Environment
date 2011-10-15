@@ -1,5 +1,5 @@
 /*
- *  caja-file-info.h - Information about a file 
+ *  caja-file-info.h - Information about a file
  *
  *  Copyright (C) 2003 Novell, Inc.
  *
@@ -19,7 +19,7 @@
  *
  */
 
-/* CajaFileInfo is an interface to the CajaFile object.  It 
+/* CajaFileInfo is an interface to the CajaFile object.  It
  * provides access to the asynchronous data in the CajaFile.
  * Extensions are passed objects of this type for operations. */
 
@@ -29,7 +29,9 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_FILE_INFO           (caja_file_info_get_type ())
 #define CAJA_FILE_INFO(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_FILE_INFO, CajaFileInfo))
@@ -39,7 +41,7 @@ G_BEGIN_DECLS
 
 #ifndef CAJA_FILE_DEFINED
 #define CAJA_FILE_DEFINED
-/* Using CajaFile for the vtable to make implementing this in 
+/* Using CajaFile for the vtable to make implementing this in
  * CajaFile easier */
 typedef struct CajaFile          CajaFile;
 #endif
@@ -48,22 +50,22 @@ typedef CajaFile                  CajaFileInfo;
 typedef struct _CajaFileInfoIface CajaFileInfoIface;
 
 
-struct _CajaFileInfoIface 
+struct _CajaFileInfoIface
 {
 	GTypeInterface g_iface;
 
 	gboolean          (*is_gone)              (CajaFileInfo *file);
-	
+
 	char *            (*get_name)             (CajaFileInfo *file);
 	char *            (*get_uri)              (CajaFileInfo *file);
 	char *            (*get_parent_uri)       (CajaFileInfo *file);
 	char *            (*get_uri_scheme)       (CajaFileInfo *file);
-	
+
 	char *            (*get_mime_type)        (CajaFileInfo *file);
 	gboolean          (*is_mime_type)         (CajaFileInfo *file,
 						   const char       *mime_Type);
 	gboolean          (*is_directory)         (CajaFileInfo *file);
-	
+
 	void              (*add_emblem)           (CajaFileInfo *file,
 						   const char       *emblem_name);
 	char *            (*get_string_attribute) (CajaFileInfo *file,
@@ -72,7 +74,7 @@ struct _CajaFileInfoIface
 						   const char       *attribute_name,
 						   const char       *value);
 	void              (*invalidate_extension_info) (CajaFileInfo *file);
-	
+
 	char *            (*get_activation_uri)   (CajaFileInfo *file);
 
 	GFileType         (*get_file_type)        (CajaFileInfo *file);
@@ -81,7 +83,7 @@ struct _CajaFileInfoIface
 	CajaFileInfo* (*get_parent_info)      (CajaFileInfo *file);
 	GMount *          (*get_mount)            (CajaFileInfo *file);
 	gboolean          (*can_write)            (CajaFileInfo *file);
-  
+
 };
 
 GList            *caja_file_info_list_copy            (GList            *files);

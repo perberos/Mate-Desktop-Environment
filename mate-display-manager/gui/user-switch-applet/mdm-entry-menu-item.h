@@ -22,7 +22,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_ENTRY_MENU_ITEM \
   (mdm_entry_menu_item_get_type ())

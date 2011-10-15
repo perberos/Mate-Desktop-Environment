@@ -8,7 +8,9 @@
 #define MATE_DESKTOP_USE_UNSTABLE_API 1
 #include <libmateui/mate-desktop-thumbnail.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean          libslab_gtk_image_set_by_id (GtkImage *image, const gchar *id);
 MateDesktopItem *libslab_mate_desktop_item_new_from_unknown_id (const gchar *id);

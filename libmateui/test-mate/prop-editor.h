@@ -21,7 +21,9 @@
 #ifndef __PROP_EDITOR_H__
 #define __PROP_EDITOR_H__
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 GtkWidget *create_prop_editor (GObject   *object,
 			       GType      type);

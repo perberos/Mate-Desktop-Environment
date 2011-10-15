@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include "mdm-session.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_SESSION_DIRECT (mdm_session_direct_get_type ())
 #define MDM_SESSION_DIRECT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_SESSION_DIRECT, MdmSessionDirect))

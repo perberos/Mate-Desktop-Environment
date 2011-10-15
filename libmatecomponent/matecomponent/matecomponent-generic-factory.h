@@ -15,8 +15,10 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent/matecomponent-i18n.h>
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_GENERIC_FACTORY        (matecomponent_generic_factory_get_type ())
 #define MATECOMPONENT_GENERIC_FACTORY_TYPE        MATECOMPONENT_TYPE_GENERIC_FACTORY /* deprecated, you should use MATECOMPONENT_TYPE_GENERIC_FACTORY */
 #define MATECOMPONENT_GENERIC_FACTORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_GENERIC_FACTORY, MateComponentGenericFactory))
@@ -30,7 +32,7 @@ typedef struct _MateComponentGenericFactory        MateComponentGenericFactory;
 typedef MateComponentObject * (*MateComponentFactoryCallback) (MateComponentGenericFactory *factory,
 						 const char           *component_id,
 						 gpointer              closure);
-					
+
 struct _MateComponentGenericFactory {
 	MateComponentObject                 base;
 
@@ -96,7 +98,7 @@ int main (int argc, char *argv [])						\
 	MATECOMPONENT_FACTORY_INIT (descr, version, &argc, argv);			\
 									        \
 	return matecomponent_generic_factory_main (oafiid, callback, data);		\
-}                                                                             
+}
 
 #define MATECOMPONENT_ACTIVATION_FACTORY_TIMEOUT(oafiid, descr, version, callback, data, quit_timeout)	\
 int main (int argc, char *argv [])								\
@@ -106,7 +108,7 @@ int main (int argc, char *argv [])								\
 	MATECOMPONENT_FACTORY_INIT (descr, version, &argc, argv);					\
 												\
 	return matecomponent_generic_factory_main_timeout (oafiid, callback, data, quit_timeout);	\
-}                                                                             
+}
 
 G_END_DECLS
 

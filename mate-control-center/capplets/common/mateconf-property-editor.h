@@ -29,7 +29,9 @@
 #include <mateconf/mateconf-client.h>
 #include <mateconf/mateconf-changeset.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECONF_PROPERTY_EDITOR(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, mateconf_property_editor_get_type (), MateConfPropertyEditor)
 #define MATECONF_PROPERTY_EDITOR_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, mateconf_property_editor_get_type (), MateConfPropertyEditorClass)
@@ -42,14 +44,14 @@ typedef struct _MateConfPropertyEditorPrivate MateConfPropertyEditorPrivate;
 typedef MateConfValue *(*MateConfPEditorValueConvFn) (MateConfPropertyEditor *peditor, const MateConfValue *);
 typedef int	    (*MateConfPEditorGetValueFn)  (MateConfPropertyEditor *peditor, gpointer data);
 
-struct _MateConfPropertyEditor 
+struct _MateConfPropertyEditor
 {
 	GObject parent;
 
 	MateConfPropertyEditorPrivate *p;
 };
 
-struct _MateConfPropertyEditorClass 
+struct _MateConfPropertyEditorClass
 {
 	GObjectClass g_object_class;
 

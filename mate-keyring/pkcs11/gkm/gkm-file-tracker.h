@@ -28,7 +28,9 @@
 
 #include "gkm-file-tracker.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GKM_TYPE_FILE_TRACKER             (gkm_file_tracker_get_type ())
 #define GKM_FILE_TRACKER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), GKM_TYPE_FILE_TRACKER, GkmFileTracker))

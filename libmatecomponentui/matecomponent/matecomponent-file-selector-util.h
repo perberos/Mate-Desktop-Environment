@@ -15,7 +15,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 char  *matecomponent_file_selector_open       (GtkWindow  *parent,
 					gboolean    enable_vfs,

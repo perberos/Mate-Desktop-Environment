@@ -9,7 +9,9 @@
 #ifndef _LINK_SOURCE_H_
 #define _LINK_SOURCE_H_
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * A dead simple, raw source - with fast conditon change.

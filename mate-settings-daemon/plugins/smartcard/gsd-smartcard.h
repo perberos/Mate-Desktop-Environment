@@ -25,7 +25,9 @@
 
 #include <secmod.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define GSD_TYPE_SMARTCARD            (gsd_smartcard_get_type ())
 #define GSD_SMARTCARD(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSD_TYPE_SMARTCARD, GsdSmartcard))
 #define GSD_SMARTCARD_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GSD_TYPE_SMARTCARD, GsdSmartcardClass))

@@ -24,7 +24,9 @@
 #include <glib.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_SOUND_MANAGER         (gsd_sound_manager_get_type ())
 #define GSD_SOUND_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_SOUND_MANAGER, GsdSoundManager))

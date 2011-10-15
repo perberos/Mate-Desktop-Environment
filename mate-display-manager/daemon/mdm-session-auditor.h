@@ -29,7 +29,9 @@
 #include <glib.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MDM_TYPE_SESSION_AUDITOR (mdm_session_auditor_get_type ())
 #define MDM_SESSION_AUDITOR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_SESSION_AUDITOR, MdmSessionAuditor))
 #define MDM_SESSION_AUDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MDM_TYPE_SESSION_AUDITOR, MdmSessionAuditorClass))

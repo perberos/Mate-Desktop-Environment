@@ -35,7 +35,9 @@
 #undef interface
 #endif
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_VFS_TYPE_ADDRESS  (mate_vfs_address_get_type ())
 

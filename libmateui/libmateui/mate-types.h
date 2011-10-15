@@ -31,11 +31,13 @@
 
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* string is a g_malloc'd string which should be freed, or NULL if the
    user cancelled. */
-typedef void (* MateStringCallback)(gchar * string, gpointer data); 
+typedef void (* MateStringCallback)(gchar * string, gpointer data);
 
 /* See mate-uidefs for the Yes/No Ok/Cancel defines which can be
    "reply" */

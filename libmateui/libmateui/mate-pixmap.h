@@ -2,7 +2,7 @@
 
    Copyright (C) 1999, 2000 Red Hat, Inc.
    All rights reserved.
-    
+
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
@@ -38,7 +38,9 @@
 #include <gtk/gtk.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_PIXMAP            (mate_pixmap_get_type ())
 #define MATE_PIXMAP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_PIXMAP, MatePixmap))

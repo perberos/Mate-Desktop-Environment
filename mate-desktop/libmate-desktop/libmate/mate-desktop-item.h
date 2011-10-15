@@ -1,5 +1,5 @@
 /* -*- Mode: C; c-set-style: linux indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* mate-ditem.h - MATE Desktop File Representation 
+/* mate-ditem.h - MATE Desktop File Representation
 
    Copyright (C) 1999, 2000 Red Hat Inc.
    Copyright (C) 2001 Sid Vicious
@@ -11,12 +11,12 @@
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-   
+
    The Mate Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
-   
+
    You should have received a copy of the GNU Library General Public
    License along with the Mate Library; see the file COPYING.LIB.  If not,
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
@@ -34,7 +34,9 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	MATE_DESKTOP_ITEM_TYPE_NULL = 0 /* This means its NULL, that is, not
@@ -113,7 +115,7 @@ typedef enum {
 	/* Use current directory instead of home directory */
         MATE_DESKTOP_ITEM_LAUNCH_USE_CURRENT_DIR = 1<<1,
 	/* Append the list of URIs to the command if no Exec
-	 * parameter is specified, instead of launching the 
+	 * parameter is specified, instead of launching the
 	 * app without parameters. */
 	MATE_DESKTOP_ITEM_LAUNCH_APPEND_URIS = 1<<2,
 	/* Same as above but instead append local paths */

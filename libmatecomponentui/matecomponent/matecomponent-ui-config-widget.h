@@ -16,7 +16,9 @@
 #include <gtk/gtk.h>
 #include <matecomponent/matecomponent-ui-engine.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_CONFIG_WIDGET            (matecomponent_ui_config_widget_get_type ())
 #define MATECOMPONENT_UI_CONFIG_WIDGET(obj)		G_TYPE_CHECK_INSTANCE_CAST(obj,  matecomponent_ui_config_widget_get_type (), MateComponentUIConfigWidget)

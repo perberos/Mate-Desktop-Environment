@@ -7,7 +7,9 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Names for Caja's different zoom levels, from tiniest items to largest items */
 typedef enum {

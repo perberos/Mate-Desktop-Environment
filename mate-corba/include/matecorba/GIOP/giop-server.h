@@ -4,7 +4,9 @@
 #include <matecorba/GIOP/giop-basics.h>
 #include <linc/linc.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef MATECORBA2_INTERNAL_API
 
@@ -23,7 +25,7 @@ G_BEGIN_DECLS
 #define GIOP_IS_SERVER(object)       (                                                        \
 		((GIOPServer *)(object)) != NULL &&                                           \
 		GIOP_IS_SERVER_CLASS (((GTypeInstance *)(object))->g_class)                   \
-)  
+)
 #define GIOP_IS_SERVER_CLASS(class)  (                                                        \
 		((GTypeClass *)(class)) != NULL &&                                            \
 		GIOP_TYPE_IS_SERVER (((GTypeClass*) (class))->g_type)                         \

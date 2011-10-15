@@ -24,8 +24,10 @@
 #include <glib.h>
 #include <libIDL/IDL.h>
 
-G_BEGIN_DECLS 
-		
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 IDL_tree _IDL_binop_eval   (enum IDL_binop   op,
 			    IDL_tree         a,
 			    IDL_tree         b);
@@ -33,6 +35,6 @@ IDL_tree _IDL_binop_eval   (enum IDL_binop   op,
 IDL_tree _IDL_unaryop_eval (enum IDL_unaryop op,
 			    IDL_tree         a);
 
-G_END_DECLS 
+G_END_DECLS
 
 #endif /* __MATECORBA_IMODULE_LIBIDL_UTILS_H__ */

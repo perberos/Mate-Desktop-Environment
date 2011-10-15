@@ -18,12 +18,14 @@
 #include "panel-background.h"
 #include "panel-toplevel.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_WIDGET          	(panel_widget_get_type ())
 #define PANEL_WIDGET(object)          	(G_TYPE_CHECK_INSTANCE_CAST ((object), PANEL_TYPE_WIDGET, PanelWidget))
 #define PANEL_WIDGET_CLASS(klass)  	(G_TYPE_CHECK_CLASS_CAST ((klass), PANEL_TYPE_WIDGET, PanelWidgetClass))
-#define PANEL_IS_WIDGET(object)       	(G_TYPE_CHECK_INSTANCE_TYPE ((object), PANEL_TYPE_WIDGET)) 
+#define PANEL_IS_WIDGET(object)       	(G_TYPE_CHECK_INSTANCE_TYPE ((object), PANEL_TYPE_WIDGET))
 
 #define PANEL_MINIMUM_WIDTH 12
 
@@ -71,14 +73,14 @@ struct _AppletData
 				   nesting reasons */
 
 	/* Valid size ranges for expanded applets */
-	int *           size_hints; 
+	int *           size_hints;
 	int             size_hints_len;
-  
+
 	guint           size_constrained : 1;
 	guint           expand_major : 1;
 	guint           expand_minor : 1;
 	guint           locked : 1;
-  
+
 };
 
 struct _PanelWidget
@@ -87,7 +89,7 @@ struct _PanelWidget
 
 	GList          *applet_list;
 
-	GSList         *open_dialogs;	
+	GSList         *open_dialogs;
 
 	int             size;
 	GtkOrientation  orient;
@@ -100,14 +102,14 @@ struct _PanelWidget
 	PanelBackground background;
 
 	GtkWidget      *master_widget;
-	
+
 	GtkWidget      *drop_widget;     /* widget that the panel checks for
 	                                  * the cursor on drops usually the
 	                                  * panel widget itself
 	                                  */
-	
+
 	PanelToplevel  *toplevel;
-	
+
 	GdkEventKey    *key_event;
 
 	/* helpers to get a good size in packed panels with applets using
@@ -228,7 +230,7 @@ gboolean panel_widget_toggle_applet_locked        (PanelWidget *panel,
 						   GtkWidget   *applet);
 
 void     panel_widget_register_open_dialog        (PanelWidget *panel,
-						   GtkWidget   *dialog);  
+						   GtkWidget   *dialog);
 G_END_DECLS
 
 #endif /* PANEL_WIDGET_H */

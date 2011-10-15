@@ -26,7 +26,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define NA_TYPE_TRAY_CHILD		(na_tray_child_get_type ())
 #define NA_TRAY_CHILD(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), NA_TYPE_TRAY_CHILD, NaTrayChild))

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 The MATE Foundation
- * Written by Jonathan Blandford <jrb@mate.org>
+ * Written by Jonathan Blandford <jrb@gnome.org>
  *            Jens Granseuer <jensgr@gmx.net>
  * All Rights Reserved
  *

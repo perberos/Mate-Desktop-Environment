@@ -100,7 +100,7 @@ panel_context_menu_show_about_dialog (GtkWidget *menuitem)
 		"Seth Nickell <snickell@stanford.edu>",
 		"Stephen Browne <stephen.browne@sun.com>",
 		"Tom Tromey <tromey@cygnus.com>",
-		"Vincent Untz <vuntz@mate.org>",
+		"Vincent Untz <vuntz@gnome.org>",
 		N_("And many, many others..."),
 		NULL
 	};

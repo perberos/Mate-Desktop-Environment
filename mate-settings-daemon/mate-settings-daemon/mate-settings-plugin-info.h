@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <gmodule.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MATE_TYPE_SETTINGS_PLUGIN_INFO              (mate_settings_plugin_info_get_type())
 #define MATE_SETTINGS_PLUGIN_INFO(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), MATE_TYPE_SETTINGS_PLUGIN_INFO, MateSettingsPluginInfo))
 #define MATE_SETTINGS_PLUGIN_INFO_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass),  MATE_TYPE_SETTINGS_PLUGIN_INFO, MateSettingsPluginInfoClass))

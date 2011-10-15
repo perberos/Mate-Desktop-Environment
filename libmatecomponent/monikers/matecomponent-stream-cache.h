@@ -3,7 +3,9 @@
 
 #include <matecomponent/matecomponent-stream.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_STREAM_CACHE        (matecomponent_stream_cache_get_type ())
 #define MATECOMPONENT_STREAM_CACHE_TYPE        MATECOMPONENT_TYPE_STREAM_CACHE /* deprecated, you should use MATECOMPONENT_TYPE_STREAM_CACHE */
@@ -29,7 +31,7 @@ typedef struct {
 GType         matecomponent_stream_cache_get_type (void);
 MateComponentObject *matecomponent_stream_cache_create   (MateComponent_Stream      cs,
 					    CORBA_Environment *opt_ev);
-	
+
 G_END_DECLS
 
 #endif /* _MATECOMPONENT_STREAM_CACHE_H_ */

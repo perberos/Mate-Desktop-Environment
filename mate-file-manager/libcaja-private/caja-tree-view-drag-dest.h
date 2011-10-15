@@ -19,11 +19,11 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- * 
+ *
  * Author: Dave Camp <dave@ximian.com>
  */
 
-/* caja-tree-view-drag-dest.h: Handles drag and drop for treeviews which 
+/* caja-tree-view-drag-dest.h: Handles drag and drop for treeviews which
  *                                 contain a hierarchy of files
  */
 
@@ -34,7 +34,9 @@
 
 #include "caja-file.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_TREE_VIEW_DRAG_DEST	(caja_tree_view_drag_dest_get_type ())
 #define CAJA_TREE_VIEW_DRAG_DEST(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_TREE_VIEW_DRAG_DEST, CajaTreeViewDragDest))
@@ -48,13 +50,13 @@ typedef struct _CajaTreeViewDragDestDetails CajaTreeViewDragDestDetails;
 
 struct _CajaTreeViewDragDest {
 	GObject parent;
-	
+
 	CajaTreeViewDragDestDetails *details;
 };
 
 struct _CajaTreeViewDragDestClass {
 	GObjectClass parent;
-	
+
 	char *(*get_root_uri) (CajaTreeViewDragDest *dest);
 	CajaFile *(*get_file_for_path) (CajaTreeViewDragDest *dest,
 					    GtkTreePath *path);

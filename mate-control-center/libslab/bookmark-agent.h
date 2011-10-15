@@ -24,7 +24,9 @@
 #include <time.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define BOOKMARK_AGENT_TYPE         (bookmark_agent_get_type ())
 #define BOOKMARK_AGENT(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), BOOKMARK_AGENT_TYPE, BookmarkAgent))

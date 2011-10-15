@@ -1,5 +1,5 @@
 /*
- *  caja-info-provider.h - Interface for Caja extensions that 
+ *  caja-info-provider.h - Interface for Caja extensions that
  *                             provide info about files.
  *
  *  Copyright (C) 2003 Novell, Inc.
@@ -18,13 +18,13 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Dave Camp <dave@ximian.com>
  *           Alexander Larsson <alexl@redhat.com>
  *
  */
 
-/* This interface is implemented by Caja extensions that want to 
+/* This interface is implemented by Caja extensions that want to
  * provide extra location widgets for a particular location.
  * Extensions are called when Caja displays a location.
  */
@@ -36,7 +36,9 @@
 #include <gtk/gtk.h>
 #include "caja-extension-types.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_LOCATION_WIDGET_PROVIDER           (caja_location_widget_provider_get_type ())
 #define CAJA_LOCATION_WIDGET_PROVIDER(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAJA_TYPE_LOCATION_WIDGET_PROVIDER, CajaLocationWidgetProvider))

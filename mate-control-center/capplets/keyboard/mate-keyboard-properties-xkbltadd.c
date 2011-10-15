@@ -3,7 +3,7 @@
 /* mate-keyboard-properties-xkbltadd.c
  * Copyright (C) 2007 Sergey V. Udaltsov
  *
- * Written by: Sergey V. Udaltsov <svu@mate.org>
+ * Written by: Sergey V. Udaltsov <svu@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

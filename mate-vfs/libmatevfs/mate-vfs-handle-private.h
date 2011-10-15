@@ -24,7 +24,9 @@
 #ifndef MATE_VFS_HANDLE_PRIVATE_H
 #define MATE_VFS_HANDLE_PRIVATE_H
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateVFSHandle * _mate_vfs_handle_new                (MateVFSURI             *uri,
 						      MateVFSMethodHandle    *method_handle,

@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_HORIZONTAL_SPLITTER caja_horizontal_splitter_get_type()
 #define CAJA_HORIZONTAL_SPLITTER(obj) \

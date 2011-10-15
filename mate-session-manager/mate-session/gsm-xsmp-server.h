@@ -26,7 +26,9 @@
 
 #include "gsm-store.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_XSMP_SERVER         (gsm_xsmp_server_get_type ())
 #define GSM_XSMP_SERVER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSM_TYPE_XSMP_SERVER, GsmXsmpServer))

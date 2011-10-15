@@ -12,7 +12,9 @@
 
 #include <matecomponent/matecomponent-storage.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_STORAGE_MEM        (matecomponent_storage_mem_get_type ())
 #define MATECOMPONENT_STORAGE_MEM_TYPE        MATECOMPONENT_TYPE_STORAGE_MEM /* deprecated, you should use MATECOMPONENT_TYPE_STORAGE_MEM */

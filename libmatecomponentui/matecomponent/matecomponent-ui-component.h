@@ -14,7 +14,9 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent/matecomponent-ui-node.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_COMPONENT        (matecomponent_ui_component_get_type ())
 #define MATECOMPONENT_UI_COMPONENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_UI_COMPONENT, MateComponentUIComponent))
@@ -81,7 +83,7 @@ typedef struct {
 			   const char        *prop,
 			   const char        *value,
 			   CORBA_Environment *opt_ev);
-	
+
 	gchar *(*get_prop) (MateComponentUIComponent *component,
 			    const char        *path,
 			    const char        *prop,

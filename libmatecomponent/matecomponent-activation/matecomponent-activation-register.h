@@ -27,7 +27,9 @@
 #include <matecorba/matecorba.h>
 #include <matecomponent-activation/MateComponent_Activation_types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateComponent_RegistrationResult
 	matecomponent_activation_register_active_server      (const char   *iid,
@@ -40,7 +42,7 @@ MateComponent_RegistrationResult
                                                        MateComponent_RegistrationFlags  flags,
                                                        CORBA_Object             *existing,
                                                        const char               *description);
-void    matecomponent_activation_unregister_active_server    (const char   *iid, 
+void    matecomponent_activation_unregister_active_server    (const char   *iid,
 						       CORBA_Object  obj);
 
 GSList *matecomponent_activation_registration_env_set        (GSList       *reg_env,
@@ -58,10 +60,10 @@ MateComponent_RegistrationResult
 	matecomponent_activation_active_server_register   (const char   *registration_id,
 						    CORBA_Object  obj);
 
-void    matecomponent_activation_active_server_unregister (const char   *iid, 
+void    matecomponent_activation_active_server_unregister (const char   *iid,
 						    CORBA_Object  obj);
 
-char       *matecomponent_activation_make_registration_id (const char *iid, 
+char       *matecomponent_activation_make_registration_id (const char *iid,
 						    const char *display);
 #endif /* MATECOMPONENT_DISABLE_DEPRECATED */
 

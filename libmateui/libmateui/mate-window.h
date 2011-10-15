@@ -19,7 +19,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* set the window title */
 void mate_window_toplevel_set_title (GtkWindow *window,

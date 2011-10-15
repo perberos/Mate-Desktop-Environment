@@ -19,7 +19,7 @@
  * Boston, MA 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_DITEM_EDITOR_H
@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_DITEM_EDITOR			(panel_ditem_editor_get_type ())
 #define PANEL_DITEM_EDITOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_DITEM_EDITOR, PanelDItemEditor))

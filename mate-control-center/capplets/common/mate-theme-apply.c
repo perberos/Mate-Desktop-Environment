@@ -1,6 +1,6 @@
 /* -*- mode: C; c-basic-offset: 4 -*-
  * themus - utilities for MATE themes
- * Copyright (C) 2002 Jonathan Blandford <aes@mate.org>
+ * Copyright (C) 2002 Jonathan Blandford <aes@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public

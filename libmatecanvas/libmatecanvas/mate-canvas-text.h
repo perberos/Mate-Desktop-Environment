@@ -40,7 +40,9 @@
 #include <libmatecanvas/mate-canvas.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
@@ -117,7 +119,7 @@ struct _MateCanvasText {
 	gboolean       strikethrough;
 	int            rise;
 	double         scale;
-	
+
 	char *text;			/* Text to display */
 	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
@@ -153,7 +155,7 @@ struct _MateCanvasText {
 
 	guint scale_set     : 1;        /* Apply specified font scaling ratio? */
 
-	MateCanvasTextPrivate *priv;	
+	MateCanvasTextPrivate *priv;
 };
 
 struct _MateCanvasTextClass {

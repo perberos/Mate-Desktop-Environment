@@ -16,7 +16,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef CORBA_any      MateComponentArg;
 typedef CORBA_TypeCode MateComponentArgType;
@@ -87,20 +89,20 @@ void          matecomponent_arg_release         (MateComponentArg         *arg);
 
 MateComponentArg    *matecomponent_arg_copy            (const MateComponentArg   *arg);
 
-void          matecomponent_arg_from_gvalue     (MateComponentArg         *a, 
+void          matecomponent_arg_from_gvalue     (MateComponentArg         *a,
 					   const GValue      *value);
 MateComponentArgType matecomponent_arg_type_from_gtype (GType              t);
 
-void          matecomponent_arg_to_gvalue       (GValue            *value, 
+void          matecomponent_arg_to_gvalue       (GValue            *value,
 					  const MateComponentArg   *arg);
 
 GType         matecomponent_arg_type_to_gtype   (MateComponentArgType      id);
 
-gboolean      matecomponent_arg_is_equal        (const MateComponentArg   *a, 
-					  const MateComponentArg   *b, 
+gboolean      matecomponent_arg_is_equal        (const MateComponentArg   *a,
+					  const MateComponentArg   *b,
 					  CORBA_Environment *opt_ev);
 
-gboolean      matecomponent_arg_type_is_equal   (MateComponentArgType      a, 
+gboolean      matecomponent_arg_type_is_equal   (MateComponentArgType      a,
 					  MateComponentArgType      b,
 					  CORBA_Environment *opt_ev);
 

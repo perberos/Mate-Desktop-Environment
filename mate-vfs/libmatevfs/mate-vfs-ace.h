@@ -19,7 +19,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Christian Kellner <gicmo@mate.org>
+   Author: Christian Kellner <gicmo@gnome.org>
 */
 
 #ifndef MATE_VFS_ACE_H
@@ -29,7 +29,9 @@
 #include <glib-object.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #define MATE_VFS_TYPE_ACE             (mate_vfs_ace_get_type ())
@@ -45,13 +47,13 @@ typedef struct _MateVFSACEPrivate MateVFSACEPrivate;
 
 struct _MateVFSACE {
 	GObject parent;
-	
+
 	MateVFSACEPrivate *priv;
 };
 
 struct _MateVFSACEClass {
 	GObjectClass parent_class;
-    
+
 	void (*reserved1) (void);
 	void (*reserved2) (void);
 	void (*reserved3) (void);

@@ -25,7 +25,9 @@
 
 #include <libmate/mate-desktop-item.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define APPLICATION_TILE_TYPE         (application_tile_get_type ())
 #define APPLICATION_TILE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), APPLICATION_TILE_TYPE, ApplicationTile))

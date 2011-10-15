@@ -24,7 +24,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define SLAB_SECTION_TYPE (slab_section_get_type ())
 #define SLAB_SECTION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), SLAB_SECTION_TYPE,    SlabSection))

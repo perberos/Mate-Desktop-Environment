@@ -21,7 +21,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_KEYFILE_H
@@ -29,7 +29,9 @@
 
 #include "glib.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 GKeyFile *panel_key_file_new_desktop  (void);

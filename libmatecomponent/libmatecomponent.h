@@ -13,7 +13,9 @@
 
 #include <matecomponent/matecomponent-macros.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <matecomponent/matecomponent-types.h>
 

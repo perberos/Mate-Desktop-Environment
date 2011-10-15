@@ -26,7 +26,9 @@
 #include "mateconf/mateconf-listeners.h"
 #include "mateconf/mateconf-changeset.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * This is a wrapper for the client-side MateConf API which provides several
@@ -194,7 +196,7 @@ void         mateconf_client_notify (MateConfClient* client, const char* key);
  * set the error handling to MATECONF_CLIENT_HANDLE_NONE
  */
 
-/* 
+/*
  * Error handling happens in the default signal handler, so you can
  * selectively override the default handling by connecting to the error
  * signal and calling g_signal_stop_emission()

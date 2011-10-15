@@ -2,7 +2,7 @@
  *
  * On-screen-display (OSD) window for mate-settings-daemon's plugins
  *
- * Copyright (C) 2006 William Jon McCann <mccann@jhu.edu> 
+ * Copyright (C) 2006 William Jon McCann <mccann@jhu.edu>
  * Copyright (C) 2009 Novell, Inc
  *
  * Authors:
@@ -43,7 +43,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Alpha value to be used for foreground objects drawn in an OSD window */
 #define GSD_OSD_WINDOW_FG_ALPHA 1.0

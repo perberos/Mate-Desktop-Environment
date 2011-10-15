@@ -45,7 +45,9 @@
 #include <libart_lgpl/art_uta.h>
 #include <libart_lgpl/art_affine.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* "Small" value used by canvas stuff */
@@ -318,7 +320,7 @@ void mate_canvas_item_i2c_affine (MateCanvasItem *item, double affine[6]);
  * item will be put on top of all the items in the new group.  The item's
  * coordinates relative to its new parent to *not* change -- this means that the
  * item could potentially move on the screen.
- * 
+ *
  * The item and the group must be in the same canvas.  An item cannot be
  * reparented to a group that is the item itself or that is an inferior of the
  * item.
@@ -612,7 +614,7 @@ int mate_canvas_get_color (MateCanvas *canvas, const char *spec, GdkColor *color
 /* Allocates a color from the RGB value passed into this function. */
 gulong mate_canvas_get_color_pixel (MateCanvas *canvas,
 				     guint        rgba);
-     
+
 
 /* Sets the stipple origin of the specified gc so that it will be aligned with
  * all the stipples used in the specified canvas.  This is intended for use only

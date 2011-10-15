@@ -27,7 +27,9 @@
 #include <glib-object.h>
 #include <libmatevfs/mate-vfs-volume.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_VFS_TYPE_VOLUME_MONITOR        (mate_vfs_volume_monitor_get_type ())
 #define MATE_VFS_VOLUME_MONITOR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATE_VFS_TYPE_VOLUME_MONITOR, MateVFSVolumeMonitor))

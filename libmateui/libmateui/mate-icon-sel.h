@@ -28,7 +28,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateIconSelection        MateIconSelection;
 typedef struct _MateIconSelectionPrivate MateIconSelectionPrivate;
@@ -74,9 +76,9 @@ void  mate_icon_selection_show_icons     (MateIconSelection * gis);
 void  mate_icon_selection_clear          (MateIconSelection * gis,
 					   gboolean not_shown);
 
-/* if (full_path) return the whole filename, otherwise just the 
+/* if (full_path) return the whole filename, otherwise just the
    last component */
-gchar * 
+gchar *
 mate_icon_selection_get_icon             (MateIconSelection * gis,
 					   gboolean full_path);
 
@@ -87,11 +89,11 @@ void  mate_icon_selection_select_icon    (MateIconSelection * gis,
 /* Stop the loading of images when we are in the loop in show_icons */
 void  mate_icon_selection_stop_loading   (MateIconSelection * gis);
 
-/* accessors for the internal widgets, icon_list is the actual 
+/* accessors for the internal widgets, icon_list is the actual
    icon list, and box is the vertical box*/
 GtkWidget *mate_icon_selection_get_gil   (MateIconSelection * gis);
 GtkWidget *mate_icon_selection_get_box   (MateIconSelection * gis);
 
 G_END_DECLS
-   
+
 #endif /* MATE_ICON_SEL_H */

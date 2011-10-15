@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include "mdm-chooser-widget.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_LANGUAGE_CHOOSER_WIDGET         (mdm_language_chooser_widget_get_type ())
 #define MDM_LANGUAGE_CHOOSER_WIDGET(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_LANGUAGE_CHOOSER_WIDGET, MdmLanguageChooserWidget))

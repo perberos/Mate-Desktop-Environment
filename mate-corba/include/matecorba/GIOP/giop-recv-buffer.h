@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <matecorba/GIOP/giop-types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef MATECORBA2_INTERNAL_API
 

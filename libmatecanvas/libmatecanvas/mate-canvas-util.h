@@ -40,7 +40,9 @@
 #include <libart_lgpl/art_svp_vpath_stroke.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateCanvasPoints MateCanvasPoints;
 

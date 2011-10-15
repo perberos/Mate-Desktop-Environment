@@ -28,7 +28,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GKD_SECRET_TYPE_DISPATCH                 (gkd_secret_dispatch_get_type())
 #define GKD_SECRET_DISPATCH(obj)                 (G_TYPE_CHECK_INSTANCE_CAST ((obj), GKD_SECRET_TYPE_DISPATCH, GkdSecretDispatch))

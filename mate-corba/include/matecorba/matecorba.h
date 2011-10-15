@@ -18,7 +18,9 @@
 #include <matecorba/poa/poa.h>
 #include <matecorba/dynamic/dynamic.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern const char  *matecorba_version;
 extern unsigned int matecorba_major_version;

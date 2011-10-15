@@ -29,7 +29,9 @@
 #include "button-widget.h"
 #include "panel-widget.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_MENU_BUTTON         (panel_menu_button_get_type ())
 #define PANEL_MENU_BUTTON(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_MENU_BUTTON, PanelMenuButton))

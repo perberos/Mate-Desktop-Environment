@@ -19,7 +19,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Ettore Perazzoli <ettore@comm2000.it> 
+   Author: Ettore Perazzoli <ettore@comm2000.it>
            Seth Nickell <snickell@stanford.edu>
 */
 
@@ -42,7 +42,9 @@
 #include <libmatevfs/mate-vfs-transform.h>
 #include <libmatevfs/mate-vfs-monitor.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define _MATE_VFS_METHOD_PARAM_CHECK(expression)			\
 	g_return_val_if_fail ((expression), MATE_VFS_ERROR_BAD_PARAMETERS);
@@ -233,7 +235,7 @@ typedef MateVFSResult (* MateVFSMethodGetVolumeFreeSpaceFunc)
  * a given MateVFSMethod.  Note that it checks the expected size of the structure
  * prior to testing NULL.
  */
- 
+
 #define VFS_METHOD_HAS_FUNC(method,func) ((((char *)&((method)->func)) - ((char *)(method)) < (method)->method_table_size) && method->func != NULL)
 
 /* Structure defining an access method.	 This is also defined as an

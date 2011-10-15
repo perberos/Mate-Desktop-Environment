@@ -26,7 +26,9 @@
 #include <glib.h>
 #include "panel-toplevel.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean panel_struts_register_strut           (PanelToplevel    *toplevel,
 						GdkScreen        *screen,

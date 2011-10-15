@@ -31,7 +31,9 @@
 
 #include "mdm-session-auditor.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MDM_TYPE_SESSION_LINUX_AUDITOR (mdm_session_linux_auditor_get_type ())
 #define MDM_SESSION_LINUX_AUDITOR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_SESSION_LINUX_AUDITOR, MdmSessionLinuxAuditor))
 #define MDM_SESSION_LINUX_AUDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MDM_TYPE_SESSION_LINUX_AUDITOR, MdmSessionLinuxAuditorClass))

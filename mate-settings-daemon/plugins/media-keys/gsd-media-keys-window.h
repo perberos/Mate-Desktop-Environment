@@ -28,7 +28,9 @@
 
 #include "gsd-osd-window.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_MEDIA_KEYS_WINDOW            (gsd_media_keys_window_get_type ())
 #define GSD_MEDIA_KEYS_WINDOW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj),  GSD_TYPE_MEDIA_KEYS_WINDOW, GsdMediaKeysWindow))

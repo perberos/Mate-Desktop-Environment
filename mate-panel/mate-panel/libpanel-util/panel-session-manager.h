@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_SESSION_MANAGER_H
@@ -29,7 +29,9 @@
 
 #include "panel-dbus-service.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_SESSION_MANAGER		(panel_session_manager_get_type ())
 #define PANEL_SESSION_MANAGER(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_SESSION_MANAGER, PanelSessionManager))

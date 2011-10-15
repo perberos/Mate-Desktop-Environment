@@ -17,7 +17,9 @@
 #include <matecomponent/matecomponent-event-source.h>
 #include <matecomponent-activation/MateComponent_ObjectDirectory.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _ObjectDirectory        ObjectDirectory;
 typedef struct _ObjectDirectoryPrivate ObjectDirectoryPrivate;
@@ -49,7 +51,7 @@ struct _ObjectDirectory {
         char           **registry_source_directories;
         time_t           time_did_stat;
         GHashTable      *registry_directory_mtimes;
-	
+
 	/* Notification source */
 	MateComponentEventSource *event_source;
 
@@ -78,7 +80,7 @@ void                   matecomponent_object_directory_reload      (void);
 void                   reload_object_directory             (void);
 void                   check_quit                          (void);
 
-void                   od_finished_internal_registration   (void);    
+void                   od_finished_internal_registration   (void);
 G_END_DECLS
 
 #endif /* _OBJECT_DIRECTORY_H_ */

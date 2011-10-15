@@ -14,7 +14,9 @@
 #include "applet.h"
 #include "panel-widget.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	AppletInfo        *info;

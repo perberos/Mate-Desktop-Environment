@@ -16,7 +16,9 @@
 #include <matecomponent/matecomponent-ui-private.h>
 #include <matecomponent/matecomponent-control-frame.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void     matecomponent_control_add_listener            (CORBA_Object        object,
 						 GCallback           fn,

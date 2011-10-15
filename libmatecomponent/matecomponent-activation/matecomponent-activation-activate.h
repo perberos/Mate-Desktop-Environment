@@ -26,7 +26,9 @@
 
 #include <matecomponent-activation/MateComponent_Activation_types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 CORBA_Object matecomponent_activation_name_service_get (CORBA_Environment * ev);
 

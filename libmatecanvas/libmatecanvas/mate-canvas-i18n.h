@@ -29,11 +29,13 @@
  */
 
 #ifndef __LIBMATE_CANVAS_I18N_H__
-#define __LIBMATE_CANVAS_I18N_H__ 
+#define __LIBMATE_CANVAS_I18N_H__
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(__LIBMATE_CANVAS_I18NP_H__)
 
@@ -42,7 +44,7 @@ G_BEGIN_DECLS
 #    ifdef MATE_EXPLICIT_TRANSLATION_DOMAIN
 #        undef _
 #        define _(String) dgettext (MATE_EXPLICIT_TRANSLATION_DOMAIN, String)
-#    else 
+#    else
 #        define _(String) gettext (String)
 #    endif
 #    ifdef gettext_noop

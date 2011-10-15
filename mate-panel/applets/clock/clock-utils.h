@@ -1,7 +1,7 @@
 /*
  * clock-utils.h
  *
- * Copyright (C) 2007 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2007 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *      Vincent Untz <vuntz@mate.org>
+ *      Vincent Untz <vuntz@gnome.org>
  *
  * Most of the original code comes from clock.c
  */
@@ -29,7 +29,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Needs to match the indices in the combo of the prefs dialog */
 typedef enum {

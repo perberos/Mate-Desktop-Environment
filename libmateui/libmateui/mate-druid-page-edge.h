@@ -30,7 +30,9 @@
 #include <libmatecanvas/mate-canvas.h>
 #include "mate-druid-page.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_DRUID_PAGE_EDGE            (mate_druid_page_edge_get_type ())
 #define MATE_DRUID_PAGE_EDGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_DRUID_PAGE_EDGE, MateDruidPageEdge))

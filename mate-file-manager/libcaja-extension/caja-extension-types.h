@@ -1,6 +1,6 @@
 /*
  *  caja-info-provider.h - Type definitions for Caja extensions
- * 
+ *
  *  Copyright (C) 2003 Novell, Inc.
  *
  *  This library is free software; you can redistribute it and/or
@@ -18,12 +18,12 @@
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *  Author: Dave Camp <dave@ximian.com>
- * 
+ *
  */
 
-/* This interface is implemented by Caja extensions that want to 
- * provide information about files.  Extensions are called when Caja 
- * needs information about a file.  They are passed a CajaFileInfo 
+/* This interface is implemented by Caja extensions that want to
+ * provide information about files.  Extensions are called when Caja
+ * needs information about a file.  They are passed a CajaFileInfo
  * object which should be filled with relevant information */
 
 #ifndef CAJA_EXTENSION_TYPES_H
@@ -31,7 +31,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_OPERATION_RESULT (caja_operation_result_get_type ())
 
@@ -41,16 +43,16 @@ G_BEGIN_DECLS
 typedef struct _CajaOperationHandle CajaOperationHandle;
 
 typedef enum {
-	/* Returned if the call succeeded, and the extension is done 
+	/* Returned if the call succeeded, and the extension is done
 	 * with the request */
 	CAJA_OPERATION_COMPLETE,
 
 	/* Returned if the call failed */
 	CAJA_OPERATION_FAILED,
 
-	/* Returned if the extension has begun an async operation. 
-	 * If this is returned, the extension must set the handle 
-	 * parameter and call the callback closure when the 
+	/* Returned if the extension has begun an async operation.
+	 * If this is returned, the extension must set the handle
+	 * parameter and call the callback closure when the
 	 * operation is complete. */
 	CAJA_OPERATION_IN_PROGRESS
 } CajaOperationResult;

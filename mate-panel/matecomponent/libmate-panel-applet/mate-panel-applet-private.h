@@ -27,7 +27,9 @@
 
 #include "mate-panel-applet.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean _mate_panel_applet_popup_menu (MatePanelApplet *applet, guint button, guint32 time);
 

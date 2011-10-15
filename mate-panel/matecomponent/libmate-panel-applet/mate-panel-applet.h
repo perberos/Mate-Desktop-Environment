@@ -34,7 +34,9 @@
 
 #include <MATE_Panel.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef MATE_Vertigo_PanelOrient MatePanelAppletOrient;
 

@@ -29,7 +29,9 @@
 
 #include "mdm-display.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MDM_TYPE_DISPLAY_ACCESS_FILE            (mdm_display_access_file_get_type ())
 #define MDM_DISPLAY_ACCESS_FILE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_DISPLAY_ACCESS_FILE, MdmDisplayAccessFile))
 #define MDM_DISPLAY_ACCESS_FILE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MDM_TYPE_DISPLAY_ACCESS_FILE, MdmDisplayAccessFileClass))

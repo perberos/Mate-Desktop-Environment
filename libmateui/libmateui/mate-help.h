@@ -25,7 +25,9 @@
 #include <gdk/gdk.h>
 #include <libmate/mate-help.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean mate_help_display_on_screen             (const char    *file_name,
 						   const char    *link_id,

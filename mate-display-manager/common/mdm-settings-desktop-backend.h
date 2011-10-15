@@ -25,7 +25,9 @@
 #include <glib-object.h>
 #include "mdm-settings-backend.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_SETTINGS_DESKTOP_BACKEND         (mdm_settings_desktop_backend_get_type ())
 #define MDM_SETTINGS_DESKTOP_BACKEND(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_SETTINGS_DESKTOP_BACKEND, MdmSettingsDesktopBackend))

@@ -25,7 +25,9 @@
 #ifndef __PANEL_SESSION_H__
 #define __PANEL_SESSION_H__
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_session_init           (void);
 void panel_session_do_not_restart (void);

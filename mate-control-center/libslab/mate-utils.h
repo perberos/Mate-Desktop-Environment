@@ -25,7 +25,9 @@
 #include <mateconf/mateconf-client.h>
 #include <libmate/mate-desktop-item.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean load_image_by_id (GtkImage * image, GtkIconSize size,
 	const gchar * image_id);

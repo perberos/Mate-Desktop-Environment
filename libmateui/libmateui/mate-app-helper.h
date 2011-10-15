@@ -30,7 +30,7 @@
  * functions by Jaka Mocnik.  Standard menu items by George Lebl and
  * Nat Friedman.
  *
- * Some subtree hackage (and possibly various justification hacks) by Justin 
+ * Some subtree hackage (and possibly various justification hacks) by Justin
  * Maurer.
  *
  * Major cleanups and rearrangements by Federico Mena and Justin Maurer.  */
@@ -43,15 +43,17 @@
 #include <libmateui/mate-appbar.h>
 #include <libmateui/mate-app.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* This module lets you easily create menus and toolbars for your 
- * applications. You basically define a hierarchy of arrays of MateUIInfo 
- * structures, and you later call the provided functions to create menu bars 
+/* This module lets you easily create menus and toolbars for your
+ * applications. You basically define a hierarchy of arrays of MateUIInfo
+ * structures, and you later call the provided functions to create menu bars
  * or tool bars.
  */
 
-/* These values identify the item type that a particular MateUIInfo structure 
+/* These values identify the item type that a particular MateUIInfo structure
  * specifies */
 
 /**
@@ -200,7 +202,7 @@ typedef enum {
 typedef struct {
 	MateUIInfoType type;		/* Type of item */
 	gchar const *label;		/* String to use in item's label */
-	gchar const *hint;		/* Tooltip for toolbar items, status 
+	gchar const *hint;		/* Tooltip for toolbar items, status
 					   bar message for menu items. */
 	gpointer moreinfo;		/* Extra information; depends on the
 					   type. */
@@ -209,9 +211,9 @@ typedef struct {
 	MateUIPixmapType pixmap_type;	/* Type of pixmap for this item. */
 	gconstpointer pixmap_info;	/* Pointer to pixmap information. */
 	guint accelerator_key;		/* Accelerator key, or 0 for none. */
-	GdkModifierType ac_mods;	/* Mask of modifier keys for the 
+	GdkModifierType ac_mods;	/* Mask of modifier keys for the
 					   accelerator. */
-	GtkWidget *widget;		/* Filled in by the mate_app_create* 
+	GtkWidget *widget;		/* Filled in by the mate_app_create*
 					   functions. */
 } MateUIInfo;
 
@@ -300,7 +302,7 @@ typedef struct {
 					{ MATE_APP_UI_ITEM, label, tooltip, (gpointer)callback,	\
 					  user_data, NULL, MATE_APP_PIXMAP_DATA, xpm_data,	\
 					  0, (GdkModifierType) 0, NULL }
-					  
+
 /*
  * Stock menu item macros for some common menu items.  Please see
  * mate-libs/devel-docs/suggestions.txt about MATE menu standards.
@@ -484,7 +486,7 @@ typedef struct {
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_ABOUT, (GdkModifierType) 0, NULL }
 
-/* 
+/*
  * The "Game" menu
  */
 
@@ -493,43 +495,43 @@ typedef struct {
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_NEW_GAME, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_PAUSE_GAME_ITEM(cb, data)                          \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_PAUSE_GAME, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_RESTART_GAME_ITEM(cb, data)                        \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_RESTART_GAME, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_UNDO_MOVE_ITEM(cb, data)                           \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_UNDO_MOVE, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_REDO_MOVE_ITEM(cb, data)                           \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_REDO_MOVE, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_HINT_ITEM(cb, data)                                \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_HINT, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_SCORES_ITEM(cb, data)                              \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
           MATE_APP_PIXMAP_NONE, NULL,                                      \
           MATE_APP_CONFIGURABLE_ITEM_SCORES, (GdkModifierType) 0, NULL }
-	  
+
 #define MATEUIINFO_MENU_END_GAME_ITEM(cb, data)                            \
         { MATE_APP_UI_ITEM_CONFIGURABLE, NULL, NULL,                       \
           (gpointer)cb, (gpointer)(data), NULL,                             \
@@ -571,7 +573,7 @@ const gchar * mate_app_helper_gettext (const gchar *string);
 #define MATEUIINFO_MENU_GAME_TREE(tree) \
 	{ MATE_APP_UI_SUBTREE_STOCK, N_("_Game"), NULL, tree, NULL, NULL, \
 		(MateUIPixmapType) 0, NULL, 0,	(GdkModifierType) 0, NULL }
-		
+
 /*these are strings to be used for paths when working with the menus stuff*/
 #define MATE_MENU_FILE_STRING D_("_File")
 #define MATE_MENU_FILE_PATH D_("_File/")
@@ -590,7 +592,7 @@ const gchar * mate_app_helper_gettext (const gchar *string);
 
 
 /* Types useful to language bindings */
-    
+
 typedef struct _MateUIBuilderData MateUIBuilderData;
 
 typedef void (* MateUISignalConnectFunc) (MateUIInfo        *uiinfo,
@@ -625,7 +627,7 @@ struct _MateUIBuilderData {
  * configuration file ~/.mate/accels/<app-id>.
  */
 void mate_accelerators_sync (void);
-     
+
 
 /* Fills the specified menu shell with items created from the specified
  * info, inserting them from the item no. pos on.
@@ -752,7 +754,7 @@ GtkWidget *mate_app_find_menu_pos (GtkWidget *parent, const gchar *path, gint *p
  */
 void mate_app_remove_menus (MateApp *app, const gchar *path, gint items);
 
-/* Same as the above, except it removes the specified number of items 
+/* Same as the above, except it removes the specified number of items
  * from the existing app's menu structure begining with item described by path,
  * plus the number specified by start - very useful for adding and removing Recent
  * document items in the File menu.
@@ -773,7 +775,7 @@ void mate_app_insert_menus_interp (MateApp *app, const gchar *path, MateUIInfo *
 
 
 /* Activate the menu item hints, displaying in the given appbar.
-   This can't be automatic since we can't reliably find the 
+   This can't be automatic since we can't reliably find the
    appbar. */
 void mate_app_install_appbar_menu_hints    (MateAppBar* appbar,
                                              MateUIInfo* uiinfo);

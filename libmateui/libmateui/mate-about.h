@@ -29,7 +29,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_ABOUT            (mate_about_get_type ())
 #define MATE_ABOUT(object)         (G_TYPE_CHECK_INSTANCE_CAST ((object), MATE_TYPE_ABOUT, MateAbout))

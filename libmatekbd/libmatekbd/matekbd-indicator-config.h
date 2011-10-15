@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 Sergey V. Udaltsov <svu@mate.org>
+ * Copyright (C) 2006 Sergey V. Udaltsov <svu@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

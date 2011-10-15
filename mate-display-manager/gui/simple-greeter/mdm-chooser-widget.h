@@ -25,7 +25,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_CHOOSER_WIDGET         (mdm_chooser_widget_get_type ())
 #define MDM_CHOOSER_WIDGET(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), MDM_TYPE_CHOOSER_WIDGET, MdmChooserWidget))

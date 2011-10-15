@@ -3,7 +3,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void         start_screen_check      (void);
 void	     start_geginv            (void);

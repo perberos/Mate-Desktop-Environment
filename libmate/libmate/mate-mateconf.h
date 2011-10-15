@@ -28,7 +28,9 @@
 
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Get keys relative to the mate-libs internal per-app directory and the
    application author per-app directory */

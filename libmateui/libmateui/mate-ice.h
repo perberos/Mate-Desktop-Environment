@@ -31,7 +31,9 @@
 
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* This function should be called before any ICE functions are used.
    It will arrange for ICE connections to be read and dispatched via

@@ -2,7 +2,7 @@
  *
  * Copyright (C) 2008 Novell, Inc.
  *
- * Authors: Vincent Untz <vuntz@mate.org>
+ * Authors: Vincent Untz <vuntz@gnome.org>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
  *
  * Authors: Hans Petter Jansson <hpj@ximian.com>
  *	    additional functions by Erwann Chenede <erwann.chenede@sun.com>
- *	    reworked by Vincent Untz <vuntz@mate.org>
+ *	    reworked by Vincent Untz <vuntz@gnome.org>
  * 
  * Largely based on Michael Fulbright's work on Anaconda.
  */

@@ -16,7 +16,9 @@
 #include <glib-object.h>
 #include <matecomponent/MateComponent.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 gboolean                    matecomponent_is_initialized        (void);
 gboolean		    matecomponent_init			 (int *argc,

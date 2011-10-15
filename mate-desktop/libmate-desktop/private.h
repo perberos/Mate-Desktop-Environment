@@ -19,13 +19,15 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Vincent Untz <vuntz@mate.org>
+   Author: Vincent Untz <vuntz@gnome.org>
 */
 
 #ifndef __MATE_DESKTOP_PRIVATE_H__
 #define __MATE_DESKTOP_PRIVATE_H__
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void _mate_desktop_init_i18n (void);
 

@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_lockdown_init     (void);
 void panel_lockdown_finalize (void);

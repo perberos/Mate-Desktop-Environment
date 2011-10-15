@@ -27,7 +27,9 @@
 #include <gtk/gtk.h>
 #include "panel-widget.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_PLACE_MENU_ITEM         (panel_place_menu_item_get_type ())
 #define PANEL_PLACE_MENU_ITEM(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_PLACE_MENU_ITEM, PanelPlaceMenuItem))

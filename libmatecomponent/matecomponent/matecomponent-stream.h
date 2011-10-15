@@ -24,7 +24,9 @@
 #ifndef _MATECOMPONENT_STREAM_H_
 #define _MATECOMPONENT_STREAM_H_
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <matecomponent/matecomponent-storage.h>
 

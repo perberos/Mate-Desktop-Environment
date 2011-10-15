@@ -22,7 +22,9 @@
 #include <libart_lgpl/art_vpath_dash.h>
 #include <libmatecanvas/mate-canvas-path-def.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #define MATE_TYPE_CANVAS_CLIPGROUP            (mate_canvas_clipgroup_get_type ())

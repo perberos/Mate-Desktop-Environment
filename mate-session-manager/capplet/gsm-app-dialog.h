@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_APP_DIALOG         (gsm_app_dialog_get_type ())
 #define GSM_APP_DIALOG(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSM_TYPE_APP_DIALOG, GsmAppDialog))

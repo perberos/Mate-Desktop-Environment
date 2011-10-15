@@ -24,7 +24,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateThemeFile MateThemeFile;
 
@@ -40,7 +42,7 @@ typedef void (* MateThemeFileLineFunc) (MateThemeFile *df,
 					 const char       *value,
 					 gpointer          data);
 
-typedef enum 
+typedef enum
 {
   MATE_THEME_FILE_PARSE_ERROR_INVALID_SYNTAX,
   MATE_THEME_FILE_PARSE_ERROR_INVALID_ESCAPES,

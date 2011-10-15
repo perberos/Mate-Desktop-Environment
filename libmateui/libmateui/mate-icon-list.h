@@ -43,7 +43,9 @@
 #include <libmateui/mate-icon-item.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_ICON_LIST            (mate_icon_list_get_type ())
 #define MATE_ICON_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_ICON_LIST, MateIconList))
@@ -73,7 +75,7 @@ struct _MateIconList {
 	/* Scroll adjustments */
 	GtkAdjustment *adj;
 	GtkAdjustment *hadj;
-	
+
 	/*< private >*/
 	MateIconListPrivate * _priv;
 };
@@ -90,7 +92,7 @@ struct _MateIconListClass {
 	void     (*move_cursor)      (MateIconList *gil, GtkDirectionType dir, gboolean clear_selection);
 	void     (*toggle_cursor_selection) (MateIconList *gil);
 	void     (*unused)       (MateIconList *unused);
-	
+
 	/* Padding for possible expansion */
 	gpointer padding1;
 	gpointer padding2;

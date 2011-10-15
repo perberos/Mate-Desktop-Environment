@@ -23,7 +23,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_TYPE_CELL_RENDERER_TIMER (mdm_cell_renderer_timer_get_type ())
 #define MDM_CELL_RENDERER_TIMER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_CELL_RENDERER_TIMER, MdmCellRendererTimer))

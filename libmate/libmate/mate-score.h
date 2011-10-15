@@ -31,7 +31,9 @@
 #include <time.h>
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 /*
  * mate_score_init()
  * creates a child process with which we communicate through a pair of pipes,

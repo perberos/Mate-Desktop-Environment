@@ -34,7 +34,9 @@
 #include "panel-types.h"
 #include "applet.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_profile_load (void);
 

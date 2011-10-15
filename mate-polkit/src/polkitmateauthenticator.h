@@ -24,7 +24,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define POLKIT_MATE_TYPE_AUTHENTICATOR          (polkit_mate_authenticator_get_type())
 #define POLKIT_MATE_AUTHENTICATOR(o)            (G_TYPE_CHECK_INSTANCE_CAST ((o), POLKIT_MATE_TYPE_AUTHENTICATOR, PolkitMateAuthenticator))

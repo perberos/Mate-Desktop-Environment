@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EEL_TYPE_WRAP_TABLE eel_wrap_table_get_type()
 #define EEL_WRAP_TABLE(obj) \

@@ -13,7 +13,9 @@
 
 #include <libmatecomponent.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <matecomponent/matecomponent-widget.h>
 #include <matecomponent/matecomponent-control.h>

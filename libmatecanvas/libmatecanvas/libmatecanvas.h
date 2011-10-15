@@ -38,7 +38,9 @@
 #include <libmatecanvas/mate-canvas-util.h>
 #include <libmatecanvas/mate-canvas-clipgroup.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 GType mate_canvas_points_get_type (void);
 #define MATE_TYPE_CANVAS_POINTS mate_canvas_points_get_type()

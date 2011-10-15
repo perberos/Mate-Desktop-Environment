@@ -26,7 +26,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * MATE_VFS_MIME_TYPE_UNKNOWN:

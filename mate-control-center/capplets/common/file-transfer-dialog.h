@@ -26,7 +26,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define FILE_TRANSFER_DIALOG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, file_transfer_dialog_get_type (), FileTransferDialog)
 #define FILE_TRANSFER_DIALOG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, file_transfer_dialog_get_type (), FileTransferDialogClass)

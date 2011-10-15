@@ -1,6 +1,6 @@
 /* mate-theme-info.h - MATE Theme information
 
-   Copyright (C) 2002 Jonathan Blandford <jrb@mate.org>
+   Copyright (C) 2002 Jonathan Blandford <jrb@gnome.org>
    All rights reserved.
 
    This file is part of the Mate Library.

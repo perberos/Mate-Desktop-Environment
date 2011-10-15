@@ -22,7 +22,9 @@
 
 #include <libmatecanvas/mate-canvas-path-def.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateCanvasShapePrivGdk MateCanvasShapePrivGdk;
 typedef struct _GCBPDrawCtx GCBPDrawCtx;

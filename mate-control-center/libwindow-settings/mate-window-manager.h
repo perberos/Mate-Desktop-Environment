@@ -74,13 +74,15 @@ typedef struct
         const char *mouse_move_modifier;
         const char *theme;
         int double_click_action;
-        
+
         guint focus_follows_mouse : 1;
         guint autoraise : 1;
 
 } MateWMSettings;
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_WINDOW_MANAGER(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, mate_window_manager_get_type (), MateWindowManager)
 #define MATE_WINDOW_MANAGER_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, mate_window_manager_get_type (), MateWindowManagerClass)
@@ -95,7 +97,7 @@ typedef struct _MateWindowManagerPrivate MateWindowManagerPrivate;
 struct _MateWindowManager
 {
         GObject parent;
-        
+
         MateWindowManagerPrivate *p;
 };
 
@@ -104,7 +106,7 @@ struct _MateWindowManagerClass
         GObjectClass klass;
 
         void         (* settings_changed)       (MateWindowManager    *wm);
-        
+
         void         (* change_settings)        (MateWindowManager    *wm,
                                                  const MateWMSettings *settings);
         void         (* get_settings)           (MateWindowManager    *wm,
@@ -118,7 +120,7 @@ struct _MateWindowManagerClass
         void         (* get_double_click_actions) (MateWindowManager              *wm,
                                                    const MateWMDoubleClickAction **actions,
                                                    int                             *n_actions);
-        
+
         void         (* padding_func_1)         (MateWindowManager *wm);
         void         (* padding_func_2)         (MateWindowManager *wm);
         void         (* padding_func_3)         (MateWindowManager *wm);

@@ -27,7 +27,9 @@
 
 #include <eel/eel-wrap-table.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EEL_TYPE_IMAGE_TABLE eel_image_table_get_type()
 #define EEL_IMAGE_TABLE(obj) \

@@ -28,7 +28,9 @@
 #include <libmatenotify/notification.h>
 #include <libmatenotify/notify-enum-types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * Initializes the notifications library.

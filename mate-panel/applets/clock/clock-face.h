@@ -17,7 +17,9 @@
 #include <gtk/gtk.h>
 #include "clock-location.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define INTL_TYPE_CLOCK_FACE          (clock_face_get_type ())
 #define CLOCK_FACE(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), INTL_TYPE_CLOCK_FACE, ClockFace))

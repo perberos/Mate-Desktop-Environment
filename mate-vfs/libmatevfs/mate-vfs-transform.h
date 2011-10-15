@@ -28,7 +28,9 @@
 #include <libmatevfs/mate-vfs-result.h>
 #include <libmatevfs/mate-vfs-context.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MateVFSTransform MateVFSTransform;
 

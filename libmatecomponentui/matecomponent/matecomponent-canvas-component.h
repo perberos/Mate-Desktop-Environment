@@ -18,8 +18,10 @@
 
 #ifndef MATECOMPONENT_UI_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
- 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define MATECOMPONENT_TYPE_CANVAS_COMPONENT        (matecomponent_canvas_component_get_type ())
 #define MATECOMPONENT_CANVAS_COMPONENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_CANVAS_COMPONENT, MateComponentCanvasComponent))
 #define MATECOMPONENT_CANVAS_COMPONENT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), MATECOMPONENT_TYPE_CANVAS_COMPONENT_, MateComponentCanvasComponentClass))
@@ -35,14 +37,14 @@ typedef struct {
 
 typedef struct {
 	MateComponentObjectClass parent_class;
-	
+
 	POA_MateComponent_Canvas_Component__epv epv;
 
 	/* Signals */
 	void (*set_bounds) (MateComponentCanvasComponent *component,
 			    MateComponent_Canvas_DRect   *bbox,
 			    CORBA_Environment     *ev);
-	
+
 	gboolean (*event)  (MateComponentCanvasComponent *component,
 			    GdkEvent              *event);
 } MateComponentCanvasComponentClass;
@@ -62,7 +64,7 @@ void		        matecomponent_canvas_component_ungrab		 (MateComponentCanvasCompon
 								  CORBA_Environment     *opt_ev);
 MateComponent_UIContainer      matecomponent_canvas_component_get_ui_container (MateComponentCanvasComponent *comp,
 								  CORBA_Environment     *opt_ev);
-					  
+
 /* This is a helper function for creating a canvas with the root item replaced
  * by a proxy to the client side proxy.
  */
@@ -73,7 +75,7 @@ MateCanvas *matecomponent_canvas_new (gboolean                     is_aa,
 /* Sets up a callback to be invoked when the container activates the object.
  * Creating the component factory will do nothing until the container connects.
  */
-typedef MateComponentCanvasComponent *(*MateItemCreator) 
+typedef MateComponentCanvasComponent *(*MateItemCreator)
    (MateCanvas *canvas, void *user_data);
 
 MateComponentObject *matecomponent_canvas_component_factory_new(MateItemCreator item_factory,

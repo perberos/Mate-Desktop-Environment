@@ -24,7 +24,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define DRW_TYPE_BREAK_WINDOW         (drw_break_window_get_type ())
 #define DRW_BREAK_WINDOW(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), DRW_TYPE_BREAK_WINDOW, DrwBreakWindow))

@@ -23,7 +23,9 @@
 #include <glib-object.h>
 #include <gdk/gdk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_TIMELINE_DIRECTION       (gsd_timeline_direction_get_type ())
 #define GSD_TYPE_TIMELINE_PROGRESS_TYPE   (gsd_timeline_progress_type_get_type ())

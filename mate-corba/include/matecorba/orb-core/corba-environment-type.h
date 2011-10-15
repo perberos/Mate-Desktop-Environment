@@ -4,7 +4,9 @@
 #include <matecorba/orb-core/orb-types.h>
 #include <matecorba/orb-core/corba-any-type.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #if !defined(_CORBA_Environment_defined)
 #define _CORBA_Environment_defined 1

@@ -24,7 +24,9 @@
 #include <glib-object.h>
 #include <sys/types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_PRESENCE            (gsm_presence_get_type ())
 #define GSM_PRESENCE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSM_TYPE_PRESENCE, GsmPresence))

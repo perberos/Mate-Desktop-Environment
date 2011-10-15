@@ -15,7 +15,9 @@
 
 #ifndef MATECOMPONENT_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_PERSIST_FILE (matecomponent_persist_file_get_type ())
 #define MATECOMPONENT_PERSIST_FILE_TYPE        MATECOMPONENT_TYPE_PERSIST_FILE /* deprecated, you should use MATECOMPONENT_TYPE_PERSIST_FILE */

@@ -40,7 +40,9 @@
 #include <glib.h>
 #include <matecorba/matecorba.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	const char *name;
@@ -59,11 +61,11 @@ struct _MateComponentActivationBaseServiceRegistry {
                                 gpointer                      user_data);
 	char * (*check)        (const MateComponentActivationBaseServiceRegistry *registry,
                                 const MateComponentActivationBaseService         *base_service,
-                                int                          *ret_distance, 
+                                int                          *ret_distance,
                                 gpointer                      user_data);
 	void   (*register_new) (const MateComponentActivationBaseServiceRegistry *registry,
                                 const char                   *ior,
-                                const MateComponentActivationBaseService         *base_service, 
+                                const MateComponentActivationBaseService         *base_service,
                                 gpointer                      user_data);
 	void   (*unregister)   (const MateComponentActivationBaseServiceRegistry *registry,
                                 const char                   *ior,
@@ -80,7 +82,7 @@ typedef CORBA_Object (*MateComponentActivationBaseServiceActivator) (
 /* unused / deprecated */
 void         matecomponent_activation_base_service_registry_add
                                (const MateComponentActivationBaseServiceRegistry *registry,
-                                int                                        priority, 
+                                int                                        priority,
                                 gpointer                                   user_data);
 /* unused / deprecated */
 CORBA_Object matecomponent_activation_base_service_check
@@ -90,12 +92,12 @@ CORBA_Object matecomponent_activation_base_service_check
 /* unused / deprecated */
 void         matecomponent_activation_base_service_set
                                (const MateComponentActivationBaseService         *base_service,
-                                CORBA_Object                               obj, 
+                                CORBA_Object                               obj,
                                 CORBA_Environment                         *ev);
 /* unused / deprecated */
 void         matecomponent_activation_base_service_unset
                                (const MateComponentActivationBaseService         *base_service,
-                                CORBA_Object                               obj, 
+                                CORBA_Object                               obj,
                                 CORBA_Environment                         *ev);
 /* unused / deprecated */
 void         matecomponent_activation_base_service_activator_add

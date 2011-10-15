@@ -19,7 +19,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Ettore Perazzoli <ettore@comm2000.it> 
+   Author: Ettore Perazzoli <ettore@comm2000.it>
            Seth Nickell <snickell@stanford.edu>
 */
 
@@ -31,7 +31,9 @@
 #include <libmatevfs/mate-vfs-uri.h>
 #include <libmatevfs/mate-vfs-monitor.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 MateVFSResult	 mate_vfs_open			(MateVFSHandle **handle,
 						 const gchar *text_uri,
@@ -102,7 +104,7 @@ MateVFSResult	 mate_vfs_remove_directory_from_uri
 MateVFSResult	 mate_vfs_remove_directory	(const gchar *text_uri);
 
 MateVFSResult   mate_vfs_unlink_from_uri      (MateVFSURI *uri);
-MateVFSResult   mate_vfs_create_symbolic_link (MateVFSURI *uri, 
+MateVFSResult   mate_vfs_create_symbolic_link (MateVFSURI *uri,
 						 const gchar *target_reference);
 MateVFSResult   mate_vfs_unlink               (const gchar *text_uri);
 

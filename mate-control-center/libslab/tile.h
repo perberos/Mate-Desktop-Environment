@@ -24,7 +24,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define TILE_TYPE         (tile_get_type ())
 #define TILE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), TILE_TYPE, Tile))

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Library General Public
  * License along with the Mate Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA. 
+ * Boston, MA 02111-1307, USA.
  */
 
 #ifndef MATE_VFS_DISABLE_DEPRECATED
@@ -25,7 +25,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * DESKTOP_ENTRY_GROUP:
@@ -33,7 +35,7 @@ G_BEGIN_DECLS
  * The #GKeyFile group used for desktop entries.
  **/
 #define DESKTOP_ENTRY_GROUP "Desktop Entry"
-	
+
 GList              *mate_vfs_mime_get_all_desktop_entries (const char *mime_type);
 gchar              *mate_vfs_mime_get_default_desktop_entry (const char *mime_type);
 

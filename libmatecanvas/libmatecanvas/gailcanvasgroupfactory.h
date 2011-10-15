@@ -22,7 +22,9 @@
 
 #include <atk/atkobjectfactory.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GAIL_TYPE_CANVAS_GROUP_FACTORY                 (gail_canvas_group_factory_get_type ())
 #define GAIL_CANVAS_GROUP_FACTORY(obj)                 (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAIL_TYPE_CANVAS_GROUP_FACTORY, GailCanvasGroupFactory))

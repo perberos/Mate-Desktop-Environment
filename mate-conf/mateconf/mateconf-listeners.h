@@ -22,13 +22,15 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Skipped from introspection because it's not registered as boxed */
 /**
  * MateConfListeners: (skip)
  *
- * The #MateConfListeners structure contains nothing other than a dummy pointer. Internally 
+ * The #MateConfListeners structure contains nothing other than a dummy pointer. Internally
  * the data about listeners is maintained through a listener table structure,
  * LTable which contains data like the namespace, an array to hold the listeners, count of
  * active listeners,value to be given to the next connection and the list of connection indices

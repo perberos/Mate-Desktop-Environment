@@ -40,7 +40,9 @@
 #include <gtk/gtk.h>
 #include <libmateui/mate-file-entry.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_PIXMAP_ENTRY            (mate_pixmap_entry_get_type ())
 #define MATE_PIXMAP_ENTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_PIXMAP_ENTRY, MatePixmapEntry))

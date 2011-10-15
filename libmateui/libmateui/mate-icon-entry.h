@@ -43,7 +43,9 @@
 #include <libmateui/mate-file-entry.h>
 
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #define MATE_TYPE_ICON_ENTRY            (mate_icon_entry_get_type ())
@@ -60,7 +62,7 @@ typedef struct _MateIconEntryClass    MateIconEntryClass;
 
 struct _MateIconEntry {
 	GtkVBox vbox;
-	
+
 	/*< private >*/
 	MateIconEntryPrivate *_priv;
 };

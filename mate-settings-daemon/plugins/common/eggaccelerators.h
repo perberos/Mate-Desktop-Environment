@@ -24,7 +24,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Where a value is also in GdkModifierType we coincide,
  * otherwise we don't overlap.

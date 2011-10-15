@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 The MATE Foundation
- * Written by Thomas Wood <thos@mate.org>
+ * Written by Thomas Wood <thos@gnome.org>
  *            Jens Granseuer <jensgr@gmx.net>
  * All Rights Reserved
  *

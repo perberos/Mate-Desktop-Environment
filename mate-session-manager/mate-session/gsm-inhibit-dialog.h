@@ -26,7 +26,9 @@
 
 #include "gsm-store.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSM_TYPE_INHIBIT_DIALOG         (gsm_inhibit_dialog_get_type ())
 #define GSM_INHIBIT_DIALOG(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSM_TYPE_INHIBIT_DIALOG, GsmInhibitDialog))

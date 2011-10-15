@@ -13,7 +13,9 @@
 
 #include <matecomponent/matecomponent-property-bag.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 CORBA_TypeCode
 matecomponent_pbclient_get_type                 (MateComponent_PropertyBag  bag,
@@ -32,80 +34,80 @@ matecomponent_pbclient_get_string_with_default  (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gchar              *defval,
 					  gboolean           *def);
-gint16 
+gint16
 matecomponent_pbclient_get_short                (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gint16 
+gint16
 matecomponent_pbclient_get_default_short        (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gint16 
+gint16
 matecomponent_pbclient_get_short_with_default   (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gint16              defval,
 					  gboolean           *def);
-guint16 
+guint16
 matecomponent_pbclient_get_ushort               (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-guint16 
+guint16
 matecomponent_pbclient_get_default_ushort       (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-guint16 
+guint16
 matecomponent_pbclient_get_ushort_with_default  (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  guint16             defval,
 					  gboolean           *def);
-gint32 
+gint32
 matecomponent_pbclient_get_long                 (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gint32 
+gint32
 matecomponent_pbclient_get_default_long         (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gint32 
+gint32
 matecomponent_pbclient_get_long_with_default    (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gint32              defval,
 					  gboolean           *def);
-guint32 
+guint32
 matecomponent_pbclient_get_ulong                (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-guint32 
+guint32
 matecomponent_pbclient_get_default_ulong        (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-guint32 
+guint32
 matecomponent_pbclient_get_ulong_with_default   (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  guint32             defval,
 					  gboolean           *def);
-gfloat 
+gfloat
 matecomponent_pbclient_get_float                (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gfloat 
+gfloat
 matecomponent_pbclient_get_default_float        (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gfloat 
+gfloat
 matecomponent_pbclient_get_float_with_default   (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gfloat              defval,
 					  gboolean           *def);
-gdouble 
+gdouble
 matecomponent_pbclient_get_double               (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gdouble 
+gdouble
 matecomponent_pbclient_get_default_double       (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gdouble 
+gdouble
 matecomponent_pbclient_get_double_with_default  (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gdouble             defval,
@@ -118,7 +120,7 @@ gboolean
 matecomponent_pbclient_get_default_boolean      (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gboolean 
+gboolean
 matecomponent_pbclient_get_boolean_with_default (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gboolean            defval,
@@ -131,7 +133,7 @@ gchar
 matecomponent_pbclient_get_default_char         (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  CORBA_Environment  *opt_ev);
-gchar 
+gchar
 matecomponent_pbclient_get_char_with_default    (MateComponent_PropertyBag  bag,
 					  const char         *key,
 					  gchar               defval,
@@ -246,7 +248,7 @@ matecomponent_pbclient_set_value_async          (MateComponent_PropertyBag bag,
 /* just to be compatible */
 
 #define matecomponent_property_bag_client_setv                                       \
-matecomponent_pbclient_setv    
+matecomponent_pbclient_setv
 #define matecomponent_property_bag_client_getv                                       \
 matecomponent_pbclient_getv
 #define matecomponent_property_bag_client_get_property_type                          \
@@ -256,9 +258,9 @@ matecomponent_pbclient_get_boolean
 #define matecomponent_property_bag_client_get_value_gint                             \
 matecomponent_pbclient_get_long
 #define matecomponent_property_bag_client_get_value_glong                            \
-matecomponent_pbclient_get_long 
+matecomponent_pbclient_get_long
 #define matecomponent_property_bag_client_get_value_gfloat                           \
-matecomponent_pbclient_get_float 
+matecomponent_pbclient_get_float
 #define matecomponent_property_bag_client_get_value_gdouble                          \
 matecomponent_pbclient_get_double
 #define matecomponent_property_bag_client_get_value_string                           \
@@ -284,7 +286,7 @@ matecomponent_pbclient_get_default_string
 matecomponent_pbclient_get_default_value (pb, name, NULL, ev)
 
 #define matecomponent_property_bag_client_set_value_gboolean                         \
-matecomponent_pbclient_set_boolean   
+matecomponent_pbclient_set_boolean
 #define matecomponent_property_bag_client_set_value_gint                             \
 matecomponent_pbclient_set_long
 #define matecomponent_property_bag_client_set_value_glong                            \
@@ -296,7 +298,7 @@ matecomponent_pbclient_set_double
 #define matecomponent_property_bag_client_set_value_string                           \
 matecomponent_pbclient_set_string
 #define matecomponent_property_bag_client_set_value_any                              \
-matecomponent_pbclient_set_value 
+matecomponent_pbclient_set_value
 
 #define matecomponent_property_bag_client_get_docstring                              \
 matecomponent_pbclient_get_doc_title

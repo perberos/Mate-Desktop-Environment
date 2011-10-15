@@ -27,7 +27,9 @@
 
 #include "mate-vfs-cancellation.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void _mate_vfs_cancellation_set_handle   (MateVFSCancellation *cancellation,
 					   gint32 connection, gint32 handle);

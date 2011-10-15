@@ -2,7 +2,7 @@
 /*
  * mate-panel-applet-frame.c: panel side container for applets
  *
- * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@mate.org>
+ * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
  * Copyright (C) 2001 - 2003 Sun Microsystems, Inc.
  *
  * This program is free software; you can redistribute it and/or

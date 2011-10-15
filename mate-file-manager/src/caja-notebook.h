@@ -32,7 +32,9 @@
 #include <gtk/gtk.h>
 #include "caja-window-slot.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_NOTEBOOK		(caja_notebook_get_type ())
 #define CAJA_NOTEBOOK(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), CAJA_TYPE_NOTEBOOK, CajaNotebook))

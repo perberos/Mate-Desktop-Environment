@@ -30,7 +30,9 @@
 #include <libslab/slab-section.h>
 #include <libslab/tile.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CATEGORY_SPACING 0
 #define GROUP_POSITION_NUMBER_KEY "Unique Group Position Number"

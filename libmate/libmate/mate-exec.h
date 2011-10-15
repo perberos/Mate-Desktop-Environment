@@ -29,7 +29,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /* Fork and execute some program in the background.  Returns -1 on

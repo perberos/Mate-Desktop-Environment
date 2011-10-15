@@ -14,7 +14,9 @@
 #include <matecomponent/matecomponent-arg.h>
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_LISTENER        (matecomponent_listener_get_type ())
 #define MATECOMPONENT_LISTENER_TYPE        MATECOMPONENT_TYPE_LISTENER /* deprecated, you should use MATECOMPONENT_TYPE_LISTENER */
@@ -38,15 +40,15 @@ typedef struct {
 	POA_MateComponent_Listener__epv epv;
 
 	/* Signals */
-	void (* event_notify) (MateComponentListener    *listener, 
+	void (* event_notify) (MateComponentListener    *listener,
 			       char              *event_name,
-			       MateComponentArg         *event_data, 
+			       MateComponentArg         *event_data,
 			       CORBA_Environment *ev);
 } MateComponentListenerClass;
 
 
 typedef void (*MateComponentListenerCallbackFn)    (MateComponentListener    *listener,
-					     const char        *event_name, 
+					     const char        *event_name,
 					     const CORBA_any   *any,
 					     CORBA_Environment *ev,
 					     gpointer           user_data);
@@ -58,7 +60,7 @@ MateComponentListener *matecomponent_listener_new         (MateComponentListener
 
 MateComponentListener *matecomponent_listener_new_closure (GClosure                *event_closure);
 
-char           *matecomponent_event_make_name      (const char *idl_path, 
+char           *matecomponent_event_make_name      (const char *idl_path,
 					     const char *kind,
 					     const char *subtype);
 

@@ -1,8 +1,8 @@
 /*
  * mate-panel-applet-info.h
  *
- * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@mate.org>
- * Copyright (C) 2010 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
+ * Copyright (C) 2010 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,7 +25,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MatePanelAppletInfo MatePanelAppletInfo;
 

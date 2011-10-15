@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define EEL_TYPE_BACKGROUND_BOX eel_background_box_get_type()
 #define EEL_BACKGROUND_BOX(obj) \

@@ -3,7 +3,7 @@
 /* accessibility-keyboard.c
  * Copyright (C) 2002 Ximian, Inc.
  *
- * Written by: Jody Goldberg <jody@mate.org>
+ * Written by: Jody Goldberg <jody@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

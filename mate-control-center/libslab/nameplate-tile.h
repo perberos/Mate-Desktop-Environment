@@ -25,7 +25,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define NAMEPLATE_TILE_TYPE         (nameplate_tile_get_type ())
 #define NAMEPLATE_TILE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), NAMEPLATE_TILE_TYPE, NameplateTile))

@@ -29,7 +29,9 @@
 
 #include <dbus/dbus.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define DVD_DAEMON_SERVICE                          "org.mate.MateVFS.Daemon"
 #define DVD_DAEMON_OBJECT                           "/org/mate/MateVFS/Daemon"

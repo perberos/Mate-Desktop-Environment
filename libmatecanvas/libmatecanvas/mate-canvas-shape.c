@@ -11,7 +11,7 @@
  *          Raph Levien <raph@acm.org>
  *          Lauris Kaplinski <lauris@ximian.com>
  *          Miguel de Icaza <miguel@kernel.org>
- *          Cody Russell <bratsche@mate.org>
+ *          Cody Russell <bratsche@gnome.org>
  *          Rusty Conover <rconover@bangtail.net>
  */
 

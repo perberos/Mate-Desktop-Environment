@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2008, Novell, Inc.
  *
- * Authors: Vincent Untz <vuntz@mate.org>
+ * Authors: Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void gsd_ldsm_setup (gboolean check_now);
 void gsd_ldsm_clean (void);

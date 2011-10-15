@@ -26,7 +26,9 @@
 #include <glib.h>
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
   MATE_HELP_ERROR_INTERNAL,

@@ -34,7 +34,9 @@
 #include <libmatevfs/mate-vfs-monitor.h>
 #include <libmatevfs/mate-vfs-method.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 const char *    mate_vfs_mime_type_from_mode            (mode_t             mode);
 const char *    mate_vfs_mime_type_from_mode_or_default (mode_t             mode,
@@ -50,7 +52,7 @@ MateVFSResult  mate_vfs_set_meta          	(MateVFSFileInfo  *info,
 MateVFSResult  mate_vfs_set_meta_for_list 	(MateVFSFileInfo  *info,
 					    	 const char        *file_name,
 					    	 const GList       *meta_keys);
-	
+
 const char     *mate_vfs_get_special_mime_type (MateVFSURI       *uri);
 
 void            mate_vfs_monitor_callback (MateVFSMethodHandle *method_handle,

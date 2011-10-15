@@ -27,7 +27,9 @@
 
 #include <libslab/app-shell.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define SHELL_WINDOW_TYPE            (shell_window_get_type ())
 #define SHELL_WINDOW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHELL_WINDOW_TYPE, ShellWindow))

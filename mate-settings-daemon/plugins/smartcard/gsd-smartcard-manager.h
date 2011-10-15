@@ -29,7 +29,9 @@
 #include <glib.h>
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define GSD_TYPE_SMARTCARD_MANAGER            (gsd_smartcard_manager_get_type ())
 #define GSD_SMARTCARD_MANAGER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSD_TYPE_SMARTCARD_MANAGER, GsdSmartcardManager))
 #define GSD_SMARTCARD_MANAGER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GSD_TYPE_SMARTCARD_MANAGER, GsdSmartcardManagerClass))

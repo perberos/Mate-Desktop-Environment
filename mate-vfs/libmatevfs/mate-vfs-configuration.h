@@ -26,7 +26,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void         _mate_vfs_configuration_add_directory   (const char *dir);
 gboolean     _mate_vfs_configuration_init            (void);

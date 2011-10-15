@@ -26,7 +26,9 @@
 #include "gvc-mixer-stream.h"
 #include "gvc-mixer-card.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GVC_TYPE_MIXER_CONTROL         (gvc_mixer_control_get_type ())
 #define GVC_MIXER_CONTROL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GVC_TYPE_MIXER_CONTROL, GvcMixerControl))

@@ -32,8 +32,7 @@
 static gboolean verbose = FALSE;
 static gboolean initted = FALSE;
 
-static inline gboolean
-menu_verbose_enabled (void)
+static inline gboolean menu_verbose_enabled(void)
 {
   if (!initted)
     {
@@ -44,9 +43,7 @@ menu_verbose_enabled (void)
   return verbose;
 }
 
-static int
-utf8_fputs (const char *str,
-            FILE       *f)
+static int utf8_fputs(const char *str, FILE       *f)
 {
   char *l;
   int ret;
@@ -63,9 +60,7 @@ utf8_fputs (const char *str,
   return ret;
 }
 
-void
-menu_verbose (const char *format,
-              ...)
+void menu_verbose (const char *format, ...)
 {
   va_list args;
   char *str;
@@ -83,45 +78,32 @@ menu_verbose (const char *format,
   g_free (str);
 }
 
-static void append_to_string (MenuLayoutNode *node,
-                              gboolean        onelevel,
-                              int             depth,
-                              GString        *str);
+static void append_to_string(MenuLayoutNode* node, gboolean onelevel, int depth, GString* str);
 
-static void
-append_spaces (GString *str,
-               int      depth)
+static void append_spaces(GString* str, int depth)
 {
-  while (depth > 0)
-    {
-      g_string_append_c (str, ' ');
-      --depth;
-    }
+	while (depth > 0)
+	{
+		g_string_append_c(str, ' ');
+		--depth;
+	}
 }
 
-static void
-append_children (MenuLayoutNode *node,
-                 int             depth,
-                 GString        *str)
+static void append_children(MenuLayoutNode* node, int depth, GString* str)
 {
-  MenuLayoutNode *iter;
+	MenuLayoutNode* iter;
 
-  iter = menu_layout_node_get_children (node);
-  while (iter != NULL)
-    {
-      append_to_string (iter, FALSE, depth, str);
+	iter = menu_layout_node_get_children(node);
 
-      iter = menu_layout_node_get_next (iter);
-    }
+	while (iter != NULL)
+	{
+		append_to_string(iter, FALSE, depth, str);
+
+		iter = menu_layout_node_get_next(iter);
+	}
 }
 
-static void
-append_simple_with_attr (MenuLayoutNode *node,
-                         int             depth,
-                         const char     *node_name,
-                         const char     *attr_name,
-                         const char     *attr_value,
-                         GString        *str)
+static void append_simple_with_attr(MenuLayoutNode* node, int depth, const char* node_name, const char* attr_name, const char* attr_value, GString* str)
 {
   const char *content;
 
@@ -174,12 +156,7 @@ append_simple_with_attr (MenuLayoutNode *node,
     }
 }
 
-static void
-append_layout (MenuLayoutNode   *node,
-	       int               depth,
-	       const char       *node_name,
-	       MenuLayoutValues *layout_values,
-	       GString          *str)
+static void append_layout(MenuLayoutNode* node, int depth, const char* node_name, MenuLayoutValues* layout_values, GString* str)
 {
   const char *content;
 
@@ -219,12 +196,7 @@ append_layout (MenuLayoutNode   *node,
     }
 }
 
-static void
-append_merge (MenuLayoutNode      *node,
-	      int                  depth,
-	      const char          *node_name,
-	      MenuLayoutMergeType  merge_type,
-	      GString             *str)
+static void append_merge(MenuLayoutNode* node, int depth, const char* node_name, MenuLayoutMergeType merge_type, GString* str)
 {
   const char *merge_type_str;
 
@@ -239,11 +211,11 @@ append_merge (MenuLayoutNode      *node,
     case MENU_LAYOUT_MERGE_MENUS:
       merge_type_str = "menus";
       break;
-      
+
     case MENU_LAYOUT_MERGE_FILES:
       merge_type_str = "files";
       break;
-      
+
     case MENU_LAYOUT_MERGE_ALL:
       merge_type_str = "all";
       break;
@@ -252,7 +224,7 @@ append_merge (MenuLayoutNode      *node,
       g_assert_not_reached ();
       break;
     }
-      
+
   append_simple_with_attr (node, depth, node_name, "type", merge_type_str, str);
 }
 
@@ -475,22 +447,20 @@ append_to_string (MenuLayoutNode *node,
     }
 }
 
-void
-menu_debug_print_layout (MenuLayoutNode *node,
-                         gboolean        onelevel)
+void menu_debug_print_layout(MenuLayoutNode* node, gboolean onelevel)
 {
-  if (menu_verbose_enabled ())
-    {
-      GString *str;
+	if (menu_verbose_enabled())
+	{
+		GString* str;
 
-      str = g_string_new (NULL);
-      append_to_string (node, onelevel, 0, str);
+		str = g_string_new(NULL);
+		append_to_string(node, onelevel, 0, str);
 
-      utf8_fputs (str->str, stderr);
-      fflush (stderr);
+		utf8_fputs(str->str, stderr);
+		fflush(stderr);
 
-      g_string_free (str, TRUE);
-    }
+		g_string_free(str, TRUE);
+	}
 }
 
 #endif /* G_ENABLE_DEBUG */

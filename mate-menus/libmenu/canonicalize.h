@@ -24,10 +24,11 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-char* menu_canonicalize_file_name (const char *name,
-                                   gboolean    allow_missing_basename);
+char* menu_canonicalize_file_name(const char* name, gboolean allow_missing_basename);
 
 G_END_DECLS
 

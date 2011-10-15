@@ -23,7 +23,9 @@
 
 #include <glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSD_TYPE_BACKGROUND_MANAGER         (gsd_background_manager_get_type ())
 #define GSD_BACKGROUND_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GSD_TYPE_BACKGROUND_MANAGER, GsdBackgroundManager))

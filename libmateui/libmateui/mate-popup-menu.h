@@ -1,5 +1,5 @@
 /* Popup menus for MATE
- * 
+ *
  * Copyright (C) 1998 Mark Crichton
  * All rights reserved
  *
@@ -33,7 +33,9 @@
 #include <libmateui/mate-app.h>
 #include <libmateui/mate-app-helper.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* These routines are documented in mate-popup-menu.c */
 

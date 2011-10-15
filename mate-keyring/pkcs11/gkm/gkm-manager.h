@@ -46,7 +46,9 @@
  * manager will go away.
  */
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <glib-object.h>
 

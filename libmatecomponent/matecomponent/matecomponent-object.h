@@ -17,10 +17,12 @@
 #include <matecomponent/MateComponent.h>
 #include <matecomponent/matecomponent-macros.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #undef MATECOMPONENT_OBJECT_DEBUG
- 
+
 #define MATECOMPONENT_TYPE_OBJECT        (matecomponent_object_get_type ())
 #define MATECOMPONENT_OBJECT_TYPE        MATECOMPONENT_TYPE_OBJECT /* deprecated, you should use MATECOMPONENT_TYPE_OBJECT */
 #define MATECOMPONENT_OBJECT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_OBJECT, MateComponentObject))
@@ -220,7 +222,7 @@ prefix##_get_type (void)                                                      \
 	}                                                                     \
 	return type;                                                          \
 }
- 
+
 #define MATECOMPONENT_TYPE_FUNC(class_name, parent, prefix)                        \
 GType                                                                         \
 prefix##_get_type (void)                                                      \

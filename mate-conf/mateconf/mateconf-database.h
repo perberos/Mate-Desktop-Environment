@@ -22,7 +22,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "mateconf-error.h"
 #include "MateConfX.h"
@@ -39,7 +41,7 @@ struct _MateConfDatabase
   POA_ConfigDatabase3 servant;
 
   ConfigDatabase objref;
-  
+
   MateConfListeners* listeners;
   MateConfSources* sources;
 

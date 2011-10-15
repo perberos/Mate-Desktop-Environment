@@ -2,7 +2,9 @@
 #ifndef _MATECOMPONENT_MONIKER_QUERY_H_
 #define _MATECOMPONENT_MONIKER_QUERY_H_
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_MONIKER_QUERY        (matecomponent_moniker_query_get_type ())
 #define MATECOMPONENT_MONIKER_QUERY_TYPE        MATECOMPONENT_TYPE_MONIKER_QUERY /* deprecated, you should use MATECOMPONENT_TYPE_MONIKER_QUERY */
@@ -28,7 +30,7 @@ GType          matecomponent_moniker_query_get_type  (void);
 MateComponentMoniker *matecomponent_moniker_query_construct (MateComponentMonikerQuery *moniker,
 					       MateComponent_Moniker      corba_moniker);
 MateComponentMoniker *matecomponent_moniker_query_new       (void);
-	
+
 G_END_DECLS
 
 #endif /* _MATECOMPONENT_MONIKER_QUERY_H_ */

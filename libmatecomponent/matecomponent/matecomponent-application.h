@@ -4,7 +4,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_APPLICATION        (matecomponent_application_get_type ())
 #define MATECOMPONENT_APPLICATION(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o),\

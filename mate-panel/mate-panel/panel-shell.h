@@ -23,7 +23,7 @@
  * Authors:
  *      Jacob Berkman <jacob@ximian.com>
  *      Colin Walters <walters@verbum.org>
- *      Vincent Untz <vuntz@mate.org>
+ *      Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef __PANEL_SHELL_H__

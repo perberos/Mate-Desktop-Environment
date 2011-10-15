@@ -30,7 +30,9 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* ---------------------------------------------------------------------------
  * ATTRIBUTE INTERNALS
@@ -40,13 +42,13 @@ void                _gp11_attributes_lock                   (GP11Attributes *att
 
 void                _gp11_attributes_unlock                 (GP11Attributes *attrs);
 
-CK_ATTRIBUTE_PTR    _gp11_attributes_prepare_in             (GP11Attributes *attrs, 
+CK_ATTRIBUTE_PTR    _gp11_attributes_prepare_in             (GP11Attributes *attrs,
                                                              CK_ULONG_PTR n_attrs);
 
-CK_ATTRIBUTE_PTR    _gp11_attributes_commit_in              (GP11Attributes *attrs, 
+CK_ATTRIBUTE_PTR    _gp11_attributes_commit_in              (GP11Attributes *attrs,
                                                              CK_ULONG_PTR n_attrs);
 
-CK_ATTRIBUTE_PTR    _gp11_attributes_commit_out             (GP11Attributes *attrs, 
+CK_ATTRIBUTE_PTR    _gp11_attributes_commit_out             (GP11Attributes *attrs,
                                                              CK_ULONG_PTR n_attrs);
 
 /* ----------------------------------------------------------------------------
@@ -55,7 +57,7 @@ CK_ATTRIBUTE_PTR    _gp11_attributes_commit_out             (GP11Attributes *att
 
 guint               _gp11_ulong_hash                        (gconstpointer v);
 
-gboolean            _gp11_ulong_equal                       (gconstpointer v1, 
+gboolean            _gp11_ulong_equal                       (gconstpointer v1,
                                                              gconstpointer v2);
 
 /* ----------------------------------------------------------------------------
@@ -72,8 +74,8 @@ gboolean            _gp11_module_fire_authenticate_object   (GP11Module *module,
                                                              gchar *label,
                                                              gchar **password);
 
-gboolean            _gp11_module_pool_session_handle        (GP11Session *session, 
-                                                             CK_SESSION_HANDLE handle, 
+gboolean            _gp11_module_pool_session_handle        (GP11Session *session,
+                                                             CK_SESSION_HANDLE handle,
                                                              GP11Module *self);
 
 CK_SESSION_HANDLE   _gp11_module_pooled_session_handle      (GP11Module *module,
@@ -92,17 +94,17 @@ GP11Object*         _gp11_slot_object_from_handle           (GP11Slot *slot,
  */
 
 typedef CK_RV (*GP11PerformFunc) (gpointer call_data);
-typedef gboolean (*GP11CompleteFunc) (gpointer call_data, CK_RV result); 
+typedef gboolean (*GP11CompleteFunc) (gpointer call_data, CK_RV result);
 
 typedef struct _GP11Call GP11Call;
 
 typedef struct _GP11Arguments {
 	GP11Call *call;
-	
+
 	/* For the call function to use */
 	CK_FUNCTION_LIST_PTR pkcs11;
 	CK_ULONG handle;
-	
+
 } GP11Arguments;
 
 #define GP11_ARGUMENTS_INIT 	   { NULL, NULL, 0 }
@@ -124,33 +126,33 @@ gpointer           _gp11_call_get_arguments               (GP11Call *call);
 
 void               _gp11_call_uninitialize                (void);
 
-gboolean           _gp11_call_sync                        (gpointer object, 
-                                                           gpointer perform, 
+gboolean           _gp11_call_sync                        (gpointer object,
+                                                           gpointer perform,
                                                            gpointer complete,
-                                                           gpointer args, 
-                                                           GCancellable *cancellable, 
+                                                           gpointer args,
+                                                           GCancellable *cancellable,
                                                            GError **err);
 
-gpointer           _gp11_call_async_prep                  (gpointer object, 
+gpointer           _gp11_call_async_prep                  (gpointer object,
                                                            gpointer cb_object,
                                                            gpointer perform,
                                                            gpointer complete,
                                                            gsize args_size,
                                                            gpointer destroy_func);
 
-GP11Call*          _gp11_call_async_ready                 (gpointer args, 
-                                                           GCancellable *cancellable, 
-                                                           GAsyncReadyCallback callback, 
+GP11Call*          _gp11_call_async_ready                 (gpointer args,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
                                                            gpointer user_data);
 
 void               _gp11_call_async_go                    (GP11Call *call);
 
-void               _gp11_call_async_ready_go              (gpointer args, 
-                                                           GCancellable *cancellable, 
-                                                           GAsyncReadyCallback callback, 
+void               _gp11_call_async_ready_go              (gpointer args,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
                                                            gpointer user_data);
 
-void               _gp11_call_async_short                 (GP11Call *call, 
+void               _gp11_call_async_short                 (GP11Call *call,
                                                            CK_RV rv);
 
 gboolean           _gp11_call_basic_finish                (GAsyncResult *result,

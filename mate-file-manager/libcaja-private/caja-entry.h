@@ -29,7 +29,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_ENTRY caja_entry_get_type()
 #define CAJA_ENTRY(obj) \

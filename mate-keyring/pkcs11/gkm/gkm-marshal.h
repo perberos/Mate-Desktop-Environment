@@ -4,7 +4,9 @@
 
 #include	<glib-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* BOOLEAN:VOID (gkm-marshal.list:1) */
 extern void gkm_marshal_BOOLEAN__VOID (GClosure     *closure,

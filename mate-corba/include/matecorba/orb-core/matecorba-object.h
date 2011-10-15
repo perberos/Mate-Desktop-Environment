@@ -9,7 +9,9 @@
 #define MATECORBA2_MAYBE_CONST const
 #endif
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	MATECORBA_ROT_NULL,

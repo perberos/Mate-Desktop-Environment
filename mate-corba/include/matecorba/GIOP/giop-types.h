@@ -12,7 +12,9 @@
 
 #include <matecorba/GIOP/giop-basics.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef MATECORBA2_INTERNAL_API
 
@@ -51,7 +53,7 @@ typedef struct {
 	CORBA_unsigned_long message_size;
 } GIOPMsgHeader;
 
-typedef enum 
+typedef enum
 {
 	GIOP_REQUEST,
 	GIOP_REPLY,

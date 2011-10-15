@@ -1,7 +1,7 @@
 /*
  * mate-panel-applet-factory.h: panel applet writing API.
  *
- * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@mate.org>
+ * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -26,7 +26,9 @@
 
 #include "mate-panel-applet.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_APPLET_FACTORY            (mate_panel_applet_factory_get_type ())
 #define MATE_PANEL_APPLET_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_APPLET_FACTORY, MatePanelAppletFactory))

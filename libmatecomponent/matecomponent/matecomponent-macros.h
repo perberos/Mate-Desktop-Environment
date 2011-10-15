@@ -11,7 +11,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Macros for defining classes.  Ideas taken from Nautilus and GOB. */
 

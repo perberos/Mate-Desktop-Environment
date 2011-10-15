@@ -8,7 +8,9 @@
 
 #include <matecomponent/matecomponent-ui-node.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct _MateComponentUINode {
 	/* Tree management */

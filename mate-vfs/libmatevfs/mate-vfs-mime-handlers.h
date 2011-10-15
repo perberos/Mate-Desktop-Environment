@@ -29,7 +29,9 @@
 #include <libmatevfs/mate-vfs-mime-utils.h>
 #include <libmatevfs/mate-vfs-uri.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS,

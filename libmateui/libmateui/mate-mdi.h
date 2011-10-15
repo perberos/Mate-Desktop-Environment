@@ -33,7 +33,9 @@
 #include "mate-app-helper.h"
 #include "mate-mdi-child.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_MDI            (mate_mdi_get_type ())
 #define MATE_MDI(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_MDI, MateMDI))
@@ -69,17 +71,17 @@ struct _MateMDI {
 
     /* probably only one of these would do, but... redundancy rules ;) */
 	MateMDIChild *active_child;
-	GtkWidget *active_view;  
+	GtkWidget *active_view;
 	MateApp *active_window;
 
 	GList *windows;     /* toplevel windows - MateApp widgets */
 	GList *children;    /* children - MateMDIChild objects*/
 
 	GSList *registered; /* see comment for mate_mdi_(un)register() functions below for an explanation. */
-	
+
     /* paths for insertion of mdi_child specific menus and mdi_child list menu via
        mate-app-helper routines */
-	gchar *child_menu_path; 
+	gchar *child_menu_path;
 	gchar *child_list_path;
 
 	gpointer reserved;
@@ -88,10 +90,10 @@ struct _MateMDI {
 struct _MateMDIClass {
 	GtkObjectClass parent_class;
 
-	gint        (*add_child)(MateMDI *, MateMDIChild *); 
-	gint        (*remove_child)(MateMDI *, MateMDIChild *); 
-	gint        (*add_view)(MateMDI *, GtkWidget *); 
-	gint        (*remove_view)(MateMDI *, GtkWidget *); 
+	gint        (*add_child)(MateMDI *, MateMDIChild *);
+	gint        (*remove_child)(MateMDI *, MateMDIChild *);
+	gint        (*add_view)(MateMDI *, GtkWidget *);
+	gint        (*remove_view)(MateMDI *, GtkWidget *);
 	void        (*child_changed)(MateMDI *, MateMDIChild *);
 	void        (*view_changed)(MateMDI *, GtkWidget *);
 	void        (*app_created)(MateMDI *, MateApp *);
@@ -120,7 +122,7 @@ struct _MateMDIClass {
  *   the old view or not. the second argument points to the old view, mdi->active_view and
  *   mdi->active_child hold the new values. if the child has also been changed, this signal is
  *   emitted after the child_changed signal.
- * 
+ *
  * void app_created(MateMDI *, MateApp *)
  *   is called with each newly created MateApp to allow the MDI user to customize it (add a
  *   statusbar, toolbars or menubar if the method with MateUIInfo templates is not sufficient,

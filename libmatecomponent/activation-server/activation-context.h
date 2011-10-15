@@ -13,7 +13,9 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent-activation/MateComponent_ActivationContext.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _ActivationContext        ActivationContext;
 typedef struct _ActivationContextPrivate ActivationContextPrivate;
@@ -37,7 +39,7 @@ struct _ActivationContext {
 	GHashTable            *by_iid;
 
 	/* It is assumed that accesses to this
-	 * hash table are atomic - i.e. a CORBA 
+	 * hash table are atomic - i.e. a CORBA
 	 * call cannot come in while
 	 * checking a value in this table */
 	GHashTable              *active_servers;

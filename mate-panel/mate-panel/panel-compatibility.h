@@ -28,7 +28,9 @@
 #include <glib.h>
 #include <mateconf/mateconf-client.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void panel_compatibility_migrate_panel_id_list (MateConfClient *client);
 void panel_compatibility_maybe_copy_old_config (MateConfClient *client);

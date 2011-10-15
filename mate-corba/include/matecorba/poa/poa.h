@@ -4,7 +4,9 @@
 #include <matecorba/poa/poa-defs.h>
 #include <matecorba/poa/poa-types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	void *_private;
@@ -12,7 +14,7 @@ typedef struct {
 
 typedef struct {
 	void *_private;
-      
+
 	PortableServer_Servant(*incarnate) (PortableServer_Servant _servant,
 					    const PortableServer_ObjectId *
 					    oid,
@@ -41,7 +43,7 @@ typedef struct {
 
 typedef struct {
 	void *_private;
-      
+
 	PortableServer_Servant(*preinvoke) (PortableServer_Servant _servant,
 					    const PortableServer_ObjectId *
 					    oid,
@@ -94,10 +96,10 @@ void PortableServer_RefCountServantBase__add_ref    (PortableServer_Servant  ser
 void PortableServer_RefCountServantBase__remove_ref (PortableServer_Servant  servant,
 						     CORBA_Environment      *ev);
 
-PortableServer_POA 
+PortableServer_POA
      PortableServer_ServantBase__default_POA   (PortableServer_Servant  servant,
 						CORBA_Environment      *ev);
-CORBA_InterfaceDef 
+CORBA_InterfaceDef
      PortableServer_ServantBase__get_interface (PortableServer_Servant  servant,
 						CORBA_Environment      *ev);
 CORBA_boolean

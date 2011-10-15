@@ -3,8 +3,8 @@
  * mate-panel-applet-frame-dbus.c: panel side container for applets
  *
  * Copyright (C) 2001 - 2003 Sun Microsystems, Inc.
- * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@mate.org>
- * Copyright (C) 2010 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2010 Carlos Garcia Campos <carlosgc@gnome.org>
+ * Copyright (C) 2010 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

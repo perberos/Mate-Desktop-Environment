@@ -30,7 +30,9 @@
 #include <eel/eel-mateconf-extensions.h>
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
  * A callback which you can register to to be notified when a particular

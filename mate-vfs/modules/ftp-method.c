@@ -904,7 +904,7 @@ query_user_for_authn_info (MateVFSURI *uri,
 	if (!ret) {
 		/* No callback, try anon login */
 		*user = g_strdup ("anonymous");
-		*pass = g_strdup ("nobody@mate.org");
+		*pass = g_strdup ("nobody@gnome.org");
                 goto error;
         }
 
@@ -918,7 +918,7 @@ query_user_for_authn_info (MateVFSURI *uri,
 	g_free (*pass);
 	if (out_args.out_flags & MATE_VFS_MODULE_CALLBACK_FULL_AUTHENTICATION_OUT_ANON_SELECTED) {
 		*user = g_strdup ("anonymous");
-		*pass = g_strdup ("nobody@mate.org");
+		*pass = g_strdup ("nobody@gnome.org");
 	}
 	else {
 		*user = g_strdup (out_args.username);
@@ -1429,7 +1429,7 @@ ftp_connection_create (FtpConnectionPool *pool,
                	user = g_strdup (mate_vfs_uri_get_user_name (uri));
                	pass = g_strdup (mate_vfs_uri_get_password (uri));
 		if (pass == NULL) {
-			pass = g_strdup ("nobody@mate.org");
+			pass = g_strdup ("nobody@gnome.org");
 		}
 		
 		result = try_login (uri, &pool->ip, conn,

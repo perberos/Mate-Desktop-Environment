@@ -31,7 +31,9 @@
 
 #include "mdm-session-auditor.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define MDM_TYPE_SESSION_SOLARIS_AUDITOR (mdm_session_solaris_auditor_get_type ())
 #define MDM_SESSION_SOLARIS_AUDITOR(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MDM_TYPE_SESSION_SOLARIS_AUDITOR, MdmSessionSolarisAuditor))
 #define MDM_SESSION_SOLARIS_AUDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MDM_TYPE_SESSION_SOLARIS_AUDITOR, MdmSessionSolarisAuditorClass))

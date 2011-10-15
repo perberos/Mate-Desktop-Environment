@@ -35,7 +35,9 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* The MateColorPicker widget is a simple color picker in a button.  The button displays a sample
  * of the currently selected color.  When the user clicks on the button, a color selection dialog

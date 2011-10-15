@@ -27,7 +27,9 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GSP_TYPE_APP            (gsp_app_get_type ())
 #define GSP_APP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSP_TYPE_APP, GspApp))

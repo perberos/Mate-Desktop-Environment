@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Library General Public
  * License along with the Mate Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA. 
+ * Boston, MA 02111-1307, USA.
  */
 /*
  * Authors: Ian McKellar <yakk@yakk.net>
@@ -28,14 +28,16 @@
 
 #include <libmatevfs/mate-vfs-socket.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct MateVFSSSL MateVFSSSL;
 
 gboolean        mate_vfs_ssl_enabled        (void);
 /* FIXME: add *some* kind of cert verification! */
 MateVFSResult  mate_vfs_ssl_create         (MateVFSSSL **handle_return,
-		                              const char *host, 
+		                              const char *host,
 		                              unsigned int port,
 					      MateVFSCancellation *cancellation);
 MateVFSResult  mate_vfs_ssl_create_from_fd (MateVFSSSL **handle_return,

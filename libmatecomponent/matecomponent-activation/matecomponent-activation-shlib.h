@@ -26,23 +26,25 @@
 
 #include <matecomponent-activation/MateComponent_Activation_types.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
 	const char *iid;
 
-	/* This routine should call matecomponent_activation_plugin_use(servant, impl_ptr), 
+	/* This routine should call matecomponent_activation_plugin_use(servant, impl_ptr),
          * as should all routines which activate CORBA objects
-	 * implemented by this shared library. This needs to be done 
+	 * implemented by this shared library. This needs to be done
          * before making any CORBA calls on the object, or
-	 * passing that object around. First thing after servant creation 
-         * always works. :) 
+	 * passing that object around. First thing after servant creation
+         * always works. :)
          */
 
         CORBA_Object (*activate) (PortableServer_POA poa,
-                                  const char *iid, 
+                                  const char *iid,
                                   gpointer impl_ptr,	/* This pointer should be stored by the implementation
-                                                         * to be passed to matecomponent_activation_plugin_unuse() in the 
+                                                         * to be passed to matecomponent_activation_plugin_unuse() in the
                                                          * implementation's destruction routine. */
 				  CORBA_Environment *ev);
         gpointer dummy[4];
@@ -54,13 +56,13 @@ typedef struct {
         gpointer dummy[8];
 } MateComponentActivationPlugin;
 
-void  matecomponent_activation_plugin_use    (PortableServer_Servant servant, 
+void  matecomponent_activation_plugin_use    (PortableServer_Servant servant,
                                        gpointer impl_ptr);
 
 void  matecomponent_activation_plugin_unuse  (gpointer impl_ptr);
 
 #ifndef MATECOMPONENT_DISABLE_DEPRECATED
-CORBA_Object matecomponent_activation_activate_shlib_server (MateComponent_ActivationResult *sh, 
+CORBA_Object matecomponent_activation_activate_shlib_server (MateComponent_ActivationResult *sh,
                                                       CORBA_Environment    *ev);
 #endif
 

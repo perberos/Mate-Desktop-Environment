@@ -23,7 +23,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define COMPONENT_DETAILS_TYPE (component_details_get_type ())
 #define COMPONENT_DETAILS(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), COMPONENT_DETAILS_TYPE, ComponentDetails))

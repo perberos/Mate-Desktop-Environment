@@ -20,7 +20,9 @@
 #ifndef __GCR_UNLOCK_OPTIONS_H__
 #define __GCR_UNLOCK_OPTIONS_H__
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define GCR_UNLOCK_OPTION_ALWAYS    "always"
 #define GCR_UNLOCK_OPTION_SESSION   "session"

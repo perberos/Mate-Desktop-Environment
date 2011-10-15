@@ -30,7 +30,9 @@
 #include "panel-widget.h"
 #include "applet.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_APPLET_FRAME         (mate_panel_applet_frame_get_type ())
 #define MATE_PANEL_APPLET_FRAME(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_APPLET_FRAME, MatePanelAppletFrame))

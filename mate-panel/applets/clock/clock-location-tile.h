@@ -8,7 +8,9 @@
 #include "clock-location.h"
 #include "clock-utils.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CLOCK_LOCATION_TILE_TYPE         (clock_location_tile_get_type ())
 #define CLOCK_LOCATION_TILE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), CLOCK_LOCATION_TILE_TYPE, ClockLocationTile))

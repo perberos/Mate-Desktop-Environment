@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Library General Public
  * License along with the Mate Library; see the file COPYING.LIB.  If not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA. 
+ * Boston, MA 02111-1307, USA.
  *
  */
 /*
@@ -31,7 +31,9 @@
 
 #include "mate-vfs-socket.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * MateVFSSocketBuffer:
@@ -46,9 +48,9 @@ MateVFSSocketBuffer* mate_vfs_socket_buffer_new      (MateVFSSocket       *socke
 MateVFSResult        mate_vfs_socket_buffer_destroy  (MateVFSSocketBuffer *socket_buffer,
 							gboolean              close_socket,
 							MateVFSCancellation *cancellation);
-MateVFSResult        mate_vfs_socket_buffer_read     (MateVFSSocketBuffer *socket_buffer, 
+MateVFSResult        mate_vfs_socket_buffer_read     (MateVFSSocketBuffer *socket_buffer,
 							gpointer              buffer,
-							MateVFSFileSize      bytes, 
+							MateVFSFileSize      bytes,
 							MateVFSFileSize     *bytes_read,
 							MateVFSCancellation *cancellation);
 MateVFSResult        mate_vfs_socket_buffer_read_until (MateVFSSocketBuffer *socket_buffer,

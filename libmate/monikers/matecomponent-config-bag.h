@@ -14,7 +14,9 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent/matecomponent-event-source.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_CONFIG_BAG        (matecomponent_config_bag_get_type ())
 #define MATECOMPONENT_CONFIG_BAG_TYPE        MATECOMPONENT_TYPE_CONFIG_BAG // deprecated, you should use MATECOMPONENT_TYPE_CONFIG_BAG

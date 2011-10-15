@@ -20,7 +20,7 @@
  * Modified by the GTK+ Team and others 1997-1999.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 
 #ifndef __MATECOMPONENT_PLUG_H__
@@ -34,7 +34,9 @@ typedef struct _MateComponentPlug MateComponentPlug;
 
 #include <matecomponent/matecomponent-control.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_PLUG          (matecomponent_plug_get_type ())
 #define MATECOMPONENT_PLUG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, matecomponent_plug_get_type (), MateComponentPlug)

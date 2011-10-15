@@ -14,7 +14,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <linc/linc-types.h>
 #include <sys/types.h>

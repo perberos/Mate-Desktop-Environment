@@ -32,7 +32,9 @@
 #include <libmate/mate-init.h>
 #include <libmate/mate-program.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Return pointer to the character after the last .,
    or "" if no dot. */

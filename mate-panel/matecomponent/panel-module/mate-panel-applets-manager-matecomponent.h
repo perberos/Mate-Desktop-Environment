@@ -1,7 +1,7 @@
 /*
  * mate-panel-applets-manager-matecomponent.h
  *
- * Copyright (C) 2010 Vincent Untz <vuntz@mate.org>
+ * Copyright (C) 2010 Vincent Untz <vuntz@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,7 +24,9 @@
 
 #include <mate-panel-applets-manager.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_APPLETS_MANAGER_MATECOMPONENT		(mate_panel_applets_manager_matecomponent_get_type ())
 #define MATE_PANEL_APPLETS_MANAGER_MATECOMPONENT(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_APPLETS_MANAGER_MATECOMPONENT, MatePanelAppletsManagerMateComponent))

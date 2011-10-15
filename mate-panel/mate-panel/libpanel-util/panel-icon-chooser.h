@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *	Vincent Untz <vuntz@mate.org>
+ *	Vincent Untz <vuntz@gnome.org>
  */
 
 #ifndef PANEL_ICON_CHOOSER_H
@@ -27,7 +27,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_ICON_CHOOSER			(panel_icon_chooser_get_type ())
 #define PANEL_ICON_CHOOSER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), PANEL_TYPE_ICON_CHOOSER, PanelIconChooser))

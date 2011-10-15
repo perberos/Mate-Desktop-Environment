@@ -23,7 +23,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MDM_KEY_USER "daemon/User"
 #define MDM_KEY_GROUP "daemon/Group"

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * matecomponent-ui-xml.h: A module for merging, overlaying and de-merging XML 
+ * matecomponent-ui-xml.h: A module for merging, overlaying and de-merging XML
  *
  * Author:
  *	Michael Meeks (michael@helixcode.com)
@@ -14,7 +14,9 @@
 #include <matecomponent/matecomponent-ui-node.h>
 #include <matecomponent/matecomponent-ui-engine.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Internal API only */
 

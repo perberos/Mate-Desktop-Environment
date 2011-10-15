@@ -12,7 +12,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _MateComponentMonikerPrivate MateComponentMonikerPrivate;
 typedef struct _MateComponentMoniker        MateComponentMoniker;
@@ -26,7 +28,7 @@ typedef struct _MateComponentMoniker        MateComponentMoniker;
 
 struct _MateComponentMoniker {
         MateComponentObject         object;
-	
+
 	MateComponentMonikerPrivate *priv;
 };
 

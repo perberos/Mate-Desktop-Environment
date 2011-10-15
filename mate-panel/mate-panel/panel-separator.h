@@ -1,7 +1,7 @@
 /*
  * panel-separator.h: panel "Separator" module
  *
- * Copyright (C) 2005 Carlos Garcia Campos <carlosgc@mate.org>
+ * Copyright (C) 2005 Carlos Garcia Campos <carlosgc@gnome.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
  * 02111-1307, USA.
  *
  * Authors:
- *      Carlos Garcia Campos <carlosgc@mate.org>
+ *      Carlos Garcia Campos <carlosgc@gnome.org>
  */
 
 #ifndef PANEL_SEPARATOR_H
@@ -28,7 +28,9 @@
 #include "applet.h"
 #include "panel-widget.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PANEL_TYPE_SEPARATOR         (panel_separator_get_type ())
 #define PANEL_SEPARATOR(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PANEL_TYPE_SEPARATOR, PanelSeparator))
@@ -51,7 +53,7 @@ struct _PanelSeparatorClass {
 	GtkEventBoxClass        parent_class;
 };
 
-GType  panel_separator_get_type          (void) G_GNUC_CONST;	
+GType  panel_separator_get_type          (void) G_GNUC_CONST;
 void   panel_separator_create            (PanelToplevel    *toplevel,
 					  int               position);
 void   panel_separator_load_from_mateconf   (PanelWidget      *panel_widget,

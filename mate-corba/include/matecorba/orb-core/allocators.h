@@ -3,7 +3,9 @@
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CORBA_sequence_set_release(s,r) (s)->_release = r
 #define CORBA_sequence_get_release(s) (s)->_release

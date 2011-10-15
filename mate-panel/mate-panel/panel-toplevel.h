@@ -29,7 +29,9 @@
 
 #include "panel-enums.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* We need PanelWidget type but don't want to include
    the panel-widget.h */

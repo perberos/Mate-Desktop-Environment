@@ -2,12 +2,14 @@
 #define GCRTYPES_H_
 
 #ifndef GCR_API_SUBJECT_TO_CHANGE
-#error "This API has not yet reached stability." 
-#endif 
+#error "This API has not yet reached stability."
+#endif
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define             GCR_DATA_ERROR                    (gcr_data_error_get_domain ())
 
@@ -22,21 +24,21 @@ enum {
 
 enum {
 	GCR_FORMAT_INVALID = 0,
-	
+
 	GCR_FORMAT_DER_PRIVATE_KEY = 100,
 	GCR_FORMAT_DER_PRIVATE_KEY_RSA,
 	GCR_FORMAT_DER_PRIVATE_KEY_DSA,
-	
+
 	GCR_FORMAT_DER_CERTIFICATE_X509 = 200,
 
 	GCR_FORMAT_DER_PKCS7 = 300,
-	
+
 	GCR_FORMAT_DER_PKCS8 = 400,
 	GCR_FORMAT_DER_PKCS8_PLAIN,
 	GCR_FORMAT_DER_PKCS8_ENCRYPTED,
-	
+
 	GCR_FORMAT_DER_PKCS12 = 500,
-	
+
 	GCR_FORMAT_PEM = 1000,
 	GCR_FORMAT_PEM_PRIVATE_KEY_RSA,
 	GCR_FORMAT_PEM_PRIVATE_KEY_DSA,

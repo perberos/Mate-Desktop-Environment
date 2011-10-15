@@ -2,7 +2,7 @@
 /* http-neon-method.c - The HTTP method implementation for the MATE Virtual 
    File System using the neon http/webdav library.
 
-   Copyright (C) 2004 Christian Kellner <gicmo@mate.org>
+   Copyright (C) 2004 Christian Kellner <gicmo@gnome.org>
    
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as

@@ -28,7 +28,9 @@
 
 #include <libmatevfs/mate-vfs-uri.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct stat;
 
@@ -47,7 +49,7 @@ const char  *mate_vfs_get_mime_type_common			(MateVFSURI       *uri);
 /* FIXME: This function should be named more clearly, maybe
    to show that it gets the mime type only using the uri information. */
 const char  *mate_vfs_get_mime_type_from_uri			(MateVFSURI       *uri);
- 
+
 #ifndef MATE_VFS_DISABLE_DEPRECATED
 const char  *mate_vfs_get_mime_type_from_file_data		(MateVFSURI       *uri);
 #endif

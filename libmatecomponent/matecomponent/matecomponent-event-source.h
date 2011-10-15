@@ -13,7 +13,9 @@
 #include <matecomponent/matecomponent-object.h>
 #include <matecomponent/matecomponent-listener.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_EVENT_SOURCE        (matecomponent_event_source_get_type ())
 #define MATECOMPONENT_EVENT_SOURCE_TYPE        MATECOMPONENT_TYPE_EVENT_SOURCE /* deprecated, you should use MATECOMPONENT_TYPE_EVENT_SOURCE */

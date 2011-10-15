@@ -52,7 +52,7 @@ static const gchar *const authors[] = {
 
 static const char *documenters[] = {
   "Glynn Foster <glynn.foster@sun.com>",
-  "Lucas Rocha <lucasr@mate.org>",
+  "Lucas Rocha <lucasr@gnome.org>",
   "Java Desktop System Documentation Team",
   "MATE Documentation Project",
   NULL

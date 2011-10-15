@@ -19,7 +19,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Author: Christian Kellner <gicmo@mate.org>
+   Author: Christian Kellner <gicmo@gnome.org>
 */
 
 #ifndef MATE_VFS_ACL_H
@@ -31,7 +31,9 @@
 #include <libmatevfs/mate-vfs-result.h>
 #include <libmatevfs/mate-vfs-ace.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* ************************************************************************** */
 
@@ -56,7 +58,7 @@ enum {
 	MATE_VFS_ACL_PERM_NULL = 0,
 	MATE_VFS_ACL_READ      = 1,
 	MATE_VFS_ACL_WRITE,
-	MATE_VFS_ACL_EXECUTE, 
+	MATE_VFS_ACL_EXECUTE,
 	MATE_VFS_ACL_PERM_SYS_LAST
 };
 
@@ -93,9 +95,9 @@ void          mate_vfs_acl_set               (MateVFSACL *acl,
 
 void          mate_vfs_acl_unset             (MateVFSACL *acl,
 					       MateVFSACE *ace);
-                                              
+
 GList *       mate_vfs_acl_get_ace_list      (MateVFSACL *acl);
-void          mate_vfs_acl_free_ace_list     (GList       *ace_list);      
+void          mate_vfs_acl_free_ace_list     (GList       *ace_list);
 
 G_END_DECLS
 

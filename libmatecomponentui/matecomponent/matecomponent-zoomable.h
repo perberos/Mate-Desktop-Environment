@@ -14,7 +14,9 @@
 
 #include <matecomponent/matecomponent-object.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_ZOOMABLE        (matecomponent_zoomable_get_type ())
 #define MATECOMPONENT_ZOOMABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MATECOMPONENT_TYPE_ZOOMABLE, MateComponentZoomable))

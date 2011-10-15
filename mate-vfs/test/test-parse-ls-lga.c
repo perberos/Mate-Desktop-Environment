@@ -2,7 +2,7 @@
 
 /* test-parse-ls-lga.c - Test program for the MATE Virtual File System.
 
-   Copyright (C) 2005 Christian Kellner <gicmo@mate.org>
+   Copyright (C) 2005 Christian Kellner <gicmo@gnome.org>
 
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as

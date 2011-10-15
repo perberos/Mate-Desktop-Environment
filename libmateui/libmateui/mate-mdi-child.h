@@ -32,7 +32,9 @@
 #include "libmateui/mate-app.h"
 #include "libmateui/mate-app-helper.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATE_TYPE_MDI_CHILD            (mate_mdi_child_get_type ())
 #define MATE_MDI_CHILD(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_MDI_CHILD, MateMDIChild))

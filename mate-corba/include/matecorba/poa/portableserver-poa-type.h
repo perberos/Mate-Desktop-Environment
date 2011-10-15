@@ -3,7 +3,9 @@
 
 #include <matecorba/poa/matecorba-adaptor.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef MATECORBA2_INTERNAL_API
 

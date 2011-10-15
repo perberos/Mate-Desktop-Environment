@@ -28,7 +28,9 @@
 #include <eel/eel-canvas.h>
 #include <eel/eel-art-extensions.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CAJA_TYPE_ICON_CANVAS_ITEM caja_icon_canvas_item_get_type()
 #define CAJA_ICON_CANVAS_ITEM(obj) \
