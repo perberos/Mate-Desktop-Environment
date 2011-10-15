@@ -11,7 +11,9 @@
 #ifndef _MATECOMPONENT_UI_ENGINE_PRIVATE_H_
 #define _MATECOMPONENT_UI_ENGINE_PRIVATE_H_
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <matecomponent/matecomponent-ui-xml.h>
 #include <matecomponent/matecomponent-ui-engine.h>

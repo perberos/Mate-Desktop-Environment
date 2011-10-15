@@ -87,7 +87,7 @@ mate-panel-applet-enums.h: @REBUILD@ $(mate_panel_applet_enum_headers)
 	$(AM_V_GEN)glib-mkenums \
 			--fhead "#ifndef __MATE_PANEL_APPLET_ENUMS_H__\n" \
 			--fhead "#define __MATE_PANEL_APPLET_ENUMS_H__\n\n" \
-			--fhead "G_BEGIN_DECLS\n\n" \
+			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 			--ftail "G_END_DECLS\n\n" \
 			--ftail "#endif /* __MATE_PANEL_APPLET_ENUMS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \

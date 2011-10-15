@@ -90,7 +90,7 @@ stamp-libmatetypebuiltins.h: Makefile @REBUILD@ $(libmate_headers)
 			--fhead "#ifndef __LIBMATETYPEBUILTINS_H__\n" \
 			--fhead "#define __LIBMATETYPEBUILTINS_H__ 1\n\n" \
 			--fhead "#include <libmate/libmate.h>\n\n" \
-			--fhead "G_BEGIN_DECLS\n\n" \
+			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 			--ftail "G_END_DECLS\n\n" \
 			--ftail "#endif /* __LIBMATETYPEBUILTINS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \

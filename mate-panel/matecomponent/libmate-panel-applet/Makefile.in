@@ -510,7 +510,7 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libmate-panel-applet-2.la: $(libmate_panel_applet_2_la_OBJECTS) $(libmate_panel_applet_2_la_DEPENDENCIES) 
+libmate-panel-applet-2.la: $(libmate_panel_applet_2_la_OBJECTS) $(libmate_panel_applet_2_la_DEPENDENCIES)
 	$(AM_V_CCLD)$(libmate_panel_applet_2_la_LINK) -rpath $(libdir) $(libmate_panel_applet_2_la_OBJECTS) $(libmate_panel_applet_2_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -564,10 +564,10 @@ clean-noinstPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-panel-test-applets-matecomponent$(EXEEXT): $(panel_test_applets_matecomponent_OBJECTS) $(panel_test_applets_matecomponent_DEPENDENCIES) 
+panel-test-applets-matecomponent$(EXEEXT): $(panel_test_applets_matecomponent_OBJECTS) $(panel_test_applets_matecomponent_DEPENDENCIES)
 	@rm -f panel-test-applets-matecomponent$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(panel_test_applets_matecomponent_OBJECTS) $(panel_test_applets_matecomponent_LDADD) $(LIBS)
-test-matecomponent-applet$(EXEEXT): $(test_matecomponent_applet_OBJECTS) $(test_matecomponent_applet_DEPENDENCIES) 
+test-matecomponent-applet$(EXEEXT): $(test_matecomponent_applet_OBJECTS) $(test_matecomponent_applet_DEPENDENCIES)
 	@rm -f test-matecomponent-applet$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_matecomponent_applet_OBJECTS) $(test_matecomponent_applet_LDADD) $(LIBS)
 
@@ -930,7 +930,7 @@ mate-panel-applet-enums.h: @REBUILD@ $(mate_panel_applet_enum_headers)
 	$(AM_V_GEN)glib-mkenums \
 			--fhead "#ifndef __MATE_PANEL_APPLET_ENUMS_H__\n" \
 			--fhead "#define __MATE_PANEL_APPLET_ENUMS_H__\n\n" \
-			--fhead "G_BEGIN_DECLS\n\n" \
+			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 			--ftail "G_END_DECLS\n\n" \
 			--ftail "#endif /* __MATE_PANEL_APPLET_ENUMS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \

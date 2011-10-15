@@ -122,7 +122,7 @@ clock-typebuiltins.h: @REBUILD@ $(clock_enum_headers)
 	$(AM_V_GEN)glib-mkenums \
 			--fhead "#ifndef __CLOCK_TYPEBUILTINS_H__\n" \
 			--fhead "#define __CLOCK_TYPEBUILTINS_H__ 1\n\n" \
-			--fhead "G_BEGIN_DECLS\n\n" \
+			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 			--ftail "G_END_DECLS\n\n" \
 			--ftail "#endif /* __CLOCK_TYPEBUILTINS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \

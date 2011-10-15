@@ -16,7 +16,9 @@
 
 #ifndef MATECOMPONENT_UI_DISABLE_DEPRECATED
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_UI_TOOLBAR_TOGGLE_BUTTON_ITEM             (matecomponent_ui_toolbar_toggle_button_item_get_type ())
 #define MATECOMPONENT_UI_TOOLBAR_TOGGLE_BUTTON_ITEM(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_UI_TOOLBAR_TOGGLE_BUTTON_ITEM, MateComponentUIToolbarToggleButtonItem))
@@ -24,7 +26,7 @@ G_BEGIN_DECLS
 #define MATECOMPONENT_IS_UI_TOOLBAR_TOGGLE_BUTTON_ITEM(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATECOMPONENT_TYPE_UI_TOOLBAR_TOGGLE_BUTTON_ITEM))
 #define MATECOMPONENT_IS_UI_TOOLBAR_TOGGLE_BUTTON_ITEM_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), MATECOMPONENT_TYPE_UI_TOOLBAR_TOGGLE_BUTTON_ITEM))
 
-
+
 typedef struct _MateComponentUIToolbarToggleButtonItemPrivate MateComponentUIToolbarToggleButtonItemPrivate;
 
 typedef struct {
@@ -39,7 +41,7 @@ typedef struct {
 	gpointer dummy[2];
 } MateComponentUIToolbarToggleButtonItemClass;
 
-
+
 GType    matecomponent_ui_toolbar_toggle_button_item_get_type   (void) G_GNUC_CONST;
 void       matecomponent_ui_toolbar_toggle_button_item_construct  (MateComponentUIToolbarToggleButtonItem *toggle_button_item,
 							 GdkPixbuf                     *icon,

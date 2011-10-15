@@ -82,7 +82,7 @@ $(OBJECTS) $(libmatevfs_2_la_OBJECTS): $(libmatevfs_built_headers)
 
 mate-vfs-enum-types.h: @REBUILD@ $(libmatevfs_headers_to_scan_for_enums) Makefile
 	(cd $(srcdir) && glib-mkenums \
-			--fhead "#ifndef __LIBMATEVFS_ENUM_TYPES_H__\n#define __LIBMATEVFS_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
+			--fhead "#ifndef __LIBMATEVFS_ENUM_TYPES_H__\n#define __LIBMATEVFS_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" \
 			--fprod "/* enumerations from \"@filename@\" */\n" \
 			--vhead "GType @enum_name@_get_type (void);\n#define MATE_VFS_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" 	\
 			--ftail "G_END_DECLS\n\n#endif /* __LIBMATEVFS_ENUM_TYPES_H__ */" \

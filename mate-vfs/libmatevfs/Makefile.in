@@ -409,7 +409,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-NULL = 
+NULL =
 @OS_WIN32_TRUE@FNMATCH_CFLAGS = -I$(top_srcdir)/imported/fnmatch
 @OS_WIN32_TRUE@FNMATCH_LIBS = ../imported/fnmatch/libfnmatch.la
 INCLUDES = \
@@ -792,9 +792,9 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libmatevfs-2.la: $(libmatevfs_2_la_OBJECTS) $(libmatevfs_2_la_DEPENDENCIES) 
+libmatevfs-2.la: $(libmatevfs_2_la_OBJECTS) $(libmatevfs_2_la_DEPENDENCIES)
 	$(libmatevfs_2_la_LINK) -rpath $(libdir) $(libmatevfs_2_la_OBJECTS) $(libmatevfs_2_la_LIBADD) $(LIBS)
-libmatevfsdaemon-2.la: $(libmatevfsdaemon_2_la_OBJECTS) $(libmatevfsdaemon_2_la_DEPENDENCIES) 
+libmatevfsdaemon-2.la: $(libmatevfsdaemon_2_la_OBJECTS) $(libmatevfsdaemon_2_la_DEPENDENCIES)
 	$(LINK) $(am_libmatevfsdaemon_2_la_rpath) $(libmatevfsdaemon_2_la_OBJECTS) $(libmatevfsdaemon_2_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
@@ -1184,7 +1184,7 @@ $(OBJECTS) $(libmatevfs_2_la_OBJECTS): $(libmatevfs_built_headers)
 
 mate-vfs-enum-types.h: @REBUILD@ $(libmatevfs_headers_to_scan_for_enums) Makefile
 	(cd $(srcdir) && glib-mkenums \
-			--fhead "#ifndef __LIBMATEVFS_ENUM_TYPES_H__\n#define __LIBMATEVFS_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
+			--fhead "#ifndef __LIBMATEVFS_ENUM_TYPES_H__\n#define __LIBMATEVFS_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" \
 			--fprod "/* enumerations from \"@filename@\" */\n" \
 			--vhead "GType @enum_name@_get_type (void);\n#define MATE_VFS_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" 	\
 			--ftail "G_END_DECLS\n\n#endif /* __LIBMATEVFS_ENUM_TYPES_H__ */" \

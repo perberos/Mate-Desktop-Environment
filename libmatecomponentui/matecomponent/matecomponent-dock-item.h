@@ -31,7 +31,9 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MATECOMPONENT_TYPE_DOCK_ITEM            (matecomponent_dock_item_get_type())
 #define MATECOMPONENT_DOCK_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATECOMPONENT_TYPE_DOCK_ITEM, MateComponentDockItem))
@@ -120,7 +122,7 @@ void           matecomponent_dock_item_set_shadow_type (MateComponentDockItem *d
                                                 GtkShadowType type);
 
 GtkShadowType  matecomponent_dock_item_get_shadow_type (MateComponentDockItem *dock_item);
- 
+
 gboolean       matecomponent_dock_item_set_orientation (MateComponentDockItem *dock_item,
                                                 GtkOrientation orientation);
 
@@ -138,14 +140,14 @@ void           matecomponent_dock_item_set_locked      (MateComponentDockItem *d
 						 gboolean        locked);
 gboolean       matecomponent_dock_item_detach          (MateComponentDockItem *item,
 						 gint x, gint y);
-                                               
+
 void           matecomponent_dock_item_attach          (MateComponentDockItem *item,
 						 GtkWidget *parent,
 						 gint x, gint y);
 void           matecomponent_dock_item_unfloat         (MateComponentDockItem *item);
 
 void           matecomponent_dock_item_grab_pointer    (MateComponentDockItem *item);
-                                               
+
 void           matecomponent_dock_item_drag_floating   (MateComponentDockItem *item,
 						 gint x, gint y);
 

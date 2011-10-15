@@ -48,7 +48,7 @@ $(ENUM_FILE).h: s-enum-types-h
 	@true
 s-enum-types-h: $(notify_headers) Makefile
 	$(AM_V_GEN) ( cd $(srcdir) && glib-mkenums \
-			--fhead "#ifndef _NOTIFY_ENUM_TYPES_H_\n#define _NOTIFY_ENUM_TYPES_H_\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
+			--fhead "#ifndef _NOTIFY_ENUM_TYPES_H_\n#define _NOTIFY_ENUM_TYPES_H_\n\n#include <glib-object.h>\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" \
 			--fprod "/* enumerations from \"@filename@\" */\n" \
 			--vhead "GType @enum_name@_get_type(void);\n#define NOTIFY_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"	\
 			--ftail "G_END_DECLS\n\n#endif /* _NOTIFY_ENUM_TYPES_H_ */" \

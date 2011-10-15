@@ -183,7 +183,7 @@ matecomponent-ui-type-builtins.h: Makefile $(libmatecomponentui_h_sources)
 	$(GLIB_MKENUMS) --fhead "#ifndef __MATECOMPONENT_UI_TYPE_BUILTINS_H__\n" \
 			--fhead "#define __MATECOMPONENT_UI_TYPE_BUILTINS_H__ 1\n\n" \
 			--fhead "#include <glib-object.h>\n\n" \
-			--fhead "G_BEGIN_DECLS\n\n" \
+			--fhead "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n" \
 			--ftail "G_END_DECLS\n\n" \
 			--ftail "#endif /* __MATECOMPONENT_UI_TYPE_BUILTINS_H__ */\n" \
 			--fprod "\n/* --- @filename@ --- */" \
