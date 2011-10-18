@@ -677,9 +677,7 @@ X_CFLAGS
 XMKMF
 XLIB_LIBS
 XLIB_CFLAGS
-STARTUP_NOTIFICATION_PACKAGE
 XRANDR_REQUIRED
-STARTUP_NOTIFICATION_REQUIRED
 MATECONF_REQUIRED
 GDK_PIXBUF_REQUIRED
 GLIB_REQUIRED
@@ -868,6 +866,7 @@ enable_mate_about
 enable_desktop_docs
 with_pnp_ids_path
 with_gtk
+enable_startup_notification
 with_x
 with_help_dir
 with_omf_dir
@@ -1543,7 +1542,9 @@ Optional Features:
   --enable-iso-c          Try to warn if code is not ISO C
   --disable-deprecations  don't warn about deprecated usages
   --disable-mate-about    don't build mate-about
-  --disable-desktop-docs  don't build desktop-wide help documents
+  --disable-desktop-docs  do not build desktop-wide help documents
+  --disable-startup-notification
+                          disable startup notification support
   --disable-scrollkeeper  do not make updates to the scrollkeeper database
   --enable-unique         enable the use of libunique instead of g_application or gtk_application
   --disable-rebuilds      disable all source autogeneration rules
@@ -13499,7 +13500,6 @@ esac
 GDK_PIXBUF_REQUIRED=2.4.0
 GLIB_REQUIRED=2.19.1
 MATECONF_REQUIRED=2.0.0
-STARTUP_NOTIFICATION_REQUIRED=0.5
 XRANDR_REQUIRED=1.2
 
 #AC_SUBST(GTK_REQUIRED)
@@ -13508,23 +13508,48 @@ XRANDR_REQUIRED=1.2
 
 
 
+STARTUP_NOTIFICATION_VERSION=0.5
+STARTUP_NOTIFICATION_PACKAGE=
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libstartup-notification" >&5
-$as_echo_n "checking for libstartup-notification... " >&6; }
-if $PKG_CONFIG --atleast-version $STARTUP_NOTIFICATION_REQUIRED libstartup-notification-1.0; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-$as_echo "#define HAVE_STARTUP_NOTIFICATION 1" >>confdefs.h
-
-  have_startup_notification=yes
-  STARTUP_NOTIFICATION_PACKAGE=libstartup-notification-1.0
+# Check whether --enable-startup-notification was given.
+if test "${enable_startup_notification+set}" = set; then :
+  enableval=$enable_startup_notification;
 else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-  have_startup_notification=no
-  STARTUP_NOTIFICATION_PACKAGE=
+  enable_startup_notification=auto
 fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking Startup notification library >= $STARTUP_NOTIFICATION_VERSION" >&5
+$as_echo_n "checking Startup notification library >= $STARTUP_NOTIFICATION_VERSION... " >&6; }
+
+if $PKG_CONFIG --atleast-version $STARTUP_NOTIFICATION_VERSION libstartup-notification-1.0; then
+	have_startup_notification=yes
+else
+	have_startup_notification=no
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $have_startup_notification" >&5
+$as_echo "$have_startup_notification" >&6; }
+
+if test x$enable_startup_notification = xyes; then
+	have_startup_notification=yes
+	echo "startup-notification support forced on"
+elif test x$enable_startup_notification = xauto; then
+	true
+else
+	have_startup_notification=no
+fi
+
+if test x$have_startup_notification = xyes; then
+	echo "Building with libstartup-notification"
+	STARTUP_NOTIFICATION_PACKAGE=libstartup-notification-1.0
+
+$as_echo "#define HAVE_STARTUP_NOTIFICATION /**/" >>confdefs.h
+
+else
+	echo "Building without libstartup-notification"
+fi
+
 
 
 
@@ -18885,29 +18910,29 @@ fi
 
 
 echo "
-              mate-desktop $VERSION
-              `echo mate-desktop $VERSION | sed "s/./=/g"`
+mate-desktop $VERSION `echo mate-desktop $VERSION | sed "s/./=/g"`
 
-        prefix:                       ${prefix}
-        exec_prefix:                  ${exec_prefix}
-        libdir:                       ${libdir}
-        bindir:                       ${bindir}
-        sbindir:                      ${sbindir}
-        sysconfdir:                   ${sysconfdir}
-        localstatedir:                ${localstatedir}
-        datadir:                      ${datadir}
-        source code location:         ${srcdir}
-        compiler:                     ${CC}
-        cflags:                       ${CFLAGS}
-        Maintainer mode:              ${USE_MAINTAINER_MODE}
-        Warn about deprecations:      ${enable_deprecations}
+    prefix:                       ${prefix}
+    exec_prefix:                  ${exec_prefix}
+    libdir:                       ${libdir}
+    bindir:                       ${bindir}
+    sbindir:                      ${sbindir}
+    sysconfdir:                   ${sysconfdir}
+    localstatedir:                ${localstatedir}
+    datadir:                      ${datadir}
+    source code location:         ${srcdir}
+    compiler:                     ${CC}
+    cflags:                       ${CFLAGS}
+    Maintainer mode:              ${USE_MAINTAINER_MODE}
+    Warn about deprecations:      ${enable_deprecations}
 
-        Build mate-about:             ${enable_mate_about}
-        Use libunique:                ${enable_libunique}
-        Build desktop-wide docs:      ${enable_desktop_docs}
-        Use external pnp.ids:         ${EXTERNAL_PNP_IDS}
-        Startup notification support: ${have_startup_notification}
-        XRandr support:               ${have_randr}
-        Build gtk-doc documentation:  ${enable_gtk_doc}
+    Gtk+ version:                 ${GTK_API_VERSION}
+    Build mate-about:             ${enable_mate_about}
+    Use libunique:                ${enable_libunique}
+    Build desktop-wide docs:      ${enable_desktop_docs}
+    Use external pnp.ids:         ${EXTERNAL_PNP_IDS}
+    Startup notification support: ${have_startup_notification}
+    XRandr support:               ${have_randr}
+    Build gtk-doc documentation:  ${enable_gtk_doc}
 
 "

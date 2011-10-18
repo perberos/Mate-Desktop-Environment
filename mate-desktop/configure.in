@@ -82,7 +82,7 @@ AC_ARG_ENABLE([mate-about],
 	[],[enable_mate_about=yes])
 AM_CONDITIONAL(MATE_ABOUT_ENABLED, test "x$enable_mate_about" = "xyes")
 AC_ARG_ENABLE([desktop-docs],
-	[AS_HELP_STRING([--disable-desktop-docs],[don't build desktop-wide help documents])],
+	[AS_HELP_STRING([--disable-desktop-docs],[do not build desktop-wide help documents])],
 	[],[enable_desktop_docs=yes])
 AM_CONDITIONAL(DESKTOP_DOCS_ENABLED, test "x$enable_desktop_docs" = "xyes")
 
@@ -134,30 +134,52 @@ esac
 GDK_PIXBUF_REQUIRED=2.4.0
 GLIB_REQUIRED=2.19.1
 MATECONF_REQUIRED=2.0.0
-STARTUP_NOTIFICATION_REQUIRED=0.5
 XRANDR_REQUIRED=1.2
 
 #AC_SUBST(GTK_REQUIRED)
 AC_SUBST(GLIB_REQUIRED)
 AC_SUBST(GDK_PIXBUF_REQUIRED)
 AC_SUBST(MATECONF_REQUIRED)
-AC_SUBST(STARTUP_NOTIFICATION_REQUIRED)
 AC_SUBST(XRANDR_REQUIRED)
 
-AC_MSG_CHECKING(for libstartup-notification)
-if $PKG_CONFIG --atleast-version $STARTUP_NOTIFICATION_REQUIRED libstartup-notification-1.0; then
-  AC_MSG_RESULT(yes)
-  AC_DEFINE(HAVE_STARTUP_NOTIFICATION, 1,
-            [Define if the startup-notification package is present])
-  have_startup_notification=yes
-  STARTUP_NOTIFICATION_PACKAGE=libstartup-notification-1.0
+dnl ----------------------------------------------------------------------------
+dnl startup notification
+dnl ----------------------------------------------------------------------------
+STARTUP_NOTIFICATION_VERSION=0.5
+STARTUP_NOTIFICATION_PACKAGE=
+
+AC_ARG_ENABLE(startup-notification,
+	AC_HELP_STRING([--disable-startup-notification], [disable startup notification support]),, enable_startup_notification=auto)
+
+AC_MSG_CHECKING([Startup notification library >= $STARTUP_NOTIFICATION_VERSION])
+
+if $PKG_CONFIG --atleast-version $STARTUP_NOTIFICATION_VERSION libstartup-notification-1.0; then
+	have_startup_notification=yes
 else
-  AC_MSG_RESULT(no)
-  have_startup_notification=no
-  STARTUP_NOTIFICATION_PACKAGE=
+	have_startup_notification=no
 fi
 
-AC_SUBST(STARTUP_NOTIFICATION_PACKAGE)
+AC_MSG_RESULT($have_startup_notification)
+
+if test x$enable_startup_notification = xyes; then
+	have_startup_notification=yes
+	echo "startup-notification support forced on"
+elif test x$enable_startup_notification = xauto; then
+	true
+else
+	have_startup_notification=no
+fi
+
+if test x$have_startup_notification = xyes; then
+	echo "Building with libstartup-notification"
+	STARTUP_NOTIFICATION_PACKAGE=libstartup-notification-1.0
+	AC_DEFINE(HAVE_STARTUP_NOTIFICATION,, [Building with startup notification support])
+else
+	echo "Building without libstartup-notification"
+fi
+
+
+
 
 dnl we need x11 for MateBG
 
