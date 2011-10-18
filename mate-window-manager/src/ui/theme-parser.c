@@ -85,7 +85,7 @@ typedef struct
   char *theme_file;             /* theme filename */
   char *theme_dir;              /* dir the theme is inside */
   MetaTheme *theme;             /* theme being parsed */
-  guint format_version;         /* version of format of theme file */  
+  guint format_version;         /* version of format of theme file */
   char *name;                   /* name of named thing being parsed */
   MetaFrameLayout *layout;      /* layout being parsed if any */
   MetaDrawOpList *op_list;      /* op list being parsed if any */
@@ -220,7 +220,7 @@ set_error (GError             **err,
   int line, ch;
   va_list args;
   char *str;
-  
+
   g_markup_parse_context_get_position (context, &line, &ch);
 
   va_start (args, format);
@@ -276,7 +276,7 @@ parse_info_free (ParseInfo *info)
   g_free (info->theme_dir);
 
   g_slist_free (info->states);
-  
+
   if (info->theme)
     meta_theme_free (info->theme);
 
@@ -288,7 +288,7 @@ parse_info_free (ParseInfo *info)
 
   if (info->op)
     meta_draw_op_free (info->op);
-  
+
   if (info->style)
     meta_frame_style_unref (info->style);
 
@@ -307,7 +307,7 @@ static void
 pop_state (ParseInfo *info)
 {
   g_return_if_fail (info->states != NULL);
-  
+
   info->states = g_slist_remove (info->states, info->states->data);
 }
 
@@ -363,7 +363,7 @@ locate_attributes (GMarkupParseContext *context,
   if (attrs[0].required)
     attrs[0].name++; /* skip past it */
   *first_attribute_retloc = NULL;
-  
+
   va_start (args, first_attribute_retloc);
 
   name = va_arg (args, const char*);
@@ -374,7 +374,7 @@ locate_attributes (GMarkupParseContext *context,
       g_return_val_if_fail (retloc != NULL, FALSE);
 
       g_assert (n_attrs < MAX_ATTRS);
-      
+
       attrs[n_attrs].name = name;
       attrs[n_attrs].retloc = retloc;
       attrs[n_attrs].required = attrs[n_attrs].name[0]=='!';
@@ -382,7 +382,7 @@ locate_attributes (GMarkupParseContext *context,
         attrs[n_attrs].name++; /* skip past it */
 
       n_attrs += 1;
-      *retloc = NULL;      
+      *retloc = NULL;
 
       name = va_arg (args, const char*);
       retloc = va_arg (args, const char**);
@@ -406,7 +406,7 @@ locate_attributes (GMarkupParseContext *context,
 
               if (*retloc != NULL)
                 {
-                
+
                   set_error (error, context,
                              G_MARKUP_ERROR,
                              G_MARKUP_ERROR_PARSE,
@@ -430,7 +430,7 @@ locate_attributes (GMarkupParseContext *context,
         {
           g_warning ("It could have been %s.\n", attrs[j++].name);
         }
-                  
+
           set_error (error, context,
                      G_MARKUP_ERROR,
                      G_MARKUP_ERROR_PARSE,
@@ -498,9 +498,9 @@ parse_positive_integer (const char          *str,
   int j;
 
   *val = 0;
-  
+
   end = NULL;
-  
+
   /* Is str a constant? */
 
   if (META_THEME_ALLOWS (theme, META_THEME_UBIQUITOUS_CONSTANTS) &&
@@ -550,7 +550,7 @@ parse_positive_integer (const char          *str,
                  l, MAX_REASONABLE);
       return FALSE;
     }
-  
+
   *val = (int) l;
 
   return TRUE;
@@ -565,9 +565,9 @@ parse_double (const char          *str,
   char *end;
 
   *val = 0;
-  
+
   end = NULL;
-  
+
   *val = g_ascii_strtod (str, &end);
 
   if (end == NULL || end == str)
@@ -609,7 +609,7 @@ parse_boolean (const char          *str,
                  str);
       return FALSE;
     }
-  
+
   return TRUE;
 }
 
@@ -637,14 +637,14 @@ parse_rounding (const char          *str,
                       str);
            return FALSE;
          }
-   
+
       result = parse_positive_integer (str, &tmp, context, theme, error);
 
       *val = tmp;
 
-      return result;    
+      return result;
     }
-  
+
   return TRUE;
 }
 
@@ -680,7 +680,7 @@ parse_alpha (const char             *str,
   MetaAlphaGradientSpec *spec;
 
   *spec_ret = NULL;
-  
+
   split = g_strsplit (str, ":", -1);
 
   i = 0;
@@ -694,7 +694,7 @@ parse_alpha (const char             *str,
                  str);
 
       g_strfreev (split);
-      
+
       return FALSE;
     }
 
@@ -710,13 +710,13 @@ parse_alpha (const char             *str,
   while (i < n_alphas)
     {
       double v;
-      
+
       if (!parse_double (split[i], &v, context, error))
         {
           /* clear up, but don't set error: it was set by parse_double */
           g_strfreev (split);
           meta_alpha_gradient_spec_free (spec);
-          
+
           return FALSE;
         }
 
@@ -727,20 +727,20 @@ parse_alpha (const char             *str,
                      v);
 
           g_strfreev (split);
-          meta_alpha_gradient_spec_free (spec);          
-          
+          meta_alpha_gradient_spec_free (spec);
+
           return FALSE;
         }
 
       spec->alphas[i] = (unsigned char) (v * 255);
-      
+
       ++i;
-    }  
+    }
 
   g_strfreev (split);
-  
+
   *spec_ret = spec;
-  
+
   return TRUE;
 }
 
@@ -756,10 +756,10 @@ parse_color (MetaTheme *theme,
     {
       if (referent)
         return meta_color_spec_new_from_string (referent, err);
-      
+
       /* no need to free referent: it's a pointer into the actual hash table */
     }
-  
+
   return meta_color_spec_new_from_string (str, err);
 }
 
@@ -770,7 +770,7 @@ parse_title_scale (const char          *str,
                    GError             **error)
 {
   double factor;
-  
+
   if (strcmp (str, "xx-small") == 0)
     factor = PANGO_SCALE_XX_SMALL;
   else if (strcmp (str, "x-small") == 0)
@@ -794,7 +794,7 @@ parse_title_scale (const char          *str,
     }
 
   *val = factor;
-  
+
   return TRUE;
 }
 
@@ -823,43 +823,54 @@ parse_toplevel_element (GMarkupParseContext  *context,
       const char *value;
       int ival = 0;
       double dval = 0.0;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!name", &name, "!value", &value,
                               NULL))
         return;
 
-      if (strchr (value, '.') && parse_double (value, &dval, context, error))
+      /* We don't know how a a constant is going to be used, so we have guess its
+       * type from its contents:
+       *
+       *  - Starts like a number and contains a '.': float constant
+       *  - Starts like a number and doesn't contain a '.': int constant
+       *  - Starts with anything else: a color constant.
+       *    (colors always start with # or a letter)
+       */
+      if (value[0] == '.' || value[0] == '+' || value[0] == '-' || (value[0] >= '0' && value[0] <= '9'))
         {
-          g_clear_error (error);
-
-          if (!meta_theme_define_float_constant (info->theme,
-                                                 name,
-                                                 dval,
-                                                 error))
+          if (strchr (value, '.'))
             {
-              add_context_to_error (error, context);
-              return;
+              if (!parse_double (value, &dval, context, error))
+                return;
+
+              if (!meta_theme_define_float_constant (info->theme,
+                                                     name,
+                                                     dval,
+                                                     error))
+                {
+                  add_context_to_error (error, context);
+                  return;
+                }
             }
-        }
-      else if (parse_positive_integer (value, &ival, context, info->theme, error))
-        {
-          g_clear_error (error);
-
-          if (!meta_theme_define_int_constant (info->theme,
-                                               name,
-                                               ival,
-                                               error))
+          else
             {
-              add_context_to_error (error, context);
-              return;
+              if (!parse_positive_integer (value, &ival, context, info->theme, error))
+                return;
+
+              if (!meta_theme_define_int_constant (info->theme,
+                                                   name,
+                                                   ival,
+                                                   error))
+                {
+                  add_context_to_error (error, context);
+                  return;
+                }
             }
         }
       else
         {
-          g_clear_error (error);
-
           if (!meta_theme_define_color_constant (info->theme,
                                                  name,
                                                  value,
@@ -922,14 +933,14 @@ parse_toplevel_element (GMarkupParseContext  *context,
       if (rounded_top_right && !parse_rounding (rounded_top_right, &rounded_top_right_val, context, info->theme, error))
         return;
       if (rounded_bottom_left && !parse_rounding (rounded_bottom_left, &rounded_bottom_left_val, context, info->theme, error))
-        return;      
+        return;
       if (rounded_bottom_right && !parse_rounding (rounded_bottom_right, &rounded_bottom_right_val, context, info->theme, error))
         return;
-      
+
       title_scale_val = 1.0;
       if (title_scale && !parse_title_scale (title_scale, &title_scale_val, context, error))
         return;
-      
+
       if (meta_theme_lookup_layout (info->theme, name))
         {
           set_error (error, context, G_MARKUP_ERROR, G_MARKUP_ERROR_PARSE,
@@ -978,7 +989,7 @@ parse_toplevel_element (GMarkupParseContext  *context,
 
       if (rounded_bottom_right)
         info->layout->bottom_right_corner_rounded_radius = rounded_bottom_right_val;
-      
+
       meta_theme_insert_layout (info->theme, name, info->layout);
 
       push_state (info, STATE_FRAME_GEOMETRY);
@@ -1088,16 +1099,16 @@ parse_toplevel_element (GMarkupParseContext  *context,
 
           if (alpha != NULL)
             {
-            
+
                gboolean success;
                MetaAlphaGradientSpec *alpha_vector;
-               
+
                g_clear_error (error);
                /* fortunately, we already have a routine to parse alpha values,
                 * though it produces a vector of them, which is a superset of
                 * what we want.
                 */
-               success = parse_alpha (alpha, &alpha_vector, context, error); 
+               success = parse_alpha (alpha, &alpha_vector, context, error);
                if (!success)
                  return;
 
@@ -1212,7 +1223,7 @@ parse_toplevel_element (GMarkupParseContext  *context,
        * for backwards compatibility.
        */
       g_assert (info->op_list == NULL);
-      
+
       push_state (info, STATE_MENU_ICON);
     }
   else if (ELEMENT_IS ("fallback"))
@@ -1306,7 +1317,7 @@ parse_distance (GMarkupParseContext  *context,
   const char *name;
   const char *value;
   int val;
-  
+
   if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                           error,
                           "!name", &name, "!value", &value,
@@ -1335,13 +1346,13 @@ parse_distance (GMarkupParseContext  *context,
   else if (strcmp (name, "button_width") == 0)
     {
       info->layout->button_width = val;
-            
+
       if (!(info->layout->button_sizing == META_BUTTON_SIZING_LAST ||
             info->layout->button_sizing == META_BUTTON_SIZING_FIXED))
         {
           set_error (error, context, G_MARKUP_ERROR, G_MARKUP_ERROR_PARSE,
                      _("Cannot specify both \"button_width\"/\"button_height\" and \"aspect_ratio\" for buttons"));
-          return;      
+          return;
         }
 
       info->layout->button_sizing = META_BUTTON_SIZING_FIXED;
@@ -1349,13 +1360,13 @@ parse_distance (GMarkupParseContext  *context,
   else if (strcmp (name, "button_height") == 0)
     {
       info->layout->button_height = val;
-      
+
       if (!(info->layout->button_sizing == META_BUTTON_SIZING_LAST ||
             info->layout->button_sizing == META_BUTTON_SIZING_FIXED))
         {
           set_error (error, context, G_MARKUP_ERROR, G_MARKUP_ERROR_PARSE,
                      _("Cannot specify both \"button_width\"/\"button_height\" and \"aspect_ratio\" for buttons"));
-          return;      
+          return;
         }
 
       info->layout->button_sizing = META_BUTTON_SIZING_FIXED;
@@ -1379,7 +1390,7 @@ parse_aspect_ratio (GMarkupParseContext  *context,
   const char *name;
   const char *value;
   double val;
-  
+
   if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                           error,
                           "!name", &name, "!value", &value,
@@ -1391,7 +1402,7 @@ parse_aspect_ratio (GMarkupParseContext  *context,
     return;
 
   g_assert (info->layout);
-  
+
   if (strcmp (name, "button") == 0)
     {
       info->layout->button_aspect = val;
@@ -1402,7 +1413,7 @@ parse_aspect_ratio (GMarkupParseContext  *context,
                      _("Cannot specify both \"button_width\"/\"button_height\" and \"aspect_ratio\" for buttons"));
           return;
         }
-      
+
       info->layout->button_sizing = META_BUTTON_SIZING_ASPECT;
     }
   else
@@ -1431,7 +1442,7 @@ parse_border (GMarkupParseContext  *context,
   int left_val;
   int right_val;
   GtkBorder *border;
-  
+
   if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                           error,
                           "!name", &name,
@@ -1441,7 +1452,7 @@ parse_border (GMarkupParseContext  *context,
                           "!right", &right,
                           NULL))
     return;
-  
+
   top_val = 0;
   if (!parse_positive_integer (top, &top_val, context, info->theme, error))
     return;
@@ -1457,11 +1468,11 @@ parse_border (GMarkupParseContext  *context,
   right_val = 0;
   if (!parse_positive_integer (right, &right_val, context, info->theme, error))
     return;
-  
+
   g_assert (info->layout);
 
   border = NULL;
-  
+
   if (strcmp (name, "title_border") == 0)
     border = &info->layout->title_border;
   else if (strcmp (name, "button_border") == 0)
@@ -1537,7 +1548,7 @@ check_expression (PosToken            *tokens,
    * it's possible we should instead guarantee that widths and heights
    * are at least 1.
    */
-  
+
   env.rect = meta_rect (0, 0, 0, 0);
   if (has_object)
     {
@@ -1556,13 +1567,13 @@ check_expression (PosToken            *tokens,
   env.bottom_height = 0;
   env.title_width = 0;
   env.title_height = 0;
-  
+
   env.icon_width = 0;
   env.icon_height = 0;
   env.mini_icon_width = 0;
   env.mini_icon_height = 0;
   env.theme = theme;
-  
+
   if (!meta_parse_position_expression (tokens, n_tokens,
                                        &env,
                                        &x, &y,
@@ -1583,7 +1594,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
                        const gchar         **attribute_values,
                        ParseInfo            *info,
                        GError              **error)
-{  
+{
   g_return_if_fail (peek_state (info) == STATE_DRAW_OPS);
 
   if (ELEMENT_IS ("line"))
@@ -1601,7 +1612,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       int dash_on_val;
       int dash_off_val;
       int width_val;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!color", &color,
@@ -1622,11 +1633,11 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (x2, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (y2, FALSE, info->theme, context, error))
         return;
 #endif
- 
+
       dash_on_val = 0;
       if (dash_on_length &&
           !parse_positive_integer (dash_on_length, &dash_on_val, context, info->theme, error))
@@ -1651,7 +1662,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
           add_context_to_error (error, context);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_LINE);
 
       op->data.line.color_spec = color_spec;
@@ -1674,7 +1685,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.line.dash_off_length = dash_off_val;
 
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_LINE);
@@ -1690,7 +1701,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *filled;
       gboolean filled_val;
       MetaColorSpec *color_spec;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!color", &color,
@@ -1709,7 +1720,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
@@ -1717,7 +1728,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       filled_val = FALSE;
       if (filled && !parse_boolean (filled, &filled_val, context, error))
         return;
-      
+
       /* Check last so we don't have to free it when other
        * stuff fails
        */
@@ -1727,20 +1738,20 @@ parse_draw_op_element (GMarkupParseContext  *context,
           add_context_to_error (error, context);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_RECTANGLE);
 
       op->data.rectangle.color_spec = color_spec;
       op->data.rectangle.x = meta_draw_spec_new (info->theme, x, NULL);
       op->data.rectangle.y = meta_draw_spec_new (info->theme, y, NULL);
       op->data.rectangle.width = meta_draw_spec_new (info->theme, width, NULL);
-      op->data.rectangle.height = meta_draw_spec_new (info->theme, 
+      op->data.rectangle.height = meta_draw_spec_new (info->theme,
                                                       height, NULL);
 
       op->data.rectangle.filled = filled_val;
 
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_RECTANGLE);
@@ -1762,7 +1773,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       double start_angle_val;
       double extent_angle_val;
       MetaColorSpec *color_spec;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!color", &color,
@@ -1809,7 +1820,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
             }
         }
 
-#if 0     
+#if 0
       if (!check_expression (x, FALSE, info->theme, context, error))
         return;
 
@@ -1818,7 +1829,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
@@ -1827,7 +1838,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
         {
           if (!parse_angle (from, &start_angle_val, context, error))
             return;
-          
+
           start_angle_val = (180-start_angle_val)/360.0;
         }
       else
@@ -1835,12 +1846,12 @@ parse_draw_op_element (GMarkupParseContext  *context,
           if (!parse_angle (start_angle, &start_angle_val, context, error))
             return;
         }
-      
+
       if (extent_angle == NULL)
         {
           if (!parse_angle (to, &extent_angle_val, context, error))
             return;
-          
+
           extent_angle_val = ((180-extent_angle_val)/360.0) - start_angle_val;
         }
       else
@@ -1848,11 +1859,11 @@ parse_draw_op_element (GMarkupParseContext  *context,
            if (!parse_angle (extent_angle, &extent_angle_val, context, error))
              return;
         }
-     
+
       filled_val = FALSE;
       if (filled && !parse_boolean (filled, &filled_val, context, error))
         return;
-      
+
       /* Check last so we don't have to free it when other
        * stuff fails
        */
@@ -1862,7 +1873,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
           add_context_to_error (error, context);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_ARC);
 
       op->data.arc.color_spec = color_spec;
@@ -1875,9 +1886,9 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.arc.filled = filled_val;
       op->data.arc.start_angle = start_angle_val;
       op->data.arc.extent_angle = extent_angle_val;
-      
+
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_ARC);
@@ -1889,14 +1900,14 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *y;
       const char *width;
       const char *height;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!x", &x, "!y", &y,
                               "!width", &width, "!height", &height,
                               NULL))
         return;
-      
+
 #if 0
       if (!check_expression (x, FALSE, info->theme, context, error))
         return;
@@ -1906,10 +1917,10 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
-#endif 
+#endif
       op = meta_draw_op_new (META_DRAW_CLIP);
 
       op->data.clip.x = meta_draw_spec_new (info->theme, x, NULL);
@@ -1918,7 +1929,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.clip.height = meta_draw_spec_new (info->theme, height, NULL);
 
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_CLIP);
@@ -1934,7 +1945,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *alpha;
       MetaAlphaGradientSpec *alpha_spec;
       MetaColorSpec *color_spec;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!color", &color,
@@ -1953,14 +1964,14 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
       alpha_spec = NULL;
       if (!parse_alpha (alpha, &alpha_spec, context, error))
         return;
-      
+
       /* Check last so we don't have to free it when other
        * stuff fails
        */
@@ -1969,11 +1980,11 @@ parse_draw_op_element (GMarkupParseContext  *context,
         {
           if (alpha_spec)
             meta_alpha_gradient_spec_free (alpha_spec);
-          
+
           add_context_to_error (error, context);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_TINT);
 
       op->data.tint.color_spec = color_spec;
@@ -1985,7 +1996,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.tint.height = meta_draw_spec_new (info->theme, height, NULL);
 
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_TINT);
@@ -2000,7 +2011,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *alpha;
       MetaAlphaGradientSpec *alpha_spec;
       MetaGradientType type_val;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!type", &type,
@@ -2019,11 +2030,11 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
-  
+
       type_val = meta_gradient_type_from_string (type);
       if (type_val == META_GRADIENT_LAST)
         {
@@ -2036,13 +2047,13 @@ parse_draw_op_element (GMarkupParseContext  *context,
       alpha_spec = NULL;
       if (alpha && !parse_alpha (alpha, &alpha_spec, context, error))
         return;
-      
+
       g_assert (info->op == NULL);
       info->op = meta_draw_op_new (META_DRAW_GRADIENT);
 
       info->op->data.gradient.x = meta_draw_spec_new (info->theme, x, NULL);
       info->op->data.gradient.y = meta_draw_spec_new (info->theme, y, NULL);
-      info->op->data.gradient.width = meta_draw_spec_new (info->theme, 
+      info->op->data.gradient.width = meta_draw_spec_new (info->theme,
                                                         width, NULL);
       info->op->data.gradient.height = meta_draw_spec_new (info->theme,
                                                          height, NULL);
@@ -2050,7 +2061,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       info->op->data.gradient.gradient_spec = meta_gradient_spec_new (type_val);
 
       info->op->data.gradient.alpha_spec = alpha_spec;
-      
+
       push_state (info, STATE_GRADIENT);
 
       /* op gets appended on close tag */
@@ -2073,7 +2084,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       int h, w, c;
       int pixbuf_width, pixbuf_height, pixbuf_n_channels, pixbuf_rowstride;
       guchar *pixbuf_pixels;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!x", &x, "!y", &y,
@@ -2083,8 +2094,8 @@ parse_draw_op_element (GMarkupParseContext  *context,
                               "fill_type", &fill_type,
                               NULL))
         return;
-      
-#if 0      
+
+#if 0
       if (!check_expression (x, TRUE, info->theme, context, error))
         return;
 
@@ -2093,7 +2104,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, TRUE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, TRUE, info->theme, context, error))
         return;
 #endif
@@ -2101,7 +2112,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       if (fill_type)
         {
           fill_type_val = meta_image_fill_type_from_string (fill_type);
-          
+
           if (((int) fill_type_val) == -1)
             {
               set_error (error, context, G_MARKUP_ERROR,
@@ -2110,7 +2121,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
                          fill_type, element_name);
             }
         }
-      
+
       /* Check last so we don't have to free it when other
        * stuff fails.
        *
@@ -2128,7 +2139,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       if (colorize)
         {
           colorize_spec = parse_color (info->theme, colorize, error);
-          
+
           if (colorize_spec == NULL)
             {
               add_context_to_error (error, context);
@@ -2143,7 +2154,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
           g_object_unref (G_OBJECT (pixbuf));
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_IMAGE);
 
       op->data.image.pixbuf = pixbuf;
@@ -2156,7 +2167,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       op->data.image.alpha_spec = alpha_spec;
       op->data.image.fill_type = fill_type_val;
-      
+
       /* Check for vertical & horizontal stripes */
       pixbuf_n_channels = gdk_pixbuf_get_n_channels(pixbuf);
       pixbuf_width = gdk_pixbuf_get_width(pixbuf);
@@ -2184,11 +2195,11 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (h >= pixbuf_height)
         {
-          op->data.image.horizontal_stripes = TRUE; 
+          op->data.image.horizontal_stripes = TRUE;
         }
       else
         {
-          op->data.image.horizontal_stripes = FALSE; 
+          op->data.image.horizontal_stripes = FALSE;
         }
 
       /* Check for vertical stripes */
@@ -2211,15 +2222,15 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (w >= pixbuf_width)
         {
-          op->data.image.vertical_stripes = TRUE; 
+          op->data.image.vertical_stripes = TRUE;
         }
       else
         {
-          op->data.image.vertical_stripes = FALSE; 
+          op->data.image.vertical_stripes = FALSE;
         }
-      
+
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_IMAGE);
@@ -2239,7 +2250,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       GtkStateType state_val;
       GtkShadowType shadow_val;
       GtkArrowType arrow_val;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!state", &state,
@@ -2260,7 +2271,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
@@ -2297,22 +2308,22 @@ parse_draw_op_element (GMarkupParseContext  *context,
                      arrow, element_name);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_GTK_ARROW);
 
       op->data.gtk_arrow.x = meta_draw_spec_new (info->theme, x, NULL);
       op->data.gtk_arrow.y = meta_draw_spec_new (info->theme, y, NULL);
       op->data.gtk_arrow.width = meta_draw_spec_new (info->theme, width, NULL);
-      op->data.gtk_arrow.height = meta_draw_spec_new (info->theme, 
+      op->data.gtk_arrow.height = meta_draw_spec_new (info->theme,
                                                       height, NULL);
 
       op->data.gtk_arrow.filled = filled_val;
       op->data.gtk_arrow.state = state_val;
       op->data.gtk_arrow.shadow = shadow_val;
       op->data.gtk_arrow.arrow = arrow_val;
-      
+
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_GTK_ARROW);
@@ -2328,7 +2339,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *height;
       GtkStateType state_val;
       GtkShadowType shadow_val;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!state", &state,
@@ -2347,7 +2358,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
@@ -2370,7 +2381,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
                      shadow, element_name);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_GTK_BOX);
 
       op->data.gtk_box.x = meta_draw_spec_new (info->theme, x, NULL);
@@ -2380,9 +2391,9 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       op->data.gtk_box.state = state_val;
       op->data.gtk_box.shadow = shadow_val;
-      
+
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_GTK_BOX);
@@ -2395,7 +2406,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *y1;
       const char *y2;
       GtkStateType state_val;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!state", &state,
@@ -2423,7 +2434,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
                      state, element_name);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_GTK_VLINE);
 
       op->data.gtk_vline.x = meta_draw_spec_new (info->theme, x, NULL);
@@ -2431,9 +2442,9 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.gtk_vline.y2 = meta_draw_spec_new (info->theme, y2, NULL);
 
       op->data.gtk_vline.state = state_val;
-      
+
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_GTK_VLINE);
@@ -2449,7 +2460,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *fill_type;
       MetaAlphaGradientSpec *alpha_spec;
       MetaImageFillType fill_type_val;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!x", &x, "!y", &y,
@@ -2458,8 +2469,8 @@ parse_draw_op_element (GMarkupParseContext  *context,
                               "fill_type", &fill_type,
                               NULL))
         return;
-      
-#if 0      
+
+#if 0
       if (!check_expression (x, FALSE, info->theme, context, error))
         return;
 
@@ -2468,7 +2479,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (!check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
@@ -2485,13 +2496,13 @@ parse_draw_op_element (GMarkupParseContext  *context,
                          fill_type, element_name);
             }
         }
-      
+
       alpha_spec = NULL;
       if (alpha && !parse_alpha (alpha, &alpha_spec, context, error))
         return;
-      
+
       op = meta_draw_op_new (META_DRAW_ICON);
-      
+
       op->data.icon.x = meta_draw_spec_new (info->theme, x, NULL);
       op->data.icon.y = meta_draw_spec_new (info->theme, y, NULL);
       op->data.icon.width = meta_draw_spec_new (info->theme, width, NULL);
@@ -2499,9 +2510,9 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       op->data.icon.alpha_spec = alpha_spec;
       op->data.icon.fill_type = fill_type_val;
-      
+
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_ICON);
@@ -2513,7 +2524,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *x;
       const char *y;
       MetaColorSpec *color_spec;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!color", &color,
@@ -2538,7 +2549,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
           add_context_to_error (error, context);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_TITLE);
 
       op->data.title.color_spec = color_spec;
@@ -2547,7 +2558,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.title.y = meta_draw_spec_new (info->theme, y, NULL);
 
       g_assert (info->op_list);
-      
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_TITLE);
@@ -2561,7 +2572,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *width;
       const char *height;
       MetaDrawOpList *op_list;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "x", &x, "y", &y,
@@ -2573,7 +2584,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       /* x/y/width/height default to 0,0,width,height - should
        * probably do this for all the draw ops
        */
-#if 0      
+#if 0
       if (x && !check_expression (x, FALSE, info->theme, context, error))
         return;
 
@@ -2582,7 +2593,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (width && !check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (height && !check_expression (height, FALSE, info->theme, context, error))
         return;
 #endif
@@ -2599,7 +2610,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
         }
 
       g_assert (info->op_list);
-      
+
       if (op_list == info->op_list ||
           meta_draw_op_list_contains (op_list, info->op_list))
         {
@@ -2609,15 +2620,15 @@ parse_draw_op_element (GMarkupParseContext  *context,
                      name);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_OP_LIST);
 
       meta_draw_op_list_ref (op_list);
-      op->data.op_list.op_list = op_list;      
+      op->data.op_list.op_list = op_list;
 
       op->data.op_list.x = meta_draw_spec_new (info->theme, x ? x : "0", NULL);
       op->data.op_list.y = meta_draw_spec_new (info->theme, y ? y : "0", NULL);
-      op->data.op_list.width = meta_draw_spec_new (info->theme, 
+      op->data.op_list.width = meta_draw_spec_new (info->theme,
                                                    width ? width : "width",
                                                    NULL);
       op->data.op_list.height = meta_draw_spec_new (info->theme,
@@ -2641,7 +2652,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
       const char *tile_width;
       const char *tile_height;
       MetaDrawOpList *op_list;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "x", &x, "y", &y,
@@ -2661,7 +2672,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (tile_yoffset && !check_expression (tile_yoffset, FALSE, info->theme, context, error))
         return;
-      
+
       /* x/y/width/height default to 0,0,width,height - should
        * probably do this for all the draw ops
        */
@@ -2673,7 +2684,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (width && !check_expression (width, FALSE, info->theme, context, error))
         return;
-      
+
       if (height && !check_expression (height, FALSE, info->theme, context, error))
         return;
 
@@ -2682,7 +2693,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
 
       if (!check_expression (tile_height, FALSE, info->theme, context, error))
         return;
-#endif 
+#endif
       op_list = meta_theme_lookup_draw_op_list (info->theme,
                                                 name);
       if (op_list == NULL)
@@ -2695,7 +2706,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
         }
 
       g_assert (info->op_list);
-      
+
       if (op_list == info->op_list ||
           meta_draw_op_list_contains (op_list, info->op_list))
         {
@@ -2705,7 +2716,7 @@ parse_draw_op_element (GMarkupParseContext  *context,
                      name);
           return;
         }
-      
+
       op = meta_draw_op_new (META_DRAW_TILE);
 
       meta_draw_op_list_ref (op_list);
@@ -2727,8 +2738,8 @@ parse_draw_op_element (GMarkupParseContext  *context,
       op->data.tile.tile_width = meta_draw_spec_new (info->theme, tile_width, NULL);
       op->data.tile.tile_height = meta_draw_spec_new (info->theme, tile_height, NULL);
 
-      op->data.tile.op_list = op_list;      
-      
+      op->data.tile.op_list = op_list;
+
       meta_draw_op_list_append (info->op_list, op);
 
       push_state (info, STATE_TILE);
@@ -2776,7 +2787,7 @@ parse_gradient_element (GMarkupParseContext  *context,
       info->op->data.gradient.gradient_spec->color_specs =
         g_slist_append (info->op->data.gradient.gradient_spec->color_specs,
                         color_spec);
-      
+
       push_state (info, STATE_COLOR);
     }
   else
@@ -2799,12 +2810,12 @@ parse_style_element (GMarkupParseContext  *context,
   g_return_if_fail (peek_state (info) == STATE_FRAME_STYLE);
 
   g_assert (info->style);
-  
+
   if (ELEMENT_IS ("piece"))
     {
       const char *position = NULL;
       const char *draw_ops = NULL;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!position", &position,
@@ -2820,7 +2831,7 @@ parse_style_element (GMarkupParseContext  *context,
                      position);
           return;
         }
-      
+
       if (info->style->pieces[info->piece] != NULL)
         {
           set_error (error, context, G_MARKUP_ERROR, G_MARKUP_ERROR_PARSE,
@@ -2830,7 +2841,7 @@ parse_style_element (GMarkupParseContext  *context,
         }
 
       g_assert (info->op_list == NULL);
-      
+
       if (draw_ops)
         {
           MetaDrawOpList *op_list;
@@ -2849,7 +2860,7 @@ parse_style_element (GMarkupParseContext  *context,
           meta_draw_op_list_ref (op_list);
           info->op_list = op_list;
         }
-      
+
       push_state (info, STATE_PIECE);
     }
   else if (ELEMENT_IS ("button"))
@@ -2857,7 +2868,7 @@ parse_style_element (GMarkupParseContext  *context,
       const char *function = NULL;
       const char *state = NULL;
       const char *draw_ops = NULL;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!function", &function,
@@ -2895,7 +2906,7 @@ parse_style_element (GMarkupParseContext  *context,
                      state);
           return;
         }
-      
+
       if (info->style->buttons[info->button_type][info->button_state] != NULL)
         {
           set_error (error, context, G_MARKUP_ERROR, G_MARKUP_ERROR_PARSE,
@@ -2905,7 +2916,7 @@ parse_style_element (GMarkupParseContext  *context,
         }
 
       g_assert (info->op_list == NULL);
-      
+
       if (draw_ops)
         {
           MetaDrawOpList *op_list;
@@ -2924,7 +2935,7 @@ parse_style_element (GMarkupParseContext  *context,
           meta_draw_op_list_ref (op_list);
           info->op_list = op_list;
         }
-      
+
       push_state (info, STATE_BUTTON);
     }
   else
@@ -2956,7 +2967,7 @@ parse_style_set_element (GMarkupParseContext  *context,
       MetaFrameState frame_state;
       MetaFrameResize frame_resize;
       MetaFrameStyle *frame_style;
-      
+
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
                               error,
                               "!focus", &focus,
@@ -2974,7 +2985,7 @@ parse_style_set_element (GMarkupParseContext  *context,
                      focus);
           return;
         }
-      
+
       frame_state = meta_frame_state_from_string (state);
       if (frame_state == META_FRAME_STATE_LAST)
         {
@@ -3005,7 +3016,7 @@ parse_style_set_element (GMarkupParseContext  *context,
               return;
             }
 
-          
+
           frame_resize = meta_frame_resize_from_string (resize);
           if (frame_resize == META_FRAME_RESIZE_LAST)
             {
@@ -3014,7 +3025,7 @@ parse_style_set_element (GMarkupParseContext  *context,
                          focus);
               return;
             }
-          
+
           break;
 
         case META_FRAME_STATE_SHADED:
@@ -3053,7 +3064,7 @@ parse_style_set_element (GMarkupParseContext  *context,
               frame_resize = META_FRAME_RESIZE_BOTH;
             }
           break;
-          
+
         default:
           if (resize != NULL)
             {
@@ -3065,7 +3076,7 @@ parse_style_set_element (GMarkupParseContext  *context,
 
           frame_resize = META_FRAME_RESIZE_LAST;
         }
-      
+
       switch (frame_state)
         {
         case META_FRAME_STATE_NORMAL:
@@ -3117,7 +3128,7 @@ parse_style_set_element (GMarkupParseContext  *context,
           break;
         }
 
-      push_state (info, STATE_FRAME);      
+      push_state (info, STATE_FRAME);
     }
   else
     {
@@ -3147,7 +3158,7 @@ parse_piece_element (GMarkupParseContext  *context,
                      _("Can't have a two draw_ops for a <piece> element (theme specified a draw_ops attribute and also a <draw_ops> element, or specified two elements)"));
           return;
         }
-            
+
       if (!check_no_attributes (context, element_name, attribute_names, attribute_values,
                                 error))
         return;
@@ -3175,7 +3186,7 @@ parse_button_element (GMarkupParseContext  *context,
                       GError              **error)
 {
   g_return_if_fail (peek_state (info) == STATE_BUTTON);
-  
+
   if (ELEMENT_IS ("draw_ops"))
     {
       if (info->op_list)
@@ -3185,7 +3196,7 @@ parse_button_element (GMarkupParseContext  *context,
                      _("Can't have a two draw_ops for a <button> element (theme specified a draw_ops attribute and also a <draw_ops> element, or specified two elements)"));
           return;
         }
-            
+
       if (!check_no_attributes (context, element_name, attribute_names, attribute_values,
                                 error))
         return;
@@ -3223,7 +3234,7 @@ parse_menu_icon_element (GMarkupParseContext  *context,
                      _("Can't have a two draw_ops for a <menu_icon> element (theme specified a draw_ops attribute and also a <draw_ops> element, or specified two elements)"));
           return;
         }
-            
+
       if (!check_no_attributes (context, element_name, attribute_names, attribute_values,
                                 error))
         return;
@@ -3263,7 +3274,7 @@ start_element_handler (GMarkupParseContext *context,
           info->theme->filename = g_strdup (info->theme_file);
           info->theme->dirname = g_strdup (info->theme_dir);
           info->theme->format_version = info->format_version;
-          
+
           push_state (info, STATE_THEME);
         }
       else
@@ -3404,7 +3415,7 @@ end_element_handler (GMarkupParseContext *context,
           meta_theme_free (info->theme);
           info->theme = NULL;
         }
-      
+
       pop_state (info);
       g_assert (peek_state (info) == STATE_START);
       break;
@@ -3468,7 +3479,7 @@ end_element_handler (GMarkupParseContext *context,
     case STATE_DRAW_OPS:
       {
         g_assert (info->op_list);
-        
+
         if (!meta_draw_op_list_validate (info->op_list,
                                          error))
           {
@@ -3674,10 +3685,10 @@ all_whitespace (const char *text,
 {
   const char *p;
   const char *end;
-  
+
   p = text;
   end = text + text_len;
-  
+
   while (p != end)
     {
       if (!g_ascii_isspace (*p))
@@ -3700,8 +3711,8 @@ text_handler (GMarkupParseContext *context,
 
   if (all_whitespace (text, text_len))
     return;
-  
-  /* FIXME http://bugzilla.mate.org/show_bug.cgi?id=70448 would
+
+  /* FIXME http://bugzilla.gnome.org/show_bug.cgi?id=70448 would
    * allow a nice cleanup here.
    */
 
@@ -3900,10 +3911,10 @@ meta_theme_load (const char *theme_name,
   length = 0;
   retval = NULL;
   context = NULL;
-  
+
   theme_dir = NULL;
   theme_file = NULL;
-  
+
   if (meta_is_debugging ())
     {
       gchar *theme_filename = g_strdup_printf (MARCO_THEME_FILENAME_FORMAT,
@@ -3911,11 +3922,11 @@ meta_theme_load (const char *theme_name,
 
       /* Try in themes in our source tree */
       theme_dir = g_build_filename ("./themes", theme_name, NULL);
-      
+
       theme_file = g_build_filename (theme_dir,
                                      theme_filename,
                                      NULL);
-      
+
       error = NULL;
       if (!g_file_get_contents (theme_file,
                                 &text,
@@ -3933,13 +3944,13 @@ meta_theme_load (const char *theme_name,
 
       g_free (theme_filename);
     }
-  
+
   /* We try all supported versions from current to oldest */
   for (version = THEME_VERSION; (version > 0) && (text == NULL); version--)
     {
       gchar *theme_filename = g_strdup_printf (MARCO_THEME_FILENAME_FORMAT,
                                                version);
-      
+
       /* We try first in home dir, XDG_DATA_DIRS, then system dir for themes */
 
       /* Try home dir for themes */
@@ -3948,7 +3959,7 @@ meta_theme_load (const char *theme_name,
                                     theme_name,
                                     THEME_SUBDIR,
                                     NULL);
-      
+
       theme_file = g_build_filename (theme_dir,
                                      theme_filename,
                                      NULL);
@@ -4011,7 +4022,7 @@ meta_theme_load (const char *theme_name,
                                         theme_name,
                                         THEME_SUBDIR,
                                         NULL);
-      
+
           theme_file = g_build_filename (theme_dir,
                                          theme_filename,
                                          NULL);
@@ -4048,13 +4059,13 @@ meta_theme_load (const char *theme_name,
 
   parse_info_init (&info);
   info.theme_name = theme_name;
-  
+
   /* pass ownership to info so we free it with the info */
   info.theme_file = theme_file;
   info.theme_dir = theme_dir;
 
   info.format_version = version + 1;
-  
+
   context = g_markup_parse_context_new (&marco_theme_parser,
                                         0, &info, NULL);
 
