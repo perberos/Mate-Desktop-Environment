@@ -144,10 +144,41 @@ AC_ARG_ENABLE(gtk,
     [Enable GTK+ support (for mateconf-sanity-check) @<:@default=auto@:>@]),
   , enable_gtk=auto)
 
+
+dnl ---------------------------------------------------------------------------
+dnl GTK library version
+dnl ---------------------------------------------------------------------------
+GTK_API_VERSION=2.0
+GTK_REQUIRED=2.14.0
+
+AC_MSG_CHECKING([which gtk+ version to compile against])
+AC_ARG_WITH([gtk],
+  [AS_HELP_STRING([--with-gtk=2.0|3.0],[which gtk+ version to compile against (default: 2.0)])],
+  [case "$with_gtk" in
+     2.0|3.0) ;;
+     *) AC_MSG_ERROR([invalid gtk version specified]) ;;
+   esac],
+  [with_gtk=2.0])
+AC_MSG_RESULT([$with_gtk])
+
+case "$with_gtk" in
+  2.0) GTK_API_VERSION=2.0
+       GTK_REQUIRED=2.14.0
+       ;;
+  3.0) GTK_API_VERSION=3.0
+       GTK_REQUIRED=3.0.0
+       ;;
+esac
+
+
+
+
+
+
 PKGCONFIG_MODULES='glib-2.0 > 2.14.0 gio-2.0 >= 2.25.9 gthread-2.0 gmodule-2.0 >= 2.7.0 gobject-2.0 >= 2.7.0 MateCORBA-2.0 >= 2.4.0'
 PKGCONFIG_MODULES_WITH_XML="$PKGCONFIG_MODULES libxml-2.0"
-PKGCONFIG_MODULES_WITH_GTK=" $PKGCONFIG_MODULES gtk+-2.0 >= 2.14.0"
-PKGCONFIG_MODULES_WITH_XML_AND_GTK=" $PKGCONFIG_MODULES gtk+-2.0 libxml-2.0"
+PKGCONFIG_MODULES_WITH_GTK=" $PKGCONFIG_MODULES gtk+-$GTK_API_VERSION >= $GTK_REQUIRED"
+PKGCONFIG_MODULES_WITH_XML_AND_GTK=" $PKGCONFIG_MODULES gtk+-$GTK_API_VERSION libxml-2.0"
 PKGCONFIG_MODULES_DBUS=" dbus-1 >= 1.0.0 dbus-glib-1 >= 0.74"
 
 PKG_CHECK_MODULES(DEPENDENT, $PKGCONFIG_MODULES)
@@ -159,7 +190,7 @@ if test "x$enable_gtk" != "xno"; then
 
   if test "x$enable_gtk" = "xyes" && test "x$HAVE_GTK" = "xno"; then
     AC_MSG_ERROR([[
-*** Could not find GTK+ 2.14 or greater.
+*** Could not find GTK+ $GTK_REQUIRED or greater.
 *** Go to http://www.gtk.org/ to get it.]])
   fi
 else
@@ -334,10 +365,11 @@ AC_OUTPUT
 echo "
 	sysconfsubdir:	${with_sysconfsubdir}
 
-	gtk+:		${HAVE_GTK}
-	ldap:		${have_ldap}
-	policykit:	${HAVE_POLKIT}
-	gsettings:	${HAVE_GSETTINGS}
+	Gtk+:		    ${HAVE_GTK}
+	Gtk+ version:   ${GTK_API_VERSION}
+	ldap:		    ${have_ldap}
+	policykit:	    ${HAVE_POLKIT}
+	gsettings:	    ${HAVE_GSETTINGS}
 	introspection:  ${found_introspection}
 
 "
