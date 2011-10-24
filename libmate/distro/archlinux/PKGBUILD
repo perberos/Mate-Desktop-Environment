@@ -21,11 +21,16 @@ sha256sums=('5fe1288523f5e7840402c68c0bcf5dfe838c3b13c91329aca757ad613842068d')
 
 build() {
 	cd "${srcdir}/${pkgname}"
+
+	# Optional Features:
+	#    --enable-esd            Enable ESounD (default=no)
+	#    --enable-canberra       Enable canberra (default=yes)
 	./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/libmate --disable-canberra \
+		--libexecdir=/usr/lib/${pkgname} \
+		--disable-canberra \
 		--disable-schemas-install || return 1
-	# --disable-esd
+
 	make || return 1
 }
 
