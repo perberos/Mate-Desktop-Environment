@@ -59,9 +59,13 @@ na_tray_child_realize (GtkWidget *widget)
       gdk_window_set_composited (window, TRUE);
 
       child->parent_relative_bg = FALSE;
-    }
-  else if (visual == gdk_drawable_get_visual (GDK_DRAWABLE (gdk_window_get_parent (window))))
-    {
+	}
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		else if (visual == gdk_window_get_visual(gdk_window_get_parent(window)))
+	#else
+		else if (visual == gdk_drawable_get_visual(GDK_DRAWABLE(gdk_window_get_parent(window))))
+	#endif
+	{
       /* Otherwise, if the visual matches the visual of the parent window, we
        * can use a parent-relative background and fake transparency. */
       gdk_window_set_back_pixmap (window, NULL, TRUE);
@@ -113,12 +117,12 @@ na_tray_child_size_request (GtkWidget      *widget,
 
   /*
    * Make sure the icons have a meaningful size ..
-   */ 
+   */
   if ((request->width < 16) || (request->height < 16))
     {
       gint nw = MAX (24, request->width);
       gint nh = MAX (24, request->height);
-      g_warning ("Tray icon has requested a size of (%ix%i), resizing to (%ix%i)", 
+      g_warning ("Tray icon has requested a size of (%ix%i), resizing to (%ix%i)",
                  req.width, req.height, nw, nh);
       request->width = nw;
       request->height = nh;
@@ -326,7 +330,7 @@ na_tray_child_get_title (NaTrayChild *child)
                                False, utf8_string,
                                &type, &format, &nitems,
                                &bytes_after, (guchar **)&val);
-  
+
   if (gdk_error_trap_pop () || result != Success)
     return NULL;
 

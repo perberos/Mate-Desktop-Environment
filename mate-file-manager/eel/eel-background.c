@@ -938,7 +938,12 @@ widget_realized_setup (GtkWidget *widget, gpointer data)
 
 		root_window = gdk_screen_get_root_window(screen);
 
-		if (gdk_drawable_get_visual (root_window) == gtk_widget_get_visual (widget)) {
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			if (gdk_window_get_visual(root_window) == gtk_widget_get_visual(widget))
+		#else
+			if (gdk_drawable_get_visual(root_window) == gtk_widget_get_visual(widget))
+		#endif
+		{
 			background->details->use_common_pixmap = TRUE;
 		} else {
 			background->details->use_common_pixmap = FALSE;

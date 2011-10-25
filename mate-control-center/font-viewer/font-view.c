@@ -124,7 +124,13 @@ create_text_pixmap(GtkWidget *drawing_area, FT_Face face)
 
     /* create the XftDraw */
     xdisplay = GDK_PIXMAP_XDISPLAY(window);
-    xvisual = GDK_VISUAL_XVISUAL(gdk_drawable_get_visual(window));
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		xvisual = GDK_VISUAL_XVISUAL(gdk_window_get_visual(window));
+	#else
+		xvisual = GDK_VISUAL_XVISUAL(gdk_drawable_get_visual(window));
+	#endif
+
     xcolormap = GDK_COLORMAP_XCOLORMAP(gdk_drawable_get_colormap(window));
     XftColorAllocName(xdisplay, xvisual, xcolormap, "black", &colour);
 
