@@ -2218,7 +2218,12 @@ mdm_chooser_widget_init (MdmChooserWidget *widget)
         add_separator (widget);
         queue_column_visibility_update (widget);
 
-        adjustment = gtk_tree_view_get_vadjustment (GTK_TREE_VIEW (widget->priv->items_view));
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		adjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(widget->priv->items_view));
+	#else
+		adjustment = gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(widget->priv->items_view));
+	#endif
+
         g_signal_connect (adjustment, "value-changed", G_CALLBACK (on_adjustment_value_changed), widget);
 }
 
