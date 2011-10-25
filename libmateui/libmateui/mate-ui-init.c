@@ -107,7 +107,7 @@ void G_GNUC_INTERNAL
 _mate_ui_gettext_init (gboolean bind_codeset)
 {
 	static gboolean initialized = FALSE;
-#ifdef HAVE_BIND_TEXTDOMAIN_CODESET	
+#ifdef HAVE_BIND_TEXTDOMAIN_CODESET
 	static gboolean codeset_bound = FALSE;
 #endif
 
@@ -116,7 +116,7 @@ _mate_ui_gettext_init (gboolean bind_codeset)
 		bindtextdomain (GETTEXT_PACKAGE, MATEUILOCALEDIR);
 		initialized = TRUE;
 	}
-#ifdef HAVE_BIND_TEXTDOMAIN_CODESET	
+#ifdef HAVE_BIND_TEXTDOMAIN_CODESET
 	if (!codeset_bound && bind_codeset)
 	{
 		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -212,54 +212,41 @@ typedef struct {
 static GQuark quark_mate_program_private_libmateui = 0;
 static GQuark quark_mate_program_class_libmateui = 0;
 
-static void
-show_url (GtkWidget *parent,
-	  const char *url)
-{
-	GdkScreen *screen;
-	GError *error = NULL;
+#if !GTK_CHECK_VERSION(3, 0, 0)
 
-	screen = gtk_widget_get_screen (parent);
-
-	if (!mate_url_show_on_screen (url, screen, &error))
+	static void show_url(GtkWidget* parent, const char* url)
 	{
-		GtkWidget *dialog;
+		GdkScreen* screen;
+		GError* error = NULL;
 
-		dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
-						 GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_OK,
-						 "%s", _("Could not open link"));
-		gtk_message_dialog_format_secondary_text
-			(GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
-		g_error_free (error);
+		screen = gtk_widget_get_screen (parent);
 
-		g_signal_connect (dialog, "response",
-				  G_CALLBACK (gtk_widget_destroy), NULL);
-		gtk_widget_show (dialog);
+		if (!mate_url_show_on_screen (url, screen, &error))
+		{
+			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", _("Could not open link"));
+			gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", error->message);
+			g_error_free(error);
+
+			g_signal_connect(dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+			gtk_widget_show(dialog);
+		}
 	}
-}
 
-static void
-about_url_hook (GtkAboutDialog *about,
-		const char *link,
-		gpointer data)
-{
-	show_url (GTK_WIDGET (about), link);
-}
+	static void about_url_hook(GtkAboutDialog* about, const char* link, gpointer data)
+	{
+		show_url(GTK_WIDGET(about), link);
+	}
 
-static void
-about_email_hook (GtkAboutDialog *about,
-		  const char *email,
-		  gpointer data)
-{
-	char *address;
+	static void about_email_hook(GtkAboutDialog* about, const char* email, gpointer data)
+	{
+		/* FIXME: escaping? */
+		char* address = g_strdup_printf("mailto:%s", email);
+		show_url(GTK_WIDGET(about), address);
+		g_free(address);
+	}
 
-	/* FIXME: escaping? */
-	address = g_strdup_printf ("mailto:%s", email);
-	show_url (GTK_WIDGET (about), address);
-	g_free (address);
-}
+#endif
+
 
 static void
 libmateui_private_free (MateProgramPrivate_libmateui *priv)
@@ -290,7 +277,7 @@ libmateui_get_property (GObject *object, guint param_id, GValue *value,
 		g_value_set_boolean (value, priv->show_crash_dialog);
 	else if (param_id == cdata->display_id)
 		g_value_set_string (value, gdk_get_display_arg_name ());
-	else 
+	else
         	G_OBJECT_WARN_INVALID_PROPERTY_ID(object, param_id, pspec);
 }
 
@@ -350,7 +337,7 @@ libmateui_class_init (MateProgramClass *klass, const MateModuleInfo *mod_info)
                 klass,
                 libmateui_get_property,
                 libmateui_set_property,
-                g_param_spec_string (LIBMATEUI_PARAM_DISPLAY, NULL, NULL, 
+                g_param_spec_string (LIBMATEUI_PARAM_DISPLAY, NULL, NULL,
 				     g_getenv ("DISPLAY"),
                                      (G_PARAM_READABLE | G_PARAM_WRITABLE |
                                       G_PARAM_CONSTRUCT_ONLY)));
@@ -363,8 +350,10 @@ libmateui_class_init (MateProgramClass *klass, const MateModuleInfo *mod_info)
                                      (G_PARAM_READABLE | G_PARAM_WRITABLE |
                                       G_PARAM_CONSTRUCT_ONLY)));
 
-	gtk_about_dialog_set_url_hook (about_url_hook, NULL, NULL);
-	gtk_about_dialog_set_email_hook (about_email_hook, NULL, NULL);
+	#if !GTK_CHECK_VERSION(3, 0, 0)
+		gtk_about_dialog_set_url_hook(about_url_hook, NULL, NULL);
+		gtk_about_dialog_set_email_hook(about_email_hook, NULL, NULL);
+	#endif
 }
 
 static void
@@ -503,14 +492,14 @@ initialize_gtk_signal_relay (void)
                 return;
 
         initialized = TRUE;
-	
+
 	ctmp = mate_config_file ("/sound/events/gtk-events-2.soundlist");
 	ctmp2 = g_strconcat ("=", ctmp, "=", NULL);
 	g_free (ctmp);
 	iter_signames = mate_config_init_iterator_sections (ctmp2);
 	mate_config_push_prefix (ctmp2);
 	g_free (ctmp2);
-	
+
 	while ((iter_signames = mate_config_iterator_next (iter_signames,
 							    &signame, NULL))) {
 		int signums [5];
@@ -525,7 +514,7 @@ initialize_gtk_signal_relay (void)
 		if (!strcmp (signame, "activate")) {
 			g_type_class_unref (g_type_class_ref (gtk_menu_item_get_type ()));
 			signums [0] = g_signal_lookup (signame, gtk_menu_item_get_type ());
-			
+
 			g_type_class_unref (g_type_class_ref (gtk_entry_get_type ()));
 			signums [1] = g_signal_lookup (signame, gtk_entry_get_type ());
 			nsigs = 2;
@@ -533,7 +522,7 @@ initialize_gtk_signal_relay (void)
 			g_type_class_unref (g_type_class_ref (gtk_toggle_button_get_type ()));
 			signums [0] = g_signal_lookup (signame,
 							 gtk_toggle_button_get_type ());
-			
+
 			g_type_class_unref (g_type_class_ref (gtk_check_menu_item_get_type ()));
 			signums [1] = g_signal_lookup (signame,
 							 gtk_check_menu_item_get_type ());
@@ -600,7 +589,7 @@ setup_event_listener (void)
         mateconf_client_notify_add (mateconf_client, "/desktop/mate/sound/enable_esd",
                                  event_sounds_changed_cb,
                                  NULL, NULL, NULL);
-	
+
         use_event_sounds = (mate_mateconf_get_bool ("/desktop/mate/sound/enable_esd") &&
                             mate_mateconf_get_bool ("/desktop/mate/sound/event_sounds"));
 
@@ -670,7 +659,7 @@ libmateui_goption_disable_crash_dialog (const gchar *option_name,
 					 const gchar *value,
 					 gpointer data,
 					 GError **error)
-{ 
+{
 	g_object_set (G_OBJECT (mate_program_get ()),
 		      LIBMATEUI_PARAM_CRASH_DIALOG, FALSE, NULL);
 
@@ -678,7 +667,7 @@ libmateui_goption_disable_crash_dialog (const gchar *option_name,
 }
 
 /* automagically parse all the gtkrc files for us.
- * 
+ *
  * Parse:
  * $matedatadir/gtkrc
  * $matedatadir/$apprc
@@ -688,7 +677,7 @@ libmateui_goption_disable_crash_dialog (const gchar *option_name,
  * appname is derived from argv[0].  IMHO this is a great solution.
  * It provides good consistancy (you always know the rc file will be
  * the same name as the executable), and it's easy for the programmer.
- * 
+ *
  * If you don't like it.. give me a good reason.
  */
 static void
@@ -700,28 +689,28 @@ libmateui_rc_parse (MateProgram *program)
 	const gchar *buf = NULL;
 	gchar *file;
 	gchar *apprc;
-	
+
 	buf_len = strlen(command);
-	
+
 	for (i = 0; i < buf_len; i++) {
 		if (G_IS_DIR_SEPARATOR (command[buf_len - i])) {
 			buf = &command[buf_len - i + 1];
 			break;
 		}
 	}
-	
+
 	if (!buf)
                 buf = command;
 
         apprc = g_alloca (strlen(buf) + 4);
 	sprintf(apprc, "%src", buf);
-	
+
 	/* <matedatadir>/gtkrc */
         file = mate_program_locate_file (mate_program_get (),
                                           MATE_FILE_DOMAIN_DATADIR,
                                           "gtkrc-2.0", TRUE, NULL);
   	if (file) {
-  		gtk_rc_parse (file); 
+  		gtk_rc_parse (file);
 		g_free (file);
 	}
 
@@ -733,14 +722,14 @@ libmateui_rc_parse (MateProgram *program)
                 gtk_rc_parse (file);
                 g_free (file);
         }
-	
+
 	/* ~/.mate/gtkrc */
 	file = mate_util_home_file("gtkrc-2.0");
 	if (file) {
 		gtk_rc_parse (file);
 		g_free (file);
 	}
-	
+
 	/* ~/.mate/<progname> */
 	file = mate_util_home_file(apprc);
 	if (file) {
