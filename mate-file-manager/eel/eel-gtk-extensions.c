@@ -50,7 +50,7 @@
 #define MAXIMUM_MENU_TITLE_LENGTH	48
 
 /* Used for window position & size sanity-checking. The sizes are big enough to prevent
- * at least normal-sized mate panels from obscuring the window at the screen edges. 
+ * at least normal-sized mate panels from obscuring the window at the screen edges.
  */
 #define MINIMUM_ON_SCREEN_WIDTH		100
 #define MINIMUM_ON_SCREEN_HEIGHT	100
@@ -59,10 +59,10 @@
 /**
  * eel_gtk_window_get_geometry_string:
  * @window: a #GtkWindow
- * 
+ *
  * Obtains the geometry string for this window, suitable for
  * set_geometry_string(); assumes the window has NorthWest gravity
- * 
+ *
  * Return value: geometry string, must be freed
  **/
 char*
@@ -70,14 +70,14 @@ eel_gtk_window_get_geometry_string (GtkWindow *window)
 {
 	char *str;
 	int w, h, x, y;
-	
+
 	g_return_val_if_fail (GTK_IS_WINDOW (window), NULL);
 	g_return_val_if_fail (gtk_window_get_gravity (window) ==
 			      GDK_GRAVITY_NORTH_WEST, NULL);
 
 	gtk_window_get_position (window, &x, &y);
 	gtk_window_get_size (window, &w, &h);
-	
+
 	str = g_strdup_printf ("%dx%d+%d+%d", w, h, x, y);
 
 	return str;
@@ -87,24 +87,24 @@ static void
 send_delete_event (GtkWindow *window)
 {
 	/* Synthesize delete_event to close window. */
-	
+
 	GdkEvent event;
 	GtkWidget *widget;
-	
+
 	widget = GTK_WIDGET (window);
-	
+
 	event.any.type = GDK_DELETE;
 	event.any.window = gtk_widget_get_window (widget);
 	event.any.send_event = TRUE;
-	
+
 	g_object_ref (event.any.window);
 	gtk_main_do_event (&event);
 	g_object_unref (event.any.window);
 }
 
 static int
-handle_standard_close_accelerator (GtkWindow *window, 
-				   GdkEventKey *event, 
+handle_standard_close_accelerator (GtkWindow *window,
+				   GdkEventKey *event,
 				   gpointer user_data)
 {
 	g_assert (GTK_IS_WINDOW (window));
@@ -123,7 +123,7 @@ handle_standard_close_accelerator (GtkWindow *window,
 
 /**
  * eel_gtk_window_event_is_close_accelerator:
- * 
+ *
  * Tests whether a key event is a standard window close accelerator.
  * Not needed for clients that use eel_gtk_window_set_up_close_accelerator;
  * use only if you must set up your own key_event handler for your own reasons.
@@ -137,26 +137,26 @@ eel_gtk_window_event_is_close_accelerator (GtkWindow *window, GdkEventKey *event
 	if (event->state & GDK_CONTROL_MASK) {
 		/* Note: menu item equivalents are case-sensitive, so we will
 		 * be case-sensitive here too.
-		 */		
+		 */
 		if (event->keyval == EEL_STANDARD_CLOSE_WINDOW_CONTROL_KEY) {
 			return TRUE;
 		}
 	}
 
 
-	return FALSE;	
+	return FALSE;
 }
 
 /**
  * eel_gtk_window_set_up_close_accelerator:
- * 
+ *
  * Sets up the standard keyboard equivalent to close the window.
  * Call this for windows that don't set up a keyboard equivalent to
  * close the window some other way, e.g. via a menu item accelerator.
  *
  * NOTE: do not use for GtkDialog, it already sets up the right
  * stuff here.
- * 
+ *
  * @window: The GtkWindow that should be hidden when the standard
  * keyboard equivalent is typed.
  **/
@@ -169,7 +169,7 @@ eel_gtk_window_set_up_close_accelerator (GtkWindow *window)
 		g_warning ("eel_gtk_window_set_up_close_accelerator: Should not mess with close accelerator on GtkDialogs");
 		return;
 	}
-	
+
 	g_signal_connect (window,
 			    "key_press_event",
 			    G_CALLBACK (handle_standard_close_accelerator),
@@ -189,8 +189,8 @@ sanity_check_window_position (int *left, int *top)
 	 * that it might be obscured by the panel.
 	 */
 	*top = CLAMP (*top, 0, gdk_screen_height() - MINIMUM_ON_SCREEN_HEIGHT);
-	
-	/* FIXME bugzilla.eazel.com 669: 
+
+	/* FIXME bugzilla.eazel.com 669:
 	 * If window has negative left coordinate, set_uposition sends it
 	 * somewhere else entirely. Not sure what level contains this bug (XWindows?).
 	 * Hacked around by pinning the left edge to zero, which just means you
@@ -221,12 +221,12 @@ sanity_check_window_dimensions (guint *width, guint *height)
 
 /**
  * eel_gtk_window_set_initial_geometry:
- * 
+ *
  * Sets the position and size of a GtkWindow before the
  * GtkWindow is shown. It is an error to call this on a window that
  * is already on-screen. Takes into account screen size, and does
  * some sanity-checking on the passed-in values.
- * 
+ *
  * @window: A non-visible GtkWindow
  * @geometry_flags: A EelGdkGeometryFlags value defining which of
  * the following parameters have defined values
@@ -236,7 +236,7 @@ sanity_check_window_dimensions (guint *width, guint *height)
  * @height: height of window in pixels
  */
 void
-eel_gtk_window_set_initial_geometry (GtkWindow *window, 
+eel_gtk_window_set_initial_geometry (GtkWindow *window,
 					  EelGdkGeometryFlags geometry_flags,
 					  int left,
 					  int top,
@@ -251,7 +251,7 @@ eel_gtk_window_set_initial_geometry (GtkWindow *window,
 
 	/* Setting the default size doesn't work when the window is already showing.
 	 * Someday we could make this move an already-showing window, but we don't
-	 * need that functionality yet. 
+	 * need that functionality yet.
 	 */
 	g_return_if_fail (!gtk_widget_get_visible (GTK_WIDGET (window)));
 
@@ -288,13 +288,13 @@ eel_gtk_window_set_initial_geometry (GtkWindow *window,
 
 /**
  * eel_gtk_window_set_initial_geometry_from_string:
- * 
+ *
  * Sets the position and size of a GtkWindow before the
- * GtkWindow is shown. The geometry is passed in as a string. 
+ * GtkWindow is shown. The geometry is passed in as a string.
  * It is an error to call this on a window that
  * is already on-screen. Takes into account screen size, and does
  * some sanity-checking on the passed-in values.
- * 
+ *
  * @window: A non-visible GtkWindow
  * @geometry_string: A string suitable for use with eel_gdk_parse_geometry
  * @minimum_width: If the width from the string is smaller than this,
@@ -304,7 +304,7 @@ eel_gtk_window_set_initial_geometry (GtkWindow *window,
  * @ignore_position: If true position data from string will be ignored.
  */
 void
-eel_gtk_window_set_initial_geometry_from_string (GtkWindow *window, 
+eel_gtk_window_set_initial_geometry_from_string (GtkWindow *window,
 						 const char *geometry_string,
 						 guint minimum_width,
 						 guint minimum_height,
@@ -319,7 +319,7 @@ eel_gtk_window_set_initial_geometry_from_string (GtkWindow *window,
 
 	/* Setting the default size doesn't work when the window is already showing.
 	 * Someday we could make this move an already-showing window, but we don't
-	 * need that functionality yet. 
+	 * need that functionality yet.
 	 */
 	g_return_if_fail (!gtk_widget_get_visible (GTK_WIDGET (window)));
 
@@ -334,7 +334,7 @@ eel_gtk_window_set_initial_geometry_from_string (GtkWindow *window,
 	if (geometry_flags & EEL_GDK_HEIGHT_VALUE) {
 		height = MAX (height, minimum_height);
 	}
-	
+
 	/* Ignore saved window position if requested. */
 	if (ignore_position) {
 		geometry_flags &= ~(EEL_GDK_X_VALUE | EEL_GDK_Y_VALUE);
@@ -345,20 +345,20 @@ eel_gtk_window_set_initial_geometry_from_string (GtkWindow *window,
 
 /**
  * eel_pop_up_context_menu:
- * 
+ *
  * Pop up a context menu under the mouse.
- * The menu is sunk after use, so it will be destroyed unless the 
+ * The menu is sunk after use, so it will be destroyed unless the
  * caller first ref'ed it.
- * 
+ *
  * This function is more of a helper function than a gtk extension,
  * so perhaps it belongs in a different file.
- * 
+ *
  * @menu: The menu to pop up under the mouse.
  * @offset_x: Number of pixels to displace the popup menu vertically
  * @offset_y: Number of pixels to displace the popup menu horizontally
  * @event: The event that invoked this popup menu.
  **/
-void 
+void
 eel_pop_up_context_menu (GtkMenu	     *menu,
 			      gint16	      offset_x,
 			      gint16	      offset_y,
@@ -385,7 +385,7 @@ eel_pop_up_context_menu (GtkMenu	     *menu,
 	} else {
 		button = 0;
 	}
-	
+
 	gtk_menu_popup (menu,					/* menu */
 			NULL,					/* parent_menu_shell */
 			NULL,					/* parent_menu_item */
@@ -464,7 +464,7 @@ eel_point_in_allocation (const GtkAllocation *allocation,
 	g_return_val_if_fail (allocation != NULL, FALSE);
 	return x >= allocation->x
 		&& y >= allocation->y
-		&& x < allocation->x + allocation->width 
+		&& x < allocation->x + allocation->width
 		&& y < allocation->y + allocation->height;
 }
 
@@ -526,11 +526,11 @@ alive_disconnecter (GtkObject *object, DisconnectInfo *info)
 	g_assert (GTK_IS_OBJECT (info->object2));
 	g_assert (info->disconnect_handler2 != 0);
 	g_assert (object == info->object1 || object == info->object2);
-	
+
 	g_signal_handler_disconnect (info->object1, info->disconnect_handler1);
 	g_signal_handler_disconnect (info->object1, info->signal_handler);
 	g_signal_handler_disconnect (info->object2, info->disconnect_handler2);
-	
+
 	g_free (info);
 }
 
@@ -551,18 +551,18 @@ eel_gtk_signal_connect_full_while_alive (GtkObject *object,
 					 GtkObject *alive_object)
 {
 	DisconnectInfo *info;
-	
+
 	g_return_if_fail (GTK_IS_OBJECT (object));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (func != NULL || marshal != NULL);
 	g_return_if_fail (object_signal == FALSE || object_signal == TRUE);
 	g_return_if_fail (after == FALSE || after == TRUE);
 	g_return_if_fail (GTK_IS_OBJECT (alive_object));
-	
+
 	info = g_new (DisconnectInfo, 1);
 	info->object1 = object;
 	info->object2 = alive_object;
-	
+
 
 	info->signal_handler = g_signal_connect_closure (
 		object, name,
@@ -585,7 +585,7 @@ typedef struct
 {
 	GtkObject *object;
 	guint object_destroy_handler;
-	
+
 	GtkWidget *realized_widget;
 	guint realized_widget_destroy_handler;
 	guint realized_widget_unrealized_handler;
@@ -622,7 +622,7 @@ while_realized_disconnecter (GtkObject *object,
  * @realized_widget: Widget to monitor for realized state.  Signal is connected
  *                   while this wigget is realized.
  *
- * Connect to a signal of an object while another widget is realized.  This is 
+ * Connect to a signal of an object while another widget is realized.  This is
  * useful for non windowed widgets that need to monitor events in their ancestored
  * windowed widget.  The signal is automatically disconnected when &widget is
  * unrealized.  Also, the signal is automatically disconnected when either &object
@@ -645,21 +645,21 @@ eel_gtk_signal_connect_while_realized (GtkObject *object,
 	g_return_if_fail (gtk_widget_get_realized (realized_widget));
 
 	info = g_new0 (RealizeDisconnectInfo, 1);
-	
+
 	info->object = object;
-	info->object_destroy_handler = 
+	info->object_destroy_handler =
 		g_signal_connect (G_OBJECT (info->object),
 				  "destroy",
 				  G_CALLBACK (while_realized_disconnecter),
 				  info);
-	
+
 	info->realized_widget = realized_widget;
-	info->realized_widget_destroy_handler = 
+	info->realized_widget_destroy_handler =
 		g_signal_connect (G_OBJECT (info->realized_widget),
 				  "destroy",
 				  G_CALLBACK (while_realized_disconnecter),
 				  info);
-	info->realized_widget_unrealized_handler = 
+	info->realized_widget_unrealized_handler =
 		g_signal_connect_after (G_OBJECT (info->realized_widget),
 					"unrealize",
 					G_CALLBACK (while_realized_disconnecter),
@@ -683,7 +683,7 @@ get_first_callback (GtkWidget *widget, gpointer callback_data)
 
 	g_assert (GTK_IS_WIDGET (widget));
 	g_assert (callback_data != NULL);
-	
+
 	first_child_slot = callback_data;
 
 	if (*first_child_slot == NULL) {
@@ -700,7 +700,7 @@ eel_gtk_container_get_first_child (GtkContainer *container)
 	GtkWidget *first_child;
 
 	g_return_val_if_fail (GTK_IS_CONTAINER (container), NULL);
-	
+
 	first_child = NULL;
 	gtk_container_foreach (container, get_first_callback, &first_child);
 	g_assert (first_child == NULL || GTK_IS_WIDGET (first_child));
@@ -747,7 +747,7 @@ eel_gtk_adjustment_set_value (GtkAdjustment *adjustment,
 	float upper_page_start, clamped_value;
 
 	g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
-	
+
 	upper_page_start = MAX (gtk_adjustment_get_upper (adjustment) -
 				gtk_adjustment_get_page_size (adjustment),
 				gtk_adjustment_get_lower (adjustment));
@@ -763,7 +763,7 @@ void
 eel_gtk_adjustment_clamp_value (GtkAdjustment *adjustment)
 {
 	g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
-	
+
 	eel_gtk_adjustment_set_value (adjustment,
 				      gtk_adjustment_get_value (adjustment));
 }
@@ -796,11 +796,11 @@ eel_gtk_label_make_bold (GtkLabel *label)
 
 /**
  * eel_gtk_label_set_scale:
- * @label: 
- * @num_steps: 
+ * @label:
+ * @num_steps:
  *
  * Function is broken, see eel_gtk_label_make_larger() for explanation
- * 
+ *
  **/
 void
 eel_gtk_label_set_scale (GtkLabel *label,
@@ -808,7 +808,7 @@ eel_gtk_label_set_scale (GtkLabel *label,
 {
 	PangoAttrList *old_attr_list;
 	PangoAttrList *attr_list;
-	
+
 	g_return_if_fail (GTK_IS_LABEL (label));
 	g_return_if_fail (scale_factor > 0);
 
@@ -831,15 +831,15 @@ get_layout_location (GtkLabel  *label,
   int shadow_offset;
   GtkAllocation allocation;
   GtkRequisition req;
-  
+
   shadow_offset = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (label),
 						      "eel-label-shadow-offset"));
-  
+
   misc = GTK_MISC (label);
   widget = GTK_WIDGET (label);
   gtk_misc_get_alignment (misc, &xalign, &yalign);
   gtk_misc_get_padding (misc, &xpad, &ypad);
-  
+
   if (gtk_widget_get_direction (widget) != GTK_TEXT_DIR_LTR)
     xalign = 1.0 - xalign;
 
@@ -848,11 +848,11 @@ get_layout_location (GtkLabel  *label,
   x = floor (allocation.x + xpad
              + ((allocation.width - req.width - shadow_offset) * xalign)
              + 0.5);
-  
-  y = floor (allocation.y + ypad 
+
+  y = floor (allocation.y + ypad
              + ((allocation.height - req.height - shadow_offset) * yalign)
              + 0.5);
-  
+
 
   if (xp)
     *xp = x;
@@ -870,14 +870,14 @@ eel_gtk_label_expose_event (GtkLabel *label, GdkEventExpose *event, gpointer use
 	GdkGC *gc;
 	guint32 shadow_color;
 	int shadow_offset;
-	
+
 	shadow_color = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (label),
 							   "eel-label-shadow-color"));
 	shadow_offset = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (label),
 							    "eel-label-shadow-offset"));
 
 	color = eel_gdk_rgb_to_color (shadow_color);
-	
+
 	get_layout_location (label, &x, &y);
 
 	widget = GTK_WIDGET (label);
@@ -885,14 +885,14 @@ eel_gtk_label_expose_event (GtkLabel *label, GdkEventExpose *event, gpointer use
 		gc = gdk_gc_new (gtk_widget_get_window (widget));
 		gdk_gc_set_rgb_fg_color (gc, &color);
 		gdk_gc_set_clip_rectangle (gc, &event->area);
-		
+
 		gdk_draw_layout (gtk_widget_get_window (widget),
 				 gc,
 				 x + shadow_offset, y + shadow_offset,
 				 gtk_label_get_layout (label));
 		g_object_unref (gc);
 	}
-	
+
 	gtk_paint_layout (gtk_widget_get_style (widget),
 			  gtk_widget_get_window (widget),
 			  gtk_widget_get_state (widget),
@@ -942,7 +942,7 @@ eel_gtk_label_set_drop_shadow_color (GtkLabel *label,
 
 	g_object_set_data (G_OBJECT (label), "eel-label-shadow-color",
 			   GINT_TO_POINTER (color));
-		
+
 	gtk_widget_queue_draw (GTK_WIDGET (label));
 }
 
@@ -954,7 +954,7 @@ eel_gtk_label_set_drop_shadow_offset (GtkLabel *label,
 
 	g_object_set_data (G_OBJECT (label), "eel-label-shadow-offset",
 			   GINT_TO_POINTER (offset));
-	
+
 	gtk_widget_queue_draw (GTK_WIDGET (label));
 }
 
@@ -1004,7 +1004,7 @@ eel_gtk_widget_find_windowed_ancestor (GtkWidget *widget)
 
 /* eel_gtk_get_system_font:
  *
- * Return the system font as selected in the control center. Need to 
+ * Return the system font as selected in the control center. Need to
  * g_object_unref() the result when done with it.
  *
  * Perhaps there is a better way to figure out what that font is, but
@@ -1017,7 +1017,7 @@ eel_gtk_get_system_font (void)
 	PangoFontDescription *font;
 
 	label = gtk_label_new ("");
-	
+
 	gtk_widget_ensure_style (label);
 
 	font = pango_font_description_copy (gtk_widget_get_style (label)->font_desc);
@@ -1059,7 +1059,7 @@ eel_gtk_widget_get_motion_event_location (GtkWidget *widget,
 	eel_gtk_widget_get_button_event_location (widget, (const GdkEventButton *) event, x, y);
 }
 
-static gboolean 
+static gboolean
 tree_view_button_press_callback (GtkWidget *tree_view,
 				 GdkEventButton *event,
 				 gpointer data)
@@ -1072,7 +1072,7 @@ tree_view_button_press_callback (GtkWidget *tree_view,
 						   event->x, event->y,
 						   &path,
 						   &column,
-						   NULL, 
+						   NULL,
 						   NULL)) {
 			gtk_tree_view_row_activated
 				(GTK_TREE_VIEW (tree_view), path, column);
@@ -1088,29 +1088,29 @@ eel_gtk_tree_view_set_activate_on_single_click (GtkTreeView *tree_view,
 {
 	guint button_press_id;
 
-	button_press_id = GPOINTER_TO_UINT 
-		(g_object_get_data (G_OBJECT (tree_view), 
+	button_press_id = GPOINTER_TO_UINT
+		(g_object_get_data (G_OBJECT (tree_view),
 				    "eel-tree-view-activate"));
 
 	if (button_press_id && !should_activate) {
 		g_signal_handler_disconnect (tree_view, button_press_id);
-		g_object_set_data (G_OBJECT (tree_view), 
-				   "eel-tree-view-activate", 
+		g_object_set_data (G_OBJECT (tree_view),
+				   "eel-tree-view-activate",
 				   NULL);
 	} else if (!button_press_id && should_activate) {
-		button_press_id = g_signal_connect 
+		button_press_id = g_signal_connect
 			(tree_view,
 			 "button_press_event",
 			 G_CALLBACK  (tree_view_button_press_callback),
 			 NULL);
-		g_object_set_data (G_OBJECT (tree_view), 
-				   "eel-tree-view-activate", 
+		g_object_set_data (G_OBJECT (tree_view),
+				   "eel-tree-view-activate",
 				   GUINT_TO_POINTER (button_press_id));
 	}
 }
 
 gboolean
-eel_gtk_viewport_get_visible_rect (GtkViewport  *viewport, 
+eel_gtk_viewport_get_visible_rect (GtkViewport  *viewport,
 				   GdkRectangle *rect)
 {
 	GdkRectangle viewport_rect;
@@ -1119,36 +1119,44 @@ eel_gtk_viewport_get_visible_rect (GtkViewport  *viewport,
 
 	g_return_val_if_fail (GTK_IS_VIEWPORT (viewport), FALSE);
 	g_return_val_if_fail (rect != NULL, FALSE);
-	
+
 	if (gtk_widget_get_realized (GTK_WIDGET (viewport))) {
 		viewport_rect.x = 0;
 		viewport_rect.y = 0;
-		gdk_drawable_get_size (gtk_viewport_get_view_window (viewport), 
-				       &viewport_rect.width, 
-				       &viewport_rect.height);
-		
+
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			viewport_rect.width = gdk_window_get_width(GDK_WINDOW(gtk_viewport_get_view_window(viewport)));
+			viewport_rect.height = gdk_window_get_height(GDK_WINDOW(gtk_viewport_get_view_window(viewport)));
+		#else
+			gdk_drawable_get_size(gtk_viewport_get_view_window(viewport), &viewport_rect.width, &viewport_rect.height);
+		#endif
+
 		gdk_window_get_position (gtk_viewport_get_bin_window (viewport),
 					 &child_rect.x,
 					 &child_rect.y);
-		gdk_drawable_get_size (gtk_viewport_get_bin_window (viewport),
-				       &child_rect.width,
-				       &child_rect.height);
 
-		return_val = gdk_rectangle_intersect (&viewport_rect, 
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			child_rect.width = gdk_window_get_width(GDK_WINDOW(gtk_viewport_get_view_window(viewport)));
+			child_rect.height = gdk_window_get_height(GDK_WINDOW(gtk_viewport_get_view_window(viewport)));
+		#else
+			gdk_drawable_get_size(gtk_viewport_get_bin_window(viewport), &child_rect.width, &child_rect.height);
+		#endif
+
+		return_val = gdk_rectangle_intersect (&viewport_rect,
 						      &child_rect,
 						      rect);
 		rect->x -= child_rect.x;
 		rect->y -= child_rect.y;
-		
+
 		return return_val;
 	}
-	
+
 	rect->x = rect->y = rect->width = rect->height = 0;
 	return FALSE;
 }
 
 void
-eel_gtk_viewport_scroll_to_rect (GtkViewport  *viewport, 
+eel_gtk_viewport_scroll_to_rect (GtkViewport  *viewport,
 				 GdkRectangle *rect)
 {
 	GdkRectangle visible_rect;

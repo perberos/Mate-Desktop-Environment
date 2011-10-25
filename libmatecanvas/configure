@@ -629,6 +629,8 @@ GTK_DOC_BUILD_HTML_FALSE
 GTK_DOC_BUILD_HTML_TRUE
 ENABLE_GTK_DOC_FALSE
 ENABLE_GTK_DOC_TRUE
+GTKDOC_DEPS_LIBS
+GTKDOC_DEPS_CFLAGS
 HTML_DIR
 GTKDOC_MKPDF
 GTKDOC_REBASE
@@ -823,6 +825,7 @@ enable_libtool_lock
 enable_nls
 enable_compile_warnings
 enable_iso_c
+with_gtk
 enable_glade
 with_html_dir
 enable_gtk_doc
@@ -845,7 +848,9 @@ PKG_CONFIG_LIBDIR
 LIBMATECANVAS_CFLAGS
 LIBMATECANVAS_LIBS
 CANVAS_GLADE_CFLAGS
-CANVAS_GLADE_LIBS'
+CANVAS_GLADE_LIBS
+GTKDOC_DEPS_CFLAGS
+GTKDOC_DEPS_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1493,6 +1498,7 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
+  --with-gtk=2.0|3.0      which gtk+ version to compile against (default: 2.0)
   --with-html-dir=PATH    path to installed docs
 
 Some influential environment variables:
@@ -1517,6 +1523,10 @@ Some influential environment variables:
               C compiler flags for CANVAS_GLADE, overriding pkg-config
   CANVAS_GLADE_LIBS
               linker flags for CANVAS_GLADE, overriding pkg-config
+  GTKDOC_DEPS_CFLAGS
+              C compiler flags for GTKDOC_DEPS, overriding pkg-config
+  GTKDOC_DEPS_LIBS
+              linker flags for GTKDOC_DEPS, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -13776,7 +13786,38 @@ _ACEOF
 
 
 
-CANVAS_MODULES="  glib-2.0 >= 2.10.0   gtk+-2.0 >= 2.2.0   gail >= 1.9.0   libart-2.0 >= 2.3.8   pango >= 1.0.1   pangoft2 >= 1.0.1"
+GTK_API_VERSION=2.0
+GAIL_API_VERSION=
+GTK_REQUIRED=2.2.0
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking which gtk+ version to compile against" >&5
+$as_echo_n "checking which gtk+ version to compile against... " >&6; }
+
+# Check whether --with-gtk was given.
+if test "${with_gtk+set}" = set; then :
+  withval=$with_gtk; case "$with_gtk" in
+     2.0|3.0) ;;
+     *) as_fn_error $? "invalid gtk version specified" "$LINENO" 5 ;;
+   esac
+else
+  with_gtk=2.0
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $with_gtk" >&5
+$as_echo "$with_gtk" >&6; }
+
+case "$with_gtk" in
+  2.0) GTK_API_VERSION=2.0
+       GTK_REQUIRED=2.2.0
+       GAIL_API_VERSION=
+       ;;
+  3.0) GTK_API_VERSION=3.0
+       GTK_REQUIRED=3.0.0
+       GAIL_API_VERSION=-3.0
+       ;;
+esac
+
+CANVAS_MODULES="  glib-2.0 >= 2.10.0   gtk+-$GTK_API_VERSION >= $GTK_REQUIRED   gail$GAIL_API_VERSION >= 1.9.0   libart-2.0 >= 2.3.8   pango >= 1.0.1   pangoft2 >= 1.0.1"
 
 
 
@@ -14322,6 +14363,7 @@ fi
 
 
 
+
     # Extract the first word of "gtkdoc-check", so it can be a program name with args.
 set dummy gtkdoc-check; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -14479,6 +14521,99 @@ fi
 else
   as_fn_error $? "You need to have gtk-doc >= 1.0 installed to build $PACKAGE_NAME" "$LINENO" 5
 fi
+        if test "x$PACKAGE_NAME" != "xglib"; then
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GTKDOC_DEPS" >&5
+$as_echo_n "checking for GTKDOC_DEPS... " >&6; }
+
+if test -n "$GTKDOC_DEPS_CFLAGS"; then
+    pkg_cv_GTKDOC_DEPS_CFLAGS="$GTKDOC_DEPS_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTKDOC_DEPS_CFLAGS=`$PKG_CONFIG --cflags "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GTKDOC_DEPS_LIBS"; then
+    pkg_cv_GTKDOC_DEPS_LIBS="$GTKDOC_DEPS_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTKDOC_DEPS_LIBS=`$PKG_CONFIG --libs "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GTKDOC_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>&1`
+        else
+	        GTKDOC_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GTKDOC_DEPS_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0) were not met:
+
+$GTKDOC_DEPS_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GTKDOC_DEPS_CFLAGS
+and GTKDOC_DEPS_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables GTKDOC_DEPS_CFLAGS
+and GTKDOC_DEPS_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	GTKDOC_DEPS_CFLAGS=$pkg_cv_GTKDOC_DEPS_CFLAGS
+	GTKDOC_DEPS_LIBS=$pkg_cv_GTKDOC_DEPS_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+    fi
   fi
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to build gtk-doc documentation" >&5
@@ -17033,6 +17168,7 @@ Configure summary:
 	Compiler Flags..............: ${CFLAGS}
 	Prefix .....................: ${prefix}
 
+	Gtk+ version................: ${GTK_API_VERSION}
 	Glade support...............: ${enable_glade}
 	Rebuilds....................: ${enable_rebuilds}
 	Win32.......................: ${platform_win32}

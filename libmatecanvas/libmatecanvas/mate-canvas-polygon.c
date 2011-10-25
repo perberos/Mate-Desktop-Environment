@@ -51,7 +51,13 @@ enum {
 
 static void mate_canvas_polygon_class_init (MateCanvasPolygonClass *class);
 static void mate_canvas_polygon_init       (MateCanvasPolygon      *poly);
-static void mate_canvas_polygon_destroy    (GtkObject               *object);
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void mate_canvas_polygon_destroy(GtkWidget               *object);
+#else
+	static void mate_canvas_polygon_destroy(GtkObject               *object);
+#endif
+
 static void mate_canvas_polygon_set_property (GObject              *object,
 					       guint                 param_id,
 					       const GValue         *value,
@@ -95,11 +101,22 @@ static void
 mate_canvas_polygon_class_init (MateCanvasPolygonClass *class)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		GtkWidgetClass *object_class;
+	#else
+		GtkObjectClass *object_class;
+	#endif
+
 	MateCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		object_class = (GtkWidgetClass *) class;
+	#else
+		object_class = (GtkObjectClass *) class;
+	#endif
+
 	item_class = (MateCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -125,8 +142,13 @@ mate_canvas_polygon_init (MateCanvasPolygon *poly)
 	poly->path_def = NULL;
 }
 
-static void
-mate_canvas_polygon_destroy (GtkObject *object)
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void
+	mate_canvas_polygon_destroy (GtkWidget *object)
+#else
+	static void
+	mate_canvas_polygon_destroy (GtkObject *object)
+#endif
 {
 	MateCanvasPolygon *poly;
 
@@ -173,9 +195,9 @@ set_points (MateCanvasPolygon *poly, MateCanvasPoints *points)
 		     || (points->coords[1] != points->coords[2 * points->num_points - 1]));
 #endif
 
-	
+
 	mate_canvas_path_def_moveto (poly->path_def, points->coords[0], points->coords[1]);
-	
+
 	for (i = 1; i < points->num_points; i++) {
 		mate_canvas_path_def_lineto(poly->path_def, points->coords[i * 2], points->coords[(i * 2) + 1]);
 	}

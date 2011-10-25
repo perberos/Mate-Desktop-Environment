@@ -2,11 +2,11 @@
 
 /* Marco window frame manager widget */
 
-/* 
+/*
  * Copyright (C) 2001 Havoc Pennington
  * Copyright (C) 2003 Red Hat, Inc.
  * Copyright (C) 2005, 2006 Elijah Newren
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -16,7 +16,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -153,9 +153,9 @@ meta_frames_class_init (MetaFramesClass *class)
 
   widget_class->realize = meta_frames_realize;
   widget_class->unrealize = meta_frames_unrealize;
-  
+
   widget_class->expose_event = meta_frames_expose_event;
-  widget_class->destroy_event = meta_frames_destroy_event;  
+  widget_class->destroy_event = meta_frames_destroy_event;
   widget_class->button_press_event = meta_frames_button_press_event;
   widget_class->button_release_event = meta_frames_button_release_event;
   widget_class->motion_notify_event = meta_frames_motion_notify_event;
@@ -206,7 +206,7 @@ meta_frames_init (MetaFrames *frames)
   GTK_WINDOW (frames)->type = GTK_WINDOW_POPUP;
 
   frames->text_heights = g_hash_table_new (NULL, NULL);
-  
+
   frames->frames = g_hash_table_new (unsigned_long_hash, unsigned_long_equal);
 
   frames->tooltip_timeout = 0;
@@ -237,11 +237,11 @@ meta_frames_destroy (GtkObject *object)
   GSList *winlist;
   GSList *tmp;
   MetaFrames *frames;
-  
+
   frames = META_FRAMES (object);
 
   clear_tip (frames);
-  
+
   winlist = NULL;
   g_hash_table_foreach (frames->frames, listify_func, &winlist);
 
@@ -263,17 +263,17 @@ static void
 meta_frames_finalize (GObject *object)
 {
   MetaFrames *frames;
-  
+
   frames = META_FRAMES (object);
 
   meta_prefs_remove_listener (prefs_changed_callback, frames);
-  
+
   g_hash_table_destroy (frames->text_heights);
 
   invalidate_all_caches (frames);
   if (frames->invalidate_cache_timeout_id)
     g_source_remove (frames->invalidate_cache_timeout_id);
-  
+
   g_assert (g_hash_table_size (frames->frames) == 0);
   g_hash_table_destroy (frames->frames);
   g_hash_table_destroy (frames->cache);
@@ -300,7 +300,7 @@ get_cache (MetaFrames *frames,
            MetaUIFrame *frame)
 {
   CachedPixels *pixels;
-  
+
   pixels = g_hash_table_lookup (frames->cache, frame);
 
   if (!pixels)
@@ -318,11 +318,11 @@ invalidate_cache (MetaFrames *frames,
 {
   CachedPixels *pixels = get_cache (frames, frame);
   int i;
-  
+
   for (i = 0; i < 4; i++)
     if (pixels->piece[i].pixmap)
       g_object_unref (pixels->piece[i].pixmap);
-  
+
   g_free (pixels);
   g_hash_table_remove (frames->cache, frame);
 }
@@ -338,7 +338,7 @@ invalidate_all_caches (MetaFrames *frames)
 
       invalidate_cache (frames, frame);
     }
-  
+
   g_list_free (frames->invalidate_frames);
   frames->invalidate_frames = NULL;
 }
@@ -347,7 +347,7 @@ static gboolean
 invalidate_cache_timeout (gpointer data)
 {
   MetaFrames *frames = data;
-  
+
   invalidate_all_caches (frames);
   frames->invalidate_cache_timeout_id = 0;
   return FALSE;
@@ -367,7 +367,7 @@ queue_recalc_func (gpointer key, gpointer value, gpointer data)
    * in case of color change.
    */
   meta_frames_set_window_background (frames, frame);
-  
+
   invalidate_whole_window (frames, frame);
   meta_core_queue_frame_resize (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                                 frame->xwindow);
@@ -375,7 +375,7 @@ queue_recalc_func (gpointer key, gpointer value, gpointer data)
     {
       /* save title to recreate layout */
       g_free (frame->title);
-      
+
       frame->title = g_strdup (pango_layout_get_text (frame->layout));
 
       g_object_unref (G_OBJECT (frame->layout));
@@ -391,7 +391,7 @@ meta_frames_font_changed (MetaFrames *frames)
       g_hash_table_destroy (frames->text_heights);
       frames->text_heights = g_hash_table_new (NULL, NULL);
     }
-  
+
   /* Queue a draw/resize on all frames */
   g_hash_table_foreach (frames->frames,
                         queue_recalc_func, frames);
@@ -459,11 +459,11 @@ meta_frames_ensure_layout (MetaFrames  *frames,
   MetaFrameFlags flags;
   MetaFrameType type;
   MetaFrameStyle *style;
-  
+
   g_return_if_fail (GTK_WIDGET_REALIZED (frames));
 
   widget = GTK_WIDGET (frames);
-      
+
   meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                  META_CORE_GET_FRAME_FLAGS, &flags,
                  META_CORE_GET_FRAME_TYPE, &type,
@@ -478,7 +478,7 @@ meta_frames_ensure_layout (MetaFrames  *frames,
         {
           /* save title to recreate layout */
           g_free (frame->title);
-          
+
           frame->title = g_strdup (pango_layout_get_text (frame->layout));
 
           g_object_unref (G_OBJECT (frame->layout));
@@ -487,22 +487,22 @@ meta_frames_ensure_layout (MetaFrames  *frames,
     }
 
   frame->cache_style = style;
-  
+
   if (frame->layout == NULL)
     {
       gpointer key, value;
       PangoFontDescription *font_desc;
       double scale;
       int size;
-      
+
       scale = meta_theme_get_title_scale (meta_theme_get_current (),
                                           type,
                                           flags);
-      
+
       frame->layout = gtk_widget_create_pango_layout (widget, frame->title);
 
       pango_layout_set_auto_dir (frame->layout, FALSE);
-      
+
       font_desc = meta_gtk_widget_get_font_desc (widget, scale,
                                                  meta_prefs_get_titlebar_font ());
 
@@ -524,10 +524,10 @@ meta_frames_ensure_layout (MetaFrames  *frames,
                                 GINT_TO_POINTER (size),
                                 GINT_TO_POINTER (frame->text_height));
         }
-      
-      pango_layout_set_font_description (frame->layout, 
+
+      pango_layout_set_font_description (frame->layout,
                                          font_desc);
-      
+
       pango_font_description_free (font_desc);
 
       /* Save some RAM */
@@ -545,7 +545,7 @@ meta_frames_calc_geometry (MetaFrames        *frames,
   MetaFrameFlags flags;
   MetaFrameType type;
   MetaButtonLayout button_layout;
-  
+
   meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                  META_CORE_GET_CLIENT_WIDTH, &width,
                  META_CORE_GET_CLIENT_HEIGHT, &height,
@@ -556,7 +556,7 @@ meta_frames_calc_geometry (MetaFrames        *frames,
   meta_frames_ensure_layout (frames, frame);
 
   meta_prefs_get_button_layout (&button_layout);
-  
+
   meta_theme_calc_geometry (meta_theme_get_current (),
                             type,
                             frame->text_height,
@@ -576,7 +576,7 @@ meta_frames_new (int screen_number)
 
   return g_object_new (META_TYPE_FRAMES,
                        "screen", screen,
-                       NULL);  
+                       NULL);
 }
 
 /* In order to use a style with a window it has to be attached to that
@@ -607,7 +607,7 @@ meta_frames_manage_window (MetaFrames *frames,
   g_assert (window);
 
   frame = g_new (MetaUIFrame, 1);
-  
+
   frame->window = window;
 
   gdk_window_set_user_data (frame->window, frames);
@@ -616,7 +616,7 @@ meta_frames_manage_window (MetaFrames *frames,
   meta_frames_attach_style (frames, frame);
 
   /* Don't set event mask here, it's in frame.c */
-  
+
   frame->xwindow = xwindow;
   frame->cache_style = NULL;
   frame->layout = NULL;
@@ -630,9 +630,9 @@ meta_frames_manage_window (MetaFrames *frames,
    * registered with its MetaWindow, which happens after this function
    * and meta_ui_create_frame_window() return to meta_window_ensure_frame().
    */
-  
+
   meta_core_grab_buttons (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
-  
+
   g_hash_table_replace (frames->frames, &frame->xwindow, frame);
 }
 
@@ -643,7 +643,7 @@ meta_frames_unmanage_window (MetaFrames *frames,
   MetaUIFrame *frame;
 
   clear_tip (frames);
-  
+
   frame = g_hash_table_lookup (frames->frames, &xwindow);
 
   if (frame)
@@ -652,7 +652,7 @@ meta_frames_unmanage_window (MetaFrames *frames,
        * is not actually referenced anymore
        */
       invalidate_all_caches (frames);
-      
+
       /* restore the cursor */
       meta_core_set_screen_cursor (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                                    frame->xwindow,
@@ -662,7 +662,7 @@ meta_frames_unmanage_window (MetaFrames *frames,
 
       if (frames->last_motion_frame == frame)
         frames->last_motion_frame = NULL;
-      
+
       g_hash_table_remove (frames->frames, &frame->xwindow);
 
       gtk_style_detach (frame->style);
@@ -674,7 +674,7 @@ meta_frames_unmanage_window (MetaFrames *frames,
 
       if (frame->title)
         g_free (frame->title);
-      
+
       g_free (frame);
     }
   else
@@ -715,12 +715,12 @@ meta_frames_get_geometry (MetaFrames *frames,
   MetaFrameFlags flags;
   MetaUIFrame *frame;
   MetaFrameType type;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
 
   if (frame == NULL)
     meta_bug ("No such frame 0x%lx\n", xwindow);
-  
+
   meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                  META_CORE_GET_FRAME_FLAGS, &flags,
                  META_CORE_GET_FRAME_TYPE, &type,
@@ -729,7 +729,7 @@ meta_frames_get_geometry (MetaFrames *frames,
   g_return_if_fail (type < META_FRAME_TYPE_LAST);
 
   meta_frames_ensure_layout (frames, frame);
-  
+
   /* We can't get the full geometry, because that depends on
    * the client window size and probably we're being called
    * by the core move/resize code to decide on the client
@@ -748,7 +748,7 @@ meta_frames_reset_bg (MetaFrames *frames,
                       Window  xwindow)
 {
   MetaUIFrame *frame;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
 
   meta_frames_set_window_background (frames, frame);
@@ -772,7 +772,7 @@ meta_frames_unflicker_bg (MetaFrames *frames,
                           int         target_height)
 {
   MetaUIFrame *frame;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
   g_return_if_fail (frame != NULL);
 
@@ -782,7 +782,7 @@ meta_frames_unflicker_bg (MetaFrames *frames,
                            -1);
 
   /* Oops, no way to get the background here */
-  
+
   meta_frames_paint_to_drawable (frames, frame, pixmap);
 #endif
 
@@ -803,7 +803,7 @@ meta_frames_apply_shapes (MetaFrames *frames,
   XRectangle xrect;
   Region corners_xregion;
   Region window_xregion;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
   g_return_if_fail (frame != NULL);
 
@@ -820,7 +820,7 @@ meta_frames_apply_shapes (MetaFrames *frames,
           meta_topic (META_DEBUG_SHAPES,
                       "Unsetting shape mask on frame 0x%lx\n",
                       frame->xwindow);
-          
+
           XShapeCombineMask (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                              ShapeBounding, 0, 0, None, ShapeSet);
           frame->shape_applied = FALSE;
@@ -831,12 +831,12 @@ meta_frames_apply_shapes (MetaFrames *frames,
                       "Frame 0x%lx still doesn't need a shape mask\n",
                       frame->xwindow);
         }
-      
+
       return; /* nothing to do */
     }
-  
+
   corners_xregion = XCreateRegion ();
-  
+
   if (fgeom.top_left_corner_rounded_radius != 0)
     {
       const int corner = fgeom.top_left_corner_rounded_radius;
@@ -850,7 +850,7 @@ meta_frames_apply_shapes (MetaFrames *frames,
           xrect.y = i;
           xrect.width = width;
           xrect.height = 1;
-          
+
           XUnionRectWithRegion (&xrect, corners_xregion, corners_xregion);
         }
     }
@@ -868,7 +868,7 @@ meta_frames_apply_shapes (MetaFrames *frames,
           xrect.y = i;
           xrect.width = width;
           xrect.height = 1;
-          
+
           XUnionRectWithRegion (&xrect, corners_xregion, corners_xregion);
         }
     }
@@ -886,7 +886,7 @@ meta_frames_apply_shapes (MetaFrames *frames,
           xrect.y = new_window_height - i - 1;
           xrect.width = width;
           xrect.height = 1;
-          
+
           XUnionRectWithRegion (&xrect, corners_xregion, corners_xregion);
         }
     }
@@ -904,13 +904,13 @@ meta_frames_apply_shapes (MetaFrames *frames,
           xrect.y = new_window_height - i - 1;
           xrect.width = width;
           xrect.height = 1;
-          
+
           XUnionRectWithRegion (&xrect, corners_xregion, corners_xregion);
         }
     }
-  
+
   window_xregion = XCreateRegion ();
-  
+
   xrect.x = 0;
   xrect.y = 0;
   xrect.width = new_window_width;
@@ -921,7 +921,7 @@ meta_frames_apply_shapes (MetaFrames *frames,
   XSubtractRegion (window_xregion, corners_xregion, window_xregion);
 
   XDestroyRegion (corners_xregion);
-  
+
   if (window_has_shape)
     {
       /* The client window is oclock or something and has a shape
@@ -930,22 +930,22 @@ meta_frames_apply_shapes (MetaFrames *frames,
        * on that, then combine. Wasting the window is assumed cheaper
        * than a round trip, but who really knows for sure.
        */
-      XSetWindowAttributes attrs;      
+      XSetWindowAttributes attrs;
       Window shape_window;
       Window client_window;
       Region client_xregion;
       GdkScreen *screen;
       int screen_number;
-      
+
       meta_topic (META_DEBUG_SHAPES,
                   "Frame 0x%lx needs to incorporate client shape\n",
                   frame->xwindow);
 
       screen = gtk_widget_get_screen (GTK_WIDGET (frames));
       screen_number = gdk_x11_screen_get_screen_number (screen);
-      
+
       attrs.override_redirect = True;
-      
+
       shape_window = XCreateWindow (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                                     RootWindow (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), screen_number),
                                     -5000, -5000,
@@ -974,21 +974,21 @@ meta_frames_apply_shapes (MetaFrames *frames,
        * then union it with the shape_window's existing shape
        */
       client_xregion = XCreateRegion ();
-  
+
       xrect.x = fgeom.left_width;
       xrect.y = fgeom.top_height;
       xrect.width = new_window_width - fgeom.right_width - xrect.x;
       xrect.height = new_window_height - fgeom.bottom_height - xrect.y;
 
       XUnionRectWithRegion (&xrect, client_xregion, client_xregion);
-      
+
       XSubtractRegion (window_xregion, client_xregion, window_xregion);
 
       XDestroyRegion (client_xregion);
-      
+
       XShapeCombineRegion (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), shape_window,
                            ShapeBounding, 0, 0, window_xregion, ShapeUnion);
-      
+
       /* Now copy shape_window shape to the real frame */
       XShapeCombineShape (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow, ShapeBounding,
                           0, 0,
@@ -1005,13 +1005,13 @@ meta_frames_apply_shapes (MetaFrames *frames,
       meta_topic (META_DEBUG_SHAPES,
                   "Frame 0x%lx has shaped corners\n",
                   frame->xwindow);
-      
+
       XShapeCombineRegion (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                            ShapeBounding, 0, 0, window_xregion, ShapeSet);
     }
-  
+
   frame->shape_applied = TRUE;
-  
+
   XDestroyRegion (window_xregion);
 #endif /* HAVE_SHAPE */
 }
@@ -1026,8 +1026,14 @@ meta_frames_move_resize_frame (MetaFrames *frames,
 {
   MetaUIFrame *frame = meta_frames_lookup_window (frames, xwindow);
   int old_x, old_y, old_width, old_height;
-  
-  gdk_drawable_get_size (frame->window, &old_width, &old_height);
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		old_width = gdk_window_get_width(GDK_WINDOW(frame->window));
+		old_height = gdk_window_get_height(GDK_WINDOW(frame->window));
+	#else
+		gdk_drawable_get_size(frame->window, &old_width, &old_height);
+	#endif
+
   gdk_window_get_position (frame->window, &old_x, &old_y);
 
   gdk_window_move_resize (frame->window, x, y, width, height);
@@ -1041,7 +1047,7 @@ meta_frames_queue_draw (MetaFrames *frames,
                         Window      xwindow)
 {
   MetaUIFrame *frame;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
 
   invalidate_whole_window (frames, frame);
@@ -1053,14 +1059,14 @@ meta_frames_set_title (MetaFrames *frames,
                        const char *title)
 {
   MetaUIFrame *frame;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
 
   g_assert (frame);
-  
+
   g_free (frame->title);
   frame->title = g_strdup (title);
-  
+
   if (frame->layout)
     {
       g_object_unref (frame->layout);
@@ -1075,7 +1081,7 @@ meta_frames_repaint_frame (MetaFrames *frames,
                            Window      xwindow)
 {
   MetaUIFrame *frame;
-  
+
   frame = meta_frames_lookup_window (frames, xwindow);
 
   g_assert (frame);
@@ -1095,7 +1101,7 @@ show_tip_now (MetaFrames *frames)
   Window root, child;
   guint mask;
   MetaFrameControl control;
-  
+
   frame = frames->last_motion_frame;
   if (frame == NULL)
     return;
@@ -1106,9 +1112,9 @@ show_tip_now (MetaFrames *frames)
                  &root_x, &root_y,
                  &x, &y,
                  &mask);
-  
+
   control = get_control (frames, frame, x, y);
-  
+
   tiptext = NULL;
   switch (control)
     {
@@ -1163,7 +1169,7 @@ show_tip_now (MetaFrames *frames)
       break;
     case META_FRAME_CONTROL_RESIZE_E:
       break;
-    case META_FRAME_CONTROL_NONE:      
+    case META_FRAME_CONTROL_NONE:
       break;
     case META_FRAME_CONTROL_CLIENT_AREA:
       break;
@@ -1175,9 +1181,9 @@ show_tip_now (MetaFrames *frames)
       GdkRectangle *rect;
       int dx, dy;
       int screen_number;
-      
+
       meta_frames_calc_geometry (frames, frame, &fgeom);
-      
+
       rect = control_rect (control, &fgeom);
 
       /* get conversion delta for root-to-frame coords */
@@ -1189,7 +1195,7 @@ show_tip_now (MetaFrames *frames)
         dx += rect->width;
 
       screen_number = gdk_screen_get_number (gtk_widget_get_screen (GTK_WIDGET (frames)));
-      
+
       meta_fixed_tip_show (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                            screen_number,
                            rect->x + dx,
@@ -1215,10 +1221,10 @@ static void
 queue_tip (MetaFrames *frames)
 {
   clear_tip (frames);
-  
+
   frames->tooltip_timeout = g_timeout_add (TIP_DELAY,
                                            tip_timeout_func,
-                                           frames);  
+                                           frames);
 }
 
 static void
@@ -1239,7 +1245,7 @@ redraw_control (MetaFrames *frames,
 {
   MetaFrameGeometry fgeom;
   GdkRectangle *rect;
-  
+
   meta_frames_calc_geometry (frames, frame, &fgeom);
 
   rect = control_rect (control, &fgeom);
@@ -1254,7 +1260,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
                            int            action)
 {
   MetaFrameFlags flags;
-  
+
   switch (action)
     {
     case META_ACTION_TITLEBAR_TOGGLE_SHADE:
@@ -1262,7 +1268,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
         meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                        META_CORE_GET_FRAME_FLAGS, &flags,
                        META_CORE_GET_END);
-        
+
         if (flags & META_FRAME_ALLOWS_SHADE)
           {
             if (flags & META_FRAME_SHADED)
@@ -1275,14 +1281,14 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
                                event->time);
           }
       }
-      break;          
-      
+      break;
+
     case META_ACTION_TITLEBAR_TOGGLE_MAXIMIZE:
       {
         meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                        META_CORE_GET_FRAME_FLAGS, &flags,
                        META_CORE_GET_END);
-        
+
         if (flags & META_FRAME_ALLOWS_MAXIMIZE)
           {
             meta_core_toggle_maximize (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
@@ -1295,7 +1301,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
         meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                        META_CORE_GET_FRAME_FLAGS, &flags,
                        META_CORE_GET_END);
-        
+
         if (flags & META_FRAME_ALLOWS_MAXIMIZE)
           {
             meta_core_toggle_maximize_horizontally (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
@@ -1308,7 +1314,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
         meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                        META_CORE_GET_FRAME_FLAGS, &flags,
                        META_CORE_GET_END);
-        
+
         if (flags & META_FRAME_ALLOWS_MAXIMIZE)
           {
             meta_core_toggle_maximize_vertically (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
@@ -1321,7 +1327,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
         meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                        META_CORE_GET_FRAME_FLAGS, &flags,
                        META_CORE_GET_END);
-        
+
         if (flags & META_FRAME_ALLOWS_MINIMIZE)
           {
             meta_core_minimize (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
@@ -1332,7 +1338,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
     case META_ACTION_TITLEBAR_NONE:
       /* Yaay, a sane user that doesn't use that other weird crap! */
       break;
-    
+
     case META_ACTION_TITLEBAR_LOWER:
       meta_core_user_lower_and_unfocus (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                                         frame->xwindow,
@@ -1351,7 +1357,7 @@ meta_frame_titlebar_event (MetaUIFrame    *frame,
     case META_ACTION_TITLEBAR_LAST:
       break;
     }
-  
+
   return TRUE;
 }
 
@@ -1360,7 +1366,7 @@ meta_frame_double_click_event (MetaUIFrame    *frame,
                                GdkEventButton *event)
 {
   int action = meta_prefs_get_action_double_click_titlebar ();
-  
+
   return meta_frame_titlebar_event (frame, event, action);
 }
 
@@ -1369,7 +1375,7 @@ meta_frame_middle_click_event (MetaUIFrame    *frame,
                                GdkEventButton *event)
 {
   int action = meta_prefs_get_action_middle_click_titlebar();
-  
+
   return meta_frame_titlebar_event (frame, event, action);
 }
 
@@ -1378,7 +1384,7 @@ meta_frame_right_click_event(MetaUIFrame     *frame,
                              GdkEventButton  *event)
 {
   int action = meta_prefs_get_action_right_click_titlebar();
-  
+
   return meta_frame_titlebar_event (frame, event, action);
 }
 
@@ -1389,19 +1395,19 @@ meta_frames_button_press_event (GtkWidget      *widget,
   MetaUIFrame *frame;
   MetaFrames *frames;
   MetaFrameControl control;
-  
+
   frames = META_FRAMES (widget);
 
   /* Remember that the display may have already done something with this event.
    * If so there's probably a GrabOp in effect.
    */
-  
+
   frame = meta_frames_lookup_window (frames, GDK_WINDOW_XID (event->window));
   if (frame == NULL)
     return FALSE;
 
   clear_tip (frames);
-  
+
   control = get_control (frames, frame, event->x, event->y);
 
   /* focus on click, even if click was on client area */
@@ -1415,13 +1421,13 @@ meta_frames_button_press_event (GtkWidget      *widget,
                   frame->xwindow);
       meta_core_user_focus (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                             frame->xwindow,
-                            event->time);      
+                            event->time);
     }
 
   /* don't do the rest of this if on client area */
   if (control == META_FRAME_CONTROL_CLIENT_AREA)
     return FALSE; /* not on the frame, just passed through from client */
-  
+
   /* We want to shade even if we have a GrabOp, since we'll have a move grab
    * if we double click the titlebar.
    */
@@ -1435,7 +1441,7 @@ meta_frames_button_press_event (GtkWidget      *widget,
 
   if (meta_core_get_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ())) !=
       META_GRAB_OP_NONE)
-    return FALSE; /* already up to something */  
+    return FALSE; /* already up to something */
 
   if (event->button == 1 &&
       (control == META_FRAME_CONTROL_MAXIMIZE ||
@@ -1501,8 +1507,8 @@ meta_frames_button_press_event (GtkWidget      *widget,
                                0,
                                event->time,
                                event->x_root,
-                               event->y_root);      
-      
+                               event->y_root);
+
       frame->prelit_control = control;
       redraw_control (frames, frame, control);
 
@@ -1511,15 +1517,15 @@ meta_frames_button_press_event (GtkWidget      *widget,
           MetaFrameGeometry fgeom;
           GdkRectangle *rect;
           int dx, dy;
-          
+
           meta_frames_calc_geometry (frames, frame, &fgeom);
-          
+
           rect = control_rect (META_FRAME_CONTROL_MENU, &fgeom);
 
           /* get delta to convert to root coords */
           dx = event->x_root - event->x;
           dy = event->y_root - event->y;
-          
+
           /* Align to the right end of the menu rectangle if RTL */
           if (meta_ui_get_direction() == META_UI_DIRECTION_RTL)
             dx += rect->width;
@@ -1544,9 +1550,9 @@ meta_frames_button_press_event (GtkWidget      *widget,
     {
       MetaGrabOp op;
       gboolean titlebar_is_onscreen;
-      
+
       op = META_GRAB_OP_NONE;
-      
+
       switch (control)
         {
         case META_FRAME_CONTROL_RESIZE_SE:
@@ -1611,7 +1617,7 @@ meta_frames_button_press_event (GtkWidget      *widget,
                      META_CORE_GET_END);
 
       if (flags & META_FRAME_ALLOWS_MOVE)
-        {          
+        {
           meta_core_begin_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                                    frame->xwindow,
                                    META_GRAB_OP_MOVING,
@@ -1632,7 +1638,7 @@ meta_frames_button_press_event (GtkWidget      *widget,
     {
       return meta_frame_right_click_event (frame, event);
     }
-  
+
   return TRUE;
 }
 
@@ -1669,9 +1675,9 @@ meta_frames_button_release_event    (GtkWidget           *widget,
   MetaUIFrame *frame;
   MetaFrames *frames;
   MetaGrabOp op;
-  
+
   frames = META_FRAMES (widget);
-  
+
   frame = meta_frames_lookup_window (frames, GDK_WINDOW_XID (event->window));
   if (frame == NULL)
     return FALSE;
@@ -1693,13 +1699,13 @@ meta_frames_button_release_event    (GtkWidget           *widget,
       MetaFrameControl control;
 
       control = get_control (frames, frame, event->x, event->y);
-      
+
       switch (op)
         {
         case META_GRAB_OP_CLICKING_MINIMIZE:
           if (control == META_FRAME_CONTROL_MINIMIZE)
             meta_core_minimize (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
-          
+
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
 
@@ -1709,7 +1715,7 @@ meta_frames_button_release_event    (GtkWidget           *widget,
             /* Focus the window on the maximize */
             meta_core_user_focus (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                             frame->xwindow,
-                            event->time);      
+                            event->time);
             meta_core_maximize (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
           }
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
@@ -1718,17 +1724,17 @@ meta_frames_button_release_event    (GtkWidget           *widget,
         case META_GRAB_OP_CLICKING_UNMAXIMIZE:
           if (control == META_FRAME_CONTROL_UNMAXIMIZE)
             meta_core_unmaximize (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
-          
+
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
-          
+
         case META_GRAB_OP_CLICKING_DELETE:
           if (control == META_FRAME_CONTROL_DELETE)
             meta_core_delete (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow, event->time);
-          
+
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
-          
+
         case META_GRAB_OP_CLICKING_MENU:
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
@@ -1736,10 +1742,10 @@ meta_frames_button_release_event    (GtkWidget           *widget,
         case META_GRAB_OP_CLICKING_SHADE:
           if (control == META_FRAME_CONTROL_SHADE)
             meta_core_shade (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow, event->time);
-          
+
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
- 
+
         case META_GRAB_OP_CLICKING_UNSHADE:
           if (control == META_FRAME_CONTROL_UNSHADE)
             meta_core_unshade (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow, event->time);
@@ -1750,10 +1756,10 @@ meta_frames_button_release_event    (GtkWidget           *widget,
         case META_GRAB_OP_CLICKING_ABOVE:
           if (control == META_FRAME_CONTROL_ABOVE)
             meta_core_make_above (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
-          
+
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
- 
+
         case META_GRAB_OP_CLICKING_UNABOVE:
           if (control == META_FRAME_CONTROL_UNABOVE)
             meta_core_unmake_above (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
@@ -1767,14 +1773,14 @@ meta_frames_button_release_event    (GtkWidget           *widget,
 
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
- 
+
         case META_GRAB_OP_CLICKING_UNSTICK:
           if (control == META_FRAME_CONTROL_UNSTICK)
             meta_core_unstick (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow);
 
           meta_core_end_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), event->time);
           break;
-          
+
         default:
           break;
         }
@@ -1786,7 +1792,7 @@ meta_frames_button_release_event    (GtkWidget           *widget,
        */
       meta_frames_update_prelit_control (frames, frame, control);
     }
-  
+
   return TRUE;
 }
 
@@ -1801,9 +1807,9 @@ meta_frames_update_prelit_control (MetaFrames      *frames,
 
   meta_verbose ("Updating prelit control from %u to %u\n",
                 frame->prelit_control, control);
-  
+
   cursor = META_CURSOR_DEFAULT;
-  
+
   switch (control)
     {
     case META_FRAME_CONTROL_CLIENT_AREA:
@@ -1858,12 +1864,12 @@ meta_frames_update_prelit_control (MetaFrames      *frames,
     case META_FRAME_CONTROL_RESIZE_E:
       cursor = META_CURSOR_EAST_RESIZE;
       break;
-    }        
+    }
 
   /* set/unset the prelight cursor */
   meta_core_set_screen_cursor (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()),
                                frame->xwindow,
-                               cursor);  
+                               cursor);
 
   switch (control)
     {
@@ -1884,7 +1890,7 @@ meta_frames_update_prelit_control (MetaFrames      *frames,
       /* Only prelight buttons */
       control = META_FRAME_CONTROL_NONE;
       break;
-    }      
+    }
 
   if (control == frame->prelit_control)
     return;
@@ -1905,9 +1911,9 @@ meta_frames_motion_notify_event     (GtkWidget           *widget,
   MetaUIFrame *frame;
   MetaFrames *frames;
   MetaGrabOp grab_op;
-  
+
   frames = META_FRAMES (widget);
-  
+
   frame = meta_frames_lookup_window (frames, GDK_WINDOW_XID (event->window));
   if (frame == NULL)
     return FALSE;
@@ -1917,7 +1923,7 @@ meta_frames_motion_notify_event     (GtkWidget           *widget,
   frames->last_motion_frame = frame;
 
   grab_op = meta_core_get_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()));
-  
+
   switch (grab_op)
     {
     case META_GRAB_OP_CLICKING_MENU:
@@ -1934,7 +1940,7 @@ meta_frames_motion_notify_event     (GtkWidget           *widget,
       {
         MetaFrameControl control;
         int x, y;
-        
+
         gdk_window_get_pointer (frame->window, &x, &y, NULL);
 
         /* Control is set to none unless it matches
@@ -1964,7 +1970,7 @@ meta_frames_motion_notify_event     (GtkWidget           *widget,
                (control == META_FRAME_CONTROL_UNSTICK &&
                 grab_op == META_GRAB_OP_CLICKING_UNSTICK)))
            control = META_FRAME_CONTROL_NONE;
-        
+
         /* Update prelit control and cursor */
         meta_frames_update_prelit_control (frames, frame, control);
 
@@ -1975,14 +1981,14 @@ meta_frames_motion_notify_event     (GtkWidget           *widget,
       {
         MetaFrameControl control;
         int x, y;
-        
+
         gdk_window_get_pointer (frame->window, &x, &y, NULL);
 
         control = get_control (frames, frame, x, y);
 
         /* Update prelit control and cursor */
         meta_frames_update_prelit_control (frames, frame, control);
-        
+
         queue_tip (frames);
       }
       break;
@@ -1990,7 +1996,7 @@ meta_frames_motion_notify_event     (GtkWidget           *widget,
     default:
       break;
     }
-      
+
   return TRUE;
 }
 
@@ -2006,7 +2012,7 @@ meta_frames_destroy_event           (GtkWidget           *widget,
   frame = meta_frames_lookup_window (frames, GDK_WINDOW_XID (event->window));
   if (frame == NULL)
     return FALSE;
-  
+
   return TRUE;
 }
 
@@ -2090,7 +2096,13 @@ clear_backing (GdkPixmap *pixmap,
 
   setup_bg_cr (cr, window, xoffset, yoffset);
 
-  gdk_drawable_get_size (GDK_DRAWABLE (pixmap), &width, &height);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		width = gdk_window_get_width(GDK_WINDOW(pixmap));
+		height = gdk_window_get_height(GDK_WINDOW(pixmap));
+	#else
+		gdk_drawable_get_size(GDK_DRAWABLE(pixmap), &width, &height);
+	#endif
+
   cairo_rectangle (cr, 0, 0, width, height);
   cairo_fill (cr);
 
@@ -2113,10 +2125,10 @@ generate_pixmap (MetaFrames *frames,
   rectangle.y = rect.y;
   rectangle.width = MAX (rect.width, 1);
   rectangle.height = MAX (rect.height, 1);
-  
+
   result = gdk_pixmap_new (frame->window,
                            rectangle.width, rectangle.height, -1);
-  
+
   clear_backing (result, frame->window, rectangle.x, rectangle.y);
 
   region = gdk_region_rectangle (&rectangle);
@@ -2159,7 +2171,7 @@ populate_cache (MetaFrames *frames,
     {
       return;
     }
-  
+
   meta_theme_get_frame_borders (meta_theme_get_current (),
                                 frame_type,
                                 frame->text_height,
@@ -2196,10 +2208,10 @@ populate_cache (MetaFrames *frames,
       if (!piece->pixmap)
         piece->pixmap = generate_pixmap (frames, frame, piece->rect);
     }
-  
+
   if (frames->invalidate_cache_timeout_id)
     g_source_remove (frames->invalidate_cache_timeout_id);
-  
+
   frames->invalidate_cache_timeout_id = g_timeout_add (1000, invalidate_cache_timeout, frames);
 
   if (!g_list_find (frames->invalidate_frames, frame))
@@ -2213,7 +2225,7 @@ clip_to_screen (GdkRegion *region, MetaUIFrame *frame)
   GdkRectangle frame_area;
   GdkRectangle screen_area = { 0, 0, 0, 0 };
   GdkRegion *tmp_region;
-  
+
   /* Chop off stuff outside the screen; this optimization
    * is crucial to handle huge client windows,
    * like "xterm -geometry 1000x1000"
@@ -2243,7 +2255,13 @@ subtract_from_region (GdkRegion *region, GdkDrawable *drawable,
   GdkRectangle rect;
   GdkRegion *reg_rect;
 
-  gdk_drawable_get_size (drawable, &rect.width, &rect.height);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		rect.width = gdk_window_get_width(GDK_WINDOW(drawable));
+		rect.height = gdk_window_get_height(GDK_WINDOW(drawable));
+	#else
+		gdk_drawable_get_size (drawable, &rect.width, &rect.height);
+	#endif
+
   rect.x = x;
   rect.y = y;
 
@@ -2266,7 +2284,7 @@ cached_pixels_draw (CachedPixels *pixels,
     {
       CachedFramePiece *piece;
       piece = &pixels->piece[i];
-      
+
       if (piece->pixmap)
         {
           gdk_cairo_set_source_pixmap (cr, piece->pixmap,
@@ -2276,7 +2294,7 @@ cached_pixels_draw (CachedPixels *pixels,
           piece->rect.x, piece->rect.y);
         }
     }
-  
+
   cairo_destroy (cr);
 }
 
@@ -2305,16 +2323,16 @@ meta_frames_expose_event (GtkWidget           *widget,
   populate_cache (frames, frame);
 
   region = gdk_region_copy (event->region);
-  
+
   pixels = get_cache (frames, frame);
 
   cached_pixels_draw (pixels, frame->window, region);
-  
+
   clip_to_screen (region, frame);
   meta_frames_paint_to_drawable (frames, frame, frame->window, region, 0, 0);
 
   gdk_region_destroy (region);
-  
+
   return TRUE;
 }
 
@@ -2342,7 +2360,7 @@ meta_frames_paint_to_drawable (MetaFrames   *frames,
   int i;
   MetaButtonLayout button_layout;
   MetaGrabOp grab_op;
-  
+
   widget = GTK_WIDGET (frames);
 
   for (i = 0; i < META_BUTTON_TYPE_LAST; i++)
@@ -2352,7 +2370,7 @@ meta_frames_paint_to_drawable (MetaFrames   *frames,
   grab_op = meta_core_get_grab_op (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()));
   if (grab_frame != frame->xwindow)
     grab_op = META_GRAB_OP_NONE;
-  
+
   /* Set prelight state */
   switch (frame->prelit_control)
     {
@@ -2439,7 +2457,7 @@ meta_frames_paint_to_drawable (MetaFrames   *frames,
     button_states[META_BUTTON_TYPE_MAXIMIZE];
   button_states[META_BUTTON_TYPE_RIGHT_RIGHT_BACKGROUND] =
     button_states[META_BUTTON_TYPE_CLOSE];
-  
+
   meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                  META_CORE_GET_FRAME_FLAGS, &flags,
                  META_CORE_GET_FRAME_TYPE, &type,
@@ -2462,11 +2480,11 @@ meta_frames_paint_to_drawable (MetaFrames   *frames,
       int screen_width, screen_height;
       GdkRegion *edges, *tmp_region;
       int top, bottom, left, right;
- 
+
       /* Repaint each side of the frame */
 
       meta_theme_get_frame_borders (meta_theme_get_current (),
-                             type, frame->text_height, flags, 
+                             type, frame->text_height, flags,
                              &top, &bottom, &left, &right);
 
       meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
@@ -2501,8 +2519,8 @@ meta_frames_paint_to_drawable (MetaFrames   *frames,
            * because it attempted to decorate the silly window.
            */
 
-          areas[i].x = MAX (areas[i].x, -DECORATING_BORDER); 
-          areas[i].y = MAX (areas[i].y, -DECORATING_BORDER); 
+          areas[i].x = MAX (areas[i].x, -DECORATING_BORDER);
+          areas[i].y = MAX (areas[i].y, -DECORATING_BORDER);
           if (areas[i].x+areas[i].width  > screen_width  + DECORATING_BORDER)
             areas[i].width  = MIN (0, screen_width  - areas[i].x);
           if (areas[i].y+areas[i].height > screen_height + DECORATING_BORDER)
@@ -2611,7 +2629,7 @@ meta_frames_enter_notify_event      (GtkWidget           *widget,
   MetaUIFrame *frame;
   MetaFrames *frames;
   MetaFrameControl control;
-  
+
   frames = META_FRAMES (widget);
 
   frame = meta_frames_lookup_window (frames, GDK_WINDOW_XID (event->window));
@@ -2620,7 +2638,7 @@ meta_frames_enter_notify_event      (GtkWidget           *widget,
 
   control = get_control (frames, frame, event->x, event->y);
   meta_frames_update_prelit_control (frames, frame, control);
-  
+
   return TRUE;
 }
 
@@ -2638,7 +2656,7 @@ meta_frames_leave_notify_event      (GtkWidget           *widget,
     return FALSE;
 
   meta_frames_update_prelit_control (frames, frame, META_FRAME_CONTROL_NONE);
-  
+
   clear_tip (frames);
 
   return TRUE;
@@ -2649,7 +2667,7 @@ control_rect (MetaFrameControl control,
               MetaFrameGeometry *fgeom)
 {
   GdkRectangle *rect;
-  
+
   rect = NULL;
   switch (control)
     {
@@ -2723,17 +2741,17 @@ get_control (MetaFrames *frames,
   MetaFrameFlags flags;
   gboolean has_vert, has_horiz;
   GdkRectangle client;
-  
+
   meta_frames_calc_geometry (frames, frame, &fgeom);
 
   client.x = fgeom.left_width;
   client.y = fgeom.top_height;
   client.width = fgeom.width - fgeom.left_width - fgeom.right_width;
-  client.height = fgeom.height - fgeom.top_height - fgeom.bottom_height;  
+  client.height = fgeom.height - fgeom.top_height - fgeom.bottom_height;
 
   if (POINT_IN_RECT (x, y, client))
     return META_FRAME_CONTROL_CLIENT_AREA;
-  
+
   if (POINT_IN_RECT (x, y, fgeom.close_rect.clickable))
     return META_FRAME_CONTROL_DELETE;
 
@@ -2746,10 +2764,10 @@ get_control (MetaFrames *frames,
   meta_core_get (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()), frame->xwindow,
                  META_CORE_GET_FRAME_FLAGS, &flags,
                  META_CORE_GET_END);
-  
+
   has_vert = (flags & META_FRAME_ALLOWS_VERTICAL_RESIZE) != 0;
   has_horiz = (flags & META_FRAME_ALLOWS_HORIZONTAL_RESIZE) != 0;
-  
+
   if (POINT_IN_RECT (x, y, fgeom.title_rect))
     {
       if (has_vert && y <= TOP_RESIZE_HEIGHT)
@@ -2765,7 +2783,7 @@ get_control (MetaFrames *frames,
       else
         return META_FRAME_CONTROL_MAXIMIZE;
     }
-      
+
   if (POINT_IN_RECT (x, y, fgeom.shade_rect.clickable))
     {
       return META_FRAME_CONTROL_SHADE;
@@ -2878,7 +2896,7 @@ meta_frames_push_delay_exposes (MetaFrames *frames)
       gdk_window_process_all_updates ();
       XFlush (GDK_DISPLAY_XDISPLAY (gdk_display_get_default ()));
     }
-  
+
   frames->expose_delay_count += 1;
 }
 
@@ -2902,7 +2920,7 @@ void
 meta_frames_pop_delay_exposes  (MetaFrames *frames)
 {
   g_return_if_fail (frames->expose_delay_count > 0);
-  
+
   frames->expose_delay_count -= 1;
 
   if (frames->expose_delay_count == 0)

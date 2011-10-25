@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    eel-background.c: Object for the background of a widget.
- 
+
    Copyright (C) 2000 Eazel, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
-  
+
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Darin Adler <darin@eazel.com>
 */
 
@@ -75,7 +75,7 @@ static guint signals[LAST_SIGNAL];
 
 struct EelBackgroundDetails {
 	char *color;
-	
+
 	MateBG *bg;
 	GtkWidget *widget;
 
@@ -88,7 +88,7 @@ struct EelBackgroundDetails {
 	GdkColor default_color;
 
 	gboolean use_base;
-	
+
 	/* Is this background attached to desktop window */
 	gboolean is_desktop;
 	/* Desktop screen size watcher */
@@ -180,7 +180,7 @@ eel_background_init (gpointer object, gpointer klass)
 			  G_CALLBACK (on_bg_changed), background);
 	g_signal_connect (background->details->bg, "transitioned",
 			  G_CALLBACK (on_bg_transitioned), background);
-	
+
 }
 
 /* The safe way to clear an image from a background is:
@@ -318,7 +318,7 @@ static void
 eel_background_unrealize (EelBackground *background)
 {
 	free_background_pixmap (background);
-	
+
 	background->details->background_entire_width = 0;
 	background->details->background_entire_height = 0;
 	background->details->default_color.red = 0xffff;
@@ -333,11 +333,17 @@ drawable_get_adjusted_size (EelBackground *background,
 			    int	          *height)
 {
 	GdkScreen *screen;
-	
-	/* 
+
+	/*
 	 * Screen resolution change makes root drawable have incorrect size.
-	 */    
-	gdk_drawable_get_size (drawable, width, height);
+	 */
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		width = gdk_window_get_width(GDK_WINDOW(drawable));
+		height = gdk_window_get_height(GDK_WINDOW(drawable));
+	#else
+		gdk_drawable_get_size(drawable, width, height); // FIXME: this is right?
+	#endif
+
 
 	if (background->details->is_desktop) {
 		screen = gdk_drawable_get_screen (drawable);
@@ -355,11 +361,11 @@ eel_background_ensure_realized (EelBackground *background, GdkWindow *window)
 	gboolean changed;
 	int entire_width;
 	int entire_height;
-	
+
 	drawable_get_adjusted_size (background, window, &entire_width, &entire_height);
-	
+
 	/* Set the default color */
-	
+
 	/* Get the widget to which the window belongs and its style as well */
 	gdk_window_get_user_data (window, &data);
 	widget = GTK_WIDGET (data);
@@ -370,7 +376,7 @@ eel_background_ensure_realized (EelBackground *background, GdkWindow *window)
 		} else {
 			background->details->default_color = style->bg[GTK_STATE_NORMAL];
 		}
-		
+
 		gdk_rgb_find_color (style->colormap, &(background->details->default_color));
 	}
 
@@ -391,17 +397,17 @@ eel_background_ensure_realized (EelBackground *background, GdkWindow *window)
 									 entire_width, entire_height,
 									 background->details->is_desktop);
 	background->details->background_pixmap_is_unset_root_pixmap = background->details->is_desktop;
-		
+
 	/* We got the pixmap and everything, so we don't care about a change
 	   that is pending (unless things actually change after this time) */
 	g_object_set_data (G_OBJECT (background->details->bg),
 			   "ignore-pending-change", GINT_TO_POINTER (TRUE));
 	changed = TRUE;
-	
-	
+
+
 	background->details->background_entire_width = entire_width;
 	background->details->background_entire_height = entire_height;
-	
+
 	return changed;
 }
 
@@ -454,7 +460,7 @@ eel_background_get_pixmap_and_color (EelBackground *background,
 
 	if (background->details->background_pixmap != NULL) {
 		return g_object_ref (background->details->background_pixmap);
-	} 
+	}
 	return NULL;
 }
 
@@ -481,7 +487,7 @@ eel_background_expose (GtkWidget                   *widget,
 	background = eel_get_widget_background (widget);
 
 	drawable_get_adjusted_size (background, widget_window, &window_width, &window_height);
-	
+
 	pixmap = eel_background_get_pixmap_and_color (background,
 						      widget_window,
 						      &color);
@@ -498,15 +504,15 @@ eel_background_expose (GtkWidget                   *widget,
 		gc_values.fill = GDK_SOLID;
 		value_mask = GDK_GC_FILL | GDK_GC_FOREGROUND;
 	}
-	
+
 	gc = gdk_gc_new_with_values (widget_window, &gc_values, value_mask);
-	
+
 	gdk_gc_set_clip_rectangle (gc, &event->area);
 
 	gdk_draw_rectangle (widget_window, gc, TRUE, 0, 0, window_width, window_height);
-	
+
 	g_object_unref (gc);
-	
+
 	if (pixmap) {
 		g_object_unref (pixmap);
 	}
@@ -560,7 +566,7 @@ char *
 eel_background_get_image_uri (EelBackground *background)
 {
 	const char *filename;
-	
+
 	g_return_val_if_fail (EEL_IS_BACKGROUND (background), NULL);
 
 	filename = mate_bg_get_filename (background->details->bg);
@@ -585,7 +591,7 @@ eel_background_set_color (EelBackground *background,
 	if (eel_strcmp (background->details->color, color) != 0) {
 		g_free (background->details->color);
 		background->details->color = g_strdup (color);
-		
+
 		set_image_properties (background);
 	}
 }
@@ -603,7 +609,7 @@ eel_background_set_image_uri_helper (EelBackground *background,
 	else {
 		filename = NULL;
 	}
-	
+
 	mate_bg_set_filename (background->details->bg, filename);
 
 	if (emit_signal) {
@@ -611,17 +617,17 @@ eel_background_set_image_uri_helper (EelBackground *background,
 	}
 
 	set_image_properties (background);
-	
+
 	g_free (filename);
-	
+
 	return TRUE;
 }
 
 void
 eel_background_set_image_uri (EelBackground *background, const char *image_uri)
 {
-	
-	
+
+
 	eel_background_set_image_uri_helper (background, image_uri, TRUE);
 }
 
@@ -653,13 +659,13 @@ eel_background_receive_dropped_background_image (EelBackground *background,
 	 * the SETTINGS_CHANGED & APPEARANCE_CHANGE signals.
 	 */
 	eel_background_set_image_placement (background, EEL_BACKGROUND_TILED);
-	
+
 	eel_background_set_image_uri_and_color (background, action, image_uri, NULL);
 }
 
 /**
  * eel_background_is_set:
- * 
+ *
  * Check whether the background's color or image has been set.
  */
 gboolean
@@ -745,10 +751,10 @@ eel_background_set_up_widget (EelBackground *background, GtkWidget *widget)
 	GtkStyle *style;
 	GdkPixmap *pixmap;
 	GdkColor color;
-	
+
 	int window_width;
 	int window_height;
-	
+
 	GdkWindow *window;
 	GdkWindow *widget_window;
 	gboolean in_fade;
@@ -759,13 +765,13 @@ eel_background_set_up_widget (EelBackground *background, GtkWidget *widget)
 
 	widget_window = gtk_widget_get_window (widget);
 	drawable_get_adjusted_size (background, widget_window, &window_width, &window_height);
-	
+
 	pixmap = eel_background_get_pixmap_and_color (background,
 						      widget_window,
 						      &color);
 
 	style = gtk_widget_get_style (widget);
-	
+
 	gdk_rgb_find_color (style->colormap, &color);
 
 	if (EEL_IS_CANVAS (widget)) {
@@ -792,7 +798,7 @@ eel_background_set_up_widget (EelBackground *background, GtkWidget *widget)
 	if (background->details->is_desktop && !in_fade) {
 		set_root_pixmap (background, window);
 	}
-	
+
 	if (pixmap) {
 		g_object_unref (pixmap);
 	}
@@ -833,7 +839,14 @@ init_fade (EelBackground *background, GtkWidget *widget)
 		 * we don't want to crossfade
 		 */
 		window = gtk_widget_get_window (widget);
-		gdk_drawable_get_size (window, &old_width, &old_height);
+
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			old_width = gdk_window_get_width(GDK_WINDOW(window));
+			old_height = gdk_window_get_height(GDK_WINDOW(window));
+		#else
+			gdk_drawable_get_size(window, &old_width, &old_height);
+		#endif
+
 		drawable_get_adjusted_size (background, window,
 					    &width, &height);
 		if (old_width == width && old_height == height) {
@@ -880,7 +893,7 @@ static void
 widget_style_set_cb (GtkWidget *widget, GtkStyle *previous_style, gpointer data)
 {
 	EelBackground *background;
-	
+
 	background = EEL_BACKGROUND (data);
 
 	if (previous_style != NULL) {
@@ -898,21 +911,21 @@ static void
 widget_realized_setup (GtkWidget *widget, gpointer data)
 {
 	EelBackground *background;
-	
+
 	background = EEL_BACKGROUND (data);
-	
+
         if (background->details->is_desktop) {
-		GdkWindow *root_window;	
+		GdkWindow *root_window;
 		GdkScreen *screen;
-		
+
 		screen = gtk_widget_get_screen (widget);
 
 		if (background->details->screen_size_handler > 0) {
 		        g_signal_handler_disconnect (screen,
 				                     background->details->screen_size_handler);
 		}
-	
-		background->details->screen_size_handler = 
+
+		background->details->screen_size_handler =
 			g_signal_connect (screen, "size_changed",
             				  G_CALLBACK (screen_size_changed), background);
 		if (background->details->screen_monitors_handler > 0) {
@@ -923,8 +936,8 @@ widget_realized_setup (GtkWidget *widget, gpointer data)
 			g_signal_connect (screen, "monitors-changed",
 					  G_CALLBACK (screen_size_changed), background);
 
-		root_window = gdk_screen_get_root_window(screen);			
-		
+		root_window = gdk_screen_get_root_window(screen);
+
 		if (gdk_drawable_get_visual (root_window) == gtk_widget_get_visual (widget)) {
 			background->details->use_common_pixmap = TRUE;
 		} else {
@@ -939,11 +952,11 @@ static void
 widget_realize_cb (GtkWidget *widget, gpointer data)
 {
 	EelBackground *background;
-	
+
 	background = EEL_BACKGROUND (data);
 
 	widget_realized_setup (widget, data);
-		
+
 	eel_background_set_up_widget (background, widget);
 }
 
@@ -951,7 +964,7 @@ static void
 widget_unrealize_cb (GtkWidget *widget, gpointer data)
 {
 	EelBackground *background;
-	
+
 	background = EEL_BACKGROUND (data);
 
 	if (background->details->screen_size_handler > 0) {
@@ -975,7 +988,7 @@ eel_background_set_desktop (EelBackground *background, GtkWidget *widget, gboole
 	if (gtk_widget_get_realized (widget) && background->details->is_desktop) {
 		widget_realized_setup (widget, background);
 	}
-	
+
 }
 
 gboolean
@@ -1067,7 +1080,7 @@ eel_background_is_dark (EelBackground *background)
 
 	return mate_bg_is_dark (background->details->bg, rect.width, rect.height);
 }
-   
+
 /* handle dropped colors */
 void
 eel_background_receive_dropped_color (EelBackground *background,
@@ -1119,7 +1132,7 @@ eel_background_receive_dropped_color (EelBackground *background,
 	} else {
 		new_gradient_spec = g_strdup (color_spec);
 	}
-	
+
 	g_free (color_spec);
 
 	eel_background_set_image_uri_and_color (background, action, NULL, new_gradient_spec);

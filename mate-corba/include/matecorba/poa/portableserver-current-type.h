@@ -5,20 +5,20 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
-#ifdef MATECORBA2_INTERNAL_API
+	#ifdef MATECORBA2_INTERNAL_API
 
-struct PortableServer_Current_type {
-        struct MateCORBA_RootObject_struct parent;
+	struct PortableServer_Current_type {
+		struct MateCORBA_RootObject_struct parent;
 
-        CORBA_ORB                      orb;
-};
+		CORBA_ORB orb;
+	};
 
-#endif /* MATECORBA2_INTERNAL_API */
+	#endif /* MATECORBA2_INTERNAL_API */
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
-#endif
+#endif /* PORTABLESERVER_CURRENT_TYPE_H */

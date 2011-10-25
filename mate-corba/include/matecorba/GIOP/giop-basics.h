@@ -5,26 +5,26 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
-#ifdef MATECORBA2_INTERNAL_API
+	#ifdef MATECORBA2_INTERNAL_API
 
-typedef struct _GIOPRecvBuffer GIOPRecvBuffer;
-typedef struct _GIOPSendBuffer GIOPSendBuffer;
-typedef struct _GIOPConnection GIOPConnection;
+		typedef struct _GIOPRecvBuffer GIOPRecvBuffer;
+		typedef struct _GIOPSendBuffer GIOPSendBuffer;
+		typedef struct _GIOPConnection GIOPConnection;
 
-typedef enum {
-  GIOP_1_0,
-  GIOP_1_1,
-  GIOP_1_2,
-  GIOP_LATEST = GIOP_1_2,
-  GIOP_NUM_VERSIONS
-} GIOPVersion;
+		typedef enum {
+			GIOP_1_0,
+			GIOP_1_1,
+			GIOP_1_2,
+			GIOP_LATEST = GIOP_1_2,
+			GIOP_NUM_VERSIONS
+		} GIOPVersion;
 
-#endif /* MATECORBA2_INTERNAL_API */
+	#endif /* MATECORBA2_INTERNAL_API */
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
-#endif
+#endif /* GIOP_BASICS_H */

@@ -7,11 +7,11 @@
 extern "C" {
 #endif
 
-#ifdef MATECORBA2_INTERNAL_API
+	#ifdef MATECORBA2_INTERNAL_API
 
-gpointer MateCORBA_dynany_new_default (const CORBA_TypeCode tc);
+		gpointer MateCORBA_dynany_new_default(const CORBA_TypeCode tc);
 
-#endif /* MATECORBA2_INTERNAL_API */
+	#endif /* MATECORBA2_INTERNAL_API */
 
 #ifdef __cplusplus
 }

@@ -125,7 +125,12 @@ nld_search_entry_expose_event (GtkWidget * widget, GdkEventExpose * event)
 
 		if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR)
 		{
-			gdk_drawable_get_size (event->window, &width, &height);
+			#if GTK_CHECK_VERSION(3, 0, 0)
+				width = gdk_window_get_width(event->window);
+				height = gdk_window_get_height(event->window);
+			#else
+				gdk_drawable_get_size(event->window, &width, &height);
+			#endif
 			x = width - priv->width - 1;
 		}
 		else

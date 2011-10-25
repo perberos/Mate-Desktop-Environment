@@ -120,7 +120,14 @@ screenshot_get_pixbuf (Window w)
         }
 
         root = gdk_window_foreign_new (GDK_ROOT_WINDOW ());
-        gdk_drawable_get_size (window, &real_width, &real_height);
+
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			real_width = gdk_window_get_width(window);
+			real_height = gdk_window_get_height(window);
+		#else
+			gdk_drawable_get_size(window, &real_width, &real_height);
+		#endif
+
         gdk_window_get_origin (window, &x_real_orig, &y_real_orig);
 
         x_orig = x_real_orig;

@@ -1415,7 +1415,13 @@ mate_panel_applet_get_pixmap (MatePanelApplet     *applet,
 		return NULL;
 	}
 
-	gdk_drawable_get_size (GDK_DRAWABLE (window), &width, &height);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		width = gdk_window_get_width(window);
+		height = gdk_window_get_height(window);
+	#else
+		gdk_drawable_get_size(GDK_DRAWABLE(window), &width, &height);
+	#endif
+
 	retval = gdk_pixmap_new (window, width, height, -1);
 
 	/* the pixmap has no colormap, and we need one */

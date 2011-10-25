@@ -127,7 +127,12 @@ static int  emit_event                       (MateCanvas *canvas, GdkEvent *even
 
 static guint item_signals[ITEM_LAST_SIGNAL];
 
-static GtkObjectClass *item_parent_class;
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static GtkWidgetClass *item_parent_class;
+#else
+	static GtkObjectClass *item_parent_class;
+#endif
+
 
 
 /**
@@ -1164,14 +1169,14 @@ mate_canvas_item_grab_focus (MateCanvasItem *item)
 	item->canvas->focused_item = item;
 	gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 
-	if (focused_item) {                                                     
-		ev.focus_change.type = GDK_FOCUS_CHANGE;                        
+	if (focused_item) {
+		ev.focus_change.type = GDK_FOCUS_CHANGE;
 		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
-		ev.focus_change.send_event = FALSE;                             
-		ev.focus_change.in = TRUE;                                      
+		ev.focus_change.send_event = FALSE;
+		ev.focus_change.in = TRUE;
 
-		emit_event (item->canvas, &ev);                          
-	}                               
+		emit_event (item->canvas, &ev);
+	}
 }
 
 
@@ -1312,7 +1317,7 @@ enum {
 
 static void mate_canvas_group_class_init  (MateCanvasGroupClass *class);
 static void mate_canvas_group_init        (MateCanvasGroup      *group);
-static void mate_canvas_group_set_property(GObject               *object, 
+static void mate_canvas_group_set_property(GObject               *object,
 					    guint                  param_id,
 					    const GValue          *value,
 					    GParamSpec            *pspec);
@@ -1321,7 +1326,12 @@ static void mate_canvas_group_get_property(GObject               *object,
 					    GValue                *value,
 					    GParamSpec            *pspec);
 
-static void mate_canvas_group_destroy     (GtkObject             *object);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void mate_canvas_group_destroy(GtkWidget* object);
+#else
+	static void mate_canvas_group_destroy(GtkObject* object);
+#endif
+
 
 static void   mate_canvas_group_update      (MateCanvasItem *item, double *affine,
 					      ArtSVP *clip_path, int flags);
@@ -1329,8 +1339,13 @@ static void   mate_canvas_group_realize     (MateCanvasItem *item);
 static void   mate_canvas_group_unrealize   (MateCanvasItem *item);
 static void   mate_canvas_group_map         (MateCanvasItem *item);
 static void   mate_canvas_group_unmap       (MateCanvasItem *item);
-static void   mate_canvas_group_draw        (MateCanvasItem *item, GdkDrawable *drawable,
-					      int x, int y, int width, int height);
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void   mate_canvas_group_draw(MateCanvasItem* item, GdkDrawable* drawable, int x, int y, int width, int height);
+#else
+	static void   mate_canvas_group_draw(MateCanvasItem* item, GdkDrawable* drawable, int x, int y, int width, int height);
+#endif
+
 static double mate_canvas_group_point       (MateCanvasItem *item, double x, double y,
 					      int cx, int cy,
 					      MateCanvasItem **actual_item);
@@ -1382,11 +1397,22 @@ static void
 mate_canvas_group_class_init (MateCanvasGroupClass *class)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		GtkWidgetClass* object_class;
+	#else
+		GtkObjectClass* object_class;
+	#endif
+
 	MateCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		object_class = (GtkWidgetClass*) class;
+	#else
+		object_class = (GtkObjectClass*) class;
+	#endif
+
 	item_class = (MateCanvasItemClass *) class;
 
 	group_parent_class = g_type_class_peek_parent (class);
@@ -1515,8 +1541,11 @@ mate_canvas_group_get_property (GObject *gobject, guint param_id,
 }
 
 /* Destroy handler for canvas groups */
-static void
-mate_canvas_group_destroy (GtkObject *object)
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void mate_canvas_group_destroy(GtkWidget* object)
+#else
+	static void mate_canvas_group_destroy(GtkObject* object)
+#endif
 {
 	MateCanvasGroup *group;
 
@@ -1529,8 +1558,21 @@ mate_canvas_group_destroy (GtkObject *object)
 		gtk_object_destroy (GTK_OBJECT (group->item_list->data));
 	}
 
-	if (GTK_OBJECT_CLASS (group_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (group_parent_class)->destroy) (object);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+
+		if (GTK_WIDGET_CLASS(group_parent_class)->destroy)
+		{
+			(*GTK_WIDGET_CLASS(group_parent_class)->destroy)(object);
+		}
+
+	#else
+
+		if (GTK_OBJECT_CLASS(group_parent_class)->destroy)
+		{
+			(* GTK_OBJECT_CLASS(group_parent_class)->destroy)(object);
+		}
+
+	#endif
 }
 
 /* Update handler for canvas groups */
@@ -1895,7 +1937,13 @@ enum {
 
 static void mate_canvas_class_init          (MateCanvasClass *class);
 static void mate_canvas_init                (MateCanvas      *canvas);
-static void mate_canvas_destroy             (GtkObject        *object);
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void mate_canvas_destroy(GtkWidget* object);
+#else
+	static void mate_canvas_destroy(GtkObject* object);
+#endif
+
 static void mate_canvas_map                 (GtkWidget        *widget);
 static void mate_canvas_unmap               (GtkWidget        *widget);
 static void mate_canvas_realize             (GtkWidget        *widget);
@@ -1969,7 +2017,7 @@ mate_canvas_get_type (void)
 }
 
 static void
-mate_canvas_get_property (GObject    *object, 
+mate_canvas_get_property (GObject    *object,
 			   guint       prop_id,
 			   GValue     *value,
 			   GParamSpec *pspec)
@@ -1988,7 +2036,7 @@ mate_canvas_get_property (GObject    *object,
 }
 
 static void
-mate_canvas_set_property (GObject      *object, 
+mate_canvas_set_property (GObject      *object,
 			   guint         prop_id,
 			   const GValue *value,
 			   GParamSpec   *pspec)
@@ -2011,11 +2059,21 @@ static void
 mate_canvas_class_init (MateCanvasClass *klass)
 {
 	GObjectClass   *gobject_class;
-	GtkObjectClass *object_class;
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		GtkWidgetClass *object_class;
+	#else
+		GtkObjectClass *object_class;
+	#endif
+
 	GtkWidgetClass *widget_class;
 
 	gobject_class = (GObjectClass *)klass;
-	object_class  = (GtkObjectClass *) klass;
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		object_class  = (GtkWidgetClass*) klass;
+	#else
+		object_class  = (GtkObjectClass*) klass;
+	#endif
+
 	widget_class  = (GtkWidgetClass *) klass;
 
 	canvas_parent_class = g_type_class_peek_parent (klass);
@@ -2082,8 +2140,11 @@ mate_canvas_class_init (MateCanvasClass *klass)
 /* Callback used when the root item of a canvas is destroyed.  The user should
  * never ever do this, so we panic if this happens.
  */
-static void
-panic_root_destroyed (GtkObject *object, gpointer data)
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void panic_root_destroyed(GtkWidget* object, gpointer data)
+#else
+	static void panic_root_destroyed(GtkObject* object, gpointer data)
+#endif
 {
 	g_error ("Eeeek, root item %p of canvas %p was destroyed!", object, data);
 }
@@ -2122,7 +2183,7 @@ mate_canvas_init (MateCanvas *canvas)
 
 	/* Disable the gtk+ double buffering since the canvas uses it's own. */
 	gtk_widget_set_double_buffered (GTK_WIDGET (canvas), FALSE);
-	
+
 	/* Create the root item as a special case */
 
 	canvas->root = MATE_CANVAS_ITEM (g_object_new (mate_canvas_group_get_type (), NULL));
@@ -2176,8 +2237,11 @@ shutdown_transients (MateCanvas *canvas)
 }
 
 /* Destroy handler for MateCanvas */
-static void
-mate_canvas_destroy (GtkObject *object)
+#if GTK_CHECK_VERSION(3, 0, 0)
+	static void mate_canvas_destroy(GtkWidget* object)
+#else
+	static void mate_canvas_destroy(GtkObject* object)
+#endif
 {
 	MateCanvas *canvas;
 
@@ -2199,8 +2263,17 @@ mate_canvas_destroy (GtkObject *object)
 
 	shutdown_transients (canvas);
 
-	if (GTK_OBJECT_CLASS (canvas_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (canvas_parent_class)->destroy) (object);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		if (GTK_WIDGET_CLASS(canvas_parent_class)->destroy)
+		{
+			(*GTK_WIDGET_CLASS(canvas_parent_class)->destroy)(object);
+		}
+	#else
+		if (GTK_OBJECT_CLASS(canvas_parent_class)->destroy)
+		{
+			(*GTK_OBJECT_CLASS(canvas_parent_class)->destroy)(object);
+		}
+	#endif
 }
 
 /**
@@ -2219,7 +2292,7 @@ mate_canvas_new (void)
 /**
  * mate_canvas_new_aa:
  *
- * Creates a new empty canvas in antialiased mode. 
+ * Creates a new empty canvas in antialiased mode.
  *
  * Return value: A newly-created antialiased canvas.
  **/
@@ -2581,7 +2654,7 @@ emit_event (MateCanvas *canvas, GdkEvent *event)
 
 		g_signal_emit (item, item_signals[ITEM_EVENT], 0,
 			       ev, &finished);
-		
+
 		parent = item->parent;
 		g_object_unref (G_OBJECT (item));
 
@@ -2832,12 +2905,12 @@ static gboolean
 mate_canvas_key (GtkWidget *widget, GdkEventKey *event)
 {
 	MateCanvas *canvas;
-	
+
 	g_return_val_if_fail (MATE_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	canvas = MATE_CANVAS (widget);
-	
+
 	if (!emit_event (canvas, (GdkEvent *) event)) {
 		GtkWidgetClass *widget_class;
 
@@ -3313,7 +3386,7 @@ mate_canvas_get_scroll_region (MateCanvas *canvas, double *x1, double *y1, doubl
  * @canvas: A canvas.
  * @center_scroll_region: Whether to center the scrolling region in the canvas
  * window when it is smaller than the canvas' allocation.
- * 
+ *
  * When the scrolling region of the canvas is smaller than the canvas window,
  * e.g.  the allocation of the canvas, it can be either centered on the window
  * or simply made to be on the upper-left corner on the window.  This function
@@ -3334,10 +3407,10 @@ mate_canvas_set_center_scroll_region (MateCanvas *canvas, gboolean center_scroll
 /**
  * mate_canvas_get_center_scroll_region:
  * @canvas: A canvas.
- * 
+ *
  * Returns whether the canvas is set to center the scrolling region in the window
  * if the former is smaller than the canvas' allocation.
- * 
+ *
  * Return value: Whether the scroll region is being centered in the canvas window.
  **/
 gboolean
@@ -4026,7 +4099,7 @@ mate_canvas_set_dither (MateCanvas *canvas, GdkRgbDither dither)
  * @canvas: A canvas.
  *
  * Returns the type of dithering used to render an antialiased canvas.
- * 
+ *
  * Return value: The dither setting.
  **/
 GdkRgbDither
@@ -4045,11 +4118,11 @@ boolean_handled_accumulator (GSignalInvocationHint *ihint,
 {
 	gboolean continue_emission;
 	gboolean signal_handled;
-	
+
 	signal_handled = g_value_get_boolean (handler_return);
 	g_value_set_boolean (return_accu, signal_handled);
 	continue_emission = !signal_handled;
-	
+
 	return continue_emission;
 }
 

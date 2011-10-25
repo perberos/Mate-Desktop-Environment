@@ -119,16 +119,16 @@ static void mate_canvas_rich_text_update(MateCanvasItem *item, double *affine,
 					  ArtSVP *clip_path, int flags);
 static void mate_canvas_rich_text_realize(MateCanvasItem *item);
 static void mate_canvas_rich_text_unrealize(MateCanvasItem *item);
-static double mate_canvas_rich_text_point(MateCanvasItem *item, 
+static double mate_canvas_rich_text_point(MateCanvasItem *item,
 					   double x, double y,
-					   int cx, int cy, 
+					   int cx, int cy,
 					   MateCanvasItem **actual_item);
-static void mate_canvas_rich_text_draw(MateCanvasItem *item, 
+static void mate_canvas_rich_text_draw(MateCanvasItem *item,
 					GdkDrawable *drawable,
 					int x, int y, int width, int height);
 static void mate_canvas_rich_text_render(MateCanvasItem *item,
 					  MateCanvasBuf *buf);
-static gint mate_canvas_rich_text_event(MateCanvasItem *item, 
+static gint mate_canvas_rich_text_event(MateCanvasItem *item,
 					 GdkEvent *event);
 static void mate_canvas_rich_text_get_bounds(MateCanvasItem *text, double *px1, double *py1,
 	   double *px2, double *py2);
@@ -195,9 +195,15 @@ static void
 mate_canvas_rich_text_class_init(MateCanvasRichTextClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		GtkWidgetClass *object_class = GTK_WIDGET_CLASS(klass);
+	#else
+		GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+	#endif
+
 	MateCanvasItemClass *item_class = MATE_CANVAS_ITEM_CLASS(klass);
-	
+
 	parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = mate_canvas_rich_text_set_property;
@@ -417,7 +423,7 @@ mate_canvas_rich_text_init(MateCanvasRichText *text)
 	text->_priv->justification = GTK_JUSTIFY_LEFT;
 	text->_priv->direction = gtk_widget_get_default_direction();
 	text->_priv->anchor = GTK_ANCHOR_NW;
-	
+
 	text->_priv->blink_timeout = 0;
 	text->_priv->preblink_timeout = 0;
 
@@ -506,7 +512,7 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		text->_priv->wrap_mode = g_value_get_enum (value);
 
 		if (text->_priv->layout) {
-			text->_priv->layout->default_style->wrap_mode = 
+			text->_priv->layout->default_style->wrap_mode =
 				text->_priv->wrap_mode;
 			gtk_text_layout_default_style_changed(text->_priv->layout);
 		}
@@ -534,7 +540,7 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_PIXELS_ABOVE_LINES:
 		text->_priv->pixels_above_lines = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->pixels_above_lines =
 				text->_priv->pixels_above_lines;
@@ -543,7 +549,7 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_PIXELS_BELOW_LINES:
 		text->_priv->pixels_below_lines = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->pixels_below_lines =
 				text->_priv->pixels_below_lines;
@@ -552,7 +558,7 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_PIXELS_INSIDE_WRAP:
 		text->_priv->pixels_inside_wrap = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->pixels_inside_wrap =
 				text->_priv->pixels_inside_wrap;
@@ -561,7 +567,7 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_LEFT_MARGIN:
 		text->_priv->left_margin = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->left_margin =
 				text->_priv->left_margin;
@@ -570,7 +576,7 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_RIGHT_MARGIN:
 		text->_priv->right_margin = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->right_margin =
 				text->_priv->right_margin;
@@ -579,13 +585,13 @@ mate_canvas_rich_text_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_INDENT:
 		text->_priv->pixels_above_lines = g_value_get_int (value);
-		
+
 		if (text->_priv->layout) {
 			text->_priv->layout->default_style->indent = text->_priv->indent;
 			gtk_text_layout_default_style_changed(text->_priv->layout);
 		}
 		break;
-		       
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -724,7 +730,7 @@ mate_canvas_rich_text_move_cursor(MateCanvasRichText *text,
 	GtkTextIter insert, newplace;
 
 	gtk_text_buffer_get_iter_at_mark(
-		get_buffer(text), &insert, 
+		get_buffer(text), &insert,
 		gtk_text_buffer_get_mark(get_buffer(text), "insert"));
 
 	newplace = insert;
@@ -747,7 +753,7 @@ mate_canvas_rich_text_move_cursor(MateCanvasRichText *text,
 		mate_canvas_rich_text_move_iter_by_lines(
 			text, &newplace, count);
 		gtk_text_layout_move_iter_to_x(
-			text->_priv->layout, &newplace, 
+			text->_priv->layout, &newplace,
 			mate_canvas_rich_text_get_cursor_x_position(text));
 		break;
 	case GTK_MOVEMENT_DISPLAY_LINE_ENDS:
@@ -759,7 +765,7 @@ mate_canvas_rich_text_move_cursor(MateCanvasRichText *text,
 			mate_canvas_rich_text_move_iter_by_lines(
 				text, &newplace, ++count);
 		}
-	       
+
 		if (count != 0) {
 			gtk_text_layout_move_iter_to_line_end(
 				text->_priv->layout, &newplace, count);
@@ -842,7 +848,7 @@ mate_canvas_rich_text_delete_from_cursor(MateCanvasRichText *text,
 	/* Special case: If the user wants to delete a character and there is
 	   a selection, then delete the selection and return */
 	if (type == GTK_DELETE_CHARS) {
-		if (gtk_text_buffer_delete_selection(get_buffer(text), TRUE, 
+		if (gtk_text_buffer_delete_selection(get_buffer(text), TRUE,
 						     text->_priv->editable))
 			return;
 	}
@@ -921,9 +927,9 @@ selection_motion_event_handler(MateCanvasRichText *text, GdkEvent *event,
 	if (event->type != GDK_MOTION_NOTIFY)
 		return FALSE;
 
-	newx = (event->motion.x - text->_priv->x) * 
+	newx = (event->motion.x - text->_priv->x) *
 		MATE_CANVAS_ITEM(text)->canvas->pixels_per_unit;
-	newy = (event->motion.y - text->_priv->y) * 
+	newy = (event->motion.y - text->_priv->y) *
 		MATE_CANVAS_ITEM(text)->canvas->pixels_per_unit;
 
 	gtk_text_layout_get_iter_at_pixel(text->_priv->layout, &newplace, newx, newy);
@@ -979,9 +985,9 @@ mate_canvas_rich_text_emit_tag_changed(MateCanvasRichText *text,
 {
 	g_signal_emit(G_OBJECT(text), signals[TAG_CHANGED], 0, tag);
 } /* mate_canvas_rich_text_emit_tag_changed */
-						
+
 static gint
-mate_canvas_rich_text_key_press_event(MateCanvasItem *item, 
+mate_canvas_rich_text_key_press_event(MateCanvasItem *item,
 				       GdkEventKey *event)
 {
 	MateCanvasRichText *text = MATE_CANVAS_RICH_TEXT(item);
@@ -1018,7 +1024,7 @@ mate_canvas_rich_text_key_press_event(MateCanvasItem *item,
 	case GDK_Right:
 		if (event->state & GDK_CONTROL_MASK) {
 			mate_canvas_rich_text_move_cursor(
-				text, GTK_MOVEMENT_WORDS, 1, 
+				text, GTK_MOVEMENT_WORDS, 1,
 				extend_selection);
 			handled = TRUE;
 		}
@@ -1211,12 +1217,12 @@ mate_canvas_rich_text_key_press_event(MateCanvasItem *item,
 	}
 
 	mate_canvas_rich_text_start_cursor_blink(text, TRUE);
-	
+
 	return TRUE;
 } /* mate_canvas_rich_text_key_press_event */
 
 static gint
-mate_canvas_rich_text_key_release_event(MateCanvasItem *item, 
+mate_canvas_rich_text_key_release_event(MateCanvasItem *item,
 					 GdkEventKey *event)
 {
 	return FALSE;
@@ -1244,7 +1250,7 @@ mate_canvas_rich_text_button_press_event(MateCanvasItem *item,
 
 	newx = (event->x - text->_priv->x) * item->canvas->pixels_per_unit;
 	newy = (event->y - text->_priv->y) * item->canvas->pixels_per_unit;
-	
+
 	gtk_text_layout_get_iter_at_pixel(text->_priv->layout, &iter, newx, newy);
 
 	/* The canvas doesn't give us double- or triple-click events, so
@@ -1289,7 +1295,7 @@ mate_canvas_rich_text_button_press_event(MateCanvasItem *item,
 #if 0
 		printf("double-click\n");
 #endif
-		
+
 		mate_canvas_rich_text_end_selection_drag(text, event);
 
 		start = iter;
@@ -1298,7 +1304,7 @@ mate_canvas_rich_text_button_press_event(MateCanvasItem *item,
 		if (gtk_text_iter_inside_word(&start)) {
 			if (!gtk_text_iter_starts_word(&start))
 				gtk_text_iter_backward_word_start(&start);
-			
+
 			if (!gtk_text_iter_ends_word(&end))
 				gtk_text_iter_forward_word_end(&end);
 		}
@@ -1360,7 +1366,7 @@ mate_canvas_rich_text_button_press_event(MateCanvasItem *item,
 			gtk_clipboard_get (GDK_SELECTION_PRIMARY),
 			&iter, text->_priv->editable);
 	}
-		
+
 	return FALSE;
 } /* mate_canvas_rich_text_button_press_event */
 
@@ -1373,7 +1379,7 @@ mate_canvas_rich_text_button_release_event(MateCanvasItem *item,
 
 	newx = (event->x - text->_priv->x) * item->canvas->pixels_per_unit;
 	newy = (event->y - text->_priv->y) * item->canvas->pixels_per_unit;
-	
+
 	if (event->button == 1) {
 		if (text->_priv->drag_start_x >= 0) {
 			text->_priv->drag_start_x = -1;
@@ -1433,7 +1439,7 @@ static gboolean
 get_event_coordinates(GdkEvent *event, gint *x, gint *y)
 {
 	g_return_val_if_fail(event, FALSE);
-	
+
 	switch (event->type) {
 	case GDK_MOTION_NOTIFY:
 		*x = event->motion.x;
@@ -1453,12 +1459,12 @@ get_event_coordinates(GdkEvent *event, gint *x, gint *y)
 } /* get_event_coordinates */
 
 static void
-emit_event_on_tags(MateCanvasRichText *text, GdkEvent *event, 
+emit_event_on_tags(MateCanvasRichText *text, GdkEvent *event,
 		   GtkTextIter *iter)
 {
 	GSList *tags;
 	GSList *i;
-	
+
 	tags = gtk_text_iter_get_tags(iter);
 
 	i = tags;
@@ -1469,7 +1475,7 @@ emit_event_on_tags(MateCanvasRichText *text, GdkEvent *event,
 
 		/* The cursor has been moved to within this tag. Emit the
 		   tag_changed signal */
-		if (event->type == GDK_BUTTON_RELEASE || 
+		if (event->type == GDK_BUTTON_RELEASE ||
 		    event->type == GDK_KEY_PRESS ||
 		    event->type == GDK_KEY_RELEASE) {
 			mate_canvas_rich_text_emit_tag_changed(
@@ -1542,7 +1548,7 @@ mate_canvas_rich_text_event(MateCanvasItem *item, GdkEvent *event)
 /**
  * mate_canvas_rich_text_cut_clipboard:
  * @text: a #MateCanvasRichText.
- * 
+ *
  * Copies the currently selected @text to clipboard, then deletes said text
  * if it's editable.
  **/
@@ -1709,12 +1715,12 @@ scale_fonts(GtkTextTag *tag, gpointer data)
 		return;
 
 	g_object_set(
-		G_OBJECT(tag), "scale", 
+		G_OBJECT(tag), "scale",
 		text->_priv->layout->default_style->font_scale, NULL);
 } /* scale_fonts */
 
 static void
-changed_handler(GtkTextLayout *layout, gint start_y, 
+changed_handler(GtkTextLayout *layout, gint start_y,
 		gint old_height, gint new_height, gpointer data)
 {
 	MateCanvasRichText *text = MATE_CANVAS_RICH_TEXT(data);
@@ -1723,11 +1729,11 @@ changed_handler(GtkTextLayout *layout, gint start_y,
 	printf("Layout %p is being changed.\n", text->_priv->layout);
 #endif
 
-	if (text->_priv->layout->default_style->font_scale != 
+	if (text->_priv->layout->default_style->font_scale !=
 	    MATE_CANVAS_ITEM(text)->canvas->pixels_per_unit) {
 		GtkTextTagTable *tag_table;
 
-		text->_priv->layout->default_style->font_scale = 
+		text->_priv->layout->default_style->font_scale =
 			MATE_CANVAS_ITEM(text)->canvas->pixels_per_unit;
 
 		tag_table = gtk_text_buffer_get_tag_table(get_buffer(text));
@@ -1756,10 +1762,10 @@ changed_handler(GtkTextLayout *layout, gint start_y,
  * @text: a #MateCanvasRichText.
  * @buffer: a #GtkTextBuffer.
  *
- * Sets the buffer field of the @text to @buffer. 
- **/ 
+ * Sets the buffer field of the @text to @buffer.
+ **/
 void
-mate_canvas_rich_text_set_buffer(MateCanvasRichText *text, 
+mate_canvas_rich_text_set_buffer(MateCanvasRichText *text,
 				  GtkTextBuffer *buffer)
 {
 	g_return_if_fail(MATE_IS_CANVAS_RICH_TEXT(text));
@@ -1844,8 +1850,8 @@ mate_canvas_rich_text_get_iter_location (MateCanvasRichText *text,
  * @x: x position, in buffer coordinates.
  * @y: y position, in buffer coordinates.
  *
- * Retrieves the iterator at the buffer coordinates x and y. 
- **/ 
+ * Retrieves the iterator at the buffer coordinates x and y.
+ **/
 void
 mate_canvas_rich_text_get_iter_at_location (MateCanvasRichText *text,
                                     GtkTextIter *iter,
@@ -1870,7 +1876,7 @@ mate_canvas_rich_text_set_attributes_from_style(MateCanvasRichText *text,
 {
 	values->appearance.bg_color = style->base[GTK_STATE_NORMAL];
 	values->appearance.fg_color = style->fg[GTK_STATE_NORMAL];
-	
+
 	if (values->font)
 		pango_font_description_free (values->font);
 
@@ -2074,7 +2080,7 @@ mate_canvas_rich_text_update(MateCanvasItem *item, double *affine,
 
 	mate_canvas_update_bbox(item, x1, y1, x2, y2);
 } /* mate_canvas_rich_text_update */
-			       			  
+
 static double
 mate_canvas_rich_text_point(MateCanvasItem *item, double x, double y,
 			     int cx, int cy, MateCanvasItem **actual_item)
@@ -2145,7 +2151,7 @@ mate_canvas_rich_text_draw(MateCanvasItem *item, GdkDrawable *drawable,
 	y2 = c2.y;
 
 	gtk_text_layout_set_screen_width(text->_priv->layout, x2 - x1);
-      
+
         /* FIXME: should last arg be NULL? */
 	gtk_text_layout_draw(
 		text->_priv->layout,
@@ -2166,7 +2172,7 @@ mate_canvas_rich_text_render(MateCanvasItem *item, MateCanvasBuf *buf)
 #if 0
 static GtkTextTag *
 mate_canvas_rich_text_add_tag(MateCanvasRichText *text, char *tag_name,
-			       int start_offset, int end_offset, 
+			       int start_offset, int end_offset,
 			       const char *first_property_name, ...)
 {
 	GtkTextTag *tag;

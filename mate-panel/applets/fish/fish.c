@@ -257,7 +257,7 @@ command_value_changed (GtkEntry   *entry,
 	text = gtk_entry_get_text (entry);
 
 	if (!text || !text [0]) {
-		mate_panel_applet_mateconf_set_string (MATE_PANEL_APPLET (fish), 
+		mate_panel_applet_mateconf_set_string (MATE_PANEL_APPLET (fish),
 					       "command", "", NULL);
 		return;
 	}
@@ -408,7 +408,7 @@ chooser_preview_update (GtkFileChooser *file_chooser,
 						    have_preview);
 }
 
-static void 
+static void
 display_preferences_dialog (GtkAction  *action,
 			    FishApplet *fish)
 {
@@ -558,7 +558,7 @@ display_preferences_dialog (GtkAction  *action,
 
 	button = GTK_WIDGET (gtk_builder_get_object (builder, "done_button"));
         g_signal_connect_swapped (button, "clicked",
-				  (GCallback) gtk_widget_hide, 
+				  (GCallback) gtk_widget_hide,
 				  fish->preferences_dialog);
 
 	gtk_window_set_screen (GTK_WINDOW (fish->preferences_dialog),
@@ -609,7 +609,7 @@ display_about_dialog (GtkAction  *action,
 	authors [2] = NULL;
 
 	descr = g_strdup_printf (about_format, fish->name);
-		
+
 	fish->about_dialog = gtk_about_dialog_new ();
 	g_object_set (fish->about_dialog,
 		      "program-name", _("Fish"),
@@ -658,7 +658,7 @@ set_ally_name_desc (GtkWidget  *widget,
 
 	name = g_strdup_printf (name_format, fish->name);
 	atk_object_set_name (obj, name);
-	g_free (name);       
+	g_free (name);
 
 	desc = g_strdup_printf (desc_format, fish->name);
 	atk_object_set_description (obj, desc);
@@ -753,7 +753,7 @@ handle_fortune_response (GtkWidget  *widget,
 }
 
 static void
-update_fortune_dialog (FishApplet *fish) 
+update_fortune_dialog (FishApplet *fish)
 {
 	char *label_text;
 	char *text;
@@ -872,7 +872,7 @@ fish_read_output (GIOChannel   *source,
 	return (status != G_IO_STATUS_EOF);
 }
 
-static void 
+static void
 display_fortune_dialog (FishApplet *fish)
 {
 	GError      *error = NULL;
@@ -898,8 +898,8 @@ display_fortune_dialog (FishApplet *fish)
 		GdkScreen *screen;
 		int        screen_width;
 		int        screen_height;
-      
-		fish->fortune_dialog = 
+
+		fish->fortune_dialog =
 			gtk_dialog_new_with_buttons (
 				"", NULL, 0,
 				_("_Speak again"), FISH_RESPONSE_SPEAK,
@@ -974,7 +974,7 @@ display_fortune_dialog (FishApplet *fish)
 		update_fortune_dialog (fish);
 
 		/* We don't show_all for the dialog since fortune_cmd_label
-		 * might need to be hidden 
+		 * might need to be hidden
 		 * The dialog will be shown with gtk_window_present later */
 		gtk_widget_show (scrolled);
 		gtk_widget_show (fish->fortune_view);
@@ -1122,7 +1122,7 @@ command_changed_notify (MateConfClient *client,
 
 	if (!entry->value || entry->value->type != MATECONF_VALUE_STRING)
 		return;
-	
+
 	value = mateconf_value_get_string (entry->value);
 
 	if (fish->command && !strcmp (fish->command, value))
@@ -1172,7 +1172,7 @@ get_location (void)
 	char        *buffer;
 	FILE        *zone;
 	int          i, len, count;
-	
+
 	/* Old method : works for glibc < 2.2 */
 	zone = fopen("/etc/timezone", "r");
 	if (zone) {
@@ -1181,7 +1181,7 @@ get_location (void)
 		/* if we could read it, we return what we got */
 		if (count == 1)
 			return location;
-	} 
+	}
 
 	/* New method : works for glibc 2.2 */
 	/* FIXME: this is broken for many distros, see the clock code */
@@ -1205,7 +1205,7 @@ get_location (void)
 	return location;
 }
 
-static void 
+static void
 init_fools_day (void)
 {
 	const char *spanish_timezones [] = {
@@ -1220,7 +1220,7 @@ init_fools_day (void)
 	};
 	char *location;
 	int  i;
-	
+
 	if (!(location = get_location ()))
 		return;
 
@@ -1228,7 +1228,7 @@ init_fools_day (void)
 	fools_month      = 3;  /* April */
 	fools_hour_start = 0;  /* Midnight */
 	fools_hour_end   = 12; /* Apparently jokes should stop at midday */
-	
+
 	for (i = 0; spanish_timezones [i]; i++)
 		if (!g_ascii_strcasecmp (spanish_timezones [i], location)) {
 			/* Hah!, We are in Spain or Mexico
@@ -1249,7 +1249,7 @@ check_april_fools (FishApplet *fish)
 	time (&now);
 	tm = localtime (&now);
 
-	if (fish->april_fools && 
+	if (fish->april_fools &&
 	    (tm->tm_mon  != fools_month ||
 	     tm->tm_mday != fools_day   ||
 	     tm->tm_hour >= fools_hour_end)) {
@@ -1587,7 +1587,13 @@ fish_applet_expose_event (GtkWidget      *widget,
 	style = gtk_widget_get_style (widget);
 	state = gtk_widget_get_state (widget);
 
-	gdk_drawable_get_size (fish->pixmap, &width, &height);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		width = gdk_window_get_width(fish->pixmap);
+		height = gdk_window_get_height(fish->pixmap);
+	#else
+		gdk_drawable_get_size(fish->pixmap, &width, &height);
+	#endif
+
 
 	src_x = event->area.x;
 	src_y = event->area.y;
@@ -1751,12 +1757,12 @@ fish_leave_notify (GtkWidget        *widget,
   return FALSE;
 }
 
-static gboolean 
+static gboolean
 handle_button_release (FishApplet     *fish,
 		       GdkEventButton *event)
 {
 	if (!fish->in_applet || event->button != 1)
-		return FALSE; 
+		return FALSE;
 
 	if (fish->april_fools) {
 		change_water (fish);
@@ -1765,7 +1771,7 @@ handle_button_release (FishApplet     *fish,
 
 	display_fortune_dialog (fish);
 
-	return TRUE; 
+	return TRUE;
 }
 
 static void
@@ -1802,7 +1808,7 @@ setup_fish_widget (FishApplet *fish)
 	g_signal_connect (fish->drawing_area, "expose-event",
 			  G_CALLBACK (fish_applet_expose_event), fish);
 
-	gtk_widget_add_events (widget, GDK_ENTER_NOTIFY_MASK | 
+	gtk_widget_add_events (widget, GDK_ENTER_NOTIFY_MASK |
 				       GDK_LEAVE_NOTIFY_MASK |
 				       GDK_BUTTON_RELEASE_MASK);
 

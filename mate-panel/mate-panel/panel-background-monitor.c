@@ -85,7 +85,7 @@ panel_background_monitor_finalize (GObject *object)
 
 	gdk_window_remove_filter (
 		monitor->gdkwindow, panel_background_monitor_xevent_filter, monitor);
-	g_signal_handlers_disconnect_by_func (monitor->screen, 
+	g_signal_handlers_disconnect_by_func (monitor->screen,
 		panel_background_monitor_changed, monitor);
 
 	if (monitor->gdkpixmap)
@@ -104,7 +104,7 @@ panel_background_monitor_class_init (PanelBackgroundMonitorClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	signals [CHANGED] = 
+	signals [CHANGED] =
 		g_signal_new ("changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -144,7 +144,7 @@ panel_background_monitor_connect_to_screen (PanelBackgroundMonitor *monitor,
 	}
 
 	monitor->screen = screen;
-	g_signal_connect_swapped (screen, "size-changed", 
+	g_signal_connect_swapped (screen, "size-changed",
 	    G_CALLBACK (panel_background_monitor_changed), monitor);
 
 	monitor->gdkwindow = gdk_screen_get_root_window (screen);
@@ -154,7 +154,7 @@ panel_background_monitor_connect_to_screen (PanelBackgroundMonitor *monitor,
 		monitor->gdkwindow, panel_background_monitor_xevent_filter, monitor);
 
 	gdk_window_set_events (
-		monitor->gdkwindow, 
+		monitor->gdkwindow,
 		gdk_window_get_events (monitor->gdkwindow) | GDK_PROPERTY_CHANGE_MASK);
 }
 
@@ -244,7 +244,7 @@ panel_background_monitor_setup_pixmap (PanelBackgroundMonitor *monitor)
 
 	if (!gdk_property_get (
 		monitor->gdkwindow, monitor->gdkatom,
-		gdk_x11_xatom_to_atom (XA_PIXMAP), 0, 10, 
+		gdk_x11_xatom_to_atom (XA_PIXMAP), 0, 10,
 		FALSE, &prop_type, NULL, NULL, (gpointer) &prop_data))
 		return;
 
@@ -330,7 +330,7 @@ panel_background_monitor_tile_background (PanelBackgroundMonitor *monitor,
 	return retval;
 }
 
-static void 
+static void
 panel_background_monitor_setup_pixbuf (PanelBackgroundMonitor *monitor)
 {
 	GdkColormap *colormap = NULL;
@@ -352,8 +352,12 @@ panel_background_monitor_setup_pixbuf (PanelBackgroundMonitor *monitor)
 		return;
 	}
 
-	gdk_drawable_get_size (
-		GDK_DRAWABLE (monitor->gdkpixmap), &pwidth, &pheight);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		pwidth = gdk_window_get_width(monitor->gdkpixmap);
+		pheight = gdk_window_get_height(monitor->gdkpixmap);
+	#else
+		gdk_drawable_get_size(GDK_DRAWABLE(monitor->gdkpixmap), &pwidth, &pheight);
+	#endif
 
 	gdk_window_get_geometry (monitor->gdkwindow,
 				 NULL, NULL, &rwidth, &rheight, NULL);
@@ -366,7 +370,7 @@ panel_background_monitor_setup_pixbuf (PanelBackgroundMonitor *monitor)
 	g_assert (monitor->gdkpixbuf == NULL);
 	monitor->gdkpixbuf = gdk_pixbuf_get_from_drawable (
 					NULL, monitor->gdkpixmap, colormap,
-					0, 0, 0, 0, 
+					0, 0, 0, 0,
 					monitor->width, monitor->height);
 
 	gdk_x11_display_ungrab (display);

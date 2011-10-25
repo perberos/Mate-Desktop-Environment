@@ -2,10 +2,10 @@
 
 /* Marco interface for talking to GTK+ UI module */
 
-/* 
+/*
  * Copyright (C) 2002 Havoc Pennington
  * stock icon code Copyright (C) 2002 Jorn Baayen <jorn@nl.linux.org>
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -15,7 +15,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -245,7 +245,7 @@ meta_ui_remove_event_func (Display       *xdisplay,
                            gpointer       data)
 {
   g_return_if_fail (ef != NULL);
-  
+
   gdk_window_remove_filter (NULL, filter_func, ef);
 
   g_free (ef);
@@ -316,7 +316,7 @@ meta_ui_create_frame_window (MetaUI *ui,
   GdkWindow *window;
   GdkVisual *visual;
   GdkColormap *cmap = gdk_screen_get_default_colormap (screen);
-  
+
   /* Default depth/visual handles clients with weird visuals; they can
    * always be children of the root depth/visual obviously, but
    * e.g. DRI games can't be children of a parent that has the same
@@ -361,7 +361,7 @@ meta_ui_create_frame_window (MetaUI *ui,
 		    &attrs, attributes_mask);
 
   gdk_window_resize (window, width, height);
-  
+
   meta_frames_manage_window (ui->frames, GDK_WINDOW_XID (window), window);
 
   return GDK_WINDOW_XID (window);
@@ -510,24 +510,24 @@ meta_image_window_new (Display *xdisplay,
   MetaImageWindow *iw;
   GdkDisplay *gdisplay;
   GdkScreen *gscreen;
-    
+
   iw = g_new (MetaImageWindow, 1);
   iw->window = gtk_window_new (GTK_WINDOW_POPUP);
-    
+
   gdisplay = gdk_x11_lookup_xdisplay (xdisplay);
   gscreen = gdk_display_get_screen (gdisplay, screen_number);
-  
+
   gtk_window_set_screen (GTK_WINDOW (iw->window), gscreen);
- 
+
   gtk_widget_realize (iw->window);
   iw->pixmap = gdk_pixmap_new (iw->window->window,
                                max_width, max_height,
                                -1);
-  
+
   gtk_widget_set_size_request (iw->window, 1, 1);
   gtk_widget_set_double_buffered (iw->window, FALSE);
   gtk_widget_set_app_paintable (iw->window, TRUE);
-  
+
   return iw;
 }
 
@@ -582,7 +582,7 @@ meta_image_window_set (MetaImageWindow *iw,
   gdk_window_set_back_pixmap (iw->window->window,
                               iw->pixmap,
                               FALSE);
-  
+
   gdk_window_move_resize (iw->window->window,
                           x, y,
                           gdk_pixbuf_get_width (pixbuf),
@@ -624,7 +624,7 @@ get_cmap (GdkPixmap *pixmap)
       cmap = NULL;
       meta_verbose ("Switching back to NULL cmap because of depth mismatch\n");
     }
-  
+
   return cmap;
 }
 
@@ -641,9 +641,9 @@ meta_gdk_pixbuf_get_from_window (GdkPixbuf   *dest,
   GdkDrawable *drawable;
   GdkPixbuf *retval;
   GdkColormap *cmap;
-  
+
   retval = NULL;
-  
+
   drawable = gdk_xid_table_lookup (xwindow);
 
   if (drawable)
@@ -652,7 +652,7 @@ meta_gdk_pixbuf_get_from_window (GdkPixbuf   *dest,
     drawable = gdk_window_foreign_new (xwindow);
 
   cmap = get_cmap (drawable);
-  
+
   retval = gdk_pixbuf_get_from_drawable (dest,
                                          drawable,
                                          cmap,
@@ -680,10 +680,10 @@ meta_gdk_pixbuf_get_from_pixmap (GdkPixbuf   *dest,
   GdkDrawable *drawable;
   GdkPixbuf *retval;
   GdkColormap *cmap;
-  
+
   retval = NULL;
   cmap = NULL;
-  
+
   drawable = gdk_xid_table_lookup (xpixmap);
 
   if (drawable)
@@ -694,7 +694,7 @@ meta_gdk_pixbuf_get_from_pixmap (GdkPixbuf   *dest,
   if (drawable)
     {
       cmap = get_cmap (drawable);
-  
+
       retval = gdk_pixbuf_get_from_drawable (dest,
                                              drawable,
                                              cmap,
@@ -753,7 +753,7 @@ meta_ui_get_default_window_icon (MetaUI *ui)
     }
 
   g_object_ref (G_OBJECT (default_icon));
-  
+
   return default_icon;
 }
 
@@ -788,7 +788,7 @@ meta_ui_get_default_mini_icon (MetaUI *ui)
     }
 
   g_object_ref (G_OBJECT (default_icon));
-  
+
   return default_icon;
 }
 
@@ -816,7 +816,7 @@ meta_text_property_to_utf8 (Display             *xdisplay,
   char **list;
   int count;
   char *retval;
-  
+
   list = NULL;
 
   count = gdk_text_property_to_utf8_list (gdk_x11_xatom_to_atom (prop->encoding),
@@ -832,7 +832,7 @@ meta_text_property_to_utf8 (Display             *xdisplay,
       retval = list[0];
       list[0] = g_strdup (""); /* something to free */
     }
-  
+
   g_strfreev (list);
 
   return retval;
@@ -915,24 +915,24 @@ meta_ui_parse_accelerator (const char          *accel,
   GdkModifierType gdk_mask = 0;
   guint gdk_sym = 0;
   guint gdk_code = 0;
-  
+
   *keysym = 0;
   *keycode = 0;
   *mask = 0;
 
   if (strcmp (accel, "disabled") == 0)
     return TRUE;
-  
+
   meta_ui_accelerator_parse (accel, &gdk_sym, &gdk_code, &gdk_mask);
   if (gdk_mask == 0 && gdk_sym == 0 && gdk_code == 0)
     return FALSE;
 
   if (gdk_sym == None && gdk_code == 0)
     return FALSE;
-  
+
   if (gdk_mask & GDK_RELEASE_MASK) /* we don't allow this */
     return FALSE;
-  
+
   *keysym = gdk_sym;
   *keycode = gdk_code;
 
@@ -956,7 +956,7 @@ meta_ui_parse_accelerator (const char          *accel,
     *mask |= META_VIRTUAL_HYPER_MASK;
   if (gdk_mask & GDK_META_MASK)
     *mask |= META_VIRTUAL_META_MASK;
-  
+
   return TRUE;
 }
 
@@ -966,7 +966,7 @@ meta_ui_accelerator_name  (unsigned int        keysym,
                            MetaVirtualModifier mask)
 {
   GdkModifierType mods = 0;
-        
+
   if (keysym == 0 && mask == 0)
     {
       return g_strdup ("disabled");
@@ -1004,19 +1004,19 @@ meta_ui_parse_modifier (const char          *accel,
   GdkModifierType gdk_mask = 0;
   guint gdk_sym = 0;
   guint gdk_code = 0;
-  
+
   *mask = 0;
 
   if (accel == NULL || strcmp (accel, "disabled") == 0)
     return TRUE;
-  
+
   meta_ui_accelerator_parse (accel, &gdk_sym, &gdk_code, &gdk_mask);
   if (gdk_mask == 0 && gdk_sym == 0 && gdk_code == 0)
     return FALSE;
 
   if (gdk_sym != None || gdk_code != 0)
     return FALSE;
-  
+
   if (gdk_mask & GDK_RELEASE_MASK) /* we don't allow this */
     return FALSE;
 
@@ -1040,7 +1040,7 @@ meta_ui_parse_modifier (const char          *accel,
     *mask |= META_VIRTUAL_HYPER_MASK;
   if (gdk_mask & GDK_META_MASK)
     *mask |= META_VIRTUAL_META_MASK;
-  
+
   return TRUE;
 }
 
@@ -1097,7 +1097,7 @@ meta_stock_icons_init (void)
       icon_set = gtk_icon_set_new_from_pixbuf (pixbuf);
       gtk_icon_factory_add (factory, items[i].stock_id, icon_set);
       gtk_icon_set_unref (icon_set);
-      
+
       g_object_unref (G_OBJECT (pixbuf));
     }
 
@@ -1139,14 +1139,19 @@ meta_ui_get_pixbuf_from_pixmap (Pixmap   pmap)
   gpmap = gdk_pixmap_foreign_new (pmap);
   screen = gdk_drawable_get_screen (gpmap);
 
-  gdk_drawable_get_size (GDK_DRAWABLE (gpmap), &width, &height);
-  
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		width = gdk_window_get_width(GDK_WINDOW(gpmap));
+		height = gdk_window_get_height(GDK_WINDOW(gpmap));
+	#else
+		gdk_drawable_get_size(GDK_DRAWABLE(gpmap), &width, &height);
+	#endif
+
   depth = gdk_drawable_get_depth (GDK_DRAWABLE (gpmap));
   if (depth <= 24)
     cmap = gdk_screen_get_system_colormap (screen);
   else
     cmap = gdk_screen_get_rgba_colormap (screen);
-  
+
   pixbuf = gdk_pixbuf_get_from_drawable (NULL, gpmap, cmap, 0, 0, 0, 0,
                                          width, height);
 

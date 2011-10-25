@@ -366,9 +366,14 @@ pixbuf_get_from_pixmap (Pixmap xpixmap)
         drawable = gdk_pixmap_foreign_new (xpixmap);
         if (GDK_IS_PIXMAP (drawable)) {
                 cmap = get_cmap (drawable);
-                gdk_drawable_get_size (drawable,
-                                       &width,
-                                       &height);
+
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			width = gdk_window_get_width(drawable);
+			height = gdk_window_get_height(drawable);
+		#else
+			gdk_drawable_get_size(drawable, &width, &height);
+		#endif
+
                 g_debug ("GsmInhibitDialog: getting pixbuf w=%d h=%d", width, height);
 
                 retval = gdk_pixbuf_get_from_drawable (NULL,

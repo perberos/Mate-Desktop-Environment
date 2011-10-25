@@ -146,27 +146,35 @@ typedef struct {
 
 
 struct _MateCanvasItem {
-	GtkObject object;
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		GtkWidget object;
+	#else
+		GtkObject object;
+	#endif
 
 	/* Parent canvas for this item */
-	MateCanvas *canvas;
+	MateCanvas* canvas;
 
 	/* Parent canvas group for this item (a MateCanvasGroup) */
-	MateCanvasItem *parent;
+	MateCanvasItem* parent;
 
 	/* If NULL, assumed to be the identity tranform.  If flags does not have
 	 * AFFINE_FULL, then a two-element array containing a translation.  If
 	 * flags contains AFFINE_FULL, a six-element array containing an affine
 	 * transformation.
 	 */
-	double *xform;
+	double* xform;
 
 	/* Bounding box for this item (in canvas coordinates) */
 	double x1, y1, x2, y2;
 };
 
 struct _MateCanvasItemClass {
-	GtkObjectClass parent_class;
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		GtkWidgetClass parent_class;
+	#else
+		GtkObjectClass parent_class;
+	#endif
 
 	/* Tell the item to update itself.  The flags are from the update flags
 	 * defined above.  The item should update its internal state from its

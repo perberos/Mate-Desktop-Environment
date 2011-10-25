@@ -42,7 +42,7 @@ typedef struct GsdLocatePointerData GsdLocatePointerData;
 struct GsdLocatePointerData
 {
   GsdTimeline *timeline;
-  GtkWidget *widget; 
+  GtkWidget *widget;
   GdkWindow *window;
 
   gdouble progress;
@@ -61,7 +61,14 @@ locate_pointer_paint (GsdLocatePointerData *data,
   GtkStyle *style;
 
   progress = data->progress;
-  gdk_drawable_get_size (data->window, &width, &height);
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		width = gdk_window_get_width(GDK_WINDOW(data->window));
+		height = gdk_window_get_height(GDK_WINDOW(data->window));
+	#else
+		gdk_drawable_get_size(data->window, &width, &height);
+	#endif
+
   style = gtk_widget_get_style (data->widget);
   color = style->bg[GTK_STATE_SELECTED];
 
