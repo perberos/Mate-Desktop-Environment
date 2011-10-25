@@ -30,6 +30,7 @@
 #include "panel-action-protocol.h"
 #include "panel-lockdown.h"
 #include "panel-icon-names.h"
+#include "panel-reset.h"
 #include "xstuff.h"
 
 #include "nothing.cP"
@@ -38,13 +39,16 @@
 GSList *panels = NULL;
 GSList *panel_list = NULL;
 
-static char     *deprecated_profile;
-static gboolean  replace = FALSE;
+static char*    deprecated_profile;
+static gboolean replace = FALSE;
+static gboolean reset = FALSE;
 
 static const GOptionEntry options[] = {
   { "replace", 0, 0, G_OPTION_ARG_NONE, &replace, N_("Replace a currently running panel"), NULL },
   /* keep this for compatibilty with old MATE < 2.10 */
   { "profile", 0, G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &deprecated_profile, NULL, NULL },
+  /* this feature was request in #mate irc channel */
+  { "reset", 0, 0, G_OPTION_ARG_NONE, &reset, N_("Reset the panel configuration to default"), NULL },
   { NULL }
 };
 
@@ -88,6 +92,14 @@ main (int argc, char **argv)
 	}
 
 	g_option_context_free (context);
+
+	/* reset the configuration and exit. */
+	if (reset == TRUE)
+	{
+		panel_reset();
+		return 0;
+	}
+
 
 	if (!egg_get_desktop_file ()) {
 		g_set_application_name (_("Panel"));

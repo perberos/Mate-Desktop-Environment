@@ -1,4 +1,4 @@
-AC_INIT([mate-panel], [2011.09.24],
+AC_INIT([mate-panel], [2011.10.25],
         [http://bugzilla.mate.org/enter_bug.cgi?product=mate-panel])
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-bzip2 tar-ustar -Wno-portability])

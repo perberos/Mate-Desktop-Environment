@@ -112,7 +112,8 @@ am__objects_1 = mate_panel-panel-typebuiltins.$(OBJEXT) \
 	mate_panel-panel-addto.$(OBJEXT) \
 	mate_panel-panel-ditem-editor.$(OBJEXT) \
 	mate_panel-panel-modules.$(OBJEXT) \
-	mate_panel-mate-panel-applet-info.$(OBJEXT)
+	mate_panel-mate-panel-applet-info.$(OBJEXT) \
+	mate_panel-panel-reset.$(OBJEXT)
 am__objects_2 =
 am_mate_panel_OBJECTS = $(am__objects_1) $(am__objects_2)
 mate_panel_OBJECTS = $(am_mate_panel_OBJECTS)
@@ -514,7 +515,8 @@ panel_sources = \
 	panel-addto.c		\
 	panel-ditem-editor.c	\
 	panel-modules.c		\
-	mate-panel-applet-info.c
+	mate-panel-applet-info.c \
+	panel-reset.c
 
 panel_headers = \
 	panel-types.h		\
@@ -563,7 +565,8 @@ panel_headers = \
 	panel-ditem-editor.h	\
 	panel-icon-names.h	\
 	panel-modules.h		\
-	mate-panel-applet-info.h
+	mate-panel-applet-info.h \
+	panel-reset.h
 
 mate_panel_SOURCES = \
 	$(panel_sources)		\
@@ -743,13 +746,13 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-mate-desktop-item-edit$(EXEEXT): $(mate_desktop_item_edit_OBJECTS) $(mate_desktop_item_edit_DEPENDENCIES)
+mate-desktop-item-edit$(EXEEXT): $(mate_desktop_item_edit_OBJECTS) $(mate_desktop_item_edit_DEPENDENCIES) 
 	@rm -f mate-desktop-item-edit$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(mate_desktop_item_edit_OBJECTS) $(mate_desktop_item_edit_LDADD) $(LIBS)
-mate-panel$(EXEEXT): $(mate_panel_OBJECTS) $(mate_panel_DEPENDENCIES)
+mate-panel$(EXEEXT): $(mate_panel_OBJECTS) $(mate_panel_DEPENDENCIES) 
 	@rm -f mate-panel$(EXEEXT)
 	$(AM_V_CCLD)$(mate_panel_LINK) $(mate_panel_OBJECTS) $(mate_panel_LDADD) $(LIBS)
-mate-panel-test-applets$(EXEEXT): $(mate_panel_test_applets_OBJECTS) $(mate_panel_test_applets_DEPENDENCIES)
+mate-panel-test-applets$(EXEEXT): $(mate_panel_test_applets_OBJECTS) $(mate_panel_test_applets_DEPENDENCIES) 
 	@rm -f mate-panel-test-applets$(EXEEXT)
 	$(AM_V_CCLD)$(mate_panel_test_applets_LINK) $(mate_panel_test_applets_OBJECTS) $(mate_panel_test_applets_LDADD) $(LIBS)
 install-libexecSCRIPTS: $(libexec_SCRIPTS)
@@ -827,6 +830,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-profile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-properties-dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-recent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-reset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-run-dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-separator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate_panel-panel-session.Po@am__quote@
@@ -1609,6 +1613,22 @@ mate_panel-mate-panel-applet-info.obj: mate-panel-applet-info.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mate-panel-applet-info.c' object='mate_panel-mate-panel-applet-info.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel-mate-panel-applet-info.obj `if test -f 'mate-panel-applet-info.c'; then $(CYGPATH_W) 'mate-panel-applet-info.c'; else $(CYGPATH_W) '$(srcdir)/mate-panel-applet-info.c'; fi`
+
+mate_panel-panel-reset.o: panel-reset.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel-panel-reset.o -MD -MP -MF $(DEPDIR)/mate_panel-panel-reset.Tpo -c -o mate_panel-panel-reset.o `test -f 'panel-reset.c' || echo '$(srcdir)/'`panel-reset.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel-panel-reset.Tpo $(DEPDIR)/mate_panel-panel-reset.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-reset.c' object='mate_panel-panel-reset.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel-panel-reset.o `test -f 'panel-reset.c' || echo '$(srcdir)/'`panel-reset.c
+
+mate_panel-panel-reset.obj: panel-reset.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel-panel-reset.obj -MD -MP -MF $(DEPDIR)/mate_panel-panel-reset.Tpo -c -o mate_panel-panel-reset.obj `if test -f 'panel-reset.c'; then $(CYGPATH_W) 'panel-reset.c'; else $(CYGPATH_W) '$(srcdir)/panel-reset.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/mate_panel-panel-reset.Tpo $(DEPDIR)/mate_panel-panel-reset.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='panel-reset.c' object='mate_panel-panel-reset.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mate_panel-panel-reset.obj `if test -f 'panel-reset.c'; then $(CYGPATH_W) 'panel-reset.c'; else $(CYGPATH_W) '$(srcdir)/panel-reset.c'; fi`
 
 mate_panel_test_applets-panel-modules.o: panel-modules.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mate_panel_test_applets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mate_panel_test_applets-panel-modules.o -MD -MP -MF $(DEPDIR)/mate_panel_test_applets-panel-modules.Tpo -c -o mate_panel_test_applets-panel-modules.o `test -f 'panel-modules.c' || echo '$(srcdir)/'`panel-modules.c
