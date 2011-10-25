@@ -181,7 +181,7 @@ gint main(gint argc, gchar** argv)
 			mate_about_application = gtk_application_new("org.mate.about", 0);
 			g_signal_connect(mate_about_application, "activate", G_CALLBACK(mate_about_on_activate), NULL);
 
-			status = g_application_run(mate_about_application);
+			status = g_application_run(G_APPLICATION(mate_about_application), argc, argv);
 
 			g_object_unref(mate_about_application);
 
