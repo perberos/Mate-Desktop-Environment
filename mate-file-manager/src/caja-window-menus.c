@@ -545,7 +545,8 @@ action_about_caja_callback (GtkAction *action,
 				 */
 			      "translator-credits", _("translator-credits"),
 			      "logo-icon-name", "caja",
-			      "website", "http://live.mate.org/Caja",
+			      "website", "https://github.com/Perberos/Mate-Desktop-Environment/"
+				  "wiki/Mate-file-manager",
 			      "website-label", _("Caja Web Site"),
 			      NULL);
 
