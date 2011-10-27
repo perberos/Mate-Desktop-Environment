@@ -573,7 +573,7 @@ action_caja_manual_callback (GtkAction *action,
 	window = CAJA_WINDOW (user_data);
 
 	if (CAJA_IS_DESKTOP_WINDOW (window)) {
-	    	g_spawn_command_line_async("mate-help", &error);
+		g_spawn_command_line_async("mate-help", &error);
 	} else {
 		gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (window)),
 			      "ghelp:user-guide#goscaja-1",
