@@ -1,8 +1,9 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
  * Copyright (C) 2006 Christian Hammond <chipx86@chipx86.com>
  * Copyright (C) 2005 John (J5) Palmieri <johnp@redhat.com>
  * Copyright (C) 2010 Red Hat, Inc.
+ * Copyright (C) 2011 Perberos <perberos@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+
 #ifndef NOTIFY_DAEMON_H
 #define NOTIFY_DAEMON_H
 
@@ -49,71 +51,53 @@
 
 #define NOTIFY_DAEMON_DEFAULT_TIMEOUT 7000
 
-enum
-{
-        URGENCY_LOW,
-        URGENCY_NORMAL,
-        URGENCY_CRITICAL
+enum {
+	URGENCY_LOW,
+	URGENCY_NORMAL,
+	URGENCY_CRITICAL
 };
 
-typedef enum
-{
-        NOTIFYD_CLOSED_EXPIRED = 1,
-        NOTIFYD_CLOSED_USER = 2,
-        NOTIFYD_CLOSED_API = 3,
-        NOTIFYD_CLOSED_RESERVED = 4
+typedef enum {
+	NOTIFYD_CLOSED_EXPIRED = 1,
+	NOTIFYD_CLOSED_USER = 2,
+	NOTIFYD_CLOSED_API = 3,
+	NOTIFYD_CLOSED_RESERVED = 4
 } NotifydClosedReason;
 
 typedef struct _NotifyDaemon NotifyDaemon;
 typedef struct _NotifyDaemonClass NotifyDaemonClass;
 typedef struct _NotifyDaemonPrivate NotifyDaemonPrivate;
 
-struct _NotifyDaemon
-{
-        GObject         parent;
+struct _NotifyDaemon {
+	GObject parent;
 
-        /*< private > */
-        NotifyDaemonPrivate *priv;
+	/*< private > */
+	NotifyDaemonPrivate* priv;
 };
 
-struct _NotifyDaemonClass
-{
-        GObjectClass    parent_class;
+struct _NotifyDaemonClass {
+	GObjectClass parent_class;
 };
 
 #ifdef __cplusplus
 extern "C" {
-#endif GType notify_daemon_get_type (void);
+#endif /* __cplusplus */
 
-GQuark          notify_daemon_error_quark (void);
+GType notify_daemon_get_type(void);
 
-gboolean        notify_daemon_notify_handler             (NotifyDaemon *daemon,
-                                                          const gchar  *app_name,
-                                                          guint         id,
-                                                          const gchar  *icon,
-                                                          const gchar  *summary,
-                                                          const gchar  *body,
-                                                          gchar       **actions,
-                                                          GHashTable   *hints,
-                                                          int           timeout,
-                                                          DBusGMethodInvocation *context);
+GQuark notify_daemon_error_quark(void);
 
-gboolean        notify_daemon_close_notification_handler (NotifyDaemon *daemon,
-                                                          guint         id,
-                                                          GError      **error);
+gboolean notify_daemon_notify_handler(NotifyDaemon* daemon, const gchar* app_name, guint id, const gchar* icon, const gchar* summary, const gchar* body, gchar** actions, GHashTable* hints, int timeout, DBusGMethodInvocation* context);
 
-gboolean        notify_daemon_get_capabilities           (NotifyDaemon *daemon,
-                                                          char       ***out_caps);
+gboolean notify_daemon_close_notification_handler(NotifyDaemon* daemon, guint id, GError** error);
 
-gboolean        notify_daemon_get_server_information     (NotifyDaemon *daemon,
-                                                          char        **out_name,
-                                                          char        **out_vendor,
-                                                          char        **out_version,
-                                                          char        **out_spec_ver);
+gboolean notify_daemon_get_capabilities(NotifyDaemon* daemon, char*** out_caps);
 
-MateConfClient    *get_mateconf_client (void);
+gboolean notify_daemon_get_server_information(NotifyDaemon* daemon, char** out_name, char** out_vendor, char** out_version, char** out_spec_ver);
+
+MateConfClient* get_mateconf_client(void);
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 #endif /* NOTIFY_DAEMON_H */

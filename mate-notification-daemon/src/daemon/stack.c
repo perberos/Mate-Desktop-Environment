@@ -1,7 +1,8 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
  * Copyright (C) 2006 Christian Hammond <chipx86@chipx86.com>
  * Copyright (C) 2010 Red Hat, Inc.
+ * Copyright (C) 2011 Perberos <perberos@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,20 +33,18 @@
 #define NOTIFY_STACK_SPACING 2
 #define WORKAREA_PADDING 6
 
-struct _NotifyStack
-{
-        NotifyDaemon       *daemon;
-        GdkScreen          *screen;
-        guint               monitor;
-        NotifyStackLocation location;
-        GList              *windows;
-        guint               update_id;
+struct _NotifyStack {
+	NotifyDaemon* daemon;
+	GdkScreen* screen;
+	guint monitor;
+	NotifyStackLocation location;
+	GList* windows;
+	guint update_id;
 };
 
-GList *
-notify_stack_get_windows (NotifyStack *stack)
+GList* notify_stack_get_windows(NotifyStack *stack)
 {
-        return stack->windows;
+	return stack->windows;
 }
 
 static gboolean
@@ -82,11 +81,11 @@ get_work_area (NotifyStack  *stack,
         if (workarea == None)
                 return FALSE;
 
-        
+
 	#if GTK_CHECK_VERSION(3, 0, 0)
-	
+
 		win = XRootWindow(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()), disp_screen);
-		
+
 		result = XGetWindowProperty(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()),
 									win,
 									workarea,
@@ -100,9 +99,9 @@ get_work_area (NotifyStack  *stack,
 									&leftovers,
 									&ret_workarea);
 	#else
-		
+
 		win = XRootWindow(GDK_DISPLAY(), disp_screen);
-		
+
 		result = XGetWindowProperty(GDK_DISPLAY(),
 									win,
 									workarea,
@@ -116,7 +115,7 @@ get_work_area (NotifyStack  *stack,
 									&leftovers,
 									&ret_workarea);
 	#endif
-	
+
         if (result != Success
             || type == None
             || format == 0
@@ -349,86 +348,62 @@ notify_stack_shift_notifications (NotifyStack *stack,
         g_free (positions);
 }
 
-static void
-update_position (NotifyStack *stack)
+static void update_position(NotifyStack* stack)
 {
-        notify_stack_shift_notifications (stack,
-                                          NULL, /* window */
-                                          NULL, /* list pointer */
-                                          0, /* init width */
-                                          0, /* init height */
-                                          NULL, /* out window x */
-                                          NULL); /* out window y */
+	/* notify_stack_shift_notifications(stack, window, list pointer, init width, init height, out window x, out window y) */
+	notify_stack_shift_notifications (stack, NULL, NULL, 0, 0, NULL, NULL);
 }
 
-static gboolean
-update_position_idle (NotifyStack *stack)
+static gboolean update_position_idle(NotifyStack* stack)
 {
-        update_position (stack);
+	update_position(stack);
 
-        stack->update_id = 0;
-        return FALSE;
+	stack->update_id = 0;
+	return FALSE;
 }
 
-void
-notify_stack_queue_update_position (NotifyStack *stack)
+void notify_stack_queue_update_position(NotifyStack* stack)
 {
-        if (stack->update_id != 0) {
-                return;
-        }
+	if (stack->update_id != 0)
+	{
+		return;
+	}
 
-        stack->update_id = g_idle_add ((GSourceFunc) update_position_idle, stack);
+	stack->update_id = g_idle_add((GSourceFunc) update_position_idle, stack);
 }
 
-void
-notify_stack_add_window (NotifyStack *stack,
-                         GtkWindow   *nw,
-                         gboolean     new_notification)
+void notify_stack_add_window(NotifyStack* stack, GtkWindow* nw, gboolean new_notification)
 {
-        GtkRequisition  req;
-        gint            x, y;
+	GtkRequisition  req;
+	gint            x, y;
 
-        gtk_widget_size_request (GTK_WIDGET (nw), &req);
-        notify_stack_shift_notifications (stack,
-                                          nw,
-                                          NULL,
-                                          req.width,
-                                          req.height + NOTIFY_STACK_SPACING,
-                                          &x,
-                                          &y);
-        theme_move_notification (nw, x, y);
+	gtk_widget_size_request(GTK_WIDGET(nw), &req);
+	notify_stack_shift_notifications(stack, nw, NULL, req.width, req.height + NOTIFY_STACK_SPACING, &x, &y);
+	theme_move_notification(nw, x, y);
 
-        if (new_notification) {
-                g_signal_connect_swapped (G_OBJECT (nw),
-                                          "destroy",
-                                          G_CALLBACK (notify_stack_remove_window),
-                                          stack);
-                stack->windows = g_list_prepend (stack->windows, nw);
-        }
+	if (new_notification)
+	{
+		g_signal_connect_swapped(G_OBJECT(nw), "destroy", G_CALLBACK(notify_stack_remove_window), stack);
+		stack->windows = g_list_prepend(stack->windows, nw);
+	}
 }
 
-void
-notify_stack_remove_window (NotifyStack *stack,
-                            GtkWindow   *nw)
+void notify_stack_remove_window(NotifyStack* stack, GtkWindow* nw)
 {
-        GList *remove_l = NULL;
+	GList* remove_l = NULL;
 
-        notify_stack_shift_notifications (stack,
-                                          nw,
-                                          &remove_l,
-                                          0,
-                                          0,
-                                          NULL,
-                                          NULL);
+	notify_stack_shift_notifications(stack, nw, &remove_l, 0, 0, NULL, NULL);
 
-        if (remove_l != NULL)
-                stack->windows = g_list_delete_link (stack->windows, remove_l);
+	if (remove_l != NULL)
+	{
+		stack->windows = g_list_delete_link(stack->windows, remove_l);
+	}
 
 	#if GTK_CHECK_VERSION(2, 20, 0)
 		if (gtk_widget_get_realized(GTK_WIDGET(nw)))
-			gtk_widget_unrealize (GTK_WIDGET (nw));
+			gtk_widget_unrealize(GTK_WIDGET(nw));
 	#else
-		if (GTK_WIDGET_REALIZED (GTK_WIDGET (nw)))
-			gtk_widget_unrealize (GTK_WIDGET (nw));
+		if (GTK_WIDGET_REALIZED(GTK_WIDGET(nw)))
+			gtk_widget_unrealize(GTK_WIDGET(nw));
 	#endif
 }

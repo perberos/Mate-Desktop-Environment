@@ -1,6 +1,7 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
  * Copyright (C) 2007 Jonh Wendell <wendell@bani.com.br>
+ * Copyright (C) 2011 Perberos <perberos@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,548 +30,448 @@
 
 #include "stack.h"
 
-#define MATECONF_KEY_DAEMON         "/apps/mate-notification-daemon"
-#define MATECONF_KEY_THEME          MATECONF_KEY_DAEMON "/theme"
+#define MATECONF_KEY_DAEMON "/apps/mate-notification-daemon"
+#define MATECONF_KEY_THEME MATECONF_KEY_DAEMON "/theme"
 #define MATECONF_KEY_POPUP_LOCATION MATECONF_KEY_DAEMON "/popup_location"
 
 #define N_LISTENERS 2
 
 #define NOTIFICATION_UI_FILE "mate-notification-properties.ui"
-#define WID(s) GTK_WIDGET (gtk_builder_get_object (builder, s))
 
-typedef struct
-{
-        MateConfClient        *client;
+typedef struct {
+	MateConfClient* client;
 
-        GtkWidget          *dialog;
-        GtkWidget          *position_combo;
-        GtkWidget          *theme_combo;
-        GtkWidget          *preview_button;
+	GtkWidget* dialog;
+	GtkWidget* position_combo;
+	GtkWidget* theme_combo;
+	GtkWidget* preview_button;
 
-        NotifyNotification *preview;
+	NotifyNotification* preview;
 
-        guint               listeners[N_LISTENERS];
-        int                 n_listeners;
-        int                 expected_listeners;
+	guint listeners[N_LISTENERS];
+	int n_listeners;
+	int expected_listeners;
 } NotificationAppletDialog;
 
-enum
-{
-        NOTIFY_POSITION_LABEL,
-        NOTIFY_POSITION_NAME,
-        N_COLUMNS_POSITION
+enum {
+	NOTIFY_POSITION_LABEL,
+	NOTIFY_POSITION_NAME,
+	N_COLUMNS_POSITION
 };
 
-enum
-{
-        NOTIFY_THEME_LABEL,
-        NOTIFY_THEME_NAME,
-        NOTIFY_THEME_FILENAME,
-        N_COLUMNS_THEME
+enum {
+	NOTIFY_THEME_LABEL,
+	NOTIFY_THEME_NAME,
+	NOTIFY_THEME_FILENAME,
+	N_COLUMNS_THEME
 };
 
-static void
-notification_properties_location_notify (MateConfClient              *client,
-                                         guint                     cnx_id,
-                                         MateConfEntry               *entry,
-                                         NotificationAppletDialog *dialog)
+static void notification_properties_location_notify(MateConfClient* client, guint cnx_id, MateConfEntry* entry, NotificationAppletDialog* dialog)
 {
-        GtkTreeModel   *model;
-        GtkTreeIter     iter;
-        const char     *location;
-        gboolean        valid;
+	GtkTreeModel* model;
+	GtkTreeIter iter;
+	const char* location;
+	gboolean valid;
 
-        if (!entry->value
-            || entry->value->type != MATECONF_VALUE_STRING)
-                return;
+	if (!entry->value || entry->value->type != MATECONF_VALUE_STRING)
+	{
+		return;
+	}
 
-        location = mateconf_value_get_string (entry->value);
+	location = mateconf_value_get_string(entry->value);
 
-        model = gtk_combo_box_get_model (GTK_COMBO_BOX (dialog->position_combo));
-        valid = gtk_tree_model_get_iter_first (model, &iter);
+	model = gtk_combo_box_get_model(GTK_COMBO_BOX(dialog->position_combo));
+	valid = gtk_tree_model_get_iter_first(model, &iter);
 
-        for (valid = gtk_tree_model_get_iter_first (model, &iter);
-             valid; valid = gtk_tree_model_iter_next (model, &iter)) {
-                gchar *key;
+	for (valid = gtk_tree_model_get_iter_first(model, &iter); valid; valid = gtk_tree_model_iter_next(model, &iter))
+	{
+		gchar* key;
 
-                gtk_tree_model_get (model,
-                                    &iter,
-                                    NOTIFY_POSITION_NAME, &key,
-                                    -1);
+		gtk_tree_model_get(model, &iter, NOTIFY_POSITION_NAME, &key, -1);
 
-                if (g_str_equal (key, location)) {
-                        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (dialog->position_combo),
-                                                       &iter);
-                        g_free (key);
-                        break;
-                }
+		if (g_str_equal(key, location))
+		{
+			gtk_combo_box_set_active_iter(GTK_COMBO_BOX(dialog->position_combo), &iter);
+			g_free(key);
+			break;
+		}
 
-                g_free (key);
-        }
+		g_free(key);
+	}
 }
 
-static void
-notification_properties_location_changed (GtkComboBox              *widget,
-                                          NotificationAppletDialog *dialog)
+static void notification_properties_location_changed(GtkComboBox* widget, NotificationAppletDialog* dialog)
 {
-        char           *location;
-        GtkTreeModel   *model;
-        GtkTreeIter     iter;
+	char* location;
+	GtkTreeIter iter;
 
-        model = gtk_combo_box_get_model (GTK_COMBO_BOX (dialog->position_combo));
+	GtkTreeModel* model = gtk_combo_box_get_model(GTK_COMBO_BOX(dialog->position_combo));
 
-        if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (dialog->position_combo), &iter)) {
-                return;
-        }
+	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(dialog->position_combo), &iter))
+	{
+		return;
+	}
 
-        gtk_tree_model_get (model,
-                            &iter,
-                            NOTIFY_POSITION_NAME, &location,
-                            -1);
+	gtk_tree_model_get(model, &iter, NOTIFY_POSITION_NAME, &location, -1);
 
-        mateconf_client_set_string (dialog->client,
-                                 MATECONF_KEY_POPUP_LOCATION,
-                                 location,
-                                 NULL);
-        g_free (location);
+	mateconf_client_set_string(dialog->client, MATECONF_KEY_POPUP_LOCATION, location, NULL);
+	g_free(location);
 }
 
-static void
-notification_properties_dialog_setup_positions (NotificationAppletDialog *dialog)
+static void notification_properties_dialog_setup_positions(NotificationAppletDialog* dialog)
 {
-        char               *location;
-        gboolean            valid;
-        GtkTreeModel       *model;
-        GtkTreeIter         iter;
+	char* location;
+	gboolean valid;
+	GtkTreeModel* model;
+	GtkTreeIter iter;
 
-        model = gtk_combo_box_get_model (GTK_COMBO_BOX (dialog->position_combo));
-        g_signal_connect (dialog->position_combo,
-                          "changed",
-                          G_CALLBACK (notification_properties_location_changed),
-                          dialog);
+	model = gtk_combo_box_get_model(GTK_COMBO_BOX(dialog->position_combo));
+	g_signal_connect(dialog->position_combo, "changed", G_CALLBACK(notification_properties_location_changed), dialog);
 
-        location = mateconf_client_get_string (dialog->client,
-                                            MATECONF_KEY_POPUP_LOCATION,
-                                            NULL);
+	location = mateconf_client_get_string(dialog->client, MATECONF_KEY_POPUP_LOCATION, NULL);
 
-        for (valid = gtk_tree_model_get_iter_first (model, &iter);
-             valid;
-             valid = gtk_tree_model_iter_next (model, &iter)) {
-                gchar *key;
+	for (valid = gtk_tree_model_get_iter_first(model, &iter); valid; valid = gtk_tree_model_iter_next(model, &iter))
+	{
+		gchar* key;
 
-                gtk_tree_model_get (model,
-                                    &iter,
-                                    NOTIFY_POSITION_NAME, &key,
-                                    -1);
+		gtk_tree_model_get(model, &iter, NOTIFY_POSITION_NAME, &key, -1);
 
-                if (g_str_equal (key, location)) {
-                        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (dialog->position_combo),
-                                                       &iter);
-                        g_free (key);
-                        break;
-                }
+		if (g_str_equal(key, location))
+		{
+			gtk_combo_box_set_active_iter(GTK_COMBO_BOX(dialog->position_combo), &iter);
+			g_free(key);
+			break;
+		}
 
-                g_free (key);
-        }
+		g_free(key);
+	}
 
-        dialog->listeners[dialog->n_listeners] =
-                mateconf_client_notify_add (dialog->client,
-                                         MATECONF_KEY_POPUP_LOCATION,
-                                         (MateConfClientNotifyFunc) notification_properties_location_notify,
-                                         dialog,
-                                         NULL,
-                                         NULL);
-        dialog->n_listeners++;
-        g_free (location);
+	dialog->listeners[dialog->n_listeners] = mateconf_client_notify_add(dialog->client, MATECONF_KEY_POPUP_LOCATION, (MateConfClientNotifyFunc) notification_properties_location_notify, dialog, NULL, NULL);
+	dialog->n_listeners++;
+	g_free(location);
 }
 
-static void
-notification_properties_theme_notify (MateConfClient              *client,
-                                      guint                     cnx_id,
-                                      MateConfEntry               *entry,
-                                      NotificationAppletDialog *dialog)
+static void notification_properties_theme_notify(MateConfClient* client, guint cnx_id, MateConfEntry* entry, NotificationAppletDialog* dialog)
 {
-        GtkTreeModel   *model;
-        GtkTreeIter     iter;
-        const char     *theme;
-        gboolean        valid;
+	if (!entry->value || entry->value->type != MATECONF_VALUE_STRING)
+	{
+		return;
+	}
 
-        if (!entry->value
-            || entry->value->type != MATECONF_VALUE_STRING)
-                return;
+	const char* theme = mateconf_value_get_string(entry->value);
 
-        theme = mateconf_value_get_string (entry->value);
+	GtkTreeModel* model = gtk_combo_box_get_model(GTK_COMBO_BOX(dialog->theme_combo));
 
-        model = gtk_combo_box_get_model (GTK_COMBO_BOX (dialog->theme_combo));
+	GtkTreeIter iter;
+	gboolean valid;
 
-        for (valid = gtk_tree_model_get_iter_first (model, &iter);
-             valid;
-             valid = gtk_tree_model_iter_next (model, &iter)) {
-                gchar *theme_name;
+	for (valid = gtk_tree_model_get_iter_first(model, &iter); valid; valid = gtk_tree_model_iter_next(model, &iter))
+	{
+		gchar* theme_name;
 
-                gtk_tree_model_get (model,
-                                    &iter,
-                                    NOTIFY_THEME_NAME, &theme_name,
-                                    -1);
+		gtk_tree_model_get(model, &iter, NOTIFY_THEME_NAME, &theme_name, -1);
 
-                if (g_str_equal (theme_name, theme)) {
-                        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (dialog->theme_combo),
-                                                       &iter);
-                        g_free (theme_name);
-                        break;
-                }
+		if (g_str_equal(theme_name, theme))
+		{
+			gtk_combo_box_set_active_iter(GTK_COMBO_BOX(dialog->theme_combo), &iter);
+			g_free(theme_name);
+			break;
+		}
 
-                g_free (theme_name);
-        }
+		g_free(theme_name);
+	}
 }
 
-static void
-notification_properties_theme_changed (GtkComboBox              *widget,
-                                       NotificationAppletDialog *dialog)
+static void notification_properties_theme_changed(GtkComboBox* widget, NotificationAppletDialog* dialog)
 {
-        char           *theme;
-        GtkTreeModel   *model;
-        GtkTreeIter     iter;
+	char* theme;
+	GtkTreeIter iter;
 
-        model = gtk_combo_box_get_model (GTK_COMBO_BOX (dialog->theme_combo));
+	GtkTreeModel* model = gtk_combo_box_get_model(GTK_COMBO_BOX(dialog->theme_combo));
 
-        if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (dialog->theme_combo), &iter)) {
-                return;
-        }
+	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(dialog->theme_combo), &iter))
+	{
+		return;
+	}
 
-        gtk_tree_model_get (model, &iter, NOTIFY_THEME_NAME, &theme, -1);
-        mateconf_client_set_string (dialog->client,
-                                 MATECONF_KEY_THEME,
-                                 theme,
-                                 NULL);
-        g_free (theme);
+	gtk_tree_model_get(model, &iter, NOTIFY_THEME_NAME, &theme, -1);
+	mateconf_client_set_string(dialog->client, MATECONF_KEY_THEME, theme, NULL);
+	g_free(theme);
 }
 
-static gchar *
-get_theme_name (const gchar *filename)
+static gchar* get_theme_name(const gchar* filename)
 {
-        gchar *result;
-
-        /* TODO: Remove magic numbers. Strip "lib" and ".so" */
-        result = g_strdup (filename + 3);
-        result[strlen (result) - 3] = '\0';
-        return result;
+	/* TODO: Remove magic numbers. Strip "lib" and ".so" */
+	gchar* result = g_strdup(filename + 3);
+	result[strlen(result) - 3] = '\0';
+	return result;
 }
 
-static void
-notification_properties_dialog_setup_themes (NotificationAppletDialog *dialog)
+static void notification_properties_dialog_setup_themes(NotificationAppletDialog* dialog)
 {
-        GDir           *dir;
-        const gchar    *filename;
-        char           *theme;
-        char           *theme_name;
-        char           *theme_label;
-        gboolean        valid;
-        GtkListStore   *store;
-        GtkTreeIter     iter;
+	GDir* dir;
+	const gchar* filename;
+	char* theme;
+	char* theme_name;
+	char* theme_label;
+	gboolean valid;
+	GtkListStore* store;
+	GtkTreeIter iter;
 
-        store = gtk_list_store_new (N_COLUMNS_THEME,
-                                    G_TYPE_STRING,
-                                    G_TYPE_STRING,
-                                    G_TYPE_STRING);
+	store = gtk_list_store_new(N_COLUMNS_THEME, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-        gtk_combo_box_set_model (GTK_COMBO_BOX (dialog->theme_combo),
-                                 GTK_TREE_MODEL (store));
-        g_signal_connect (dialog->theme_combo,
-                          "changed",
-                          G_CALLBACK (notification_properties_theme_changed),
-                          dialog);
+	gtk_combo_box_set_model(GTK_COMBO_BOX(dialog->theme_combo), GTK_TREE_MODEL(store));
+	g_signal_connect(dialog->theme_combo, "changed", G_CALLBACK(notification_properties_theme_changed), dialog);
 
-        if ((dir = g_dir_open (ENGINES_DIR, 0, NULL))) {
-                while ((filename = g_dir_read_name (dir))) {
-                        if (g_str_has_prefix (filename, "lib")
-                            && g_str_has_suffix (filename, ".so")) {
+	if ((dir = g_dir_open(ENGINES_DIR, 0, NULL)))
+	{
+		while ((filename = g_dir_read_name(dir)))
+		{
+			if (g_str_has_prefix(filename, "lib") && g_str_has_suffix(filename, ".so"))
+			{
+				theme_name = get_theme_name(filename);
 
-                                theme_name = get_theme_name (filename);
+				/* FIXME: other solution than hardcode? */
+				if (g_str_equal(theme_name, "slider"))
+				{
+					theme_label = g_strdup(_("Slider"));
+				}
+				else if (g_str_equal(theme_name, "standard"))
+				{
+					theme_label = g_strdup(_("Standard theme"));
+				}
+				else
+				{
+					theme_label = g_strdup(theme_name);
+				}
 
-                                /* FIXME: other solution than hardcode? */
-                                if (g_str_equal (theme_name, "slider"))
-                                        theme_label = g_strdup (_("Slider"));
-                                else if (g_str_equal (theme_name, "standard"))
-                                        theme_label = g_strdup (_("Standard theme"));
-                                else
-                                        theme_label = g_strdup (theme_name);
+				gtk_list_store_append(store, &iter);
+				gtk_list_store_set(store, &iter, NOTIFY_THEME_LABEL, theme_label, NOTIFY_THEME_NAME, theme_name, NOTIFY_THEME_FILENAME, filename, -1);
+				g_free(theme_name);
+				g_free(theme_label);
+			}
+		}
 
-                                gtk_list_store_append (store, &iter);
-                                gtk_list_store_set (store,
-                                                    &iter,
-                                                    NOTIFY_THEME_LABEL, theme_label,
-                                                    NOTIFY_THEME_NAME, theme_name,
-                                                    NOTIFY_THEME_FILENAME, filename,
-                                                    -1);
-                                g_free (theme_name);
-                                g_free (theme_label);
-                        }
-                }
-
-                g_dir_close (dir);
-        } else {
-                g_warning ("Error opening themes dir");
-        }
+		g_dir_close(dir);
+	}
+	else
+	{
+		g_warning("Error opening themes dir");
+	}
 
 
-        theme = mateconf_client_get_string (dialog->client,
-                                         MATECONF_KEY_THEME,
-                                         NULL);
+	theme = mateconf_client_get_string(dialog->client, MATECONF_KEY_THEME, NULL);
 
-        for (valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter);
-             valid;
-             valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter)) {
-                gchar *key;
+	for (valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter); valid; valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter))
+	{
+		gchar* key;
 
-                gtk_tree_model_get (GTK_TREE_MODEL (store),
-                                    &iter,
-                                    NOTIFY_THEME_NAME, &key,
-                                    -1);
+		gtk_tree_model_get(GTK_TREE_MODEL(store), &iter, NOTIFY_THEME_NAME, &key, -1);
 
-                if (g_str_equal (key, theme)) {
-                        gtk_combo_box_set_active_iter (GTK_COMBO_BOX (dialog->theme_combo),
-                                                       &iter);
-                        g_free (key);
-                        break;
-                }
+		if (g_str_equal(key, theme))
+		{
+			gtk_combo_box_set_active_iter(GTK_COMBO_BOX(dialog->theme_combo), &iter);
+			g_free(key);
+			break;
+		}
 
-                g_free (key);
-        }
+		g_free(key);
+	}
 
-        dialog->listeners[dialog->n_listeners] =
-                mateconf_client_notify_add (dialog->client,
-                                         MATECONF_KEY_THEME,
-                                         (MateConfClientNotifyFunc) notification_properties_theme_notify,
-                                         dialog,
-                                         NULL,
-                                         NULL);
-        dialog->n_listeners++;
-        g_free (theme);
+	dialog->listeners[dialog->n_listeners] = mateconf_client_notify_add(dialog->client, MATECONF_KEY_THEME, (MateConfClientNotifyFunc) notification_properties_theme_notify, dialog, NULL, NULL);
+	dialog->n_listeners++;
+	g_free(theme);
 }
 
-static void
-notification_properties_dialog_help (void)
+static void notification_properties_dialog_help(void)
 {
-        /* Do nothing */
+	/* Do nothing */
 }
 
-static void
-show_message (NotificationAppletDialog *dialog,
-              const gchar              *message)
+static void show_message(NotificationAppletDialog* dialog, const gchar* message)
 {
-        GtkWidget *d;
-
-        d = gtk_message_dialog_new (GTK_WINDOW (dialog->dialog),
-                                    GTK_DIALOG_DESTROY_WITH_PARENT,
-                                    GTK_MESSAGE_ERROR,
-                                    GTK_BUTTONS_CLOSE,
-                                    "%s",
-                                    message);
-        gtk_dialog_run (GTK_DIALOG (d));
-        gtk_widget_destroy (d);
+	GtkWidget* d = gtk_message_dialog_new(GTK_WINDOW(dialog->dialog), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", message);
+	gtk_dialog_run(GTK_DIALOG(d));
+	gtk_widget_destroy(d);
 }
 
-static void
-notification_properties_dialog_preview_closed (NotifyNotification       *preview,
-                                               NotificationAppletDialog *dialog)
+static void notification_properties_dialog_preview_closed(NotifyNotification* preview, NotificationAppletDialog* dialog)
 {
-        if (preview == dialog->preview)
-                dialog->preview = NULL;
+	if (preview == dialog->preview)
+	{
+		dialog->preview = NULL;
+	}
 
-        g_object_unref (preview);
+	g_object_unref(preview);
 }
 
-static void
-notification_properties_dialog_preview (NotificationAppletDialog *dialog)
+static void notification_properties_dialog_preview(NotificationAppletDialog* dialog)
 {
-        GError *error;
+	if (!notify_is_initted() && !notify_init("n-d"))
+	{
+		show_message(dialog, _("Error initializing libmatenotify"));
+		return;
+	}
 
-        if (!notify_is_initted ()
-            && !notify_init ("n-d")) {
-                show_message (dialog, _("Error initializing libmatenotify"));
-                return;
-        }
+	GError* error = NULL;
 
-        error = NULL;
+	if (dialog->preview)
+	{
+		notify_notification_close(dialog->preview, NULL);
+		g_object_unref(dialog->preview);
+		dialog->preview = NULL;
+	}
 
-        if (dialog->preview) {
-                notify_notification_close (dialog->preview, NULL);
-                g_object_unref (dialog->preview);
-                dialog->preview = NULL;
-        }
+	dialog->preview = notify_notification_new(_("Notification Test"), _("Just a test"), "mate-util", NULL);
 
-        dialog->preview = notify_notification_new (_("Notification Test"),
-                                                   _("Just a test"),
-                                                   "mate-util",
-                                                   NULL);
+	if (!notify_notification_show(dialog->preview, &error))
+	{
+		char* message = g_strdup_printf(_("Error while displaying notification: %s"), error->message);
+		show_message(dialog, message);
+		g_error_free(error);
+		g_free(message);
+	}
 
-        if (!notify_notification_show (dialog->preview, &error)) {
-                char *message;
-
-                message = g_strdup_printf (_("Error while displaying notification: %s"),
-                                           error->message);
-                show_message (dialog, message);
-                g_error_free (error);
-                g_free (message);
-        }
-
-        g_signal_connect (dialog->preview,
-                          "closed",
-                          G_CALLBACK (notification_properties_dialog_preview_closed),
-                          dialog);
+	g_signal_connect(dialog->preview, "closed", G_CALLBACK(notification_properties_dialog_preview_closed), dialog);
 }
 
-static void
-notification_properties_dialog_response (GtkWidget                *widget,
-                                         int                       response,
-                                         NotificationAppletDialog *dialog)
+static void notification_properties_dialog_response(GtkWidget* widget, int response, NotificationAppletDialog* dialog)
 {
-        switch (response) {
-        case GTK_RESPONSE_HELP:
-                notification_properties_dialog_help ();
-                break;
+	switch (response)
+	{
+		case GTK_RESPONSE_HELP:
+			notification_properties_dialog_help();
+			break;
 
-        case GTK_RESPONSE_ACCEPT:
-                notification_properties_dialog_preview (dialog);
-                break;
+		case GTK_RESPONSE_ACCEPT:
+			notification_properties_dialog_preview(dialog);
+			break;
 
-        case GTK_RESPONSE_CLOSE:
-        default:
-                gtk_widget_destroy (widget);
-                break;
-        }
+		case GTK_RESPONSE_CLOSE:
+		default:
+			gtk_widget_destroy(widget);
+			break;
+	}
 }
 
-static void
-notification_properties_dialog_destroyed (GtkWidget                *widget,
-                                          NotificationAppletDialog *dialog)
+static void notification_properties_dialog_destroyed(GtkWidget* widget, NotificationAppletDialog* dialog)
 {
-        dialog->dialog = NULL;
+	dialog->dialog = NULL;
 
-        gtk_main_quit ();
+	gtk_main_quit();
 }
 
-static gboolean
-notification_properties_dialog_init (NotificationAppletDialog *dialog)
+static gboolean notification_properties_dialog_init(NotificationAppletDialog* dialog)
 {
-        GtkBuilder *builder;
-        GError     *error;
-        const char *ui_file;
+	const char* ui_file;
 
-        if (g_file_test (NOTIFICATION_UI_FILE, G_FILE_TEST_EXISTS)) {
-                ui_file = NOTIFICATION_UI_FILE;
-        } else {
-                ui_file = NOTIFICATION_UIDIR "/" NOTIFICATION_UI_FILE;
-        }
+	if (g_file_test(NOTIFICATION_UI_FILE, G_FILE_TEST_EXISTS))
+	{
+		ui_file = NOTIFICATION_UI_FILE;
+	}
+	else
+	{
+		ui_file = NOTIFICATION_UIDIR "/" NOTIFICATION_UI_FILE;
+	}
 
-        builder = gtk_builder_new ();
+	GtkBuilder* builder = gtk_builder_new();
+	GError* error = NULL;
 
-        error = NULL;
-        gtk_builder_add_from_file (builder, ui_file, &error);
-        if (error != NULL) {
-                g_warning (_("Could not load user interface file: %s"),
-                           error->message);
-                g_error_free (error);
-                return FALSE;
-        }
+	gtk_builder_add_from_file(builder, ui_file, &error);
 
-        dialog->dialog = WID ("dialog");
-        g_assert (dialog->dialog != NULL);
+	if (error != NULL)
+	{
+		g_warning(_("Could not load user interface file: %s"), error->message);
+		g_error_free(error);
+		return FALSE;
+	}
 
-        dialog->position_combo = WID ("position_combo");
-        g_assert (dialog->position_combo != NULL);
+	dialog->dialog = GTK_WIDGET(gtk_builder_get_object(builder, "dialog"));
+	g_assert(dialog->dialog != NULL);
 
-        dialog->theme_combo = WID ("theme_combo");
-        g_assert (dialog->theme_combo != NULL);
+	dialog->position_combo = GTK_WIDGET(gtk_builder_get_object(builder, "position_combo"));
+	g_assert(dialog->position_combo != NULL);
 
-        g_object_unref (builder);
+	dialog->theme_combo = GTK_WIDGET(gtk_builder_get_object(builder, "theme_combo"));
+	g_assert(dialog->theme_combo != NULL);
 
-        g_signal_connect (dialog->dialog,
-                          "response",
-                          G_CALLBACK
-                          (notification_properties_dialog_response),
-                          dialog);
-        g_signal_connect (dialog->dialog,
-                          "destroy",
-                          G_CALLBACK
-                          (notification_properties_dialog_destroyed),
-                          dialog);
+	g_object_unref(builder);
 
-        dialog->client = mateconf_client_get_default ();
-        mateconf_client_add_dir (dialog->client,
-                              MATECONF_KEY_DAEMON,
-                              MATECONF_CLIENT_PRELOAD_ONELEVEL,
-                              NULL);
+	g_signal_connect(dialog->dialog, "response", G_CALLBACK(notification_properties_dialog_response), dialog);
+	g_signal_connect(dialog->dialog, "destroy", G_CALLBACK(notification_properties_dialog_destroyed), dialog);
 
-        dialog->expected_listeners = N_LISTENERS;
-        dialog->n_listeners = 0;
+	dialog->client = mateconf_client_get_default();
+	mateconf_client_add_dir(dialog->client, MATECONF_KEY_DAEMON, MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
-        notification_properties_dialog_setup_themes (dialog);
-        notification_properties_dialog_setup_positions (dialog);
+	dialog->expected_listeners = N_LISTENERS;
+	dialog->n_listeners = 0;
 
-        g_assert (dialog->n_listeners == dialog->expected_listeners);
-        gtk_widget_show (dialog->dialog);
+	notification_properties_dialog_setup_themes(dialog);
+	notification_properties_dialog_setup_positions(dialog);
 
-        dialog->preview = NULL;
+	g_assert(dialog->n_listeners == dialog->expected_listeners);
+	gtk_widget_show(dialog->dialog);
 
-        return TRUE;
+	dialog->preview = NULL;
+
+	return TRUE;
 }
 
-static void
-notification_properties_dialog_finalize (NotificationAppletDialog *dialog)
+static void notification_properties_dialog_finalize(NotificationAppletDialog* dialog)
 {
-        if (dialog->dialog != NULL) {
-                gtk_widget_destroy (dialog->dialog);
-                dialog->dialog = NULL;
-        }
+	if (dialog->dialog != NULL)
+	{
+		gtk_widget_destroy(dialog->dialog);
+		dialog->dialog = NULL;
+	}
 
-        if (dialog->client != NULL) {
-                int i;
+	if (dialog->client != NULL)
+	{
+		int i;
 
-                for (i = 0; i < dialog->n_listeners; i++) {
-                        if (dialog->listeners[i]) {
-                                mateconf_client_notify_remove (dialog->client,
-                                                            dialog->listeners[i]);
-                                dialog->listeners[i] = 0;
-                        }
-                }
+		for (i = 0; i < dialog->n_listeners; i++)
+		{
+			if (dialog->listeners[i])
+			{
+				mateconf_client_notify_remove(dialog->client, dialog->listeners[i]);
+				dialog->listeners[i] = 0;
+			}
+		}
 
-                dialog->n_listeners = 0;
-                mateconf_client_remove_dir (dialog->client,
-                                         MATECONF_KEY_DAEMON,
-                                         NULL);
-                g_object_unref (dialog->client);
-                dialog->client = NULL;
-        }
+		dialog->n_listeners = 0;
+		mateconf_client_remove_dir(dialog->client, MATECONF_KEY_DAEMON, NULL);
+		g_object_unref(dialog->client);
+		dialog->client = NULL;
+	}
 
-        if (dialog->preview) {
-                notify_notification_close (dialog->preview, NULL);
-                dialog->preview = NULL;
-        }
+	if (dialog->preview)
+	{
+		notify_notification_close(dialog->preview, NULL);
+		dialog->preview = NULL;
+	}
 }
 
-int
-main (int argc, char **argv)
+int main(int argc, char** argv)
 {
-        NotificationAppletDialog dialog = { NULL, };
+	NotificationAppletDialog dialog = {NULL, }; /* <- ? */
 
-        bindtextdomain (GETTEXT_PACKAGE, NOTIFICATION_LOCALEDIR);
-        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-        textdomain (GETTEXT_PACKAGE);
+	bindtextdomain(GETTEXT_PACKAGE, NOTIFICATION_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
 
-        gtk_init (&argc, &argv);
+	gtk_init(&argc, &argv);
 
-        notify_init ("mate-notification-properties");
+	notify_init("mate-notification-properties");
 
-        if (!notification_properties_dialog_init (&dialog)) {
-                notification_properties_dialog_finalize (&dialog);
-                return 1;
-        }
+	if (!notification_properties_dialog_init(&dialog))
+	{
+		notification_properties_dialog_finalize(&dialog);
+		return 1;
+	}
 
-        gtk_main ();
+	gtk_main();
 
-        notification_properties_dialog_finalize (&dialog);
+	notification_properties_dialog_finalize(&dialog);
 
-        return 0;
+	return 0;
 }

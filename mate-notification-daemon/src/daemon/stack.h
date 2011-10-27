@@ -1,7 +1,8 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
  *
  * Copyright (C) 2006 Christian Hammond <chipx86@chipx86.com>
  * Copyright (C) 2010 Red Hat, Inc.
+ * Copyright (C) 2011 Perberos <perberos@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,32 +27,24 @@
 
 #include "daemon.h"
 
-typedef enum
-{
-        NOTIFY_STACK_LOCATION_UNKNOWN = -1,
-        NOTIFY_STACK_LOCATION_TOP_LEFT,
-        NOTIFY_STACK_LOCATION_TOP_RIGHT,
-        NOTIFY_STACK_LOCATION_BOTTOM_LEFT,
-        NOTIFY_STACK_LOCATION_BOTTOM_RIGHT,
-        NOTIFY_STACK_LOCATION_DEFAULT = NOTIFY_STACK_LOCATION_BOTTOM_RIGHT
+typedef enum {
+	NOTIFY_STACK_LOCATION_UNKNOWN = -1,
+	NOTIFY_STACK_LOCATION_TOP_LEFT,
+	NOTIFY_STACK_LOCATION_TOP_RIGHT,
+	NOTIFY_STACK_LOCATION_BOTTOM_LEFT,
+	NOTIFY_STACK_LOCATION_BOTTOM_RIGHT,
+	NOTIFY_STACK_LOCATION_DEFAULT = NOTIFY_STACK_LOCATION_BOTTOM_RIGHT
 } NotifyStackLocation;
 
 typedef struct _NotifyStack NotifyStack;
 
-NotifyStack    *notify_stack_new           (NotifyDaemon       *daemon,
-                                            GdkScreen          *screen,
-                                            guint               monitor,
-                                            NotifyStackLocation stack_location);
-void            notify_stack_destroy       (NotifyStack        *stack);
+NotifyStack* notify_stack_new(NotifyDaemon* daemon, GdkScreen* screen, guint monitor, NotifyStackLocation stack_location);
+void notify_stack_destroy(NotifyStack* stack);
 
-void            notify_stack_set_location  (NotifyStack        *stack,
-                                            NotifyStackLocation location);
-void            notify_stack_add_window    (NotifyStack        *stack,
-                                            GtkWindow          *nw,
-                                            gboolean            new_notification);
-void            notify_stack_remove_window (NotifyStack        *stack,
-                                            GtkWindow          *nw);
-GList *         notify_stack_get_windows   (NotifyStack        *stack);
-void            notify_stack_queue_update_position (NotifyStack        *stack);
+void notify_stack_set_location(NotifyStack* stack, NotifyStackLocation location);
+void notify_stack_add_window(NotifyStack* stack, GtkWindow* nw, gboolean new_notification);
+void notify_stack_remove_window(NotifyStack* stack, GtkWindow* nw);
+GList* notify_stack_get_windows(NotifyStack* stack);
+void notify_stack_queue_update_position(NotifyStack* stack);
 
 #endif /* _NOTIFY_STACK_H_ */
