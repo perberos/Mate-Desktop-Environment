@@ -545,7 +545,8 @@ action_about_caja_callback (GtkAction *action,
 				 */
 			      "translator-credits", _("translator-credits"),
 			      "logo-icon-name", "caja",
-			      "website", "http://live.mate.org/Caja",
+			      "website", "https://github.com/Perberos/Mate-Desktop-Environment"
+			      "/wiki/Mate-file-manager",
 			      "website-label", _("Caja Web Site"),
 			      NULL);
 
@@ -572,9 +573,7 @@ action_caja_manual_callback (GtkAction *action,
 	window = CAJA_WINDOW (user_data);
 
 	if (CAJA_IS_DESKTOP_WINDOW (window)) {
-		gdk_spawn_command_line_on_screen (
-			gtk_window_get_screen (GTK_WINDOW (window)),
-			"mate-help", &error);
+		g_spawn_command_line_async("mate-help", &error);
 	} else {
 		gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (window)),
 			      "ghelp:user-guide#goscaja-1",
