@@ -29,9 +29,6 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --disable-scrollkeeper
 CLEANFILES = \
 	$(version_DATA)
 
-DISTCLEANFILES = \
-	mate-doc-utils.make
-
 MAINTAINERCLEANFILES = \
 	$(srcdir)/aclocal.m4 \
 	$(srcdir)/config.guess \
