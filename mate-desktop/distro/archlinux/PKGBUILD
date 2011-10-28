@@ -1,5 +1,5 @@
 pkgname=mate-desktop
-pkgver=2011.9.26
+pkgver=2011.10.27
 pkgrel=1
 pkgdesc="Library with common API for various MATE modules"
 arch=(i686 x86_64)
@@ -17,9 +17,9 @@ build() {
 
 	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static --disable-scrollkeeper \
-		--disable-startup-notification --enable-unique
+		--disable-startup-notification --enable-unique || return 1
 
-	make
+	make || return 1
 }
 
 package() {
