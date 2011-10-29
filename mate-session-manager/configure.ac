@@ -1,5 +1,4 @@
-AC_INIT([mate-session], [2011.9.25],
-        [http://bugzilla.mate.org/enter_bug.cgi?product=mate-session])
+AC_INIT([mate-session], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
 AC_CONFIG_SRCDIR([mate-session])
 AC_CONFIG_HEADERS([config.h])
 

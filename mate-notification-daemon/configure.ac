@@ -3,7 +3,7 @@ dnl Process this file with autoconf to create configure.
 dnl ################################################################
 dnl # Initialize autoconf
 dnl ################################################################
-AC_INIT([mate-notification-daemon], [2011.10.27], [https://github.com/Perberos/Mate-Desktop-Environment])
+AC_INIT([mate-notification-daemon], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
 AC_PREREQ(2.63)
 
 AC_CONFIG_HEADERS([config.h])

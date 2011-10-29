@@ -1,14 +1,12 @@
 AC_PREREQ([2.60])
 
 m4_define([gsd_api_version_major],[2011])
-m4_define([gsd_api_version_minor],[9])
-m4_define([gsd_api_version_micro],[25])
+m4_define([gsd_api_version_minor],[10])
+m4_define([gsd_api_version_micro],[29])
 m4_define([gsd_api_version],
         [gsd_api_version_major.gsd_api_version_minor.gsd_api_version_micro])
 
-AC_INIT([mate-settings-daemon],
-        [2.32.0],
-        [http://bugzilla.mate.org/enter_bug.cgi?product=mate-settings-daemon])
+AC_INIT([mate-settings-daemon], [2.32.0], [https://github.com/perberos/mate-desktop-environment])
 
 AC_CONFIG_SRCDIR([mate-settings-daemon/mate-settings-manager.c])
 

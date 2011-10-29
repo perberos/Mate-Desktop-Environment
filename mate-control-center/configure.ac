@@ -1,5 +1,4 @@
-AC_INIT([mate-control-center], [2011.09.24],
-        [http://bugzilla.mate.org/enter_bug.cgi?product=mate-control-center])
+AC_INIT([mate-control-center], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([shell])

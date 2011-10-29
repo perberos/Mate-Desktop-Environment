@@ -1,6 +1,6 @@
 
 AC_PREREQ([2.60])
-AC_INIT([mdm], [2011.9.26], [http://bugzilla.mate.org/enter_bug.cgi?product=mdm])
+AC_INIT([mdm], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
 
 AC_CONFIG_SRCDIR([daemon/mdm-manager.c])
 

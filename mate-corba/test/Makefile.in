@@ -33,7 +33,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = matecorba-ior-decode-2$(EXEEXT) matecorba-typelib-dump$(EXEEXT)
+bin_PROGRAMS = matecorba-ior-decode-2$(EXEEXT) \
+	matecorba-typelib-dump$(EXEEXT)
 noinst_PROGRAMS = test1$(EXEEXT) echo-client$(EXEEXT) \
 	echo-client-t$(EXEEXT) echo-server$(EXEEXT) \
 	empty-client$(EXEEXT) empty-server$(EXEEXT) \
@@ -88,10 +89,17 @@ empty_server_OBJECTS = $(am_empty_server_OBJECTS)
 empty_server_LDADD = $(LDADD)
 empty_server_DEPENDENCIES = $(top_builddir)/src/orb/libMateCORBA-2.la \
 	$(am__DEPENDENCIES_1)
-am_ior_decode_2_OBJECTS = ior-decode.$(OBJEXT)
-ior_decode_2_OBJECTS = $(am_ior_decode_2_OBJECTS)
-ior_decode_2_LDADD = $(LDADD)
-ior_decode_2_DEPENDENCIES = $(top_builddir)/src/orb/libMateCORBA-2.la \
+am_matecorba_ior_decode_2_OBJECTS = ior-decode.$(OBJEXT)
+matecorba_ior_decode_2_OBJECTS = $(am_matecorba_ior_decode_2_OBJECTS)
+matecorba_ior_decode_2_LDADD = $(LDADD)
+matecorba_ior_decode_2_DEPENDENCIES =  \
+	$(top_builddir)/src/orb/libMateCORBA-2.la \
+	$(am__DEPENDENCIES_1)
+matecorba_typelib_dump_SOURCES = matecorba-typelib-dump.c
+matecorba_typelib_dump_OBJECTS = matecorba-typelib-dump.$(OBJEXT)
+matecorba_typelib_dump_LDADD = $(LDADD)
+matecorba_typelib_dump_DEPENDENCIES =  \
+	$(top_builddir)/src/orb/libMateCORBA-2.la \
 	$(am__DEPENDENCIES_1)
 am__objects_3 = test-any-common.$(OBJEXT) test-any-stubs.$(OBJEXT) \
 	test-any-skels.$(OBJEXT)
@@ -163,11 +171,6 @@ timeout_server_LDADD = $(LDADD)
 timeout_server_DEPENDENCIES =  \
 	$(top_builddir)/src/orb/libMateCORBA-2.la \
 	$(am__DEPENDENCIES_1)
-am_typelib_dump_OBJECTS = matecorba-typelib-dump.$(OBJEXT)
-typelib_dump_OBJECTS = $(am_typelib_dump_OBJECTS)
-typelib_dump_LDADD = $(LDADD)
-typelib_dump_DEPENDENCIES = $(top_builddir)/src/orb/libMateCORBA-2.la \
-	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -183,22 +186,22 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(echo_client_SOURCES) $(echo_client_t_SOURCES) \
 	$(echo_server_SOURCES) $(empty_client_SOURCES) \
-	$(empty_server_SOURCES) $(ior_decode_2_SOURCES) \
-	$(test_any_client_SOURCES) $(test_any_server_SOURCES) \
-	$(test_corbaloc_SOURCES) $(test_dynany_SOURCES) \
-	$(test_giop_SOURCES) $(test_mem_SOURCES) \
-	$(test_performance_SOURCES) $(test1_SOURCES) \
-	$(timeout_client_SOURCES) $(timeout_server_SOURCES) \
-	$(typelib_dump_SOURCES)
+	$(empty_server_SOURCES) $(matecorba_ior_decode_2_SOURCES) \
+	matecorba-typelib-dump.c $(test_any_client_SOURCES) \
+	$(test_any_server_SOURCES) $(test_corbaloc_SOURCES) \
+	$(test_dynany_SOURCES) $(test_giop_SOURCES) \
+	$(test_mem_SOURCES) $(test_performance_SOURCES) \
+	$(test1_SOURCES) $(timeout_client_SOURCES) \
+	$(timeout_server_SOURCES)
 DIST_SOURCES = $(echo_client_SOURCES) $(echo_client_t_SOURCES) \
 	$(echo_server_SOURCES) $(empty_client_SOURCES) \
-	$(empty_server_SOURCES) $(ior_decode_2_SOURCES) \
-	$(test_any_client_SOURCES) $(test_any_server_SOURCES) \
-	$(test_corbaloc_SOURCES) $(test_dynany_SOURCES) \
-	$(test_giop_SOURCES) $(test_mem_SOURCES) \
-	$(test_performance_SOURCES) $(test1_SOURCES) \
-	$(timeout_client_SOURCES) $(timeout_server_SOURCES) \
-	$(typelib_dump_SOURCES)
+	$(empty_server_SOURCES) $(matecorba_ior_decode_2_SOURCES) \
+	matecorba-typelib-dump.c $(test_any_client_SOURCES) \
+	$(test_any_server_SOURCES) $(test_corbaloc_SOURCES) \
+	$(test_dynany_SOURCES) $(test_giop_SOURCES) \
+	$(test_mem_SOURCES) $(test_performance_SOURCES) \
+	$(test1_SOURCES) $(timeout_client_SOURCES) \
+	$(timeout_server_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -272,6 +275,8 @@ FGREP = @FGREP@
 GLIB_REQUIRED = @GLIB_REQUIRED@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 HTML_DIR = @HTML_DIR@
@@ -439,7 +444,7 @@ timeout_server_SOURCES = timeout-server.c $(TIMEOUT_IDLOUT)
 IDLOUT = test1-stubs.c test1-skels.c test1-common.c test1.h
 test1_SOURCES = test1.c $(IDLOUT)
 test_mem_SOURCES = test-mem.c $(IDLOUT)
-ior_decode_2_SOURCES = ior-decode.c
+matecorba_ior_decode_2_SOURCES = ior-decode.c
 typelib_dump_SOURCES = matecorba-typelib-dump.c
 DYNANY_IDLOUT = dynany.h dynany-common.c dynany-skels.c dynany-stubs.c
 test_dynany_SOURCES = $(DYNANY_IDLOUT) test-dynany.c
@@ -569,9 +574,12 @@ empty-client$(EXEEXT): $(empty_client_OBJECTS) $(empty_client_DEPENDENCIES)
 empty-server$(EXEEXT): $(empty_server_OBJECTS) $(empty_server_DEPENDENCIES) 
 	@rm -f empty-server$(EXEEXT)
 	$(LINK) $(empty_server_OBJECTS) $(empty_server_LDADD) $(LIBS)
-matecorba-ior-decode-2$(EXEEXT): $(ior_decode_2_OBJECTS) $(ior_decode_2_DEPENDENCIES) 
+matecorba-ior-decode-2$(EXEEXT): $(matecorba_ior_decode_2_OBJECTS) $(matecorba_ior_decode_2_DEPENDENCIES) 
 	@rm -f matecorba-ior-decode-2$(EXEEXT)
-	$(LINK) $(ior_decode_2_OBJECTS) $(ior_decode_2_LDADD) $(LIBS)
+	$(LINK) $(matecorba_ior_decode_2_OBJECTS) $(matecorba_ior_decode_2_LDADD) $(LIBS)
+matecorba-typelib-dump$(EXEEXT): $(matecorba_typelib_dump_OBJECTS) $(matecorba_typelib_dump_DEPENDENCIES) 
+	@rm -f matecorba-typelib-dump$(EXEEXT)
+	$(LINK) $(matecorba_typelib_dump_OBJECTS) $(matecorba_typelib_dump_LDADD) $(LIBS)
 test-any-client$(EXEEXT): $(test_any_client_OBJECTS) $(test_any_client_DEPENDENCIES) 
 	@rm -f test-any-client$(EXEEXT)
 	$(LINK) $(test_any_client_OBJECTS) $(test_any_client_LDADD) $(LIBS)
@@ -602,9 +610,6 @@ timeout-client$(EXEEXT): $(timeout_client_OBJECTS) $(timeout_client_DEPENDENCIES
 timeout-server$(EXEEXT): $(timeout_server_OBJECTS) $(timeout_server_DEPENDENCIES) 
 	@rm -f timeout-server$(EXEEXT)
 	$(LINK) $(timeout_server_OBJECTS) $(timeout_server_LDADD) $(LIBS)
-matecorba-typelib-dump$(EXEEXT): $(typelib_dump_OBJECTS) $(typelib_dump_DEPENDENCIES) 
-	@rm -f matecorba-typelib-dump$(EXEEXT)
-	$(LINK) $(typelib_dump_OBJECTS) $(typelib_dump_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -628,6 +633,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/empty-skels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/empty-stubs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ior-decode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matecorba-typelib-dump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-any-client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-any-common.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-any-server.Po@am__quote@
@@ -647,7 +653,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timeout-server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timeout-skels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timeout-stubs.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/matecorba-typelib-dump.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

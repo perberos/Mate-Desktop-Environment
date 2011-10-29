@@ -1,5 +1,5 @@
 pkgname=mate-mime-data
-pkgver=2011.9.26
+pkgver=2011.10.27
 pkgrel=1
 pkgdesc="The base MIME and Application database for MATE"
 arch=('any')
@@ -13,8 +13,8 @@ sha256sums=('9891b8d90b42e18db0cc2923cfe961423305a354efbe9c93388e29cc1eb89dad')
 
 build() {
 	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
-	make
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var || return 1
+	make || return 1
 }
 
 package() {

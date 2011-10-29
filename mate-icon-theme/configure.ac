@@ -1,8 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.53)
 
-AC_INIT([mate-icon-theme], [2011.9.25],
-        [https://github.com/Perberos/Mate-Desktop-Environment])
+AC_INIT([mate-icon-theme], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
 AC_CONFIG_SRCDIR([index.theme.in.in])
 
 AM_INIT_AUTOMAKE([1.9 tar-ustar foreign])

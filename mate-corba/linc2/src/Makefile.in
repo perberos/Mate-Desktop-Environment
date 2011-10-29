@@ -34,7 +34,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@OS_WIN32_FALSE@bin_PROGRAMS = matecorba-linc-cleanup-sockets$(EXEEXT)
+@OS_WIN32_FALSE@bin_PROGRAMS =  \
+@OS_WIN32_FALSE@	matecorba-linc-cleanup-sockets$(EXEEXT)
 @OS_WIN32_FALSE@am__append_1 = -D_GNU_SOURCE
 subdir = linc2/src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -57,12 +58,14 @@ liblinc_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(liblinc_la_LDFLAGS) $(LDFLAGS) -o $@
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_linc_cleanup_sockets_OBJECTS = cleanup.$(OBJEXT)
-linc_cleanup_sockets_OBJECTS = $(am_linc_cleanup_sockets_OBJECTS)
-linc_cleanup_sockets_LDADD = $(LDADD)
-linc_cleanup_sockets_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(linc_cleanup_sockets_LDFLAGS) $(LDFLAGS) -o $@
+am_matecorba_linc_cleanup_sockets_OBJECTS = cleanup.$(OBJEXT)
+matecorba_linc_cleanup_sockets_OBJECTS =  \
+	$(am_matecorba_linc_cleanup_sockets_OBJECTS)
+matecorba_linc_cleanup_sockets_LDADD = $(LDADD)
+matecorba_linc_cleanup_sockets_LINK = $(LIBTOOL) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) \
+	$(matecorba_linc_cleanup_sockets_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -76,8 +79,10 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(liblinc_la_SOURCES) $(linc_cleanup_sockets_SOURCES)
-DIST_SOURCES = $(liblinc_la_SOURCES) $(linc_cleanup_sockets_SOURCES)
+SOURCES = $(liblinc_la_SOURCES) \
+	$(matecorba_linc_cleanup_sockets_SOURCES)
+DIST_SOURCES = $(liblinc_la_SOURCES) \
+	$(matecorba_linc_cleanup_sockets_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -111,6 +116,8 @@ FGREP = @FGREP@
 GLIB_REQUIRED = @GLIB_REQUIRED@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 HTML_DIR = @HTML_DIR@
@@ -241,8 +248,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = liblinc.la
 
-#	-I$(top_builddir)/include  
-#	-I$(top_srcdir)/include    
+#	-I$(top_builddir)/include
+#	-I$(top_srcdir)/include
 INCLUDES = -I$(top_builddir)/linc2/include \
 	-I$(top_srcdir)/linc2/include $(LINC_CFLAGS) $(WARN_CFLAGS) \
 	-DG_DISABLE_DEPRECATED $(am__append_1)
@@ -261,10 +268,10 @@ liblinc_la_LDFLAGS = \
 	$(LINC_LIBS)                 \
 	-no-undefined
 
-linc_cleanup_sockets_SOURCES = \
+matecorba_linc_cleanup_sockets_SOURCES = \
 	cleanup.c
 
-linc_cleanup_sockets_LDFLAGS = \
+matecorba_linc_cleanup_sockets_LDFLAGS = \
 	$(LINC_LIBS)
 
 all: all-am
@@ -355,9 +362,9 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-matecorba-linc-cleanup-sockets$(EXEEXT): $(linc_cleanup_sockets_OBJECTS) $(linc_cleanup_sockets_DEPENDENCIES) 
+matecorba-linc-cleanup-sockets$(EXEEXT): $(matecorba_linc_cleanup_sockets_OBJECTS) $(matecorba_linc_cleanup_sockets_DEPENDENCIES) 
 	@rm -f matecorba-linc-cleanup-sockets$(EXEEXT)
-	$(linc_cleanup_sockets_LINK) $(linc_cleanup_sockets_OBJECTS) $(linc_cleanup_sockets_LDADD) $(LIBS)
+	$(matecorba_linc_cleanup_sockets_LINK) $(matecorba_linc_cleanup_sockets_OBJECTS) $(matecorba_linc_cleanup_sockets_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

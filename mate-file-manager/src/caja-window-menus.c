@@ -27,7 +27,7 @@
  */
 #include <config.h>
 
-#include <locale.h> 
+#include <locale.h>
 
 #include "caja-actions.h"
 #include "caja-application.h"
@@ -73,7 +73,7 @@ typedef struct {
 } BookmarkHolder;
 
 static BookmarkHolder *
-bookmark_holder_new (CajaBookmark *bookmark, 
+bookmark_holder_new (CajaBookmark *bookmark,
 		     CajaWindow *window,
 		     GCallback refresh_callback,
 		     CajaBookmarkFailedCallback failed_callback)
@@ -84,11 +84,11 @@ bookmark_holder_new (CajaBookmark *bookmark,
 	new_bookmark_holder->window = window;
 	new_bookmark_holder->bookmark = bookmark;
 	new_bookmark_holder->failed_callback = failed_callback;
-	/* Ref the bookmark because it might be unreffed away while 
+	/* Ref the bookmark because it might be unreffed away while
 	 * we're holding onto it (not an issue for window).
 	 */
 	g_object_ref (bookmark);
-	new_bookmark_holder->changed_handler_id = 
+	new_bookmark_holder->changed_handler_id =
 		g_signal_connect_object (bookmark, "appearance_changed",
 					 refresh_callback,
 					 window, G_CONNECT_SWAPPED);
@@ -146,16 +146,16 @@ activate_bookmark_in_menu_item (GtkAction *action, gpointer user_data)
 	} else {
 	        location = caja_bookmark_get_location (holder->bookmark);
 		slot = caja_window_get_active_slot (holder->window);
-	        caja_window_slot_go_to (slot, 
-					    location, 
+	        caja_window_slot_go_to (slot,
+					    location,
 					    should_open_in_new_tab ());
 	        g_object_unref (location);
         }
 }
 
 void
-caja_menus_append_bookmark_to_menu (CajaWindow *window, 
-					CajaBookmark *bookmark, 
+caja_menus_append_bookmark_to_menu (CajaWindow *window,
+					CajaBookmark *bookmark,
 					const char *parent_path,
 					const char *parent_id,
 					guint index_in_parent,
@@ -187,14 +187,14 @@ caja_menus_append_bookmark_to_menu (CajaWindow *window,
 				 name,
 				 _("Go to the location specified by this bookmark"),
 				 NULL);
-	
+
 	g_object_set_data_full (G_OBJECT (action), "menu-icon",
 				g_object_ref (pixbuf),
 				g_object_unref);
 
 	g_signal_connect_data (action, "activate",
 			       G_CALLBACK (activate_bookmark_in_menu_item),
-			       bookmark_holder, 
+			       bookmark_holder,
 			       bookmark_holder_free_cover, 0);
 
 	gtk_action_group_add_action (action_group,
@@ -235,7 +235,7 @@ action_close_window_slot_callback (GtkAction *action,
 }
 
 static void
-action_connect_to_server_callback (GtkAction *action, 
+action_connect_to_server_callback (GtkAction *action,
 				   gpointer user_data)
 {
 	CajaWindow *window = CAJA_WINDOW (user_data);
@@ -254,7 +254,7 @@ action_connect_to_server_callback (GtkAction *action,
 }
 
 static void
-action_stop_callback (GtkAction *action, 
+action_stop_callback (GtkAction *action,
 		      gpointer user_data)
 {
 	CajaWindow *window;
@@ -267,16 +267,16 @@ action_stop_callback (GtkAction *action,
 }
 
 static void
-action_undo_callback (GtkAction *action, 
-		      gpointer user_data) 
+action_undo_callback (GtkAction *action,
+		      gpointer user_data)
 {
 	caja_undo_manager_undo
 		(CAJA_WINDOW (user_data)->application->undo_manager);
 }
 
 static void
-action_home_callback (GtkAction *action, 
-		      gpointer user_data) 
+action_home_callback (GtkAction *action,
+		      gpointer user_data)
 {
 	CajaWindow *window;
 	CajaWindowSlot *slot;
@@ -284,13 +284,13 @@ action_home_callback (GtkAction *action,
 	window = CAJA_WINDOW (user_data);
 	slot = caja_window_get_active_slot (window);
 
-	caja_window_slot_go_home (slot, 
+	caja_window_slot_go_home (slot,
 				      should_open_in_new_tab ());
 }
 
 static void
-action_go_to_computer_callback (GtkAction *action, 
-				gpointer user_data) 
+action_go_to_computer_callback (GtkAction *action,
+				gpointer user_data)
 {
 	CajaWindow *window;
 	CajaWindowSlot *slot;
@@ -307,8 +307,8 @@ action_go_to_computer_callback (GtkAction *action,
 }
 
 static void
-action_go_to_network_callback (GtkAction *action, 
-				gpointer user_data) 
+action_go_to_network_callback (GtkAction *action,
+				gpointer user_data)
 {
 	CajaWindow *window;
 	CajaWindowSlot *slot;
@@ -326,7 +326,7 @@ action_go_to_network_callback (GtkAction *action,
 
 static void
 action_go_to_templates_callback (GtkAction *action,
-				 gpointer user_data) 
+				 gpointer user_data)
 {
 	CajaWindow *window;
 	CajaWindowSlot *slot;
@@ -346,8 +346,8 @@ action_go_to_templates_callback (GtkAction *action,
 }
 
 static void
-action_go_to_trash_callback (GtkAction *action, 
-			     gpointer user_data) 
+action_go_to_trash_callback (GtkAction *action,
+			     gpointer user_data)
 {
 	CajaWindow *window;
 	CajaWindowSlot *slot;
@@ -364,35 +364,35 @@ action_go_to_trash_callback (GtkAction *action,
 }
 
 static void
-action_reload_callback (GtkAction *action, 
-			gpointer user_data) 
+action_reload_callback (GtkAction *action,
+			gpointer user_data)
 {
 	caja_window_reload (CAJA_WINDOW (user_data));
 }
 
 static void
-action_zoom_in_callback (GtkAction *action, 
-			 gpointer user_data) 
+action_zoom_in_callback (GtkAction *action,
+			 gpointer user_data)
 {
 	caja_window_zoom_in (CAJA_WINDOW (user_data));
 }
 
 static void
-action_zoom_out_callback (GtkAction *action, 
-			  gpointer user_data) 
+action_zoom_out_callback (GtkAction *action,
+			  gpointer user_data)
 {
 	caja_window_zoom_out (CAJA_WINDOW (user_data));
 }
 
 static void
-action_zoom_normal_callback (GtkAction *action, 
-			     gpointer user_data) 
+action_zoom_normal_callback (GtkAction *action,
+			     gpointer user_data)
 {
 	caja_window_zoom_to_default (CAJA_WINDOW (user_data));
 }
 
 static void
-action_show_hidden_files_callback (GtkAction *action, 
+action_show_hidden_files_callback (GtkAction *action,
 				   gpointer callback_data)
 {
 	CajaWindow *window;
@@ -443,7 +443,7 @@ preferences_respond_callback (GtkDialog *dialog,
 }
 
 static void
-action_preferences_callback (GtkAction *action, 
+action_preferences_callback (GtkAction *action,
 			     gpointer user_data)
 {
 	GtkWindow *window;
@@ -454,7 +454,7 @@ action_preferences_callback (GtkAction *action,
 }
 
 static void
-action_backgrounds_and_emblems_callback (GtkAction *action, 
+action_backgrounds_and_emblems_callback (GtkAction *action,
 					 gpointer user_data)
 {
 	GtkWindow *window;
@@ -555,14 +555,14 @@ action_about_caja_callback (GtkAction *action,
 }
 
 static void
-action_up_callback (GtkAction *action, 
-		     gpointer user_data) 
+action_up_callback (GtkAction *action,
+		     gpointer user_data)
 {
 	caja_window_go_up (CAJA_WINDOW (user_data), FALSE, should_open_in_new_tab ());
 }
 
 static void
-action_caja_manual_callback (GtkAction *action, 
+action_caja_manual_callback (GtkAction *action,
 				 gpointer user_data)
 {
 	CajaWindow *window;
@@ -573,7 +573,15 @@ action_caja_manual_callback (GtkAction *action,
 	window = CAJA_WINDOW (user_data);
 
 	if (CAJA_IS_DESKTOP_WINDOW (window)) {
-		g_spawn_command_line_async("mate-help", &error);
+		#if GTK_CHECK_VERSION(2, 24, 0)
+			gdk_spawn_command_line_on_screen(gtk_window_get_screen(GTK_WINDOW(window)), "mate-help", &error);
+		#else
+
+
+
+			g_spawn_command_line_async("mate-help", &error);
+		#endif
+
 	} else {
 		gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (window)),
 			      "ghelp:user-guide#goscaja-1",
@@ -606,7 +614,7 @@ menu_item_select_cb (GtkMenuItem *proxy,
 
 	action = gtk_activatable_get_related_action (GTK_ACTIVATABLE (proxy));
 	g_return_if_fail (action != NULL);
-	
+
 	g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
 	if (message) {
 		gtk_statusbar_push (GTK_STATUSBAR (window->details->statusbar),
@@ -710,7 +718,7 @@ connect_proxy_cb (GtkUIManager *manager,
 {
 	GdkPixbuf *icon;
 	GtkWidget *widget;
-	
+
 	if (GTK_IS_MENU_ITEM (proxy)) {
 		g_signal_connect (proxy, "select",
 				  G_CALLBACK (menu_item_select_cb), window);
@@ -734,7 +742,7 @@ connect_proxy_cb (GtkUIManager *manager,
 							 widget);
 		}
 	}
-	
+
 	widget = get_event_widget (proxy);
 	if (widget) {
 		g_signal_connect (widget, "button-press-event",
@@ -789,11 +797,11 @@ static const GtkActionEntry main_entries[] = {
   /* tooltip */                  N_("Close this folder"),
                                  G_CALLBACK (action_close_window_slot_callback) },
                                { "Backgrounds and Emblems", NULL,
-                                 N_("_Backgrounds and Emblems..."),               
+                                 N_("_Backgrounds and Emblems..."),
                                  NULL, N_("Display patterns, colors, and emblems that can be used to customize appearance"),
                                  G_CALLBACK (action_backgrounds_and_emblems_callback) },
                                { "Preferences", GTK_STOCK_PREFERENCES,
-                                 N_("Prefere_nces"),               
+                                 N_("Prefere_nces"),
                                  NULL, N_("Edit Caja preferences"),
                                  G_CALLBACK (action_preferences_callback) },
   /* name, stock id, label */  { "Undo", NULL, N_("_Undo"),
@@ -845,7 +853,7 @@ static const GtkActionEntry main_entries[] = {
   /* label, accelerator */       N_("Normal Si_ze"), "<control>0",
   /* tooltip */                  N_("Use the normal view size"),
                                  G_CALLBACK (action_zoom_normal_callback) },
-  /* name, stock id */         { "Connect to Server", NULL, 
+  /* name, stock id */         { "Connect to Server", NULL,
   /* label, accelerator */       N_("Connect to _Server..."), NULL,
   /* tooltip */                  N_("Connect to a remote computer or shared disk"),
                                  G_CALLBACK (action_connect_to_server_callback) },
@@ -881,25 +889,25 @@ static const GtkToggleActionEntry main_toggle_entries[] = {
 
 /**
  * caja_window_initialize_menus
- * 
+ *
  * Create and install the set of menus for this window.
  * @window: A recently-created CajaWindow.
  */
-void 
+void
 caja_window_initialize_menus (CajaWindow *window)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
 	const char *ui;
-	
+
 	action_group = gtk_action_group_new ("ShellActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	window->details->main_action_group = action_group;
-	gtk_action_group_add_actions (action_group, 
+	gtk_action_group_add_actions (action_group,
 				      main_entries, G_N_ELEMENTS (main_entries),
 				      window);
-	gtk_action_group_add_toggle_actions (action_group, 
+	gtk_action_group_add_toggle_actions (action_group,
 					     main_toggle_entries, G_N_ELEMENTS (main_toggle_entries),
 					     window);
 
@@ -924,12 +932,12 @@ caja_window_initialize_menus (CajaWindow *window)
 	ui_manager = window->details->ui_manager;
 	gtk_window_add_accel_group (GTK_WINDOW (window),
 				    gtk_ui_manager_get_accel_group (ui_manager));
-	
+
 	g_signal_connect (ui_manager, "connect_proxy",
 			  G_CALLBACK (connect_proxy_cb), window);
 	g_signal_connect (ui_manager, "disconnect_proxy",
 			  G_CALLBACK (disconnect_proxy_cb), window);
-	
+
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	g_object_unref (action_group); /* owned by ui manager */
 
@@ -946,7 +954,7 @@ get_extension_menus (CajaWindow *window)
 	GList *providers;
 	GList *items;
 	GList *l;
-	
+
 	providers = caja_module_get_extensions_for_type (CAJA_TYPE_MENU_PROVIDER);
 	items = NULL;
 
@@ -955,7 +963,7 @@ get_extension_menus (CajaWindow *window)
 	for (l = providers; l != NULL; l = l->next) {
 		CajaMenuProvider *provider;
 		GList *file_items;
-		
+
 		provider = CAJA_MENU_PROVIDER (l->data);
 		file_items = caja_menu_provider_get_background_items (provider,
 									  GTK_WIDGET (window),
@@ -979,20 +987,20 @@ add_extension_menu_items (CajaWindow *window,
 	GList *l;
 
 	ui_manager = window->details->ui_manager;
-	
+
 	for (l = menu_items; l; l = l->next) {
 		CajaMenuItem *item;
 		CajaMenu *menu;
 		GtkAction *action;
 		char *path;
-		
+
 		item = CAJA_MENU_ITEM (l->data);
-		
+
 		g_object_get (item, "menu", &menu, NULL);
-		
+
 		action = caja_action_from_menu_item (item);
 		gtk_action_group_add_action_with_accel (action_group, action, NULL);
-		
+
 		path = g_build_path ("/", POPUP_PATH_EXTENSION_ACTIONS, subdirectory, NULL);
 		gtk_ui_manager_add_ui (ui_manager,
 				       merge_id,
@@ -1013,13 +1021,13 @@ add_extension_menu_items (CajaWindow *window,
 				       FALSE);
 		g_free (path);
 
-		/* recursively fill the menu */		       
+		/* recursively fill the menu */
 		if (menu != NULL) {
 			char *subdir;
 			GList *children;
-			
+
 			children = caja_menu_get_items (menu);
-			
+
 			subdir = g_build_path ("/", subdirectory, "/", gtk_action_get_name (action), NULL);
 			add_extension_menu_items (window,
 						  merge_id,
@@ -1029,7 +1037,7 @@ add_extension_menu_items (CajaWindow *window,
 
 			caja_menu_item_list_free (children);
 			g_free (subdir);
-		}			
+		}
 	}
 }
 
@@ -1051,7 +1059,7 @@ caja_window_load_extension_menus (CajaWindow *window)
 						    window->details->extensions_menu_action_group);
 		window->details->extensions_menu_action_group = NULL;
 	}
-	
+
 	merge_id = gtk_ui_manager_new_merge_id (window->details->ui_manager);
 	window->details->extensions_menu_merge_id = merge_id;
 	action_group = gtk_action_group_new ("ExtensionsMenuGroup");

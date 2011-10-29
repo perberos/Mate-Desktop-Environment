@@ -78,11 +78,13 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(libMateCORBAservicesincludedir)"
 LIBRARIES = $(lib_LIBRARIES)
 ARFLAGS = cru
-libname_server_2_a_AR = $(AR) $(ARFLAGS)
-libname_server_2_a_LIBADD =
-am_libname_server_2_a_OBJECTS = matecorba-name-server.$(OBJEXT) \
-	CosNaming-skels.$(OBJEXT) name-support.$(OBJEXT)
-libname_server_2_a_OBJECTS = $(am_libname_server_2_a_OBJECTS)
+libname_matecorba_server_2_a_AR = $(AR) $(ARFLAGS)
+libname_matecorba_server_2_a_LIBADD =
+am_libname_matecorba_server_2_a_OBJECTS =  \
+	matecorba-name-server.$(OBJEXT) CosNaming-skels.$(OBJEXT) \
+	name-support.$(OBJEXT)
+libname_matecorba_server_2_a_OBJECTS =  \
+	$(am_libname_matecorba_server_2_a_OBJECTS)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libMateCORBACosNaming_2_la_LIBADD =
 am_libMateCORBACosNaming_2_la_OBJECTS = CosNaming-common.lo \
@@ -123,10 +125,10 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libname_server_2_a_SOURCES) \
+SOURCES = $(libname_matecorba_server_2_a_SOURCES) \
 	$(libMateCORBACosNaming_2_la_SOURCES) \
 	$(matecorba_name_server_2_SOURCES) $(name_client_2_SOURCES)
-DIST_SOURCES = $(libname_server_2_a_SOURCES) \
+DIST_SOURCES = $(libname_matecorba_server_2_a_SOURCES) \
 	$(libMateCORBACosNaming_2_la_SOURCES) \
 	$(matecorba_name_server_2_SOURCES) $(name_client_2_SOURCES)
 DATA = $(idl_DATA)
@@ -164,6 +166,8 @@ FGREP = @FGREP@
 GLIB_REQUIRED = @GLIB_REQUIRED@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 HTML_DIR = @HTML_DIR@
@@ -345,10 +349,10 @@ name_client_2_SOURCES = name-client.c name-support.c name-support.h
 name_client_2_LDFLAGS = $(FLAGS)
 name_client_2_DEPENDENCIES = $(DEPS) CosNaming.h
 name_client_2_LDADD = $(LDADDS)
-libname_server_2_a_SOURCES = matecorba-name-server.c CosNaming-skels.c \
+libname_matecorba_server_2_a_SOURCES = matecorba-name-server.c CosNaming-skels.c \
 			   name-support.c name-support.h
 
-libname_server_2_a_DEPENDENCIES = $(DEPS) CosNaming.h
+libname_matecorba_server_2_a_DEPENDENCIES = $(DEPS) CosNaming.h
 matecorba_name_server_2_SOURCES = boot.c
 matecorba_name_server_2_LDFLAGS = $(FLAGS)
 matecorba_name_server_2_DEPENDENCIES = $(DEPS) CosNaming.h
@@ -424,9 +428,9 @@ uninstall-libLIBRARIES:
 
 clean-libLIBRARIES:
 	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
-libname-matecorba-server-2.a: $(libname_server_2_a_OBJECTS) $(libname_server_2_a_DEPENDENCIES) 
+libname-matecorba-server-2.a: $(libname_matecorba_server_2_a_OBJECTS) $(libname_matecorba_server_2_a_DEPENDENCIES) 
 	-rm -f libname-matecorba-server-2.a
-	$(libname_server_2_a_AR) libname-matecorba-server-2.a $(libname_server_2_a_OBJECTS) $(libname_server_2_a_LIBADD)
+	$(libname_matecorba_server_2_a_AR) libname-matecorba-server-2.a $(libname_matecorba_server_2_a_OBJECTS) $(libname_matecorba_server_2_a_LIBADD)
 	$(RANLIB) libname-matecorba-server-2.a
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -793,7 +797,7 @@ uninstall-am: uninstall-idlDATA uninstall-libLIBRARIES \
 distclean-local:
 	-rm -rf .deps
 
-$(libname_server_2_a_OBJECTS) $(name_client_2_OBJECTS) $(matecorba_name_server_2_OBJECTS) : CosNaming.h
+$(libname_matecorba_server_2_a_OBJECTS) $(name_client_2_OBJECTS) $(matecorba_name_server_2_OBJECTS) : CosNaming.h
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

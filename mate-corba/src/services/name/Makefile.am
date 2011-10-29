@@ -62,16 +62,16 @@ name_client_2_LDFLAGS = $(FLAGS)
 name_client_2_DEPENDENCIES = $(DEPS) CosNaming.h
 name_client_2_LDADD = $(LDADDS)
 
-libname_server_2_a_SOURCES = matecorba-name-server.c CosNaming-skels.c \
+libname_matecorba_server_2_a_SOURCES = matecorba-name-server.c CosNaming-skels.c \
 			   name-support.c name-support.h
-libname_server_2_a_DEPENDENCIES = $(DEPS) CosNaming.h
+libname_matecorba_server_2_a_DEPENDENCIES = $(DEPS) CosNaming.h
 
 matecorba_name_server_2_SOURCES = boot.c
 matecorba_name_server_2_LDFLAGS = $(FLAGS)
 matecorba_name_server_2_DEPENDENCIES = $(DEPS) CosNaming.h
 matecorba_name_server_2_LDADD = libname-matecorba-server-2.a $(LDADDS)
 
-$(libname_server_2_a_OBJECTS) $(name_client_2_OBJECTS) $(matecorba_name_server_2_OBJECTS) : CosNaming.h
+$(libname_matecorba_server_2_a_OBJECTS) $(name_client_2_OBJECTS) $(matecorba_name_server_2_OBJECTS) : CosNaming.h
 
 EXTRA_DIST = $(idl_DATA)
 

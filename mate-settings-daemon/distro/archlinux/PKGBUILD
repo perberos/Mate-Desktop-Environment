@@ -1,5 +1,5 @@
 pkgname=mate-settings-daemon
-pkgver=2011.9.26
+pkgver=2011.10.27
 pkgrel=2
 pkgdesc="The MATE Settings daemon"
 arch=('i686' 'x86_64')
@@ -15,10 +15,10 @@ sha256sums=('29149162282625c2c37ed8d5772318de320b2fbef2f293be6d7fa95c711fa7e6')
 
 build() {
 	cd "$srcdir/$pkgname"
-	libtoolize --force || return 1
-	aclocal || return 1
-	autoconf || return 1
-	automake || return 1
+	#libtoolize --force || return 1
+	#aclocal || return 1
+	#autoconf || return 1
+	#automake || return 1
 
 	# Remove --disable-pulse if you want pulseaudio support
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
@@ -26,7 +26,7 @@ build() {
 		--disable-static --disable-pulse --disable-schemas-install \
 		--enable-polkit || return 1
 
-	make
+	make || return 1
 }
 
 package() {

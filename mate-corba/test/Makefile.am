@@ -14,7 +14,7 @@ noinst_PROGRAMS=test1 \
 	echo-client echo-client-t echo-server \
 	empty-client empty-server \
 	test-any-client test-any-server \
-	timeout-client timeout-server 
+	timeout-client timeout-server
 
 check_PROGRAMS = test-dynany test-mem test-performance test-giop test-corbaloc
 
@@ -61,7 +61,7 @@ $(srcdir)/test1.c: test1.h
 
 test_mem_SOURCES=test-mem.c $(IDLOUT)
 
-ior_decode_2_SOURCES=ior-decode.c
+matecorba_ior_decode_2_SOURCES=ior-decode.c
 
 typelib_dump_SOURCES=matecorba-typelib-dump.c
 

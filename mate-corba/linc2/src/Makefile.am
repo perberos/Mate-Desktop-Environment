@@ -6,8 +6,8 @@ else
 bin_PROGRAMS = matecorba-linc-cleanup-sockets
 endif
 
-#	-I$(top_builddir)/include  
-#	-I$(top_srcdir)/include    
+#	-I$(top_builddir)/include
+#	-I$(top_srcdir)/include
 INCLUDES =                         \
 	-I$(top_builddir)/linc2/include  \
 	-I$(top_srcdir)/linc2/include    \
@@ -35,8 +35,8 @@ liblinc_la_LDFLAGS =                 \
 	$(LINC_LIBS)                 \
 	-no-undefined
 
-linc_cleanup_sockets_SOURCES = \
+matecorba_linc_cleanup_sockets_SOURCES = \
 	cleanup.c
 
-linc_cleanup_sockets_LDFLAGS = \
+matecorba_linc_cleanup_sockets_LDFLAGS = \
 	$(LINC_LIBS)

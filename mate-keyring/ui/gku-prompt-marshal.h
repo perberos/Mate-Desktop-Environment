@@ -4,9 +4,7 @@
 
 #include	<glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+G_BEGIN_DECLS
 
 /* BOOLEAN:VOID (gku-prompt-marshal.list:1) */
 extern void gku_prompt_marshal_BOOLEAN__VOID (GClosure     *closure,
@@ -16,9 +14,7 @@ extern void gku_prompt_marshal_BOOLEAN__VOID (GClosure     *closure,
                                               gpointer      invocation_hint,
                                               gpointer      marshal_data);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif /* __gku_prompt_marshal_MARSHAL_H__ */
 
