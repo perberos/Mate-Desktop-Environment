@@ -11,7 +11,7 @@ url="http://matsusoft.com.ar/projects"
 groups=('mate')
 install=mate-vfs.install
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
-sha256sums=('4faa653d58b1769f3146d853dd57cca3d35771aaa530686b48c46f5ee0b55c99')
+sha256sums=('b8792b042a68c8d97e3ce0523896533fc71b7964ce642935c5dbc447ab626c8d')
 
 build() {
 	cd "${srcdir}/${pkgname}"
@@ -25,11 +25,11 @@ build() {
 	./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static \
 		--libexecdir=/usr/lib/${pkgname} \
-		--enable-samba --disable-hal \
-		--enable-avahi --disable-howl \
-		--enable-openssl
+		--disable-samba --disable-hal \
+		--disable-avahi --disable-howl \
+		--disable-openssl || return 1
 		#--disable-openssl --enable-gnutls
-	make
+	make || return 1
 }
 
 package() {
