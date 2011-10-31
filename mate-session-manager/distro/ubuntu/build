@@ -2,10 +2,10 @@
 
 # fill it
 pkgname=mate-session-manager
-pkgver=2011.9.26
+pkgver=2011.10.29
 pkgrel=1
 pkgdesc="The MATE Session Handler"
-#depends="upower, gtk2, mate-conf, startup-notification, hicolor-icon-theme, libxtst, mate-polkit"
+depends=('upower' 'gtk2' 'mate-conf' 'hicolor-icon-theme' 'libxtst6' 'mate-polkit')
 # editar esta funcion!
 build() {
 	cd $pkgsrc
@@ -17,13 +17,11 @@ build() {
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
 		--libexecdir=/usr/lib || return 1
 
-	make
+	make || return 1
 	make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
 
 	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
 	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
-
-	# --disable-schemas-compile <- check if work <- nop
 	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }
 
