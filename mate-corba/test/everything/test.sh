@@ -28,7 +28,8 @@ run_test() {
     ./server $1 &
 
     until test -s iorfile; do sleep 1; done
-
+	
+	# Causes build problems on Launchpad
     if ./client $1; then
 	echo "============================================================="
 	echo "Test passed with params: $1"
