@@ -3,7 +3,7 @@
 usage() {
 cat << _EOF
 Usage:
-  mateconfpkg [OPTION] [PACKAGE] 
+  mateconfpkg [OPTION] [PACKAGE]
 
   Help Options:
     -?, --help            Show help options
@@ -16,8 +16,10 @@ _EOF
 }
 
 install() {
-	MATECONF_CONFIG_SOURCE=`/usr/bin/mateconftool-2 --get-default-source` \
-		/usr/bin/mateconftool-2 --makefile-install-rule /usr/share/mateconf/schemas/${pkgname}.schemas >/dev/null
+	if [ -f /usr/share/mateconf/schemas/${pkgname}.schemas ]; then
+		MATECONF_CONFIG_SOURCE=`/usr/bin/mateconftool-2 --get-default-source` \
+			/usr/bin/mateconftool-2 --makefile-install-rule /usr/share/mateconf/schemas/${pkgname}.schemas >/dev/null
+	fi
 }
 
 uninstall() {
@@ -27,7 +29,7 @@ uninstall() {
 	#	schemas=/opt/gnome/share/mateconf/schemas/${pkgname}.schemas
 	#else
 	#	schemas=`pacman -Ql ${pkgname} | grep 'mateconf/schemas/.*schemas$' | awk '{ print $2 }'`
-		
+
 		MATECONF_CONFIG_SOURCE=`/usr/bin/mateconftool-2 --get-default-source` \
 			/usr/bin/mateconftool-2 --makefile-uninstall-rule ${schemas} >/dev/null
 	fi
