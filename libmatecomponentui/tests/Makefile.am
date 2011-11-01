@@ -37,4 +37,4 @@ mate_test_reparent_SOURCES = mate-test-reparent.c
 mate_test_moniker_SOURCES = mate-test-moniker.c
 mate_test_filesel_SOURCES = mate-test-filesel.c
 
-TESTS = test-ui-auto
+TESTS = mate-test-ui-auto
