@@ -37,7 +37,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = gsettings-data-convert$(EXEEXT)
+bin_PROGRAMS = mate-gsettings-data-convert$(EXEEXT)
 subdir = gsettings
 DIST_COMMON = $(dist_bin_SCRIPTS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -90,7 +90,7 @@ libgsettingsmateconfbackend_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(libgsettingsmateconfbackend_la_CFLAGS) $(CFLAGS) \
 	$(libgsettingsmateconfbackend_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
-am_gsettings_data_convert_OBJECTS = gsettings-data-convert.$(OBJEXT)
+am_gsettings_data_convert_OBJECTS = mate-gsettings-data-convert.$(OBJEXT)
 gsettings_data_convert_OBJECTS = $(am_gsettings_data_convert_OBJECTS)
 gsettings_data_convert_DEPENDENCIES =  \
 	$(top_builddir)/mateconf/libmateconf-2.la \
@@ -344,27 +344,27 @@ libgsettingsmateconfbackend_la_LIBADD = \
 	$(GSETTINGS_LIBS)                   \
 	$(NULL)
 
-dist_bin_SCRIPTS = gsettings-schema-convert
+dist_bin_SCRIPTS = mate-gsettings-schema-convert
 AM_CPPFLAGS = \
 	-I$(top_srcdir)         \
 	-I$(top_builddir)       \
 	-DDATADIR=\"$(datadir)\" \
 	$(GSETTINGS_CFLAGS)
 
-gsettings_data_convert_SOURCES = gsettings-data-convert.c
+gsettings_data_convert_SOURCES = mate-gsettings-data-convert.c
 gsettings_data_convert_LDADD = \
 	$(top_builddir)/mateconf/libmateconf-2.la \
 	$(GSETTINGS_LIBS)                   \
 	$(NULL)
 
 autostartdir = $(sysconfdir)/xdg/autostart
-autostart_DATA = gsettings-data-convert.desktop
+autostart_DATA = mate-gsettings-data-convert.desktop
 man_MANS = \
-	gsettings-schema-convert.1 \
-	gsettings-data-convert.1 \
+	mate-gsettings-schema-convert.1 \
+	mate-gsettings-data-convert.1 \
 	$(NULL)
 
-EXTRA_DIST = gsettings-data-convert.xml gsettings-schema-convert.xml gsettings-data-convert.1 gsettings-schema-convert.1 gsettings-data-convert.desktop
+EXTRA_DIST = mate-gsettings-data-convert.xml mate-gsettings-schema-convert.xml mate-gsettings-data-convert.1 mate-gsettings-schema-convert.1 mate-gsettings-data-convert.desktop
 all: all-am
 
 .SUFFIXES:
@@ -475,8 +475,8 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-gsettings-data-convert$(EXEEXT): $(gsettings_data_convert_OBJECTS) $(gsettings_data_convert_DEPENDENCIES) 
-	@rm -f gsettings-data-convert$(EXEEXT)
+mate-gsettings-data-convert$(EXEEXT): $(gsettings_data_convert_OBJECTS) $(gsettings_data_convert_DEPENDENCIES) 
+	@rm -f mate-gsettings-data-convert$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(gsettings_data_convert_OBJECTS) $(gsettings_data_convert_LDADD) $(LIBS)
 install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
@@ -519,7 +519,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gsettings-data-convert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mate-gsettings-data-convert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsettingsmateconfbackend_la-mateconfsettingsbackend-module.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsettingsmateconfbackend_la-mateconfsettingsbackend.Plo@am__quote@
 

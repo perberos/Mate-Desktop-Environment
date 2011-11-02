@@ -22,8 +22,8 @@ libgsettingsmateconfbackend_la_LIBADD =        \
 	$(GSETTINGS_LIBS)                   \
 	$(NULL)
 
-dist_bin_SCRIPTS = gsettings-schema-convert
-bin_PROGRAMS = gsettings-data-convert
+dist_bin_SCRIPTS = mate-gsettings-schema-convert
+bin_PROGRAMS = mate-gsettings-data-convert
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)         \
@@ -31,24 +31,24 @@ AM_CPPFLAGS = \
 	-DDATADIR=\"$(datadir)\" \
 	$(GSETTINGS_CFLAGS)
 
-gsettings_data_convert_SOURCES = gsettings-data-convert.c
+gsettings_data_convert_SOURCES = mate-gsettings-data-convert.c
 gsettings_data_convert_LDADD =              \
 	$(top_builddir)/mateconf/libmateconf-2.la \
 	$(GSETTINGS_LIBS)                   \
 	$(NULL)
 
 autostartdir = $(sysconfdir)/xdg/autostart
-autostart_DATA = gsettings-data-convert.desktop
+autostart_DATA = mate-gsettings-data-convert.desktop
 
 man_MANS =                       \
-	gsettings-schema-convert.1 \
-	gsettings-data-convert.1 \
+	mate-gsettings-schema-convert.1 \
+	mate-gsettings-data-convert.1 \
 	$(NULL)
 
 %.1 : %.xml
 	xsltproc -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
 
-EXTRA_DIST = gsettings-data-convert.xml gsettings-schema-convert.xml gsettings-data-convert.1 gsettings-schema-convert.1 gsettings-data-convert.desktop
+EXTRA_DIST = mate-gsettings-data-convert.xml mate-gsettings-schema-convert.xml mate-gsettings-data-convert.1 mate-gsettings-schema-convert.1 mate-gsettings-data-convert.desktop
 
 dist-hook-local: $(BUILT_EXTRA_DIST)
 	files='$(BUILT_EXTRA_DIST)';                      \
