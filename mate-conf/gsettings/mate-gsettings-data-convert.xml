@@ -1,0 +1,98 @@
+<refentry id="mate-gsettings-data-convert">
+
+<refmeta>
+<refentrytitle>mate-gsettings-data-convert</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="manual">User Commands</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>mate-gsettings-data-convert</refname>
+<refpurpose>MateConf to GSettings data migration</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>mate-gsettings-data-convert</command>
+<arg choice="opt" rep="repeat">option</arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+<para>
+<command>mate-gsettings-data-convert</command> reads values out of the users
+MateConf database and stores them in GSettings.
+</para>
+<para>
+The information about the mapping from MateConf keys to GSettings keys
+is taken from files in <filename>/usr/share/MateConf/gsettings</filename>.
+Each file in that directory is read as a key file, with sections
+for each GSettings schema that is being converted. The entries in
+each section map GSettings keys to paths in the MateConf database.
+Currently, <command>mate-gsettings-data-convert</command> supports all
+basic MateConf types as well as lists of strings and lists of integers.
+</para>
+<para>
+A simple example might look like this:
+<programlisting>
+[org.mate.fonts]
+antialiasing = /desktop/mate/font_rendering/antialiasing
+dpi = /desktop/mate/font_rendering/dpi
+hinting = /desktop/mate/font_rendering/hinting
+rgba_order = /desktop/mate/font_rendering/rgba_order
+</programlisting>
+</para>
+<para>
+If the GSettings schema does not have a fixed path, you must specify
+the path in the group name, separated by a colon character:
+<programlisting>
+[org.mate.fonts:/desktop/mate/font-rendering/]
+</programlisting>
+</para>
+<para>
+<command>mate-gsettings-data-convert</command> keeps a list of the key files it
+has already converted, so it is safe to run it repeatedly to handle
+newly appeared key files. The expected use of this utility is to make
+each application install a key file for the MateConf keys that it
+wants to be migrated, and run <command>mate-gsettings-data-convert</command>
+every time a user logs in.
+</para>
+
+<refsect2><title>Options</title>
+<variablelist>
+
+<varlistentry>
+<term><option>-h</option>, <option>--help</option></term>
+<listitem><para>
+Print help and exit
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--dry-run</option></term>
+<listitem><para>
+Do not make any changes, just report what would be done
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--verbose</option></term>
+<listitem><para>
+Show verbose messages
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1><title>See also</title>
+<para>
+<citerefentry>
+  <refentrytitle>mate-gsettings-schema-convert</refentrytitle>
+  <manvolnum>1</manvolnum>
+</citerefentry> is a related command that helps with the conversion
+of schemas from MateConf to GSettings.
+</para>
+</refsect1>
+</refentry>
+
