@@ -136,14 +136,36 @@ end() {
 	echo "Installed-Size: %SIZE%" >> $pkgdir/DEBIAN/control
 
 	if [ $depends ]; then
-		dependsline=""
-		for index in $(seq 0 $((${#makedepends[@]} - 1))); do
-			if [ "$dependsline" != "" ]; then
-				dependsline="$dependsline,"
+		line=""
+		for index in $(seq 0 $((${#depends[@]} - 1))); do
+			if [ "$line" != "" ]; then
+				line="$line,"
 			fi
-			dependsline="$dependsline ${makedepends[index]}"
+			line="$line ${makedepends[index]}"
 		done
-		echo "Depends: $dependsline" >> $pkgdir/DEBIAN/control
+		echo "Depends: $line" >> $pkgdir/DEBIAN/control
+	fi
+
+	if [ $makedepends ]; then
+		line=""
+		for index in $(seq 0 $((${#makedepends[@]} - 1))); do
+			if [ "$line" != "" ]; then
+				line="$line,"
+			fi
+			line="$line ${makedepends[index]}"
+		done
+		echo "Build-Depends: $line" >> $pkgdir/DEBIAN/control
+	fi
+
+	if [ $conflicts ]; then
+		line=""
+		for index in $(seq 0 $((${#conflicts[@]} - 1))); do
+			if [ "$line" != "" ]; then
+				line="$line,"
+			fi
+			line="$line ${conflicts[index]}"
+		done
+		echo "Conflicts: $line" >> $pkgdir/DEBIAN/control
 	fi
 
 	echo "Section: %SECTION%" >> $pkgdir/DEBIAN/control
