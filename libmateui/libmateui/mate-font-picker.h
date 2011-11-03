@@ -34,35 +34,35 @@ extern "C" {
 
 /* Button Mode or What to show */
 typedef enum {
-    MATE_FONT_PICKER_MODE_PIXMAP,
-    MATE_FONT_PICKER_MODE_FONT_INFO,
-    MATE_FONT_PICKER_MODE_USER_WIDGET,
-    MATE_FONT_PICKER_MODE_UNKNOWN
+	MATE_FONT_PICKER_MODE_PIXMAP,
+	MATE_FONT_PICKER_MODE_FONT_INFO,
+	MATE_FONT_PICKER_MODE_USER_WIDGET,
+	MATE_FONT_PICKER_MODE_UNKNOWN
 } MateFontPickerMode;
 
-#define MATE_TYPE_FONT_PICKER            (mate_font_picker_get_type ())
-#define MATE_FONT_PICKER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_FONT_PICKER, MateFontPicker))
-#define MATE_FONT_PICKER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_FONT_PICKER, MateFontPickerClass))
-#define MATE_IS_FONT_PICKER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATE_TYPE_FONT_PICKER))
-#define MATE_IS_FONT_PICKER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_FONT_PICKER))
-#define MATE_FONT_PICKER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MATE_TYPE_FONT_PICKER, MateFontPickerClass))
+#define MATE_TYPE_FONT_PICKER            (mate_font_picker_get_type())
+#define MATE_FONT_PICKER(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), MATE_TYPE_FONT_PICKER, MateFontPicker))
+#define MATE_FONT_PICKER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), MATE_TYPE_FONT_PICKER, MateFontPickerClass))
+#define MATE_IS_FONT_PICKER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), MATE_TYPE_FONT_PICKER))
+#define MATE_IS_FONT_PICKER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), MATE_TYPE_FONT_PICKER))
+#define MATE_FONT_PICKER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), MATE_TYPE_FONT_PICKER, MateFontPickerClass))
 
-typedef struct _MateFontPicker        MateFontPicker;
+typedef struct _MateFontPicker MateFontPicker;
 typedef struct _MateFontPickerPrivate MateFontPickerPrivate;
-typedef struct _MateFontPickerClass   MateFontPickerClass;
+typedef struct _MateFontPickerClass MateFontPickerClass;
 
 struct _MateFontPicker {
-        GtkButton button;
+	GtkButton button;
 
 	/*< private >*/
-	MateFontPickerPrivate *_priv;
+	MateFontPickerPrivate* _priv;
 };
 
 struct _MateFontPickerClass {
 	GtkButtonClass parent_class;
 
 	/* font_set signal is emitted when font is chosen */
-	void (* font_set) (MateFontPicker *gfp, const gchar *font_name);
+	void (*font_set) (MateFontPicker* gfp, const gchar* font_name);
 
 	/* It is possible we may need more signals */
 	gpointer padding1;
@@ -71,49 +71,40 @@ struct _MateFontPickerClass {
 
 
 /* Standard Gtk function */
-GType mate_font_picker_get_type (void) G_GNUC_CONST;
+GType mate_font_picker_get_type(void) G_GNUC_CONST;
 
 /* Creates a new font picker widget */
-GtkWidget *mate_font_picker_new (void);
+GtkWidget *mate_font_picker_new(void);
 
 /* Sets the title for the font selection dialog */
-void       mate_font_picker_set_title       (MateFontPicker *gfp,
-					      const gchar *title);
-const gchar * mate_font_picker_get_title    (MateFontPicker *gfp);
+void mate_font_picker_set_title(MateFontPicker* gfp, const gchar* title);
+const gchar* mate_font_picker_get_title(MateFontPicker* gfp);
 
 /* Button mode */
-MateFontPickerMode
-           mate_font_picker_get_mode        (MateFontPicker *gfp);
+MateFontPickerMode mate_font_picker_get_mode(MateFontPicker* gfp);
 
-void       mate_font_picker_set_mode        (MateFontPicker *gfp,
-                                              MateFontPickerMode mode);
+void mate_font_picker_set_mode(MateFontPicker* gfp, MateFontPickerMode mode);
 /* With  MATE_FONT_PICKER_MODE_FONT_INFO */
 /* If use_font_in_label is true, font name will be written using font chosen by user and
  using size passed to this function*/
-void       mate_font_picker_fi_set_use_font_in_label (MateFontPicker *gfp,
-                                                       gboolean use_font_in_label,
-                                                       gint size);
+void mate_font_picker_fi_set_use_font_in_label(MateFontPicker* gfp, gboolean use_font_in_label, gint size);
 
-void       mate_font_picker_fi_set_show_size (MateFontPicker *gfp,
-                                               gboolean show_size);
+void mate_font_picker_fi_set_show_size(MateFontPicker* gfp, gboolean show_size);
 
 /* With MATE_FONT_PICKER_MODE_USER_WIDGET */
-void       mate_font_picker_uw_set_widget    (MateFontPicker *gfp,
-                                               GtkWidget       *widget);
-GtkWidget * mate_font_picker_uw_get_widget    (MateFontPicker *gfp);
+void mate_font_picker_uw_set_widget(MateFontPicker* gfp, GtkWidget* widget);
+GtkWidget* mate_font_picker_uw_get_widget(MateFontPicker* gfp);
 
 /* Functions to interface with GtkFontSelectionDialog */
-const gchar* mate_font_picker_get_font_name  (MateFontPicker *gfp);
+const gchar* mate_font_picker_get_font_name(MateFontPicker* gfp);
 
-GdkFont*   mate_font_picker_get_font	      (MateFontPicker *gfp);
+GdkFont* mate_font_picker_get_font(MateFontPicker* gfp);
 
-gboolean   mate_font_picker_set_font_name    (MateFontPicker *gfp,
-                                               const gchar     *fontname);
+gboolean mate_font_picker_set_font_name(MateFontPicker* gfp, const gchar* fontname);
 
-const gchar* mate_font_picker_get_preview_text (MateFontPicker *gfp);
+const gchar* mate_font_picker_get_preview_text(MateFontPicker* gfp);
 
-void	   mate_font_picker_set_preview_text (MateFontPicker *gfp,
-                                               const gchar     *text);
+void mate_font_picker_set_preview_text(MateFontPicker* gfp, const gchar* text);
 
 #ifdef __cplusplus
 }

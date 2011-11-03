@@ -826,15 +826,15 @@ void	   mate_font_picker_set_preview_text (MateFontPicker *gfp,
  Internal functions
  **************************************************************************/
 
-static void
-mate_font_picker_clicked(GtkButton *button)
+static void mate_font_picker_clicked(GtkButton* button)
 {
-    MateFontPicker      *gfp;
-    GtkFontSelectionDialog *fsd;
+    MateFontPicker* gfp;
+    GtkFontSelectionDialog* fsd;
 
     gfp = MATE_FONT_PICKER(button);
 
-    if (!gfp->_priv->font_dialog) {
+    if (!gfp->_priv->font_dialog)
+    {
         GtkWidget *parent;
 
         parent = gtk_widget_get_toplevel(GTK_WIDGET(gfp));
@@ -867,18 +867,19 @@ mate_font_picker_clicked(GtkButton *button)
 
     } /* if */
 
-    if (!GTK_WIDGET_VISIBLE(gfp->_priv->font_dialog)) {
+    if (!GTK_WIDGET_VISIBLE(gfp->_priv->font_dialog))
+    {
 
         /* Set font and preview text */
-        gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog),
-                                                gfp->_priv->font_name);
-        gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog),
-                                                   gfp->_priv->preview_text);
+        gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
+        gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
 
         gtk_widget_show(gfp->_priv->font_dialog);
-    } else if (gfp->_priv->font_dialog->window) {
-	/*raise the window so that if it is obscured that we see it*/
-	gdk_window_raise(gfp->_priv->font_dialog->window);
+    }
+    else if (gfp->_priv->font_dialog->window)
+    {
+		/*raise the window so that if it is obscured that we see it*/
+		gdk_window_raise(gfp->_priv->font_dialog->window);
     }/* if */
 } /* mate_font_picker_clicked */
 
