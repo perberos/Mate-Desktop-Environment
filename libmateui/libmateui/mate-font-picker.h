@@ -74,7 +74,7 @@ struct _MateFontPickerClass {
 GType mate_font_picker_get_type(void) G_GNUC_CONST;
 
 /* Creates a new font picker widget */
-GtkWidget *mate_font_picker_new(void);
+GtkWidget* mate_font_picker_new(void);
 
 /* Sets the title for the font selection dialog */
 void mate_font_picker_set_title(MateFontPicker* gfp, const gchar* title);
@@ -97,8 +97,6 @@ GtkWidget* mate_font_picker_uw_get_widget(MateFontPicker* gfp);
 
 /* Functions to interface with GtkFontSelectionDialog */
 const gchar* mate_font_picker_get_font_name(MateFontPicker* gfp);
-
-GdkFont* mate_font_picker_get_font(MateFontPicker* gfp);
 
 gboolean mate_font_picker_set_font_name(MateFontPicker* gfp, const gchar* fontname);
 

@@ -36,22 +36,24 @@
 #include <stdio.h>
 
 struct _MateFontPickerPrivate {
-        gchar         *title;
+	gchar* title;
 
-        gchar         *font_name;
-        gchar         *preview_text;
+	gchar* font_name;
+	gchar* preview_text;
 
-        int           use_font_in_label_size;
+	int use_font_in_label_size;
 
-        guint         mode : 2; /* MateFontPickerMode */
+	guint mode: 2; /* MateFontPickerMode */
 
-        /* Only for MATE_FONT_PICKER_MODE_FONT_INFO */
-        guint      use_font_in_label : 1;
-        guint      show_size : 1;
+	/* Only for MATE_FONT_PICKER_MODE_FONT_INFO */
+	guint use_font_in_label: 1;
+	guint show_size: 1;
 
-	GtkWidget     *font_dialog;
-        GtkWidget     *inside;
-        GtkWidget     *font_label, *vsep, *size_label;
+	GtkWidget* font_dialog;
+	GtkWidget* inside;
+	GtkWidget* font_label;
+	GtkWidget* vsep;
+	GtkWidget* size_label;
 };
 
 
@@ -74,61 +76,43 @@ enum {
 	PROP_USE_FONT_IN_LABEL,
 	PROP_LABEL_FONT_SIZE,
 	PROP_SHOW_SIZE,
-#ifndef MATE_DISABLE_DEPRECATED_SOURCE
-	PROP_FONT
-#endif /* MATE_DISABLE_DEPRECATED_SOURCE */
 };
 
 /* Prototypes */
-static void mate_font_picker_destroy		(GtkObject            *object);
-static void mate_font_picker_finalize		(GObject              *object);
-static void mate_font_picker_get_property	(GObject              *object,
-						 guint                 param_id,
-						 GValue               *value,
-						 GParamSpec           *pspec);
-static void mate_font_picker_set_property	(GObject              *object,
-						 guint                 param_id,
-						 const GValue         *value,
-						 GParamSpec           *pspec);
+static void mate_font_picker_destroy(GtkObject* object);
+static void mate_font_picker_finalize(GObject* object);
+static void mate_font_picker_get_property(GObject* object, guint param_id, GValue* value, GParamSpec* pspec);
+static void mate_font_picker_set_property(GObject* object, guint param_id, const GValue* value, GParamSpec* pspec);
 
-static void mate_font_picker_clicked		(GtkButton            *button);
+static void mate_font_picker_clicked(GtkButton* button);
 
 /* Dialog response functions */
-static void mate_font_picker_dialog_ok_clicked (GtkWidget            *widget,
-						 gpointer              data);
-static void mate_font_picker_dialog_cancel_clicked(GtkWidget         *widget,
-						    gpointer           data);
+static void mate_font_picker_dialog_ok_clicked(GtkWidget* widget, gpointer data);
+static void mate_font_picker_dialog_cancel_clicked(GtkWidget* widget, gpointer data);
 
-static gboolean mate_font_picker_dialog_delete_event(GtkWidget       *widget,
-						      GdkEventAny     *ev,
-                                                      gpointer        data);
-static void mate_font_picker_dialog_destroy 	(GtkWidget           *widget,
-						 gpointer             data);
+static gboolean mate_font_picker_dialog_delete_event(GtkWidget* widget, GdkEventAny* ev, gpointer data);
+static void mate_font_picker_dialog_destroy(GtkWidget* widget, gpointer data);
 
 /* Auxiliary functions */
-static GtkWidget *mate_font_picker_create_inside (MateFontPicker   *gfs);
+static GtkWidget *mate_font_picker_create_inside(MateFontPicker* gfs);
 
-static void mate_font_picker_label_use_font_in_label (MateFontPicker *gfs);
-static void mate_font_picker_update_font_info	(MateFontPicker     *gfs);
-
-
+static void mate_font_picker_label_use_font_in_label(MateFontPicker* gfs);
+static void mate_font_picker_update_font_info(MateFontPicker* gfs);
 
 
-static guint font_picker_signals[LAST_SIGNAL] = { 0 };
+static guint font_picker_signals[LAST_SIGNAL] = {0};
 
-MATE_CLASS_BOILERPLATE (MateFontPicker, mate_font_picker,
-			 GtkButton, GTK_TYPE_BUTTON)
+MATE_CLASS_BOILERPLATE(MateFontPicker, mate_font_picker, GtkButton, GTK_TYPE_BUTTON)
 
-static void
-mate_font_picker_class_init (MateFontPickerClass *class)
+static void mate_font_picker_class_init(MateFontPickerClass* class)
 {
-	GtkObjectClass *object_class;
-	GObjectClass *gobject_class;
-	GtkButtonClass *button_class;
+	GtkObjectClass* object_class;
+	GObjectClass* gobject_class;
+	GtkButtonClass* button_class;
 
-	object_class = (GtkObjectClass *) class;
-	gobject_class = (GObjectClass *) class;
-	button_class = (GtkButtonClass *) class;
+	object_class = (GtkObjectClass*) class;
+	gobject_class = (GObjectClass*) class;
+	button_class = (GtkButtonClass*) class;
 
 	object_class->destroy = mate_font_picker_destroy;
 
@@ -140,273 +124,176 @@ mate_font_picker_class_init (MateFontPickerClass *class)
 
 	class->font_set = NULL;
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_TITLE,
-		 g_param_spec_string ("title",
-				      _("Title"),
-				      _("The title of the selection dialog box"),
-				      _(DEF_TITLE),
-				      (G_PARAM_READABLE |
-				       G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_MODE,
-		 g_param_spec_enum ("mode",
-				    _("Mode"),
-				    _("The mode of operation of the font picker"),
-				    MATE_TYPE_FONT_PICKER_MODE,
-				    MATE_FONT_PICKER_MODE_PIXMAP,
-				    (G_PARAM_READABLE |
-				     G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FONT_NAME,
-		 g_param_spec_string ("font_name",
-				      _("Font name"),
-				      _("Name of the selected font"),
-				      _(DEF_FONT_NAME),
-				      (G_PARAM_READABLE |
-				       G_PARAM_WRITABLE)));
-#ifndef MATE_DISABLE_DEPRECATED_SOURCE
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FONT,
-		 g_param_spec_pointer ("font",
-				       _("Font"),
-				       _("The selected GtkFont"),
-				       G_PARAM_READABLE));
-#endif /* MATE_DISABLE_DEPRECATED_SOURCE */
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_PREVIEW_TEXT,
-		 g_param_spec_string ("preview_text",
-				      _("Preview text"),
-				      _("Preview text shown in the dialog"),
-				      _(DEF_PREVIEW_TEXT),
-				      (G_PARAM_READABLE |
-				       G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_USE_FONT_IN_LABEL,
-		 g_param_spec_boolean ("use-font-in-label",
-				       _("Use font in label"),
-				       _("Use font in the label in font info mode"),
-				       FALSE,
-				       (G_PARAM_READABLE |
-					G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_LABEL_FONT_SIZE,
-		 g_param_spec_int ("label-font-size",
-				   _("Font size for label"),
-				   _("Font size for label in font info mode"),
-				   8 /* min */,
-				   72 /* max */,
-				   14 /* default */,
-				   (G_PARAM_READABLE |
-				    G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_SHOW_SIZE,
-		 g_param_spec_boolean ("show-size",
-				      _("Show size"),
-				      _("Show size in font info mode"),
-				      TRUE,
-				      (G_PARAM_READABLE |
-				       G_PARAM_WRITABLE)));
+	g_object_class_install_property(gobject_class, PROP_TITLE, g_param_spec_string("title", _("Title"), _("The title of the selection dialog box"), _(DEF_TITLE), (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	font_picker_signals[FONT_SET] =
-		g_signal_new ("font_set",
-			      G_TYPE_FROM_CLASS (gobject_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (MateFontPickerClass, font_set),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
+	g_object_class_install_property(gobject_class, PROP_MODE, g_param_spec_enum("mode", _("Mode"), _("The mode of operation of the font picker"), MATE_TYPE_FONT_PICKER_MODE, MATE_FONT_PICKER_MODE_PIXMAP, (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
+	g_object_class_install_property(gobject_class, PROP_FONT_NAME, g_param_spec_string("font_name", _("Font name"), _("Name of the selected font"), _(DEF_FONT_NAME), (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+
+	g_object_class_install_property(gobject_class, PROP_PREVIEW_TEXT, g_param_spec_string("preview_text", _("Preview text"), _("Preview text shown in the dialog"), _(DEF_PREVIEW_TEXT), (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+
+	g_object_class_install_property(gobject_class, PROP_USE_FONT_IN_LABEL, g_param_spec_boolean("use-font-in-label", _("Use font in label"), _("Use font in the label in font info mode"), FALSE, (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	/* 8 min, 72 max, 14 default */
+	g_object_class_install_property(gobject_class, PROP_LABEL_FONT_SIZE, g_param_spec_int("label-font-size", _("Font size for label"), _("Font size for label in font info mode"), 8 , 72, 14, (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+
+	g_object_class_install_property(gobject_class, PROP_SHOW_SIZE, g_param_spec_boolean("show-size", _("Show size"), _("Show size in font info mode"), TRUE, (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+
+	font_picker_signals[FONT_SET] = g_signal_new("font_set", G_TYPE_FROM_CLASS(gobject_class), G_SIGNAL_RUN_FIRST, G_STRUCT_OFFSET(MateFontPickerClass, font_set), NULL, NULL, g_cclosure_marshal_VOID__STRING, G_TYPE_NONE, 1, G_TYPE_STRING);
 }
 
-static void
-mate_font_picker_instance_init (MateFontPicker *gfp)
+static void mate_font_picker_instance_init(MateFontPicker *gfp)
 {
+	gfp->_priv = g_new0(MateFontPickerPrivate, 1);
 
-    gfp->_priv                         = g_new0(MateFontPickerPrivate, 1);
-
-    /* Initialize fields */
-    gfp->_priv->mode                   = MATE_FONT_PICKER_MODE_PIXMAP;
-    gfp->_priv->font_name              = NULL;
-    gfp->_priv->preview_text           = NULL;
-    gfp->_priv->use_font_in_label      = FALSE;
-    gfp->_priv->use_font_in_label_size = 14;
-    gfp->_priv->show_size              = TRUE;
-    gfp->_priv->font_dialog            = NULL;
-    gfp->_priv->title                  = g_strdup(_(DEF_TITLE));
+	/* Initialize fields */
+	gfp->_priv->mode = MATE_FONT_PICKER_MODE_PIXMAP;
+	gfp->_priv->font_name = NULL;
+	gfp->_priv->preview_text = NULL;
+	gfp->_priv->use_font_in_label = FALSE;
+	gfp->_priv->use_font_in_label_size = 14;
+	gfp->_priv->show_size = TRUE;
+	gfp->_priv->font_dialog = NULL;
+	gfp->_priv->title = g_strdup(_(DEF_TITLE));
 
 
-    /* Create pixmap or info widgets */
-    gfp->_priv->inside = mate_font_picker_create_inside(gfp);
-    if (gfp->_priv->inside)
-        gtk_container_add(GTK_CONTAINER(gfp), gfp->_priv->inside);
+	/* Create pixmap or info widgets */
+	gfp->_priv->inside = mate_font_picker_create_inside(gfp);
 
-    mate_font_picker_set_font_name(gfp, _(DEF_FONT_NAME));
-    mate_font_picker_set_preview_text(gfp, _(DEF_PREVIEW_TEXT));
+	if (gfp->_priv->inside)
+	{
+		gtk_container_add(GTK_CONTAINER(gfp), gfp->_priv->inside);
+	}
 
-    if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO) {
-        /* Update */
-        mate_font_picker_update_font_info(gfp);
-    }
+	mate_font_picker_set_font_name(gfp, _(DEF_FONT_NAME));
+	mate_font_picker_set_preview_text(gfp, _(DEF_PREVIEW_TEXT));
+
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
+	{
+		/* Update */
+		mate_font_picker_update_font_info(gfp);
+	}
 }
 
-static void
-mate_font_picker_destroy (GtkObject *object)
+static void mate_font_picker_destroy(GtkObject* object)
 {
-    MateFontPicker *gfp;
+	MateFontPicker* gfp;
 
-    g_return_if_fail (object != NULL);
-    g_return_if_fail (MATE_IS_FONT_PICKER (object));
+	g_return_if_fail(object != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(object));
 
-    /* remember, destroy can be run multiple times! */
+	/* remember, destroy can be run multiple times! */
 
-    gfp = MATE_FONT_PICKER (object);
+	gfp = MATE_FONT_PICKER(object);
 
-    if (gfp->_priv->font_dialog != NULL) {
-	    gtk_widget_destroy (gfp->_priv->font_dialog);
-	    gfp->_priv->font_dialog = NULL;
-    }
+	if (gfp->_priv->font_dialog != NULL)
+	{
+		gtk_widget_destroy(gfp->_priv->font_dialog);
+		gfp->_priv->font_dialog = NULL;
+	}
 
-    MATE_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
-
+	MATE_CALL_PARENT(GTK_OBJECT_CLASS, destroy, (object));
 } /* mate_font_picker_destroy */
 
-static void
-mate_font_picker_finalize (GObject *object)
+static void mate_font_picker_finalize(GObject* object)
 {
-    MateFontPicker *gfp;
+	MateFontPicker* gfp;
 
-    g_return_if_fail (object != NULL);
-    g_return_if_fail (MATE_IS_FONT_PICKER (object));
+	g_return_if_fail(object != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(object));
 
-    gfp = MATE_FONT_PICKER(object);
+	gfp = MATE_FONT_PICKER(object);
 
-    /* g_free handles NULL */
-    g_free(gfp->_priv->font_name);
-    gfp->_priv->font_name = NULL;
+	/* g_free handles NULL */
+	g_free(gfp->_priv->font_name);
+	gfp->_priv->font_name = NULL;
 
-    /* g_free handles NULL */
-    g_free(gfp->_priv->preview_text);
-    gfp->_priv->preview_text = NULL;
+	/* g_free handles NULL */
+	g_free(gfp->_priv->preview_text);
+	gfp->_priv->preview_text = NULL;
 
-    /* g_free handles NULL */
-    g_free(gfp->_priv->title);
-    gfp->_priv->title = NULL;
+	/* g_free handles NULL */
+	g_free(gfp->_priv->title);
+	gfp->_priv->title = NULL;
 
-    /* g_free handles NULL */
-    g_free(gfp->_priv);
-    gfp->_priv = NULL;
+	/* g_free handles NULL */
+	g_free(gfp->_priv);
+	gfp->_priv = NULL;
 
-    MATE_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
-
+	MATE_CALL_PARENT(G_OBJECT_CLASS, finalize, (object));
 } /* mate_font_picker_finalize */
 
-static void
-mate_font_picker_set_property (GObject *object,
-				guint param_id,
-				const GValue * value,
-				GParamSpec * pspec)
+static void mate_font_picker_set_property(GObject *object, guint param_id, const GValue* value, GParamSpec* pspec)
 {
-	MateFontPicker *self;
+	MateFontPicker* self;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (MATE_IS_FONT_PICKER (object));
+	g_return_if_fail(object != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(object));
 
-	self = MATE_FONT_PICKER (object);
+	self = MATE_FONT_PICKER(object);
 
-	switch (param_id) {
-	case PROP_TITLE:
-		mate_font_picker_set_title (self, g_value_get_string (value));
-		break;
-	case PROP_MODE:
-		mate_font_picker_set_mode (self, g_value_get_enum (value));
-		break;
-	case PROP_FONT_NAME:
-		mate_font_picker_set_font_name (self,
-						 g_value_get_string (value));
-		break;
-	case PROP_PREVIEW_TEXT:
-		mate_font_picker_set_preview_text
-			(self, g_value_get_string (value));
-		break;
-	case PROP_USE_FONT_IN_LABEL:
-		mate_font_picker_fi_set_use_font_in_label
-			(self, g_value_get_boolean (value),
-			 self->_priv->use_font_in_label_size);
-		break;
-	case PROP_LABEL_FONT_SIZE:
-		mate_font_picker_fi_set_use_font_in_label
-			(self,
-			 self->_priv->use_font_in_label,
-			 g_value_get_int (value));
-		break;
-	case PROP_SHOW_SIZE:
-		mate_font_picker_fi_set_show_size
-			(self, g_value_get_boolean (value));
-		break;
-
-	default:
-		break;
+	switch (param_id)
+	{
+		case PROP_TITLE:
+			mate_font_picker_set_title(self, g_value_get_string(value));
+			break;
+		case PROP_MODE:
+			mate_font_picker_set_mode(self, g_value_get_enum(value));
+			break;
+		case PROP_FONT_NAME:
+			mate_font_picker_set_font_name(self, g_value_get_string(value));
+			break;
+		case PROP_PREVIEW_TEXT:
+			mate_font_picker_set_preview_text(self, g_value_get_string(value));
+			break;
+		case PROP_USE_FONT_IN_LABEL:
+			mate_font_picker_fi_set_use_font_in_label(self, g_value_get_boolean(value), self->_priv->use_font_in_label_size);
+			break;
+		case PROP_LABEL_FONT_SIZE:
+			mate_font_picker_fi_set_use_font_in_label(self, self->_priv->use_font_in_label, g_value_get_int(value));
+			break;
+		case PROP_SHOW_SIZE:
+			mate_font_picker_fi_set_show_size(self, g_value_get_boolean(value));
+			break;
+		default:
+			break;
 	}
 } /* mate_font_picker_set_property */
 
-static void
-mate_font_picker_get_property (GObject *object,
-				guint param_id,
-				GValue *value,
-				GParamSpec * pspec)
+static void mate_font_picker_get_property(GObject* object, guint param_id, GValue* value, GParamSpec* pspec)
 {
-	MateFontPicker *self;
+	MateFontPicker* self;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (MATE_IS_FONT_PICKER (object));
+	g_return_if_fail(object != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(object));
 
-	self = MATE_FONT_PICKER (object);
+	self = MATE_FONT_PICKER(object);
 
-	switch (param_id) {
-	case PROP_TITLE:
-		g_value_set_string (value, mate_font_picker_get_title (self));
-		break;
-	case PROP_MODE:
-		g_value_set_string (value, mate_font_picker_get_title (self));
-		break;
-	case PROP_FONT_NAME:
-		g_value_set_string (value,
-				    mate_font_picker_get_font_name (self));
-		break;
-#if !defined(MATE_DISABLE_DEPRECATED_SOURCE) && !defined(GTK_DISABLE_DEPRECATED)
-	case PROP_FONT:
-		g_value_set_pointer (value, mate_font_picker_get_font (self));
-		break;
-#endif /* MATE_DISABLE_DEPRECATED_SOURCE */
-	case PROP_PREVIEW_TEXT:
-		g_value_set_string (value,
-				    mate_font_picker_get_preview_text (self));
-		break;
-	case PROP_USE_FONT_IN_LABEL:
-		g_value_set_boolean (value,
-				     self->_priv->use_font_in_label);
-		break;
-	case PROP_LABEL_FONT_SIZE:
-		g_value_set_int (value,
-				 self->_priv->use_font_in_label_size);
-		break;
-	case PROP_SHOW_SIZE:
-		g_value_set_boolean (value,
-				     self->_priv->show_size);
-		break;
+	switch (param_id)
+	{
+		case PROP_TITLE:
+			g_value_set_string(value, mate_font_picker_get_title(self));
+			break;
+		case PROP_MODE:
+			g_value_set_string(value, mate_font_picker_get_title(self));
+			break;
+		case PROP_FONT_NAME:
+			g_value_set_string(value, mate_font_picker_get_font_name(self));
+			break;
+		case PROP_PREVIEW_TEXT:
+			g_value_set_string(value, mate_font_picker_get_preview_text(self));
+			break;
+		case PROP_USE_FONT_IN_LABEL:
+			g_value_set_boolean(value, self->_priv->use_font_in_label);
+			break;
+		case PROP_LABEL_FONT_SIZE:
+			g_value_set_int(value, self->_priv->use_font_in_label_size);
+			break;
+		case PROP_SHOW_SIZE:
+			g_value_set_boolean(value, self->_priv->show_size);
+			break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 } /* mate_font_picker_get_property */
 
@@ -425,10 +312,9 @@ mate_font_picker_get_property (GObject *object,
  * Pointer to new font picker widget.
  */
 
-GtkWidget *
-mate_font_picker_new (void)
+GtkWidget* mate_font_picker_new(void)
 {
-	return g_object_new (MATE_TYPE_FONT_PICKER, NULL);
+	return g_object_new(MATE_TYPE_FONT_PICKER, NULL);
 } /* mate_font_picker_new */
 
 
@@ -443,23 +329,25 @@ mate_font_picker_new (void)
  * then the default is used.
  */
 
-void
-mate_font_picker_set_title (MateFontPicker *gfp, const gchar *title)
+void mate_font_picker_set_title(MateFontPicker* gfp, const gchar* title)
 {
-	g_return_if_fail (gfp != NULL);
-	g_return_if_fail (MATE_IS_FONT_PICKER (gfp));
+	g_return_if_fail(gfp != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(gfp));
 
-	if ( ! title)
+	if (!title)
+	{
 		title = _(DEF_TITLE);
+	}
 
 	/* g_free handles NULL */
-	g_free (gfp->_priv->title);
-        gfp->_priv->title = g_strdup (title);
+	g_free(gfp->_priv->title);
+	gfp->_priv->title = g_strdup(title);
 
-        /* If FontDialog is created change title */
-        if (gfp->_priv->font_dialog)
-            gtk_window_set_title(GTK_WINDOW(gfp->_priv->font_dialog),
-				 gfp->_priv->title);
+	/* If FontDialog is created change title */
+	if (gfp->_priv->font_dialog)
+	{
+		gtk_window_set_title(GTK_WINDOW(gfp->_priv->font_dialog), gfp->_priv->title);
+	}
 } /* mate_font_picker_set_title */
 
 /**
@@ -473,13 +361,12 @@ mate_font_picker_set_title (MateFontPicker *gfp, const gchar *title)
  * Pointer to an internal copy of the title string
  */
 
-const gchar*
-mate_font_picker_get_title(MateFontPicker *gfp)
+const gchar* mate_font_picker_get_title(MateFontPicker* gfp)
 {
-    g_return_val_if_fail (gfp != NULL, NULL);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp), NULL);
+	g_return_val_if_fail(gfp != NULL, NULL);
+	g_return_val_if_fail(MATE_IS_FONT_PICKER(gfp), NULL);
 
-    return gfp->_priv->title;
+	return gfp->_priv->title;
 } /* mate_font_picker_get_title */
 
 /**
@@ -497,14 +384,12 @@ mate_font_picker_get_title(MateFontPicker *gfp)
  * %MATE_FONT_PICKER_MODE_UNKNOWN on error.
  */
 
-MateFontPickerMode
-mate_font_picker_get_mode        (MateFontPicker *gfp)
+MateFontPickerMode mate_font_picker_get_mode(MateFontPicker* gfp)
 {
-    g_return_val_if_fail (gfp != NULL, MATE_FONT_PICKER_MODE_UNKNOWN);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp),
-			  MATE_FONT_PICKER_MODE_UNKNOWN);
+	g_return_val_if_fail(gfp != NULL, MATE_FONT_PICKER_MODE_UNKNOWN);
+	g_return_val_if_fail(MATE_IS_FONT_PICKER(gfp), MATE_FONT_PICKER_MODE_UNKNOWN);
 
-    return gfp->_priv->mode;
+	return gfp->_priv->mode;
 } /* mate_font_picker_get_mode */
 
 
@@ -517,28 +402,31 @@ mate_font_picker_get_mode        (MateFontPicker *gfp)
  * Set value of subsequent font picker button mode (or what to show).
  */
 
-void       mate_font_picker_set_mode        (MateFontPicker *gfp,
-                                              MateFontPickerMode mode)
+void mate_font_picker_set_mode(MateFontPicker* gfp, MateFontPickerMode mode)
 {
-    g_return_if_fail (gfp != NULL);
-    g_return_if_fail (MATE_IS_FONT_PICKER (gfp));
-    g_return_if_fail (mode >= 0 && mode < MATE_FONT_PICKER_MODE_UNKNOWN);
+	g_return_if_fail(gfp != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(gfp));
+	g_return_if_fail(mode >= 0 && mode < MATE_FONT_PICKER_MODE_UNKNOWN);
 
-    if (gfp->_priv->mode != mode) {
+	if (gfp->_priv->mode != mode)
+	{
+		gfp->_priv->mode = mode;
 
-        gfp->_priv->mode = mode;
+		/* Next sentence will destroy gfp->_priv->inside after removing it */
+		gtk_container_remove(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		gfp->_priv->inside = mate_font_picker_create_inside(gfp);
 
-        /* Next sentence will destroy gfp->_priv->inside after removing it */
-        gtk_container_remove(GTK_CONTAINER(gfp), gfp->_priv->inside);
-        gfp->_priv->inside = mate_font_picker_create_inside(gfp);
-        if (gfp->_priv->inside)
-            gtk_container_add(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		if (gfp->_priv->inside)
+		{
+			gtk_container_add(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		}
 
-        if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO) {
-            /* Update */
-            mate_font_picker_update_font_info(gfp);
-        }
-    }
+		if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
+		{
+			/* Update */
+			mate_font_picker_update_font_info(gfp);
+		}
+	}
 } /* mate_font_picker_set_mode */
 
 
@@ -554,28 +442,29 @@ void       mate_font_picker_set_mode        (MateFontPicker *gfp,
  * current button mode is %MATE_FONT_PICKER_MODE_FONT_INFO.
  */
 
-void  mate_font_picker_fi_set_use_font_in_label (MateFontPicker *gfp,
-                                                  gboolean use_font_in_label,
-                                                  gint size)
+void  mate_font_picker_fi_set_use_font_in_label(MateFontPicker* gfp, gboolean use_font_in_label, gint size)
 {
 	gboolean old_use_font_in_label;
 	int old_size;
 
-	g_return_if_fail (gfp != NULL);
-	g_return_if_fail (MATE_IS_FONT_PICKER (gfp));
+	g_return_if_fail(gfp != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(gfp));
 
 	old_use_font_in_label = gfp->_priv->use_font_in_label;
 	old_size = gfp->_priv->use_font_in_label_size;
 	gfp->_priv->use_font_in_label = use_font_in_label;
 	gfp->_priv->use_font_in_label_size = size;
 
-	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO &&
-	    (old_use_font_in_label != use_font_in_label ||
-	     old_size != size)) {
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO && (old_use_font_in_label != use_font_in_label || old_size != size))
+	{
 		if (gfp->_priv->use_font_in_label)
-			mate_font_picker_label_use_font_in_label (gfp);
+		{
+			mate_font_picker_label_use_font_in_label(gfp);
+		}
 		else
-			gtk_widget_set_style (gfp->_priv->font_label, NULL);
+		{
+			gtk_widget_set_style(gfp->_priv->font_label, NULL);
+		}
 	}
 } /* mate_font_picker_fi_set_use_font_in_label */
 
@@ -591,33 +480,34 @@ void  mate_font_picker_fi_set_use_font_in_label (MateFontPicker *gfp,
  * %MATE_FONT_PICKER_MODE_FONT_INFO.
  */
 
-void
-mate_font_picker_fi_set_show_size (MateFontPicker *gfp,
-				    gboolean show_size)
+void mate_font_picker_fi_set_show_size(MateFontPicker* gfp, gboolean show_size)
 {
 	gboolean old_show_size;
 
-	g_return_if_fail (gfp != NULL);
-	g_return_if_fail (MATE_IS_FONT_PICKER (gfp));
+	g_return_if_fail(gfp != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(gfp));
 
 	/* Make sure it's normalized to 1/0 */
 	old_show_size = gfp->_priv->show_size ? 1 : 0;
 	gfp->_priv->show_size = show_size ? 1 : 0;
 
-	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO &&
-	    old_show_size != gfp->_priv->show_size) {
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO && old_show_size != gfp->_priv->show_size)
+	{
 		/* Next sentence will destroy gfp->_priv->inside
 		 * after removing it */
 		if (gfp->_priv->inside != NULL)
-			gtk_container_remove (GTK_CONTAINER (gfp),
-					      gfp->_priv->inside);
+		{
+			gtk_container_remove(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		}
 
-		gfp->_priv->inside = mate_font_picker_create_inside (gfp);
+		gfp->_priv->inside = mate_font_picker_create_inside(gfp);
+
 		if (gfp->_priv->inside != NULL)
-			gtk_container_add (GTK_CONTAINER (gfp),
-					   gfp->_priv->inside);
+		{
+			gtk_container_add(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		}
 
-		mate_font_picker_update_font_info (gfp);
+		mate_font_picker_update_font_info(gfp);
 	}
 } /* mate_font_picker_fi_set_show_size */
 
@@ -631,25 +521,25 @@ mate_font_picker_fi_set_show_size (MateFontPicker *gfp,
  * This only applies with MATE_FONT_PICKER_MODE_USER_WIDGET.
  */
 
-void
-mate_font_picker_uw_set_widget (MateFontPicker *gfp,
-				 GtkWidget *widget)
+void mate_font_picker_uw_set_widget(MateFontPicker* gfp, GtkWidget* widget)
 {
-    g_return_if_fail (gfp != NULL);
-    g_return_if_fail (MATE_IS_FONT_PICKER (gfp));
+	g_return_if_fail(gfp != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(gfp));
 
-    if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_USER_WIDGET &&
-	gfp->_priv->inside != widget) {
-	    if (gfp->_priv->inside != NULL)
-		    gtk_container_remove (GTK_CONTAINER (gfp),
-					  gfp->_priv->inside);
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_USER_WIDGET && gfp->_priv->inside != widget)
+	{
+		if (gfp->_priv->inside != NULL)
+		{
+			gtk_container_remove(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		}
 
-	    gfp->_priv->inside = widget;
-	    if (gfp->_priv->inside != NULL)
-		    gtk_container_add (GTK_CONTAINER (gfp),
-				       gfp->_priv->inside);
-    }
+		gfp->_priv->inside = widget;
 
+		if (gfp->_priv->inside != NULL)
+		{
+			gtk_container_add(GTK_CONTAINER(gfp), gfp->_priv->inside);
+		}
+	}
 } /* mate_font_picker_uw_set_widget */
 
 /**
@@ -663,17 +553,19 @@ mate_font_picker_uw_set_widget (MateFontPicker *gfp,
  * not in MATE_FONT_PICKER_MODE_USER_WIDGET mode
  */
 
-GtkWidget *
-mate_font_picker_uw_get_widget (MateFontPicker *gfp)
+GtkWidget* mate_font_picker_uw_get_widget(MateFontPicker* gfp)
 {
-    g_return_val_if_fail (gfp != NULL, NULL);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp), NULL);
+	g_return_val_if_fail(gfp != NULL, NULL);
+	g_return_val_if_fail(MATE_IS_FONT_PICKER(gfp), NULL);
 
-    if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_USER_WIDGET) {
-	    return gfp->_priv->inside;
-    } else {
-	    return NULL;
-    }
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_USER_WIDGET)
+	{
+		return gfp->_priv->inside;
+	}
+	else
+	{
+		return NULL;
+	}
 } /* mate_font_picker_uw_set_widget */
 
 /**
@@ -687,50 +579,25 @@ mate_font_picker_uw_get_widget (MateFontPicker *gfp)
  * Pointer to an internal copy of the font name.
  */
 
-const gchar*	   mate_font_picker_get_font_name    (MateFontPicker *gfp)
+const gchar* mate_font_picker_get_font_name(MateFontPicker* gfp)
 {
-    g_return_val_if_fail (gfp != NULL, NULL);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp), NULL);
+	g_return_val_if_fail(gfp != NULL, NULL);
+	g_return_val_if_fail(MATE_IS_FONT_PICKER(gfp), NULL);
 
-    if (gfp->_priv->font_dialog) {
-	/* g_free handles NULL */
-	g_free (gfp->_priv->font_name);
-        gfp->_priv->font_name = gtk_font_selection_dialog_get_font_name (
-			GTK_FONT_SELECTION_DIALOG (gfp->_priv->font_dialog));
-    }
+	if (gfp->_priv->font_dialog)
+	{
+		/* g_free handles NULL */
+		g_free(gfp->_priv->font_name);
 
-    return gfp->_priv->font_name;
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			gfp->_priv->font_name = gtk_font_chooser_get_font(GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog));
+		#else
+			gfp->_priv->font_name = gtk_font_selection_dialog_get_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog));
+		#endif
+	}
+
+	return gfp->_priv->font_name;
 } /* mate_font_picker_get_font_name */
-
-
-/**
- * mate_font_picker_get_font
- * @gfp: Pointer to MATE font picker widget.
- *
- * Description:
- * Retrieve font info from font selection dialog.
- *
- * Returns:
- * Return value of gtk_font_selection_dialog_get_font, or %NULL if
- * font dialog is not being displayed.  The value is not a copy but
- * an internal value and should not be modified.
- */
-
-#if !defined(MATE_DISABLE_DEPRECATED_SOURCE) && !defined(GTK_DISABLE_DEPRECATED)
-GdkFont*   mate_font_picker_get_font	       (MateFontPicker *gfp)
-{
-    g_return_val_if_fail (gfp != NULL, NULL);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp), NULL);
-
-    /* FIXME: no GtkFont when there is no dialog? huh?
-     *  -George */
-
-    return (gfp->_priv->font_dialog ?
-             gtk_font_selection_dialog_get_font(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog)) :
-             NULL);
-} /* mate_font_picker_get_font */
-#endif /* MATE_DISABLE_DEPRECATED_SOURCE */
-
 
 /**
  * mate_font_picker_set_font_name
@@ -745,25 +612,35 @@ GdkFont*   mate_font_picker_get_font	       (MateFontPicker *gfp)
  * font selection dialog exists, otherwise %FALSE.
  */
 
-gboolean   mate_font_picker_set_font_name    (MateFontPicker *gfp,
-					       const gchar       *fontname)
+gboolean mate_font_picker_set_font_name(MateFontPicker* gfp, const gchar* fontname)
 {
-    g_return_val_if_fail (gfp != NULL, FALSE);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp), FALSE);
-    g_return_val_if_fail (fontname != NULL, FALSE);
+	g_return_val_if_fail(gfp != NULL, FALSE);
+	g_return_val_if_fail(MATE_IS_FONT_PICKER(gfp), FALSE);
+	g_return_val_if_fail(fontname != NULL, FALSE);
 
-    if (gfp->_priv->font_name != fontname) {
-	    g_free(gfp->_priv->font_name);
-	    gfp->_priv->font_name = g_strdup (fontname);
-    }
+	if (gfp->_priv->font_name != fontname)
+	{
+		g_free(gfp->_priv->font_name);
+		gfp->_priv->font_name = g_strdup(fontname);
+	}
 
-    if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
 	mate_font_picker_update_font_info(gfp);
 
-    if (gfp->_priv->font_dialog)
-        return gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
-    else
-        return FALSE;
+	if (gfp->_priv->font_dialog)
+	{
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			gtk_font_chooser_set_font(GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
+
+			return TRUE;
+		#else
+			return gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
+		#endif
+	}
+	else
+	{
+		return FALSE;
+	}
 } /* mate_font_picker_set_font_name */
 
 
@@ -779,19 +656,24 @@ gboolean   mate_font_picker_set_font_name    (MateFontPicker *gfp,
  * font dialog is being displayed.
  */
 
-const gchar*	   mate_font_picker_get_preview_text (MateFontPicker *gfp)
+const gchar* mate_font_picker_get_preview_text(MateFontPicker* gfp)
 {
-    g_return_val_if_fail (gfp != NULL, NULL);
-    g_return_val_if_fail (MATE_IS_FONT_PICKER (gfp), NULL);
+	g_return_val_if_fail(gfp != NULL, NULL);
+	g_return_val_if_fail(MATE_IS_FONT_PICKER(gfp), NULL);
 
-    if (gfp->_priv->font_dialog) {
-        /* g_free handles NULL */
-        g_free(gfp->_priv->preview_text);
-        gfp->_priv->preview_text = g_strdup(gtk_font_selection_dialog_get_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog)));
-    }
+	if (gfp->_priv->font_dialog)
+	{
+		/* g_free handles NULL */
+		g_free(gfp->_priv->preview_text);
 
-    return gfp->_priv->preview_text;
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			gfp->_priv->preview_text = g_strdup(gtk_font_chooser_get_preview_text(GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog)));
+		#else
+			gfp->_priv->preview_text = g_strdup(gtk_font_selection_dialog_get_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog)));
+		#endif
+	}
 
+	return gfp->_priv->preview_text;
 } /* mate_font_picker_get_preview_text */
 
 
@@ -805,21 +687,26 @@ const gchar*	   mate_font_picker_get_preview_text (MateFontPicker *gfp)
  * is being displayed.
  */
 
-void	   mate_font_picker_set_preview_text (MateFontPicker *gfp,
-                                               const gchar     *text)
+void mate_font_picker_set_preview_text(MateFontPicker* gfp, const gchar* text)
 {
-    g_return_if_fail (gfp != NULL);
-    g_return_if_fail (MATE_IS_FONT_PICKER (gfp));
-    g_return_if_fail (text != NULL);
+	g_return_if_fail(gfp != NULL);
+	g_return_if_fail(MATE_IS_FONT_PICKER(gfp));
+	g_return_if_fail(text != NULL);
 
-    if (gfp->_priv->preview_text != text) {
-	    g_free(gfp->_priv->preview_text);
-	    gfp->_priv->preview_text = g_strdup (text);
-    }
+	if (gfp->_priv->preview_text != text)
+	{
+		g_free(gfp->_priv->preview_text);
+		gfp->_priv->preview_text = g_strdup(text);
+	}
 
-    if (gfp->_priv->font_dialog)
-        gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
-
+	if (gfp->_priv->font_dialog)
+	{
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			gtk_font_chooser_set_preview_text(GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
+		#else
+			gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
+		#endif
+	}
 } /* mate_font_picker_set_preview_text */
 
 /* ************************************************************************
@@ -828,223 +715,231 @@ void	   mate_font_picker_set_preview_text (MateFontPicker *gfp,
 
 static void mate_font_picker_clicked(GtkButton* button)
 {
-    MateFontPicker* gfp;
-    GtkFontSelectionDialog* fsd;
+	MateFontPicker* gfp;
 
-    gfp = MATE_FONT_PICKER(button);
+	#if GTK_CHECK_VERSION(3, 2, 0)
+		GtkFontChooserDialog* fsd;
+	#else
+		GtkFontSelectionDialog* fsd;
+	#endif
 
-    if (!gfp->_priv->font_dialog)
-    {
-        GtkWidget *parent;
+	gfp = MATE_FONT_PICKER(button);
 
-        parent = gtk_widget_get_toplevel(GTK_WIDGET(gfp));
+	if (!gfp->_priv->font_dialog)
+	{
+		GtkWidget* parent;
 
-        gfp->_priv->font_dialog=gtk_font_selection_dialog_new(gfp->_priv->title);
+		parent = gtk_widget_get_toplevel(GTK_WIDGET(gfp));
 
-        if (parent)
-            gtk_window_set_transient_for(GTK_WINDOW(gfp->_priv->font_dialog),
-                                         GTK_WINDOW(parent));
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			gfp->_priv->font_dialog = gtk_font_chooser_dialog_new(gfp->_priv->title, GTK_WINDOW(parent));
+		#else
+			gfp->_priv->font_dialog = gtk_font_selection_dialog_new(gfp->_priv->title);
 
-        fsd=GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog);
+			if (parent)
+			{
+				gtk_window_set_transient_for(GTK_WINDOW(gfp->_priv->font_dialog), GTK_WINDOW(parent));
+			}
 
-        /* If there is a grabed window, set new dialog as modal */
-        if (gtk_grab_get_current())
-            gtk_window_set_modal(GTK_WINDOW(gfp->_priv->font_dialog),TRUE);
+		#endif
 
-        g_signal_connect(fsd->ok_button, "clicked",
-			 G_CALLBACK (mate_font_picker_dialog_ok_clicked),
-			 gfp);
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			fsd = GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog);
+		#else
+			fsd = GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog);
+		#endif
 
-        g_signal_connect(fsd->cancel_button, "clicked",
-			 G_CALLBACK (mate_font_picker_dialog_cancel_clicked),
-			 gfp);
-        g_signal_connect(fsd,"delete_event",
-			 G_CALLBACK (mate_font_picker_dialog_delete_event),
-			 gfp);
-        g_signal_connect(fsd, "destroy",
-			 G_CALLBACK (mate_font_picker_dialog_destroy),
-			 gfp);
+		/* If there is a grabed window, set new dialog as modal */
+		if (gtk_grab_get_current())
+		{
+			gtk_window_set_modal(GTK_WINDOW(gfp->_priv->font_dialog), TRUE);
+		}
 
-    } /* if */
+		g_signal_connect(fsd->ok_button, "clicked", G_CALLBACK(mate_font_picker_dialog_ok_clicked), gfp);
+		g_signal_connect(fsd->cancel_button, "clicked", G_CALLBACK(mate_font_picker_dialog_cancel_clicked), gfp);
+		g_signal_connect(fsd,"delete_event", G_CALLBACK(mate_font_picker_dialog_delete_event), gfp);
+		g_signal_connect(fsd, "destroy", G_CALLBACK(mate_font_picker_dialog_destroy), gfp);
+	} /* if */
 
-    if (!GTK_WIDGET_VISIBLE(gfp->_priv->font_dialog))
-    {
+	if (!GTK_WIDGET_VISIBLE(gfp->_priv->font_dialog))
+	{
+		/* Set font and preview text */
+		#if GTK_CHECK_VERSION(3, 2, 0)
+			gtk_font_chooser_set_font(GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
+			gtk_font_chooser_set_preview_text(GTK_FONT_CHOOSER_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
+		#else
+			gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
+			gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
+		#endif
 
-        /* Set font and preview text */
-        gtk_font_selection_dialog_set_font_name(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->font_name);
-        gtk_font_selection_dialog_set_preview_text(GTK_FONT_SELECTION_DIALOG(gfp->_priv->font_dialog), gfp->_priv->preview_text);
-
-        gtk_widget_show(gfp->_priv->font_dialog);
-    }
-    else if (gfp->_priv->font_dialog->window)
-    {
+		gtk_widget_show(gfp->_priv->font_dialog);
+	}
+	else if (gfp->_priv->font_dialog->window)
+	{
 		/*raise the window so that if it is obscured that we see it*/
 		gdk_window_raise(gfp->_priv->font_dialog->window);
-    }/* if */
+	}/* if */
 } /* mate_font_picker_clicked */
 
-static void
-mate_font_picker_dialog_ok_clicked(GtkWidget *widget,
-				    gpointer   data)
+static void mate_font_picker_dialog_ok_clicked(GtkWidget* widget, gpointer data)
 {
-    MateFontPicker *gfp;
+	MateFontPicker* gfp;
 
-    gfp = MATE_FONT_PICKER (data);
+	gfp = MATE_FONT_PICKER(data);
 
-    gtk_widget_hide(gfp->_priv->font_dialog);
+	gtk_widget_hide(gfp->_priv->font_dialog);
 
-    /* These calls will update gfp->_priv->font_name and gfp->_priv->preview_text */
-    mate_font_picker_get_font_name(gfp);
-    mate_font_picker_get_preview_text(gfp);
+	/* These calls will update gfp->_priv->font_name and gfp->_priv->preview_text */
+	mate_font_picker_get_font_name(gfp);
+	mate_font_picker_get_preview_text(gfp);
 
-    /* Set label font */
-    if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
-        mate_font_picker_update_font_info(gfp);
+	/* Set label font */
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
+	{
+		mate_font_picker_update_font_info(gfp);
+	}
 
-    /* Emit font_set signal */
-    g_signal_emit(gfp, font_picker_signals[FONT_SET], 0,
-		  gfp->_priv->font_name);
-
+	/* Emit font_set signal */
+	g_signal_emit(gfp, font_picker_signals[FONT_SET], 0, gfp->_priv->font_name);
 } /* mate_font_picker_dialog_ok_clicked */
 
 
-static void
-mate_font_picker_dialog_cancel_clicked(GtkWidget *widget,
-					gpointer   data)
+static void mate_font_picker_dialog_cancel_clicked(GtkWidget* widget, gpointer data)
 {
-    MateFontPicker *gfp;
+	MateFontPicker* gfp;
 
-    gfp = MATE_FONT_PICKER (data);
+	gfp = MATE_FONT_PICKER(data);
 
-    gtk_widget_hide(gfp->_priv->font_dialog);
+	gtk_widget_hide(gfp->_priv->font_dialog);
 
-    /* FIXME: is this necessary? bug #67587 */
-    /* Restore old values */
-    mate_font_picker_set_font_name(gfp,gfp->_priv->font_name);
-    mate_font_picker_set_preview_text(gfp,gfp->_priv->preview_text);
+	/* FIXME: is this necessary? bug #67587 */
+	/* Restore old values */
+	mate_font_picker_set_font_name(gfp,gfp->_priv->font_name);
+	mate_font_picker_set_preview_text(gfp,gfp->_priv->preview_text);
 
 } /* mate_font_picker_dialog_cancel_clicked */
 
-static gboolean
-mate_font_picker_dialog_delete_event(GtkWidget *widget, GdkEventAny *ev,
-				      gpointer   data)
+static gboolean mate_font_picker_dialog_delete_event(GtkWidget* widget, GdkEventAny* ev, gpointer data)
 {
-    MateFontPicker *gfp;
+	MateFontPicker* gfp;
 
-    gfp = MATE_FONT_PICKER (data);
+	gfp = MATE_FONT_PICKER(data);
 
-    /* FIXME: is this necessary? bug #67587 */
-    /* Here we restore old values */
-    mate_font_picker_set_font_name(gfp,gfp->_priv->font_name);
-    mate_font_picker_set_preview_text(gfp,gfp->_priv->preview_text);
+	/* FIXME: is this necessary? bug #67587 */
+	/* Here we restore old values */
+	mate_font_picker_set_font_name(gfp,gfp->_priv->font_name);
+	mate_font_picker_set_preview_text(gfp,gfp->_priv->preview_text);
 
-    return FALSE;
+	return FALSE;
 } /* mate_font_picker_dialog_delete_event */
 
-static void
-mate_font_picker_dialog_destroy(GtkWidget *widget,
-				 gpointer   data)
+static void mate_font_picker_dialog_destroy(GtkWidget* widget, gpointer data)
 {
-    MateFontPicker *gfp;
+	MateFontPicker* gfp;
 
-    gfp = MATE_FONT_PICKER (data);
+	gfp = MATE_FONT_PICKER(data);
 
-    /* Query GtkFontSelectionDialog before it get destroyed */
-    /* These calls will update gfp->_priv->font_name and gfp->_priv->preview_text */
-    mate_font_picker_get_font_name(gfp);
-    mate_font_picker_get_preview_text(gfp);
+	/* Query GtkFontSelectionDialog before it get destroyed */
+	/* These calls will update gfp->_priv->font_name and gfp->_priv->preview_text */
+	mate_font_picker_get_font_name(gfp);
+	mate_font_picker_get_preview_text(gfp);
 
-    /* Dialog will get destroyed so reference is no valid now */
-    gfp->_priv->font_dialog = NULL;
+	/* Dialog will get destroyed so reference is no valid now */
+	gfp->_priv->font_dialog = NULL;
 } /* mate_font_picker_dialog_destroy */
 
-static GtkWidget *
-mate_font_picker_create_inside(MateFontPicker *gfp)
+static GtkWidget* mate_font_picker_create_inside(MateFontPicker* gfp)
 {
-    GtkWidget *widget;
+	GtkWidget* widget;
 
-    if (gfp->_priv->mode==MATE_FONT_PICKER_MODE_PIXMAP) {
-        widget=gtk_image_new_from_stock(GTK_STOCK_SELECT_FONT,
-					GTK_ICON_SIZE_BUTTON);
-        gtk_widget_show(widget);
-    } else if (gfp->_priv->mode==MATE_FONT_PICKER_MODE_FONT_INFO) {
-        widget=gtk_hbox_new(FALSE,0);
+	if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_PIXMAP)
+	{
+		widget=gtk_image_new_from_stock(GTK_STOCK_SELECT_FONT, GTK_ICON_SIZE_BUTTON);
+		gtk_widget_show(widget);
+	}
+	else if (gfp->_priv->mode == MATE_FONT_PICKER_MODE_FONT_INFO)
+	{
+		widget=gtk_hbox_new(FALSE,0);
 
-        gfp->_priv->font_label=gtk_label_new(_("Font"));
+		gfp->_priv->font_label = gtk_label_new(_("Font"));
 
-        gtk_label_set_justify(GTK_LABEL(gfp->_priv->font_label),GTK_JUSTIFY_LEFT);
-        gtk_box_pack_start(GTK_BOX(widget),gfp->_priv->font_label,TRUE,TRUE,5);
+		gtk_label_set_justify(GTK_LABEL(gfp->_priv->font_label), GTK_JUSTIFY_LEFT);
+		gtk_box_pack_start(GTK_BOX(widget), gfp->_priv->font_label, TRUE, TRUE, 5);
 
-        if (gfp->_priv->show_size) {
-            gfp->_priv->vsep=gtk_vseparator_new();
-            gtk_box_pack_start(GTK_BOX(widget),gfp->_priv->vsep,FALSE,FALSE,0);
+		if (gfp->_priv->show_size)
+		{
+			gfp->_priv->vsep = gtk_vseparator_new();
+			gtk_box_pack_start(GTK_BOX(widget), gfp->_priv->vsep, FALSE, FALSE, 0);
 
-            gfp->_priv->size_label=gtk_label_new("14");
-            gtk_box_pack_start(GTK_BOX(widget),gfp->_priv->size_label,FALSE,FALSE,5);
-        }
+			gfp->_priv->size_label = gtk_label_new("14");
+			gtk_box_pack_start(GTK_BOX(widget), gfp->_priv->size_label, FALSE, FALSE, 5);
+		}
 
-        gtk_widget_show_all(widget);
+		gtk_widget_show_all(widget);
 
-    } else /* MATE_FONT_PICKER_MODE_USER_WIDGET */ {
-        widget=NULL;
-    }
+	}
+	else /* MATE_FONT_PICKER_MODE_USER_WIDGET */
+	{
+		widget = NULL;
+	}
 
-    return widget;
+	return widget;
 
 } /* mate_font_picker_create_inside */
 
-static void
-mate_font_picker_label_use_font_in_label  (MateFontPicker *gfp)
+static void mate_font_picker_label_use_font_in_label(MateFontPicker* gfp)
 {
-	PangoFontDescription *desc;
+	PangoFontDescription* desc;
 
-	desc = pango_font_description_from_string (gfp->_priv->font_name);
-	if (desc == NULL) {
+	desc = pango_font_description_from_string(gfp->_priv->font_name);
+
+	if (desc == NULL)
+	{
 		return; /* Use widget default */
 	}
 
 	/* Change size */
-	pango_font_description_set_size (desc,
-					 gfp->_priv->use_font_in_label_size *
-					 PANGO_SCALE);
+	pango_font_description_set_size(desc, gfp->_priv->use_font_in_label_size * PANGO_SCALE);
 	/* Modify font style */
-	gtk_widget_modify_font (gfp->_priv->font_label, desc);
+	gtk_widget_modify_font(gfp->_priv->font_label, desc);
 
-	pango_font_description_free (desc);
-
+	pango_font_description_free(desc);
 } /* mate_font_picker_set_label_font */
 
-static void
-mate_font_picker_update_font_info (MateFontPicker *gfp)
+static void mate_font_picker_update_font_info(MateFontPicker* gfp)
 {
-	PangoFontDescription *desc;
-	const char *family;
+	PangoFontDescription* desc;
+	const char* family;
 
-	desc = pango_font_description_from_string (gfp->_priv->font_name);
-	if (desc == NULL) {
+	desc = pango_font_description_from_string(gfp->_priv->font_name);
+
+	if (desc == NULL)
+	{
 		/* FIXME: eek does this ever happen? probably
 		 * so we should handle it somehow*/
-		g_warning ("eeek!");
+		g_warning("eeek!");
 		return;
 	}
 
-	family = pango_font_description_get_family (desc);
+	family = pango_font_description_get_family(desc);
 
-	gtk_label_set_text (GTK_LABEL (gfp->_priv->font_label), family);
+	gtk_label_set_text(GTK_LABEL(gfp->_priv->font_label), family);
 
 	/* Extract font size */
-	if (gfp->_priv->show_size) {
-		int size = pango_font_description_get_size (desc);
-		char *size_str = g_strdup_printf ("%d", size / PANGO_SCALE);
+	if (gfp->_priv->show_size)
+	{
+		int size = pango_font_description_get_size(desc);
+		char* size_str = g_strdup_printf("%d", size / PANGO_SCALE);
 
-		gtk_label_set_text (GTK_LABEL (gfp->_priv->size_label), size_str);
+		gtk_label_set_text(GTK_LABEL(gfp->_priv->size_label), size_str);
 
-		g_free (size_str);
+		g_free(size_str);
 	}
 
-	if (gfp->_priv->use_font_in_label) {
-		mate_font_picker_label_use_font_in_label (gfp);
+	if (gfp->_priv->use_font_in_label)
+	{
+		mate_font_picker_label_use_font_in_label(gfp);
 	}
 
-	pango_font_description_free (desc);
+	pango_font_description_free(desc);
 } /* mate_font_picker_update_font_info */
