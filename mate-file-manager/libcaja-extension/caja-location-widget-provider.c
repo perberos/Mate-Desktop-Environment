@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Alexander Larsson <alexl@redhat.com>
  *
  */
@@ -32,41 +32,43 @@ caja_location_widget_provider_base_init (gpointer g_class)
 {
 }
 
-GType                   
+GType
 caja_location_widget_provider_get_type (void)
 {
-	static GType type = 0;
+    static GType type = 0;
 
-	if (!type) {
-		const GTypeInfo info = {
-			sizeof (CajaLocationWidgetProviderIface),
-			caja_location_widget_provider_base_init,
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			0,
-			0,
-			NULL
-		};
-		
-		type = g_type_register_static (G_TYPE_INTERFACE, 
-					       "CajaLocationWidgetProvider",
-					       &info, 0);
-		g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
-	}
+    if (!type)
+    {
+        const GTypeInfo info =
+        {
+            sizeof (CajaLocationWidgetProviderIface),
+            caja_location_widget_provider_base_init,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            NULL
+        };
 
-	return type;
+        type = g_type_register_static (G_TYPE_INTERFACE,
+                                       "CajaLocationWidgetProvider",
+                                       &info, 0);
+        g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
+    }
+
+    return type;
 }
 
 GtkWidget *
 caja_location_widget_provider_get_widget (CajaLocationWidgetProvider     *provider,
-					      const char                         *uri,
-					      GtkWidget                          *window)
+        const char                         *uri,
+        GtkWidget                          *window)
 {
-	g_return_val_if_fail (CAJA_IS_LOCATION_WIDGET_PROVIDER (provider), NULL);
+    g_return_val_if_fail (CAJA_IS_LOCATION_WIDGET_PROVIDER (provider), NULL);
 
-	return CAJA_LOCATION_WIDGET_PROVIDER_GET_IFACE (provider)->get_widget 
-		(provider, uri, window);
+    return CAJA_LOCATION_WIDGET_PROVIDER_GET_IFACE (provider)->get_widget
+           (provider, uri, window);
 
-}				       
+}

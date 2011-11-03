@@ -46,11 +46,11 @@
 
 static void       eel_background_class_init                (gpointer       klass);
 static void       eel_background_init                      (gpointer       object,
-							    gpointer       klass);
+        gpointer       klass);
 static void       eel_background_finalize                  (GObject       *object);
 static GdkPixmap *eel_background_get_pixmap_and_color      (EelBackground *background,
-							    GdkWindow     *window,
-							    GdkColor      *color);
+        GdkWindow     *window,
+        GdkColor      *color);
 
 static void set_image_properties (EelBackground *background);
 
@@ -59,11 +59,12 @@ static void free_fade (EelBackground *background);
 
 EEL_CLASS_BOILERPLATE (EelBackground, eel_background, GTK_TYPE_OBJECT)
 
-enum {
-	APPEARANCE_CHANGED,
-	SETTINGS_CHANGED,
-	RESET,
-	LAST_SIGNAL
+enum
+{
+    APPEARANCE_CHANGED,
+    SETTINGS_CHANGED,
+    RESET,
+    LAST_SIGNAL
 };
 
 /* This is the size of the GdkRGB dither matrix, in order to avoid
@@ -73,113 +74,114 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-struct EelBackgroundDetails {
-	char *color;
+struct EelBackgroundDetails
+{
+    char *color;
 
-	MateBG *bg;
-	GtkWidget *widget;
+    MateBG *bg;
+    GtkWidget *widget;
 
-	/* Realized data: */
-	GdkPixmap *background_pixmap;
-	gboolean background_pixmap_is_unset_root_pixmap;
-	MateBGCrossfade *fade;
-	int background_entire_width;
-	int background_entire_height;
-	GdkColor default_color;
+    /* Realized data: */
+    GdkPixmap *background_pixmap;
+    gboolean background_pixmap_is_unset_root_pixmap;
+    MateBGCrossfade *fade;
+    int background_entire_width;
+    int background_entire_height;
+    GdkColor default_color;
 
-	gboolean use_base;
+    gboolean use_base;
 
-	/* Is this background attached to desktop window */
-	gboolean is_desktop;
-	/* Desktop screen size watcher */
-	gulong screen_size_handler;
-	/* Desktop monitors configuration watcher */
-	gulong screen_monitors_handler;
-	/* Can we use common pixmap for root window and desktop window */
-	gboolean use_common_pixmap;
-	guint change_idle_id;
+    /* Is this background attached to desktop window */
+    gboolean is_desktop;
+    /* Desktop screen size watcher */
+    gulong screen_size_handler;
+    /* Desktop monitors configuration watcher */
+    gulong screen_monitors_handler;
+    /* Can we use common pixmap for root window and desktop window */
+    gboolean use_common_pixmap;
+    guint change_idle_id;
 
-	/* activity status */
-	gboolean is_active;
+    /* activity status */
+    gboolean is_active;
 };
 
 static void
 eel_background_class_init (gpointer klass)
 {
-	GObjectClass *object_class;
+    GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+    object_class = G_OBJECT_CLASS (klass);
 
-	eel_type_init ();
+    eel_type_init ();
 
-	signals[APPEARANCE_CHANGED] =
-		g_signal_new ("appearance_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE,
-			      G_STRUCT_OFFSET (EelBackgroundClass,
-					       appearance_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
-	signals[SETTINGS_CHANGED] =
-		g_signal_new ("settings_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE,
-			      G_STRUCT_OFFSET (EelBackgroundClass,
-					       settings_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE,
-			      1, G_TYPE_INT);
-	signals[RESET] =
-		g_signal_new ("reset",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE,
-			      G_STRUCT_OFFSET (EelBackgroundClass,
-					       reset),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
+    signals[APPEARANCE_CHANGED] =
+        g_signal_new ("appearance_changed",
+                      G_TYPE_FROM_CLASS (object_class),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE,
+                      G_STRUCT_OFFSET (EelBackgroundClass,
+                                       appearance_changed),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE,
+                      0);
+    signals[SETTINGS_CHANGED] =
+        g_signal_new ("settings_changed",
+                      G_TYPE_FROM_CLASS (object_class),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE,
+                      G_STRUCT_OFFSET (EelBackgroundClass,
+                                       settings_changed),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__INT,
+                      G_TYPE_NONE,
+                      1, G_TYPE_INT);
+    signals[RESET] =
+        g_signal_new ("reset",
+                      G_TYPE_FROM_CLASS (object_class),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE,
+                      G_STRUCT_OFFSET (EelBackgroundClass,
+                                       reset),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE,
+                      0);
 
-	object_class->finalize = eel_background_finalize;
+    object_class->finalize = eel_background_finalize;
 }
 
 static void
 on_bg_changed (MateBG *bg, EelBackground *background)
 {
-	init_fade (background, background->details->widget);
-	g_signal_emit (G_OBJECT (background),
-		       signals[APPEARANCE_CHANGED], 0);
+    init_fade (background, background->details->widget);
+    g_signal_emit (G_OBJECT (background),
+                   signals[APPEARANCE_CHANGED], 0);
 }
 
 static void
 on_bg_transitioned (MateBG *bg, EelBackground *background)
 {
-	free_fade (background);
-	g_signal_emit (G_OBJECT (background),
-		       signals[APPEARANCE_CHANGED], 0);
+    free_fade (background);
+    g_signal_emit (G_OBJECT (background),
+                   signals[APPEARANCE_CHANGED], 0);
 }
 
 static void
 eel_background_init (gpointer object, gpointer klass)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = EEL_BACKGROUND (object);
+    background = EEL_BACKGROUND (object);
 
-	background->details = g_new0 (EelBackgroundDetails, 1);
-	background->details->default_color.red = 0xffff;
-	background->details->default_color.green = 0xffff;
-	background->details->default_color.blue = 0xffff;
-	background->details->bg = mate_bg_new ();
-	background->details->is_active = TRUE;
+    background->details = g_new0 (EelBackgroundDetails, 1);
+    background->details->default_color.red = 0xffff;
+    background->details->default_color.green = 0xffff;
+    background->details->default_color.blue = 0xffff;
+    background->details->bg = mate_bg_new ();
+    background->details->is_active = TRUE;
 
-	g_signal_connect (background->details->bg, "changed",
-			  G_CALLBACK (on_bg_changed), background);
-	g_signal_connect (background->details->bg, "transitioned",
-			  G_CALLBACK (on_bg_transitioned), background);
+    g_signal_connect (background->details->bg, "changed",
+                      G_CALLBACK (on_bg_changed), background);
+    g_signal_connect (background->details->bg, "transitioned",
+                      G_CALLBACK (on_bg_transitioned), background);
 
 }
 
@@ -191,224 +193,236 @@ eel_background_init (gpointer object, gpointer klass)
 static void
 eel_background_remove_current_image (EelBackground *background)
 {
-	if (background->details->bg != NULL) {
-		g_object_unref (G_OBJECT (background->details->bg));
-		background->details->bg = NULL;
-	}
+    if (background->details->bg != NULL)
+    {
+        g_object_unref (G_OBJECT (background->details->bg));
+        background->details->bg = NULL;
+    }
 }
 
 static void
 free_fade (EelBackground *background)
 {
-	if (background->details->fade != NULL) {
-		g_object_unref (background->details->fade);
-		background->details->fade = NULL;
-	}
+    if (background->details->fade != NULL)
+    {
+        g_object_unref (background->details->fade);
+        background->details->fade = NULL;
+    }
 }
 
 static void
 free_background_pixmap (EelBackground *background)
 {
-	GdkDisplay *display;
-	GdkPixmap *pixmap;
+    GdkDisplay *display;
+    GdkPixmap *pixmap;
 
-	pixmap = background->details->background_pixmap;
-	if (pixmap != NULL) {
-		/* If we created a root pixmap and didn't set it as background
-		   it will live forever, so we need to kill it manually.
-		   If set as root background it will be killed next time the
-		   background is changed. */
-		if (background->details->background_pixmap_is_unset_root_pixmap) {
-			display = gdk_drawable_get_display (GDK_DRAWABLE (pixmap));
-			XKillClient (GDK_DISPLAY_XDISPLAY (display),
-				     GDK_PIXMAP_XID (pixmap));
-		}
-		g_object_unref (pixmap);
-		background->details->background_pixmap = NULL;
-	}
+    pixmap = background->details->background_pixmap;
+    if (pixmap != NULL)
+    {
+        /* If we created a root pixmap and didn't set it as background
+           it will live forever, so we need to kill it manually.
+           If set as root background it will be killed next time the
+           background is changed. */
+        if (background->details->background_pixmap_is_unset_root_pixmap)
+        {
+            display = gdk_drawable_get_display (GDK_DRAWABLE (pixmap));
+            XKillClient (GDK_DISPLAY_XDISPLAY (display),
+                         GDK_PIXMAP_XID (pixmap));
+        }
+        g_object_unref (pixmap);
+        background->details->background_pixmap = NULL;
+    }
 }
 
 
 static void
 eel_background_finalize (GObject *object)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = EEL_BACKGROUND (object);
+    background = EEL_BACKGROUND (object);
 
-	g_free (background->details->color);
-	eel_background_remove_current_image (background);
+    g_free (background->details->color);
+    eel_background_remove_current_image (background);
 
-	free_background_pixmap (background);
+    free_background_pixmap (background);
 
-	free_fade (background);
+    free_fade (background);
 
-	g_free (background->details);
+    g_free (background->details);
 
-	EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
+    EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 static EelBackgroundImagePlacement
 placement_mate_to_eel (MateBGPlacement p)
 {
-	switch (p) {
-	case MATE_BG_PLACEMENT_CENTERED:
-		return EEL_BACKGROUND_CENTERED;
-	case MATE_BG_PLACEMENT_FILL_SCREEN:
-		return EEL_BACKGROUND_SCALED;
-	case MATE_BG_PLACEMENT_SCALED:
-		return EEL_BACKGROUND_SCALED_ASPECT;
-	case MATE_BG_PLACEMENT_ZOOMED:
-		return EEL_BACKGROUND_ZOOM;
-	case MATE_BG_PLACEMENT_TILED:
-		return EEL_BACKGROUND_TILED;
-        case MATE_BG_PLACEMENT_SPANNED:
-                return EEL_BACKGROUND_SPANNED;
-	}
+    switch (p)
+    {
+    case MATE_BG_PLACEMENT_CENTERED:
+        return EEL_BACKGROUND_CENTERED;
+    case MATE_BG_PLACEMENT_FILL_SCREEN:
+        return EEL_BACKGROUND_SCALED;
+    case MATE_BG_PLACEMENT_SCALED:
+        return EEL_BACKGROUND_SCALED_ASPECT;
+    case MATE_BG_PLACEMENT_ZOOMED:
+        return EEL_BACKGROUND_ZOOM;
+    case MATE_BG_PLACEMENT_TILED:
+        return EEL_BACKGROUND_TILED;
+    case MATE_BG_PLACEMENT_SPANNED:
+        return EEL_BACKGROUND_SPANNED;
+    }
 
-	return EEL_BACKGROUND_TILED;
+    return EEL_BACKGROUND_TILED;
 }
 
 static MateBGPlacement
 placement_eel_to_mate (EelBackgroundImagePlacement p)
 {
-	switch (p) {
-	case EEL_BACKGROUND_CENTERED:
-		return MATE_BG_PLACEMENT_CENTERED;
-	case EEL_BACKGROUND_SCALED:
-		return MATE_BG_PLACEMENT_FILL_SCREEN;
-	case EEL_BACKGROUND_SCALED_ASPECT:
-		return MATE_BG_PLACEMENT_SCALED;
-	case EEL_BACKGROUND_ZOOM:
-		return MATE_BG_PLACEMENT_ZOOMED;
-	case EEL_BACKGROUND_TILED:
-		return MATE_BG_PLACEMENT_TILED;
-	case EEL_BACKGROUND_SPANNED:
-		return MATE_BG_PLACEMENT_SPANNED;
-	}
+    switch (p)
+    {
+    case EEL_BACKGROUND_CENTERED:
+        return MATE_BG_PLACEMENT_CENTERED;
+    case EEL_BACKGROUND_SCALED:
+        return MATE_BG_PLACEMENT_FILL_SCREEN;
+    case EEL_BACKGROUND_SCALED_ASPECT:
+        return MATE_BG_PLACEMENT_SCALED;
+    case EEL_BACKGROUND_ZOOM:
+        return MATE_BG_PLACEMENT_ZOOMED;
+    case EEL_BACKGROUND_TILED:
+        return MATE_BG_PLACEMENT_TILED;
+    case EEL_BACKGROUND_SPANNED:
+        return MATE_BG_PLACEMENT_SPANNED;
+    }
 
-	return MATE_BG_PLACEMENT_TILED;
+    return MATE_BG_PLACEMENT_TILED;
 }
 
 EelBackgroundImagePlacement
 eel_background_get_image_placement (EelBackground *background)
 {
-	g_return_val_if_fail (EEL_IS_BACKGROUND (background), EEL_BACKGROUND_TILED);
+    g_return_val_if_fail (EEL_IS_BACKGROUND (background), EEL_BACKGROUND_TILED);
 
-	return placement_mate_to_eel (mate_bg_get_placement (background->details->bg));
+    return placement_mate_to_eel (mate_bg_get_placement (background->details->bg));
 }
 
 void
 eel_background_set_image_placement (EelBackground              *background,
-				    EelBackgroundImagePlacement new_placement)
+                                    EelBackgroundImagePlacement new_placement)
 {
-	g_return_if_fail (EEL_IS_BACKGROUND (background));
+    g_return_if_fail (EEL_IS_BACKGROUND (background));
 
-	mate_bg_set_placement (background->details->bg,
-				placement_eel_to_mate (new_placement));
+    mate_bg_set_placement (background->details->bg,
+                           placement_eel_to_mate (new_placement));
 }
 
 EelBackground *
 eel_background_new (void)
 {
-	return EEL_BACKGROUND (g_object_new (EEL_TYPE_BACKGROUND, NULL));
+    return EEL_BACKGROUND (g_object_new (EEL_TYPE_BACKGROUND, NULL));
 }
 
 static void
 eel_background_unrealize (EelBackground *background)
 {
-	free_background_pixmap (background);
+    free_background_pixmap (background);
 
-	background->details->background_entire_width = 0;
-	background->details->background_entire_height = 0;
-	background->details->default_color.red = 0xffff;
-	background->details->default_color.green = 0xffff;
-	background->details->default_color.blue = 0xffff;
+    background->details->background_entire_width = 0;
+    background->details->background_entire_height = 0;
+    background->details->default_color.red = 0xffff;
+    background->details->default_color.green = 0xffff;
+    background->details->default_color.blue = 0xffff;
 }
 
 static void
 drawable_get_adjusted_size (EelBackground *background,
-			    GdkDrawable   *drawable,
-			    int		  *width,
-			    int	          *height)
+                            GdkDrawable   *drawable,
+                            int		  *width,
+                            int	          *height)
 {
-	GdkScreen *screen;
+    GdkScreen *screen;
 
-	/*
-	 * Screen resolution change makes root drawable have incorrect size.
-	 */
-	#if GTK_CHECK_VERSION(3, 0, 0)
-		width = gdk_window_get_width(GDK_WINDOW(drawable));
-		height = gdk_window_get_height(GDK_WINDOW(drawable));
-	#else
-		gdk_drawable_get_size(drawable, width, height); // FIXME: this is right?
-	#endif
+    /*
+     * Screen resolution change makes root drawable have incorrect size.
+     */
+#if GTK_CHECK_VERSION(3, 0, 0)
+    width = gdk_window_get_width(GDK_WINDOW(drawable));
+    height = gdk_window_get_height(GDK_WINDOW(drawable));
+#else
+    gdk_drawable_get_size(drawable, width, height); // FIXME: this is right?
+#endif
 
 
-	if (background->details->is_desktop) {
-		screen = gdk_drawable_get_screen (drawable);
-		*width = gdk_screen_get_width (screen);
-		*height = gdk_screen_get_height (screen);
-	}
+    if (background->details->is_desktop)
+    {
+        screen = gdk_drawable_get_screen (drawable);
+        *width = gdk_screen_get_width (screen);
+        *height = gdk_screen_get_height (screen);
+    }
 }
 
 static gboolean
 eel_background_ensure_realized (EelBackground *background, GdkWindow *window)
 {
-	gpointer data;
-	GtkWidget *widget;
-	GtkStyle *style;
-	gboolean changed;
-	int entire_width;
-	int entire_height;
+    gpointer data;
+    GtkWidget *widget;
+    GtkStyle *style;
+    gboolean changed;
+    int entire_width;
+    int entire_height;
 
-	drawable_get_adjusted_size (background, window, &entire_width, &entire_height);
+    drawable_get_adjusted_size (background, window, &entire_width, &entire_height);
 
-	/* Set the default color */
+    /* Set the default color */
 
-	/* Get the widget to which the window belongs and its style as well */
-	gdk_window_get_user_data (window, &data);
-	widget = GTK_WIDGET (data);
-	if (widget != NULL) {
-		style = gtk_widget_get_style (widget);
-		if (background->details->use_base) {
-			background->details->default_color = style->base[GTK_STATE_NORMAL];
-		} else {
-			background->details->default_color = style->bg[GTK_STATE_NORMAL];
-		}
+    /* Get the widget to which the window belongs and its style as well */
+    gdk_window_get_user_data (window, &data);
+    widget = GTK_WIDGET (data);
+    if (widget != NULL)
+    {
+        style = gtk_widget_get_style (widget);
+        if (background->details->use_base)
+        {
+            background->details->default_color = style->base[GTK_STATE_NORMAL];
+        }
+        else
+        {
+            background->details->default_color = style->bg[GTK_STATE_NORMAL];
+        }
 
-		gdk_rgb_find_color (style->colormap, &(background->details->default_color));
-	}
+        gdk_rgb_find_color (style->colormap, &(background->details->default_color));
+    }
 
-	/* If the window size is the same as last time, don't update */
-	if (entire_width == background->details->background_entire_width &&
-	    entire_height == background->details->background_entire_height) {
-		return FALSE;
-	}
+    /* If the window size is the same as last time, don't update */
+    if (entire_width == background->details->background_entire_width &&
+            entire_height == background->details->background_entire_height)
+    {
+        return FALSE;
+    }
 
-	free_background_pixmap (background);
+    free_background_pixmap (background);
 
-	changed = FALSE;
+    changed = FALSE;
 
-	set_image_properties (background);
+    set_image_properties (background);
 
-	background->details->background_pixmap = mate_bg_create_pixmap (background->details->bg,
-									 window,
-									 entire_width, entire_height,
-									 background->details->is_desktop);
-	background->details->background_pixmap_is_unset_root_pixmap = background->details->is_desktop;
+    background->details->background_pixmap = mate_bg_create_pixmap (background->details->bg,
+            window,
+            entire_width, entire_height,
+            background->details->is_desktop);
+    background->details->background_pixmap_is_unset_root_pixmap = background->details->is_desktop;
 
-	/* We got the pixmap and everything, so we don't care about a change
-	   that is pending (unless things actually change after this time) */
-	g_object_set_data (G_OBJECT (background->details->bg),
-			   "ignore-pending-change", GINT_TO_POINTER (TRUE));
-	changed = TRUE;
+    /* We got the pixmap and everything, so we don't care about a change
+       that is pending (unless things actually change after this time) */
+    g_object_set_data (G_OBJECT (background->details->bg),
+                       "ignore-pending-change", GINT_TO_POINTER (TRUE));
+    changed = TRUE;
 
 
-	background->details->background_entire_width = entire_width;
-	background->details->background_entire_height = entire_height;
+    background->details->background_entire_width = entire_width;
+    background->details->background_entire_height = entire_height;
 
-	return changed;
+    return changed;
 }
 
 #define CLAMP_COLOR(v) (t = (v), CLAMP (t, 0, G_MAXUSHORT))
@@ -417,210 +431,230 @@ eel_background_ensure_realized (EelBackground *background, GdkWindow *window)
 static void
 make_color_inactive (EelBackground *background, GdkColor *color)
 {
-	double intensity, saturation;
-	gushort t;
+    double intensity, saturation;
+    gushort t;
 
-	if (!background->details->is_active) {
-		saturation = 0.7;
-		intensity = color->red * 0.30 + color->green * 0.59 + color->blue * 0.11;
-		color->red = SATURATE (color->red);
-		color->green = SATURATE (color->green);
-		color->blue = SATURATE (color->blue);
+    if (!background->details->is_active)
+    {
+        saturation = 0.7;
+        intensity = color->red * 0.30 + color->green * 0.59 + color->blue * 0.11;
+        color->red = SATURATE (color->red);
+        color->green = SATURATE (color->green);
+        color->blue = SATURATE (color->blue);
 
-		if (intensity > G_MAXUSHORT / 2) {
-			color->red *= 0.9;
-			color->green *= 0.9;
-			color->blue *= 0.9;
-		} else {
-			color->red *= 1.25;
-			color->green *= 1.25;
-			color->blue *= 1.25;
-		}
+        if (intensity > G_MAXUSHORT / 2)
+        {
+            color->red *= 0.9;
+            color->green *= 0.9;
+            color->blue *= 0.9;
+        }
+        else
+        {
+            color->red *= 1.25;
+            color->green *= 1.25;
+            color->blue *= 1.25;
+        }
 
-		color->red = CLAMP_COLOR (color->red);
-		color->green = CLAMP_COLOR (color->green);
-		color->blue = CLAMP_COLOR (color->blue);
-	}
+        color->red = CLAMP_COLOR (color->red);
+        color->green = CLAMP_COLOR (color->green);
+        color->blue = CLAMP_COLOR (color->blue);
+    }
 }
 
 static GdkPixmap *
 eel_background_get_pixmap_and_color (EelBackground *background,
-				     GdkWindow     *window,
-				     GdkColor      *color)
+                                     GdkWindow     *window,
+                                     GdkColor      *color)
 {
-	int entire_width;
-	int entire_height;
+    int entire_width;
+    int entire_height;
 
-	drawable_get_adjusted_size (background, window, &entire_width, &entire_height);
+    drawable_get_adjusted_size (background, window, &entire_width, &entire_height);
 
-	eel_background_ensure_realized (background, window);
+    eel_background_ensure_realized (background, window);
 
-	*color = background->details->default_color;
-	make_color_inactive (background, color);
+    *color = background->details->default_color;
+    make_color_inactive (background, color);
 
-	if (background->details->background_pixmap != NULL) {
-		return g_object_ref (background->details->background_pixmap);
-	}
-	return NULL;
+    if (background->details->background_pixmap != NULL)
+    {
+        return g_object_ref (background->details->background_pixmap);
+    }
+    return NULL;
 }
 
 void
 eel_background_expose (GtkWidget                   *widget,
-		       GdkEventExpose              *event)
+                       GdkEventExpose              *event)
 {
-	GdkColor color;
-	int window_width;
-	int window_height;
-	GdkPixmap *pixmap;
-	GdkGC *gc;
-	GdkGCValues gc_values;
-	GdkGCValuesMask value_mask;
-	GdkWindow *widget_window;
+    GdkColor color;
+    int window_width;
+    int window_height;
+    GdkPixmap *pixmap;
+    GdkGC *gc;
+    GdkGCValues gc_values;
+    GdkGCValuesMask value_mask;
+    GdkWindow *widget_window;
 
-	EelBackground *background;
+    EelBackground *background;
 
-	widget_window = gtk_widget_get_window (widget);
-	if (event->window != widget_window) {
-		return;
-	}
+    widget_window = gtk_widget_get_window (widget);
+    if (event->window != widget_window)
+    {
+        return;
+    }
 
-	background = eel_get_widget_background (widget);
+    background = eel_get_widget_background (widget);
 
-	drawable_get_adjusted_size (background, widget_window, &window_width, &window_height);
+    drawable_get_adjusted_size (background, widget_window, &window_width, &window_height);
 
-	pixmap = eel_background_get_pixmap_and_color (background,
-						      widget_window,
-						      &color);
+    pixmap = eel_background_get_pixmap_and_color (background,
+             widget_window,
+             &color);
 
-	if (pixmap) {
-		gc_values.tile = pixmap;
-		gc_values.ts_x_origin = 0;
-		gc_values.ts_y_origin = 0;
-		gc_values.fill = GDK_TILED;
-		value_mask = GDK_GC_FILL | GDK_GC_TILE | GDK_GC_TS_X_ORIGIN | GDK_GC_TS_Y_ORIGIN;
-	} else {
-		gdk_rgb_find_color (gtk_widget_get_colormap (widget), &color);
-		gc_values.foreground = color;
-		gc_values.fill = GDK_SOLID;
-		value_mask = GDK_GC_FILL | GDK_GC_FOREGROUND;
-	}
+    if (pixmap)
+    {
+        gc_values.tile = pixmap;
+        gc_values.ts_x_origin = 0;
+        gc_values.ts_y_origin = 0;
+        gc_values.fill = GDK_TILED;
+        value_mask = GDK_GC_FILL | GDK_GC_TILE | GDK_GC_TS_X_ORIGIN | GDK_GC_TS_Y_ORIGIN;
+    }
+    else
+    {
+        gdk_rgb_find_color (gtk_widget_get_colormap (widget), &color);
+        gc_values.foreground = color;
+        gc_values.fill = GDK_SOLID;
+        value_mask = GDK_GC_FILL | GDK_GC_FOREGROUND;
+    }
 
-	gc = gdk_gc_new_with_values (widget_window, &gc_values, value_mask);
+    gc = gdk_gc_new_with_values (widget_window, &gc_values, value_mask);
 
-	gdk_gc_set_clip_rectangle (gc, &event->area);
+    gdk_gc_set_clip_rectangle (gc, &event->area);
 
-	gdk_draw_rectangle (widget_window, gc, TRUE, 0, 0, window_width, window_height);
+    gdk_draw_rectangle (widget_window, gc, TRUE, 0, 0, window_width, window_height);
 
-	g_object_unref (gc);
+    g_object_unref (gc);
 
-	if (pixmap) {
-		g_object_unref (pixmap);
-	}
+    if (pixmap)
+    {
+        g_object_unref (pixmap);
+    }
 }
 
 static void
 set_image_properties (EelBackground *background)
 {
-	GdkColor c;
-	if (!background->details->color) {
-		c = background->details->default_color;
-		make_color_inactive (background, &c);
-		mate_bg_set_color (background->details->bg, MATE_BG_COLOR_SOLID,
-				    &c, NULL);
-	} else if (!eel_gradient_is_gradient (background->details->color)) {
-		eel_gdk_color_parse_with_white_default (background->details->color, &c);
-		make_color_inactive (background, &c);
-		mate_bg_set_color (background->details->bg, MATE_BG_COLOR_SOLID, &c, NULL);
-	} else {
-		GdkColor c1;
-		GdkColor c2;
-		char *spec;
+    GdkColor c;
+    if (!background->details->color)
+    {
+        c = background->details->default_color;
+        make_color_inactive (background, &c);
+        mate_bg_set_color (background->details->bg, MATE_BG_COLOR_SOLID,
+                           &c, NULL);
+    }
+    else if (!eel_gradient_is_gradient (background->details->color))
+    {
+        eel_gdk_color_parse_with_white_default (background->details->color, &c);
+        make_color_inactive (background, &c);
+        mate_bg_set_color (background->details->bg, MATE_BG_COLOR_SOLID, &c, NULL);
+    }
+    else
+    {
+        GdkColor c1;
+        GdkColor c2;
+        char *spec;
 
-		spec = eel_gradient_get_start_color_spec (background->details->color);
-		eel_gdk_color_parse_with_white_default (spec, &c1);
-		make_color_inactive (background, &c1);
-		g_free (spec);
+        spec = eel_gradient_get_start_color_spec (background->details->color);
+        eel_gdk_color_parse_with_white_default (spec, &c1);
+        make_color_inactive (background, &c1);
+        g_free (spec);
 
-		spec = eel_gradient_get_end_color_spec (background->details->color);
-		eel_gdk_color_parse_with_white_default (spec, &c2);
-		make_color_inactive (background, &c2);
-		g_free (spec);
+        spec = eel_gradient_get_end_color_spec (background->details->color);
+        eel_gdk_color_parse_with_white_default (spec, &c2);
+        make_color_inactive (background, &c2);
+        g_free (spec);
 
-		if (eel_gradient_is_horizontal (background->details->color))
-			mate_bg_set_color (background->details->bg, MATE_BG_COLOR_H_GRADIENT, &c1, &c2);
-		else
-			mate_bg_set_color (background->details->bg, MATE_BG_COLOR_V_GRADIENT, &c1, &c2);
+        if (eel_gradient_is_horizontal (background->details->color))
+            mate_bg_set_color (background->details->bg, MATE_BG_COLOR_H_GRADIENT, &c1, &c2);
+        else
+            mate_bg_set_color (background->details->bg, MATE_BG_COLOR_V_GRADIENT, &c1, &c2);
 
-	}
+    }
 }
 
 char *
 eel_background_get_color (EelBackground *background)
 {
-	g_return_val_if_fail (EEL_IS_BACKGROUND (background), NULL);
+    g_return_val_if_fail (EEL_IS_BACKGROUND (background), NULL);
 
-	return g_strdup (background->details->color);
+    return g_strdup (background->details->color);
 }
 
 char *
 eel_background_get_image_uri (EelBackground *background)
 {
-	const char *filename;
+    const char *filename;
 
-	g_return_val_if_fail (EEL_IS_BACKGROUND (background), NULL);
+    g_return_val_if_fail (EEL_IS_BACKGROUND (background), NULL);
 
-	filename = mate_bg_get_filename (background->details->bg);
-	if (filename) {
-		return g_filename_to_uri (filename, NULL, NULL);
-	}
-	return NULL;
+    filename = mate_bg_get_filename (background->details->bg);
+    if (filename)
+    {
+        return g_filename_to_uri (filename, NULL, NULL);
+    }
+    return NULL;
 }
 
 /* Use style->base as the default color instead of bg */
 void
 eel_background_set_use_base (EelBackground *background,
-			     gboolean use_base)
+                             gboolean use_base)
 {
-	background->details->use_base = use_base;
+    background->details->use_base = use_base;
 }
 
 void
 eel_background_set_color (EelBackground *background,
-			  const char *color)
+                          const char *color)
 {
-	if (eel_strcmp (background->details->color, color) != 0) {
-		g_free (background->details->color);
-		background->details->color = g_strdup (color);
+    if (eel_strcmp (background->details->color, color) != 0)
+    {
+        g_free (background->details->color);
+        background->details->color = g_strdup (color);
 
-		set_image_properties (background);
-	}
+        set_image_properties (background);
+    }
 }
 
 static gboolean
 eel_background_set_image_uri_helper (EelBackground *background,
-				     const char *image_uri,
-				     gboolean emit_signal)
+                                     const char *image_uri,
+                                     gboolean emit_signal)
 {
-	char *filename;
+    char *filename;
 
-	if (image_uri != NULL) {
-		filename = g_filename_from_uri (image_uri, NULL, NULL);
-	}
-	else {
-		filename = NULL;
-	}
+    if (image_uri != NULL)
+    {
+        filename = g_filename_from_uri (image_uri, NULL, NULL);
+    }
+    else
+    {
+        filename = NULL;
+    }
 
-	mate_bg_set_filename (background->details->bg, filename);
+    mate_bg_set_filename (background->details->bg, filename);
 
-	if (emit_signal) {
-		g_signal_emit (GTK_OBJECT (background), signals[SETTINGS_CHANGED], 0, GDK_ACTION_COPY);
-	}
+    if (emit_signal)
+    {
+        g_signal_emit (GTK_OBJECT (background), signals[SETTINGS_CHANGED], 0, GDK_ACTION_COPY);
+    }
 
-	set_image_properties (background);
+    set_image_properties (background);
 
-	g_free (filename);
+    g_free (filename);
 
-	return TRUE;
+    return TRUE;
 }
 
 void
@@ -628,7 +662,7 @@ eel_background_set_image_uri (EelBackground *background, const char *image_uri)
 {
 
 
-	eel_background_set_image_uri_helper (background, image_uri, TRUE);
+    eel_background_set_image_uri_helper (background, image_uri, TRUE);
 }
 
 /* Use this fn to set both the image and color and avoid flash. The color isn't
@@ -637,30 +671,30 @@ eel_background_set_image_uri (EelBackground *background, const char *image_uri)
  */
 static void
 eel_background_set_image_uri_and_color (EelBackground *background, GdkDragAction action,
-					const char *image_uri, const char *color)
+                                        const char *image_uri, const char *color)
 {
-	eel_background_set_image_uri_helper (background, image_uri, FALSE);
-	eel_background_set_color (background, color);
+    eel_background_set_image_uri_helper (background, image_uri, FALSE);
+    eel_background_set_color (background, color);
 
-	/* We always emit, even if the color didn't change, because the image change
-	 * relies on us doing it here.
-	 */
+    /* We always emit, even if the color didn't change, because the image change
+     * relies on us doing it here.
+     */
 
-	g_signal_emit (background, signals[SETTINGS_CHANGED], 0, action);
+    g_signal_emit (background, signals[SETTINGS_CHANGED], 0, action);
 }
 
 void
 eel_background_receive_dropped_background_image (EelBackground *background,
-						 GdkDragAction action,
-						 const char *image_uri)
+        GdkDragAction action,
+        const char *image_uri)
 {
-	/* Currently, we only support tiled images. So we set the placement.
-	 * We rely on eel_background_set_image_uri_and_color to emit
-	 * the SETTINGS_CHANGED & APPEARANCE_CHANGE signals.
-	 */
-	eel_background_set_image_placement (background, EEL_BACKGROUND_TILED);
+    /* Currently, we only support tiled images. So we set the placement.
+     * We rely on eel_background_set_image_uri_and_color to emit
+     * the SETTINGS_CHANGED & APPEARANCE_CHANGE signals.
+     */
+    eel_background_set_image_placement (background, EEL_BACKGROUND_TILED);
 
-	eel_background_set_image_uri_and_color (background, action, image_uri, NULL);
+    eel_background_set_image_uri_and_color (background, action, image_uri, NULL);
 }
 
 /**
@@ -671,10 +705,10 @@ eel_background_receive_dropped_background_image (EelBackground *background,
 gboolean
 eel_background_is_set (EelBackground *background)
 {
-	g_assert (EEL_IS_BACKGROUND (background));
+    g_assert (EEL_IS_BACKGROUND (background));
 
-	return background->details->color != NULL
-		|| mate_bg_get_filename (background->details->bg) != NULL;
+    return background->details->color != NULL
+           || mate_bg_get_filename (background->details->bg) != NULL;
 }
 
 /**
@@ -686,204 +720,233 @@ eel_background_is_set (EelBackground *background)
 void
 eel_background_reset (EelBackground *background)
 {
-	g_return_if_fail (EEL_IS_BACKGROUND (background));
+    g_return_if_fail (EEL_IS_BACKGROUND (background));
 
-	g_signal_emit (GTK_OBJECT (background), signals[RESET], 0);
+    g_signal_emit (GTK_OBJECT (background), signals[RESET], 0);
 }
 
 static void
 set_root_pixmap (EelBackground *background,
                  GdkWindow     *window)
 {
-	GdkPixmap *pixmap, *root_pixmap;
-	GdkScreen *screen;
-	GdkColor color;
+    GdkPixmap *pixmap, *root_pixmap;
+    GdkScreen *screen;
+    GdkColor color;
 
-	pixmap = eel_background_get_pixmap_and_color (background,
-						      window,
-						      &color);
-	screen = gdk_drawable_get_screen (window);
+    pixmap = eel_background_get_pixmap_and_color (background,
+             window,
+             &color);
+    screen = gdk_drawable_get_screen (window);
 
-	if (background->details->use_common_pixmap) {
-		background->details->background_pixmap_is_unset_root_pixmap = FALSE;
-		root_pixmap = g_object_ref (pixmap);
-	} else {
-		root_pixmap = mate_bg_create_pixmap (background->details->bg, window,
-						      gdk_screen_get_width (screen), gdk_screen_get_height (screen), TRUE);
-	}
+    if (background->details->use_common_pixmap)
+    {
+        background->details->background_pixmap_is_unset_root_pixmap = FALSE;
+        root_pixmap = g_object_ref (pixmap);
+    }
+    else
+    {
+        root_pixmap = mate_bg_create_pixmap (background->details->bg, window,
+                                             gdk_screen_get_width (screen), gdk_screen_get_height (screen), TRUE);
+    }
 
-	mate_bg_set_pixmap_as_root (screen, pixmap);
+    mate_bg_set_pixmap_as_root (screen, pixmap);
 
-	g_object_unref (pixmap);
-	g_object_unref (root_pixmap);
+    g_object_unref (pixmap);
+    g_object_unref (root_pixmap);
 }
 
 static gboolean
 fade_to_pixmap (EelBackground *background,
-		 GdkWindow     *window,
-		 GdkPixmap     *pixmap)
+                GdkWindow     *window,
+                GdkPixmap     *pixmap)
 {
-	if (background->details->fade == NULL) {
-		return FALSE;
-	}
+    if (background->details->fade == NULL)
+    {
+        return FALSE;
+    }
 
-	if (!mate_bg_crossfade_set_end_pixmap (background->details->fade,
-				                pixmap)) {
-		return FALSE;
-	}
+    if (!mate_bg_crossfade_set_end_pixmap (background->details->fade,
+                                           pixmap))
+    {
+        return FALSE;
+    }
 
-	if (!mate_bg_crossfade_is_started (background->details->fade)) {
-		mate_bg_crossfade_start (background->details->fade, window);
-		if (background->details->is_desktop) {
-			g_signal_connect_swapped (background->details->fade,
-					          "finished",
-						  G_CALLBACK (set_root_pixmap), background);
-		}
-	}
+    if (!mate_bg_crossfade_is_started (background->details->fade))
+    {
+        mate_bg_crossfade_start (background->details->fade, window);
+        if (background->details->is_desktop)
+        {
+            g_signal_connect_swapped (background->details->fade,
+                                      "finished",
+                                      G_CALLBACK (set_root_pixmap), background);
+        }
+    }
 
-	return mate_bg_crossfade_is_started (background->details->fade);
+    return mate_bg_crossfade_is_started (background->details->fade);
 }
 
 
 static void
 eel_background_set_up_widget (EelBackground *background, GtkWidget *widget)
 {
-	GtkStyle *style;
-	GdkPixmap *pixmap;
-	GdkColor color;
+    GtkStyle *style;
+    GdkPixmap *pixmap;
+    GdkColor color;
 
-	int window_width;
-	int window_height;
+    int window_width;
+    int window_height;
 
-	GdkWindow *window;
-	GdkWindow *widget_window;
-	gboolean in_fade;
+    GdkWindow *window;
+    GdkWindow *widget_window;
+    gboolean in_fade;
 
-	if (!gtk_widget_get_realized (widget)) {
-		return;
-	}
+    if (!gtk_widget_get_realized (widget))
+    {
+        return;
+    }
 
-	widget_window = gtk_widget_get_window (widget);
-	drawable_get_adjusted_size (background, widget_window, &window_width, &window_height);
+    widget_window = gtk_widget_get_window (widget);
+    drawable_get_adjusted_size (background, widget_window, &window_width, &window_height);
 
-	pixmap = eel_background_get_pixmap_and_color (background,
-						      widget_window,
-						      &color);
+    pixmap = eel_background_get_pixmap_and_color (background,
+             widget_window,
+             &color);
 
-	style = gtk_widget_get_style (widget);
+    style = gtk_widget_get_style (widget);
 
-	gdk_rgb_find_color (style->colormap, &color);
+    gdk_rgb_find_color (style->colormap, &color);
 
-	if (EEL_IS_CANVAS (widget)) {
-		window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-	} else {
-		window = widget_window;
-	}
+    if (EEL_IS_CANVAS (widget))
+    {
+        window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
+    }
+    else
+    {
+        window = widget_window;
+    }
 
-	if (background->details->fade != NULL) {
-		in_fade = fade_to_pixmap (background, window, pixmap);
-	} else {
-		in_fade = FALSE;
-	}
+    if (background->details->fade != NULL)
+    {
+        in_fade = fade_to_pixmap (background, window, pixmap);
+    }
+    else
+    {
+        in_fade = FALSE;
+    }
 
-	if (!in_fade) {
-		if (background->details->is_desktop) {
-			gdk_window_set_back_pixmap (window, pixmap, FALSE);
-		} else {
-			gdk_window_set_background (window, &color);
-			gdk_window_set_back_pixmap (window, pixmap, FALSE);
-		}
-	}
+    if (!in_fade)
+    {
+        if (background->details->is_desktop)
+        {
+            gdk_window_set_back_pixmap (window, pixmap, FALSE);
+        }
+        else
+        {
+            gdk_window_set_background (window, &color);
+            gdk_window_set_back_pixmap (window, pixmap, FALSE);
+        }
+    }
 
-	if (background->details->is_desktop && !in_fade) {
-		set_root_pixmap (background, window);
-	}
+    if (background->details->is_desktop && !in_fade)
+    {
+        set_root_pixmap (background, window);
+    }
 
-	if (pixmap) {
-		g_object_unref (pixmap);
-	}
+    if (pixmap)
+    {
+        g_object_unref (pixmap);
+    }
 }
 
 static gboolean
 on_background_changed (EelBackground *background)
 {
-	if (background->details->change_idle_id == 0) {
-		return FALSE;
-	}
+    if (background->details->change_idle_id == 0)
+    {
+        return FALSE;
+    }
 
-	background->details->change_idle_id = 0;
+    background->details->change_idle_id = 0;
 
-	eel_background_unrealize (background);
-	eel_background_set_up_widget (background, background->details->widget);
+    eel_background_unrealize (background);
+    eel_background_set_up_widget (background, background->details->widget);
 
-	gtk_widget_queue_draw (background->details->widget);
+    gtk_widget_queue_draw (background->details->widget);
 
-	return FALSE;
+    return FALSE;
 }
 
 static void
 init_fade (EelBackground *background, GtkWidget *widget)
 {
-	if (widget == NULL || !gtk_widget_get_realized (widget))
-		return;
+    if (widget == NULL || !gtk_widget_get_realized (widget))
+        return;
 
-	if (!background->details->is_desktop) {
-		return;
-	}
+    if (!background->details->is_desktop)
+    {
+        return;
+    }
 
-	if (background->details->fade == NULL) {
-		GdkWindow *window;
-		int old_width, old_height, width, height;
+    if (background->details->fade == NULL)
+    {
+        GdkWindow *window;
+        int old_width, old_height, width, height;
 
-		/* If this was the result of a screen size change,
-		 * we don't want to crossfade
-		 */
-		window = gtk_widget_get_window (widget);
+        /* If this was the result of a screen size change,
+         * we don't want to crossfade
+         */
+        window = gtk_widget_get_window (widget);
 
-		#if GTK_CHECK_VERSION(3, 0, 0)
-			old_width = gdk_window_get_width(GDK_WINDOW(window));
-			old_height = gdk_window_get_height(GDK_WINDOW(window));
-		#else
-			gdk_drawable_get_size(window, &old_width, &old_height);
-		#endif
+#if GTK_CHECK_VERSION(3, 0, 0)
+        old_width = gdk_window_get_width(GDK_WINDOW(window));
+        old_height = gdk_window_get_height(GDK_WINDOW(window));
+#else
+        gdk_drawable_get_size(window, &old_width, &old_height);
+#endif
 
-		drawable_get_adjusted_size (background, window,
-					    &width, &height);
-		if (old_width == width && old_height == height) {
-			background->details->fade = mate_bg_crossfade_new (width, height);
-			g_signal_connect_swapped (background->details->fade,
-						"finished",
-						G_CALLBACK (free_fade),
-						background);
-		}
-	}
+        drawable_get_adjusted_size (background, window,
+                                    &width, &height);
+        if (old_width == width && old_height == height)
+        {
+            background->details->fade = mate_bg_crossfade_new (width, height);
+            g_signal_connect_swapped (background->details->fade,
+                                      "finished",
+                                      G_CALLBACK (free_fade),
+                                      background);
+        }
+    }
 
-	if (background->details->fade != NULL && !mate_bg_crossfade_is_started (background->details->fade)) {
-		GdkPixmap *start_pixmap;
+    if (background->details->fade != NULL && !mate_bg_crossfade_is_started (background->details->fade))
+    {
+        GdkPixmap *start_pixmap;
 
-		if (background->details->background_pixmap == NULL) {
-			start_pixmap = mate_bg_get_pixmap_from_root (gtk_widget_get_screen (widget));
-		} else {
-			start_pixmap = g_object_ref (background->details->background_pixmap);
-		}
-		mate_bg_crossfade_set_start_pixmap (background->details->fade,
-						     start_pixmap);
-                g_object_unref (start_pixmap);
-	}
+        if (background->details->background_pixmap == NULL)
+        {
+            start_pixmap = mate_bg_get_pixmap_from_root (gtk_widget_get_screen (widget));
+        }
+        else
+        {
+            start_pixmap = g_object_ref (background->details->background_pixmap);
+        }
+        mate_bg_crossfade_set_start_pixmap (background->details->fade,
+                                            start_pixmap);
+        g_object_unref (start_pixmap);
+    }
 }
 
 static void
 eel_widget_queue_background_change (GtkWidget *widget)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = eel_get_widget_background (widget);
+    background = eel_get_widget_background (widget);
 
-	if (background->details->change_idle_id > 0) {
-		return;
-	}
+    if (background->details->change_idle_id > 0)
+    {
+        return;
+    }
 
-	background->details->change_idle_id = g_idle_add ((GSourceFunc) on_background_changed, background);
+    background->details->change_idle_id = g_idle_add ((GSourceFunc) on_background_changed, background);
 }
 
 /* Callback used when the style of a widget changes.  We have to regenerate its
@@ -892,125 +955,135 @@ eel_widget_queue_background_change (GtkWidget *widget)
 static void
 widget_style_set_cb (GtkWidget *widget, GtkStyle *previous_style, gpointer data)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = EEL_BACKGROUND (data);
+    background = EEL_BACKGROUND (data);
 
-	if (previous_style != NULL) {
-		eel_widget_queue_background_change (widget);
-	}
+    if (previous_style != NULL)
+    {
+        eel_widget_queue_background_change (widget);
+    }
 }
 
 static void
 screen_size_changed (GdkScreen *screen, EelBackground *background)
 {
-	g_signal_emit (background, signals[APPEARANCE_CHANGED], 0);
+    g_signal_emit (background, signals[APPEARANCE_CHANGED], 0);
 }
 
 static void
 widget_realized_setup (GtkWidget *widget, gpointer data)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = EEL_BACKGROUND (data);
+    background = EEL_BACKGROUND (data);
 
-        if (background->details->is_desktop) {
-		GdkWindow *root_window;
-		GdkScreen *screen;
+    if (background->details->is_desktop)
+    {
+        GdkWindow *root_window;
+        GdkScreen *screen;
 
-		screen = gtk_widget_get_screen (widget);
+        screen = gtk_widget_get_screen (widget);
 
-		if (background->details->screen_size_handler > 0) {
-		        g_signal_handler_disconnect (screen,
-				                     background->details->screen_size_handler);
-		}
+        if (background->details->screen_size_handler > 0)
+        {
+            g_signal_handler_disconnect (screen,
+                                         background->details->screen_size_handler);
+        }
 
-		background->details->screen_size_handler =
-			g_signal_connect (screen, "size_changed",
-            				  G_CALLBACK (screen_size_changed), background);
-		if (background->details->screen_monitors_handler > 0) {
-		        g_signal_handler_disconnect (screen,
-				                     background->details->screen_monitors_handler);
-		}
-		background->details->screen_monitors_handler =
-			g_signal_connect (screen, "monitors-changed",
-					  G_CALLBACK (screen_size_changed), background);
+        background->details->screen_size_handler =
+            g_signal_connect (screen, "size_changed",
+                              G_CALLBACK (screen_size_changed), background);
+        if (background->details->screen_monitors_handler > 0)
+        {
+            g_signal_handler_disconnect (screen,
+                                         background->details->screen_monitors_handler);
+        }
+        background->details->screen_monitors_handler =
+            g_signal_connect (screen, "monitors-changed",
+                              G_CALLBACK (screen_size_changed), background);
 
-		root_window = gdk_screen_get_root_window(screen);
+        root_window = gdk_screen_get_root_window(screen);
 
-		#if GTK_CHECK_VERSION(3, 0, 0)
-			if (gdk_window_get_visual(root_window) == gtk_widget_get_visual(widget))
-		#else
-			if (gdk_drawable_get_visual(root_window) == gtk_widget_get_visual(widget))
-		#endif
-		{
-			background->details->use_common_pixmap = TRUE;
-		} else {
-			background->details->use_common_pixmap = FALSE;
-		}
+#if GTK_CHECK_VERSION(3, 0, 0)
+        if (gdk_window_get_visual(root_window) == gtk_widget_get_visual(widget))
+#else
+        if (gdk_drawable_get_visual(root_window) == gtk_widget_get_visual(widget))
+#endif
+        {
+            background->details->use_common_pixmap = TRUE;
+        }
+        else
+        {
+            background->details->use_common_pixmap = FALSE;
+        }
 
-		init_fade (background, widget);
-	}
+        init_fade (background, widget);
+    }
 }
 
 static void
 widget_realize_cb (GtkWidget *widget, gpointer data)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = EEL_BACKGROUND (data);
+    background = EEL_BACKGROUND (data);
 
-	widget_realized_setup (widget, data);
+    widget_realized_setup (widget, data);
 
-	eel_background_set_up_widget (background, widget);
+    eel_background_set_up_widget (background, widget);
 }
 
 static void
 widget_unrealize_cb (GtkWidget *widget, gpointer data)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = EEL_BACKGROUND (data);
+    background = EEL_BACKGROUND (data);
 
-	if (background->details->screen_size_handler > 0) {
-		        g_signal_handler_disconnect (gtk_widget_get_screen (GTK_WIDGET (widget)),
-				                     background->details->screen_size_handler);
-			background->details->screen_size_handler = 0;
-	}
-	if (background->details->screen_monitors_handler > 0) {
-		        g_signal_handler_disconnect (gtk_widget_get_screen (GTK_WIDGET (widget)),
-				                     background->details->screen_monitors_handler);
-			background->details->screen_monitors_handler = 0;
-	}
-	background->details->use_common_pixmap = FALSE;
+    if (background->details->screen_size_handler > 0)
+    {
+        g_signal_handler_disconnect (gtk_widget_get_screen (GTK_WIDGET (widget)),
+                                     background->details->screen_size_handler);
+        background->details->screen_size_handler = 0;
+    }
+    if (background->details->screen_monitors_handler > 0)
+    {
+        g_signal_handler_disconnect (gtk_widget_get_screen (GTK_WIDGET (widget)),
+                                     background->details->screen_monitors_handler);
+        background->details->screen_monitors_handler = 0;
+    }
+    background->details->use_common_pixmap = FALSE;
 }
 
 void
 eel_background_set_desktop (EelBackground *background, GtkWidget *widget, gboolean is_desktop)
 {
-	background->details->is_desktop = is_desktop;
+    background->details->is_desktop = is_desktop;
 
-	if (gtk_widget_get_realized (widget) && background->details->is_desktop) {
-		widget_realized_setup (widget, background);
-	}
+    if (gtk_widget_get_realized (widget) && background->details->is_desktop)
+    {
+        widget_realized_setup (widget, background);
+    }
 
 }
 
 gboolean
 eel_background_is_desktop (EelBackground *background)
 {
-	return background->details->is_desktop;
+    return background->details->is_desktop;
 }
 
 static void
 on_widget_destroyed (GtkWidget *widget, EelBackground *background)
 {
-	if (background->details->change_idle_id != 0) {
-		g_source_remove (background->details->change_idle_id);
-		background->details->change_idle_id = 0;
-	}
+    if (background->details->change_idle_id != 0)
+    {
+        g_source_remove (background->details->change_idle_id);
+        background->details->change_idle_id = 0;
+    }
 
-	background->details->widget = NULL;
+    background->details->widget = NULL;
 }
 
 /* Gets the background attached to a widget.
@@ -1030,45 +1103,46 @@ on_widget_destroyed (GtkWidget *widget, EelBackground *background)
 EelBackground *
 eel_get_widget_background (GtkWidget *widget)
 {
-	gpointer data;
-	EelBackground *background;
+    gpointer data;
+    EelBackground *background;
 
-	g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
+    g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
 
-	/* Check for an existing background. */
-	data = g_object_get_data (G_OBJECT (widget), "eel_background");
-	if (data != NULL) {
-		g_assert (EEL_IS_BACKGROUND (data));
-		return data;
-	}
+    /* Check for an existing background. */
+    data = g_object_get_data (G_OBJECT (widget), "eel_background");
+    if (data != NULL)
+    {
+        g_assert (EEL_IS_BACKGROUND (data));
+        return data;
+    }
 
-	/* Store the background in the widget's data. */
-	background = eel_background_new ();
-	g_object_ref_sink (background);
-	g_object_set_data_full (G_OBJECT (widget), "eel_background",
-				background, g_object_unref);
-	background->details->widget = widget;
- 	g_signal_connect_object (widget, "destroy", G_CALLBACK (on_widget_destroyed), background, 0);
+    /* Store the background in the widget's data. */
+    background = eel_background_new ();
+    g_object_ref_sink (background);
+    g_object_set_data_full (G_OBJECT (widget), "eel_background",
+                            background, g_object_unref);
+    background->details->widget = widget;
+    g_signal_connect_object (widget, "destroy", G_CALLBACK (on_widget_destroyed), background, 0);
 
-	/* Arrange to get the signal whenever the background changes. */
-	g_signal_connect_object (background, "appearance_changed",
-				 G_CALLBACK (eel_widget_queue_background_change), widget, G_CONNECT_SWAPPED);
-	eel_widget_queue_background_change (widget);
+    /* Arrange to get the signal whenever the background changes. */
+    g_signal_connect_object (background, "appearance_changed",
+                             G_CALLBACK (eel_widget_queue_background_change), widget, G_CONNECT_SWAPPED);
+    eel_widget_queue_background_change (widget);
 
-	g_signal_connect_object (widget, "style_set",
-				 G_CALLBACK (widget_style_set_cb),
-				 background,
-				 0);
-	g_signal_connect_object (widget, "realize",
-				 G_CALLBACK (widget_realize_cb),
-				 background,
-				 0);
-	g_signal_connect_object (widget, "unrealize",
-				 G_CALLBACK (widget_unrealize_cb),
-				 background,
-				 0);
+    g_signal_connect_object (widget, "style_set",
+                             G_CALLBACK (widget_style_set_cb),
+                             background,
+                             0);
+    g_signal_connect_object (widget, "realize",
+                             G_CALLBACK (widget_realize_cb),
+                             background,
+                             0);
+    g_signal_connect_object (widget, "unrealize",
+                             G_CALLBACK (widget_unrealize_cb),
+                             background,
+                             0);
 
-	return background;
+    return background;
 }
 
 /* determine if a background is darker or lighter than average, to help clients know what
@@ -1076,92 +1150,103 @@ eel_get_widget_background (GtkWidget *widget)
 gboolean
 eel_background_is_dark (EelBackground *background)
 {
-	GdkScreen *screen;
-	GdkRectangle rect;
+    GdkScreen *screen;
+    GdkRectangle rect;
 
-	/* only check for the background on the 0th monitor */
-	screen = gdk_screen_get_default ();
-	gdk_screen_get_monitor_geometry (screen, 0, &rect);
+    /* only check for the background on the 0th monitor */
+    screen = gdk_screen_get_default ();
+    gdk_screen_get_monitor_geometry (screen, 0, &rect);
 
-	return mate_bg_is_dark (background->details->bg, rect.width, rect.height);
+    return mate_bg_is_dark (background->details->bg, rect.width, rect.height);
 }
 
 /* handle dropped colors */
 void
 eel_background_receive_dropped_color (EelBackground *background,
-				      GtkWidget *widget,
-				      GdkDragAction action,
-				      int drop_location_x,
-				      int drop_location_y,
-				      const GtkSelectionData *selection_data)
+                                      GtkWidget *widget,
+                                      GdkDragAction action,
+                                      int drop_location_x,
+                                      int drop_location_y,
+                                      const GtkSelectionData *selection_data)
 {
-	guint16 *channels;
-	char *color_spec;
-	char *new_gradient_spec;
-	int left_border, right_border, top_border, bottom_border;
-	GtkAllocation allocation;
+    guint16 *channels;
+    char *color_spec;
+    char *new_gradient_spec;
+    int left_border, right_border, top_border, bottom_border;
+    GtkAllocation allocation;
 
-	g_return_if_fail (EEL_IS_BACKGROUND (background));
-	g_return_if_fail (GTK_IS_WIDGET (widget));
-	g_return_if_fail (selection_data != NULL);
+    g_return_if_fail (EEL_IS_BACKGROUND (background));
+    g_return_if_fail (GTK_IS_WIDGET (widget));
+    g_return_if_fail (selection_data != NULL);
 
-	/* Convert the selection data into a color spec. */
-	if (gtk_selection_data_get_length ((GtkSelectionData *) selection_data) != 8 ||
-	    gtk_selection_data_get_format ((GtkSelectionData *) selection_data) != 16) {
-		g_warning ("received invalid color data");
-		return;
-	}
-	channels = (guint16 *) gtk_selection_data_get_data ((GtkSelectionData *) selection_data);
-	color_spec = g_strdup_printf ("#%02X%02X%02X",
-				      channels[0] >> 8,
-				      channels[1] >> 8,
-				      channels[2] >> 8);
+    /* Convert the selection data into a color spec. */
+    if (gtk_selection_data_get_length ((GtkSelectionData *) selection_data) != 8 ||
+            gtk_selection_data_get_format ((GtkSelectionData *) selection_data) != 16)
+    {
+        g_warning ("received invalid color data");
+        return;
+    }
+    channels = (guint16 *) gtk_selection_data_get_data ((GtkSelectionData *) selection_data);
+    color_spec = g_strdup_printf ("#%02X%02X%02X",
+                                  channels[0] >> 8,
+                                  channels[1] >> 8,
+                                  channels[2] >> 8);
 
-	/* Figure out if the color was dropped close enough to an edge to create a gradient.
-	   For the moment, this is hard-wired, but later the widget will have to have some
-	   say in where the borders are.
-	*/
-	gtk_widget_get_allocation (widget, &allocation);
-	left_border = 32;
-	right_border = allocation.width - 32;
-	top_border = 32;
-	bottom_border = allocation.height - 32;
-	if (drop_location_x < left_border && drop_location_x <= right_border) {
-		new_gradient_spec = eel_gradient_set_left_color_spec (background->details->color, color_spec);
-	} else if (drop_location_x >= left_border && drop_location_x > right_border) {
-		new_gradient_spec = eel_gradient_set_right_color_spec (background->details->color, color_spec);
-	} else if (drop_location_y < top_border && drop_location_y <= bottom_border) {
-		new_gradient_spec = eel_gradient_set_top_color_spec (background->details->color, color_spec);
-	} else if (drop_location_y >= top_border && drop_location_y > bottom_border) {
-		new_gradient_spec = eel_gradient_set_bottom_color_spec (background->details->color, color_spec);
-	} else {
-		new_gradient_spec = g_strdup (color_spec);
-	}
+    /* Figure out if the color was dropped close enough to an edge to create a gradient.
+       For the moment, this is hard-wired, but later the widget will have to have some
+       say in where the borders are.
+    */
+    gtk_widget_get_allocation (widget, &allocation);
+    left_border = 32;
+    right_border = allocation.width - 32;
+    top_border = 32;
+    bottom_border = allocation.height - 32;
+    if (drop_location_x < left_border && drop_location_x <= right_border)
+    {
+        new_gradient_spec = eel_gradient_set_left_color_spec (background->details->color, color_spec);
+    }
+    else if (drop_location_x >= left_border && drop_location_x > right_border)
+    {
+        new_gradient_spec = eel_gradient_set_right_color_spec (background->details->color, color_spec);
+    }
+    else if (drop_location_y < top_border && drop_location_y <= bottom_border)
+    {
+        new_gradient_spec = eel_gradient_set_top_color_spec (background->details->color, color_spec);
+    }
+    else if (drop_location_y >= top_border && drop_location_y > bottom_border)
+    {
+        new_gradient_spec = eel_gradient_set_bottom_color_spec (background->details->color, color_spec);
+    }
+    else
+    {
+        new_gradient_spec = g_strdup (color_spec);
+    }
 
-	g_free (color_spec);
+    g_free (color_spec);
 
-	eel_background_set_image_uri_and_color (background, action, NULL, new_gradient_spec);
+    eel_background_set_image_uri_and_color (background, action, NULL, new_gradient_spec);
 
-	g_free (new_gradient_spec);
+    g_free (new_gradient_spec);
 }
 
 void
 eel_background_save_to_mateconf (EelBackground *background)
 {
-	MateConfClient *client = mateconf_client_get_default ();
+    MateConfClient *client = mateconf_client_get_default ();
 
-	if (background->details->bg)
-		mate_bg_save_to_preferences (background->details->bg, client);
+    if (background->details->bg)
+        mate_bg_save_to_preferences (background->details->bg, client);
 }
 
 void
 eel_background_set_active (EelBackground *background,
-			   gboolean is_active)
+                           gboolean is_active)
 {
-	if (background->details->is_active != is_active) {
-		background->details->is_active = is_active;
-		set_image_properties (background);
-	}
+    if (background->details->is_active != is_active)
+    {
+        background->details->is_active = is_active;
+        set_image_properties (background);
+    }
 }
 
 /* self check code */
@@ -1171,18 +1256,18 @@ eel_background_set_active (EelBackground *background,
 void
 eel_self_check_background (void)
 {
-	EelBackground *background;
+    EelBackground *background;
 
-	background = eel_background_new ();
+    background = eel_background_new ();
 
-	eel_background_set_color (background, NULL);
-	eel_background_set_color (background, "");
-	eel_background_set_color (background, "red");
-	eel_background_set_color (background, "red-blue");
-	eel_background_set_color (background, "red-blue:h");
+    eel_background_set_color (background, NULL);
+    eel_background_set_color (background, "");
+    eel_background_set_color (background, "red");
+    eel_background_set_color (background, "red-blue");
+    eel_background_set_color (background, "red-blue:h");
 
-	g_object_ref_sink (background);
-	g_object_unref (background);
+    g_object_ref_sink (background);
+    g_object_unref (background);
 }
 
 #endif

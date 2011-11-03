@@ -46,19 +46,21 @@
 
 typedef struct CajaDesktopWindowDetails CajaDesktopWindowDetails;
 
-typedef struct {
-	CajaSpatialWindow parent_spot;
-	CajaDesktopWindowDetails *details;
-        gboolean affect_desktop_on_next_location_change;
+typedef struct
+{
+    CajaSpatialWindow parent_spot;
+    CajaDesktopWindowDetails *details;
+    gboolean affect_desktop_on_next_location_change;
 } CajaDesktopWindow;
 
-typedef struct {
-	CajaSpatialWindowClass parent_spot;
+typedef struct
+{
+    CajaSpatialWindowClass parent_spot;
 } CajaDesktopWindowClass;
 
 GType                  caja_desktop_window_get_type            (void);
 CajaDesktopWindow *caja_desktop_window_new                 (CajaApplication *application,
-								    GdkScreen           *screen);
+        GdkScreen           *screen);
 void                   caja_desktop_window_update_directory    (CajaDesktopWindow *window);
 
 #endif /* CAJA_DESKTOP_WINDOW_H */

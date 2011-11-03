@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* eel-types.h - 
+/* eel-types.h -
 
    Copyright (C) 2000 Eazel, Inc.
 
@@ -34,40 +34,49 @@
 void
 eel_type_init (void)
 {
-	int i;
-	GType type_id;
-	static gboolean initialized = FALSE;
-	
-	static struct {
-		const gchar *type_name;
-		GType *type_id;
-		GType parent;
-		gconstpointer pointer1;
-		gpointer pointer2;
-	} builtin_info[EEL_TYPE_N_BUILTINS] = {
+    int i;
+    GType type_id;
+    static gboolean initialized = FALSE;
+
+    static struct
+    {
+        const gchar *type_name;
+        GType *type_id;
+        GType parent;
+        gconstpointer pointer1;
+        gpointer pointer2;
+    } builtin_info[EEL_TYPE_N_BUILTINS] =
+    {
 #include "eel-type-builtins-ids.c"
-	};
+    };
 
-	if (initialized) {
-		return;
-	}
-	initialized = TRUE;
-	
-	for (i = 0; i < EEL_TYPE_N_BUILTINS; i++) {
-		type_id = G_TYPE_INVALID;
+    if (initialized)
+    {
+        return;
+    }
+    initialized = TRUE;
 
-		if (builtin_info[i].parent == G_TYPE_ENUM) {
-			type_id = g_enum_register_static (builtin_info[i].type_name, 
-							  builtin_info[i].pointer1);
-		} else if (builtin_info[i].parent == G_TYPE_FLAGS) {
-			type_id = g_flags_register_static (builtin_info[i].type_name, 
-							   builtin_info[i].pointer1);
-		} else {
-			g_assert_not_reached ();
-		}
+    for (i = 0; i < EEL_TYPE_N_BUILTINS; i++)
+    {
+        type_id = G_TYPE_INVALID;
 
-		g_assert (type_id != G_TYPE_INVALID);
-		*builtin_info[i].type_id = type_id;
-	}
+        if (builtin_info[i].parent == G_TYPE_ENUM)
+        {
+            type_id = g_enum_register_static (builtin_info[i].type_name,
+                                              builtin_info[i].pointer1);
+        }
+        else if (builtin_info[i].parent == G_TYPE_FLAGS)
+        {
+            type_id = g_flags_register_static (builtin_info[i].type_name,
+                                               builtin_info[i].pointer1);
+        }
+        else
+        {
+            g_assert_not_reached ();
+        }
+
+        g_assert (type_id != G_TYPE_INVALID);
+        *builtin_info[i].type_id = type_id;
+    }
 }
 

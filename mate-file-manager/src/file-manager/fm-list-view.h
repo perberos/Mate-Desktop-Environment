@@ -45,13 +45,15 @@
 
 typedef struct FMListViewDetails FMListViewDetails;
 
-typedef struct {
-	FMDirectoryView parent_instance;
-	FMListViewDetails *details;
+typedef struct
+{
+    FMDirectoryView parent_instance;
+    FMListViewDetails *details;
 } FMListView;
 
-typedef struct {
-	FMDirectoryViewClass parent_class;
+typedef struct
+{
+    FMDirectoryViewClass parent_class;
 } FMListViewClass;
 
 GType fm_list_view_get_type (void);

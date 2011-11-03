@@ -32,32 +32,32 @@ typedef struct EelEnumeration EelEnumeration;
 
 typedef struct
 {
-	char *name;
-	char *description;
-	guint value;
+    char *name;
+    char *description;
+    guint value;
 } EelEnumerationEntry;
 
 char *          eel_enumeration_get_id                            (const EelEnumeration      *enumeration);
 
 guint           eel_enumeration_get_length                        (const EelEnumeration      *enumeration);
 const EelEnumerationEntry *
-                eel_enumeration_get_nth_entry                     (const EelEnumeration      *enumeration,
-								   guint                      n);
+eel_enumeration_get_nth_entry                     (const EelEnumeration      *enumeration,
+        guint                      n);
 int             eel_enumeration_get_name_position                 (const EelEnumeration      *enumeration,
-								   const char                *name);
+        const char                *name);
 gboolean        eel_enumeration_contains_name                     (const EelEnumeration      *enumeration,
-								   const char                *name);
+        const char                *name);
 guint           eel_enumeration_get_value_for_name                (const EelEnumeration      *enumeration,
-								   const char                *name);
+        const char                *name);
 const char *    eel_enumeration_get_name_for_value                (const EelEnumeration      *enumeration,
-								   int                        value);
+        int                        value);
 char **         eel_enumeration_get_names                         (const EelEnumeration      *enumeration);
 
 void            eel_enumeration_register                          (const char                *id,
-								   const EelEnumerationEntry  entries[],
-								   guint                      n_entries);
+        const EelEnumerationEntry  entries[],
+        guint                      n_entries);
 const EelEnumeration *
-                eel_enumeration_lookup                            (const char                *id);
+eel_enumeration_lookup                            (const char                *id);
 
 #endif /* EEL_ENUMERATION_H */
 

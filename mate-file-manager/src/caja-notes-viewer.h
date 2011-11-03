@@ -38,9 +38,10 @@
 
 typedef struct _CajaNotesViewerDetails CajaNotesViewerDetails;
 
-typedef struct {
-	GtkScrolledWindow parent;
-	CajaNotesViewerDetails *details;
+typedef struct
+{
+    GtkScrolledWindow parent;
+    CajaNotesViewerDetails *details;
 } CajaNotesViewer;
 
 GType caja_notes_viewer_get_type (void);

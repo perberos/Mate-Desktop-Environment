@@ -35,13 +35,15 @@
 
 typedef struct CajaSearchEngineTrackerDetails CajaSearchEngineTrackerDetails;
 
-typedef struct CajaSearchEngineTracker {
-	CajaSearchEngine parent;
-	CajaSearchEngineTrackerDetails *details;
+typedef struct CajaSearchEngineTracker
+{
+    CajaSearchEngine parent;
+    CajaSearchEngineTrackerDetails *details;
 } CajaSearchEngineTracker;
 
-typedef struct {
-	CajaSearchEngineClass parent_class;
+typedef struct
+{
+    CajaSearchEngineClass parent_class;
 } CajaSearchEngineTrackerClass;
 
 GType caja_search_engine_tracker_get_type (void);

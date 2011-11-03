@@ -29,9 +29,10 @@
 #include <signal.h>
 #include <stdio.h>
 
-typedef struct {
-	gpointer data;
-	GFreeFunc function;
+typedef struct
+{
+    gpointer data;
+    GFreeFunc function;
 } ShutdownFunction;
 
 static GList *shutdown_functions;
@@ -43,11 +44,11 @@ static GList *shutdown_functions;
 void
 eel_stop_in_debugger (void)
 {
-	void (* saved_handler) (int);
+    void (* saved_handler) (int);
 
-	saved_handler = signal (SIGINT, SIG_IGN);
-	raise (SIGINT);
-	signal (SIGINT, saved_handler);
+    saved_handler = signal (SIGINT, SIG_IGN);
+    raise (SIGINT);
+    signal (SIGINT, saved_handler);
 }
 
 /* Stop in the debugger after running the default log handler.
@@ -56,74 +57,79 @@ eel_stop_in_debugger (void)
  */
 static void
 log_handler (const char *domain,
-	     GLogLevelFlags level,
-	     const char *message,
-	     gpointer data)
+             GLogLevelFlags level,
+             const char *message,
+             gpointer data)
 {
-	g_log_default_handler (domain, level, message, data);
-	if ((level & (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING)) != 0) {
-		eel_stop_in_debugger ();
-	}
+    g_log_default_handler (domain, level, message, data);
+    if ((level & (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING)) != 0)
+    {
+        eel_stop_in_debugger ();
+    }
 }
 
 void
 eel_make_warnings_and_criticals_stop_in_debugger (void)
 {
-	g_log_set_default_handler (log_handler, NULL);
+    g_log_set_default_handler (log_handler, NULL);
 }
 
 int
 eel_get_available_file_descriptor_count (void)
 {
-	int count;
-	GList *list;
-	GList *p;
-	FILE *file;
+    int count;
+    GList *list;
+    GList *p;
+    FILE *file;
 
-	list = NULL;
-	for (count = 0; ; count++) {
-		file = fopen ("/dev/null", "r");
-		if (file == NULL) {
-			break;
-		}
-		list = g_list_prepend (list, file);
-	}
+    list = NULL;
+    for (count = 0; ; count++)
+    {
+        file = fopen ("/dev/null", "r");
+        if (file == NULL)
+        {
+            break;
+        }
+        list = g_list_prepend (list, file);
+    }
 
-	for (p = list; p != NULL; p = p->next) {
-		fclose (p->data);
-	}
-	g_list_free (list);
+    for (p = list; p != NULL; p = p->next)
+    {
+        fclose (p->data);
+    }
+    g_list_free (list);
 
-	return count;
+    return count;
 }
 
 void
 eel_debug_shut_down (void)
 {
-	ShutdownFunction *f;
+    ShutdownFunction *f;
 
-	while (shutdown_functions != NULL) {
-		f = shutdown_functions->data;
-		shutdown_functions = g_list_remove (shutdown_functions, f);
+    while (shutdown_functions != NULL)
+    {
+        f = shutdown_functions->data;
+        shutdown_functions = g_list_remove (shutdown_functions, f);
 
-		f->function (f->data);
-		g_free (f);
-	}
+        f->function (f->data);
+        g_free (f);
+    }
 }
 
 void
 eel_debug_call_at_shutdown (EelFunction function)
 {
-	eel_debug_call_at_shutdown_with_data ((GFreeFunc) function, NULL);
+    eel_debug_call_at_shutdown_with_data ((GFreeFunc) function, NULL);
 }
 
 void
 eel_debug_call_at_shutdown_with_data (GFreeFunc function, gpointer data)
 {
-	ShutdownFunction *f;
+    ShutdownFunction *f;
 
-	f = g_new (ShutdownFunction, 1);
-	f->data = data;
-	f->function = function;
-	shutdown_functions = g_list_prepend (shutdown_functions, f);
+    f = g_new (ShutdownFunction, 1);
+    f->data = data;
+    f->function = function;
+    shutdown_functions = g_list_prepend (shutdown_functions, f);
 }

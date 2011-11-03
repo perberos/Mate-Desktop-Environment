@@ -47,83 +47,85 @@ typedef struct FMIconViewClass FMIconViewClass;
 
 typedef struct FMIconViewDetails FMIconViewDetails;
 
-struct FMIconView {
-	FMDirectoryView parent;
-	FMIconViewDetails *details;
+struct FMIconView
+{
+    FMDirectoryView parent;
+    FMIconViewDetails *details;
 };
 
-struct FMIconViewClass {
-	FMDirectoryViewClass parent_class;
+struct FMIconViewClass
+{
+    FMDirectoryViewClass parent_class;
 
-	/* Methods that can be overriden for settings you don't want to come from metadata.
-	 */
+    /* Methods that can be overriden for settings you don't want to come from metadata.
+     */
 
-	/* Note: get_directory_sort_by must return a string that can/will be g_freed.
-	 */
-	char *	 (* get_directory_sort_by)       (FMIconView *icon_view,
-						  CajaFile *file);
-	void     (* set_directory_sort_by)       (FMIconView *icon_view,
-						  CajaFile *file,
-						  const char* sort_by);
+    /* Note: get_directory_sort_by must return a string that can/will be g_freed.
+     */
+    char *	 (* get_directory_sort_by)       (FMIconView *icon_view,
+            CajaFile *file);
+    void     (* set_directory_sort_by)       (FMIconView *icon_view,
+            CajaFile *file,
+            const char* sort_by);
 
-	gboolean (* get_directory_sort_reversed) (FMIconView *icon_view,
-						  CajaFile *file);
-	void     (* set_directory_sort_reversed) (FMIconView *icon_view,
-						  CajaFile *file,
-						  gboolean sort_reversed);
+    gboolean (* get_directory_sort_reversed) (FMIconView *icon_view,
+            CajaFile *file);
+    void     (* set_directory_sort_reversed) (FMIconView *icon_view,
+            CajaFile *file,
+            gboolean sort_reversed);
 
-	gboolean (* get_directory_auto_layout)   (FMIconView *icon_view,
-						  CajaFile *file);
-	void     (* set_directory_auto_layout)   (FMIconView *icon_view,
-						  CajaFile *file,
-						  gboolean auto_layout);
+    gboolean (* get_directory_auto_layout)   (FMIconView *icon_view,
+            CajaFile *file);
+    void     (* set_directory_auto_layout)   (FMIconView *icon_view,
+            CajaFile *file,
+            gboolean auto_layout);
 
-	gboolean (* get_directory_tighter_layout) (FMIconView *icon_view,
-						   CajaFile *file);
-	void     (* set_directory_tighter_layout)   (FMIconView *icon_view,
-						     CajaFile *file,
-						     gboolean tighter_layout);
+    gboolean (* get_directory_tighter_layout) (FMIconView *icon_view,
+            CajaFile *file);
+    void     (* set_directory_tighter_layout)   (FMIconView *icon_view,
+            CajaFile *file,
+            gboolean tighter_layout);
 
-	/* Override "clean_up" if your subclass has its own notion of where icons should be positioned */
-	void	 (* clean_up)			 (FMIconView *icon_view);
+    /* Override "clean_up" if your subclass has its own notion of where icons should be positioned */
+    void	 (* clean_up)			 (FMIconView *icon_view);
 
-	/* supports_auto_layout is a function pointer that subclasses may
-	 * override to control whether or not the automatic layout options
-	 * should be enabled. The default implementation returns TRUE.
-	 */
-	gboolean (* supports_auto_layout)	 (FMIconView *view);
+    /* supports_auto_layout is a function pointer that subclasses may
+     * override to control whether or not the automatic layout options
+     * should be enabled. The default implementation returns TRUE.
+     */
+    gboolean (* supports_auto_layout)	 (FMIconView *view);
 
-	/* supports_manual_layout is a function pointer that subclasses may
-	 * override to control whether or not the manual layout options
-	 * should be enabled. The default implementation returns TRUE iff
-	 * not in compact mode.
-	 */
-	gboolean (* supports_manual_layout)	 (FMIconView *view);
+    /* supports_manual_layout is a function pointer that subclasses may
+     * override to control whether or not the manual layout options
+     * should be enabled. The default implementation returns TRUE iff
+     * not in compact mode.
+     */
+    gboolean (* supports_manual_layout)	 (FMIconView *view);
 
-	/* supports_scaling is a function pointer that subclasses may
-	 * override to control whether or not the manual layout supports
-	 * scaling. The default implementation returns FALSE
-	 */
-	gboolean (* supports_scaling)	 (FMIconView *view);
+    /* supports_scaling is a function pointer that subclasses may
+     * override to control whether or not the manual layout supports
+     * scaling. The default implementation returns FALSE
+     */
+    gboolean (* supports_scaling)	 (FMIconView *view);
 
-	/* supports_auto_layout is a function pointer that subclasses may
-	 * override to control whether snap-to-grid mode
-	 * should be enabled. The default implementation returns FALSE.
-	 */
-	gboolean (* supports_keep_aligned)	 (FMIconView *view);
+    /* supports_auto_layout is a function pointer that subclasses may
+     * override to control whether snap-to-grid mode
+     * should be enabled. The default implementation returns FALSE.
+     */
+    gboolean (* supports_keep_aligned)	 (FMIconView *view);
 
-	/* supports_auto_layout is a function pointer that subclasses may
-	 * override to control whether snap-to-grid mode
-	 * should be enabled. The default implementation returns FALSE.
-	 */
-	gboolean (* supports_labels_beside_icons)	 (FMIconView *view);
+    /* supports_auto_layout is a function pointer that subclasses may
+     * override to control whether snap-to-grid mode
+     * should be enabled. The default implementation returns FALSE.
+     */
+    gboolean (* supports_labels_beside_icons)	 (FMIconView *view);
 };
 
 /* GObject support */
 GType   fm_icon_view_get_type      (void);
 int     fm_icon_view_compare_files (FMIconView   *icon_view,
-				    CajaFile *a,
-				    CajaFile *b);
+                                    CajaFile *a,
+                                    CajaFile *b);
 void    fm_icon_view_filter_by_screen (FMIconView *icon_view, gboolean filter);
 gboolean fm_icon_view_is_compact   (FMIconView *icon_view);
 

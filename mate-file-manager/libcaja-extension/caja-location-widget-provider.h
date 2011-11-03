@@ -45,22 +45,23 @@ extern "C" {
 #define CAJA_IS_LOCATION_WIDGET_PROVIDER(obj)        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAJA_TYPE_LOCATION_WIDGET_PROVIDER))
 #define CAJA_LOCATION_WIDGET_PROVIDER_GET_IFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), CAJA_TYPE_LOCATION_WIDGET_PROVIDER, CajaLocationWidgetProviderIface))
 
-typedef struct _CajaLocationWidgetProvider       CajaLocationWidgetProvider;
-typedef struct _CajaLocationWidgetProviderIface  CajaLocationWidgetProviderIface;
+    typedef struct _CajaLocationWidgetProvider       CajaLocationWidgetProvider;
+    typedef struct _CajaLocationWidgetProviderIface  CajaLocationWidgetProviderIface;
 
-struct _CajaLocationWidgetProviderIface {
-	GTypeInterface g_iface;
+    struct _CajaLocationWidgetProviderIface
+    {
+        GTypeInterface g_iface;
 
-	GtkWidget * (*get_widget) (CajaLocationWidgetProvider *provider,
-				   const char                     *uri,
-				   GtkWidget                      *window);
-};
+        GtkWidget * (*get_widget) (CajaLocationWidgetProvider *provider,
+                                   const char                     *uri,
+                                   GtkWidget                      *window);
+    };
 
-/* Interface Functions */
-GType       caja_location_widget_provider_get_type      (void);
-GtkWidget * caja_location_widget_provider_get_widget    (CajaLocationWidgetProvider     *provider,
-							     const char                         *uri,
-							     GtkWidget                          *window);
+    /* Interface Functions */
+    GType       caja_location_widget_provider_get_type      (void);
+    GtkWidget * caja_location_widget_provider_get_widget    (CajaLocationWidgetProvider     *provider,
+            const char                         *uri,
+            GtkWidget                          *window);
 #ifdef __cplusplus
 }
 #endif

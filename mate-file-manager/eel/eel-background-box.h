@@ -44,23 +44,23 @@ extern "C" {
 #define EEL_BACKGROUND_BOX_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_BACKGROUND_BOX, EelBackgroundBoxClass))
 
-typedef struct EelBackgroundBox	       EelBackgroundBox;
-typedef struct EelBackgroundBoxClass       EelBackgroundBoxClass;
-typedef struct EelBackgroundBoxDetails     EelBackgroundBoxDetails;
+    typedef struct EelBackgroundBox	       EelBackgroundBox;
+    typedef struct EelBackgroundBoxClass       EelBackgroundBoxClass;
+    typedef struct EelBackgroundBoxDetails     EelBackgroundBoxDetails;
 
-struct EelBackgroundBox
-{
-	/* Superclass */
-	GtkEventBox event_box;
-};
+    struct EelBackgroundBox
+    {
+        /* Superclass */
+        GtkEventBox event_box;
+    };
 
-struct EelBackgroundBoxClass
-{
-	GtkEventBoxClass parent_class;
-};
+    struct EelBackgroundBoxClass
+    {
+        GtkEventBoxClass parent_class;
+    };
 
-GType      eel_background_box_get_type (void);
-GtkWidget *eel_background_box_new      (void);
+    GType      eel_background_box_get_type (void);
+    GtkWidget *eel_background_box_new      (void);
 
 #ifdef __cplusplus
 }

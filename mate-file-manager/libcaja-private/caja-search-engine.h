@@ -36,25 +36,27 @@
 
 typedef struct CajaSearchEngineDetails CajaSearchEngineDetails;
 
-typedef struct CajaSearchEngine {
-	GObject parent;
-	CajaSearchEngineDetails *details;
+typedef struct CajaSearchEngine
+{
+    GObject parent;
+    CajaSearchEngineDetails *details;
 } CajaSearchEngine;
 
-typedef struct {
-	GObjectClass parent_class;
-	
-	/* VTable */
-	void (*set_query) (CajaSearchEngine *engine, CajaQuery *query);
-	void (*start) (CajaSearchEngine *engine);
-	void (*stop) (CajaSearchEngine *engine);
-	gboolean (*is_indexed) (CajaSearchEngine *engine);
+typedef struct
+{
+    GObjectClass parent_class;
 
-	/* Signals */
-	void (*hits_added) (CajaSearchEngine *engine, GList *hits);
-	void (*hits_subtracted) (CajaSearchEngine *engine, GList *hits);
-	void (*finished) (CajaSearchEngine *engine);
-	void (*error) (CajaSearchEngine *engine, const char *error_message);
+    /* VTable */
+    void (*set_query) (CajaSearchEngine *engine, CajaQuery *query);
+    void (*start) (CajaSearchEngine *engine);
+    void (*stop) (CajaSearchEngine *engine);
+    gboolean (*is_indexed) (CajaSearchEngine *engine);
+
+    /* Signals */
+    void (*hits_added) (CajaSearchEngine *engine, GList *hits);
+    void (*hits_subtracted) (CajaSearchEngine *engine, GList *hits);
+    void (*finished) (CajaSearchEngine *engine);
+    void (*error) (CajaSearchEngine *engine, const char *error_message);
 } CajaSearchEngineClass;
 
 GType          caja_search_engine_get_type  (void);

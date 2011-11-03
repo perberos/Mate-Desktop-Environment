@@ -21,7 +21,7 @@
  *
  * Author: Darin Adler <darin@bentspoon.com>
  */
-   
+
 /* caja-self-check-functions.c: Wrapper for all self check functions
  * in Caja proper.
  */
@@ -34,7 +34,7 @@
 
 void caja_run_self_checks(void)
 {
-	CAJA_FOR_EACH_SELF_CHECK_FUNCTION (CAJA_CALL_SELF_CHECK_FUNCTION)
+    CAJA_FOR_EACH_SELF_CHECK_FUNCTION (CAJA_CALL_SELF_CHECK_FUNCTION)
 }
 
 #endif /* ! CAJA_OMIT_SELF_CHECK */

@@ -31,7 +31,7 @@ void caja_undo_set_up_caja_entry_for_undo 	(CajaEntry	*entry);
 void caja_undo_tear_down_caja_entry_for_undo 	(CajaEntry	*entry);
 void caja_undo_set_up_editable_for_undo 		(GtkEditable 	*editable);
 void caja_undo_tear_down_editable_for_undo 		(GtkEditable 	*editable);
-void caja_undo_editable_set_undo_key 		(GtkEditable 	*editable, 
-							 gboolean 	value);
+void caja_undo_editable_set_undo_key 		(GtkEditable 	*editable,
+        gboolean 	value);
 
 #endif /* CAJA_UNDO_SIGNAL_HANDLERS_H */

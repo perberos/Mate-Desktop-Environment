@@ -44,13 +44,13 @@ static GObjectClass *parent_class = NULL;
 
 struct CajaZoomActionPrivate
 {
-        CajaNavigationWindow *window;
+    CajaNavigationWindow *window;
 };
 
 enum
 {
-        PROP_0,
-        PROP_WINDOW
+    PROP_0,
+    PROP_WINDOW
 };
 
 static void
@@ -62,142 +62,150 @@ zoom_changed_callback (CajaWindow *window,
                        gboolean can_zoom_out,
                        GtkWidget *zoom_control)
 {
-        if (supports_zooming) {
-                gtk_widget_set_sensitive (zoom_control, can_zoom);
-                gtk_widget_show (zoom_control);
-                if (can_zoom) {
-                        caja_zoom_control_set_zoom_level (CAJA_ZOOM_CONTROL (zoom_control),
-                                                              zoom_level);
-                }
-        } else {
-                gtk_widget_hide (zoom_control);
+    if (supports_zooming)
+    {
+        gtk_widget_set_sensitive (zoom_control, can_zoom);
+        gtk_widget_show (zoom_control);
+        if (can_zoom)
+        {
+            caja_zoom_control_set_zoom_level (CAJA_ZOOM_CONTROL (zoom_control),
+                                              zoom_level);
         }
+    }
+    else
+    {
+        gtk_widget_hide (zoom_control);
+    }
 }
 
 static void
 connect_proxy (GtkAction *action,
                GtkWidget *proxy)
 {
-        if (GTK_IS_TOOL_ITEM (proxy)) {
-                GtkToolItem *item = GTK_TOOL_ITEM (proxy);
-                CajaZoomAction *zaction = CAJA_ZOOM_ACTION (action);
-                CajaNavigationWindow *window = zaction->priv->window;
-                GtkWidget *zoom_control;
+    if (GTK_IS_TOOL_ITEM (proxy))
+    {
+        GtkToolItem *item = GTK_TOOL_ITEM (proxy);
+        CajaZoomAction *zaction = CAJA_ZOOM_ACTION (action);
+        CajaNavigationWindow *window = zaction->priv->window;
+        GtkWidget *zoom_control;
 
-                zoom_control = caja_zoom_control_new ();
-                gtk_container_set_border_width (GTK_CONTAINER (item), 4);
-                gtk_container_add (GTK_CONTAINER (item),  zoom_control);
-                gtk_widget_show (zoom_control);
+        zoom_control = caja_zoom_control_new ();
+        gtk_container_set_border_width (GTK_CONTAINER (item), 4);
+        gtk_container_add (GTK_CONTAINER (item),  zoom_control);
+        gtk_widget_show (zoom_control);
 
-                g_signal_connect_object (zoom_control, "zoom_in",
-                                         G_CALLBACK (caja_window_zoom_in),
-                                         window, G_CONNECT_SWAPPED);
-                g_signal_connect_object (zoom_control, "zoom_out",
-                                         G_CALLBACK (caja_window_zoom_out),
-                                         window, G_CONNECT_SWAPPED);
-                g_signal_connect_object (zoom_control, "zoom_to_level",
-                                         G_CALLBACK (caja_window_zoom_to_level),
-                                         window, G_CONNECT_SWAPPED);
-                g_signal_connect_object (zoom_control, "zoom_to_default",
-                                         G_CALLBACK (caja_window_zoom_to_default),
-                                         window, G_CONNECT_SWAPPED);
+        g_signal_connect_object (zoom_control, "zoom_in",
+                                 G_CALLBACK (caja_window_zoom_in),
+                                 window, G_CONNECT_SWAPPED);
+        g_signal_connect_object (zoom_control, "zoom_out",
+                                 G_CALLBACK (caja_window_zoom_out),
+                                 window, G_CONNECT_SWAPPED);
+        g_signal_connect_object (zoom_control, "zoom_to_level",
+                                 G_CALLBACK (caja_window_zoom_to_level),
+                                 window, G_CONNECT_SWAPPED);
+        g_signal_connect_object (zoom_control, "zoom_to_default",
+                                 G_CALLBACK (caja_window_zoom_to_default),
+                                 window, G_CONNECT_SWAPPED);
 
-                g_signal_connect (window, "zoom-changed",
-                                  G_CALLBACK (zoom_changed_callback),
-                                  zoom_control);
-        }
+        g_signal_connect (window, "zoom-changed",
+                          G_CALLBACK (zoom_changed_callback),
+                          zoom_control);
+    }
 
-        (* GTK_ACTION_CLASS (parent_class)->connect_proxy) (action, proxy);
+    (* GTK_ACTION_CLASS (parent_class)->connect_proxy) (action, proxy);
 }
 
 static void
 disconnect_proxy (GtkAction *action,
                   GtkWidget *proxy)
 {
-        if (GTK_IS_TOOL_ITEM (proxy)) {
-                GtkToolItem *item = GTK_TOOL_ITEM (proxy);
-                CajaZoomAction *zaction = CAJA_ZOOM_ACTION (action);
-                CajaNavigationWindow *window = zaction->priv->window;
-                GtkWidget *child;
+    if (GTK_IS_TOOL_ITEM (proxy))
+    {
+        GtkToolItem *item = GTK_TOOL_ITEM (proxy);
+        CajaZoomAction *zaction = CAJA_ZOOM_ACTION (action);
+        CajaNavigationWindow *window = zaction->priv->window;
+        GtkWidget *child;
 
-                child = gtk_bin_get_child (GTK_BIN (item));
+        child = gtk_bin_get_child (GTK_BIN (item));
 
-                g_signal_handlers_disconnect_by_func (window, G_CALLBACK (zoom_changed_callback), child);
+        g_signal_handlers_disconnect_by_func (window, G_CALLBACK (zoom_changed_callback), child);
 
-        }
+    }
 
-        (* GTK_ACTION_CLASS (parent_class)->disconnect_proxy) (action, proxy);
+    (* GTK_ACTION_CLASS (parent_class)->disconnect_proxy) (action, proxy);
 }
 
 static void
 caja_zoom_action_finalize (GObject *object)
 {
-        (* G_OBJECT_CLASS (parent_class)->finalize) (object);
+    (* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void
 caja_zoom_action_set_property (GObject *object,
-                                   guint prop_id,
-                                   const GValue *value,
-                                   GParamSpec *pspec)
+                               guint prop_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
 {
-        CajaZoomAction *zoom;
+    CajaZoomAction *zoom;
 
-        zoom = CAJA_ZOOM_ACTION (object);
+    zoom = CAJA_ZOOM_ACTION (object);
 
-        switch (prop_id) {
-        case PROP_WINDOW:
-                zoom->priv->window = CAJA_NAVIGATION_WINDOW (g_value_get_object (value));
-                break;
-        }
+    switch (prop_id)
+    {
+    case PROP_WINDOW:
+        zoom->priv->window = CAJA_NAVIGATION_WINDOW (g_value_get_object (value));
+        break;
+    }
 }
 
 static void
 caja_zoom_action_get_property (GObject *object,
-                                   guint prop_id,
-                                   GValue *value,
-                                   GParamSpec *pspec)
+                               guint prop_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
-        CajaZoomAction *zoom;
+    CajaZoomAction *zoom;
 
-        zoom = CAJA_ZOOM_ACTION (object);
+    zoom = CAJA_ZOOM_ACTION (object);
 
-        switch (prop_id) {
-        case PROP_WINDOW:
-                g_value_set_object (value, zoom->priv->window);
-                break;
-        }
+    switch (prop_id)
+    {
+    case PROP_WINDOW:
+        g_value_set_object (value, zoom->priv->window);
+        break;
+    }
 }
 
 static void
 caja_zoom_action_class_init (CajaZoomActionClass *class)
 {
-        GObjectClass *object_class = G_OBJECT_CLASS (class);
-        GtkActionClass *action_class = GTK_ACTION_CLASS (class);
+    GObjectClass *object_class = G_OBJECT_CLASS (class);
+    GtkActionClass *action_class = GTK_ACTION_CLASS (class);
 
-        object_class->finalize = caja_zoom_action_finalize;
-        object_class->set_property = caja_zoom_action_set_property;
-        object_class->get_property = caja_zoom_action_get_property;
+    object_class->finalize = caja_zoom_action_finalize;
+    object_class->set_property = caja_zoom_action_set_property;
+    object_class->get_property = caja_zoom_action_get_property;
 
-        parent_class = g_type_class_peek_parent (class);
+    parent_class = g_type_class_peek_parent (class);
 
-        action_class->toolbar_item_type = GTK_TYPE_TOOL_ITEM;
-        action_class->connect_proxy = connect_proxy;
-        action_class->disconnect_proxy = disconnect_proxy;
+    action_class->toolbar_item_type = GTK_TYPE_TOOL_ITEM;
+    action_class->connect_proxy = connect_proxy;
+    action_class->disconnect_proxy = disconnect_proxy;
 
-        g_object_class_install_property (object_class,
-                                         PROP_WINDOW,
-                                         g_param_spec_object ("window",
-                                                              "Window",
-                                                              "The navigation window",
-                                                              G_TYPE_OBJECT,
-                                                              G_PARAM_READWRITE));
+    g_object_class_install_property (object_class,
+                                     PROP_WINDOW,
+                                     g_param_spec_object ("window",
+                                             "Window",
+                                             "The navigation window",
+                                             G_TYPE_OBJECT,
+                                             G_PARAM_READWRITE));
 
-        g_type_class_add_private (object_class, sizeof(CajaZoomActionPrivate));
+    g_type_class_add_private (object_class, sizeof(CajaZoomActionPrivate));
 }
 
 static void
 caja_zoom_action_init (CajaZoomAction *action)
 {
-        action->priv = CAJA_ZOOM_ACTION_GET_PRIVATE (action);
+    action->priv = CAJA_ZOOM_ACTION_GET_PRIVATE (action);
 }

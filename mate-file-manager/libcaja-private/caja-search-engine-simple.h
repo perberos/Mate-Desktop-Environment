@@ -35,13 +35,15 @@
 
 typedef struct CajaSearchEngineSimpleDetails CajaSearchEngineSimpleDetails;
 
-typedef struct CajaSearchEngineSimple {
-	CajaSearchEngine parent;
-	CajaSearchEngineSimpleDetails *details;
+typedef struct CajaSearchEngineSimple
+{
+    CajaSearchEngine parent;
+    CajaSearchEngineSimpleDetails *details;
 } CajaSearchEngineSimple;
 
-typedef struct {
-	CajaSearchEngineClass parent_class;
+typedef struct
+{
+    CajaSearchEngineClass parent_class;
 } CajaSearchEngineSimpleClass;
 
 GType          caja_search_engine_simple_get_type  (void);

@@ -46,21 +46,21 @@ typedef struct CajaNavigationActionPrivate CajaNavigationActionPrivate;
 
 typedef enum
 {
-	CAJA_NAVIGATION_DIRECTION_BACK,
-	CAJA_NAVIGATION_DIRECTION_FORWARD
+    CAJA_NAVIGATION_DIRECTION_BACK,
+    CAJA_NAVIGATION_DIRECTION_FORWARD
 } CajaNavigationDirection;
 
 struct _CajaNavigationAction
 {
-	GtkAction parent;
-	
-	/*< private >*/
-	CajaNavigationActionPrivate *priv;
+    GtkAction parent;
+
+    /*< private >*/
+    CajaNavigationActionPrivate *priv;
 };
 
 struct _CajaNavigationActionClass
 {
-	GtkActionClass parent_class;
+    GtkActionClass parent_class;
 };
 
 GType    caja_navigation_action_get_type   (void);

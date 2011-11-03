@@ -45,12 +45,12 @@ GFile *  caja_get_desktop_location               (void);
 char *   caja_get_desktop_directory_uri          (void);
 char *   caja_get_home_directory_uri             (void);
 gboolean caja_is_desktop_directory_file          (GFile *dir,
-						      const char *filename);
+        const char *filename);
 gboolean caja_is_root_directory                  (GFile *dir);
 gboolean caja_is_desktop_directory               (GFile *dir);
 gboolean caja_is_home_directory                  (GFile *dir);
 gboolean caja_is_home_directory_file             (GFile *dir,
-						      const char *filename);
+        const char *filename);
 gboolean caja_is_in_system_dir                   (GFile *location);
 char *   caja_get_gmc_desktop_directory          (void);
 char *   caja_get_pixmap_directory               (void);
@@ -72,7 +72,7 @@ char *   caja_get_desktop_directory_uri_no_create (void);
  * Otherwise similar to mate_pixmap_file in that it checks to see if the file
  * exists and returns NULL if it doesn't.
  */
-/* FIXME bugzilla.mate.org 42425: 
+/* FIXME bugzilla.mate.org 42425:
  * We might not need this once we get on mate-libs 2.0 which handles
  * mate_pixmap_file better, using MATE_PATH.
  */
@@ -92,8 +92,8 @@ void     caja_uninhibit_power_manager            (int cookie);
  * This isn't race-free, so don't use for security-related things
  */
 char *   caja_ensure_unique_file_name            (const char *directory_uri,
-						      const char *base_name,
-			                              const char *extension);
+        const char *base_name,
+        const char *extension);
 char *   caja_unique_temporary_file_name         (void);
 
 GFile *  caja_find_existing_uri_in_hierarchy     (GFile *location);
@@ -104,8 +104,8 @@ caja_find_file_insensitive (GFile *parent, const gchar *name);
 char * caja_get_accel_map_file (void);
 
 GHashTable * caja_trashed_files_get_original_directories (GList *files,
-							      GList **unhandled_files);
+        GList **unhandled_files);
 void caja_restore_files_from_trash (GList *files,
-					GtkWindow *parent_window);
+                                    GtkWindow *parent_window);
 
 #endif /* CAJA_FILE_UTILITIES_H */

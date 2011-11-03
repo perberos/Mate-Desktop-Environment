@@ -44,58 +44,61 @@
 #define FM_TREE_MODEL_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), FM_TYPE_TREE_MODEL, FMTreeModelClass))
 
-enum {
-	FM_TREE_MODEL_DISPLAY_NAME_COLUMN,
-	FM_TREE_MODEL_CLOSED_PIXBUF_COLUMN,
-	FM_TREE_MODEL_OPEN_PIXBUF_COLUMN,
-	FM_TREE_MODEL_EMBLEM_PIXBUF_COLUMN,
-	FM_TREE_MODEL_FONT_STYLE_COLUMN,
-	FM_TREE_MODEL_NUM_COLUMNS
+enum
+{
+    FM_TREE_MODEL_DISPLAY_NAME_COLUMN,
+    FM_TREE_MODEL_CLOSED_PIXBUF_COLUMN,
+    FM_TREE_MODEL_OPEN_PIXBUF_COLUMN,
+    FM_TREE_MODEL_EMBLEM_PIXBUF_COLUMN,
+    FM_TREE_MODEL_FONT_STYLE_COLUMN,
+    FM_TREE_MODEL_NUM_COLUMNS
 };
 
 typedef struct FMTreeModelDetails FMTreeModelDetails;
 
-typedef struct {
-	GObject parent;
-	FMTreeModelDetails *details;
+typedef struct
+{
+    GObject parent;
+    FMTreeModelDetails *details;
 } FMTreeModel;
 
-typedef struct {
-	GObjectClass parent_class;
+typedef struct
+{
+    GObjectClass parent_class;
 
-	void         (* row_loaded)      (FMTreeModel *tree_model,
-					  GtkTreeIter       *iter);
+    void         (* row_loaded)      (FMTreeModel *tree_model,
+                                      GtkTreeIter       *iter);
 } FMTreeModelClass;
 
 GType              fm_tree_model_get_type                  (void);
 FMTreeModel *fm_tree_model_new                       (void);
 void               fm_tree_model_set_show_hidden_files     (FMTreeModel *model,
-							    gboolean           show_hidden_files);
+        gboolean           show_hidden_files);
 void               fm_tree_model_set_show_only_directories (FMTreeModel *model,
-							    gboolean           show_only_directories);
+        gboolean           show_only_directories);
 CajaFile *     fm_tree_model_iter_get_file             (FMTreeModel *model,
-							    GtkTreeIter       *iter);
+        GtkTreeIter       *iter);
 void               fm_tree_model_add_root_uri              (FMTreeModel *model,
-							    const char        *root_uri,
-							    const char        *display_name,
-							    GIcon             *icon,
-							    GMount            *mount);
+        const char        *root_uri,
+        const char        *display_name,
+        GIcon             *icon,
+        GMount            *mount);
 void               fm_tree_model_remove_root_uri           (FMTreeModel *model,
-							    const char        *root_uri);
+        const char        *root_uri);
 gboolean           fm_tree_model_iter_is_root              (FMTreeModel *model,
-							    GtkTreeIter *iter);
+        GtkTreeIter *iter);
 int                fm_tree_model_iter_compare_roots        (FMTreeModel *model,
-							    GtkTreeIter *iter_a,
-							    GtkTreeIter *iter_b);
+        GtkTreeIter *iter_a,
+        GtkTreeIter *iter_b);
 gboolean           fm_tree_model_file_get_iter             (FMTreeModel *model,
-							    GtkTreeIter *iter,
-							    CajaFile *file,
-							    GtkTreeIter *currentIter);
+        GtkTreeIter *iter,
+        CajaFile *file,
+        GtkTreeIter *currentIter);
 
 GMount *         fm_tree_model_get_mount_for_root_node_file
-                                                           (FMTreeModel  *model,
-                                                            CajaFile *file);
+(FMTreeModel  *model,
+ CajaFile *file);
 void             fm_tree_model_set_highlight_for_files    (FMTreeModel *model,
-                                                            GList *files);
+        GList *files);
 
 #endif /* FM_TREE_MODEL_H */

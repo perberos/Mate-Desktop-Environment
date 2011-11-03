@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
 /* CajaUndoManager - Manages undo and redo transactions.
- *                       This is the public interface used by the application.                      
+ *                       This is the public interface used by the application.
  *
  * Copyright (C) 2000 Eazel, Inc.
  *
@@ -39,17 +39,19 @@
   (G_TYPE_CHECK_CLASS_TYPE ((klass), CAJA_TYPE_UNDO_MANAGER))
 #define CAJA_UNDO_MANAGER_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_UNDO_MANAGER, CajaUndoManagerClass))
-	
+
 typedef struct CajaUndoManagerDetails CajaUndoManagerDetails;
 
-typedef struct {
-	GObject parent;
-	CajaUndoManagerDetails *details;
+typedef struct
+{
+    GObject parent;
+    CajaUndoManagerDetails *details;
 } CajaUndoManager;
 
-typedef struct {
-	GObjectClass parent_slot;
-	void (* changed) (GObject *object, gpointer data);
+typedef struct
+{
+    GObjectClass parent_slot;
+    void (* changed) (GObject *object, gpointer data);
 } CajaUndoManagerClass;
 
 GType                caja_undo_manager_get_type                           (void);
@@ -61,20 +63,20 @@ void                 caja_undo_manager_undo                               (CajaU
 #ifdef UIH
 /* Connect the manager to a particular menu item. */
 void                 caja_undo_manager_set_up_matecomponent_ui_handler_undo_item (CajaUndoManager *manager,
-									       MateComponentUIHandler     *handler,
-									       const char          *path,
-									       const char          *no_undo_menu_item_label,
-									       const char          *no_undo_menu_item_hint);
+        MateComponentUIHandler     *handler,
+        const char          *path,
+        const char          *no_undo_menu_item_label,
+        const char          *no_undo_menu_item_hint);
 
 #endif
 
 /* Attach the undo manager to a Gtk object so that object and the widgets inside it can participate in undo. */
 void                 caja_undo_manager_attach                             (CajaUndoManager *manager,
-									       GObject             *object);
+        GObject             *object);
 
 void		caja_undo_manager_append (CajaUndoManager *manager,
-					      CajaUndoTransaction *transaction);
+                                      CajaUndoTransaction *transaction);
 void            caja_undo_manager_forget (CajaUndoManager *manager,
-					      CajaUndoTransaction *transaction);
+        CajaUndoTransaction *transaction);
 
 #endif /* CAJA_UNDO_MANAGER_H */

@@ -41,97 +41,97 @@ extern "C" {
 
 #ifndef CAJA_FILE_DEFINED
 #define CAJA_FILE_DEFINED
-/* Using CajaFile for the vtable to make implementing this in
- * CajaFile easier */
-typedef struct CajaFile          CajaFile;
+    /* Using CajaFile for the vtable to make implementing this in
+     * CajaFile easier */
+    typedef struct CajaFile          CajaFile;
 #endif
 
-typedef CajaFile                  CajaFileInfo;
-typedef struct _CajaFileInfoIface CajaFileInfoIface;
+    typedef CajaFile                  CajaFileInfo;
+    typedef struct _CajaFileInfoIface CajaFileInfoIface;
 
 
-struct _CajaFileInfoIface
-{
-	GTypeInterface g_iface;
+    struct _CajaFileInfoIface
+    {
+        GTypeInterface g_iface;
 
-	gboolean          (*is_gone)              (CajaFileInfo *file);
+        gboolean          (*is_gone)              (CajaFileInfo *file);
 
-	char *            (*get_name)             (CajaFileInfo *file);
-	char *            (*get_uri)              (CajaFileInfo *file);
-	char *            (*get_parent_uri)       (CajaFileInfo *file);
-	char *            (*get_uri_scheme)       (CajaFileInfo *file);
+        char *            (*get_name)             (CajaFileInfo *file);
+        char *            (*get_uri)              (CajaFileInfo *file);
+        char *            (*get_parent_uri)       (CajaFileInfo *file);
+        char *            (*get_uri_scheme)       (CajaFileInfo *file);
 
-	char *            (*get_mime_type)        (CajaFileInfo *file);
-	gboolean          (*is_mime_type)         (CajaFileInfo *file,
-						   const char       *mime_Type);
-	gboolean          (*is_directory)         (CajaFileInfo *file);
+        char *            (*get_mime_type)        (CajaFileInfo *file);
+        gboolean          (*is_mime_type)         (CajaFileInfo *file,
+                const char       *mime_Type);
+        gboolean          (*is_directory)         (CajaFileInfo *file);
 
-	void              (*add_emblem)           (CajaFileInfo *file,
-						   const char       *emblem_name);
-	char *            (*get_string_attribute) (CajaFileInfo *file,
-						   const char       *attribute_name);
-	void              (*add_string_attribute) (CajaFileInfo *file,
-						   const char       *attribute_name,
-						   const char       *value);
-	void              (*invalidate_extension_info) (CajaFileInfo *file);
+        void              (*add_emblem)           (CajaFileInfo *file,
+                const char       *emblem_name);
+        char *            (*get_string_attribute) (CajaFileInfo *file,
+                const char       *attribute_name);
+        void              (*add_string_attribute) (CajaFileInfo *file,
+                const char       *attribute_name,
+                const char       *value);
+        void              (*invalidate_extension_info) (CajaFileInfo *file);
 
-	char *            (*get_activation_uri)   (CajaFileInfo *file);
+        char *            (*get_activation_uri)   (CajaFileInfo *file);
 
-	GFileType         (*get_file_type)        (CajaFileInfo *file);
-	GFile *           (*get_location)         (CajaFileInfo *file);
-	GFile *           (*get_parent_location)  (CajaFileInfo *file);
-	CajaFileInfo* (*get_parent_info)      (CajaFileInfo *file);
-	GMount *          (*get_mount)            (CajaFileInfo *file);
-	gboolean          (*can_write)            (CajaFileInfo *file);
+        GFileType         (*get_file_type)        (CajaFileInfo *file);
+        GFile *           (*get_location)         (CajaFileInfo *file);
+        GFile *           (*get_parent_location)  (CajaFileInfo *file);
+        CajaFileInfo* (*get_parent_info)      (CajaFileInfo *file);
+        GMount *          (*get_mount)            (CajaFileInfo *file);
+        gboolean          (*can_write)            (CajaFileInfo *file);
 
-};
+    };
 
-GList            *caja_file_info_list_copy            (GList            *files);
-void              caja_file_info_list_free            (GList            *files);
-GType             caja_file_info_get_type             (void);
+    GList            *caja_file_info_list_copy            (GList            *files);
+    void              caja_file_info_list_free            (GList            *files);
+    GType             caja_file_info_get_type             (void);
 
-/* Return true if the file has been deleted */
-gboolean          caja_file_info_is_gone              (CajaFileInfo *file);
+    /* Return true if the file has been deleted */
+    gboolean          caja_file_info_is_gone              (CajaFileInfo *file);
 
-/* Name and Location */
-GFileType         caja_file_info_get_file_type        (CajaFileInfo *file);
-GFile *           caja_file_info_get_location         (CajaFileInfo *file);
-char *            caja_file_info_get_name             (CajaFileInfo *file);
-char *            caja_file_info_get_uri              (CajaFileInfo *file);
-char *            caja_file_info_get_activation_uri   (CajaFileInfo *file);
-GFile *           caja_file_info_get_parent_location  (CajaFileInfo *file);
-char *            caja_file_info_get_parent_uri       (CajaFileInfo *file);
-GMount *          caja_file_info_get_mount            (CajaFileInfo *file);
-char *            caja_file_info_get_uri_scheme       (CajaFileInfo *file);
-/* It's not safe to call this recursively multiple times, as it works
- * only for files already cached by Caja.
- */
-CajaFileInfo* caja_file_info_get_parent_info      (CajaFileInfo *file);
+    /* Name and Location */
+    GFileType         caja_file_info_get_file_type        (CajaFileInfo *file);
+    GFile *           caja_file_info_get_location         (CajaFileInfo *file);
+    char *            caja_file_info_get_name             (CajaFileInfo *file);
+    char *            caja_file_info_get_uri              (CajaFileInfo *file);
+    char *            caja_file_info_get_activation_uri   (CajaFileInfo *file);
+    GFile *           caja_file_info_get_parent_location  (CajaFileInfo *file);
+    char *            caja_file_info_get_parent_uri       (CajaFileInfo *file);
+    GMount *          caja_file_info_get_mount            (CajaFileInfo *file);
+    char *            caja_file_info_get_uri_scheme       (CajaFileInfo *file);
+    /* It's not safe to call this recursively multiple times, as it works
+     * only for files already cached by Caja.
+     */
+    CajaFileInfo* caja_file_info_get_parent_info      (CajaFileInfo *file);
 
-/* File Type */
-char *            caja_file_info_get_mime_type        (CajaFileInfo *file);
-gboolean          caja_file_info_is_mime_type         (CajaFileInfo *file,
-							   const char       *mime_type);
-gboolean          caja_file_info_is_directory         (CajaFileInfo *file);
-gboolean          caja_file_info_can_write            (CajaFileInfo *file);
+    /* File Type */
+    char *            caja_file_info_get_mime_type        (CajaFileInfo *file);
+    gboolean          caja_file_info_is_mime_type         (CajaFileInfo *file,
+            const char       *mime_type);
+    gboolean          caja_file_info_is_directory         (CajaFileInfo *file);
+    gboolean          caja_file_info_can_write            (CajaFileInfo *file);
 
 
-/* Modifying the CajaFileInfo */
-void              caja_file_info_add_emblem           (CajaFileInfo *file,
-							   const char       *emblem_name);
-char *            caja_file_info_get_string_attribute (CajaFileInfo *file,
-							   const char       *attribute_name);
-void              caja_file_info_add_string_attribute (CajaFileInfo *file,
-							   const char       *attribute_name,
-							   const char       *value);
+    /* Modifying the CajaFileInfo */
+    void              caja_file_info_add_emblem           (CajaFileInfo *file,
+            const char       *emblem_name);
+    char *            caja_file_info_get_string_attribute (CajaFileInfo *file,
+            const char       *attribute_name);
+    void              caja_file_info_add_string_attribute (CajaFileInfo *file,
+            const char       *attribute_name,
+            const char       *value);
 
-/* Invalidating file info */
-void              caja_file_info_invalidate_extension_info (CajaFileInfo *file);
+    /* Invalidating file info */
+    void              caja_file_info_invalidate_extension_info (CajaFileInfo *file);
 
-CajaFileInfo *caja_file_info_lookup                (GFile *location);
-CajaFileInfo *caja_file_info_create                (GFile *location);
-CajaFileInfo *caja_file_info_lookup_for_uri        (const char *uri);
-CajaFileInfo *caja_file_info_create_for_uri        (const char *uri);
+    CajaFileInfo *caja_file_info_lookup                (GFile *location);
+    CajaFileInfo *caja_file_info_create                (GFile *location);
+    CajaFileInfo *caja_file_info_lookup_for_uri        (const char *uri);
+    CajaFileInfo *caja_file_info_create_for_uri        (const char *uri);
 
 #ifdef __cplusplus
 }

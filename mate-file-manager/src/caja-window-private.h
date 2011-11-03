@@ -41,84 +41,85 @@ struct _CajaNavigationWindowPane;
 /* FIXME bugzilla.mate.org 42575: Migrate more fields into here. */
 struct CajaWindowDetails
 {
-        GtkWidget *table;
-        GtkWidget *statusbar;
-        GtkWidget *menubar;
-        
-        GtkUIManager *ui_manager;
-        GtkActionGroup *main_action_group; /* owned by ui_manager */
-        guint help_message_cid;
+    GtkWidget *table;
+    GtkWidget *statusbar;
+    GtkWidget *menubar;
 
-        /* Menus. */
-        guint extensions_menu_merge_id;
-        GtkActionGroup *extensions_menu_action_group;
+    GtkUIManager *ui_manager;
+    GtkActionGroup *main_action_group; /* owned by ui_manager */
+    guint help_message_cid;
 
-        GtkActionGroup *bookmarks_action_group;
-        guint bookmarks_merge_id;
-        CajaBookmarkList *bookmark_list;
+    /* Menus. */
+    guint extensions_menu_merge_id;
+    GtkActionGroup *extensions_menu_action_group;
 
-	CajaWindowShowHiddenFilesMode show_hidden_files_mode;
+    GtkActionGroup *bookmarks_action_group;
+    guint bookmarks_merge_id;
+    CajaBookmarkList *bookmark_list;
 
-	/* View As menu */
-	GList *short_list_viewers;
-	char *extra_viewer;
+    CajaWindowShowHiddenFilesMode show_hidden_files_mode;
 
-	/* View As choices */
-	GtkActionGroup *view_as_action_group; /* owned by ui_manager */
-	GtkRadioAction *view_as_radio_action;
-	GtkRadioAction *extra_viewer_radio_action;
-	guint short_list_merge_id;
-	guint extra_viewer_merge_id;
+    /* View As menu */
+    GList *short_list_viewers;
+    char *extra_viewer;
 
-	/* Ensures that we do not react on signals of a
-	 * view that is re-used as new view when its loading
-	 * is cancelled
-	 */
-	gboolean temporarily_ignore_view_signals;
+    /* View As choices */
+    GtkActionGroup *view_as_action_group; /* owned by ui_manager */
+    GtkRadioAction *view_as_radio_action;
+    GtkRadioAction *extra_viewer_radio_action;
+    guint short_list_merge_id;
+    guint extra_viewer_merge_id;
 
-        /* available panes, and active pane.
-         * Both of them may never be NULL.
-         */
-        GList *panes;
-        CajaWindowPane *active_pane;
+    /* Ensures that we do not react on signals of a
+     * view that is re-used as new view when its loading
+     * is cancelled
+     */
+    gboolean temporarily_ignore_view_signals;
 
-	/* So we can tell which window initiated
-	 * an unmount operation.
-	 */
-	gboolean initiated_unmount;
+    /* available panes, and active pane.
+     * Both of them may never be NULL.
+     */
+    GList *panes;
+    CajaWindowPane *active_pane;
+
+    /* So we can tell which window initiated
+     * an unmount operation.
+     */
+    gboolean initiated_unmount;
 };
 
-struct _CajaNavigationWindowDetails {
-        GtkWidget *content_paned;
-        GtkWidget *content_box;
-        GtkActionGroup *navigation_action_group; /* owned by ui_manager */
+struct _CajaNavigationWindowDetails
+{
+    GtkWidget *content_paned;
+    GtkWidget *content_box;
+    GtkActionGroup *navigation_action_group; /* owned by ui_manager */
 
-        GtkSizeGroup *header_size_group;
-        
-        /* Side Pane */
-        int side_pane_width;
-        CajaSidebar *current_side_panel;
+    GtkSizeGroup *header_size_group;
 
-	/* Menus */
-        GtkActionGroup *go_menu_action_group;
-	guint refresh_go_menu_idle_id;
-        guint go_menu_merge_id;
-        
-        /* Toolbar */
-        GtkWidget *toolbar;
+    /* Side Pane */
+    int side_pane_width;
+    CajaSidebar *current_side_panel;
 
-        guint extensions_toolbar_merge_id;
-        GtkActionGroup *extensions_toolbar_action_group;
+    /* Menus */
+    GtkActionGroup *go_menu_action_group;
+    guint refresh_go_menu_idle_id;
+    guint go_menu_merge_id;
 
-        /* spinner */
-        gboolean    spinner_active;
-        GtkWidget  *spinner;
+    /* Toolbar */
+    GtkWidget *toolbar;
 
-        /* focus widget before the location bar has been shown temporarily */
-        GtkWidget *last_focus_widget;
-        	
-        /* split view */
-        GtkWidget *split_view_hpane;
+    guint extensions_toolbar_merge_id;
+    GtkActionGroup *extensions_toolbar_action_group;
+
+    /* spinner */
+    gboolean    spinner_active;
+    GtkWidget  *spinner;
+
+    /* focus widget before the location bar has been shown temporarily */
+    GtkWidget *last_focus_widget;
+
+    /* split view */
+    GtkWidget *split_view_hpane;
 };
 
 #define CAJA_MENU_PATH_BACK_ITEM			"/menu/Go/Back"
@@ -158,25 +159,25 @@ struct _CajaNavigationWindowDetails {
 #define CAJA_NAVIGATION_WINDOW_DEFAULT_HEIGHT		550
 
 typedef void (*CajaBookmarkFailedCallback) (CajaWindow *window,
-                                                CajaBookmark *bookmark);
+        CajaBookmark *bookmark);
 
 void               caja_window_set_status                            (CajaWindow    *window,
-									  CajaWindowSlot *slot,
-                                                                          const char        *status);
+        CajaWindowSlot *slot,
+        const char        *status);
 void               caja_window_load_view_as_menus                    (CajaWindow    *window);
 void               caja_window_load_extension_menus                  (CajaWindow    *window);
 void               caja_window_initialize_menus                      (CajaWindow    *window);
 void               caja_window_remove_trash_monitor_callback         (CajaWindow    *window);
 CajaWindowPane *caja_window_get_next_pane                        (CajaWindow *window);
-void               caja_menus_append_bookmark_to_menu                (CajaWindow    *window, 
-                                                                          CajaBookmark  *bookmark, 
-                                                                          const char        *parent_path,
-                                                                          const char        *parent_id,
-                                                                          guint              index_in_parent,
-                                                                          GtkActionGroup    *action_group,
-                                                                          guint              merge_id,
-                                                                          GCallback          refresh_callback,
-                                                                          CajaBookmarkFailedCallback failed_callback);
+void               caja_menus_append_bookmark_to_menu                (CajaWindow    *window,
+        CajaBookmark  *bookmark,
+        const char        *parent_path,
+        const char        *parent_id,
+        guint              index_in_parent,
+        GtkActionGroup    *action_group,
+        guint              merge_id,
+        GCallback          refresh_callback,
+        CajaBookmarkFailedCallback failed_callback);
 #ifdef NEW_UI_COMPLETE
 void               caja_window_go_up                                 (CajaWindow    *window);
 #endif
@@ -184,32 +185,32 @@ void               caja_window_update_find_menu_item                 (CajaWindow
 void               caja_window_zoom_in                               (CajaWindow    *window);
 void               caja_window_zoom_out                              (CajaWindow    *window);
 void               caja_window_zoom_to_level                         (CajaWindow    *window,
-                                                                          CajaZoomLevel  level);
+        CajaZoomLevel  level);
 void               caja_window_zoom_to_default                       (CajaWindow    *window);
 
 CajaWindowSlot *caja_window_open_slot                            (CajaWindowPane *pane,
-									  CajaWindowOpenSlotFlags flags);
+        CajaWindowOpenSlotFlags flags);
 void                caja_window_close_slot                           (CajaWindowSlot *slot);
 
 CajaWindowSlot *caja_window_get_slot_for_view                    (CajaWindow *window,
-									  CajaView   *view);
+        CajaView   *view);
 
 GList *              caja_window_get_slots                           (CajaWindow    *window);
 CajaWindowSlot * caja_window_get_active_slot                     (CajaWindow    *window);
 CajaWindowSlot * caja_window_get_extra_slot                      (CajaWindow    *window);
 void                 caja_window_set_active_slot                     (CajaWindow    *window,
-									  CajaWindowSlot *slot);
+        CajaWindowSlot *slot);
 void                 caja_window_set_active_pane                     (CajaWindow *window,
-                                                                          CajaWindowPane *new_pane);
+        CajaWindowPane *new_pane);
 CajaWindowPane * caja_window_get_active_pane                     (CajaWindow *window);
 
 void               caja_send_history_list_changed                    (void);
 void               caja_remove_from_history_list_no_notify           (GFile             *location);
 gboolean           caja_add_bookmark_to_history_list                 (CajaBookmark  *bookmark);
 gboolean           caja_add_to_history_list_no_notify                (GFile             *location,
-									  const char        *name,
-									  gboolean           has_custom_name,
-									  GIcon            *icon);
+        const char        *name,
+        gboolean           has_custom_name,
+        GIcon            *icon);
 GList *            caja_get_history_list                             (void);
 void               caja_window_bookmarks_preference_changed_callback (gpointer           user_data);
 
@@ -219,9 +220,9 @@ void               caja_window_bookmarks_preference_changed_callback (gpointer  
  */
 void caja_window_sync_status           (CajaWindow *window);
 void caja_window_sync_allow_stop       (CajaWindow *window,
-					    CajaWindowSlot *slot);
+                                        CajaWindowSlot *slot);
 void caja_window_sync_title            (CajaWindow *window,
-					    CajaWindowSlot *slot);
+                                        CajaWindowSlot *slot);
 void caja_window_sync_zoom_widgets     (CajaWindow *window);
 
 /* Navigation window menus */
@@ -239,8 +240,8 @@ void               caja_navigation_window_remove_go_menu_items       (CajaNaviga
 void               caja_navigation_window_activate_spinner                     (CajaNavigationWindow    *window);
 void               caja_navigation_window_initialize_toolbars                   (CajaNavigationWindow    *window);
 void               caja_navigation_window_load_extension_toolbar_items          (CajaNavigationWindow    *window);
-void               caja_navigation_window_set_spinner_active                   (CajaNavigationWindow    *window, 
-                                                                                     gboolean                     active);
+void               caja_navigation_window_set_spinner_active                   (CajaNavigationWindow    *window,
+        gboolean                     active);
 void               caja_navigation_window_go_back                               (CajaNavigationWindow    *window);
 void               caja_navigation_window_go_forward                            (CajaNavigationWindow    *window);
 void               caja_window_close_pane                                       (CajaWindowPane *pane);

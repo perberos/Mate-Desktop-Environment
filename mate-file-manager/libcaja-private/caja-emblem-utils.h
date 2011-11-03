@@ -31,16 +31,16 @@ GList *    caja_emblem_list_available             (void);
 void       caja_emblem_refresh_list               (void);
 gboolean   caja_emblem_should_show_in_list        (const char *emblem);
 gboolean   caja_emblem_verify_keyword             (GtkWindow *parent_window,
-						       const char *keyword,
-						       const char *display_name);
+        const char *keyword,
+        const char *display_name);
 void       caja_emblem_install_custom_emblem      (GdkPixbuf  *pixbuf,
-						       const char *keyword,
-						       const char *display_name,
-						       GtkWindow  *parent_window);
+        const char *keyword,
+        const char *display_name,
+        GtkWindow  *parent_window);
 
 gboolean   caja_emblem_remove_emblem              (const char *keyword);
 gboolean   caja_emblem_rename_emblem              (const char *keyword,
-						       const char *display_name);
+        const char *display_name);
 
 GdkPixbuf *caja_emblem_load_pixbuf_for_emblem     (GFile      *emblem);
 char *     caja_emblem_get_keyword_from_icon_name (const char *emblem);

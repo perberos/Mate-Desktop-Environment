@@ -25,7 +25,7 @@
 /* This is the header file for the property browser window, which
  * gives the user access to an extensible palette of properties which
  * can be dropped on various elements of the user interface to
- * customize them 
+ * customize them
  */
 
 #ifndef CAJA_PROPERTY_BROWSER_H
@@ -53,19 +53,19 @@ typedef struct CajaPropertyBrowserDetails CajaPropertyBrowserDetails;
 
 struct CajaPropertyBrowser
 {
-	GtkWindow window;
-	CajaPropertyBrowserDetails *details;
+    GtkWindow window;
+    CajaPropertyBrowserDetails *details;
 };
 
 struct CajaPropertyBrowserClass
 {
-	GtkWindowClass parent_class;
+    GtkWindowClass parent_class;
 };
 
 GType                    caja_property_browser_get_type (void);
 CajaPropertyBrowser *caja_property_browser_new      (GdkScreen               *screen);
 void                     caja_property_browser_show     (GdkScreen               *screen);
 void                     caja_property_browser_set_path (CajaPropertyBrowser *panel,
-							     const char              *new_path);
+        const char              *new_path);
 
 #endif /* CAJA_PROPERTY_BROWSER_H */

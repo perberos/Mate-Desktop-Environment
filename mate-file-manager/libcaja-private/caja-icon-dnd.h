@@ -32,31 +32,32 @@
 #include <libcaja-private/caja-dnd.h>
 
 /* DnD-related information. */
-typedef struct {
-	/* inherited drag info context */
-	CajaDragInfo drag_info;
+typedef struct
+{
+    /* inherited drag info context */
+    CajaDragInfo drag_info;
 
-	gboolean highlighted;
-	
-	/* Stipple for drawing icon shadows during DnD.  */
-        GdkBitmap *stipple;
+    gboolean highlighted;
 
-	/* Shadow for the icons being dragged.  */
-	EelCanvasItem *shadow;
+    /* Stipple for drawing icon shadows during DnD.  */
+    GdkBitmap *stipple;
+
+    /* Shadow for the icons being dragged.  */
+    EelCanvasItem *shadow;
 } CajaIconDndInfo;
 
 
 void   caja_icon_dnd_init                  (CajaIconContainer *container,
-						GdkBitmap             *stipple);
+        GdkBitmap             *stipple);
 void   caja_icon_dnd_fini                  (CajaIconContainer *container);
 void   caja_icon_dnd_set_stipple           (CajaIconContainer *container,
-						GdkBitmap             *stipple);
+        GdkBitmap             *stipple);
 void   caja_icon_dnd_begin_drag            (CajaIconContainer *container,
-						GdkDragAction          actions,
-						gint                   button,
-						GdkEventMotion        *event,
-						int                    start_x,
-						int                    start_y);
+        GdkDragAction          actions,
+        gint                   button,
+        GdkEventMotion        *event,
+        int                    start_x,
+        int                    start_y);
 void   caja_icon_dnd_end_drag              (CajaIconContainer *container);
 
 #endif /* CAJA_ICON_DND_H */

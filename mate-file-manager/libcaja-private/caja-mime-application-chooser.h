@@ -2,9 +2,9 @@
 
 /*
    caja-mime-application-chooser.c: Manages applications for mime types
- 
+
    Copyright (C) 2004 Novell, Inc.
- 
+
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
@@ -37,19 +37,21 @@ typedef struct _CajaMimeApplicationChooser        CajaMimeApplicationChooser;
 typedef struct _CajaMimeApplicationChooserClass   CajaMimeApplicationChooserClass;
 typedef struct _CajaMimeApplicationChooserDetails CajaMimeApplicationChooserDetails;
 
-struct _CajaMimeApplicationChooser {
-	GtkVBox parent;
-	CajaMimeApplicationChooserDetails *details;
+struct _CajaMimeApplicationChooser
+{
+    GtkVBox parent;
+    CajaMimeApplicationChooserDetails *details;
 };
 
-struct _CajaMimeApplicationChooserClass {
-	GtkVBoxClass parent_class;
+struct _CajaMimeApplicationChooserClass
+{
+    GtkVBoxClass parent_class;
 };
 
 GType      caja_mime_application_chooser_get_type (void);
 GtkWidget* caja_mime_application_chooser_new      (const char *uri,
-						       const char *mime_type);
+        const char *mime_type);
 GtkWidget* caja_mime_application_chooser_new_for_multiple_files (GList *uris,
-								     const char *mime_type);
+        const char *mime_type);
 
 #endif /* CAJA_MIME_APPLICATION_CHOOSER_H */

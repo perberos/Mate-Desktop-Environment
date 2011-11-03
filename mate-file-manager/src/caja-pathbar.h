@@ -15,7 +15,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * 
+ *
  */
 
 #ifndef CAJA_PATHBAR_H
@@ -37,49 +37,49 @@ typedef struct _CajaPathBarClass CajaPathBarClass;
 
 struct _CajaPathBar
 {
-	GtkContainer parent;
- 
-	GFile *root_path;
-	GFile *home_path;
-	GFile *desktop_path;
+    GtkContainer parent;
 
-	GFile *current_path;
-	gpointer current_button_data;
+    GFile *root_path;
+    GFile *home_path;
+    GFile *desktop_path;
 
-	GList *button_list;
-	GList *first_scrolled_button;
-	GList *fake_root;
-	GtkWidget *up_slider_button;
-	GtkWidget *down_slider_button;
-	guint settings_signal_id;
-	gint icon_size;
-	gint16 slider_width;
-	gint16 spacing;
-	gint16 button_offset;
-	guint timer;
-	guint slider_visible : 1;
-	guint need_timer : 1;
-	guint ignore_click : 1;
+    GFile *current_path;
+    gpointer current_button_data;
 
-	unsigned int drag_slider_timeout;
-	gboolean drag_slider_timeout_for_up_button;
+    GList *button_list;
+    GList *first_scrolled_button;
+    GList *fake_root;
+    GtkWidget *up_slider_button;
+    GtkWidget *down_slider_button;
+    guint settings_signal_id;
+    gint icon_size;
+    gint16 slider_width;
+    gint16 spacing;
+    gint16 button_offset;
+    guint timer;
+    guint slider_visible : 1;
+    guint need_timer : 1;
+    guint ignore_click : 1;
+
+    unsigned int drag_slider_timeout;
+    gboolean drag_slider_timeout_for_up_button;
 };
 
 struct _CajaPathBarClass
 {
-	GtkContainerClass parent_class;
+    GtkContainerClass parent_class;
 
-  	void (* path_clicked)   (CajaPathBar  *path_bar,
-				 GFile             *location);
-  	void (* path_set)       (CajaPathBar  *path_bar,
-				 GFile             *location);
+    void (* path_clicked)   (CajaPathBar  *path_bar,
+                             GFile             *location);
+    void (* path_set)       (CajaPathBar  *path_bar,
+                             GFile             *location);
 };
 
 GType    caja_path_bar_get_type (void) G_GNUC_CONST;
 
 gboolean caja_path_bar_set_path    (CajaPathBar *path_bar, GFile *file);
 GFile *  caja_path_bar_get_path_for_button (CajaPathBar *path_bar,
-						GtkWidget       *button);
+        GtkWidget       *button);
 void     caja_path_bar_clear_buttons (CajaPathBar *path_bar);
 
 void     caja_path_bar_up              (CajaPathBar *path_bar);

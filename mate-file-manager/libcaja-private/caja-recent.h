@@ -8,6 +8,6 @@
 #include <gio/gio.h>
 
 void caja_recent_add_file (CajaFile *file,
-			       GAppInfo *application);
+                           GAppInfo *application);
 
 #endif

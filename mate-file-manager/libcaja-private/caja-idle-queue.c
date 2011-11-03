@@ -28,117 +28,129 @@
 
 #include <gtk/gtk.h>
 
-struct CajaIdleQueue {
-	GList *functions;
-	guint idle_id;
-	gboolean in_idle;
-	gboolean destroy;
+struct CajaIdleQueue
+{
+    GList *functions;
+    guint idle_id;
+    gboolean in_idle;
+    gboolean destroy;
 };
 
-typedef struct {
-	GFunc callback;
-	gpointer data;
-	gpointer callback_data;
-	GFreeFunc free_callback_data;
+typedef struct
+{
+    GFunc callback;
+    gpointer data;
+    gpointer callback_data;
+    GFreeFunc free_callback_data;
 } QueuedFunction;
 
 static gboolean
 execute_queued_functions (gpointer callback_data)
 {
-	CajaIdleQueue *queue;
-	GList *functions, *node;
-	QueuedFunction *function;
+    CajaIdleQueue *queue;
+    GList *functions, *node;
+    QueuedFunction *function;
 
-	queue = callback_data;
+    queue = callback_data;
 
-	/* We could receive more incoming functions while dispatching
-	 * these, so keep going until the queue is empty.
-	 */
-	queue->in_idle = TRUE;
-	while (queue->functions != NULL) {
-		functions = g_list_reverse (queue->functions);
-		queue->functions = NULL;
+    /* We could receive more incoming functions while dispatching
+     * these, so keep going until the queue is empty.
+     */
+    queue->in_idle = TRUE;
+    while (queue->functions != NULL)
+    {
+        functions = g_list_reverse (queue->functions);
+        queue->functions = NULL;
 
-		for (node = functions; node != NULL; node = node->next) {
-			function = node->data;
+        for (node = functions; node != NULL; node = node->next)
+        {
+            function = node->data;
 
-			if (!queue->destroy) {
-				(* function->callback) (function->data, function->callback_data);
-			}
-			if (function->free_callback_data != NULL) {
-				(* function->free_callback_data) (function->callback_data);
-			}
+            if (!queue->destroy)
+            {
+                (* function->callback) (function->data, function->callback_data);
+            }
+            if (function->free_callback_data != NULL)
+            {
+                (* function->free_callback_data) (function->callback_data);
+            }
 
-			g_free (function);
-		}
+            g_free (function);
+        }
 
-		g_list_free (functions);
-	}
-	queue->in_idle = FALSE;
+        g_list_free (functions);
+    }
+    queue->in_idle = FALSE;
 
-	queue->idle_id = 0;
+    queue->idle_id = 0;
 
-	if (queue->destroy) {
-		caja_idle_queue_destroy (queue);
-	}
+    if (queue->destroy)
+    {
+        caja_idle_queue_destroy (queue);
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 CajaIdleQueue *
 caja_idle_queue_new (void)
 {
-	return g_new0 (CajaIdleQueue, 1);
+    return g_new0 (CajaIdleQueue, 1);
 }
 
 void
 caja_idle_queue_add (CajaIdleQueue *queue,
-			 GFunc callback,
-			 gpointer data,
-			 gpointer callback_data,
-			 GFreeFunc free_callback_data)
+                     GFunc callback,
+                     gpointer data,
+                     gpointer callback_data,
+                     GFreeFunc free_callback_data)
 {
-	QueuedFunction *function;
+    QueuedFunction *function;
 
-	function = g_new (QueuedFunction, 1);
-	function->callback = callback;
-	function->data = data;
-	function->callback_data = callback_data;
-	function->free_callback_data = free_callback_data;
+    function = g_new (QueuedFunction, 1);
+    function->callback = callback;
+    function->data = data;
+    function->callback_data = callback_data;
+    function->free_callback_data = free_callback_data;
 
-	queue->functions = g_list_prepend (queue->functions, function);
+    queue->functions = g_list_prepend (queue->functions, function);
 
-	if (queue->idle_id == 0) {
-		queue->idle_id = g_idle_add (execute_queued_functions, queue);
-	}
+    if (queue->idle_id == 0)
+    {
+        queue->idle_id = g_idle_add (execute_queued_functions, queue);
+    }
 }
 
 void
 caja_idle_queue_destroy (CajaIdleQueue *queue)
 {
-	GList *node;
-	QueuedFunction *function;
+    GList *node;
+    QueuedFunction *function;
 
-	if (queue->in_idle) {
-		queue->destroy = TRUE;
-		return;
-	}
+    if (queue->in_idle)
+    {
+        queue->destroy = TRUE;
+        return;
+    }
 
-	for (node = queue->functions; node != NULL; node = node->next) {
-		function = node->data;
-		
-		if (function->free_callback_data != NULL) {
-			(* function->free_callback_data) (function->callback_data);
-		}
+    for (node = queue->functions; node != NULL; node = node->next)
+    {
+        function = node->data;
 
-		g_free (function);
-	}
-	
-	g_list_free (queue->functions);
+        if (function->free_callback_data != NULL)
+        {
+            (* function->free_callback_data) (function->callback_data);
+        }
 
-	if (queue->idle_id != 0) {
-		g_source_remove (queue->idle_id);
-	}
+        g_free (function);
+    }
 
-	g_free (queue);
+    g_list_free (queue->functions);
+
+    if (queue->idle_id != 0)
+    {
+        g_source_remove (queue->idle_id);
+    }
+
+    g_free (queue);
 }

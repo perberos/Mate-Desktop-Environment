@@ -47,35 +47,37 @@ typedef struct CajaZoomControl CajaZoomControl;
 typedef struct CajaZoomControlClass CajaZoomControlClass;
 typedef struct CajaZoomControlDetails CajaZoomControlDetails;
 
-struct CajaZoomControl {
-	GtkHBox parent;
-	CajaZoomControlDetails *details;
+struct CajaZoomControl
+{
+    GtkHBox parent;
+    CajaZoomControlDetails *details;
 };
 
-struct CajaZoomControlClass {
-	GtkHBoxClass parent_class;
-	
-	void (*zoom_in)		(CajaZoomControl *control);
-	void (*zoom_out) 	(CajaZoomControl *control);
-	void (*zoom_to_level) 	(CajaZoomControl *control,
-				 CajaZoomLevel zoom_level);
-	void (*zoom_to_default)	(CajaZoomControl *control);
+struct CajaZoomControlClass
+{
+    GtkHBoxClass parent_class;
 
-	/* Action signal for keybindings, do not connect to this */
-	void (*change_value)    (CajaZoomControl *control,
-				 GtkScrollType scroll);
+    void (*zoom_in)		(CajaZoomControl *control);
+    void (*zoom_out) 	(CajaZoomControl *control);
+    void (*zoom_to_level) 	(CajaZoomControl *control,
+                             CajaZoomLevel zoom_level);
+    void (*zoom_to_default)	(CajaZoomControl *control);
+
+    /* Action signal for keybindings, do not connect to this */
+    void (*change_value)    (CajaZoomControl *control,
+                             GtkScrollType scroll);
 };
 
 GType             caja_zoom_control_get_type           (void);
 GtkWidget *       caja_zoom_control_new                (void);
 void              caja_zoom_control_set_zoom_level     (CajaZoomControl *zoom_control,
-							    CajaZoomLevel    zoom_level);
+        CajaZoomLevel    zoom_level);
 void              caja_zoom_control_set_parameters     (CajaZoomControl *zoom_control,
-							    CajaZoomLevel    min_zoom_level,
-							    CajaZoomLevel    max_zoom_level,
-							    gboolean             has_min_zoom_level,
-							    gboolean             has_max_zoom_level,
-							    GList               *zoom_levels);
+        CajaZoomLevel    min_zoom_level,
+        CajaZoomLevel    max_zoom_level,
+        gboolean             has_min_zoom_level,
+        gboolean             has_max_zoom_level,
+        GList               *zoom_levels);
 CajaZoomLevel caja_zoom_control_get_zoom_level     (CajaZoomControl *zoom_control);
 CajaZoomLevel caja_zoom_control_get_min_zoom_level (CajaZoomControl *zoom_control);
 CajaZoomLevel caja_zoom_control_get_max_zoom_level (CajaZoomControl *zoom_control);

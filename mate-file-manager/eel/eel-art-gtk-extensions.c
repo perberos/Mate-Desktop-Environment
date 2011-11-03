@@ -41,14 +41,14 @@
 EelIRect
 eel_gdk_rectangle_to_eel_irect (GdkRectangle gdk_rectangle)
 {
-	EelIRect rectangle;
+    EelIRect rectangle;
 
-	rectangle.x0 = gdk_rectangle.x;
-	rectangle.y0 = gdk_rectangle.y;
-	rectangle.x1 = rectangle.x0 + (int) gdk_rectangle.width;
-	rectangle.y1 = rectangle.y0 + (int) gdk_rectangle.height;
+    rectangle.x0 = gdk_rectangle.x;
+    rectangle.y0 = gdk_rectangle.y;
+    rectangle.x1 = rectangle.x0 + (int) gdk_rectangle.width;
+    rectangle.y1 = rectangle.y0 + (int) gdk_rectangle.height;
 
-	return rectangle;
+    return rectangle;
 }
 
 /**
@@ -60,15 +60,15 @@ eel_gdk_rectangle_to_eel_irect (GdkRectangle gdk_rectangle)
 EelDimensions
 eel_screen_get_dimensions (void)
 {
-	EelDimensions screen_dimensions;
+    EelDimensions screen_dimensions;
 
-	screen_dimensions.width = gdk_screen_width ();
-	screen_dimensions.height = gdk_screen_height ();
+    screen_dimensions.width = gdk_screen_width ();
+    screen_dimensions.height = gdk_screen_height ();
 
-	g_assert (screen_dimensions.width > 0);
-	g_assert (screen_dimensions.height > 0);
+    g_assert (screen_dimensions.width > 0);
+    g_assert (screen_dimensions.height > 0);
 
-	return screen_dimensions;
+    return screen_dimensions;
 }
 
 /**
@@ -82,26 +82,26 @@ eel_screen_get_dimensions (void)
 EelIRect
 eel_gdk_window_get_bounds (GdkWindow *gdk_window)
 {
-	EelIRect bounds;
-	int width;
-	int height;
+    EelIRect bounds;
+    int width;
+    int height;
 
-	g_return_val_if_fail (gdk_window != NULL, eel_irect_empty);
+    g_return_val_if_fail (gdk_window != NULL, eel_irect_empty);
 
-	gdk_window_get_position (gdk_window, &bounds.x0, &bounds.y0);
+    gdk_window_get_position (gdk_window, &bounds.x0, &bounds.y0);
 
-	#if GTK_CHECK_VERSION(3, 0, 0)
-		width = gdk_window_get_width(gdk_window);
-		height = gdk_window_get_height(gdk_window);
-	#else
-		gdk_drawable_get_size (gdk_window, &width, &height);
-	#endif
+#if GTK_CHECK_VERSION(3, 0, 0)
+    width = gdk_window_get_width(gdk_window);
+    height = gdk_window_get_height(gdk_window);
+#else
+    gdk_drawable_get_size (gdk_window, &width, &height);
+#endif
 
 
-	bounds.x1 = bounds.x0 + width;
-	bounds.y1 = bounds.y0 + height;
+    bounds.x1 = bounds.x0 + width;
+    bounds.y1 = bounds.y0 + height;
 
-	return bounds;
+    return bounds;
 }
 
 /**
@@ -115,29 +115,30 @@ eel_gdk_window_get_bounds (GdkWindow *gdk_window)
 EelIRect
 eel_gdk_window_get_screen_relative_bounds (GdkWindow *gdk_window)
 {
-	EelIRect screen_bounds;
-	int width;
-	int height;
+    EelIRect screen_bounds;
+    int width;
+    int height;
 
-	g_return_val_if_fail (gdk_window != NULL, eel_irect_empty);
+    g_return_val_if_fail (gdk_window != NULL, eel_irect_empty);
 
-	if (!gdk_window_get_origin (gdk_window,
-				    &screen_bounds.x0,
-				    &screen_bounds.y0)) {
-		return eel_irect_empty;
-	}
+    if (!gdk_window_get_origin (gdk_window,
+                                &screen_bounds.x0,
+                                &screen_bounds.y0))
+    {
+        return eel_irect_empty;
+    }
 
-	#if GTK_CHECK_VERSION(3, 0, 0)
-		width = gdk_window_get_width(gdk_window);
-		height = gdk_window_get_height(gdk_window);
-	#else
-		gdk_drawable_get_size(gdk_window, &width, &height);
-	#endif
+#if GTK_CHECK_VERSION(3, 0, 0)
+    width = gdk_window_get_width(gdk_window);
+    height = gdk_window_get_height(gdk_window);
+#else
+    gdk_drawable_get_size(gdk_window, &width, &height);
+#endif
 
-	screen_bounds.x1 = screen_bounds.x0 + width;
-	screen_bounds.y1 = screen_bounds.y0 + height;
+    screen_bounds.x1 = screen_bounds.x0 + width;
+    screen_bounds.y1 = screen_bounds.y0 + height;
 
-	return screen_bounds;
+    return screen_bounds;
 }
 
 /**
@@ -151,14 +152,14 @@ eel_gdk_window_get_screen_relative_bounds (GdkWindow *gdk_window)
 EelIRect
 eel_gtk_widget_get_bounds (GtkWidget *gtk_widget)
 {
-	GtkAllocation allocation;
-	g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_irect_empty);
+    GtkAllocation allocation;
+    g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_irect_empty);
 
-	gtk_widget_get_allocation (gtk_widget, &allocation);
-	return eel_irect_assign (allocation.x,
-				     allocation.y,
-				     (int) allocation.width,
-				     (int) allocation.height);
+    gtk_widget_get_allocation (gtk_widget, &allocation);
+    return eel_irect_assign (allocation.x,
+                             allocation.y,
+                             (int) allocation.width,
+                             (int) allocation.height);
 }
 
 /**
@@ -171,16 +172,16 @@ eel_gtk_widget_get_bounds (GtkWidget *gtk_widget)
 EelDimensions
 eel_gtk_widget_get_dimensions (GtkWidget *gtk_widget)
 {
-	EelDimensions dimensions;
-	GtkAllocation allocation;
+    EelDimensions dimensions;
+    GtkAllocation allocation;
 
-	g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_dimensions_empty);
+    g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_dimensions_empty);
 
-	gtk_widget_get_allocation (gtk_widget, &allocation);
-	dimensions.width = (int) allocation.width;
-	dimensions.height = (int) allocation.height;
+    gtk_widget_get_allocation (gtk_widget, &allocation);
+    dimensions.width = (int) allocation.width;
+    dimensions.height = (int) allocation.height;
 
-	return dimensions;
+    return dimensions;
 }
 
 /**
@@ -194,17 +195,17 @@ eel_gtk_widget_get_dimensions (GtkWidget *gtk_widget)
 EelDimensions
 eel_gtk_widget_get_preferred_dimensions (GtkWidget *gtk_widget)
 {
-	GtkRequisition requisition;
-	EelDimensions preferred_dimensions;
+    GtkRequisition requisition;
+    EelDimensions preferred_dimensions;
 
-	g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_dimensions_empty);
+    g_return_val_if_fail (GTK_IS_WIDGET (gtk_widget), eel_dimensions_empty);
 
-	gtk_widget_size_request (gtk_widget, &requisition);
+    gtk_widget_size_request (gtk_widget, &requisition);
 
-	preferred_dimensions.width = (int) requisition.width;
-	preferred_dimensions.height = (int) requisition.height;
+    preferred_dimensions.width = (int) requisition.width;
+    preferred_dimensions.height = (int) requisition.height;
 
-	return preferred_dimensions;
+    return preferred_dimensions;
 }
 
 /**
@@ -219,116 +220,127 @@ eel_gtk_widget_get_preferred_dimensions (GtkWidget *gtk_widget)
  */
 EelIRect
 eel_gdk_window_clip_dirty_area_to_screen (GdkWindow *gdk_window,
-					  EelIRect dirty_area)
+        EelIRect dirty_area)
 {
-	EelIRect clipped;
-	EelDimensions screen_dimensions;
-	EelIRect screen_relative_bounds;
-	int dirty_width;
-	int dirty_height;
+    EelIRect clipped;
+    EelDimensions screen_dimensions;
+    EelIRect screen_relative_bounds;
+    int dirty_width;
+    int dirty_height;
 
-	g_return_val_if_fail (gdk_window != NULL, eel_irect_empty);
+    g_return_val_if_fail (gdk_window != NULL, eel_irect_empty);
 
-	dirty_width = dirty_area.x1 - dirty_area.x0;
-	dirty_height = dirty_area.y1 - dirty_area.y0;
+    dirty_width = dirty_area.x1 - dirty_area.x0;
+    dirty_height = dirty_area.y1 - dirty_area.y0;
 
-	g_return_val_if_fail (dirty_width > 0, eel_irect_empty);
-	g_return_val_if_fail (dirty_height > 0, eel_irect_empty);
+    g_return_val_if_fail (dirty_width > 0, eel_irect_empty);
+    g_return_val_if_fail (dirty_height > 0, eel_irect_empty);
 
-	screen_dimensions = eel_screen_get_dimensions ();
-	screen_relative_bounds = eel_gdk_window_get_screen_relative_bounds (gdk_window);
+    screen_dimensions = eel_screen_get_dimensions ();
+    screen_relative_bounds = eel_gdk_window_get_screen_relative_bounds (gdk_window);
 
-	/* Window is obscured by left edge of screen */
-	if ((screen_relative_bounds.x0 + dirty_area.x0) < 0) {
-		int clipped_width = screen_relative_bounds.x0 + dirty_area.x0 + dirty_width;
-		clipped.x0 = dirty_area.x0 + dirty_width - clipped_width;
-		clipped.x1 = clipped.x0 + clipped_width;
-	} else {
-		clipped.x0 = dirty_area.x0;
-		clipped.x1 = clipped.x0 + dirty_width;
-	}
+    /* Window is obscured by left edge of screen */
+    if ((screen_relative_bounds.x0 + dirty_area.x0) < 0)
+    {
+        int clipped_width = screen_relative_bounds.x0 + dirty_area.x0 + dirty_width;
+        clipped.x0 = dirty_area.x0 + dirty_width - clipped_width;
+        clipped.x1 = clipped.x0 + clipped_width;
+    }
+    else
+    {
+        clipped.x0 = dirty_area.x0;
+        clipped.x1 = clipped.x0 + dirty_width;
+    }
 
-	/* Window is obscured by right edge of screen */
-	if (screen_relative_bounds.x1 > screen_dimensions.width) {
- 		int obscured_width;
+    /* Window is obscured by right edge of screen */
+    if (screen_relative_bounds.x1 > screen_dimensions.width)
+    {
+        int obscured_width;
 
-		obscured_width =
-			screen_relative_bounds.x0 + dirty_area.x0 + dirty_width - screen_dimensions.width;
+        obscured_width =
+            screen_relative_bounds.x0 + dirty_area.x0 + dirty_width - screen_dimensions.width;
 
-		if (obscured_width > 0) {
-			clipped.x1 -= obscured_width;
-		}
-	}
+        if (obscured_width > 0)
+        {
+            clipped.x1 -= obscured_width;
+        }
+    }
 
-	/* Window is obscured by top edge of screen */
-	if ((screen_relative_bounds.y0 + dirty_area.y0) < 0) {
-		int clipped_height = screen_relative_bounds.y0 + dirty_area.y0 + dirty_height;
-		clipped.y0 = dirty_area.y0 + dirty_height - clipped_height;
-		clipped.y1 = clipped.y0 + clipped_height;
-	} else {
-		clipped.y0 = dirty_area.y0;
-		clipped.y1 = clipped.y0 + dirty_height;
-	}
+    /* Window is obscured by top edge of screen */
+    if ((screen_relative_bounds.y0 + dirty_area.y0) < 0)
+    {
+        int clipped_height = screen_relative_bounds.y0 + dirty_area.y0 + dirty_height;
+        clipped.y0 = dirty_area.y0 + dirty_height - clipped_height;
+        clipped.y1 = clipped.y0 + clipped_height;
+    }
+    else
+    {
+        clipped.y0 = dirty_area.y0;
+        clipped.y1 = clipped.y0 + dirty_height;
+    }
 
-	/* Window is obscured by bottom edge of screen */
-	if (screen_relative_bounds.y1 > screen_dimensions.height) {
- 		int obscured_height;
+    /* Window is obscured by bottom edge of screen */
+    if (screen_relative_bounds.y1 > screen_dimensions.height)
+    {
+        int obscured_height;
 
-		obscured_height =
-			screen_relative_bounds.y0 + dirty_area.y0 + dirty_height - screen_dimensions.height;
+        obscured_height =
+            screen_relative_bounds.y0 + dirty_area.y0 + dirty_height - screen_dimensions.height;
 
-		if (obscured_height > 0) {
-			clipped.y1 -= obscured_height;
-		}
-	}
+        if (obscured_height > 0)
+        {
+            clipped.y1 -= obscured_height;
+        }
+    }
 
-	if (eel_irect_is_empty (&clipped)) {
-		clipped = eel_irect_empty;
-	}
+    if (eel_irect_is_empty (&clipped))
+    {
+        clipped = eel_irect_empty;
+    }
 
-	return clipped;
+    return clipped;
 }
 
 GdkRectangle
 eel_irect_to_gdk_rectangle (EelIRect rectangle)
 {
-	GdkRectangle gdk_rect;
+    GdkRectangle gdk_rect;
 
-	gdk_rect.x = rectangle.x0;
-	gdk_rect.y = rectangle.y0;
-	gdk_rect.width = eel_irect_get_width (rectangle);
-	gdk_rect.height = eel_irect_get_height (rectangle);
+    gdk_rect.x = rectangle.x0;
+    gdk_rect.y = rectangle.y0;
+    gdk_rect.width = eel_irect_get_width (rectangle);
+    gdk_rect.height = eel_irect_get_height (rectangle);
 
-	return gdk_rect;
+    return gdk_rect;
 }
 
 EelDimensions
 eel_gdk_window_get_dimensions (GdkWindow *gdk_window)
 {
-	EelDimensions dimensions;
+    EelDimensions dimensions;
 
-	g_return_val_if_fail (gdk_window != NULL, eel_dimensions_empty);
+    g_return_val_if_fail (gdk_window != NULL, eel_dimensions_empty);
 
-	#if GTK_CHECK_VERSION(3, 0, 0)
-		dimensions.width = gdk_window_get_width(gdk_window);
-		dimensions.height = gdk_window_get_height(gdk_window);
-	#else
-		gdk_drawable_get_size (gdk_window, &dimensions.width, &dimensions.height);
-	#endif
+#if GTK_CHECK_VERSION(3, 0, 0)
+    dimensions.width = gdk_window_get_width(gdk_window);
+    dimensions.height = gdk_window_get_height(gdk_window);
+#else
+    gdk_drawable_get_size (gdk_window, &dimensions.width, &dimensions.height);
+#endif
 
-	return dimensions;
+    return dimensions;
 }
 
 EelIPoint
 eel_gdk_get_pointer_position (void)
 {
 
-	EelIPoint position;
+    EelIPoint position;
 
-	gdk_window_get_pointer (gdk_get_default_root_window (),
-				&position.x,
-				&position.y,
-				NULL);
+    gdk_window_get_pointer (gdk_get_default_root_window (),
+                            &position.x,
+                            &position.y,
+                            NULL);
 
-	return position;
+    return position;
 }

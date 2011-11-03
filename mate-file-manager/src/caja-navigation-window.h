@@ -53,31 +53,33 @@
 
 typedef struct _CajaNavigationWindow        CajaNavigationWindow;
 typedef struct _CajaNavigationWindowClass   CajaNavigationWindowClass;
-typedef struct _CajaNavigationWindowDetails CajaNavigationWindowDetails; 
+typedef struct _CajaNavigationWindowDetails CajaNavigationWindowDetails;
 
 
-struct _CajaNavigationWindow {
-        CajaWindow parent_object;
-        
-        CajaNavigationWindowDetails *details;
-        
-        /** UI stuff **/
-        CajaSidePane *sidebar;
+struct _CajaNavigationWindow
+{
+    CajaWindow parent_object;
 
-        /* Current views stuff */
-        GList *sidebar_panels;
+    CajaNavigationWindowDetails *details;
+
+    /** UI stuff **/
+    CajaSidePane *sidebar;
+
+    /* Current views stuff */
+    GList *sidebar_panels;
 };
 
 
-struct _CajaNavigationWindowClass {
-        CajaWindowClass parent_spot;
+struct _CajaNavigationWindowClass
+{
+    CajaWindowClass parent_spot;
 };
 
 GType    caja_navigation_window_get_type             (void);
 void     caja_navigation_window_allow_back           (CajaNavigationWindow *window,
-                                                          gboolean                  allow);
+        gboolean                  allow);
 void     caja_navigation_window_allow_forward        (CajaNavigationWindow *window,
-                                                          gboolean                  allow);
+        gboolean                  allow);
 void     caja_navigation_window_clear_back_list      (CajaNavigationWindow *window);
 void     caja_navigation_window_clear_forward_list   (CajaNavigationWindow *window);
 void     caja_forget_history                         (void);
@@ -89,29 +91,29 @@ void     caja_navigation_window_hide_sidebar         (CajaNavigationWindow *wind
 void     caja_navigation_window_show_sidebar         (CajaNavigationWindow *window);
 gboolean caja_navigation_window_sidebar_showing      (CajaNavigationWindow *window);
 void     caja_navigation_window_add_sidebar_panel    (CajaNavigationWindow *window,
-                                                          CajaSidebar          *sidebar_panel);
+        CajaSidebar          *sidebar_panel);
 void     caja_navigation_window_remove_sidebar_panel (CajaNavigationWindow *window,
-                                                          CajaSidebar          *sidebar_panel);
+        CajaSidebar          *sidebar_panel);
 void     caja_navigation_window_hide_status_bar      (CajaNavigationWindow *window);
 void     caja_navigation_window_show_status_bar      (CajaNavigationWindow *window);
 gboolean caja_navigation_window_status_bar_showing   (CajaNavigationWindow *window);
 void     caja_navigation_window_back_or_forward      (CajaNavigationWindow *window,
-                                                          gboolean                  back,
-                                                          guint                     distance,
-							  gboolean                  new_tab);
+        gboolean                  back,
+        guint                     distance,
+        gboolean                  new_tab);
 void     caja_navigation_window_show_search          (CajaNavigationWindow *window);
 void     caja_navigation_window_unset_focus_widget   (CajaNavigationWindow *window);
 void     caja_navigation_window_hide_search          (CajaNavigationWindow *window);
 void     caja_navigation_window_set_search_button	 (CajaNavigationWindow *window,
-                                                          gboolean		    state);
+        gboolean		    state);
 void     caja_navigation_window_restore_focus_widget (CajaNavigationWindow *window);
 void     caja_navigation_window_split_view_on        (CajaNavigationWindow *window);
 void     caja_navigation_window_split_view_off       (CajaNavigationWindow *window);
 gboolean caja_navigation_window_split_view_showing   (CajaNavigationWindow *window);
 
 gboolean caja_navigation_window_is_in_temporary_navigation_bar (GtkWidget *widget,
-				CajaNavigationWindow *window);
+        CajaNavigationWindow *window);
 gboolean caja_navigation_window_is_in_temporary_search_bar (GtkWidget *widget,
-			    CajaNavigationWindow *window);
+        CajaNavigationWindow *window);
 
 #endif

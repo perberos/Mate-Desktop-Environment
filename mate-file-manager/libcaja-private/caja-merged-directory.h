@@ -3,24 +3,24 @@
    caja-merged-directory.h: Subclass of CajaDirectory to implement
    a virtual directory consisting of the merged contents of some real
    directories.
- 
+
    Copyright (C) 1999, 2000 Eazel, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Darin Adler <darin@bentspoon.com>
 */
 
@@ -43,25 +43,27 @@
 
 typedef struct CajaMergedDirectoryDetails CajaMergedDirectoryDetails;
 
-typedef struct {
-	CajaDirectory parent_slot;
-	CajaMergedDirectoryDetails *details;
+typedef struct
+{
+    CajaDirectory parent_slot;
+    CajaMergedDirectoryDetails *details;
 } CajaMergedDirectory;
 
-typedef struct {
-	CajaDirectoryClass parent_slot;
+typedef struct
+{
+    CajaDirectoryClass parent_slot;
 
-	void (* add_real_directory)    (CajaMergedDirectory *merged_directory,
-					CajaDirectory       *real_directory);
-	void (* remove_real_directory) (CajaMergedDirectory *merged_directory,
-					CajaDirectory       *real_directory);
+    void (* add_real_directory)    (CajaMergedDirectory *merged_directory,
+                                    CajaDirectory       *real_directory);
+    void (* remove_real_directory) (CajaMergedDirectory *merged_directory,
+                                    CajaDirectory       *real_directory);
 } CajaMergedDirectoryClass;
 
 GType   caja_merged_directory_get_type              (void);
 void    caja_merged_directory_add_real_directory    (CajaMergedDirectory *merged_directory,
-							 CajaDirectory       *real_directory);
+        CajaDirectory       *real_directory);
 void    caja_merged_directory_remove_real_directory (CajaMergedDirectory *merged_directory,
-							 CajaDirectory       *real_directory);
+        CajaDirectory       *real_directory);
 GList * caja_merged_directory_get_real_directories  (CajaMergedDirectory *merged_directory);
 
 #endif /* CAJA_MERGED_DIRECTORY_H */

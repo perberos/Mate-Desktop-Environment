@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    eel-gtk-macros.h: Macros to reduce boilerplate when using GTK.
- 
+
    Copyright (C) 1999, 2000, 2001 Eazel, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
-  
+
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Authors: Darin Adler <darin@bentspoon.com>
             Ramiro Estrugo <ramiro@eazel.com>
 */
@@ -119,17 +119,17 @@ G_STMT_START {                                                                \
 	? 0                                                                   \
 	: ((* class_cast_macro (G_OBJECT_GET_CLASS (object))->signal)         \
            parameters)                                                        \
-
+ 
 #ifndef G_DISABLE_ASSERT
 
-/* Define a signal that is not implemented by this class but must be 
+/* Define a signal that is not implemented by this class but must be
  * implemented by subclasses. This macro should be used inside the
  * class initialization function. The companion macro EEL_IMPLEMENT_MUST_OVERRIDE_SIGNAL
  * must be used earlier in the file. Called like this:
- * 
+ *
  * EEL_ASSIGN_MUST_OVERRIDE_SIGNAL (klass,
  *					 fm_directory_view,
- *					 clear); 
+ *					 clear);
  */
 #define EEL_ASSIGN_MUST_OVERRIDE_SIGNAL(class_pointer, prefix, signal)        \
                                                                               \
@@ -139,7 +139,7 @@ G_STMT_START {                                                                \
  * by subclasses. The debug-only implementation fires a warning if it is called.
  * This macro should be placed as if it were a function, earlier in the file
  * than the class initialization function. Called like this:
- * 
+ *
  * EEL_IMPLEMENT_MUST_OVERRIDE_SIGNAL (fm_directory_view, clear);
  */
 #define EEL_IMPLEMENT_MUST_OVERRIDE_SIGNAL(prefix, signal)                    \

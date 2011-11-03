@@ -46,27 +46,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum {
-	READ_PUBLIC_CUSTOMIZATIONS,
-	READ_PRIVATE_CUSTOMIZATIONS
+typedef enum
+{
+    READ_PUBLIC_CUSTOMIZATIONS,
+    READ_PRIVATE_CUSTOMIZATIONS
 } CustomizationReadingMode;
 
-struct CajaCustomizationData {
-	char *customization_name;
+struct CajaCustomizationData
+{
+    char *customization_name;
 
-	GList *public_file_list;
-	GList *private_file_list;
-	GList *current_file_list;
+    GList *public_file_list;
+    GList *private_file_list;
+    GList *current_file_list;
 
-	GHashTable *name_map_hash;
+    GHashTable *name_map_hash;
 
-	GdkPixbuf *pattern_frame;
+    GdkPixbuf *pattern_frame;
 
-	int maximum_icon_height;
-	int maximum_icon_width;
+    int maximum_icon_height;
+    int maximum_icon_width;
 
-	guint private_data_was_displayed : 1;
-	guint reading_mode : 2; /* enough bits for CustomizationReadingMode */
+    guint private_data_was_displayed : 1;
+    guint reading_mode : 2; /* enough bits for CustomizationReadingMode */
 };
 
 
@@ -74,225 +76,247 @@ struct CajaCustomizationData {
 static char *            get_global_customization_path       (const char *customization_name);
 static char *            get_private_customization_path      (const char *customization_name);
 static char *            get_file_path_for_mode              (const CajaCustomizationData *data,
-							      const char *file_name);
+        const char *file_name);
 static char*             format_name_for_display             (CajaCustomizationData *data, const char *name);
 static void		 load_name_map_hash_table	     (CajaCustomizationData *data);
 
 
 static gboolean
 read_all_children (char *filename,
-		   const char *attributes,
-		   GList **list_out)
+                   const char *attributes,
+                   GList **list_out)
 {
-	GFileEnumerator *enumerator;
-	GList *list;
-	GFile *file;
-	GFileInfo *info;
+    GFileEnumerator *enumerator;
+    GList *list;
+    GFile *file;
+    GFileInfo *info;
 
-	file = g_file_new_for_path (filename);
+    file = g_file_new_for_path (filename);
 
-	enumerator = g_file_enumerate_children (file, attributes, 0, NULL, NULL);
-	if (enumerator == NULL) {
-		return FALSE;
-	}
+    enumerator = g_file_enumerate_children (file, attributes, 0, NULL, NULL);
+    if (enumerator == NULL)
+    {
+        return FALSE;
+    }
 
-	list = NULL;
-	do {
-		info = g_file_enumerator_next_file (enumerator, NULL, NULL);
-		if (info) {
-			list = g_list_prepend (list, info);
-		}
-	} while (info != NULL);
+    list = NULL;
+    do
+    {
+        info = g_file_enumerator_next_file (enumerator, NULL, NULL);
+        if (info)
+        {
+            list = g_list_prepend (list, info);
+        }
+    }
+    while (info != NULL);
 
-	g_object_unref (enumerator);
-	g_object_unref (file);
+    g_object_unref (enumerator);
+    g_object_unref (file);
 
-	*list_out = g_list_reverse (list);
-	return TRUE;
+    *list_out = g_list_reverse (list);
+    return TRUE;
 }
 
 
 CajaCustomizationData*
 caja_customization_data_new (const char *customization_name,
-				 gboolean show_public_customizations,
-				 int maximum_icon_height,
-				 int maximum_icon_width)
+                             gboolean show_public_customizations,
+                             int maximum_icon_height,
+                             int maximum_icon_width)
 {
-	CajaCustomizationData *data;
-	char *public_directory_path, *private_directory_path;
-	char *temp_str;
-	gboolean public_result, private_result;
+    CajaCustomizationData *data;
+    char *public_directory_path, *private_directory_path;
+    char *temp_str;
+    gboolean public_result, private_result;
 
-	data = g_new0 (CajaCustomizationData, 1);
+    data = g_new0 (CajaCustomizationData, 1);
 
-	public_result = TRUE;
+    public_result = TRUE;
 
-	if (show_public_customizations) {
-		public_directory_path = get_global_customization_path (customization_name);
+    if (show_public_customizations)
+    {
+        public_directory_path = get_global_customization_path (customization_name);
 
-		public_result  = read_all_children (public_directory_path,
-						    G_FILE_ATTRIBUTE_STANDARD_NAME ","
-						    G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-						    &data->public_file_list);
-		g_free (public_directory_path);
-	}
+        public_result  = read_all_children (public_directory_path,
+                                            G_FILE_ATTRIBUTE_STANDARD_NAME ","
+                                            G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+                                            &data->public_file_list);
+        g_free (public_directory_path);
+    }
 
-	private_directory_path = get_private_customization_path (customization_name);
-	private_result = read_all_children (private_directory_path,
-					    G_FILE_ATTRIBUTE_STANDARD_NAME ","
-					    G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-					    &data->private_file_list);
-	g_free (private_directory_path);
-	if (!public_result && !private_result) {
-		g_warning ("Couldn't read any of the emblem directories\n");
-		g_free (data);
-		return NULL;
-	}
-	if (private_result) {
-		data->reading_mode = READ_PRIVATE_CUSTOMIZATIONS;
-		data->current_file_list = data->private_file_list;
-	}
-	if (show_public_customizations && public_result) {
-		data->reading_mode = READ_PUBLIC_CUSTOMIZATIONS;
-		data->current_file_list = data->public_file_list;
-	}
+    private_directory_path = get_private_customization_path (customization_name);
+    private_result = read_all_children (private_directory_path,
+                                        G_FILE_ATTRIBUTE_STANDARD_NAME ","
+                                        G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+                                        &data->private_file_list);
+    g_free (private_directory_path);
+    if (!public_result && !private_result)
+    {
+        g_warning ("Couldn't read any of the emblem directories\n");
+        g_free (data);
+        return NULL;
+    }
+    if (private_result)
+    {
+        data->reading_mode = READ_PRIVATE_CUSTOMIZATIONS;
+        data->current_file_list = data->private_file_list;
+    }
+    if (show_public_customizations && public_result)
+    {
+        data->reading_mode = READ_PUBLIC_CUSTOMIZATIONS;
+        data->current_file_list = data->public_file_list;
+    }
 
-	data->pattern_frame = NULL;
+    data->pattern_frame = NULL;
 
-	/* load the frame if necessary */
-	if (strcmp (customization_name, "patterns") == 0) {
-		temp_str = caja_pixmap_file ("chit_frame.png");
-		if (temp_str != NULL) {
-			data->pattern_frame = gdk_pixbuf_new_from_file (temp_str, NULL);
-		}
-		g_free (temp_str);
-	}
+    /* load the frame if necessary */
+    if (strcmp (customization_name, "patterns") == 0)
+    {
+        temp_str = caja_pixmap_file ("chit_frame.png");
+        if (temp_str != NULL)
+        {
+            data->pattern_frame = gdk_pixbuf_new_from_file (temp_str, NULL);
+        }
+        g_free (temp_str);
+    }
 
-	data->private_data_was_displayed = FALSE;
-	data->customization_name = g_strdup (customization_name);
+    data->private_data_was_displayed = FALSE;
+    data->customization_name = g_strdup (customization_name);
 
-	data->maximum_icon_height = maximum_icon_height;
-	data->maximum_icon_width = maximum_icon_width;
+    data->maximum_icon_height = maximum_icon_height;
+    data->maximum_icon_width = maximum_icon_width;
 
-	load_name_map_hash_table (data);
+    load_name_map_hash_table (data);
 
-	return data;
+    return data;
 }
 
 gboolean
 caja_customization_data_get_next_element_for_display (CajaCustomizationData *data,
-							  char **emblem_name,
-							  GdkPixbuf **pixbuf_out,
-							  char **label_out)
+        char **emblem_name,
+        GdkPixbuf **pixbuf_out,
+        char **label_out)
 {
-	GFileInfo *current_file_info;
-	char *image_file_name;
-	GdkPixbuf *pixbuf;
-	GdkPixbuf *orig_pixbuf;
-	gboolean is_reset_image;
+    GFileInfo *current_file_info;
+    char *image_file_name;
+    GdkPixbuf *pixbuf;
+    GdkPixbuf *orig_pixbuf;
+    gboolean is_reset_image;
 
-	g_return_val_if_fail (data != NULL, FALSE);
-	g_return_val_if_fail (emblem_name != NULL, FALSE);
-	g_return_val_if_fail (pixbuf_out != NULL, FALSE);
-	g_return_val_if_fail (label_out != NULL, FALSE);
+    g_return_val_if_fail (data != NULL, FALSE);
+    g_return_val_if_fail (emblem_name != NULL, FALSE);
+    g_return_val_if_fail (pixbuf_out != NULL, FALSE);
+    g_return_val_if_fail (label_out != NULL, FALSE);
 
-	if (data->current_file_list == NULL) {
-		if (data->reading_mode == READ_PUBLIC_CUSTOMIZATIONS) {
-			if (data->private_file_list == NULL) {
-				return FALSE;
-			}
-			data->reading_mode = READ_PRIVATE_CUSTOMIZATIONS;
-			data->current_file_list = data->private_file_list;
-			return caja_customization_data_get_next_element_for_display (data,
-											 emblem_name,
-											 pixbuf_out,
-											 label_out);
-		}
-		else {
-			return FALSE;
-		}
-	}
+    if (data->current_file_list == NULL)
+    {
+        if (data->reading_mode == READ_PUBLIC_CUSTOMIZATIONS)
+        {
+            if (data->private_file_list == NULL)
+            {
+                return FALSE;
+            }
+            data->reading_mode = READ_PRIVATE_CUSTOMIZATIONS;
+            data->current_file_list = data->private_file_list;
+            return caja_customization_data_get_next_element_for_display (data,
+                    emblem_name,
+                    pixbuf_out,
+                    label_out);
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
 
 
-	current_file_info = data->current_file_list->data;
-	data->current_file_list = data->current_file_list->next;
+    current_file_info = data->current_file_list->data;
+    data->current_file_list = data->current_file_list->next;
 
-	g_assert (current_file_info != NULL);
+    g_assert (current_file_info != NULL);
 
-	if (!eel_istr_has_prefix (g_file_info_get_content_type (current_file_info), "image/")
-	    || eel_istr_has_prefix (g_file_info_get_name (current_file_info), ".")) {
-		return caja_customization_data_get_next_element_for_display (data,
-										 emblem_name,
-										 pixbuf_out,
-										 label_out);
-	}
+    if (!eel_istr_has_prefix (g_file_info_get_content_type (current_file_info), "image/")
+            || eel_istr_has_prefix (g_file_info_get_name (current_file_info), "."))
+    {
+        return caja_customization_data_get_next_element_for_display (data,
+                emblem_name,
+                pixbuf_out,
+                label_out);
+    }
 
-	image_file_name = get_file_path_for_mode (data,
-						  g_file_info_get_name (current_file_info));
-	orig_pixbuf = gdk_pixbuf_new_from_file_at_scale (image_file_name,
-							 data->maximum_icon_width,
-							 data->maximum_icon_height,
-							 TRUE,
-							 NULL);
-	g_free (image_file_name);
+    image_file_name = get_file_path_for_mode (data,
+                      g_file_info_get_name (current_file_info));
+    orig_pixbuf = gdk_pixbuf_new_from_file_at_scale (image_file_name,
+                  data->maximum_icon_width,
+                  data->maximum_icon_height,
+                  TRUE,
+                  NULL);
+    g_free (image_file_name);
 
-	if (orig_pixbuf == NULL) {
-		return caja_customization_data_get_next_element_for_display (data,
-										 emblem_name,
-										 pixbuf_out,
-										 label_out);
-	}
+    if (orig_pixbuf == NULL)
+    {
+        return caja_customization_data_get_next_element_for_display (data,
+                emblem_name,
+                pixbuf_out,
+                label_out);
+    }
 
-	is_reset_image = eel_strcmp(g_file_info_get_name (current_file_info), RESET_IMAGE_NAME) == 0;
+    is_reset_image = eel_strcmp(g_file_info_get_name (current_file_info), RESET_IMAGE_NAME) == 0;
 
-	*emblem_name = g_strdup (g_file_info_get_name (current_file_info));
+    *emblem_name = g_strdup (g_file_info_get_name (current_file_info));
 
-	if (strcmp (data->customization_name, "patterns") == 0 &&
-	    data->pattern_frame != NULL) {
-		pixbuf = caja_customization_make_pattern_chit (orig_pixbuf, data->pattern_frame, FALSE, is_reset_image);
-	} else {
-		pixbuf = eel_gdk_pixbuf_scale_down_to_fit (orig_pixbuf,
-							   data->maximum_icon_width,
-							   data->maximum_icon_height);
-	}
+    if (strcmp (data->customization_name, "patterns") == 0 &&
+            data->pattern_frame != NULL)
+    {
+        pixbuf = caja_customization_make_pattern_chit (orig_pixbuf, data->pattern_frame, FALSE, is_reset_image);
+    }
+    else
+    {
+        pixbuf = eel_gdk_pixbuf_scale_down_to_fit (orig_pixbuf,
+                 data->maximum_icon_width,
+                 data->maximum_icon_height);
+    }
 
-	g_object_unref (orig_pixbuf);
+    g_object_unref (orig_pixbuf);
 
-	*pixbuf_out = pixbuf;
+    *pixbuf_out = pixbuf;
 
-	*label_out = format_name_for_display (data, g_file_info_get_name (current_file_info));
+    *label_out = format_name_for_display (data, g_file_info_get_name (current_file_info));
 
-	if (data->reading_mode == READ_PRIVATE_CUSTOMIZATIONS) {
-		data->private_data_was_displayed = TRUE;
-	}
-	return TRUE;
+    if (data->reading_mode == READ_PRIVATE_CUSTOMIZATIONS)
+    {
+        data->private_data_was_displayed = TRUE;
+    }
+    return TRUE;
 }
 
 gboolean
 caja_customization_data_private_data_was_displayed (CajaCustomizationData *data)
 {
-	return data->private_data_was_displayed;
+    return data->private_data_was_displayed;
 }
 
 void
 caja_customization_data_destroy (CajaCustomizationData *data)
 {
-	g_assert (data->public_file_list != NULL ||
-		  data->private_file_list != NULL);
+    g_assert (data->public_file_list != NULL ||
+              data->private_file_list != NULL);
 
-	if (data->pattern_frame != NULL) {
-		g_object_unref (data->pattern_frame);
-	}
+    if (data->pattern_frame != NULL)
+    {
+        g_object_unref (data->pattern_frame);
+    }
 
-	eel_g_object_list_free (data->public_file_list);
-	eel_g_object_list_free (data->private_file_list);
+    eel_g_object_list_free (data->public_file_list);
+    eel_g_object_list_free (data->private_file_list);
 
-	if (data->name_map_hash != NULL) {
-		g_hash_table_destroy (data->name_map_hash);
-	}
+    if (data->name_map_hash != NULL)
+    {
+        g_hash_table_destroy (data->name_map_hash);
+    }
 
-	g_free (data->customization_name);
-	g_free (data);
+    g_free (data->customization_name);
+    g_free (data);
 }
 
 
@@ -306,9 +330,9 @@ caja_customization_data_destroy (CajaCustomizationData *data)
 static char *
 get_global_customization_path (const char *customization_name)
 {
-	return g_build_filename (CAJA_DATADIR,
-				 customization_name,
-				 NULL);
+    return g_build_filename (CAJA_DATADIR,
+                             customization_name,
+                             NULL);
 }
 
 
@@ -322,35 +346,37 @@ get_global_customization_path (const char *customization_name)
 static char *
 get_private_customization_path (const char *customization_name)
 {
-	char *user_directory;
-	char *directory_path;
+    char *user_directory;
+    char *directory_path;
 
-	user_directory = caja_get_user_directory ();
-	directory_path = g_build_filename (user_directory,
-					   customization_name,
-					   NULL);
-	g_free (user_directory);
+    user_directory = caja_get_user_directory ();
+    directory_path = g_build_filename (user_directory,
+                                       customization_name,
+                                       NULL);
+    g_free (user_directory);
 
-	return directory_path;
+    return directory_path;
 }
 
 
 static char *
 get_file_path_for_mode (const CajaCustomizationData *data,
-			const char *file_name)
+                        const char *file_name)
 {
-	char *directory_path, *file;
-	if (data->reading_mode == READ_PUBLIC_CUSTOMIZATIONS) {
-		directory_path = get_global_customization_path (data->customization_name);
-	}
-	else {
-		directory_path = get_private_customization_path (data->customization_name);
-	}
+    char *directory_path, *file;
+    if (data->reading_mode == READ_PUBLIC_CUSTOMIZATIONS)
+    {
+        directory_path = get_global_customization_path (data->customization_name);
+    }
+    else
+    {
+        directory_path = get_private_customization_path (data->customization_name);
+    }
 
-	file = g_build_filename (directory_path, file_name, NULL);
-	g_free (directory_path);
+    file = g_build_filename (directory_path, file_name, NULL);
+    g_free (directory_path);
 
-	return file;
+    return file;
 }
 
 
@@ -358,38 +384,39 @@ get_file_path_for_mode (const CajaCustomizationData *data,
 GdkPixbuf*
 caja_customization_make_pattern_chit (GdkPixbuf *pattern_tile, GdkPixbuf *frame, gboolean dragging, gboolean is_reset)
 {
-	GdkPixbuf *pixbuf, *temp_pixbuf;
-	int frame_width, frame_height;
-	int pattern_width, pattern_height;
+    GdkPixbuf *pixbuf, *temp_pixbuf;
+    int frame_width, frame_height;
+    int pattern_width, pattern_height;
 
-	g_assert (pattern_tile != NULL);
-	g_assert (frame != NULL);
+    g_assert (pattern_tile != NULL);
+    g_assert (frame != NULL);
 
-	frame_width = gdk_pixbuf_get_width (frame);
-	frame_height = gdk_pixbuf_get_height (frame);
-	pattern_width = gdk_pixbuf_get_width (pattern_tile);
-	pattern_height = gdk_pixbuf_get_height (pattern_tile);
+    frame_width = gdk_pixbuf_get_width (frame);
+    frame_height = gdk_pixbuf_get_height (frame);
+    pattern_width = gdk_pixbuf_get_width (pattern_tile);
+    pattern_height = gdk_pixbuf_get_height (pattern_tile);
 
-	pixbuf = gdk_pixbuf_copy (frame);
+    pixbuf = gdk_pixbuf_copy (frame);
 
-	/* scale the pattern tile to the proper size */
-	gdk_pixbuf_scale (pattern_tile,
-			  pixbuf,
-			  2, 2, frame_width - 8, frame_height - 8,
-			  0, 0,
-			  (double)(frame_width - 8 + 1)/pattern_width,
-			  (double)(frame_height - 8 + 1)/pattern_height,
-			  GDK_INTERP_BILINEAR);
+    /* scale the pattern tile to the proper size */
+    gdk_pixbuf_scale (pattern_tile,
+                      pixbuf,
+                      2, 2, frame_width - 8, frame_height - 8,
+                      0, 0,
+                      (double)(frame_width - 8 + 1)/pattern_width,
+                      (double)(frame_height - 8 + 1)/pattern_height,
+                      GDK_INTERP_BILINEAR);
 
-	/* if we're dragging, get rid of the light-colored halo */
-	if (dragging) {
-		temp_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, frame_width - 8, frame_height - 8);
-		gdk_pixbuf_copy_area (pixbuf, 2, 2, frame_width - 8, frame_height - 8, temp_pixbuf, 0, 0);
-		g_object_unref (pixbuf);
-		pixbuf = temp_pixbuf;
-	}
+    /* if we're dragging, get rid of the light-colored halo */
+    if (dragging)
+    {
+        temp_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, frame_width - 8, frame_height - 8);
+        gdk_pixbuf_copy_area (pixbuf, 2, 2, frame_width - 8, frame_height - 8, temp_pixbuf, 0, 0);
+        g_object_unref (pixbuf);
+        pixbuf = temp_pixbuf;
+    }
 
-	return pixbuf;
+    return pixbuf;
 }
 
 
@@ -399,24 +426,27 @@ caja_customization_make_pattern_chit (GdkPixbuf *pattern_tile, GdkPixbuf *frame,
 static char*
 format_name_for_display (CajaCustomizationData *data, const char* name)
 {
-	char *formatted_str, *mapped_name;
+    char *formatted_str, *mapped_name;
 
-	if (!eel_strcmp(name, RESET_IMAGE_NAME)) {
-		return g_strdup (_("Reset"));
-	}
+    if (!eel_strcmp(name, RESET_IMAGE_NAME))
+    {
+        return g_strdup (_("Reset"));
+    }
 
-	/* map file names to display names using the mappings defined in the hash table */
+    /* map file names to display names using the mappings defined in the hash table */
 
-	formatted_str = eel_filename_strip_extension (name);
-	if (data->name_map_hash != NULL) {
-		mapped_name = g_hash_table_lookup (data->name_map_hash, formatted_str);
-		if (mapped_name) {
-			g_free (formatted_str);
-			formatted_str = g_strdup (mapped_name);
-		}
-	}
+    formatted_str = eel_filename_strip_extension (name);
+    if (data->name_map_hash != NULL)
+    {
+        mapped_name = g_hash_table_lookup (data->name_map_hash, formatted_str);
+        if (mapped_name)
+        {
+            g_free (formatted_str);
+            formatted_str = g_strdup (mapped_name);
+        }
+    }
 
-	return formatted_str;
+    return formatted_str;
 }
 
 /* utility routine to allocate a hash table and load it with the appropriate
@@ -425,40 +455,44 @@ format_name_for_display (CajaCustomizationData *data, const char* name)
 static void
 load_name_map_hash_table (CajaCustomizationData *data)
 {
-	char *xml_path;
-	char *filename, *display_name;
+    char *xml_path;
+    char *filename, *display_name;
 
-	xmlDocPtr browser_data;
-	xmlNodePtr category_node, current_node;
+    xmlDocPtr browser_data;
+    xmlNodePtr category_node, current_node;
 
-	/* allocate the hash table */
-	data->name_map_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+    /* allocate the hash table */
+    data->name_map_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-	/* build the path name to the browser.xml file and load it */
-	xml_path = g_build_filename (CAJA_DATADIR, "browser.xml", NULL);
-	if (xml_path) {
-		browser_data = xmlParseFile (xml_path);
-		g_free (xml_path);
+    /* build the path name to the browser.xml file and load it */
+    xml_path = g_build_filename (CAJA_DATADIR, "browser.xml", NULL);
+    if (xml_path)
+    {
+        browser_data = xmlParseFile (xml_path);
+        g_free (xml_path);
 
-		if (browser_data) {
-			/* get the category node */
-			category_node = eel_xml_get_root_child_by_name_and_property (browser_data, "category", "name", data->customization_name);
-			current_node = category_node->children;
+        if (browser_data)
+        {
+            /* get the category node */
+            category_node = eel_xml_get_root_child_by_name_and_property (browser_data, "category", "name", data->customization_name);
+            current_node = category_node->children;
 
-			/* loop through the entries, adding a mapping to the hash table */
-			while (current_node != NULL) {
-				display_name = eel_xml_get_property_translated (current_node, "display_name");
-				filename = xmlGetProp (current_node, "filename");
-				if (display_name && filename) {
-					g_hash_table_replace (data->name_map_hash, g_strdup (filename), g_strdup (display_name));
-				}
-				xmlFree (filename);
-				xmlFree (display_name);
-				current_node = current_node->next;
-			}
+            /* loop through the entries, adding a mapping to the hash table */
+            while (current_node != NULL)
+            {
+                display_name = eel_xml_get_property_translated (current_node, "display_name");
+                filename = xmlGetProp (current_node, "filename");
+                if (display_name && filename)
+                {
+                    g_hash_table_replace (data->name_map_hash, g_strdup (filename), g_strdup (display_name));
+                }
+                xmlFree (filename);
+                xmlFree (display_name);
+                current_node = current_node->next;
+            }
 
-			/* close the xml file */
-			xmlFreeDoc (browser_data);
-		}
-	}
+            /* close the xml file */
+            xmlFreeDoc (browser_data);
+        }
+    }
 }

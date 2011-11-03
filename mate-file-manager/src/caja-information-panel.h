@@ -46,16 +46,18 @@ typedef struct CajaInformationPanelDetails CajaInformationPanelDetails;
 
 #define CAJA_INFORMATION_PANEL_ID "CajaInformationPanel"
 
-typedef struct {
-	EelBackgroundBox parent_slot;
-	CajaInformationPanelDetails *details;
+typedef struct
+{
+    EelBackgroundBox parent_slot;
+    CajaInformationPanelDetails *details;
 } CajaInformationPanel;
 
-typedef struct {
-	EelBackgroundBoxClass parent_slot;
-	
-	void (*location_changed) (CajaInformationPanel *information_panel,
-				  const char *location);
+typedef struct
+{
+    EelBackgroundBoxClass parent_slot;
+
+    void (*location_changed) (CajaInformationPanel *information_panel,
+                              const char *location);
 } CajaInformationPanelClass;
 
 GType            caja_information_panel_get_type     (void);

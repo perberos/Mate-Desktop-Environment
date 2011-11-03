@@ -42,28 +42,28 @@ extern "C" {
 #endif
 
 
-/* Base class for rectangle and ellipse item types.  These are defined by their top-left and
- * bottom-right corners.  Rectangles and ellipses share the following arguments:
- *
- * name			type		read/write	description
- * ------------------------------------------------------------------------------------------
- * x1			double		RW		Leftmost coordinate of rectangle or ellipse
- * y1			double		RW		Topmost coordinate of rectangle or ellipse
- * x2			double		RW		Rightmost coordinate of rectangle or ellipse
- * y2			double		RW		Bottommost coordinate of rectangle or ellipse
- * fill_color		string		W		X color specification for fill color,
- *							or NULL pointer for no color (transparent)
- * fill_color_gdk	GdkColor*	RW		Allocated GdkColor for fill
- * outline_color	string		W		X color specification for outline color,
- *							or NULL pointer for no color (transparent)
- * outline_color_gdk	GdkColor*	RW		Allocated GdkColor for outline
- * fill_stipple		GdkBitmap*	RW		Stipple pattern for fill
- * outline_stipple	GdkBitmap*	RW		Stipple pattern for outline
- * width_pixels		uint		RW		Width of the outline in pixels.  The outline will
- *							not be scaled when the canvas zoom factor is changed.
- * width_units		double		RW		Width of the outline in canvas units.  The outline
- *							will be scaled when the canvas zoom factor is changed.
- */
+    /* Base class for rectangle and ellipse item types.  These are defined by their top-left and
+     * bottom-right corners.  Rectangles and ellipses share the following arguments:
+     *
+     * name			type		read/write	description
+     * ------------------------------------------------------------------------------------------
+     * x1			double		RW		Leftmost coordinate of rectangle or ellipse
+     * y1			double		RW		Topmost coordinate of rectangle or ellipse
+     * x2			double		RW		Rightmost coordinate of rectangle or ellipse
+     * y2			double		RW		Bottommost coordinate of rectangle or ellipse
+     * fill_color		string		W		X color specification for fill color,
+     *							or NULL pointer for no color (transparent)
+     * fill_color_gdk	GdkColor*	RW		Allocated GdkColor for fill
+     * outline_color	string		W		X color specification for outline color,
+     *							or NULL pointer for no color (transparent)
+     * outline_color_gdk	GdkColor*	RW		Allocated GdkColor for outline
+     * fill_stipple		GdkBitmap*	RW		Stipple pattern for fill
+     * outline_stipple	GdkBitmap*	RW		Stipple pattern for outline
+     * width_pixels		uint		RW		Width of the outline in pixels.  The outline will
+     *							not be scaled when the canvas zoom factor is changed.
+     * width_units		double		RW		Width of the outline in canvas units.  The outline
+     *							will be scaled when the canvas zoom factor is changed.
+     */
 
 
 #define EEL_TYPE_CANVAS_RE            (eel_canvas_re_get_type ())
@@ -74,46 +74,48 @@ extern "C" {
 #define EEL_CANVAS_RE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_CANVAS_RE, EelCanvasREClass))
 
 
-typedef struct _EelCanvasRE      EelCanvasRE;
-typedef struct _EelCanvasREClass EelCanvasREClass;
+    typedef struct _EelCanvasRE      EelCanvasRE;
+    typedef struct _EelCanvasREClass EelCanvasREClass;
 
-struct _EelCanvasRE {
-	EelCanvasItem item;
+    struct _EelCanvasRE
+    {
+        EelCanvasItem item;
 
-	GdkBitmap *fill_stipple;	/* Stipple for fill */
-	GdkBitmap *outline_stipple;	/* Stipple for outline */
+        GdkBitmap *fill_stipple;	/* Stipple for fill */
+        GdkBitmap *outline_stipple;	/* Stipple for outline */
 
-	GdkGC *fill_gc;			/* GC for filling */
-	GdkGC *outline_gc;		/* GC for outline */
+        GdkGC *fill_gc;			/* GC for filling */
+        GdkGC *outline_gc;		/* GC for outline */
 
-	gulong fill_pixel;		/* Fill color */
-	gulong outline_pixel;		/* Outline color */
+        gulong fill_pixel;		/* Fill color */
+        gulong outline_pixel;		/* Outline color */
 
-	double x1, y1, x2, y2;		/* Corners of item */
-	double width;			/* Outline width */
+        double x1, y1, x2, y2;		/* Corners of item */
+        double width;			/* Outline width */
 
-	guint fill_color;		/* Fill color, RGBA */
-	guint outline_color;		/* Outline color, RGBA */
+        guint fill_color;		/* Fill color, RGBA */
+        guint outline_color;		/* Outline color, RGBA */
 
-	/* Configuration flags */
+        /* Configuration flags */
 
-	unsigned int fill_set : 1;	/* Is fill color set? */
-	unsigned int outline_set : 1;	/* Is outline color set? */
-	unsigned int width_pixels : 1;	/* Is outline width specified in pixels or units? */
-};
+        unsigned int fill_set : 1;	/* Is fill color set? */
+        unsigned int outline_set : 1;	/* Is outline color set? */
+        unsigned int width_pixels : 1;	/* Is outline width specified in pixels or units? */
+    };
 
-struct _EelCanvasREClass {
-	EelCanvasItemClass parent_class;
-};
-
-
-/* Standard Gtk function */
-GType eel_canvas_re_get_type (void) G_GNUC_CONST;
+    struct _EelCanvasREClass
+    {
+        EelCanvasItemClass parent_class;
+    };
 
 
-/* Rectangle item.  No configurable or queryable arguments are available (use those in
- * EelCanvasRE).
- */
+    /* Standard Gtk function */
+    GType eel_canvas_re_get_type (void) G_GNUC_CONST;
+
+
+    /* Rectangle item.  No configurable or queryable arguments are available (use those in
+     * EelCanvasRE).
+     */
 
 
 #define EEL_TYPE_CANVAS_RECT            (eel_canvas_rect_get_type ())
@@ -124,27 +126,29 @@ GType eel_canvas_re_get_type (void) G_GNUC_CONST;
 #define EEL_CANVAS_RECT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_CANVAS_RECT, EelCanvasRectClass))
 
 
-typedef struct _EelCanvasRect EelCanvasRect;
-typedef struct _EelCanvasRectPrivate EelCanvasRectPrivate;
-typedef struct _EelCanvasRectClass EelCanvasRectClass;
+    typedef struct _EelCanvasRect EelCanvasRect;
+    typedef struct _EelCanvasRectPrivate EelCanvasRectPrivate;
+    typedef struct _EelCanvasRectClass EelCanvasRectClass;
 
-struct _EelCanvasRect {
-	EelCanvasRE re;
-	EelCanvasRectPrivate *priv;
-};
+    struct _EelCanvasRect
+    {
+        EelCanvasRE re;
+        EelCanvasRectPrivate *priv;
+    };
 
-struct _EelCanvasRectClass {
-	EelCanvasREClass parent_class;
-};
-
-
-/* Standard Gtk function */
-GType eel_canvas_rect_get_type (void) G_GNUC_CONST;
+    struct _EelCanvasRectClass
+    {
+        EelCanvasREClass parent_class;
+    };
 
 
-/* Ellipse item.  No configurable or queryable arguments are available (use those in
- * EelCanvasRE).
- */
+    /* Standard Gtk function */
+    GType eel_canvas_rect_get_type (void) G_GNUC_CONST;
+
+
+    /* Ellipse item.  No configurable or queryable arguments are available (use those in
+     * EelCanvasRE).
+     */
 
 
 #define EEL_TYPE_CANVAS_ELLIPSE            (eel_canvas_ellipse_get_type ())
@@ -155,20 +159,22 @@ GType eel_canvas_rect_get_type (void) G_GNUC_CONST;
 #define EEL_CANVAS_ELLIPSE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_CANVAS_ELLIPSE, EelCanvasEllipseClass))
 
 
-typedef struct _EelCanvasEllipse EelCanvasEllipse;
-typedef struct _EelCanvasEllipseClass EelCanvasEllipseClass;
+    typedef struct _EelCanvasEllipse EelCanvasEllipse;
+    typedef struct _EelCanvasEllipseClass EelCanvasEllipseClass;
 
-struct _EelCanvasEllipse {
-	EelCanvasRE re;
-};
+    struct _EelCanvasEllipse
+    {
+        EelCanvasRE re;
+    };
 
-struct _EelCanvasEllipseClass {
-	EelCanvasREClass parent_class;
-};
+    struct _EelCanvasEllipseClass
+    {
+        EelCanvasREClass parent_class;
+    };
 
 
-/* Standard Gtk function */
-GType eel_canvas_ellipse_get_type (void) G_GNUC_CONST;
+    /* Standard Gtk function */
+    GType eel_canvas_ellipse_get_type (void) G_GNUC_CONST;
 
 
 #ifdef __cplusplus

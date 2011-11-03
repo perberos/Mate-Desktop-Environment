@@ -43,41 +43,42 @@ extern "C" {
 #define CAJA_IS_INFO_PROVIDER(obj)        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAJA_TYPE_INFO_PROVIDER))
 #define CAJA_INFO_PROVIDER_GET_IFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), CAJA_TYPE_INFO_PROVIDER, CajaInfoProviderIface))
 
-typedef struct _CajaInfoProvider       CajaInfoProvider;
-typedef struct _CajaInfoProviderIface  CajaInfoProviderIface;
+    typedef struct _CajaInfoProvider       CajaInfoProvider;
+    typedef struct _CajaInfoProviderIface  CajaInfoProviderIface;
 
-typedef void (*CajaInfoProviderUpdateComplete) (CajaInfoProvider    *provider,
-						    CajaOperationHandle *handle,
-						    CajaOperationResult  result,
-						    gpointer                 user_data);
+    typedef void (*CajaInfoProviderUpdateComplete) (CajaInfoProvider    *provider,
+            CajaOperationHandle *handle,
+            CajaOperationResult  result,
+            gpointer                 user_data);
 
-struct _CajaInfoProviderIface {
-	GTypeInterface g_iface;
+    struct _CajaInfoProviderIface
+    {
+        GTypeInterface g_iface;
 
-	CajaOperationResult (*update_file_info) (CajaInfoProvider     *provider,
-						     CajaFileInfo         *file,
-						     GClosure                 *update_complete,
-						     CajaOperationHandle **handle);
-	void                    (*cancel_update)    (CajaInfoProvider     *provider,
-						     CajaOperationHandle  *handle);
-};
+        CajaOperationResult (*update_file_info) (CajaInfoProvider     *provider,
+                CajaFileInfo         *file,
+                GClosure                 *update_complete,
+                CajaOperationHandle **handle);
+        void                    (*cancel_update)    (CajaInfoProvider     *provider,
+                CajaOperationHandle  *handle);
+    };
 
-/* Interface Functions */
-GType                   caja_info_provider_get_type               (void);
-CajaOperationResult caja_info_provider_update_file_info       (CajaInfoProvider     *provider,
-								       CajaFileInfo         *file,
-								       GClosure                 *update_complete,
-								       CajaOperationHandle **handle);
-void                    caja_info_provider_cancel_update          (CajaInfoProvider     *provider,
-								       CajaOperationHandle  *handle);
+    /* Interface Functions */
+    GType                   caja_info_provider_get_type               (void);
+    CajaOperationResult caja_info_provider_update_file_info       (CajaInfoProvider     *provider,
+            CajaFileInfo         *file,
+            GClosure                 *update_complete,
+            CajaOperationHandle **handle);
+    void                    caja_info_provider_cancel_update          (CajaInfoProvider     *provider,
+            CajaOperationHandle  *handle);
 
 
 
-/* Helper functions for implementations */
-void                    caja_info_provider_update_complete_invoke (GClosure                 *update_complete,
-								       CajaInfoProvider     *provider,
-								       CajaOperationHandle  *handle,
-								       CajaOperationResult   result);
+    /* Helper functions for implementations */
+    void                    caja_info_provider_update_complete_invoke (GClosure                 *update_complete,
+            CajaInfoProvider     *provider,
+            CajaOperationHandle  *handle,
+            CajaOperationResult   result);
 
 #ifdef __cplusplus
 }

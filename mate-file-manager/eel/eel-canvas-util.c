@@ -61,16 +61,16 @@
 EelCanvasPoints *
 eel_canvas_points_new (int num_points)
 {
-	EelCanvasPoints *points;
+    EelCanvasPoints *points;
 
-	g_return_val_if_fail (num_points > 1, NULL);
+    g_return_val_if_fail (num_points > 1, NULL);
 
-	points = g_new (EelCanvasPoints, 1);
-	points->num_points = num_points;
-	points->coords = g_new (double, 2 * num_points);
-	points->ref_count = 1;
+    points = g_new (EelCanvasPoints, 1);
+    points->num_points = num_points;
+    points->coords = g_new (double, 2 * num_points);
+    points->ref_count = 1;
 
-	return points;
+    return points;
 }
 
 /**
@@ -84,10 +84,10 @@ eel_canvas_points_new (int num_points)
 EelCanvasPoints *
 eel_canvas_points_ref (EelCanvasPoints *points)
 {
-	g_return_val_if_fail (points != NULL, NULL);
+    g_return_val_if_fail (points != NULL, NULL);
 
-	points->ref_count += 1;
-	return points;
+    points->ref_count += 1;
+    return points;
 }
 
 /**
@@ -100,13 +100,14 @@ eel_canvas_points_ref (EelCanvasPoints *points)
 void
 eel_canvas_points_free (EelCanvasPoints *points)
 {
-	g_return_if_fail (points != NULL);
+    g_return_if_fail (points != NULL);
 
-	points->ref_count -= 1;
-	if (points->ref_count == 0) {
-		g_free (points->coords);
-		g_free (points);
-	}
+    points->ref_count -= 1;
+    if (points->ref_count == 0)
+    {
+        g_free (points->coords);
+        g_free (points);
+    }
 }
 
 /**
@@ -133,50 +134,50 @@ eel_canvas_points_free (EelCanvasPoints *points)
  **/
 int
 eel_canvas_get_miter_points (double x1, double y1, double x2, double y2, double x3, double y3,
-			     double width,
-			     double *mx1, double *my1, double *mx2, double *my2)
+                             double width,
+                             double *mx1, double *my1, double *mx2, double *my2)
 {
-	double theta1;		/* angle of segment p2-p1 */
-	double theta2;		/* angle of segment p2-p3 */
-	double theta;		/* angle between line segments */
-	double theta3;		/* angle that bisects theta1 and theta2 and points to p1 */
-	double dist;		/* distance of miter points from p2 */
-	double dx, dy;		/* x and y offsets corresponding to dist */
+    double theta1;		/* angle of segment p2-p1 */
+    double theta2;		/* angle of segment p2-p3 */
+    double theta;		/* angle between line segments */
+    double theta3;		/* angle that bisects theta1 and theta2 and points to p1 */
+    double dist;		/* distance of miter points from p2 */
+    double dx, dy;		/* x and y offsets corresponding to dist */
 
-	double ELEVEN_DEGREES = 11.0 * M_PI / 180.0;
+    double ELEVEN_DEGREES = 11.0 * M_PI / 180.0;
 
-	/* Degenerate cases.  */
-	if ((x1 == x2 && y1 == y2) || (x2 == x3 && y2 == y3))
-		return FALSE;
+    /* Degenerate cases.  */
+    if ((x1 == x2 && y1 == y2) || (x2 == x3 && y2 == y3))
+        return FALSE;
 
-	theta1 = atan2 (y1 - y2, x1 - x2);
-	theta2 = atan2 (y3 - y2, x3 - x2);
-	theta = theta1 - theta2;
+    theta1 = atan2 (y1 - y2, x1 - x2);
+    theta2 = atan2 (y3 - y2, x3 - x2);
+    theta = theta1 - theta2;
 
-	/* Normalize to (-pi; pi].  */
-	if (theta > M_PI)
-		theta -= 2.0 * M_PI;
-	else if (theta <= -M_PI)
-		theta += 2.0 * M_PI;
+    /* Normalize to (-pi; pi].  */
+    if (theta > M_PI)
+        theta -= 2.0 * M_PI;
+    else if (theta <= -M_PI)
+        theta += 2.0 * M_PI;
 
-	if (fabs (theta) < ELEVEN_DEGREES)
-		return FALSE;
+    if (fabs (theta) < ELEVEN_DEGREES)
+        return FALSE;
 
-	dist = fabs (0.5 * width / sin (0.5 * theta));
+    dist = fabs (0.5 * width / sin (0.5 * theta));
 
-	theta3 = (theta1 + theta2) / 2.0;
-	if (sin (theta3 - theta1) > 0.0)
-		theta3 += M_PI;
+    theta3 = (theta1 + theta2) / 2.0;
+    if (sin (theta3 - theta1) > 0.0)
+        theta3 += M_PI;
 
-	dx = dist * cos (theta3);
-	dy = dist * sin (theta3);
+    dx = dist * cos (theta3);
+    dy = dist * sin (theta3);
 
-	*mx1 = x2 + dx;
-	*mx2 = x2 - dx;
-	*my1 = y2 + dy;
-	*my2 = y2 - dy;
+    *mx1 = x2 + dx;
+    *mx2 = x2 - dx;
+    *my1 = y2 + dy;
+    *my2 = y2 - dy;
 
-	return TRUE;
+    return TRUE;
 }
 
 /**
@@ -196,36 +197,40 @@ eel_canvas_get_miter_points (double x1, double y1, double x2, double y2, double 
  **/
 void
 eel_canvas_get_butt_points (double x1, double y1, double x2, double y2,
-			      double width, int project,
-			      double *bx1, double *by1, double *bx2, double *by2)
+                            double width, int project,
+                            double *bx1, double *by1, double *bx2, double *by2)
 {
-	double length;
-	double dx, dy;
+    double length;
+    double dx, dy;
 
-	width *= 0.5;
-	dx = x2 - x1;
-	dy = y2 - y1;
-	length = sqrt (dx * dx + dy * dy);
+    width *= 0.5;
+    dx = x2 - x1;
+    dy = y2 - y1;
+    length = sqrt (dx * dx + dy * dy);
 
-	if (length < EEL_CANVAS_EPSILON) {
-		*bx1 = *bx2 = x2;
-		*by1 = *by2 = y2;
-	} else {
-		dx = -width * (y2 - y1) / length;
-		dy = width * (x2 - x1) / length;
+    if (length < EEL_CANVAS_EPSILON)
+    {
+        *bx1 = *bx2 = x2;
+        *by1 = *by2 = y2;
+    }
+    else
+    {
+        dx = -width * (y2 - y1) / length;
+        dy = width * (x2 - x1) / length;
 
-		*bx1 = x2 + dx;
-		*bx2 = x2 - dx;
-		*by1 = y2 + dy;
-		*by2 = y2 - dy;
+        *bx1 = x2 + dx;
+        *bx2 = x2 - dx;
+        *by1 = y2 + dy;
+        *by2 = y2 - dy;
 
-		if (project) {
-			*bx1 += dy;
-			*bx2 += dy;
-			*by1 -= dx;
-			*by2 -= dx;
-		}
-	}
+        if (project)
+        {
+            *bx1 += dy;
+            *bx2 += dy;
+            *by1 -= dx;
+            *by2 -= dx;
+        }
+    }
 }
 
 /**
@@ -244,122 +249,143 @@ eel_canvas_get_butt_points (double x1, double y1, double x2, double y2,
 double
 eel_canvas_polygon_to_point (double *poly, int num_points, double x, double y)
 {
-	double best;
-	int intersections;
-	int i;
-	double *p;
-	double dx, dy;
+    double best;
+    int intersections;
+    int i;
+    double *p;
+    double dx, dy;
 
-	/* Iterate through all the edges in the polygon, updating best and intersections.
-	 *
-	 * When computing intersections, include left X coordinate of line within its range, but not
-	 * Y coordinate.  Otherwise if the point lies exactly below a vertex we'll count it as two
-	 * intersections.
-	 */
+    /* Iterate through all the edges in the polygon, updating best and intersections.
+     *
+     * When computing intersections, include left X coordinate of line within its range, but not
+     * Y coordinate.  Otherwise if the point lies exactly below a vertex we'll count it as two
+     * intersections.
+     */
 
-	best = 1.0e36;
-	if (poly == NULL)
-		return best;
+    best = 1.0e36;
+    if (poly == NULL)
+        return best;
 
-	intersections = 0;
+    intersections = 0;
 
-	for (i = num_points, p = poly; i > 1; i--, p += 2) {
-		double px, py, dist;
+    for (i = num_points, p = poly; i > 1; i--, p += 2)
+    {
+        double px, py, dist;
 
-		/* Compute the point on the current edge closest to the point and update the
-		 * intersection count.  This must be done separately for vertical edges, horizontal
-		 * edges, and others.
-		 */
+        /* Compute the point on the current edge closest to the point and update the
+         * intersection count.  This must be done separately for vertical edges, horizontal
+         * edges, and others.
+         */
 
-		if (p[2] == p[0]) {
-			/* Vertical edge */
+        if (p[2] == p[0])
+        {
+            /* Vertical edge */
 
-			px = p[0];
+            px = p[0];
 
-			if (p[1] >= p[3]) {
-				py = MIN (p[1], y);
-				py = MAX (py, p[3]);
-			} else {
-				py = MIN (p[3], y);
-				py = MAX (py, p[1]);
-			}
-		} else if (p[3] == p[1]) {
-			/* Horizontal edge */
+            if (p[1] >= p[3])
+            {
+                py = MIN (p[1], y);
+                py = MAX (py, p[3]);
+            }
+            else
+            {
+                py = MIN (p[3], y);
+                py = MAX (py, p[1]);
+            }
+        }
+        else if (p[3] == p[1])
+        {
+            /* Horizontal edge */
 
-			py = p[1];
+            py = p[1];
 
-			if (p[0] >= p[2]) {
-				px = MIN (p[0], x);
-				px = MAX (px, p[2]);
+            if (p[0] >= p[2])
+            {
+                px = MIN (p[0], x);
+                px = MAX (px, p[2]);
 
-				if ((y < py) && (x < p[0]) && (x >= p[2]))
-					intersections++;
-			} else {
-				px = MIN (p[2], x);
-				px = MAX (px, p[0]);
+                if ((y < py) && (x < p[0]) && (x >= p[2]))
+                    intersections++;
+            }
+            else
+            {
+                px = MIN (p[2], x);
+                px = MAX (px, p[0]);
 
-				if ((y < py) && (x < p[2]) && (x >= p[0]))
-					intersections++;
-			}
-		} else {
-			double m1, b1, m2, b2;
-			int lower;
+                if ((y < py) && (x < p[2]) && (x >= p[0]))
+                    intersections++;
+            }
+        }
+        else
+        {
+            double m1, b1, m2, b2;
+            int lower;
 
-			/* Diagonal edge.  Convert the edge to a line equation (y = m1*x + b1), then
-			 * compute a line perpendicular to this edge but passing through the point,
-			 * (y = m2*x + b2).
-			 */
+            /* Diagonal edge.  Convert the edge to a line equation (y = m1*x + b1), then
+             * compute a line perpendicular to this edge but passing through the point,
+             * (y = m2*x + b2).
+             */
 
-			m1 = (p[3] - p[1]) / (p[2] - p[0]);
-			b1 = p[1] - m1 * p[0];
+            m1 = (p[3] - p[1]) / (p[2] - p[0]);
+            b1 = p[1] - m1 * p[0];
 
-			m2 = -1.0 / m1;
-			b2 = y - m2 * x;
+            m2 = -1.0 / m1;
+            b2 = y - m2 * x;
 
-			px = (b2 - b1) / (m1 - m2);
-			py = m1 * px + b1;
+            px = (b2 - b1) / (m1 - m2);
+            py = m1 * px + b1;
 
-			if (p[0] > p[2]) {
-				if (px > p[0]) {
-					px = p[0];
-					py = p[1];
-				} else if (px < p[2]) {
-					px = p[2];
-					py = p[3];
-				}
-			} else {
-				if (px > p[2]) {
-					px = p[2];
-					py = p[3];
-				} else if (px < p[0]) {
-					px = p[0];
-					py = p[1];
-				}
-			}
+            if (p[0] > p[2])
+            {
+                if (px > p[0])
+                {
+                    px = p[0];
+                    py = p[1];
+                }
+                else if (px < p[2])
+                {
+                    px = p[2];
+                    py = p[3];
+                }
+            }
+            else
+            {
+                if (px > p[2])
+                {
+                    px = p[2];
+                    py = p[3];
+                }
+                else if (px < p[0])
+                {
+                    px = p[0];
+                    py = p[1];
+                }
+            }
 
-			lower = (m1 * x + b1) > y;
+            lower = (m1 * x + b1) > y;
 
-			if (lower && (x >= MIN (p[0], p[2])) && (x < MAX (p[0], p[2])))
-				intersections++;
-		}
+            if (lower && (x >= MIN (p[0], p[2])) && (x < MAX (p[0], p[2])))
+                intersections++;
+        }
 
-		/* Compute the distance to the closest point, and see if that is the best so far */
+        /* Compute the distance to the closest point, and see if that is the best so far */
 
-		dx = x - px;
-		dy = y - py;
-		dist = sqrt (dx * dx + dy * dy);
-		if (dist < best)
-			best = dist;
-	}
+        dx = x - px;
+        dy = y - py;
+        dist = sqrt (dx * dx + dy * dy);
+        if (dist < best)
+            best = dist;
+    }
 
-	/* We've processed all the points.  If the number of intersections is odd, the point is
-	 * inside the polygon.
-	 */
+    /* We've processed all the points.  If the number of intersections is odd, the point is
+     * inside the polygon.
+     */
 
-	if (intersections & 0x1)
-		return 0.0;
-	else
-		return best;
+    if (intersections & 0x1)
+        return 0.0;
+    else
+        return best;
 }
 
 /**
@@ -371,10 +397,10 @@ eel_canvas_polygon_to_point (double *poly, int num_points, double x, double y)
 void
 eel_canvas_item_reset_bounds (EelCanvasItem *item)
 {
-	item->x1 = 0.0;
-	item->y1 = 0.0;
-	item->x2 = 0.0;
-	item->y2 = 0.0;
+    item->x1 = 0.0;
+    item->y1 = 0.0;
+    item->x2 = 0.0;
+    item->y2 = 0.0;
 }
 
 /**
@@ -390,11 +416,11 @@ eel_canvas_item_reset_bounds (EelCanvasItem *item)
 void
 eel_canvas_update_bbox (EelCanvasItem *item, int x1, int y1, int x2, int y2)
 {
-	eel_canvas_item_request_redraw (item);
-	item->x1 = x1;
-	item->y1 = y1;
-	item->x2 = x2;
-	item->y2 = y2;
-	eel_canvas_item_request_redraw (item);
+    eel_canvas_item_request_redraw (item);
+    item->x1 = x1;
+    item->y1 = y1;
+    item->x2 = x2;
+    item->y2 = y2;
+    eel_canvas_item_request_redraw (item);
 }
 

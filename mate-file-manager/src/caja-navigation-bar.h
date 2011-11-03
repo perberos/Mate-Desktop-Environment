@@ -43,23 +43,25 @@
 #define CAJA_NAVIGATION_BAR_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_NAVIGATION_BAR, CajaNavigationBarClass))
 
-typedef struct {
-	GtkHBox parent;
+typedef struct
+{
+    GtkHBox parent;
 } CajaNavigationBar;
 
-typedef struct {
-	GtkHBoxClass parent_class;
+typedef struct
+{
+    GtkHBoxClass parent_class;
 
-	/* signals */
-	void         (* location_changed) (CajaNavigationBar *bar,
-					   const char            *location);
-	void         (* cancel)           (CajaNavigationBar *bar);
+    /* signals */
+    void         (* location_changed) (CajaNavigationBar *bar,
+                                       const char            *location);
+    void         (* cancel)           (CajaNavigationBar *bar);
 
-	/* virtual methods */
-	void	     (* activate)	  (CajaNavigationBar *bar);
-	char *       (* get_location)     (CajaNavigationBar *bar);
-	void         (* set_location)     (CajaNavigationBar *bar,
-					   const char            *location);
+    /* virtual methods */
+    void	     (* activate)	  (CajaNavigationBar *bar);
+    char *       (* get_location)     (CajaNavigationBar *bar);
+    void         (* set_location)     (CajaNavigationBar *bar,
+                                       const char            *location);
 
 } CajaNavigationBarClass;
 
@@ -67,7 +69,7 @@ GType   caja_navigation_bar_get_type         (void);
 void	caja_navigation_bar_activate	 (CajaNavigationBar *bar);
 char *  caja_navigation_bar_get_location     (CajaNavigationBar *bar);
 void    caja_navigation_bar_set_location     (CajaNavigationBar *bar,
-						  const char            *location);
+        const char            *location);
 
 /* `protected' function meant to be used by subclasses to emit the `location_changed' signal */
 void    caja_navigation_bar_location_changed (CajaNavigationBar *bar);

@@ -40,7 +40,7 @@
 
 /* Static variables to keep track of window state. If there were
  * more than one bookmark-editing window, these would be struct or
- * class fields. 
+ * class fields.
  */
 static int		     bookmark_list_changed_signal_id;
 static CajaBookmarkList *bookmarks = NULL;
@@ -72,45 +72,45 @@ static gboolean get_selection_exists                        (void);
 static void     name_or_uri_field_activate                  (CajaEntry        *entry);
 static void     caja_bookmarks_window_restore_geometry  (GtkWidget            *window);
 static void     on_bookmark_list_changed                    (CajaBookmarkList *list,
-							     gpointer              user_data);
+        gpointer              user_data);
 static void     on_name_field_changed                       (GtkEditable          *editable,
-							     gpointer              user_data);
+        gpointer              user_data);
 static void     on_remove_button_clicked                    (GtkButton            *button,
-							     gpointer              user_data);
+        gpointer              user_data);
 static void     on_jump_button_clicked                      (GtkButton            *button,
-							     gpointer              user_data);
+        gpointer              user_data);
 static void	on_row_changed				    (GtkListStore	  *store,
-							     GtkTreePath	  *path,
-							     GtkTreeIter	  *iter,
-							     gpointer		   user_data);
+        GtkTreePath	  *path,
+        GtkTreeIter	  *iter,
+        gpointer		   user_data);
 static void	on_row_deleted				    (GtkListStore	  *store,
-							     GtkTreePath	  *path,
-							     gpointer		   user_data);
+        GtkTreePath	  *path,
+        gpointer		   user_data);
 static void	on_row_activated			    (GtkTreeView	  *view,
-							     GtkTreePath	  *path,
-                                                             GtkTreeViewColumn    *column,
-							     gpointer		   user_data);
+        GtkTreePath	  *path,
+        GtkTreeViewColumn    *column,
+        gpointer		   user_data);
 static gboolean	on_button_pressed                           (GtkTreeView	  *view,
-                                                             GdkEventButton       *event,
-							     gpointer		   user_data);
+        GdkEventButton       *event,
+        gpointer		   user_data);
 static gboolean	on_key_pressed                              (GtkTreeView	  *view,
-                                                             GdkEventKey          *event,
-							     gpointer		   user_data);
+        GdkEventKey          *event,
+        gpointer		   user_data);
 static void     on_selection_changed                        (GtkTreeSelection     *treeselection,
-							     gpointer              user_data);
+        gpointer              user_data);
 
 static gboolean on_text_field_focus_out_event               (GtkWidget            *widget,
-							     GdkEventFocus        *event,
-							     gpointer              user_data);
+        GdkEventFocus        *event,
+        gpointer              user_data);
 static void     on_uri_field_changed                        (GtkEditable          *editable,
-							     gpointer              user_data);
+        gpointer              user_data);
 static gboolean on_window_delete_event                      (GtkWidget            *widget,
-							     GdkEvent             *event,
-							     gpointer              user_data);
+        GdkEvent             *event,
+        gpointer              user_data);
 static void     on_window_hide_event                        (GtkWidget            *widget,
-							     gpointer              user_data);
+        gpointer              user_data);
 static void     on_window_destroy_event                     (GtkWidget            *widget,
-							     gpointer              user_data);
+        gpointer              user_data);
 static void     repopulate                                  (void);
 static void     set_up_close_accelerator                    (GtkWidget            *window);
 static void	open_selected_bookmark 			    (gpointer   user_data, GdkScreen *screen);
@@ -139,106 +139,114 @@ static void	update_bookmark_from_text		    (void);
 
 static void
 caja_bookmarks_window_response_callback (GtkDialog *dialog,
-					     int response_id,
-					     gpointer callback_data)
+        int response_id,
+        gpointer callback_data)
 {
-	if (response_id == GTK_RESPONSE_HELP) {
-		GError *error = NULL;
+    if (response_id == GTK_RESPONSE_HELP)
+    {
+        GError *error = NULL;
 
-		gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (dialog)),
-			      "ghelp:user-guide#goscaja-36",
-			      gtk_get_current_event_time (), &error);
+        gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (dialog)),
+                      "ghelp:user-guide#goscaja-36",
+                      gtk_get_current_event_time (), &error);
 
-		if (error) {
-			GtkWidget *err_dialog;
-			err_dialog = gtk_message_dialog_new (GTK_WINDOW (dialog),
-							     GTK_DIALOG_DESTROY_WITH_PARENT,
-							     GTK_MESSAGE_ERROR,
-							     GTK_BUTTONS_OK,
-							     _("There was an error displaying help: \n%s"),
-							     error->message);
+        if (error)
+        {
+            GtkWidget *err_dialog;
+            err_dialog = gtk_message_dialog_new (GTK_WINDOW (dialog),
+                                                 GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                 GTK_MESSAGE_ERROR,
+                                                 GTK_BUTTONS_OK,
+                                                 _("There was an error displaying help: \n%s"),
+                                                 error->message);
 
-			g_signal_connect (G_OBJECT (err_dialog),
-					  "response", G_CALLBACK (gtk_widget_destroy),
-					  NULL);
-			gtk_window_set_resizable (GTK_WINDOW (err_dialog), FALSE);
-			gtk_widget_show (err_dialog);
-			g_error_free (error);
-		}
-	} else if (response_id == GTK_RESPONSE_CLOSE) {
-		gtk_widget_hide (GTK_WIDGET (dialog));
+            g_signal_connect (G_OBJECT (err_dialog),
+                              "response", G_CALLBACK (gtk_widget_destroy),
+                              NULL);
+            gtk_window_set_resizable (GTK_WINDOW (err_dialog), FALSE);
+            gtk_widget_show (err_dialog);
+            g_error_free (error);
         }
+    }
+    else if (response_id == GTK_RESPONSE_CLOSE)
+    {
+        gtk_widget_hide (GTK_WIDGET (dialog));
+    }
 }
 
 static GtkListStore *
 create_bookmark_store (void)
 {
-	return gtk_list_store_new (BOOKMARK_LIST_COLUMN_COUNT,
-				   GDK_TYPE_PIXBUF,
-				   G_TYPE_STRING,
-				   G_TYPE_OBJECT,
-				   PANGO_TYPE_STYLE);
+    return gtk_list_store_new (BOOKMARK_LIST_COLUMN_COUNT,
+                               GDK_TYPE_PIXBUF,
+                               G_TYPE_STRING,
+                               G_TYPE_OBJECT,
+                               PANGO_TYPE_STYLE);
 }
 
 static void
 setup_empty_list (void)
 {
-	GtkTreeIter iter;
+    GtkTreeIter iter;
 
-	bookmark_empty_list_store = create_bookmark_store ();
-	gtk_list_store_append (bookmark_empty_list_store, &iter);
+    bookmark_empty_list_store = create_bookmark_store ();
+    gtk_list_store_append (bookmark_empty_list_store, &iter);
 
-	gtk_list_store_set (bookmark_empty_list_store, &iter,
-			    BOOKMARK_LIST_COLUMN_NAME, _("No bookmarks defined"),
-			    BOOKMARK_LIST_COLUMN_STYLE, PANGO_STYLE_ITALIC,
-			    -1);
+    gtk_list_store_set (bookmark_empty_list_store, &iter,
+                        BOOKMARK_LIST_COLUMN_NAME, _("No bookmarks defined"),
+                        BOOKMARK_LIST_COLUMN_STYLE, PANGO_STYLE_ITALIC,
+                        -1);
 }
 
 static void
 bookmarks_set_empty (gboolean empty)
 {
-	GtkTreeIter iter;
+    GtkTreeIter iter;
 
-	if (empty) {
-		gtk_tree_view_set_model (bookmark_list_widget,
-					 GTK_TREE_MODEL (bookmark_empty_list_store));
-		gtk_widget_set_sensitive (GTK_WIDGET (bookmark_list_widget), FALSE);
-	} else {
-		gtk_tree_view_set_model (bookmark_list_widget,
-					 GTK_TREE_MODEL (bookmark_list_store));
-		gtk_widget_set_sensitive (GTK_WIDGET (bookmark_list_widget), TRUE);
+    if (empty)
+    {
+        gtk_tree_view_set_model (bookmark_list_widget,
+                                 GTK_TREE_MODEL (bookmark_empty_list_store));
+        gtk_widget_set_sensitive (GTK_WIDGET (bookmark_list_widget), FALSE);
+    }
+    else
+    {
+        gtk_tree_view_set_model (bookmark_list_widget,
+                                 GTK_TREE_MODEL (bookmark_list_store));
+        gtk_widget_set_sensitive (GTK_WIDGET (bookmark_list_widget), TRUE);
 
-		if (caja_bookmark_list_length (bookmarks) > 0 &&
-		    !get_selection_exists ()) {
-			gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (bookmark_list_store),
-						       &iter, NULL, 0);
-			gtk_tree_selection_select_iter (bookmark_selection, &iter);
-		}
-	}
+        if (caja_bookmark_list_length (bookmarks) > 0 &&
+                !get_selection_exists ())
+        {
+            gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (bookmark_list_store),
+                                           &iter, NULL, 0);
+            gtk_tree_selection_select_iter (bookmark_selection, &iter);
+        }
+    }
 
-	on_selection_changed (bookmark_selection, NULL);
+    on_selection_changed (bookmark_selection, NULL);
 }
 
 static void
 edit_bookmarks_dialog_reset_signals (gpointer data,
-				     GObject *obj)
+                                     GObject *obj)
 {
-	g_signal_handler_disconnect (GTK_OBJECT (jump_button),
-				     jump_button_signal_id);
-	g_signal_handler_disconnect (GTK_OBJECT (bookmark_list_widget),
-				     row_activated_signal_id);
-	jump_button_signal_id =
-		g_signal_connect (jump_button, "clicked",
-				  G_CALLBACK (on_jump_button_clicked), NULL);
-	row_activated_signal_id =
-		g_signal_connect (bookmark_list_widget, "row_activated",
-				  G_CALLBACK (on_row_activated), NULL);
+    g_signal_handler_disconnect (GTK_OBJECT (jump_button),
+                                 jump_button_signal_id);
+    g_signal_handler_disconnect (GTK_OBJECT (bookmark_list_widget),
+                                 row_activated_signal_id);
+    jump_button_signal_id =
+        g_signal_connect (jump_button, "clicked",
+                          G_CALLBACK (on_jump_button_clicked), NULL);
+    row_activated_signal_id =
+        g_signal_connect (bookmark_list_widget, "row_activated",
+                          G_CALLBACK (on_row_activated), NULL);
 }
 
 /**
  * create_bookmarks_window:
- * 
- * Create a new bookmark-editing window. 
+ *
+ * Create a new bookmark-editing window.
  * @list: The CajaBookmarkList that this window will edit.
  *
  * Return value: A pointer to the new window.
@@ -246,404 +254,425 @@ edit_bookmarks_dialog_reset_signals (gpointer data,
 GtkWindow *
 create_bookmarks_window (CajaBookmarkList *list, GObject *undo_manager_source)
 {
-	GtkWidget         *window;
-	GtkTreeViewColumn *col;
-	GtkCellRenderer   *rend;
-	GtkBuilder        *builder;
+    GtkWidget         *window;
+    GtkTreeViewColumn *col;
+    GtkCellRenderer   *rend;
+    GtkBuilder        *builder;
 
-	bookmarks = list;
+    bookmarks = list;
 
-	builder = gtk_builder_new ();
-	if (!gtk_builder_add_from_file (builder,
-					UIDIR  "/caja-bookmarks-window.ui",
-					NULL)) {
-		return NULL;
-	}
+    builder = gtk_builder_new ();
+    if (!gtk_builder_add_from_file (builder,
+                                    UIDIR  "/caja-bookmarks-window.ui",
+                                    NULL))
+    {
+        return NULL;
+    }
 
-	window = (GtkWidget *)gtk_builder_get_object (builder, "bookmarks_dialog");
-	bookmark_list_widget = (GtkTreeView *)gtk_builder_get_object (builder, "bookmark_tree_view");
-	remove_button = (GtkWidget *)gtk_builder_get_object (builder, "bookmark_delete_button");
-	jump_button = (GtkWidget *)gtk_builder_get_object (builder, "bookmark_jump_button");
+    window = (GtkWidget *)gtk_builder_get_object (builder, "bookmarks_dialog");
+    bookmark_list_widget = (GtkTreeView *)gtk_builder_get_object (builder, "bookmark_tree_view");
+    remove_button = (GtkWidget *)gtk_builder_get_object (builder, "bookmark_delete_button");
+    jump_button = (GtkWidget *)gtk_builder_get_object (builder, "bookmark_jump_button");
 
-	application = CAJA_WINDOW (undo_manager_source)->application;
+    application = CAJA_WINDOW (undo_manager_source)->application;
 
-	if (CAJA_IS_NAVIGATION_WINDOW (undo_manager_source)) {
-		parent_is_browser_window = TRUE;
-	} else {
-		parent_is_browser_window = FALSE;
-	}
+    if (CAJA_IS_NAVIGATION_WINDOW (undo_manager_source))
+    {
+        parent_is_browser_window = TRUE;
+    }
+    else
+    {
+        parent_is_browser_window = FALSE;
+    }
 
-	set_up_close_accelerator (window);
-	caja_undo_share_undo_manager (G_OBJECT (window), undo_manager_source);
+    set_up_close_accelerator (window);
+    caja_undo_share_undo_manager (G_OBJECT (window), undo_manager_source);
 
-	gtk_window_set_wmclass (GTK_WINDOW (window), "bookmarks", "Caja");
-	caja_bookmarks_window_restore_geometry (window);
+    gtk_window_set_wmclass (GTK_WINDOW (window), "bookmarks", "Caja");
+    caja_bookmarks_window_restore_geometry (window);
 
-	g_object_weak_ref (G_OBJECT (undo_manager_source), edit_bookmarks_dialog_reset_signals, 
-			   undo_manager_source);
-	
-	bookmark_list_widget = GTK_TREE_VIEW (gtk_builder_get_object (builder, "bookmark_tree_view"));
+    g_object_weak_ref (G_OBJECT (undo_manager_source), edit_bookmarks_dialog_reset_signals,
+                       undo_manager_source);
 
-	rend = gtk_cell_renderer_pixbuf_new ();
-	col = gtk_tree_view_column_new_with_attributes ("Icon", 
-							rend,
-							"pixbuf", 
-							BOOKMARK_LIST_COLUMN_ICON,
-							NULL);
-	gtk_tree_view_append_column (bookmark_list_widget,
-				     GTK_TREE_VIEW_COLUMN (col));
-	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (col),
-					      CAJA_ICON_SIZE_SMALLER);
-	
-	rend = gtk_cell_renderer_text_new ();
-	g_object_set (rend,
-		      "ellipsize", PANGO_ELLIPSIZE_END,
-		      "ellipsize-set", TRUE,
-		      NULL);
+    bookmark_list_widget = GTK_TREE_VIEW (gtk_builder_get_object (builder, "bookmark_tree_view"));
 
-	col = gtk_tree_view_column_new_with_attributes ("Icon", 
-							rend,
-							"text", 
-							BOOKMARK_LIST_COLUMN_NAME,
-							"style",
-							BOOKMARK_LIST_COLUMN_STYLE,
-							NULL);
-	gtk_tree_view_append_column (bookmark_list_widget,
-				     GTK_TREE_VIEW_COLUMN (col));
-	
-	bookmark_list_store = create_bookmark_store ();
-	setup_empty_list ();
-	gtk_tree_view_set_model (bookmark_list_widget,
-				 GTK_TREE_MODEL (bookmark_empty_list_store));
-	
-	bookmark_selection =
-		GTK_TREE_SELECTION (gtk_tree_view_get_selection (bookmark_list_widget));
+    rend = gtk_cell_renderer_pixbuf_new ();
+    col = gtk_tree_view_column_new_with_attributes ("Icon",
+            rend,
+            "pixbuf",
+            BOOKMARK_LIST_COLUMN_ICON,
+            NULL);
+    gtk_tree_view_append_column (bookmark_list_widget,
+                                 GTK_TREE_VIEW_COLUMN (col));
+    gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (col),
+                                          CAJA_ICON_SIZE_SMALLER);
 
-	name_field = caja_entry_new ();
-	
-	gtk_widget_show (name_field);
-	gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (builder, "bookmark_name_placeholder")),
-			    name_field, TRUE, TRUE, 0);
-	caja_undo_editable_set_undo_key (GTK_EDITABLE (name_field), TRUE);
-	
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (gtk_builder_get_object (builder, "bookmark_name_label")),
-		name_field);
+    rend = gtk_cell_renderer_text_new ();
+    g_object_set (rend,
+                  "ellipsize", PANGO_ELLIPSIZE_END,
+                  "ellipsize-set", TRUE,
+                  NULL);
 
-	uri_field = caja_entry_new ();
-	gtk_widget_show (uri_field);
-	gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (builder, "bookmark_location_placeholder")),
-			    uri_field, TRUE, TRUE, 0);
-	caja_undo_editable_set_undo_key (GTK_EDITABLE (uri_field), TRUE);
+    col = gtk_tree_view_column_new_with_attributes ("Icon",
+            rend,
+            "text",
+            BOOKMARK_LIST_COLUMN_NAME,
+            "style",
+            BOOKMARK_LIST_COLUMN_STYLE,
+            NULL);
+    gtk_tree_view_append_column (bookmark_list_widget,
+                                 GTK_TREE_VIEW_COLUMN (col));
 
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (gtk_builder_get_object (builder, "bookmark_location_label")),
-		uri_field);
+    bookmark_list_store = create_bookmark_store ();
+    setup_empty_list ();
+    gtk_tree_view_set_model (bookmark_list_widget,
+                             GTK_TREE_MODEL (bookmark_empty_list_store));
 
-	bookmark_list_changed_signal_id =
-		g_signal_connect (bookmarks, "contents_changed",
-				  G_CALLBACK (on_bookmark_list_changed), NULL);
-	row_changed_signal_id =
-		g_signal_connect (bookmark_list_store, "row_changed",
-				  G_CALLBACK (on_row_changed), NULL);
-	row_deleted_signal_id =
-		g_signal_connect (bookmark_list_store, "row_deleted",
-				  G_CALLBACK (on_row_deleted), NULL);
-        row_activated_signal_id =
-                g_signal_connect (bookmark_list_widget, "row_activated",
-                                  G_CALLBACK (on_row_activated), undo_manager_source);
-        button_pressed_signal_id =
-                g_signal_connect (bookmark_list_widget, "button_press_event",
-                                  G_CALLBACK (on_button_pressed), NULL);
-        key_pressed_signal_id =
-                g_signal_connect (bookmark_list_widget, "key_press_event",
-                                  G_CALLBACK (on_key_pressed), NULL);
-	selection_changed_id =
-		g_signal_connect (bookmark_selection, "changed",
-				  G_CALLBACK (on_selection_changed), NULL);	
+    bookmark_selection =
+        GTK_TREE_SELECTION (gtk_tree_view_get_selection (bookmark_list_widget));
 
-	g_signal_connect (window, "delete_event",
-			  G_CALLBACK (on_window_delete_event), NULL);
-	g_signal_connect (window, "hide",
-			  G_CALLBACK (on_window_hide_event), NULL);                    	    
-	g_signal_connect (window, "destroy",
-			  G_CALLBACK (on_window_destroy_event), NULL);
-	g_signal_connect (window, "response",
-			  G_CALLBACK (caja_bookmarks_window_response_callback), NULL);
+    name_field = caja_entry_new ();
 
-	name_field_changed_signal_id =
-		g_signal_connect (name_field, "changed",
-				  G_CALLBACK (on_name_field_changed), NULL);
-                      		    
-	g_signal_connect (name_field, "focus_out_event",
-			  G_CALLBACK (on_text_field_focus_out_event), NULL);                            
-	g_signal_connect (name_field, "activate",
-			  G_CALLBACK (name_or_uri_field_activate), NULL);
+    gtk_widget_show (name_field);
+    gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (builder, "bookmark_name_placeholder")),
+                        name_field, TRUE, TRUE, 0);
+    caja_undo_editable_set_undo_key (GTK_EDITABLE (name_field), TRUE);
 
-	uri_field_changed_signal_id = 
-		g_signal_connect (uri_field, "changed",
-				  G_CALLBACK (on_uri_field_changed), NULL);
-                      		    
-	g_signal_connect (uri_field, "focus_out_event",
-			  G_CALLBACK (on_text_field_focus_out_event), NULL);
-	g_signal_connect (uri_field, "activate",
-			  G_CALLBACK (name_or_uri_field_activate), NULL);
-	g_signal_connect (remove_button, "clicked",
-			  G_CALLBACK (on_remove_button_clicked), NULL);
-	jump_button_signal_id = 
-		g_signal_connect (jump_button, "clicked",
-				  G_CALLBACK (on_jump_button_clicked), undo_manager_source);
+    gtk_label_set_mnemonic_widget (
+        GTK_LABEL (gtk_builder_get_object (builder, "bookmark_name_label")),
+        name_field);
 
-	gtk_tree_selection_set_mode (bookmark_selection, GTK_SELECTION_BROWSE);
-	
-	/* Fill in list widget with bookmarks, must be after signals are wired up. */
-	repopulate();
+    uri_field = caja_entry_new ();
+    gtk_widget_show (uri_field);
+    gtk_box_pack_start (GTK_BOX (gtk_builder_get_object (builder, "bookmark_location_placeholder")),
+                        uri_field, TRUE, TRUE, 0);
+    caja_undo_editable_set_undo_key (GTK_EDITABLE (uri_field), TRUE);
 
-	g_object_unref (builder);
-	
-	return GTK_WINDOW (window);
+    gtk_label_set_mnemonic_widget (
+        GTK_LABEL (gtk_builder_get_object (builder, "bookmark_location_label")),
+        uri_field);
+
+    bookmark_list_changed_signal_id =
+        g_signal_connect (bookmarks, "contents_changed",
+                          G_CALLBACK (on_bookmark_list_changed), NULL);
+    row_changed_signal_id =
+        g_signal_connect (bookmark_list_store, "row_changed",
+                          G_CALLBACK (on_row_changed), NULL);
+    row_deleted_signal_id =
+        g_signal_connect (bookmark_list_store, "row_deleted",
+                          G_CALLBACK (on_row_deleted), NULL);
+    row_activated_signal_id =
+        g_signal_connect (bookmark_list_widget, "row_activated",
+                          G_CALLBACK (on_row_activated), undo_manager_source);
+    button_pressed_signal_id =
+        g_signal_connect (bookmark_list_widget, "button_press_event",
+                          G_CALLBACK (on_button_pressed), NULL);
+    key_pressed_signal_id =
+        g_signal_connect (bookmark_list_widget, "key_press_event",
+                          G_CALLBACK (on_key_pressed), NULL);
+    selection_changed_id =
+        g_signal_connect (bookmark_selection, "changed",
+                          G_CALLBACK (on_selection_changed), NULL);
+
+    g_signal_connect (window, "delete_event",
+                      G_CALLBACK (on_window_delete_event), NULL);
+    g_signal_connect (window, "hide",
+                      G_CALLBACK (on_window_hide_event), NULL);
+    g_signal_connect (window, "destroy",
+                      G_CALLBACK (on_window_destroy_event), NULL);
+    g_signal_connect (window, "response",
+                      G_CALLBACK (caja_bookmarks_window_response_callback), NULL);
+
+    name_field_changed_signal_id =
+        g_signal_connect (name_field, "changed",
+                          G_CALLBACK (on_name_field_changed), NULL);
+
+    g_signal_connect (name_field, "focus_out_event",
+                      G_CALLBACK (on_text_field_focus_out_event), NULL);
+    g_signal_connect (name_field, "activate",
+                      G_CALLBACK (name_or_uri_field_activate), NULL);
+
+    uri_field_changed_signal_id =
+        g_signal_connect (uri_field, "changed",
+                          G_CALLBACK (on_uri_field_changed), NULL);
+
+    g_signal_connect (uri_field, "focus_out_event",
+                      G_CALLBACK (on_text_field_focus_out_event), NULL);
+    g_signal_connect (uri_field, "activate",
+                      G_CALLBACK (name_or_uri_field_activate), NULL);
+    g_signal_connect (remove_button, "clicked",
+                      G_CALLBACK (on_remove_button_clicked), NULL);
+    jump_button_signal_id =
+        g_signal_connect (jump_button, "clicked",
+                          G_CALLBACK (on_jump_button_clicked), undo_manager_source);
+
+    gtk_tree_selection_set_mode (bookmark_selection, GTK_SELECTION_BROWSE);
+
+    /* Fill in list widget with bookmarks, must be after signals are wired up. */
+    repopulate();
+
+    g_object_unref (builder);
+
+    return GTK_WINDOW (window);
 }
 
 void
 edit_bookmarks_dialog_set_signals (GObject *undo_manager_source)
 {
 
-	g_signal_handler_disconnect (GTK_OBJECT (jump_button), 
-				     jump_button_signal_id);
-	g_signal_handler_disconnect (GTK_OBJECT (bookmark_list_widget),
-				     row_activated_signal_id);
+    g_signal_handler_disconnect (GTK_OBJECT (jump_button),
+                                 jump_button_signal_id);
+    g_signal_handler_disconnect (GTK_OBJECT (bookmark_list_widget),
+                                 row_activated_signal_id);
 
-	jump_button_signal_id =
-		g_signal_connect (jump_button, "clicked",
-				  G_CALLBACK (on_jump_button_clicked), undo_manager_source);
-	row_activated_signal_id =
-		g_signal_connect (bookmark_list_widget, "row_activated",
-				  G_CALLBACK (on_row_activated), undo_manager_source);
+    jump_button_signal_id =
+        g_signal_connect (jump_button, "clicked",
+                          G_CALLBACK (on_jump_button_clicked), undo_manager_source);
+    row_activated_signal_id =
+        g_signal_connect (bookmark_list_widget, "row_activated",
+                          G_CALLBACK (on_row_activated), undo_manager_source);
 
-	g_object_weak_ref (G_OBJECT (undo_manager_source), edit_bookmarks_dialog_reset_signals,
-			   undo_manager_source);
+    g_object_weak_ref (G_OBJECT (undo_manager_source), edit_bookmarks_dialog_reset_signals,
+                       undo_manager_source);
 }
 
 static CajaBookmark *
 get_selected_bookmark (void)
 {
-	g_return_val_if_fail(CAJA_IS_BOOKMARK_LIST(bookmarks), NULL);
+    g_return_val_if_fail(CAJA_IS_BOOKMARK_LIST(bookmarks), NULL);
 
-	if (!get_selection_exists())
-		return NULL;
+    if (!get_selection_exists())
+        return NULL;
 
-	if (caja_bookmark_list_length (bookmarks) < 1)
-		return NULL;
+    if (caja_bookmark_list_length (bookmarks) < 1)
+        return NULL;
 
-	return caja_bookmark_list_item_at(bookmarks, get_selected_row ());
+    return caja_bookmark_list_item_at(bookmarks, get_selected_row ());
 }
 
 static guint
 get_selected_row (void)
 {
-	GtkTreeIter       iter;
-	GtkTreePath      *path;
-	GtkTreeModel     *model;
-	gint		 *indices, row;
-	
-	g_assert (get_selection_exists());
-	
-	model = GTK_TREE_MODEL (bookmark_list_store);
-	gtk_tree_selection_get_selected (bookmark_selection,
-					 &model,
-					 &iter);
-	
-	path = gtk_tree_model_get_path (model, &iter);
-	indices = gtk_tree_path_get_indices (path);
-	row = indices[0];
-	gtk_tree_path_free (path);
-	return row;
+    GtkTreeIter       iter;
+    GtkTreePath      *path;
+    GtkTreeModel     *model;
+    gint		 *indices, row;
+
+    g_assert (get_selection_exists());
+
+    model = GTK_TREE_MODEL (bookmark_list_store);
+    gtk_tree_selection_get_selected (bookmark_selection,
+                                     &model,
+                                     &iter);
+
+    path = gtk_tree_model_get_path (model, &iter);
+    indices = gtk_tree_path_get_indices (path);
+    row = indices[0];
+    gtk_tree_path_free (path);
+    return row;
 }
 
 static gboolean
 get_selection_exists (void)
 {
-	return gtk_tree_selection_get_selected (bookmark_selection, NULL, NULL);
+    return gtk_tree_selection_get_selected (bookmark_selection, NULL, NULL);
 }
 
 static void
 caja_bookmarks_window_restore_geometry (GtkWidget *window)
 {
-	const char *window_geometry;
-	
-	g_return_if_fail (GTK_IS_WINDOW (window));
-	g_return_if_fail (CAJA_IS_BOOKMARK_LIST (bookmarks));
+    const char *window_geometry;
 
-	window_geometry = caja_bookmark_list_get_window_geometry (bookmarks);
+    g_return_if_fail (GTK_IS_WINDOW (window));
+    g_return_if_fail (CAJA_IS_BOOKMARK_LIST (bookmarks));
 
-	if (window_geometry != NULL) {	
-		eel_gtk_window_set_initial_geometry_from_string 
-			(GTK_WINDOW (window), window_geometry, 
-			 BOOKMARKS_WINDOW_MIN_WIDTH, BOOKMARKS_WINDOW_MIN_HEIGHT, FALSE);
+    window_geometry = caja_bookmark_list_get_window_geometry (bookmarks);
 
-	} else {
-		/* use default since there was no stored geometry */
-		gtk_window_set_default_size (GTK_WINDOW (window), 
-					     BOOKMARKS_WINDOW_INITIAL_WIDTH, 
-					     BOOKMARKS_WINDOW_INITIAL_HEIGHT);
+    if (window_geometry != NULL)
+    {
+        eel_gtk_window_set_initial_geometry_from_string
+        (GTK_WINDOW (window), window_geometry,
+         BOOKMARKS_WINDOW_MIN_WIDTH, BOOKMARKS_WINDOW_MIN_HEIGHT, FALSE);
 
-		/* Let window manager handle default position if no position stored */
-	}
+    }
+    else
+    {
+        /* use default since there was no stored geometry */
+        gtk_window_set_default_size (GTK_WINDOW (window),
+                                     BOOKMARKS_WINDOW_INITIAL_WIDTH,
+                                     BOOKMARKS_WINDOW_INITIAL_HEIGHT);
+
+        /* Let window manager handle default position if no position stored */
+    }
 }
 
 /**
  * caja_bookmarks_window_save_geometry:
- * 
+ *
  * Save window size & position to disk.
  * @window: The bookmarks window whose geometry should be saved.
  **/
 void
 caja_bookmarks_window_save_geometry (GtkWindow *window)
 {
-	g_return_if_fail (GTK_IS_WINDOW (window));
-	g_return_if_fail (CAJA_IS_BOOKMARK_LIST (bookmarks));
+    g_return_if_fail (GTK_IS_WINDOW (window));
+    g_return_if_fail (CAJA_IS_BOOKMARK_LIST (bookmarks));
 
-	/* Don't bother if window is already closed */
-	if (gtk_widget_get_visible (GTK_WIDGET (window))) {
-		char *geometry_string;
-		
-		geometry_string = eel_gtk_window_get_geometry_string (window);
+    /* Don't bother if window is already closed */
+    if (gtk_widget_get_visible (GTK_WIDGET (window)))
+    {
+        char *geometry_string;
 
-		caja_bookmark_list_set_window_geometry (bookmarks, geometry_string);
-		g_free (geometry_string);
-	}
+        geometry_string = eel_gtk_window_get_geometry_string (window);
+
+        caja_bookmark_list_set_window_geometry (bookmarks, geometry_string);
+        g_free (geometry_string);
+    }
 }
 
 static void
 on_bookmark_list_changed (CajaBookmarkList *bookmarks, gpointer data)
 {
-	g_return_if_fail (CAJA_IS_BOOKMARK_LIST (bookmarks));
+    g_return_if_fail (CAJA_IS_BOOKMARK_LIST (bookmarks));
 
-	/* maybe add logic here or in repopulate to save/restore selection */
-	repopulate ();
+    /* maybe add logic here or in repopulate to save/restore selection */
+    repopulate ();
 }
 
 static void
 on_name_field_changed (GtkEditable *editable,
-		       gpointer     user_data)
+                       gpointer     user_data)
 {
-	GtkTreeIter   iter;
-	g_return_if_fail(GTK_IS_TREE_VIEW(bookmark_list_widget));
-	g_return_if_fail(GTK_IS_ENTRY(name_field));
+    GtkTreeIter   iter;
+    g_return_if_fail(GTK_IS_TREE_VIEW(bookmark_list_widget));
+    g_return_if_fail(GTK_IS_ENTRY(name_field));
 
-	if (!get_selection_exists())
-		return;
+    if (!get_selection_exists())
+        return;
 
-	/* Update text displayed in list instantly. Also remember that 
-	 * user has changed text so we update real bookmark later. 
-	 */
-	gtk_tree_selection_get_selected (bookmark_selection,
-					 NULL,
-					 &iter);
-	
-	gtk_list_store_set (bookmark_list_store, 
-			    &iter, BOOKMARK_LIST_COLUMN_NAME, 
-			    gtk_entry_get_text (GTK_ENTRY (name_field)),
-			    -1);
-	text_changed = TRUE;
-	name_text_changed = TRUE;
+    /* Update text displayed in list instantly. Also remember that
+     * user has changed text so we update real bookmark later.
+     */
+    gtk_tree_selection_get_selected (bookmark_selection,
+                                     NULL,
+                                     &iter);
+
+    gtk_list_store_set (bookmark_list_store,
+                        &iter, BOOKMARK_LIST_COLUMN_NAME,
+                        gtk_entry_get_text (GTK_ENTRY (name_field)),
+                        -1);
+    text_changed = TRUE;
+    name_text_changed = TRUE;
 }
 
 static void
 open_selected_bookmark (gpointer user_data, GdkScreen *screen)
 {
-	CajaBookmark *selected;
-	CajaWindow *window;
-	GFile *location;
-	
-	selected = get_selected_bookmark ();
+    CajaBookmark *selected;
+    CajaWindow *window;
+    GFile *location;
 
-	if (!selected) {
-		return;
-	}
+    selected = get_selected_bookmark ();
 
-	location = caja_bookmark_get_location (selected);
-	if (location == NULL) { 
-		return;
-	}
+    if (!selected)
+    {
+        return;
+    }
 
-	if (CAJA_IS_NAVIGATION_WINDOW (user_data)) {
-		caja_window_go_to (CAJA_WINDOW (user_data), location);
-	} else if (CAJA_IS_SPATIAL_WINDOW (user_data)) {
-		window = caja_application_present_spatial_window (application, 
-								      NULL,
-								      NULL,
-								      location,
-								      screen);
-	} else { /* window that opened bookmarks window has been closed */
-		if (parent_is_browser_window || eel_preferences_get_boolean (CAJA_PREFERENCES_ALWAYS_USE_BROWSER)) {
-			window = caja_application_create_navigation_window (application, 
-										NULL,
-										screen);
-			caja_window_go_to (window, location);
-		} else {
-			window = caja_application_present_spatial_window (application, 
-									      NULL,
-									      NULL,
-									      location,
-									      screen);
-		}
-	}
+    location = caja_bookmark_get_location (selected);
+    if (location == NULL)
+    {
+        return;
+    }
 
-	g_object_unref (location);
+    if (CAJA_IS_NAVIGATION_WINDOW (user_data))
+    {
+        caja_window_go_to (CAJA_WINDOW (user_data), location);
+    }
+    else if (CAJA_IS_SPATIAL_WINDOW (user_data))
+    {
+        window = caja_application_present_spatial_window (application,
+                 NULL,
+                 NULL,
+                 location,
+                 screen);
+    }
+    else     /* window that opened bookmarks window has been closed */
+    {
+        if (parent_is_browser_window || eel_preferences_get_boolean (CAJA_PREFERENCES_ALWAYS_USE_BROWSER))
+        {
+            window = caja_application_create_navigation_window (application,
+                     NULL,
+                     screen);
+            caja_window_go_to (window, location);
+        }
+        else
+        {
+            window = caja_application_present_spatial_window (application,
+                     NULL,
+                     NULL,
+                     location,
+                     screen);
+        }
+    }
+
+    g_object_unref (location);
 }
 
 static void
 on_jump_button_clicked (GtkButton *button,
                         gpointer   user_data)
 {
-	GdkScreen *screen;
+    GdkScreen *screen;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (button));
-	open_selected_bookmark (user_data, screen);
+    screen = gtk_widget_get_screen (GTK_WIDGET (button));
+    open_selected_bookmark (user_data, screen);
 }
 
 static void
 bookmarks_delete_bookmark (void)
 {
-	GtkTreeIter iter;
-	GtkTreePath *path;
-	gint *indices, row, rows;
+    GtkTreeIter iter;
+    GtkTreePath *path;
+    gint *indices, row, rows;
 
-	g_assert (GTK_IS_TREE_VIEW (bookmark_list_widget));
-	
-	if (!gtk_tree_selection_get_selected (bookmark_selection, NULL, &iter))
-		return;
+    g_assert (GTK_IS_TREE_VIEW (bookmark_list_widget));
 
-	/* Remove the selected item from the list store. on_row_deleted() will
-	   remove it from the bookmark list. */
-	path = gtk_tree_model_get_path (GTK_TREE_MODEL (bookmark_list_store),
-					&iter);
-	indices = gtk_tree_path_get_indices (path);
-	row = indices[0];
-	gtk_tree_path_free (path);
+    if (!gtk_tree_selection_get_selected (bookmark_selection, NULL, &iter))
+        return;
 
-	gtk_list_store_remove (bookmark_list_store, &iter);
+    /* Remove the selected item from the list store. on_row_deleted() will
+       remove it from the bookmark list. */
+    path = gtk_tree_model_get_path (GTK_TREE_MODEL (bookmark_list_store),
+                                    &iter);
+    indices = gtk_tree_path_get_indices (path);
+    row = indices[0];
+    gtk_tree_path_free (path);
 
-	/* Try to select the same row, or the last one in the list. */
-	rows = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (bookmark_list_store), NULL);
-	if (row >= rows)
-		row = rows - 1;
+    gtk_list_store_remove (bookmark_list_store, &iter);
 
-	if (row < 0) {
-		bookmarks_set_empty (TRUE);
-	} else {
-		gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (bookmark_list_store),
-					       &iter, NULL, row);
-		gtk_tree_selection_select_iter (bookmark_selection, &iter);
-	}
+    /* Try to select the same row, or the last one in the list. */
+    rows = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (bookmark_list_store), NULL);
+    if (row >= rows)
+        row = rows - 1;
+
+    if (row < 0)
+    {
+        bookmarks_set_empty (TRUE);
+    }
+    else
+    {
+        gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (bookmark_list_store),
+                                       &iter, NULL, row);
+        gtk_tree_selection_select_iter (bookmark_selection, &iter);
+    }
 }
 
 static void
 on_remove_button_clicked (GtkButton *button,
                           gpointer   user_data)
 {
-        bookmarks_delete_bookmark ();
+    bookmarks_delete_bookmark ();
 }
 
 
@@ -653,47 +682,49 @@ on_remove_button_clicked (GtkButton *button,
    list. */
 static void
 on_row_changed (GtkListStore *store,
-		GtkTreePath *path,
-		GtkTreeIter *iter,
-		gpointer user_data)
+                GtkTreePath *path,
+                GtkTreeIter *iter,
+                gpointer user_data)
 {
-	CajaBookmark *bookmark = NULL, *bookmark_in_list;
-	gint *indices, row;
-	gboolean insert_bookmark = TRUE;
+    CajaBookmark *bookmark = NULL, *bookmark_in_list;
+    gint *indices, row;
+    gboolean insert_bookmark = TRUE;
 
-	store = bookmark_list_store;
+    store = bookmark_list_store;
 
-	indices = gtk_tree_path_get_indices (path);
-	row = indices[0];
-	gtk_tree_model_get (GTK_TREE_MODEL (store), iter,
-			    BOOKMARK_LIST_COLUMN_BOOKMARK, &bookmark,
-			    -1);
+    indices = gtk_tree_path_get_indices (path);
+    row = indices[0];
+    gtk_tree_model_get (GTK_TREE_MODEL (store), iter,
+                        BOOKMARK_LIST_COLUMN_BOOKMARK, &bookmark,
+                        -1);
 
-	/* If the bookmark in the list doesn't match the changed one, it must
-	   have been dragged here, so we insert it into the list. */
-	if (row < (gint) caja_bookmark_list_length (bookmarks)) {
-		bookmark_in_list = caja_bookmark_list_item_at (bookmarks,
-								   row);
-		if (bookmark_in_list == bookmark)
-			insert_bookmark = FALSE;
-	}
+    /* If the bookmark in the list doesn't match the changed one, it must
+       have been dragged here, so we insert it into the list. */
+    if (row < (gint) caja_bookmark_list_length (bookmarks))
+    {
+        bookmark_in_list = caja_bookmark_list_item_at (bookmarks,
+                           row);
+        if (bookmark_in_list == bookmark)
+            insert_bookmark = FALSE;
+    }
 
-	if (insert_bookmark) {
-		g_signal_handler_block (bookmarks,
-					bookmark_list_changed_signal_id);
-		caja_bookmark_list_insert_item (bookmarks, bookmark, row);
-		g_signal_handler_unblock (bookmarks,
-					  bookmark_list_changed_signal_id);
+    if (insert_bookmark)
+    {
+        g_signal_handler_block (bookmarks,
+                                bookmark_list_changed_signal_id);
+        caja_bookmark_list_insert_item (bookmarks, bookmark, row);
+        g_signal_handler_unblock (bookmarks,
+                                  bookmark_list_changed_signal_id);
 
-		/* The bookmark will be copied when inserted into the list, so
-		   we have to update the pointer in the list store. */
-		bookmark = caja_bookmark_list_item_at (bookmarks, row);
-		g_signal_handler_block (store, row_changed_signal_id);
-		gtk_list_store_set (store, iter,
-				    BOOKMARK_LIST_COLUMN_BOOKMARK, bookmark,
-				    -1);
-		g_signal_handler_unblock (store, row_changed_signal_id);
-	}
+        /* The bookmark will be copied when inserted into the list, so
+           we have to update the pointer in the list store. */
+        bookmark = caja_bookmark_list_item_at (bookmarks, row);
+        g_signal_handler_block (store, row_changed_signal_id);
+        gtk_list_store_set (store, iter,
+                            BOOKMARK_LIST_COLUMN_BOOKMARK, bookmark,
+                            -1);
+        g_signal_handler_unblock (store, row_changed_signal_id);
+    }
 }
 
 /* The update_bookmark_from_text() calls in the
@@ -710,12 +741,12 @@ on_row_changed (GtkListStore *store,
 
 static gboolean
 on_button_pressed (GtkTreeView *view,
-		   GdkEventButton *event,
-		   gpointer user_data)
+                   GdkEventButton *event,
+                   gpointer user_data)
 {
-	update_bookmark_from_text ();
+    update_bookmark_from_text ();
 
-	return FALSE;
+    return FALSE;
 }
 
 static gboolean
@@ -723,14 +754,15 @@ on_key_pressed (GtkTreeView *view,
                 GdkEventKey *event,
                 gpointer user_data)
 {
-        if (event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete) {
-                bookmarks_delete_bookmark ();
-                return TRUE;
-        }
+    if (event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
+    {
+        bookmarks_delete_bookmark ();
+        return TRUE;
+    }
 
-	update_bookmark_from_text ();
+    update_bookmark_from_text ();
 
-        return FALSE;
+    return FALSE;
 }
 
 static void
@@ -739,335 +771,342 @@ on_row_activated (GtkTreeView       *view,
                   GtkTreeViewColumn *column,
                   gpointer           user_data)
 {
-	GdkScreen *screen;
+    GdkScreen *screen;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (view));
-	open_selected_bookmark (user_data, screen);
+    screen = gtk_widget_get_screen (GTK_WIDGET (view));
+    open_selected_bookmark (user_data, screen);
 }
 
 static void
 on_row_deleted (GtkListStore *store,
-		GtkTreePath *path,
-		gpointer user_data)
+                GtkTreePath *path,
+                gpointer user_data)
 {
-	gint *indices, row;
+    gint *indices, row;
 
-	indices = gtk_tree_path_get_indices (path);
-	row = indices[0];
+    indices = gtk_tree_path_get_indices (path);
+    row = indices[0];
 
-	g_signal_handler_block (bookmarks, bookmark_list_changed_signal_id);
-	caja_bookmark_list_delete_item_at (bookmarks, row);
-	g_signal_handler_unblock (bookmarks, bookmark_list_changed_signal_id);
+    g_signal_handler_block (bookmarks, bookmark_list_changed_signal_id);
+    caja_bookmark_list_delete_item_at (bookmarks, row);
+    g_signal_handler_unblock (bookmarks, bookmark_list_changed_signal_id);
 }
 
 static void
 on_selection_changed (GtkTreeSelection *treeselection,
-		      gpointer user_data)
+                      gpointer user_data)
 {
-	CajaBookmark *selected;
-	char *name = NULL, *entry_text = NULL;
-	GFile *location;
+    CajaBookmark *selected;
+    char *name = NULL, *entry_text = NULL;
+    GFile *location;
 
-	g_assert (GTK_IS_ENTRY (name_field));
-	g_assert (GTK_IS_ENTRY (uri_field));
+    g_assert (GTK_IS_ENTRY (name_field));
+    g_assert (GTK_IS_ENTRY (uri_field));
 
-	selected = get_selected_bookmark ();
+    selected = get_selected_bookmark ();
 
-	if (selected) {
-		name = caja_bookmark_get_name (selected);
-		location = caja_bookmark_get_location (selected);
-		entry_text = g_file_get_parse_name (location);
+    if (selected)
+    {
+        name = caja_bookmark_get_name (selected);
+        location = caja_bookmark_get_location (selected);
+        entry_text = g_file_get_parse_name (location);
 
-		g_object_unref (location);
-	}
-	
-	/* Set the sensitivity of widgets that require a selection */
-	gtk_widget_set_sensitive (remove_button, selected != NULL);
-        gtk_widget_set_sensitive (jump_button, selected != NULL);
-	gtk_widget_set_sensitive (name_field, selected != NULL);
-	gtk_widget_set_sensitive (uri_field, selected != NULL);
+        g_object_unref (location);
+    }
 
-	g_signal_handler_block (name_field, name_field_changed_signal_id);
-	caja_entry_set_text (CAJA_ENTRY (name_field),
-				 name ? name : "");
-	g_signal_handler_unblock (name_field, name_field_changed_signal_id);
+    /* Set the sensitivity of widgets that require a selection */
+    gtk_widget_set_sensitive (remove_button, selected != NULL);
+    gtk_widget_set_sensitive (jump_button, selected != NULL);
+    gtk_widget_set_sensitive (name_field, selected != NULL);
+    gtk_widget_set_sensitive (uri_field, selected != NULL);
 
-	g_signal_handler_block (uri_field, uri_field_changed_signal_id);
-	caja_entry_set_text (CAJA_ENTRY (uri_field),
-				 entry_text ? entry_text : "");
-	g_signal_handler_unblock (uri_field, uri_field_changed_signal_id);
+    g_signal_handler_block (name_field, name_field_changed_signal_id);
+    caja_entry_set_text (CAJA_ENTRY (name_field),
+                         name ? name : "");
+    g_signal_handler_unblock (name_field, name_field_changed_signal_id);
 
-	text_changed = FALSE;
-	name_text_changed = FALSE;
+    g_signal_handler_block (uri_field, uri_field_changed_signal_id);
+    caja_entry_set_text (CAJA_ENTRY (uri_field),
+                         entry_text ? entry_text : "");
+    g_signal_handler_unblock (uri_field, uri_field_changed_signal_id);
 
-	g_free (name);
-	g_free (entry_text);
+    text_changed = FALSE;
+    name_text_changed = FALSE;
+
+    g_free (name);
+    g_free (entry_text);
 }
 
 
 static void
 update_bookmark_from_text (void)
 {
-	if (text_changed) {
-		CajaBookmark *bookmark, *bookmark_in_list;
-		char *name;
-		GdkPixbuf *pixbuf;
-		guint selected_row;
-		GtkTreeIter iter;
-		GFile *location;
+    if (text_changed)
+    {
+        CajaBookmark *bookmark, *bookmark_in_list;
+        char *name;
+        GdkPixbuf *pixbuf;
+        guint selected_row;
+        GtkTreeIter iter;
+        GFile *location;
 
-		g_assert (GTK_IS_ENTRY (name_field));
-		g_assert (GTK_IS_ENTRY (uri_field));
+        g_assert (GTK_IS_ENTRY (name_field));
+        g_assert (GTK_IS_ENTRY (uri_field));
 
-		if (gtk_entry_get_text_length (GTK_ENTRY (uri_field)) == 0) {
-			return;
-		}
+        if (gtk_entry_get_text_length (GTK_ENTRY (uri_field)) == 0)
+        {
+            return;
+        }
 
-		location = g_file_parse_name 
-			(gtk_entry_get_text (GTK_ENTRY (uri_field)));
-		
-		bookmark = caja_bookmark_new (location, gtk_entry_get_text (GTK_ENTRY (name_field)),
-		                                  name_text_changed, NULL);
-		
-		g_object_unref (location);
+        location = g_file_parse_name
+                   (gtk_entry_get_text (GTK_ENTRY (uri_field)));
 
-		selected_row = get_selected_row ();
+        bookmark = caja_bookmark_new (location, gtk_entry_get_text (GTK_ENTRY (name_field)),
+                                      name_text_changed, NULL);
 
-		/* turn off list updating 'cuz otherwise the list-reordering code runs
-		 * after repopulate(), thus reordering the correctly-ordered list.
-		 */
-		g_signal_handler_block (bookmarks, 
-					bookmark_list_changed_signal_id);
-		caja_bookmark_list_delete_item_at (bookmarks, selected_row);
-		caja_bookmark_list_insert_item (bookmarks, bookmark, selected_row);
-		g_signal_handler_unblock (bookmarks, 
-					  bookmark_list_changed_signal_id);
-		g_object_unref (bookmark);
+        g_object_unref (location);
 
-		/* We also have to update the bookmark pointer in the list
-		   store. */
-		gtk_tree_selection_get_selected (bookmark_selection,
-						 NULL, &iter);
-		g_signal_handler_block (bookmark_list_store,
-					row_changed_signal_id);
+        selected_row = get_selected_row ();
 
-		bookmark_in_list = caja_bookmark_list_item_at (bookmarks,
-								   selected_row);
+        /* turn off list updating 'cuz otherwise the list-reordering code runs
+         * after repopulate(), thus reordering the correctly-ordered list.
+         */
+        g_signal_handler_block (bookmarks,
+                                bookmark_list_changed_signal_id);
+        caja_bookmark_list_delete_item_at (bookmarks, selected_row);
+        caja_bookmark_list_insert_item (bookmarks, bookmark, selected_row);
+        g_signal_handler_unblock (bookmarks,
+                                  bookmark_list_changed_signal_id);
+        g_object_unref (bookmark);
 
-		name = caja_bookmark_get_name (bookmark_in_list);
+        /* We also have to update the bookmark pointer in the list
+           store. */
+        gtk_tree_selection_get_selected (bookmark_selection,
+                                         NULL, &iter);
+        g_signal_handler_block (bookmark_list_store,
+                                row_changed_signal_id);
 
-		pixbuf = caja_bookmark_get_pixbuf (bookmark_in_list, GTK_ICON_SIZE_MENU);
+        bookmark_in_list = caja_bookmark_list_item_at (bookmarks,
+                           selected_row);
 
-		gtk_list_store_set (bookmark_list_store, &iter,
-				    BOOKMARK_LIST_COLUMN_BOOKMARK, bookmark_in_list,
-				    BOOKMARK_LIST_COLUMN_NAME, name,
-				    BOOKMARK_LIST_COLUMN_ICON, pixbuf,
-				    -1);
-		g_signal_handler_unblock (bookmark_list_store,
-					  row_changed_signal_id);
+        name = caja_bookmark_get_name (bookmark_in_list);
 
-		g_object_unref (pixbuf);
-		g_free (name);
-	}
+        pixbuf = caja_bookmark_get_pixbuf (bookmark_in_list, GTK_ICON_SIZE_MENU);
+
+        gtk_list_store_set (bookmark_list_store, &iter,
+                            BOOKMARK_LIST_COLUMN_BOOKMARK, bookmark_in_list,
+                            BOOKMARK_LIST_COLUMN_NAME, name,
+                            BOOKMARK_LIST_COLUMN_ICON, pixbuf,
+                            -1);
+        g_signal_handler_unblock (bookmark_list_store,
+                                  row_changed_signal_id);
+
+        g_object_unref (pixbuf);
+        g_free (name);
+    }
 }
 
 static gboolean
 on_text_field_focus_out_event (GtkWidget *widget,
-			       GdkEventFocus *event,
-			       gpointer user_data)
+                               GdkEventFocus *event,
+                               gpointer user_data)
 {
-	g_assert (CAJA_IS_ENTRY (widget));
+    g_assert (CAJA_IS_ENTRY (widget));
 
-	update_bookmark_from_text ();
-	return FALSE;
+    update_bookmark_from_text ();
+    return FALSE;
 }
 
 static void
 name_or_uri_field_activate (CajaEntry *entry)
 {
-	g_assert (CAJA_IS_ENTRY (entry));
+    g_assert (CAJA_IS_ENTRY (entry));
 
-	update_bookmark_from_text ();
-	caja_entry_select_all_at_idle (entry);
+    update_bookmark_from_text ();
+    caja_entry_select_all_at_idle (entry);
 }
 
 static void
 on_uri_field_changed (GtkEditable *editable,
-		      gpointer user_data)
+                      gpointer user_data)
 {
-	/* Remember that user has changed text so we 
-	 * update real bookmark later. 
-	 */
-	text_changed = TRUE;
+    /* Remember that user has changed text so we
+     * update real bookmark later.
+     */
+    text_changed = TRUE;
 }
 
 static gboolean
 on_window_delete_event (GtkWidget *widget,
-			GdkEvent *event,
-			gpointer user_data)
+                        GdkEvent *event,
+                        gpointer user_data)
 {
-	gtk_widget_hide (widget);
-	return TRUE;
+    gtk_widget_hide (widget);
+    return TRUE;
 }
 
 static gboolean
 restore_geometry (gpointer data)
 {
-	g_assert (GTK_IS_WINDOW (data));
+    g_assert (GTK_IS_WINDOW (data));
 
-	caja_bookmarks_window_restore_geometry (GTK_WIDGET (data));
+    caja_bookmarks_window_restore_geometry (GTK_WIDGET (data));
 
-	/* Don't call this again */
-	return FALSE;
+    /* Don't call this again */
+    return FALSE;
 }
 
 static void
 on_window_hide_event (GtkWidget *widget,
-		      gpointer user_data)
+                      gpointer user_data)
 {
-	caja_bookmarks_window_save_geometry (GTK_WINDOW (widget));
+    caja_bookmarks_window_save_geometry (GTK_WINDOW (widget));
 
-	/* Disable undo for entry widgets */
-	caja_undo_unregister (G_OBJECT (name_field));
-	caja_undo_unregister (G_OBJECT (uri_field));
+    /* Disable undo for entry widgets */
+    caja_undo_unregister (G_OBJECT (name_field));
+    caja_undo_unregister (G_OBJECT (uri_field));
 
-	/* restore_geometry only works after window is hidden */
-	g_idle_add (restore_geometry, widget);
+    /* restore_geometry only works after window is hidden */
+    g_idle_add (restore_geometry, widget);
 }
 
 static void
 on_window_destroy_event (GtkWidget *widget,
-		      	 gpointer user_data)
+                         gpointer user_data)
 {
-	g_object_unref (bookmark_list_store);
-	g_object_unref (bookmark_empty_list_store);
-	g_source_remove_by_user_data (widget);
+    g_object_unref (bookmark_list_store);
+    g_object_unref (bookmark_empty_list_store);
+    g_source_remove_by_user_data (widget);
 }
 
 static void
 repopulate (void)
 {
-	CajaBookmark *selected;
-	GtkListStore *store;
-	GtkTreePath *path;
-	GtkTreeRowReference *reference;
-	guint index;
+    CajaBookmark *selected;
+    GtkListStore *store;
+    GtkTreePath *path;
+    GtkTreeRowReference *reference;
+    guint index;
 
-	g_assert (GTK_IS_TREE_VIEW (bookmark_list_widget));
-	g_assert (CAJA_IS_BOOKMARK_LIST (bookmarks));
-	
-	store = GTK_LIST_STORE (bookmark_list_store);
+    g_assert (GTK_IS_TREE_VIEW (bookmark_list_widget));
+    g_assert (CAJA_IS_BOOKMARK_LIST (bookmarks));
 
-	selected = get_selected_bookmark ();
+    store = GTK_LIST_STORE (bookmark_list_store);
 
-	g_signal_handler_block (bookmark_selection,
-				selection_changed_id);
-	g_signal_handler_block (bookmark_list_store,
-				row_deleted_signal_id);
-        g_signal_handler_block (bookmark_list_widget,
-                                row_activated_signal_id);
-        g_signal_handler_block (bookmark_list_widget,
-                                key_pressed_signal_id);
-        g_signal_handler_block (bookmark_list_widget,
-                                button_pressed_signal_id);
+    selected = get_selected_bookmark ();
 
-	gtk_list_store_clear (store);
-	
-	g_signal_handler_unblock (bookmark_list_widget,
-				  row_activated_signal_id);
-        g_signal_handler_unblock (bookmark_list_widget,
-                                  key_pressed_signal_id);
-        g_signal_handler_unblock (bookmark_list_widget,
-                                  button_pressed_signal_id);
-	g_signal_handler_unblock (bookmark_list_store,
-				  row_deleted_signal_id);
-	g_signal_handler_unblock (bookmark_selection,
-				  selection_changed_id);
-	
-	/* Fill the list in with the bookmark names. */
-	g_signal_handler_block (store, row_changed_signal_id);
+    g_signal_handler_block (bookmark_selection,
+                            selection_changed_id);
+    g_signal_handler_block (bookmark_list_store,
+                            row_deleted_signal_id);
+    g_signal_handler_block (bookmark_list_widget,
+                            row_activated_signal_id);
+    g_signal_handler_block (bookmark_list_widget,
+                            key_pressed_signal_id);
+    g_signal_handler_block (bookmark_list_widget,
+                            button_pressed_signal_id);
 
-	reference = NULL;
+    gtk_list_store_clear (store);
 
-	for (index = 0; index < caja_bookmark_list_length (bookmarks); ++index) {
-		CajaBookmark *bookmark;
-		char             *bookmark_name;
-		GdkPixbuf        *bookmark_pixbuf;
-		GtkTreeIter       iter;
+    g_signal_handler_unblock (bookmark_list_widget,
+                              row_activated_signal_id);
+    g_signal_handler_unblock (bookmark_list_widget,
+                              key_pressed_signal_id);
+    g_signal_handler_unblock (bookmark_list_widget,
+                              button_pressed_signal_id);
+    g_signal_handler_unblock (bookmark_list_store,
+                              row_deleted_signal_id);
+    g_signal_handler_unblock (bookmark_selection,
+                              selection_changed_id);
 
-		bookmark = caja_bookmark_list_item_at (bookmarks, index);
-		bookmark_name = caja_bookmark_get_name (bookmark);
-		bookmark_pixbuf = caja_bookmark_get_pixbuf (bookmark, GTK_ICON_SIZE_MENU);
-		
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 
-				    BOOKMARK_LIST_COLUMN_ICON, bookmark_pixbuf,
-				    BOOKMARK_LIST_COLUMN_NAME, bookmark_name,
-				    BOOKMARK_LIST_COLUMN_BOOKMARK, bookmark,
-				    BOOKMARK_LIST_COLUMN_STYLE, PANGO_STYLE_NORMAL,
-				    -1);
+    /* Fill the list in with the bookmark names. */
+    g_signal_handler_block (store, row_changed_signal_id);
 
-		if (bookmark == selected) {
-			/* save old selection */
-			GtkTreePath *path;
+    reference = NULL;
 
-			path = gtk_tree_model_get_path (GTK_TREE_MODEL (store), &iter);
-			reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (store), path);
-			gtk_tree_path_free (path);
-		}
+    for (index = 0; index < caja_bookmark_list_length (bookmarks); ++index)
+    {
+        CajaBookmark *bookmark;
+        char             *bookmark_name;
+        GdkPixbuf        *bookmark_pixbuf;
+        GtkTreeIter       iter;
 
-		g_free (bookmark_name);
-		g_object_unref (bookmark_pixbuf);
-		
-	}
-	g_signal_handler_unblock (store, row_changed_signal_id);
+        bookmark = caja_bookmark_list_item_at (bookmarks, index);
+        bookmark_name = caja_bookmark_get_name (bookmark);
+        bookmark_pixbuf = caja_bookmark_get_pixbuf (bookmark, GTK_ICON_SIZE_MENU);
 
-	if (reference != NULL) {
-		/* restore old selection */
+        gtk_list_store_append (store, &iter);
+        gtk_list_store_set (store, &iter,
+                            BOOKMARK_LIST_COLUMN_ICON, bookmark_pixbuf,
+                            BOOKMARK_LIST_COLUMN_NAME, bookmark_name,
+                            BOOKMARK_LIST_COLUMN_BOOKMARK, bookmark,
+                            BOOKMARK_LIST_COLUMN_STYLE, PANGO_STYLE_NORMAL,
+                            -1);
 
-		/* bookmarks_set_empty() will call the selection change handler,
- 		 * so we block it here in case of selection change.
- 		 */
-		g_signal_handler_block (bookmark_selection, selection_changed_id);
+        if (bookmark == selected)
+        {
+            /* save old selection */
+            GtkTreePath *path;
 
-		g_assert (index != 0);
-		g_assert (gtk_tree_row_reference_valid (reference));
+            path = gtk_tree_model_get_path (GTK_TREE_MODEL (store), &iter);
+            reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (store), path);
+            gtk_tree_path_free (path);
+        }
 
-		path = gtk_tree_row_reference_get_path (reference);
-		gtk_tree_selection_select_path (bookmark_selection, path);
-		gtk_tree_row_reference_free (reference);
-		gtk_tree_path_free (path);
+        g_free (bookmark_name);
+        g_object_unref (bookmark_pixbuf);
 
-		g_signal_handler_unblock (bookmark_selection, selection_changed_id);
-	}
+    }
+    g_signal_handler_unblock (store, row_changed_signal_id);
 
-	bookmarks_set_empty (index == 0);	  
+    if (reference != NULL)
+    {
+        /* restore old selection */
+
+        /* bookmarks_set_empty() will call the selection change handler,
+         * so we block it here in case of selection change.
+         */
+        g_signal_handler_block (bookmark_selection, selection_changed_id);
+
+        g_assert (index != 0);
+        g_assert (gtk_tree_row_reference_valid (reference));
+
+        path = gtk_tree_row_reference_get_path (reference);
+        gtk_tree_selection_select_path (bookmark_selection, path);
+        gtk_tree_row_reference_free (reference);
+        gtk_tree_path_free (path);
+
+        g_signal_handler_unblock (bookmark_selection, selection_changed_id);
+    }
+
+    bookmarks_set_empty (index == 0);
 }
 
 static int
-handle_close_accelerator (GtkWindow *window, 
-			  GdkEventKey *event, 
-			  gpointer user_data)
+handle_close_accelerator (GtkWindow *window,
+                          GdkEventKey *event,
+                          gpointer user_data)
 {
-	g_assert (GTK_IS_WINDOW (window));
-	g_assert (event != NULL);
-	g_assert (user_data == NULL);
+    g_assert (GTK_IS_WINDOW (window));
+    g_assert (event != NULL);
+    g_assert (user_data == NULL);
 
-	if (eel_gtk_window_event_is_close_accelerator (window, event)) {		
-		gtk_widget_hide (GTK_WIDGET (window));
-		return TRUE;
-	}
+    if (eel_gtk_window_event_is_close_accelerator (window, event))
+    {
+        gtk_widget_hide (GTK_WIDGET (window));
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 static void
 set_up_close_accelerator (GtkWidget *window)
 {
-	/* Note that we don't call eel_gtk_window_set_up_close_accelerator
-	 * here because we have to handle saving geometry before hiding the
-	 * window.
-	 */
-	g_signal_connect (window, "key_press_event",
-			  G_CALLBACK (handle_close_accelerator), NULL);
+    /* Note that we don't call eel_gtk_window_set_up_close_accelerator
+     * here because we have to handle saving geometry before hiding the
+     * window.
+     */
+    g_signal_connect (window, "key_press_event",
+                      G_CALLBACK (handle_close_accelerator), NULL);
 }

@@ -58,15 +58,16 @@ EEL_RGBA_COLOR_PACK((r), (g), (b), 0xFF)
 #define EEL_RGBA_COLOR_GET_A(color) (((color) >> 24) & 0xff)
 
 /* Bits returned by eel_gdk_parse_geometry */
-typedef enum {
-	EEL_GDK_NO_VALUE     = 0x00,
-	EEL_GDK_X_VALUE      = 0x01,
-	EEL_GDK_Y_VALUE      = 0x02,
-	EEL_GDK_WIDTH_VALUE  = 0x04,
-	EEL_GDK_HEIGHT_VALUE = 0x08,
-	EEL_GDK_ALL_VALUES   = 0x0f,
-	EEL_GDK_X_NEGATIVE   = 0x10,
-	EEL_GDK_Y_NEGATIVE   = 0x20
+typedef enum
+{
+    EEL_GDK_NO_VALUE     = 0x00,
+    EEL_GDK_X_VALUE      = 0x01,
+    EEL_GDK_Y_VALUE      = 0x02,
+    EEL_GDK_WIDTH_VALUE  = 0x04,
+    EEL_GDK_HEIGHT_VALUE = 0x08,
+    EEL_GDK_ALL_VALUES   = 0x0f,
+    EEL_GDK_X_NEGATIVE   = 0x10,
+    EEL_GDK_Y_NEGATIVE   = 0x20
 } EelGdkGeometryFlags;
 
 /* A gradient spec. is a string that contains a specifier for either a
@@ -75,44 +76,44 @@ typedef enum {
    If the gradient ends with ":h", the gradient is horizontal.
 */
 char *              eel_gradient_new                       (const char          *start_color,
-							    const char          *end_color,
-							    gboolean             is_horizontal);
+        const char          *end_color,
+        gboolean             is_horizontal);
 char *              eel_gradient_parse_one_color_spec      (const char          *spec,
-							    int                 *percent,
-							    const char         **next_spec);
+        int                 *percent,
+        const char         **next_spec);
 gboolean            eel_gradient_is_gradient               (const char          *gradient_spec);
 char *              eel_gradient_get_start_color_spec      (const char          *gradient_spec);
 char *              eel_gradient_get_end_color_spec        (const char          *gradient_spec);
 gboolean            eel_gradient_is_horizontal             (const char          *gradient_spec);
 char *              eel_gradient_set_left_color_spec       (const char          *gradient_spec,
-							    const char          *left_color);
+        const char          *left_color);
 char *              eel_gradient_set_top_color_spec        (const char          *gradient_spec,
-							    const char          *top_color);
+        const char          *top_color);
 char *              eel_gradient_set_right_color_spec      (const char          *gradient_spec,
-							    const char          *right_color);
+        const char          *right_color);
 char *              eel_gradient_set_bottom_color_spec     (const char          *gradient_spec,
-							    const char          *bottom_color);
+        const char          *bottom_color);
 
 
 /* A version of parse_color that substitutes a default color instead of returning
    a boolean to indicate it cannot be parsed.
 */
 void                eel_gdk_color_parse_with_default       (const char          *color_spec,
-							    const GdkColor      *default_color,
-							    GdkColor            *parsed_color);
+        const GdkColor      *default_color,
+        GdkColor            *parsed_color);
 void                eel_gdk_color_parse_with_white_default (const char          *color_spec,
-							    GdkColor            *parsed_color);
+        GdkColor            *parsed_color);
 guint32             eel_parse_rgb_with_default             (const char          *color_spec,
-							    guint32              default_rgb);
+        guint32              default_rgb);
 guint32             eel_parse_rgb_with_white_default       (const char          *color_spec);
 guint32             eel_rgb_shift_color                    (guint32              color,
-							    float                shift_by);
+        float                shift_by);
 guint32             eel_rgb16_to_rgb                       (gushort              r,
-							    gushort              g,
-							    gushort              b);
+        gushort              g,
+        gushort              b);
 guint32             eel_rgb8_to_rgb                        (guchar               r,
-							    guchar               g,
-							    guchar               b);
+        guchar               g,
+        guchar               b);
 guint32             eel_gdk_color_to_rgb                   (const GdkColor      *color);
 GdkColor            eel_gdk_rgb_to_color                   (guint32              color);
 char *              eel_gdk_rgb_to_color_spec              (guint32              color);
@@ -126,38 +127,38 @@ GdkBitmap *         eel_stipple_bitmap                     (void);
 
 /* Misc GdkRectangle helper functions */
 gboolean            eel_gdk_rectangle_contains_rectangle   (GdkRectangle         outer,
-							    GdkRectangle         inner);
+        GdkRectangle         inner);
 
 
 /* A basic operation we use for drawing gradients is interpolating two colors.*/
 guint32             eel_interpolate_color                  (gdouble              ratio,
-							    guint32              start_rgb,
-							    guint32              end_rgb);
+        guint32              start_rgb,
+        guint32              end_rgb);
 
 /* Misc GdkWindow helper functions */
 void                eel_gdk_window_bring_to_front          (GdkWindow           *window);
 void                eel_gdk_window_set_invisible_cursor    (GdkWindow           *window);
 void                eel_gdk_window_focus                   (GdkWindow           *window,
-							    guint32              timestamp);
+        guint32              timestamp);
 void                eel_gdk_window_set_wm_protocols        (GdkWindow           *window,
-							    GdkAtom             *protocols,
-							    int                  nprotocols);
+        GdkAtom             *protocols,
+        int                  nprotocols);
 
 
 void                eel_gdk_window_set_wm_hints_input      (GdkWindow           *w,
-							    gboolean             status);
+        gboolean             status);
 
 /* Wrapper for XParseGeometry */
 EelGdkGeometryFlags eel_gdk_parse_geometry                 (const char          *string,
-							    int                 *x_return,
-							    int                 *y_return,
-							    guint               *width_return,
-							    guint               *height_return);
+        int                 *x_return,
+        int                 *y_return,
+        guint               *width_return,
+        guint               *height_return);
 void                eel_gdk_draw_layout_with_drop_shadow   (GdkDrawable         *drawable,
-							    GdkGC               *gc,
-							    GdkColor            *text_color,
-							    GdkColor            *shadow_color,
-							    int                  x,
-							    int                  y,
-							    PangoLayout         *layout);
+        GdkGC               *gc,
+        GdkColor            *text_color,
+        GdkColor            *shadow_color,
+        int                  x,
+        int                  y,
+        PangoLayout         *layout);
 #endif /* EEL_GDK_EXTENSIONS_H */

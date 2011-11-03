@@ -43,29 +43,31 @@ extern "C" {
 #define CAJA_HORIZONTAL_SPLITTER_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_HORIZONTAL_SPLITTER, CajaHorizontalSplitterClass))
 
-typedef struct CajaHorizontalSplitterDetails CajaHorizontalSplitterDetails;
+    typedef struct CajaHorizontalSplitterDetails CajaHorizontalSplitterDetails;
 
-typedef struct {
-	GtkHPaned				parent_slot;
-	CajaHorizontalSplitterDetails	*details;
-} CajaHorizontalSplitter;
+    typedef struct
+    {
+        GtkHPaned				parent_slot;
+        CajaHorizontalSplitterDetails	*details;
+    } CajaHorizontalSplitter;
 
-typedef struct {
-	GtkHPanedClass				parent_slot;
-} CajaHorizontalSplitterClass;
+    typedef struct
+    {
+        GtkHPanedClass				parent_slot;
+    } CajaHorizontalSplitterClass;
 
-/* CajaHorizontalSplitter public methods */
-GType      caja_horizontal_splitter_get_type (void);
-GtkWidget *caja_horizontal_splitter_new      (void);
+    /* CajaHorizontalSplitter public methods */
+    GType      caja_horizontal_splitter_get_type (void);
+    GtkWidget *caja_horizontal_splitter_new      (void);
 
-gboolean   caja_horizontal_splitter_is_hidden	(CajaHorizontalSplitter *splitter);
-void	   caja_horizontal_splitter_collapse	(CajaHorizontalSplitter *splitter);
-void	   caja_horizontal_splitter_hide		(CajaHorizontalSplitter *splitter);
-void	   caja_horizontal_splitter_show		(CajaHorizontalSplitter *splitter);
-void	   caja_horizontal_splitter_expand		(CajaHorizontalSplitter *splitter);
-void	   caja_horizontal_splitter_toggle_position	(CajaHorizontalSplitter *splitter);
-void	   caja_horizontal_splitter_pack2           (CajaHorizontalSplitter *splitter,
-							 GtkWidget                  *child2);
+    gboolean   caja_horizontal_splitter_is_hidden	(CajaHorizontalSplitter *splitter);
+    void	   caja_horizontal_splitter_collapse	(CajaHorizontalSplitter *splitter);
+    void	   caja_horizontal_splitter_hide		(CajaHorizontalSplitter *splitter);
+    void	   caja_horizontal_splitter_show		(CajaHorizontalSplitter *splitter);
+    void	   caja_horizontal_splitter_expand		(CajaHorizontalSplitter *splitter);
+    void	   caja_horizontal_splitter_toggle_position	(CajaHorizontalSplitter *splitter);
+    void	   caja_horizontal_splitter_pack2           (CajaHorizontalSplitter *splitter,
+            GtkWidget                  *child2);
 
 #ifdef __cplusplus
 }

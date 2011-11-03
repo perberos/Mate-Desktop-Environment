@@ -37,23 +37,25 @@ typedef struct _CajaConnectServerDialog        CajaConnectServerDialog;
 typedef struct _CajaConnectServerDialogClass   CajaConnectServerDialogClass;
 typedef struct _CajaConnectServerDialogDetails CajaConnectServerDialogDetails;
 
-struct _CajaConnectServerDialog {
-	GtkDialog parent;
-	CajaConnectServerDialogDetails *details;
+struct _CajaConnectServerDialog
+{
+    GtkDialog parent;
+    CajaConnectServerDialogDetails *details;
 };
 
-struct _CajaConnectServerDialogClass {
-	GtkDialogClass parent_class;
+struct _CajaConnectServerDialogClass
+{
+    GtkDialogClass parent_class;
 };
 
 GType      caja_connect_server_dialog_get_type (void);
-GtkWidget* caja_connect_server_dialog_new      (CajaWindow *window, 
-						    GFile *location);
+GtkWidget* caja_connect_server_dialog_new      (CajaWindow *window,
+        GFile *location);
 
 /* Private internal calls */
 
 void       caja_connect_server_dialog_present_uri (CajaApplication *application,
-						       GFile *location,
-						       GtkWidget *widget);
-						     
+        GFile *location,
+        GtkWidget *widget);
+
 #endif /* CAJA_CONNECT_SERVER_DIALOG_H */

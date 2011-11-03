@@ -1,8 +1,8 @@
 #ifndef CAJA_EXTENSION_I18N_H
 #define CAJA_EXTENSION_I18N_H
- 
+
 #include "config.h"
- 
+
 #ifdef ENABLE_NLS
 #include<libintl.h>
 #define _(String) dgettext(GETTEXT_PACKAGE,String)

@@ -37,32 +37,33 @@ extern "C" {
 
 #define CAJA_TYPE_OPERATION_RESULT (caja_operation_result_get_type ())
 
-/* Handle for asynchronous interfaces.  These are opaque handles that must
- * be unique within an extension object.  These are returned by operations
- * that return CAJA_OPERATION_IN_PROGRESS */
-typedef struct _CajaOperationHandle CajaOperationHandle;
+    /* Handle for asynchronous interfaces.  These are opaque handles that must
+     * be unique within an extension object.  These are returned by operations
+     * that return CAJA_OPERATION_IN_PROGRESS */
+    typedef struct _CajaOperationHandle CajaOperationHandle;
 
-typedef enum {
-	/* Returned if the call succeeded, and the extension is done
-	 * with the request */
-	CAJA_OPERATION_COMPLETE,
+    typedef enum
+    {
+        /* Returned if the call succeeded, and the extension is done
+         * with the request */
+        CAJA_OPERATION_COMPLETE,
 
-	/* Returned if the call failed */
-	CAJA_OPERATION_FAILED,
+        /* Returned if the call failed */
+        CAJA_OPERATION_FAILED,
 
-	/* Returned if the extension has begun an async operation.
-	 * If this is returned, the extension must set the handle
-	 * parameter and call the callback closure when the
-	 * operation is complete. */
-	CAJA_OPERATION_IN_PROGRESS
-} CajaOperationResult;
+        /* Returned if the extension has begun an async operation.
+         * If this is returned, the extension must set the handle
+         * parameter and call the callback closure when the
+         * operation is complete. */
+        CAJA_OPERATION_IN_PROGRESS
+    } CajaOperationResult;
 
-GType caja_operation_result_get_type (void);
+    GType caja_operation_result_get_type (void);
 
-void caja_module_initialize (GTypeModule  *module);
-void caja_module_shutdown   (void);
-void caja_module_list_types (const GType **types,
-				 int          *num_types);
+    void caja_module_initialize (GTypeModule  *module);
+    void caja_module_shutdown   (void);
+    void caja_module_list_types (const GType **types,
+                                 int          *num_types);
 
 #ifdef __cplusplus
 }

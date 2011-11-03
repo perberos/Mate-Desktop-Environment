@@ -40,29 +40,29 @@ typedef struct CajaCustomizationData CajaCustomizationData;
 
 
 CajaCustomizationData* caja_customization_data_new                          (const char *customization_name,
-										     gboolean show_public_customizations,
-										     int maximum_icon_height,
-										     int maximum_icon_width);
+        gboolean show_public_customizations,
+        int maximum_icon_height,
+        int maximum_icon_width);
 
 /* Returns the following attrbiutes for a customization object (pattern, emblem)
  *
  * object_name   - The name of the object.  Usually what is used to represent it in storage.
- * object_pixbuf - Pixbuf for graphical display of the object. 
- * object_label  - Textual label display of the object. 
+ * object_pixbuf - Pixbuf for graphical display of the object.
+ * object_label  - Textual label display of the object.
  */
 gboolean                   caja_customization_data_get_next_element_for_display (CajaCustomizationData *data,
-										     char **object_name,
-										     GdkPixbuf **object_pixbuf,
-										     char **object_label);
+        char **object_name,
+        GdkPixbuf **object_pixbuf,
+        char **object_label);
 gboolean                   caja_customization_data_private_data_was_displayed   (CajaCustomizationData *data);
 
 void                       caja_customization_data_destroy                      (CajaCustomizationData *data);
-									     
 
 
-GdkPixbuf*                 caja_customization_make_pattern_chit                 (GdkPixbuf *pattern_tile, 
-										     GdkPixbuf *frame, 
-										     gboolean dragging,
-										     gboolean is_reset);
+
+GdkPixbuf*                 caja_customization_make_pattern_chit                 (GdkPixbuf *pattern_tile,
+        GdkPixbuf *frame,
+        gboolean dragging,
+        gboolean is_reset);
 
 #endif /* CAJA_CUSTOMIZATION_DATA_H */

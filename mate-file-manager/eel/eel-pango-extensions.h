@@ -29,26 +29,27 @@
 
 #include <pango/pango.h>
 
-typedef enum {
-	EEL_ELLIPSIZE_START,
-	EEL_ELLIPSIZE_MIDDLE,
-	EEL_ELLIPSIZE_END
+typedef enum
+{
+    EEL_ELLIPSIZE_START,
+    EEL_ELLIPSIZE_MIDDLE,
+    EEL_ELLIPSIZE_END
 } EelEllipsizeMode;
 
 PangoAttrList *eel_pango_attr_list_copy_or_create         (PangoAttrList    *attr_list);
 PangoAttrList *eel_pango_attr_list_apply_global_attribute (PangoAttrList    *attr_list,
-							   PangoAttribute   *attr);
+        PangoAttribute   *attr);
 int eel_pango_font_description_get_largest_fitting_font_size (const PangoFontDescription *font_desc,
-							      PangoContext               *context,
-							      const char                 *text,
-							      int                         available_width,
-							      int                         minimum_acceptable_font_size,
-							      int                         maximum_acceptable_font_size);
+        PangoContext               *context,
+        const char                 *text,
+        int                         available_width,
+        int                         minimum_acceptable_font_size,
+        int                         maximum_acceptable_font_size);
 
 /* caution: this function is expensive. */
 void           eel_pango_layout_set_text_ellipsized       (PangoLayout      *layout,
-							   const char       *string,
-							   int               width,
-							   EelEllipsizeMode  mode);
+        const char       *string,
+        int               width,
+        EelEllipsizeMode  mode);
 
 #endif /* EEL_PANGO_EXTENSIONS_H */

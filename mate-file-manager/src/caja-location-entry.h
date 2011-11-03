@@ -43,27 +43,30 @@
 
 typedef struct CajaLocationEntryDetails CajaLocationEntryDetails;
 
-typedef struct CajaLocationEntry {
-	CajaEntry parent;
-	CajaLocationEntryDetails *details;
+typedef struct CajaLocationEntry
+{
+    CajaEntry parent;
+    CajaLocationEntryDetails *details;
 } CajaLocationEntry;
 
-typedef struct {
-	CajaEntryClass parent_class;
+typedef struct
+{
+    CajaEntryClass parent_class;
 } CajaLocationEntryClass;
 
-typedef enum {
-	CAJA_LOCATION_ENTRY_ACTION_GOTO,
-	CAJA_LOCATION_ENTRY_ACTION_CLEAR
+typedef enum
+{
+    CAJA_LOCATION_ENTRY_ACTION_GOTO,
+    CAJA_LOCATION_ENTRY_ACTION_CLEAR
 } CajaLocationEntryAction;
 
 GType      caja_location_entry_get_type     	(void);
 GtkWidget* caja_location_entry_new          	(void);
 void       caja_location_entry_set_special_text     (CajaLocationEntry *entry,
-							 const char            *special_text);
+        const char            *special_text);
 void       caja_location_entry_set_secondary_action (CajaLocationEntry *entry,
-							 CajaLocationEntryAction secondary_action);
+        CajaLocationEntryAction secondary_action);
 void       caja_location_entry_update_current_location (CajaLocationEntry *entry,
-							    const char *path);
+        const char *path);
 
 #endif /* CAJA_LOCATION_ENTRY_H */

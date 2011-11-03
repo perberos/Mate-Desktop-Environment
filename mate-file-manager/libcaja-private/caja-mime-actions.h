@@ -45,18 +45,18 @@ gboolean               caja_mime_has_any_applications_for_files       (GList    
 gboolean               caja_mime_file_opens_in_view                   (CajaFile            *file);
 gboolean               caja_mime_file_opens_in_external_app           (CajaFile            *file);
 void                   caja_mime_activate_files                       (GtkWindow               *parent_window,
-									   CajaWindowSlotInfo  *slot_info,
-									   GList                   *files,
-									   const char              *launch_directory,
-									   CajaWindowOpenMode   mode,
-									   CajaWindowOpenFlags  flags,
-									   gboolean                 user_confirmation);
+        CajaWindowSlotInfo  *slot_info,
+        GList                   *files,
+        const char              *launch_directory,
+        CajaWindowOpenMode   mode,
+        CajaWindowOpenFlags  flags,
+        gboolean                 user_confirmation);
 void                   caja_mime_activate_file                        (GtkWindow               *parent_window,
-									   CajaWindowSlotInfo  *slot_info,
-									   CajaFile            *file,
-									   const char              *launch_directory,
-									   CajaWindowOpenMode   mode,
-									   CajaWindowOpenFlags  flags);
+        CajaWindowSlotInfo  *slot_info,
+        CajaFile            *file,
+        const char              *launch_directory,
+        CajaWindowOpenMode   mode,
+        CajaWindowOpenFlags  flags);
 
 
 #endif /* CAJA_MIME_ACTIONS_H */

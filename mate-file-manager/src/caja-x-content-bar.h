@@ -39,30 +39,30 @@ extern "C" {
 #define CAJA_IS_X_CONTENT_BAR_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), CAJA_TYPE_X_CONTENT_BAR))
 #define CAJA_X_CONTENT_BAR_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), CAJA_TYPE_X_CONTENT_BAR, CajaXContentBarClass))
 
-typedef struct CajaXContentBarPrivate CajaXContentBarPrivate;
+    typedef struct CajaXContentBarPrivate CajaXContentBarPrivate;
 
-typedef struct
-{
-	GtkHBox	box;
+    typedef struct
+    {
+        GtkHBox	box;
 
-	CajaXContentBarPrivate *priv;
-} CajaXContentBar;
+        CajaXContentBarPrivate *priv;
+    } CajaXContentBar;
 
-typedef struct
-{
-	GtkHBoxClass	    parent_class;
-} CajaXContentBarClass;
+    typedef struct
+    {
+        GtkHBoxClass	    parent_class;
+    } CajaXContentBarClass;
 
-GType		 caja_x_content_bar_get_type	(void) G_GNUC_CONST;
+    GType		 caja_x_content_bar_get_type	(void) G_GNUC_CONST;
 
-GtkWidget	*caja_x_content_bar_new		   (GMount              *mount,
-							    const char          *x_content_type);
-const char      *caja_x_content_bar_get_x_content_type (CajaXContentBar *bar);
-void             caja_x_content_bar_set_x_content_type (CajaXContentBar *bar,
-							    const char          *x_content_type);
-void             caja_x_content_bar_set_mount          (CajaXContentBar *bar,
-							    GMount              *mount);
-GMount          *caja_x_content_bar_get_mount          (CajaXContentBar *bar);
+    GtkWidget	*caja_x_content_bar_new		   (GMount              *mount,
+            const char          *x_content_type);
+    const char      *caja_x_content_bar_get_x_content_type (CajaXContentBar *bar);
+    void             caja_x_content_bar_set_x_content_type (CajaXContentBar *bar,
+            const char          *x_content_type);
+    void             caja_x_content_bar_set_mount          (CajaXContentBar *bar,
+            GMount              *mount);
+    GMount          *caja_x_content_bar_get_mount          (CajaXContentBar *bar);
 
 #ifdef __cplusplus
 }

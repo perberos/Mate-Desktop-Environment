@@ -3,19 +3,19 @@
    caja-search-directory.h: Subclass of CajaDirectory to implement
    a virtual directory consisting of the search directory and the search
    icons
- 
+
    Copyright (C) 2005 Novell, Inc
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
@@ -42,13 +42,15 @@
 
 typedef struct CajaSearchDirectoryDetails CajaSearchDirectoryDetails;
 
-typedef struct {
-	CajaDirectory parent_slot;
-	CajaSearchDirectoryDetails *details;
+typedef struct
+{
+    CajaDirectory parent_slot;
+    CajaSearchDirectoryDetails *details;
 } CajaSearchDirectory;
 
-typedef struct {
-	CajaDirectoryClass parent_slot;
+typedef struct
+{
+    CajaDirectoryClass parent_slot;
 } CajaSearchDirectoryClass;
 
 GType   caja_search_directory_get_type             (void);
@@ -62,10 +64,10 @@ gboolean       caja_search_directory_is_modified     (CajaSearchDirectory *searc
 gboolean       caja_search_directory_is_indexed      (CajaSearchDirectory *search);
 void           caja_search_directory_save_search     (CajaSearchDirectory *search);
 void           caja_search_directory_save_to_file    (CajaSearchDirectory *search,
-							  const char              *save_file_uri);
+        const char              *save_file_uri);
 
 CajaQuery *caja_search_directory_get_query       (CajaSearchDirectory *search);
 void           caja_search_directory_set_query       (CajaSearchDirectory *search,
-							  CajaQuery           *query);
+        CajaQuery           *query);
 
 #endif /* CAJA_SEARCH_DIRECTORY_H */

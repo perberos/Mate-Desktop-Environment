@@ -32,17 +32,17 @@
 #include "caja-navigation-window.h"
 
 void caja_window_manage_views_close_slot (CajaWindowPane *pane,
-                                              CajaWindowSlot *slot);
+        CajaWindowSlot *slot);
 
 
 /* CajaWindowInfo implementation: */
 void caja_window_report_load_underway     (CajaWindow     *window,
-                                               CajaView       *view);
+        CajaView       *view);
 void caja_window_report_selection_changed (CajaWindowInfo *window);
 void caja_window_report_view_failed       (CajaWindow     *window,
-                                               CajaView       *view);
+        CajaView       *view);
 void caja_window_report_load_complete     (CajaWindow     *window,
-                                               CajaView       *view);
+        CajaView       *view);
 void caja_window_report_location_change   (CajaWindow     *window);
 void caja_window_update_up_button         (CajaWindow     *window);
 

@@ -44,58 +44,60 @@ extern "C" {
 #define CAJA_IS_TREE_VIEW_DRAG_DEST(obj)		(G_TYPE_INSTANCE_CHECK_TYPE ((obj), CAJA_TYPE_TREE_VIEW_DRAG_DEST))
 #define CAJA_IS_TREE_VIEW_DRAG_DEST_CLASS(klass)	(G_TYPE_CLASS_CHECK_CLASS_TYPE ((klass), CAJA_TYPE_TREE_VIEW_DRAG_DEST))
 
-typedef struct _CajaTreeViewDragDest        CajaTreeViewDragDest;
-typedef struct _CajaTreeViewDragDestClass   CajaTreeViewDragDestClass;
-typedef struct _CajaTreeViewDragDestDetails CajaTreeViewDragDestDetails;
+    typedef struct _CajaTreeViewDragDest        CajaTreeViewDragDest;
+    typedef struct _CajaTreeViewDragDestClass   CajaTreeViewDragDestClass;
+    typedef struct _CajaTreeViewDragDestDetails CajaTreeViewDragDestDetails;
 
-struct _CajaTreeViewDragDest {
-	GObject parent;
+    struct _CajaTreeViewDragDest
+    {
+        GObject parent;
 
-	CajaTreeViewDragDestDetails *details;
-};
+        CajaTreeViewDragDestDetails *details;
+    };
 
-struct _CajaTreeViewDragDestClass {
-	GObjectClass parent;
+    struct _CajaTreeViewDragDestClass
+    {
+        GObjectClass parent;
 
-	char *(*get_root_uri) (CajaTreeViewDragDest *dest);
-	CajaFile *(*get_file_for_path) (CajaTreeViewDragDest *dest,
-					    GtkTreePath *path);
-	void (*move_copy_items) (CajaTreeViewDragDest *dest,
-				 const GList *item_uris,
-				 const char *target_uri,
-				 GdkDragAction action,
-				 int x,
-				 int y);
-	void (* handle_netscape_url) (CajaTreeViewDragDest *dest,
-				 const char *url,
-				 const char *target_uri,
-				 GdkDragAction action,
-				 int x,
-				 int y);
-	void (* handle_uri_list) (CajaTreeViewDragDest *dest,
-				  const char *uri_list,
-				  const char *target_uri,
-				  GdkDragAction action,
-				  int x,
-				  int y);
-	void (* handle_text)    (CajaTreeViewDragDest *dest,
-				  const char *text,
-				  const char *target_uri,
-				  GdkDragAction action,
-				  int x,
-				  int y);
-	void (* handle_raw)    (CajaTreeViewDragDest *dest,
-				  char *raw_data,
-				  int length,
-				  const char *target_uri,
-				  const char *direct_save_uri,
-				  GdkDragAction action,
-				  int x,
-				  int y);
-};
+        char *(*get_root_uri) (CajaTreeViewDragDest *dest);
+        CajaFile *(*get_file_for_path) (CajaTreeViewDragDest *dest,
+                                        GtkTreePath *path);
+        void (*move_copy_items) (CajaTreeViewDragDest *dest,
+                                 const GList *item_uris,
+                                 const char *target_uri,
+                                 GdkDragAction action,
+                                 int x,
+                                 int y);
+        void (* handle_netscape_url) (CajaTreeViewDragDest *dest,
+                                      const char *url,
+                                      const char *target_uri,
+                                      GdkDragAction action,
+                                      int x,
+                                      int y);
+        void (* handle_uri_list) (CajaTreeViewDragDest *dest,
+                                  const char *uri_list,
+                                  const char *target_uri,
+                                  GdkDragAction action,
+                                  int x,
+                                  int y);
+        void (* handle_text)    (CajaTreeViewDragDest *dest,
+                                 const char *text,
+                                 const char *target_uri,
+                                 GdkDragAction action,
+                                 int x,
+                                 int y);
+        void (* handle_raw)    (CajaTreeViewDragDest *dest,
+                                char *raw_data,
+                                int length,
+                                const char *target_uri,
+                                const char *direct_save_uri,
+                                GdkDragAction action,
+                                int x,
+                                int y);
+    };
 
-GType                     caja_tree_view_drag_dest_get_type (void);
-CajaTreeViewDragDest *caja_tree_view_drag_dest_new      (GtkTreeView *tree_view);
+    GType                     caja_tree_view_drag_dest_get_type (void);
+    CajaTreeViewDragDest *caja_tree_view_drag_dest_new      (GtkTreeView *tree_view);
 
 #ifdef __cplusplus
 }

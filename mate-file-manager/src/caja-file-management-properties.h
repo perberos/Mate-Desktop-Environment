@@ -32,7 +32,7 @@
 extern "C" {
 #endif
 
-void caja_file_management_properties_dialog_show (GCallback close_callback, GtkWindow *window);
+    void caja_file_management_properties_dialog_show (GCallback close_callback, GtkWindow *window);
 
 #ifdef __cplusplus
 }

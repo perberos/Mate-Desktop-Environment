@@ -34,9 +34,9 @@
 void caja_debug_log (gboolean is_milestone, const char *domain, const char *format, ...);
 
 void caja_debug_log_with_uri_list (gboolean is_milestone, const char *domain, const GList *uris,
-				       const char *format, ...);
+                                   const char *format, ...);
 void caja_debug_log_with_file_list (gboolean is_milestone, const char *domain, GList *files,
-					const char *format, ...);
+                                    const char *format, ...);
 
 void caja_debug_logv (gboolean is_milestone, const char *domain, const GList *uris, const char *format, va_list args);
 

@@ -24,19 +24,20 @@
 
 */
 
-struct FMListViewColumn {
-	const char *attribute;
-	const char *title;
-	CajaFileSortType sort_criterion;
-	int minimum_width, default_width, maximum_width;
-	gboolean right_justified;
+struct FMListViewColumn
+{
+    const char *attribute;
+    const char *title;
+    CajaFileSortType sort_criterion;
+    int minimum_width, default_width, maximum_width;
+    gboolean right_justified;
 };
 
 void  fm_list_view_column_set    (FMListViewColumn     *column,
-				  const char           *attribute,
-				  const char           *title,
-				  CajaFileSortType  sort_criterion,
-				  int                   minimum_width,
-				  int                   default_width,
-				  int                   maximum_width,
-				  gboolean              right_justified);
+                                  const char           *attribute,
+                                  const char           *title,
+                                  CajaFileSortType  sort_criterion,
+                                  int                   minimum_width,
+                                  int                   default_width,
+                                  int                   maximum_width,
+                                  gboolean              right_justified);

@@ -39,34 +39,36 @@ extern "C" {
 #define CAJA_INFO_IS_COLUMN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), CAJA_TYPE_COLUMN))
 #define CAJA_COLUMN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), CAJA_TYPE_COLUMN, CajaColumnClass))
 
-typedef struct _CajaColumn        CajaColumn;
-typedef struct _CajaColumnDetails CajaColumnDetails;
-typedef struct _CajaColumnClass   CajaColumnClass;
+    typedef struct _CajaColumn        CajaColumn;
+    typedef struct _CajaColumnDetails CajaColumnDetails;
+    typedef struct _CajaColumnClass   CajaColumnClass;
 
-struct _CajaColumn {
-	GObject parent;
+    struct _CajaColumn
+    {
+        GObject parent;
 
-	CajaColumnDetails *details;
-};
+        CajaColumnDetails *details;
+    };
 
-struct _CajaColumnClass {
-	GObjectClass parent;
-};
+    struct _CajaColumnClass
+    {
+        GObjectClass parent;
+    };
 
-GType             caja_column_get_type        (void);
-CajaColumn *  caja_column_new             (const char     *name,
-						   const char     *attribute,
-						   const char     *label,
-						   const char     *description);
+    GType             caja_column_get_type        (void);
+    CajaColumn *  caja_column_new             (const char     *name,
+            const char     *attribute,
+            const char     *label,
+            const char     *description);
 
-/* CajaColumn has the following properties:
- *   name (string)        - the identifier for the column
- *   attribute (string)   - the file attribute to be displayed in the
- *                          column
- *   label (string)       - the user-visible label for the column
- *   description (string) - a user-visible description of the column
- *   xalign (float)       - x-alignment of the column
- */
+    /* CajaColumn has the following properties:
+     *   name (string)        - the identifier for the column
+     *   attribute (string)   - the file attribute to be displayed in the
+     *                          column
+     *   label (string)       - the user-visible label for the column
+     *   description (string) - a user-visible description of the column
+     *   xalign (float)       - x-alignment of the column
+     */
 
 #ifdef __cplusplus
 }

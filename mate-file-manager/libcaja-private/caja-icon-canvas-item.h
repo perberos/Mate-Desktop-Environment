@@ -44,74 +44,77 @@ extern "C" {
 #define CAJA_ICON_CANVAS_ITEM_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_ICON_CANVAS_ITEM, CajaIconCanvasItemClass))
 
-typedef struct CajaIconCanvasItem CajaIconCanvasItem;
-typedef struct CajaIconCanvasItemClass CajaIconCanvasItemClass;
-typedef struct CajaIconCanvasItemDetails CajaIconCanvasItemDetails;
+    typedef struct CajaIconCanvasItem CajaIconCanvasItem;
+    typedef struct CajaIconCanvasItemClass CajaIconCanvasItemClass;
+    typedef struct CajaIconCanvasItemDetails CajaIconCanvasItemDetails;
 
-struct CajaIconCanvasItem {
-	EelCanvasItem item;
-	CajaIconCanvasItemDetails *details;
-	gpointer user_data;
-};
+    struct CajaIconCanvasItem
+    {
+        EelCanvasItem item;
+        CajaIconCanvasItemDetails *details;
+        gpointer user_data;
+    };
 
-struct CajaIconCanvasItemClass {
-	EelCanvasItemClass parent_class;
-};
+    struct CajaIconCanvasItemClass
+    {
+        EelCanvasItemClass parent_class;
+    };
 
-/* not namespaced due to their length */
-typedef enum {
-	BOUNDS_USAGE_FOR_LAYOUT,
-	BOUNDS_USAGE_FOR_ENTIRE_ITEM,
-	BOUNDS_USAGE_FOR_DISPLAY
-} CajaIconCanvasItemBoundsUsage;
+    /* not namespaced due to their length */
+    typedef enum
+    {
+        BOUNDS_USAGE_FOR_LAYOUT,
+        BOUNDS_USAGE_FOR_ENTIRE_ITEM,
+        BOUNDS_USAGE_FOR_DISPLAY
+    } CajaIconCanvasItemBoundsUsage;
 
-/* GObject */
-GType       caja_icon_canvas_item_get_type                 (void);
+    /* GObject */
+    GType       caja_icon_canvas_item_get_type                 (void);
 
-/* attributes */
-void        caja_icon_canvas_item_set_image                (CajaIconCanvasItem       *item,
-								GdkPixbuf                    *image);
-GdkPixmap * caja_icon_canvas_item_get_image                (CajaIconCanvasItem       *item,
-								GdkBitmap                   **mask,
-								GdkColormap		     *colormap);
-void        caja_icon_canvas_item_set_emblems              (CajaIconCanvasItem       *item,
-								GList                        *emblem_pixbufs);
-void        caja_icon_canvas_item_set_show_stretch_handles (CajaIconCanvasItem       *item,
-								gboolean                      show_stretch_handles);
-void        caja_icon_canvas_item_set_attach_points        (CajaIconCanvasItem       *item,
-								GdkPoint                     *attach_points,
-								int                           n_attach_points);
-void        caja_icon_canvas_item_set_embedded_text_rect   (CajaIconCanvasItem       *item,
-								const GdkRectangle           *text_rect);
-void        caja_icon_canvas_item_set_embedded_text        (CajaIconCanvasItem       *item,
-								const char                   *text);
-double      caja_icon_canvas_item_get_max_text_width       (CajaIconCanvasItem       *item);
-const char *caja_icon_canvas_item_get_editable_text        (CajaIconCanvasItem       *icon_item);
-void        caja_icon_canvas_item_set_renaming             (CajaIconCanvasItem       *icon_item,
-								gboolean                      state);
+    /* attributes */
+    void        caja_icon_canvas_item_set_image                (CajaIconCanvasItem       *item,
+            GdkPixbuf                    *image);
+    GdkPixmap * caja_icon_canvas_item_get_image                (CajaIconCanvasItem       *item,
+            GdkBitmap                   **mask,
+            GdkColormap		     *colormap);
+    void        caja_icon_canvas_item_set_emblems              (CajaIconCanvasItem       *item,
+            GList                        *emblem_pixbufs);
+    void        caja_icon_canvas_item_set_show_stretch_handles (CajaIconCanvasItem       *item,
+            gboolean                      show_stretch_handles);
+    void        caja_icon_canvas_item_set_attach_points        (CajaIconCanvasItem       *item,
+            GdkPoint                     *attach_points,
+            int                           n_attach_points);
+    void        caja_icon_canvas_item_set_embedded_text_rect   (CajaIconCanvasItem       *item,
+            const GdkRectangle           *text_rect);
+    void        caja_icon_canvas_item_set_embedded_text        (CajaIconCanvasItem       *item,
+            const char                   *text);
+    double      caja_icon_canvas_item_get_max_text_width       (CajaIconCanvasItem       *item);
+    const char *caja_icon_canvas_item_get_editable_text        (CajaIconCanvasItem       *icon_item);
+    void        caja_icon_canvas_item_set_renaming             (CajaIconCanvasItem       *icon_item,
+            gboolean                      state);
 
-/* geometry and hit testing */
-gboolean    caja_icon_canvas_item_hit_test_rectangle       (CajaIconCanvasItem       *item,
-								EelIRect                      canvas_rect);
-gboolean    caja_icon_canvas_item_hit_test_stretch_handles (CajaIconCanvasItem       *item,
-								EelDPoint                     world_point,
-								GtkCornerType                *corner);
-void        caja_icon_canvas_item_invalidate_label         (CajaIconCanvasItem       *item);
-void        caja_icon_canvas_item_invalidate_label_size    (CajaIconCanvasItem       *item);
-EelDRect    caja_icon_canvas_item_get_icon_rectangle       (const CajaIconCanvasItem *item);
-EelDRect    caja_icon_canvas_item_get_text_rectangle       (CajaIconCanvasItem       *item,
-								gboolean                      for_layout);
-void        caja_icon_canvas_item_get_bounds_for_layout    (CajaIconCanvasItem       *item,
-								double *x1, double *y1, double *x2, double *y2);
-void        caja_icon_canvas_item_get_bounds_for_entire_item (CajaIconCanvasItem       *item,
-								  double *x1, double *y1, double *x2, double *y2);
-void        caja_icon_canvas_item_update_bounds            (CajaIconCanvasItem       *item,
-								double i2w_dx, double i2w_dy);
-void        caja_icon_canvas_item_set_is_visible           (CajaIconCanvasItem       *item,
-								gboolean                      visible);
-/* whether the entire label text must be visible at all times */
-void        caja_icon_canvas_item_set_entire_text          (CajaIconCanvasItem       *icon_item,
-								gboolean                      entire_text);
+    /* geometry and hit testing */
+    gboolean    caja_icon_canvas_item_hit_test_rectangle       (CajaIconCanvasItem       *item,
+            EelIRect                      canvas_rect);
+    gboolean    caja_icon_canvas_item_hit_test_stretch_handles (CajaIconCanvasItem       *item,
+            EelDPoint                     world_point,
+            GtkCornerType                *corner);
+    void        caja_icon_canvas_item_invalidate_label         (CajaIconCanvasItem       *item);
+    void        caja_icon_canvas_item_invalidate_label_size    (CajaIconCanvasItem       *item);
+    EelDRect    caja_icon_canvas_item_get_icon_rectangle       (const CajaIconCanvasItem *item);
+    EelDRect    caja_icon_canvas_item_get_text_rectangle       (CajaIconCanvasItem       *item,
+            gboolean                      for_layout);
+    void        caja_icon_canvas_item_get_bounds_for_layout    (CajaIconCanvasItem       *item,
+            double *x1, double *y1, double *x2, double *y2);
+    void        caja_icon_canvas_item_get_bounds_for_entire_item (CajaIconCanvasItem       *item,
+            double *x1, double *y1, double *x2, double *y2);
+    void        caja_icon_canvas_item_update_bounds            (CajaIconCanvasItem       *item,
+            double i2w_dx, double i2w_dy);
+    void        caja_icon_canvas_item_set_is_visible           (CajaIconCanvasItem       *item,
+            gboolean                      visible);
+    /* whether the entire label text must be visible at all times */
+    void        caja_icon_canvas_item_set_entire_text          (CajaIconCanvasItem       *icon_item,
+            gboolean                      entire_text);
 
 #ifdef __cplusplus
 }

@@ -45,20 +45,21 @@ extern "C" {
 #define CAJA_IS_PROPERTY_PAGE_PROVIDER(obj)        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAJA_TYPE_PROPERTY_PAGE_PROVIDER))
 #define CAJA_PROPERTY_PAGE_PROVIDER_GET_IFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), CAJA_TYPE_PROPERTY_PAGE_PROVIDER, CajaPropertyPageProviderIface))
 
-typedef struct _CajaPropertyPageProvider       CajaPropertyPageProvider;
-typedef struct _CajaPropertyPageProviderIface  CajaPropertyPageProviderIface;
+    typedef struct _CajaPropertyPageProvider       CajaPropertyPageProvider;
+    typedef struct _CajaPropertyPageProviderIface  CajaPropertyPageProviderIface;
 
-struct _CajaPropertyPageProviderIface {
-	GTypeInterface g_iface;
+    struct _CajaPropertyPageProviderIface
+    {
+        GTypeInterface g_iface;
 
-	GList *(*get_pages) (CajaPropertyPageProvider     *provider,
-			     GList                    *files);
-};
+        GList *(*get_pages) (CajaPropertyPageProvider     *provider,
+                             GList                    *files);
+    };
 
-/* Interface Functions */
-GType                   caja_property_page_provider_get_type  (void);
-GList                  *caja_property_page_provider_get_pages (CajaPropertyPageProvider *provider,
-								   GList                        *files);
+    /* Interface Functions */
+    GType                   caja_property_page_provider_get_type  (void);
+    GList                  *caja_property_page_provider_get_pages (CajaPropertyPageProvider *provider,
+            GList                        *files);
 
 #ifdef __cplusplus
 }

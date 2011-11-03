@@ -45,29 +45,31 @@ extern "C" {
 #define CAJA_ENTRY_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_ENTRY, CajaEntryClass))
 
-typedef struct CajaEntryDetails CajaEntryDetails;
+    typedef struct CajaEntryDetails CajaEntryDetails;
 
-typedef struct {
-	GtkEntry parent;
-	CajaEntryDetails *details;
-} CajaEntry;
+    typedef struct
+    {
+        GtkEntry parent;
+        CajaEntryDetails *details;
+    } CajaEntry;
 
-typedef struct {
-	GtkEntryClass parent_class;
+    typedef struct
+    {
+        GtkEntryClass parent_class;
 
-	void (*user_changed)      (CajaEntry *entry);
-	void (*selection_changed) (CajaEntry *entry);
-} CajaEntryClass;
+        void (*user_changed)      (CajaEntry *entry);
+        void (*selection_changed) (CajaEntry *entry);
+    } CajaEntryClass;
 
-GType       caja_entry_get_type                 (void);
-GtkWidget  *caja_entry_new                      (void);
-GtkWidget  *caja_entry_new_with_max_length      (guint16        max);
-void        caja_entry_set_text                 (CajaEntry *entry,
-						     const char    *text);
-void        caja_entry_select_all               (CajaEntry *entry);
-void        caja_entry_select_all_at_idle       (CajaEntry *entry);
-void        caja_entry_set_special_tab_handling (CajaEntry *entry,
-						     gboolean       special_tab_handling);
+    GType       caja_entry_get_type                 (void);
+    GtkWidget  *caja_entry_new                      (void);
+    GtkWidget  *caja_entry_new_with_max_length      (guint16        max);
+    void        caja_entry_set_text                 (CajaEntry *entry,
+            const char    *text);
+    void        caja_entry_select_all               (CajaEntry *entry);
+    void        caja_entry_select_all_at_idle       (CajaEntry *entry);
+    void        caja_entry_set_special_tab_handling (CajaEntry *entry,
+            gboolean       special_tab_handling);
 
 #ifdef __cplusplus
 }

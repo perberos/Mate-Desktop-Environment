@@ -43,12 +43,14 @@
 typedef struct CajaKeepLastVerticalBox CajaKeepLastVerticalBox;
 typedef struct CajaKeepLastVerticalBoxClass CajaKeepLastVerticalBoxClass;
 
-struct CajaKeepLastVerticalBox {
-	GtkVBox vbox;
+struct CajaKeepLastVerticalBox
+{
+    GtkVBox vbox;
 };
 
-struct CajaKeepLastVerticalBoxClass {
-	GtkVBoxClass parent_class;
+struct CajaKeepLastVerticalBoxClass
+{
+    GtkVBoxClass parent_class;
 };
 
 GType      caja_keep_last_vertical_box_get_type  (void);

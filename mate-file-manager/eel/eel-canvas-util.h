@@ -39,68 +39,69 @@ extern "C" {
 #endif
 
 
-/* This structure defines an array of points.  X coordinates are stored in the even-numbered
- * indices, and Y coordinates are stored in the odd-numbered indices.  num_points indicates the
- * number of points, so the array is 2*num_points elements big.
- */
-typedef struct {
-	double *coords;
-	int num_points;
-	int ref_count;
-} EelCanvasPoints;
+    /* This structure defines an array of points.  X coordinates are stored in the even-numbered
+     * indices, and Y coordinates are stored in the odd-numbered indices.  num_points indicates the
+     * number of points, so the array is 2*num_points elements big.
+     */
+    typedef struct
+    {
+        double *coords;
+        int num_points;
+        int ref_count;
+    } EelCanvasPoints;
 
 
-/* Allocate a new EelCanvasPoints structure with enough space for the specified number of points */
-EelCanvasPoints *eel_canvas_points_new (int num_points);
+    /* Allocate a new EelCanvasPoints structure with enough space for the specified number of points */
+    EelCanvasPoints *eel_canvas_points_new (int num_points);
 
-/* Increate ref count */
-EelCanvasPoints *eel_canvas_points_ref (EelCanvasPoints *points);
+    /* Increate ref count */
+    EelCanvasPoints *eel_canvas_points_ref (EelCanvasPoints *points);
 #define eel_canvas_points_unref eel_canvas_points_free
 
-/* Decrease ref count and free structure if it has reached zero */
-void eel_canvas_points_free (EelCanvasPoints *points);
+    /* Decrease ref count and free structure if it has reached zero */
+    void eel_canvas_points_free (EelCanvasPoints *points);
 
-/* Given three points forming an angle, compute the coordinates of the inside and outside points of
- * the mitered corner formed by a line of a given width at that angle.
- *
- * If the angle is less than 11 degrees, then FALSE is returned and the return points are not
- * modified.  Otherwise, TRUE is returned.
- */
-int eel_canvas_get_miter_points (double x1, double y1, double x2, double y2, double x3, double y3,
-				   double width,
-				   double *mx1, double *my1, double *mx2, double *my2);
+    /* Given three points forming an angle, compute the coordinates of the inside and outside points of
+     * the mitered corner formed by a line of a given width at that angle.
+     *
+     * If the angle is less than 11 degrees, then FALSE is returned and the return points are not
+     * modified.  Otherwise, TRUE is returned.
+     */
+    int eel_canvas_get_miter_points (double x1, double y1, double x2, double y2, double x3, double y3,
+                                     double width,
+                                     double *mx1, double *my1, double *mx2, double *my2);
 
-/* Compute the butt points of a line segment.  If project is FALSE, then the results are as follows:
- *
- *            -------------------* (bx1, by1)
- *                               |
- *   (x1, y1) *------------------* (x2, y2)
- *                               |
- *            -------------------* (bx2, by2)
- *
- * that is, the line is not projected beyond (x2, y2).  If project is TRUE, then the results are as
- * follows:
- *
- *            -------------------* (bx1, by1)
- *                      (x2, y2) |
- *   (x1, y1) *-------------*    |
- *                               |
- *            -------------------* (bx2, by2)
- */
-void eel_canvas_get_butt_points (double x1, double y1, double x2, double y2,
-				   double width, int project,
-				   double *bx1, double *by1, double *bx2, double *by2);
+    /* Compute the butt points of a line segment.  If project is FALSE, then the results are as follows:
+     *
+     *            -------------------* (bx1, by1)
+     *                               |
+     *   (x1, y1) *------------------* (x2, y2)
+     *                               |
+     *            -------------------* (bx2, by2)
+     *
+     * that is, the line is not projected beyond (x2, y2).  If project is TRUE, then the results are as
+     * follows:
+     *
+     *            -------------------* (bx1, by1)
+     *                      (x2, y2) |
+     *   (x1, y1) *-------------*    |
+     *                               |
+     *            -------------------* (bx2, by2)
+     */
+    void eel_canvas_get_butt_points (double x1, double y1, double x2, double y2,
+                                     double width, int project,
+                                     double *bx1, double *by1, double *bx2, double *by2);
 
-/* Calculate the distance from a polygon to a point.  The polygon's X coordinates are in the even
- * indices of the poly array, and the Y coordinates are in the odd indices.
- */
-double eel_canvas_polygon_to_point (double *poly, int num_points, double x, double y);
+    /* Calculate the distance from a polygon to a point.  The polygon's X coordinates are in the even
+     * indices of the poly array, and the Y coordinates are in the odd indices.
+     */
+    double eel_canvas_polygon_to_point (double *poly, int num_points, double x, double y);
 
 
-void eel_canvas_item_reset_bounds (EelCanvasItem *item);
+    void eel_canvas_item_reset_bounds (EelCanvasItem *item);
 
-/* Sets the bbox to the new value, requesting full repaint. */
-void eel_canvas_update_bbox (EelCanvasItem *item, int x1, int y1, int x2, int y2);
+    /* Sets the bbox to the new value, requesting full repaint. */
+    void eel_canvas_update_bbox (EelCanvasItem *item, int x1, int y1, int x2, int y2);
 
 #ifdef __cplusplus
 }

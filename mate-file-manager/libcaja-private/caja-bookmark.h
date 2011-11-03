@@ -43,56 +43,58 @@ typedef struct CajaBookmark CajaBookmark;
 
 typedef struct CajaBookmarkDetails CajaBookmarkDetails;
 
-struct CajaBookmark {
-	GObject object;
-	CajaBookmarkDetails *details;	
+struct CajaBookmark
+{
+    GObject object;
+    CajaBookmarkDetails *details;
 };
 
-struct CajaBookmarkClass {
-	GObjectClass parent_class;
+struct CajaBookmarkClass
+{
+    GObjectClass parent_class;
 
-	/* Signals that clients can connect to. */
+    /* Signals that clients can connect to. */
 
-	/* The appearance_changed signal is emitted when the bookmark's
-	 * name or icon has changed.
-	 */
-	void	(* appearance_changed) (CajaBookmark *bookmark);
+    /* The appearance_changed signal is emitted when the bookmark's
+     * name or icon has changed.
+     */
+    void	(* appearance_changed) (CajaBookmark *bookmark);
 
-	/* The contents_changed signal is emitted when the bookmark's
-	 * URI has changed.
-	 */
-	void	(* contents_changed) (CajaBookmark *bookmark);
+    /* The contents_changed signal is emitted when the bookmark's
+     * URI has changed.
+     */
+    void	(* contents_changed) (CajaBookmark *bookmark);
 };
 
 typedef struct CajaBookmarkClass CajaBookmarkClass;
 
 GType                 caja_bookmark_get_type               (void);
 CajaBookmark *    caja_bookmark_new                    (GFile *location,
-                                                                const char *name,
-                                                                gboolean has_custom_name,
-                                                                GIcon *icon);
+        const char *name,
+        gboolean has_custom_name,
+        GIcon *icon);
 CajaBookmark *    caja_bookmark_copy                   (CajaBookmark      *bookmark);
 char *                caja_bookmark_get_name               (CajaBookmark      *bookmark);
 GFile *               caja_bookmark_get_location           (CajaBookmark      *bookmark);
 char *                caja_bookmark_get_uri                (CajaBookmark      *bookmark);
 GIcon *               caja_bookmark_get_icon               (CajaBookmark      *bookmark);
-gboolean	      caja_bookmark_get_has_custom_name    (CajaBookmark      *bookmark);		
+gboolean	      caja_bookmark_get_has_custom_name    (CajaBookmark      *bookmark);
 gboolean              caja_bookmark_set_name               (CajaBookmark      *bookmark,
-								const char            *new_name);		
+        const char            *new_name);
 gboolean              caja_bookmark_uri_known_not_to_exist (CajaBookmark      *bookmark);
 int                   caja_bookmark_compare_with           (gconstpointer          a,
-								gconstpointer          b);
+        gconstpointer          b);
 int                   caja_bookmark_compare_uris           (gconstpointer          a,
-								gconstpointer          b);
+        gconstpointer          b);
 
 void                  caja_bookmark_set_scroll_pos         (CajaBookmark      *bookmark,
-								const char            *uri);
+        const char            *uri);
 char *                caja_bookmark_get_scroll_pos         (CajaBookmark      *bookmark);
 
 
 /* Helper functions for displaying bookmarks */
 GdkPixbuf *           caja_bookmark_get_pixbuf             (CajaBookmark      *bookmark,
-								GtkIconSize            icon_size);
+        GtkIconSize            icon_size);
 GtkWidget *           caja_bookmark_menu_item_new          (CajaBookmark      *bookmark);
 
 #endif /* CAJA_BOOKMARK_H */

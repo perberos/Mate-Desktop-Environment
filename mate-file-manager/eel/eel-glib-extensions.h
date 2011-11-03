@@ -34,37 +34,37 @@ typedef guint eel_boolean_bit;
 
 /* Callback functions that have user data. */
 typedef int      (* EelCompareFunction)   (gconstpointer a,
-					   gconstpointer b,
-					   gpointer callback_data);
+        gconstpointer b,
+        gpointer callback_data);
 typedef int      (* EelSearchFunction)    (gconstpointer item,
-					   gpointer callback_data);
+        gpointer callback_data);
 
 /* Predicate. */
 typedef gboolean (* EelPredicateFunction) (gpointer data,
-					   gpointer callback_data);
+        gpointer callback_data);
 
 /* Date & time functions. */
 GDate *     eel_g_date_new_tm                           (struct tm             *time_pieces);
 char *      eel_strdup_strftime                         (const char            *format,
-							 struct tm             *time_pieces);
+        struct tm             *time_pieces);
 
 /* GList functions. */
 gboolean    eel_g_list_exactly_one_item                 (GList                 *list);
 gboolean    eel_g_list_more_than_one_item               (GList                 *list);
 gboolean    eel_g_list_equal                            (GList                 *list_a,
-							 GList                 *list_b);
+        GList                 *list_b);
 gboolean    eel_g_lists_sort_and_check_for_intersection (GList                **list_a,
-							 GList                **list_b);
+        GList                **list_b);
 GList *     eel_g_list_partition                        (GList                 *list,
-							 EelPredicateFunction   predicate,
-							 gpointer               user_data,
-							 GList                **removed);
+        EelPredicateFunction   predicate,
+        gpointer               user_data,
+        GList                **removed);
 
 /* List functions for lists of g_free'able objects. */
 void        eel_g_list_free_deep                        (GList                 *list);
 void        eel_g_list_free_deep_custom                 (GList                 *list,
-							 GFunc                  element_free_func,
-							 gpointer               user_data);
+        GFunc                  element_free_func,
+        gpointer               user_data);
 
 /* GSList functions. */
 GList *     eel_g_list_from_g_slist                     (GSList                *list);
@@ -73,16 +73,16 @@ GSList *    eel_g_slist_from_g_list                     (GList                 *
 /* List functions for slists of g_free'able objects. */
 void        eel_g_slist_free_deep                       (GSList                *list);
 void        eel_g_slist_free_deep_custom                (GSList                *list,
-							 GFunc                  element_free_func,
-							 gpointer               user_data);
+        GFunc                  element_free_func,
+        gpointer               user_data);
 
 /* List functions for lists of C strings. */
 gboolean    eel_g_str_list_equal                        (GList                 *str_list_a,
-							 GList                 *str_list_b);
+        GList                 *str_list_b);
 GList *     eel_g_str_list_copy                         (GList                 *str_list);
 GList *     eel_g_str_list_alphabetize                  (GList                 *str_list);
 int         eel_g_str_list_index                        (GList                 *str_list,
-							 const char            *str);
+        const char            *str);
 
 /* List functions for lists of objects */
 GList *     eel_g_object_list_ref                       (GList                 *list);
@@ -92,17 +92,17 @@ GList *     eel_g_object_list_copy                      (GList                 *
 
 /* GHashTable functions */
 GHashTable *eel_g_hash_table_new_free_at_exit           (GHashFunc              hash_function,
-							 GCompareFunc           key_compare_function,
-							 const char            *display_name);
+        GCompareFunc           key_compare_function,
+        const char            *display_name);
 void        eel_g_hash_table_safe_for_each              (GHashTable            *hash_table,
-							 GHFunc                 callback,
-							 gpointer               callback_data);
+        GHFunc                 callback,
+        gpointer               callback_data);
 
 /* NULL terminated string arrays (strv). */
 int         eel_g_strv_find                             (char                 **strv,
-							 const char            *find_me);
+        const char            *find_me);
 gboolean    eel_g_strv_equal                            (char                 **a,
-							 char                 **b);
+        char                 **b);
 
 /* return the time in microseconds since the machine was started */
 gint64      eel_get_system_time                         (void);
@@ -112,7 +112,7 @@ int         eel_round                                   (double                 
 
 /* A GCompareFunc for integers */
 int         eel_compare_integer                         (gconstpointer          a,
-							 gconstpointer          b);
+        gconstpointer          b);
 
 /* Return the operating system name: Linux, Solaris, etc. */
 char *      eel_get_operating_system_name               (void);

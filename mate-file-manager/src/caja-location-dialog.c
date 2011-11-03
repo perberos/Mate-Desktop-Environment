@@ -32,231 +32,244 @@
 #include "caja-desktop-window.h"
 #include <glib/gi18n.h>
 
-struct _CajaLocationDialogDetails {
-	GtkWidget *entry;
-	CajaWindow *window;
+struct _CajaLocationDialogDetails
+{
+    GtkWidget *entry;
+    CajaWindow *window;
 };
 
 static void  caja_location_dialog_class_init       (CajaLocationDialogClass *class);
 static void  caja_location_dialog_init             (CajaLocationDialog      *dialog);
 
 EEL_CLASS_BOILERPLATE (CajaLocationDialog,
-		       caja_location_dialog,
-		       GTK_TYPE_DIALOG)
-enum {
-	RESPONSE_OPEN
-};	
+                       caja_location_dialog,
+                       GTK_TYPE_DIALOG)
+enum
+{
+    RESPONSE_OPEN
+};
 
 static void
 caja_location_dialog_finalize (GObject *object)
 {
-	CajaLocationDialog *dialog;
+    CajaLocationDialog *dialog;
 
-	dialog = CAJA_LOCATION_DIALOG (object);
+    dialog = CAJA_LOCATION_DIALOG (object);
 
-	g_free (dialog->details);
+    g_free (dialog->details);
 
-	EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
+    EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 static void
 caja_location_dialog_destroy (GtkObject *object)
 {
-	CajaLocationDialog *dialog;
+    CajaLocationDialog *dialog;
 
-	dialog = CAJA_LOCATION_DIALOG (object);
-	
-	EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
+    dialog = CAJA_LOCATION_DIALOG (object);
+
+    EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
 }
 
 static void
 open_current_location (CajaLocationDialog *dialog)
 {
-	GFile *location;
-	char *user_location;
-	
-	user_location = gtk_editable_get_chars (GTK_EDITABLE (dialog->details->entry), 0, -1);
-	location = g_file_parse_name (user_location);
-	caja_window_go_to (dialog->details->window, location);
-	g_object_unref (location);
-	g_free (user_location);
+    GFile *location;
+    char *user_location;
+
+    user_location = gtk_editable_get_chars (GTK_EDITABLE (dialog->details->entry), 0, -1);
+    location = g_file_parse_name (user_location);
+    caja_window_go_to (dialog->details->window, location);
+    g_object_unref (location);
+    g_free (user_location);
 }
 
 static void
 response_callback (CajaLocationDialog *dialog,
-		   int response_id,
-		   gpointer data)
+                   int response_id,
+                   gpointer data)
 {
-	GError *error;
+    GError *error;
 
-	switch (response_id) {
-	case RESPONSE_OPEN :
-		open_current_location (dialog);
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-	case GTK_RESPONSE_NONE :
-	case GTK_RESPONSE_DELETE_EVENT :
-	case GTK_RESPONSE_CANCEL :
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-	case GTK_RESPONSE_HELP :
-		error = NULL;
-		gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (dialog)),
-			      "ghelp:user-guide#caja-open-location",
-			      gtk_get_current_event_time (), &error);
-		if (error) {
-			eel_show_error_dialog (_("There was an error displaying help."), error->message,
-					       GTK_WINDOW (dialog));
-			g_error_free (error);
-		}
-		break;
-	default :
-		g_assert_not_reached ();
-	}
+    switch (response_id)
+    {
+    case RESPONSE_OPEN :
+        open_current_location (dialog);
+        gtk_widget_destroy (GTK_WIDGET (dialog));
+        break;
+    case GTK_RESPONSE_NONE :
+    case GTK_RESPONSE_DELETE_EVENT :
+    case GTK_RESPONSE_CANCEL :
+        gtk_widget_destroy (GTK_WIDGET (dialog));
+        break;
+    case GTK_RESPONSE_HELP :
+        error = NULL;
+        gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (dialog)),
+                      "ghelp:user-guide#caja-open-location",
+                      gtk_get_current_event_time (), &error);
+        if (error)
+        {
+            eel_show_error_dialog (_("There was an error displaying help."), error->message,
+                                   GTK_WINDOW (dialog));
+            g_error_free (error);
+        }
+        break;
+    default :
+        g_assert_not_reached ();
+    }
 }
 
 static void
 entry_activate_callback (GtkEntry *entry,
-			 gpointer user_data)
+                         gpointer user_data)
 {
-	CajaLocationDialog *dialog;
-	
-	dialog = CAJA_LOCATION_DIALOG (user_data);
+    CajaLocationDialog *dialog;
 
-	if (gtk_entry_get_text_length (GTK_ENTRY (dialog->details->entry)) != 0) {
-		gtk_dialog_response (GTK_DIALOG (dialog), RESPONSE_OPEN);
-	}
+    dialog = CAJA_LOCATION_DIALOG (user_data);
+
+    if (gtk_entry_get_text_length (GTK_ENTRY (dialog->details->entry)) != 0)
+    {
+        gtk_dialog_response (GTK_DIALOG (dialog), RESPONSE_OPEN);
+    }
 }
 
 static void
 caja_location_dialog_class_init (CajaLocationDialogClass *class)
 {
-	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
+    GObjectClass *gobject_class;
+    GtkObjectClass *object_class;
 
-	gobject_class = G_OBJECT_CLASS (class);
-	gobject_class->finalize = caja_location_dialog_finalize;
-	
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = caja_location_dialog_destroy;
+    gobject_class = G_OBJECT_CLASS (class);
+    gobject_class->finalize = caja_location_dialog_finalize;
+
+    object_class = GTK_OBJECT_CLASS (class);
+    object_class->destroy = caja_location_dialog_destroy;
 }
 
 static void
 entry_text_changed (GObject *object, GParamSpec *spec, gpointer user_data)
 {
-	CajaLocationDialog *dialog;
+    CajaLocationDialog *dialog;
 
-	dialog = CAJA_LOCATION_DIALOG (user_data);
+    dialog = CAJA_LOCATION_DIALOG (user_data);
 
-	if (gtk_entry_get_text_length (GTK_ENTRY (dialog->details->entry)) != 0) {
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), RESPONSE_OPEN, TRUE);
-	} else {
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), RESPONSE_OPEN, FALSE);
-	}
+    if (gtk_entry_get_text_length (GTK_ENTRY (dialog->details->entry)) != 0)
+    {
+        gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), RESPONSE_OPEN, TRUE);
+    }
+    else
+    {
+        gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), RESPONSE_OPEN, FALSE);
+    }
 }
 
 static void
 caja_location_dialog_init (CajaLocationDialog *dialog)
 {
-	GtkWidget *box;
-	GtkWidget *label;
-	
-	dialog->details = g_new0 (CajaLocationDialogDetails, 1);
+    GtkWidget *box;
+    GtkWidget *label;
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Open Location"));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, -1);
-	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), 2);
-	
-	box = gtk_hbox_new (FALSE, 12);
-	gtk_container_set_border_width (GTK_CONTAINER (box), 5);
-	gtk_widget_show (box);
+    dialog->details = g_new0 (CajaLocationDialogDetails, 1);
 
-	label = gtk_label_new_with_mnemonic (_("_Location:"));
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, 0);
-	
-	dialog->details->entry = caja_location_entry_new ();
-        gtk_entry_set_width_chars (GTK_ENTRY (dialog->details->entry), 30);
-	g_signal_connect_after (dialog->details->entry,
-				"activate",
-				G_CALLBACK (entry_activate_callback),
-				dialog);
-	
-	gtk_widget_show (dialog->details->entry);
-	
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), dialog->details->entry);
+    gtk_window_set_title (GTK_WINDOW (dialog), _("Open Location"));
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 300, -1);
+    gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
+    gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+    gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+    gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), 2);
 
-	gtk_box_pack_start (GTK_BOX (box), dialog->details->entry, 
-			    TRUE, TRUE, 0);
-	
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
-			    box, FALSE, TRUE, 0);
+    box = gtk_hbox_new (FALSE, 12);
+    gtk_container_set_border_width (GTK_CONTAINER (box), 5);
+    gtk_widget_show (box);
 
-	gtk_dialog_add_button (GTK_DIALOG (dialog),
-			       GTK_STOCK_HELP,
-			       GTK_RESPONSE_HELP);
-	gtk_dialog_add_button (GTK_DIALOG (dialog),
-			       GTK_STOCK_CANCEL,
-			       GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (dialog),
-			       GTK_STOCK_OPEN,
-			       RESPONSE_OPEN);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog),
-					 RESPONSE_OPEN);
+    label = gtk_label_new_with_mnemonic (_("_Location:"));
+    gtk_widget_show (label);
+    gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, 0);
 
-	g_signal_connect (dialog->details->entry, "notify::text", 
-                          G_CALLBACK (entry_text_changed), dialog);
+    dialog->details->entry = caja_location_entry_new ();
+    gtk_entry_set_width_chars (GTK_ENTRY (dialog->details->entry), 30);
+    g_signal_connect_after (dialog->details->entry,
+                            "activate",
+                            G_CALLBACK (entry_activate_callback),
+                            dialog);
 
-	g_signal_connect (dialog, "response",
-			  G_CALLBACK (response_callback),
-			  dialog);
+    gtk_widget_show (dialog->details->entry);
+
+    gtk_label_set_mnemonic_widget (GTK_LABEL (label), dialog->details->entry);
+
+    gtk_box_pack_start (GTK_BOX (box), dialog->details->entry,
+                        TRUE, TRUE, 0);
+
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
+                        box, FALSE, TRUE, 0);
+
+    gtk_dialog_add_button (GTK_DIALOG (dialog),
+                           GTK_STOCK_HELP,
+                           GTK_RESPONSE_HELP);
+    gtk_dialog_add_button (GTK_DIALOG (dialog),
+                           GTK_STOCK_CANCEL,
+                           GTK_RESPONSE_CANCEL);
+    gtk_dialog_add_button (GTK_DIALOG (dialog),
+                           GTK_STOCK_OPEN,
+                           RESPONSE_OPEN);
+    gtk_dialog_set_default_response (GTK_DIALOG (dialog),
+                                     RESPONSE_OPEN);
+
+    g_signal_connect (dialog->details->entry, "notify::text",
+                      G_CALLBACK (entry_text_changed), dialog);
+
+    g_signal_connect (dialog, "response",
+                      G_CALLBACK (response_callback),
+                      dialog);
 }
 
 GtkWidget *
 caja_location_dialog_new (CajaWindow *window)
 {
-	CajaWindowSlot *slot;
-	CajaLocationDialog *loc_dialog;
-	GtkWidget *dialog;
-	GFile *location;
-	char *formatted_location;
-	
-	dialog = gtk_widget_new (CAJA_TYPE_LOCATION_DIALOG, NULL);
-	loc_dialog = CAJA_LOCATION_DIALOG (dialog);
+    CajaWindowSlot *slot;
+    CajaLocationDialog *loc_dialog;
+    GtkWidget *dialog;
+    GFile *location;
+    char *formatted_location;
 
-	if (window) {
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
-		gtk_window_set_screen (GTK_WINDOW (dialog),
-				       gtk_window_get_screen (GTK_WINDOW (window)));
-		loc_dialog->details->window = window;
-	}
+    dialog = gtk_widget_new (CAJA_TYPE_LOCATION_DIALOG, NULL);
+    loc_dialog = CAJA_LOCATION_DIALOG (dialog);
 
-	slot = window->details->active_pane->active_slot;
+    if (window)
+    {
+        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+        gtk_window_set_screen (GTK_WINDOW (dialog),
+                               gtk_window_get_screen (GTK_WINDOW (window)));
+        loc_dialog->details->window = window;
+    }
 
-	location = slot->location;
-	if (location != NULL) {
-		if (CAJA_IS_DESKTOP_WINDOW (window)) {
-			formatted_location = g_strdup_printf ("%s/", g_get_home_dir ());
-		} else {
-			formatted_location = g_file_get_parse_name (location);
-		}
-		caja_location_entry_update_current_location (CAJA_LOCATION_ENTRY (loc_dialog->details->entry),
-								 formatted_location);
-		g_free (formatted_location);
-	}
-	
-	gtk_widget_grab_focus (loc_dialog->details->entry);
+    slot = window->details->active_pane->active_slot;
 
-	return dialog;
+    location = slot->location;
+    if (location != NULL)
+    {
+        if (CAJA_IS_DESKTOP_WINDOW (window))
+        {
+            formatted_location = g_strdup_printf ("%s/", g_get_home_dir ());
+        }
+        else
+        {
+            formatted_location = g_file_get_parse_name (location);
+        }
+        caja_location_entry_update_current_location (CAJA_LOCATION_ENTRY (loc_dialog->details->entry),
+                formatted_location);
+        g_free (formatted_location);
+    }
+
+    gtk_widget_grab_focus (loc_dialog->details->entry);
+
+    return dialog;
 }
 
 void
 caja_location_dialog_set_location (CajaLocationDialog *dialog,
-				       const char *location)
+                                   const char *location)
 {
-	caja_location_entry_update_current_location (CAJA_LOCATION_ENTRY (dialog->details->entry),
-							 location);
+    caja_location_entry_update_current_location (CAJA_LOCATION_ENTRY (dialog->details->entry),
+            location);
 }

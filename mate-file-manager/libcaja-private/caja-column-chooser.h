@@ -42,26 +42,28 @@
 
 typedef struct _CajaColumnChooserDetails CajaColumnChooserDetails;
 
-typedef struct {
-	GtkHBox parent;
-	
-	CajaColumnChooserDetails *details;
+typedef struct
+{
+    GtkHBox parent;
+
+    CajaColumnChooserDetails *details;
 } CajaColumnChooser;
 
-typedef struct {
-        GtkHBoxClass parent_slot;
+typedef struct
+{
+    GtkHBoxClass parent_slot;
 
-	void (*changed) (CajaColumnChooser *chooser);
-	void (*use_default) (CajaColumnChooser *chooser);
+    void (*changed) (CajaColumnChooser *chooser);
+    void (*use_default) (CajaColumnChooser *chooser);
 } CajaColumnChooserClass;
 
 GType      caja_column_chooser_get_type            (void);
 GtkWidget *caja_column_chooser_new                 (CajaFile *file);
 void       caja_column_chooser_set_settings    (CajaColumnChooser   *chooser,
-						    char                   **visible_columns, 
-						    char                   **column_order);
+        char                   **visible_columns,
+        char                   **column_order);
 void       caja_column_chooser_get_settings    (CajaColumnChooser *chooser,
-						    char                  ***visible_columns, 
-						    char                  ***column_order);
+        char                  ***visible_columns,
+        char                  ***column_order);
 
 #endif /* CAJA_COLUMN_CHOOSER_H */

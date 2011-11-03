@@ -38,23 +38,23 @@ main (int argc, char *argv[])
 {
 #if !defined (EEL_OMIT_SELF_CHECK)
 
-	eel_make_warnings_and_criticals_stop_in_debugger ();
-	
+    eel_make_warnings_and_criticals_stop_in_debugger ();
 
-	LIBXML_TEST_VERSION
-	gtk_init (&argc, &argv);
 
-	/* Run the checks for eel twice. */
+    LIBXML_TEST_VERSION
+    gtk_init (&argc, &argv);
 
-	eel_run_lib_self_checks ();
-	eel_exit_if_self_checks_failed ();
+    /* Run the checks for eel twice. */
 
-	eel_run_lib_self_checks ();
-	eel_exit_if_self_checks_failed ();
+    eel_run_lib_self_checks ();
+    eel_exit_if_self_checks_failed ();
 
-	eel_debug_shut_down ();
+    eel_run_lib_self_checks ();
+    eel_exit_if_self_checks_failed ();
+
+    eel_debug_shut_down ();
 
 #endif /* !EEL_OMIT_SELF_CHECK */
-	
-	return EXIT_SUCCESS;
+
+    return EXIT_SUCCESS;
 }

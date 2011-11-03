@@ -50,19 +50,21 @@
 
 typedef struct CajaLocationBarDetails CajaLocationBarDetails;
 
-typedef struct CajaLocationBar {
-	CajaNavigationBar parent;
-	CajaLocationBarDetails *details;
+typedef struct CajaLocationBar
+{
+    CajaNavigationBar parent;
+    CajaLocationBarDetails *details;
 } CajaLocationBar;
 
-typedef struct {
-	CajaNavigationBarClass parent_class;
+typedef struct
+{
+    CajaNavigationBarClass parent_class;
 } CajaLocationBarClass;
 
 GType      caja_location_bar_get_type     	(void);
 GtkWidget* caja_location_bar_new          	(CajaNavigationWindowPane *pane);
 void       caja_location_bar_set_active     (CajaLocationBar *location_bar,
-						 gboolean is_active);
+        gboolean is_active);
 CajaEntry * caja_location_bar_get_entry (CajaLocationBar *location_bar);
 
 #endif /* CAJA_LOCATION_BAR_H */

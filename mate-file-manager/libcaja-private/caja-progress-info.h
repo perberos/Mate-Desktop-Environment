@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-progress-info.h: file operation progress info.
- 
+
    Copyright (C) 2007 Red Hat, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Alexander Larsson <alexl@redhat.com>
 */
 
@@ -45,7 +45,7 @@ GType caja_progress_info_get_type (void) G_GNUC_CONST;
    "progress-changed" - the percentage progress changed (or we pulsed if in activity_mode
    "started" - emited on job start
    "finished" - emitted when job is done
-   
+
    All signals are emitted from idles in main loop.
    All methods are threadsafe.
  */
@@ -68,16 +68,16 @@ void          caja_progress_info_finish          (CajaProgressInfo *info);
 void          caja_progress_info_pause           (CajaProgressInfo *info);
 void          caja_progress_info_resume          (CajaProgressInfo *info);
 void          caja_progress_info_set_status      (CajaProgressInfo *info,
-						      const char           *status);
+        const char           *status);
 void          caja_progress_info_take_status     (CajaProgressInfo *info,
-						      char                 *status);
+        char                 *status);
 void          caja_progress_info_set_details     (CajaProgressInfo *info,
-						      const char           *details);
+        const char           *details);
 void          caja_progress_info_take_details    (CajaProgressInfo *info,
-						      char                 *details);
+        char                 *details);
 void          caja_progress_info_set_progress    (CajaProgressInfo *info,
-						      double                current,
-						      double                total);
+        double                current,
+        double                total);
 void          caja_progress_info_pulse_progress  (CajaProgressInfo *info);
 
 

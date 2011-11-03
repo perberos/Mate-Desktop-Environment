@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-navigation-window-pane.h: Caja navigation window pane
- 
+
    Copyright (C) 2008 Free Software Foundation, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Holger Berndt <berndth@gmx.de>
 */
 
@@ -38,30 +38,32 @@
 typedef struct _CajaNavigationWindowPaneClass CajaNavigationWindowPaneClass;
 typedef struct _CajaNavigationWindowPane      CajaNavigationWindowPane;
 
-struct _CajaNavigationWindowPaneClass {
-	CajaWindowPaneClass parent_class;
+struct _CajaNavigationWindowPaneClass
+{
+    CajaWindowPaneClass parent_class;
 };
 
-struct _CajaNavigationWindowPane {
-	CajaWindowPane parent;
+struct _CajaNavigationWindowPane
+{
+    CajaWindowPane parent;
 
-	GtkWidget *widget;
+    GtkWidget *widget;
 
-	/* location bar */
-	GtkWidget *location_bar;
-	GtkWidget *navigation_bar;
-	GtkWidget *path_bar;
-	GtkWidget *search_bar;
+    /* location bar */
+    GtkWidget *location_bar;
+    GtkWidget *navigation_bar;
+    GtkWidget *path_bar;
+    GtkWidget *search_bar;
 
-	gboolean temporary_navigation_bar;
-	gboolean temporary_location_bar;
-	gboolean temporary_search_bar;
+    gboolean temporary_navigation_bar;
+    gboolean temporary_location_bar;
+    gboolean temporary_search_bar;
 
-	/* notebook */
-	GtkWidget *notebook;
+    /* notebook */
+    GtkWidget *notebook;
 
-	/* split view */
-	GtkWidget *split_view_hpane;
+    /* split view */
+    GtkWidget *split_view_hpane;
 };
 
 GType    caja_navigation_window_pane_get_type (void);

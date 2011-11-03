@@ -49,28 +49,28 @@ typedef struct CajaSidebarTitleDetails CajaSidebarTitleDetails;
 
 typedef struct
 {
-	GtkVBox box;
-	CajaSidebarTitleDetails *details; 
+    GtkVBox box;
+    CajaSidebarTitleDetails *details;
 } CajaSidebarTitle;
 
 typedef struct
 {
-	GtkVBoxClass parent_class;
+    GtkVBoxClass parent_class;
 } CajaSidebarTitleClass;
 
 GType      caja_sidebar_title_get_type          (void);
 GtkWidget *caja_sidebar_title_new               (void);
 void       caja_sidebar_title_set_file          (CajaSidebarTitle *sidebar_title,
-						     CajaFile         *file,
-						     const char           *initial_text);
+        CajaFile         *file,
+        const char           *initial_text);
 void       caja_sidebar_title_set_text          (CajaSidebarTitle *sidebar_title,
-						     const char           *new_title);
+        const char           *new_title);
 char *     caja_sidebar_title_get_text          (CajaSidebarTitle *sidebar_title);
 gboolean   caja_sidebar_title_hit_test_icon     (CajaSidebarTitle *sidebar_title,
-						     int                   x,
-						     int                   y);
+        int                   x,
+        int                   y);
 void       caja_sidebar_title_select_text_color (CajaSidebarTitle *sidebar_title,
-						     EelBackground        *background,
-						     gboolean              is_default);
+        EelBackground        *background,
+        gboolean              is_default);
 
 #endif /* CAJA_SIDEBAR_TITLE_H */

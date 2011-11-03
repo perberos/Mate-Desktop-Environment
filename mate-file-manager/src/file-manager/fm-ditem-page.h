@@ -32,17 +32,17 @@
 extern "C" {
 #endif
 
-/* This is a mis-nomer. Launcher editables initially were displayed on separate
- * a property notebook page, which implemented the CajaPropertyPageProvider
- * interface.
- *
- * Nowadays, they are displayed on the "Basic" page, so just the setup
- * routines are left.
- */
+    /* This is a mis-nomer. Launcher editables initially were displayed on separate
+     * a property notebook page, which implemented the CajaPropertyPageProvider
+     * interface.
+     *
+     * Nowadays, they are displayed on the "Basic" page, so just the setup
+     * routines are left.
+     */
 
-GtkWidget *fm_ditem_page_make_box (GtkSizeGroup *label_size_group,
-				   GList *files);
-gboolean   fm_ditem_page_should_show (GList *files);
+    GtkWidget *fm_ditem_page_make_box (GtkSizeGroup *label_size_group,
+                                       GList *files);
+    gboolean   fm_ditem_page_should_show (GList *files);
 
 #ifdef __cplusplus
 }

@@ -46,96 +46,96 @@ extern "C" {
 #define EEL_EDITABLE_LABEL_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_EDITABLE_LABEL, EelEditableLabelClass))
 
-typedef struct _EelEditableLabel       EelEditableLabel;
-typedef struct _EelEditableLabelClass  EelEditableLabelClass;
+    typedef struct _EelEditableLabel       EelEditableLabel;
+    typedef struct _EelEditableLabelClass  EelEditableLabelClass;
 
-typedef struct _EelEditableLabelSelectionInfo EelEditableLabelSelectionInfo;
+    typedef struct _EelEditableLabelSelectionInfo EelEditableLabelSelectionInfo;
 
-struct _EelEditableLabel
-{
-  GtkMisc misc;
+    struct _EelEditableLabel
+    {
+        GtkMisc misc;
 
-  /*< private >*/
-  guint   jtype : 2;
-  guint   wrap : 1;
-  guint   overwrite_mode : 1;
-  guint   draw_outline : 1;
-  PangoWrapMode  wrap_mode;
+        /*< private >*/
+        guint   jtype : 2;
+        guint   wrap : 1;
+        guint   overwrite_mode : 1;
+        guint   draw_outline : 1;
+        PangoWrapMode  wrap_mode;
 
-  gchar  *text;
-  int text_size; /* allocated size, in bytes */
-  int n_bytes;	 /* length in use (not including terminating zero), in bytes */
+        gchar  *text;
+        int text_size; /* allocated size, in bytes */
+        int n_bytes;	 /* length in use (not including terminating zero), in bytes */
 
-  PangoLayout *layout;
-  guint        layout_includes_preedit : 1;
+        PangoLayout *layout;
+        guint        layout_includes_preedit : 1;
 
-  int selection_anchor; /* cursor pos, byte index */
-  int selection_end; /* byte index */
+        int selection_anchor; /* cursor pos, byte index */
+        int selection_end; /* byte index */
 
-  GtkWidget *popup_menu;
+        GtkWidget *popup_menu;
 
-  GtkIMContext *im_context;
-  gboolean need_im_reset;
-  int preedit_length;	/* length of preedit string, in bytes */
-  int preedit_cursor;	/* offset of cursor within preedit string, in chars */
+        GtkIMContext *im_context;
+        gboolean need_im_reset;
+        int preedit_length;	/* length of preedit string, in bytes */
+        int preedit_cursor;	/* offset of cursor within preedit string, in chars */
 
-  GdkGC *primary_cursor_gc;
-  GdkGC *secondary_cursor_gc;
+        GdkGC *primary_cursor_gc;
+        GdkGC *secondary_cursor_gc;
 
-  PangoFontDescription *font_desc;
-};
+        PangoFontDescription *font_desc;
+    };
 
-struct _EelEditableLabelClass
-{
-  GtkMiscClass parent_class;
+    struct _EelEditableLabelClass
+    {
+        GtkMiscClass parent_class;
 
-  void (* move_cursor)        (EelEditableLabel  *label,
-			       GtkMovementStep    step,
-			       gint               count,
-			       gboolean           extend_selection);
-  void (* insert_at_cursor)   (EelEditableLabel  *label,
-			       const gchar       *str);
-  void (* delete_from_cursor) (EelEditableLabel  *label,
-			       GtkDeleteType      type,
-			       gint               count);
-  void (* cut_clipboard)      (EelEditableLabel  *label);
-  void (* copy_clipboard)     (EelEditableLabel  *label);
-  void (* paste_clipboard)    (EelEditableLabel  *label);
-  void (* toggle_overwrite)   (EelEditableLabel  *label);
+        void (* move_cursor)        (EelEditableLabel  *label,
+                                     GtkMovementStep    step,
+                                     gint               count,
+                                     gboolean           extend_selection);
+        void (* insert_at_cursor)   (EelEditableLabel  *label,
+                                     const gchar       *str);
+        void (* delete_from_cursor) (EelEditableLabel  *label,
+                                     GtkDeleteType      type,
+                                     gint               count);
+        void (* cut_clipboard)      (EelEditableLabel  *label);
+        void (* copy_clipboard)     (EelEditableLabel  *label);
+        void (* paste_clipboard)    (EelEditableLabel  *label);
+        void (* toggle_overwrite)   (EelEditableLabel  *label);
 
-  /* Hook to customize right-click popup for selectable labels */
-  void (* populate_popup)   (EelEditableLabel  *label,
-                             GtkMenu           *menu);
-};
+        /* Hook to customize right-click popup for selectable labels */
+        void (* populate_popup)   (EelEditableLabel  *label,
+                                   GtkMenu           *menu);
+    };
 
-GType                 eel_editable_label_get_type          (void) G_GNUC_CONST;
-GtkWidget*            eel_editable_label_new                  (const char       *str);
-void                  eel_editable_label_set_text             (EelEditableLabel *label,
-							       const char       *str);
-const gchar* eel_editable_label_get_text(EelEditableLabel* label);
-void                  eel_editable_label_set_justify          (EelEditableLabel *label,
-							       GtkJustification  jtype);
-GtkJustification      eel_editable_label_get_justify          (EelEditableLabel *label);
-void                  eel_editable_label_set_line_wrap        (EelEditableLabel *label,
-							       gboolean          wrap);
-void                  eel_editable_label_set_line_wrap_mode   (EelEditableLabel *label,
-							       PangoWrapMode     mode);
-gboolean              eel_editable_label_get_line_wrap        (EelEditableLabel *label);
-void                  eel_editable_label_set_draw_outline     (EelEditableLabel *label,
-							       gboolean          wrap);
-void                  eel_editable_label_select_region        (EelEditableLabel *label,
-							       gint              start_offset,
-							       gint              end_offset);
-gboolean              eel_editable_label_get_selection_bounds (EelEditableLabel *label,
-							       gint             *start,
-							       gint             *end);
-PangoLayout *         eel_editable_label_get_layout           (EelEditableLabel *label);
-void                  eel_editable_label_get_layout_offsets   (EelEditableLabel *label,
-							       gint             *x,
-							       gint             *y);
-PangoFontDescription *eel_editable_label_get_font_description (EelEditableLabel *label);
-void                  eel_editable_label_set_font_description (EelEditableLabel *label,
-							       const PangoFontDescription *desc);
+    GType                 eel_editable_label_get_type          (void) G_GNUC_CONST;
+    GtkWidget*            eel_editable_label_new                  (const char       *str);
+    void                  eel_editable_label_set_text             (EelEditableLabel *label,
+            const char       *str);
+    const gchar* eel_editable_label_get_text(EelEditableLabel* label);
+    void                  eel_editable_label_set_justify          (EelEditableLabel *label,
+            GtkJustification  jtype);
+    GtkJustification      eel_editable_label_get_justify          (EelEditableLabel *label);
+    void                  eel_editable_label_set_line_wrap        (EelEditableLabel *label,
+            gboolean          wrap);
+    void                  eel_editable_label_set_line_wrap_mode   (EelEditableLabel *label,
+            PangoWrapMode     mode);
+    gboolean              eel_editable_label_get_line_wrap        (EelEditableLabel *label);
+    void                  eel_editable_label_set_draw_outline     (EelEditableLabel *label,
+            gboolean          wrap);
+    void                  eel_editable_label_select_region        (EelEditableLabel *label,
+            gint              start_offset,
+            gint              end_offset);
+    gboolean              eel_editable_label_get_selection_bounds (EelEditableLabel *label,
+            gint             *start,
+            gint             *end);
+    PangoLayout *         eel_editable_label_get_layout           (EelEditableLabel *label);
+    void                  eel_editable_label_get_layout_offsets   (EelEditableLabel *label,
+            gint             *x,
+            gint             *y);
+    PangoFontDescription *eel_editable_label_get_font_description (EelEditableLabel *label);
+    void                  eel_editable_label_set_font_description (EelEditableLabel *label,
+            const PangoFontDescription *desc);
 
 #ifdef __cplusplus
 }

@@ -46,40 +46,42 @@ typedef struct CajaBookmarkListClass CajaBookmarkListClass;
 #define CAJA_BOOKMARK_LIST_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_BOOKMARK_LIST, CajaBookmarkListClass))
 
-struct CajaBookmarkList {
-	GObject object;
+struct CajaBookmarkList
+{
+    GObject object;
 
-	GList *list; 
-	GFileMonitor *monitor;
-	GQueue *pending_ops;
+    GList *list;
+    GFileMonitor *monitor;
+    GQueue *pending_ops;
 };
 
-struct CajaBookmarkListClass {
-	GObjectClass parent_class;
-	void (* contents_changed) (CajaBookmarkList *bookmarks);
+struct CajaBookmarkListClass
+{
+    GObjectClass parent_class;
+    void (* contents_changed) (CajaBookmarkList *bookmarks);
 };
 
 GType                   caja_bookmark_list_get_type            (void);
 CajaBookmarkList *  caja_bookmark_list_new                 (void);
 void                    caja_bookmark_list_append              (CajaBookmarkList   *bookmarks,
-								    CajaBookmark *bookmark);
+        CajaBookmark *bookmark);
 gboolean                caja_bookmark_list_contains            (CajaBookmarkList   *bookmarks,
-								    CajaBookmark *bookmark);
+        CajaBookmark *bookmark);
 void                    caja_bookmark_list_delete_item_at      (CajaBookmarkList   *bookmarks,
-								    guint                   index);
+        guint                   index);
 void                    caja_bookmark_list_delete_items_with_uri (CajaBookmarkList *bookmarks,
-								    const char		   *uri);
+        const char		   *uri);
 void                    caja_bookmark_list_insert_item         (CajaBookmarkList   *bookmarks,
-								    CajaBookmark *bookmark,
-								    guint                   index);
+        CajaBookmark *bookmark,
+        guint                   index);
 guint                   caja_bookmark_list_length              (CajaBookmarkList   *bookmarks);
 CajaBookmark *      caja_bookmark_list_item_at             (CajaBookmarkList   *bookmarks,
-								    guint                   index);
+        guint                   index);
 void                    caja_bookmark_list_move_item           (CajaBookmarkList *bookmarks,
-								    guint                 index,
-								    guint                 destination);
+        guint                 index,
+        guint                 destination);
 void                    caja_bookmark_list_set_window_geometry (CajaBookmarkList   *bookmarks,
-								    const char             *geometry);
+        const char             *geometry);
 const char *            caja_bookmark_list_get_window_geometry (CajaBookmarkList   *bookmarks);
 
 #endif /* CAJA_BOOKMARK_LIST_H */

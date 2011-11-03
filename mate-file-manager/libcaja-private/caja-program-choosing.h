@@ -31,27 +31,27 @@
 #include <libcaja-private/caja-file.h>
 
 typedef void (*CajaApplicationChoiceCallback) (GAppInfo                      *application,
-						   gpointer			  callback_data);
+        gpointer			  callback_data);
 
 void caja_launch_application                 (GAppInfo                          *application,
-						  GList                             *files,
-						  GtkWindow                         *parent_window);
+        GList                             *files,
+        GtkWindow                         *parent_window);
 void caja_launch_application_by_uri          (GAppInfo                          *application,
-						  GList                             *uris,
-						  GtkWindow                         *parent_window);
+        GList                             *uris,
+        GtkWindow                         *parent_window);
 void caja_launch_application_from_command    (GdkScreen                         *screen,
-						  const char                        *name,
-						  const char                        *command_string,
-						  gboolean                           use_terminal,
-						  ...) G_GNUC_NULL_TERMINATED;
+        const char                        *name,
+        const char                        *command_string,
+        gboolean                           use_terminal,
+        ...) G_GNUC_NULL_TERMINATED;
 void caja_launch_application_from_command_array (GdkScreen                         *screen,
-						     const char                        *name,
-						     const char                        *command_string,
-						     gboolean                           use_terminal,
-						     const char * const *               parameters);
+        const char                        *name,
+        const char                        *command_string,
+        gboolean                           use_terminal,
+        const char * const *               parameters);
 void caja_launch_desktop_file		 (GdkScreen                         *screen,
-						  const char                        *desktop_file_uri,
-						  const GList                       *parameter_uris,
-						  GtkWindow                         *parent_window);
-						  
+                                      const char                        *desktop_file_uri,
+                                      const GList                       *parameter_uris,
+                                      GtkWindow                         *parent_window);
+
 #endif /* CAJA_PROGRAM_CHOOSING_H */

@@ -1,5 +1,5 @@
 /*
- *  caja-column-provider.c - Interface for Caja extensions 
+ *  caja-column-provider.c - Interface for Caja extensions
  *                               that provide column specifications.
  *
  *  Copyright (C) 2003 Novell, Inc.
@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU Library General Public
  *  License along with this library; if not, write to the Free
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  *  Author:  Dave Camp <dave@ximian.com>
  *
  */
@@ -32,41 +32,43 @@ caja_column_provider_base_init (gpointer g_class)
 {
 }
 
-GType                   
+GType
 caja_column_provider_get_type (void)
 {
-	static GType type = 0;
+    static GType type = 0;
 
-	if (!type) {
-		const GTypeInfo info = {
-			sizeof (CajaColumnProviderIface),
-			caja_column_provider_base_init,
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			0,
-			0,
-			NULL
-		};
-		
-		type = g_type_register_static (G_TYPE_INTERFACE, 
-					       "CajaColumnProvider",
-					       &info, 0);
-		g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
-	}
+    if (!type)
+    {
+        const GTypeInfo info =
+        {
+            sizeof (CajaColumnProviderIface),
+            caja_column_provider_base_init,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            0,
+            0,
+            NULL
+        };
 
-	return type;
+        type = g_type_register_static (G_TYPE_INTERFACE,
+                                       "CajaColumnProvider",
+                                       &info, 0);
+        g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
+    }
+
+    return type;
 }
 
 GList *
 caja_column_provider_get_columns (CajaColumnProvider *provider)
 {
-	g_return_val_if_fail (CAJA_IS_COLUMN_PROVIDER (provider), NULL);
-	g_return_val_if_fail (CAJA_COLUMN_PROVIDER_GET_IFACE (provider)->get_columns != NULL, NULL);
+    g_return_val_if_fail (CAJA_IS_COLUMN_PROVIDER (provider), NULL);
+    g_return_val_if_fail (CAJA_COLUMN_PROVIDER_GET_IFACE (provider)->get_columns != NULL, NULL);
 
-	return CAJA_COLUMN_PROVIDER_GET_IFACE (provider)->get_columns 
-		(provider);
+    return CAJA_COLUMN_PROVIDER_GET_IFACE (provider)->get_columns
+           (provider);
 }
 
-					       
+

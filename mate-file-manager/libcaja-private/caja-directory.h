@@ -1,24 +1,24 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-directory.h: Caja directory model.
- 
+
    Copyright (C) 1999, 2000, 2001 Eazel, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Darin Adler <darin@bentspoon.com>
 */
 
@@ -34,7 +34,7 @@
    responsible for managing both real data and cached metadata. On top of
    the file system independence provided by gio, the directory
    object also provides:
-  
+
        1) A synchronization framework, which notifies via signals as the
           set of known files changes.
        2) An abstract interface for getting attributes and performing
@@ -63,85 +63,85 @@ typedef struct CajaDirectoryDetails CajaDirectoryDetails;
 
 typedef struct
 {
-	GObject object;
-	CajaDirectoryDetails *details;
+    GObject object;
+    CajaDirectoryDetails *details;
 } CajaDirectory;
 
 typedef void (*CajaDirectoryCallback) (CajaDirectory *directory,
-					   GList             *files,
-					   gpointer           callback_data);
+                                       GList             *files,
+                                       gpointer           callback_data);
 
 typedef struct
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 
-	/*** Notification signals for clients to connect to. ***/
+    /*** Notification signals for clients to connect to. ***/
 
-	/* The files_added signal is emitted as the directory model 
-	 * discovers new files.
-	 */
-	void     (* files_added)         (CajaDirectory          *directory,
-					  GList                      *added_files);
+    /* The files_added signal is emitted as the directory model
+     * discovers new files.
+     */
+    void     (* files_added)         (CajaDirectory          *directory,
+                                      GList                      *added_files);
 
-	/* The files_changed signal is emitted as changes occur to
-	 * existing files that are noticed by the synchronization framework,
-	 * including when an old file has been deleted. When an old file
-	 * has been deleted, this is the last chance to forget about these
-	 * file objects, which are about to be unref'd. Use a call to
-	 * caja_file_is_gone () to test for this case.
-	 */
-	void     (* files_changed)       (CajaDirectory         *directory,
-					  GList                     *changed_files);
+    /* The files_changed signal is emitted as changes occur to
+     * existing files that are noticed by the synchronization framework,
+     * including when an old file has been deleted. When an old file
+     * has been deleted, this is the last chance to forget about these
+     * file objects, which are about to be unref'd. Use a call to
+     * caja_file_is_gone () to test for this case.
+     */
+    void     (* files_changed)       (CajaDirectory         *directory,
+                                      GList                     *changed_files);
 
-	/* The done_loading signal is emitted when a directory load
-	 * request completes. This is needed because, at least in the
-	 * case where the directory is empty, the caller will receive
-	 * no kind of notification at all when a directory load
-	 * initiated by `caja_directory_file_monitor_add' completes.
-	 */
-	void     (* done_loading)        (CajaDirectory         *directory);
+    /* The done_loading signal is emitted when a directory load
+     * request completes. This is needed because, at least in the
+     * case where the directory is empty, the caller will receive
+     * no kind of notification at all when a directory load
+     * initiated by `caja_directory_file_monitor_add' completes.
+     */
+    void     (* done_loading)        (CajaDirectory         *directory);
 
-	void     (* load_error)          (CajaDirectory         *directory,
-					  GError                    *error);
+    void     (* load_error)          (CajaDirectory         *directory,
+                                      GError                    *error);
 
-	/*** Virtual functions for subclasses to override. ***/
-	gboolean (* contains_file)       (CajaDirectory         *directory,
-					  CajaFile              *file);
-	void     (* call_when_ready)     (CajaDirectory         *directory,
-					  CajaFileAttributes     file_attributes,
-					  gboolean                   wait_for_file_list,
-					  CajaDirectoryCallback  callback,
-					  gpointer                   callback_data);
-	void     (* cancel_callback)     (CajaDirectory         *directory,
-					  CajaDirectoryCallback  callback,
-					  gpointer                   callback_data);
-	void     (* file_monitor_add)    (CajaDirectory          *directory,
-					  gconstpointer              client,
-					  gboolean                   monitor_hidden_files,
-					  gboolean                   monitor_backup_files,
-					  CajaFileAttributes     monitor_attributes,
-					  CajaDirectoryCallback  initial_files_callback,
-					  gpointer                   callback_data);
-	void     (* file_monitor_remove) (CajaDirectory         *directory,
-					  gconstpointer              client);
-	void     (* force_reload)        (CajaDirectory         *directory);
-	gboolean (* are_all_files_seen)  (CajaDirectory         *directory);
-	gboolean (* is_not_empty)        (CajaDirectory         *directory);
-	char *	 (* get_name_for_self_as_new_file) (CajaDirectory *directory);
+    /*** Virtual functions for subclasses to override. ***/
+    gboolean (* contains_file)       (CajaDirectory         *directory,
+                                      CajaFile              *file);
+    void     (* call_when_ready)     (CajaDirectory         *directory,
+                                      CajaFileAttributes     file_attributes,
+                                      gboolean                   wait_for_file_list,
+                                      CajaDirectoryCallback  callback,
+                                      gpointer                   callback_data);
+    void     (* cancel_callback)     (CajaDirectory         *directory,
+                                      CajaDirectoryCallback  callback,
+                                      gpointer                   callback_data);
+    void     (* file_monitor_add)    (CajaDirectory          *directory,
+                                      gconstpointer              client,
+                                      gboolean                   monitor_hidden_files,
+                                      gboolean                   monitor_backup_files,
+                                      CajaFileAttributes     monitor_attributes,
+                                      CajaDirectoryCallback  initial_files_callback,
+                                      gpointer                   callback_data);
+    void     (* file_monitor_remove) (CajaDirectory         *directory,
+                                      gconstpointer              client);
+    void     (* force_reload)        (CajaDirectory         *directory);
+    gboolean (* are_all_files_seen)  (CajaDirectory         *directory);
+    gboolean (* is_not_empty)        (CajaDirectory         *directory);
+    char *	 (* get_name_for_self_as_new_file) (CajaDirectory *directory);
 
-	/* get_file_list is a function pointer that subclasses may override to
-	 * customize collecting the list of files in a directory.
-	 * For example, the CajaDesktopDirectory overrides this so that it can
-	 * merge together the list of files in the $HOME/Desktop directory with
-	 * the list of standard icons (Computer, Home, Trash) on the desktop.
-	 */
-	GList *	 (* get_file_list)	 (CajaDirectory *directory);
+    /* get_file_list is a function pointer that subclasses may override to
+     * customize collecting the list of files in a directory.
+     * For example, the CajaDesktopDirectory overrides this so that it can
+     * merge together the list of files in the $HOME/Desktop directory with
+     * the list of standard icons (Computer, Home, Trash) on the desktop.
+     */
+    GList *	 (* get_file_list)	 (CajaDirectory *directory);
 
-	/* Should return FALSE if the directory is read-only and doesn't
-	 * allow setting of metadata.
-	 * An example of this is the search directory.
-	 */
-	gboolean (* is_editable)         (CajaDirectory *directory);
+    /* Should return FALSE if the directory is read-only and doesn't
+     * allow setting of metadata.
+     * An example of this is the search directory.
+     */
+    gboolean (* is_editable)         (CajaDirectory *directory);
 } CajaDirectoryClass;
 
 /* Basic GObject requirements. */
@@ -169,11 +169,11 @@ GFile *            caja_directory_get_location             (CajaDirectory       
 
 /* Is this file still alive and in this directory? */
 gboolean           caja_directory_contains_file            (CajaDirectory         *directory,
-								CajaFile              *file);
+        CajaFile              *file);
 
 /* Get the uri of the file in the directory, NULL if not found */
 char *             caja_directory_get_file_uri             (CajaDirectory         *directory,
-								const char                *file_name);
+        const char                *file_name);
 
 /* Get (and ref) a CajaFile object for this directory. */
 CajaFile *     caja_directory_get_corresponding_file   (CajaDirectory         *directory);
@@ -182,32 +182,32 @@ CajaFile *     caja_directory_get_corresponding_file   (CajaDirectory         *d
  * The file attribute and metadata keys are for files in the directory.
  */
 void               caja_directory_call_when_ready          (CajaDirectory         *directory,
-								CajaFileAttributes     file_attributes,
-								gboolean                   wait_for_all_files,
-								CajaDirectoryCallback  callback,
-								gpointer                   callback_data);
+        CajaFileAttributes     file_attributes,
+        gboolean                   wait_for_all_files,
+        CajaDirectoryCallback  callback,
+        gpointer                   callback_data);
 void               caja_directory_cancel_callback          (CajaDirectory         *directory,
-								CajaDirectoryCallback  callback,
-								gpointer                   callback_data);
+        CajaDirectoryCallback  callback,
+        gpointer                   callback_data);
 
 
 /* Monitor the files in a directory. */
 void               caja_directory_file_monitor_add         (CajaDirectory         *directory,
-								gconstpointer              client,
-								gboolean                   monitor_hidden_files,
-								gboolean                   monitor_backup_files,
-								CajaFileAttributes     attributes,
-								CajaDirectoryCallback  initial_files_callback,
-								gpointer                   callback_data);
+        gconstpointer              client,
+        gboolean                   monitor_hidden_files,
+        gboolean                   monitor_backup_files,
+        CajaFileAttributes     attributes,
+        CajaDirectoryCallback  initial_files_callback,
+        gpointer                   callback_data);
 void               caja_directory_file_monitor_remove      (CajaDirectory         *directory,
-								gconstpointer              client);
+        gconstpointer              client);
 void               caja_directory_force_reload             (CajaDirectory         *directory);
 
 /* Get a list of all files currently known in the directory. */
 GList *            caja_directory_get_file_list            (CajaDirectory         *directory);
 
 GList *            caja_directory_match_pattern            (CajaDirectory         *directory,
-							        const char *glob);
+        const char *glob);
 
 
 /* Return true if the directory has information about all the files.

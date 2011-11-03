@@ -1,45 +1,48 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
 
    caja-directory-notify.h: Caja directory notify calls.
- 
+
    Copyright (C) 2000, 2001 Eazel, Inc.
-  
+
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Author: Darin Adler <darin@bentspoon.com>
 */
 
 #include <gdk/gdk.h>
 #include <libcaja-private/caja-file.h>
 
-typedef struct {
-	char *from_uri;
-	char *to_uri;
+typedef struct
+{
+    char *from_uri;
+    char *to_uri;
 } URIPair;
 
-typedef struct {
-	GFile *from;
-	GFile *to;
+typedef struct
+{
+    GFile *from;
+    GFile *to;
 } GFilePair;
 
-typedef struct {
-	GFile *location;
-	gboolean set;
-	GdkPoint point;
-	int screen;
+typedef struct
+{
+    GFile *location;
+    gboolean set;
+    GdkPoint point;
+    int screen;
 } CajaFileChangesQueuePosition;
 
 /* Almost-public change notification calls */

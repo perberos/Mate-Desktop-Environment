@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* eel-gtk-container.h - Functions to simplify the implementations of 
+/* eel-gtk-container.h - Functions to simplify the implementations of
   			 GtkContainer widgets.
 
    Copyright (C) 2001 Ramiro Estrugo.
@@ -30,18 +30,18 @@
 #include <eel/eel-art-extensions.h>
 
 void eel_gtk_container_child_expose_event (GtkContainer   *container,
-					   GtkWidget      *child,
-					   GdkEventExpose *event);
+        GtkWidget      *child,
+        GdkEventExpose *event);
 void eel_gtk_container_child_map          (GtkContainer   *container,
-					   GtkWidget      *child);
+        GtkWidget      *child);
 void eel_gtk_container_child_unmap        (GtkContainer   *container,
-					   GtkWidget      *child);
+        GtkWidget      *child);
 void eel_gtk_container_child_add          (GtkContainer   *container,
-					   GtkWidget      *child);
+        GtkWidget      *child);
 void eel_gtk_container_child_remove       (GtkContainer   *container,
-					   GtkWidget      *child);
+        GtkWidget      *child);
 void eel_gtk_container_child_size_allocate (GtkContainer *container,
-					    GtkWidget *child,
-					    EelIRect child_geometry);
+        GtkWidget *child,
+        EelIRect child_geometry);
 
 #endif /* EEL_GTK_CONTAINER_H */

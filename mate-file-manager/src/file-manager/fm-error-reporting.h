@@ -30,26 +30,26 @@
 #include <libcaja-private/caja-file.h>
 
 void fm_report_error_loading_directory	 (CajaFile   *file,
-					  GError         *error,
-					  GtkWindow	 *parent_window);
+        GError         *error,
+        GtkWindow	 *parent_window);
 void fm_report_error_renaming_file       (CajaFile   *file,
-					  const char     *new_name,
-					  GError         *error,
-					  GtkWindow	 *parent_window);
+        const char     *new_name,
+        GError         *error,
+        GtkWindow	 *parent_window);
 void fm_report_error_setting_permissions (CajaFile   *file,
-					  GError         *error,
-					  GtkWindow	 *parent_window);
+        GError         *error,
+        GtkWindow	 *parent_window);
 void fm_report_error_setting_owner       (CajaFile   *file,
-					  GError         *error,
-					  GtkWindow	 *parent_window);
+        GError         *error,
+        GtkWindow	 *parent_window);
 void fm_report_error_setting_group       (CajaFile   *file,
-					  GError         *error,
-					  GtkWindow	 *parent_window);
+        GError         *error,
+        GtkWindow	 *parent_window);
 
 /* FIXME bugzilla.mate.org 42394: Should this file be renamed or should this function be moved? */
 void fm_rename_file                      (CajaFile   *file,
-					  const char     *new_name,
-					  CajaFileOperationCallback callback,
-					  gpointer callback_data);
+        const char     *new_name,
+        CajaFileOperationCallback callback,
+        gpointer callback_data);
 
 #endif /* FM_ERROR_REPORTING_H */

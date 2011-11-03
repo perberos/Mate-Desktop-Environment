@@ -41,17 +41,19 @@
 
 typedef struct CajaSearchBarDetails CajaSearchBarDetails;
 
-typedef struct CajaSearchBar {
-	GtkEventBox parent;
-	CajaSearchBarDetails *details;
+typedef struct CajaSearchBar
+{
+    GtkEventBox parent;
+    CajaSearchBarDetails *details;
 } CajaSearchBar;
 
-typedef struct {
-	GtkEventBoxClass parent_class;
+typedef struct
+{
+    GtkEventBoxClass parent_class;
 
-	void (* activate) (CajaSearchBar *bar);
-	void (* cancel)   (CajaSearchBar *bar);
-	void (* focus_in) (CajaSearchBar *bar);
+    void (* activate) (CajaSearchBar *bar);
+    void (* cancel)   (CajaSearchBar *bar);
+    void (* focus_in) (CajaSearchBar *bar);
 } CajaSearchBarClass;
 
 GType      caja_search_bar_get_type     	(void);

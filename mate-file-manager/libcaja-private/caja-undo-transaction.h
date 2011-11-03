@@ -45,33 +45,35 @@
    to avoid circular deps */
 typedef struct _CajaUndoTransactionClass CajaUndoTransactionClass;
 
-struct _CajaUndoTransaction {
-	GObject parent_slot;
-	
-	char *operation_name;
-	char *undo_menu_item_label;
-	char *undo_menu_item_hint;
-	char *redo_menu_item_label;
-	char *redo_menu_item_hint;
-	GList *atom_list;
+struct _CajaUndoTransaction
+{
+    GObject parent_slot;
 
-	CajaUndoManager *owner;
+    char *operation_name;
+    char *undo_menu_item_label;
+    char *undo_menu_item_hint;
+    char *redo_menu_item_label;
+    char *redo_menu_item_hint;
+    GList *atom_list;
+
+    CajaUndoManager *owner;
 };
 
-struct _CajaUndoTransactionClass {
-	GObjectClass parent_slot;
+struct _CajaUndoTransactionClass
+{
+    GObjectClass parent_slot;
 };
 
 GType                    caja_undo_transaction_get_type            (void);
 CajaUndoTransaction *caja_undo_transaction_new                 (const char              *operation_name,
-									const char              *undo_menu_item_label,
-									const char              *undo_menu_item_hint,
-									const char              *redo_menu_item_label,
-									const char              *redo_menu_item_hint);
+        const char              *undo_menu_item_label,
+        const char              *undo_menu_item_hint,
+        const char              *redo_menu_item_label,
+        const char              *redo_menu_item_hint);
 void                     caja_undo_transaction_add_atom            (CajaUndoTransaction *transaction,
-									const CajaUndoAtom  *atom);
+        const CajaUndoAtom  *atom);
 void                     caja_undo_transaction_add_to_undo_manager (CajaUndoTransaction *transaction,
-									CajaUndoManager     *manager);
+        CajaUndoManager     *manager);
 void                     caja_undo_transaction_unregister_object   (GObject                 *atom_target);
 void                     caja_undo_transaction_undo                (CajaUndoTransaction *transaction);
 

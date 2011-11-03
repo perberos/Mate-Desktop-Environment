@@ -1,6 +1,6 @@
 /*
  *  caja-extension-types.c - Type definitions for Caja extensions
- * 
+ *
  *  Copyright (C) 2003 Novell, Inc.
  *
  *  This library is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
  *  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *  Author: Dave Camp <dave@ximian.com>
- * 
+ *
  */
 
 #include <config.h>
@@ -28,30 +28,32 @@
 GType
 caja_operation_result_get_type (void)
 {
-	static GType type = 0;
-	if (type == 0) {
-		static const GEnumValue values[] = {
-			{ 
-				CAJA_OPERATION_COMPLETE, 
-				"CAJA_OPERATION_COMPLETE",
-				"complete",
-			}, 
-			{
-				CAJA_OPERATION_FAILED,
-				"CAJA_OPERATION_FAILED",
-				"failed",
-			},
-			{
-				CAJA_OPERATION_IN_PROGRESS,
-				"CAJA_OPERATION_IN_PROGRESS",
-				"in_progress",
-			},
-			{ 0, NULL, NULL }
-		};
-		
-		type = g_enum_register_static ("CajaOperationResult", 
-					       values);
-	}
+    static GType type = 0;
+    if (type == 0)
+    {
+        static const GEnumValue values[] =
+        {
+            {
+                CAJA_OPERATION_COMPLETE,
+                "CAJA_OPERATION_COMPLETE",
+                "complete",
+            },
+            {
+                CAJA_OPERATION_FAILED,
+                "CAJA_OPERATION_FAILED",
+                "failed",
+            },
+            {
+                CAJA_OPERATION_IN_PROGRESS,
+                "CAJA_OPERATION_IN_PROGRESS",
+                "in_progress",
+            },
+            { 0, NULL, NULL }
+        };
 
-	return type;
+        type = g_enum_register_static ("CajaOperationResult",
+                                       values);
+    }
+
+    return type;
 }

@@ -35,29 +35,30 @@
 
 static void
 caja_file_management_properties_main_close_callback (GtkDialog *dialog,
-							 int response_id)
+        int response_id)
 {
-	if (response_id == GTK_RESPONSE_CLOSE) {
-		gtk_main_quit ();
-	}
+    if (response_id == GTK_RESPONSE_CLOSE)
+    {
+        gtk_main_quit ();
+    }
 }
 
 int
 main (int argc, char *argv[])
 {
-	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
+    bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    textdomain (GETTEXT_PACKAGE);
 
-	gtk_init (&argc, &argv);
+    gtk_init (&argc, &argv);
 
-	eel_preferences_init ("/apps/caja");
+    eel_preferences_init ("/apps/caja");
 
-	caja_module_setup ();
+    caja_module_setup ();
 
-	caja_file_management_properties_dialog_show (G_CALLBACK (caja_file_management_properties_main_close_callback), NULL);
+    caja_file_management_properties_dialog_show (G_CALLBACK (caja_file_management_properties_main_close_callback), NULL);
 
-	gtk_main ();
-	
-	return 0;
+    gtk_main ();
+
+    return 0;
 }

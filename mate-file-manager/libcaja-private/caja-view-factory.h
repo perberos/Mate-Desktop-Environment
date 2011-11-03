@@ -35,34 +35,35 @@
 extern "C" {
 #endif
 
-typedef struct _CajaViewInfo CajaViewInfo;
+    typedef struct _CajaViewInfo CajaViewInfo;
 
-struct _CajaViewInfo {
-	char *id;
-	char *view_combo_label;               /* Foo View (used in preferences dialog and navigation combo) */
-	char *view_menu_label_with_mnemonic;  /* View -> _Foo (this is the "_Foo" part) */
-	char *error_label;                 /* The foo view encountered an error. */
-	char *startup_error_label;         /* The foo view encountered an error while starting up. */
-	char *display_location_label;      /* Display this location with the foo view. */
-	CajaView * (*create) (CajaWindowSlotInfo *slot);
-	/* MATECOMPONENTTODO: More args here */
-	gboolean (*supports_uri) (const char *uri,
-				  GFileType file_type,
-				  const char *mime_type);
-};
+    struct _CajaViewInfo
+    {
+        char *id;
+        char *view_combo_label;               /* Foo View (used in preferences dialog and navigation combo) */
+        char *view_menu_label_with_mnemonic;  /* View -> _Foo (this is the "_Foo" part) */
+        char *error_label;                 /* The foo view encountered an error. */
+        char *startup_error_label;         /* The foo view encountered an error while starting up. */
+        char *display_location_label;      /* Display this location with the foo view. */
+        CajaView * (*create) (CajaWindowSlotInfo *slot);
+        /* MATECOMPONENTTODO: More args here */
+        gboolean (*supports_uri) (const char *uri,
+                                  GFileType file_type,
+                                  const char *mime_type);
+    };
 
 
-void                    caja_view_factory_register          (CajaViewInfo   *view_info);
-const CajaViewInfo *caja_view_factory_lookup            (const char         *id);
-CajaView *          caja_view_factory_create            (const char         *id,
-								 CajaWindowSlotInfo *slot);
-gboolean                caja_view_factory_view_supports_uri (const char         *id,
-								 GFile              *location,
-								 GFileType          file_type,
-								 const char         *mime_type);
-GList *                 caja_view_factory_get_views_for_uri (const char         *uri,
-								 GFileType          file_type,
-								 const char         *mime_type);
+    void                    caja_view_factory_register          (CajaViewInfo   *view_info);
+    const CajaViewInfo *caja_view_factory_lookup            (const char         *id);
+    CajaView *          caja_view_factory_create            (const char         *id,
+            CajaWindowSlotInfo *slot);
+    gboolean                caja_view_factory_view_supports_uri (const char         *id,
+            GFile              *location,
+            GFileType          file_type,
+            const char         *mime_type);
+    GList *                 caja_view_factory_get_views_for_uri (const char         *uri,
+            GFileType          file_type,
+            const char         *mime_type);
 
 
 

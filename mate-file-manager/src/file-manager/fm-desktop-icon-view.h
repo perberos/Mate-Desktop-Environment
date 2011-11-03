@@ -42,13 +42,15 @@
 #define FM_DESKTOP_ICON_VIEW_ID "OAFIID:Caja_File_Manager_Desktop_Icon_View"
 
 typedef struct FMDesktopIconViewDetails FMDesktopIconViewDetails;
-typedef struct {
-	FMIconView parent;
-	FMDesktopIconViewDetails *details;
+typedef struct
+{
+    FMIconView parent;
+    FMDesktopIconViewDetails *details;
 } FMDesktopIconView;
 
-typedef struct {
-	FMIconViewClass parent_class;
+typedef struct
+{
+    FMIconViewClass parent_class;
 } FMDesktopIconViewClass;
 
 /* GObject support */

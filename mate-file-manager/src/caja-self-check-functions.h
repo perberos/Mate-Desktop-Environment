@@ -25,7 +25,7 @@
 /* caja-self-check-functions.h: Wrapper and prototypes for all self
  * check functions in Caja proper.
  */
-  
+
 
 void caja_run_self_checks (void);
 

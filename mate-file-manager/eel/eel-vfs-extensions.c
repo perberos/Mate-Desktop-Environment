@@ -42,57 +42,61 @@
 gboolean
 eel_uri_is_trash (const char *uri)
 {
-	return eel_istr_has_prefix (uri, "trash:");
+    return eel_istr_has_prefix (uri, "trash:");
 }
 
 gboolean
 eel_uri_is_search (const char *uri)
 {
-	return eel_istr_has_prefix (uri, EEL_SEARCH_URI);
+    return eel_istr_has_prefix (uri, EEL_SEARCH_URI);
 }
 
 gboolean
 eel_uri_is_desktop (const char *uri)
 {
-	return eel_istr_has_prefix (uri, EEL_DESKTOP_URI);
+    return eel_istr_has_prefix (uri, EEL_DESKTOP_URI);
 }
 
 char *
 eel_make_valid_utf8 (const char *name)
 {
-	GString *string;
-	const char *remainder, *invalid;
-	int remaining_bytes, valid_bytes;
+    GString *string;
+    const char *remainder, *invalid;
+    int remaining_bytes, valid_bytes;
 
-	string = NULL;
-	remainder = name;
-	remaining_bytes = strlen (name);
+    string = NULL;
+    remainder = name;
+    remaining_bytes = strlen (name);
 
-	while (remaining_bytes != 0) {
-		if (g_utf8_validate (remainder, remaining_bytes, &invalid)) {
-			break;
-		}
-		valid_bytes = invalid - remainder;
+    while (remaining_bytes != 0)
+    {
+        if (g_utf8_validate (remainder, remaining_bytes, &invalid))
+        {
+            break;
+        }
+        valid_bytes = invalid - remainder;
 
-		if (string == NULL) {
-			string = g_string_sized_new (remaining_bytes);
-		}
-		g_string_append_len (string, remainder, valid_bytes);
-		g_string_append_c (string, '?');
+        if (string == NULL)
+        {
+            string = g_string_sized_new (remaining_bytes);
+        }
+        g_string_append_len (string, remainder, valid_bytes);
+        g_string_append_c (string, '?');
 
-		remaining_bytes -= valid_bytes + 1;
-		remainder = invalid + 1;
-	}
+        remaining_bytes -= valid_bytes + 1;
+        remainder = invalid + 1;
+    }
 
-	if (string == NULL) {
-		return g_strdup (name);
-	}
+    if (string == NULL)
+    {
+        return g_strdup (name);
+    }
 
-	g_string_append (string, remainder);
-	g_string_append (string, _(" (invalid Unicode)"));
-	g_assert (g_utf8_validate (string->str, -1, NULL));
+    g_string_append (string, remainder);
+    g_string_append (string, _(" (invalid Unicode)"));
+    g_assert (g_utf8_validate (string->str, -1, NULL));
 
-	return g_string_free (string, FALSE);
+    return g_string_free (string, FALSE);
 }
 
 /**
@@ -114,65 +118,70 @@ eel_make_valid_utf8 (const char *name)
 char *
 eel_format_uri_for_display (const char *uri)
 {
-	GFile *file;
-	char *res;
+    GFile *file;
+    char *res;
 
-	file = g_file_new_for_uri (uri);
-	res = g_file_get_parse_name (file);
-	g_object_unref (file);
-	return res;
+    file = g_file_new_for_uri (uri);
+    res = g_file_get_parse_name (file);
+    g_object_unref (file);
+    return res;
 }
 
 char *
 eel_filename_strip_extension (const char * filename_with_extension)
 {
-	char *filename, *end, *end2;
+    char *filename, *end, *end2;
 
-	if (filename_with_extension == NULL) {
-		return NULL;
-	}
+    if (filename_with_extension == NULL)
+    {
+        return NULL;
+    }
 
-	filename = g_strdup (filename_with_extension);
+    filename = g_strdup (filename_with_extension);
 
-	end = strrchr (filename, '.');
+    end = strrchr (filename, '.');
 
-	if (end && end != filename) {
-		if (strcmp (end, ".gz") == 0 ||
-		    strcmp (end, ".bz2") == 0 ||
-		    strcmp (end, ".sit") == 0 ||
-		    strcmp (end, ".Z") == 0) {
-			end2 = end - 1;
-			while (end2 > filename &&
-			       *end2 != '.') {
-				end2--;
-			}
-			if (end2 != filename) {
-				end = end2;
-			}
-		}
-		*end = '\0';
-	}
+    if (end && end != filename)
+    {
+        if (strcmp (end, ".gz") == 0 ||
+                strcmp (end, ".bz2") == 0 ||
+                strcmp (end, ".sit") == 0 ||
+                strcmp (end, ".Z") == 0)
+        {
+            end2 = end - 1;
+            while (end2 > filename &&
+                    *end2 != '.')
+            {
+                end2--;
+            }
+            if (end2 != filename)
+            {
+                end = end2;
+            }
+        }
+        *end = '\0';
+    }
 
-	return filename;
+    return filename;
 }
 
 void
 eel_filename_get_rename_region (const char           *filename,
-				int                  *start_offset,
-				int                  *end_offset)
+                                int                  *start_offset,
+                                int                  *end_offset)
 {
-	char *filename_without_extension;
+    char *filename_without_extension;
 
-	g_return_if_fail (start_offset != NULL);
-	g_return_if_fail (end_offset != NULL);
+    g_return_if_fail (start_offset != NULL);
+    g_return_if_fail (end_offset != NULL);
 
-	*start_offset = 0;
-	*end_offset = 0;
+    *start_offset = 0;
+    *end_offset = 0;
 
-	g_return_if_fail (filename != NULL);
+    g_return_if_fail (filename != NULL);
 
-	filename_without_extension = eel_filename_strip_extension (filename);
-	*end_offset = g_utf8_strlen (filename_without_extension, -1);
+    filename_without_extension = eel_filename_strip_extension (filename);
+    *end_offset = g_utf8_strlen (filename_without_extension, -1);
 
-	g_free (filename_without_extension);
+    g_free (filename_without_extension);
 }

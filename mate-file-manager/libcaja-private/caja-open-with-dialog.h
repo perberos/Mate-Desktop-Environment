@@ -2,9 +2,9 @@
 
 /*
    caja-open-with-dialog.c: an open-with dialog
- 
+
    Copyright (C) 2004 Novell, Inc.
- 
+
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
@@ -38,26 +38,28 @@ typedef struct _CajaOpenWithDialog        CajaOpenWithDialog;
 typedef struct _CajaOpenWithDialogClass   CajaOpenWithDialogClass;
 typedef struct _CajaOpenWithDialogDetails CajaOpenWithDialogDetails;
 
-struct _CajaOpenWithDialog {
-	GtkDialog parent;
-	CajaOpenWithDialogDetails *details;
+struct _CajaOpenWithDialog
+{
+    GtkDialog parent;
+    CajaOpenWithDialogDetails *details;
 };
 
-struct _CajaOpenWithDialogClass {
-	GtkDialogClass parent_class;
+struct _CajaOpenWithDialogClass
+{
+    GtkDialogClass parent_class;
 
-	void (*application_selected) (CajaOpenWithDialog *dialog,
-				      GAppInfo *application);
+    void (*application_selected) (CajaOpenWithDialog *dialog,
+                                  GAppInfo *application);
 };
 
 GType      caja_open_with_dialog_get_type (void);
 GtkWidget* caja_open_with_dialog_new      (const char *uri,
-					       const char *mime_type,
-					       const char *extension);
+        const char *mime_type,
+        const char *extension);
 GtkWidget* caja_add_application_dialog_new (const char *uri,
-						const char *mime_type);
+        const char *mime_type);
 GtkWidget* caja_add_application_dialog_new_for_multiple_files (const char *extension,
-								   const char *mime_type);
+        const char *mime_type);
 
 
 

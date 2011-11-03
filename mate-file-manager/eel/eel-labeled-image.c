@@ -45,42 +45,42 @@
 /* Signals */
 enum
 {
-	ACTIVATE,
-	LAST_SIGNAL
+    ACTIVATE,
+    LAST_SIGNAL
 };
 
 /* Arguments */
 enum
 {
-	PROP_0,
-	PROP_FILL,
-	PROP_LABEL,
-	PROP_LABEL_POSITION,
-	PROP_PIXBUF,
-	PROP_SHOW_IMAGE,
-	PROP_SHOW_LABEL,
-	PROP_SPACING,
-	PROP_X_ALIGNMENT,
-	PROP_X_PADDING,
-	PROP_Y_ALIGNMENT,
-	PROP_Y_PADDING
+    PROP_0,
+    PROP_FILL,
+    PROP_LABEL,
+    PROP_LABEL_POSITION,
+    PROP_PIXBUF,
+    PROP_SHOW_IMAGE,
+    PROP_SHOW_LABEL,
+    PROP_SPACING,
+    PROP_X_ALIGNMENT,
+    PROP_X_PADDING,
+    PROP_Y_ALIGNMENT,
+    PROP_Y_PADDING
 };
 
 /* Detail member struct */
 struct EelLabeledImageDetails
 {
-	GtkWidget *image;
-	GtkWidget *label;
-	GtkPositionType label_position;
-	gboolean show_label;
-	gboolean show_image;
-	guint spacing;
-	float x_alignment;
-	float y_alignment;
-	int x_padding;
-	int y_padding;
-	int fixed_image_height;
-	gboolean fill;
+    GtkWidget *image;
+    GtkWidget *label;
+    GtkPositionType label_position;
+    gboolean show_label;
+    gboolean show_image;
+    guint spacing;
+    float x_alignment;
+    float y_alignment;
+    int x_padding;
+    int y_padding;
+    int fixed_image_height;
+    gboolean fill;
 };
 
 /* derived types so we can add our accessibility interfaces */
@@ -98,37 +98,37 @@ static void          eel_labeled_image_finalize           (GObject              
 
 /* GObjectClass methods */
 static void          eel_labeled_image_set_property       (GObject               *object,
-							   guint                  property_id,
-							   const GValue          *value,
-							   GParamSpec            *pspec);
+        guint                  property_id,
+        const GValue          *value,
+        GParamSpec            *pspec);
 static void          eel_labeled_image_get_property       (GObject               *object,
-							   guint                  property_id,
-							   GValue                *value,
-							   GParamSpec            *pspec);
+        guint                  property_id,
+        GValue                *value,
+        GParamSpec            *pspec);
 
 /* GtkObjectClass methods */
 static void          eel_labeled_image_destroy            (GtkObject             *object);
 
 /* GtkWidgetClass methods */
 static void          eel_labeled_image_size_request       (GtkWidget             *widget,
-							   GtkRequisition        *requisition);
+        GtkRequisition        *requisition);
 static int           eel_labeled_image_expose_event       (GtkWidget             *widget,
-							   GdkEventExpose        *event);
+        GdkEventExpose        *event);
 static void          eel_labeled_image_size_allocate      (GtkWidget             *widget,
-							   GtkAllocation         *allocation);
+        GtkAllocation         *allocation);
 static void          eel_labeled_image_map                (GtkWidget             *widget);
 static void          eel_labeled_image_unmap              (GtkWidget             *widget);
 static AtkObject    *eel_labeled_image_get_accessible     (GtkWidget             *widget);
 
 /* GtkContainerClass methods */
 static void          eel_labeled_image_add                (GtkContainer          *container,
-							   GtkWidget             *widget);
+        GtkWidget             *widget);
 static void          eel_labeled_image_remove             (GtkContainer          *container,
-							   GtkWidget             *widget);
+        GtkWidget             *widget);
 static void          eel_labeled_image_forall             (GtkContainer          *container,
-							   gboolean               include_internals,
-							   GtkCallback            callback,
-							   gpointer               callback_data);
+        gboolean               include_internals,
+        GtkCallback            callback,
+        gpointer               callback_data);
 
 /* Private EelLabeledImage methods */
 static EelDimensions labeled_image_get_image_dimensions   (const EelLabeledImage *labeled_image);
@@ -149,1081 +149,1148 @@ EEL_CLASS_BOILERPLATE (EelLabeledImage, eel_labeled_image, GTK_TYPE_CONTAINER)
 static void
 eel_labeled_image_class_init (EelLabeledImageClass *labeled_image_class)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (labeled_image_class);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (labeled_image_class);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (labeled_image_class);
-	GtkContainerClass *container_class = GTK_CONTAINER_CLASS (labeled_image_class);
-	GtkBindingSet *binding_set;
+    GObjectClass *gobject_class = G_OBJECT_CLASS (labeled_image_class);
+    GtkObjectClass *object_class = GTK_OBJECT_CLASS (labeled_image_class);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (labeled_image_class);
+    GtkContainerClass *container_class = GTK_CONTAINER_CLASS (labeled_image_class);
+    GtkBindingSet *binding_set;
 
-	gobject_class->finalize = eel_labeled_image_finalize;
+    gobject_class->finalize = eel_labeled_image_finalize;
 
-	/* GObjectClass */
-	gobject_class->set_property = eel_labeled_image_set_property;
-	gobject_class->get_property = eel_labeled_image_get_property;
+    /* GObjectClass */
+    gobject_class->set_property = eel_labeled_image_set_property;
+    gobject_class->get_property = eel_labeled_image_get_property;
 
-	/* GtkObjectClass */
-	object_class->destroy = eel_labeled_image_destroy;
+    /* GtkObjectClass */
+    object_class->destroy = eel_labeled_image_destroy;
 
- 	/* GtkWidgetClass */
- 	widget_class->size_request = eel_labeled_image_size_request;
-	widget_class->size_allocate = eel_labeled_image_size_allocate;
- 	widget_class->expose_event = eel_labeled_image_expose_event;
-	widget_class->map = eel_labeled_image_map;
-	widget_class->unmap = eel_labeled_image_unmap;
-	widget_class->get_accessible = eel_labeled_image_get_accessible;
+    /* GtkWidgetClass */
+    widget_class->size_request = eel_labeled_image_size_request;
+    widget_class->size_allocate = eel_labeled_image_size_allocate;
+    widget_class->expose_event = eel_labeled_image_expose_event;
+    widget_class->map = eel_labeled_image_map;
+    widget_class->unmap = eel_labeled_image_unmap;
+    widget_class->get_accessible = eel_labeled_image_get_accessible;
 
- 	/* GtkContainerClass */
-	container_class->add = eel_labeled_image_add;
-	container_class->remove = eel_labeled_image_remove;
-	container_class->forall = eel_labeled_image_forall;
+    /* GtkContainerClass */
+    container_class->add = eel_labeled_image_add;
+    container_class->remove = eel_labeled_image_remove;
+    container_class->forall = eel_labeled_image_forall;
 
-	labeled_image_signals[ACTIVATE] =
-		g_signal_new ("activate",
-			      G_TYPE_FROM_CLASS (labeled_image_class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (EelLabeledImageClass,
-					       activate),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-	widget_class->activate_signal = labeled_image_signals[ACTIVATE];
+    labeled_image_signals[ACTIVATE] =
+        g_signal_new ("activate",
+                      G_TYPE_FROM_CLASS (labeled_image_class),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      G_STRUCT_OFFSET (EelLabeledImageClass,
+                                       activate),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
+    widget_class->activate_signal = labeled_image_signals[ACTIVATE];
 
-	binding_set = gtk_binding_set_by_class (gobject_class);
+    binding_set = gtk_binding_set_by_class (gobject_class);
 
-	gtk_binding_entry_add_signal (binding_set,
-				      GDK_Return, 0,
-				      "activate", 0);
-	gtk_binding_entry_add_signal (binding_set,
-				      GDK_KP_Enter, 0,
-				      "activate", 0);
-	gtk_binding_entry_add_signal (binding_set,
-				      GDK_space, 0,
-				      "activate", 0);
-
-
-	/* Properties */
-        g_object_class_install_property (
-		gobject_class,
-		PROP_PIXBUF,
-		g_param_spec_object ("pixbuf", NULL, NULL,
-				     GDK_TYPE_PIXBUF, G_PARAM_READWRITE));
-
-        g_object_class_install_property (
-		gobject_class,
-		PROP_LABEL,
-		g_param_spec_string ("label", NULL, NULL,
-				     "", G_PARAM_READWRITE));
+    gtk_binding_entry_add_signal (binding_set,
+                                  GDK_Return, 0,
+                                  "activate", 0);
+    gtk_binding_entry_add_signal (binding_set,
+                                  GDK_KP_Enter, 0,
+                                  "activate", 0);
+    gtk_binding_entry_add_signal (binding_set,
+                                  GDK_space, 0,
+                                  "activate", 0);
 
 
-        g_object_class_install_property (
-		gobject_class,
-		PROP_LABEL_POSITION,
-		g_param_spec_enum ("label_position", NULL, NULL,
-				   GTK_TYPE_POSITION_TYPE,
-				   GTK_POS_BOTTOM,
-				   G_PARAM_READWRITE));
+    /* Properties */
+    g_object_class_install_property (
+        gobject_class,
+        PROP_PIXBUF,
+        g_param_spec_object ("pixbuf", NULL, NULL,
+                             GDK_TYPE_PIXBUF, G_PARAM_READWRITE));
 
-        g_object_class_install_property (
-		gobject_class,
-		PROP_SHOW_LABEL,
-		g_param_spec_boolean ("show_label", NULL, NULL,
-				      TRUE, G_PARAM_READWRITE));
-
-        g_object_class_install_property (
-		gobject_class,
-		PROP_SHOW_IMAGE,
-		g_param_spec_boolean ("show_image", NULL, NULL,
-				      TRUE, G_PARAM_READWRITE));
+    g_object_class_install_property (
+        gobject_class,
+        PROP_LABEL,
+        g_param_spec_string ("label", NULL, NULL,
+                             "", G_PARAM_READWRITE));
 
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_SPACING,
-		g_param_spec_uint ("spacing", NULL, NULL,
-				   0,
-				   G_MAXINT,
-				   DEFAULT_SPACING,
-				   G_PARAM_READWRITE));
+    g_object_class_install_property (
+        gobject_class,
+        PROP_LABEL_POSITION,
+        g_param_spec_enum ("label_position", NULL, NULL,
+                           GTK_TYPE_POSITION_TYPE,
+                           GTK_POS_BOTTOM,
+                           G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_X_PADDING,
-		g_param_spec_int ("x_padding", NULL, NULL,
-				  0,
-				  G_MAXINT,
-				  DEFAULT_X_PADDING,
-				  G_PARAM_READWRITE));
+    g_object_class_install_property (
+        gobject_class,
+        PROP_SHOW_LABEL,
+        g_param_spec_boolean ("show_label", NULL, NULL,
+                              TRUE, G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_Y_PADDING,
-		g_param_spec_int ("y_padding", NULL, NULL,
-				  0,
-				  G_MAXINT,
-				  DEFAULT_Y_PADDING,
-				  G_PARAM_READWRITE));
+    g_object_class_install_property (
+        gobject_class,
+        PROP_SHOW_IMAGE,
+        g_param_spec_boolean ("show_image", NULL, NULL,
+                              TRUE, G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_X_ALIGNMENT,
-		g_param_spec_float ("x_alignment", NULL, NULL,
-				    0.0,
-				    1.0,
-				    DEFAULT_X_ALIGNMENT,
-				    G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_Y_ALIGNMENT,
-		g_param_spec_float ("y_alignment", NULL, NULL,
-				    0.0,
-				    1.0,
-				    DEFAULT_Y_ALIGNMENT,
-				    G_PARAM_READWRITE));
+    g_object_class_install_property (
+        gobject_class,
+        PROP_SPACING,
+        g_param_spec_uint ("spacing", NULL, NULL,
+                           0,
+                           G_MAXINT,
+                           DEFAULT_SPACING,
+                           G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_FILL,
-		g_param_spec_boolean ("fill", NULL, NULL,
-				      FALSE,
-				      G_PARAM_READWRITE));
+    g_object_class_install_property (
+        gobject_class,
+        PROP_X_PADDING,
+        g_param_spec_int ("x_padding", NULL, NULL,
+                          0,
+                          G_MAXINT,
+                          DEFAULT_X_PADDING,
+                          G_PARAM_READWRITE));
+
+    g_object_class_install_property (
+        gobject_class,
+        PROP_Y_PADDING,
+        g_param_spec_int ("y_padding", NULL, NULL,
+                          0,
+                          G_MAXINT,
+                          DEFAULT_Y_PADDING,
+                          G_PARAM_READWRITE));
+
+    g_object_class_install_property (
+        gobject_class,
+        PROP_X_ALIGNMENT,
+        g_param_spec_float ("x_alignment", NULL, NULL,
+                            0.0,
+                            1.0,
+                            DEFAULT_X_ALIGNMENT,
+                            G_PARAM_READWRITE));
+
+    g_object_class_install_property (
+        gobject_class,
+        PROP_Y_ALIGNMENT,
+        g_param_spec_float ("y_alignment", NULL, NULL,
+                            0.0,
+                            1.0,
+                            DEFAULT_Y_ALIGNMENT,
+                            G_PARAM_READWRITE));
+
+    g_object_class_install_property (
+        gobject_class,
+        PROP_FILL,
+        g_param_spec_boolean ("fill", NULL, NULL,
+                              FALSE,
+                              G_PARAM_READWRITE));
 }
 
 static void
 eel_labeled_image_init (EelLabeledImage *labeled_image)
 {
-	gtk_widget_set_has_window (GTK_WIDGET (labeled_image), FALSE);
+    gtk_widget_set_has_window (GTK_WIDGET (labeled_image), FALSE);
 
-	labeled_image->details = g_new0 (EelLabeledImageDetails, 1);
-	labeled_image->details->show_label = TRUE;
-	labeled_image->details->show_image = TRUE;
-	labeled_image->details->label_position = GTK_POS_BOTTOM;
-	labeled_image->details->spacing = DEFAULT_SPACING;
-	labeled_image->details->x_padding = DEFAULT_X_PADDING;
-	labeled_image->details->y_padding = DEFAULT_Y_PADDING;
-	labeled_image->details->x_alignment = DEFAULT_X_ALIGNMENT;
-	labeled_image->details->y_alignment = DEFAULT_Y_ALIGNMENT;
-	labeled_image->details->fixed_image_height = 0;
+    labeled_image->details = g_new0 (EelLabeledImageDetails, 1);
+    labeled_image->details->show_label = TRUE;
+    labeled_image->details->show_image = TRUE;
+    labeled_image->details->label_position = GTK_POS_BOTTOM;
+    labeled_image->details->spacing = DEFAULT_SPACING;
+    labeled_image->details->x_padding = DEFAULT_X_PADDING;
+    labeled_image->details->y_padding = DEFAULT_Y_PADDING;
+    labeled_image->details->x_alignment = DEFAULT_X_ALIGNMENT;
+    labeled_image->details->y_alignment = DEFAULT_Y_ALIGNMENT;
+    labeled_image->details->fixed_image_height = 0;
 
-	eel_labeled_image_set_fill (labeled_image, FALSE);
+    eel_labeled_image_set_fill (labeled_image, FALSE);
 }
 
 static void
 eel_labeled_image_finalize (GObject *object)
 {
- 	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	labeled_image = EEL_LABELED_IMAGE (object);
+    labeled_image = EEL_LABELED_IMAGE (object);
 
-	g_free (labeled_image->details);
+    g_free (labeled_image->details);
 
-	EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
+    EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 
 static void
 eel_labeled_image_destroy (GtkObject *object)
 {
- 	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	labeled_image = EEL_LABELED_IMAGE (object);
+    labeled_image = EEL_LABELED_IMAGE (object);
 
-	if (labeled_image->details->image != NULL) {
-		gtk_widget_destroy (labeled_image->details->image);
-	}
+    if (labeled_image->details->image != NULL)
+    {
+        gtk_widget_destroy (labeled_image->details->image);
+    }
 
-	if (labeled_image->details->label != NULL) {
-		gtk_widget_destroy (labeled_image->details->label);
-	}
+    if (labeled_image->details->label != NULL)
+    {
+        gtk_widget_destroy (labeled_image->details->label);
+    }
 
-	EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
+    EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
 }
 
 /* GObjectClass methods */
 static void
 eel_labeled_image_set_property (GObject      *object,
-				guint         property_id,
-				const GValue *value,
-				GParamSpec   *pspec)
+                                guint         property_id,
+                                const GValue *value,
+                                GParamSpec   *pspec)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_assert (EEL_IS_LABELED_IMAGE (object));
+    g_assert (EEL_IS_LABELED_IMAGE (object));
 
- 	labeled_image = EEL_LABELED_IMAGE (object);
+    labeled_image = EEL_LABELED_IMAGE (object);
 
- 	switch (property_id)
-	{
-	case PROP_PIXBUF:
-		eel_labeled_image_set_pixbuf (labeled_image,
-					      g_value_get_object (value));
-		break;
+    switch (property_id)
+    {
+    case PROP_PIXBUF:
+        eel_labeled_image_set_pixbuf (labeled_image,
+                                      g_value_get_object (value));
+        break;
 
-	case PROP_LABEL:
-		eel_labeled_image_set_text (labeled_image, g_value_get_string (value));
-		break;
+    case PROP_LABEL:
+        eel_labeled_image_set_text (labeled_image, g_value_get_string (value));
+        break;
 
-	case PROP_LABEL_POSITION:
-		eel_labeled_image_set_label_position (labeled_image,
-						      g_value_get_enum (value));
-		break;
+    case PROP_LABEL_POSITION:
+        eel_labeled_image_set_label_position (labeled_image,
+                                              g_value_get_enum (value));
+        break;
 
-	case PROP_SHOW_LABEL:
-		eel_labeled_image_set_show_label (labeled_image,
-						  g_value_get_boolean (value));
-		break;
+    case PROP_SHOW_LABEL:
+        eel_labeled_image_set_show_label (labeled_image,
+                                          g_value_get_boolean (value));
+        break;
 
-	case PROP_SHOW_IMAGE:
-		eel_labeled_image_set_show_image (labeled_image,
-						  g_value_get_boolean (value));
-		break;
+    case PROP_SHOW_IMAGE:
+        eel_labeled_image_set_show_image (labeled_image,
+                                          g_value_get_boolean (value));
+        break;
 
-	case PROP_SPACING:
-		eel_labeled_image_set_spacing (labeled_image,
-					       g_value_get_uint (value));
-		break;
+    case PROP_SPACING:
+        eel_labeled_image_set_spacing (labeled_image,
+                                       g_value_get_uint (value));
+        break;
 
-	case PROP_X_PADDING:
-		eel_labeled_image_set_x_padding (labeled_image,
-						 g_value_get_int (value));
-		break;
+    case PROP_X_PADDING:
+        eel_labeled_image_set_x_padding (labeled_image,
+                                         g_value_get_int (value));
+        break;
 
-	case PROP_Y_PADDING:
-		eel_labeled_image_set_y_padding (labeled_image,
-						 g_value_get_int (value));
-		break;
+    case PROP_Y_PADDING:
+        eel_labeled_image_set_y_padding (labeled_image,
+                                         g_value_get_int (value));
+        break;
 
-	case PROP_X_ALIGNMENT:
-		eel_labeled_image_set_x_alignment (labeled_image,
-						   g_value_get_float (value));
-		break;
+    case PROP_X_ALIGNMENT:
+        eel_labeled_image_set_x_alignment (labeled_image,
+                                           g_value_get_float (value));
+        break;
 
-	case PROP_Y_ALIGNMENT:
-		eel_labeled_image_set_y_alignment (labeled_image,
-						   g_value_get_float (value));
-		break;
+    case PROP_Y_ALIGNMENT:
+        eel_labeled_image_set_y_alignment (labeled_image,
+                                           g_value_get_float (value));
+        break;
 
-	case PROP_FILL:
-		eel_labeled_image_set_fill (labeled_image,
-					    g_value_get_boolean (value));
-		break;
- 	default:
-		g_assert_not_reached ();
-	}
+    case PROP_FILL:
+        eel_labeled_image_set_fill (labeled_image,
+                                    g_value_get_boolean (value));
+        break;
+    default:
+        g_assert_not_reached ();
+    }
 }
 
 static void
 eel_labeled_image_get_property (GObject    *object,
-				guint       property_id,
-				GValue     *value,
-				GParamSpec *pspec)
+                                guint       property_id,
+                                GValue     *value,
+                                GParamSpec *pspec)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_assert (EEL_IS_LABELED_IMAGE (object));
+    g_assert (EEL_IS_LABELED_IMAGE (object));
 
-	labeled_image = EEL_LABELED_IMAGE (object);
+    labeled_image = EEL_LABELED_IMAGE (object);
 
- 	switch (property_id)
-	{
-	case PROP_LABEL:
-		if (labeled_image->details->label == NULL) {
-			g_value_set_string (value, NULL);
-		} else {
-			g_value_set_string (value,
-					    gtk_label_get_text (GTK_LABEL (
-						    labeled_image->details->label)));
-		}
-		break;
+    switch (property_id)
+    {
+    case PROP_LABEL:
+        if (labeled_image->details->label == NULL)
+        {
+            g_value_set_string (value, NULL);
+        }
+        else
+        {
+            g_value_set_string (value,
+                                gtk_label_get_text (GTK_LABEL (
+                                        labeled_image->details->label)));
+        }
+        break;
 
-	case PROP_LABEL_POSITION:
-		g_value_set_enum (value, eel_labeled_image_get_label_position (labeled_image));
-		break;
+    case PROP_LABEL_POSITION:
+        g_value_set_enum (value, eel_labeled_image_get_label_position (labeled_image));
+        break;
 
-	case PROP_SHOW_LABEL:
-		g_value_set_boolean (value, eel_labeled_image_get_show_label (labeled_image));
-		break;
+    case PROP_SHOW_LABEL:
+        g_value_set_boolean (value, eel_labeled_image_get_show_label (labeled_image));
+        break;
 
-	case PROP_SHOW_IMAGE:
-		g_value_set_boolean (value, eel_labeled_image_get_show_image (labeled_image));
-		break;
+    case PROP_SHOW_IMAGE:
+        g_value_set_boolean (value, eel_labeled_image_get_show_image (labeled_image));
+        break;
 
-	case PROP_SPACING:
-		g_value_set_uint (value, eel_labeled_image_get_spacing (labeled_image));
-		break;
+    case PROP_SPACING:
+        g_value_set_uint (value, eel_labeled_image_get_spacing (labeled_image));
+        break;
 
-	case PROP_X_PADDING:
-		g_value_set_int (value, eel_labeled_image_get_x_padding (labeled_image));
-		break;
+    case PROP_X_PADDING:
+        g_value_set_int (value, eel_labeled_image_get_x_padding (labeled_image));
+        break;
 
-	case PROP_Y_PADDING:
-		g_value_set_int (value, eel_labeled_image_get_y_padding (labeled_image));
-		break;
+    case PROP_Y_PADDING:
+        g_value_set_int (value, eel_labeled_image_get_y_padding (labeled_image));
+        break;
 
-	case PROP_X_ALIGNMENT:
-		g_value_set_float (value, eel_labeled_image_get_x_alignment (labeled_image));
-		break;
+    case PROP_X_ALIGNMENT:
+        g_value_set_float (value, eel_labeled_image_get_x_alignment (labeled_image));
+        break;
 
-	case PROP_Y_ALIGNMENT:
-		g_value_set_float (value, eel_labeled_image_get_y_alignment (labeled_image));
-		break;
+    case PROP_Y_ALIGNMENT:
+        g_value_set_float (value, eel_labeled_image_get_y_alignment (labeled_image));
+        break;
 
-	case PROP_FILL:
-		g_value_set_boolean (value, eel_labeled_image_get_fill (labeled_image));
-		break;
+    case PROP_FILL:
+        g_value_set_boolean (value, eel_labeled_image_get_fill (labeled_image));
+        break;
 
- 	default:
-		g_assert_not_reached ();
-	}
+    default:
+        g_assert_not_reached ();
+    }
 }
 
 /* GtkWidgetClass methods */
 static void
 eel_labeled_image_size_request (GtkWidget *widget,
-				GtkRequisition *requisition)
+                                GtkRequisition *requisition)
 {
-	EelLabeledImage *labeled_image;
- 	EelDimensions content_dimensions;
+    EelLabeledImage *labeled_image;
+    EelDimensions content_dimensions;
 
- 	g_assert (EEL_IS_LABELED_IMAGE (widget));
- 	g_assert (requisition != NULL);
+    g_assert (EEL_IS_LABELED_IMAGE (widget));
+    g_assert (requisition != NULL);
 
-  	labeled_image = EEL_LABELED_IMAGE (widget);
+    labeled_image = EEL_LABELED_IMAGE (widget);
 
- 	content_dimensions = labeled_image_get_content_dimensions (labeled_image);
+    content_dimensions = labeled_image_get_content_dimensions (labeled_image);
 
-	requisition->width =
-		MAX (1, content_dimensions.width) +
-		2 * labeled_image->details->x_padding;
+    requisition->width =
+        MAX (1, content_dimensions.width) +
+        2 * labeled_image->details->x_padding;
 
-	requisition->height =
-		MAX (1, content_dimensions.height) +
-		2 * labeled_image->details->y_padding;
+    requisition->height =
+        MAX (1, content_dimensions.height) +
+        2 * labeled_image->details->y_padding;
 }
 
 static void
 eel_labeled_image_size_allocate (GtkWidget *widget,
-				 GtkAllocation *allocation)
+                                 GtkAllocation *allocation)
 {
-	EelLabeledImage *labeled_image;
- 	EelIRect image_bounds;
-	EelIRect label_bounds;
+    EelLabeledImage *labeled_image;
+    EelIRect image_bounds;
+    EelIRect label_bounds;
 
- 	g_assert (EEL_IS_LABELED_IMAGE (widget));
- 	g_assert (allocation != NULL);
+    g_assert (EEL_IS_LABELED_IMAGE (widget));
+    g_assert (allocation != NULL);
 
-  	labeled_image = EEL_LABELED_IMAGE (widget);
+    labeled_image = EEL_LABELED_IMAGE (widget);
 
-	gtk_widget_set_allocation (widget, allocation);
+    gtk_widget_set_allocation (widget, allocation);
 
- 	label_bounds = eel_labeled_image_get_label_bounds (labeled_image);
-	eel_gtk_container_child_size_allocate (GTK_CONTAINER (widget),
-					       labeled_image->details->label,
-					       label_bounds);
+    label_bounds = eel_labeled_image_get_label_bounds (labeled_image);
+    eel_gtk_container_child_size_allocate (GTK_CONTAINER (widget),
+                                           labeled_image->details->label,
+                                           label_bounds);
 
- 	image_bounds = eel_labeled_image_get_image_bounds (labeled_image);
-	eel_gtk_container_child_size_allocate (GTK_CONTAINER (widget),
-					       labeled_image->details->image,
-					       image_bounds);
+    image_bounds = eel_labeled_image_get_image_bounds (labeled_image);
+    eel_gtk_container_child_size_allocate (GTK_CONTAINER (widget),
+                                           labeled_image->details->image,
+                                           image_bounds);
 }
 
 static int
 eel_labeled_image_expose_event (GtkWidget *widget,
-				GdkEventExpose *event)
+                                GdkEventExpose *event)
 {
-	EelLabeledImage *labeled_image;
-	EelIRect label_bounds;
-	GtkStyle *style;
-	GdkWindow *window;
+    EelLabeledImage *labeled_image;
+    EelIRect label_bounds;
+    GtkStyle *style;
+    GdkWindow *window;
 
-	g_assert (EEL_IS_LABELED_IMAGE (widget));
-	g_assert (gtk_widget_get_realized (widget));
-	g_assert (event != NULL);
+    g_assert (EEL_IS_LABELED_IMAGE (widget));
+    g_assert (gtk_widget_get_realized (widget));
+    g_assert (event != NULL);
 
-  	labeled_image = EEL_LABELED_IMAGE (widget);
+    labeled_image = EEL_LABELED_IMAGE (widget);
 
-	style = gtk_widget_get_style (widget);
-	window = gtk_widget_get_window (widget);
-	if (gtk_widget_get_state (widget) == GTK_STATE_SELECTED ||
-	    gtk_widget_get_state (widget) == GTK_STATE_ACTIVE) {
-		label_bounds = eel_labeled_image_get_label_bounds (EEL_LABELED_IMAGE (widget));
+    style = gtk_widget_get_style (widget);
+    window = gtk_widget_get_window (widget);
+    if (gtk_widget_get_state (widget) == GTK_STATE_SELECTED ||
+            gtk_widget_get_state (widget) == GTK_STATE_ACTIVE)
+    {
+        label_bounds = eel_labeled_image_get_label_bounds (EEL_LABELED_IMAGE (widget));
 
-		gtk_paint_flat_box (style,
-				    window,
-				    gtk_widget_get_state (widget),
-				    GTK_SHADOW_NONE,
-				    &event->area,
-				    widget,
-				    "eel-labeled-image",
-				    label_bounds.x0, label_bounds.y0,
-				    label_bounds.x1 - label_bounds.x0,
-				    label_bounds.y1 - label_bounds.y0);
-	}
+        gtk_paint_flat_box (style,
+                            window,
+                            gtk_widget_get_state (widget),
+                            GTK_SHADOW_NONE,
+                            &event->area,
+                            widget,
+                            "eel-labeled-image",
+                            label_bounds.x0, label_bounds.y0,
+                            label_bounds.x1 - label_bounds.x0,
+                            label_bounds.y1 - label_bounds.y0);
+    }
 
-	if (labeled_image_show_label (labeled_image)) {
-		eel_gtk_container_child_expose_event (GTK_CONTAINER (widget),
-						      labeled_image->details->label,
-						      event);
-	}
+    if (labeled_image_show_label (labeled_image))
+    {
+        eel_gtk_container_child_expose_event (GTK_CONTAINER (widget),
+                                              labeled_image->details->label,
+                                              event);
+    }
 
-	if (labeled_image_show_image (labeled_image)) {
-		eel_gtk_container_child_expose_event (GTK_CONTAINER (widget),
-						      labeled_image->details->image,
-						      event);
-	}
+    if (labeled_image_show_image (labeled_image))
+    {
+        eel_gtk_container_child_expose_event (GTK_CONTAINER (widget),
+                                              labeled_image->details->image,
+                                              event);
+    }
 
-	if (gtk_widget_has_focus (widget)) {
-		label_bounds = eel_labeled_image_get_image_bounds (EEL_LABELED_IMAGE (widget));
-		gtk_paint_focus (style, window,
-				 GTK_STATE_NORMAL,
-				 &event->area, widget,
-				 "eel-focusable-labeled-image",
-				 label_bounds.x0, label_bounds.y0,
-				 label_bounds.x1 - label_bounds.x0,
-				 label_bounds.y1 - label_bounds.y0);
-	}
+    if (gtk_widget_has_focus (widget))
+    {
+        label_bounds = eel_labeled_image_get_image_bounds (EEL_LABELED_IMAGE (widget));
+        gtk_paint_focus (style, window,
+                         GTK_STATE_NORMAL,
+                         &event->area, widget,
+                         "eel-focusable-labeled-image",
+                         label_bounds.x0, label_bounds.y0,
+                         label_bounds.x1 - label_bounds.x0,
+                         label_bounds.y1 - label_bounds.y0);
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 static void
 eel_labeled_image_map (GtkWidget *widget)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_assert (EEL_IS_LABELED_IMAGE (widget));
+    g_assert (EEL_IS_LABELED_IMAGE (widget));
 
-	labeled_image = EEL_LABELED_IMAGE (widget);
+    labeled_image = EEL_LABELED_IMAGE (widget);
 
-	gtk_widget_set_mapped (widget, TRUE);
+    gtk_widget_set_mapped (widget, TRUE);
 
-	if (labeled_image_show_label (labeled_image)) {
-		eel_gtk_container_child_map (GTK_CONTAINER (widget), labeled_image->details->label);
-	}
+    if (labeled_image_show_label (labeled_image))
+    {
+        eel_gtk_container_child_map (GTK_CONTAINER (widget), labeled_image->details->label);
+    }
 
-	if (labeled_image_show_image (labeled_image)) {
-		eel_gtk_container_child_map (GTK_CONTAINER (widget), labeled_image->details->image);
-	}
+    if (labeled_image_show_image (labeled_image))
+    {
+        eel_gtk_container_child_map (GTK_CONTAINER (widget), labeled_image->details->image);
+    }
 }
 
 static void
 eel_labeled_image_unmap (GtkWidget *widget)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_assert (EEL_IS_LABELED_IMAGE (widget));
+    g_assert (EEL_IS_LABELED_IMAGE (widget));
 
-	labeled_image = EEL_LABELED_IMAGE (widget);
+    labeled_image = EEL_LABELED_IMAGE (widget);
 
-	gtk_widget_set_mapped (widget, FALSE);
+    gtk_widget_set_mapped (widget, FALSE);
 
-	eel_gtk_container_child_unmap (GTK_CONTAINER (widget), labeled_image->details->label);
-	eel_gtk_container_child_unmap (GTK_CONTAINER (widget), labeled_image->details->image);
+    eel_gtk_container_child_unmap (GTK_CONTAINER (widget), labeled_image->details->label);
+    eel_gtk_container_child_unmap (GTK_CONTAINER (widget), labeled_image->details->image);
 }
 
 /* GtkContainerClass methods */
 static void
 eel_labeled_image_add (GtkContainer *container,
-		       GtkWidget *child)
+                       GtkWidget *child)
 {
-	g_assert (GTK_IS_LABEL (child) || GTK_IS_IMAGE (child));
+    g_assert (GTK_IS_LABEL (child) || GTK_IS_IMAGE (child));
 
-	eel_gtk_container_child_add (container, child);
+    eel_gtk_container_child_add (container, child);
 }
 
 static void
 eel_labeled_image_remove (GtkContainer *container,
-			  GtkWidget *child)
+                          GtkWidget *child)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_assert (GTK_IS_LABEL (child) || GTK_IS_IMAGE (child));
+    g_assert (GTK_IS_LABEL (child) || GTK_IS_IMAGE (child));
 
-	labeled_image = EEL_LABELED_IMAGE (container);;
+    labeled_image = EEL_LABELED_IMAGE (container);;
 
-	g_assert (child == labeled_image->details->image || child == labeled_image->details->label);
+    g_assert (child == labeled_image->details->image || child == labeled_image->details->label);
 
-	eel_gtk_container_child_remove (container, child);
+    eel_gtk_container_child_remove (container, child);
 
-	if (labeled_image->details->image == child) {
-		labeled_image->details->image = NULL;
-	}
+    if (labeled_image->details->image == child)
+    {
+        labeled_image->details->image = NULL;
+    }
 
-	if (labeled_image->details->label == child) {
-		labeled_image->details->label = NULL;
-	}
+    if (labeled_image->details->label == child)
+    {
+        labeled_image->details->label = NULL;
+    }
 }
 
 static void
 eel_labeled_image_forall (GtkContainer *container,
-			  gboolean include_internals,
-			  GtkCallback callback,
-			  gpointer callback_data)
+                          gboolean include_internals,
+                          GtkCallback callback,
+                          gpointer callback_data)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_assert (EEL_IS_LABELED_IMAGE (container));
-	g_assert (callback != NULL);
+    g_assert (EEL_IS_LABELED_IMAGE (container));
+    g_assert (callback != NULL);
 
-	labeled_image = EEL_LABELED_IMAGE (container);
+    labeled_image = EEL_LABELED_IMAGE (container);
 
-	if (include_internals) {
-		if (labeled_image->details->image != NULL) {
-			(* callback) (labeled_image->details->image, callback_data);
-		}
+    if (include_internals)
+    {
+        if (labeled_image->details->image != NULL)
+        {
+            (* callback) (labeled_image->details->image, callback_data);
+        }
 
-		if (labeled_image->details->label != NULL) {
-			(* callback) (labeled_image->details->label, callback_data);
-		}
-	}
+        if (labeled_image->details->label != NULL)
+        {
+            (* callback) (labeled_image->details->label, callback_data);
+        }
+    }
 }
 
 /* Private EelLabeledImage methods */
 static gboolean
 is_fixed_height (const EelLabeledImage *labeled_image)
 {
-	return labeled_image->details->fixed_image_height > 0;
+    return labeled_image->details->fixed_image_height > 0;
 }
 
 static EelDimensions
 labeled_image_get_image_dimensions (const EelLabeledImage *labeled_image)
 {
-	EelDimensions image_dimensions;
-	GtkRequisition image_requisition;
+    EelDimensions image_dimensions;
+    GtkRequisition image_requisition;
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (!labeled_image_show_image (labeled_image)) {
-		return eel_dimensions_empty;
-	}
+    if (!labeled_image_show_image (labeled_image))
+    {
+        return eel_dimensions_empty;
+    }
 
-	gtk_widget_size_request (labeled_image->details->image, &image_requisition);
+    gtk_widget_size_request (labeled_image->details->image, &image_requisition);
 
-	image_dimensions.width = (int) image_requisition.width;
-	image_dimensions.height = (int) image_requisition.height;
+    image_dimensions.width = (int) image_requisition.width;
+    image_dimensions.height = (int) image_requisition.height;
 
-	if (is_fixed_height (labeled_image)) {
-		image_dimensions.height = labeled_image->details->fixed_image_height;
-	}
+    if (is_fixed_height (labeled_image))
+    {
+        image_dimensions.height = labeled_image->details->fixed_image_height;
+    }
 
-	return image_dimensions;
+    return image_dimensions;
 }
 
 static EelDimensions
 labeled_image_get_label_dimensions (const EelLabeledImage *labeled_image)
 {
-	EelDimensions label_dimensions;
-	GtkRequisition label_requisition;
+    EelDimensions label_dimensions;
+    GtkRequisition label_requisition;
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (!labeled_image_show_label (labeled_image)) {
-		return eel_dimensions_empty;
-	}
+    if (!labeled_image_show_label (labeled_image))
+    {
+        return eel_dimensions_empty;
+    }
 
-	gtk_widget_size_request (labeled_image->details->label, &label_requisition);
+    gtk_widget_size_request (labeled_image->details->label, &label_requisition);
 
-	label_dimensions.width = (int) label_requisition.width;
-	label_dimensions.height = (int) label_requisition.height;
+    label_dimensions.width = (int) label_requisition.width;
+    label_dimensions.height = (int) label_requisition.height;
 
-	return label_dimensions;
+    return label_dimensions;
 }
 
 static EelIRect
 labeled_image_get_image_bounds_fill (const EelLabeledImage *labeled_image)
 {
-	EelIRect image_bounds;
-	EelDimensions image_dimensions;
-	EelIRect content_bounds;
-	EelIRect bounds;
+    EelIRect image_bounds;
+    EelDimensions image_dimensions;
+    EelIRect content_bounds;
+    EelIRect bounds;
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	image_dimensions = labeled_image_get_image_dimensions (labeled_image);
+    image_dimensions = labeled_image_get_image_dimensions (labeled_image);
 
-	if (eel_dimensions_are_empty (image_dimensions)) {
-		return eel_irect_empty;
-	}
+    if (eel_dimensions_are_empty (image_dimensions))
+    {
+        return eel_irect_empty;
+    }
 
-	content_bounds = labeled_image_get_content_bounds (labeled_image);
-	bounds = eel_gtk_widget_get_bounds (GTK_WIDGET (labeled_image));
+    content_bounds = labeled_image_get_content_bounds (labeled_image);
+    bounds = eel_gtk_widget_get_bounds (GTK_WIDGET (labeled_image));
 
-	if (!labeled_image_show_label (labeled_image)) {
-		image_bounds = bounds;
-	} else {
-		switch (labeled_image->details->label_position) {
-		case GTK_POS_LEFT:
-			image_bounds.y0 = bounds.y0;
-			image_bounds.x0 = content_bounds.x1 - image_dimensions.width;
-			image_bounds.y1 = bounds.y1;
-			image_bounds.x1 = bounds.x1;
-			break;
+    if (!labeled_image_show_label (labeled_image))
+    {
+        image_bounds = bounds;
+    }
+    else
+    {
+        switch (labeled_image->details->label_position)
+        {
+        case GTK_POS_LEFT:
+            image_bounds.y0 = bounds.y0;
+            image_bounds.x0 = content_bounds.x1 - image_dimensions.width;
+            image_bounds.y1 = bounds.y1;
+            image_bounds.x1 = bounds.x1;
+            break;
 
-		case GTK_POS_RIGHT:
-			image_bounds.y0 = bounds.y0;
-			image_bounds.x0 = bounds.x0;
-			image_bounds.y1 = bounds.y1;
-			image_bounds.x1 = content_bounds.x0 + image_dimensions.width;
-			break;
+        case GTK_POS_RIGHT:
+            image_bounds.y0 = bounds.y0;
+            image_bounds.x0 = bounds.x0;
+            image_bounds.y1 = bounds.y1;
+            image_bounds.x1 = content_bounds.x0 + image_dimensions.width;
+            break;
 
-		case GTK_POS_TOP:
-			image_bounds.x0 = bounds.x0;
-			image_bounds.y0 = content_bounds.y1 - image_dimensions.height;
-			image_bounds.x1 = bounds.x1;
-			image_bounds.y1 = bounds.y1;
-			break;
+        case GTK_POS_TOP:
+            image_bounds.x0 = bounds.x0;
+            image_bounds.y0 = content_bounds.y1 - image_dimensions.height;
+            image_bounds.x1 = bounds.x1;
+            image_bounds.y1 = bounds.y1;
+            break;
 
-		case GTK_POS_BOTTOM:
-			image_bounds.x0 = bounds.x0;
-			image_bounds.y0 = bounds.y0;
-			image_bounds.x1 = bounds.x1;
-			image_bounds.y1 = content_bounds.y0 + image_dimensions.height;
-			break;
+        case GTK_POS_BOTTOM:
+            image_bounds.x0 = bounds.x0;
+            image_bounds.y0 = bounds.y0;
+            image_bounds.x1 = bounds.x1;
+            image_bounds.y1 = content_bounds.y0 + image_dimensions.height;
+            break;
 
-		default:
-			image_bounds.x0 = 0;
-			image_bounds.y0 = 0;
-			image_bounds.x1 = 0;
-			image_bounds.y1 = 0;
-			g_assert_not_reached ();
-		}
-	}
+        default:
+            image_bounds.x0 = 0;
+            image_bounds.y0 = 0;
+            image_bounds.x1 = 0;
+            image_bounds.y1 = 0;
+            g_assert_not_reached ();
+        }
+    }
 
-	return image_bounds;
+    return image_bounds;
 }
 
 EelIRect
 eel_labeled_image_get_image_bounds (const EelLabeledImage *labeled_image)
 {
-	EelDimensions image_dimensions;
-	EelDimensions label_dimensions;
-	GtkRequisition image_requisition;
-	EelIRect image_bounds;
-	EelIRect content_bounds;
+    EelDimensions image_dimensions;
+    EelDimensions label_dimensions;
+    GtkRequisition image_requisition;
+    EelIRect image_bounds;
+    EelIRect content_bounds;
 
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), eel_irect_empty);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), eel_irect_empty);
 
-	if (labeled_image->details->fill) {
-		return labeled_image_get_image_bounds_fill (labeled_image);
-	}
+    if (labeled_image->details->fill)
+    {
+        return labeled_image_get_image_bounds_fill (labeled_image);
+    }
 
-	/* get true real dimensions if we're in fixed height mode */
-	if (is_fixed_height (labeled_image) && labeled_image_show_image (labeled_image)) {
-		gtk_widget_size_request (labeled_image->details->image, &image_requisition);
-		image_dimensions.width = (int) image_requisition.width;
-		image_dimensions.height = (int) image_requisition.height;
-	} else {
-		image_dimensions = labeled_image_get_image_dimensions (labeled_image);
-	}
+    /* get true real dimensions if we're in fixed height mode */
+    if (is_fixed_height (labeled_image) && labeled_image_show_image (labeled_image))
+    {
+        gtk_widget_size_request (labeled_image->details->image, &image_requisition);
+        image_dimensions.width = (int) image_requisition.width;
+        image_dimensions.height = (int) image_requisition.height;
+    }
+    else
+    {
+        image_dimensions = labeled_image_get_image_dimensions (labeled_image);
+    }
 
-	label_dimensions = labeled_image_get_label_dimensions (labeled_image);
+    label_dimensions = labeled_image_get_label_dimensions (labeled_image);
 
-	if (eel_dimensions_are_empty (image_dimensions)) {
-		return eel_irect_empty;
-	}
+    if (eel_dimensions_are_empty (image_dimensions))
+    {
+        return eel_irect_empty;
+    }
 
-	content_bounds = labeled_image_get_content_bounds (labeled_image);
+    content_bounds = labeled_image_get_content_bounds (labeled_image);
 
-	if (!labeled_image_show_label (labeled_image)) {
-		image_bounds.x0 =
-			content_bounds.x0 +
-			(eel_irect_get_width (content_bounds) - image_dimensions.width) / 2;
-		image_bounds.y0 =
-			content_bounds.y0 +
-			(eel_irect_get_height (content_bounds) - image_dimensions.height) / 2;
-	} else {
-		switch (labeled_image->details->label_position) {
-		case GTK_POS_LEFT:
-			image_bounds.x0 = content_bounds.x1 - image_dimensions.width;
-			image_bounds.y0 =
-				content_bounds.y0 +
-				(eel_irect_get_height (content_bounds) - image_dimensions.height) / 2;
-			break;
+    if (!labeled_image_show_label (labeled_image))
+    {
+        image_bounds.x0 =
+            content_bounds.x0 +
+            (eel_irect_get_width (content_bounds) - image_dimensions.width) / 2;
+        image_bounds.y0 =
+            content_bounds.y0 +
+            (eel_irect_get_height (content_bounds) - image_dimensions.height) / 2;
+    }
+    else
+    {
+        switch (labeled_image->details->label_position)
+        {
+        case GTK_POS_LEFT:
+            image_bounds.x0 = content_bounds.x1 - image_dimensions.width;
+            image_bounds.y0 =
+                content_bounds.y0 +
+                (eel_irect_get_height (content_bounds) - image_dimensions.height) / 2;
+            break;
 
-		case GTK_POS_RIGHT:
-			image_bounds.x0 = content_bounds.x0;
-			image_bounds.y0 =
-				content_bounds.y0 +
-				(eel_irect_get_height (content_bounds) - image_dimensions.height) / 2;
-			break;
+        case GTK_POS_RIGHT:
+            image_bounds.x0 = content_bounds.x0;
+            image_bounds.y0 =
+                content_bounds.y0 +
+                (eel_irect_get_height (content_bounds) - image_dimensions.height) / 2;
+            break;
 
-		case GTK_POS_TOP:
-			image_bounds.x0 =
-				content_bounds.x0 +
-				(eel_irect_get_width (content_bounds) - image_dimensions.width) / 2;
-			image_bounds.y0 = content_bounds.y1 - image_dimensions.height;
-			break;
+        case GTK_POS_TOP:
+            image_bounds.x0 =
+                content_bounds.x0 +
+                (eel_irect_get_width (content_bounds) - image_dimensions.width) / 2;
+            image_bounds.y0 = content_bounds.y1 - image_dimensions.height;
+            break;
 
-		case GTK_POS_BOTTOM:
-			image_bounds.x0 =
-				content_bounds.x0 +
-				(eel_irect_get_width (content_bounds) - image_dimensions.width) / 2;
+        case GTK_POS_BOTTOM:
+            image_bounds.x0 =
+                content_bounds.x0 +
+                (eel_irect_get_width (content_bounds) - image_dimensions.width) / 2;
 
-			if (is_fixed_height (labeled_image)) {
-				image_bounds.y0 = content_bounds.y0 + eel_irect_get_height (content_bounds)
-					- image_dimensions.height
-					- label_dimensions.height
-					- labeled_image->details->spacing;
-			} else {
-				image_bounds.y0 = content_bounds.y0;
-			}
+            if (is_fixed_height (labeled_image))
+            {
+                image_bounds.y0 = content_bounds.y0 + eel_irect_get_height (content_bounds)
+                                  - image_dimensions.height
+                                  - label_dimensions.height
+                                  - labeled_image->details->spacing;
+            }
+            else
+            {
+                image_bounds.y0 = content_bounds.y0;
+            }
 
-			break;
+            break;
 
-		default:
-			image_bounds.x0 = 0;
-			image_bounds.y0 = 0;
-			g_assert_not_reached ();
-		}
-	}
+        default:
+            image_bounds.x0 = 0;
+            image_bounds.y0 = 0;
+            g_assert_not_reached ();
+        }
+    }
 
-	image_bounds.x1 = image_bounds.x0 + image_dimensions.width;
-	image_bounds.y1 = image_bounds.y0 + image_dimensions.height;
+    image_bounds.x1 = image_bounds.x0 + image_dimensions.width;
+    image_bounds.y1 = image_bounds.y0 + image_dimensions.height;
 
-	return image_bounds;
+    return image_bounds;
 }
 
 static EelIRect
 labeled_image_get_label_bounds_fill (const EelLabeledImage *labeled_image)
 {
-	EelIRect label_bounds;
-	EelDimensions label_dimensions;
-	EelIRect content_bounds;
-	EelIRect bounds;
+    EelIRect label_bounds;
+    EelDimensions label_dimensions;
+    EelIRect content_bounds;
+    EelIRect bounds;
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	label_dimensions = labeled_image_get_label_dimensions (labeled_image);
+    label_dimensions = labeled_image_get_label_dimensions (labeled_image);
 
-	if (eel_dimensions_are_empty (label_dimensions)) {
-		return eel_irect_empty;
-	}
+    if (eel_dimensions_are_empty (label_dimensions))
+    {
+        return eel_irect_empty;
+    }
 
-	content_bounds = labeled_image_get_content_bounds (labeled_image);
-	bounds = eel_gtk_widget_get_bounds (GTK_WIDGET (labeled_image));
+    content_bounds = labeled_image_get_content_bounds (labeled_image);
+    bounds = eel_gtk_widget_get_bounds (GTK_WIDGET (labeled_image));
 
-	/* Only the label is shown */
-	if (!labeled_image_show_image (labeled_image)) {
-		label_bounds = bounds;
-		/* Both label and image are shown */
-	} else {
-		switch (labeled_image->details->label_position) {
-		case GTK_POS_LEFT:
-			label_bounds.y0 = bounds.y0;
-			label_bounds.x0 = bounds.x0;
-			label_bounds.y1 = bounds.y1;
-			label_bounds.x1 = content_bounds.x0 + label_dimensions.width;
-			break;
+    /* Only the label is shown */
+    if (!labeled_image_show_image (labeled_image))
+    {
+        label_bounds = bounds;
+        /* Both label and image are shown */
+    }
+    else
+    {
+        switch (labeled_image->details->label_position)
+        {
+        case GTK_POS_LEFT:
+            label_bounds.y0 = bounds.y0;
+            label_bounds.x0 = bounds.x0;
+            label_bounds.y1 = bounds.y1;
+            label_bounds.x1 = content_bounds.x0 + label_dimensions.width;
+            break;
 
-		case GTK_POS_RIGHT:
-			label_bounds.y0 = bounds.y0;
-			label_bounds.x0 = content_bounds.x1 - label_dimensions.width;
-			label_bounds.y1 = bounds.y1;
-			label_bounds.x1 = bounds.x1;
-			break;
+        case GTK_POS_RIGHT:
+            label_bounds.y0 = bounds.y0;
+            label_bounds.x0 = content_bounds.x1 - label_dimensions.width;
+            label_bounds.y1 = bounds.y1;
+            label_bounds.x1 = bounds.x1;
+            break;
 
-		case GTK_POS_TOP:
-			label_bounds.x0 = bounds.x0;
-			label_bounds.y0 = bounds.y0;
-			label_bounds.x1 = bounds.x1;
-			label_bounds.y1 = content_bounds.y0 + label_dimensions.height;
-			break;
+        case GTK_POS_TOP:
+            label_bounds.x0 = bounds.x0;
+            label_bounds.y0 = bounds.y0;
+            label_bounds.x1 = bounds.x1;
+            label_bounds.y1 = content_bounds.y0 + label_dimensions.height;
+            break;
 
-		case GTK_POS_BOTTOM:
-			label_bounds.x0 = bounds.x0;
-			label_bounds.y0 = content_bounds.y1 - label_dimensions.height;
-			label_bounds.x1 = bounds.x1;
-			label_bounds.y1 = bounds.y1;
-			break;
+        case GTK_POS_BOTTOM:
+            label_bounds.x0 = bounds.x0;
+            label_bounds.y0 = content_bounds.y1 - label_dimensions.height;
+            label_bounds.x1 = bounds.x1;
+            label_bounds.y1 = bounds.y1;
+            break;
 
-		default:
-			label_bounds.x0 = 0;
-			label_bounds.y0 = 0;
-			label_bounds.x1 = 0;
-			label_bounds.y1 = 0;
-			g_assert_not_reached ();
-		}
-	}
+        default:
+            label_bounds.x0 = 0;
+            label_bounds.y0 = 0;
+            label_bounds.x1 = 0;
+            label_bounds.y1 = 0;
+            g_assert_not_reached ();
+        }
+    }
 
-	return label_bounds;
+    return label_bounds;
 }
 
 EelIRect
 eel_labeled_image_get_label_bounds (const EelLabeledImage *labeled_image)
 {
-	EelIRect label_bounds;
-	EelDimensions label_dimensions;
-	EelIRect content_bounds;
+    EelIRect label_bounds;
+    EelDimensions label_dimensions;
+    EelIRect content_bounds;
 
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), eel_irect_empty);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), eel_irect_empty);
 
-	if (labeled_image->details->fill) {
-		return labeled_image_get_label_bounds_fill (labeled_image);
-	}
+    if (labeled_image->details->fill)
+    {
+        return labeled_image_get_label_bounds_fill (labeled_image);
+    }
 
-	label_dimensions = labeled_image_get_label_dimensions (labeled_image);
+    label_dimensions = labeled_image_get_label_dimensions (labeled_image);
 
-	if (eel_dimensions_are_empty (label_dimensions)) {
-		return eel_irect_empty;
-	}
+    if (eel_dimensions_are_empty (label_dimensions))
+    {
+        return eel_irect_empty;
+    }
 
-	content_bounds = labeled_image_get_content_bounds (labeled_image);
+    content_bounds = labeled_image_get_content_bounds (labeled_image);
 
-	/* Only the label is shown */
-	if (!labeled_image_show_image (labeled_image)) {
-		label_bounds.x0 =
-			content_bounds.x0 +
-			(eel_irect_get_width (content_bounds) - label_dimensions.width) / 2;
-		label_bounds.y0 =
-			content_bounds.y0 +
-			(eel_irect_get_height (content_bounds) - label_dimensions.height) / 2;
-		/* Both label and image are shown */
-	} else {
-		switch (labeled_image->details->label_position) {
-		case GTK_POS_LEFT:
-			label_bounds.x0 = content_bounds.x0;
-			label_bounds.y0 =
-				content_bounds.y0 +
-				(eel_irect_get_height (content_bounds) - label_dimensions.height) / 2;
-			break;
+    /* Only the label is shown */
+    if (!labeled_image_show_image (labeled_image))
+    {
+        label_bounds.x0 =
+            content_bounds.x0 +
+            (eel_irect_get_width (content_bounds) - label_dimensions.width) / 2;
+        label_bounds.y0 =
+            content_bounds.y0 +
+            (eel_irect_get_height (content_bounds) - label_dimensions.height) / 2;
+        /* Both label and image are shown */
+    }
+    else
+    {
+        switch (labeled_image->details->label_position)
+        {
+        case GTK_POS_LEFT:
+            label_bounds.x0 = content_bounds.x0;
+            label_bounds.y0 =
+                content_bounds.y0 +
+                (eel_irect_get_height (content_bounds) - label_dimensions.height) / 2;
+            break;
 
-		case GTK_POS_RIGHT:
-			label_bounds.x0 = content_bounds.x1 - label_dimensions.width;
-			label_bounds.y0 =
-				content_bounds.y0 +
-				(eel_irect_get_height (content_bounds) - label_dimensions.height) / 2;
-			break;
+        case GTK_POS_RIGHT:
+            label_bounds.x0 = content_bounds.x1 - label_dimensions.width;
+            label_bounds.y0 =
+                content_bounds.y0 +
+                (eel_irect_get_height (content_bounds) - label_dimensions.height) / 2;
+            break;
 
-		case GTK_POS_TOP:
-			label_bounds.x0 =
-				content_bounds.x0 +
-				(eel_irect_get_width (content_bounds) - label_dimensions.width) / 2;
-			label_bounds.y0 = content_bounds.y0;
-			break;
+        case GTK_POS_TOP:
+            label_bounds.x0 =
+                content_bounds.x0 +
+                (eel_irect_get_width (content_bounds) - label_dimensions.width) / 2;
+            label_bounds.y0 = content_bounds.y0;
+            break;
 
-		case GTK_POS_BOTTOM:
-			label_bounds.x0 =
-				content_bounds.x0 +
-				(eel_irect_get_width (content_bounds) - label_dimensions.width) / 2;
-			label_bounds.y0 = content_bounds.y1 - label_dimensions.height;
-			break;
+        case GTK_POS_BOTTOM:
+            label_bounds.x0 =
+                content_bounds.x0 +
+                (eel_irect_get_width (content_bounds) - label_dimensions.width) / 2;
+            label_bounds.y0 = content_bounds.y1 - label_dimensions.height;
+            break;
 
-		default:
-			label_bounds.x0 = 0;
-			label_bounds.y0 = 0;
-			g_assert_not_reached ();
-		}
-	}
+        default:
+            label_bounds.x0 = 0;
+            label_bounds.y0 = 0;
+            g_assert_not_reached ();
+        }
+    }
 
-	label_bounds.x1 = label_bounds.x0 + label_dimensions.width;
-	label_bounds.y1 = label_bounds.y0 + label_dimensions.height;
+    label_bounds.x1 = label_bounds.x0 + label_dimensions.width;
+    label_bounds.y1 = label_bounds.y0 + label_dimensions.height;
 
-	return label_bounds;
+    return label_bounds;
 }
 
 static void
 labeled_image_update_alignments (EelLabeledImage *labeled_image)
 {
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->label != NULL) {
-		float x_alignment;
-		float y_alignment;
+    if (labeled_image->details->label != NULL)
+    {
+        float x_alignment;
+        float y_alignment;
 
-		if (labeled_image->details->fill) {
-			gtk_misc_get_alignment (GTK_MISC (labeled_image->details->label),
-						&x_alignment, &y_alignment);
+        if (labeled_image->details->fill)
+        {
+            gtk_misc_get_alignment (GTK_MISC (labeled_image->details->label),
+                                    &x_alignment, &y_alignment);
 
-			/* Only the label is shown */
-			if (!labeled_image_show_image (labeled_image)) {
-				x_alignment = 0.5;
-				y_alignment = 0.5;
-				/* Both label and image are shown */
-			} else {
-				switch (labeled_image->details->label_position) {
-				case GTK_POS_LEFT:
-					x_alignment = 1.0;
-					y_alignment = 0.5;
-					break;
+            /* Only the label is shown */
+            if (!labeled_image_show_image (labeled_image))
+            {
+                x_alignment = 0.5;
+                y_alignment = 0.5;
+                /* Both label and image are shown */
+            }
+            else
+            {
+                switch (labeled_image->details->label_position)
+                {
+                case GTK_POS_LEFT:
+                    x_alignment = 1.0;
+                    y_alignment = 0.5;
+                    break;
 
-				case GTK_POS_RIGHT:
-					x_alignment = 0.0;
-					y_alignment = 0.5;
-					break;
+                case GTK_POS_RIGHT:
+                    x_alignment = 0.0;
+                    y_alignment = 0.5;
+                    break;
 
-				case GTK_POS_TOP:
-					x_alignment = 0.5;
-					y_alignment = 1.0;
-					break;
+                case GTK_POS_TOP:
+                    x_alignment = 0.5;
+                    y_alignment = 1.0;
+                    break;
 
-				case GTK_POS_BOTTOM:
-					x_alignment = 0.5;
-					y_alignment = 0.0;
-					break;
-				}
+                case GTK_POS_BOTTOM:
+                    x_alignment = 0.5;
+                    y_alignment = 0.0;
+                    break;
+                }
 
-			}
+            }
 
-			gtk_misc_set_alignment (GTK_MISC (labeled_image->details->label),
-						x_alignment,
-						y_alignment);
-		}
-	}
+            gtk_misc_set_alignment (GTK_MISC (labeled_image->details->label),
+                                    x_alignment,
+                                    y_alignment);
+        }
+    }
 
-	if (labeled_image->details->image != NULL) {
-		float x_alignment;
-		float y_alignment;
+    if (labeled_image->details->image != NULL)
+    {
+        float x_alignment;
+        float y_alignment;
 
-		if (labeled_image->details->fill) {
-			gtk_misc_get_alignment (GTK_MISC (labeled_image->details->image),
-						&x_alignment, &y_alignment);
+        if (labeled_image->details->fill)
+        {
+            gtk_misc_get_alignment (GTK_MISC (labeled_image->details->image),
+                                    &x_alignment, &y_alignment);
 
-			/* Only the image is shown */
-			if (!labeled_image_show_label (labeled_image)) {
-				x_alignment = 0.5;
-				y_alignment = 0.5;
-				/* Both label and image are shown */
-			} else {
-				switch (labeled_image->details->label_position) {
-				case GTK_POS_LEFT:
-					x_alignment = 0.0;
-					y_alignment = 0.5;
-					break;
+            /* Only the image is shown */
+            if (!labeled_image_show_label (labeled_image))
+            {
+                x_alignment = 0.5;
+                y_alignment = 0.5;
+                /* Both label and image are shown */
+            }
+            else
+            {
+                switch (labeled_image->details->label_position)
+                {
+                case GTK_POS_LEFT:
+                    x_alignment = 0.0;
+                    y_alignment = 0.5;
+                    break;
 
-				case GTK_POS_RIGHT:
-					x_alignment = 1.0;
-					y_alignment = 0.5;
-					break;
+                case GTK_POS_RIGHT:
+                    x_alignment = 1.0;
+                    y_alignment = 0.5;
+                    break;
 
-				case GTK_POS_TOP:
-					x_alignment = 0.5;
-					y_alignment = 0.0;
-					break;
+                case GTK_POS_TOP:
+                    x_alignment = 0.5;
+                    y_alignment = 0.0;
+                    break;
 
-				case GTK_POS_BOTTOM:
-					x_alignment = 0.5;
-					y_alignment = 1.0;
-					break;
-				}
-			}
+                case GTK_POS_BOTTOM:
+                    x_alignment = 0.5;
+                    y_alignment = 1.0;
+                    break;
+                }
+            }
 
-			gtk_misc_set_alignment (GTK_MISC (labeled_image->details->image),
-						x_alignment,
-						y_alignment);
-		}
-	}
+            gtk_misc_set_alignment (GTK_MISC (labeled_image->details->image),
+                                    x_alignment,
+                                    y_alignment);
+        }
+    }
 }
 
 static EelDimensions
 labeled_image_get_content_dimensions (const EelLabeledImage *labeled_image)
 {
-	EelDimensions image_dimensions;
-	EelDimensions label_dimensions;
-	EelDimensions content_dimensions;
+    EelDimensions image_dimensions;
+    EelDimensions label_dimensions;
+    EelDimensions content_dimensions;
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	image_dimensions = labeled_image_get_image_dimensions (labeled_image);
-	label_dimensions = labeled_image_get_label_dimensions (labeled_image);
+    image_dimensions = labeled_image_get_image_dimensions (labeled_image);
+    label_dimensions = labeled_image_get_label_dimensions (labeled_image);
 
-	content_dimensions = eel_dimensions_empty;
+    content_dimensions = eel_dimensions_empty;
 
-	/* Both shown */
-	if (!eel_dimensions_are_empty (image_dimensions) && !eel_dimensions_are_empty (label_dimensions)) {
-		content_dimensions.width =
-			image_dimensions.width + labeled_image->details->spacing + label_dimensions.width;
-		switch (labeled_image->details->label_position) {
-		case GTK_POS_LEFT:
-		case GTK_POS_RIGHT:
-			content_dimensions.width =
-				image_dimensions.width + labeled_image->details->spacing + label_dimensions.width;
-			content_dimensions.height = MAX (image_dimensions.height, label_dimensions.height);
-			break;
+    /* Both shown */
+    if (!eel_dimensions_are_empty (image_dimensions) && !eel_dimensions_are_empty (label_dimensions))
+    {
+        content_dimensions.width =
+            image_dimensions.width + labeled_image->details->spacing + label_dimensions.width;
+        switch (labeled_image->details->label_position)
+        {
+        case GTK_POS_LEFT:
+        case GTK_POS_RIGHT:
+            content_dimensions.width =
+                image_dimensions.width + labeled_image->details->spacing + label_dimensions.width;
+            content_dimensions.height = MAX (image_dimensions.height, label_dimensions.height);
+            break;
 
-		case GTK_POS_TOP:
-		case GTK_POS_BOTTOM:
-			content_dimensions.width = MAX (image_dimensions.width, label_dimensions.width);
-			content_dimensions.height =
-				image_dimensions.height + labeled_image->details->spacing + label_dimensions.height;
-			break;
-		}
-		/* Only image shown */
-	} else if (!eel_dimensions_are_empty (image_dimensions)) {
-		content_dimensions.width = image_dimensions.width;
-		content_dimensions.height = image_dimensions.height;
-		/* Only label shown */
-	} else {
-		content_dimensions.width = label_dimensions.width;
-		content_dimensions.height = label_dimensions.height;
-	}
+        case GTK_POS_TOP:
+        case GTK_POS_BOTTOM:
+            content_dimensions.width = MAX (image_dimensions.width, label_dimensions.width);
+            content_dimensions.height =
+                image_dimensions.height + labeled_image->details->spacing + label_dimensions.height;
+            break;
+        }
+        /* Only image shown */
+    }
+    else if (!eel_dimensions_are_empty (image_dimensions))
+    {
+        content_dimensions.width = image_dimensions.width;
+        content_dimensions.height = image_dimensions.height;
+        /* Only label shown */
+    }
+    else
+    {
+        content_dimensions.width = label_dimensions.width;
+        content_dimensions.height = label_dimensions.height;
+    }
 
-	return content_dimensions;
+    return content_dimensions;
 }
 
 static EelIRect
 labeled_image_get_content_bounds (const EelLabeledImage *labeled_image)
 {
-	EelDimensions content_dimensions;
-	EelIRect content_bounds;
-	EelIRect bounds;
+    EelDimensions content_dimensions;
+    EelIRect content_bounds;
+    EelIRect bounds;
 
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	bounds = eel_gtk_widget_get_bounds (GTK_WIDGET (labeled_image));
+    bounds = eel_gtk_widget_get_bounds (GTK_WIDGET (labeled_image));
 
-	content_dimensions = labeled_image_get_content_dimensions (labeled_image);
-	content_bounds = eel_irect_align (bounds,
-					      content_dimensions.width,
-					      content_dimensions.height,
-					      labeled_image->details->x_alignment,
-					      labeled_image->details->y_alignment);
+    content_dimensions = labeled_image_get_content_dimensions (labeled_image);
+    content_bounds = eel_irect_align (bounds,
+                                      content_dimensions.width,
+                                      content_dimensions.height,
+                                      labeled_image->details->x_alignment,
+                                      labeled_image->details->y_alignment);
 
-	return content_bounds;
+    return content_bounds;
 }
 
 static void
 labeled_image_ensure_label (EelLabeledImage *labeled_image)
 {
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->label != NULL) {
-		return;
-	}
+    if (labeled_image->details->label != NULL)
+    {
+        return;
+    }
 
- 	labeled_image->details->label = gtk_label_new (NULL);
-	gtk_container_add (GTK_CONTAINER (labeled_image), labeled_image->details->label);
-	gtk_widget_show (labeled_image->details->label);
+    labeled_image->details->label = gtk_label_new (NULL);
+    gtk_container_add (GTK_CONTAINER (labeled_image), labeled_image->details->label);
+    gtk_widget_show (labeled_image->details->label);
 }
 
 static void
 labeled_image_ensure_image (EelLabeledImage *labeled_image)
 {
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->image != NULL) {
-		return;
-	}
+    if (labeled_image->details->image != NULL)
+    {
+        return;
+    }
 
- 	labeled_image->details->image = gtk_image_new ();
-	gtk_container_add (GTK_CONTAINER (labeled_image), labeled_image->details->image);
-	gtk_widget_show (labeled_image->details->image);
+    labeled_image->details->image = gtk_image_new ();
+    gtk_container_add (GTK_CONTAINER (labeled_image), labeled_image->details->image);
+    gtk_widget_show (labeled_image->details->image);
 }
 
 static gboolean
 labeled_image_show_image (const EelLabeledImage *labeled_image)
 {
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	return labeled_image->details->image != NULL && labeled_image->details->show_image;
+    return labeled_image->details->image != NULL && labeled_image->details->show_image;
 }
 
 static gboolean
 labeled_image_show_label (const EelLabeledImage *labeled_image)
 {
-	g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_assert (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	return labeled_image->details->label != NULL && labeled_image->details->show_label;
+    return labeled_image->details->label != NULL && labeled_image->details->show_label;
 }
 
 /**
@@ -1246,23 +1313,25 @@ labeled_image_show_label (const EelLabeledImage *labeled_image)
  */
 GtkWidget*
 eel_labeled_image_new (const char *text,
-		       GdkPixbuf *pixbuf)
+                       GdkPixbuf *pixbuf)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	labeled_image = EEL_LABELED_IMAGE (gtk_widget_new (eel_labeled_image_get_type (), NULL));
+    labeled_image = EEL_LABELED_IMAGE (gtk_widget_new (eel_labeled_image_get_type (), NULL));
 
-	if (text != NULL) {
-		eel_labeled_image_set_text (labeled_image, text);
-	}
+    if (text != NULL)
+    {
+        eel_labeled_image_set_text (labeled_image, text);
+    }
 
-	if (pixbuf != NULL) {
-		eel_labeled_image_set_pixbuf (labeled_image, pixbuf);
-	}
+    if (pixbuf != NULL)
+    {
+        eel_labeled_image_set_pixbuf (labeled_image, pixbuf);
+    }
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	return GTK_WIDGET (labeled_image);
+    return GTK_WIDGET (labeled_image);
 }
 
 /**
@@ -1276,15 +1345,15 @@ eel_labeled_image_new (const char *text,
  */
 GtkWidget*
 eel_labeled_image_new_from_file_name (const char *text,
-				      const char *pixbuf_file_name)
+                                      const char *pixbuf_file_name)
 {
-	EelLabeledImage *labeled_image;
+    EelLabeledImage *labeled_image;
 
-	g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
+    g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
 
-	labeled_image = EEL_LABELED_IMAGE (eel_labeled_image_new (text, NULL));
-	eel_labeled_image_set_pixbuf_from_file_name (labeled_image, pixbuf_file_name);
-	return GTK_WIDGET (labeled_image);
+    labeled_image = EEL_LABELED_IMAGE (eel_labeled_image_new (text, NULL));
+    eel_labeled_image_set_pixbuf_from_file_name (labeled_image, pixbuf_file_name);
+    return GTK_WIDGET (labeled_image);
 }
 
 /**
@@ -1311,21 +1380,22 @@ eel_labeled_image_new_from_file_name (const char *text,
  */
 void
 eel_labeled_image_set_label_position (EelLabeledImage *labeled_image,
-				      GtkPositionType label_position)
+                                      GtkPositionType label_position)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
-	g_return_if_fail (label_position >= GTK_POS_LEFT);
-	g_return_if_fail (label_position <= GTK_POS_BOTTOM);
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (label_position >= GTK_POS_LEFT);
+    g_return_if_fail (label_position <= GTK_POS_BOTTOM);
 
-	if (labeled_image->details->label_position == label_position) {
-		return;
-	}
+    if (labeled_image->details->label_position == label_position)
+    {
+        return;
+    }
 
-	labeled_image->details->label_position = label_position;
+    labeled_image->details->label_position = label_position;
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1337,9 +1407,9 @@ eel_labeled_image_set_label_position (EelLabeledImage *labeled_image,
 GtkPositionType
 eel_labeled_image_get_label_position (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->label_position;
+    return labeled_image->details->label_position;
 }
 
 /**
@@ -1353,27 +1423,32 @@ eel_labeled_image_get_label_position (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_show_label (EelLabeledImage *labeled_image,
-				  gboolean show_label)
+                                  gboolean show_label)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->show_label == show_label) {
-		return;
-	}
+    if (labeled_image->details->show_label == show_label)
+    {
+        return;
+    }
 
-	labeled_image->details->show_label = show_label;
+    labeled_image->details->show_label = show_label;
 
-	if (labeled_image->details->label != NULL) {
-		if (labeled_image->details->show_label) {
-			gtk_widget_show (labeled_image->details->label);
-		} else {
-			gtk_widget_hide (labeled_image->details->label);
-		}
-	}
+    if (labeled_image->details->label != NULL)
+    {
+        if (labeled_image->details->show_label)
+        {
+            gtk_widget_show (labeled_image->details->label);
+        }
+        else
+        {
+            gtk_widget_hide (labeled_image->details->label);
+        }
+    }
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1385,9 +1460,9 @@ eel_labeled_image_set_show_label (EelLabeledImage *labeled_image,
 gboolean
 eel_labeled_image_get_show_label (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->show_label;
+    return labeled_image->details->show_label;
 }
 
 /**
@@ -1401,27 +1476,32 @@ eel_labeled_image_get_show_label (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_show_image (EelLabeledImage *labeled_image,
-				  gboolean show_image)
+                                  gboolean show_image)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->show_image == show_image) {
-		return;
-	}
+    if (labeled_image->details->show_image == show_image)
+    {
+        return;
+    }
 
-	labeled_image->details->show_image = show_image;
+    labeled_image->details->show_image = show_image;
 
-	if (labeled_image->details->image != NULL) {
-		if (labeled_image->details->show_image) {
-			gtk_widget_show (labeled_image->details->image);
-		} else {
-			gtk_widget_hide (labeled_image->details->image);
-		}
-	}
+    if (labeled_image->details->image != NULL)
+    {
+        if (labeled_image->details->show_image)
+        {
+            gtk_widget_show (labeled_image->details->image);
+        }
+        else
+        {
+            gtk_widget_hide (labeled_image->details->image);
+        }
+    }
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1433,9 +1513,9 @@ eel_labeled_image_set_show_image (EelLabeledImage *labeled_image,
 gboolean
 eel_labeled_image_get_show_image (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->show_image;
+    return labeled_image->details->show_image;
 }
 
 
@@ -1451,19 +1531,20 @@ eel_labeled_image_get_show_image (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_fixed_image_height (EelLabeledImage *labeled_image,
-					  int new_height)
+        int new_height)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->fixed_image_height == new_height) {
-		return;
-	}
+    if (labeled_image->details->fixed_image_height == new_height)
+    {
+        return;
+    }
 
-	labeled_image->details->fixed_image_height = new_height;
+    labeled_image->details->fixed_image_height = new_height;
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1477,16 +1558,16 @@ eel_labeled_image_set_fixed_image_height (EelLabeledImage *labeled_image,
  */
 void
 eel_labeled_image_set_selected (EelLabeledImage *labeled_image,
-				gboolean selected)
+                                gboolean selected)
 {
-	GtkStateType state;
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    GtkStateType state;
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	state = selected ? GTK_STATE_SELECTED : GTK_STATE_NORMAL;
+    state = selected ? GTK_STATE_SELECTED : GTK_STATE_NORMAL;
 
-	gtk_widget_set_state (GTK_WIDGET (labeled_image), state);
-	gtk_widget_set_state (labeled_image->details->image, state);
-	gtk_widget_set_state (labeled_image->details->label, state);
+    gtk_widget_set_state (GTK_WIDGET (labeled_image), state);
+    gtk_widget_set_state (labeled_image->details->image, state);
+    gtk_widget_set_state (labeled_image->details->label, state);
 }
 
 /**
@@ -1499,9 +1580,9 @@ eel_labeled_image_set_selected (EelLabeledImage *labeled_image,
 gboolean
 eel_labeled_image_get_selected (EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), FALSE);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), FALSE);
 
-	return gtk_widget_get_state (GTK_WIDGET (labeled_image)) == GTK_STATE_SELECTED;
+    return gtk_widget_get_state (GTK_WIDGET (labeled_image)) == GTK_STATE_SELECTED;
 }
 
 /**
@@ -1516,19 +1597,20 @@ eel_labeled_image_get_selected (EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_spacing (EelLabeledImage *labeled_image,
-			       guint spacing)
+                               guint spacing)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->spacing == spacing) {
-		return;
-	}
+    if (labeled_image->details->spacing == spacing)
+    {
+        return;
+    }
 
-	labeled_image->details->spacing = spacing;
+    labeled_image->details->spacing = spacing;
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1540,9 +1622,9 @@ eel_labeled_image_set_spacing (EelLabeledImage *labeled_image,
 guint
 eel_labeled_image_get_spacing (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->spacing;
+    return labeled_image->details->spacing;
 }
 
 /**
@@ -1555,19 +1637,20 @@ eel_labeled_image_get_spacing (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_x_padding (EelLabeledImage *labeled_image,
-				 int x_padding)
+                                 int x_padding)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	x_padding = MAX (0, x_padding);
+    x_padding = MAX (0, x_padding);
 
-	if (labeled_image->details->x_padding == x_padding) {
-		return;
-	}
+    if (labeled_image->details->x_padding == x_padding)
+    {
+        return;
+    }
 
-	labeled_image->details->x_padding = x_padding;
-	labeled_image_update_alignments (labeled_image);
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    labeled_image->details->x_padding = x_padding;
+    labeled_image_update_alignments (labeled_image);
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1579,9 +1662,9 @@ eel_labeled_image_set_x_padding (EelLabeledImage *labeled_image,
 int
 eel_labeled_image_get_x_padding (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->x_padding;
+    return labeled_image->details->x_padding;
 }
 
 /**
@@ -1594,19 +1677,20 @@ eel_labeled_image_get_x_padding (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_y_padding (EelLabeledImage *labeled_image,
-				 int y_padding)
+                                 int y_padding)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	y_padding = MAX (0, y_padding);
+    y_padding = MAX (0, y_padding);
 
-	if (labeled_image->details->y_padding == y_padding) {
-		return;
-	}
+    if (labeled_image->details->y_padding == y_padding)
+    {
+        return;
+    }
 
-	labeled_image->details->y_padding = y_padding;
-	labeled_image_update_alignments (labeled_image);
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    labeled_image->details->y_padding = y_padding;
+    labeled_image_update_alignments (labeled_image);
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1618,9 +1702,9 @@ eel_labeled_image_set_y_padding (EelLabeledImage *labeled_image,
 int
 eel_labeled_image_get_y_padding (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->y_padding;
+    return labeled_image->details->y_padding;
 }
 
 /**
@@ -1634,19 +1718,20 @@ eel_labeled_image_get_y_padding (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_x_alignment (EelLabeledImage *labeled_image,
-				   float x_alignment)
+                                   float x_alignment)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	x_alignment = MAX (0, x_alignment);
-	x_alignment = MIN (1.0, x_alignment);
+    x_alignment = MAX (0, x_alignment);
+    x_alignment = MIN (1.0, x_alignment);
 
-	if (labeled_image->details->x_alignment == x_alignment) {
-		return;
-	}
+    if (labeled_image->details->x_alignment == x_alignment)
+    {
+        return;
+    }
 
-	labeled_image->details->x_alignment = x_alignment;
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    labeled_image->details->x_alignment = x_alignment;
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1658,9 +1743,9 @@ eel_labeled_image_set_x_alignment (EelLabeledImage *labeled_image,
 float
 eel_labeled_image_get_x_alignment (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->x_alignment;
+    return labeled_image->details->x_alignment;
 }
 
 /**
@@ -1674,19 +1759,20 @@ eel_labeled_image_get_x_alignment (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_y_alignment (EelLabeledImage *labeled_image,
-				   float y_alignment)
+                                   float y_alignment)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	y_alignment = MAX (0, y_alignment);
-	y_alignment = MIN (1.0, y_alignment);
+    y_alignment = MAX (0, y_alignment);
+    y_alignment = MIN (1.0, y_alignment);
 
-	if (labeled_image->details->y_alignment == y_alignment) {
-		return;
-	}
+    if (labeled_image->details->y_alignment == y_alignment)
+    {
+        return;
+    }
 
-	labeled_image->details->y_alignment = y_alignment;
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    labeled_image->details->y_alignment = y_alignment;
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1698,9 +1784,9 @@ eel_labeled_image_set_y_alignment (EelLabeledImage *labeled_image,
 float
 eel_labeled_image_get_y_alignment (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->y_alignment;
+    return labeled_image->details->y_alignment;
 }
 
 /**
@@ -1716,19 +1802,20 @@ eel_labeled_image_get_y_alignment (const EelLabeledImage *labeled_image)
  */
 void
 eel_labeled_image_set_fill (EelLabeledImage *labeled_image,
-			    gboolean fill)
+                            gboolean fill)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (labeled_image->details->fill == fill) {
-		return;
-	}
+    if (labeled_image->details->fill == fill)
+    {
+        return;
+    }
 
-	labeled_image->details->fill = fill;
+    labeled_image->details->fill = fill;
 
-	labeled_image_update_alignments (labeled_image);
+    labeled_image_update_alignments (labeled_image);
 
-	gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
 }
 
 /**
@@ -1741,24 +1828,24 @@ eel_labeled_image_set_fill (EelLabeledImage *labeled_image,
 gboolean
 eel_labeled_image_get_fill (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), 0);
 
-	return labeled_image->details->fill;
+    return labeled_image->details->fill;
 }
 
 static void
 eel_labled_set_mnemonic_widget (GtkWidget *image_widget,
-				GtkWidget *mnemonic_widget)
+                                GtkWidget *mnemonic_widget)
 {
-	EelLabeledImage *image;
+    EelLabeledImage *image;
 
-	g_assert (EEL_IS_LABELED_IMAGE (image_widget));
+    g_assert (EEL_IS_LABELED_IMAGE (image_widget));
 
-	image = EEL_LABELED_IMAGE (image_widget);
+    image = EEL_LABELED_IMAGE (image_widget);
 
-	if (image->details->label)
-		gtk_label_set_mnemonic_widget
-			(GTK_LABEL (image->details->label), mnemonic_widget);
+    if (image->details->label)
+        gtk_label_set_mnemonic_widget
+        (GTK_LABEL (image->details->label), mnemonic_widget);
 }
 
 /**
@@ -1771,18 +1858,18 @@ eel_labled_set_mnemonic_widget (GtkWidget *image_widget,
  */
 GtkWidget *
 eel_labeled_image_button_new (const char *text,
-			      GdkPixbuf *pixbuf)
+                              GdkPixbuf *pixbuf)
 {
-	GtkWidget *button;
-	GtkWidget *labeled_image;
+    GtkWidget *button;
+    GtkWidget *labeled_image;
 
-	button = g_object_new (eel_labeled_image_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new (text, pixbuf);
-	gtk_container_add (GTK_CONTAINER (button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, button);
-	gtk_widget_show (labeled_image);
+    button = g_object_new (eel_labeled_image_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new (text, pixbuf);
+    gtk_container_add (GTK_CONTAINER (button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, button);
+    gtk_widget_show (labeled_image);
 
-	return button;
+    return button;
 }
 
 /**
@@ -1795,20 +1882,20 @@ eel_labeled_image_button_new (const char *text,
  */
 GtkWidget *
 eel_labeled_image_button_new_from_file_name (const char *text,
-					     const char *pixbuf_file_name)
+        const char *pixbuf_file_name)
 {
-	GtkWidget *button;
-	GtkWidget *labeled_image;
+    GtkWidget *button;
+    GtkWidget *labeled_image;
 
-	g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
+    g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
 
-	button = g_object_new (eel_labeled_image_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
-	gtk_container_add (GTK_CONTAINER (button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, button);
-	gtk_widget_show (labeled_image);
+    button = g_object_new (eel_labeled_image_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
+    gtk_container_add (GTK_CONTAINER (button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, button);
+    gtk_widget_show (labeled_image);
 
-	return button;
+    return button;
 }
 
 /**
@@ -1821,18 +1908,18 @@ eel_labeled_image_button_new_from_file_name (const char *text,
  */
 GtkWidget *
 eel_labeled_image_toggle_button_new (const char *text,
-				     GdkPixbuf *pixbuf)
+                                     GdkPixbuf *pixbuf)
 {
-	GtkWidget *toggle_button;
-	GtkWidget *labeled_image;
+    GtkWidget *toggle_button;
+    GtkWidget *labeled_image;
 
-	toggle_button = g_object_new (eel_labeled_image_toggle_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new (text, pixbuf);
-	gtk_container_add (GTK_CONTAINER (toggle_button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, toggle_button);
-	gtk_widget_show (labeled_image);
+    toggle_button = g_object_new (eel_labeled_image_toggle_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new (text, pixbuf);
+    gtk_container_add (GTK_CONTAINER (toggle_button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, toggle_button);
+    gtk_widget_show (labeled_image);
 
-	return toggle_button;
+    return toggle_button;
 }
 
 /**
@@ -1845,20 +1932,20 @@ eel_labeled_image_toggle_button_new (const char *text,
  */
 GtkWidget *
 eel_labeled_image_toggle_button_new_from_file_name (const char *text,
-						    const char *pixbuf_file_name)
+        const char *pixbuf_file_name)
 {
-	GtkWidget *toggle_button;
-	GtkWidget *labeled_image;
+    GtkWidget *toggle_button;
+    GtkWidget *labeled_image;
 
-	g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
+    g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
 
-	toggle_button = g_object_new (eel_labeled_image_toggle_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
-	gtk_container_add (GTK_CONTAINER (toggle_button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, toggle_button);
-	gtk_widget_show (labeled_image);
+    toggle_button = g_object_new (eel_labeled_image_toggle_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
+    gtk_container_add (GTK_CONTAINER (toggle_button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, toggle_button);
+    gtk_widget_show (labeled_image);
 
-	return toggle_button;
+    return toggle_button;
 }
 
 /**
@@ -1872,18 +1959,18 @@ eel_labeled_image_toggle_button_new_from_file_name (const char *text,
  */
 GtkWidget *
 eel_labeled_image_radio_button_new (const char *text,
-				    GdkPixbuf  *pixbuf)
+                                    GdkPixbuf  *pixbuf)
 {
-	GtkWidget *radio_button;
-	GtkWidget *labeled_image;
+    GtkWidget *radio_button;
+    GtkWidget *labeled_image;
 
-	radio_button = g_object_new (eel_labeled_image_radio_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new (text, pixbuf);
-	gtk_container_add (GTK_CONTAINER (radio_button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, radio_button);
-	gtk_widget_show (labeled_image);
+    radio_button = g_object_new (eel_labeled_image_radio_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new (text, pixbuf);
+    gtk_container_add (GTK_CONTAINER (radio_button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, radio_button);
+    gtk_widget_show (labeled_image);
 
-	return radio_button;
+    return radio_button;
 }
 
 /**
@@ -1897,20 +1984,20 @@ eel_labeled_image_radio_button_new (const char *text,
  */
 GtkWidget *
 eel_labeled_image_radio_button_new_from_file_name (const char *text,
-						   const char *pixbuf_file_name)
+        const char *pixbuf_file_name)
 {
-	GtkWidget *radio_button;
-	GtkWidget *labeled_image;
+    GtkWidget *radio_button;
+    GtkWidget *labeled_image;
 
-	g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
+    g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
 
-	radio_button = g_object_new (eel_labeled_image_radio_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
-	gtk_container_add (GTK_CONTAINER (radio_button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, radio_button);
-	gtk_widget_show (labeled_image);
+    radio_button = g_object_new (eel_labeled_image_radio_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
+    gtk_container_add (GTK_CONTAINER (radio_button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, radio_button);
+    gtk_widget_show (labeled_image);
 
-	return radio_button;
+    return radio_button;
 }
 
 /*
@@ -1923,39 +2010,40 @@ eel_labeled_image_radio_button_new_from_file_name (const char *text,
  */
 static void
 button_leave_callback (GtkWidget *widget,
-		       gpointer callback_data)
+                       gpointer callback_data)
 {
-	g_assert (GTK_IS_WIDGET (widget));
+    g_assert (GTK_IS_WIDGET (widget));
 
-	if (gtk_widget_is_drawable (widget)) {
-		const int fudge = 4;
-		EelIRect bounds;
+    if (gtk_widget_is_drawable (widget))
+    {
+        const int fudge = 4;
+        EelIRect bounds;
 
-		bounds = eel_gtk_widget_get_bounds (widget);
+        bounds = eel_gtk_widget_get_bounds (widget);
 
-		bounds.x0 -= fudge;
-		bounds.y0 -= fudge;
-		bounds.x1 += fudge;
-		bounds.y1 += fudge;
+        bounds.x0 -= fudge;
+        bounds.y0 -= fudge;
+        bounds.x1 += fudge;
+        bounds.y1 += fudge;
 
-		gtk_widget_queue_draw_area (gtk_widget_get_parent (widget),
-					    bounds.x0,
-					    bounds.y0,
-					    eel_irect_get_width (bounds),
-					    eel_irect_get_height (bounds));
-	}
+        gtk_widget_queue_draw_area (gtk_widget_get_parent (widget),
+                                    bounds.x0,
+                                    bounds.y0,
+                                    eel_irect_get_width (bounds),
+                                    eel_irect_get_height (bounds));
+    }
 }
 
 static gint
 button_focus_out_event_callback (GtkWidget *widget,
-				 GdkEventFocus *event,
-				 gpointer callback_data)
+                                 GdkEventFocus *event,
+                                 gpointer callback_data)
 {
-	g_assert (GTK_IS_WIDGET (widget));
+    g_assert (GTK_IS_WIDGET (widget));
 
-	button_leave_callback (widget, callback_data);
+    button_leave_callback (widget, callback_data);
 
-	return FALSE;
+    return FALSE;
 }
 
 /**
@@ -1968,27 +2056,27 @@ button_focus_out_event_callback (GtkWidget *widget,
  */
 GtkWidget *
 eel_labeled_image_check_button_new (const char *text,
-				    GdkPixbuf *pixbuf)
+                                    GdkPixbuf *pixbuf)
 {
-	GtkWidget *check_button;
-	GtkWidget *labeled_image;
+    GtkWidget *check_button;
+    GtkWidget *labeled_image;
 
-	check_button = g_object_new (eel_labeled_image_check_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new (text, pixbuf);
-	gtk_container_add (GTK_CONTAINER (check_button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, check_button);
-	gtk_widget_show (labeled_image);
+    check_button = g_object_new (eel_labeled_image_check_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new (text, pixbuf);
+    gtk_container_add (GTK_CONTAINER (check_button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, check_button);
+    gtk_widget_show (labeled_image);
 
-	/*
-	 * Workaround some bugs in GtkCheckButton where the widget
-	 * does not redraw properly after leave or focus out events
-	 */
-	g_signal_connect (check_button, "leave",
-			  G_CALLBACK (button_leave_callback), NULL);
-	g_signal_connect (check_button, "focus_out_event",
-			  G_CALLBACK (button_focus_out_event_callback), NULL);
+    /*
+     * Workaround some bugs in GtkCheckButton where the widget
+     * does not redraw properly after leave or focus out events
+     */
+    g_signal_connect (check_button, "leave",
+                      G_CALLBACK (button_leave_callback), NULL);
+    g_signal_connect (check_button, "focus_out_event",
+                      G_CALLBACK (button_focus_out_event_callback), NULL);
 
-	return check_button;
+    return check_button;
 }
 
 /**
@@ -2001,20 +2089,20 @@ eel_labeled_image_check_button_new (const char *text,
  */
 GtkWidget *
 eel_labeled_image_check_button_new_from_file_name (const char *text,
-						   const char *pixbuf_file_name)
+        const char *pixbuf_file_name)
 {
-	GtkWidget *check_button;
-	GtkWidget *labeled_image;
+    GtkWidget *check_button;
+    GtkWidget *labeled_image;
 
-	g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
+    g_return_val_if_fail (pixbuf_file_name != NULL, NULL);
 
-	check_button = g_object_new (eel_labeled_image_check_button_get_type (), NULL);
-	labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
-	gtk_container_add (GTK_CONTAINER (check_button), labeled_image);
-	eel_labled_set_mnemonic_widget (labeled_image, check_button);
-	gtk_widget_show (labeled_image);
+    check_button = g_object_new (eel_labeled_image_check_button_get_type (), NULL);
+    labeled_image = eel_labeled_image_new_from_file_name (text, pixbuf_file_name);
+    gtk_container_add (GTK_CONTAINER (check_button), labeled_image);
+    eel_labled_set_mnemonic_widget (labeled_image, check_button);
+    gtk_widget_show (labeled_image);
 
-	return check_button;
+    return check_button;
 }
 
 /*
@@ -2038,31 +2126,35 @@ eel_labeled_image_check_button_new_from_file_name (const char *text,
  */
 void
 eel_labeled_image_set_pixbuf (EelLabeledImage *labeled_image,
-			      GdkPixbuf *pixbuf)
+                              GdkPixbuf *pixbuf)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (pixbuf == NULL) {
-		if (labeled_image->details->image != NULL) {
-			gtk_widget_destroy (labeled_image->details->image);
-			labeled_image->details->image = NULL;
-		}
+    if (pixbuf == NULL)
+    {
+        if (labeled_image->details->image != NULL)
+        {
+            gtk_widget_destroy (labeled_image->details->image);
+            labeled_image->details->image = NULL;
+        }
 
-		gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
-	} else {
-		labeled_image_ensure_image (labeled_image);
-		gtk_image_set_from_pixbuf (GTK_IMAGE (labeled_image->details->image), pixbuf);
-	}
+        gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    }
+    else
+    {
+        labeled_image_ensure_image (labeled_image);
+        gtk_image_set_from_pixbuf (GTK_IMAGE (labeled_image->details->image), pixbuf);
+    }
 }
 
 void
 eel_labeled_image_set_pixbuf_from_file_name (EelLabeledImage *labeled_image,
-					     const char *pixbuf_file_name)
+        const char *pixbuf_file_name)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	labeled_image_ensure_image (labeled_image);
-	gtk_image_set_from_file (GTK_IMAGE (labeled_image->details->image), pixbuf_file_name);
+    labeled_image_ensure_image (labeled_image);
+    gtk_image_set_from_file (GTK_IMAGE (labeled_image->details->image), pixbuf_file_name);
 }
 
 /**
@@ -2079,296 +2171,323 @@ eel_labeled_image_set_pixbuf_from_file_name (EelLabeledImage *labeled_image,
  */
 void
 eel_labeled_image_set_text (EelLabeledImage *labeled_image,
-			    const char *text)
+                            const char *text)
 {
-	g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
+    g_return_if_fail (EEL_IS_LABELED_IMAGE (labeled_image));
 
-	if (text == NULL) {
-		if (labeled_image->details->label) {
-			gtk_widget_destroy (labeled_image->details->label);
-			labeled_image->details->label = NULL;
-		}
+    if (text == NULL)
+    {
+        if (labeled_image->details->label)
+        {
+            gtk_widget_destroy (labeled_image->details->label);
+            labeled_image->details->label = NULL;
+        }
 
-		gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
-	} else {
-		labeled_image_ensure_label (labeled_image);
-		gtk_label_set_text_with_mnemonic
-			(GTK_LABEL (labeled_image->details->label), text);
-	}
+        gtk_widget_queue_resize (GTK_WIDGET (labeled_image));
+    }
+    else
+    {
+        labeled_image_ensure_label (labeled_image);
+        gtk_label_set_text_with_mnemonic
+        (GTK_LABEL (labeled_image->details->label), text);
+    }
 }
 
 char *
 eel_labeled_image_get_text (const EelLabeledImage *labeled_image)
 {
-	g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), NULL);
+    g_return_val_if_fail (EEL_IS_LABELED_IMAGE (labeled_image), NULL);
 
-	if (labeled_image->details->label == NULL) {
-		return NULL;
-	}
+    if (labeled_image->details->label == NULL)
+    {
+        return NULL;
+    }
 
-	return g_strdup (gtk_label_get_text (GTK_LABEL (labeled_image->details->label)));
+    return g_strdup (gtk_label_get_text (GTK_LABEL (labeled_image->details->label)));
 }
 
 void
 eel_labeled_image_set_can_focus (EelLabeledImage *labeled_image,
-				 gboolean         can_focus)
+                                 gboolean         can_focus)
 {
-	gtk_widget_set_can_focus (GTK_WIDGET (labeled_image), can_focus);
+    gtk_widget_set_can_focus (GTK_WIDGET (labeled_image), can_focus);
 }
 
 static AtkObjectClass *a11y_parent_class = NULL;
 
 static void
 eel_labeled_image_accessible_initialize (AtkObject *accessible,
-					 gpointer   widget)
+        gpointer   widget)
 {
-	a11y_parent_class->initialize (accessible, widget);
+    a11y_parent_class->initialize (accessible, widget);
 }
 
 static EelLabeledImage *
 get_image (gpointer object)
 {
-	GtkWidget *widget;
+    GtkWidget *widget;
 
-	if (!(widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (object)))) {
-		return NULL;
-	}
+    if (!(widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (object))))
+    {
+        return NULL;
+    }
 
-	if (GTK_IS_BUTTON (widget))
-		widget = gtk_bin_get_child (GTK_BIN (widget));
+    if (GTK_IS_BUTTON (widget))
+        widget = gtk_bin_get_child (GTK_BIN (widget));
 
-	return EEL_LABELED_IMAGE (widget);
+    return EEL_LABELED_IMAGE (widget);
 }
 
 static const gchar* eel_labeled_image_accessible_get_name(AtkObject* accessible)
 {
-	EelLabeledImage* labeled_image;
+    EelLabeledImage* labeled_image;
 
-	labeled_image = get_image(accessible);
+    labeled_image = get_image(accessible);
 
-	if (labeled_image && labeled_image->details && labeled_image->details->label)
-	{
-		return gtk_label_get_text(GTK_LABEL(labeled_image->details->label));
-	}
+    if (labeled_image && labeled_image->details && labeled_image->details->label)
+    {
+        return gtk_label_get_text(GTK_LABEL(labeled_image->details->label));
+    }
 
-	g_warning("no label on '%p'", labeled_image);
+    g_warning("no label on '%p'", labeled_image);
 
-	return NULL;
+    return NULL;
 }
 
 static void
 eel_labeled_image_accessible_image_get_size (AtkImage *image,
-					     gint     *width,
-					     gint     *height)
+        gint     *width,
+        gint     *height)
 {
-	EelLabeledImage *labeled_image;
-	GtkAllocation allocation;
+    EelLabeledImage *labeled_image;
+    GtkAllocation allocation;
 
-	labeled_image = get_image (image);
+    labeled_image = get_image (image);
 
-	if (!labeled_image || !labeled_image->details->image) {
-		*width = *height = 0;
-		return;
-	}
+    if (!labeled_image || !labeled_image->details->image)
+    {
+        *width = *height = 0;
+        return;
+    }
 
-	gtk_widget_get_allocation (labeled_image->details->image, &allocation);
-	*width = allocation.width;
-	*height = allocation.height;
+    gtk_widget_get_allocation (labeled_image->details->image, &allocation);
+    *width = allocation.width;
+    *height = allocation.height;
 }
 
 static void
 eel_labeled_image_accessible_image_interface_init (AtkImageIface *iface)
 {
-	iface->get_image_size = eel_labeled_image_accessible_image_get_size;
+    iface->get_image_size = eel_labeled_image_accessible_image_get_size;
 }
 
 static void
 eel_labeled_image_accessible_class_init (AtkObjectClass *klass)
 {
-	a11y_parent_class = g_type_class_peek_parent (klass);
+    a11y_parent_class = g_type_class_peek_parent (klass);
 
-	klass->get_name = eel_labeled_image_accessible_get_name;
-	klass->initialize = eel_labeled_image_accessible_initialize;
+    klass->get_name = eel_labeled_image_accessible_get_name;
+    klass->initialize = eel_labeled_image_accessible_initialize;
 }
 
-enum {
-	BUTTON,
-	CHECK,
-	TOGGLE,
-	RADIO,
-	PLAIN,
-	LAST_ONE
+enum
+{
+    BUTTON,
+    CHECK,
+    TOGGLE,
+    RADIO,
+    PLAIN,
+    LAST_ONE
 };
 
 static AtkObject *
 eel_labeled_image_get_accessible (GtkWidget *widget)
 {
-	int i;
-	static GType types[LAST_ONE] = { 0 };
-	const char *tname;
-	AtkRole role;
-	AtkObject *accessible;
+    int i;
+    static GType types[LAST_ONE] = { 0 };
+    const char *tname;
+    AtkRole role;
+    AtkObject *accessible;
 
-	if ((accessible = eel_accessibility_get_atk_object (widget)))
-		return accessible;
+    if ((accessible = eel_accessibility_get_atk_object (widget)))
+        return accessible;
 
-	if (GTK_IS_CHECK_BUTTON (widget)) {
-		i = BUTTON;
-		role = ATK_ROLE_CHECK_BOX;
-		tname = "EelLabeledImageCheckButtonAccessible";
+    if (GTK_IS_CHECK_BUTTON (widget))
+    {
+        i = BUTTON;
+        role = ATK_ROLE_CHECK_BOX;
+        tname = "EelLabeledImageCheckButtonAccessible";
 
-	} else if (GTK_IS_TOGGLE_BUTTON (widget)) {
-		i = CHECK;
-		role = ATK_ROLE_TOGGLE_BUTTON;
-		tname = "EelLabeledImageToggleButtonAccessible";
+    }
+    else if (GTK_IS_TOGGLE_BUTTON (widget))
+    {
+        i = CHECK;
+        role = ATK_ROLE_TOGGLE_BUTTON;
+        tname = "EelLabeledImageToggleButtonAccessible";
 
-	} else if (GTK_IS_RADIO_BUTTON (widget)) {
-		i = RADIO;
-		role = ATK_ROLE_RADIO_BUTTON;
-		tname = "EelLabeledImageRadioButtonAccessible";
+    }
+    else if (GTK_IS_RADIO_BUTTON (widget))
+    {
+        i = RADIO;
+        role = ATK_ROLE_RADIO_BUTTON;
+        tname = "EelLabeledImageRadioButtonAccessible";
 
-	} else if (GTK_IS_BUTTON (widget)) {
-		i = TOGGLE;
-		role = ATK_ROLE_PUSH_BUTTON;
-		tname = "EelLabeledImagePushButtonAccessible";
+    }
+    else if (GTK_IS_BUTTON (widget))
+    {
+        i = TOGGLE;
+        role = ATK_ROLE_PUSH_BUTTON;
+        tname = "EelLabeledImagePushButtonAccessible";
 
-	} else { /* plain */
-		i = PLAIN;
-		role = ATK_ROLE_IMAGE;
-		tname = "EelLabeledImagePlainAccessible";
-	}
+    }
+    else     /* plain */
+    {
+        i = PLAIN;
+        role = ATK_ROLE_IMAGE;
+        tname = "EelLabeledImagePlainAccessible";
+    }
 
-	if (!types [i]) {
-		const GInterfaceInfo atk_image_info = {
-			(GInterfaceInitFunc) eel_labeled_image_accessible_image_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
+    if (!types [i])
+    {
+        const GInterfaceInfo atk_image_info =
+        {
+            (GInterfaceInitFunc) eel_labeled_image_accessible_image_interface_init,
+            (GInterfaceFinalizeFunc) NULL,
+            NULL
+        };
 
-		types [i] = eel_accessibility_create_derived_type
-			(tname, G_TYPE_FROM_INSTANCE (widget),
-			 eel_labeled_image_accessible_class_init);
+        types [i] = eel_accessibility_create_derived_type
+                    (tname, G_TYPE_FROM_INSTANCE (widget),
+                     eel_labeled_image_accessible_class_init);
 
-		if (!types [i])
-			return NULL;
+        if (!types [i])
+            return NULL;
 
-		g_type_add_interface_static (
-			types [i], ATK_TYPE_IMAGE, &atk_image_info);
-	}
+        g_type_add_interface_static (
+            types [i], ATK_TYPE_IMAGE, &atk_image_info);
+    }
 
-	accessible = g_object_new (types [i], NULL);
-	atk_object_set_role (accessible, role);
+    accessible = g_object_new (types [i], NULL);
+    atk_object_set_role (accessible, role);
 
-	return eel_accessibility_set_atk_object_return (widget, accessible);
+    return eel_accessibility_set_atk_object_return (widget, accessible);
 }
 
 static void
 eel_labeled_image_button_class_init (GtkWidgetClass *klass)
 {
-	klass->get_accessible = eel_labeled_image_get_accessible;
+    klass->get_accessible = eel_labeled_image_get_accessible;
 }
 
 static GType
 eel_labeled_image_button_get_type (void)
 {
-	static GType type = 0;
+    static GType type = 0;
 
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GtkButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eel_labeled_image_button_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (GtkButton),
-			0, /* n_preallocs */
-			(GInstanceInitFunc) NULL
-		};
+    if (!type)
+    {
+        GTypeInfo info =
+        {
+            sizeof (GtkButtonClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) eel_labeled_image_button_class_init,
+            NULL, /* class_finalize */
+            NULL, /* class_data */
+            sizeof (GtkButton),
+            0, /* n_preallocs */
+            (GInstanceInitFunc) NULL
+        };
 
-		type = g_type_register_static
-			(GTK_TYPE_BUTTON,
-			 "EelLabeledImageButton", &info, 0);
-	}
+        type = g_type_register_static
+               (GTK_TYPE_BUTTON,
+                "EelLabeledImageButton", &info, 0);
+    }
 
-	return type;
+    return type;
 }
 
 static GType
 eel_labeled_image_check_button_get_type (void)
 {
-	static GType type = 0;
+    static GType type = 0;
 
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GtkCheckButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eel_labeled_image_button_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (GtkCheckButton),
-			0, /* n_preallocs */
-			(GInstanceInitFunc) NULL
-		};
+    if (!type)
+    {
+        GTypeInfo info =
+        {
+            sizeof (GtkCheckButtonClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) eel_labeled_image_button_class_init,
+            NULL, /* class_finalize */
+            NULL, /* class_data */
+            sizeof (GtkCheckButton),
+            0, /* n_preallocs */
+            (GInstanceInitFunc) NULL
+        };
 
-		type = g_type_register_static
-			(GTK_TYPE_CHECK_BUTTON,
-			 "EelLabeledImageCheckButton", &info, 0);
-	}
+        type = g_type_register_static
+               (GTK_TYPE_CHECK_BUTTON,
+                "EelLabeledImageCheckButton", &info, 0);
+    }
 
-	return type;
+    return type;
 }
 
 static GType
 eel_labeled_image_toggle_button_get_type (void)
 {
-	static GType type = 0;
+    static GType type = 0;
 
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GtkToggleButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eel_labeled_image_button_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (GtkToggleButton),
-			0, /* n_preallocs */
-			(GInstanceInitFunc) NULL
-		};
+    if (!type)
+    {
+        GTypeInfo info =
+        {
+            sizeof (GtkToggleButtonClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) eel_labeled_image_button_class_init,
+            NULL, /* class_finalize */
+            NULL, /* class_data */
+            sizeof (GtkToggleButton),
+            0, /* n_preallocs */
+            (GInstanceInitFunc) NULL
+        };
 
-		type = g_type_register_static
-			(GTK_TYPE_TOGGLE_BUTTON,
-			 "EelLabeledImageToggleButton", &info, 0);
-	}
+        type = g_type_register_static
+               (GTK_TYPE_TOGGLE_BUTTON,
+                "EelLabeledImageToggleButton", &info, 0);
+    }
 
-	return type;
+    return type;
 }
 
 
 static GType
 eel_labeled_image_radio_button_get_type (void)
 {
-	static GType type = 0;
+    static GType type = 0;
 
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GtkRadioButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eel_labeled_image_button_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (GtkRadioButton),
-			0, /* n_preallocs */
-			(GInstanceInitFunc) NULL
-		};
+    if (!type)
+    {
+        GTypeInfo info =
+        {
+            sizeof (GtkRadioButtonClass),
+            (GBaseInitFunc) NULL,
+            (GBaseFinalizeFunc) NULL,
+            (GClassInitFunc) eel_labeled_image_button_class_init,
+            NULL, /* class_finalize */
+            NULL, /* class_data */
+            sizeof (GtkRadioButton),
+            0, /* n_preallocs */
+            (GInstanceInitFunc) NULL
+        };
 
-		type = g_type_register_static
-			(GTK_TYPE_RADIO_BUTTON,
-			 "EelLabeledImageRadioButton", &info, 0);
-	}
+        type = g_type_register_static
+               (GTK_TYPE_RADIO_BUTTON,
+                "EelLabeledImageRadioButton", &info, 0);
+    }
 
-	return type;
+    return type;
 }

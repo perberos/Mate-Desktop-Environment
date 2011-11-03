@@ -8,17 +8,17 @@
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Library General Public License for more details.
-  
+
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the
    Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
-  
+
    Authors: Darin Adler <darin@eazel.com>
 */
 
@@ -60,13 +60,14 @@ typedef struct EelBackgroundClass EelBackgroundClass;
 #define EEL_BACKGROUND_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_BACKGROUND, EelBackgroundClass))
 
-typedef enum {
-	EEL_BACKGROUND_TILED = 0, /* zero makes this the default placement */
-	EEL_BACKGROUND_CENTERED,
-	EEL_BACKGROUND_SCALED,
-	EEL_BACKGROUND_SCALED_ASPECT,
-	EEL_BACKGROUND_ZOOM,
-	EEL_BACKGROUND_SPANNED
+typedef enum
+{
+    EEL_BACKGROUND_TILED = 0, /* zero makes this the default placement */
+    EEL_BACKGROUND_CENTERED,
+    EEL_BACKGROUND_SCALED,
+    EEL_BACKGROUND_SCALED_ASPECT,
+    EEL_BACKGROUND_ZOOM,
+    EEL_BACKGROUND_SPANNED
 } EelBackgroundImagePlacement;
 
 GType                       eel_background_get_type                         (void);
@@ -75,20 +76,20 @@ EelBackground *             eel_background_new                              (voi
 
 /* Calls to change a background. */
 void                        eel_background_set_use_base                     (EelBackground               *background,
-									     gboolean                     use_base);
+        gboolean                     use_base);
 void                        eel_background_set_color                        (EelBackground               *background,
-									     const char                  *color_or_gradient);
+        const char                  *color_or_gradient);
 void                        eel_background_set_image_uri                    (EelBackground               *background,
-									     const char                  *image_uri);
+        const char                  *image_uri);
 
 void                        eel_background_reset                            (EelBackground               *background);
 void                        eel_background_set_image_placement              (EelBackground               *background,
-									     EelBackgroundImagePlacement  placement);
+        EelBackgroundImagePlacement  placement);
 
 /* Should be TRUE for desktop background */
 void			    eel_background_set_desktop 			    (EelBackground              *background,
-									     GtkWidget *widget, 
-									     gboolean is_desktop);
+        GtkWidget *widget,
+        gboolean is_desktop);
 gboolean		    eel_background_is_desktop 			    (EelBackground              *background);
 
 /* Calls to interrogate the current state of a background. */
@@ -100,20 +101,20 @@ gboolean                    eel_background_is_set                           (Eel
 
 /* Helper function for widgets using EelBackground */
 void                        eel_background_expose                           (GtkWidget                   *widget,
-									     GdkEventExpose              *event);
+        GdkEventExpose              *event);
 
 /* Handles a dragged color being dropped on a widget to change the background color. */
 void                        eel_background_receive_dropped_color            (EelBackground               *background,
-									     GtkWidget                   *widget,
-									     GdkDragAction                action,
-									     int                          drop_location_x,
-									     int                          drop_location_y,
-									     const GtkSelectionData      *dropped_color);
+        GtkWidget                   *widget,
+        GdkDragAction                action,
+        int                          drop_location_x,
+        int                          drop_location_y,
+        const GtkSelectionData      *dropped_color);
 
 /* Handles a special-case image name that means "reset to default background" too. */
 void                        eel_background_receive_dropped_background_image (EelBackground               *background,
-									     GdkDragAction                action,
-									     const char                  *image_uri);
+        GdkDragAction                action,
+        const char                  *image_uri);
 
 /* Gets or creates a background so that it's attached to a widget. */
 EelBackground *             eel_get_widget_background                       (GtkWidget                   *widget);
@@ -121,40 +122,40 @@ void			    eel_background_save_to_mateconf                    (EelBackground    
 
 /* Set activity status of background. Inactive backgrounds are drawn in the theme's INSENSITIVE color. */
 void                        eel_background_set_active                       (EelBackground               *background,
-									     gboolean                     is_active);
+        gboolean                     is_active);
 
 typedef struct EelBackgroundDetails EelBackgroundDetails;
 
 struct EelBackground
 {
-	GtkObject object;
-	EelBackgroundDetails *details;
+    GtkObject object;
+    EelBackgroundDetails *details;
 };
 
 struct EelBackgroundClass
 {
-	GtkObjectClass parent_class;
+    GtkObjectClass parent_class;
 
-	/* This signal is emitted whenever the background settings are
-	 * changed.
-	 */
-	void (* settings_changed) (EelBackground *);
+    /* This signal is emitted whenever the background settings are
+     * changed.
+     */
+    void (* settings_changed) (EelBackground *);
 
-	/* This signal is emitted whenever the appearance of the
-	 * background has changed, like when the background settings are
-	 * altered or when an image is loaded.
-	 */
-	void (* appearance_changed) (EelBackground *);
+    /* This signal is emitted whenever the appearance of the
+     * background has changed, like when the background settings are
+     * altered or when an image is loaded.
+     */
+    void (* appearance_changed) (EelBackground *);
 
-	/* This signal is emitted when image loading is over - whether it
-	 * was successfully loaded or not.
-	 */
-	void (* image_loading_done) (EelBackground *background, gboolean successful_load);
+    /* This signal is emitted when image loading is over - whether it
+     * was successfully loaded or not.
+     */
+    void (* image_loading_done) (EelBackground *background, gboolean successful_load);
 
-	/* This signal is emitted when the background is reset by receiving
-	   the reset property from a drag
-	 */
-	void (* reset) (EelBackground *);
+    /* This signal is emitted when the background is reset by receiving
+       the reset property from a drag
+     */
+    void (* reset) (EelBackground *);
 
 };
 

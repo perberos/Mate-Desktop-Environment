@@ -49,21 +49,23 @@ typedef struct _CajaSpatialWindow        CajaSpatialWindow;
 typedef struct _CajaSpatialWindowClass   CajaSpatialWindowClass;
 typedef struct _CajaSpatialWindowDetails CajaSpatialWindowDetails;
 
-struct _CajaSpatialWindow {
-        CajaWindow parent_object;
+struct _CajaSpatialWindow
+{
+    CajaWindow parent_object;
 
-        gboolean affect_spatial_window_on_next_location_change;
-        
-        CajaSpatialWindowDetails *details;
+    gboolean affect_spatial_window_on_next_location_change;
+
+    CajaSpatialWindowDetails *details;
 };
 
-struct _CajaSpatialWindowClass {
-        CajaWindowClass parent_spot;
+struct _CajaSpatialWindowClass
+{
+    CajaWindowClass parent_spot;
 };
 
 
 GType            caja_spatial_window_get_type			(void);
 void             caja_spatial_window_set_location_button		(CajaSpatialWindow *window,
-									 GFile                 *location);
+        GFile                 *location);
 
 #endif

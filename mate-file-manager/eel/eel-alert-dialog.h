@@ -33,28 +33,28 @@ typedef struct _EelAlertDialogDetails EelAlertDialogDetails;
 
 struct _EelAlertDialog
 {
-	GtkDialog parent_instance;
-	EelAlertDialogDetails *details;
+    GtkDialog parent_instance;
+    EelAlertDialogDetails *details;
 };
 
 struct _EelAlertDialogClass
 {
-	GtkDialogClass parent_class;
+    GtkDialogClass parent_class;
 };
 
 GType      eel_alert_dialog_get_type (void);
 
 GtkWidget* eel_alert_dialog_new                 (GtkWindow      *parent,
-                                                 GtkDialogFlags  flags,
-                                                 GtkMessageType  type,
-                                                 GtkButtonsType  buttons,
-                                                 const gchar    *primary_message,
-                                                 const gchar    *secondary_message);
+        GtkDialogFlags  flags,
+        GtkMessageType  type,
+        GtkButtonsType  buttons,
+        const gchar    *primary_message,
+        const gchar    *secondary_message);
 void       eel_alert_dialog_set_primary_label   (EelAlertDialog *dialog,
-		                                 const gchar    *message);
+        const gchar    *message);
 void       eel_alert_dialog_set_secondary_label (EelAlertDialog *dialog,
-		                                 const gchar    *message);
+        const gchar    *message);
 void       eel_alert_dialog_set_details_label   (EelAlertDialog *dialog,
-						 const gchar    *message);
+        const gchar    *message);
 
 #endif /* EEL_ALERT_DIALOG_H */

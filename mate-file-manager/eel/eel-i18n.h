@@ -27,28 +27,28 @@
 
 #ifdef ENABLE_NLS
 
-	#include <glib.h>
+#include <glib.h>
 
 
-	const char* _eel_gettext(const char* str) G_GNUC_FORMAT(1);
+const char* _eel_gettext(const char* str) G_GNUC_FORMAT(1);
 
-	#include <libintl.h>
-	#define _(String) _eel_gettext(String)
+#include <libintl.h>
+#define _(String) _eel_gettext(String)
 
-	#ifdef gettext_noop
-		#define N_(String) gettext_noop(String)
-	#else
-		#define N_(String) (String)
-	#endif
+#ifdef gettext_noop
+#define N_(String) gettext_noop(String)
+#else
+#define N_(String) (String)
+#endif
 
 #else /* NLS is disabled */
-	#define _(String) (String)
-	#define N_(String) (String)
-	#define textdomain(String) (String)
-	#define gettext(String) (String)
-	#define dgettext(Domain,String) (String)
-	#define dcgettext(Domain,String,Type) (String)
-	#define bindtextdomain(Domain,Directory) (Domain)
+#define _(String) (String)
+#define N_(String) (String)
+#define textdomain(String) (String)
+#define gettext(String) (String)
+#define dgettext(Domain,String) (String)
+#define dcgettext(Domain,String,Type) (String)
+#define bindtextdomain(Domain,Directory) (Domain)
 #endif
 
 

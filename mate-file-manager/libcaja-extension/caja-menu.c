@@ -30,39 +30,40 @@
 #define CAJA_MENU_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), CAJA_TYPE_MENU, CajaMenuPrivate))
 G_DEFINE_TYPE (CajaMenu, caja_menu, G_TYPE_OBJECT);
 
-struct _CajaMenuPrivate {
-	GList *item_list;
+struct _CajaMenuPrivate
+{
+    GList *item_list;
 };
 
 void
 caja_menu_append_item (CajaMenu *menu, CajaMenuItem *item)
 {
-	g_return_if_fail (menu != NULL);
-	g_return_if_fail (item != NULL);
+    g_return_if_fail (menu != NULL);
+    g_return_if_fail (item != NULL);
 
-	menu->priv->item_list = g_list_append (menu->priv->item_list, g_object_ref (item));
+    menu->priv->item_list = g_list_append (menu->priv->item_list, g_object_ref (item));
 }
 
 GList *
 caja_menu_get_items (CajaMenu *menu)
 {
-	GList *item_list;
+    GList *item_list;
 
-	g_return_val_if_fail (menu != NULL, NULL);
+    g_return_val_if_fail (menu != NULL, NULL);
 
-	item_list = g_list_copy (menu->priv->item_list);
-	g_list_foreach (item_list, (GFunc)g_object_ref, NULL);
+    item_list = g_list_copy (menu->priv->item_list);
+    g_list_foreach (item_list, (GFunc)g_object_ref, NULL);
 
-	return item_list;
+    return item_list;
 }
 
 void
 caja_menu_item_list_free (GList *item_list)
 {
-	g_return_if_fail (item_list != NULL);
+    g_return_if_fail (item_list != NULL);
 
-	g_list_foreach (item_list, (GFunc)g_object_unref, NULL);
-	g_list_free (item_list);
+    g_list_foreach (item_list, (GFunc)g_object_unref, NULL);
+    g_list_free (item_list);
 }
 
 /* Type initialization */
@@ -70,31 +71,32 @@ caja_menu_item_list_free (GList *item_list)
 static void
 caja_menu_finalize (GObject *object)
 {
-	CajaMenu *menu = CAJA_MENU (object);
+    CajaMenu *menu = CAJA_MENU (object);
 
-	if (menu->priv->item_list) {
-		g_list_free (menu->priv->item_list);
-	}
+    if (menu->priv->item_list)
+    {
+        g_list_free (menu->priv->item_list);
+    }
 
-	G_OBJECT_CLASS (caja_menu_parent_class)->finalize (object);
+    G_OBJECT_CLASS (caja_menu_parent_class)->finalize (object);
 }
 
 static void
 caja_menu_init (CajaMenu *menu)
 {
-	menu->priv = CAJA_MENU_GET_PRIVATE (menu);
+    menu->priv = CAJA_MENU_GET_PRIVATE (menu);
 
-	menu->priv->item_list = NULL;
+    menu->priv->item_list = NULL;
 }
 
 static void
 caja_menu_class_init (CajaMenuClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+    GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	g_type_class_add_private (klass, sizeof (CajaMenuPrivate));
+    g_type_class_add_private (klass, sizeof (CajaMenuPrivate));
 
-	object_class->finalize = caja_menu_finalize;
+    object_class->finalize = caja_menu_finalize;
 }
 
 /* public constructors */
@@ -102,9 +104,9 @@ caja_menu_class_init (CajaMenuClass *klass)
 CajaMenu *
 caja_menu_new (void)
 {
-	CajaMenu *obj;
+    CajaMenu *obj;
 
-	obj = CAJA_MENU (g_object_new (CAJA_TYPE_MENU, NULL));
+    obj = CAJA_MENU (g_object_new (CAJA_TYPE_MENU, NULL));
 
-	return obj;
+    return obj;
 }

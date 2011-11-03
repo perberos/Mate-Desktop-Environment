@@ -29,17 +29,19 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-struct CajaSearchBarDetails {
-	GtkWidget *entry;
-	gboolean entry_borrowed;
+struct CajaSearchBarDetails
+{
+    GtkWidget *entry;
+    gboolean entry_borrowed;
 };
 
-enum {
-       ACTIVATE,
-       CANCEL,
-       FOCUS_IN,
-       LAST_SIGNAL
-}; 
+enum
+{
+    ACTIVATE,
+    CANCEL,
+    FOCUS_IN,
+    LAST_SIGNAL
+};
 
 static guint signals[LAST_SIGNAL];
 
@@ -47,206 +49,208 @@ static void  caja_search_bar_class_init       (CajaSearchBarClass *class);
 static void  caja_search_bar_init             (CajaSearchBar      *bar);
 
 EEL_CLASS_BOILERPLATE (CajaSearchBar,
-		       caja_search_bar,
-		       GTK_TYPE_EVENT_BOX)
+                       caja_search_bar,
+                       GTK_TYPE_EVENT_BOX)
 
-	
+
 static void
 finalize (GObject *object)
 {
-	CajaSearchBar *bar;
+    CajaSearchBar *bar;
 
-	bar = CAJA_SEARCH_BAR (object);
+    bar = CAJA_SEARCH_BAR (object);
 
-	g_free (bar->details);
+    g_free (bar->details);
 
-	EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
+    EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 static void
 caja_search_bar_class_init (CajaSearchBarClass *class)
 {
-	GObjectClass *gobject_class;
-	GtkBindingSet *binding_set;
+    GObjectClass *gobject_class;
+    GtkBindingSet *binding_set;
 
-	gobject_class = G_OBJECT_CLASS (class);
-	gobject_class->finalize = finalize;
+    gobject_class = G_OBJECT_CLASS (class);
+    gobject_class->finalize = finalize;
 
-	signals[ACTIVATE] =
-		g_signal_new ("activate",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CajaSearchBarClass, activate),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+    signals[ACTIVATE] =
+        g_signal_new ("activate",
+                      G_TYPE_FROM_CLASS (class),
+                      G_SIGNAL_RUN_LAST,
+                      G_STRUCT_OFFSET (CajaSearchBarClass, activate),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 
-	signals[FOCUS_IN] =
-		g_signal_new ("focus-in",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CajaSearchBarClass, focus_in),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+    signals[FOCUS_IN] =
+        g_signal_new ("focus-in",
+                      G_TYPE_FROM_CLASS (class),
+                      G_SIGNAL_RUN_LAST,
+                      G_STRUCT_OFFSET (CajaSearchBarClass, focus_in),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 
-	signals[CANCEL] =
-		g_signal_new ("cancel",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (CajaSearchBarClass, cancel),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+    signals[CANCEL] =
+        g_signal_new ("cancel",
+                      G_TYPE_FROM_CLASS (class),
+                      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                      G_STRUCT_OFFSET (CajaSearchBarClass, cancel),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE, 0);
 
-	binding_set = gtk_binding_set_by_class (class);
-	gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "cancel", 0);
+    binding_set = gtk_binding_set_by_class (class);
+    gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "cancel", 0);
 }
 
 static gboolean
 entry_has_text (CajaSearchBar *bar)
 {
-       const char *text;
+    const char *text;
 
-       text = gtk_entry_get_text (GTK_ENTRY (bar->details->entry));
+    text = gtk_entry_get_text (GTK_ENTRY (bar->details->entry));
 
-       return text != NULL && text[0] != '\0';
+    return text != NULL && text[0] != '\0';
 }
 
 static void
 entry_icon_release_cb (GtkEntry *entry,
-		       GtkEntryIconPosition position,
-		       GdkEvent *event,
-		       CajaSearchBar *bar)
+                       GtkEntryIconPosition position,
+                       GdkEvent *event,
+                       CajaSearchBar *bar)
 {
-	g_signal_emit_by_name (entry, "activate", 0);
+    g_signal_emit_by_name (entry, "activate", 0);
 }
 
 static void
 entry_activate_cb (GtkWidget *entry, CajaSearchBar *bar)
 {
-       if (entry_has_text (bar) && !bar->details->entry_borrowed) {
-               g_signal_emit (bar, signals[ACTIVATE], 0);
-       }
+    if (entry_has_text (bar) && !bar->details->entry_borrowed)
+    {
+        g_signal_emit (bar, signals[ACTIVATE], 0);
+    }
 }
 
 static gboolean
 focus_in_event_callback (GtkWidget *widget,
-			 GdkEventFocus *event,
-			 gpointer user_data)
+                         GdkEventFocus *event,
+                         gpointer user_data)
 {
-	CajaSearchBar *bar;
+    CajaSearchBar *bar;
 
-	bar = CAJA_SEARCH_BAR (user_data);
+    bar = CAJA_SEARCH_BAR (user_data);
 
-	g_signal_emit (bar, signals[FOCUS_IN], 0);
+    g_signal_emit (bar, signals[FOCUS_IN], 0);
 
-	return FALSE;
+    return FALSE;
 }
 
 static void
 caja_search_bar_init (CajaSearchBar *bar)
 {
-	GtkWidget *alignment;
-	GtkWidget *hbox;
-	GtkWidget *label;
+    GtkWidget *alignment;
+    GtkWidget *hbox;
+    GtkWidget *label;
 
-	bar->details = g_new0 (CajaSearchBarDetails, 1);
+    bar->details = g_new0 (CajaSearchBarDetails, 1);
 
-	gtk_event_box_set_visible_window (GTK_EVENT_BOX (bar), FALSE);
+    gtk_event_box_set_visible_window (GTK_EVENT_BOX (bar), FALSE);
 
-	alignment = gtk_alignment_new (0.5, 0.5,
-				       1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment),
-				   0, 0, 6, 6);
-	gtk_widget_show (alignment);
-	gtk_container_add (GTK_CONTAINER (bar), alignment);
+    alignment = gtk_alignment_new (0.5, 0.5,
+                                   1.0, 1.0);
+    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment),
+                               0, 0, 6, 6);
+    gtk_widget_show (alignment);
+    gtk_container_add (GTK_CONTAINER (bar), alignment);
 
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (hbox);
-	gtk_container_add (GTK_CONTAINER (alignment), hbox);
+    hbox = gtk_hbox_new (FALSE, 6);
+    gtk_widget_show (hbox);
+    gtk_container_add (GTK_CONTAINER (alignment), hbox);
 
-	label = gtk_label_new (_("Search:"));
-	gtk_widget_show (label);
+    label = gtk_label_new (_("Search:"));
+    gtk_widget_show (label);
 
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	bar->details->entry = gtk_entry_new ();
-	gtk_entry_set_icon_from_stock (GTK_ENTRY (bar->details->entry),
-				       GTK_ENTRY_ICON_SECONDARY,
-				       GTK_STOCK_FIND);
-	gtk_box_pack_start (GTK_BOX (hbox), bar->details->entry, TRUE, TRUE, 0);
+    bar->details->entry = gtk_entry_new ();
+    gtk_entry_set_icon_from_stock (GTK_ENTRY (bar->details->entry),
+                                   GTK_ENTRY_ICON_SECONDARY,
+                                   GTK_STOCK_FIND);
+    gtk_box_pack_start (GTK_BOX (hbox), bar->details->entry, TRUE, TRUE, 0);
 
-	g_signal_connect (bar->details->entry, "activate",
-			  G_CALLBACK (entry_activate_cb), bar);
-	g_signal_connect (bar->details->entry, "icon-release",
-			  G_CALLBACK (entry_icon_release_cb), bar);
-	g_signal_connect (bar->details->entry, "focus-in-event",
-			  G_CALLBACK (focus_in_event_callback), bar);
+    g_signal_connect (bar->details->entry, "activate",
+                      G_CALLBACK (entry_activate_cb), bar);
+    g_signal_connect (bar->details->entry, "icon-release",
+                      G_CALLBACK (entry_icon_release_cb), bar);
+    g_signal_connect (bar->details->entry, "focus-in-event",
+                      G_CALLBACK (focus_in_event_callback), bar);
 
-	gtk_widget_show (bar->details->entry);
+    gtk_widget_show (bar->details->entry);
 }
 
 GtkWidget *
 caja_search_bar_borrow_entry (CajaSearchBar *bar)
 {
-	GtkBindingSet *binding_set;
-	
-	bar->details->entry_borrowed = TRUE;
+    GtkBindingSet *binding_set;
 
-	binding_set = gtk_binding_set_by_class (G_OBJECT_GET_CLASS (bar));
-	gtk_binding_entry_remove (binding_set, GDK_Escape, 0);
-	return bar->details->entry;
+    bar->details->entry_borrowed = TRUE;
+
+    binding_set = gtk_binding_set_by_class (G_OBJECT_GET_CLASS (bar));
+    gtk_binding_entry_remove (binding_set, GDK_Escape, 0);
+    return bar->details->entry;
 }
 
 void
 caja_search_bar_return_entry (CajaSearchBar *bar)
 {
-	GtkBindingSet *binding_set;
-	
-	bar->details->entry_borrowed = FALSE;
-	
-	binding_set = gtk_binding_set_by_class (G_OBJECT_GET_CLASS (bar));
-	gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "cancel", 0);
+    GtkBindingSet *binding_set;
+
+    bar->details->entry_borrowed = FALSE;
+
+    binding_set = gtk_binding_set_by_class (G_OBJECT_GET_CLASS (bar));
+    gtk_binding_entry_add_signal (binding_set, GDK_Escape, 0, "cancel", 0);
 }
 
 GtkWidget *
 caja_search_bar_new (void)
 {
-	GtkWidget *bar;
+    GtkWidget *bar;
 
-	bar = g_object_new (CAJA_TYPE_SEARCH_BAR, NULL);
+    bar = g_object_new (CAJA_TYPE_SEARCH_BAR, NULL);
 
-	return bar;
+    return bar;
 }
 
 CajaQuery *
 caja_search_bar_get_query (CajaSearchBar *bar)
 {
-	const char *query_text;
-	CajaQuery *query;
+    const char *query_text;
+    CajaQuery *query;
 
-	query_text = gtk_entry_get_text (GTK_ENTRY (bar->details->entry));
+    query_text = gtk_entry_get_text (GTK_ENTRY (bar->details->entry));
 
-	/* Empty string is a NULL query */
-	if (query_text && query_text[0] == '\0') {
-		return NULL;
-	}
-	
-	query = caja_query_new ();
-	caja_query_set_text (query, query_text);
+    /* Empty string is a NULL query */
+    if (query_text && query_text[0] == '\0')
+    {
+        return NULL;
+    }
 
-	return query;
+    query = caja_query_new ();
+    caja_query_set_text (query, query_text);
+
+    return query;
 }
 
 void
 caja_search_bar_grab_focus (CajaSearchBar *bar)
 {
-	gtk_widget_grab_focus (bar->details->entry);
+    gtk_widget_grab_focus (bar->details->entry);
 }
 
 void
 caja_search_bar_clear (CajaSearchBar *bar)
 {
-	gtk_entry_set_text (GTK_ENTRY (bar->details->entry), "");
+    gtk_entry_set_text (GTK_ENTRY (bar->details->entry), "");
 }

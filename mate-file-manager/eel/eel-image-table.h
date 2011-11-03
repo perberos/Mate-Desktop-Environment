@@ -43,54 +43,54 @@ extern "C" {
 #define EEL_IMAGE_TABLE_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_IMAGE_TABLE, EelImageTableClass))
 
-typedef struct EelImageTable		EelImageTable;
-typedef struct EelImageTableClass	EelImageTableClass;
-typedef struct EelImageTableDetails	EelImageTableDetails;
+    typedef struct EelImageTable		EelImageTable;
+    typedef struct EelImageTableClass	EelImageTableClass;
+    typedef struct EelImageTableDetails	EelImageTableDetails;
 
-typedef struct
-{
-	int x;
-	int y;
-	int button;
-	guint state;
-	GdkEvent *event;
-} EelImageTableEvent;
+    typedef struct
+    {
+        int x;
+        int y;
+        int button;
+        guint state;
+        GdkEvent *event;
+    } EelImageTableEvent;
 
-struct EelImageTable
-{
-	/* Superclass */
-	EelWrapTable wrap_table;
+    struct EelImageTable
+    {
+        /* Superclass */
+        EelWrapTable wrap_table;
 
-	/* Private things */
-	EelImageTableDetails *details;
-};
+        /* Private things */
+        EelImageTableDetails *details;
+    };
 
-struct EelImageTableClass
-{
-	EelWrapTableClass parent_class;
+    struct EelImageTableClass
+    {
+        EelWrapTableClass parent_class;
 
-	/* Signals */
-	void (* child_enter) (EelImageTable *image_table,
-			      GtkWidget *child,
-			      const EelImageTableEvent *event);
-	void (* child_leave) (EelImageTable *image_table,
-			      GtkWidget *child,
-			      const EelImageTableEvent *event);
-	void (* child_pressed) (EelImageTable *image_table,
-				GtkWidget *child,
-				const EelImageTableEvent *event);
-	void (* child_released) (EelImageTable *image_table,
-				 GtkWidget *child,
-				 const EelImageTableEvent *event);
-	void (* child_clicked) (EelImageTable *image_table,
-				GtkWidget *child,
-				const EelImageTableEvent *event);
-};
+        /* Signals */
+        void (* child_enter) (EelImageTable *image_table,
+                              GtkWidget *child,
+                              const EelImageTableEvent *event);
+        void (* child_leave) (EelImageTable *image_table,
+                              GtkWidget *child,
+                              const EelImageTableEvent *event);
+        void (* child_pressed) (EelImageTable *image_table,
+                                GtkWidget *child,
+                                const EelImageTableEvent *event);
+        void (* child_released) (EelImageTable *image_table,
+                                 GtkWidget *child,
+                                 const EelImageTableEvent *event);
+        void (* child_clicked) (EelImageTable *image_table,
+                                GtkWidget *child,
+                                const EelImageTableEvent *event);
+    };
 
-/* Public GtkImageTable methods */
-GType      eel_image_table_get_type         (void);
-GtkWidget *eel_image_table_new              (gboolean       homogeneous);
-GtkWidget *eel_image_table_add_empty_image  (EelImageTable *image_table);
+    /* Public GtkImageTable methods */
+    GType      eel_image_table_get_type         (void);
+    GtkWidget *eel_image_table_new              (gboolean       homogeneous);
+    GtkWidget *eel_image_table_add_empty_image  (EelImageTable *image_table);
 
 #ifdef __cplusplus
 }

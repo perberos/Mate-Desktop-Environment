@@ -43,28 +43,30 @@
 
 typedef struct CajaQueryEditorDetails CajaQueryEditorDetails;
 
-typedef struct CajaQueryEditor {
-	GtkVBox parent;
-	CajaQueryEditorDetails *details;
+typedef struct CajaQueryEditor
+{
+    GtkVBox parent;
+    CajaQueryEditorDetails *details;
 } CajaQueryEditor;
 
-typedef struct {
-	GtkVBoxClass parent_class;
+typedef struct
+{
+    GtkVBoxClass parent_class;
 
-	void (* changed) (CajaQueryEditor  *editor,
-			  CajaQuery        *query,
-			  gboolean              reload);
-	void (* cancel)   (CajaQueryEditor *editor);
+    void (* changed) (CajaQueryEditor  *editor,
+                      CajaQuery        *query,
+                      gboolean              reload);
+    void (* cancel)   (CajaQueryEditor *editor);
 } CajaQueryEditorClass;
 
 GType      caja_query_editor_get_type     	   (void);
 GtkWidget* caja_query_editor_new          	   (gboolean start_hidden,
-						    gboolean is_indexed);
+        gboolean is_indexed);
 GtkWidget* caja_query_editor_new_with_bar      (gboolean start_hidden,
-						    gboolean is_indexed,
-						    gboolean start_attached,
-						    CajaSearchBar *bar,
-						    CajaWindowSlot *slot);
+        gboolean is_indexed,
+        gboolean start_attached,
+        CajaSearchBar *bar,
+        CajaWindowSlot *slot);
 void       caja_query_editor_set_default_query (CajaQueryEditor *editor);
 
 void	   caja_query_editor_grab_focus (CajaQueryEditor *editor);
@@ -72,8 +74,8 @@ void       caja_query_editor_clear_query (CajaQueryEditor *editor);
 
 CajaQuery *caja_query_editor_get_query   (CajaQueryEditor *editor);
 void           caja_query_editor_set_query   (CajaQueryEditor *editor,
-						  CajaQuery       *query);
+        CajaQuery       *query);
 void           caja_query_editor_set_visible (CajaQueryEditor *editor,
-						  gboolean             visible);
+        gboolean             visible);
 
 #endif /* CAJA_QUERY_EDITOR_H */

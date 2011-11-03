@@ -35,7 +35,7 @@ GList *caja_column_list_copy      (GList       *columns);
 void   caja_column_list_free      (GList       *columns);
 
 GList *caja_sort_columns          (GList       *columns,
-				       char       **column_order);
+                                   char       **column_order);
 
 
 #endif /* CAJA_COLUMN_UTILITIES_H */

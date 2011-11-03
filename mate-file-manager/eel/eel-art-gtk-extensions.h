@@ -43,29 +43,29 @@
 extern "C" {
 #endif
 
-/* Convert between GdkRectangle and EelIRect and back */
-GdkRectangle  eel_irect_to_gdk_rectangle            (EelIRect      rectangle);
-EelIRect      eel_gdk_rectangle_to_eel_irect            (GdkRectangle  gdk_rectangle);
-EelDimensions eel_screen_get_dimensions                 (void);
+    /* Convert between GdkRectangle and EelIRect and back */
+    GdkRectangle  eel_irect_to_gdk_rectangle            (EelIRect      rectangle);
+    EelIRect      eel_gdk_rectangle_to_eel_irect            (GdkRectangle  gdk_rectangle);
+    EelDimensions eel_screen_get_dimensions                 (void);
 
-/* GdkWindow parent-relative bounds */
-EelIRect      eel_gdk_window_get_bounds                 (GdkWindow    *window);
+    /* GdkWindow parent-relative bounds */
+    EelIRect      eel_gdk_window_get_bounds                 (GdkWindow    *window);
 
-/* GdkWindow dimensions */
-EelDimensions eel_gdk_window_get_dimensions             (GdkWindow    *window);
+    /* GdkWindow dimensions */
+    EelDimensions eel_gdk_window_get_dimensions             (GdkWindow    *window);
 
-/* GdkWindow screen parent-relative bounds */
-EelIRect      eel_gdk_window_get_screen_relative_bounds (GdkWindow    *window);
+    /* GdkWindow screen parent-relative bounds */
+    EelIRect      eel_gdk_window_get_screen_relative_bounds (GdkWindow    *window);
 
-/* Clip a dirty area (from exposures) to the on screen parts of a GdkWindow */
-EelIRect      eel_gdk_window_clip_dirty_area_to_screen  (GdkWindow    *window,
-							 EelIRect      dirty_area);
+    /* Clip a dirty area (from exposures) to the on screen parts of a GdkWindow */
+    EelIRect      eel_gdk_window_clip_dirty_area_to_screen  (GdkWindow    *window,
+            EelIRect      dirty_area);
 
-/* GtkWidget bounds and dimensions */
-EelIRect      eel_gtk_widget_get_bounds                 (GtkWidget    *widget);
-EelDimensions eel_gtk_widget_get_dimensions             (GtkWidget    *widget);
-EelDimensions eel_gtk_widget_get_preferred_dimensions   (GtkWidget    *widget);
-EelIPoint     eel_gdk_get_pointer_position              (void);
+    /* GtkWidget bounds and dimensions */
+    EelIRect      eel_gtk_widget_get_bounds                 (GtkWidget    *widget);
+    EelDimensions eel_gtk_widget_get_dimensions             (GtkWidget    *widget);
+    EelDimensions eel_gtk_widget_get_preferred_dimensions   (GtkWidget    *widget);
+    EelIPoint     eel_gdk_get_pointer_position              (void);
 
 #ifdef __cplusplus
 }

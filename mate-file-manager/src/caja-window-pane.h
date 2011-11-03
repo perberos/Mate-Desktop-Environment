@@ -36,14 +36,15 @@
 
 typedef struct _CajaWindowPaneClass CajaWindowPaneClass;
 
-struct _CajaWindowPaneClass {
-	GObjectClass parent_class;
+struct _CajaWindowPaneClass
+{
+    GObjectClass parent_class;
 
-	void (*show) (CajaWindowPane *pane);
-	void (*set_active) (CajaWindowPane *pane,
-			    gboolean is_active);
-	void (*sync_search_widgets) (CajaWindowPane *pane);
-	void (*sync_location_widgets) (CajaWindowPane *pane);
+    void (*show) (CajaWindowPane *pane);
+    void (*set_active) (CajaWindowPane *pane,
+                        gboolean is_active);
+    void (*sync_search_widgets) (CajaWindowPane *pane);
+    void (*sync_location_widgets) (CajaWindowPane *pane);
 };
 
 /* A CajaWindowPane is a layer between a slot and a window.
@@ -56,21 +57,22 @@ struct _CajaWindowPaneClass {
  * A spatial window has only one pane, which contains a single slot.
  * A navigation window may have one or more panes.
  */
-struct _CajaWindowPane {
-	GObject parent;
+struct _CajaWindowPane
+{
+    GObject parent;
 
-	/* hosting window */
-	CajaWindow *window;
-	gboolean visible;
+    /* hosting window */
+    CajaWindow *window;
+    gboolean visible;
 
-	/* available slots, and active slot.
-	 * Both of them may never be NULL. */
-	GList *slots;
-	GList *active_slots;
-	CajaWindowSlot *active_slot;
+    /* available slots, and active slot.
+     * Both of them may never be NULL. */
+    GList *slots;
+    GList *active_slots;
+    CajaWindowSlot *active_slot;
 
-	/* whether or not this pane is active */
-	gboolean is_active;
+    /* whether or not this pane is active */
+    gboolean is_active;
 };
 
 GType caja_window_pane_get_type (void);

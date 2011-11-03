@@ -33,24 +33,27 @@
 
 void
 caja_connect_server_dialog_present_uri (CajaApplication *application,
-					    GFile *location,
-					    GtkWidget *widget)
+                                        GFile *location,
+                                        GtkWidget *widget)
 {
-	CajaWindow *window;
+    CajaWindow *window;
 
-	if (eel_preferences_get_boolean (CAJA_PREFERENCES_ALWAYS_USE_BROWSER)) {
-		window = caja_application_create_navigation_window (application,
-									NULL,
-									gtk_widget_get_screen (widget));
-		caja_window_go_to (window, location);
-	} else {
-		caja_application_present_spatial_window (application,
-							     NULL,
-							     NULL,
-							     location,
-							     gtk_widget_get_screen (widget));
-	}
+    if (eel_preferences_get_boolean (CAJA_PREFERENCES_ALWAYS_USE_BROWSER))
+    {
+        window = caja_application_create_navigation_window (application,
+                 NULL,
+                 gtk_widget_get_screen (widget));
+        caja_window_go_to (window, location);
+    }
+    else
+    {
+        caja_application_present_spatial_window (application,
+                NULL,
+                NULL,
+                location,
+                gtk_widget_get_screen (widget));
+    }
 
-	gtk_widget_destroy (widget);
-	g_object_unref (location);
+    gtk_widget_destroy (widget);
+    g_object_unref (location);
 }

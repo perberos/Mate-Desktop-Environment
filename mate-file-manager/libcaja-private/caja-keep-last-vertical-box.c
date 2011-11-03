@@ -30,8 +30,8 @@
 
 static void     caja_keep_last_vertical_box_class_init  (CajaKeepLastVerticalBoxClass *class);
 static void     caja_keep_last_vertical_box_init        (CajaKeepLastVerticalBox      *box);
-static void	caja_keep_last_vertical_box_size_allocate 	  (GtkWidget 			    *widget, 
-								   GtkAllocation 		    *allocation);
+static void	caja_keep_last_vertical_box_size_allocate 	  (GtkWidget 			    *widget,
+        GtkAllocation 		    *allocation);
 
 EEL_CLASS_BOILERPLATE (CajaKeepLastVerticalBox, caja_keep_last_vertical_box, GTK_TYPE_VBOX)
 
@@ -39,11 +39,11 @@ EEL_CLASS_BOILERPLATE (CajaKeepLastVerticalBox, caja_keep_last_vertical_box, GTK
 static void
 caja_keep_last_vertical_box_class_init (CajaKeepLastVerticalBoxClass *klass)
 {
-	GtkWidgetClass *widget_class;
+    GtkWidgetClass *widget_class;
 
-	widget_class = (GtkWidgetClass *) klass;
+    widget_class = (GtkWidgetClass *) klass;
 
-	widget_class->size_allocate = caja_keep_last_vertical_box_size_allocate;
+    widget_class->size_allocate = caja_keep_last_vertical_box_size_allocate;
 }
 
 /* Standard object initialization function */
@@ -54,108 +54,113 @@ caja_keep_last_vertical_box_init (CajaKeepLastVerticalBox *box)
 
 
 /* caja_keep_last_vertical_box_new:
- * 
+ *
  * Create a new vertical box that clips off items from the end that don't
  * fit, except the last item, which is always kept. When packing this widget
  * into another vbox, use TRUE for expand and TRUE for fill or this class's
  * special clipping magic won't work because this widget's allocation might
  * be larger than the available space.
- * 
+ *
  * @spacing: Vertical space between items.
- * 
+ *
  * Return value: A new CajaKeepLastVerticalBox
  */
 GtkWidget *
 caja_keep_last_vertical_box_new (gint spacing)
 {
-	CajaKeepLastVerticalBox *box;
+    CajaKeepLastVerticalBox *box;
 
-	box = CAJA_KEEP_LAST_VERTICAL_BOX (gtk_widget_new (caja_keep_last_vertical_box_get_type (), NULL));
+    box = CAJA_KEEP_LAST_VERTICAL_BOX (gtk_widget_new (caja_keep_last_vertical_box_get_type (), NULL));
 
-	gtk_box_set_spacing (GTK_BOX (box), spacing);
+    gtk_box_set_spacing (GTK_BOX (box), spacing);
 
-	/* If homogeneous is TRUE and there are too many items to fit
-	 * naturally, they will be squashed together to fit in the space.
-	 * We want the ones that don't fit to be not shown at all, so
-	 * we set homogeneous to FALSE.
-	 */
-	gtk_box_set_homogeneous (GTK_BOX (box), FALSE);
+    /* If homogeneous is TRUE and there are too many items to fit
+     * naturally, they will be squashed together to fit in the space.
+     * We want the ones that don't fit to be not shown at all, so
+     * we set homogeneous to FALSE.
+     */
+    gtk_box_set_homogeneous (GTK_BOX (box), FALSE);
 
-	return GTK_WIDGET (box);
+    return GTK_WIDGET (box);
 }
 
 static void
 caja_keep_last_vertical_box_size_allocate (GtkWidget *widget,
-					       GtkAllocation *allocation)
+        GtkAllocation *allocation)
 {
-	GtkBox *box;
-	GtkWidget *last_child, *child;
-	GList *children, *l;
-	GtkAllocation last_child_allocation, child_allocation, tiny_allocation;
+    GtkBox *box;
+    GtkWidget *last_child, *child;
+    GList *children, *l;
+    GtkAllocation last_child_allocation, child_allocation, tiny_allocation;
 
-	g_return_if_fail (CAJA_IS_KEEP_LAST_VERTICAL_BOX (widget));
-	g_return_if_fail (allocation != NULL);
+    g_return_if_fail (CAJA_IS_KEEP_LAST_VERTICAL_BOX (widget));
+    g_return_if_fail (allocation != NULL);
 
-	EEL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate, (widget, allocation));
+    EEL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate, (widget, allocation));
 
-	box = GTK_BOX (widget);
-	children = gtk_container_get_children (GTK_CONTAINER(widget));
-	l = g_list_last (children);
+    box = GTK_BOX (widget);
+    children = gtk_container_get_children (GTK_CONTAINER(widget));
+    l = g_list_last (children);
 
-	if (l != NULL) {
-		last_child = l->data;
-		l = l->prev;
+    if (l != NULL)
+    {
+        last_child = l->data;
+        l = l->prev;
 
-		gtk_widget_get_allocation (last_child, &last_child_allocation);
+        gtk_widget_get_allocation (last_child, &last_child_allocation);
 
-		/* If last child doesn't fit vertically, prune items from the end of the
-		 * list one at a time until it does.
-		 */
-		if (last_child_allocation.y + last_child_allocation.height >
-		    allocation->y + allocation->height) {
+        /* If last child doesn't fit vertically, prune items from the end of the
+         * list one at a time until it does.
+         */
+        if (last_child_allocation.y + last_child_allocation.height >
+                allocation->y + allocation->height)
+        {
 
-			while (l != NULL) {
-				child = l->data;
-				l = l->prev;
+            while (l != NULL)
+            {
+                child = l->data;
+                l = l->prev;
 
-				gtk_widget_get_allocation (child, &child_allocation);
+                gtk_widget_get_allocation (child, &child_allocation);
 
-				/* Reallocate this child's position so that it does not appear.
-				 * Setting the width & height to 0 is not enough, as
-				 * one pixel is still drawn. Must also move it outside
-				 * visible range. For the cases I've seen, -1, -1 works fine.
-				 * This might not work in all future cases. Alternatively, the
-				 * items that don't fit could be hidden, but that would interfere
-				 * with having other hidden children.
-				 *
-				 * Note that these children are having their size allocated twice,
-				 * once by gtk_vbox_size_allocate and then again here. I don't
-				 * know of any problems with this, but holler if you do.
-				 */
-				tiny_allocation.x = tiny_allocation.y = -1;
-				tiny_allocation.height = tiny_allocation.width = 0;
-				gtk_widget_size_allocate (child, &tiny_allocation);
+                /* Reallocate this child's position so that it does not appear.
+                 * Setting the width & height to 0 is not enough, as
+                 * one pixel is still drawn. Must also move it outside
+                 * visible range. For the cases I've seen, -1, -1 works fine.
+                 * This might not work in all future cases. Alternatively, the
+                 * items that don't fit could be hidden, but that would interfere
+                 * with having other hidden children.
+                 *
+                 * Note that these children are having their size allocated twice,
+                 * once by gtk_vbox_size_allocate and then again here. I don't
+                 * know of any problems with this, but holler if you do.
+                 */
+                tiny_allocation.x = tiny_allocation.y = -1;
+                tiny_allocation.height = tiny_allocation.width = 0;
+                gtk_widget_size_allocate (child, &tiny_allocation);
 
-				/* We're done if the special last item fits now. */
-				if (child_allocation.y + last_child_allocation.height <=
-				    allocation->y + allocation->height) {
-					last_child_allocation.y = child_allocation.y;
-					gtk_widget_size_allocate (last_child, &last_child_allocation);
-					break;
-				}
+                /* We're done if the special last item fits now. */
+                if (child_allocation.y + last_child_allocation.height <=
+                        allocation->y + allocation->height)
+                {
+                    last_child_allocation.y = child_allocation.y;
+                    gtk_widget_size_allocate (last_child, &last_child_allocation);
+                    break;
+                }
 
-				/* If the special last item still doesn't fit, but we've
-				 * run out of earlier items, then the special last item is
-				 * just too darn tall. Let's squash it down to fit in the box's
-				 * allocation.
-				 */
-				if (l == NULL) {
-					last_child_allocation.y = allocation->y;
-					last_child_allocation.height = allocation->height;
-					gtk_widget_size_allocate (last_child, &last_child_allocation);
-				}
-			}
-		}
-	}
-	g_list_free (children);
+                /* If the special last item still doesn't fit, but we've
+                 * run out of earlier items, then the special last item is
+                 * just too darn tall. Let's squash it down to fit in the box's
+                 * allocation.
+                 */
+                if (l == NULL)
+                {
+                    last_child_allocation.y = allocation->y;
+                    last_child_allocation.height = allocation->height;
+                    gtk_widget_size_allocate (last_child, &last_child_allocation);
+                }
+            }
+        }
+    }
+    g_list_free (children);
 }

@@ -33,32 +33,35 @@
 
 struct _CajaColumnChooserDetails
 {
-	GtkTreeView *view;
-	GtkListStore *store;
+    GtkTreeView *view;
+    GtkListStore *store;
 
-	GtkWidget *move_up_button;
-	GtkWidget *move_down_button;
-	GtkWidget *use_default_button;
+    GtkWidget *move_up_button;
+    GtkWidget *move_down_button;
+    GtkWidget *use_default_button;
 
-	CajaFile *file;
+    CajaFile *file;
 };
 
-enum {
-	COLUMN_VISIBLE,
-	COLUMN_LABEL,
-	COLUMN_NAME,
-	NUM_COLUMNS
+enum
+{
+    COLUMN_VISIBLE,
+    COLUMN_LABEL,
+    COLUMN_NAME,
+    NUM_COLUMNS
 };
 
-enum {
-	PROP_FILE = 1,
-	NUM_PROPERTIES
+enum
+{
+    PROP_FILE = 1,
+    NUM_PROPERTIES
 };
 
-enum {
-	CHANGED,
-	USE_DEFAULT,
-	LAST_SIGNAL
+enum
+{
+    CHANGED,
+    USE_DEFAULT,
+    LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL];
 
@@ -69,573 +72,599 @@ static void caja_column_chooser_constructed (GObject *object);
 
 static void
 caja_column_chooser_set_property (GObject *object,
-				      guint param_id,
-				      const GValue *value,
-				      GParamSpec *pspec)
+                                  guint param_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
-	CajaColumnChooser *chooser;
+    CajaColumnChooser *chooser;
 
-	chooser = CAJA_COLUMN_CHOOSER (object);
+    chooser = CAJA_COLUMN_CHOOSER (object);
 
-	switch (param_id) {
-		case PROP_FILE:
-			chooser->details->file = g_value_get_object (value);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
-			break;
-	}
+    switch (param_id)
+    {
+    case PROP_FILE:
+        chooser->details->file = g_value_get_object (value);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
+        break;
+    }
 }
 
 static void
 caja_column_chooser_class_init (CajaColumnChooserClass *chooser_class)
 {
-	GObjectClass *oclass;
+    GObjectClass *oclass;
 
-	oclass = G_OBJECT_CLASS (chooser_class);
+    oclass = G_OBJECT_CLASS (chooser_class);
 
-	oclass->set_property = caja_column_chooser_set_property;
-	oclass->constructed = caja_column_chooser_constructed;
+    oclass->set_property = caja_column_chooser_set_property;
+    oclass->constructed = caja_column_chooser_constructed;
 
-	signals[CHANGED] = g_signal_new
-		("changed",
-		 G_TYPE_FROM_CLASS (chooser_class),
-		 G_SIGNAL_RUN_LAST,
-		 G_STRUCT_OFFSET (CajaColumnChooserClass,
-				  changed),
-		 NULL, NULL,
-		 g_cclosure_marshal_VOID__VOID,
-		 G_TYPE_NONE, 0);
+    signals[CHANGED] = g_signal_new
+                       ("changed",
+                        G_TYPE_FROM_CLASS (chooser_class),
+                        G_SIGNAL_RUN_LAST,
+                        G_STRUCT_OFFSET (CajaColumnChooserClass,
+                                         changed),
+                        NULL, NULL,
+                        g_cclosure_marshal_VOID__VOID,
+                        G_TYPE_NONE, 0);
 
-	signals[USE_DEFAULT] = g_signal_new
-		("use_default",
-		 G_TYPE_FROM_CLASS (chooser_class),
-		 G_SIGNAL_RUN_LAST,
-		 G_STRUCT_OFFSET (CajaColumnChooserClass,
-				  use_default),
-		 NULL, NULL,
-		 g_cclosure_marshal_VOID__VOID,
-		 G_TYPE_NONE, 0);
+    signals[USE_DEFAULT] = g_signal_new
+                           ("use_default",
+                            G_TYPE_FROM_CLASS (chooser_class),
+                            G_SIGNAL_RUN_LAST,
+                            G_STRUCT_OFFSET (CajaColumnChooserClass,
+                                    use_default),
+                            NULL, NULL,
+                            g_cclosure_marshal_VOID__VOID,
+                            G_TYPE_NONE, 0);
 
-	g_object_class_install_property (oclass,
-	                                 PROP_FILE,
-	                                 g_param_spec_object ("file",
-	                                                      "File",
-	                                                      "The file this column chooser is for",
-	                                                      CAJA_TYPE_FILE,
-	                                                      G_PARAM_CONSTRUCT_ONLY |
-	                                                      G_PARAM_WRITABLE));
+    g_object_class_install_property (oclass,
+                                     PROP_FILE,
+                                     g_param_spec_object ("file",
+                                             "File",
+                                             "The file this column chooser is for",
+                                             CAJA_TYPE_FILE,
+                                             G_PARAM_CONSTRUCT_ONLY |
+                                             G_PARAM_WRITABLE));
 
-	g_type_class_add_private (chooser_class, sizeof (CajaColumnChooserDetails));
+    g_type_class_add_private (chooser_class, sizeof (CajaColumnChooserDetails));
 }
 
-static void 
+static void
 update_buttons (CajaColumnChooser *chooser)
 {
-	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-	
-	selection = gtk_tree_view_get_selection (chooser->details->view);
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		gboolean visible;
-		gboolean top;
-		gboolean bottom;
-		GtkTreePath *first;
-		GtkTreePath *path;
-		
-		gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
-				    &iter, 
-				    COLUMN_VISIBLE, &visible, 
-				    -1);
-		
-		path = gtk_tree_model_get_path (GTK_TREE_MODEL (chooser->details->store),
-						&iter);
-		first = gtk_tree_path_new_first ();
-		
-		top = (gtk_tree_path_compare (path, first) == 0);
+    selection = gtk_tree_view_get_selection (chooser->details->view);
 
-		gtk_tree_path_free (path);
-		gtk_tree_path_free (first);
-		
-		bottom = !gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store),
-						    &iter);
+    if (gtk_tree_selection_get_selected (selection, NULL, &iter))
+    {
+        gboolean visible;
+        gboolean top;
+        gboolean bottom;
+        GtkTreePath *first;
+        GtkTreePath *path;
 
-		gtk_widget_set_sensitive (chooser->details->move_up_button,
-					  !top);
-		gtk_widget_set_sensitive (chooser->details->move_down_button,
-					  !bottom);
-	} else {
-		gtk_widget_set_sensitive (chooser->details->move_up_button,
-					  FALSE);
-		gtk_widget_set_sensitive (chooser->details->move_down_button,
-					  FALSE);
-	}
+        gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
+                            &iter,
+                            COLUMN_VISIBLE, &visible,
+                            -1);
+
+        path = gtk_tree_model_get_path (GTK_TREE_MODEL (chooser->details->store),
+                                        &iter);
+        first = gtk_tree_path_new_first ();
+
+        top = (gtk_tree_path_compare (path, first) == 0);
+
+        gtk_tree_path_free (path);
+        gtk_tree_path_free (first);
+
+        bottom = !gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store),
+                                            &iter);
+
+        gtk_widget_set_sensitive (chooser->details->move_up_button,
+                                  !top);
+        gtk_widget_set_sensitive (chooser->details->move_down_button,
+                                  !bottom);
+    }
+    else
+    {
+        gtk_widget_set_sensitive (chooser->details->move_up_button,
+                                  FALSE);
+        gtk_widget_set_sensitive (chooser->details->move_down_button,
+                                  FALSE);
+    }
 }
 
 static void
-list_changed (CajaColumnChooser *chooser) 
+list_changed (CajaColumnChooser *chooser)
 {
-	update_buttons (chooser);
-	g_signal_emit (chooser, signals[CHANGED], 0);
+    update_buttons (chooser);
+    g_signal_emit (chooser, signals[CHANGED], 0);
 }
 
 static void
-visible_toggled_callback (GtkCellRendererToggle *cell, 
-			  char *path_string,
-			  gpointer user_data)
+visible_toggled_callback (GtkCellRendererToggle *cell,
+                          char *path_string,
+                          gpointer user_data)
 {
-	CajaColumnChooser *chooser;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gboolean visible;
-	
-	chooser = CAJA_COLUMN_CHOOSER (user_data);
+    CajaColumnChooser *chooser;
+    GtkTreePath *path;
+    GtkTreeIter iter;
+    gboolean visible;
 
-	path = gtk_tree_path_new_from_string (path_string);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (chooser->details->store), 
-				 &iter, path);
-	gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
-			    &iter, COLUMN_VISIBLE, &visible, -1);
-	gtk_list_store_set (chooser->details->store,
-			    &iter, COLUMN_VISIBLE, !visible, -1);
-	gtk_tree_path_free (path);
-	list_changed (chooser);
+    chooser = CAJA_COLUMN_CHOOSER (user_data);
+
+    path = gtk_tree_path_new_from_string (path_string);
+    gtk_tree_model_get_iter (GTK_TREE_MODEL (chooser->details->store),
+                             &iter, path);
+    gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
+                        &iter, COLUMN_VISIBLE, &visible, -1);
+    gtk_list_store_set (chooser->details->store,
+                        &iter, COLUMN_VISIBLE, !visible, -1);
+    gtk_tree_path_free (path);
+    list_changed (chooser);
 }
 
 static void
 selection_changed_callback (GtkTreeSelection *selection, gpointer user_data)
 {
-	update_buttons (CAJA_COLUMN_CHOOSER (user_data));
+    update_buttons (CAJA_COLUMN_CHOOSER (user_data));
 }
 
 static void
-row_deleted_callback (GtkTreeModel *model, 
-		       GtkTreePath *path,
-		       gpointer user_data)
+row_deleted_callback (GtkTreeModel *model,
+                      GtkTreePath *path,
+                      gpointer user_data)
 {
-	list_changed (CAJA_COLUMN_CHOOSER (user_data));
+    list_changed (CAJA_COLUMN_CHOOSER (user_data));
 }
 
 static void
 add_tree_view (CajaColumnChooser *chooser)
 {
-	GtkWidget *scrolled;
-	GtkWidget *view;
-	GtkListStore *store;
-	GtkCellRenderer *cell;
-	GtkTreeSelection *selection;
-	
-	view = gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (view), FALSE);
-	
-	store = gtk_list_store_new (NUM_COLUMNS,
-				    G_TYPE_BOOLEAN,
-				    G_TYPE_STRING,
-				    G_TYPE_STRING);
+    GtkWidget *scrolled;
+    GtkWidget *view;
+    GtkListStore *store;
+    GtkCellRenderer *cell;
+    GtkTreeSelection *selection;
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW (view), 
-				 GTK_TREE_MODEL (store));
-	g_object_unref (store);
+    view = gtk_tree_view_new ();
+    gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (view), FALSE);
 
-	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (view), TRUE);
-	
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (view));
-	g_signal_connect (selection, "changed", 
-			  G_CALLBACK (selection_changed_callback), chooser);
+    store = gtk_list_store_new (NUM_COLUMNS,
+                                G_TYPE_BOOLEAN,
+                                G_TYPE_STRING,
+                                G_TYPE_STRING);
 
-	cell = gtk_cell_renderer_toggle_new ();
-	
-	g_signal_connect (G_OBJECT (cell), "toggled",
-			  G_CALLBACK (visible_toggled_callback), chooser);
+    gtk_tree_view_set_model (GTK_TREE_VIEW (view),
+                             GTK_TREE_MODEL (store));
+    g_object_unref (store);
 
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (view),
-						     -1, NULL,
-						     cell, 
-						     "active", COLUMN_VISIBLE,
-						     NULL);
+    gtk_tree_view_set_reorderable (GTK_TREE_VIEW (view), TRUE);
 
-	cell = gtk_cell_renderer_text_new ();
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (view));
+    g_signal_connect (selection, "changed",
+                      G_CALLBACK (selection_changed_callback), chooser);
 
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (view),
-						     -1, NULL,
-						     cell, 
-						     "text", COLUMN_LABEL,
-						     NULL);
+    cell = gtk_cell_renderer_toggle_new ();
 
-	chooser->details->view = GTK_TREE_VIEW (view);
-	chooser->details->store = store;
+    g_signal_connect (G_OBJECT (cell), "toggled",
+                      G_CALLBACK (visible_toggled_callback), chooser);
 
-	gtk_widget_show (view);
+    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (view),
+            -1, NULL,
+            cell,
+            "active", COLUMN_VISIBLE,
+            NULL);
 
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
-					     GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_widget_show (GTK_WIDGET (scrolled));
-	
-	gtk_container_add (GTK_CONTAINER (scrolled), view);
-	gtk_box_pack_start (GTK_BOX (chooser), scrolled, TRUE, TRUE, 0);
+    cell = gtk_cell_renderer_text_new ();
+
+    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (view),
+            -1, NULL,
+            cell,
+            "text", COLUMN_LABEL,
+            NULL);
+
+    chooser->details->view = GTK_TREE_VIEW (view);
+    chooser->details->store = store;
+
+    gtk_widget_show (view);
+
+    scrolled = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
+                                         GTK_SHADOW_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+                                    GTK_POLICY_AUTOMATIC,
+                                    GTK_POLICY_AUTOMATIC);
+    gtk_widget_show (GTK_WIDGET (scrolled));
+
+    gtk_container_add (GTK_CONTAINER (scrolled), view);
+    gtk_box_pack_start (GTK_BOX (chooser), scrolled, TRUE, TRUE, 0);
 }
 
 static void
 move_up_clicked_callback (GtkWidget *button, gpointer user_data)
 {
-	CajaColumnChooser *chooser;
-	GtkTreeIter iter;
-	GtkTreeSelection *selection;
+    CajaColumnChooser *chooser;
+    GtkTreeIter iter;
+    GtkTreeSelection *selection;
 
-	chooser = CAJA_COLUMN_CHOOSER (user_data);
-	
-	selection = gtk_tree_view_get_selection (chooser->details->view);
-	
-	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		GtkTreePath *path;
-		GtkTreeIter prev;
+    chooser = CAJA_COLUMN_CHOOSER (user_data);
 
-		path = gtk_tree_model_get_path (GTK_TREE_MODEL (chooser->details->store), &iter);
-		gtk_tree_path_prev (path);
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (chooser->details->store), &prev, path)) {
-			gtk_list_store_move_before (chooser->details->store,
-						   &iter,
-						   &prev);
-		}
-		gtk_tree_path_free (path);
-	}
+    selection = gtk_tree_view_get_selection (chooser->details->view);
 
-	list_changed (chooser);
+    if (gtk_tree_selection_get_selected (selection, NULL, &iter))
+    {
+        GtkTreePath *path;
+        GtkTreeIter prev;
+
+        path = gtk_tree_model_get_path (GTK_TREE_MODEL (chooser->details->store), &iter);
+        gtk_tree_path_prev (path);
+        if (gtk_tree_model_get_iter (GTK_TREE_MODEL (chooser->details->store), &prev, path))
+        {
+            gtk_list_store_move_before (chooser->details->store,
+                                        &iter,
+                                        &prev);
+        }
+        gtk_tree_path_free (path);
+    }
+
+    list_changed (chooser);
 }
 
 static void
 move_down_clicked_callback (GtkWidget *button, gpointer user_data)
 {
-	CajaColumnChooser *chooser;
-	GtkTreeIter iter;
-	GtkTreeSelection *selection;
+    CajaColumnChooser *chooser;
+    GtkTreeIter iter;
+    GtkTreeSelection *selection;
 
-	chooser = CAJA_COLUMN_CHOOSER (user_data);
-	
-	selection = gtk_tree_view_get_selection (chooser->details->view);
-	
-	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		GtkTreeIter next;
+    chooser = CAJA_COLUMN_CHOOSER (user_data);
 
-		next = iter;
-		
-		if (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), &next)) {
-			gtk_list_store_move_after (chooser->details->store,
-						   &iter,
-						   &next);
-		}
-	}
+    selection = gtk_tree_view_get_selection (chooser->details->view);
 
-	list_changed (chooser);
+    if (gtk_tree_selection_get_selected (selection, NULL, &iter))
+    {
+        GtkTreeIter next;
+
+        next = iter;
+
+        if (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), &next))
+        {
+            gtk_list_store_move_after (chooser->details->store,
+                                       &iter,
+                                       &next);
+        }
+    }
+
+    list_changed (chooser);
 }
 
 static void
 use_default_clicked_callback (GtkWidget *button, gpointer user_data)
 {
-	g_signal_emit (CAJA_COLUMN_CHOOSER (user_data), 
-		       signals[USE_DEFAULT], 0);
+    g_signal_emit (CAJA_COLUMN_CHOOSER (user_data),
+                   signals[USE_DEFAULT], 0);
 }
 
 static GtkWidget *
 button_new_with_mnemonic (const gchar *stockid, const gchar *str)
 {
-	GtkWidget *image;
-	GtkWidget *button;
-	
-	button = gtk_button_new_with_mnemonic (str);
-	image = gtk_image_new_from_stock (stockid, GTK_ICON_SIZE_BUTTON);
-	
-	gtk_button_set_image (GTK_BUTTON (button), image);
+    GtkWidget *image;
+    GtkWidget *button;
 
-	return button;
+    button = gtk_button_new_with_mnemonic (str);
+    image = gtk_image_new_from_stock (stockid, GTK_ICON_SIZE_BUTTON);
+
+    gtk_button_set_image (GTK_BUTTON (button), image);
+
+    return button;
 }
 
 static void
 add_buttons (CajaColumnChooser *chooser)
 {
-	GtkWidget *box;
-	GtkWidget *separator;
-	
-	box = gtk_vbox_new (FALSE, 8);
-	gtk_widget_show (box);
-	
-	chooser->details->move_up_button = button_new_with_mnemonic (GTK_STOCK_GO_UP,
-								     _("Move _Up"));
-	g_signal_connect (chooser->details->move_up_button, 
-			  "clicked",  G_CALLBACK (move_up_clicked_callback),
-			  chooser);
-	gtk_widget_show_all (chooser->details->move_up_button);
-	gtk_widget_set_sensitive (chooser->details->move_up_button, FALSE);
-	gtk_box_pack_start (GTK_BOX (box), chooser->details->move_up_button,
-			    FALSE, FALSE, 0);
+    GtkWidget *box;
+    GtkWidget *separator;
 
-	chooser->details->move_down_button = button_new_with_mnemonic (GTK_STOCK_GO_DOWN,
-								       _("Move Dow_n"));
-	g_signal_connect (chooser->details->move_down_button, 
-			  "clicked",  G_CALLBACK (move_down_clicked_callback),
-			  chooser);
-	gtk_widget_show_all (chooser->details->move_down_button);
-	gtk_widget_set_sensitive (chooser->details->move_down_button, FALSE);
-	gtk_box_pack_start (GTK_BOX (box), chooser->details->move_down_button,
-			    FALSE, FALSE, 0);
+    box = gtk_vbox_new (FALSE, 8);
+    gtk_widget_show (box);
 
-	separator = gtk_hseparator_new ();
-	gtk_widget_show (separator);
-	gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);	
+    chooser->details->move_up_button = button_new_with_mnemonic (GTK_STOCK_GO_UP,
+                                       _("Move _Up"));
+    g_signal_connect (chooser->details->move_up_button,
+                      "clicked",  G_CALLBACK (move_up_clicked_callback),
+                      chooser);
+    gtk_widget_show_all (chooser->details->move_up_button);
+    gtk_widget_set_sensitive (chooser->details->move_up_button, FALSE);
+    gtk_box_pack_start (GTK_BOX (box), chooser->details->move_up_button,
+                        FALSE, FALSE, 0);
 
-	chooser->details->use_default_button = gtk_button_new_with_mnemonic (_("Use De_fault"));
-	g_signal_connect (chooser->details->use_default_button, 
-			  "clicked",  G_CALLBACK (use_default_clicked_callback),
-			  chooser);
-	gtk_widget_show (chooser->details->use_default_button);
-	gtk_box_pack_start (GTK_BOX (box), chooser->details->use_default_button,
-			    FALSE, FALSE, 0);
+    chooser->details->move_down_button = button_new_with_mnemonic (GTK_STOCK_GO_DOWN,
+                                         _("Move Dow_n"));
+    g_signal_connect (chooser->details->move_down_button,
+                      "clicked",  G_CALLBACK (move_down_clicked_callback),
+                      chooser);
+    gtk_widget_show_all (chooser->details->move_down_button);
+    gtk_widget_set_sensitive (chooser->details->move_down_button, FALSE);
+    gtk_box_pack_start (GTK_BOX (box), chooser->details->move_down_button,
+                        FALSE, FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (chooser), box,
-			    FALSE, FALSE, 0);
+    separator = gtk_hseparator_new ();
+    gtk_widget_show (separator);
+    gtk_box_pack_start (GTK_BOX (box), separator, FALSE, FALSE, 0);
+
+    chooser->details->use_default_button = gtk_button_new_with_mnemonic (_("Use De_fault"));
+    g_signal_connect (chooser->details->use_default_button,
+                      "clicked",  G_CALLBACK (use_default_clicked_callback),
+                      chooser);
+    gtk_widget_show (chooser->details->use_default_button);
+    gtk_box_pack_start (GTK_BOX (box), chooser->details->use_default_button,
+                        FALSE, FALSE, 0);
+
+    gtk_box_pack_start (GTK_BOX (chooser), box,
+                        FALSE, FALSE, 0);
 }
 
 static void
 populate_tree (CajaColumnChooser *chooser)
 {
-	GList *columns;
-	GList *l;
+    GList *columns;
+    GList *l;
 
-	columns = caja_get_columns_for_file (chooser->details->file);
+    columns = caja_get_columns_for_file (chooser->details->file);
 
-	for (l = columns; l != NULL; l = l->next) {
-		GtkTreeIter iter;
-		CajaColumn *column;
-		char *name;
-		char *label;
-		
-		column = CAJA_COLUMN (l->data);
-		
-		g_object_get (G_OBJECT (column), 
-			      "name", &name, "label", &label, 
-			      NULL);
+    for (l = columns; l != NULL; l = l->next)
+    {
+        GtkTreeIter iter;
+        CajaColumn *column;
+        char *name;
+        char *label;
 
-		gtk_list_store_append (chooser->details->store, &iter);
-		gtk_list_store_set (chooser->details->store, &iter,
-				    COLUMN_VISIBLE, FALSE,
-				    COLUMN_LABEL, label,
-				    COLUMN_NAME, name,
-				    -1);
+        column = CAJA_COLUMN (l->data);
 
-		g_free (name);
-		g_free (label);
-	}
+        g_object_get (G_OBJECT (column),
+                      "name", &name, "label", &label,
+                      NULL);
 
-	caja_column_list_free (columns);
+        gtk_list_store_append (chooser->details->store, &iter);
+        gtk_list_store_set (chooser->details->store, &iter,
+                            COLUMN_VISIBLE, FALSE,
+                            COLUMN_LABEL, label,
+                            COLUMN_NAME, name,
+                            -1);
+
+        g_free (name);
+        g_free (label);
+    }
+
+    caja_column_list_free (columns);
 }
 
 static void
 caja_column_chooser_constructed (GObject *object)
 {
-	CajaColumnChooser *chooser;
+    CajaColumnChooser *chooser;
 
-	chooser = CAJA_COLUMN_CHOOSER (object);
+    chooser = CAJA_COLUMN_CHOOSER (object);
 
-	populate_tree (chooser);
+    populate_tree (chooser);
 
-	g_signal_connect (chooser->details->store, "row_deleted", 
-			  G_CALLBACK (row_deleted_callback), chooser);
+    g_signal_connect (chooser->details->store, "row_deleted",
+                      G_CALLBACK (row_deleted_callback), chooser);
 }
 
 static void
 caja_column_chooser_init (CajaColumnChooser *chooser)
-{	
-	chooser->details = G_TYPE_INSTANCE_GET_PRIVATE ((chooser), CAJA_TYPE_COLUMN_CHOOSER, CajaColumnChooserDetails);
+{
+    chooser->details = G_TYPE_INSTANCE_GET_PRIVATE ((chooser), CAJA_TYPE_COLUMN_CHOOSER, CajaColumnChooserDetails);
 
-	g_object_set (G_OBJECT (chooser), 
-		      "homogeneous", FALSE,
-		      "spacing", 8,
-		      NULL);
+    g_object_set (G_OBJECT (chooser),
+                  "homogeneous", FALSE,
+                  "spacing", 8,
+                  NULL);
 
-	add_tree_view (chooser);
-	add_buttons (chooser);
+    add_tree_view (chooser);
+    add_buttons (chooser);
 }
 
-static void 
+static void
 set_visible_columns (CajaColumnChooser *chooser,
-		     char **visible_columns)
+                     char **visible_columns)
 {
-	GHashTable *visible_columns_hash;
-	GtkTreeIter iter;
-	int i;
+    GHashTable *visible_columns_hash;
+    GtkTreeIter iter;
+    int i;
 
-	visible_columns_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; visible_columns[i] != NULL; ++i) {
-		g_hash_table_insert (visible_columns_hash,
-				     visible_columns[i],
-				     visible_columns[i]);
-	}
+    visible_columns_hash = g_hash_table_new (g_str_hash, g_str_equal);
+    for (i = 0; visible_columns[i] != NULL; ++i)
+    {
+        g_hash_table_insert (visible_columns_hash,
+                             visible_columns[i],
+                             visible_columns[i]);
+    }
 
-	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (chooser->details->store),
-					   &iter)) {
-		do {
-			char *name;
-			gboolean visible;			
-			
-			gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
-					    &iter,
-					    COLUMN_NAME, &name,
-					    -1);
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (chooser->details->store),
+                                       &iter))
+    {
+        do
+        {
+            char *name;
+            gboolean visible;
 
-			visible = (g_hash_table_lookup (visible_columns_hash, name) != NULL);
+            gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
+                                &iter,
+                                COLUMN_NAME, &name,
+                                -1);
 
-			gtk_list_store_set (chooser->details->store,
-					    &iter,
-					    COLUMN_VISIBLE, visible,
-					    -1);
-			g_free (name);
-			
-		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), &iter));
-	}
+            visible = (g_hash_table_lookup (visible_columns_hash, name) != NULL);
 
-	g_hash_table_destroy (visible_columns_hash);
+            gtk_list_store_set (chooser->details->store,
+                                &iter,
+                                COLUMN_VISIBLE, visible,
+                                -1);
+            g_free (name);
+
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), &iter));
+    }
+
+    g_hash_table_destroy (visible_columns_hash);
 }
 
 static char **
 get_column_names (CajaColumnChooser *chooser, gboolean only_visible)
 {
-	GPtrArray *ret;
-	GtkTreeIter iter;
+    GPtrArray *ret;
+    GtkTreeIter iter;
 
-	ret = g_ptr_array_new ();
-	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (chooser->details->store),
-					   &iter)) {
-		do {
-			char *name;
-			gboolean visible;
-			gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
-					    &iter,
-					    COLUMN_VISIBLE, &visible,
-					    COLUMN_NAME, &name,
-					    -1);
-			if (!only_visible || visible) {
-				/* give ownership to the array */
-				g_ptr_array_add (ret, name);
-			}
+    ret = g_ptr_array_new ();
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (chooser->details->store),
+                                       &iter))
+    {
+        do
+        {
+            char *name;
+            gboolean visible;
+            gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
+                                &iter,
+                                COLUMN_VISIBLE, &visible,
+                                COLUMN_NAME, &name,
+                                -1);
+            if (!only_visible || visible)
+            {
+                /* give ownership to the array */
+                g_ptr_array_add (ret, name);
+            }
 
-		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), &iter));
-	}
-	g_ptr_array_add (ret, NULL);
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), &iter));
+    }
+    g_ptr_array_add (ret, NULL);
 
-	return (char **) g_ptr_array_free (ret, FALSE);
+    return (char **) g_ptr_array_free (ret, FALSE);
 }
 
 static gboolean
-get_column_iter (CajaColumnChooser *chooser, 
-		 CajaColumn *column,
-		 GtkTreeIter *iter)
+get_column_iter (CajaColumnChooser *chooser,
+                 CajaColumn *column,
+                 GtkTreeIter *iter)
 {
-	char *column_name;
+    char *column_name;
 
-	g_object_get (CAJA_COLUMN (column), "name", &column_name, NULL);
+    g_object_get (CAJA_COLUMN (column), "name", &column_name, NULL);
 
-	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (chooser->details->store),
-					   iter)) {
-		do {
-			char *name;
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (chooser->details->store),
+                                       iter))
+    {
+        do
+        {
+            char *name;
 
-			
-			gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
-					    iter,
-					    COLUMN_NAME, &name,
-					    -1);
-			if (!strcmp (name, column_name)) {
-				g_free (column_name);
-				g_free (name);
-				return TRUE;
-			}
 
-			g_free (name);
-		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), iter));
-	}
-	g_free (column_name);
-	return FALSE;
+            gtk_tree_model_get (GTK_TREE_MODEL (chooser->details->store),
+                                iter,
+                                COLUMN_NAME, &name,
+                                -1);
+            if (!strcmp (name, column_name))
+            {
+                g_free (column_name);
+                g_free (name);
+                return TRUE;
+            }
+
+            g_free (name);
+        }
+        while (gtk_tree_model_iter_next (GTK_TREE_MODEL (chooser->details->store), iter));
+    }
+    g_free (column_name);
+    return FALSE;
 }
 
 static void
 set_column_order (CajaColumnChooser *chooser,
-		  char **column_order)
+                  char **column_order)
 
 {
-	GList *columns;
-	GList *l;
-	GtkTreePath *path;
+    GList *columns;
+    GList *l;
+    GtkTreePath *path;
 
-	columns = caja_get_columns_for_file (chooser->details->file);	
-	columns = caja_sort_columns (columns, column_order);
+    columns = caja_get_columns_for_file (chooser->details->file);
+    columns = caja_sort_columns (columns, column_order);
 
-	g_signal_handlers_block_by_func (chooser->details->store,
-					 G_CALLBACK (row_deleted_callback), 
-					 chooser);
+    g_signal_handlers_block_by_func (chooser->details->store,
+                                     G_CALLBACK (row_deleted_callback),
+                                     chooser);
 
-	path = gtk_tree_path_new_first ();
-	for (l = columns; l != NULL; l = l->next) {
-		GtkTreeIter iter;
-		
-		if (get_column_iter (chooser, CAJA_COLUMN (l->data), &iter)) {
-			GtkTreeIter before;
-			if (path) {
-				gtk_tree_model_get_iter (GTK_TREE_MODEL (chooser->details->store),
-							 &before, path);
-				gtk_list_store_move_after (chooser->details->store,
-							   &iter, &before);
-				gtk_tree_path_next (path);
-				
-			} else {		
-				gtk_list_store_move_after (chooser->details->store,
-							   &iter, NULL);
-			}
-		}
-	}
-	gtk_tree_path_free (path);
-	g_signal_handlers_unblock_by_func (chooser->details->store, 
-					   G_CALLBACK (row_deleted_callback), 
-					   chooser);
-	
-	caja_column_list_free (columns);
+    path = gtk_tree_path_new_first ();
+    for (l = columns; l != NULL; l = l->next)
+    {
+        GtkTreeIter iter;
+
+        if (get_column_iter (chooser, CAJA_COLUMN (l->data), &iter))
+        {
+            GtkTreeIter before;
+            if (path)
+            {
+                gtk_tree_model_get_iter (GTK_TREE_MODEL (chooser->details->store),
+                                         &before, path);
+                gtk_list_store_move_after (chooser->details->store,
+                                           &iter, &before);
+                gtk_tree_path_next (path);
+
+            }
+            else
+            {
+                gtk_list_store_move_after (chooser->details->store,
+                                           &iter, NULL);
+            }
+        }
+    }
+    gtk_tree_path_free (path);
+    g_signal_handlers_unblock_by_func (chooser->details->store,
+                                       G_CALLBACK (row_deleted_callback),
+                                       chooser);
+
+    caja_column_list_free (columns);
 }
 
 void
 caja_column_chooser_set_settings (CajaColumnChooser *chooser,
-				      char **visible_columns,
-				      char **column_order)
+                                  char **visible_columns,
+                                  char **column_order)
 {
-	g_return_if_fail (CAJA_IS_COLUMN_CHOOSER (chooser));
-	g_return_if_fail (visible_columns != NULL);
-	g_return_if_fail (column_order != NULL);
+    g_return_if_fail (CAJA_IS_COLUMN_CHOOSER (chooser));
+    g_return_if_fail (visible_columns != NULL);
+    g_return_if_fail (column_order != NULL);
 
-	set_visible_columns (chooser, visible_columns);
-	set_column_order (chooser, column_order);
+    set_visible_columns (chooser, visible_columns);
+    set_column_order (chooser, column_order);
 
-	list_changed (chooser);
+    list_changed (chooser);
 }
 
 void
 caja_column_chooser_get_settings (CajaColumnChooser *chooser,
-				      char ***visible_columns,
-				      char ***column_order)
+                                  char ***visible_columns,
+                                  char ***column_order)
 {
-	g_return_if_fail (CAJA_IS_COLUMN_CHOOSER (chooser));
-	g_return_if_fail (visible_columns != NULL);
-	g_return_if_fail (column_order != NULL);
+    g_return_if_fail (CAJA_IS_COLUMN_CHOOSER (chooser));
+    g_return_if_fail (visible_columns != NULL);
+    g_return_if_fail (column_order != NULL);
 
-	*visible_columns = get_column_names (chooser, TRUE);
-	*column_order = get_column_names (chooser, FALSE);
+    *visible_columns = get_column_names (chooser, TRUE);
+    *column_order = get_column_names (chooser, FALSE);
 }
 
 GtkWidget *
 caja_column_chooser_new (CajaFile *file)
 {
-	return g_object_new (CAJA_TYPE_COLUMN_CHOOSER, "file", file, NULL);
+    return g_object_new (CAJA_TYPE_COLUMN_CHOOSER, "file", file, NULL);
 }
 

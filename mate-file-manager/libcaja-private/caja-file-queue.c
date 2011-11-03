@@ -25,101 +25,109 @@
 
 #include <glib.h>
 
-struct CajaFileQueue {
-	GList *head;
-	GList *tail;
-	GHashTable *item_to_link_map;
+struct CajaFileQueue
+{
+    GList *head;
+    GList *tail;
+    GHashTable *item_to_link_map;
 };
 
 CajaFileQueue *
 caja_file_queue_new (void)
 {
-	CajaFileQueue *queue;
+    CajaFileQueue *queue;
 
-	queue = g_new0 (CajaFileQueue, 1);
-	queue->item_to_link_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+    queue = g_new0 (CajaFileQueue, 1);
+    queue->item_to_link_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	return queue;
+    return queue;
 }
 
 void
 caja_file_queue_destroy (CajaFileQueue *queue)
 {
-	g_hash_table_destroy (queue->item_to_link_map);
-	caja_file_list_free (queue->head);
-	g_free (queue);
+    g_hash_table_destroy (queue->item_to_link_map);
+    caja_file_list_free (queue->head);
+    g_free (queue);
 }
 
 void
 caja_file_queue_enqueue (CajaFileQueue *queue,
-			     CajaFile      *file)
+                         CajaFile      *file)
 {
-	if (g_hash_table_lookup (queue->item_to_link_map, file) != NULL) {
-		/* It's already on the queue. */
-		return;
-	}
+    if (g_hash_table_lookup (queue->item_to_link_map, file) != NULL)
+    {
+        /* It's already on the queue. */
+        return;
+    }
 
-	if (queue->tail == NULL) {
-		queue->head = g_list_append (NULL, file);
-		queue->tail = queue->head;
-	} else {
-		queue->tail = g_list_append (queue->tail, file);
-		queue->tail = queue->tail->next;
-	}
+    if (queue->tail == NULL)
+    {
+        queue->head = g_list_append (NULL, file);
+        queue->tail = queue->head;
+    }
+    else
+    {
+        queue->tail = g_list_append (queue->tail, file);
+        queue->tail = queue->tail->next;
+    }
 
-	caja_file_ref (file);
-	g_hash_table_insert (queue->item_to_link_map, file, queue->tail);
+    caja_file_ref (file);
+    g_hash_table_insert (queue->item_to_link_map, file, queue->tail);
 }
 
 CajaFile *
 caja_file_queue_dequeue (CajaFileQueue *queue)
 {
-	CajaFile *file;
+    CajaFile *file;
 
-	file = caja_file_queue_head (queue);
-	caja_file_queue_remove (queue, file);
+    file = caja_file_queue_head (queue);
+    caja_file_queue_remove (queue, file);
 
-	return file;
+    return file;
 }
 
 
 void
 caja_file_queue_remove (CajaFileQueue *queue,
-			    CajaFile *file)
+                        CajaFile *file)
 {
-	GList *link;
+    GList *link;
 
-	link = g_hash_table_lookup (queue->item_to_link_map, file);
+    link = g_hash_table_lookup (queue->item_to_link_map, file);
 
-	if (link == NULL) {
-		/* It's not on the queue */
-		return;
-	}
+    if (link == NULL)
+    {
+        /* It's not on the queue */
+        return;
+    }
 
-	if (link == queue->tail) {
-		/* Need to special-case removing the tail. */
-		queue->tail = queue->tail->prev;
-	}
+    if (link == queue->tail)
+    {
+        /* Need to special-case removing the tail. */
+        queue->tail = queue->tail->prev;
+    }
 
-	queue->head =  g_list_remove_link (queue->head, link);
-	g_list_free (link);
-	g_hash_table_remove (queue->item_to_link_map, file);
+    queue->head =  g_list_remove_link (queue->head, link);
+    g_list_free (link);
+    g_hash_table_remove (queue->item_to_link_map, file);
 
-	caja_file_unref (file);
+    caja_file_unref (file);
 }
 
 CajaFile *
 caja_file_queue_head (CajaFileQueue *queue)
 {
-	if (queue->head == NULL) {
-		return NULL;
-	}
+    if (queue->head == NULL)
+    {
+        return NULL;
+    }
 
-	return CAJA_FILE (queue->head->data);
+    return CAJA_FILE (queue->head->data);
 }
 
 gboolean
 caja_file_queue_is_empty (CajaFileQueue *queue)
 {
-	return (queue->head == NULL);
+    return (queue->head == NULL);
 }

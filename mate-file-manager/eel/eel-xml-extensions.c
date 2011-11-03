@@ -35,75 +35,83 @@
 xmlNodePtr
 eel_xml_get_children (xmlNodePtr parent)
 {
-	if (parent == NULL) {
-		return NULL;
-	}
-	return parent->children;
+    if (parent == NULL)
+    {
+        return NULL;
+    }
+    return parent->children;
 }
 
 xmlNodePtr
 eel_xml_get_root_children (xmlDocPtr document)
 {
-	return eel_xml_get_children (xmlDocGetRootElement (document));
+    return eel_xml_get_children (xmlDocGetRootElement (document));
 }
 
 xmlNodePtr
 eel_xml_get_child_by_name_and_property (xmlNodePtr parent,
-					     const char *child_name,
-					     const char *property_name,
-					     const char *property_value)
+                                        const char *child_name,
+                                        const char *property_name,
+                                        const char *property_value)
 {
-	xmlNodePtr child;
-	xmlChar *property;
-	gboolean match;
+    xmlNodePtr child;
+    xmlChar *property;
+    gboolean match;
 
-	if (parent == NULL) {
-		return NULL;
-	}
-	for (child = eel_xml_get_children (parent); child != NULL; child = child->next) {
-		if (strcmp (child->name, child_name) == 0) {
-			property = xmlGetProp (child, property_name);
-			match = eel_strcmp (property, property_value) == 0;
-			xmlFree (property);
-			if (match) {
-				return child;
-			}
-		}
-	}
-	return NULL;
+    if (parent == NULL)
+    {
+        return NULL;
+    }
+    for (child = eel_xml_get_children (parent); child != NULL; child = child->next)
+    {
+        if (strcmp (child->name, child_name) == 0)
+        {
+            property = xmlGetProp (child, property_name);
+            match = eel_strcmp (property, property_value) == 0;
+            xmlFree (property);
+            if (match)
+            {
+                return child;
+            }
+        }
+    }
+    return NULL;
 }
 
 /* return a child of the passed-in node with a matching name */
 
 xmlNodePtr
 eel_xml_get_child_by_name (xmlNodePtr parent,
-					     const char *child_name)
+                           const char *child_name)
 {
-	xmlNodePtr child;
+    xmlNodePtr child;
 
-	if (parent == NULL) {
-		return NULL;
-	}
-	for (child = eel_xml_get_children (parent); child != NULL; child = child->next) {
-		if (strcmp (child->name, child_name) == 0) {
-			return child;
-		}
-	}
-	return NULL;
+    if (parent == NULL)
+    {
+        return NULL;
+    }
+    for (child = eel_xml_get_children (parent); child != NULL; child = child->next)
+    {
+        if (strcmp (child->name, child_name) == 0)
+        {
+            return child;
+        }
+    }
+    return NULL;
 }
 
 
 xmlNodePtr
 eel_xml_get_root_child_by_name_and_property (xmlDocPtr document,
-						  const char *child_name,
-						  const char *property_name,
-						  const char *property_value)
+        const char *child_name,
+        const char *property_name,
+        const char *property_value)
 {
-	return eel_xml_get_child_by_name_and_property
-		(xmlDocGetRootElement (document),
-		 child_name,
-		 property_name,
-		 property_value);
+    return eel_xml_get_child_by_name_and_property
+           (xmlDocGetRootElement (document),
+            child_name,
+            property_name,
+            property_value);
 }
 
 /**
@@ -121,65 +129,71 @@ eel_xml_get_root_child_by_name_and_property (xmlDocPtr document,
  **/
 GList *
 eel_xml_get_property_for_children (xmlNodePtr parent,
-					const char *child_name,
-					const char *property_name)
+                                   const char *child_name,
+                                   const char *property_name)
 {
-	GList *properties;
-	xmlNode *child;
-	xmlChar *property;
+    GList *properties;
+    xmlNode *child;
+    xmlChar *property;
 
-	properties = NULL;
+    properties = NULL;
 
-	for (child = eel_xml_get_children (parent);
-	     child != NULL;
-	     child = child->next) {
-		if (strcmp (child->name, child_name) == 0) {
-			property = xmlGetProp (child, property_name);
-			if (property != NULL) {
-				properties = g_list_prepend (properties,
-							     g_strdup (property));
-				xmlFree (property);
-			}
-		}
-	}
+    for (child = eel_xml_get_children (parent);
+            child != NULL;
+            child = child->next)
+    {
+        if (strcmp (child->name, child_name) == 0)
+        {
+            property = xmlGetProp (child, property_name);
+            if (property != NULL)
+            {
+                properties = g_list_prepend (properties,
+                                             g_strdup (property));
+                xmlFree (property);
+            }
+        }
+    }
 
-	/* Reverse so you get them in the same order as the XML file. */
-	return g_list_reverse (properties);
+    /* Reverse so you get them in the same order as the XML file. */
+    return g_list_reverse (properties);
 }
 
 xmlChar *
 eel_xml_get_property_translated (xmlNodePtr parent,
-				      const char *property_name)
+                                 const char *property_name)
 {
-	xmlChar *property, *untranslated_property;
-	char *untranslated_property_name;
-	const char *translated_property;
+    xmlChar *property, *untranslated_property;
+    char *untranslated_property_name;
+    const char *translated_property;
 
-	/* Try for the already-translated version. */
-	property = xmlGetProp (parent, property_name);
-	if (property != NULL) {
-		return property;
-	}
+    /* Try for the already-translated version. */
+    property = xmlGetProp (parent, property_name);
+    if (property != NULL)
+    {
+        return property;
+    }
 
-	/* Try for the untranslated version. */
-	untranslated_property_name = g_strconcat ("_", property_name, NULL);
-	untranslated_property = xmlGetProp (parent, untranslated_property_name);
-	g_free (untranslated_property_name);
-	if (untranslated_property == NULL) {
-		return NULL;
-	}
+    /* Try for the untranslated version. */
+    untranslated_property_name = g_strconcat ("_", property_name, NULL);
+    untranslated_property = xmlGetProp (parent, untranslated_property_name);
+    g_free (untranslated_property_name);
+    if (untranslated_property == NULL)
+    {
+        return NULL;
+    }
 
-	/* Try to translate. */
-	translated_property = gettext (untranslated_property);
+    /* Try to translate. */
+    translated_property = gettext (untranslated_property);
 
-	/* If not translation is found, return untranslated property as-is. */
-	if (translated_property == (char *) untranslated_property) {
-		return untranslated_property;
-	}
+    /* If not translation is found, return untranslated property as-is. */
+    if (translated_property == (char *) untranslated_property)
+    {
+        return untranslated_property;
+    }
 
-	/* If a translation happened, make a copy to match the normal
-	 * behavior of this function (returning a string you xmlFree).
-	 */
-	xmlFree (untranslated_property);
-	return xmlStrdup (translated_property);
+    /* If a translation happened, make a copy to match the normal
+     * behavior of this function (returning a string you xmlFree).
+     */
+    xmlFree (untranslated_property);
+    return xmlStrdup (translated_property);
 }

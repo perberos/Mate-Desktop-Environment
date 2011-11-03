@@ -41,15 +41,15 @@ typedef struct CajaViewAsActionPrivate CajaViewAsActionPrivate;
 
 struct _CajaViewAsAction
 {
-	GtkAction parent;
+    GtkAction parent;
 
-	/*< private >*/
-	CajaViewAsActionPrivate *priv;
+    /*< private >*/
+    CajaViewAsActionPrivate *priv;
 };
 
 struct _CajaViewAsActionClass
 {
-	GtkActionClass parent_class;
+    GtkActionClass parent_class;
 };
 
 GType    caja_view_as_action_get_type   (void);

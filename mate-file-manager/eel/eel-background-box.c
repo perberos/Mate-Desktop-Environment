@@ -35,23 +35,23 @@ EEL_CLASS_BOILERPLATE (EelBackgroundBox, eel_background_box, GTK_TYPE_EVENT_BOX)
 
 static gboolean
 eel_background_box_expose_event (GtkWidget *widget,
-				 GdkEventExpose *event)
+                                 GdkEventExpose *event)
 {
-	eel_background_expose (widget, event);
-	
-	gtk_container_propagate_expose (GTK_CONTAINER (widget), 
-					gtk_bin_get_child (GTK_BIN (widget)),
-					event);
-	
-	return TRUE;
+    eel_background_expose (widget, event);
+
+    gtk_container_propagate_expose (GTK_CONTAINER (widget),
+                                    gtk_bin_get_child (GTK_BIN (widget)),
+                                    event);
+
+    return TRUE;
 }
 
 static void
 eel_background_box_class_init (EelBackgroundBoxClass *klass)
 {
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-	
- 	widget_class->expose_event = eel_background_box_expose_event;
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+    widget_class->expose_event = eel_background_box_expose_event;
 }
 
 static void
@@ -62,9 +62,9 @@ eel_background_box_init (EelBackgroundBox *box)
 GtkWidget*
 eel_background_box_new (void)
 {
-	EelBackgroundBox *background_box;
+    EelBackgroundBox *background_box;
 
-	background_box = EEL_BACKGROUND_BOX (gtk_widget_new (eel_background_box_get_type (), NULL));
-	
-	return GTK_WIDGET (background_box);
+    background_box = EEL_BACKGROUND_BOX (gtk_widget_new (eel_background_box_get_type (), NULL));
+
+    return GTK_WIDGET (background_box);
 }

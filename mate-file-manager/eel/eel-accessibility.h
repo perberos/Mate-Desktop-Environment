@@ -39,43 +39,43 @@ AtkObject    *eel_accessibility_get_atk_object        (gpointer              obj
 AtkObject    *eel_accessibility_for_object            (gpointer              object);
 gpointer      eel_accessibility_get_gobject           (AtkObject            *object);
 AtkObject    *eel_accessibility_set_atk_object_return (gpointer              object,
-						       AtkObject            *atk_object);
+        AtkObject            *atk_object);
 GType         eel_accessibility_create_derived_type   (const char           *type_name,
-						       GType                 existing_gobject_with_proxy,
-						       EelAccessibilityClassInitFn class_init);
+        GType                 existing_gobject_with_proxy,
+        EelAccessibilityClassInitFn class_init);
 void          eel_accessibility_set_name              (gpointer              object,
-						       const char           *name);
+        const char           *name);
 void          eel_accessibility_set_description       (gpointer              object,
-						       const char           *description);
+        const char           *description);
 
 char*         eel_accessibility_text_get_text         (AtkText              *text,
-                                                       gint                 start_pos,
-                                                       gint                 end_pos);
+        gint                 start_pos,
+        gint                 end_pos);
 gunichar      eel_accessibility_text_get_character_at_offset
-                                                      (AtkText              *text,
-                                                       gint                 offset);
+(AtkText              *text,
+ gint                 offset);
 char*         eel_accessibility_text_get_text_before_offset
-                                                      (AtkText              *text,
-                                                       gint                 offset,
-                                                       AtkTextBoundary      boundary_type,
-                                                       gint                 *start_offset,
-                                                       gint                 *end_offset);
+(AtkText              *text,
+ gint                 offset,
+ AtkTextBoundary      boundary_type,
+ gint                 *start_offset,
+ gint                 *end_offset);
 char*         eel_accessibility_text_get_text_at_offset
-                                                      (AtkText              *text,
-                                                       gint                 offset,
-                                                       AtkTextBoundary      boundary_type,
-                                                       gint                 *start_offset,
-                                                       gint                 *end_offset);
+(AtkText              *text,
+ gint                 offset,
+ AtkTextBoundary      boundary_type,
+ gint                 *start_offset,
+ gint                 *end_offset);
 char*         eel_accessibility_text_get_text_after_offset
-                                                      (AtkText              *text,
-                                                       gint                 offset,
-                                                       AtkTextBoundary      boundary_type,
-                                                       gint                 *start_offset,
-                                                       gint                 *end_offset);
+(AtkText              *text,
+ gint                 offset,
+ AtkTextBoundary      boundary_type,
+ gint                 *start_offset,
+ gint                 *end_offset);
 gint          eel_accessibility_text_get_character_count
-                                                      (AtkText              *text);
+(AtkText              *text);
 
-                     
+
 #define EEL_TYPE_ACCESSIBLE_TEXT           (eel_accessible_text_get_type ())
 #define EEL_IS_ACCESSIBLE_TEXT(obj)        G_TYPE_CHECK_INSTANCE_TYPE ((obj), EEL_TYPE_ACCESSIBLE_TEXT)
 #define EEL_ACCESSIBLE_TEXT(obj)           G_TYPE_CHECK_INSTANCE_CAST ((obj), EEL_TYPE_ACCESSIBLE_TEXT, EelAccessibleText)
@@ -84,11 +84,12 @@ gint          eel_accessibility_text_get_character_count
 /* Instead of implementing the AtkText interface, implement this */
 typedef struct _EelAccessibleText EelAccessibleText;
 
-typedef struct {
-	GTypeInterface parent;
-	
-	GailTextUtil *(*get_text)   (GObject *text);
-	PangoLayout  *(*get_layout) (GObject *text);
+typedef struct
+{
+    GTypeInterface parent;
+
+    GailTextUtil *(*get_text)   (GObject *text);
+    PangoLayout  *(*get_layout) (GObject *text);
 } EelAccessibleTextIface;
 
 GType eel_accessible_text_get_type      (void);

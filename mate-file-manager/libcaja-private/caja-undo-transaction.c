@@ -39,74 +39,74 @@ static void undo_atom_list_free                  (GList                        *
 static void undo_atom_list_undo_and_free         (GList                        *list);
 
 G_DEFINE_TYPE (CajaUndoTransaction, caja_undo_transaction,
-	       G_TYPE_OBJECT);
+               G_TYPE_OBJECT);
 
 #ifdef UIH
 static Caja_Undo_MenuItem *
 impl_Caja_Undo_Transaction__get_undo_menu_item (PortableServer_Servant servant,
-						    CORBA_Environment *ev)
+        CORBA_Environment *ev)
 {
-	CajaUndoTransaction *transaction;
-	Caja_Undo_MenuItem *item;
+    CajaUndoTransaction *transaction;
+    Caja_Undo_MenuItem *item;
 
-	transaction = CAJA_UNDO_TRANSACTION (matecomponent_object_from_servant (servant));
-	
-	item = Caja_Undo_MenuItem__alloc ();
-     	item->label = CORBA_string_dup (transaction->undo_menu_item_label);
-     	item->hint = CORBA_string_dup (transaction->undo_menu_item_hint);
-	
-	return item;
+    transaction = CAJA_UNDO_TRANSACTION (matecomponent_object_from_servant (servant));
+
+    item = Caja_Undo_MenuItem__alloc ();
+    item->label = CORBA_string_dup (transaction->undo_menu_item_label);
+    item->hint = CORBA_string_dup (transaction->undo_menu_item_hint);
+
+    return item;
 }
-							 				
+
 static Caja_Undo_MenuItem *
 impl_Caja_Undo_Transaction__get_redo_menu_item (PortableServer_Servant servant,
-						    CORBA_Environment *ev)
+        CORBA_Environment *ev)
 {
-	CajaUndoTransaction *transaction;
-	Caja_Undo_MenuItem *item;
+    CajaUndoTransaction *transaction;
+    Caja_Undo_MenuItem *item;
 
-	transaction = CAJA_UNDO_TRANSACTION (matecomponent_object_from_servant (servant));
-	
-	item = Caja_Undo_MenuItem__alloc ();
-     	item->label = CORBA_string_dup (transaction->redo_menu_item_label);
-     	item->hint = CORBA_string_dup (transaction->redo_menu_item_hint);
-	
-	return item;
+    transaction = CAJA_UNDO_TRANSACTION (matecomponent_object_from_servant (servant));
+
+    item = Caja_Undo_MenuItem__alloc ();
+    item->label = CORBA_string_dup (transaction->redo_menu_item_label);
+    item->hint = CORBA_string_dup (transaction->redo_menu_item_hint);
+
+    return item;
 }
 
 static CORBA_char *
 impl_Caja_Undo_Transaction__get_operation_name (PortableServer_Servant servant,
-						    CORBA_Environment *ev)
+        CORBA_Environment *ev)
 {
-	CajaUndoTransaction *transaction;
-	
-	transaction = CAJA_UNDO_TRANSACTION (matecomponent_object_from_servant (servant));
-	return CORBA_string_dup (transaction->operation_name);
+    CajaUndoTransaction *transaction;
+
+    transaction = CAJA_UNDO_TRANSACTION (matecomponent_object_from_servant (servant));
+    return CORBA_string_dup (transaction->operation_name);
 }
 #endif
 
 
 CajaUndoTransaction *
 caja_undo_transaction_new (const char *operation_name,
-			       const char *undo_menu_item_label,
-			       const char *undo_menu_item_hint,
-			       const char *redo_menu_item_label,
-			       const char *redo_menu_item_hint)
+                           const char *undo_menu_item_label,
+                           const char *undo_menu_item_hint,
+                           const char *redo_menu_item_label,
+                           const char *redo_menu_item_hint)
 {
-	CajaUndoTransaction *transaction;
+    CajaUndoTransaction *transaction;
 
-	transaction = CAJA_UNDO_TRANSACTION (g_object_new (caja_undo_transaction_get_type (), NULL));
-	
-	transaction->operation_name = g_strdup (operation_name);
-	transaction->undo_menu_item_label = g_strdup (undo_menu_item_label);
-	transaction->undo_menu_item_hint = g_strdup (undo_menu_item_hint);
-	transaction->redo_menu_item_label = g_strdup (redo_menu_item_label);
-	transaction->redo_menu_item_hint = g_strdup (redo_menu_item_hint);
+    transaction = CAJA_UNDO_TRANSACTION (g_object_new (caja_undo_transaction_get_type (), NULL));
 
-	return transaction;
+    transaction->operation_name = g_strdup (operation_name);
+    transaction->undo_menu_item_label = g_strdup (undo_menu_item_label);
+    transaction->undo_menu_item_hint = g_strdup (undo_menu_item_hint);
+    transaction->redo_menu_item_label = g_strdup (redo_menu_item_label);
+    transaction->redo_menu_item_hint = g_strdup (redo_menu_item_hint);
+
+    return transaction;
 }
 
-static void 
+static void
 caja_undo_transaction_init (CajaUndoTransaction *transaction)
 {
 }
@@ -114,220 +114,230 @@ caja_undo_transaction_init (CajaUndoTransaction *transaction)
 static void
 remove_transaction_from_object (gpointer list_data, gpointer callback_data)
 {
-	CajaUndoAtom *atom;
-	CajaUndoTransaction *transaction;
-	GList *list;
-	
-	g_assert (list_data != NULL);
-	atom = list_data;
-	transaction = CAJA_UNDO_TRANSACTION (callback_data);
+    CajaUndoAtom *atom;
+    CajaUndoTransaction *transaction;
+    GList *list;
 
-	/* Remove the transaction from the list on the atom. */
-	list = g_object_get_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA);
+    g_assert (list_data != NULL);
+    atom = list_data;
+    transaction = CAJA_UNDO_TRANSACTION (callback_data);
 
-	if (list != NULL) {
-		list = g_list_remove (list, transaction);
-		g_object_set_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA, list);
-	}
+    /* Remove the transaction from the list on the atom. */
+    list = g_object_get_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA);
+
+    if (list != NULL)
+    {
+        list = g_list_remove (list, transaction);
+        g_object_set_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA, list);
+    }
 }
 
 static void
 remove_transaction_from_atom_targets (CajaUndoTransaction *transaction)
 {
 
-	g_list_foreach (transaction->atom_list,
-			remove_transaction_from_object,
-			transaction);	
+    g_list_foreach (transaction->atom_list,
+                    remove_transaction_from_object,
+                    transaction);
 }
 
 static void
 caja_undo_transaction_finalize (GObject *object)
 {
-	CajaUndoTransaction *transaction;
+    CajaUndoTransaction *transaction;
 
-	transaction = CAJA_UNDO_TRANSACTION (object);
-	
-	remove_transaction_from_atom_targets (transaction);
-	undo_atom_list_free (transaction->atom_list);
+    transaction = CAJA_UNDO_TRANSACTION (object);
 
-	g_free (transaction->operation_name);
-	g_free (transaction->undo_menu_item_label);
-	g_free (transaction->undo_menu_item_hint);
-	g_free (transaction->redo_menu_item_label);
-	g_free (transaction->redo_menu_item_hint);
+    remove_transaction_from_atom_targets (transaction);
+    undo_atom_list_free (transaction->atom_list);
 
-	if (transaction->owner != NULL) {
-		g_object_unref (transaction->owner);
-	}
-	
-	G_OBJECT_CLASS (caja_undo_transaction_parent_class)->finalize (object);
+    g_free (transaction->operation_name);
+    g_free (transaction->undo_menu_item_label);
+    g_free (transaction->undo_menu_item_hint);
+    g_free (transaction->redo_menu_item_label);
+    g_free (transaction->redo_menu_item_hint);
+
+    if (transaction->owner != NULL)
+    {
+        g_object_unref (transaction->owner);
+    }
+
+    G_OBJECT_CLASS (caja_undo_transaction_parent_class)->finalize (object);
 }
 
 void
-caja_undo_transaction_add_atom (CajaUndoTransaction *transaction, 
-				    const CajaUndoAtom *atom)
+caja_undo_transaction_add_atom (CajaUndoTransaction *transaction,
+                                const CajaUndoAtom *atom)
 {
-	GList *list;
-	
-	g_return_if_fail (CAJA_IS_UNDO_TRANSACTION (transaction));
-	g_return_if_fail (atom != NULL);
-	g_return_if_fail (GTK_IS_OBJECT (atom->target));
+    GList *list;
 
-	/* Add the atom to the atom list in the transaction. */
-	transaction->atom_list = g_list_append
-		(transaction->atom_list, g_memdup (atom, sizeof (*atom)));
+    g_return_if_fail (CAJA_IS_UNDO_TRANSACTION (transaction));
+    g_return_if_fail (atom != NULL);
+    g_return_if_fail (GTK_IS_OBJECT (atom->target));
 
-	/* Add the transaction to the list on the atoms target object. */
-	list = g_object_get_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA);
-	if (g_list_find (list, transaction) != NULL) {
-		return;
-	}
+    /* Add the atom to the atom list in the transaction. */
+    transaction->atom_list = g_list_append
+                             (transaction->atom_list, g_memdup (atom, sizeof (*atom)));
 
-	/* If it's not already on that atom, this object is new. */
-	list = g_list_prepend (list, transaction);
-	g_object_set_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA, list);
+    /* Add the transaction to the list on the atoms target object. */
+    list = g_object_get_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA);
+    if (g_list_find (list, transaction) != NULL)
+    {
+        return;
+    }
 
-	/* Connect a signal handler to the atom so it will unregister
-	 * itself when it's destroyed.
-	 */
-	g_signal_connect (atom->target, "destroy",
-			  G_CALLBACK (caja_undo_transaction_unregister_object),
-			  NULL);
+    /* If it's not already on that atom, this object is new. */
+    list = g_list_prepend (list, transaction);
+    g_object_set_data (atom->target, CAJA_UNDO_TRANSACTION_LIST_DATA, list);
+
+    /* Connect a signal handler to the atom so it will unregister
+     * itself when it's destroyed.
+     */
+    g_signal_connect (atom->target, "destroy",
+                      G_CALLBACK (caja_undo_transaction_unregister_object),
+                      NULL);
 }
 
-void 
+void
 caja_undo_transaction_undo (CajaUndoTransaction *transaction)
 {
-	g_return_if_fail (CAJA_IS_UNDO_TRANSACTION (transaction));
+    g_return_if_fail (CAJA_IS_UNDO_TRANSACTION (transaction));
 
-	remove_transaction_from_atom_targets (transaction);
-	undo_atom_list_undo_and_free (transaction->atom_list);
-	
-	transaction->atom_list = NULL;
+    remove_transaction_from_atom_targets (transaction);
+    undo_atom_list_undo_and_free (transaction->atom_list);
+
+    transaction->atom_list = NULL;
 }
 
 void
 caja_undo_transaction_add_to_undo_manager (CajaUndoTransaction *transaction,
-					       CajaUndoManager *manager)
+        CajaUndoManager *manager)
 {
-	g_return_if_fail (CAJA_IS_UNDO_TRANSACTION (transaction));
-	g_return_if_fail (transaction->owner == NULL);
+    g_return_if_fail (CAJA_IS_UNDO_TRANSACTION (transaction));
+    g_return_if_fail (transaction->owner == NULL);
 
-	if (manager != NULL) {
-		caja_undo_manager_append (manager, transaction);
-		transaction->owner = g_object_ref (manager);
-	}
+    if (manager != NULL)
+    {
+        caja_undo_manager_append (manager, transaction);
+        transaction->owner = g_object_ref (manager);
+    }
 }
 
 static void
 remove_atoms (CajaUndoTransaction *transaction,
-	      GObject *object)
+              GObject *object)
 {
-	GList *p, *next;
-	CajaUndoAtom *atom;
+    GList *p, *next;
+    CajaUndoAtom *atom;
 
-	g_assert (CAJA_IS_UNDO_TRANSACTION (transaction));
-	g_assert (G_IS_OBJECT (object));
+    g_assert (CAJA_IS_UNDO_TRANSACTION (transaction));
+    g_assert (G_IS_OBJECT (object));
 
-	/* Destroy any atoms for this object. */
-	for (p = transaction->atom_list; p != NULL; p = next) {
-		atom = p->data;
-		next = p->next;
+    /* Destroy any atoms for this object. */
+    for (p = transaction->atom_list; p != NULL; p = next)
+    {
+        atom = p->data;
+        next = p->next;
 
-		if (atom->target == object) {
-			transaction->atom_list = g_list_remove_link
-				(transaction->atom_list, p);
-			undo_atom_list_free (p);
-		}
-	}
+        if (atom->target == object)
+        {
+            transaction->atom_list = g_list_remove_link
+                                     (transaction->atom_list, p);
+            undo_atom_list_free (p);
+        }
+    }
 
-	/* If all the atoms are gone, forget this transaction.
-	 * This may end up freeing the transaction.
-	 */
-	if (transaction->atom_list == NULL) {
-		caja_undo_manager_forget (
-			transaction->owner, transaction);
-	}
+    /* If all the atoms are gone, forget this transaction.
+     * This may end up freeing the transaction.
+     */
+    if (transaction->atom_list == NULL)
+    {
+        caja_undo_manager_forget (
+            transaction->owner, transaction);
+    }
 }
 
 static void
 remove_atoms_cover (gpointer list_data, gpointer callback_data)
 {
-	if (CAJA_IS_UNDO_TRANSACTION (list_data)) {
-		remove_atoms (CAJA_UNDO_TRANSACTION (list_data), G_OBJECT (callback_data));
-	}
+    if (CAJA_IS_UNDO_TRANSACTION (list_data))
+    {
+        remove_atoms (CAJA_UNDO_TRANSACTION (list_data), G_OBJECT (callback_data));
+    }
 }
 
 void
 caja_undo_transaction_unregister_object (GObject *object)
 {
-	GList *list;
+    GList *list;
 
-	g_return_if_fail (G_IS_OBJECT (object));
+    g_return_if_fail (G_IS_OBJECT (object));
 
-	/* Remove atoms from each transaction on the list. */
-	list = g_object_get_data (object, CAJA_UNDO_TRANSACTION_LIST_DATA);
-	if (list != NULL) {
-		g_list_foreach (list, remove_atoms_cover, object);	
-		g_list_free (list);
-		g_object_set_data (object, CAJA_UNDO_TRANSACTION_LIST_DATA, NULL);
-	}
+    /* Remove atoms from each transaction on the list. */
+    list = g_object_get_data (object, CAJA_UNDO_TRANSACTION_LIST_DATA);
+    if (list != NULL)
+    {
+        g_list_foreach (list, remove_atoms_cover, object);
+        g_list_free (list);
+        g_object_set_data (object, CAJA_UNDO_TRANSACTION_LIST_DATA, NULL);
+    }
 }
 
 static void
 undo_atom_free (CajaUndoAtom *atom)
 {
-	/* Call the destroy-notify function if it's present. */
-	if (atom->callback_data_destroy_notify != NULL) {
-		(* atom->callback_data_destroy_notify) (atom->callback_data);
-	}
+    /* Call the destroy-notify function if it's present. */
+    if (atom->callback_data_destroy_notify != NULL)
+    {
+        (* atom->callback_data_destroy_notify) (atom->callback_data);
+    }
 
-	/* Free the atom storage. */
-	g_free (atom);
+    /* Free the atom storage. */
+    g_free (atom);
 }
 
 static void
 undo_atom_undo_and_free (CajaUndoAtom *atom)
 {
-	/* Call the function that does the actual undo. */
-	(* atom->callback) (atom->target, atom->callback_data);
+    /* Call the function that does the actual undo. */
+    (* atom->callback) (atom->target, atom->callback_data);
 
-	/* Get rid of the atom now that it's spent. */
-	undo_atom_free (atom);
+    /* Get rid of the atom now that it's spent. */
+    undo_atom_free (atom);
 }
 
 static void
 undo_atom_free_cover (gpointer atom, gpointer callback_data)
 {
-	g_assert (atom != NULL);
-	g_assert (callback_data == NULL);
-	undo_atom_free (atom);
+    g_assert (atom != NULL);
+    g_assert (callback_data == NULL);
+    undo_atom_free (atom);
 }
 
 static void
 undo_atom_undo_and_free_cover (gpointer atom, gpointer callback_data)
 {
-	g_assert (atom != NULL);
-	g_assert (callback_data == NULL);
-	undo_atom_undo_and_free (atom);
+    g_assert (atom != NULL);
+    g_assert (callback_data == NULL);
+    undo_atom_undo_and_free (atom);
 }
 
 static void
 undo_atom_list_free (GList *list)
 {
-	g_list_foreach (list, undo_atom_free_cover, NULL);
-	g_list_free (list);
+    g_list_foreach (list, undo_atom_free_cover, NULL);
+    g_list_free (list);
 }
 
 static void
 undo_atom_list_undo_and_free (GList *list)
 {
-	g_list_foreach (list, undo_atom_undo_and_free_cover, NULL);
-	g_list_free (list);
+    g_list_foreach (list, undo_atom_undo_and_free_cover, NULL);
+    g_list_free (list);
 }
 
 static void
 caja_undo_transaction_class_init (CajaUndoTransactionClass *klass)
 {
-	G_OBJECT_CLASS (klass)->finalize = caja_undo_transaction_finalize;
+    G_OBJECT_CLASS (klass)->finalize = caja_undo_transaction_finalize;
 }

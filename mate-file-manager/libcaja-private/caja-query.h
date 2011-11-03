@@ -35,13 +35,15 @@
 
 typedef struct CajaQueryDetails CajaQueryDetails;
 
-typedef struct CajaQuery {
-	GObject parent;
-	CajaQueryDetails *details;
+typedef struct CajaQuery
+{
+    GObject parent;
+    CajaQueryDetails *details;
 } CajaQuery;
 
-typedef struct {
-	GObjectClass parent_class;
+typedef struct
+{
+    GObjectClass parent_class;
 } CajaQueryClass;
 
 GType          caja_query_get_type (void);

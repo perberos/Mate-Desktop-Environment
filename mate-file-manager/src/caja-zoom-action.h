@@ -41,15 +41,15 @@ typedef struct CajaZoomActionPrivate CajaZoomActionPrivate;
 
 struct _CajaZoomAction
 {
-	GtkAction parent;
+    GtkAction parent;
 
-	/*< private >*/
-	CajaZoomActionPrivate *priv;
+    /*< private >*/
+    CajaZoomActionPrivate *priv;
 };
 
 struct _CajaZoomActionClass
 {
-	GtkActionClass parent_class;
+    GtkActionClass parent_class;
 };
 
 GType    caja_zoom_action_get_type   (void);

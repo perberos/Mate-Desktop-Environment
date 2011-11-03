@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* 
+/*
  * Copyright (C) 2004 Red Hat, Inc
  *
  * This program is free software; you can redistribute it and/or
@@ -40,13 +40,15 @@
 
 typedef struct CajaImagePropertiesPageDetails CajaImagePropertiesPageDetails;
 
-typedef struct {
-	GtkVBox parent;
-	CajaImagePropertiesPageDetails *details;
+typedef struct
+{
+    GtkVBox parent;
+    CajaImagePropertiesPageDetails *details;
 } CajaImagePropertiesPage;
 
-typedef struct {
-	GtkVBoxClass parent;
+typedef struct
+{
+    GtkVBoxClass parent;
 } CajaImagePropertiesPageClass;
 
 GType caja_image_properties_page_get_type (void);

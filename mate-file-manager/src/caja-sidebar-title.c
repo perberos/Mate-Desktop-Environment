@@ -61,7 +61,7 @@ static void                caja_sidebar_title_class_init (CajaSidebarTitleClass 
 static void                caja_sidebar_title_destroy          (GtkObject                 *object);
 static void                caja_sidebar_title_init       (CajaSidebarTitle      *pixmap);
 static void                caja_sidebar_title_size_allocate    (GtkWidget                 *widget,
-								    GtkAllocation             *allocation);
+        GtkAllocation             *allocation);
 static void                update_icon                             (CajaSidebarTitle      *sidebar_title);
 static GtkWidget *         sidebar_title_create_title_label        (void);
 static GtkWidget *         sidebar_title_create_more_info_label    (void);
@@ -69,23 +69,24 @@ static void		   update_all 				   (CajaSidebarTitle      *sidebar_title);
 static void		   update_more_info			   (CajaSidebarTitle      *sidebar_title);
 static void		   update_title_font			   (CajaSidebarTitle      *sidebar_title);
 static void                style_set                               (GtkWidget                 *widget,
-								    GtkStyle                  *previous_style);
+        GtkStyle                  *previous_style);
 static guint		   get_best_icon_size 			   (CajaSidebarTitle      *sidebar_title);
 
-struct CajaSidebarTitleDetails {
-	CajaFile		*file;
-	guint			 file_changed_connection;
-	gboolean                 monitoring_count;
+struct CajaSidebarTitleDetails
+{
+    CajaFile		*file;
+    guint			 file_changed_connection;
+    gboolean                 monitoring_count;
 
-	char			*title_text;
-	GtkWidget		*icon;
-	GtkWidget		*title_label;
-	GtkWidget		*more_info_label;
-	GtkWidget		*emblem_box;
+    char			*title_text;
+    GtkWidget		*icon;
+    GtkWidget		*title_label;
+    GtkWidget		*more_info_label;
+    GtkWidget		*emblem_box;
 
-	guint                    best_icon_size;
+    guint                    best_icon_size;
 
-	gboolean		 determined_icon;
+    gboolean		 determined_icon;
 };
 
 EEL_CLASS_BOILERPLATE (CajaSidebarTitle, caja_sidebar_title, gtk_vbox_get_type ())
@@ -93,597 +94,639 @@ EEL_CLASS_BOILERPLATE (CajaSidebarTitle, caja_sidebar_title, gtk_vbox_get_type (
 static void
 caja_sidebar_title_class_init (CajaSidebarTitleClass *class)
 {
-	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-	
-	object_class = (GtkObjectClass*) class;
-	widget_class = (GtkWidgetClass*) class;
-	
-	object_class->destroy = caja_sidebar_title_destroy;
-	widget_class->size_allocate = caja_sidebar_title_size_allocate;
-	widget_class->style_set = style_set;
+    GtkObjectClass *object_class;
+    GtkWidgetClass *widget_class;
+
+    object_class = (GtkObjectClass*) class;
+    widget_class = (GtkWidgetClass*) class;
+
+    object_class->destroy = caja_sidebar_title_destroy;
+    widget_class->size_allocate = caja_sidebar_title_size_allocate;
+    widget_class->style_set = style_set;
 
 }
 
 static void
 style_set (GtkWidget *widget,
-	   GtkStyle  *previous_style)
+           GtkStyle  *previous_style)
 {
-	CajaSidebarTitle *sidebar_title;
-	PangoFontDescription *font_desc;
-	GtkStyle *style;
+    CajaSidebarTitle *sidebar_title;
+    PangoFontDescription *font_desc;
+    GtkStyle *style;
 
-	g_return_if_fail (CAJA_IS_SIDEBAR_TITLE (widget));
+    g_return_if_fail (CAJA_IS_SIDEBAR_TITLE (widget));
 
-	sidebar_title = CAJA_SIDEBAR_TITLE (widget);
+    sidebar_title = CAJA_SIDEBAR_TITLE (widget);
 
-	/* Update the dynamically-sized title font */
-	update_title_font (sidebar_title);
+    /* Update the dynamically-sized title font */
+    update_title_font (sidebar_title);
 
-	/* Update the fixed-size "more info" font */
-	style = gtk_widget_get_style (widget);
-	font_desc = pango_font_description_copy (style->font_desc);
-	if (pango_font_description_get_size (font_desc) < MORE_INFO_FONT_SIZE * PANGO_SCALE) {
-		pango_font_description_set_size (font_desc, MORE_INFO_FONT_SIZE * PANGO_SCALE);
-	}
-	
-	gtk_widget_modify_font (sidebar_title->details->more_info_label,
-				font_desc);
-	pango_font_description_free (font_desc);
+    /* Update the fixed-size "more info" font */
+    style = gtk_widget_get_style (widget);
+    font_desc = pango_font_description_copy (style->font_desc);
+    if (pango_font_description_get_size (font_desc) < MORE_INFO_FONT_SIZE * PANGO_SCALE)
+    {
+        pango_font_description_set_size (font_desc, MORE_INFO_FONT_SIZE * PANGO_SCALE);
+    }
+
+    gtk_widget_modify_font (sidebar_title->details->more_info_label,
+                            font_desc);
+    pango_font_description_free (font_desc);
 }
 
 static void
 caja_sidebar_title_init (CajaSidebarTitle *sidebar_title)
 {
-	sidebar_title->details = g_new0 (CajaSidebarTitleDetails, 1);
-	
-	/* Create the icon */
-	sidebar_title->details->icon = gtk_image_new ();
-	gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->icon, 0, 0, 0);
-	gtk_widget_show (sidebar_title->details->icon);
+    sidebar_title->details = g_new0 (CajaSidebarTitleDetails, 1);
 
-	/* Create the title label */
-	sidebar_title->details->title_label = sidebar_title_create_title_label ();
-	gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->title_label, 0, 0, 0);
-	gtk_widget_show (sidebar_title->details->title_label);
+    /* Create the icon */
+    sidebar_title->details->icon = gtk_image_new ();
+    gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->icon, 0, 0, 0);
+    gtk_widget_show (sidebar_title->details->icon);
 
-	/* Create the more info label */
-	sidebar_title->details->more_info_label = sidebar_title_create_more_info_label ();
-	gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->more_info_label, 0, 0, 0);
-	gtk_widget_show (sidebar_title->details->more_info_label);
+    /* Create the title label */
+    sidebar_title->details->title_label = sidebar_title_create_title_label ();
+    gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->title_label, 0, 0, 0);
+    gtk_widget_show (sidebar_title->details->title_label);
 
-	sidebar_title->details->emblem_box = gtk_hbox_new (FALSE, 0);
-	gtk_widget_show (sidebar_title->details->emblem_box);
-	gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->emblem_box, 0, 0, 0);
+    /* Create the more info label */
+    sidebar_title->details->more_info_label = sidebar_title_create_more_info_label ();
+    gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->more_info_label, 0, 0, 0);
+    gtk_widget_show (sidebar_title->details->more_info_label);
 
-	sidebar_title->details->best_icon_size = get_best_icon_size (sidebar_title);
-	/* Keep track of changes in graphics trade offs */
-	update_all (sidebar_title);
+    sidebar_title->details->emblem_box = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (sidebar_title->details->emblem_box);
+    gtk_box_pack_start (GTK_BOX (sidebar_title), sidebar_title->details->emblem_box, 0, 0, 0);
 
-	/* initialize the label colors & fonts */
-	style_set (GTK_WIDGET (sidebar_title), NULL);
+    sidebar_title->details->best_icon_size = get_best_icon_size (sidebar_title);
+    /* Keep track of changes in graphics trade offs */
+    update_all (sidebar_title);
 
-	eel_preferences_add_callback_while_alive (
-		CAJA_PREFERENCES_SHOW_DIRECTORY_ITEM_COUNTS,
-		(EelPreferencesCallback) update_more_info,
-		sidebar_title, G_OBJECT (sidebar_title));
+    /* initialize the label colors & fonts */
+    style_set (GTK_WIDGET (sidebar_title), NULL);
+
+    eel_preferences_add_callback_while_alive (
+        CAJA_PREFERENCES_SHOW_DIRECTORY_ITEM_COUNTS,
+        (EelPreferencesCallback) update_more_info,
+        sidebar_title, G_OBJECT (sidebar_title));
 }
 
 /* destroy by throwing away private storage */
 static void
 release_file (CajaSidebarTitle *sidebar_title)
 {
-	if (sidebar_title->details->file_changed_connection != 0) {
-		g_signal_handler_disconnect (sidebar_title->details->file,
-					     sidebar_title->details->file_changed_connection);
-		sidebar_title->details->file_changed_connection = 0;
-	}
+    if (sidebar_title->details->file_changed_connection != 0)
+    {
+        g_signal_handler_disconnect (sidebar_title->details->file,
+                                     sidebar_title->details->file_changed_connection);
+        sidebar_title->details->file_changed_connection = 0;
+    }
 
-	if (sidebar_title->details->file != NULL) {
-		caja_file_monitor_remove (sidebar_title->details->file, sidebar_title);
-		caja_file_unref (sidebar_title->details->file);
-		sidebar_title->details->file = NULL;
-	}
+    if (sidebar_title->details->file != NULL)
+    {
+        caja_file_monitor_remove (sidebar_title->details->file, sidebar_title);
+        caja_file_unref (sidebar_title->details->file);
+        sidebar_title->details->file = NULL;
+    }
 }
 
 static void
 caja_sidebar_title_destroy (GtkObject *object)
 {
-	CajaSidebarTitle *sidebar_title;
+    CajaSidebarTitle *sidebar_title;
 
-	sidebar_title = CAJA_SIDEBAR_TITLE (object);
+    sidebar_title = CAJA_SIDEBAR_TITLE (object);
 
-	if (sidebar_title->details) {
-		release_file (sidebar_title);
+    if (sidebar_title->details)
+    {
+        release_file (sidebar_title);
 
-		g_free (sidebar_title->details->title_text);
-		g_free (sidebar_title->details);
-		sidebar_title->details = NULL;
-	}
+        g_free (sidebar_title->details->title_text);
+        g_free (sidebar_title->details);
+        sidebar_title->details = NULL;
+    }
 
-	EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
+    EEL_CALL_PARENT (GTK_OBJECT_CLASS, destroy, (object));
 }
 
 /* return a new index title object */
 GtkWidget *
 caja_sidebar_title_new (void)
 {
-	return gtk_widget_new (caja_sidebar_title_get_type (), NULL);
+    return gtk_widget_new (caja_sidebar_title_get_type (), NULL);
 }
 
 void
 caja_sidebar_title_select_text_color (CajaSidebarTitle *sidebar_title,
-					  EelBackground        *background,
-					  gboolean              is_default)
+                                      EelBackground        *background,
+                                      gboolean              is_default)
 {
-	char *sidebar_title_color;
-	char *sidebar_info_title_color;
-	char *sidebar_title_shadow_color;
+    char *sidebar_title_color;
+    char *sidebar_info_title_color;
+    char *sidebar_title_shadow_color;
 
-	g_return_if_fail (background != NULL);
-	
-	/* if the background is set to the default, the theme can explicitly
-	 * define the title colors.  Check if the background has been customized
-	 * and if the theme specified any colors
-	 */
-	sidebar_title_color = NULL;
-	sidebar_info_title_color = NULL;
-	sidebar_title_shadow_color = NULL;
-	
-	/* FIXME bugzilla.mate.org 42496: for now, both the title and info
-	 * colors are the same - and hard coded */
-	if (eel_background_is_dark (background)) {
-		sidebar_title_color = g_strdup ("#FFFFFF");
-		sidebar_info_title_color = g_strdup ("#FFFFFF");
-		sidebar_title_shadow_color = g_strdup ("#000000");
-	} else {
-		sidebar_title_color = g_strdup ("#000000");
-		sidebar_info_title_color = g_strdup ("#000000");
-		sidebar_title_shadow_color = g_strdup ("#FFFFFF");
-	}
+    g_return_if_fail (background != NULL);
 
-	eel_gtk_widget_set_foreground_color (sidebar_title->details->title_label,
-					     sidebar_title_color);
-	eel_gtk_widget_set_foreground_color (sidebar_title->details->more_info_label,
-					     sidebar_info_title_color);
+    /* if the background is set to the default, the theme can explicitly
+     * define the title colors.  Check if the background has been customized
+     * and if the theme specified any colors
+     */
+    sidebar_title_color = NULL;
+    sidebar_info_title_color = NULL;
+    sidebar_title_shadow_color = NULL;
 
-	eel_gtk_label_set_drop_shadow_color (GTK_LABEL (sidebar_title->details->title_label),
-					     eel_parse_rgb_with_white_default (sidebar_title_shadow_color));
-	eel_gtk_label_set_drop_shadow_color (GTK_LABEL (sidebar_title->details->more_info_label),
-					     eel_parse_rgb_with_white_default (sidebar_title_shadow_color));
+    /* FIXME bugzilla.mate.org 42496: for now, both the title and info
+     * colors are the same - and hard coded */
+    if (eel_background_is_dark (background))
+    {
+        sidebar_title_color = g_strdup ("#FFFFFF");
+        sidebar_info_title_color = g_strdup ("#FFFFFF");
+        sidebar_title_shadow_color = g_strdup ("#000000");
+    }
+    else
+    {
+        sidebar_title_color = g_strdup ("#000000");
+        sidebar_info_title_color = g_strdup ("#000000");
+        sidebar_title_shadow_color = g_strdup ("#FFFFFF");
+    }
 
-	eel_gtk_label_set_drop_shadow_offset (GTK_LABEL (sidebar_title->details->title_label), 
-					      SHADOW_OFFSET);
-	eel_gtk_label_set_drop_shadow_offset (GTK_LABEL (sidebar_title->details->more_info_label),
-					      SHADOW_OFFSET);
-		
-	g_free (sidebar_title_color);	
-	g_free (sidebar_info_title_color);	
-	g_free (sidebar_title_shadow_color);
+    eel_gtk_widget_set_foreground_color (sidebar_title->details->title_label,
+                                         sidebar_title_color);
+    eel_gtk_widget_set_foreground_color (sidebar_title->details->more_info_label,
+                                         sidebar_info_title_color);
+
+    eel_gtk_label_set_drop_shadow_color (GTK_LABEL (sidebar_title->details->title_label),
+                                         eel_parse_rgb_with_white_default (sidebar_title_shadow_color));
+    eel_gtk_label_set_drop_shadow_color (GTK_LABEL (sidebar_title->details->more_info_label),
+                                         eel_parse_rgb_with_white_default (sidebar_title_shadow_color));
+
+    eel_gtk_label_set_drop_shadow_offset (GTK_LABEL (sidebar_title->details->title_label),
+                                          SHADOW_OFFSET);
+    eel_gtk_label_set_drop_shadow_offset (GTK_LABEL (sidebar_title->details->more_info_label),
+                                          SHADOW_OFFSET);
+
+    g_free (sidebar_title_color);
+    g_free (sidebar_info_title_color);
+    g_free (sidebar_title_shadow_color);
 }
 
 static char*
 get_property_from_component (CajaSidebarTitle *sidebar_title, const char *property)
 {
-	/* There used to be a way to get icon and summary_text from main view,
-	 *  but its not used right now, so this sas stubbed out for now
-	 */
-	return NULL;
+    /* There used to be a way to get icon and summary_text from main view,
+     *  but its not used right now, so this sas stubbed out for now
+     */
+    return NULL;
 }
 
 static guint
 get_best_icon_size (CajaSidebarTitle *sidebar_title)
 {
-	gint width;
-	GtkAllocation allocation;
+    gint width;
+    GtkAllocation allocation;
 
-	gtk_widget_get_allocation (GTK_WIDGET (sidebar_title), &allocation);
-	width = allocation.width - TITLE_PADDING;
+    gtk_widget_get_allocation (GTK_WIDGET (sidebar_title), &allocation);
+    width = allocation.width - TITLE_PADDING;
 
-	if (width < 0) {
-		/* use smallest available icon size */
-		return caja_icon_get_smaller_icon_size (0);
-	} else {
-		return caja_icon_get_smaller_icon_size ((guint) width);
-	}
+    if (width < 0)
+    {
+        /* use smallest available icon size */
+        return caja_icon_get_smaller_icon_size (0);
+    }
+    else
+    {
+        return caja_icon_get_smaller_icon_size ((guint) width);
+    }
 }
 
 /* set up the icon image */
 static void
 update_icon (CajaSidebarTitle *sidebar_title)
 {
-	GdkPixbuf *pixbuf;
-	CajaIconInfo *info;
-	char *icon_name;
-	gboolean leave_pixbuf_unchanged;
-	
-	leave_pixbuf_unchanged = FALSE;
+    GdkPixbuf *pixbuf;
+    CajaIconInfo *info;
+    char *icon_name;
+    gboolean leave_pixbuf_unchanged;
 
-	/* see if the current content view is specifying an icon */
-	icon_name = get_property_from_component (sidebar_title, "icon_name");
+    leave_pixbuf_unchanged = FALSE;
 
-	pixbuf = NULL;
-	if (icon_name != NULL && icon_name[0] != '\0') {
-		info = caja_icon_info_lookup_from_name (icon_name, CAJA_ICON_SIZE_LARGE);
-		pixbuf = caja_icon_info_get_pixbuf_at_size (info,  CAJA_ICON_SIZE_LARGE);
-		g_object_unref (info);
-	} else if (sidebar_title->details->file != NULL &&
-		   caja_file_check_if_ready (sidebar_title->details->file,
-						 CAJA_FILE_ATTRIBUTES_FOR_ICON)) {
-		pixbuf = caja_file_get_icon_pixbuf (sidebar_title->details->file,
-							sidebar_title->details->best_icon_size,
-							TRUE,
-							CAJA_FILE_ICON_FLAGS_USE_THUMBNAILS |
-		                                        CAJA_FILE_ICON_FLAGS_USE_MOUNT_ICON_AS_EMBLEM);
-	} else if (sidebar_title->details->determined_icon) {
-		/* We used to know the icon for this file, but now the file says it isn't
-		 * ready. This means that some file info has been invalidated, which
-		 * doesn't necessarily mean that the previously-determined icon is
-		 * wrong (in fact, in practice it usually doesn't mean that). Keep showing
-		 * the one we last determined for now.
-		 */
-		 leave_pixbuf_unchanged = TRUE;
-	}
-	
-	g_free (icon_name);
+    /* see if the current content view is specifying an icon */
+    icon_name = get_property_from_component (sidebar_title, "icon_name");
 
-	if (!leave_pixbuf_unchanged) {
-		gtk_image_set_from_pixbuf (GTK_IMAGE (sidebar_title->details->icon), pixbuf);
-	}
-	
-	if (pixbuf != NULL) {
-		sidebar_title->details->determined_icon = TRUE;
-		g_object_unref (pixbuf);
-	}
+    pixbuf = NULL;
+    if (icon_name != NULL && icon_name[0] != '\0')
+    {
+        info = caja_icon_info_lookup_from_name (icon_name, CAJA_ICON_SIZE_LARGE);
+        pixbuf = caja_icon_info_get_pixbuf_at_size (info,  CAJA_ICON_SIZE_LARGE);
+        g_object_unref (info);
+    }
+    else if (sidebar_title->details->file != NULL &&
+             caja_file_check_if_ready (sidebar_title->details->file,
+                                       CAJA_FILE_ATTRIBUTES_FOR_ICON))
+    {
+        pixbuf = caja_file_get_icon_pixbuf (sidebar_title->details->file,
+                                            sidebar_title->details->best_icon_size,
+                                            TRUE,
+                                            CAJA_FILE_ICON_FLAGS_USE_THUMBNAILS |
+                                            CAJA_FILE_ICON_FLAGS_USE_MOUNT_ICON_AS_EMBLEM);
+    }
+    else if (sidebar_title->details->determined_icon)
+    {
+        /* We used to know the icon for this file, but now the file says it isn't
+         * ready. This means that some file info has been invalidated, which
+         * doesn't necessarily mean that the previously-determined icon is
+         * wrong (in fact, in practice it usually doesn't mean that). Keep showing
+         * the one we last determined for now.
+         */
+        leave_pixbuf_unchanged = TRUE;
+    }
+
+    g_free (icon_name);
+
+    if (!leave_pixbuf_unchanged)
+    {
+        gtk_image_set_from_pixbuf (GTK_IMAGE (sidebar_title->details->icon), pixbuf);
+    }
+
+    if (pixbuf != NULL)
+    {
+        sidebar_title->details->determined_icon = TRUE;
+        g_object_unref (pixbuf);
+    }
 }
 
 static void
 update_title_font (CajaSidebarTitle *sidebar_title)
 {
-	int available_width;
-	PangoFontDescription *title_font;
-	int largest_fitting_font_size;
-	int max_style_font_size;
-	GtkStyle *style;
-	GtkAllocation allocation;
+    int available_width;
+    PangoFontDescription *title_font;
+    int largest_fitting_font_size;
+    int max_style_font_size;
+    GtkStyle *style;
+    GtkAllocation allocation;
 
-	/* Make sure theres work to do */
-	if (eel_strlen (sidebar_title->details->title_text) < 1) {
-		return;
-	}
+    /* Make sure theres work to do */
+    if (eel_strlen (sidebar_title->details->title_text) < 1)
+    {
+        return;
+    }
 
-	gtk_widget_get_allocation (GTK_WIDGET (sidebar_title), &allocation);
-	available_width = allocation.width - TITLE_PADDING;
+    gtk_widget_get_allocation (GTK_WIDGET (sidebar_title), &allocation);
+    available_width = allocation.width - TITLE_PADDING;
 
-	/* No work to do */
-	if (available_width <= 0) {
-		return;
-	}
+    /* No work to do */
+    if (available_width <= 0)
+    {
+        return;
+    }
 
-	style = gtk_widget_get_style (GTK_WIDGET (sidebar_title));
-	title_font = pango_font_description_copy (style->font_desc);
+    style = gtk_widget_get_style (GTK_WIDGET (sidebar_title));
+    title_font = pango_font_description_copy (style->font_desc);
 
-	max_style_font_size = pango_font_description_get_size (title_font) * 1.8 / PANGO_SCALE;
-	if (max_style_font_size < MIN_TITLE_FONT_SIZE + 1) {
-		max_style_font_size = MIN_TITLE_FONT_SIZE + 1;
-	}
+    max_style_font_size = pango_font_description_get_size (title_font) * 1.8 / PANGO_SCALE;
+    if (max_style_font_size < MIN_TITLE_FONT_SIZE + 1)
+    {
+        max_style_font_size = MIN_TITLE_FONT_SIZE + 1;
+    }
 
-	largest_fitting_font_size = eel_pango_font_description_get_largest_fitting_font_size (
-		title_font,
-		gtk_widget_get_pango_context (sidebar_title->details->title_label),
-		sidebar_title->details->title_text,
-		available_width,
-		MIN_TITLE_FONT_SIZE,
-		max_style_font_size);
-	pango_font_description_set_size (title_font, largest_fitting_font_size * PANGO_SCALE); 
+    largest_fitting_font_size = eel_pango_font_description_get_largest_fitting_font_size (
+                                    title_font,
+                                    gtk_widget_get_pango_context (sidebar_title->details->title_label),
+                                    sidebar_title->details->title_text,
+                                    available_width,
+                                    MIN_TITLE_FONT_SIZE,
+                                    max_style_font_size);
+    pango_font_description_set_size (title_font, largest_fitting_font_size * PANGO_SCALE);
 
-	pango_font_description_set_weight (title_font, PANGO_WEIGHT_BOLD);
-	
-	gtk_widget_modify_font (sidebar_title->details->title_label,
-				title_font);
-	pango_font_description_free (title_font);
+    pango_font_description_set_weight (title_font, PANGO_WEIGHT_BOLD);
+
+    gtk_widget_modify_font (sidebar_title->details->title_label,
+                            title_font);
+    pango_font_description_free (title_font);
 }
 
 static void
 update_title (CajaSidebarTitle *sidebar_title)
 {
-	GtkLabel *label;
-	const char *text;
+    GtkLabel *label;
+    const char *text;
 
-	label = GTK_LABEL (sidebar_title->details->title_label);
-	text = sidebar_title->details->title_text;
+    label = GTK_LABEL (sidebar_title->details->title_label);
+    text = sidebar_title->details->title_text;
 
-	if (eel_strcmp (text, gtk_label_get_text (label)) == 0) {
-		return;
-	}
-	gtk_label_set_text (label, text);
-	update_title_font (sidebar_title);
+    if (eel_strcmp (text, gtk_label_get_text (label)) == 0)
+    {
+        return;
+    }
+    gtk_label_set_text (label, text);
+    update_title_font (sidebar_title);
 }
 
 static void
 append_and_eat (GString *string, const char *separator, char *new_string)
 {
-	if (new_string == NULL) {
-		return;
-	}
-	if (separator != NULL) {
-		g_string_append (string, separator);
-	}
-	g_string_append (string, new_string);
-	g_free (new_string);
+    if (new_string == NULL)
+    {
+        return;
+    }
+    if (separator != NULL)
+    {
+        g_string_append (string, separator);
+    }
+    g_string_append (string, new_string);
+    g_free (new_string);
 }
 
 static int
 measure_width_callback (const char *string, gpointer callback_data)
 {
-	PangoLayout *layout;
-	int width;
+    PangoLayout *layout;
+    int width;
 
-	layout = PANGO_LAYOUT (callback_data);
-	pango_layout_set_text (layout, string, -1);
-	pango_layout_get_pixel_size (layout, &width, NULL);
-	return width;
+    layout = PANGO_LAYOUT (callback_data);
+    pango_layout_set_text (layout, string, -1);
+    pango_layout_get_pixel_size (layout, &width, NULL);
+    return width;
 }
 
 static void
 update_more_info (CajaSidebarTitle *sidebar_title)
 {
-	CajaFile *file;
-	GString *info_string;
-	char *type_string, *component_info;
-	char *date_modified_str;
-	int sidebar_width;
-	PangoLayout *layout;
-	GtkAllocation allocation;
-	
-	file = sidebar_title->details->file;
+    CajaFile *file;
+    GString *info_string;
+    char *type_string, *component_info;
+    char *date_modified_str;
+    int sidebar_width;
+    PangoLayout *layout;
+    GtkAllocation allocation;
 
-	/* allow components to specify the info if they wish to */
-	component_info = get_property_from_component (sidebar_title, "summary_info");
-	if (component_info != NULL && strlen (component_info) > 0) {
-		info_string = g_string_new (component_info);
-		g_free (component_info);
-	} else {
-		info_string = g_string_new (NULL);
+    file = sidebar_title->details->file;
 
-		type_string = NULL;
-		if (file != NULL && caja_file_should_show_type (file)) {
-			type_string = caja_file_get_string_attribute (file, "type");
-		}
+    /* allow components to specify the info if they wish to */
+    component_info = get_property_from_component (sidebar_title, "summary_info");
+    if (component_info != NULL && strlen (component_info) > 0)
+    {
+        info_string = g_string_new (component_info);
+        g_free (component_info);
+    }
+    else
+    {
+        info_string = g_string_new (NULL);
 
-		if (type_string != NULL) {
-			append_and_eat (info_string, NULL, type_string);
-			append_and_eat (info_string, ", ",
-					caja_file_get_string_attribute (file, "size"));
-		} else {
-			append_and_eat (info_string, NULL,
-					caja_file_get_string_attribute (file, "size"));
-		}
+        type_string = NULL;
+        if (file != NULL && caja_file_should_show_type (file))
+        {
+            type_string = caja_file_get_string_attribute (file, "type");
+        }
 
-		gtk_widget_get_allocation (GTK_WIDGET (sidebar_title), &allocation);
-		sidebar_width = allocation.width - 2 * SIDEBAR_INFO_MARGIN;
-		if (sidebar_width > MINIMUM_INFO_WIDTH) {
-			layout = pango_layout_copy (gtk_label_get_layout (GTK_LABEL (sidebar_title->details->more_info_label)));
-			pango_layout_set_width (layout, -1);
-			date_modified_str = caja_file_fit_modified_date_as_string
-				(file, sidebar_width, measure_width_callback, NULL, layout);
-			g_object_unref (layout);
-				append_and_eat (info_string, "\n", date_modified_str);
-		}
-	}
-	gtk_label_set_text (GTK_LABEL (sidebar_title->details->more_info_label),
-			    info_string->str);
+        if (type_string != NULL)
+        {
+            append_and_eat (info_string, NULL, type_string);
+            append_and_eat (info_string, ", ",
+                            caja_file_get_string_attribute (file, "size"));
+        }
+        else
+        {
+            append_and_eat (info_string, NULL,
+                            caja_file_get_string_attribute (file, "size"));
+        }
 
-	g_string_free (info_string, TRUE);
+        gtk_widget_get_allocation (GTK_WIDGET (sidebar_title), &allocation);
+        sidebar_width = allocation.width - 2 * SIDEBAR_INFO_MARGIN;
+        if (sidebar_width > MINIMUM_INFO_WIDTH)
+        {
+            layout = pango_layout_copy (gtk_label_get_layout (GTK_LABEL (sidebar_title->details->more_info_label)));
+            pango_layout_set_width (layout, -1);
+            date_modified_str = caja_file_fit_modified_date_as_string
+                                (file, sidebar_width, measure_width_callback, NULL, layout);
+            g_object_unref (layout);
+            append_and_eat (info_string, "\n", date_modified_str);
+        }
+    }
+    gtk_label_set_text (GTK_LABEL (sidebar_title->details->more_info_label),
+                        info_string->str);
+
+    g_string_free (info_string, TRUE);
 }
 
 /* add a pixbuf to the emblem box */
 static void
 add_emblem (CajaSidebarTitle *sidebar_title, GdkPixbuf *pixbuf)
 {
-	GtkWidget *image_widget;
+    GtkWidget *image_widget;
 
-	image_widget = gtk_image_new_from_pixbuf (pixbuf);
-  	gtk_widget_show (image_widget);
-	gtk_container_add (GTK_CONTAINER (sidebar_title->details->emblem_box), image_widget);	
+    image_widget = gtk_image_new_from_pixbuf (pixbuf);
+    gtk_widget_show (image_widget);
+    gtk_container_add (GTK_CONTAINER (sidebar_title->details->emblem_box), image_widget);
 }
 
 static void
 update_emblems (CajaSidebarTitle *sidebar_title)
 {
-	GList *pixbufs, *p;
-	GdkPixbuf *pixbuf;
+    GList *pixbufs, *p;
+    GdkPixbuf *pixbuf;
 
-	/* exit if we don't have the file yet */
-	if (sidebar_title->details->file == NULL) {
-		return;
-	}
-	
-	/* First, deallocate any existing ones */
-	gtk_container_foreach (GTK_CONTAINER (sidebar_title->details->emblem_box),
-			       (GtkCallback) gtk_widget_destroy,
-			       NULL);
+    /* exit if we don't have the file yet */
+    if (sidebar_title->details->file == NULL)
+    {
+        return;
+    }
 
-	/* fetch the emblem icons from metadata */
-	pixbufs = caja_file_get_emblem_pixbufs (sidebar_title->details->file,
-						    caja_icon_get_emblem_size_for_icon_size (CAJA_ICON_SIZE_STANDARD),
-						    FALSE,
-						    NULL);
+    /* First, deallocate any existing ones */
+    gtk_container_foreach (GTK_CONTAINER (sidebar_title->details->emblem_box),
+                           (GtkCallback) gtk_widget_destroy,
+                           NULL);
 
-	/* loop through the list of emblems, installing them in the box */
-	for (p = pixbufs; p != NULL; p = p->next) {
-		pixbuf = p->data;
-		add_emblem (sidebar_title, pixbuf);
-		g_object_unref (pixbuf);
-	}
-	g_list_free (pixbufs);
+    /* fetch the emblem icons from metadata */
+    pixbufs = caja_file_get_emblem_pixbufs (sidebar_title->details->file,
+                                            caja_icon_get_emblem_size_for_icon_size (CAJA_ICON_SIZE_STANDARD),
+                                            FALSE,
+                                            NULL);
+
+    /* loop through the list of emblems, installing them in the box */
+    for (p = pixbufs; p != NULL; p = p->next)
+    {
+        pixbuf = p->data;
+        add_emblem (sidebar_title, pixbuf);
+        g_object_unref (pixbuf);
+    }
+    g_list_free (pixbufs);
 }
 
 /* return the filename text */
 char *
 caja_sidebar_title_get_text (CajaSidebarTitle *sidebar_title)
 {
-	return g_strdup (sidebar_title->details->title_text);
+    return g_strdup (sidebar_title->details->title_text);
 }
 
 /* set up the filename text */
 void
 caja_sidebar_title_set_text (CajaSidebarTitle *sidebar_title,
-				 const char* new_text)
+                             const char* new_text)
 {
-	g_free (sidebar_title->details->title_text);
-	
-	/* truncate the title to a reasonable size */
-	if (new_text && strlen (new_text) > MAX_TITLE_SIZE) {
-		sidebar_title->details->title_text = g_strndup (new_text, MAX_TITLE_SIZE);
-	} else {
-		sidebar_title->details->title_text = g_strdup (new_text);
-	}
-	/* Recompute the displayed text. */
-	update_title (sidebar_title);
+    g_free (sidebar_title->details->title_text);
+
+    /* truncate the title to a reasonable size */
+    if (new_text && strlen (new_text) > MAX_TITLE_SIZE)
+    {
+        sidebar_title->details->title_text = g_strndup (new_text, MAX_TITLE_SIZE);
+    }
+    else
+    {
+        sidebar_title->details->title_text = g_strdup (new_text);
+    }
+    /* Recompute the displayed text. */
+    update_title (sidebar_title);
 }
 
 static gboolean
 item_count_ready (CajaSidebarTitle *sidebar_title)
 {
-	return sidebar_title->details->file != NULL
-		&& caja_file_get_directory_item_count
-		(sidebar_title->details->file, NULL, NULL) != 0;
+    return sidebar_title->details->file != NULL
+           && caja_file_get_directory_item_count
+           (sidebar_title->details->file, NULL, NULL) != 0;
 }
 
 static void
 monitor_add (CajaSidebarTitle *sidebar_title)
 {
-	CajaFileAttributes attributes;
+    CajaFileAttributes attributes;
 
-	/* Monitor the things needed to get the right icon. Don't
-	 * monitor a directory's item count at first even though the
-	 * "size" attribute is based on that, because the main view
-	 * will get it for us in most cases, and in other cases it's
-	 * OK to not show the size -- if we did monitor it, we'd be in
-	 * a race with the main view and could cause it to have to
-	 * load twice. Once we have a size, though, we want to monitor
-	 * the size to guarantee it stays up to date.
-	 */
+    /* Monitor the things needed to get the right icon. Don't
+     * monitor a directory's item count at first even though the
+     * "size" attribute is based on that, because the main view
+     * will get it for us in most cases, and in other cases it's
+     * OK to not show the size -- if we did monitor it, we'd be in
+     * a race with the main view and could cause it to have to
+     * load twice. Once we have a size, though, we want to monitor
+     * the size to guarantee it stays up to date.
+     */
 
-	sidebar_title->details->monitoring_count = item_count_ready (sidebar_title);
+    sidebar_title->details->monitoring_count = item_count_ready (sidebar_title);
 
-	attributes = CAJA_FILE_ATTRIBUTES_FOR_ICON | CAJA_FILE_ATTRIBUTE_INFO;
-	if (sidebar_title->details->monitoring_count) {
-		attributes |= CAJA_FILE_ATTRIBUTE_DIRECTORY_ITEM_COUNT;
-	}
+    attributes = CAJA_FILE_ATTRIBUTES_FOR_ICON | CAJA_FILE_ATTRIBUTE_INFO;
+    if (sidebar_title->details->monitoring_count)
+    {
+        attributes |= CAJA_FILE_ATTRIBUTE_DIRECTORY_ITEM_COUNT;
+    }
 
-	caja_file_monitor_add (sidebar_title->details->file, sidebar_title, attributes);
+    caja_file_monitor_add (sidebar_title->details->file, sidebar_title, attributes);
 }
 
 static void
 update_all (CajaSidebarTitle *sidebar_title)
 {
-	update_icon (sidebar_title);
-	
-	update_title (sidebar_title);
-	update_more_info (sidebar_title);
-	
-	update_emblems (sidebar_title);
+    update_icon (sidebar_title);
 
-	/* Redo monitor once the count is ready. */
-	if (!sidebar_title->details->monitoring_count && item_count_ready (sidebar_title)) {
-		caja_file_monitor_remove (sidebar_title->details->file, sidebar_title);
-		monitor_add (sidebar_title);
-	}
+    update_title (sidebar_title);
+    update_more_info (sidebar_title);
+
+    update_emblems (sidebar_title);
+
+    /* Redo monitor once the count is ready. */
+    if (!sidebar_title->details->monitoring_count && item_count_ready (sidebar_title))
+    {
+        caja_file_monitor_remove (sidebar_title->details->file, sidebar_title);
+        monitor_add (sidebar_title);
+    }
 }
 
 void
 caja_sidebar_title_set_file (CajaSidebarTitle *sidebar_title,
-				 CajaFile         *file,
-				 const char           *initial_text)
+                             CajaFile         *file,
+                             const char           *initial_text)
 {
-	if (file != sidebar_title->details->file) {
-		release_file (sidebar_title);
-		sidebar_title->details->file = file;
-		sidebar_title->details->determined_icon = FALSE;
-		caja_file_ref (sidebar_title->details->file);
-	
-		/* attach file */
-		if (file != NULL) {
-			sidebar_title->details->file_changed_connection =
-				g_signal_connect_object
-					(sidebar_title->details->file, "changed",
-					 G_CALLBACK (update_all), sidebar_title, G_CONNECT_SWAPPED);
-			monitor_add (sidebar_title);
-		}
-	}
+    if (file != sidebar_title->details->file)
+    {
+        release_file (sidebar_title);
+        sidebar_title->details->file = file;
+        sidebar_title->details->determined_icon = FALSE;
+        caja_file_ref (sidebar_title->details->file);
 
-	g_free (sidebar_title->details->title_text);
-	sidebar_title->details->title_text = g_strdup (initial_text);
+        /* attach file */
+        if (file != NULL)
+        {
+            sidebar_title->details->file_changed_connection =
+                g_signal_connect_object
+                (sidebar_title->details->file, "changed",
+                 G_CALLBACK (update_all), sidebar_title, G_CONNECT_SWAPPED);
+            monitor_add (sidebar_title);
+        }
+    }
 
-	update_all (sidebar_title);
+    g_free (sidebar_title->details->title_text);
+    sidebar_title->details->title_text = g_strdup (initial_text);
+
+    update_all (sidebar_title);
 }
 
 static void
 caja_sidebar_title_size_allocate (GtkWidget *widget,
-				      GtkAllocation *allocation)
+                                  GtkAllocation *allocation)
 {
-	CajaSidebarTitle *sidebar_title;
-	guint16 old_width;
-	guint best_icon_size;
-	GtkAllocation old_allocation, new_allocation;
+    CajaSidebarTitle *sidebar_title;
+    guint16 old_width;
+    guint best_icon_size;
+    GtkAllocation old_allocation, new_allocation;
 
-	sidebar_title = CAJA_SIDEBAR_TITLE (widget);
+    sidebar_title = CAJA_SIDEBAR_TITLE (widget);
 
-	gtk_widget_get_allocation (widget, &old_allocation);
-	old_width = old_allocation.width;
+    gtk_widget_get_allocation (widget, &old_allocation);
+    old_width = old_allocation.width;
 
-	EEL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate, (widget, allocation));
+    EEL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate, (widget, allocation));
 
-	gtk_widget_get_allocation (widget, &new_allocation);
+    gtk_widget_get_allocation (widget, &new_allocation);
 
-	if (old_width != new_allocation.width) {
-		best_icon_size = get_best_icon_size (sidebar_title);
-		if (best_icon_size != sidebar_title->details->best_icon_size) {
-			sidebar_title->details->best_icon_size = best_icon_size;
-			update_icon (sidebar_title);
-		}
+    if (old_width != new_allocation.width)
+    {
+        best_icon_size = get_best_icon_size (sidebar_title);
+        if (best_icon_size != sidebar_title->details->best_icon_size)
+        {
+            sidebar_title->details->best_icon_size = best_icon_size;
+            update_icon (sidebar_title);
+        }
 
-		/* update the title font and info format as the size changes. */
-		update_title_font (sidebar_title);
-		update_more_info (sidebar_title);	
-	}
+        /* update the title font and info format as the size changes. */
+        update_title_font (sidebar_title);
+        update_more_info (sidebar_title);
+    }
 }
 
 gboolean
 caja_sidebar_title_hit_test_icon (CajaSidebarTitle *sidebar_title, int x, int y)
 {
-	g_return_val_if_fail (CAJA_IS_SIDEBAR_TITLE (sidebar_title), FALSE);
+    g_return_val_if_fail (CAJA_IS_SIDEBAR_TITLE (sidebar_title), FALSE);
 
-	return eel_point_in_widget (sidebar_title->details->icon, x, y);
+    return eel_point_in_widget (sidebar_title->details->icon, x, y);
 }
 
 static GtkWidget *
 sidebar_title_create_title_label (void)
-{ 
-	GtkWidget *title_label;
+{
+    GtkWidget *title_label;
 
-	title_label = gtk_label_new ("");
-	eel_gtk_label_make_bold (GTK_LABEL (title_label));
-	gtk_label_set_line_wrap (GTK_LABEL (title_label), TRUE);
-	gtk_label_set_justify (GTK_LABEL (title_label), GTK_JUSTIFY_CENTER);
-	gtk_label_set_selectable (GTK_LABEL (title_label), TRUE);
-	gtk_label_set_ellipsize (GTK_LABEL (title_label), PANGO_ELLIPSIZE_END);
+    title_label = gtk_label_new ("");
+    eel_gtk_label_make_bold (GTK_LABEL (title_label));
+    gtk_label_set_line_wrap (GTK_LABEL (title_label), TRUE);
+    gtk_label_set_justify (GTK_LABEL (title_label), GTK_JUSTIFY_CENTER);
+    gtk_label_set_selectable (GTK_LABEL (title_label), TRUE);
+    gtk_label_set_ellipsize (GTK_LABEL (title_label), PANGO_ELLIPSIZE_END);
 
-	return title_label;
+    return title_label;
 }
 
 static GtkWidget *
 sidebar_title_create_more_info_label (void)
 {
-	GtkWidget *more_info_label;
+    GtkWidget *more_info_label;
 
-	more_info_label = gtk_label_new ("");
-	eel_gtk_label_set_scale (GTK_LABEL (more_info_label), PANGO_SCALE_SMALL);
-	gtk_label_set_justify (GTK_LABEL (more_info_label), GTK_JUSTIFY_CENTER);
-	gtk_label_set_selectable (GTK_LABEL (more_info_label), TRUE);
-	gtk_label_set_ellipsize (GTK_LABEL (more_info_label), PANGO_ELLIPSIZE_END);
-	
-	return more_info_label;
+    more_info_label = gtk_label_new ("");
+    eel_gtk_label_set_scale (GTK_LABEL (more_info_label), PANGO_SCALE_SMALL);
+    gtk_label_set_justify (GTK_LABEL (more_info_label), GTK_JUSTIFY_CENTER);
+    gtk_label_set_selectable (GTK_LABEL (more_info_label), TRUE);
+    gtk_label_set_ellipsize (GTK_LABEL (more_info_label), PANGO_ELLIPSIZE_END);
+
+    return more_info_label;
 }

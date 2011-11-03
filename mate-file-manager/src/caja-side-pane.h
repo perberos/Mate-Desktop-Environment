@@ -42,36 +42,38 @@ extern "C" {
 #define CAJA_SIDE_PANE_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), CAJA_TYPE_SIDE_PANE, CajaSidePaneClass))
 
-typedef struct _CajaSidePaneDetails CajaSidePaneDetails;
+    typedef struct _CajaSidePaneDetails CajaSidePaneDetails;
 
-typedef struct {
-	GtkVBox parent;
-	CajaSidePaneDetails *details;
-} CajaSidePane;
+    typedef struct
+    {
+        GtkVBox parent;
+        CajaSidePaneDetails *details;
+    } CajaSidePane;
 
-typedef struct {
-	GtkVBoxClass parent_slot;
+    typedef struct
+    {
+        GtkVBoxClass parent_slot;
 
-	void (*close_requested) (CajaSidePane *side_pane);
-	void (*switch_page) (CajaSidePane *side_pane,
-			     GtkWidget *child);
-} CajaSidePaneClass;
+        void (*close_requested) (CajaSidePane *side_pane);
+        void (*switch_page) (CajaSidePane *side_pane,
+                             GtkWidget *child);
+    } CajaSidePaneClass;
 
-GType                  caja_side_pane_get_type        (void);
-CajaSidePane      *caja_side_pane_new             (void);
-void                   caja_side_pane_add_panel       (CajaSidePane *side_pane,
-							   GtkWidget        *widget,
-							   const char       *title,
-							   const char       *tooltip);
-void                   caja_side_pane_remove_panel    (CajaSidePane *side_pane,
-							   GtkWidget        *widget);
-void                   caja_side_pane_show_panel      (CajaSidePane *side_pane,
-							   GtkWidget        *widget);
-void                   caja_side_pane_set_panel_image (CajaSidePane *side_pane,
-							   GtkWidget        *widget,
-							   GdkPixbuf        *pixbuf);
-GtkWidget             *caja_side_pane_get_current_panel (CajaSidePane *side_pane);
-GtkWidget             *caja_side_pane_get_title        (CajaSidePane *side_pane);
+    GType                  caja_side_pane_get_type        (void);
+    CajaSidePane      *caja_side_pane_new             (void);
+    void                   caja_side_pane_add_panel       (CajaSidePane *side_pane,
+            GtkWidget        *widget,
+            const char       *title,
+            const char       *tooltip);
+    void                   caja_side_pane_remove_panel    (CajaSidePane *side_pane,
+            GtkWidget        *widget);
+    void                   caja_side_pane_show_panel      (CajaSidePane *side_pane,
+            GtkWidget        *widget);
+    void                   caja_side_pane_set_panel_image (CajaSidePane *side_pane,
+            GtkWidget        *widget,
+            GdkPixbuf        *pixbuf);
+    GtkWidget             *caja_side_pane_get_current_panel (CajaSidePane *side_pane);
+    GtkWidget             *caja_side_pane_get_title        (CajaSidePane *side_pane);
 
 #ifdef __cplusplus
 }

@@ -31,6 +31,6 @@
 
 CajaUndoManager * caja_undo_get_undo_manager    (GObject               *attached_object);
 void                  caja_undo_attach_undo_manager (GObject               *object,
-							 CajaUndoManager   *manager);
+        CajaUndoManager   *manager);
 
 #endif /* CAJA_UNDO_PRIVATE_H */

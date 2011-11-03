@@ -36,18 +36,20 @@ typedef struct _CajaLocationDialog        CajaLocationDialog;
 typedef struct _CajaLocationDialogClass   CajaLocationDialogClass;
 typedef struct _CajaLocationDialogDetails CajaLocationDialogDetails;
 
-struct _CajaLocationDialog {
-	GtkDialog parent;
-	CajaLocationDialogDetails *details;
+struct _CajaLocationDialog
+{
+    GtkDialog parent;
+    CajaLocationDialogDetails *details;
 };
 
-struct _CajaLocationDialogClass {
-	GtkDialogClass parent_class;
+struct _CajaLocationDialogClass
+{
+    GtkDialogClass parent_class;
 };
 
 GType      caja_location_dialog_get_type     (void);
 GtkWidget* caja_location_dialog_new          (CajaWindow         *window);
 void       caja_location_dialog_set_location (CajaLocationDialog *dialog,
-						  const char             *location);
+        const char             *location);
 
 #endif /* CAJA_LOCATION_DIALOG_H */

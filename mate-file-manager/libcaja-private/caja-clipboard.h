@@ -38,17 +38,17 @@
  * is currently the only editable in caja that shares selection
  * changes. */
 void caja_clipboard_set_up_editable            (GtkEditable        *target,
-						    GtkUIManager       *ui_manager,
-						    gboolean            shares_selection_changes);
+        GtkUIManager       *ui_manager,
+        gboolean            shares_selection_changes);
 void caja_clipboard_set_up_text_view           (GtkTextView        *target,
-						    GtkUIManager       *ui_manager);
+        GtkUIManager       *ui_manager);
 void caja_clipboard_clear_if_colliding_uris    (GtkWidget          *widget,
-						    const GList        *item_uris,
-						    GdkAtom             copied_files_atom);
+        const GList        *item_uris,
+        GdkAtom             copied_files_atom);
 GtkClipboard* caja_clipboard_get                (GtkWidget          *widget);
 GList* caja_clipboard_get_uri_list_from_selection_data
-						   (GtkSelectionData   *selection_data,
-						    gboolean           *cut,
-						    GdkAtom             copied_files_atom);
+(GtkSelectionData   *selection_data,
+ gboolean           *cut,
+ GdkAtom             copied_files_atom);
 
 #endif /* CAJA_CLIPBOARD_H */

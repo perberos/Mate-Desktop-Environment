@@ -66,96 +66,96 @@ extern "C" {
 #define EEL_LABELED_IMAGE_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), EEL_TYPE_LABELED_IMAGE, EelLabeledImageClass))
 
-typedef struct EelLabeledImage		  EelLabeledImage;
-typedef struct EelLabeledImageClass	  EelLabeledImageClass;
-typedef struct EelLabeledImageDetails	  EelLabeledImageDetails;
+    typedef struct EelLabeledImage		  EelLabeledImage;
+    typedef struct EelLabeledImageClass	  EelLabeledImageClass;
+    typedef struct EelLabeledImageDetails	  EelLabeledImageDetails;
 
-struct EelLabeledImage
-{
-	/* Superclass */
-	GtkContainer container;
+    struct EelLabeledImage
+    {
+        /* Superclass */
+        GtkContainer container;
 
-	/* Private things */
-	EelLabeledImageDetails *details;
-};
+        /* Private things */
+        EelLabeledImageDetails *details;
+    };
 
-struct EelLabeledImageClass
-{
-	GtkContainerClass parent_class;
+    struct EelLabeledImageClass
+    {
+        GtkContainerClass parent_class;
 
-	void (*activate) (EelLabeledImage *image);
-};
+        void (*activate) (EelLabeledImage *image);
+    };
 
-/* Public GtkLabeledImage methods */
-GType           eel_labeled_image_get_type                         (void);
-GtkWidget *     eel_labeled_image_new                              (const char              *text,
-								    GdkPixbuf               *pixbuf);
-GtkWidget *     eel_labeled_image_new_from_file_name               (const char              *text,
-								    const char              *pixbuf_file_name);
-void            eel_labeled_image_set_label_position               (EelLabeledImage         *labeled_image,
-								    GtkPositionType          label_position);
-GtkPositionType eel_labeled_image_get_label_position               (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_show_label                   (EelLabeledImage         *labeled_image,
-								    gboolean                 show_label);
-gboolean        eel_labeled_image_get_show_label                   (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_show_image                   (EelLabeledImage         *labeled_image,
-								    gboolean                 show_image);
-gboolean        eel_labeled_image_get_show_image                   (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_can_focus                    (EelLabeledImage         *labeled_image,
-								    gboolean                 can_focus);
-void            eel_labeled_image_set_spacing                      (EelLabeledImage         *labeled_image,
-								    guint                    spacing);
-guint           eel_labeled_image_get_spacing                      (const EelLabeledImage   *labeled_image);
-int             eel_labeled_image_get_x_padding                    (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_x_padding                    (EelLabeledImage         *labeled_image,
-								    int                      x_padding);
-int             eel_labeled_image_get_y_padding                    (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_y_padding                    (EelLabeledImage         *labeled_image,
-								    int                      y_padding);
-float           eel_labeled_image_get_x_alignment                  (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_x_alignment                  (EelLabeledImage         *labeled_image,
-								    float                    x_alignment);
-float           eel_labeled_image_get_y_alignment                  (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_y_alignment                  (EelLabeledImage         *labeled_image,
-								    float                    y_alignment);
-void            eel_labeled_image_set_fill                         (EelLabeledImage         *labeled_image,
-								    gboolean                 fill);
-gboolean        eel_labeled_image_get_fill                         (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_fixed_image_height           (EelLabeledImage         *labeled_image,
-								    int                      fixed_image_height);
-void            eel_labeled_image_set_selected                     (EelLabeledImage         *labeled_image,
-								    gboolean                 selected);
-gboolean        eel_labeled_image_get_selected                     (EelLabeledImage         *labeled_image);
+    /* Public GtkLabeledImage methods */
+    GType           eel_labeled_image_get_type                         (void);
+    GtkWidget *     eel_labeled_image_new                              (const char              *text,
+            GdkPixbuf               *pixbuf);
+    GtkWidget *     eel_labeled_image_new_from_file_name               (const char              *text,
+            const char              *pixbuf_file_name);
+    void            eel_labeled_image_set_label_position               (EelLabeledImage         *labeled_image,
+            GtkPositionType          label_position);
+    GtkPositionType eel_labeled_image_get_label_position               (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_show_label                   (EelLabeledImage         *labeled_image,
+            gboolean                 show_label);
+    gboolean        eel_labeled_image_get_show_label                   (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_show_image                   (EelLabeledImage         *labeled_image,
+            gboolean                 show_image);
+    gboolean        eel_labeled_image_get_show_image                   (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_can_focus                    (EelLabeledImage         *labeled_image,
+            gboolean                 can_focus);
+    void            eel_labeled_image_set_spacing                      (EelLabeledImage         *labeled_image,
+            guint                    spacing);
+    guint           eel_labeled_image_get_spacing                      (const EelLabeledImage   *labeled_image);
+    int             eel_labeled_image_get_x_padding                    (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_x_padding                    (EelLabeledImage         *labeled_image,
+            int                      x_padding);
+    int             eel_labeled_image_get_y_padding                    (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_y_padding                    (EelLabeledImage         *labeled_image,
+            int                      y_padding);
+    float           eel_labeled_image_get_x_alignment                  (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_x_alignment                  (EelLabeledImage         *labeled_image,
+            float                    x_alignment);
+    float           eel_labeled_image_get_y_alignment                  (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_y_alignment                  (EelLabeledImage         *labeled_image,
+            float                    y_alignment);
+    void            eel_labeled_image_set_fill                         (EelLabeledImage         *labeled_image,
+            gboolean                 fill);
+    gboolean        eel_labeled_image_get_fill                         (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_fixed_image_height           (EelLabeledImage         *labeled_image,
+            int                      fixed_image_height);
+    void            eel_labeled_image_set_selected                     (EelLabeledImage         *labeled_image,
+            gboolean                 selected);
+    gboolean        eel_labeled_image_get_selected                     (EelLabeledImage         *labeled_image);
 
-/* Functions for creating stock GtkButtons with a labeled image child */
-GtkWidget *     eel_labeled_image_button_new                       (const char              *text,
-								    GdkPixbuf               *pixbuf);
-GtkWidget *     eel_labeled_image_button_new_from_file_name        (const char              *text,
-								    const char              *pixbuf_file_name);
-GtkWidget *     eel_labeled_image_toggle_button_new                (const char              *text,
-								    GdkPixbuf               *pixbuf);
-GtkWidget *     eel_labeled_image_toggle_button_new_from_file_name (const char              *text,
-								    const char              *pixbuf_file_name);
-GtkWidget *     eel_labeled_image_check_button_new                 (const char              *text,
-								    GdkPixbuf               *pixbuf);
-GtkWidget *     eel_labeled_image_check_button_new_from_file_name  (const char              *text,
-								    const char              *pixbuf_file_name);
-GtkWidget *     eel_labeled_image_radio_button_new                 (const char              *text,
-								    GdkPixbuf               *pixbuf);
-GtkWidget *     eel_labeled_image_radio_button_new_from_file_name  (const char              *text,
-								    const char              *pixbuf_file_name);
+    /* Functions for creating stock GtkButtons with a labeled image child */
+    GtkWidget *     eel_labeled_image_button_new                       (const char              *text,
+            GdkPixbuf               *pixbuf);
+    GtkWidget *     eel_labeled_image_button_new_from_file_name        (const char              *text,
+            const char              *pixbuf_file_name);
+    GtkWidget *     eel_labeled_image_toggle_button_new                (const char              *text,
+            GdkPixbuf               *pixbuf);
+    GtkWidget *     eel_labeled_image_toggle_button_new_from_file_name (const char              *text,
+            const char              *pixbuf_file_name);
+    GtkWidget *     eel_labeled_image_check_button_new                 (const char              *text,
+            GdkPixbuf               *pixbuf);
+    GtkWidget *     eel_labeled_image_check_button_new_from_file_name  (const char              *text,
+            const char              *pixbuf_file_name);
+    GtkWidget *     eel_labeled_image_radio_button_new                 (const char              *text,
+            GdkPixbuf               *pixbuf);
+    GtkWidget *     eel_labeled_image_radio_button_new_from_file_name  (const char              *text,
+            const char              *pixbuf_file_name);
 
-/* These are proxies for methods in EelImage and EelLabel */
-void            eel_labeled_image_set_pixbuf                       (EelLabeledImage         *labeled_image,
-								    GdkPixbuf               *pixbuf);
-void            eel_labeled_image_set_pixbuf_from_file_name        (EelLabeledImage         *labeled_image,
-								    const char              *pixbuf_file_name);
-GdkPixbuf*      eel_labeled_image_get_pixbuf                       (const EelLabeledImage   *labeled_image);
-void            eel_labeled_image_set_text                         (EelLabeledImage         *labeled_image,
-								    const char              *text);
-char*           eel_labeled_image_get_text                         (const EelLabeledImage   *labeled_image);
-EelIRect        eel_labeled_image_get_image_bounds                 (const EelLabeledImage   *labeled_image);
-EelIRect        eel_labeled_image_get_label_bounds                 (const EelLabeledImage   *labeled_image);
+    /* These are proxies for methods in EelImage and EelLabel */
+    void            eel_labeled_image_set_pixbuf                       (EelLabeledImage         *labeled_image,
+            GdkPixbuf               *pixbuf);
+    void            eel_labeled_image_set_pixbuf_from_file_name        (EelLabeledImage         *labeled_image,
+            const char              *pixbuf_file_name);
+    GdkPixbuf*      eel_labeled_image_get_pixbuf                       (const EelLabeledImage   *labeled_image);
+    void            eel_labeled_image_set_text                         (EelLabeledImage         *labeled_image,
+            const char              *text);
+    char*           eel_labeled_image_get_text                         (const EelLabeledImage   *labeled_image);
+    EelIRect        eel_labeled_image_get_image_bounds                 (const EelLabeledImage   *labeled_image);
+    EelIRect        eel_labeled_image_get_label_bounds                 (const EelLabeledImage   *labeled_image);
 
 #ifdef __cplusplus
 }

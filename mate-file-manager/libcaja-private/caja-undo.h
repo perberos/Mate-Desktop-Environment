@@ -38,30 +38,31 @@ typedef void (* CajaUndoCallback) (GObject *target, gpointer callback_data);
  * Create these atoms when you want to register more
  * than one as a single undoable operation.
  */
-typedef struct {
-	GObject *target;
-	CajaUndoCallback callback;
-	gpointer callback_data;
-	GDestroyNotify callback_data_destroy_notify;
+typedef struct
+{
+    GObject *target;
+    CajaUndoCallback callback;
+    gpointer callback_data;
+    GDestroyNotify callback_data_destroy_notify;
 } CajaUndoAtom;
 
 /* Registering something that can be undone. */
 void caja_undo_register              (GObject              *target,
-					  CajaUndoCallback  callback,
-					  gpointer              callback_data,
-					  GDestroyNotify        callback_data_destroy_notify,
-					  const char           *operation_name,
-					  const char           *undo_menu_item_label,
-					  const char           *undo_menu_item_hint,
-					  const char           *redo_menu_item_label,
-					  const char           *redo_menu_item_hint);
+                                      CajaUndoCallback  callback,
+                                      gpointer              callback_data,
+                                      GDestroyNotify        callback_data_destroy_notify,
+                                      const char           *operation_name,
+                                      const char           *undo_menu_item_label,
+                                      const char           *undo_menu_item_hint,
+                                      const char           *redo_menu_item_label,
+                                      const char           *redo_menu_item_hint);
 void caja_undo_register_full         (GList                *atoms,
-					  GObject              *undo_manager_search_start_object,
-					  const char           *operation_name,
-					  const char           *undo_menu_item_label,
-					  const char           *undo_menu_item_hint,
-					  const char           *redo_menu_item_label,
-					  const char           *redo_menu_item_hint);
+                                      GObject              *undo_manager_search_start_object,
+                                      const char           *operation_name,
+                                      const char           *undo_menu_item_label,
+                                      const char           *undo_menu_item_hint,
+                                      const char           *redo_menu_item_label,
+                                      const char           *redo_menu_item_hint);
 void caja_undo_unregister            (GObject              *target);
 
 /* Performing an undo explicitly. Only for use by objects "out in the field".
@@ -71,6 +72,6 @@ void caja_undo                       (GObject              *undo_manager_search_
 
 /* Connecting an undo manager. */
 void caja_undo_share_undo_manager    (GObject              *destination_object,
-					  GObject              *source_object);
+                                      GObject              *source_object);
 
 #endif /* CAJA_UNDO_H */

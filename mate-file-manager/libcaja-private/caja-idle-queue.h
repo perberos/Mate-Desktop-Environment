@@ -32,15 +32,15 @@
 extern "C" {
 #endif
 
-typedef struct CajaIdleQueue CajaIdleQueue;
+    typedef struct CajaIdleQueue CajaIdleQueue;
 
-CajaIdleQueue *caja_idle_queue_new     (void);
-void               caja_idle_queue_add     (CajaIdleQueue *queue,
-						GFunc              callback,
-						gpointer           data,
-						gpointer           callback_data,
-						GFreeFunc          free_callback_data);
-void               caja_idle_queue_destroy (CajaIdleQueue *queue);
+    CajaIdleQueue *caja_idle_queue_new     (void);
+    void               caja_idle_queue_add     (CajaIdleQueue *queue,
+            GFunc              callback,
+            gpointer           data,
+            gpointer           callback_data,
+            GFreeFunc          free_callback_data);
+    void               caja_idle_queue_destroy (CajaIdleQueue *queue);
 
 #ifdef __cplusplus
 }

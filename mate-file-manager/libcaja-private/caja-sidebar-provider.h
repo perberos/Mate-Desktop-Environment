@@ -37,21 +37,22 @@ extern "C" {
 #define CAJA_IS_SIDEBAR_PROVIDER(obj)        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAJA_TYPE_SIDEBAR_PROVIDER))
 #define CAJA_SIDEBAR_PROVIDER_GET_IFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), CAJA_TYPE_SIDEBAR_PROVIDER, CajaSidebarProviderIface))
 
-typedef struct _CajaSidebarProvider       CajaSidebarProvider;
-typedef struct _CajaSidebarProviderIface  CajaSidebarProviderIface;
+    typedef struct _CajaSidebarProvider       CajaSidebarProvider;
+    typedef struct _CajaSidebarProviderIface  CajaSidebarProviderIface;
 
-struct _CajaSidebarProviderIface {
-	GTypeInterface g_iface;
+    struct _CajaSidebarProviderIface
+    {
+        GTypeInterface g_iface;
 
-	CajaSidebar * (*create) (CajaSidebarProvider *provider,
-				     CajaWindowInfo *window);
-};
+        CajaSidebar * (*create) (CajaSidebarProvider *provider,
+                                 CajaWindowInfo *window);
+    };
 
-/* Interface Functions */
-GType                   caja_sidebar_provider_get_type  (void);
-CajaSidebar *       caja_sidebar_provider_create (CajaSidebarProvider *provider,
-							  CajaWindowInfo  *window);
-GList *                 caja_list_sidebar_providers (void);
+    /* Interface Functions */
+    GType                   caja_sidebar_provider_get_type  (void);
+    CajaSidebar *       caja_sidebar_provider_create (CajaSidebarProvider *provider,
+            CajaWindowInfo  *window);
+    GList *                 caja_list_sidebar_providers (void);
 
 #ifdef __cplusplus
 }

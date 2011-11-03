@@ -45,22 +45,24 @@ typedef struct FMIconContainerClass FMIconContainerClass;
 
 typedef struct FMIconContainerDetails FMIconContainerDetails;
 
-struct FMIconContainer {
-	CajaIconContainer parent;
+struct FMIconContainer
+{
+    CajaIconContainer parent;
 
-	FMIconView *view;
-	gboolean    sort_for_desktop;
+    FMIconView *view;
+    gboolean    sort_for_desktop;
 };
 
-struct FMIconContainerClass {
-	CajaIconContainerClass parent_class;
+struct FMIconContainerClass
+{
+    CajaIconContainerClass parent_class;
 };
 
 GType                  fm_icon_container_get_type         (void);
 CajaIconContainer *fm_icon_container_construct        (FMIconContainer *icon_container,
-							   FMIconView      *view);
+        FMIconView      *view);
 CajaIconContainer *fm_icon_container_new              (FMIconView      *view);
 void                   fm_icon_container_set_sort_desktop (FMIconContainer *container,
-							   gboolean         desktop);
+        gboolean         desktop);
 
 #endif /* FM_ICON_CONTAINER_H */

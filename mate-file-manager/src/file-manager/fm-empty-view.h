@@ -43,13 +43,15 @@
 
 typedef struct FMEmptyViewDetails FMEmptyViewDetails;
 
-typedef struct {
-	FMDirectoryView parent_instance;
-	FMEmptyViewDetails *details;
+typedef struct
+{
+    FMDirectoryView parent_instance;
+    FMEmptyViewDetails *details;
 } FMEmptyView;
 
-typedef struct {
-	FMDirectoryViewClass parent_class;
+typedef struct
+{
+    FMDirectoryViewClass parent_class;
 } FMEmptyViewClass;
 
 GType fm_empty_view_get_type (void);

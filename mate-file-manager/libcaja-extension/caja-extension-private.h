@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-extern CajaFileInfo *(*caja_file_info_getter) (GFile *location, gboolean create);
+    extern CajaFileInfo *(*caja_file_info_getter) (GFile *location, gboolean create);
 
 #ifdef __cplusplus
 }

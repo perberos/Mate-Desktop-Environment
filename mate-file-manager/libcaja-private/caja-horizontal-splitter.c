@@ -28,10 +28,11 @@
 #include <eel/eel-gtk-macros.h>
 #include <stdlib.h>
 
-struct CajaHorizontalSplitterDetails {
-	guint32 press_time;
-	int press_position;
-	int saved_size;
+struct CajaHorizontalSplitterDetails
+{
+    guint32 press_time;
+    int press_position;
+    int saved_size;
 };
 
 #define CLOSED_THRESHOLD 4
@@ -43,251 +44,264 @@ static void caja_horizontal_splitter_class_init (CajaHorizontalSplitterClass *ho
 static void caja_horizontal_splitter_init       (CajaHorizontalSplitter      *horizontal_splitter);
 
 EEL_CLASS_BOILERPLATE (CajaHorizontalSplitter,
-		       caja_horizontal_splitter,
-		       GTK_TYPE_HPANED)
+                       caja_horizontal_splitter,
+                       GTK_TYPE_HPANED)
 
 static void
 caja_horizontal_splitter_init (CajaHorizontalSplitter *horizontal_splitter)
 {
-	horizontal_splitter->details = g_new0 (CajaHorizontalSplitterDetails, 1);
+    horizontal_splitter->details = g_new0 (CajaHorizontalSplitterDetails, 1);
 }
 
 static void
 caja_horizontal_splitter_finalize (GObject *object)
 {
-	CajaHorizontalSplitter *horizontal_splitter;
-	
-	horizontal_splitter = CAJA_HORIZONTAL_SPLITTER (object);
+    CajaHorizontalSplitter *horizontal_splitter;
 
-	g_free (horizontal_splitter->details);
-	
-	EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
+    horizontal_splitter = CAJA_HORIZONTAL_SPLITTER (object);
+
+    g_free (horizontal_splitter->details);
+
+    EEL_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 static void
 splitter_expand (CajaHorizontalSplitter *splitter, int position)
 {
-	g_assert (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
+    g_assert (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
 
-	if (position >= CLOSED_THRESHOLD) {
-		return;
-	}
+    if (position >= CLOSED_THRESHOLD)
+    {
+        return;
+    }
 
-	position = splitter->details->saved_size;
-	if (position < CLOSED_THRESHOLD) {
-		position = NOMINAL_SIZE;
-	}
-	
-	gtk_paned_set_position (GTK_PANED (splitter), position);
+    position = splitter->details->saved_size;
+    if (position < CLOSED_THRESHOLD)
+    {
+        position = NOMINAL_SIZE;
+    }
+
+    gtk_paned_set_position (GTK_PANED (splitter), position);
 }
 
 static void
 splitter_collapse (CajaHorizontalSplitter *splitter, int position)
 {
-	g_assert (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
+    g_assert (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
 
-	splitter->details->saved_size = position;
-	gtk_paned_set_position (GTK_PANED (splitter), 0);
+    splitter->details->saved_size = position;
+    gtk_paned_set_position (GTK_PANED (splitter), 0);
 }
 
 static void
 splitter_toggle (CajaHorizontalSplitter *splitter, int position)
 {
-	g_assert (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
+    g_assert (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
 
-	if (gtk_paned_get_position (GTK_PANED (splitter)) >= CLOSED_THRESHOLD) {
-		caja_horizontal_splitter_collapse (splitter);
-	} else {
-		caja_horizontal_splitter_expand (splitter);
-	}
+    if (gtk_paned_get_position (GTK_PANED (splitter)) >= CLOSED_THRESHOLD)
+    {
+        caja_horizontal_splitter_collapse (splitter);
+    }
+    else
+    {
+        caja_horizontal_splitter_expand (splitter);
+    }
 }
 
 static void
 splitter_hide (CajaHorizontalSplitter *splitter)
 {
-	GtkPaned *parent;
+    GtkPaned *parent;
 
-	parent = GTK_PANED (splitter);
+    parent = GTK_PANED (splitter);
 
-	gtk_widget_hide (gtk_paned_get_child1 (parent));
+    gtk_widget_hide (gtk_paned_get_child1 (parent));
 }
 
 static void
 splitter_show (CajaHorizontalSplitter *splitter)
 {
-	GtkPaned *parent;
+    GtkPaned *parent;
 
-	parent = GTK_PANED (splitter);
+    parent = GTK_PANED (splitter);
 
-	gtk_widget_show (gtk_paned_get_child1 (parent));
+    gtk_widget_show (gtk_paned_get_child1 (parent));
 }
 
 static gboolean
 splitter_is_hidden (CajaHorizontalSplitter *splitter)
 {
-	GtkPaned *parent;
-	
-	parent = GTK_PANED (splitter);
+    GtkPaned *parent;
 
-	return gtk_widget_get_visible (gtk_paned_get_child1 (parent));
+    parent = GTK_PANED (splitter);
+
+    return gtk_widget_get_visible (gtk_paned_get_child1 (parent));
 }
 
 void
 caja_horizontal_splitter_expand (CajaHorizontalSplitter *splitter)
 {
-	splitter_expand (splitter, gtk_paned_get_position (GTK_PANED (splitter)));
+    splitter_expand (splitter, gtk_paned_get_position (GTK_PANED (splitter)));
 }
 
 void
 caja_horizontal_splitter_hide (CajaHorizontalSplitter *splitter)
 {
-	splitter_hide (splitter);
+    splitter_hide (splitter);
 }
 
 void
 caja_horizontal_splitter_show (CajaHorizontalSplitter *splitter)
 {
-	splitter_show (splitter);
+    splitter_show (splitter);
 }
 
 gboolean
 caja_horizontal_splitter_is_hidden (CajaHorizontalSplitter *splitter)
 {
-	return splitter_is_hidden (splitter);
+    return splitter_is_hidden (splitter);
 }
 
 void
 caja_horizontal_splitter_collapse (CajaHorizontalSplitter *splitter)
 {
-	splitter_collapse (splitter, gtk_paned_get_position (GTK_PANED (splitter)));
+    splitter_collapse (splitter, gtk_paned_get_position (GTK_PANED (splitter)));
 }
 
 /* routine to toggle the open/closed state of the splitter */
 void
 caja_horizontal_splitter_toggle_position (CajaHorizontalSplitter *splitter)
 {
-	splitter_toggle (splitter, gtk_paned_get_position (GTK_PANED (splitter)));
+    splitter_toggle (splitter, gtk_paned_get_position (GTK_PANED (splitter)));
 }
 
 /* CajaHorizontalSplitter public methods */
 GtkWidget *
 caja_horizontal_splitter_new (void)
 {
-	return gtk_widget_new (caja_horizontal_splitter_get_type (), NULL);
+    return gtk_widget_new (caja_horizontal_splitter_get_type (), NULL);
 }
 
 /* handle mouse downs by remembering the position and the time */
 static gboolean
 caja_horizontal_splitter_button_press (GtkWidget *widget, GdkEventButton *event)
 {
-	gboolean result;
-	CajaHorizontalSplitter *splitter;
-	int position;
-	
-	splitter = CAJA_HORIZONTAL_SPLITTER (widget);
+    gboolean result;
+    CajaHorizontalSplitter *splitter;
+    int position;
 
-	position = gtk_paned_get_position (GTK_PANED (widget));
+    splitter = CAJA_HORIZONTAL_SPLITTER (widget);
 
-	result = EEL_CALL_PARENT_WITH_RETURN_VALUE
-		(GTK_WIDGET_CLASS, button_press_event, (widget, event));
+    position = gtk_paned_get_position (GTK_PANED (widget));
 
-	if (result) {
-		splitter->details->press_time = event->time;
-		splitter->details->press_position = position;
-	}
+    result = EEL_CALL_PARENT_WITH_RETURN_VALUE
+             (GTK_WIDGET_CLASS, button_press_event, (widget, event));
 
-	return result;
+    if (result)
+    {
+        splitter->details->press_time = event->time;
+        splitter->details->press_position = position;
+    }
+
+    return result;
 }
 
 /* handle mouse ups by seeing if it was a tap and toggling the open state accordingly */
 static gboolean
 caja_horizontal_splitter_button_release (GtkWidget *widget, GdkEventButton *event)
 {
-	gboolean result;
-	CajaHorizontalSplitter *splitter;
-	int position, delta, delta_time;
-	splitter = CAJA_HORIZONTAL_SPLITTER (widget);
+    gboolean result;
+    CajaHorizontalSplitter *splitter;
+    int position, delta, delta_time;
+    splitter = CAJA_HORIZONTAL_SPLITTER (widget);
 
-	position = gtk_paned_get_position (GTK_PANED (widget));
+    position = gtk_paned_get_position (GTK_PANED (widget));
 
-	result = EEL_CALL_PARENT_WITH_RETURN_VALUE
-		(GTK_WIDGET_CLASS, button_release_event, (widget, event));
+    result = EEL_CALL_PARENT_WITH_RETURN_VALUE
+             (GTK_WIDGET_CLASS, button_release_event, (widget, event));
 
-	if (result) {
-		delta = abs (position - splitter->details->press_position);
-		delta_time = event->time - splitter->details->press_time;
-		if (delta < SPLITTER_CLICK_SLOP && delta_time < SPLITTER_CLICK_TIMEOUT)  {
-			caja_horizontal_splitter_toggle_position (splitter);
-		}
-	}
+    if (result)
+    {
+        delta = abs (position - splitter->details->press_position);
+        delta_time = event->time - splitter->details->press_time;
+        if (delta < SPLITTER_CLICK_SLOP && delta_time < SPLITTER_CLICK_TIMEOUT)
+        {
+            caja_horizontal_splitter_toggle_position (splitter);
+        }
+    }
 
-	return result;
+    return result;
 }
 
 static void
 caja_horizontal_splitter_size_allocate (GtkWidget     *widget,
-					    GtkAllocation *allocation)
+                                        GtkAllocation *allocation)
 {
-	gint border_width;
-	GtkPaned *paned;
-	GtkAllocation child_allocation;
-	GtkRequisition child_requisition;
-      
-	paned = GTK_PANED (widget);
-	border_width = gtk_container_get_border_width (GTK_CONTAINER (paned));
+    gint border_width;
+    GtkPaned *paned;
+    GtkAllocation child_allocation;
+    GtkRequisition child_requisition;
 
-	gtk_widget_set_allocation (widget, allocation);
+    paned = GTK_PANED (widget);
+    border_width = gtk_container_get_border_width (GTK_CONTAINER (paned));
 
-	if (gtk_paned_get_child2 (paned) != NULL && gtk_widget_get_visible (gtk_paned_get_child2 (paned))) { 
-		EEL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate,
-				 (widget, allocation));
-	} else if (gtk_paned_get_child1 (paned) && gtk_widget_get_visible (gtk_paned_get_child1 (paned))) {
+    gtk_widget_set_allocation (widget, allocation);
 
-		if (gtk_widget_get_realized (widget)) {
-			gdk_window_hide (gtk_paned_get_handle_window (paned));
-		}
+    if (gtk_paned_get_child2 (paned) != NULL && gtk_widget_get_visible (gtk_paned_get_child2 (paned)))
+    {
+        EEL_CALL_PARENT (GTK_WIDGET_CLASS, size_allocate,
+                         (widget, allocation));
+    }
+    else if (gtk_paned_get_child1 (paned) && gtk_widget_get_visible (gtk_paned_get_child1 (paned)))
+    {
 
-		gtk_widget_get_child_requisition (gtk_paned_get_child1 (paned),
-						  &child_requisition);
-		
-		child_allocation.x = allocation->x + border_width;
-		child_allocation.y = allocation->y + border_width;
-		child_allocation.width = MIN (child_requisition.width,
-					      allocation->width - 2 * border_width);
-		child_allocation.height = MIN (child_requisition.height,
-					       allocation->height - 2 * border_width);
-		
-		gtk_widget_size_allocate (gtk_paned_get_child1 (paned), &child_allocation);
-	} else
-		if (gtk_widget_get_realized (widget)) {
-			gdk_window_hide (gtk_paned_get_handle_window (paned));
-		}
+        if (gtk_widget_get_realized (widget))
+        {
+            gdk_window_hide (gtk_paned_get_handle_window (paned));
+        }
+
+        gtk_widget_get_child_requisition (gtk_paned_get_child1 (paned),
+                                          &child_requisition);
+
+        child_allocation.x = allocation->x + border_width;
+        child_allocation.y = allocation->y + border_width;
+        child_allocation.width = MIN (child_requisition.width,
+                                      allocation->width - 2 * border_width);
+        child_allocation.height = MIN (child_requisition.height,
+                                       allocation->height - 2 * border_width);
+
+        gtk_widget_size_allocate (gtk_paned_get_child1 (paned), &child_allocation);
+    }
+    else if (gtk_widget_get_realized (widget))
+    {
+        gdk_window_hide (gtk_paned_get_handle_window (paned));
+    }
 
 }
 
 static void
 caja_horizontal_splitter_class_init (CajaHorizontalSplitterClass *class)
 {
-	GtkWidgetClass *widget_class;
-	
-	widget_class = GTK_WIDGET_CLASS (class);
+    GtkWidgetClass *widget_class;
 
-	G_OBJECT_CLASS (class)->finalize = caja_horizontal_splitter_finalize;
+    widget_class = GTK_WIDGET_CLASS (class);
 
-	widget_class->size_allocate = caja_horizontal_splitter_size_allocate;
-	widget_class->button_press_event = caja_horizontal_splitter_button_press;
-	widget_class->button_release_event = caja_horizontal_splitter_button_release;
+    G_OBJECT_CLASS (class)->finalize = caja_horizontal_splitter_finalize;
+
+    widget_class->size_allocate = caja_horizontal_splitter_size_allocate;
+    widget_class->button_press_event = caja_horizontal_splitter_button_press;
+    widget_class->button_release_event = caja_horizontal_splitter_button_release;
 }
 
 void
 caja_horizontal_splitter_pack2 (CajaHorizontalSplitter *splitter,
-				    GtkWidget                  *child2)
+                                GtkWidget                  *child2)
 {
-	GtkPaned *paned;
-	
-	g_return_if_fail (GTK_IS_WIDGET (child2));
-	g_return_if_fail (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
+    GtkPaned *paned;
 
-	paned = GTK_PANED (splitter);
-	gtk_paned_pack2 (paned, child2, TRUE, FALSE);
+    g_return_if_fail (GTK_IS_WIDGET (child2));
+    g_return_if_fail (CAJA_IS_HORIZONTAL_SPLITTER (splitter));
+
+    paned = GTK_PANED (splitter);
+    gtk_paned_pack2 (paned, child2, TRUE, FALSE);
 }

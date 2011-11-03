@@ -34,128 +34,128 @@
 extern "C" {
 #endif
 
-/*
- * A callback which you can register to to be notified when a particular
- * preference changes.
- */
-typedef void (*EelPreferencesCallback) (gpointer callback_data);
+    /*
+     * A callback which you can register to to be notified when a particular
+     * preference changes.
+     */
+    typedef void (*EelPreferencesCallback) (gpointer callback_data);
 
-/* Preferences getters and setters */
-gboolean       eel_preferences_get_boolean                     (const char              *name);
-void           eel_preferences_set_boolean                     (const char              *name,
-								gboolean                 boolean_value);
-int            eel_preferences_get_integer                     (const char              *name);
-void           eel_preferences_set_integer                     (const char              *name,
-								int                      int_value);
-guint          eel_preferences_get_uint                        (const char              *name);
-void           eel_preferences_set_uint                        (const char              *name,
-								guint                    uint_value);
-guint          eel_preferences_get_enum                        (const char              *name);
-void           eel_preferences_set_enum                        (const char              *name,
-								guint                   int_value);
-char *         eel_preferences_get                             (const char              *name);
-void           eel_preferences_set                             (const char              *name,
-								const char              *string_value);
-char **        eel_preferences_get_string_array                 (const char              *name);
-void           eel_preferences_set_string_array                 (const char              *name,
-								 char                   **strv_value);
+    /* Preferences getters and setters */
+    gboolean       eel_preferences_get_boolean                     (const char              *name);
+    void           eel_preferences_set_boolean                     (const char              *name,
+            gboolean                 boolean_value);
+    int            eel_preferences_get_integer                     (const char              *name);
+    void           eel_preferences_set_integer                     (const char              *name,
+            int                      int_value);
+    guint          eel_preferences_get_uint                        (const char              *name);
+    void           eel_preferences_set_uint                        (const char              *name,
+            guint                    uint_value);
+    guint          eel_preferences_get_enum                        (const char              *name);
+    void           eel_preferences_set_enum                        (const char              *name,
+            guint                   int_value);
+    char *         eel_preferences_get                             (const char              *name);
+    void           eel_preferences_set                             (const char              *name,
+            const char              *string_value);
+    char **        eel_preferences_get_string_array                 (const char              *name);
+    void           eel_preferences_set_string_array                 (const char              *name,
+            char                   **strv_value);
 
-void           eel_preferences_unset                            (const char              *name);
+    void           eel_preferences_unset                            (const char              *name);
 
-/* Writability of a key */
-gboolean       eel_preferences_key_is_writable                 (const char              *name);
+    /* Writability of a key */
+    gboolean       eel_preferences_key_is_writable                 (const char              *name);
 
-/* Callbacks */
-void           eel_preferences_add_callback                    (const char              *name,
-								EelPreferencesCallback   callback,
-								gpointer                 callback_data);
-void           eel_preferences_add_callback_while_alive        (const char              *name,
-								EelPreferencesCallback   callback,
-								gpointer                 callback_data,
-								GObject                 *alive_object);
-void           eel_preferences_remove_callback                 (const char              *name,
-								EelPreferencesCallback   callback,
-								gpointer                 callback_data);
+    /* Callbacks */
+    void           eel_preferences_add_callback                    (const char              *name,
+            EelPreferencesCallback   callback,
+            gpointer                 callback_data);
+    void           eel_preferences_add_callback_while_alive        (const char              *name,
+            EelPreferencesCallback   callback,
+            gpointer                 callback_data,
+            GObject                 *alive_object);
+    void           eel_preferences_remove_callback                 (const char              *name,
+            EelPreferencesCallback   callback,
+            gpointer                 callback_data);
 
-/* Variables that are automatically updated (lightweight "callbacks") */
-void           eel_preferences_add_auto_string                 (const char              *name,
-								const char             **storage);
-void           eel_preferences_add_auto_string_array           (const char              *name,
-								char                  ***storage);
-void           eel_preferences_add_auto_string_array_as_quarks (const char              *name,
-								GQuark                 **storage);
-void           eel_preferences_add_auto_integer                (const char              *name,
-								int                     *storage);
-void           eel_preferences_add_auto_enum                   (const char              *name,
-								guint                   *storage);
-void           eel_preferences_add_auto_boolean                (const char              *name,
-								gboolean                *storage);
-void           eel_preferences_remove_auto_string              (const char              *name,
-								const char             **storage);
-void           eel_preferences_remove_auto_string_array        (const char              *name,
-								char                  ***storage);
-void           eel_preferences_remove_auto_integer             (const char              *name,
-								int                     *storage);
-void           eel_preferences_remove_auto_boolean             (const char              *name,
-								int                     *storage);
+    /* Variables that are automatically updated (lightweight "callbacks") */
+    void           eel_preferences_add_auto_string                 (const char              *name,
+            const char             **storage);
+    void           eel_preferences_add_auto_string_array           (const char              *name,
+            char                  ***storage);
+    void           eel_preferences_add_auto_string_array_as_quarks (const char              *name,
+            GQuark                 **storage);
+    void           eel_preferences_add_auto_integer                (const char              *name,
+            int                     *storage);
+    void           eel_preferences_add_auto_enum                   (const char              *name,
+            guint                   *storage);
+    void           eel_preferences_add_auto_boolean                (const char              *name,
+            gboolean                *storage);
+    void           eel_preferences_remove_auto_string              (const char              *name,
+            const char             **storage);
+    void           eel_preferences_remove_auto_string_array        (const char              *name,
+            char                  ***storage);
+    void           eel_preferences_remove_auto_integer             (const char              *name,
+            int                     *storage);
+    void           eel_preferences_remove_auto_boolean             (const char              *name,
+            int                     *storage);
 
-/* Preferences attributes */
+    /* Preferences attributes */
 
-gboolean       eel_preferences_get_is_invisible                (const char              *name);
-void           eel_preferences_set_is_invisible                (const char              *name,
-								gboolean                 invisible);
-char *         eel_preferences_get_description                 (const char              *name);
-void           eel_preferences_set_description                 (const char              *name,
-								const char              *description);
-char *         eel_preferences_get_enumeration_id              (const char              *name);
-void           eel_preferences_set_enumeration_id              (const char              *name,
-								const char              *enumeration_id);
+    gboolean       eel_preferences_get_is_invisible                (const char              *name);
+    void           eel_preferences_set_is_invisible                (const char              *name,
+            gboolean                 invisible);
+    char *         eel_preferences_get_description                 (const char              *name);
+    void           eel_preferences_set_description                 (const char              *name,
+            const char              *description);
+    char *         eel_preferences_get_enumeration_id              (const char              *name);
+    void           eel_preferences_set_enumeration_id              (const char              *name,
+            const char              *enumeration_id);
 
-void        eel_preferences_set_emergency_fallback_string      (const char    *name,
-								const char    *value);
-void        eel_preferences_set_emergency_fallback_integer     (const char    *name,
-								int            value);
-void        eel_preferences_set_emergency_fallback_boolean     (const char    *name,
-								gboolean       value);
-void        eel_preferences_set_emergency_fallback_string_array(const char    *name,
-								char         **value);
-MateConfValue *eel_preferences_get_emergency_fallback             (const char    *name);
+    void        eel_preferences_set_emergency_fallback_string      (const char    *name,
+            const char    *value);
+    void        eel_preferences_set_emergency_fallback_integer     (const char    *name,
+            int            value);
+    void        eel_preferences_set_emergency_fallback_boolean     (const char    *name,
+            gboolean       value);
+    void        eel_preferences_set_emergency_fallback_string_array(const char    *name,
+            char         **value);
+    MateConfValue *eel_preferences_get_emergency_fallback             (const char    *name);
 
 
-gboolean       eel_preferences_monitor_directory               (const char              *directory);
-gboolean       eel_preferences_is_visible                      (const char              *name);
-void           eel_preferences_init                      (const char              *storage_path);
+    gboolean       eel_preferences_monitor_directory               (const char              *directory);
+    gboolean       eel_preferences_is_visible                      (const char              *name);
+    void           eel_preferences_init                      (const char              *storage_path);
 
-void eel_preferences_builder_connect_bool		         (GtkBuilder *builder,
-								  const char  *component,
-								  const char  *key);
-void eel_preferences_builder_connect_inverted_bool	         (GtkBuilder *builder,
-								  const char  *component,
-								  const char  *key);
-void eel_preferences_builder_connect_bool_slave			 (GtkBuilder *builder,
-								  const char  *component,
-								  const char  *key);
-void eel_preferences_builder_connect_string_enum_combo_box	 (GtkBuilder *builder,
-								  const char  *component,
-								  const char  *key,
-								  const char **values);
-void eel_preferences_builder_connect_string_enum_combo_box_slave (GtkBuilder *builder,
-								  const char  *component,
-								  const char  *key);
+    void eel_preferences_builder_connect_bool		         (GtkBuilder *builder,
+            const char  *component,
+            const char  *key);
+    void eel_preferences_builder_connect_inverted_bool	         (GtkBuilder *builder,
+            const char  *component,
+            const char  *key);
+    void eel_preferences_builder_connect_bool_slave			 (GtkBuilder *builder,
+            const char  *component,
+            const char  *key);
+    void eel_preferences_builder_connect_string_enum_combo_box	 (GtkBuilder *builder,
+            const char  *component,
+            const char  *key,
+            const char **values);
+    void eel_preferences_builder_connect_string_enum_combo_box_slave (GtkBuilder *builder,
+            const char  *component,
+            const char  *key);
 
-void eel_preferences_builder_connect_uint_enum			 (GtkBuilder *builder,
-								  const char  *component,
-								  const char  *key,
-								  const guint *values,
-								  int          num_values);
-void eel_preferences_builder_connect_string_enum_radio_button	 (GtkBuilder *builder,
-								  const char **components,
-								  const char  *key,
-								  const char **values);
-void eel_preferences_builder_connect_list_enum			 (GtkBuilder *builder,
-						   		  const char **components,
-								  const char  *key,
-								  const char **values);
+    void eel_preferences_builder_connect_uint_enum			 (GtkBuilder *builder,
+            const char  *component,
+            const char  *key,
+            const guint *values,
+            int          num_values);
+    void eel_preferences_builder_connect_string_enum_radio_button	 (GtkBuilder *builder,
+            const char **components,
+            const char  *key,
+            const char **values);
+    void eel_preferences_builder_connect_list_enum			 (GtkBuilder *builder,
+            const char **components,
+            const char  *key,
+            const char **values);
 
 
 #ifdef __cplusplus

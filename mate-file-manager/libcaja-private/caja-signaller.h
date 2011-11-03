@@ -36,7 +36,7 @@
    so that other objects can cause them to be emitted later, without
    the connecting and emit-causing objects needing to know about each
    other. It seems a shame to have to invent a subclass and a special
-   object just for this purpose. Perhaps there's a better way to do 
+   object just for this purpose. Perhaps there's a better way to do
    this kind of thing.
 */
 

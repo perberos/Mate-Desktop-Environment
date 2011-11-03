@@ -31,19 +31,19 @@
 extern "C" {
 #endif
 
-typedef void (* EelFunction) (void);
+    typedef void (* EelFunction) (void);
 
-void eel_stop_in_debugger                             (void);
-void eel_make_warnings_and_criticals_stop_in_debugger (void);
-int  eel_get_available_file_descriptor_count          (void);
+    void eel_stop_in_debugger                             (void);
+    void eel_make_warnings_and_criticals_stop_in_debugger (void);
+    int  eel_get_available_file_descriptor_count          (void);
 
-/* A way to do cleanup at exit for compatibility with shutdown tools
- * like the ones in MateComponent.
- */
-void eel_debug_shut_down                              (void);
-void eel_debug_call_at_shutdown                       (EelFunction function);
-void eel_debug_call_at_shutdown_with_data             (GFreeFunc   function,
-						       gpointer    data);
+    /* A way to do cleanup at exit for compatibility with shutdown tools
+     * like the ones in MateComponent.
+     */
+    void eel_debug_shut_down                              (void);
+    void eel_debug_call_at_shutdown                       (EelFunction function);
+    void eel_debug_call_at_shutdown_with_data             (GFreeFunc   function,
+            gpointer    data);
 
 #ifdef __cplusplus
 }

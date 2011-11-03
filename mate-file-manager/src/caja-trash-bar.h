@@ -38,23 +38,23 @@ extern "C" {
 #define CAJA_IS_TRASH_BAR_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), CAJA_TYPE_TRASH_BAR))
 #define CAJA_TRASH_BAR_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), CAJA_TYPE_TRASH_BAR, CajaTrashBarClass))
 
-typedef struct CajaTrashBarPrivate CajaTrashBarPrivate;
+    typedef struct CajaTrashBarPrivate CajaTrashBarPrivate;
 
-typedef struct
-{
-	GtkHBox	box;
+    typedef struct
+    {
+        GtkHBox	box;
 
-	CajaTrashBarPrivate *priv;
-} CajaTrashBar;
+        CajaTrashBarPrivate *priv;
+    } CajaTrashBar;
 
-typedef struct
-{
-	GtkHBoxClass	    parent_class;
-} CajaTrashBarClass;
+    typedef struct
+    {
+        GtkHBoxClass	    parent_class;
+    } CajaTrashBarClass;
 
-GType		 caja_trash_bar_get_type	(void) G_GNUC_CONST;
+    GType		 caja_trash_bar_get_type	(void) G_GNUC_CONST;
 
-GtkWidget       *caja_trash_bar_new         (CajaWindow *window);
+    GtkWidget       *caja_trash_bar_new         (CajaWindow *window);
 
 
 #ifdef __cplusplus

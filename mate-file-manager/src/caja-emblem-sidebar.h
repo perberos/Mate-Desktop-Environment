@@ -45,14 +45,16 @@
 
 typedef struct CajaEmblemSidebarDetails CajaEmblemSidebarDetails;
 
-typedef struct {
-	GtkVBox parent_slot;
-	CajaEmblemSidebarDetails *details;
+typedef struct
+{
+    GtkVBox parent_slot;
+    CajaEmblemSidebarDetails *details;
 } CajaEmblemSidebar;
 
-typedef struct {
-	GtkVBoxClass parent_slot;
-	
+typedef struct
+{
+    GtkVBoxClass parent_slot;
+
 } CajaEmblemSidebarClass;
 
 GType	caja_emblem_sidebar_get_type     (void);
