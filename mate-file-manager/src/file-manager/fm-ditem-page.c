@@ -1,6 +1,6 @@
 /*
  *  fm-ditem-page.c: Desktop item editing support
- * 
+ *
  *  Copyright (C) 2004 James Willcox
  *
  *  This library is free software; you can redistribute it and/or
@@ -61,15 +61,15 @@ _g_key_file_load_from_gfile (GKeyFile *key_file,
 	char *data;
 	gsize len;
 	gboolean res;
-	
+
 	if (!g_file_load_contents (file, NULL, &data, &len, NULL, error)) {
 		return FALSE;
 	}
 
 	res = g_key_file_load_from_data (key_file, data, len, flags, error);
-	
+
 	g_free (data);
-	
+
 	return res;
 }
 
@@ -107,7 +107,7 @@ _g_key_file_new_from_file (GFile *file,
 			   GError **error)
 {
 	GKeyFile *key_file;
-	
+
 	key_file = g_key_file_new ();
 	if (!_g_key_file_load_from_gfile (key_file, file, flags, error)) {
 		g_key_file_free (key_file);
@@ -123,7 +123,7 @@ _g_key_file_new_from_uri (const char *uri,
 {
 	GKeyFile *key_file;
 	GFile *file;
-	
+
 	file = g_file_new_for_uri (uri);
 	key_file = _g_key_file_new_from_file (file, flags, error);
 	g_object_unref (file);
@@ -143,7 +143,7 @@ item_entry_new (const char *field,
 	entry->description = description;
 	entry->localized = localized;
 	entry->filename = filename;
-	
+
 	return entry;
 }
 
@@ -164,7 +164,7 @@ fm_ditem_page_url_drag_data_received (GtkWidget *widget, GdkDragContext *context
 	char **uris;
 	gboolean exactly_one;
 	char *path;
-	
+
 	uris = g_strsplit (gtk_selection_data_get_data (selection_data), "\r\n", 0);
         exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
 
@@ -180,7 +180,7 @@ fm_ditem_page_url_drag_data_received (GtkWidget *widget, GdkDragContext *context
 	} else {
 		gtk_entry_set_text (entry, uris[0]);
 	}
-	
+
 	g_strfreev (uris);
 }
 
@@ -196,7 +196,7 @@ fm_ditem_page_exec_drag_data_received (GtkWidget *widget, GdkDragContext *contex
 	CajaFile *file;
 	GKeyFile *key_file;
 	char *uri, *type, *exec;
-	
+
 	uris = g_strsplit (gtk_selection_data_get_data (selection_data), "\r\n", 0);
         exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
 
@@ -208,7 +208,7 @@ fm_ditem_page_exec_drag_data_received (GtkWidget *widget, GdkDragContext *contex
 	file = caja_file_get_by_uri (uris[0]);
 
 	g_return_if_fail (file != NULL);
-	
+
 	uri = caja_file_get_uri (file);
 	if (caja_file_is_mime_type (file, "application/x-desktop")) {
 		key_file = _g_key_file_new_from_uri (uri, G_KEY_FILE_NONE, NULL);
@@ -224,15 +224,15 @@ fm_ditem_page_exec_drag_data_received (GtkWidget *widget, GdkDragContext *contex
 			g_free (type);
 			g_key_file_free (key_file);
 		}
-	} 
+	}
 	gtk_entry_set_text (entry,
 			    uri?uri:"");
 	gtk_widget_grab_focus (GTK_WIDGET (entry));
-	
+
 	g_free (uri);
-	
+
 	caja_file_unref (file);
-	
+
 	g_strfreev (uris);
 }
 
@@ -253,7 +253,7 @@ save_entry (GtkEntry *entry, GKeyFile *key_file, const char *uri)
 
 	g_free (item_entry->current_value);
 	item_entry->current_value = g_strdup (val);
-	
+
 	if (item_entry->localized) {
 		languages = (gchar **) g_get_language_names ();
 		g_key_file_set_locale_string (key_file, MAIN_GROUP, item_entry->field, languages[0], val);
@@ -275,7 +275,7 @@ entry_activate_cb (GtkWidget *entry,
 {
 	const char *uri;
 	GKeyFile *key_file;
-	
+
 	uri = g_object_get_data (G_OBJECT (container), "uri");
 	key_file = g_object_get_data (G_OBJECT (container), "keyfile");
 	save_entry (GTK_ENTRY (entry), key_file, uri);
@@ -288,7 +288,7 @@ entry_focus_out_cb (GtkWidget *entry,
 {
 	const char *uri;
 	GKeyFile *key_file;
-	
+
 	uri = g_object_get_data (G_OBJECT (container), "uri");
 	key_file = g_object_get_data (G_OBJECT (container), "keyfile");
 	save_entry (GTK_ENTRY (entry), key_file, uri);
@@ -307,12 +307,12 @@ build_table (GtkWidget *container,
 	GList *l;
 	char *val;
 	int i;
-	
+
 	table = gtk_table_new (g_list_length (entries) + 1, 2, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 6);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 12);
 	i = 0;
-	
+
 	for (l = entries; l; l = l->next) {
 		ItemEntry *item_entry = (ItemEntry *)l->data;
 		char *label_text;
@@ -337,7 +337,7 @@ build_table (GtkWidget *container,
 						     item_entry->field,
 						     NULL);
 		}
-		
+
 		item_entry->current_value = g_strdup (val?val:"");
 		gtk_entry_set_text (GTK_ENTRY (entry), item_entry->current_value);
 		g_free (val);
@@ -354,7 +354,7 @@ build_table (GtkWidget *container,
 		g_signal_connect (entry, "focus_out_event",
 				  G_CALLBACK (entry_focus_out_cb),
 				  container);
-		
+
 		g_object_set_data_full (G_OBJECT (entry), "item_entry", item_entry,
 					(GDestroyNotify)item_entry_free);
 
@@ -363,7 +363,7 @@ build_table (GtkWidget *container,
 					   GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
 					   target_table, G_N_ELEMENTS (target_table),
 					   GDK_ACTION_COPY | GDK_ACTION_MOVE);
-			
+
 			g_signal_connect (entry, "drag_data_received",
 					  G_CALLBACK (fm_ditem_page_url_drag_data_received),
 					  entry);
@@ -372,12 +372,12 @@ build_table (GtkWidget *container,
 					   GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
 					   target_table, G_N_ELEMENTS (target_table),
 					   GDK_ACTION_COPY | GDK_ACTION_MOVE);
-			
+
 			g_signal_connect (entry, "drag_data_received",
 					  G_CALLBACK (fm_ditem_page_exec_drag_data_received),
 					  entry);
 		}
-		
+
 		i++;
 	}
 
@@ -400,11 +400,11 @@ create_page (GKeyFile *key_file, GtkWidget *box)
 	GList *entries;
 	GtkSizeGroup *label_size_group;
 	char *type;
-	
+
 	entries = NULL;
 
 	type = g_key_file_get_string (key_file, MAIN_GROUP, "Type", NULL);
-	
+
 	if (g_strcmp0 (type, "Link") == 0) {
 		entries = g_list_prepend (entries,
 					  item_entry_new ("Comment",
@@ -420,7 +420,7 @@ create_page (GKeyFile *key_file, GtkWidget *box)
 					  item_entry_new ("Comment",
 							  _("Comment"), TRUE, FALSE));
 		entries = g_list_prepend (entries,
-					  item_entry_new ("Exec", 
+					  item_entry_new ("Exec",
 							  _("Command"), FALSE, FALSE));
 		entries = g_list_prepend (entries,
 					  item_entry_new ("GenericName",
@@ -438,7 +438,7 @@ build_table:
 
 	table = build_table (box, key_file, label_size_group, entries);
 	g_list_free (entries);
-	
+
 	gtk_box_pack_start (GTK_BOX (box), table, FALSE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (box));
 }
@@ -455,7 +455,7 @@ ditem_read_cb (GObject *source_object,
 	char *file_contents;
 
 	box = GTK_WIDGET (user_data);
-	
+
 	if (g_file_load_contents_finish (G_FILE (source_object),
 					 res,
 					 &file_contents, &file_size,
@@ -466,7 +466,7 @@ ditem_read_cb (GObject *source_object,
 			create_page (key_file, box);
 		}
 		g_free (file_contents);
-		
+
 	}
 	g_object_unref (box);
 }

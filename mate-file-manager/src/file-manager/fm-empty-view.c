@@ -3,7 +3,7 @@
 /* fm-empty-view.c - implementation of empty view of directory.
 
    Copyright (C) 2006 Free Software Foundation, Inc.
-   
+
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the
@@ -43,7 +43,7 @@ static void   fm_empty_view_scroll_to_file                  (CajaView      *view
 							     const char        *uri);
 static void   fm_empty_view_iface_init                      (CajaViewIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (FMEmptyView, fm_empty_view, FM_TYPE_DIRECTORY_VIEW, 
+G_DEFINE_TYPE_WITH_CODE (FMEmptyView, fm_empty_view, FM_TYPE_DIRECTORY_VIEW,
 			 G_IMPLEMENT_INTERFACE (CAJA_TYPE_VIEW,
 						fm_empty_view_iface_init));
 
@@ -67,7 +67,7 @@ fm_empty_view_add_file (FMDirectoryView *view, CajaFile *file, CajaDirectory *di
 	g_timer_stop (timer);
 
 	g_object_unref (icon);
-	
+
 	cumu += elaps;
 	g_message ("entire loading: %.3f, cumulative %.3f", elaps, cumu);
 }
@@ -188,14 +188,14 @@ fm_empty_view_restore_default_zoom_level (FMDirectoryView *view)
 {
 }
 
-static gboolean 
-fm_empty_view_can_zoom_in (FMDirectoryView *view) 
+static gboolean
+fm_empty_view_can_zoom_in (FMDirectoryView *view)
 {
 	return FALSE;
 }
 
-static gboolean 
-fm_empty_view_can_zoom_out (FMDirectoryView *view) 
+static gboolean
+fm_empty_view_can_zoom_out (FMDirectoryView *view)
 {
 	return FALSE;
 }
@@ -330,7 +330,7 @@ static void
 fm_empty_view_iface_init (CajaViewIface *iface)
 {
 	fm_directory_view_init_view_iface (iface);
-	
+
 	iface->get_view_id = fm_empty_view_get_id;
 	iface->get_first_visible_file = fm_empty_view_get_first_visible_file;
 	iface->scroll_to_file = fm_empty_view_scroll_to_file;

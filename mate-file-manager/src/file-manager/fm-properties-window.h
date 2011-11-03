@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* fm-properties-window.h - interface for window that lets user modify 
+/* fm-properties-window.h - interface for window that lets user modify
                             icon properties
 
    Copyright (C) 2000 Eazel, Inc.
@@ -47,12 +47,12 @@ typedef struct FMPropertiesWindowDetails FMPropertiesWindowDetails;
 
 struct FMPropertiesWindow {
 	GtkDialog window;
-	FMPropertiesWindowDetails *details;	
+	FMPropertiesWindowDetails *details;
 };
 
 struct FMPropertiesWindowClass {
 	GtkDialogClass parent_class;
-	
+
 	/* Keybinding signals */
 	void (* close)    (FMPropertiesWindow *window);
 };

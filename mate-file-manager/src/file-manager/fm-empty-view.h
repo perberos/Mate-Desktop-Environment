@@ -3,7 +3,7 @@
 /* fm-empty-view.h - interface for empty view of directory.
 
    Copyright (C) 2006 Free Software Foundation, Inc.
-   
+
    The Mate Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
    published by the Free Software Foundation; either version 2 of the

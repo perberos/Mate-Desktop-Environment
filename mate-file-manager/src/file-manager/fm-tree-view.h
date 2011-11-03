@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* 
+/*
  * Copyright (C) 2000, 2001 Eazel, Inc
  * Copyright (C) 2002 Anders Carlsson
  *
@@ -20,7 +20,7 @@
  * Boston, MA 02111-1307, USA.
  *
  * Authors: Maciej Stachowiak <mjs@eazel.com>
- *          Anders Carlsson <andersca@gnu.org> 
+ *          Anders Carlsson <andersca@gnu.org>
  */
 
 /* fm-tree-view.h - tree view. */
@@ -49,7 +49,7 @@ typedef struct FMTreeViewDetails FMTreeViewDetails;
 
 typedef struct {
 	GtkScrolledWindow parent;
-	
+
 	FMTreeViewDetails *details;
 } FMTreeView;
 

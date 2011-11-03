@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* 
+/*
  * Copyright (C) 2000, 2001 Eazel, Inc
  * Copyright (C) 2002 Anders Carlsson
  * Copyright (C) 2002 Darin Adler
@@ -20,7 +20,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authors: 
+ * Authors:
  *       Maciej Stachowiak <mjs@eazel.com>
  *       Anders Carlsson <andersca@gnu.org>
  *       Darin Adler <darin@bentspoon.com>
@@ -104,7 +104,7 @@ struct FMTreeViewDetails {
 	GtkWidget *popup_eject;
 	CajaFile *popup_file;
 	guint popup_file_idle_handler;
-	
+
 	guint selection_changed_timer;
 };
 
@@ -118,7 +118,7 @@ static gboolean show_delete_command_auto_value;
 
 static void  fm_tree_view_iface_init        (CajaSidebarIface         *iface);
 static void  sidebar_provider_iface_init    (CajaSidebarProviderIface *iface);
-static void  fm_tree_view_activate_file     (FMTreeView *view, 
+static void  fm_tree_view_activate_file     (FMTreeView *view,
 			    		     CajaFile *file,
 					     CajaWindowOpenFlags flags);
 static GType fm_tree_view_provider_get_type (void);
@@ -239,7 +239,7 @@ show_selection_idle_callback (gpointer callback_data)
 			return FALSE;
 		}
 	}
-	
+
 	view->details->selecting = TRUE;
 	if (!show_iter_for_file (view, file, &iter)) {
 		caja_file_unref (file);
@@ -258,7 +258,7 @@ show_selection_idle_callback (gpointer callback_data)
 	gtk_tree_path_free (sort_path);
 
 	caja_file_unref (file);
-	refresh_highlight (view);	
+	refresh_highlight (view);
 
 	return FALSE;
 }
@@ -349,7 +349,7 @@ got_activation_uri_callback (CajaFile *file, gpointer callback_data)
 	GFile *location;
 	CajaWindowSlotInfo *slot;
 	gboolean open_in_same_slot;
-	
+
         view = FM_TREE_VIEW (callback_data);
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (view->details->tree_widget));
@@ -374,8 +374,8 @@ got_activation_uri_callback (CajaFile *file, gpointer callback_data)
 	} else if (uri != NULL
 		   && caja_file_is_executable (file)
 		   && caja_file_can_execute (file)
-		   && !caja_file_is_directory (file)) {	
-		   
+		   && !caja_file_is_directory (file)) {
+
 		file_uri = g_filename_from_uri (uri, NULL, NULL);
 
 		/* Non-local executables don't get launched. They act like non-executables. */
@@ -386,7 +386,7 @@ got_activation_uri_callback (CajaFile *file, gpointer callback_data)
 			location = g_file_new_for_uri (uri);
 			caja_window_slot_info_open_location
 				(slot,
-				 location, 
+				 location,
 				 CAJA_WINDOW_OPEN_ACCORDING_TO_MODE,
 				 view->details->activation_flags,
 				 NULL);
@@ -398,7 +398,7 @@ got_activation_uri_callback (CajaFile *file, gpointer callback_data)
 			caja_launch_application_from_command (screen, NULL, file_uri, FALSE, NULL);
 			g_free (file_uri);
 		}
-		   
+
 	} else if (uri != NULL) {
 		if (!open_in_same_slot ||
 		    view->details->selection_location == NULL ||
@@ -435,7 +435,7 @@ cancel_activation (FMTreeView *view)
         if (view->details->activation_file == NULL) {
 		return;
 	}
-	
+
 	caja_file_cancel_call_when_ready
 		(view->details->activation_file,
 		 got_activation_uri_callback, view);
@@ -444,24 +444,24 @@ cancel_activation (FMTreeView *view)
 }
 
 static void
-row_activated_callback (GtkTreeView *treeview, GtkTreePath *path, 
+row_activated_callback (GtkTreeView *treeview, GtkTreePath *path,
 			GtkTreeViewColumn *column, FMTreeView *view)
 {
 	if (gtk_tree_view_row_expanded (view->details->tree_widget, path)) {
 		gtk_tree_view_collapse_row (view->details->tree_widget, path);
 	} else {
-		gtk_tree_view_expand_row (view->details->tree_widget, 
+		gtk_tree_view_expand_row (view->details->tree_widget,
 					  path, FALSE);
 	}
 }
 
-static gboolean 
+static gboolean
 selection_changed_timer_callback(FMTreeView *view)
 {
 	CajaFileAttributes attributes;
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
-	
+
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (view->details->tree_widget));
 
 	/* no activation if popup menu is open */
@@ -480,7 +480,7 @@ selection_changed_timer_callback(FMTreeView *view)
 		return FALSE;
 	}
 	view->details->activation_flags = 0;
-		
+
 	attributes = CAJA_FILE_ATTRIBUTE_INFO | CAJA_FILE_ATTRIBUTE_LINK_INFO;
 	caja_file_call_when_ready (view->details->activation_file, attributes,
 				       got_activation_uri_callback, view);
@@ -498,7 +498,7 @@ selection_changed_callback (GtkTreeSelection *selection,
 		g_source_remove (view->details->selection_changed_timer);
 		view->details->selection_changed_timer = 0;
 	}
-	
+
 	event = gtk_get_current_event ();
 	if (event) {
 		is_keyboard = (event->type == GDK_KEY_PRESS || event->type == GDK_KEY_RELEASE);
@@ -562,7 +562,7 @@ get_root_uri_callback (CajaTreeViewDragDest *dest,
 		       gpointer user_data)
 {
 	FMTreeView *view;
-	
+
 	view = FM_TREE_VIEW (user_data);
 
 	/* Don't allow drops on background */
@@ -575,7 +575,7 @@ get_file_for_path_callback (CajaTreeViewDragDest *dest,
 			    gpointer user_data)
 {
 	FMTreeView *view;
-	
+
 	view = FM_TREE_VIEW (user_data);
 
 	return sort_model_path_to_file (view, path);
@@ -593,7 +593,7 @@ move_copy_items_callback (CajaTreeViewDragDest *dest,
 	FMTreeView *view;
 
 	view = FM_TREE_VIEW (user_data);
-	
+
 	caja_clipboard_clear_if_colliding_uris (GTK_WIDGET (view),
 						    item_uris,
 						    copied_files_atom);
@@ -622,14 +622,14 @@ add_root_for_mount (FMTreeView *view,
 	mount_uri = g_file_get_uri (root);
 	g_object_unref (root);
 	name = g_mount_get_name (mount);
-	
+
 	fm_tree_model_add_root_uri(view->details->child_model,
 				   mount_uri, name, icon, mount);
 
 	g_object_unref (icon);
 	g_free (name);
 	g_free (mount_uri);
-	
+
 }
 
 static void
@@ -679,18 +679,18 @@ is_parent_writable (CajaFile *file)
 {
 	CajaFile *parent;
 	gboolean result;
-	
+
 	parent = caja_file_get_parent (file);
-	
+
 	/* No parent directory, return FALSE */
 	if (parent == NULL) {
 		return FALSE;
 	}
-	
+
 	result = caja_file_can_write (parent);
 	caja_file_unref (parent);
-	
-	return result;	
+
+	return result;
 }
 
 static gboolean
@@ -712,7 +712,7 @@ button_pressed_callback (GtkTreeView *treeview, GdkEventButton *event,
 		if (view->details->popup_file != NULL) {
 			return FALSE; /* Already up, ignore */
 		}
-		
+
 		if (!gtk_tree_view_get_path_at_pos (treeview, event->x, event->y,
 						    &path, NULL, NULL, NULL)) {
 			return FALSE;
@@ -743,14 +743,14 @@ button_pressed_callback (GtkTreeView *treeview, GdkEventButton *event,
 		}
 		can_move_file_to_trash = caja_file_can_trash (view->details->popup_file);
 		gtk_widget_set_sensitive (view->details->popup_trash, can_move_file_to_trash);
-		
+
 		if (show_delete_command_auto_value) {
 			parent_file_is_writable = is_parent_writable (view->details->popup_file);
 			file_is_home_or_desktop = caja_file_is_home (view->details->popup_file)
 				|| caja_file_is_desktop_directory (view->details->popup_file);
 			file_is_special_link = CAJA_IS_DESKTOP_ICON_FILE (view->details->popup_file);
-			
-			can_delete_file = parent_file_is_writable 
+
+			can_delete_file = parent_file_is_writable
 				&& !file_is_home_or_desktop
 				&& !file_is_special_link;
 
@@ -802,7 +802,7 @@ button_pressed_callback (GtkTreeView *treeview, GdkEventButton *event,
 
 		file = sort_model_path_to_file (view, path);
 		if (file) {
-			fm_tree_view_activate_file (view, file, 
+			fm_tree_view_activate_file (view, file,
 						    (event->state & GDK_CONTROL_MASK) != 0 ?
 						    CAJA_WINDOW_OPEN_FLAG_NEW_WINDOW :
 						    CAJA_WINDOW_OPEN_FLAG_NEW_TAB);
@@ -818,7 +818,7 @@ button_pressed_callback (GtkTreeView *treeview, GdkEventButton *event,
 }
 
 static void
-fm_tree_view_activate_file (FMTreeView *view, 
+fm_tree_view_activate_file (FMTreeView *view,
 			    CajaFile *file,
 			    CajaWindowOpenFlags flags)
 {
@@ -828,7 +828,7 @@ fm_tree_view_activate_file (FMTreeView *view,
 
 	view->details->activation_file = caja_file_ref (file);
 	view->details->activation_flags = flags;
-		
+
 	attributes = CAJA_FILE_ATTRIBUTE_INFO | CAJA_FILE_ATTRIBUTE_LINK_INFO;
 	caja_file_call_when_ready (view->details->activation_file, attributes,
 				       got_activation_uri_callback, view);
@@ -927,7 +927,7 @@ copy_or_cut_files (FMTreeView *view,
 						 name);
 	}
 	g_free (name);
-	
+
 	caja_window_info_push_status (view->details->window,
 					  status_string);
 	g_free (status_string);
@@ -973,7 +973,7 @@ paste_clipboard_data (FMTreeView *view,
 		if (cut) {
 			gtk_clipboard_clear (caja_clipboard_get (GTK_WIDGET (view)));
 		}
-		
+
 		eel_g_list_free_deep (item_uris);
 	}
 }
@@ -1028,11 +1028,11 @@ fm_tree_view_trash_cb (GtkWidget *menu_item,
 	if (!caja_file_can_trash (view->details->popup_file)) {
 		return;
 	}
-	
+
 	list = g_list_prepend (NULL,
 			       caja_file_get_location (view->details->popup_file));
-	
-	caja_file_operations_trash_or_delete (list, 
+
+	caja_file_operations_trash_or_delete (list,
 						  fm_tree_view_get_containing_window (view),
 						  NULL, NULL);
 	eel_g_object_list_free (list);
@@ -1043,14 +1043,14 @@ fm_tree_view_delete_cb (GtkWidget *menu_item,
 		        FMTreeView *view)
 {
 	GList *location_list;
-		
+
 	if (!show_delete_command_auto_value) {
 		return;
 	}
-	
+
 	location_list = g_list_prepend (NULL,
 					caja_file_get_location (view->details->popup_file));
-	
+
 	caja_file_operations_delete (location_list, fm_tree_view_get_containing_window (view), NULL, NULL);
 	eel_g_object_list_free (location_list);
 }
@@ -1060,7 +1060,7 @@ fm_tree_view_properties_cb (GtkWidget *menu_item,
 			    FMTreeView *view)
 {
 	GList *list;
-        
+
 	list = g_list_prepend (NULL, caja_file_ref (view->details->popup_file));
 
 	fm_properties_window_present (list, GTK_WIDGET (view->details->tree_widget));
@@ -1074,13 +1074,13 @@ fm_tree_view_unmount_cb (GtkWidget *menu_item,
 {
 	CajaFile *file = view->details->popup_file;
 	GMount *mount;
-	
+
 	if (file == NULL) {
 		return;
 	}
 
 	mount = fm_tree_model_get_mount_for_root_node_file (view->details->child_model, file);
-	
+
 	if (mount != NULL) {
 		caja_file_operations_unmount_mount (fm_tree_view_get_containing_window (view),
 							mount, FALSE, TRUE);
@@ -1093,13 +1093,13 @@ fm_tree_view_eject_cb (GtkWidget *menu_item,
 {
 	CajaFile *file = view->details->popup_file;
 	GMount *mount;
-	
+
 	if (file == NULL) {
 		return;
 	}
 
 	mount = fm_tree_model_get_mount_for_root_node_file (view->details->child_model, file);
-	
+
 	if (mount != NULL) {
 		caja_file_operations_unmount_mount (fm_tree_view_get_containing_window (view),
 							mount, TRUE, TRUE);
@@ -1132,7 +1132,7 @@ popup_menu_deactivated (GtkMenuShell *menu_shell, gpointer data)
 	   We want to free popup_file, but can't right away as it might immediately get
 	   used if we're deactivation due to activating a menu item. So, we free it in
 	   idle */
-	
+
 	if (view->details->popup_file != NULL &&
 	    view->details->popup_file_idle_handler == 0) {
 		view->details->popup_file_idle_handler = g_idle_add (free_popup_file_in_idle_cb, view);
@@ -1148,14 +1148,14 @@ create_popup_menu (FMTreeView *view)
 		/* already created */
 		return;
 	}
-	
+
 	popup = gtk_menu_new ();
 
 	g_signal_connect (popup, "deactivate",
 			  G_CALLBACK (popup_menu_deactivated),
 			  view);
-	
-	
+
+
 	/* add the "open" menu item */
 	menu_image = gtk_image_new_from_stock (GTK_STOCK_OPEN,
 					       GTK_ICON_SIZE_MENU);
@@ -1169,7 +1169,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_open = menu_item;
-	
+
 	/* add the "open in new tab" menu item */
 	menu_item = gtk_menu_item_new_with_mnemonic (_("Open in New _Tab"));
 	g_signal_connect (menu_item, "activate",
@@ -1178,7 +1178,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_open_in_new_window = menu_item;
-	
+
 	/* add the "open in new window" menu item */
 	menu_item = gtk_menu_item_new_with_mnemonic (_("Open in New _Window"));
 	g_signal_connect (menu_item, "activate",
@@ -1187,7 +1187,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_open_in_new_window = menu_item;
-	
+
 	eel_gtk_menu_append_separator (GTK_MENU (popup));
 
 	/* add the "create folder" menu item */
@@ -1198,9 +1198,9 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_create_folder = menu_item;
-	
+
 	eel_gtk_menu_append_separator (GTK_MENU (popup));
-	
+
 	/* add the "cut folder" menu item */
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_CUT, NULL);
 	g_signal_connect (menu_item, "activate",
@@ -1209,7 +1209,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_cut = menu_item;
-	
+
 	/* add the "copy folder" menu item */
 	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
 	g_signal_connect (menu_item, "activate",
@@ -1218,7 +1218,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_copy = menu_item;
-	
+
 	/* add the "paste files into folder" menu item */
 	menu_image = gtk_image_new_from_stock (GTK_STOCK_PASTE,
 					       GTK_ICON_SIZE_MENU);
@@ -1232,9 +1232,9 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_paste = menu_item;
-	
+
 	eel_gtk_menu_append_separator (GTK_MENU (popup));
-	
+
 	/* add the "move to trash" menu item */
 	menu_image = gtk_image_new_from_icon_name (CAJA_ICON_TRASH_FULL,
 						   GTK_ICON_SIZE_MENU);
@@ -1248,7 +1248,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_trash = menu_item;
-	
+
 	/* add the "delete" menu item */
 	menu_image = gtk_image_new_from_icon_name (CAJA_ICON_DELETE,
 						   GTK_ICON_SIZE_MENU);
@@ -1262,7 +1262,7 @@ create_popup_menu (FMTreeView *view)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup), menu_item);
 	view->details->popup_delete = menu_item;
-	
+
 	eel_gtk_menu_append_separator (GTK_MENU (popup));
 
 	/* add the "Unmount" menu item */
@@ -1310,7 +1310,7 @@ create_tree (FMTreeView *view)
 	char *location;
 	GIcon *icon;
 	CajaWindowSlotInfo *slot;
-	
+
 	view->details->child_model = fm_tree_model_new ();
 	view->details->sort_model = GTK_TREE_MODEL_SORT
 		(gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (view->details->child_model)));
@@ -1338,7 +1338,7 @@ create_tree (FMTreeView *view)
 	fm_tree_model_add_root_uri (view->details->child_model, "network:///", _("Network Neighbourhood"), icon, NULL);
 	g_object_unref (icon);
 #endif
-	
+
 	volume_monitor = g_volume_monitor_get ();
 	view->details->volume_monitor = volume_monitor;
 	mounts = g_volume_monitor_get_mounts (volume_monitor);
@@ -1347,23 +1347,23 @@ create_tree (FMTreeView *view)
 		g_object_unref (l->data);
 	}
 	g_list_free (mounts);
-	
+
 	g_signal_connect_object (volume_monitor, "mount_added",
 				 G_CALLBACK (mount_added_callback), view, 0);
 	g_signal_connect_object (volume_monitor, "mount_removed",
 				 G_CALLBACK (mount_removed_callback), view, 0);
-	
+
 	g_object_unref (view->details->child_model);
 
 	gtk_tree_view_set_headers_visible (view->details->tree_widget, FALSE);
 
-	view->details->drag_dest = 
+	view->details->drag_dest =
 		caja_tree_view_drag_dest_new (view->details->tree_widget);
-	g_signal_connect_object (view->details->drag_dest, 
+	g_signal_connect_object (view->details->drag_dest,
 				 "get_root_uri",
 				 G_CALLBACK (get_root_uri_callback),
 				 view, 0);
-	g_signal_connect_object (view->details->drag_dest, 
+	g_signal_connect_object (view->details->drag_dest,
 				 "get_file_for_path",
 				 G_CALLBACK (get_file_for_path_callback),
 				 view, 0);
@@ -1383,7 +1383,7 @@ create_tree (FMTreeView *view)
 					     "pixbuf_expander_open", FM_TREE_MODEL_OPEN_PIXBUF_COLUMN,
 					     "pixbuf_emblem", FM_TREE_MODEL_EMBLEM_PIXBUF_COLUMN,
 					     NULL);
-	
+
 	cell = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, cell, TRUE);
 	gtk_tree_view_column_set_attributes (column, cell,
@@ -1401,11 +1401,11 @@ create_tree (FMTreeView *view)
 	g_signal_connect_object (gtk_tree_view_get_selection (GTK_TREE_VIEW (view->details->tree_widget)), "changed",
 				 G_CALLBACK (selection_changed_callback), view, 0);
 
-	g_signal_connect (G_OBJECT (view->details->tree_widget), 
+	g_signal_connect (G_OBJECT (view->details->tree_widget),
 			  "row-activated", G_CALLBACK (row_activated_callback),
 			  view);
 
-	g_signal_connect (G_OBJECT (view->details->tree_widget), 
+	g_signal_connect (G_OBJECT (view->details->tree_widget),
 			  "button_press_event", G_CALLBACK (button_pressed_callback),
 			  view);
 
@@ -1419,7 +1419,7 @@ static void
 update_filtering_from_preferences (FMTreeView *view)
 {
 	CajaWindowShowHiddenFilesMode mode;
-	
+
 	if (view->details->child_model == NULL) {
 		return;
 	}
@@ -1476,21 +1476,21 @@ static void
 fm_tree_view_init (FMTreeView *view)
 {
 	view->details = g_new0 (FMTreeViewDetails, 1);
-	
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (view), 
+
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (view),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_hadjustment (GTK_SCROLLED_WINDOW (view), NULL);
 	gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (view), NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (view), GTK_SHADOW_IN);
-	
+
 	gtk_widget_show (GTK_WIDGET (view));
 
 	g_signal_connect_object (view, "parent_set",
 				 G_CALLBACK (parent_set_callback), view, 0);
 
 	view->details->selection_location = NULL;
-	
+
 	view->details->selecting = FALSE;
 
 	eel_preferences_add_callback_while_alive (CAJA_PREFERENCES_SHOW_HIDDEN_FILES,
@@ -1499,10 +1499,10 @@ fm_tree_view_init (FMTreeView *view)
 						  filtering_changed_callback, view, G_OBJECT (view));
 	eel_preferences_add_callback_while_alive (CAJA_PREFERENCES_TREE_SHOW_ONLY_DIRECTORIES,
 						  filtering_changed_callback, view, G_OBJECT (view));
-	
+
 	view->details->popup_file = NULL;
 
-	view->details->clipboard_handler_id = 
+	view->details->clipboard_handler_id =
 		g_signal_connect (caja_clipboard_monitor_get (),
 		                  "clipboard_info",
 		                  G_CALLBACK (notify_clipboard_info), view);
@@ -1512,9 +1512,9 @@ static void
 fm_tree_view_dispose (GObject *object)
 {
 	FMTreeView *view;
-	
+
 	view = FM_TREE_VIEW (object);
-	
+
 	if (view->details->selection_changed_timer) {
 		g_source_remove (view->details->selection_changed_timer);
 		view->details->selection_changed_timer = 0;
@@ -1547,7 +1547,7 @@ fm_tree_view_dispose (GObject *object)
 		g_source_remove (view->details->popup_file_idle_handler);
 		view->details->popup_file_idle_handler = 0;
 	}
-	
+
 	if (view->details->popup_file != NULL) {
 		caja_file_unref (view->details->popup_file);
 		view->details->popup_file = NULL;
@@ -1585,11 +1585,11 @@ fm_tree_view_class_init (FMTreeViewClass *class)
 {
 	G_OBJECT_CLASS (class)->dispose = fm_tree_view_dispose;
 	G_OBJECT_CLASS (class)->finalize = fm_tree_view_finalize;
-	
+
 	copied_files_atom = gdk_atom_intern ("x-special/mate-copied-files", FALSE);
 
 	eel_preferences_add_auto_boolean (CAJA_PREFERENCES_ENABLE_DELETE,
-					  &show_delete_command_auto_value);	
+					  &show_delete_command_auto_value);
 }
 
 static const char *
@@ -1623,7 +1623,7 @@ fm_tree_view_is_visible_changed (CajaSidebar *sidebar,
 	/* Do nothing */
 }
 
-static void 
+static void
 hidden_files_mode_changed_callback (CajaWindowInfo *window,
 				    FMTreeView *view)
 {
@@ -1646,7 +1646,7 @@ fm_tree_view_set_parent_window (FMTreeView *sidebar,
 {
 	char *location;
 	CajaWindowSlotInfo *slot;
-	
+
 	sidebar->details->window = window;
 
 	slot = caja_window_info_get_active_slot (window);
@@ -1658,7 +1658,7 @@ fm_tree_view_set_parent_window (FMTreeView *sidebar,
 	g_free (location);
 
 	g_signal_connect_object (window, "hidden_files_mode_changed",
-				 G_CALLBACK (hidden_files_mode_changed_callback), sidebar, 0);  
+				 G_CALLBACK (hidden_files_mode_changed_callback), sidebar, 0);
 
 }
 
@@ -1667,7 +1667,7 @@ fm_tree_view_create (CajaSidebarProvider *provider,
 		     CajaWindowInfo *window)
 {
 	FMTreeView *sidebar;
-	
+
 	sidebar = g_object_new (fm_tree_view_get_type (), NULL);
 	fm_tree_view_set_parent_window (sidebar, window);
 	g_object_ref_sink (sidebar);
@@ -1675,7 +1675,7 @@ fm_tree_view_create (CajaSidebarProvider *provider,
 	return CAJA_SIDEBAR (sidebar);
 }
 
-static void 
+static void
 sidebar_provider_iface_init (CajaSidebarProviderIface *iface)
 {
 	iface->create = fm_tree_view_create;

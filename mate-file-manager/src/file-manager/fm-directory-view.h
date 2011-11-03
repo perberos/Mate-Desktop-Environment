@@ -68,21 +68,21 @@ struct FMDirectoryViewClass {
 	 * It must be replaced by each subclass.
 	 */
 	void 	(* clear) 		 (FMDirectoryView *view);
-	
+
 	/* The 'begin_file_changes' signal is emitted before a set of files
-	 * are added to the view. It can be replaced by a subclass to do any 
+	 * are added to the view. It can be replaced by a subclass to do any
 	 * necessary preparation for a set of new files. The default
 	 * implementation does nothing.
 	 */
 	void 	(* begin_file_changes) (FMDirectoryView *view);
-	
+
 	/* The 'add_file' signal is emitted to add one file to the view.
 	 * It must be replaced by each subclass.
 	 */
-	void    (* add_file) 		 (FMDirectoryView *view, 
+	void    (* add_file) 		 (FMDirectoryView *view,
 					  CajaFile *file,
 					  CajaDirectory *directory);
-	void    (* remove_file)		 (FMDirectoryView *view, 
+	void    (* remove_file)		 (FMDirectoryView *view,
 					  CajaFile *file,
 					  CajaDirectory *directory);
 
@@ -90,29 +90,29 @@ struct FMDirectoryViewClass {
 	 * including the file being removed.
 	 * It must be replaced by each subclass.
 	 */
-	void 	(* file_changed)         (FMDirectoryView *view, 
+	void 	(* file_changed)         (FMDirectoryView *view,
 					  CajaFile *file,
 					  CajaDirectory *directory);
 
 	/* The 'end_file_changes' signal is emitted after a set of files
-	 * are added to the view. It can be replaced by a subclass to do any 
+	 * are added to the view. It can be replaced by a subclass to do any
 	 * necessary cleanup (typically, cleanup for code in begin_file_changes).
 	 * The default implementation does nothing.
 	 */
 	void 	(* end_file_changes)    (FMDirectoryView *view);
-	
+
 	void    (* flush_added_files)	 (FMDirectoryView *view);
-	
+
 	/* The 'begin_loading' signal is emitted before any of the contents
-	 * of a directory are added to the view. It can be replaced by a 
+	 * of a directory are added to the view. It can be replaced by a
 	 * subclass to do any necessary preparation to start dealing with a
 	 * new directory. The default implementation does nothing.
 	 */
 	void 	(* begin_loading) 	 (FMDirectoryView *view);
 
 	/* The 'end_loading' signal is emitted after all of the contents
-	 * of a directory are added to the view. It can be replaced by a 
-	 * subclass to do any necessary clean-up. The default implementation 
+	 * of a directory are added to the view. It can be replaced by a
+	 * subclass to do any necessary clean-up. The default implementation
 	 * does nothing.
 	 *
 	 * If all_files_seen is true, the handler may assume that
@@ -127,7 +127,7 @@ struct FMDirectoryViewClass {
 
 	/* The 'load_error' signal is emitted when the directory model
 	 * reports an error in the process of monitoring the directory's
-	 * contents.  The load error indicates that the process of 
+	 * contents.  The load error indicates that the process of
 	 * loading the contents has ended, but the directory is still
 	 * being monitored. The default implementation handles common
 	 * load failures like ACCESS_DENIED.
@@ -137,9 +137,9 @@ struct FMDirectoryViewClass {
 
 	/* Function pointers that don't have corresponding signals */
 
-        /* reset_to_defaults is a function pointer that subclasses must 
+        /* reset_to_defaults is a function pointer that subclasses must
          * override to set sort order, zoom level, etc to match default
-         * values. 
+         * values.
          */
         void     (* reset_to_defaults)	         (FMDirectoryView *view);
 
@@ -149,7 +149,7 @@ struct FMDirectoryViewClass {
 	 * CajaFile pointers.
 	 */
 	GList *	(* get_selection) 	 	(FMDirectoryView *view);
-	
+
 	/* get_selection_for_file_transfer  is a function pointer for
 	 * subclasses to replace (override). Subclasses must replace it
 	 * with a function that returns a newly-allocated GList of
@@ -158,7 +158,7 @@ struct FMDirectoryViewClass {
 	 * in the selection is not included.
 	 */
 	GList *	(* get_selection_for_file_transfer)(FMDirectoryView *view);
-	
+
         /* select_all is a function pointer that subclasses must override to
          * select all of the items in the view */
         void     (* select_all)	         	(FMDirectoryView *view);
@@ -167,13 +167,13 @@ struct FMDirectoryViewClass {
          * override to select the specified items (and unselect all
          * others). The argument is a list of CajaFiles. */
 
-        void     (* set_selection)	 	(FMDirectoryView *view, 
+        void     (* set_selection)	 	(FMDirectoryView *view,
         					 GList *selection);
-        					 
+
         /* invert_selection is a function pointer that subclasses must
          * override to invert selection. */
 
-        void     (* invert_selection)	 	(FMDirectoryView *view);        					 
+        void     (* invert_selection)	 	(FMDirectoryView *view);
 
 	/* Return an array of locations of selected icons in their view. */
 	GArray * (* get_selected_icon_locations) (FMDirectoryView *view);
@@ -187,7 +187,7 @@ struct FMDirectoryViewClass {
 
         /* zoom_to_level is a function pointer that subclasses must override
          * to set the zoom level of an object to the specified level. */
-        void    (* zoom_to_level) 		(FMDirectoryView *view, 
+        void    (* zoom_to_level) 		(FMDirectoryView *view,
         				         CajaZoomLevel level);
 
         CajaZoomLevel (* get_zoom_level)    (FMDirectoryView *view);
@@ -203,7 +203,7 @@ struct FMDirectoryViewClass {
         /* can_zoom_out is a function pointer that subclasses must override to
          * return whether the view is at minimum size (furthest-out zoom level) */
         gboolean (* can_zoom_out)	 	(FMDirectoryView *view);
-        
+
         /* reveal_selection is a function pointer that subclasses may
          * override to make sure the selected items are sufficiently
          * apparent to the user (e.g., scrolled into view). By default,
@@ -225,7 +225,7 @@ struct FMDirectoryViewClass {
 
         /* update_menus is a function pointer that subclasses can override to
          * update the sensitivity or wording of menu items in the menu bar.
-         * It is called (at least) whenever the selection changes. If overridden, 
+         * It is called (at least) whenever the selection changes. If overridden,
          * subclasses must call parent class's function.
          */
         void    (* update_menus)         	(FMDirectoryView *view);
@@ -256,7 +256,7 @@ struct FMDirectoryViewClass {
 
 	/* supports_properties is a function pointer that subclasses may
 	 * override to control whether the "Show Properties" menu item
-	 * should be enabled for selected items. The default implementation 
+	 * should be enabled for selected items. The default implementation
 	 * returns TRUE.
 	 */
 	gboolean (* supports_properties)	(FMDirectoryView *view);
@@ -324,7 +324,7 @@ struct FMDirectoryViewClass {
 	void (* widget_to_file_operation_position) (FMDirectoryView *view,
 						    GdkPoint        *position);
 
-	/* Preference change callbacks, overriden by icon and list views. 
+	/* Preference change callbacks, overriden by icon and list views.
 	 * Icon and list views respond by synchronizing to the new preference
 	 * values and forcing an update if appropriate.
 	 */
@@ -393,7 +393,7 @@ void                fm_directory_view_move_copy_items                  (const GL
 GdkAtom	            fm_directory_view_get_copied_files_atom            (FMDirectoryView  *view);
 gboolean            fm_directory_view_get_active                       (FMDirectoryView  *view);
 
-/* Wrappers for signal emitters. These are normally called 
+/* Wrappers for signal emitters. These are normally called
  * only by FMDirectoryView itself. They have corresponding signals
  * that observers might want to connect with.
  */
@@ -404,8 +404,8 @@ void                fm_directory_view_end_loading                      (FMDirect
 
 gboolean            fm_directory_view_get_loading                      (FMDirectoryView  *view);
 
-/* Hooks for subclasses to call. These are normally called only by 
- * FMDirectoryView and its subclasses 
+/* Hooks for subclasses to call. These are normally called only by
+ * FMDirectoryView and its subclasses
  */
 void                fm_directory_view_activate_files                   (FMDirectoryView        *view,
 									GList                  *files,
@@ -431,10 +431,10 @@ gboolean            fm_directory_view_get_allow_moves                  (FMDirect
 void                fm_directory_view_pop_up_background_context_menu   (FMDirectoryView  *view,
 									GdkEventButton   *event);
 void                fm_directory_view_pop_up_selection_context_menu    (FMDirectoryView  *view,
-									GdkEventButton   *event); 
+									GdkEventButton   *event);
 void                fm_directory_view_pop_up_location_context_menu     (FMDirectoryView  *view,
 									GdkEventButton   *event,
-									const char       *location); 
+									const char       *location);
 void                fm_directory_view_send_selection_change            (FMDirectoryView *view);
 gboolean            fm_directory_view_should_show_file                 (FMDirectoryView  *view,
 									CajaFile     *file);

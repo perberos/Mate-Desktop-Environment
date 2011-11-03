@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* 
+/*
  * Copyright (C) 2002 Anders Carlsson
  * Copyright (C) 2002 Bent Spoon Software
  *
@@ -92,8 +92,8 @@ gboolean           fm_tree_model_file_get_iter             (FMTreeModel *model,
 							    CajaFile *file,
 							    GtkTreeIter *currentIter);
 
-GMount *         fm_tree_model_get_mount_for_root_node_file        
-                                                           (FMTreeModel  *model, 
+GMount *         fm_tree_model_get_mount_for_root_node_file
+                                                           (FMTreeModel  *model,
                                                             CajaFile *file);
 void             fm_tree_model_set_highlight_for_files    (FMTreeModel *model,
                                                             GList *files);

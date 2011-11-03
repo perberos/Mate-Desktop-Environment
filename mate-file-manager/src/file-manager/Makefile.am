@@ -10,7 +10,7 @@ INCLUDES = 					\
 	-DCAJA_DATADIR=\""$(datadir)/caja"\" \
 	-DDATADIR=\""$(datadir)"\"		\
 	$(DISABLE_DEPRECATED_CFLAGS)            \
-	$(NULL)	
+	$(NULL)
 
 
 

@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 
-/* fm-list-model.h - a GtkTreeModel for file lists. 
+/* fm-list-model.h - a GtkTreeModel for file lists.
 
    Copyright (C) 2001, 2002 Anders Carlsson
 
@@ -121,7 +121,7 @@ void              fm_list_model_unload_subdirectory (FMListModel *model, GtkTree
 
 void              fm_list_model_set_drag_view (FMListModel *model,
 					       GtkTreeView *view,
-					       int begin_x, 
+					       int begin_x,
 					       int begin_y);
 
 GtkTargetList *   fm_list_model_get_drag_target_list (void);
@@ -135,11 +135,11 @@ int               fm_list_model_add_column (FMListModel *model,
 					    CajaColumn *column);
 int               fm_list_model_get_column_number (FMListModel *model,
 						   const char *column_name);
-						   
+
 void              fm_list_model_subdirectory_done_loading (FMListModel       *model,
 							   CajaDirectory *directory);
 
 void              fm_list_model_set_highlight_for_files (FMListModel *model,
                                                          GList *files);
-						   
+
 #endif /* FM_LIST_MODEL_H */

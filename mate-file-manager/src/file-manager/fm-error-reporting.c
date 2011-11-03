@@ -56,9 +56,9 @@ fm_report_error_loading_directory (CajaFile *file,
 		/* This case is retried automatically */
 		return;
 	}
-	
+
 	file_name = caja_file_get_display_name (file);
-	
+
 	if (error->domain == G_IO_ERROR) {
 		switch (error->code) {
 		case G_IO_ERROR_PERMISSION_DENIED:
@@ -81,7 +81,7 @@ fm_report_error_loading_directory (CajaFile *file,
 
 	g_free (file_name);
 	g_free (message);
-}		
+}
 
 void
 fm_report_error_renaming_file (CajaFile *file,
@@ -99,7 +99,7 @@ fm_report_error_renaming_file (CajaFile *file,
 	original_name = caja_file_get_display_name (file);
 	original_name_truncated = eel_str_middle_truncate (original_name, MAXIMUM_DISPLAYED_FILE_NAME_LENGTH);
 	g_free (original_name);
-	
+
 	new_name_truncated = eel_str_middle_truncate (new_name, MAXIMUM_DISPLAYED_FILE_NAME_LENGTH);
 
 	message = NULL;
@@ -107,12 +107,12 @@ fm_report_error_renaming_file (CajaFile *file,
 		switch (error->code) {
 		case G_IO_ERROR_EXISTS:
 			message = g_strdup_printf (_("The name \"%s\" is already used in this folder. "
-						     "Please use a different name."), 
+						     "Please use a different name."),
 						   new_name_truncated);
 			break;
 		case G_IO_ERROR_NOT_FOUND:
 			message = g_strdup_printf (_("There is no \"%s\" in this folder. "
-						     "Perhaps it was just moved or deleted?"), 
+						     "Perhaps it was just moved or deleted?"),
 						   original_name_truncated);
 			break;
 		case G_IO_ERROR_PERMISSION_DENIED:
@@ -134,17 +134,17 @@ fm_report_error_renaming_file (CajaFile *file,
 			break;
 		}
 	}
-	
+
 	if (message == NULL) {
 		/* We should invent decent error messages for every case we actually experience. */
-		g_warning ("Hit unhandled case %s:%d in fm_report_error_renaming_file", 
+		g_warning ("Hit unhandled case %s:%d in fm_report_error_renaming_file",
 			   g_quark_to_string (error->domain), error->code);
 		/* fall through */
-		message = g_strdup_printf (_("Sorry, could not rename \"%s\" to \"%s\": %s"), 
+		message = g_strdup_printf (_("Sorry, could not rename \"%s\" to \"%s\": %s"),
 					   original_name_truncated, new_name_truncated,
 					   error->message);
 	}
-	
+
 	g_free (original_name_truncated);
 	g_free (new_name_truncated);
 
@@ -177,19 +177,19 @@ fm_report_error_setting_group (CajaFile *file,
 			break;
 		}
 	}
-			
+
 	if (message == NULL) {
 		/* We should invent decent error messages for every case we actually experience. */
-		g_warning ("Hit unhandled case %s:%d in fm_report_error_setting_group", 
+		g_warning ("Hit unhandled case %s:%d in fm_report_error_setting_group",
 			   g_quark_to_string (error->domain), error->code);
 		/* fall through */
 		message = g_strdup_printf (_("Sorry, could not change the group of \"%s\": %s"), file_name,
 					   error->message);
 	}
-	
-	
+
+
 	eel_show_error_dialog (_("The group could not be changed."), message, parent_window);
-	
+
 	g_free (file_name);
 	g_free (message);
 }
@@ -214,7 +214,7 @@ fm_report_error_setting_owner (CajaFile *file,
 
 	g_free (file_name);
 	g_free (message);
-}		
+}
 
 void
 fm_report_error_setting_permissions (CajaFile *file,
@@ -236,7 +236,7 @@ fm_report_error_setting_permissions (CajaFile *file,
 
 	g_free (file_name);
 	g_free (message);
-}		
+}
 
 typedef struct _FMRenameData {
 	char *name;
@@ -259,7 +259,7 @@ rename_callback (CajaFile *file, GFile *result_location,
 
 	g_assert (CAJA_IS_FILE (file));
 	g_assert (callback_data == NULL);
-	
+
 	data = g_object_get_data (G_OBJECT (file), NEW_NAME_TAG);
 	g_assert (data != NULL);
 
@@ -276,7 +276,7 @@ static void
 cancel_rename_callback (gpointer callback_data)
 {
 	GError *error;
-	
+
 	error = g_error_new (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
 	finish_rename (CAJA_FILE (callback_data), FALSE, error);
 	g_error_free (error);
@@ -301,7 +301,7 @@ finish_rename (CajaFile *file, gboolean stop_timer, GError *error)
 	if (data->callback != NULL) {
 		data->callback (file, NULL, error, data->callback_data);
 	}
-	
+
 	/* Let go of file name. */
 	g_object_set_data (G_OBJECT (file), NEW_NAME_TAG, NULL);
 }
@@ -329,7 +329,7 @@ fm_rename_file (CajaFile *file,
 	data->name = g_strdup (new_name);
 	data->callback = callback;
 	data->callback_data = callback_data;
-	
+
 	/* Attach the new name to the file. */
 	g_object_set_data_full (G_OBJECT (file),
 				NEW_NAME_TAG,
@@ -341,7 +341,7 @@ fm_rename_file (CajaFile *file,
 					old_name,
 					new_name);
 	g_free (old_name);
-	eel_timed_wait_start (cancel_rename_callback, file, wait_message, 
+	eel_timed_wait_start (cancel_rename_callback, file, wait_message,
 			      NULL); /* FIXME bugzilla.mate.org 42395: Parent this? */
 	g_free (wait_message);
 

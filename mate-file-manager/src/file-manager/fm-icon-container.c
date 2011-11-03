@@ -76,14 +76,14 @@ fm_icon_container_get_icon_images (CajaIconContainer *container,
 		*embedded_text = caja_file_peek_top_left_text (file, need_large_embeddded_text, embedded_text_needs_loading);
 		use_embedding = *embedded_text != NULL;
 	}
-	
+
 	if (emblem_pixbufs != NULL) {
 		emblem_size = caja_icon_get_emblem_size_for_icon_size (size);
 		/* don't return images larger than the actual icon size */
 		emblem_size = MIN (emblem_size, size);
 
 		if (emblem_size > 0) {
-			emblems_to_ignore = fm_directory_view_get_emblem_names_to_exclude 
+			emblems_to_ignore = fm_directory_view_get_emblem_names_to_exclude
 				(FM_DIRECTORY_VIEW (icon_view));
 			*emblem_pixbufs = caja_file_get_emblem_pixbufs (file,
 									    emblem_size,
@@ -110,7 +110,7 @@ fm_icon_container_get_icon_images (CajaIconContainer *container,
 	if (for_drag_accept) {
 		flags |= CAJA_FILE_ICON_FLAGS_FOR_DRAG_ACCEPT;
 	}
-	
+
 	return caja_file_get_icon (file, size, flags);
 }
 
@@ -143,7 +143,7 @@ fm_icon_container_start_monitor_top_left (CajaIconContainer *container,
 {
 	CajaFile *file;
 	CajaFileAttributes attributes;
-		
+
 	file = (CajaFile *) data;
 
 	g_assert (CAJA_IS_FILE (file));
@@ -200,21 +200,21 @@ fm_icon_container_get_icon_text_attributes_from_preferences (void)
 		eel_preferences_add_auto_string_array_as_quarks (CAJA_PREFERENCES_ICON_VIEW_CAPTIONS,
 								 &attributes);
 	}
-	
+
 	/* We don't need to sanity check the attributes list even though it came
 	 * from preferences.
 	 *
 	 * There are 2 ways that the values in the list could be bad.
 	 *
-	 * 1) The user picks "bad" values.  "bad" values are those that result in 
+	 * 1) The user picks "bad" values.  "bad" values are those that result in
 	 *    there being duplicate attributes in the list.
 	 *
 	 * 2) Value stored in MateConf are tampered with.  Its possible physically do
 	 *    this by pulling the rug underneath MateConf and manually editing its
-	 *    config files.  Its also possible to use a third party MateConf key 
+	 *    config files.  Its also possible to use a third party MateConf key
 	 *    editor and store garbage for the keys in question.
 	 *
-	 * Thankfully, the Caja preferences machinery deals with both of 
+	 * Thankfully, the Caja preferences machinery deals with both of
 	 * these cases.
 	 *
 	 * In the first case, the preferences dialog widgetry prevents
@@ -248,7 +248,7 @@ quarkv_length (GQuark *attributes)
  * beneath an icon. The result is dependent on zoom level and possibly
  * user configuration. Don't free the result.
  * @view: FMIconView to query.
- * 
+ *
  **/
 static GQuark *
 fm_icon_container_get_icon_text_attribute_names (CajaIconContainer *container,
@@ -328,7 +328,7 @@ fm_icon_container_get_icon_text (CajaIconContainer *container,
  		*additional_text = NULL;
 		return;
 	}
-	
+
 	/* Handle link files specially. */
 	if (caja_file_is_caja_link (file)) {
 		/* FIXME bugzilla.mate.org 42531: Does sync. I/O and works only locally. */
@@ -370,7 +370,7 @@ fm_icon_container_get_icon_text (CajaIconContainer *container,
 		*additional_text = text_array[0];
 	} else {
 		*additional_text = g_strjoinv ("\n", text_array);
-		
+
 		for (i = 0; i < j; i++) {
 			g_free (text_array[i]);
 		}
@@ -401,7 +401,7 @@ get_sort_category (CajaFile *file)
 	SortCategory category;
 
 	category = SORT_OTHER;
-	
+
 	if (CAJA_IS_DESKTOP_ICON_FILE (file)) {
 		link = caja_desktop_icon_file_get_link (CAJA_DESKTOP_ICON_FILE (file));
 		if (link != NULL) {
@@ -427,8 +427,8 @@ get_sort_category (CajaFile *file)
 			}
 			g_object_unref (link);
 		}
-	} 
-	
+	}
+
 	return category;
 }
 
@@ -447,13 +447,13 @@ fm_desktop_icon_container_icons_compare (CajaIconContainer *container,
 
 	directory_view = FM_DIRECTORY_VIEW (FM_ICON_CONTAINER (container)->view);
 	g_return_val_if_fail (directory_view != NULL, 0);
-	
+
 	category_a = get_sort_category (file_a);
 	category_b = get_sort_category (file_b);
 
 	if (category_a == category_b) {
-		return caja_file_compare_for_sort 
-			(file_a, file_b, CAJA_FILE_SORT_BY_DISPLAY_NAME, 
+		return caja_file_compare_for_sort
+			(file_a, file_b, CAJA_FILE_SORT_BY_DISPLAY_NAME,
 			 fm_directory_view_should_sort_directories_first (directory_view),
 			 FALSE);
 	}
@@ -536,7 +536,7 @@ fm_icon_container_class_init (FMIconContainerClass *klass)
 	ic_class = &klass->parent_class;
 
 	attribute_none_q = g_quark_from_static_string ("none");
-	
+
 	ic_class->get_icon_text = fm_icon_container_get_icon_text;
 	ic_class->get_icon_images = fm_icon_container_get_icon_images;
 	ic_class->get_icon_description = fm_icon_container_get_icon_description;

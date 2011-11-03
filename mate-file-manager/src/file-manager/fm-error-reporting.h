@@ -40,7 +40,7 @@ void fm_report_error_setting_permissions (CajaFile   *file,
 					  GError         *error,
 					  GtkWindow	 *parent_window);
 void fm_report_error_setting_owner       (CajaFile   *file,
-					  GError         *error,  
+					  GError         *error,
 					  GtkWindow	 *parent_window);
 void fm_report_error_setting_group       (CajaFile   *file,
 					  GError         *error,
