@@ -235,7 +235,7 @@ caja_sidebar_title_select_text_color (CajaSidebarTitle *sidebar_title,
     sidebar_info_title_color = NULL;
     sidebar_title_shadow_color = NULL;
 
-    /* FIXME bugzilla.mate.org 42496: for now, both the title and info
+    /* FIXME bugzilla.gnome.org 42496: for now, both the title and info
      * colors are the same - and hard coded */
     if (eel_background_is_dark (background))
     {

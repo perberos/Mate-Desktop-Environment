@@ -9,12 +9,12 @@
  * We never get told about audible bells; X handles them just fine by itself.
  *
  * The visual bell was the result of a discussion in Bugzilla here:
- * <http://bugzilla.mate.org/show_bug.cgi?id=99886>.
+ * <http://bugzilla.gnome.org/show_bug.cgi?id=99886>.
  */
 
-/* 
+/*
  * Copyright (C) 2002 Sun Microsystems Inc.
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -24,7 +24,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -80,7 +80,7 @@ void meta_bell_set_audible (MetaDisplay *display, gboolean audible);
  *
  * \bug There is a line of code that's never run that tells
  * XKB to reset the bell status after we quit. Bill H said
- * (<http://bugzilla.mate.org/show_bug.cgi?id=99886#c12>)
+ * (<http://bugzilla.gnome.org/show_bug.cgi?id=99886#c12>)
  * that XFree86's implementation is broken so we shouldn't
  * call it, but that was in 2002. Is it working now?
  */

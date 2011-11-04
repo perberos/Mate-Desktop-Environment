@@ -512,7 +512,7 @@ merged_add_real_directory (CajaMergedDirectory *merged,
     g_signal_connect_object (real_directory, "done_loading",
                              G_CALLBACK (done_loading_callback), merged, 0);
 
-    /* FIXME bugzilla.mate.org 45084: The done_loading part won't work for the case where
+    /* FIXME bugzilla.gnome.org 45084: The done_loading part won't work for the case where
          * we have no directories in our list.
      */
 
@@ -520,7 +520,7 @@ merged_add_real_directory (CajaMergedDirectory *merged,
     g_hash_table_foreach (merged->details->monitors,
                           monitor_add_directory,
                           real_directory);
-    /* FIXME bugzilla.mate.org 42541: Do we need to add the directory to callbacks too? */
+    /* FIXME bugzilla.gnome.org 42541: Do we need to add the directory to callbacks too? */
 
     g_signal_connect_object (real_directory, "files_added",
                              G_CALLBACK (forward_files_added_cover), merged, 0);

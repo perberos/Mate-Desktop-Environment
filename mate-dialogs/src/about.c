@@ -76,7 +76,7 @@ static const char *license[] = {
 
 #if 0
 static gint
-matedialog_move_clothes_event (MateCanvasItem *item, 
+matedialog_move_clothes_event (MateCanvasItem *item,
                            GdkEvent *event,
                            gpointer data)
 {
@@ -85,10 +85,10 @@ matedialog_move_clothes_event (MateCanvasItem *item,
   static int dragging;
   double item_x, item_y;
 
-  /* set item_[xy] to the event x,y position in the parent's 
+  /* set item_[xy] to the event x,y position in the parent's
    * item-relative coordinates
    */
-  
+
   item_x = event->button.x;
   item_y = event->button.y;
   mate_canvas_item_w2i (item->parent, &item_x, &item_y);
@@ -125,7 +125,7 @@ matedialog_move_clothes_event (MateCanvasItem *item,
   return FALSE;
 }
 
-typedef struct 
+typedef struct
 {
   const gchar *filename;
   gdouble x, y;
@@ -147,7 +147,7 @@ matedialog_create_clothes (GtkWidget *canvas_board)
   size_t i;
 
   for (i = 0; i < G_N_ELEMENTS (monk_clothes); i++) {
-    pixbuf_path = g_strconcat (MATEDIALOG_CLOTHES_PATH, monk_clothes[i].filename, NULL); 
+    pixbuf_path = g_strconcat (MATEDIALOG_CLOTHES_PATH, monk_clothes[i].filename, NULL);
     pixbuf = gdk_pixbuf_new_from_file (pixbuf_path, NULL);
 
     canvas_item = mate_canvas_item_new (MATE_CANVAS_GROUP (MATE_CANVAS (canvas_board)->root),
@@ -198,7 +198,7 @@ matedialog_create_monk (void)
 }
 
 static GtkWidget *
-matedialog_create_boutique (void) 
+matedialog_create_boutique (void)
 {
   GtkWidget *window;
   GtkWidget *canvas;
@@ -254,7 +254,7 @@ matedialog_zen_wisdom (GtkDialog *dialog, GdkEventKey *event, gpointer user_data
 }
 #endif
 
-void 
+void
 matedialog_about (MateDialogData *data)
 {
   GdkPixbuf *logo;
@@ -278,26 +278,26 @@ matedialog_about (MateDialogData *data)
 		"authors", authors,
                 "documenters", documenters,
                 "translator-credits", translators,
-                "website", "http://live.mate.org/MateDialog",
+                "website", "http://live.gnome.org/MateDialog",
                 "logo", logo,
                 "wrap-license", TRUE,
                 "license", license_trans,
 		NULL);
- 
+
   g_free (license_trans);
 
   matedialog_util_set_window_icon (dialog, NULL, MATEDIALOG_IMAGE_FULLPATH ("matedialog.png"));
 
   help_button = gtk_button_new_from_stock (GTK_STOCK_HELP);
-  
+
   g_signal_connect (G_OBJECT (help_button), "clicked",
                     G_CALLBACK (matedialog_about_display_help), data);
-  
+
   gtk_widget_show (help_button);
-  
+
   gtk_box_pack_end (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (dialog))),
                     help_button, FALSE, TRUE, 0);
-  gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (gtk_dialog_get_action_area (GTK_DIALOG (dialog))), 
+  gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (gtk_dialog_get_action_area (GTK_DIALOG (dialog))),
                                       help_button, TRUE);
 
   g_signal_connect (G_OBJECT (dialog), "response",

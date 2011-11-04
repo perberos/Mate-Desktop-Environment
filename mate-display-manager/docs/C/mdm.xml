@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
     "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
     <!ENTITY legal SYSTEM "legal.xml">
-    <!ENTITY version "2.26.0"> 
-    <!ENTITY date    "02/10/2009"> 
-    <!ENTITY mdash   "&#8212;"> 
+    <!ENTITY version "2.26.0">
+    <!ENTITY date    "02/10/2009">
+    <!ENTITY mdash   "&#8212;">
     <!ENTITY percnt  "&#x0025;">
 ]>
 
@@ -90,7 +90,7 @@
     <releaseinfo>
        This manual describes version &version; of the MATE Display Manager.
        It was last updated on &date;.
-    </releaseinfo>  
+    </releaseinfo>
   </articleinfo>
 
   <!-- ============= Preface ================================== -->
@@ -101,7 +101,7 @@
     <para>
       This manual describes version &version; of the MATE Display Manager.
       It was last updated on &date;.
-    </para>  
+    </para>
 
     <para>
       Chooser - A program used to select a remote host for managing a
@@ -153,7 +153,7 @@
     <sect2 id="introduction">
       <title>Introduction</title>
 
-      <para> 
+      <para>
         The MATE Display Manager (GDM) is a display manager that implements
         all significant features required for managing attached and remote
         displays.  GDM was written from scratch and does not contain any XDM or
@@ -164,21 +164,21 @@
         Note that GDM is configurable, and many configuration settings have
         an impact on security. Issues to be aware of are highlighted in this
         document.
-      </para> 
+      </para>
 
       <para>
         Please note that some Operating Systems configure GDM to behave
         differently than the default values as described in this document.  If
-        GDM does not seem to behave as documented, then check to see if any 
+        GDM does not seem to behave as documented, then check to see if any
         related configuration may be different than described here.
       </para>
 
       <para>
         For further information about GDM, refer to the project website at
-        <ulink type="http" url="http://www.mate.org/projects/gdm/">
-        http://www.mate.org/projects/gdm</ulink> and the project
-        Wiki <ulink type="http" url="http://live.mate.org/GDM">
-        http://live.mate.org/GDM</ulink>.
+        <ulink type="http" url="http://www.gnome.org/projects/gdm/">
+        http://www.gnome.org/projects/gdm</ulink> and the project
+        Wiki <ulink type="http" url="http://live.gnome.org/GDM">
+        http://live.gnome.org/GDM</ulink>.
       </para>
 
       <para>
@@ -186,16 +186,16 @@
         <address><email>gdm-list@gnome.org</email></address> mail list.  This
         list is archived, and is a good resource to check to seek answers to
         common questions.  This list is archived at
-        <ulink type="http" url="http://mail.mate.org/archives/gdm-list/">
-        http://mail.mate.org/archives/gdm-list/</ulink> and has a search
+        <ulink type="http" url="http://mail.gnome.org/archives/gdm-list/">
+        http://mail.gnome.org/archives/gdm-list/</ulink> and has a search
         facility to look for messages with keywords.
       </para>
 
       <para>
         Please submit any bug reports or enhancement requests to the
         "gdm" category in
-        <ulink type="http" url="http://bugzilla.mate.org/">
-        http://bugzilla.mate.org</ulink>.
+        <ulink type="http" url="http://bugzilla.gnome.org/">
+        http://bugzilla.gnome.org</ulink>.
       </para>
     </sect2>
 
@@ -214,7 +214,7 @@
       <para>
         Interfaces which continue to be supported in a stable fashion include
         the Init, PreSession, PostSession, PostLogin, and Xsession scripts.
-        Some daemon configuration options in the 
+        Some daemon configuration options in the
         <filename>&lt;etc&gt;/gdm/custom.conf</filename> file continue to be
         supported.  Also, the <filename>~/.dmrc</filename>, and face browser
         image locations are still supported.
@@ -225,7 +225,7 @@
         with separate graphics cards, such as used in terminal server
         environments, login in a window via a program like Xnest or Xephyr, the
         gdmsetup program, XML-based greeter themes, and the ability to run the
-        XDMCP chooser from the login screen.  These features were not 
+        XDMCP chooser from the login screen.  These features were not
         added back during the 2.22 rewrite.
       </para>
 
@@ -252,11 +252,11 @@
       </para>
 
       <para>
-        GDM provides the ability to manage the main console display, and 
-        displays launched via VT.  It is integrated with other programs, 
+        GDM provides the ability to manage the main console display, and
+        displays launched via VT.  It is integrated with other programs,
         such as the Fast User Switch Applet (FUSA) and mate-screensaver
         to manage multiple displays on the console via the Xserver Virtual
-        Terminal (VT) interface.  It also can manage XDMCP displays.  
+        Terminal (VT) interface.  It also can manage XDMCP displays.
       </para>
 
       <para>
@@ -295,16 +295,16 @@
         did not pick a session or language in the login GUI.
       </para>
 
-      <para> 
+      <para>
         After authenticating a user, the daemon runs the
-        <filename>PostLogin</filename> script as root, then runs the  
+        <filename>PostLogin</filename> script as root, then runs the
         <filename>PreSession</filename> script as root.  After running these
-        scripts, the user session is started.  When the user exits their 
+        scripts, the user session is started.  When the user exits their
         session, the <filename>PostSession</filename> script is run as root.
         These scripts are provided as hooks for distributions and end-users
-        to customize how sessions are managed.  For example, using these 
+        to customize how sessions are managed.  For example, using these
         hooks you could set up a machine which creates the user's $HOME
-        directory on the fly, and erases it on logout.  The difference 
+        directory on the fly, and erases it on logout.  The difference
         between the <filename>PostLogin</filename> and
         <filename>PreSession</filename> scripts is that
         <filename>PostLogin</filename> is run before the pam_open_session call
@@ -411,9 +411,9 @@
       <para>
         If there is no global icon for the user, GDM will look in the user's
         $HOME directory for the image file.  GDM will first look for the user's
-        face image in <filename>~/.face</filename>.  If not found, it will try 
+        face image in <filename>~/.face</filename>.  If not found, it will try
         <filename>~/.face.icon</filename>.  If still not found, it will use the
-        value defined for "face/picture=" in the 
+        value defined for "face/picture=" in the
         <filename>~/.mate2/gdm</filename> file.
       </para>
 
@@ -464,7 +464,7 @@
         GDM includes several measures making it more resistant to denial of
         service attacks on the XDMCP service.  A lot of the protocol
         parameters, handshaking timeouts, etc. can be fine tuned. The default
-        configuration should work reasonably on most systems. 
+        configuration should work reasonably on most systems.
       </para>
 
       <para>
@@ -509,7 +509,7 @@
         Output from the various Xservers is stored in the GDM log directory,
         which is normally <filename>&lt;var&gt;/log/gdm/</filename>.  Any
         Xserver messages are saved to a file associated with the display value,
-        <filename>&lt;display&gt;.log</filename>.  
+        <filename>&lt;display&gt;.log</filename>.
       </para>
 
       <para>
@@ -586,9 +586,9 @@
 
       <para>
         The GDM greeter configuration is stored in MateConf.  To allow the GDM
-        user to be able to write configuration, it is necessary for the 
+        user to be able to write configuration, it is necessary for the
         "gdm" user to have a writable $HOME directory.  Users may
-        configure the default MateConf configuration as desired to avoid the 
+        configure the default MateConf configuration as desired to avoid the
         need to provide the "gdm" user with a writable $HOME
         directory.  However, some features of GDM may be disabled if it is
         unable to write state information to MateConf configuration.
@@ -615,7 +615,7 @@
         reading of PAM documentation to understand how to configure PAM and
         to understand terms used in this section.
       </para>
-        
+
       <para>
         PAM configuration has different, but similar, interfaces on different
         Operating Systems, so check the
@@ -640,7 +640,7 @@
         The <filename>PostLogin</filename> script is run before
         pam_open_session is called, and the <filename>PreSession</filename>
         script is called after.  This allows the system administrator to add
-        any scripting to the login process either before or after PAM 
+        any scripting to the login process either before or after PAM
         initializes the session.
       </para>
 
@@ -650,13 +650,13 @@
         implement this by using a PAM service module for the desired
         authentication type rather than by trying to modify the GDM code
         directly.  Refer to the PAM documentation on your system.  How to do
-        this is frequently discussed on the 
+        this is frequently discussed on the
         <address><email>gdm-list@gnome.org</email></address> mail list,
         so you can refer to the list archives for more information.
       </para>
 
       <para>
-        PAM does have some limitations regarding being able to work with 
+        PAM does have some limitations regarding being able to work with
         multiple types of authentication at the same time, like supporting
         the ability to accept either SmartCard and the ability to type the
         username and password into the login program.  There are techniques
@@ -717,8 +717,8 @@
         and accounting information that is accessed by commands such as
         <command>finger</command>, <command>last</command>,
         <command>login</command>, and <command>who</command>.  The wtmp
-        database contains the history of user access and accounting 
-        information for the utmp database.  Refer to the 
+        database contains the history of user access and accounting
+        information for the utmp database.  Refer to the
         <ulink type="help" url="man:utmp">utmp</ulink> and
         <ulink type="help" url="man:wtmp">wtmp</ulink>
         man pages on your system for more information.
@@ -785,7 +785,7 @@
       <para>
         You should use the daemon name <command>gdm</command> in the
         <filename>&lt;etc&gt;/hosts.allow</filename> and
-        <filename>&lt;etc&gt;/hosts.deny</filename> files.  For example to 
+        <filename>&lt;etc&gt;/hosts.deny</filename> files.  For example to
         deny computers from <filename>.evil.domain</filename> from logging in,
         then add
       </para>
@@ -857,7 +857,7 @@ gdm: .your.domain
         actions respectively.  Policy for these actions can be set up using the
         polkit-mate-authorization tool, or the polkit-auth command line program.
       </para>
- 
+
     </sect2>
 
     <sect2 id="rbac">
@@ -871,7 +871,7 @@ gdm: .your.domain
 
       <para>
         For example, on Solaris, the "solaris.system.shutdown"
-        authorization is used to control this.  Simply modify the 
+        authorization is used to control this.  Simply modify the
         <filename>/etc/user_attr</filename> file so that the "gdm"
         user has this authorization.
       </para>
@@ -886,7 +886,7 @@ gdm: .your.domain
 
 <!--
 <para>
-    TODO - Should we update these docs?  Probably should mention any 
+    TODO - Should we update these docs?  Probably should mention any
            configuration that users may want to do for using it with GDM?
            If so, perhaps this section should be moved to a subsection of
            the "Configure" section?
@@ -909,9 +909,9 @@ gdm: .your.domain
       associated with the session, the host-name from which the session
       originates (useful in the case of an XDMCP session), whether or not this
       session is attached, etc.  As the entity that initiates the user process,
-      GDM is in a unique position to know about the user session and to be 
-      trusted to provide these bits of information. The use of this privileged 
-      method is restricted by the use of the D-Bus system message bus security 
+      GDM is in a unique position to know about the user session and to be
+      trusted to provide these bits of information. The use of this privileged
+      method is restricted by the use of the D-Bus system message bus security
       policy.
     </para>
 
@@ -937,7 +937,7 @@ gdm: .your.domain
 
     <para>
       GDM has a number of configuration interfaces.  These include scripting
-      integration points, daemon configuration, greeter configuration, 
+      integration points, daemon configuration, greeter configuration,
       general session settings, integration with mate-settings-daemon
       configuration, and session configuration.  These types of integration are
       described in detail below.
@@ -945,7 +945,7 @@ gdm: .your.domain
 
     <sect2 id="scripting">
       <title>Scripting Integration Points</title>
-      
+
       <para>
         The GDM script integration points can be found in the
         <filename>&lt;etc&gt;/gdm/</filename> directory:
@@ -968,9 +968,9 @@ PostSession/
       <para>
         For each type of script, the default one which will be executed is
         called "Default" and is stored in a directory associated with
-        the script type.  So the default <filename>Init</filename> script is 
+        the script type.  So the default <filename>Init</filename> script is
         <filename>&lt;etc&gt;/gdm/Init/Default</filename>.  A per-display
-        script can be provided, and if it exists it will be run instead of the 
+        script can be provided, and if it exists it will be run instead of the
         default script.  Such scripts are stored in the same directory as the
         default script and have the same name as the Xserver DISPLAY value for
         that display.  For example, if the <filename>&lt;Init&gt;/:0</filename>
@@ -1005,16 +1005,16 @@ PostSession/
       <para>
         After the user session has been initialized, GDM will run the
         <filename>PreSession</filename> script.  This script is useful for
-        doing any session initialization that needs to happen after the 
+        doing any session initialization that needs to happen after the
         session has been initialized.  It can be used for session management or
         accounting, for example.
       </para>
 
-      <para> 
+      <para>
         When a user terminates their session, GDM will run the
         <filename>PostSession</filename> script.  Note that the Xserver will
         have been stopped by the time this script is run, so it should not be
-        accessed.  
+        accessed.
       </para>
 
       <para>
@@ -1035,7 +1035,7 @@ PostSession/
 
     <sect2 id="autostart">
       <title>Autostart Configuration</title>
-      
+
       <para>
         The <filename>&lt;share&gt;/gdm/autostart/LoginWindow</filename>
         directory contains files in the format specified by the
@@ -1069,7 +1069,7 @@ PostSession/
         support per-display like the other scripts.  This script is used for
         actually starting the user session.  This script is run as the user,
         and it will run whatever session was specified by the Desktop session
-        file the user selected to start. 
+        file the user selected to start.
       </para>
     </sect2>
 
@@ -1096,7 +1096,7 @@ PostSession/
         <filename>keyfile</filename> format.  Keywords in brackets
         define group sections, strings before an equal sign (=) are keys and
         the data after equal sign represents their value.  Empty lines or
-        lines starting with the hash mark (#) are ignored.  
+        lines starting with the hash mark (#) are ignored.
       </para>
 
       <para>
@@ -1108,7 +1108,7 @@ PostSession/
         named "you", you would modify the file so it contains the
         following lines:
       </para>
-     
+
 <screen>
 [daemon]
 TimedLoginEnable=true
@@ -1134,7 +1134,7 @@ TimedLogin=you
               </para>
             </listitem>
           </varlistentry>
-         
+
           <varlistentry>
             <term>MulticastAddr</term>
             <listitem>
@@ -1160,8 +1160,8 @@ TimedLogin=you
                 <filename>TimedLoginDelay</filename>) of inactivity on the
                 login screen.  This is useful for public access terminals or
                 perhaps even home use.  If the user uses the keyboard or
-                browses the menus, the timeout will be reset to 
-                <filename>TimedLoginDelay</filename> or 30 seconds, whichever 
+                browses the menus, the timeout will be reset to
+                <filename>TimedLoginDelay</filename> or 30 seconds, whichever
                 is higher.   If the user does not enter a username but just
                 hits the ENTER key while the login program is requesting the
                 username, then GDM will assume the user wants to login
@@ -1270,10 +1270,10 @@ TimedLogin=you
 
       <sect3 id="debugsection">
         <title>Debug Options</title>
-      
+
         <variablelist>
           <title>[debug]</title>
-          
+
           <varlistentry>
             <term>Enable</term>
             <listitem>
@@ -1294,10 +1294,10 @@ TimedLogin=you
 
       <sect3 id="greetersection">
         <title>Greeter Options</title>
-      
+
         <variablelist>
           <title>[greeter]</title>
-          
+
           <varlistentry>
             <term>IncludeAll</term>
             <listitem>
@@ -1360,10 +1360,10 @@ TimedLogin=you
 
       <sect3 id="securitysection">
         <title>Security Options</title>
-      
+
         <variablelist>
           <title>[security]</title>
-          
+
           <varlistentry>
             <term>DisallowTCP</term>
             <listitem>
@@ -1384,7 +1384,7 @@ TimedLogin=you
 
         <variablelist>
           <title>[xdmcp]</title>
-          
+
           <varlistentry>
             <term>DisplaysPerHost</term>
             <listitem>
@@ -1397,7 +1397,7 @@ TimedLogin=you
               </para>
 
               <para>
-                Note that the number of attached DISPLAYS allowed is not 
+                Note that the number of attached DISPLAYS allowed is not
                 limited.  Only remote connections via XDMCP are limited by
                 this configuration option.
               </para>
@@ -1412,20 +1412,20 @@ TimedLogin=you
                 Setting this to true enables XDMCP support allowing remote
                 displays/X terminals to be managed by GDM.
               </para>
-            
+
               <para>
                 <filename>gdm</filename> listens for requests on UDP port 177.
                 See the Port option for more information.
               </para>
-              
+
               <para>
                 If GDM is compiled to support it, access from remote displays
                 can be controlled using the TCP Wrappers library. The service
                 name is <filename>gdm</filename>
               </para>
-            
+
               <para>
-                You should add 
+                You should add
 <screen>
 gdm:.my.domain
 </screen>
@@ -1434,7 +1434,7 @@ gdm:.my.domain
                 <ulink type="help" url="man:hosts.allow">hosts.allow</ulink>
                 man page for details.
               </para>
-              
+
               <para>
                 Please note that XDMCP is not a particularly secure protocol
                 and that it is a good idea to block UDP port 177 on your
@@ -1442,7 +1442,7 @@ gdm:.my.domain
               </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>HonorIndirect</term>
             <listitem>
@@ -1454,7 +1454,7 @@ gdm:.my.domain
               </para>
             </listitem>
           </varlistentry>
-        
+
           <varlistentry>
             <term>MaxPending</term>
             <listitem>
@@ -1464,7 +1464,7 @@ gdm:.my.domain
                 of pending connections. Only MaxPending displays can start at
                 the same time.
               </para>
-            
+
               <para>
                 Please note that this parameter does not limit the number of
                 remote displays which can be managed. It only limits the number
@@ -1472,7 +1472,7 @@ gdm:.my.domain
               </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>MaxSessions</term>
             <listitem>
@@ -1484,7 +1484,7 @@ gdm:.my.domain
               </para>
             </listitem>
           </varlistentry>
-        
+
           <varlistentry>
             <term>MaxWait</term>
             <listitem>
@@ -1494,12 +1494,12 @@ gdm:.my.domain
                 to it containing a unique session id which will be used in
                 future XDMCP conversations.
               </para>
-            
+
               <para>
                 GDM will then place the session id in the pending queue
                 waiting for the display to respond with a MANAGE request.
               </para>
-            
+
               <para>
                 If no response is received within MaxWait seconds, GDM will
                 declare the display dead and erase it from the pending queue
@@ -1507,7 +1507,7 @@ gdm:.my.domain
               </para>
             </listitem>
           </varlistentry>
-          
+
           <varlistentry>
             <term>MaxWaitIndirect</term>
             <listitem>
@@ -1524,7 +1524,7 @@ gdm:.my.domain
               </para>
             </listitem>
           </varlistentry>
-        
+
           <varlistentry>
             <term>PingIntervalSeconds</term>
             <listitem>
@@ -1733,8 +1733,8 @@ gdm:.my.domain
          magnifier and screen reader assistive tools act on the three MateConf
          keys that are described in the next section of this document. By
          enabling or disabling these checkboxes, the associated MateConf key is
-         set to "true" or "false".  When the MateConf key is set to true, the 
-         assistive tools linked to this MateConf key are launched.  When the 
+         set to "true" or "false".  When the MateConf key is set to true, the
+         assistive tools linked to this MateConf key are launched.  When the
          MateConf key is set to "false", any running assistive tool linked to
          this MateConf key are terminated.  These MateConf keys are not automatically
          reset to a default state after the user has logged in.  Consequently,
@@ -1887,7 +1887,7 @@ Encoding=UTF-8
 Name=Software Mouse-Clicks
 Comment=Perform clicks by dwelling with the pointer
 TryExec=mousetweaks
-Exec=mousetweaks --enable-dwell -m window -c -x 20 -y 240 
+Exec=mousetweaks --enable-dwell -m window -c -x 20 -y 240
 Terminal=false
 Type=Application
 StartupNotify=true
@@ -1982,7 +1982,7 @@ AutostartCondition=MATE /desktop/mate/applications/at/screen_keyboard_enabled
         <filename>&lt;share&gt;/xsessions</filename> directory.  GDM will
         search the following directories in this order to find desktop files:
         <filename>&lt;etc&gt;/X11/sessions/</filename>,
-        <filename>&lt;dmconfdir&gt;/Sessions</filename>, 
+        <filename>&lt;dmconfdir&gt;/Sessions</filename>,
         <filename>&lt;share&gt;/xsessions</filename>, and
         <filename>&lt;share&gt;/gdm/BuiltInSessions</filename>.  By default the
         <filename>&lt;dmconfdir&gt;</filename> is set to
@@ -2130,7 +2130,7 @@ Language=cs_CZ.UTF-8
 
       <sect3 id="gdmsaferestartcommandline">
         <title><command>gdm-safe-restart</command> Command Line Options</title>
-  
+
         <para>
           <command>gdm-safe-restart</command> stops and restarts GDM by
           sending the GDM daemon a USR1 signal.  GDM will be restarted as soon
@@ -2143,7 +2143,7 @@ Language=cs_CZ.UTF-8
 
         <para>
           <command>gdm-stop</command> stops GDM by sending the GDM daemon
-          a TERM signal. 
+          a TERM signal.
         </para>
       </sect3>
     </sect2>
@@ -2188,17 +2188,17 @@ Language=cs_CZ.UTF-8
       <para>
          There are a many problems that can cause GDM to fail to start, but
          this section will discuss a few common problems and how to approach
-         tracking down a problem with GDM starting.   Some problems will 
+         tracking down a problem with GDM starting.   Some problems will
          cause GDM to respond with an error message or dialog when it tries
          to start, but it can be difficult to track down problems when GDM
          fails silently.
       </para>
 
       <para>
-         First make sure that the Xserver is configured properly.  The 
+         First make sure that the Xserver is configured properly.  The
          GDM configuration file contains a command in the [server-Standard]
          section that is used for starting the Xserver.  Verify that this
-         command works on your system.  Running this command from the 
+         command works on your system.  Running this command from the
          console should start the Xserver.  If it fails, then the problem
          is likely with your Xserver configuration.  Refer to your Xserver
          error log for an idea of what the problem may be.  The problem may
@@ -2223,7 +2223,7 @@ Language=cs_CZ.UTF-8
       This program is free software; you can redistribute it and/or
       modify it under the terms of the  <ulink type="help" url="mate-help:gpl">
       <citetitle>GNU General Public License</citetitle></ulink> as
-      published by the Free Software Foundation; 
+      published by the Free Software Foundation;
       either version 2 of the License, or (at your option) any later
       version.
     </para>
@@ -2265,4 +2265,4 @@ sgml-exposed-tags:nil
 sgml-local-catalogs:nil
 sgml-local-ecat-files:nil
 End:
--->               
+-->

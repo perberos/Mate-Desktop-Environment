@@ -49,12 +49,12 @@ typedef struct {
 } Test;
 
 static Test tests[] = {
-	
-	/*  Microsoft FTP Service */	
+
+	/*  Microsoft FTP Service */
 	{"dr-xr-xr-x   1 owner    group               0 Dec  4  2004 bla", 			 1, "bla", NULL},
 	/* vsFTPd 1.2.2 */
 	{"-rw-r--r--    1 1113     0            1037 Aug 22  2001 welcome.msg",                  1, "welcome.msg", NULL},
-	{"lrwxrwxrwx    1 0        0              19 Jul 30  2004 MATE -> ../mirror/mate.org", 1, "MATE",       "../mirror/mate.org"},
+	{"lrwxrwxrwx    1 0        0              19 Jul 30  2004 MATE -> ../mirror/gnome.org", 1, "MATE",       "../mirror/gnome.org"},
 	/* vsFTPd 2.0.1 */
 	{"-rw-r--r--    1 ftp      ftp      28664404 Feb 13 00:22 ls-lR.gz",			 1, "ls-lR.gz",	   NULL},
 	{"drwxr-xr-x   2 ftp      ftp            48 Feb 13 12:47 2099",                          1, "2099",        NULL},
@@ -74,19 +74,19 @@ main (int argc, char **argv)
 		int ret;
 		char *filename, *linkname;
 		struct stat s;
-		
+
 		ret = mate_vfs_parse_ls_lga (iter->line, &s, &filename, &linkname);
 
-		if (ret != iter->ret || 
+		if (ret != iter->ret ||
 		    ! string_compare (iter->filename, filename)	||
 		    ! string_compare (iter->linkname, linkname)) {
 			one_test_failed = TRUE;
 			g_critical ("parsing %s FAILED\n", iter->line);
 			g_print ("\t%s,%s\n\t%s,%s\n", filename, iter->filename, linkname, iter->linkname);
 		}
-		
-	}	
-		
+
+	}
+
 	return one_test_failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 

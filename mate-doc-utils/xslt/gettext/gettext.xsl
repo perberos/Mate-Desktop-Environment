@@ -17,7 +17,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:msg="http://www.mate.org/~shaunm/mate-doc-utils/l10n"
+                xmlns:msg="http://www.gnome.org/~shaunm/mate-doc-utils/l10n"
                 version="1.0">
 
 <!--!!==========================================================================

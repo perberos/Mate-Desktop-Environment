@@ -1826,7 +1826,7 @@ emblem_layout_next (EmblemLayout *layout,
 static void
 draw_pixbuf (GdkPixbuf *pixbuf, GdkDrawable *drawable, int x, int y)
 {
-    /* FIXME bugzilla.mate.org 40703:
+    /* FIXME bugzilla.gnome.org 40703:
      * Dither would be better if we passed dither values.
      */
     gdk_draw_pixbuf (drawable, NULL, pixbuf, 0, 0, x, y,
@@ -1877,7 +1877,7 @@ real_map_pixbuf (CajaIconCanvasItem *icon_item)
 
 
 
-        /* FIXME bugzilla.mate.org 42471: This hard-wired image is inappropriate to
+        /* FIXME bugzilla.gnome.org 42471: This hard-wired image is inappropriate to
          * this level of code, which shouldn't know that the
          * preview is audio, nor should it have an icon
          * hard-wired in.
@@ -2298,7 +2298,7 @@ caja_icon_canvas_item_event (EelCanvasItem *item, GdkEvent *event)
                 gdk_cursor_unref (cursor);
             }
 
-            /* FIXME bugzilla.mate.org 42473:
+            /* FIXME bugzilla.gnome.org 42473:
              * We should emit our own signal here,
              * not one from the container; it could hook
              * up to that signal and emit one of its
@@ -2322,7 +2322,7 @@ caja_icon_canvas_item_event (EelCanvasItem *item, GdkEvent *event)
              * higlighted for drop. The latter gets turned on
              * by the drag&drop motion callback.
              */
-            /* FIXME bugzilla.mate.org 42473:
+            /* FIXME bugzilla.gnome.org 42473:
              * We should emit our own signal here,
              * not one from the containe; it could hook up
              * to that signal and emit one of its

@@ -377,7 +377,7 @@ caja_icon_container_dropped_icon_feedback (GtkWidget *widget,
     /* Delete old shadow if any. */
     if (dnd_info->shadow != NULL)
     {
-        /* FIXME bugzilla.mate.org 42484:
+        /* FIXME bugzilla.gnome.org 42484:
          * Is a destroy really sufficient here? Who does the unref? */
         gtk_object_destroy (GTK_OBJECT (dnd_info->shadow));
     }
@@ -463,7 +463,7 @@ set_direct_save_uri (GtkWidget *widget, GdkDragContext *context, CajaDragInfo *d
     g_free (drop_target);
 }
 
-/* FIXME bugzilla.mate.org 47445: Needs to become a shared function */
+/* FIXME bugzilla.gnome.org 47445: Needs to become a shared function */
 static void
 get_data_on_first_target_we_support (GtkWidget *widget, GdkDragContext *context, guint32 time, int x, int y)
 {
@@ -729,7 +729,7 @@ receive_dropped_keyword (CajaIconContainer *container, const char *keyword, int 
         return;
     }
 
-    /* FIXME bugzilla.mate.org 42485:
+    /* FIXME bugzilla.gnome.org 42485:
      * This does not belong in the icon code.
      * It has to be in the file manager.
      * The icon code has no right to deal with the file directly.
@@ -953,7 +953,7 @@ confirm_switch_to_manual_layout (CajaIconContainer *container)
     GtkDialog *dialog;
     int response;
 
-    /* FIXME bugzilla.mate.org 40915: Use of the word "directory"
+    /* FIXME bugzilla.gnome.org 40915: Use of the word "directory"
      * makes this FMIconView specific. Move these messages into
      * FMIconView so CajaIconContainer can be used for things
      * that are not directories?
@@ -1178,7 +1178,7 @@ caja_icon_container_find_drop_target (CajaIconContainer *container,
 
     canvas_widget_to_world (EEL_CANVAS (container), x, y, &world_x, &world_y);
 
-    /* FIXME bugzilla.mate.org 42485:
+    /* FIXME bugzilla.gnome.org 42485:
      * These "can_accept_items" tests need to be done by
      * the icon view, not here. This file is not supposed to know
      * that the target is a file.
@@ -1299,7 +1299,7 @@ caja_icon_container_receive_dropped_icons (CajaIconContainer *container,
 
     if (real_action == GDK_ACTION_ASK)
     {
-        /* FIXME bugzilla.mate.org 42485: This belongs in FMDirectoryView, not here. */
+        /* FIXME bugzilla.gnome.org 42485: This belongs in FMDirectoryView, not here. */
         /* Check for special case items in selection list */
         if (caja_drag_selection_includes_special_link (container->details->dnd_info->drag_info.selection_list))
         {
@@ -1481,7 +1481,7 @@ caja_icon_dnd_update_drop_target (CajaIconContainer *container,
     /* Find the item we hit with our drop, if any. */
     icon = caja_icon_container_item_at (container, world_x, world_y);
 
-    /* FIXME bugzilla.mate.org 42485:
+    /* FIXME bugzilla.gnome.org 42485:
      * These "can_accept_items" tests need to be done by
      * the icon view, not here. This file is not supposed to know
      * that the target is a file.

@@ -17,7 +17,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:msg="http://www.mate.org/~shaunm/mate-doc-utils/l10n"
+                xmlns:msg="http://www.gnome.org/~shaunm/mate-doc-utils/l10n"
                 xmlns:set="http://exslt.org/sets"
                 exclude-result-prefixes="msg set"
                 version="1.0">
@@ -257,7 +257,7 @@ REMARK: Document this mode, and the role param
               qandadiv | qandaset |
               set      | setindex ">
   <xsl:param name="role"/>
-<!-- FIXME 
+<!-- FIXME
   <xsl:call-template name="db.label.name"/>
   <xsl:text> </xsl:text>
   <xsl:call-template name="db.label.number"/>
@@ -275,7 +275,7 @@ REMARK: Document this mode, and the role param
   <xsl:call-template name="l10n.gettext">
     <xsl:with-param name="msgid" select="'About This Document'"/>
   </xsl:call-template>
-<!-- FIXME 
+<!-- FIXME
   <xsl:call-template name="db.label.name"/>
 -->
 </xsl:template>

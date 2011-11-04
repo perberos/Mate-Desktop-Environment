@@ -655,7 +655,7 @@ add_to_link_hash_table_list (GList **list, CajaFile *file)
     if (g_list_find (*list, file) != NULL)
     {
         g_warning ("Adding file to symlink_table multiple times. "
-                   "Please add feedback of what you were doing at http://bugzilla.mate.org/show_bug.cgi?id=358172\n");
+                   "Please add feedback of what you were doing at http://bugzilla.gnome.org/show_bug.cgi?id=358172\n");
         return;
     }
     g_object_weak_ref (G_OBJECT (file), symbolic_link_weak_notify, list);
@@ -2244,7 +2244,7 @@ update_link (CajaFile *link_file, CajaFile *target_file)
     g_assert (CAJA_IS_FILE (link_file));
     g_assert (CAJA_IS_FILE (target_file));
 
-    /* FIXME bugzilla.mate.org 42044: If we don't put any code
+    /* FIXME bugzilla.gnome.org 42044: If we don't put any code
      * here then the hash table is a waste of time.
      */
 }
@@ -2330,7 +2330,7 @@ update_info_internal (CajaFile *file,
 
     file->details->file_info_is_up_to_date = TRUE;
 
-    /* FIXME bugzilla.mate.org 42044: Need to let links that
+    /* FIXME bugzilla.gnome.org 42044: Need to let links that
      * point to the old name know that the file has been renamed.
      */
 
@@ -2900,7 +2900,7 @@ caja_file_update_name_and_directory (CajaFile *file,
 
     caja_file_ref (file);
 
-    /* FIXME bugzilla.mate.org 42044: Need to let links that
+    /* FIXME bugzilla.gnome.org 42044: Need to let links that
      * point to the old name know that the file has been moved.
      */
 
@@ -3865,7 +3865,7 @@ caja_file_list_filter_hidden_and_backup (GList    *files,
     GList *filtered_files;
     GList *removed_files;
 
-    /* FIXME bugzilla.mate.org 40653:
+    /* FIXME bugzilla.gnome.org 40653:
      * Eventually this should become a generic filtering thingy.
      */
 
@@ -4375,7 +4375,7 @@ caja_file_get_drop_target_uri (CajaFile *file)
     if (caja_file_is_caja_link (file))
     {
         location = caja_file_get_location (file);
-        /* FIXME bugzilla.mate.org 43020: This does sync. I/O and works only locally. */
+        /* FIXME bugzilla.gnome.org 43020: This does sync. I/O and works only locally. */
         if (g_file_is_native (location))
         {
             target_uri = caja_link_local_get_link_uri (uri);
@@ -6894,7 +6894,7 @@ caja_file_get_string_attribute_with_default_q (CajaFile *file, GQuark attribute_
     }
 
     /* Supply default values for the ones we know about. */
-    /* FIXME bugzilla.mate.org 40646:
+    /* FIXME bugzilla.gnome.org 40646:
      * Use hash table and switch statement or function pointers for speed?
      */
     if (attribute_q == attribute_size_q)
@@ -7923,7 +7923,7 @@ caja_file_mark_gone (CajaFile *file)
 
     caja_file_clear_info (file);
 
-    /* FIXME bugzilla.mate.org 42429:
+    /* FIXME bugzilla.gnome.org 42429:
      * Maybe we can get rid of the name too eventually, but
      * for now that would probably require too many if statements
      * everywhere anyone deals with the name. Maybe we can give it
@@ -8246,7 +8246,7 @@ caja_file_invalidate_attributes_internal (CajaFile *file,
         invalidate_mount (file);
     }
 
-    /* FIXME bugzilla.mate.org 45075: implement invalidating metadata */
+    /* FIXME bugzilla.gnome.org 45075: implement invalidating metadata */
 }
 
 gboolean
@@ -8389,9 +8389,9 @@ caja_file_dump (CajaFile *file)
         if (file->details->type == G_FILE_TYPE_SYMBOLIC_LINK)
         {
             g_print ("link to %s \n", file->details->symlink_name);
-            /* FIXME bugzilla.mate.org 42430: add following of symlinks here */
+            /* FIXME bugzilla.gnome.org 42430: add following of symlinks here */
         }
-        /* FIXME bugzilla.mate.org 42431: add permissions and other useful stuff here */
+        /* FIXME bugzilla.gnome.org 42431: add permissions and other useful stuff here */
     }
     g_free (uri);
 }

@@ -46,7 +46,7 @@ dnl Checks for availability of various utmp fields
 dnl
 dnl Original code by Bernhard Rosenkraenzer (bero@linux.net.eu.org), 1998.
 dnl Modifications by Timur Bakeyev (timur@gnu.org), 1999.
-dnl Patched from http://bugzilla.mate.org/show_bug.cgi?id=937
+dnl Patched from http://bugzilla.gnome.org/show_bug.cgi?id=937
 dnl
 
 dnl MDM_CHECK_UTMP()

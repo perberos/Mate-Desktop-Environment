@@ -47,7 +47,7 @@
  *
  * The @ignored argument used to be the category name to use, but this was
  * removed since there is only one useful thing to pass here. For further
- * details, see http://bugzilla.mate.org/show_bug.cgi?id=168948
+ * details, see http://bugzilla.gnome.org/show_bug.cgi?id=168948
  *
  * Return value: the list of languages, this list should not be freed as it is
  * owned by mate-i18n.

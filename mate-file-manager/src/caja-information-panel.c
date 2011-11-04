@@ -480,7 +480,7 @@ receive_dropped_uri_list (CajaInformationPanel *information_panel,
     {
     case NO_PART:
     case BACKGROUND_PART:
-        /* FIXME bugzilla.mate.org 42507: Does this work for all images, or only background images?
+        /* FIXME bugzilla.gnome.org 42507: Does this work for all images, or only background images?
          * Other views handle background images differently from other URIs.
          */
         if (exactly_one && uri_is_local_image (uris[0]))

@@ -555,7 +555,7 @@ fm_icon_view_remove_file (FMDirectoryView *view, CajaFile *file, CajaDirectory *
         model_uri = caja_directory_get_uri (fm_directory_view_get_model (view));
         g_warning ("fm_icon_view_remove_file() - directory not icon view model, shouldn't happen.\n"
                    "file: %p:%s, dir: %p:%s, model: %p:%s, view loading: %d\n"
-                   "If you see this, please add this info to http://bugzilla.mate.org/show_bug.cgi?id=368178",
+                   "If you see this, please add this info to http://bugzilla.gnome.org/show_bug.cgi?id=368178",
                    file, file_uri, directory, dir_uri, fm_directory_view_get_model (view), model_uri, fm_directory_view_get_loading (view));
         g_free (file_uri);
         g_free (dir_uri);
@@ -1275,7 +1275,7 @@ fm_icon_view_begin_loading (FMDirectoryView *view)
     /* kill any sound preview process that is ongoing */
     preview_audio (icon_view, NULL, FALSE);
 
-    /* FIXME bugzilla.mate.org 45060: Should use methods instead
+    /* FIXME bugzilla.gnome.org 45060: Should use methods instead
      * of hardcoding desktop knowledge in here.
      */
     if (FM_IS_DESKTOP_ICON_VIEW (view))
@@ -2170,7 +2170,7 @@ audio_child_died (GPid     pid,
 }
 
 /* here's the timer task that actually plays the file using mpg123, ogg123 or play. */
-/* FIXME bugzilla.mate.org 41258: we should get the application from our mime-type stuff */
+/* FIXME bugzilla.gnome.org 41258: we should get the application from our mime-type stuff */
 static gboolean
 play_file (gpointer callback_data)
 {
@@ -2221,7 +2221,7 @@ play_file (gpointer callback_data)
     return FALSE;
 }
 
-/* FIXME bugzilla.mate.org 42530: Hardcoding this here sucks. We should be using components
+/* FIXME bugzilla.gnome.org 42530: Hardcoding this here sucks. We should be using components
  * for open ended things like this.
  */
 
@@ -3385,7 +3385,7 @@ fm_icon_view_supports_uri (const char *uri,
 	view_info.error_label = _(view_info.error_label); \
 	view_info.startup_error_label = _(view_info.startup_error_label); \
 	view_info.display_location_label = _(view_info.display_location_label); \
- 
+
 
 static CajaViewInfo fm_icon_view =
 {

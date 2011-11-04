@@ -104,7 +104,7 @@ caja_get_user_directory (void)
     if (!g_file_test (user_directory, G_FILE_TEST_EXISTS))
     {
         g_mkdir (user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
-        /* FIXME bugzilla.mate.org 41286:
+        /* FIXME bugzilla.gnome.org 41286:
          * How should we handle the case where this mkdir fails?
          * Note that caja_application_startup will refuse to launch if this
          * directory doesn't get created, so that case is OK. But the directory
@@ -488,7 +488,7 @@ caja_get_desktop_directory (void)
         if (!g_file_test (desktop_directory, G_FILE_TEST_EXISTS))
         {
             g_mkdir (desktop_directory, DEFAULT_DESKTOP_DIRECTORY_MODE);
-            /* FIXME bugzilla.mate.org 41286:
+            /* FIXME bugzilla.gnome.org 41286:
              * How should we handle the case where this mkdir fails?
              * Note that caja_application_startup will refuse to launch if this
              * directory doesn't get created, so that case is OK. But the directory
@@ -775,7 +775,7 @@ caja_get_pixmap_directory (void)
     return g_strdup (DATADIR "/pixmaps/caja");
 }
 
-/* FIXME bugzilla.mate.org 42423:
+/* FIXME bugzilla.gnome.org 42423:
  * Callers just use this and dereference so we core dump if
  * pixmaps are missing. That is lame.
  */
@@ -1075,7 +1075,7 @@ caja_is_file_roller_installed (void)
 #define GSM_INTERFACE "org.mate.SessionManager"
 
 /* The following values come from
- * http://www.mate.org/~mccann/mate-session/docs/mate-session.html#org.mate.SessionManager.Inhibit
+ * http://www.gnome.org/~mccann/mate-session/docs/mate-session.html#org.mate.SessionManager.Inhibit
  */
 #define INHIBIT_LOGOUT (1U)
 #define INHIBIT_SUSPEND (4U)

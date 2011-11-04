@@ -669,7 +669,7 @@ set_name_field (FMPropertiesWindow *window, const gchar *original_name,
                               0, 0);
             gtk_label_set_mnemonic_widget (GTK_LABEL (window->details->name_label), window->details->name_field);
 
-            /* FIXME bugzilla.mate.org 42151:
+            /* FIXME bugzilla.gnome.org 42151:
              * With this (and one place elsewhere in this file, not sure which is the
              * trouble-causer) code in place, bug 2151 happens (crash on quit). Since
              * we've removed Undo from Caja for now, I'm just ifdeffing out this
@@ -5372,7 +5372,7 @@ append_extension_pages (FMPropertiesWindow *window)
 static gboolean
 should_show_emblems (FMPropertiesWindow *window)
 {
-    /* FIXME bugzilla.mate.org 45643:
+    /* FIXME bugzilla.gnome.org 45643:
      * Emblems aren't displayed on the the desktop Trash icon, so
      * we shouldn't pretend that they work by showing them here.
      * When bug 5643 is fixed we can remove this case.
@@ -5843,7 +5843,7 @@ is_directory_ready_callback (CajaFile *file,
 
         remove_pending (startup_data, FALSE, TRUE, TRUE);
 
-        /* FIXME bugzilla.mate.org 42151:
+        /* FIXME bugzilla.gnome.org 42151:
          * See comment elsewhere in this file about bug 2151.
          */
 #ifdef UNDO_ENABLED

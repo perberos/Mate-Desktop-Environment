@@ -351,7 +351,7 @@ fm_icon_container_get_icon_text (CajaIconContainer *container,
     /* Handle link files specially. */
     if (caja_file_is_caja_link (file))
     {
-        /* FIXME bugzilla.mate.org 42531: Does sync. I/O and works only locally. */
+        /* FIXME bugzilla.gnome.org 42531: Does sync. I/O and works only locally. */
         *additional_text = NULL;
         if (caja_file_is_local (file))
         {

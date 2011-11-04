@@ -68,7 +68,7 @@
 #include <libcaja-private/caja-window-slot-info.h>
 #include <libcaja-private/caja-autorun.h>
 
-/* FIXME bugzilla.mate.org 41243:
+/* FIXME bugzilla.gnome.org 41243:
  * We should use inheritance instead of these special cases
  * for the desktop window.
  */
@@ -1351,7 +1351,7 @@ create_content_view (CajaWindowSlot *slot,
 
     window = slot->pane->window;
 
-    /* FIXME bugzilla.mate.org 41243:
+    /* FIXME bugzilla.gnome.org 41243:
      * We should use inheritance instead of these special cases
      * for the desktop window.
      */

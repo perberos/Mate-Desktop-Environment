@@ -2,10 +2,10 @@
 
 /* Marco window deletion */
 
-/* 
+/*
  * Copyright (C) 2001, 2002 Havoc Pennington
  * Copyright (C) 2004 Elijah Newren
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -15,7 +15,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -79,7 +79,7 @@ delete_ping_timeout_func (MetaDisplay *display,
   char *window_title;
   gchar *window_content, *tmp;
   GPid dialog_pid;
-  
+
   meta_topic (META_DEBUG_PING,
               "Got delete ping timeout for %s\n",
               window->desc);
@@ -146,11 +146,11 @@ meta_window_delete (MetaWindow  *window,
                             delete_ping_reply_func,
                             delete_ping_timeout_func,
                             window);
-  
+
   if (window->has_focus)
     {
-      /* FIXME Clean this up someday 
-       * http://bugzilla.mate.org/show_bug.cgi?id=108706
+      /* FIXME Clean this up someday
+       * http://bugzilla.gnome.org/show_bug.cgi?id=108706
        */
 #if 0
       /* This is unfortunately going to result in weirdness
@@ -181,7 +181,7 @@ void
 meta_window_kill (MetaWindow *window)
 {
   char buf[257];
-  
+
   meta_topic (META_DEBUG_WINDOW_OPS,
               "Killing %s brutally\n",
               window->desc);
@@ -209,7 +209,7 @@ meta_window_kill (MetaWindow *window)
                         strerror (errno));
         }
     }
-  
+
   meta_topic (META_DEBUG_WINDOW_OPS,
               "Disconnecting %s with XKillClient()\n",
               window->desc);
@@ -234,7 +234,7 @@ meta_window_present_delete_dialog (MetaWindow *window, guint32 timestamp)
   meta_topic (META_DEBUG_PING,
               "Presenting existing ping dialog for %s\n",
               window->desc);
-  
+
   if (window->dialog_pid >= 0)
     {
       GSList *windows;
@@ -243,7 +243,7 @@ meta_window_present_delete_dialog (MetaWindow *window, guint32 timestamp)
       /* Activate transient for window that belongs to
        * marco-dialog
        */
-      
+
       windows = meta_display_list_windows (window->display);
       tmp = windows;
       while (tmp != NULL)
@@ -257,7 +257,7 @@ meta_window_present_delete_dialog (MetaWindow *window, guint32 timestamp)
               meta_window_activate (w, timestamp);
               break;
             }
-          
+
           tmp = tmp->next;
         }
 

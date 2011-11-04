@@ -72,7 +72,7 @@
 #include <sys/time.h>
 
 
-/* FIXME bugzilla.mate.org 41243:
+/* FIXME bugzilla.gnome.org 41243:
  * We should use inheritance instead of these special cases
  * for the desktop window.
  */

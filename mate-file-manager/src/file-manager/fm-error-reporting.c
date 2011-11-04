@@ -365,7 +365,7 @@ fm_rename_file (CajaFile *file,
                                     new_name);
     g_free (old_name);
     eel_timed_wait_start (cancel_rename_callback, file, wait_message,
-                          NULL); /* FIXME bugzilla.mate.org 42395: Parent this? */
+                          NULL); /* FIXME bugzilla.gnome.org 42395: Parent this? */
     g_free (wait_message);
 
     uri = caja_file_get_uri (file);

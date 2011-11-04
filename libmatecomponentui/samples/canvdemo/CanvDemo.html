@@ -125,7 +125,7 @@ NAME="SQUARE"
 ><P
 >&#13;      Looking at the code you can see the difference in implementing the
       square program with and without MateComponent.
-     
+
       <DIV
 CLASS="EXAMPLE"
 ><A
@@ -210,7 +210,7 @@ matecomponent_item_factory (MateComponentGenericFactory *factory, const char *co
         object = MATECOMPONENT_OBJECT(
                    matecomponent_canvas_component_factory_new (
                       item_factory, data));
-   ... 
+   ...
 }
 
 int
@@ -252,7 +252,7 @@ quit_cb (GtkWidget *widget, GdkEventAny *event, gpointer dummy)
 int
 main (int argc, char *argv[])
 {
-	GtkWidget *app, *canvas, *box, *hbox, *control; 
+	GtkWidget *app, *canvas, *box, *hbox, *control;
         ObjectData object;
   ...
 
@@ -282,7 +282,7 @@ main (int argc, char *argv[])
       be able to handle requests from multiple clients.  It is up to the
       implementer whether it can refuse to serve more than one client or it can
       serve all requesting clients.
-      
+
       </P
 ><P
 >&#13;      The ObjectData structure has all information needed keep track of the
@@ -362,7 +362,7 @@ typedef struct
 >&#13;      You can imagine what happens here. Any change to one circle will cause all
       the other circles to update to reflect the change assuming all of the
       events are handled properly in the circle program.
-      
+
       </P
 ></DIV
 ><DIV
@@ -382,7 +382,7 @@ NAME="MAIN"
       circles stop.  Now click and drag the circle as fast as you can. Try
       increasing the speed to 1000 for all the controls.  A speed of 1000
       translates to 100 updates per second per canvas item.  You shouldn't have
-      any trouble driving your CPU usage up to 100%. 
+      any trouble driving your CPU usage up to 100%.
 
       </P
 ><P
@@ -394,7 +394,7 @@ NAME="MAIN"
       complex. I suspect that breaking the program down by data source into a
       bunch of smaller programs may simplify maintenance and may make it easier
       for inexperienced programmers to navigate through the code.
-      
+
       </P
 ></DIV
 ><DIV
@@ -412,19 +412,19 @@ NAME="HOWWORKS"
       describes the parts of the logic that gave me the most trouble. Hopefully
       by writing this, I'll give the next person who needs to debug it a little
       bit of a head start.
-      
+
       </P
 ><P
 >&#13;      To really understand how this interface works knowledge of how the Mate
       Canvas is required first.  I don't yet have this knowledge, but I can
       suggest some places to start: <A
-HREF="http://developer.mate.org/doc/books/WGA/index.html"
+HREF="http://developer.gnome.org/doc/books/WGA/index.html"
 TARGET="_top"
->      http://developer.mate.org/doc/books/WGA/index.html</A
+>      http://developer.gnome.org/doc/books/WGA/index.html</A
 >, <A
-HREF="http://developer.mate.org/doc/GGAD/ggad.html"
+HREF="http://developer.gnome.org/doc/GGAD/ggad.html"
 TARGET="_top"
->      http://developer.mate.org/doc/GGAD/ggad.html</A
+>      http://developer.gnome.org/doc/GGAD/ggad.html</A
 >, and of course the
       mate-canvas.c source code itself.
 
@@ -453,7 +453,7 @@ TARGET="_top"
       if it is multi-threaded and the GDK thread support will not work because
       GDK has no knowledge about other processes that are communicating through
       MateComponent.
-      
+
       </P
 ><P
 >&#13;      In the MateComponent canvas component model, there are two entry points that can
@@ -498,7 +498,7 @@ SRC="flow.png"></P
 >&#13;      When the update is requested from the conatainer side there is less
       processing.  The flow starts out on the right in the diagram above.  Once
       invoke_update is called at the component side, this is the end of the
-      update. 
+      update.
 
       </P
 ><P
@@ -519,7 +519,7 @@ SRC="flow.png"></P
 
       </P
 ><P
->      
+>
       For a case where there are multiple components and multiple containers
       where a change to one component may effect all others the problem gets
       even more interesting.  In the circle.c example program changing one
@@ -592,7 +592,7 @@ WIDTH="100%"
 CLASS="PROGRAMLISTING"
 >        For object A: 1 rih_update() -&#62; 2 requestUpdate().
 
-        For object B: 2 gbi_event() -&#62; 1 event(). 
+        For object B: 2 gbi_event() -&#62; 1 event().
       </PRE
 ></TD
 ></TR
@@ -606,7 +606,7 @@ CLASS="PROGRAMLISTING"
         everything away until we get to the return value we need.
         What would happen if process 1 called 2 and waited for a return value.
         When 2 gets called, it needs to call 1 to finish, but 1 is busy waiting
-        for 2 to return something. 
+        for 2 to return something.
 
       </P
 ><P

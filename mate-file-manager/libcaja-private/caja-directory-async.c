@@ -1009,7 +1009,7 @@ dequeue_pending_idle_callback (gpointer callback_data)
         name = g_file_info_get_name (file_info);
 
         /* Update the file count. */
-        /* FIXME bugzilla.mate.org 45063: This could count a
+        /* FIXME bugzilla.gnome.org 45063: This could count a
          * file twice if we get it from both load_directory
          * and from new_files_callback. Not too hard to fix by
          * moving this into the actual callback instead of
@@ -4053,7 +4053,7 @@ link_info_got_data (CajaDirectory *directory,
     }
     else
     {
-        /* FIXME bugzilla.mate.org 42433: We should report this error to the user. */
+        /* FIXME bugzilla.gnome.org 42433: We should report this error to the user. */
     }
 
     caja_file_ref (file);

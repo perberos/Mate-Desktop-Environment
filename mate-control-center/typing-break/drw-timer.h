@@ -25,7 +25,7 @@
  * This file defines a timer interface similar to GTimer, but defined in real
  * wall-clock time. A GTimer may stop counting while the computer is suspended
  * or the process is stopped:
- *   https://bugzilla.mate.org/show_bug.cgi?id=552994
+ *   https://bugzilla.gnome.org/show_bug.cgi?id=552994
  * but a DrwTimer keeps counting regardless.
  *
  * Currently this only provides second resolution as compared to GTimer's

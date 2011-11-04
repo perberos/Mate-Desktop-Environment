@@ -62,7 +62,7 @@
 
       Looking at the code you can see the difference in implementing the
       square program with and without MateComponent.
-     
+
       <example><title>Square Set Up Code</title><programlisting>
 #ifdef WITH_MATECOMPONENT
 
@@ -131,7 +131,7 @@ matecomponent_item_factory (MateComponentGenericFactory *factory, const char *co
         object = MATECOMPONENT_OBJECT(
                    matecomponent_canvas_component_factory_new (
                       item_factory, data));
-   ... 
+   ...
 }
 
 int
@@ -173,7 +173,7 @@ quit_cb (GtkWidget *widget, GdkEventAny *event, gpointer dummy)
 int
 main (int argc, char *argv[])
 {
-	GtkWidget *app, *canvas, *box, *hbox, *control; 
+	GtkWidget *app, *canvas, *box, *hbox, *control;
         ObjectData object;
   ...
 
@@ -199,7 +199,7 @@ main (int argc, char *argv[])
       be able to handle requests from multiple clients.  It is up to the
       implementer whether it can refuse to serve more than one client or it can
       serve all requesting clients.
-      
+
       </para>
       <para>
 
@@ -255,7 +255,7 @@ typedef struct
       You can imagine what happens here. Any change to one circle will cause all
       the other circles to update to reflect the change assuming all of the
       events are handled properly in the circle program.
-      
+
       </para>
    </sect1>
   <sect1 id="main">
@@ -270,7 +270,7 @@ typedef struct
       circles stop.  Now click and drag the circle as fast as you can. Try
       increasing the speed to 1000 for all the controls.  A speed of 1000
       translates to 100 updates per second per canvas item.  You shouldn't have
-      any trouble driving your CPU usage up to 100%. 
+      any trouble driving your CPU usage up to 100%.
 
       </para>
       <para>
@@ -283,7 +283,7 @@ typedef struct
       complex. I suspect that breaking the program down by data source into a
       bunch of smaller programs may simplify maintenance and may make it easier
       for inexperienced programmers to navigate through the code.
-      
+
       </para>
    </sect1>
    <sect1 id="howworks">
@@ -296,17 +296,17 @@ typedef struct
       describes the parts of the logic that gave me the most trouble. Hopefully
       by writing this, I'll give the next person who needs to debug it a little
       bit of a head start.
-      
+
       </para>
       <para>
 
       To really understand how this interface works knowledge of how the Mate
       Canvas is required first.  I don't yet have this knowledge, but I can
       suggest some places to start: <ulink
-      url="http://developer.mate.org/doc/books/WGA/index.html">
-      http://developer.mate.org/doc/books/WGA/index.html</ulink>, <ulink
-      url="http://developer.mate.org/doc/GGAD/ggad.html">
-      http://developer.mate.org/doc/GGAD/ggad.html</ulink>, and of course the
+      url="http://developer.gnome.org/doc/books/WGA/index.html">
+      http://developer.gnome.org/doc/books/WGA/index.html</ulink>, <ulink
+      url="http://developer.gnome.org/doc/GGAD/ggad.html">
+      http://developer.gnome.org/doc/GGAD/ggad.html</ulink>, and of course the
       mate-canvas.c source code itself.
 
       </para>
@@ -336,7 +336,7 @@ typedef struct
       if it is multi-threaded and the GDK thread support will not work because
       GDK has no knowledge about other processes that are communicating through
       MateComponent.
-      
+
       </para>
       <para>
 
@@ -373,7 +373,7 @@ typedef struct
       When the update is requested from the conatainer side there is less
       processing.  The flow starts out on the right in the diagram above.  Once
       invoke_update is called at the component side, this is the end of the
-      update. 
+      update.
 
       </para>
       <para>
@@ -395,7 +395,7 @@ typedef struct
 
       </para>
       <para>
-      
+
       For a case where there are multiple components and multiple containers
       where a change to one component may effect all others the problem gets
       even more interesting.  In the circle.c example program changing one
@@ -433,7 +433,7 @@ typedef struct
       <example><title>A Deadlock Problem</title><programlisting>
         For object A: 1 rih_update() -> 2 requestUpdate().
 
-        For object B: 2 gbi_event() -> 1 event(). 
+        For object B: 2 gbi_event() -> 1 event().
       </programlisting></example>
 
       </para>
@@ -443,7 +443,7 @@ typedef struct
         everything away until we get to the return value we need.
         What would happen if process 1 called 2 and waited for a return value.
         When 2 gets called, it needs to call 1 to finish, but 1 is busy waiting
-        for 2 to return something. 
+        for 2 to return something.
 
       </para>
       <para>

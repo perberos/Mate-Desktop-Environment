@@ -38,7 +38,7 @@
 
 struct _CajaNavigationWindowPane;
 
-/* FIXME bugzilla.mate.org 42575: Migrate more fields into here. */
+/* FIXME bugzilla.gnome.org 42575: Migrate more fields into here. */
 struct CajaWindowDetails
 {
     GtkWidget *table;

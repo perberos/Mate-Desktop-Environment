@@ -1496,7 +1496,7 @@ mdm_session_worker_set_environment_variable (MdmSessionWorker *worker,
          * own hash table, so pam can override our choices if it knows
          * better?
          *
-         * See https://bugzilla.mate.org/show_bug.cgi?id=627530
+         * See https://bugzilla.gnome.org/show_bug.cgi?id=627530
          */
         g_hash_table_replace (worker->priv->environment,
                               g_strdup (key),

@@ -818,7 +818,7 @@ keyboard_icon_reveal_timeout_callback (gpointer data)
      * cancel this reveal if the user manages to sneak a direct
      * scroll in before the timeout fires, but we later realized
      * this wouldn't actually be an improvement
-     * (see bugzilla.mate.org 40612).
+     * (see bugzilla.gnome.org 40612).
      */
     if (icon == container->details->keyboard_focus
             || icon->is_selected)
@@ -1057,7 +1057,7 @@ get_all_icon_bounds (CajaIconContainer *container,
                      double *x2, double *y2,
                      CajaIconCanvasItemBoundsUsage usage)
 {
-    /* FIXME bugzilla.mate.org 42477: Do we have to do something about the rubberband
+    /* FIXME bugzilla.gnome.org 42477: Do we have to do something about the rubberband
      * here? Any other non-icon items?
      */
     get_icon_bounds_for_canvas_bounds (EEL_CANVAS_GROUP (EEL_CANVAS (container)->root),
@@ -2335,7 +2335,7 @@ lay_down_icons_vertical_desktop (CajaIconContainer *container, GList *icons)
     /* These modes are special. We freeze all of our positions
      * after we do the layout.
      */
-    /* FIXME bugzilla.mate.org 42478:
+    /* FIXME bugzilla.gnome.org 42478:
      * This should not be tied to the direction of layout.
      * It should be a separate switch.
      */
@@ -2689,7 +2689,7 @@ caja_icon_container_move_icon (CajaIconContainer *container,
         icon_raise (icon);
     }
 
-    /* FIXME bugzilla.mate.org 42474:
+    /* FIXME bugzilla.gnome.org 42474:
      * Handling of the scroll region is inconsistent here. In
      * the scale-changing case, redo_layout is called, which updates the
      * scroll region appropriately. In other cases, it's up to the
@@ -8682,7 +8682,7 @@ compute_stretch (StretchState *start,
     gboolean right, bottom;
     int x_stretch, y_stretch;
 
-    /* FIXME bugzilla.mate.org 45390: This doesn't correspond to
+    /* FIXME bugzilla.gnome.org 45390: This doesn't correspond to
          * the way the handles are drawn.
      */
     /* Figure out which handle we are dragging. */

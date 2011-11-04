@@ -18,7 +18,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:set="http://exslt.org/sets"
-                xmlns:msg="http://www.mate.org/~shaunm/mate-doc-utils/l10n"
+                xmlns:msg="http://www.gnome.org/~shaunm/mate-doc-utils/l10n"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="msg set"
                 version="1.0">
@@ -43,7 +43,7 @@ $indent: Whether this block should be indented
 $verbatim: Whether to maintain whitespace as written
 $formal: Whether this is a formal block element
 $title: When ${formal} is true, an element to use for the title
-$caption: When ${formal} is true, an element to use for the caption 
+$caption: When ${formal} is true, an element to use for the caption
 $lang: The locale of the text in ${node}
 $dir: The text direction, either #{ltr} or #{rtl}
 $ltr: Whether to default to #{ltr} if neither ${lang} nor ${dir} is specified

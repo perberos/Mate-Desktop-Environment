@@ -1090,7 +1090,7 @@ action_duplicate_callback (GtkAction *action,
     selection = fm_directory_view_get_selection_for_file_transfer (view);
     if (selection_not_empty_in_menu_callback (view, selection))
     {
-        /* FIXME bugzilla.mate.org 45061:
+        /* FIXME bugzilla.gnome.org 45061:
          * should change things here so that we use a get_icon_locations (view, selection).
          * Not a problem in this case but in other places the selection may change by
          * the time we go and retrieve the icon positions, relying on the selection
@@ -9980,7 +9980,7 @@ load_directory (FMDirectoryView *view,
 
     view->details->reported_load_error = FALSE;
 
-    /* FIXME bugzilla.mate.org 45062: In theory, we also need to monitor metadata here (as
+    /* FIXME bugzilla.gnome.org 45062: In theory, we also need to monitor metadata here (as
          * well as doing a call when ready), in case external forces
          * change the directory's file metadata.
      */
