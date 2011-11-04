@@ -17,6 +17,7 @@ INCLUDES =                          \
 
 libeel_2_la_LDFLAGS =               \
 	-no-undefined                   \
+	$(CORE_CFLAGS)                  \
 	$(NULL)
 
 libeel_2_la_LIBADD =                \
