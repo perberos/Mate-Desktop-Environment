@@ -2,7 +2,7 @@
 
 /*
  * Copyright (C) 2007 The MATE Foundation
- * Written by Denis Washington <denisw@svn.mate.org>
+ * Written by Denis Washington <denisw@svn.gnome.org>
  * All Rights Reserved
  *
  * This program is free software; you can redistribute it and/or modify
@@ -127,7 +127,7 @@ static void
 notifications_button_clicked_cb (GtkWidget *button, GtkBuilder *dialog)
 {
 	GtkWidget *w;
-    
+
     notifications_dialog = gtk_builder_new ();
     gtk_builder_add_from_file (notifications_dialog, MATECC_UI_DIR
                                "/mate-keyboard-properties-a11y-notifications.ui",
@@ -173,7 +173,7 @@ notifications_button_clicked_cb (GtkWidget *button, GtkBuilder *dialog)
 	                          w, NULL);
 
 	w = NWID ("visual_bell_enable");
-	mateconf_peditor_new_boolean (NULL, 
+	mateconf_peditor_new_boolean (NULL,
 				   "/apps/marco/general/visual_bell",
 				   w, NULL);
         g_signal_connect (w, "toggled",

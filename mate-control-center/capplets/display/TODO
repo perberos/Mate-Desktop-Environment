@@ -16,7 +16,7 @@ Here is the OS X Display menu:
 		- 1024 x 1024 ...
 	--------------------------
 	Displays Preferences
-	
+
 	Color LCD means "laptop panel".
 
 - GTK+ work.
@@ -25,7 +25,7 @@ Here is the OS X Display menu:
 	or removed. Allow applications to get more detailed
 	information about the connected monitors.
 
-	The main complication is that XRRGetScreenResources() is very 
+	The main complication is that XRRGetScreenResources() is very
 	slow. We could call it only when the X server sends an event,
         but it's not desirable to have every application freeze for
         half a second. And certainly not desirable to have the X
@@ -39,13 +39,13 @@ Here is the OS X Display menu:
 	X server needs to poll for whether a monitor is plugged
         in. Whenever it detects a change, it should do an EDID query,
         and cache the resulting information. That way XRRGetScreenResources()
-	can be the speed of a normal roundtrip. It's desirable that 
+	can be the speed of a normal roundtrip. It's desirable that
 	normal client requests can still be processed during the EDID
         querying, but only a nice-to-have.
 
 	Drivers need to work reliably. There could be substantial work
 	here. For F9, possibly only the Intel driver can be made to
-	work. 
+	work.
 
 	Interrupts and events must be generated whenever something changes
 	about the outputs, if necessary by polling.
@@ -62,7 +62,7 @@ Here is the OS X Display menu:
 	  and update itself, ie., add show new monitors if they become
 	  available when the applet is shown.
 
-	- It needs to store information under a key computed 
+	- It needs to store information under a key computed
 	  from a monitor identifier. The complication here is that
           it's not completely clear how to do this in MateConf.
 
@@ -71,11 +71,11 @@ Here is the OS X Display menu:
 
 - Marco work:
 	- Marco is already Xinerama aware, but it needs to update itself
-	  when monitors come and go. 
+	  when monitors come and go.
 
 - MATE panel work:
 	- Is already Xinerama aware, but needs to listen and update itself
-	  when monitors change. 
+	  when monitors change.
 
 - Evince work:
 	- Make sure it deals sensibly with multiple monitors
@@ -141,7 +141,7 @@ edid-decode enhancements:
 
 - Rejects years <= 0x0f for all versions, but this should only be done
   for monitors claiming conformance to 1.4 (since 1.4 was released in
-  2006). A monitor produced in 2005 should have 0x0f - it's the only 
+  2006). A monitor produced in 2005 should have 0x0f - it's the only
   reasonable thing to do.
 
 - Uses 0x80 as the conformance mask for 1.4, should be 0
@@ -158,7 +158,7 @@ edid-decode enhancements:
 
 	(edid[0x14] & 0x70) >> 3 + 4
 
-- 
+-
 
 -=-=-=-
 Computing a display name from EDID information:
@@ -223,7 +223,7 @@ Needed XRandr output properties:
   There is a question here: Where are machine specific preferences
   stored? Havoc mentions three possibilities here:
 
-     http://mail.mate.org/archives/matecc-list/2001-October/msg00023.html
+     http://mail.gnome.org/archives/matecc-list/2001-October/msg00023.html
 
   I'm not sure if any of them are implementable at this point. Also
   (1) may mostly take care of the problem.
@@ -232,7 +232,7 @@ Needed XRandr output properties:
   Usecases:
 
   1. Fixed setup with some number of monitors.
-     - They should be set to the correct mode on login. 
+     - They should be set to the correct mode on login.
        Note that this involves setting the right position in the
        framebuffer too.
 
@@ -266,7 +266,7 @@ Needed XRandr output properties:
   - Picking a default configuration is then a matter of selecting the
     closest existing configuration from the database.
 
-    	- If the stored configuration is a subset of the existing, 
+    	- If the stored configuration is a subset of the existing,
 	  then use that - then pick the best mode available for the
 	  rest of the monitors
 
@@ -281,7 +281,7 @@ Needed XRandr output properties:
   - Or maybe simply:
 
     - If there is an exact match, use it, if not, pick a default.
-    
+
     - Picking a new default must never change the mode of any existing
       output.
 
@@ -317,7 +317,7 @@ Restrictions on the modes:
 
 g-s-d:
 
-- On startup 
+- On startup
 
      - It reads the configuration file into memory
 
@@ -346,7 +346,7 @@ capplet
 
      - Update GUI
 
-- When user changes something, 
+- When user changes something,
 
      - Write configuration to file
 
@@ -378,8 +378,8 @@ Structure of capplet:
   - If GUI is running, update graphics.
 
 
-  - Notification thing: 
-      - if 
+  - Notification thing:
+      - if
 
       - if the new configuration is found in the database, use it
 
@@ -399,7 +399,7 @@ Structure of capplet:
   outputs. Then, if the possible modes include the existing choice of
   resolution, that is selected.
 
-  Actually, 
+  Actually,
 
   - initially, the settings are copied from the current settings
 
@@ -414,14 +414,14 @@ Structure of capplet:
 
   - Generate all outputs that are newly connected
 
-    	     foreach_newly_connected (Configuration *before, Configuration *after, 
+    	     foreach_newly_connected (Configuration *before, Configuration *after,
 	     			      OutputFunc);
 
   - A way to generate the best mode for a connected output
 
       	     existing best_mode() can probably be used
 
-  - Given a list of modes, pick the one closest to a given mode. 
+  - Given a list of modes, pick the one closest to a given mode.
 
       	     (a possibility here is: pick an exact match, if that's
 	      impossible, then pick the best one with the same
@@ -431,8 +431,8 @@ Structure of capplet:
   - For a configuation, fix the mode for a subset of the outputs, then
     list the combinations for the rest of the outputs.
 
-    	     An obvious possibility here is to simply list all possibilities, 
-	     then  weed out those that don't work. Is this too expensive? 
+    	     An obvious possibility here is to simply list all possibilities,
+	     then  weed out those that don't work. Is this too expensive?
 	     It might be.
 
 Structure of login time program:
@@ -500,7 +500,7 @@ So, only defining HAVE_RANDR if we detect 1.2 should be ok.
 - When a monitor we don't know about is plugged in, a configuration should
   be generated:
 
-	- Screen size, computed based on the location of the screens 
+	- Screen size, computed based on the location of the screens
 
 	- RGBA information
 
@@ -509,7 +509,7 @@ So, only defining HAVE_RANDR if we detect 1.2 should be ok.
 	- If there is a conflict between stored information and EDID,
           the stored information wins
 
-	
+
 
 New API so far:
 
@@ -518,12 +518,12 @@ gdk_screen_get_monitor_width_mm()
 gdk_screen_get_monitor_height_mm()
 gdk_screen_get_monitor_name() => Note this is the output (eg. "DVI-0")
 
-We should probably also have 
+We should probably also have
 get_manufacturer()
 get_serial()
 get_resolutions()
 
-etc. 
+etc.
 
 Should there be a GdkMonitor object that would correspond to an
 output? Or maybe GdkOutput?
@@ -548,13 +548,13 @@ screen_list_monitors()
 
   - Intel driver:
 
-    - EDID information is not reported for VGA when the output is not 
+    - EDID information is not reported for VGA when the output is not
       turned on (i945 laptop).
 
     - Screen size must be dynamically changable. (No xorg.conf changes
       should be required).
 
-    - Make use of ACPI information when possible. 
+    - Make use of ACPI information when possible.
 
       Adam has code on his freedesktop page.
 
@@ -564,7 +564,7 @@ screen_list_monitors()
       	      - Plug in VGA
 	      - xrandr --auto
 	      - xrandr --output VGA --off
-	      - run chk 
+	      - run chk
 	      - xrandr --verbose will now not report any outputs as turned on
 	      - run chk again - all screens will be turned off
 
@@ -594,8 +594,8 @@ screen_list_monitors()
 
   - XRRGetScreenResources() takes half a second.
 
-    - Adam has now removed a workaround that caused some of the slowdown. 
-  
+    - Adam has now removed a workaround that caused some of the slowdown.
+
   - If a DVI monitor is disconnected, you get "Unknown" for connection
     status.
 
@@ -605,10 +605,10 @@ screen_list_monitors()
 
   - Logging out and logging back in often results in some random mode being
     set. We need mode selection to not be completely screwed up.
-    Currently it is. 
+    Currently it is.
 
   - The set up at server startup needs to be fixed. *If* randr actually works,
-    then we might be able to do something sensible. 
+    then we might be able to do something sensible.
 
   - We need to revisit the idea that many monitors have broken EDID data.
     This may be less widespread than previously believed.
@@ -619,7 +619,7 @@ screen_list_monitors()
 	{ UNKNOWN, OTHER, DVI, VGA, HDMI, ...,  }
 
   in addition to the string. The difference between UNKNOWN and OTHER is that
-  UNKNOWN means the driver doesn't know, whereas OTHER means it is something 
+  UNKNOWN means the driver doesn't know, whereas OTHER means it is something
   not listed in the enum (which could be listed in a later version).
 
 - Mouse cursor should be confined to the visible area. (It is already, I think)
@@ -640,9 +640,9 @@ Server work:
     - i830 laptop incorrectly reports BadMatch when you configure the
       CRTC to drive both VGA and LVDS with the 1024x768 mode that both
       outputs can handle. (It should return 'failed' if it can't do
-      that). Same for i945 laptop. It seems as if the same CRTC can't 
-      drive more than one output at the same time on Intel. 
-      
+      that). Same for i945 laptop. It seems as if the same CRTC can't
+      drive more than one output at the same time on Intel.
+
       This was a client bug, but the documentation for SetCrtcConfig
       should say that BadMatch will be returned if the outputs aren't
       clones.
@@ -657,18 +657,18 @@ GTK+ patch is in now.
 +       XRRScreenResources *sr;
 +    XRROutputInfo *output;
 +       gchar *retval;
-+       
++
 +    sr = XRRGetScreenResources ( screen_x11->xdisplay,
 +                                 screen_x11->xroot_window );
-+    
++
 +    output = XRRGetOutputInfo ( screen_x11->xdisplay,
 +                                sr,
 +                                (RROutput)screen_x11->act_outputs[monitor_num]
 );
 
-  Might be worthwhile to factor this out into a 
+  Might be worthwhile to factor this out into a
   gdk_screen_get_output_info (screen, monitor_num)
-  helper function ? 
+  helper function ?
 
 Instead of cutting and pasting all over creation
 
@@ -690,8 +690,8 @@ Should be (maj > 1) || (maj == 1 && min >= 2)
 
 === Setup XRRSelectInput()
 
-  You should call XRRSelectInput() at the same place where you are 
-  calling XSelectInput() right now. The right place to handle the 
+  You should call XRRSelectInput() at the same place where you are
+  calling XSelectInput() right now. The right place to handle the
   XRandr events is the huge switch in gdkevents-x11.c:gdk_event_translate
   Check out how other extension events are handled there, like
   XKB, or XFixes.
@@ -732,7 +732,7 @@ properties. (Like the Intel driver does).
 Detecting plugged in
 
 - Periodically poll
-  - 
+  -
 
   - One ddc probe takes 5 ms, according to a comment in the intel
     driver. Running this twice a second would mean spending 1% of
@@ -755,7 +755,7 @@ Detecting plugged in
       	    RegisterDispatchFunction()  (Is this called Wakeup?)
 	    RegisterIdleFunction()
 
-      Note the idle function should have the option of saying: 
+      Note the idle function should have the option of saying:
       "check if something else happened; if not, call me again" and
       "ok, I'm done - go idle". Otherwise, we would be blocking for
       5 ms whenever the X server went idle. So actually the idle
@@ -779,10 +779,10 @@ Detecting plugged in
       the i2c bus? Good question. Need to read the VESA ddc spec.
 
     2) Run the polling in a separate thread.
- 
+
        Probably crack.
 
-    3) Run the polling less, maybe once every three seconds. 
+    3) Run the polling less, maybe once every three seconds.
 
 -- details for control panel --
 Screen changes
@@ -792,7 +792,7 @@ Screen changes
 	 the capplet can't react to external changes to modes. On the other hand
 	 if it didn't
 Disallow combinations that would exceed the screen ranges.
-   - Note rotations 
+   - Note rotations
 
 Give rw objects stable positions in memory so that they can be cached
 across screen_changed events.
@@ -813,12 +813,12 @@ Need to sanitize naming
      RWOutput vs Output	- should probably be OutputInfo
      rate vs. freq - decide on one
 
-Should probably reconsider the use of null terminated arrays. 
+Should probably reconsider the use of null terminated arrays.
 Maybe lists would be better.
 
 Pick a fixed scale, so that two 1024x768 don't look like two 6x4.
      - An alternative would be to draw a checkerboard pattern
-       below the monitors. 
+       below the monitors.
 
 
 

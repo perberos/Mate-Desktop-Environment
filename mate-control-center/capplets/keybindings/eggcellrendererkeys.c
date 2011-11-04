@@ -425,7 +425,7 @@ grab_key_callback (GtkWidget    *widget,
                                         EGG_VIRTUAL_LOCK_MASK,
                                         &ignored_modifiers);
 
-  /* http://bugzilla.mate.org/show_bug.cgi?id=139605
+  /* http://bugzilla.gnome.org/show_bug.cgi?id=139605
    * mouse keys should effect keybindings */
   ignored_modifiers |=	GDK_BUTTON1_MASK |
 			GDK_BUTTON2_MASK |

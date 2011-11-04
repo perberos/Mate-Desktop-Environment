@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2007,2008 The MATE Foundation
  * Written by Rodney Dawes <dobey@ximian.com>
- *            Denis Washington <denisw@svn.mate.org>
+ *            Denis Washington <denisw@svn.gnome.org>
  *            Thomas Wood <thos@gnome.org>
  * All Rights Reserved
  *

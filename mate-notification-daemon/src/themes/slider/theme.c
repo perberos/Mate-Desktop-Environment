@@ -900,7 +900,7 @@ void get_theme_info(char** theme_name, char** theme_ver, char** author, char** h
 	*theme_name = g_strdup("Slider");
 	*theme_ver  = g_strdup_printf("%d.%d.%d", NOTIFICATION_DAEMON_MAJOR_VERSION, NOTIFICATION_DAEMON_MINOR_VERSION, NOTIFICATION_DAEMON_MICRO_VERSION);
 	*author = g_strdup("William Jon McCann");
-	*homepage = g_strdup("http://www.mate.org/");
+	*homepage = g_strdup("http://www.gnome.org/");
 }
 
 gboolean get_always_stack(GtkWidget* nw)

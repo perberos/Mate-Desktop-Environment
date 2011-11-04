@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 The MATE Foundation
- * Written by Denis Washington <denisw@svn.mate.org>
+ * Written by Denis Washington <denisw@svn.gnome.org>
  * All Rights Reserved
  *
  * This program is free software; you can redistribute it and/or modify

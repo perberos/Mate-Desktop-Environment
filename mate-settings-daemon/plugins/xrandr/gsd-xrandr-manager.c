@@ -1183,7 +1183,7 @@ handle_fn_f7 (GsdXrandrManager *mgr, guint32 timestamp)
 
                 g_debug ("applying");
 
-                /* See https://bugzilla.mate.org/show_bug.cgi?id=610482
+                /* See https://bugzilla.gnome.org/show_bug.cgi?id=610482
                  *
                  * Sometimes we'll get two rapid XF86Display keypress events,
                  * but their timestamps will be out of order with respect to the

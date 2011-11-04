@@ -2,10 +2,10 @@
 
 /* Marco visual bell */
 
-/* 
+/*
  * Copyright (C) 2002 Sun Microsystems Inc.
  * Copyright (C) 2005, 2006 Elijah Newren
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -15,7 +15,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -41,7 +41,7 @@
  * remove the flash.
  *
  * The visual bell was the result of a discussion in Bugzilla here:
- * <http://bugzilla.mate.org/show_bug.cgi?id=99886>.
+ * <http://bugzilla.gnome.org/show_bug.cgi?id=99886>.
  *
  * Several of the functions in this file are ifdeffed out entirely if we are
  * found not to have the XKB extension, which is required to do these clever
@@ -73,13 +73,13 @@
  * \bug This appears to destroy our current XSync status.
  */
 static void
-bell_flash_screen (MetaDisplay *display, 
+bell_flash_screen (MetaDisplay *display,
 			MetaScreen  *screen)
 {
   Window root = screen->xroot;
   int width = screen->rect.width;
   int height = screen->rect.height;
-  
+
   if (screen->flash_window == None)
     {
       Visual *visual = (Visual *)CopyFromParent;
@@ -87,11 +87,11 @@ bell_flash_screen (MetaDisplay *display,
       int depth = CopyFromParent;
       xswa.save_under = True;
       xswa.override_redirect = True;
-      /* 
+      /*
        * TODO: use XGetVisualInfo and determine which is an
        * overlay, if one is present, and use the Overlay visual
-       * for this window (for performance reasons).  
-       * Not sure how to tell this yet... 
+       * for this window (for performance reasons).
+       * Not sure how to tell this yet...
        */
       screen->flash_window = XCreateWindow (display->xdisplay, root,
 					    0, 0, width, height,
@@ -113,12 +113,12 @@ bell_flash_screen (MetaDisplay *display,
       GC gc = XCreateGC (display->xdisplay, screen->flash_window, 0, NULL);
       XMapWindow (display->xdisplay, screen->flash_window);
       XSetForeground (display->xdisplay, gc,
-		      WhitePixel (display->xdisplay, 
+		      WhitePixel (display->xdisplay,
 				  XScreenNumberOfScreen (screen->xscreen)));
       XFillRectangle (display->xdisplay, screen->flash_window, gc,
 		      0, 0, width, height);
       XSetForeground (display->xdisplay, gc,
-		      BlackPixel (display->xdisplay, 
+		      BlackPixel (display->xdisplay,
 				  XScreenNumberOfScreen (screen->xscreen)));
       XFillRectangle (display->xdisplay, screen->flash_window, gc,
 		      0, 0, width, height);
@@ -146,7 +146,7 @@ bell_flash_screen (MetaDisplay *display,
  */
 #ifdef HAVE_XKB
 static void
-bell_flash_fullscreen (MetaDisplay *display, 
+bell_flash_fullscreen (MetaDisplay *display,
 			    XkbAnyEvent *xkb_ev)
 {
   XkbBellNotifyEvent *xkb_bell_ev = (XkbBellNotifyEvent *) xkb_ev;
@@ -159,10 +159,10 @@ bell_flash_fullscreen (MetaDisplay *display,
       if (screen)
 	bell_flash_screen (display, screen);
     }
-  else 
+  else
     {
       GSList *screen_list = display->screens;
-      while (screen_list) 
+      while (screen_list)
 	{
 	  screen = (MetaScreen *) screen_list->data;
 	  bell_flash_screen (display, screen);
@@ -185,7 +185,7 @@ bell_flash_fullscreen (MetaDisplay *display,
  * \bug This is the parallel to bell_flash_window_frame(), so it should
  * really be called meta_bell_unflash_window_frame().
  */
-static gboolean 
+static gboolean
 bell_unflash_frame (gpointer data)
 {
   MetaFrame *frame = (MetaFrame *) data;
@@ -211,7 +211,7 @@ bell_flash_window_frame (MetaWindow *window)
   g_assert (window->frame != NULL);
   window->frame->is_flashing = 1;
   meta_frame_queue_draw (window->frame);
-  g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 100, 
+  g_timeout_add_full (G_PRIORITY_DEFAULT_IDLE, 100,
       bell_unflash_frame, window->frame, NULL);
 }
 
@@ -223,12 +223,12 @@ bell_flash_window_frame (MetaWindow *window)
  * \param xkb_ev   The bell event we just received
  */
 static void
-bell_flash_frame (MetaDisplay *display, 
+bell_flash_frame (MetaDisplay *display,
 		  XkbAnyEvent *xkb_ev)
 {
   XkbBellNotifyEvent *xkb_bell_event = (XkbBellNotifyEvent *) xkb_ev;
   MetaWindow *window;
-  
+
   g_assert (xkb_ev->xkb_type == XkbBellNotify);
   window = meta_display_lookup_x_window (display, xkb_bell_event->window);
   if (!window && (display->focus_window))
@@ -257,10 +257,10 @@ bell_flash_frame (MetaDisplay *display,
  * \bug This should be merged with meta_bell_notify().
  */
 static void
-bell_visual_notify (MetaDisplay *display, 
+bell_visual_notify (MetaDisplay *display,
 			 XkbAnyEvent *xkb_ev)
 {
-  switch (meta_prefs_get_visual_bell_type ()) 
+  switch (meta_prefs_get_visual_bell_type ())
     {
     case META_VISUAL_BELL_FULLSCREEN_FLASH:
       bell_flash_fullscreen (display, xkb_ev);
@@ -275,14 +275,14 @@ bell_visual_notify (MetaDisplay *display,
 }
 
 void
-meta_bell_notify (MetaDisplay *display, 
+meta_bell_notify (MetaDisplay *display,
 		  XkbAnyEvent *xkb_ev)
 {
   /* flash something */
-  if (meta_prefs_get_visual_bell ()) 
+  if (meta_prefs_get_visual_bell ())
     bell_visual_notify (display, xkb_ev);
 
-  if (meta_prefs_bell_is_audible ()) 
+  if (meta_prefs_bell_is_audible ())
     {
       ca_proplist *p;
       XkbBellNotifyEvent *xkb_bell_event = (XkbBellNotifyEvent*) xkb_ev;
@@ -299,7 +299,7 @@ meta_bell_notify (MetaDisplay *display,
         window = display->focus_window;
 
       if (window)
-        { 
+        {
           ca_proplist_sets (p, CA_PROP_WINDOW_NAME, window->title);
           ca_proplist_setf (p, CA_PROP_WINDOW_X11_XID, "%lu", (unsigned long)window->xwindow);
           ca_proplist_sets (p, CA_PROP_APPLICATION_NAME, window->res_name);
@@ -312,12 +312,12 @@ meta_bell_notify (MetaDisplay *display,
       ca_proplist_destroy (p);
 
       if (res != CA_SUCCESS && res != CA_ERROR_DISABLED)
-        {      
+        {
           /* ...and in case that failed we use the classic X11 bell. */
-          XkbForceDeviceBell (display->xdisplay, 
-                              xkb_bell_event->device, 
-                              xkb_bell_event->bell_class, 
-                              xkb_bell_event->bell_id, 
+          XkbForceDeviceBell (display->xdisplay,
+                              xkb_bell_event->device,
+                              xkb_bell_event->bell_class,
+                              xkb_bell_event->bell_id,
                               xkb_bell_event->percent);
         }
     }
@@ -335,19 +335,19 @@ meta_bell_init (MetaDisplay *display)
 #ifdef HAVE_XKB
   int xkb_base_error_type, xkb_opcode;
 
-  if (!XkbQueryExtension (display->xdisplay, &xkb_opcode, 
-			  &display->xkb_base_event_type, 
-			  &xkb_base_error_type, 
+  if (!XkbQueryExtension (display->xdisplay, &xkb_opcode,
+			  &display->xkb_base_event_type,
+			  &xkb_base_error_type,
 			  NULL, NULL))
     {
       display->xkb_base_event_type = -1;
       g_message ("could not find XKB extension.");
       return FALSE;
     }
-  else 
+  else
     {
       unsigned int mask = XkbBellNotifyMask;
-      gboolean visual_bell_auto_reset = FALSE; 
+      gboolean visual_bell_auto_reset = FALSE;
       /* TRUE if and when non-broken version is available */
       XkbSelectEvents (display->xdisplay,
 		       XkbUseCoreKbd,
@@ -392,6 +392,6 @@ meta_bell_shutdown (MetaDisplay *display)
 void
 meta_bell_notify_frame_destroy (MetaFrame *frame)
 {
-  if (frame->is_flashing) 
+  if (frame->is_flashing)
     g_source_remove_by_funcs_user_data (&g_timeout_funcs, frame);
 }

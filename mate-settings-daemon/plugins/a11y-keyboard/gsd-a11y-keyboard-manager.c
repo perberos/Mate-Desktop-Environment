@@ -148,7 +148,7 @@ set_devicepresence_handler (GsdA11yKeyboardManager *manager)
         DevicePresence (display, xi_presence, class_presence);
         /* FIXME:
          * Note that this might overwrite other events, see:
-         * https://bugzilla.mate.org/show_bug.cgi?id=610245#c2
+         * https://bugzilla.gnome.org/show_bug.cgi?id=610245#c2
          **/
         XSelectExtensionEvent (display,
                                RootWindow (display, DefaultScreen (display)),

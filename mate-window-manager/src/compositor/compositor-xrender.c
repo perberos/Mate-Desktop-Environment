@@ -1,10 +1,10 @@
 /* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*- */
 
-/* 
+/*
  * Copyright (C) 2007 Iain Holmes
  * Based on xcompmgr - (c) 2003 Keith Packard
  *          xfwm4    - (c) 2005-2007 Olivier Fourdan
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -14,7 +14,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -72,7 +72,7 @@ composite_at_least_version (MetaDisplay *display,
 
   if (major == -1)
     meta_display_get_compositor_version (display, &major, &minor);
-  
+
   return (major > maj || (major == maj && minor >= min));
 }
 
@@ -102,7 +102,7 @@ typedef enum _MetaShadowType
   LAST_SHADOW_TYPE
 } MetaShadowType;
 
-typedef struct _MetaCompositorXRender 
+typedef struct _MetaCompositorXRender
 {
   MetaCompositor compositor;
 
@@ -133,20 +133,20 @@ typedef struct _MetaCompositorXRender
   guint debug : 1;
 } MetaCompositorXRender;
 
-typedef struct _conv 
+typedef struct _conv
 {
   int size;
   double *data;
 } conv;
 
-typedef struct _shadow 
+typedef struct _shadow
 {
   conv *gaussian_map;
   guchar *shadow_corner;
   guchar *shadow_top;
 } shadow;
- 
-typedef struct _MetaCompScreen 
+
+typedef struct _MetaCompScreen
 {
   MetaScreen *screen;
   GList *windows;
@@ -173,7 +173,7 @@ typedef struct _MetaCompScreen
   GSList *dock_windows;
 } MetaCompScreen;
 
-typedef struct _MetaCompWindow 
+typedef struct _MetaCompWindow
 {
   MetaScreen *screen;
   MetaWindow *window; /* May be NULL if this window isn't managed by Marco */
@@ -185,7 +185,7 @@ typedef struct _MetaCompWindow
 
   /* When the window is shaded back_pixmap will be replaced with the pixmap
      for the shaded window. This is a copy of the original unshaded window
-     so that we can still see what the window looked like when it is needed 
+     so that we can still see what the window looked like when it is needed
      for the _get_window_pixmap function */
   Pixmap shaded_back_pixmap;
 #endif
@@ -239,7 +239,7 @@ typedef struct _MetaCompWindow
 #define SHADOW_LARGE_OFFSET_Y -15
 
 #define SHADOW_OPACITY 0.66
- 
+
 #define TRANS_OPACITY 0.75
 
 #define DISPLAY_COMPOSITOR(display) ((MetaCompositorXRender *) meta_display_get_compositor (display))
@@ -269,34 +269,34 @@ make_gaussian_map (double r)
   c->data = (double *) (c + 1);
   t = 0.0;
 
-  for (y = 0; y < size; y++) 
+  for (y = 0; y < size; y++)
     {
-      for (x = 0; x < size; x++) 
+      for (x = 0; x < size; x++)
         {
           g = gaussian (r, (double) (x - centre), (double) (y - centre));
           t += g;
           c->data[y * size + x] = g;
         }
     }
-  
-  for (y = 0; y < size; y++) 
+
+  for (y = 0; y < size; y++)
     {
-      for (x = 0; x < size; x++) 
+      for (x = 0; x < size; x++)
         {
           c->data[y * size + x] /= t;
         }
     }
-  
+
   return c;
 }
 
 static void
-dump_xserver_region (const char   *location, 
+dump_xserver_region (const char   *location,
                      MetaDisplay  *display,
                      XserverRegion region)
 {
   MetaCompositorXRender *compositor = DISPLAY_COMPOSITOR (display);
-  Display *xdisplay = meta_display_get_xdisplay (display); 
+  Display *xdisplay = meta_display_get_xdisplay (display);
   int nrects;
   XRectangle *rects;
   XRectangle bounds;
@@ -359,11 +359,11 @@ sum_gaussian (conv          *map,
   g_size = map->size;
   centre = g_size / 2;
   fx_start = centre - x;
-  if (fx_start < 0) 
+  if (fx_start < 0)
     fx_start = 0;
 
   fx_end = width + centre - x;
-  if (fx_end > g_size) 
+  if (fx_end > g_size)
     fx_end = g_size;
 
   fy_start = centre - y;
@@ -371,24 +371,24 @@ sum_gaussian (conv          *map,
     fy_start = 0;
 
   fy_end = height + centre - y;
-  if (fy_end > g_size) 
+  if (fy_end > g_size)
     fy_end = g_size;
 
   g_line = g_line + fy_start * g_size + fx_start;
 
   v = 0.0;
-  for (fy = fy_start; fy < fy_end; fy++) 
+  for (fy = fy_start; fy < fy_end; fy++)
     {
       g_data = g_line;
       g_line += g_size;
-      
+
       for (fx = fx_start; fx < fx_end; fx++)
         v += *g_data++;
     }
-  
+
   if (v > 1.0)
     v = 1.0;
-  
+
   return ((guchar) (v * opacity * 255.0));
 }
 
@@ -412,38 +412,38 @@ presum_gaussian (shadow *shad)
 
   shad->shadow_corner = (guchar *)(g_malloc ((msize + 1) * (msize + 1) * 26));
   shad->shadow_top = (guchar *) (g_malloc ((msize + 1) * 26));
-  
-  for (x = 0; x <= msize; x++) 
+
+  for (x = 0; x <= msize; x++)
     {
-      
+
       shad->shadow_top[25 * (msize + 1) + x] =
         sum_gaussian (map, 1, x - centre, centre, msize * 2, msize * 2);
-      for (opacity = 0; opacity < 25; opacity++) 
+      for (opacity = 0; opacity < 25; opacity++)
         {
           shad->shadow_top[opacity * (msize + 1) + x] =
             shad->shadow_top[25 * (msize + 1) + x] * opacity / 25;
         }
-      
-      for (y = 0; y <= x; y++) 
+
+      for (y = 0; y <= x; y++)
         {
-          shad->shadow_corner[25 * (msize + 1) * (msize + 1) 
-                              + y * (msize + 1) 
+          shad->shadow_corner[25 * (msize + 1) * (msize + 1)
+                              + y * (msize + 1)
                               + x]
             = sum_gaussian (map, 1, x - centre, y - centre,
                             msize * 2, msize * 2);
-          
-          shad->shadow_corner[25 * (msize + 1) * (msize + 1) 
+
+          shad->shadow_corner[25 * (msize + 1) * (msize + 1)
                               + x * (msize + 1) + y] =
-            shad->shadow_corner[25 * (msize + 1) * (msize + 1) 
+            shad->shadow_corner[25 * (msize + 1) * (msize + 1)
                                 + y * (msize + 1) + x];
-          
-          for (opacity = 0; opacity < 25; opacity++) 
+
+          for (opacity = 0; opacity < 25; opacity++)
             {
-              shad->shadow_corner[opacity * (msize + 1) * (msize + 1) 
+              shad->shadow_corner[opacity * (msize + 1) * (msize + 1)
                                   + y * (msize + 1) + x]
-                = shad->shadow_corner[opacity * (msize + 1) * (msize + 1) 
+                = shad->shadow_corner[opacity * (msize + 1) * (msize + 1)
                                       + x * (msize + 1) + y]
-                = shad->shadow_corner[25 * (msize + 1) * (msize + 1) 
+                = shad->shadow_corner[25 * (msize + 1) * (msize + 1)
                                       + y * (msize + 1) + x] * opacity / 25;
             }
         }
@@ -507,7 +507,7 @@ make_shadow (MetaDisplay   *display,
   ximage = XCreateImage (xdisplay, DefaultVisual (xdisplay, screen_number),
                          8, ZPixmap, 0, (char *) data,
                          swidth, sheight, 8, swidth * sizeof (guchar));
-  if (!ximage) 
+  if (!ximage)
     {
       g_free (data);
       return NULL;
@@ -523,7 +523,7 @@ make_shadow (MetaDisplay   *display,
   if (msize > 0)
     d = shad->shadow_top[opacity_int * (msize + 1) + msize];
   else
-    d = sum_gaussian (shad->gaussian_map, opacity, centre, 
+    d = sum_gaussian (shad->gaussian_map, opacity, centre,
                       centre, width, height);
   memset (data, d, sheight * swidth);
 
@@ -538,59 +538,59 @@ make_shadow (MetaDisplay   *display,
   if (xlimit > swidth / 2)
     xlimit = (swidth + 1) / 2;
 
-  for (y = 0; y < ylimit; y++) 
+  for (y = 0; y < ylimit; y++)
     {
-      for (x = 0; x < xlimit; x++) 
+      for (x = 0; x < xlimit; x++)
         {
-          
+
           if (xlimit == msize && ylimit == msize)
-            d = shad->shadow_corner[opacity_int * (msize + 1) * (msize + 1) + y * (msize + 1) + x]; 
+            d = shad->shadow_corner[opacity_int * (msize + 1) * (msize + 1) + y * (msize + 1) + x];
           else
-            d = sum_gaussian (shad->gaussian_map, opacity, x - centre, 
+            d = sum_gaussian (shad->gaussian_map, opacity, x - centre,
                               y - centre, width, height);
-          
+
           data[y * swidth + x] = d;
           data[(sheight - y - 1) * swidth + x] = d;
           data[(sheight - y - 1) * swidth + (swidth - x - 1)] = d;
           data[y * swidth + (swidth - x - 1)] = d;
         }
     }
-  
+
   /* top/bottom */
   x_diff = swidth - (msize * 2);
-  if (x_diff > 0 && ylimit > 0) 
+  if (x_diff > 0 && ylimit > 0)
     {
-      for (y = 0; y < ylimit; y++) 
+      for (y = 0; y < ylimit; y++)
         {
           if (ylimit == msize)
             d = shad->shadow_top[opacity_int * (msize + 1) + y];
           else
-            d = sum_gaussian (shad->gaussian_map, opacity, centre, 
+            d = sum_gaussian (shad->gaussian_map, opacity, centre,
                               y - centre, width, height);
 
           memset (&data[y * swidth + msize], d, x_diff);
           memset (&data[(sheight - y - 1) * swidth + msize], d, x_diff);
         }
     }
-  
+
   /*
    * sides
    */
-  for (x = 0; x < xlimit; x++) 
+  for (x = 0; x < xlimit; x++)
     {
       if (xlimit == msize)
         d = shad->shadow_top[opacity_int * (msize + 1) + x];
       else
-        d = sum_gaussian (shad->gaussian_map, opacity, x - centre, 
+        d = sum_gaussian (shad->gaussian_map, opacity, x - centre,
                           centre, width, height);
-    
-      for (y = msize; y < sheight - msize; y++) 
+
+      for (y = msize; y < sheight - msize; y++)
         {
           data[y * swidth + x] = d;
           data[y * swidth + (swidth - x - 1)] = d;
         }
     }
-  
+
   return ximage;
 }
 
@@ -619,25 +619,25 @@ shadow_picture (MetaDisplay   *display,
 
   shadow_pixmap = XCreatePixmap (xdisplay, xroot,
                                  shadow_image->width, shadow_image->height, 8);
-  if (!shadow_pixmap) 
+  if (!shadow_pixmap)
     {
       XDestroyImage (shadow_image);
       return None;
     }
 
   shadow_picture = XRenderCreatePicture (xdisplay, shadow_pixmap,
-                                         XRenderFindStandardFormat (xdisplay, 
+                                         XRenderFindStandardFormat (xdisplay,
 PictStandardA8),
                                          0, 0);
-  if (!shadow_picture) 
+  if (!shadow_picture)
     {
       XDestroyImage (shadow_image);
       XFreePixmap (xdisplay, shadow_pixmap);
       return None;
     }
-  
+
   gc = XCreateGC (xdisplay, shadow_pixmap, 0, 0);
-  if (!gc) 
+  if (!gc)
     {
       XDestroyImage (shadow_image);
       XFreePixmap (xdisplay, shadow_pixmap);
@@ -649,11 +649,11 @@ PictStandardA8),
              shadow_image->width, shadow_image->height);
   *wp = shadow_image->width;
   *hp = shadow_image->height;
-  
+
   XFreeGC (xdisplay, gc);
   XDestroyImage (shadow_image);
   XFreePixmap (xdisplay, shadow_pixmap);
-  
+
   return shadow_picture;
 }
 
@@ -665,7 +665,7 @@ find_window_for_screen (MetaScreen *screen,
 
   if (info == NULL)
     return NULL;
-  
+
   return g_hash_table_lookup (info->windows_by_xid, (gpointer) xwindow);
 }
 
@@ -675,14 +675,14 @@ find_window_in_display (MetaDisplay *display,
 {
   GSList *index;
 
-  for (index = meta_display_get_screens (display); index; index = index->next) 
+  for (index = meta_display_get_screens (display); index; index = index->next)
     {
       MetaCompWindow *cw = find_window_for_screen (index->data, xwindow);
 
       if (cw != NULL)
         return cw;
     }
-  
+
   return NULL;
 }
 
@@ -696,7 +696,7 @@ find_window_for_child_window_in_display (MetaDisplay *display,
 
   XQueryTree (meta_display_get_xdisplay (display), xwindow, &ignored1,
               &parent, &ignored2, &ignored_children);
-  
+
   if (parent != None)
     return find_window_in_display (display, parent);
 
@@ -729,7 +729,7 @@ solid_picture (MetaDisplay *display,
   pa.repeat = TRUE;
   picture = XRenderCreatePicture (xdisplay, pixmap, render_format,
                                   CPRepeat, &pa);
-  if (picture == None) 
+  if (picture == None)
     {
       XFreePixmap (xdisplay, pixmap);
       g_warning ("(picture != None) failed");
@@ -740,10 +740,10 @@ solid_picture (MetaDisplay *display,
   c.red = r * 0xffff;
   c.green = g * 0xffff;
   c.blue = b * 0xffff;
-  
+
   XRenderFillRectangle (xdisplay, PictOpSrc, picture, &c, 0, 0, 1, 1);
   XFreePixmap (xdisplay, pixmap);
-  
+
   return picture;
 }
 
@@ -768,46 +768,46 @@ root_tile (MetaScreen *screen)
   background_atoms[1] = DISPLAY_COMPOSITOR (display)->atom_x_set_root;
 
   pixmap_atom = XInternAtom (xdisplay, "PIXMAP", False);
-  for (p = 0; p < 2; p++) 
+  for (p = 0; p < 2; p++)
     {
       Atom actual_type;
       int actual_format;
       gulong nitems, bytes_after;
       guchar *prop;
-      
-      if (XGetWindowProperty (xdisplay, xroot, 
+
+      if (XGetWindowProperty (xdisplay, xroot,
                               background_atoms[p],
                               0, 4, FALSE, AnyPropertyType,
-                              &actual_type, &actual_format, 
+                              &actual_type, &actual_format,
                               &nitems, &bytes_after, &prop) == Success)
         {
           if (actual_type == pixmap_atom &&
               actual_format == 32 &&
-              nitems == 1) 
+              nitems == 1)
             {
               memcpy (&pixmap, prop, 4);
               XFree (prop);
               fill = FALSE;
               break;
             }
-        } 
+        }
     }
 
-  if (!pixmap) 
+  if (!pixmap)
     {
-      pixmap = XCreatePixmap (xdisplay, xroot, 1, 1, 
+      pixmap = XCreatePixmap (xdisplay, xroot, 1, 1,
                               DefaultDepth (xdisplay, screen_number));
       g_return_val_if_fail (pixmap != None, None);
       fill = TRUE;
     }
-  
+
   pa.repeat = TRUE;
   format = XRenderFindVisualFormat (xdisplay, DefaultVisual (xdisplay,
                                                              screen_number));
   g_return_val_if_fail (format != NULL, None);
-  
+
   picture = XRenderCreatePicture (xdisplay, pixmap, format, CPRepeat, &pa);
-  if ((picture != None) && (fill)) 
+  if ((picture != None) && (fill))
     {
       XRenderColor c;
 
@@ -816,16 +816,16 @@ root_tile (MetaScreen *screen)
       c.green = 0x8080;
       c.blue = 0x8080;
       c.alpha = 0xffff;
-      
+
       XRenderFillRectangle (xdisplay, PictOpSrc, picture, &c, 0, 0, 1, 1);
-      XFreePixmap (xdisplay, pixmap); 
+      XFreePixmap (xdisplay, pixmap);
     }
 
   return picture;
 }
-  
+
 static Picture
-create_root_buffer (MetaScreen *screen) 
+create_root_buffer (MetaScreen *screen)
 {
   MetaDisplay *display = meta_screen_get_display (screen);
   Display *xdisplay = meta_display_get_xdisplay (display);
@@ -875,12 +875,12 @@ paint_root (MetaScreen *screen,
 
   g_return_if_fail (root_buffer != None);
 
-  if (info->root_tile == None) 
+  if (info->root_tile == None)
     {
       info->root_tile = root_tile (screen);
       g_return_if_fail (info->root_tile != None);
     }
-  
+
   meta_screen_get_size (screen, &width, &height);
   XRenderComposite (xdisplay, PictOpSrc, info->root_tile, None, root_buffer,
                     0, 0, 0, 0, 0, 0, width, height);
@@ -897,7 +897,7 @@ window_has_shadow (MetaCompWindow *cw)
   /* Always put a shadow around windows with a frame - This should override
      the restriction about not putting a shadow around shaped windows
      as the frame might be the reason the window is shaped */
-  if (cw->window) 
+  if (cw->window)
     {
       if (meta_window_get_frame (cw->window)) {
         meta_verbose ("Window has shadow because it has a frame\n");
@@ -923,7 +923,7 @@ window_has_shadow (MetaCompWindow *cw)
     return TRUE;
   }
 
-  if (cw->type == META_COMP_WINDOW_MENU || 
+  if (cw->type == META_COMP_WINDOW_MENU ||
       cw->type == META_COMP_WINDOW_DROP_DOWN_MENU) {
     meta_verbose ("Window has shadow as it is a menu\n");
     return TRUE;
@@ -964,43 +964,43 @@ win_extents (MetaCompWindow *cw)
       cw->shadow_dx = shadow_offsets_x [cw->shadow_type];
       cw->shadow_dy = shadow_offsets_y [cw->shadow_type];
 
-      if (!cw->shadow) 
+      if (!cw->shadow)
         {
           double opacity = SHADOW_OPACITY;
           if (cw->opacity != (guint) OPAQUE)
             opacity = opacity * ((double) cw->opacity) / ((double) OPAQUE);
-          
-          cw->shadow = shadow_picture (display, screen, cw->shadow_type, 
+
+          cw->shadow = shadow_picture (display, screen, cw->shadow_type,
                                        opacity, cw->alpha_pict,
                                        cw->attrs.width + cw->attrs.border_width * 2,
                                        cw->attrs.height + cw->attrs.border_width * 2,
                                        &cw->shadow_width, &cw->shadow_height);
         }
-      
+
       sr.x = cw->attrs.x + cw->shadow_dx;
       sr.y = cw->attrs.y + cw->shadow_dy;
       sr.width = cw->shadow_width;
       sr.height = cw->shadow_height;
-      
-      if (sr.x < r.x) 
+
+      if (sr.x < r.x)
         {
           r.width = (r.x + r.width) - sr.x;
           r.x = sr.x;
         }
-      
-      if (sr.y < r.y) 
+
+      if (sr.y < r.y)
         {
           r.height = (r.y + r.height) - sr.y;
           r.y = sr.y;
         }
-      
+
       if (sr.x + sr.width > r.x + r.width)
         r.width = sr.x + sr.width - r.x;
-      
-      if (sr.y + sr.height > r.y + r.height) 
+
+      if (sr.y + sr.height > r.y + r.height)
         r.height = sr.y + sr.height - r.y;
     }
-  
+
   return XFixesCreateRegion (xdisplay, &r, 1);
 }
 
@@ -1059,14 +1059,14 @@ get_window_picture (MetaCompWindow *cw)
     {
       if (cw->back_pixmap == None)
         cw->back_pixmap = XCompositeNameWindowPixmap (xdisplay, cw->id);
-      
+
       if (cw->back_pixmap != None)
         draw = cw->back_pixmap;
     }
 #endif
 
   format = get_window_format (cw);
-  if (format) 
+  if (format)
     {
       Picture pict;
 
@@ -1097,7 +1097,7 @@ paint_dock_shadows (MetaScreen   *screen,
       return;
     }
 
-  for (d = info->dock_windows; d; d = d->next) 
+  for (d = info->dock_windows; d; d = d->next)
     {
       MetaCompWindow *cw = d->data;
       XserverRegion shadow_clip;
@@ -1105,9 +1105,9 @@ paint_dock_shadows (MetaScreen   *screen,
       if (cw->shadow)
         {
           shadow_clip = XFixesCreateRegion (xdisplay, NULL, 0);
-          XFixesIntersectRegion (xdisplay, shadow_clip, 
+          XFixesIntersectRegion (xdisplay, shadow_clip,
                                  cw->border_clip, region);
-          
+
           XFixesSetPictureClipRegion (xdisplay, root_buffer, 0, 0, shadow_clip);
 
           XRenderComposite (xdisplay, PictOpOver, info->black_picture,
@@ -1145,7 +1145,7 @@ paint_windows (MetaScreen   *screen,
   screen_number = meta_screen_get_screen_number (screen);
   xroot = meta_screen_get_xroot (screen);
 
-  if (region == None) 
+  if (region == None)
     {
       XRectangle r;
       r.x = 0;
@@ -1153,7 +1153,7 @@ paint_windows (MetaScreen   *screen,
       r.width = screen_width;
       r.height = screen_height;
       paint_region = XFixesCreateRegion (xdisplay, &r, 1);
-    } 
+    }
   else
     {
       paint_region = XFixesCreateRegion (xdisplay, NULL, 0);
@@ -1163,17 +1163,17 @@ paint_windows (MetaScreen   *screen,
   desktop_region = None;
 
   /*
-   * Painting from top to bottom, reducing the clipping area at 
+   * Painting from top to bottom, reducing the clipping area at
    * each iteration. Only the opaque windows are painted 1st.
    */
   last = NULL;
-  for (index = windows; index; index = index->next) 
+  for (index = windows; index; index = index->next)
     {
       /* Store the last window we dealt with */
       last = index;
 
       cw = (MetaCompWindow *) index->data;
-      if (!cw->damaged) 
+      if (!cw->damaged)
         {
           /* Not damaged */
           continue;
@@ -1182,45 +1182,45 @@ paint_windows (MetaScreen   *screen,
 #if 0
       if ((cw->attrs.x + cw->attrs.width < 1) ||
           (cw->attrs.y + cw->attrs.height < 1) ||
-          (cw->attrs.x >= screen_width) || (cw->attrs.y >= screen_height)) 
+          (cw->attrs.x >= screen_width) || (cw->attrs.y >= screen_height))
         {
           /* Off screen */
           continue;
         }
 #endif
 
-      if (cw->picture == None) 
+      if (cw->picture == None)
         cw->picture = get_window_picture (cw);
 
       /* If the clip region of the screen has been changed
          then we need to recreate the extents of the window */
-      if (info->clip_changed) 
+      if (info->clip_changed)
         {
-          if (cw->border_size) 
+          if (cw->border_size)
             {
               XFixesDestroyRegion (xdisplay, cw->border_size);
               cw->border_size = None;
             }
 
 #if 0
-          if (cw->extents) 
+          if (cw->extents)
             {
               XFixesDestroyRegion (xdisplay, cw->extents);
               cw->extents = None;
             }
 #endif
         }
-      
+
       if (cw->border_size == None)
         cw->border_size = border_size (cw);
-      
+
       if (cw->extents == None)
         cw->extents = win_extents (cw);
-      
-      if (cw->mode == WINDOW_SOLID) 
+
+      if (cw->mode == WINDOW_SOLID)
         {
           int x, y, wid, hei;
-          
+
 #ifdef HAVE_NAME_WINDOW_PIXMAP
           if (have_name_window_pixmap (display))
             {
@@ -1237,30 +1237,30 @@ paint_windows (MetaScreen   *screen,
               wid = cw->attrs.width;
               hei = cw->attrs.height;
             }
-          
-          XFixesSetPictureClipRegion (xdisplay, root_buffer, 
+
+          XFixesSetPictureClipRegion (xdisplay, root_buffer,
                                       0, 0, paint_region);
-          XRenderComposite (xdisplay, PictOpSrc, cw->picture, 
+          XRenderComposite (xdisplay, PictOpSrc, cw->picture,
                             None, root_buffer, 0, 0, 0, 0,
                             x, y, wid, hei);
 
-          if (cw->type == META_COMP_WINDOW_DESKTOP) 
+          if (cw->type == META_COMP_WINDOW_DESKTOP)
             {
               desktop_region = XFixesCreateRegion (xdisplay, 0, 0);
               XFixesCopyRegion (xdisplay, desktop_region, paint_region);
             }
 
-          XFixesSubtractRegion (xdisplay, paint_region, 
+          XFixesSubtractRegion (xdisplay, paint_region,
                                 paint_region, cw->border_size);
         }
-      
-      if (!cw->border_clip) 
+
+      if (!cw->border_clip)
         {
           cw->border_clip = XFixesCreateRegion (xdisplay, 0, 0);
           XFixesCopyRegion (xdisplay, cw->border_clip, paint_region);
         }
     }
-  
+
   XFixesSetPictureClipRegion (xdisplay, root_buffer, 0, 0, paint_region);
   paint_root (screen, root_buffer);
 
@@ -1269,25 +1269,25 @@ paint_windows (MetaScreen   *screen,
   if (desktop_region != None)
     XFixesDestroyRegion (xdisplay, desktop_region);
 
-  /* 
+  /*
    * Painting from bottom to top, translucent windows and shadows are painted
    */
-  for (index = last; index; index = index->prev) 
-    { 
+  for (index = last; index; index = index->prev)
+    {
       cw = (MetaCompWindow *) index->data;
-      
-      if (cw->picture) 
+
+      if (cw->picture)
         {
-          if (cw->shadow && cw->type != META_COMP_WINDOW_DOCK) 
+          if (cw->shadow && cw->type != META_COMP_WINDOW_DOCK)
             {
               XserverRegion shadow_clip;
 
               shadow_clip = XFixesCreateRegion (xdisplay, NULL, 0);
               XFixesSubtractRegion (xdisplay, shadow_clip, cw->border_clip,
                                     cw->border_size);
-              XFixesSetPictureClipRegion (xdisplay, root_buffer, 0, 0, 
+              XFixesSetPictureClipRegion (xdisplay, root_buffer, 0, 0,
                                           shadow_clip);
-              
+
               XRenderComposite (xdisplay, PictOpOver, info->black_picture,
                                 cw->shadow, root_buffer,
                                 0, 0, 0, 0,
@@ -1298,18 +1298,18 @@ paint_windows (MetaScreen   *screen,
                 XFixesDestroyRegion (xdisplay, shadow_clip);
             }
 
-          if ((cw->opacity != (guint) OPAQUE) && !(cw->alpha_pict)) 
+          if ((cw->opacity != (guint) OPAQUE) && !(cw->alpha_pict))
             {
               cw->alpha_pict = solid_picture (display, screen, FALSE,
                                               (double) cw->opacity / OPAQUE,
                                               0, 0, 0);
             }
-          
-          XFixesIntersectRegion (xdisplay, cw->border_clip, cw->border_clip, 
+
+          XFixesIntersectRegion (xdisplay, cw->border_clip, cw->border_clip,
                                  cw->border_size);
           XFixesSetPictureClipRegion (xdisplay, root_buffer, 0, 0,
                                       cw->border_clip);
-          if (cw->mode == WINDOW_ARGB) 
+          if (cw->mode == WINDOW_ARGB)
             {
               int x, y, wid, hei;
 #ifdef HAVE_NAME_WINDOW_PIXMAP
@@ -1328,14 +1328,14 @@ paint_windows (MetaScreen   *screen,
                   wid = cw->attrs.width;
                   hei = cw->attrs.height;
                 }
-              
-              XRenderComposite (xdisplay, PictOpOver, cw->picture, 
+
+              XRenderComposite (xdisplay, PictOpOver, cw->picture,
                                 cw->alpha_pict, root_buffer, 0, 0, 0, 0,
                                 x, y, wid, hei);
-            } 
+            }
         }
-      
-      if (cw->border_clip) 
+
+      if (cw->border_clip)
         {
           XFixesDestroyRegion (xdisplay, cw->border_clip);
           cw->border_clip = None;
@@ -1370,22 +1370,22 @@ paint_all (MetaScreen   *screen,
                                ((double) (rand () % 100)) / 100.0,
                                ((double) (rand () % 100)) / 100.0,
                                ((double) (rand () % 100)) / 100.0);
-      
+
       XRenderComposite (xdisplay, PictOpOver, overlay, None, info->root_picture,
                         0, 0, 0, 0, 0, 0, screen_width, screen_height);
       XRenderFreePicture (xdisplay, overlay);
       XFlush (xdisplay);
       usleep (100 * 1000);
     }
-  
-  if (info->root_buffer == None) 
+
+  if (info->root_buffer == None)
     info->root_buffer = create_root_buffer (screen);
-      
+
   paint_windows (screen, info->windows, info->root_buffer, region);
 
   XFixesSetPictureClipRegion (xdisplay, info->root_buffer, 0, 0, region);
   XRenderComposite (xdisplay, PictOpSrc, info->root_buffer, None,
-                    info->root_picture, 0, 0, 0, 0, 0, 0, 
+                    info->root_picture, 0, 0, 0, 0, 0, 0,
                     screen_width, screen_height);
 }
 
@@ -1396,7 +1396,7 @@ repair_screen (MetaScreen *screen)
   MetaDisplay *display = meta_screen_get_display (screen);
   Display *xdisplay = meta_display_get_xdisplay (display);
 
-  if (info!=NULL && info->all_damage != None) 
+  if (info!=NULL && info->all_damage != None)
     {
       meta_error_trap_push (display);
       paint_all (screen, info->all_damage);
@@ -1414,7 +1414,7 @@ repair_display (MetaDisplay *display)
   MetaCompositorXRender *compositor = DISPLAY_COMPOSITOR (display);
 
 #ifdef USE_IDLE_REPAINT
-  if (compositor->repaint_id > 0) 
+  if (compositor->repaint_id > 0)
     {
       g_source_remove (compositor->repaint_id);
       compositor->repaint_id = 0;
@@ -1472,7 +1472,7 @@ add_damage (MetaScreen     *screen,
     {
       XFixesUnionRegion (xdisplay, info->all_damage, info->all_damage, damage);
       XFixesDestroyRegion (xdisplay, damage);
-    } 
+    }
   else
     info->all_damage = damage;
 
@@ -1510,12 +1510,12 @@ repair_win (MetaCompWindow *cw)
   XserverRegion parts;
 
   meta_error_trap_push (display);
-  if (!cw->damaged) 
+  if (!cw->damaged)
     {
       parts = win_extents (cw);
       XDamageSubtract (xdisplay, cw->damage, None, None);
-    } 
-  else 
+    }
+  else
     {
       parts = XFixesCreateRegion (xdisplay, 0, 0);
       XDamageSubtract (xdisplay, cw->damage, None, parts);
@@ -1523,7 +1523,7 @@ repair_win (MetaCompWindow *cw)
                              cw->attrs.x + cw->attrs.border_width,
                              cw->attrs.y + cw->attrs.border_width);
     }
-  
+
   meta_error_trap_pop (display, FALSE);
 
   dump_xserver_region ("repair_win", display, parts);
@@ -1543,12 +1543,12 @@ free_win (MetaCompWindow *cw,
   if (have_name_window_pixmap (display))
     {
       /* See comment in map_win */
-      if (cw->back_pixmap && destroy) 
+      if (cw->back_pixmap && destroy)
         {
           XFreePixmap (xdisplay, cw->back_pixmap);
           cw->back_pixmap = None;
         }
-      
+
       if (cw->shaded_back_pixmap && destroy)
         {
           XFreePixmap (xdisplay, cw->shaded_back_pixmap);
@@ -1557,50 +1557,50 @@ free_win (MetaCompWindow *cw,
     }
 #endif
 
-  if (cw->picture) 
+  if (cw->picture)
     {
       XRenderFreePicture (xdisplay, cw->picture);
       cw->picture = None;
     }
 
-  if (cw->shadow) 
+  if (cw->shadow)
     {
       XRenderFreePicture (xdisplay, cw->shadow);
       cw->shadow = None;
     }
 
-  if (cw->alpha_pict) 
+  if (cw->alpha_pict)
     {
       XRenderFreePicture (xdisplay, cw->alpha_pict);
       cw->alpha_pict = None;
     }
 
-  if (cw->shadow_pict) 
+  if (cw->shadow_pict)
     {
       XRenderFreePicture (xdisplay, cw->shadow_pict);
       cw->shadow_pict = None;
     }
-  
-  if (cw->border_size) 
+
+  if (cw->border_size)
     {
       XFixesDestroyRegion (xdisplay, cw->border_size);
       cw->border_size = None;
     }
-  
-  if (cw->border_clip) 
+
+  if (cw->border_clip)
     {
       XFixesDestroyRegion (xdisplay, cw->border_clip);
       cw->border_clip = None;
     }
 
-  if (cw->extents) 
+  if (cw->extents)
     {
       XFixesDestroyRegion (xdisplay, cw->extents);
       cw->extents = None;
     }
 
-  if (destroy) 
-    { 
+  if (destroy)
+    {
       if (cw->damage != None) {
         meta_error_trap_push (display);
         XDamageDestroy (xdisplay, cw->damage);
@@ -1617,7 +1617,7 @@ free_win (MetaCompWindow *cw,
       g_free (cw);
     }
 }
-  
+
 static void
 map_win (MetaDisplay *display,
          MetaScreen  *screen,
@@ -1631,15 +1631,15 @@ map_win (MetaDisplay *display,
 
 #ifdef HAVE_NAME_WINDOW_PIXMAP
   /* The reason we deallocate this here and not in unmap
-     is so that we will still have a valid pixmap for 
+     is so that we will still have a valid pixmap for
      whenever the window is unmapped */
-  if (cw->back_pixmap) 
+  if (cw->back_pixmap)
     {
       XFreePixmap (xdisplay, cw->back_pixmap);
       cw->back_pixmap = None;
     }
 
-  if (cw->shaded_back_pixmap) 
+  if (cw->shaded_back_pixmap)
     {
       XFreePixmap (xdisplay, cw->shaded_back_pixmap);
       cw->shaded_back_pixmap = None;
@@ -1663,13 +1663,13 @@ unmap_win (MetaDisplay *display,
       return;
     }
 
-  if (cw->window && cw->window == info->focus_window) 
+  if (cw->window && cw->window == info->focus_window)
     info->focus_window = NULL;
 
   cw->attrs.map_state = IsUnmapped;
   cw->damaged = FALSE;
 
-  if (cw->extents != None) 
+  if (cw->extents != None)
     {
       dump_xserver_region ("unmap_win", display, cw->extents);
       add_damage (screen, cw->extents);
@@ -1688,13 +1688,13 @@ determine_mode (MetaDisplay    *display,
   XRenderPictFormat *format;
   Display *xdisplay = meta_display_get_xdisplay (display);
 
-  if (cw->alpha_pict) 
+  if (cw->alpha_pict)
     {
       XRenderFreePicture (xdisplay, cw->alpha_pict);
       cw->alpha_pict = None;
     }
 
-  if (cw->shadow_pict) 
+  if (cw->shadow_pict)
     {
       XRenderFreePicture (xdisplay, cw->shadow_pict);
       cw->shadow_pict = None;
@@ -1704,14 +1704,14 @@ determine_mode (MetaDisplay    *display,
     format = NULL;
   else
     format = XRenderFindVisualFormat (xdisplay, cw->attrs.visual);
-  
+
   if ((format && format->type == PictTypeDirect && format->direct.alphaMask)
       || cw->opacity != (guint) OPAQUE)
     cw->mode = WINDOW_ARGB;
   else
     cw->mode = WINDOW_SOLID;
 
-  if (cw->extents) 
+  if (cw->extents)
     {
       XserverRegion damage;
       damage = XFixesCreateRegion (xdisplay, NULL, 0);
@@ -1738,7 +1738,7 @@ is_shaped (MetaDisplay *display,
                           &xbs, &ybs, &wbs, &hbs);
       return (bounding_shaped != 0);
     }
-  
+
   return FALSE;
 }
 
@@ -1754,12 +1754,12 @@ get_window_type (MetaDisplay    *display,
   type_atom = None;
   n_atoms = 0;
   atoms = NULL;
-  
-  meta_prop_get_atom_list (display, cw->id, 
+
+  meta_prop_get_atom_list (display, cw->id,
                            compositor->atom_net_wm_window_type,
                            &atoms, &n_atoms);
 
-  for (i = 0; i < n_atoms; i++) 
+  for (i = 0; i < n_atoms; i++)
     {
       if (atoms[i] == compositor->atom_net_wm_window_type_dnd ||
           atoms[i] == compositor->atom_net_wm_window_type_desktop ||
@@ -1797,7 +1797,7 @@ get_window_type (MetaDisplay    *display,
 
 /*   meta_verbose ("Window is %d\n", cw->type); */
 }
-  
+
 /* Must be called with an error trap in place */
 static void
 add_win (MetaScreen *screen,
@@ -1810,10 +1810,10 @@ add_win (MetaScreen *screen,
   MetaCompWindow *cw;
   gulong event_mask;
 
-  if (info == NULL) 
+  if (info == NULL)
     return;
 
-  if (xwindow == info->output) 
+  if (xwindow == info->output)
     return;
 
   cw = g_new0 (MetaCompWindow, 1);
@@ -1821,7 +1821,7 @@ add_win (MetaScreen *screen,
   cw->window = window;
   cw->id = xwindow;
 
-  if (!XGetWindowAttributes (xdisplay, xwindow, &cw->attrs)) 
+  if (!XGetWindowAttributes (xdisplay, xwindow, &cw->attrs))
     {
       g_free (cw);
       return;
@@ -1831,7 +1831,7 @@ add_win (MetaScreen *screen,
   /* If Marco has decided not to manage this window then the input events
      won't have been set on the window */
   event_mask = cw->attrs.your_event_mask | PropertyChangeMask;
-  
+
   XSelectInput (xdisplay, xwindow, event_mask);
 
 
@@ -1864,14 +1864,14 @@ add_win (MetaScreen *screen,
     cw->shadow_type = META_SHADOW_MEDIUM;
 
   cw->opacity = OPAQUE;
-  
+
   cw->border_clip = None;
 
   determine_mode (display, screen, cw);
   cw->needs_shadow = window_has_shadow (cw);
 
   /* Only add the window to the list of docks if it needs a shadow */
-  if (cw->type == META_COMP_WINDOW_DOCK && cw->needs_shadow) 
+  if (cw->type == META_COMP_WINDOW_DOCK && cw->needs_shadow)
     {
       meta_verbose ("Appending %p to dock windows\n", cw);
       info->dock_windows = g_slist_append (info->dock_windows, cw);
@@ -1901,21 +1901,21 @@ destroy_win (MetaDisplay *display,
     return;
 
   screen = cw->screen;
-  
-  if (cw->extents != None) 
+
+  if (cw->extents != None)
     {
       dump_xserver_region ("destroy_win", display, cw->extents);
       add_damage (screen, cw->extents);
       cw->extents = None;
     }
-  
+
   info = meta_screen_get_compositor_data (screen);
   if (info != NULL)
     {
       info->windows = g_list_remove (info->windows, (gconstpointer) cw);
       g_hash_table_remove (info->windows_by_xid, (gpointer) xwindow);
     }
-  
+
   free_win (cw, TRUE);
 }
 
@@ -1940,32 +1940,32 @@ restack_win (MetaCompWindow *cw,
   next = g_list_next (sibling);
   previous_above = None;
 
-  if (next) 
+  if (next)
     {
       MetaCompWindow *ncw = (MetaCompWindow *) next->data;
       previous_above = ncw->id;
     }
 
-  /* If above is set to None, the window whose state was changed is on 
+  /* If above is set to None, the window whose state was changed is on
    * the bottom of the stack with respect to sibling.
    */
-  if (above == None) 
+  if (above == None)
     {
       /* Insert at bottom of window stack */
       info->windows = g_list_delete_link (info->windows, sibling);
       info->windows = g_list_append (info->windows, cw);
-    } 
-  else if (previous_above != above) 
+    }
+  else if (previous_above != above)
     {
       GList *index;
-      
+
       for (index = info->windows; index; index = index->next) {
         MetaCompWindow *cw2 = (MetaCompWindow *) index->data;
         if (cw2->id == above)
           break;
       }
-      
-      if (index != NULL) 
+
+      if (index != NULL)
         {
           info->windows = g_list_delete_link (info->windows, sibling);
           info->windows = g_list_insert_before (info->windows, index, cw);
@@ -2011,25 +2011,25 @@ resize_win (MetaCompWindow *cw,
     meta_screen_get_size (screen, &r.width, &r.height);
     fprintf (stderr, "Damage whole screen %d,%d (%d %d)\n",
              r.x, r.y, r.width, r.height);
-    
+
     damage = XFixesCreateRegion (xdisplay, &r, 1);
     } */
 
   cw->attrs.x = x;
   cw->attrs.y = y;
 
-  if (cw->attrs.width != width || cw->attrs.height != height) 
+  if (cw->attrs.width != width || cw->attrs.height != height)
     {
 #ifdef HAVE_NAME_WINDOW_PIXMAP
       if (have_name_window_pixmap (display))
         {
-          if (cw->shaded_back_pixmap) 
+          if (cw->shaded_back_pixmap)
             {
               XFreePixmap (xdisplay, cw->shaded_back_pixmap);
               cw->shaded_back_pixmap = None;
             }
-          
-          if (cw->back_pixmap) 
+
+          if (cw->back_pixmap)
             {
               /* If the window is shaded, we store the old backing pixmap
                  so we can return a proper image of the window */
@@ -2046,13 +2046,13 @@ resize_win (MetaCompWindow *cw,
             }
         }
 #endif
-      if (cw->picture) 
+      if (cw->picture)
         {
           XRenderFreePicture (xdisplay, cw->picture);
           cw->picture = None;
         }
-      
-      if (cw->shadow) 
+
+      if (cw->shadow)
         {
           XRenderFreePicture (xdisplay, cw->shadow);
           cw->shadow = None;
@@ -2069,12 +2069,12 @@ resize_win (MetaCompWindow *cw,
 
   cw->extents = win_extents (cw);
 
-  if (damage) 
+  if (damage)
     {
       if (debug)
-        fprintf (stderr, "Inexplicable intersection with new extents!\n");      
+        fprintf (stderr, "Inexplicable intersection with new extents!\n");
 
-      XFixesUnionRegion (xdisplay, damage, damage, cw->extents);      
+      XFixesUnionRegion (xdisplay, damage, damage, cw->extents);
     }
   else
     {
@@ -2104,7 +2104,7 @@ process_circulate_notify (MetaCompositorXRender  *compositor,
   GList *first;
   Window above;
 
-  if (!cw) 
+  if (!cw)
     return;
 
   screen = cw->screen;
@@ -2136,7 +2136,7 @@ process_configure_notify (MetaCompositorXRender  *compositor,
   Display *xdisplay = meta_display_get_xdisplay (display);
   MetaCompWindow *cw = find_window_in_display (display, event->window);
 
-  if (cw) 
+  if (cw)
     {
 #if 0
       int x = -1, y = -1, width = -1, height = -1;
@@ -2149,7 +2149,7 @@ process_configure_notify (MetaCompositorXRender  *compositor,
         y = rect->y;
         width = rect->width;
         height = rect->height;
-      } 
+      }
       fprintf (stderr, "configure notify xy (%d %d) -> (%d %d), wh (%d %d) -> (%d %d)\n",
                x, y, event->x, event->y,
                width, height, event->width, event->height);
@@ -2157,7 +2157,7 @@ process_configure_notify (MetaCompositorXRender  *compositor,
 
       if (compositor->debug)
         {
-          fprintf (stderr, "configure notify %d %d %d\n", cw->damaged, 
+          fprintf (stderr, "configure notify %d %d %d\n", cw->damaged,
                    cw->shaped, cw->needs_shadow);
           dump_xserver_region ("\textents", display, cw->extents);
           fprintf (stderr, "\txy (%d %d), wh (%d %d)\n",
@@ -2169,7 +2169,7 @@ process_configure_notify (MetaCompositorXRender  *compositor,
                   event->border_width, event->override_redirect);
     }
   else
-    { 
+    {
       MetaScreen *screen;
       MetaCompScreen *info;
 
@@ -2203,7 +2203,7 @@ process_property_notify (MetaCompositorXRender *compositor,
   background_atoms[0] = compositor->atom_x_root_pixmap;
   background_atoms[1] = compositor->atom_x_set_root;
 
-  for (p = 0; p < 2; p++) 
+  for (p = 0; p < 2; p++)
     {
       if (event->atom == background_atoms[p])
         {
@@ -2218,8 +2218,8 @@ process_property_notify (MetaCompositorXRender *compositor,
                   XClearArea (xdisplay, xroot, 0, 0, 0, 0, TRUE);
                   XRenderFreePicture (xdisplay, info->root_tile);
                   info->root_tile = None;
-                  
-                  /* Damage the whole screen as we may need to redraw the 
+
+                  /* Damage the whole screen as we may need to redraw the
                      background ourselves */
                   damage_screen (screen);
 #ifdef USE_IDLE_REPAINT
@@ -2233,19 +2233,19 @@ process_property_notify (MetaCompositorXRender *compositor,
     }
 
   /* Check for the opacity changing */
-  if (event->atom == compositor->atom_net_wm_window_opacity) 
+  if (event->atom == compositor->atom_net_wm_window_opacity)
     {
       MetaCompWindow *cw = find_window_in_display (display, event->window);
       gulong value;
 
-      if (!cw) 
+      if (!cw)
         {
           /* Applications can set this for their toplevel windows, so
            * this must be propagated to the window managed by the compositor
            */
           cw = find_window_for_child_window_in_display (display, event->window);
         }
-      
+
       if (!cw)
         return;
 
@@ -2321,7 +2321,7 @@ process_expose (MetaCompositorXRender *compositor,
     }
   else
     {
-      screen = meta_display_screen_for_root (compositor->display, 
+      screen = meta_display_screen_for_root (compositor->display,
                                              event->window);
       if (screen == NULL)
         return;
@@ -2331,7 +2331,7 @@ process_expose (MetaCompositorXRender *compositor,
   rect[0].y = event->y + origin_y;
   rect[0].width = event->width;
   rect[0].height = event->height;
-  
+
   expose_area (screen, rect, 1);
 }
 
@@ -2341,12 +2341,12 @@ process_unmap (MetaCompositorXRender *compositor,
 {
   MetaCompWindow *cw;
 
-  if (event->from_configure) 
+  if (event->from_configure)
     {
       /* Ignore unmap caused by parent's resize */
       return;
     }
-  
+
 
   cw = find_window_in_display (compositor->display, event->window);
   if (cw)
@@ -2357,7 +2357,7 @@ static void
 process_map (MetaCompositorXRender *compositor,
              XMapEvent             *event)
 {
-  MetaCompWindow *cw = find_window_in_display (compositor->display, 
+  MetaCompWindow *cw = find_window_in_display (compositor->display,
                                                event->window);
 
   if (cw)
@@ -2375,7 +2375,7 @@ process_reparent (MetaCompositorXRender *compositor,
   if (screen != NULL)
     add_win (screen, window, event->window);
   else
-    destroy_win (compositor->display, event->window, FALSE); 
+    destroy_win (compositor->display, event->window, FALSE);
 }
 
 static void
@@ -2390,7 +2390,7 @@ process_create (MetaCompositorXRender *compositor,
   screen = meta_display_screen_for_root (compositor->display, event->parent);
   if (screen == NULL)
     return;
-  
+
   if (!find_window_in_display (compositor->display, event->window))
     add_win (screen, window, event->window);
 }
@@ -2418,7 +2418,7 @@ process_damage (MetaCompositorXRender *compositor,
     add_repair (compositor->display);
 #endif
 }
-  
+
 static void
 process_shape (MetaCompositorXRender *compositor,
                XShapeEvent           *event)
@@ -2429,15 +2429,15 @@ process_shape (MetaCompositorXRender *compositor,
   if (cw == NULL)
     return;
 
-  if (event->kind == ShapeBounding) 
+  if (event->kind == ShapeBounding)
     {
       if (!event->shaped && cw->shaped)
         cw->shaped = FALSE;
-      
+
       resize_win (cw, cw->attrs.x, cw->attrs.y,
                   event->width + event->x, event->height + event->y,
                   cw->attrs.border_width, cw->attrs.override_redirect);
-      
+
       if (event->shaped && !cw->shaped)
         cw->shaped = TRUE;
     }
@@ -2489,12 +2489,12 @@ show_overlay_window (MetaScreen *screen,
       XserverRegion region;
 
       region = XFixesCreateRegion (xdisplay, NULL, 0);
-      
+
       XFixesSetWindowShapeRegion (xdisplay, cow, ShapeBounding, 0, 0, 0);
       XFixesSetWindowShapeRegion (xdisplay, cow, ShapeInput, 0, 0, region);
-      
+
       XFixesDestroyRegion (xdisplay, region);
-      
+
       damage_screen (screen);
     }
 #endif
@@ -2569,12 +2569,12 @@ xrender_manage_screen (MetaCompositor *compositor,
 
   info = g_new0 (MetaCompScreen, 1);
   info->screen = screen;
-  
+
   meta_screen_set_compositor_data (screen, info);
 
   visual_format = XRenderFindVisualFormat (xdisplay, DefaultVisual (xdisplay,
                                                                     screen_number));
-  if (!visual_format) 
+  if (!visual_format)
     {
       g_warning ("Cannot find visual format on screen %i", screen_number);
       return;
@@ -2584,20 +2584,20 @@ xrender_manage_screen (MetaCompositor *compositor,
 
   pa.subwindow_mode = IncludeInferiors;
   info->root_picture = XRenderCreatePicture (xdisplay, info->output,
-                                             visual_format, 
+                                             visual_format,
                                              CPSubwindowMode, &pa);
-  if (info->root_picture == None) 
+  if (info->root_picture == None)
     {
       g_warning ("Cannot create root picture on screen %i", screen_number);
       return;
     }
-  
+
   info->root_buffer = None;
   info->black_picture = solid_picture (display, screen, TRUE, 1, 0, 0, 0);
 
   info->root_tile = None;
   info->all_damage = None;
-  
+
   info->windows = NULL;
   info->windows_by_xid = g_hash_table_new (g_direct_hash, g_direct_equal);
 
@@ -2645,7 +2645,7 @@ xrender_unmanage_screen (MetaCompositor *compositor,
   hide_overlay_window (screen, info->output);
 
   /* Destroy the windows */
-  for (index = info->windows; index; index = index->next) 
+  for (index = info->windows; index; index = index->next)
     {
       MetaCompWindow *cw = (MetaCompWindow *) index->data;
       free_win (cw, TRUE);
@@ -2659,10 +2659,10 @@ xrender_unmanage_screen (MetaCompositor *compositor,
   if (info->black_picture)
     XRenderFreePicture (xdisplay, info->black_picture);
 
-  if (info->have_shadows) 
+  if (info->have_shadows)
     {
       int i;
-      
+
       for (i = 0; i < LAST_SHADOW_TYPE; i++)
         g_free (info->shadows[i]->gaussian_map);
     }
@@ -2687,7 +2687,7 @@ xrender_set_updates (MetaCompositor *compositor,
                      gboolean        updates)
 {
 #ifdef HAVE_COMPOSITE_EXTENSIONS
-  
+
 #endif
 }
 
@@ -2738,9 +2738,9 @@ xrender_free_window (MetaCompositor *compositor,
                      MetaWindow     *window)
 {
 #ifdef HAVE_COMPOSITE_EXTENSIONS
-  /* FIXME: When an undecorated window is hidden this is called, 
-     but the window does not get readded if it is subsequentally shown again 
-     See http://bugzilla.mate.org/show_bug.cgi?id=504876 
+  /* FIXME: When an undecorated window is hidden this is called,
+     but the window does not get readded if it is subsequentally shown again
+     See http://bugzilla.gnome.org/show_bug.cgi?id=504876
 
      I don't *think* theres any need for this call anyway, leaving it out
      does not seem to cause any side effects so far, but I should check with
@@ -2763,12 +2763,12 @@ xrender_process_event (MetaCompositor *compositor,
    * enough about Marco/X to know how else you are supposed to do it
    */
   meta_error_trap_push (xrc->display);
-  switch (event->type) 
+  switch (event->type)
     {
     case CirculateNotify:
       process_circulate_notify (xrc, (XCirculateEvent *) event);
       break;
-      
+
     case ConfigureNotify:
       process_configure_notify (xrc, (XConfigureEvent *) event);
       break;
@@ -2780,47 +2780,47 @@ xrender_process_event (MetaCompositor *compositor,
     case Expose:
       process_expose (xrc, (XExposeEvent *) event);
       break;
-      
+
     case UnmapNotify:
       process_unmap (xrc, (XUnmapEvent *) event);
       break;
-      
+
     case MapNotify:
       process_map (xrc, (XMapEvent *) event);
       break;
-      
+
     case ReparentNotify:
       process_reparent (xrc, (XReparentEvent *) event, window);
       break;
-      
+
     case CreateNotify:
       process_create (xrc, (XCreateWindowEvent *) event, window);
       break;
-      
+
     case DestroyNotify:
       process_destroy (xrc, (XDestroyWindowEvent *) event);
       break;
-      
+
     default:
-      if (event->type == meta_display_get_damage_event_base (xrc->display) + XDamageNotify) 
+      if (event->type == meta_display_get_damage_event_base (xrc->display) + XDamageNotify)
         process_damage (xrc, (XDamageNotifyEvent *) event);
 #ifdef HAVE_SHAPE
-      else if (event->type == meta_display_get_shape_event_base (xrc->display) + ShapeNotify) 
+      else if (event->type == meta_display_get_shape_event_base (xrc->display) + ShapeNotify)
         process_shape (xrc, (XShapeEvent *) event);
 #endif /* HAVE_SHAPE */
-      else 
+      else
         {
           meta_error_trap_pop (xrc->display, FALSE);
           return;
         }
       break;
     }
-  
+
   meta_error_trap_pop (xrc->display, FALSE);
 #ifndef USE_IDLE_REPAINT
   repair_display (xrc->display);
 #endif
-  
+
   return;
 #endif
 }
@@ -2834,7 +2834,7 @@ xrender_get_window_pixmap (MetaCompositor *compositor,
   MetaScreen *screen = meta_window_get_screen (window);
   MetaFrame *frame = meta_window_get_frame (window);
 
-  cw = find_window_for_screen (screen, frame ? meta_frame_get_xwindow (frame) : 
+  cw = find_window_for_screen (screen, frame ? meta_frame_get_xwindow (frame) :
                                meta_window_get_xwindow (window));
   if (cw == NULL)
     return None;
@@ -2878,16 +2878,16 @@ xrender_set_active_window (MetaCompositor *compositor,
       old_focus_win = info->focus_window;
     }
 
-  if (old_focus_win) 
+  if (old_focus_win)
     {
       MetaFrame *f = meta_window_get_frame (old_focus_win);
 
-      old_focus = find_window_for_screen (screen, 
+      old_focus = find_window_for_screen (screen,
                                           f ? meta_frame_get_xwindow (f) :
                                           meta_window_get_xwindow (old_focus_win));
     }
 
-  if (window) 
+  if (window)
     {
       MetaFrame *f = meta_window_get_frame (window);
       new_focus = find_window_for_screen (screen,
@@ -2916,7 +2916,7 @@ xrender_set_active_window (MetaCompositor *compositor,
               XRenderFreePicture (xdisplay, old_focus->shadow);
               old_focus->shadow = None;
             }
-          
+
           if (old_focus->extents)
             {
               damage = XFixesCreateRegion (xdisplay, NULL, 0);
@@ -2925,18 +2925,18 @@ xrender_set_active_window (MetaCompositor *compositor,
             }
           else
             damage = None;
-          
+
           /* Build new extents */
           old_focus->extents = win_extents (old_focus);
-          
-          if (damage) 
-            XFixesUnionRegion (xdisplay, damage, damage, old_focus->extents);      
+
+          if (damage)
+            XFixesUnionRegion (xdisplay, damage, damage, old_focus->extents);
           else
             {
               damage = XFixesCreateRegion (xdisplay, NULL, 0);
               XFixesCopyRegion (xdisplay, damage, old_focus->extents);
             }
-          
+
           dump_xserver_region ("resize_win", display, damage);
           add_damage (screen, damage);
 
@@ -2954,13 +2954,13 @@ xrender_set_active_window (MetaCompositor *compositor,
       new_focus->shadow_type = META_SHADOW_LARGE;
       determine_mode (display, screen, new_focus);
       new_focus->needs_shadow = window_has_shadow (new_focus);
-      
+
       if (new_focus->shadow)
         {
           XRenderFreePicture (xdisplay, new_focus->shadow);
           new_focus->shadow = None;
         }
-      
+
       if (new_focus->extents)
         {
           damage = XFixesCreateRegion (xdisplay, NULL, 0);
@@ -2969,18 +2969,18 @@ xrender_set_active_window (MetaCompositor *compositor,
         }
       else
         damage = None;
-      
+
       /* Build new extents */
       new_focus->extents = win_extents (new_focus);
-      
-      if (damage) 
-        XFixesUnionRegion (xdisplay, damage, damage, new_focus->extents);      
+
+      if (damage)
+        XFixesUnionRegion (xdisplay, damage, damage, new_focus->extents);
       else
         {
           damage = XFixesCreateRegion (xdisplay, NULL, 0);
           XFixesCopyRegion (xdisplay, damage, new_focus->extents);
         }
-      
+
       dump_xserver_region ("resize_win", display, damage);
       add_damage (screen, damage);
 

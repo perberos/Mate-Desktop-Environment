@@ -190,7 +190,7 @@ missing_utility_message_dialog (GtkWindow *parent,
  * woken up and it removes itself from the job queue before it is
  * supposed to.  very strange.
  *
- * see bugzilla.mate.org #86141 for details
+ * see bugzilla.gnome.org #86141 for details
  */
 static gboolean
 process_local_theme_tgz_tbz (GtkWindow *parent,

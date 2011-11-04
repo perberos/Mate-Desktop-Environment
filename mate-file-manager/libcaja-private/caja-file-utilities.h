@@ -72,7 +72,7 @@ char *   caja_get_desktop_directory_uri_no_create (void);
  * Otherwise similar to mate_pixmap_file in that it checks to see if the file
  * exists and returns NULL if it doesn't.
  */
-/* FIXME bugzilla.mate.org 42425:
+/* FIXME bugzilla.gnome.org 42425:
  * We might not need this once we get on mate-libs 2.0 which handles
  * mate_pixmap_file better, using MATE_PATH.
  */

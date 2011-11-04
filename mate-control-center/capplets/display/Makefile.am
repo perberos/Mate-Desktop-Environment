@@ -31,7 +31,7 @@ dist_polkit_policy_DATA =					\
 	org.mate.randr.policy
 
 # You will need a recent intltool or the patch from this bug
-# http://bugzilla.mate.org/show_bug.cgi?id=462312
+# http://bugzilla.gnome.org/show_bug.cgi?id=462312
 @INTLTOOL_POLICY_RULE@
 
 @INTLTOOL_DESKTOP_RULE@
